@@ -5,6 +5,7 @@
 #include <climits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -17,7 +18,6 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "string_id.h"
 #include "translations.h"
@@ -34,7 +34,6 @@ struct tripoint;
 enum hp_part : int;
 enum body_part : int;
 class JsonObject;
-class item_location;
 struct furn_t;
 struct itype;
 
@@ -95,6 +94,9 @@ class iuse_transform : public iuse_actor
 
         /** displayed if item is in player possession with %s replaced by item name */
         translation need_charges_msg;
+
+        /** charges needed for process of transforming item */
+        int transform_charges = 0;
 
         /** Tool qualities needed, e.g. "fine bolt turning 1". **/
         std::map<quality_id, int> qualities_needed;
@@ -204,7 +206,7 @@ class explosion_iuse : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 
         /** Produces all the explosions from this actor */
-        void trigger_explosion( const tripoint &p ) const;
+        void trigger_explosion( const tripoint &p, Creature *source ) const;
 };
 
 /**
@@ -310,6 +312,68 @@ class delayed_transform_iuse : public iuse_transform
 };
 
 /**
+ * This is a @ref iuse_transform that changes a set of items with a specific flag.
+ * The player has to activate the item manually, it will then transform it and
+ * everything with the designated flag
+ */
+class set_transform_iuse : public iuse_transform
+{
+    public:
+        /**
+         * Whether the object turns things off or on.
+         */
+        bool turn_off;
+
+        /**
+         * Flag string so we know what the heck we're transforming.
+         */
+        std::string flag;
+
+        /** minimum charges (if any) required for transformation */
+        int set_charges = 0;
+
+        /** displayed if item is in player possession with %s replaced by item name */
+        translation set_charges_msg;
+
+        set_transform_iuse( const std::string &type = "set_transform" ) : iuse_transform( type ) {}
+
+        ~set_transform_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
+ * This is a @ref iuse_transform used by items with transform dependencies.
+ * The player activates the corresponding set_transform item, which will transform
+ * these items. They can't be used by the player normally unless restricted set false.
+ */
+class set_transformed_iuse : public iuse_transform
+{
+    public:
+        /**
+         * Whether the object can only be transformed externally.
+         */
+        bool restricted = true;
+
+        /**
+         * String defining flag needed on activating item.
+         */
+        std::string dependencies;
+
+        /** Hack: Bypasses normal checks to transform an item.*/
+        int bypass( player &p, item &it, bool t, const tripoint &pos ) const;
+
+        set_transformed_iuse( const std::string &type = "set_transformed" ) : iuse_transform( type ) {}
+
+        ~set_transformed_iuse() override = default;
+        void load( const JsonObject &obj ) override;
+        int use( player &, item &, bool, const tripoint & ) const override;
+        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+};
+
+/**
  * This iuse contains the logic to transform a robot item into an actual monster on the map.
  */
 class place_monster_iuse : public iuse_actor
@@ -381,48 +445,6 @@ class place_npc_iuse : public iuse_actor
 
         place_npc_iuse() : iuse_actor( "place_npc" ) { }
         ~place_npc_iuse() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
- * Items that can be worn and can be activated to consume energy from UPS.
- * Note that the energy consumption is done in @ref player::process_active_items, it is
- * *not* done by this class!
- */
-class ups_based_armor_actor : public iuse_actor
-{
-    public:
-        /** Shown when activated. */
-        std::string activate_msg;
-        /** Shown when deactivated. */
-        std::string deactive_msg;
-        /** Shown when it runs out of power. */
-        std::string out_of_power_msg;
-
-        ups_based_armor_actor( const std::string &type = "ups_based_armor" ) : iuse_actor( type ) {}
-
-        ~ups_based_armor_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
- * This implements lock picking.
- */
-class pick_lock_actor : public iuse_actor
-{
-    public:
-        /**
-         * How good the used tool is at picking a lock.
-         */
-        int pick_quality = 0;
-
-        pick_lock_actor() : iuse_actor( "picklock" ) {}
-
-        ~pick_lock_actor() override = default;
         void load( const JsonObject &obj ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
@@ -542,7 +564,6 @@ class salvage_actor : public iuse_actor
             material_id( "kevlar" ),
             material_id( "kevlar_rigid" ),
             material_id( "leather" ),
-            material_id( "lycra" ),
             material_id( "neoprene" ),
             material_id( "nomex" ),
             material_id( "nylon" ),
@@ -553,7 +574,7 @@ class salvage_actor : public iuse_actor
         };
 
         bool try_to_cut_up( player &p, item &it ) const;
-        int cut_up( player &p, item &it, item_location &cut ) const;
+        int cut_up( player &p, item &it, item &cut ) const;
         int time_to_cut_up( const item &it ) const;
         bool valid_to_cut_up( const item &it ) const;
 
@@ -826,7 +847,7 @@ class holster_actor : public iuse_actor
         bool can_holster( const item &obj ) const;
 
         /** Store an object in the holster */
-        bool store( player &p, item &holster, item &obj ) const;
+        detached_ptr<item> store( player &p, item &holster, detached_ptr<item> &&obj ) const;
 
         holster_actor( const std::string &type = "holster" ) : iuse_actor( type ) {}
 
@@ -932,7 +953,7 @@ class repair_item_actor : public iuse_actor
         };
 
         /** Attempts to repair target item with selected tool */
-        attempt_hint repair( player &pl, item &tool, item_location &fix ) const;
+        attempt_hint repair( player &pl, item &tool, item &fix ) const;
         /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
         bool can_repair_target( player &pl, const item &fix, bool print_msg ) const;
@@ -968,6 +989,8 @@ class repair_item_actor : public iuse_actor
 class heal_actor : public iuse_actor
 {
     public:
+        /** "Value" of an essential part, ie, how much priority it gets for healing.*/
+        const int essential_value = 10;
         /** How much hp to restore when healing limbs? */
         float limb_power = 0;
         /** How much hp to restore when healing head? */
@@ -1008,7 +1031,7 @@ class heal_actor : public iuse_actor
         itype_id used_up_item_id;
         int used_up_item_quantity = 1;
         int used_up_item_charges = 1;
-        std::set<std::string> used_up_item_flags;
+        std::set<flag_id> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const Character &healer, hp_part healed ) const;
@@ -1103,6 +1126,18 @@ class saw_barrel_actor : public iuse_actor
         ret_val<bool> can_use_on( const player &p, const item &it, const item &target ) const;
 };
 
+class saw_stock_actor : public iuse_actor
+{
+    public:
+        saw_stock_actor( const std::string &type = "saw_stock" ) : iuse_actor( type ) {}
+
+        void load( const JsonObject &jo ) override;
+        int use( player &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+
+        ret_val<bool> can_use_on( const player &p, const item &it, const item &target ) const;
+};
+
 class install_bionic_actor : public iuse_actor
 {
     public:
@@ -1130,7 +1165,7 @@ class detach_gunmods_actor : public iuse_actor
 class mutagen_actor : public iuse_actor
 {
     public:
-        std::string mutation_category;
+        mutation_category_id mutation_category;
         bool is_weak = false;
         bool is_strong = false;
 
@@ -1145,7 +1180,7 @@ class mutagen_actor : public iuse_actor
 class mutagen_iv_actor : public iuse_actor
 {
     public:
-        std::string mutation_category;
+        mutation_category_id mutation_category;
 
         mutagen_iv_actor() : iuse_actor( "mutagen_iv" ) {}
 
@@ -1160,11 +1195,11 @@ class deploy_tent_actor : public iuse_actor
     public:
         string_id<furn_t> wall;
         string_id<furn_t> floor;
-        cata::optional<string_id<furn_t>> floor_center;
+        std::optional<string_id<furn_t>> floor_center;
         string_id<furn_t> door_opened;
         string_id<furn_t> door_closed;
         int radius = 1;
-        cata::optional<itype_id> broken_type;
+        std::optional<itype_id> broken_type;
 
         deploy_tent_actor() : iuse_actor( "deploy_tent" ) {}
 

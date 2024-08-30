@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
-        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "ccccccccccccccccccccc'ccccccccccccccccccccccccc'",
         "cccccccccccccccccccccccccccccccccccccccccccccccc",
         "...#.#.#.#...#...X...P____P...7..#........#.....",
         "..._____.....4...P.#.______.#.P...T..#..._____#.",
@@ -67,10 +67,12 @@
         "i": "t_dirtfloor",
         "_": "t_concrete",
         "c": "t_sidewalk",
+        "'": "t_sidewalk",
         "t": "t_thconc_floor",
         "|": "t_wall_glass"
       },
       "furniture": {
+        "'": "f_street_light",
         "b": "f_bench",
         "Z": "f_trashcan",
         "s": "f_sign",

@@ -79,7 +79,7 @@ struct point_traits <
         return p.z;
     }
     // TODO: Template
-    constexpr static float &at( Point &p, size_t i ) {
+    constexpr static float &at( Point &p, std::size_t i ) {
         switch( i ) {
             case 0:
                 return x( p );
@@ -91,7 +91,7 @@ struct point_traits <
         // Template would make this impossible
         return x( p );
     }
-    constexpr static const float &at( const Point &p, size_t i ) {
+    constexpr static const float &at( const Point &p, std::size_t i ) {
         switch( i ) {
             case 0:
                 return x( p );

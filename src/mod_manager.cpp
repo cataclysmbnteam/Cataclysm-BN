@@ -5,6 +5,7 @@
 #include <memory>
 #include <ostream>
 #include <queue>
+#include <utility>
 
 #include "assign.h"
 #include "cata_utility.h"
@@ -148,7 +149,7 @@ void mod_manager::refresh_mod_list()
     add_mods( mod_management::load_mods_from( PATH_INFO::moddir() ) );
     add_mods( mod_management::load_mods_from( PATH_INFO::user_moddir() ) );
 
-    cata::optional<t_mod_list> default_list = mod_management::load_mod_list(
+    std::optional<t_mod_list> default_list = mod_management::load_mod_list(
                 PATH_INFO::mods_user_default()
             );
     if( !default_list ) {
@@ -232,12 +233,12 @@ std::vector<MOD_INFORMATION> load_mods_from( const std::string &path )
     return out;
 }
 
-cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path )
+std::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::string &path )
 {
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
         jo.allow_omitted_members();
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // TEMPORARY until 0.G: Remove "ident" support
@@ -280,6 +281,7 @@ cata::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::s
     assign( jo, "authors", modfile.authors );
     assign( jo, "maintainers", modfile.maintainers );
     assign( jo, "version", modfile.version );
+    assign( jo, "lua_api_version", modfile.lua_api_version );
     assign( jo, "dependencies", modfile.dependencies );
     assign( jo, "conflicts", modfile.conflicts );
     assign( jo, "core", modfile.core );
@@ -310,7 +312,7 @@ void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATI
         if( jsin.test_object() ) {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
-            cata::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
+            std::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
             if( mf ) {
                 mf->path_full = info_file_path;
                 out.push_back( std::move( *mf ) );
@@ -321,7 +323,7 @@ void load_mod_info( const std::string &info_file_path, std::vector<MOD_INFORMATI
             // find type and dispatch each object until array close
             while( !jsin.end_array() ) {
                 JsonObject jo = jsin.get_object();
-                cata::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
+                std::optional<MOD_INFORMATION> mf = load_modfile( jo, main_path );
                 if( mf ) {
                     mf->path_full = info_file_path;
                     out.push_back( std::move( *mf ) );
@@ -343,7 +345,7 @@ bool save_mod_list( const t_mod_list &list, const std::string &path )
     }, _( "list of default mods" ) );
 }
 
-cata::optional<t_mod_list> load_mod_list( const std::string &path )
+std::optional<t_mod_list> load_mod_list( const std::string &path )
 {
     t_mod_list res;
 
@@ -354,11 +356,21 @@ cata::optional<t_mod_list> load_mod_list( const std::string &path )
     if( read_from_file_optional_json( path, reader ) ) {
         return { std::move( res ) };
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
+mod_id get_default_core_content_pack()
+{
+    return mod_id( "bn" );
+}
+
 } // namespace mod_management
+
+bool is_strict_enabled( const std::string &src )
+{
+    return src == mod_management::get_default_core_content_pack().str();
+}
 
 void mod_manager::add_mods( std::vector<MOD_INFORMATION> &&list )
 {
@@ -473,6 +485,7 @@ std::vector<mod_id> mod_manager::get_all_sorted() const
     std::vector<mod_id> ordered_mods;
 
     std::vector<const MOD_INFORMATION *> mods;
+    mods.reserve( mod_map.size() );
     for( const auto &pair : mod_map ) {
         mods.push_back( &pair.second );
     }
@@ -499,12 +512,12 @@ translatable_mod_info::translatable_mod_info()
 
 translatable_mod_info::translatable_mod_info( std::string name,
         std::string description, std::string mod_path ) :
-    mod_path( mod_path ), name_raw( name ), description_raw( description )
+    mod_path( std::move( mod_path ) ), name_raw( std::move( name ) ),
+    description_raw( std::move( description ) )
 {
     language_version = INVALID_LANGUAGE_VERSION;
 }
 
-#ifdef LOCALIZE
 std::string translatable_mod_info::name()
 {
     if( name_raw.empty() ) {
@@ -526,14 +539,3 @@ std::string translatable_mod_info::description()
     }
     return description_tr;
 }
-#else // LOCALIZE
-std::string translatable_mod_info::name()
-{
-    return name_raw;
-}
-
-std::string translatable_mod_info::description()
-{
-    return description_raw;
-}
-#endif // LOCALIZE

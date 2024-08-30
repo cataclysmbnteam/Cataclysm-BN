@@ -19,7 +19,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -41,7 +42,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -58,7 +60,7 @@
     "transforms_into": "t_tree_blackjack_harvested",
     "examine_action": "harvest_ter",
     "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 1, 2 ] } ] }
+      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "tanbark", "base_num": [ 2, 8 ] } ] }
     ],
     "bash": {
       "str_min": 80,
@@ -66,7 +68,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -87,7 +90,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -110,7 +114,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -132,7 +137,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -155,7 +161,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -177,7 +184,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -200,7 +208,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -222,7 +231,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -245,7 +255,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -267,7 +278,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -288,7 +300,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -308,7 +321,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -328,7 +342,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 35, 70 ], "destroy_threshold": 140 }
     }
   },
   {
@@ -348,7 +363,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 0, 5 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 1, 4 ] } ]
     }
   },
   {
@@ -372,7 +387,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -395,7 +411,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -419,7 +436,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -442,7 +460,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -474,7 +493,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -497,7 +517,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -514,14 +535,15 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_cherry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "cherries", "base_num": [ 6, 18 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "cherries", "base_num": [ 6, 18 ], "scale_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -544,7 +566,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -568,7 +591,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -591,7 +615,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -615,7 +640,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -638,7 +664,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -662,7 +689,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -685,7 +713,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -709,7 +738,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -732,7 +762,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -764,7 +795,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -787,7 +819,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -819,7 +852,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -842,7 +876,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -870,7 +905,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -903,7 +939,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 120 }
     }
   },
   {
@@ -929,7 +966,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -949,7 +987,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -975,7 +1014,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -995,7 +1035,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1016,7 +1057,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1037,7 +1079,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1063,7 +1106,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1086,7 +1130,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1110,7 +1155,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1132,7 +1178,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1156,7 +1203,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1178,7 +1226,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1202,7 +1251,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1224,7 +1274,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1245,7 +1296,8 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1266,7 +1318,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1297,7 +1349,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1328,7 +1380,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1359,7 +1411,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1390,7 +1442,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1409,7 +1461,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1433,7 +1485,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1455,7 +1507,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1473,7 +1525,7 @@
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [
       {
-        "seasons": [ "summer" ],
+        "seasons": [ "spring" ],
         "entries": [
           { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
           { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
@@ -1486,7 +1538,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1508,7 +1560,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1526,7 +1578,7 @@
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [
       {
-        "seasons": [ "summer" ],
+        "seasons": [ "spring" ],
         "entries": [
           { "drop": "strawberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
           { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
@@ -1539,7 +1591,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1561,7 +1613,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1592,7 +1644,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1614,7 +1666,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1645,7 +1697,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1667,7 +1719,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1698,7 +1750,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1720,7 +1772,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1737,11 +1789,13 @@
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_blueberry",
     "harvest_by_season": [
+      { "seasons": [ "spring", "autumn", "winter" ], "entries": [ { "drop": "grape_leaves", "base_num": [ 1, 4 ] } ] },
       {
         "seasons": [ "summer" ],
         "entries": [
           { "drop": "grapes", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
-          { "drop": "seed_grapes", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
+          { "drop": "seed_grapes", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] },
+          { "drop": "grape_leaves", "base_num": [ 1, 4 ] }
         ]
       }
     ],
@@ -1751,7 +1805,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1773,7 +1827,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1797,7 +1851,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1819,7 +1873,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1842,7 +1896,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1864,7 +1918,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1887,7 +1941,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1909,7 +1963,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -1920,15 +1974,16 @@
     "symbol": "1",
     "color": "brown",
     "move_cost": 4,
-    "coverage": 45,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT" ],
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "MUSHROOM_PLANTABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1941,14 +1996,15 @@
     "looks_like": "t_trunk",
     "move_cost": 3,
     "coverage": 35,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF", "MUSHROOM_PLANTABLE" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
-      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ]
+      "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1961,7 +2017,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100 }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -1973,7 +2029,7 @@
     "color": "light_green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -1984,7 +2040,7 @@
     "color": "green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -1996,7 +2052,7 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2007,8 +2063,8 @@
     "symbol": ",",
     "color": "green",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2020,8 +2076,8 @@
     "color": "green",
     "move_cost": 5,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2033,7 +2089,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2045,7 +2101,7 @@
     "color": "light_green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 400, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2057,7 +2113,7 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 400, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2069,7 +2125,7 @@
     "color": [ "brown_green", "green", "green", "green" ],
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "VEH_TREAT_AS_BASH_BELOW" ],
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] } ] } ],
     "transforms_into": "t_fern_harvested",
@@ -2079,7 +2135,7 @@
       "sound": "crunch.",
       "sound_fail": "whish.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -2092,7 +2148,7 @@
     "color": "green",
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "HARVESTED" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB", "HARVESTED", "VEH_TREAT_AS_BASH_BELOW" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_fern",
     "bash": {
@@ -2101,7 +2157,102 @@
       "sound": "crunch.",
       "sound_fail": "whish.",
       "ter_set": "t_dirt",
-      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_cacao",
+    "name": "cacao tree",
+    "description": "A thick tree belonging to the 'Theobroma' genus, native to Central and South America, that has been genetically engineered to withstand New England's four seasons.  If you examined the trunk of the tree, you could probably find some mature cacao pods.  Even in the face of apocalypse, you can't give up chocolate, of course.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "yellow_yellow", "green", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_cacao_harvested",
+    "examine_action": "harvest_ter",
+    "looks_like": "t_tree_hickory",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "cacao_pod", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_cacao_harvested",
+    "name": "cacao tree",
+    "description": "A thick tree belonging to the 'Theobroma' genus, native to Central and South America, that has been genetically engineered to withstand New England's four seasons.  Looks like all the ripe cacao pods have been picked.  You could cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "transforms_into": "t_tree_cacao",
+    "examine_action": "harvested_plant",
+    "looks_like": "t_tree_hickory_harvested",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
+      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_coca",
+    "name": "coca plant",
+    "description": "A tree native to South America, coca leaves have been used as medicine, tonic, and tea for thousands of years.  It was modified to withstand New England weather for medical research, only to be accidentally introduced to the wild.  If you examined the trunk of the tree, you could probably find some mature coca leaves.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "light_green" ],
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_coca_harvested",
+    "examine_action": "harvest_ter",
+    "looks_like": "t_tree_young",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "coca_leaf", "base_num": [ 4, 20 ], "scale_num": [ 0, 0.5 ] } ]
+      }
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_coca_harvested",
+    "name": "harvested coca plant",
+    "description": "A tree native to South America, coca leaves have been used as medicine, tonic, and tea for thousands of years.  Looks like all the coca leaves have been picked.",
+    "symbol": "7",
+    "color": [ "green", "green", "green", "green" ],
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "HARVESTED" ],
+    "transforms_into": "t_tree_coca",
+    "examine_action": "harvested_plant",
+    "looks_like": "t_tree_young",
+    "bash": {
+      "str_min": 4,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 1, 4 ] } ]
     }
   }
 ]

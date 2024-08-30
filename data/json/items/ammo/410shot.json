@@ -6,9 +6,8 @@
     "description": "A .410 shell with 5 000 pellets.  Good for a hunting or combat load.",
     "weight": "16 g",
     "volume": "250 ml",
-    "price": 175,
-    "price_postapoc": 800,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price": "175 cent",
+    "price_postapoc": "8 USD",
     "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "red",
@@ -16,19 +15,24 @@
     "stack_size": 20,
     "ammo_type": "410shot",
     "casing": "410shot_hull",
-    "range": 12,
-    "damage": { "damage_type": "stab", "amount": 30 },
+    "range": 20,
+    "damage": { "damage_type": "bullet", "amount": 53 },
     "recoil": 1350,
     "loudness": 90,
     "effects": [ "COOKOFF", "SHOT" ]
   },
   {
-    "id": "reloaded_410shot_000",
+    "id": "bp_410shot_000",
     "copy-from": "410shot_000",
     "type": "AMMO",
-    "name": { "str": ".410 000 shot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "name": { "str": ".410 000 shot, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

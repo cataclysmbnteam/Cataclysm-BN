@@ -9,7 +9,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 5 ]
+    "occurrences": [ 0, 5 ],
+    "flags": [ "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -114,6 +115,15 @@
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "CLASSIC", "LAKE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "goblin_camp",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "goblin_camp_north" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 5 ]
   },
   {
     "type": "overmap_special",

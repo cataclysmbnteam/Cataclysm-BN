@@ -49,32 +49,33 @@
     "type": "GENERIC",
     "id": "mic_stand_tall",
     "name": { "str": "microphone stand" },
-    "description": "A lightweight telescoping boom stand made of aluminum and painted black.  About 6' tall when full extended, or 3' when closed fully.  Has threads for a mic clip on one end.",
+    "description": "A telescoping boom stand made of steel and painted black.  About 6' tall when full extended, or 3' when closed fully.  Has threads for a mic clip on one end.",
     "symbol": "Γ",
     "color": "dark_gray",
-    "volume": "2200 ml",
-    "material": [ "aluminum" ],
+    "volume": "1200 ml",
+    "material": [ "steel" ],
     "weight": "1542 g"
   },
   {
     "type": "GENERIC",
     "id": "guitar_stand",
     "name": { "str": "guitar stand" },
-    "description": "A small, oddly shaped piece of aluminum hardware with three legs.  When placed on the ground, this can support one guitar in an upright position.",
-    "material": [ "aluminum" ],
+    "description": "A small, oddly shaped piece of steel hardware with three legs.  When placed on the ground, this can support one guitar in an upright position.",
+    "material": [ "steel" ],
     "symbol": "y",
     "color": "dark_gray",
     "volume": "800 ml",
-    "weight": "500 g"
+    "weight": "1100 g"
   },
   {
     "type": "GENERIC",
     "id": "mixer_music",
     "name": { "str": "mixer" },
     "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables.  (left and right)",
+    "material": [ "plastic" ],
     "symbol": "□",
     "color": "light_gray",
-    "volume": "8 L",
-    "weight": "40 kg"
+    "volume": "3 L",
+    "weight": "2 kg"
   }
 ]

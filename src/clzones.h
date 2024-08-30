@@ -6,6 +6,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -14,7 +15,6 @@
 #include <vector>
 
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -151,7 +151,7 @@ class blueprint_options : public zone_options, public mark_option
     private:
         // furn/ter id as string.
         std::string mark;
-        std::string con;
+        construction_group_str_id group = construction_group_str_id::NULL_ID();
         construction_id index;
 
         enum query_con_result {
@@ -166,9 +166,6 @@ class blueprint_options : public zone_options, public mark_option
         std::string get_mark() const override {
             return mark;
         }
-        std::string get_con() const {
-            return con;
-        }
         construction_id get_index() const {
             return index;
         }
@@ -178,8 +175,8 @@ class blueprint_options : public zone_options, public mark_option
         }
 
         construction_id get_final_construction(
-            const std::vector<construction> &list_constructions,
-            const construction_id &idx,
+            const std::vector<construction_id> &list_constructions,
+            const construction_id &id,
             std::set<construction_id> &skip_index );
 
         bool query_at_creation() override;
@@ -383,7 +380,7 @@ class zone_manager
                   const tripoint &start, const tripoint &end,
                   shared_ptr_fast<zone_options> options = nullptr );
         const zone_data *get_zone_at( const tripoint &where, const zone_type_id &type ) const;
-        void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
+        void create_vehicle_loot_zone( class vehicle &vehicle, point mount_point,
                                        zone_data &new_zone );
 
         bool remove( zone_data &zone );
@@ -407,8 +404,8 @@ class zone_manager
         bool custom_loot_has( const tripoint &where, const item *it ) const;
         std::unordered_set<tripoint> get_near( const zone_type_id &type, const tripoint &where,
                                                int range = MAX_DISTANCE, const item *it = nullptr, const faction_id &fac = your_fac ) const;
-        cata::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
-                                              int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
+        std::optional<tripoint> get_nearest( const zone_type_id &type, const tripoint &where,
+                                             int range = MAX_DISTANCE, const faction_id &fac = your_fac ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint &where,
                 int range = MAX_DISTANCE ) const;
         std::vector<zone_data> get_zones( const zone_type_id &type, const tripoint &where,
@@ -416,8 +413,8 @@ class zone_manager
         const zone_data *get_zone_at( const tripoint &where ) const;
         const zone_data *get_bottom_zone( const tripoint &where,
                                           const faction_id &fac = your_fac ) const;
-        cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
-        cata::optional<zone_type_id> query_type() const;
+        std::optional<std::string> query_name( const std::string &default_name = "" ) const;
+        std::optional<zone_type_id> query_type() const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only

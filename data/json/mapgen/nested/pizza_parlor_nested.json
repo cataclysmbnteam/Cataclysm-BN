@@ -1,0 +1,40 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pizza_parlor_kitchen_a",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "F   L ",
+        "F    c",
+        "Z     ",
+        "c    c",
+        "c    {",
+        "O    {"
+      ],
+      "terrain": { " ": "t_null" },
+      "furniture": { "{": "f_rack", "c": "f_counter", "F": "f_fridge", "L": "f_locker", "Z": "f_freezer", "O": "f_woodstove" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pizza_parlor_kitchen_b",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "O    {",
+        "c    {",
+        "c    c",
+        "     c",
+        "     c",
+        "ccfccc"
+      ],
+      "terrain": { " ": "t_null" },
+      "furniture": { "{": "f_rack", "c": "f_counter", "O": "f_woodstove", "f": "f_counter_gate_c" }
+    }
+  }
+]

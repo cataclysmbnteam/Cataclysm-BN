@@ -34,10 +34,10 @@ struct entry_data {
     {}
     bodypart_str_id body_part;
     // If not set, we're a body part
-    cata::optional<const effect *> eff;
+    std::optional<const effect *> eff;
 };
 
-template<class T, typename F = std::pair<std::string, void ( T::* )(
+template<class T, typename F = std::pair<const std::string, void ( T::* )(
              const input_context &,
              const input_event &,
              int,
@@ -68,7 +68,7 @@ void foreach_effect( Creature &c,
     }
 }
 
-cata::optional<bodypart_str_id> query_body_part( Creature &c )
+std::optional<bodypart_str_id> query_body_part( Creature &c )
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     const std::vector<bodypart_id> &all_bps = c.get_all_body_parts();
@@ -81,11 +81,11 @@ cata::optional<bodypart_str_id> query_body_part( Creature &c )
     if( menu.ret >= 0 && menu.ret < static_cast<int>( all_bps.size() ) ) {
         last_val.bodypart = all_bps[static_cast<size_t>( menu.ret )].id();
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return last_val.bodypart;
 }
-cata::optional<int> query_intensity()
+std::optional<int> query_intensity()
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     try {
@@ -94,11 +94,11 @@ cata::optional<int> query_intensity()
                              .only_digits( true )
                              .query_int();
     } catch( std::exception & ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return last_val.intensity;
 }
-cata::optional<time_duration> try_read_time_string( const std::string &ts )
+std::optional<time_duration> try_read_time_string( const std::string &ts )
 {
     // Ugly hack, but does the job (it's debug anyway)
     // Have to wrap it in quotes because we're reading a raw string
@@ -114,24 +114,24 @@ cata::optional<time_duration> try_read_time_string( const std::string &ts )
         } catch( std::exception & ) {
         }
         popup( e.c_str() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
-cata::optional<time_duration> query_duration()
+std::optional<time_duration> query_duration()
 {
     wisheffect_state &last_val = uistate.debug_menu.effect;
     string_input_popup popup;
     popup.title( _( "Input new duration followed by unit (s, m, h, d)" ) );
     std::string dur_string = popup.query_string();
     if( !popup.confirmed() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
-    cata::optional<time_duration> dur = try_read_time_string( dur_string );
+    std::optional<time_duration> dur = try_read_time_string( dur_string );
     if( dur ) {
         last_val.duration = *dur;
         return dur;
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 bool toggle_effect_force()
@@ -354,7 +354,7 @@ class effect_edit_callback : public uilist_callback
         }
         void change_body_part( const input_context &, const input_event &, int entnum,
                                uilist &parent_menu ) {
-            cata::optional<bodypart_str_id> bp = query_body_part( c );
+            std::optional<bodypart_str_id> bp = query_body_part( c );
             if( bp ) {
                 on_creature_changed();
                 const bodypart_str_id bp_from = meta[entnum].body_part;
@@ -375,7 +375,7 @@ class effect_edit_callback : public uilist_callback
         }
         void change_intensity( const input_context &, const input_event &, int entnum,
                                uilist & ) {
-            cata::optional<int> new_intensity = query_intensity();
+            std::optional<int> new_intensity = query_intensity();
             if( new_intensity ) {
                 on_creature_changed();
                 foreach_effect( c, meta[entnum], [&]( const effect & eff ) {
@@ -388,7 +388,7 @@ class effect_edit_callback : public uilist_callback
         }
         void change_duration( const input_context &, const input_event &, int entnum,
                               uilist & ) {
-            cata::optional<time_duration> dur = query_duration();
+            std::optional<time_duration> dur = query_duration();
             if( dur ) {
                 on_creature_changed();
                 foreach_effect( c, meta[entnum], [&]( const effect & eff ) {

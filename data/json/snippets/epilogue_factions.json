@@ -13,8 +13,12 @@
         "text": "    Locked in an endless battle, the Old Guard was forced to consolidate their resources in a handful of fortified bases along the coast.  Without the men or material to rebuild, the soldiers that remained lost all hope…"
       },
       {
-        "id": "epilogue_faction_old_guard_150",
-        "text": "    The steadfastness of individual survivors after the cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Forced to eventually consolidate to large bases, the Old Guard left these facilities in the hands of the few survivors that remained.  As the years passed, little materialized from the hopes of rebuilding civilization…"
+        "id": "epilogue_faction_old_guard_115",
+        "text": "    Though partially successful in restoring a semblance of order, the forces of the Old Guard remained stretched thin and faced with threats on all sides.  Over time the facade of being the last vestige of old America faded, absorbed into the communities they once watched over.  The idea of New England being just one part of a nation spanning from coast to coast would gradually become a faded memory, passed down through oral history…"
+      },
+      {
+        "id": "epilogue_faction_old_guard_140",
+        "text": "    The steadfastness of individual survivors after the cataclysm impressed the tattered remains of the once glorious union.  Spurred on by small successes, a number of operations to re-secure facilities met with limited success.  Though the nation itself was dead and gone, people still carried on as best as they could, and the soldiers of the Old Guard still struggled along with them…"
       },
       {
         "id": "epilogue_faction_free_merchants_0",
@@ -22,7 +26,7 @@
       },
       {
         "id": "epilogue_faction_free_merchants_150",
-        "text": "    The Free Merchants struggled for years to keep themselves fed but their once profitable trade routes were plundered by bandits and thugs.  In squalor and filth the first generations born after the cataclysm are told stories of the old days when food was abundant and the children were allowed to play in the sun…"
+        "text": "    Despite constant threats of banditry, life continued on and the refugee center slowly grew into a struggling community.  Food and overcrowding remained a constant worry, the next generation faced with either hard work in relative safety or a dangerous yet potentially lucrative life as a scavenger.  They learned to live day by day, hopeful for the future despite uncertainty…"
       },
       {
         "id": "epilogue_faction_tacoma_commune_0",
@@ -47,6 +51,30 @@
       {
         "id": "epilogue_faction_hells_raiders_150",
         "text": "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to overthrow the last strongholds of the Old Guard.  The costly victories brought the warlords abundant territory and slaves but little in the way of stability.  Within weeks, infighting led to civil war as tribes vied for leadership of the faction.  When only one warlord finally secured control, there was nothing left to fight for… just endless cities full of the dead."
+      },
+      {
+        "id": "epilogue_faction_robofac_0",
+        "text": "    Despite all the wonders of science, shortages and crises plagued Hub-01 from the first day of the Cataclysm.  The researchers and administrators among the surviving staff lacked the practical skills to survive in the savage new world.  As Hub-01's systems collapsed from a lack of maintenance, the few survivors fled the building to be killed by the zombies and bandits."
+      },
+      {
+        "id": "epilogue_faction_robofac_150",
+        "text": "       Though reclusive and often brusque with the few people to reach out to them, over time the scientists of Hub-01 developed a network of scavengers and mercenaries, always on the lookout for more materials to keep them in working order.  There they continued what research they could, always limited by what little scraps of old-world technology they could get their hands on.  Their knowledge however remained, closely-guarded yet from time to time proving useful to the occasional survivor willing to part with some forgotten scrap of technology."
+      },
+      {
+        "id": "epilogue_faction_isherwoods_0",
+        "text": "    Life on the farm grew tense as new horrors sprung from the world.  The Isherwoods were plagued by undead hordes and the encroachment of triffids.  When an otherworldly mold took over the fields, the family was forced to move.  The farm was later found abandoned, the fields black with ash…"
+      },
+      {
+        "id": "epilogue_faction_isherwoods_150",
+        "text": "    The generational land of the Isherwoods came to flourish following <the_cataclysm>, helping to feed nearby settlements.  Survivors flocked to learn botany, animal handling, and backwoods remedies, eventually forming a small community…"
+      },
+      {
+        "id": "epilogue_faction_lapin_0",
+        "text": "    Mr. Lapin continued his remote life in the wilderness, teaching whoever would visit.  The survivors who came slowly dwindled, until they stopped entirely.  Mr. Lapin was found dead several years later following a heart attack.  His body had decomposed to skeletal remains…"
+      },
+      {
+        "id": "epilogue_faction_lapin_150",
+        "text": "    The knowledge Mr. Lapin taught attracted a slew of individuals, who constructed makeshift housing to study with him.  As more people came, they formed a small community…"
       }
     ]
   }

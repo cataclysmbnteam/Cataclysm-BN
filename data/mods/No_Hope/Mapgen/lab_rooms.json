@@ -139,7 +139,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
         ".........",
@@ -267,7 +267,8 @@
         "........."
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": [ "t_centrifuge" ] }
+      "terrain": { "C": [ "t_thconc_floor" ] },
+      "furniture": { "C": [ "f_centrifuge" ] }
     }
   },
   {
@@ -835,14 +836,14 @@
       "rows": [
         ",,=.=,,",
         ",,=.=,,",
-        "=^=.=^=",
+        "=H=.=H=",
         ".......",
-        "=^=....",
+        "=H=....",
         ",,=..hl",
         ",,=.ccx"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "terrain": { "=": "t_chainfence_h", "^": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ] },
+      "terrain": { "=": "t_chainfence_h", "H": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ] },
       "mapping": { "l": { "items": [ { "item": "vet_softdrug", "chance": 80, "repeat": 2 } ] } },
       "place_monster": [
         { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "pack_size": [ 1, 2 ], "one_or_none": true },
@@ -1001,7 +1002,7 @@
         ".........",
         "-+--.hth.",
         "c.C|.hth.",
-        "O.f|.hth.",
+        "O.ḟ|.hth.",
         "S.C|....."
       ],
       "palettes": [ "lab_palette" ],
@@ -1009,7 +1010,7 @@
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
       "mapping": {
         "t": { "items": [ { "item": "vending_food_items", "chance": 10 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 80 } ] },
+        "ḟ": { "items": [ { "item": "fridge", "chance": 80 } ] },
         "C": { "items": [ { "item": "kitchen", "chance": 80 } ] },
         "c": { "items": [ { "item": "kitchen", "chance": 50 } ] },
         "O": { "items": [ { "item": "oven", "chance": 70 } ] }

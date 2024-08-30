@@ -4,6 +4,7 @@
 
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -12,12 +13,13 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
+#include "creature.h"
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
-#include "optional.h"
-#include "point.h"
 #include "pldata.h"
+#include "point.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -27,30 +29,11 @@ class JsonObject;
 class Trait_group;
 class item;
 class nc_color;
-struct dream;
 template <typename E> struct enum_traits;
 template <typename T> class string_id;
 class JsonArray;
 
-extern std::vector<dream> dreams;
-extern std::map<std::string, std::vector<trait_id> > mutations_category;
-
-struct dream {
-    private:
-        std::vector<std::string> raw_messages; // The messages that the dream will give
-
-    public:
-        std::vector<std::string> messages() const;
-
-        std::string category; // The category that will trigger the dream
-        int strength; // The category strength required for the dream
-
-        dream() {
-            strength = 0;
-        }
-
-        static void load( const JsonObject &jsobj );
-};
+extern std::map<mutation_category_id, std::vector<trait_id> > mutations_category;
 
 struct mut_attack {
     /** Text printed when the attack is proced by you */
@@ -128,11 +111,15 @@ struct mutation_branch {
         int bodytemp_min = 0;
         int bodytemp_max = 0;
         int bodytemp_sleep = 0;
+        // Pain Recovery per turn:
+        float pain_recovery = 0.0f;
         // Healing per turn
         float healing_awake = 0.0f;
         float healing_resting = 0.0f;
-        // Limb mending bonus
-        float mending_modifier = 1.0f;
+        // Multiplier on regen of broken limbs.
+        // Base regen of broken limbs is 25% and 25% the low cap.
+        // Capped at 1.0, which makes broken limbs regen at same rate as unbroken.
+        float mending_modifier = 0.0f;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
         float hp_modifier = 0.0f;
         // Second HP modifier that stacks with first but is otherwise identical.
@@ -161,8 +148,8 @@ struct mutation_branch {
         float noise_modifier = 1.0f;
         float scent_modifier = 1.0f;
         float bleed_resist = 0;
-        cata::optional<int> scent_intensity;
-        cata::optional<int> scent_mask;
+        std::optional<int> scent_intensity;
+        std::optional<int> scent_mask;
 
         int butchering_quality = 0;
 
@@ -172,7 +159,7 @@ struct mutation_branch {
         std::map<skill_id, int> craft_skill_bonus;
 
         /**What do you smell like*/
-        cata::optional<scenttype_id> scent_typeid;
+        std::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<body_part, float> lumination;
@@ -234,15 +221,20 @@ struct mutation_branch {
         std::set<itype_id> can_heal_with;
 
         /**List of allowed mutatrion category*/
-        std::set<std::string> allowed_category;
+        std::set<mutation_category_id> allowed_category;
 
         /**List of body parts locked out of bionics*/
         std::set<bodypart_str_id> no_cbm_on_bp;
+
+        // Body size from mutations, e.g. large, small, etc.
+        std::optional<creature_size> body_size;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;
         float mana_multiplier = 1.0f;
         float mana_regen_multiplier = 1.0f;
+        // Bonus or penalty when mutating from toxins, see Character::mutation_chances
+        float mutagen_target_modifier = 0;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */
@@ -275,8 +267,8 @@ struct mutation_branch {
         std::vector<trait_id> cancels; // Mutations that conflict with this one
         std::vector<trait_id> replacements; // Mutations that replace this one
         std::vector<trait_id> additions; // Mutations that add to this one
-        std::vector<std::string> category; // Mutation Categories
-        std::set<std::string> flags; // Mutation flags
+        std::vector<mutation_category_id> category; // Mutation Categories
+        std::set<trait_flag_str_id> flags; // Mutation flags
         std::map<body_part, tripoint> protection; // Mutation wet effects
         std::map<body_part, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
@@ -410,6 +402,8 @@ struct mutation_branch {
          * Return the idents of all trait groups that are known.
          */
         static std::vector<trait_group::Trait_group_tag> get_all_group_names();
+
+        LUA_TYPE_OPS( mutation_branch, id );
 };
 
 struct mutation_category_trait {
@@ -440,7 +434,7 @@ struct mutation_category_trait {
         std::string memorial_message_female() const;
 
         // Mutation category i.e "BIRD", "CHIMERA"
-        std::string id;
+        mutation_category_id id;
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
 
@@ -469,17 +463,20 @@ struct mutation_category_trait {
         bool iv_sleep = false;
         int iv_sleep_dur = 0;
 
-        static const std::map<std::string, mutation_category_trait> &get_all();
-        static const mutation_category_trait &get_category( const std::string &category_id );
+        static const std::map<mutation_category_id, mutation_category_trait> &get_all();
+        static const mutation_category_trait &get_category(
+            const mutation_category_id &category_id );
         static void reset();
         static void check_consistency();
 
         static void load( const JsonObject &jsobj );
+
+        LUA_TYPE_OPS( mutation_category_trait, id );
 };
 
 void load_mutation_type( const JsonObject &jsobj );
 void reset_mutation_types();
-bool mutation_category_is_valid( const std::string &cat );
+bool mutation_category_is_valid( const mutation_category_id &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );

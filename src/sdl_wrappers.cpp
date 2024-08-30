@@ -10,13 +10,11 @@
 #include "debug.h"
 #include "point.h"
 
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL_image.h>
-#   else
-#       include <SDL_image.h>
-#   endif
-#endif // TILES
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#  include <SDL2/SDL_image.h>
+#else
+#  include <SDL_image.h>
+#endif
 
 #define dbg(x) DebugLogFL((x),DC::SDL)
 
@@ -91,7 +89,7 @@ void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const 
                   "SDL_SetRenderDrawColor failed" );
 }
 
-void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, const point &p )
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, point p )
 {
     printErrorIf( SDL_RenderDrawPoint( renderer.get(), p.x, p.y ) != 0, "SDL_RenderDrawPoint failed" );
 }
@@ -182,7 +180,7 @@ void RenderClear( const SDL_Renderer_Ptr &renderer )
         dbg( DL::Error ) << "Tried to use a null renderer";
         return;
     }
-    printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderCopy failed" );
+    printErrorIf( SDL_RenderClear( renderer.get() ) != 0, "SDL_RenderClear failed" );
 }
 
 SDL_Surface_Ptr CreateRGBSurface( const Uint32 flags, const int width, const int height,

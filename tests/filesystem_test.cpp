@@ -1,6 +1,7 @@
+#include "catch/catch.hpp"
+
 #include <sstream>
 
-#include "catch/catch.hpp"
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "string_formatter.h"
@@ -135,13 +136,17 @@ static void filesystem_test_group( int serial, const std::string &s1, const std:
 
     // Can't delete directory with files
     REQUIRE( !remove_directory( dir1 ) );
+    REQUIRE( dir_exist( dir1 ) );
+
+    // Unless we use remove_tree
+    REQUIRE( remove_tree( dir1 ) );
+    REQUIRE( !dir_exist( dir1 ) );
+
+    // Removing non-existent tree is not an error
+    REQUIRE( remove_tree( dir1 ) );
+    REQUIRE( remove_tree( dir2 ) );
 
     // Clean up
-    REQUIRE( remove_file( file1_1 ) );
-    REQUIRE( remove_file( file1_2 ) );
-    REQUIRE( remove_file( file2_1 ) );
-    REQUIRE( remove_directory( dir2 ) );
-    REQUIRE( remove_directory( dir1 ) );
     REQUIRE( remove_directory( base ) );
 }
 

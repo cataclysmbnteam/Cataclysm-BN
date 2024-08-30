@@ -25,6 +25,7 @@
       { "item": "manual_shotgun", "prob": 30 },
       { "item": "manual_smg", "prob": 10 },
       { "item": "pocket_firearms", "prob": 100 },
+      { "item": "manual_luty", "prob": 45 },
       { "item": "recipe_bullets", "prob": 80 }
     ]
   },
@@ -61,12 +62,12 @@
       { "item": "manual_eskrima", "prob": 100 },
       { "item": "manual_krav_maga", "prob": 100 },
       { "item": "manual_ninjutsu", "prob": 100 },
-      { "item": "manual_pankration", "prob": 5 },
+      { "item": "manual_pankration", "prob": 100 },
       { "item": "manual_silat", "prob": 100 },
       { "item": "manual_taekwondo", "prob": 100 },
       { "item": "manual_wingchun", "prob": 100 },
-      { "item": "manual_medievalpole", "prob": 10 },
-      { "item": "manual_swordsmanship", "prob": 10 }
+      { "item": "manual_medievalpole", "prob": 100 },
+      { "item": "manual_swordsmanship", "prob": 100 }
     ]
   },
   {
@@ -77,6 +78,7 @@
     "entries": [
       { "group": "book_gunmags", "prob": 100 },
       { "group": "book_martial", "prob": 100 },
+      { "item": "mag_fieldrepair", "prob": 50 },
       { "item": "manual_bashing", "prob": 40 },
       { "item": "manual_knives", "prob": 40 },
       { "item": "manual_launcher", "prob": 20 },
@@ -89,6 +91,7 @@
       { "item": "manual_stabbing", "prob": 40 },
       { "item": "manual_swimming", "prob": 30 },
       { "item": "manual_traps_mil", "prob": 30 },
+      { "item": "manual_luty", "prob": 10 },
       { "item": "pocket_firearms", "prob": 10 },
       { "item": "textbook_firstaid", "prob": 30 }
     ]
@@ -140,7 +143,8 @@
       { "item": "textbook_biodiesel", "prob": 10 },
       { "item": "book_icef", "prob": 8 },
       { "item": "textbook_fabrication", "prob": 12 },
-      { "item": "concrete_book", "prob": 12 }
+      { "item": "concrete_book", "prob": 12 },
+      { "item": "reference_fabrication1", "prob": 5 }
     ]
   },
   {
@@ -152,6 +156,7 @@
       { "item": "holybook_bible1", "prob": 1 },
       { "item": "holybook_bible2", "prob": 1 },
       { "item": "holybook_bible3", "prob": 1 },
+      { "item": "holybook_bible4", "prob": 1 },
       { "item": "holybook_quran", "prob": 1 },
       { "item": "holybook_hadith", "prob": 1 },
       { "item": "holybook_havamal", "prob": 1 },
@@ -168,7 +173,11 @@
       { "item": "holybook_slack", "prob": 1 },
       { "item": "holybook_kallisti", "prob": 1 },
       { "item": "holybook_scientology", "prob": 1 },
-      { "item": "holybook_satanic", "prob": 1 }
+      { "item": "holybook_satanic", "prob": 1 },
+      { "item": "holybook_taoism", "prob": 1 },
+      { "item": "holybook_confucianism", "prob": 1 },
+      { "item": "holybook_paganism", "prob": 1 },
+      { "item": "holybook_shamanism", "prob": 1 }
     ]
   },
   {
@@ -324,7 +333,8 @@
       { "item": "baking_book", "prob": 80 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 },
-      { "item": "sweets_book", "prob": 8 }
+      { "item": "sweets_book", "prob": 8 },
+      { "group": "dojo_manuals", "prob": 20 }
     ]
   },
   {
@@ -377,6 +387,7 @@
       { "item": "textbook_gaswarfare", "prob": 5 },
       { "item": "recipe_bullets", "prob": 8 },
       { "item": "pocket_firearms", "prob": 2 },
+      { "item": "manual_luty", "prob": 1 },
       { "item": "textbook_traps", "prob": 4 },
       { "item": "reference_cooking", "prob": 2 },
       { "item": "reference_fabrication1", "prob": 6 },
@@ -495,8 +506,10 @@
       { "item": "dairy_book", "prob": 20 },
       { "item": "winemaking_beginner", "prob": 60 },
       { "item": "manual_canning", "prob": 80 },
+      { "item": "manual_barbaran", "prob": 15 },
       { "item": "manual_sealing", "prob": 190 },
-      { "item": "baking_book", "prob": 190 }
+      { "item": "baking_book", "prob": 190 },
+      { "group": "dojo_manuals", "prob": 20 }
     ]
   },
   {
@@ -526,25 +539,26 @@
       { "item": "scots_cookbook", "prob": 30 },
       { "item": "textbook_biodiesel", "prob": 18 },
       { "item": "jewelry_book", "prob": 15 },
-      { "item": "manual_tai_chi", "prob": 5 },
-      { "item": "manual_fencing", "prob": 4 },
-      { "item": "manual_aikido", "prob": 3 },
-      { "item": "manual_eskrima", "prob": 3 },
-      { "item": "manual_krav_maga", "prob": 3 },
-      { "item": "manual_ninjutsu", "prob": 2 },
-      { "item": "manual_silat", "prob": 3 },
-      { "item": "manual_taekwondo", "prob": 3 },
-      { "item": "manual_judo", "prob": 3 },
-      { "item": "manual_karate", "prob": 3 },
-      { "item": "manual_muay_thai", "prob": 3 },
-      { "item": "manual_niten", "prob": 1 },
-      { "item": "manual_sojutsu", "prob": 1 },
-      { "item": "manual_capoeira", "prob": 1 },
-      { "item": "manual_wingchun", "prob": 3 },
-      { "item": "manual_medievalpole", "prob": 3 },
-      { "item": "manual_swordsmanship", "prob": 3 },
+      { "item": "manual_tai_chi", "prob": 15 },
+      { "item": "manual_fencing", "prob": 15 },
+      { "item": "manual_aikido", "prob": 15 },
+      { "item": "manual_eskrima", "prob": 15 },
+      { "item": "manual_krav_maga", "prob": 15 },
+      { "item": "manual_ninjutsu", "prob": 15 },
+      { "item": "manual_silat", "prob": 15 },
+      { "item": "manual_taekwondo", "prob": 15 },
+      { "item": "manual_judo", "prob": 15 },
+      { "item": "manual_karate", "prob": 15 },
+      { "item": "manual_muay_thai", "prob": 15 },
+      { "item": "manual_niten", "prob": 15 },
+      { "item": "manual_sojutsu", "prob": 15 },
+      { "item": "manual_capoeira", "prob": 15 },
+      { "item": "manual_wingchun", "prob": 15 },
+      { "item": "manual_medievalpole", "prob": 15 },
+      { "item": "manual_swordsmanship", "prob": 15 },
+      { "item": "manual_barbaran", "prob": 15 },
       { "item": "book_lockpick", "prob": 1 },
-      { "group": "rare_martial_arts_books", "prob": 6 }
+      { "group": "rare_martial_arts_books", "prob": 8 }
     ]
   },
   {
@@ -552,33 +566,37 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "manual_karate", "prob": 12 },
-      { "item": "manual_judo", "prob": 12 },
-      { "item": "manual_aikido", "prob": 12 },
-      { "item": "manual_taekwondo", "prob": 12 },
-      { "item": "manual_tai_chi", "prob": 12 },
-      { "item": "manual_pankration", "prob": 5 },
-      { "item": "manual_fencing", "prob": 4 },
-      { "item": "manual_eskrima", "prob": 3 },
-      { "item": "manual_krav_maga", "prob": 3 },
-      { "item": "manual_ninjutsu", "prob": 2 },
-      { "item": "manual_silat", "prob": 3 },
-      { "item": "manual_taekwondo", "prob": 3 },
-      { "item": "manual_judo", "prob": 3 },
-      { "item": "manual_karate", "prob": 3 },
-      { "item": "manual_muay_thai", "prob": 3 },
-      { "item": "manual_niten", "prob": 1 },
-      { "item": "manual_sojutsu", "prob": 1 },
-      { "item": "manual_capoeira", "prob": 1 },
-      { "group": "rare_martial_arts_books", "prob": 8 },
-      { "item": "mag_melee", "prob": 20 },
-      { "item": "manual_melee", "prob": 10 },
-      { "item": "mag_unarmed", "prob": 20 },
-      { "item": "manual_brawl", "prob": 10 },
+      { "item": "manual_karate", "prob": 15 },
+      { "item": "manual_kickboxing", "prob": 15 },
+      { "item": "manual_judo", "prob": 15 },
+      { "item": "manual_aikido", "prob": 15 },
+      { "item": "manual_taekwondo", "prob": 15 },
+      { "item": "manual_tai_chi", "prob": 15 },
+      { "item": "manual_pankration", "prob": 15 },
+      { "item": "manual_fencing", "prob": 15 },
+      { "item": "manual_eskrima", "prob": 15 },
+      { "item": "manual_krav_maga", "prob": 15 },
+      { "item": "manual_boxing", "prob": 15 },
+      { "item": "manual_ninjutsu", "prob": 15 },
+      { "item": "manual_silat", "prob": 15 },
+      { "item": "manual_taekwondo", "prob": 15 },
+      { "item": "manual_judo", "prob": 15 },
+      { "item": "manual_karate", "prob": 15 },
+      { "item": "manual_muay_thai", "prob": 15 },
+      { "item": "manual_niten", "prob": 15 },
+      { "item": "manual_sojutsu", "prob": 15 },
+      { "item": "manual_capoeira", "prob": 15 },
+      { "group": "rare_martial_arts_books", "prob": 15 },
+      { "item": "mag_melee", "prob": 5 },
+      { "item": "manual_melee", "prob": 5 },
+      { "item": "mag_unarmed", "prob": 5 },
+      { "item": "manual_brawl", "prob": 5 },
       { "item": "mag_cutting", "prob": 5 },
-      { "item": "textbook_weapeast", "prob": 1 },
-      { "item": "manual_wingchun", "prob": 3 },
-      { "item": "manual_medievalpole", "prob": 1 }
+      { "item": "textbook_weapeast", "prob": 12 },
+      { "item": "manual_wingchun", "prob": 15 },
+      { "item": "manual_barbaran", "prob": 15 },
+      { "item": "manual_medievalpole", "prob": 15 },
+      { "item": "manual_swordsmanship", "prob": 15 }
     ]
   },
   {
@@ -592,7 +610,12 @@
       { "item": "manual_leopard", "prob": 1 },
       { "item": "manual_snake", "prob": 1 },
       { "item": "manual_tiger", "prob": 1 },
-      { "item": "manual_zui_quan", "prob": 1 }
+      { "item": "manual_zui_quan", "prob": 1 },
+      { "item": "manual_venom_snake", "prob": 1 },
+      { "item": "manual_toad", "prob": 1 },
+      { "item": "manual_scorpion", "prob": 1 },
+      { "item": "manual_lizard", "prob": 1 },
+      { "item": "manual_centipede", "prob": 1 }
     ]
   },
   {
@@ -613,8 +636,15 @@
       { "item": "recipe_serum", "prob": 10 },
       { "item": "recipe_labchem", "prob": 100 },
       { "item": "recipe_augs", "prob": 100 },
-      { "item": "reference_firstaid1", "prob": 15 }
+      { "item": "reference_cooking", "prob": 5 },
+      { "item": "reference_firstaid1", "prob": 25 }
     ]
+  },
+  {
+    "id": "vet_clinic_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "reference_firstaid2", "prob": 5 }, { "group": "doctors_books", "prob": 95 } ]
   },
   {
     "id": "record_patient",

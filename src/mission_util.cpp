@@ -2,6 +2,7 @@
 #include <cassert>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -21,7 +22,6 @@
 #include "mission.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -158,7 +158,7 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
     return closest;
 }
 
-static cata::optional<tripoint_abs_omt> find_or_create_om_terrain(
+static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     const tripoint_abs_omt &origin_pos, const mission_target_params &params )
 {
     tripoint_abs_omt target_pos = overmap::invalid_tripoint;
@@ -193,7 +193,7 @@ static cata::optional<tripoint_abs_omt> find_or_create_om_terrain(
             if( params.overmap_special ) {
                 // ...then attempt to place the whole special.
                 const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
-                                    params.search_range );
+                                    params.min_distance, params.search_range );
                 // If we succeeded in placing the special, then try and find the particular location
                 // we're interested in.
                 if( placed ) {
@@ -236,7 +236,7 @@ static cata::optional<tripoint_abs_omt> find_or_create_om_terrain(
     // on any overmap (new or existing) within the allowed search range.
     if( target_pos == overmap::invalid_tripoint ) {
         debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain );
-        return cata::nullopt;
+        return std::nullopt;
     }
     return target_pos;
 }
@@ -263,13 +263,13 @@ static tripoint_abs_omt get_mission_om_origin( const mission_target_params &para
     return origin_pos;
 }
 
-cata::optional<tripoint_abs_omt> mission_util::assign_mission_target(
+std::optional<tripoint_abs_omt> mission_util::assign_mission_target(
     const mission_target_params &params )
 {
     // use the player or NPC's current position, adjust for the z value if any
     tripoint_abs_omt origin_pos = get_mission_om_origin( params );
 
-    cata::optional<tripoint_abs_omt> target_pos = find_or_create_om_terrain( origin_pos, params );
+    std::optional<tripoint_abs_omt> target_pos = find_or_create_om_terrain( origin_pos, params );
 
     if( target_pos ) {
         if( params.offset ) {
@@ -295,7 +295,7 @@ tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params &
 
     tripoint_abs_omt target_pos = origin_pos;
     if( !params.overmap_terrain.empty() ) {
-        cata::optional<tripoint_abs_omt> temp_pos = find_or_create_om_terrain( origin_pos, params );
+        std::optional<tripoint_abs_omt> temp_pos = find_or_create_om_terrain( origin_pos, params );
         if( temp_pos ) {
             target_pos = *temp_pos;
         }

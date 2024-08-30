@@ -809,8 +809,8 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_b_2",
-    "name": "solid rock",
-    "sym": "%",
+    "name": "basement",
+    "sym": "O",
     "color": "dark_gray",
     "see_cost": 999,
     "mondensity": 2
@@ -818,9 +818,9 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_b_3",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray",
+    "name": "sewer",
+    "sym": "│",
+    "color": "green",
     "see_cost": 999,
     "mondensity": 2
   },
@@ -881,8 +881,8 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_b_10",
-    "name": "solid rock",
-    "sym": "%",
+    "name": "basement",
+    "sym": "O",
     "color": "dark_gray",
     "see_cost": 999,
     "mondensity": 2
@@ -1358,8 +1358,8 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_b_63",
-    "name": "solid rock",
-    "sym": "%",
+    "name": "basement",
+    "sym": "O",
     "color": "dark_gray",
     "see_cost": 999,
     "mondensity": 2
@@ -1457,9 +1457,9 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_b_74",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray",
+    "name": "sewer",
+    "sym": "│",
+    "color": "green",
     "see_cost": 999,
     "mondensity": 2
   },
@@ -2015,9 +2015,9 @@
   {
     "type": "overmap_terrain",
     "id": "necropolis_c_55",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray",
+    "name": "Vault - Subway Access",
+    "sym": "E",
+    "color": "yellow",
     "see_cost": 999,
     "mondensity": 2
   },

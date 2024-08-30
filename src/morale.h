@@ -70,7 +70,7 @@ class player_morale
         /** Ticks down morale counters and removes them */
         void decay( const time_duration &ticks = 1_turns );
         /** Displays morale screen */
-        void display( int focus_eq, int pain_penalty, int fatigue_penalty );
+        void display( int focus_eq, int pain_penalty, int fatigue_cap );
         /** Returns false whether morale is inconsistent with the argument.
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;
@@ -86,7 +86,6 @@ class player_morale
         void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
-        void on_worn_item_transform( const item &old_it, const item &new_it );
         void on_worn_item_washed( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity,
                                    const bodypart_str_id &bp = bodypart_str_id::NULL_ID() );

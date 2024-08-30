@@ -9,6 +9,8 @@
 
 enum class iteminfo_parts : size_t {
     BASE_CATEGORY = 0,
+    BASE_MOD_SRC,
+    BASE_ID,
     BASE_PRICE,
     BASE_BARTER,
     BASE_VOLUME,
@@ -22,6 +24,8 @@ enum class iteminfo_parts : size_t {
     BASE_CONTENTS,
     BASE_AMOUNT,
     BASE_DEBUG,
+
+    WEAPON_CATEGORY,
 
     MED_JOY,
     MED_PORTIONS,
@@ -40,6 +44,7 @@ enum class iteminfo_parts : size_t {
     FOOD_POISON,
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
+    FOOD_ROT_STORAGE,
 
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
@@ -112,6 +117,7 @@ enum class iteminfo_parts : size_t {
     GUNMOD_DAMAGE,
     GUNMOD_ARMORPIERCE,
     GUNMOD_HANDLING,
+    GUNMOD_RANGE,
     GUNMOD_AMMO,
     GUNMOD_RELOAD,
     GUNMOD_STRENGTH,
@@ -119,6 +125,7 @@ enum class iteminfo_parts : size_t {
     GUNMOD_ADD_MOD,
 
     GUNMOD_USEDON,
+    GUNMOD_EXCLUSION,
     GUNMOD_LOCATION,
     GUNMOD_BLACKLIST_MOD,
 
@@ -180,6 +187,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
     DESCRIPTION_IRRADIATION,
 
+    DESCRIPTION_BIONIC_ARMOR_INTERFACE,
     DESCRIPTION_RECHARGE_UPSMODDED,
     DESCRIPTION_RECHARGE_NORELOAD,
     DESCRIPTION_RECHARGE_UPSCAPABLE,
@@ -219,47 +227,21 @@ enum class iteminfo_parts : size_t {
 
 using iteminfo_query_base = std::bitset < static_cast<size_t>( iteminfo_parts::NUM_VALUES ) >;
 
-class iteminfo_query : public iteminfo_query_base
+class iteminfo_query
 {
+    private:
+        iteminfo_query_base parts;
     public:
-        /* The implemented constructors are a bit arbitrary right now. Currently there are
-
-            ( const std::string &bits )
-
-                ("1001010111110000111....1101")
-
-                used to allow simple 'all'/'none' presets or potentially _very_ specific
-                combinations *but* you have to include _every_ bit here so, it'll mostly
-                just be all/none
-
-            ( const iteminfo_query_base &values )
-
-                ( A & (~ B | C) ^ D )
-
-                allows usage of the underlying std::bitset's many bit operators to combine
-                any sort of fields needed
-
-            ( const std::vector<iteminfo_parts> &setBits )
-
-                ( std::vector { iteminfo_parts::Foo, iteminfo_parts::Bar, ... } )
-
-                allows defining a subset with only specific bits turned on
-
-            These should be sufficient to allow _any_ preset to be defined.
-
-            Since those typically _always_ should all be 'static const' performance should
-            not be any issue.
-         */
-        iteminfo_query();
         iteminfo_query( const iteminfo_query_base &values );
         iteminfo_query( const std::string &bits );
-        iteminfo_query( const std::vector<iteminfo_parts> &setBits );
+        iteminfo_query( const std::vector<iteminfo_parts> &set_bits );
 
         bool test( const iteminfo_parts &value ) const;
 
         static const iteminfo_query all;
-        static const iteminfo_query notext;
-        static const iteminfo_query anyflags;
+        static const iteminfo_query no_text;
+        static const iteminfo_query any_flags;
+        static const iteminfo_query no_conditions;
 };
 
 #endif // CATA_SRC_ITEMINFO_QUERY_H

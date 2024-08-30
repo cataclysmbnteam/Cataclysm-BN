@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_CATA_LIBINTL_H
 #define CATA_SRC_CATA_LIBINTL_H
 
-#if defined(LOCALIZE)
-
 #include <memory>
 #include <string>
 #include <vector>
@@ -228,5 +226,4 @@ class trans_library
 };
 } // namespace cata_libintl
 
-#endif // LOCALIZE
 #endif // CATA_SRC_CATA_LIBINTL_H

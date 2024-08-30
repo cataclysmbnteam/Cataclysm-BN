@@ -10,20 +10,22 @@
 // return face index that has this size or below
 static int test_face_size( const std::string &f, int size, int faceIndex )
 {
-    const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
-    if( fnt ) {
-        char *style = TTF_FontFaceStyleName( fnt.get() );
-        if( style != nullptr ) {
-            int faces = TTF_FontFaces( fnt.get() );
-            for( int i = faces - 1; i >= 0; i-- ) {
-                const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
-                char *ts = nullptr;
-                if( tf ) {
-                    if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
-                        if( lcequal( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
-                            return i;
-                        }
-                    }
+    const TTF_Font_Ptr font( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
+    if( font ) {
+        const char *font_style = TTF_FontFaceStyleName( font.get() );
+        if( font_style != nullptr ) {
+            int num_faces = TTF_FontFaces( font.get() );
+            for( int face_i = num_faces - 1; face_i >= 0; face_i-- ) {
+                const TTF_Font_Ptr face( TTF_OpenFontIndex( f.c_str(), size, face_i ) );
+                if( !face ) {
+                    continue;
+                }
+                const char *face_style = TTF_FontFaceStyleName( face.get() );
+                if( !face_style ) {
+                    continue;
+                }
+                if( lcequal( face_style, font_style ) && TTF_FontHeight( face.get() ) <= size ) {
+                    return face_i;
                 }
             }
         }
@@ -76,7 +78,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
 void Font::draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
-                             unsigned char line_id, const point &p, unsigned char color ) const
+                             unsigned char line_id, point p, unsigned char color ) const
 {
     SDL_Color sdl_color = palette[color];
     switch( line_id ) {
@@ -328,7 +330,7 @@ bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
 }
 
 void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &,
-                                const std::string &ch, const point &p,
+                                const std::string &ch, point p,
                                 unsigned char color, const float opacity )
 {
     key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
@@ -405,7 +407,7 @@ BitmapFont::BitmapFont(
 
 void BitmapFont::draw_ascii_lines( const SDL_Renderer_Ptr &renderer,
                                    const GeometryRenderer_Ptr &geometry,
-                                   unsigned char line_id, const point &p, unsigned char color ) const
+                                   unsigned char line_id, point p, unsigned char color ) const
 {
     BitmapFont *t = const_cast<BitmapFont *>( this );
     switch( line_id ) {
@@ -480,7 +482,7 @@ bool BitmapFont::isGlyphProvided( const std::string &ch ) const
 }
 
 void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
-                             const std::string &ch, const point &p,
+                             const std::string &ch, point p,
                              unsigned char color, const float opacity )
 {
     const int t = UTF8_getch( ch );
@@ -488,7 +490,7 @@ void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRen
 }
 
 void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
-                             const int t, const point &p,
+                             const int t, point p,
                              unsigned char color, const float opacity )
 {
     if( t <= 256 ) {
@@ -580,7 +582,7 @@ bool FontFallbackList::isGlyphProvided( const std::string & ) const
 
 void FontFallbackList::OutputChar( const SDL_Renderer_Ptr &renderer,
                                    const GeometryRenderer_Ptr &geometry,
-                                   const std::string &ch, const point &p,
+                                   const std::string &ch, point p,
                                    unsigned char color, const float opacity )
 {
     auto cached = glyph_font.find( ch );

@@ -7,33 +7,35 @@
     "region_terrain_and_furniture": {
       "terrain": {
         "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
-        "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 2, "t_dirt": 1 },
+        "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
-        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_swamp": { "t_grass_long": 60, "t_grass_tall": 20, "t_moss": 40, "t_dirt": 40, "t_bog_iron": 1 },
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
         "t_region_shrub": {
-          "t_underbrush": 60,
-          "t_shrub": 15,
-          "t_fern": 6,
-          "t_shrub_blueberry": 1,
-          "t_shrub_strawberry": 1,
-          "t_shrub_blackberry": 3,
-          "t_shrub_raspberry": 1,
-          "t_shrub_huckleberry": 3,
+          "t_underbrush": 30,
+          "t_shrub": 10,
+          "t_fern": 5,
+          "t_shrub_blueberry": 2,
+          "t_shrub_strawberry": 2,
+          "t_shrub_blackberry": 2,
+          "t_shrub_raspberry": 2,
+          "t_shrub_huckleberry": 2,
           "t_shrub_grape": 1,
-          "t_shrub_rose": 1,
-          "t_shrub_hydrangea": 1,
-          "t_shrub_lilac": 1
+          "t_shrub_rose": 2,
+          "t_shrub_hydrangea": 2,
+          "t_shrub_lilac": 2,
+          "t_shrub_peanut": 1
         },
         "t_region_shrub_fruit": {
-          "t_shrub_blueberry": 2,
-          "t_shrub_strawberry": 3,
-          "t_shrub_raspberry": 2,
-          "t_shrub_grape": 1,
-          "t_shrub_blackberry": 5,
-          "t_shrub_huckleberry": 5
+          "t_shrub_blueberry": 6,
+          "t_shrub_strawberry": 6,
+          "t_shrub_raspberry": 4,
+          "t_shrub_grape": 4,
+          "t_shrub_blackberry": 2,
+          "t_shrub_huckleberry": 2,
+          "t_shrub_peanut": 1
         },
         "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
         "t_region_tree": {
@@ -51,19 +53,21 @@
           "t_tree_hazelnut": 2,
           "t_tree_beech": 2,
           "t_tree_blackjack": 8,
-          "t_tree_coffee": 1,
+          "t_tree_coffee": 2,
           "t_tree_apple": 2,
-          "t_tree_apricot": 1,
-          "t_tree_cherry": 1,
+          "t_tree_apricot": 2,
+          "t_tree_cherry": 2,
           "t_tree_juniper": 2,
-          "t_tree_peach": 1,
-          "t_tree_pear": 1,
-          "t_tree_plum": 1,
-          "t_tree_elderberry": 1,
-          "t_tree_mulberry": 1,
+          "t_tree_peach": 2,
+          "t_tree_pear": 2,
+          "t_tree_plum": 2,
+          "t_tree_elderberry": 2,
+          "t_tree_mulberry": 2,
           "t_tree_deadpine": 16,
           "t_tree_hickory_dead": 16,
-          "t_tree_dead": 16
+          "t_tree_dead": 16,
+          "t_tree_cacao": 1,
+          "t_tree_coca": 1
         },
         "t_region_tree_shade": {
           "t_tree": 64,
@@ -79,7 +83,8 @@
           "t_tree_coffee": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_dead": 2
+          "t_tree_dead": 2,
+          "t_tree_cacao": 1
         },
         "t_region_tree_fruit": {
           "t_tree_young": 4,
@@ -91,7 +96,8 @@
           "t_tree_plum": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_dead": 4
+          "t_tree_dead": 4,
+          "t_tree_cacao": 1
         },
         "t_region_tree_nut": {
           "t_tree_young": 4,
@@ -109,12 +115,16 @@
       "furniture": {
         "f_region_flower": {
           "f_black_eyed_susan": 1,
+          "f_lily": 1,
+          "f_flower_tulip": 1,
           "f_flower_spurge": 1,
           "f_chamomile": 1,
           "f_dandelion": 1,
-          "f_burdock": 1,
           "f_datura": 1,
-          "f_dahlia": 1
+          "f_dahlia": 1,
+          "f_chicory": 1,
+          "f_bluebell": 1,
+          "f_sunflower": 1
         },
         "f_region_flower_decorative": {
           "f_lily": 4,
@@ -128,19 +138,24 @@
         },
         "f_region_weed": {
           "f_dandelion": 6,
-          "f_burdock": 6,
           "f_flower_spurge": 4,
           "f_chamomile": 4,
           "f_datura": 3,
+          "f_bluebell": 2,
           "f_dahlia": 1,
-          "f_mutpoppy": 1
+          "f_black_eyed_susan": 1,
+          "f_lily": 1,
+          "f_flower_tulip": 1,
+          "f_mutpoppy": 1,
+          "f_sunflower": 1,
+          "f_mustard": 1
         },
-        "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1 }
+        "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
-    "river_scale": 1.0,
+    "river_scale": 1,
     "field_coverage": {
-      "percent_coverage": 5,
+      "percent_coverage": 0.2,
       "default_ter": "t_shrub",
       "other": {
         "t_region_tree": 1,
@@ -155,9 +170,9 @@
       "boosted_percent_coverage": 2.5,
       "boosted_other": {
         "t_tree_young": 0.2,
-        "t_tree": 10.1,
-        "t_tree_birch": 4.05,
-        "t_tree_elm": 3.55,
+        "t_tree": 0.1,
+        "t_tree_birch": 0.05,
+        "t_tree_elm": 0.05,
         "t_tree_cottonwood": 0.05,
         "t_tree_pine": 0.1,
         "t_tree_maple": 0.1,
@@ -181,20 +196,29 @@
         "t_tree_deadpine": 0.05,
         "t_tree_hickory_dead": 0.05,
         "t_tree_dead": 0.05,
-        "t_shrub_blueberry": 8.0,
-        "t_shrub_strawberry": 5.0,
-        "t_shrub_blackberry": 5.0,
-        "t_shrub_raspberry": 8.0,
-        "t_shrub_huckleberry": 5.0,
-        "f_flower_spurge": 6.5,
+        "t_shrub_blueberry": 8,
+        "t_shrub_strawberry": 5,
+        "t_shrub_blackberry": 5,
+        "t_shrub_raspberry": 8,
+        "t_shrub_huckleberry": 5,
+        "t_shrub_grape": 5,
+        "t_shrub_rose": 3,
+        "t_shrub_hydrangea": 3,
+        "t_shrub_lilac": 3,
+        "f_black_eyed_susan": 3,
+        "f_lily": 3,
+        "f_flower_tulip": 3,
+        "f_flower_spurge": 3.5,
+        "f_chicory": 3,
         "f_mutpoppy": 3.5,
         "f_bluebell": 3.5,
         "f_dahlia": 3.5,
         "f_datura": 0.2,
-        "f_burdock": 14.0,
-        "f_dandelion": 14.0
+        "f_dandelion": 5,
+        "f_sunflower": 3.5,
+        "f_mustard": 0.2
       },
-      "boosted_other_percent": 50.0
+      "boosted_other_percent": 50
     },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
@@ -209,7 +233,7 @@
       ]
     },
     "overmap_forest_settings": {
-      "noise_threshold_forest": 0.1,
+      "noise_threshold_forest": 0.2,
       "noise_threshold_forest_thick": 0.25,
       "noise_threshold_swamp_adjacent_water": 0.3,
       "noise_threshold_swamp_isolated": 0.6,
@@ -242,8 +266,7 @@
               "t_pit": 1,
               "t_pit_shallow": 1
             }
-          },
-          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_water_sh": 1 } }
+          }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": {  }
@@ -273,8 +296,7 @@
               "t_pit": 1,
               "t_pit_shallow": 1
             }
-          },
-          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_water_sh": 1 } }
+          }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": {  }
@@ -333,10 +355,10 @@
       }
     },
     "forest_trail_settings": {
-      "chance": 20,
+      "chance": 2,
       "border_point_chance": 2,
       "minimum_forest_size": 100,
-      "random_point_min": 6,
+      "random_point_min": 4,
       "random_point_max": 50,
       "random_point_size_scalar": 100,
       "trailhead_chance": 1,
@@ -606,9 +628,9 @@
       "summer_temp": 16,
       "autumn_temp": 6,
       "winter_temp": -14,
-      "base_humidity": 70.0,
-      "base_pressure": 1015.0,
-      "base_acid": 0.0,
+      "base_humidity": 70,
+      "base_pressure": 1015,
+      "base_acid": 0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
       "base_wind_season_variation": 50,

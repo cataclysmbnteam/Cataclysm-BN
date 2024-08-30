@@ -26,10 +26,10 @@ class lightson_game
         void draw_level();
         bool check_win();
         void toggle_lights();
-        void toggle_lights_at( const point &pt );
-        bool get_value_at( const point &pt );
-        void set_value_at( const point &pt, bool value );
-        void toggle_value_at( const point &pt );
+        void toggle_lights_at( point pt );
+        bool get_value_at( point pt );
+        void set_value_at( point pt, bool value );
+        void toggle_value_at( point pt );
 
     public:
         int start_game();

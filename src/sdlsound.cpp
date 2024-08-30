@@ -24,7 +24,6 @@
 #include "debug.h"
 #include "init.h"
 #include "json.h"
-#include "loading_ui.h"
 #include "messages.h"
 #include "options.h"
 #include "path_info.h"
@@ -76,6 +75,18 @@ static std::vector<std::size_t> playlist_indexes;
 static bool sound_init_success = false;
 static std::map<std::string, music_playlist> playlists;
 static std::string current_soundpack_path;
+
+/** The ambient sound we're currently playing **/
+struct ambient_parameters {
+    std::string id;
+    std::string variant;
+    int volume;
+    sfx::channel channel;
+    int fade_in_duration;
+    double pitch;
+    int loops;
+};
+static ambient_parameters current_ambient;
 
 static std::unordered_map<std::string, int> unique_paths;
 static sfx_resources_t sfx_resources;
@@ -165,6 +176,8 @@ static void play_music_file( const std::string &filename, int volume )
         return;
     }
 
+    current_music_track_volume = 0;
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -180,6 +193,7 @@ static void play_music_file( const std::string &filename, int volume )
         dbg( DL::Error ) << "Starting playlist " << path << " failed: " << Mix_GetError();
         return;
     }
+    current_music_track_volume = volume;
     Mix_HookMusicFinished( musicFinished );
 }
 
@@ -249,7 +263,6 @@ void play_music( const std::string &playlist )
     current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const music_playlist::entry &next = list.entries[current_playlist_at];
-    current_music_track_volume = next.volume;
     play_music_file( next.file, next.volume );
 }
 
@@ -268,7 +281,7 @@ void stop_music()
     absolute_playlist_at = 0;
 }
 
-void update_music_volume()
+void update_volumes()
 {
     if( test_mode ) {
         return;
@@ -279,7 +292,10 @@ void update_music_volume()
         return;
     }
 
+    // Change volume of current music
     Mix_VolumeMusic( current_music_track_volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
+
+
     // Start playing music, if we aren't already doing so (if
     // SOUND_ENABLED was toggled.)
 
@@ -287,6 +303,22 @@ void update_music_volume()
     // #28018 is resolved, as this function may be called from places
     // other than the main menu.
     play_music( "title" );
+
+
+    // Stop channels playing (different ambient sounds)
+    // Then start back the last saved ambient sound with the new volume (fetched in the function)
+    if( !current_ambient.id.empty() ) {
+        // Stop currently playing channels
+        for( int i = 0; i < static_cast<int>( sfx::channel::MAX_CHANNEL ); i++ ) {
+            if( sfx::is_channel_playing( static_cast<sfx::channel>( i ) ) ) {
+                Mix_HaltChannel( i );
+            }
+        }
+        // Start the last playing channel with updated volume
+        sfx::play_ambient_variant_sound( current_ambient.id, current_ambient.variant,
+                                         current_ambient.volume, current_ambient.channel, current_ambient.fade_in_duration,
+                                         current_ambient.pitch, current_ambient.loops );
+    }
 }
 
 // Allocate new Mix_Chunk as a null-chunk. Results in a valid, but empty chunk
@@ -308,8 +340,7 @@ static Mix_Chunk *load_chunk( const std::string &path )
 {
     Mix_Chunk *result = Mix_LoadWAV( path.c_str() );
     if( result == nullptr ) {
-        // Failing to load a sound file is not a fatal error worthy of a backtrace
-        dbg( DL::Warn ) << "Failed to load sfx audio file " << path << ": " << Mix_GetError();
+        debugmsg( "Failed to load sfx audio file %s: %s", path.c_str(), Mix_GetError() );
         result = make_null_chunk();
     }
     return result;
@@ -539,18 +570,21 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                                 effect_to_play ) == 0 ) {
             // We'll be unable to de-allocate the chunk, stop the playback right now.
             failed = true;
-            dbg( DL::Warn ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            dbg( DL::Warn ) << "Mix_RegisterEffect failed { id: " << id << ", variant: " << variant << " }: " <<
+                            Mix_GetError();
             Mix_HaltChannel( channel );
         }
     }
     if( !failed ) {
         if( Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0 ) {
             // Not critical
-            dbg( DL::Info ) << "Mix_SetPosition failed: " << Mix_GetError();
+            dbg( DL::Info ) << "Mix_SetPosition failed { id: " << id << ", variant: " << variant << " }: " <<
+                            Mix_GetError();
         }
     }
     if( failed ) {
-        dbg( DL::Error ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( DL::Debug ) << "Failed to play sound effect { id: " << id << ", variant: " << variant << " }: "
+                         << Mix_GetError();
         if( is_pitched ) {
             cleanup_when_channel_finished( channel, effect_to_play );
         }
@@ -593,16 +627,25 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         if( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished, effect_to_play ) == 0 ) {
             // We'll be unable to de-allocate the chunk, stop the playback right now.
             failed = true;
-            dbg( DL::Warn ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            dbg( DL::Warn ) << "Mix_RegisterEffect failed { id: " << id << ", variant: " << variant << " }: " <<
+                            Mix_GetError();
             Mix_HaltChannel( ch );
         }
     }
     if( failed ) {
-        dbg( DL::Error ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( DL::Debug ) << "Failed to play sound effect { id: " << id << ", variant: " << variant << " }: "
+                         << Mix_GetError();
         if( is_pitched ) {
             cleanup_when_channel_finished( ch, effect_to_play );
         }
     }
+    current_ambient.id = id;
+    current_ambient.variant = variant;
+    current_ambient.volume = volume;
+    current_ambient.channel = channel;
+    current_ambient.fade_in_duration = fade_in_duration;
+    current_ambient.pitch = pitch;
+    current_ambient.loops = loops;
 }
 
 void load_soundset()
@@ -633,18 +676,31 @@ void load_soundset()
 
     current_soundpack_path = soundpack_path;
     try {
-        loading_ui ui( false );
-        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
+        init::load_soundpack_files( soundpack_path );
     } catch( const std::exception &err ) {
         dbg( DL::Error ) << "failed to load sounds: " << err.what();
     }
 
     // Preload sound effects
     for( const id_and_variant &preload : sfx_preload ) {
-        const auto find_result = sfx_resources.sound_effects.find( preload );
-        if( find_result != sfx_resources.sound_effects.end() ) {
-            for( const auto &sfx : find_result->second ) {
-                get_sfx_resource( sfx.resource_id );
+        const auto& [id, variant] = preload;
+
+        // HACK
+        // context: @link https://discord.com/channels/830879262763909202/830916451517857894/1140806895200911493
+        if( variant == "all" ) {
+            for( const auto &[key, sfxs] : sfx_resources.sound_effects ) {
+                if( key.first == id ) {
+                    for( const auto &sfx : sfxs ) {
+                        get_sfx_resource( sfx.resource_id );
+                    }
+                }
+            }
+        } else {
+            const auto find_result = sfx_resources.sound_effects.find( preload );
+            if( find_result != sfx_resources.sound_effects.end() ) {
+                for( const auto &sfx : find_result->second ) {
+                    get_sfx_resource( sfx.resource_id );
+                }
             }
         }
     }

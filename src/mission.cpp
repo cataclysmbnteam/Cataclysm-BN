@@ -304,11 +304,12 @@ void mission::wrap_up()
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_id( "null" ), specific_container_required );
+                container, itype_id::NULL_ID(), specific_container_required );
 
             for( std::pair<const itype_id, int> &cnt : matches ) {
-                comps.push_back( item_comp( cnt.first, cnt.second ) );
-
+                if( cnt.second >= type->item_count ) {
+                    comps.emplace_back( cnt.first, type->item_count );
+                }
             }
 
             u.consume_items( comps );
@@ -316,10 +317,10 @@ void mission::wrap_up()
             if( remove_container ) {
                 std::vector<item_comp> container_comp = std::vector<item_comp>();
                 if( !empty_container.is_null() ) {
-                    container_comp.push_back( item_comp( empty_container, type->item_count ) );
+                    container_comp.emplace_back( empty_container, type->item_count );
                     u.consume_items( container_comp );
                 } else {
-                    container_comp.push_back( item_comp( container, type->item_count ) );
+                    container_comp.emplace_back( container, type->item_count );
                     u.consume_items( container_comp );
                 }
             }
@@ -327,7 +328,7 @@ void mission::wrap_up()
         break;
 
         case MGOAL_FIND_ITEM:
-            comps.push_back( item_comp( type->item_id, item_count ) );
+            comps.emplace_back( type->item_id, item_count );
             u.consume_items( comps );
             break;
         case MGOAL_FIND_ANY_ITEM:
@@ -370,16 +371,12 @@ bool mission::is_complete( const character_id &_npc_id ) const
             std::map<itype_id, int> matches = std::map<itype_id, int>();
             get_all_item_group_matches(
                 items, grp_type, matches,
-                container, itype_id( "null" ), specific_container_required );
+                container, itype_id::NULL_ID(), specific_container_required );
 
-            int total_match = std::accumulate( matches.begin(), matches.end(), 0,
-            []( const std::size_t previous, const std::pair<const itype_id, std::size_t> &p ) {
-                return static_cast<int>( previous + p.second );
-            } );
-
-            if( total_match >= ( type->item_count ) ) {
-                return true;
-
+            for( std::pair<const itype_id, int> &pair : matches ) {
+                if( pair.second >= type->item_count ) {
+                    return true;
+                }
             }
         }
         return false;
@@ -410,13 +407,13 @@ bool mission::is_complete( const character_id &_npc_id ) const
 
         case MGOAL_RECRUIT_NPC: {
             npc *p = g->find_npc( target_npc_id );
-            return p != nullptr && p->get_attitude() == NPCATT_FOLLOW;
+            return p != nullptr && p->is_player_ally();
         }
 
         case MGOAL_RECRUIT_NPC_CLASS: {
             const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
             for( auto &npc : npcs ) {
-                if( npc->myclass == recruit_class && npc->get_attitude() == NPCATT_FOLLOW ) {
+                if( npc->myclass == recruit_class && npc->is_player_ally() ) {
                     return true;
                 }
             }
@@ -480,17 +477,13 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 
         //check whether item itself is target
         if( item_in_group && correct_container ) {
-            std::map<itype_id, int>::iterator it = matches.find( itm->typeId() );
-            if( it != matches.end() ) {
-                it->second = ( it->second ) + 1;
-            } else {
-                matches.insert( std::make_pair( itm->typeId(), 1 ) );
-            }
+            matches[ itm->typeId() ] += itm->count();
         }
 
         //recursivly check item contents for target
         if( itm->is_container() && !itm->is_container_empty() ) {
-            std::list<item *> content_list = itm->contents.all_items_top();
+            //TODO!: check, this is some weird shit
+            std::vector<item *> content_list = itm->contents.all_items_top();
             std::vector<item *> content = std::vector<item *>();
 
             //list of item into list item*
@@ -691,8 +684,7 @@ mission::mission()
     target = tripoint_abs_omt( tripoint_min );
     item_id = itype_id::NULL_ID();
     item_count = 1;
-    target_id = string_id<oter_type_t>::NULL_ID();
-    recruit_class = NC_NONE;
+    recruit_class = npc_class_id::NULL_ID();
     target_npc_id = character_id();
     monster_type = mtype_id::NULL_ID();
     monster_kill_goal = -1;

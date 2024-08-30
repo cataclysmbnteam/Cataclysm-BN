@@ -11,5 +11,32 @@
     "condition": "ACTIVE",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "emitter": "emit_shadow_field"
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIO_CARBON",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "ARMOR_BASH", "multiply": -0.05 },
+      { "value": "ARMOR_CUT", "multiply": -0.1 },
+      { "value": "ARMOR_STAB", "multiply": -0.08 },
+      { "value": "ARMOR_BULLET", "multiply": -0.15 }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_UNCANNY_DODGE",
+    "condition": "ACTIVE",
+    "mutations": [ "ENCH_UNCANNY_DODGE_EFFECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ENCH_UNCANNY_DODGE_EFFECT",
+    "name": { "str": "Uncanny Dodge" },
+    "points": 0,
+    "valid": false,
+    "description": "You're currently under the effects of the Uncanny Dodge CBM.",
+    "dodge_modifier": 2,
+    "player_display": false
   }
 ]

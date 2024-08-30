@@ -227,7 +227,8 @@ static void extract_effect(
     const JsonObject &j,
     std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
     cata::tuple_hash> &data,
-    const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
+    const std::string &mod_type, const std::string &data_key, const std::string &type_key,
+    const std::string &arg_key )
 {
     double val = 0;
     double reduced_val = 0;
@@ -366,6 +367,16 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "fatigue_chance_bot", member, "FATIGUE",  "chance_bot" );
         extract_effect( j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick" );
 
+        // Then sleep debt
+        extract_effect( j, mod_data, "sleepdebt_amount",    member, "SLEEPDEBT",   "amount" );
+        extract_effect( j, mod_data, "sleepdebt_min",       member, "SLEEPDEBT",   "min" );
+        extract_effect( j, mod_data, "sleepdebt_max",       member, "SLEEPDEBT",   "max" );
+        extract_effect( j, mod_data, "sleepdebt_min_val",   member, "SLEEPDEBT",   "min_val" );
+        extract_effect( j, mod_data, "sleepdebt_max_val",   member, "SLEEPDEBT",   "max_val" );
+        extract_effect( j, mod_data, "sleepdebt_chance",    member, "SLEEPDEBT",   "chance_top" );
+        extract_effect( j, mod_data, "sleepdebt_chance_bot", member, "SLEEPDEBT",   "chance_bot" );
+        extract_effect( j, mod_data, "sleepdebt_tick",      member, "SLEEPDEBT",   "tick" );
+
         // Then stamina
         extract_effect( j, mod_data, "stamina_amount",    member, "STAMINA",  "amount" );
         extract_effect( j, mod_data, "stamina_min",       member, "STAMINA",  "min" );
@@ -404,6 +415,11 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
     } else {
         return false;
     }
+}
+
+bool effect_type::has_flag( const flag_id &flag ) const
+{
+    return flags.count( flag );
 }
 
 effect_rating effect_type::get_rating() const
@@ -507,7 +523,7 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &membe
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            miss_msgs.push_back( std::make_pair( inner.get_string( 0 ), inner.get_int( 1 ) ) );
+            miss_msgs.emplace_back( inner.get_string( 0 ), inner.get_int( 1 ) );
         }
         return true;
     }
@@ -531,7 +547,7 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
             } else {
                 rate = m_neutral;
             }
-            decay_msgs.push_back( std::make_pair( msg, rate ) );
+            decay_msgs.emplace_back( msg, rate );
         }
         return true;
     }
@@ -651,32 +667,32 @@ std::string effect::disp_desc( bool reduced ) const
     // place to add them.
     int val = 0;
     val = get_avg_mod( "PAIN", reduced );
-    values.push_back( desc_freq( get_percentage( "PAIN", val, reduced ), val, _( "pain" ),
-                                 _( "pain" ) ) );
+    values.emplace_back( get_percentage( "PAIN", val, reduced ), val, _( "pain" ),
+                         _( "pain" ) );
     val = get_avg_mod( "HURT", reduced );
-    values.push_back( desc_freq( get_percentage( "HURT", val, reduced ), val, _( "damage" ),
-                                 _( "damage" ) ) );
+    values.emplace_back( get_percentage( "HURT", val, reduced ), val, _( "damage" ),
+                         _( "damage" ) );
     val = get_avg_mod( "STAMINA", reduced );
-    values.push_back( desc_freq( get_percentage( "STAMINA", val, reduced ), val,
-                                 _( "stamina recovery" ), _( "fatigue" ) ) );
+    values.emplace_back( get_percentage( "STAMINA", val, reduced ), val,
+                         _( "stamina recovery" ), _( "fatigue" ) );
     val = get_avg_mod( "THIRST", reduced );
-    values.push_back( desc_freq( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
-                                 _( "quench" ) ) );
+    values.emplace_back( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
+                         _( "quench" ) );
     val = get_avg_mod( "HUNGER", reduced );
-    values.push_back( desc_freq( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
-                                 _( "sate" ) ) );
+    values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
+                         _( "sate" ) );
     val = get_avg_mod( "FATIGUE", reduced );
-    values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
-                                 _( "rest" ) ) );
+    values.emplace_back( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
+                         _( "rest" ) );
     val = get_avg_mod( "COUGH", reduced );
-    values.push_back( desc_freq( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
-                                 _( "coughing" ) ) );
+    values.emplace_back( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
+                         _( "coughing" ) );
     val = get_avg_mod( "VOMIT", reduced );
-    values.push_back( desc_freq( get_percentage( "VOMIT", val, reduced ), val, _( "vomiting" ),
-                                 _( "vomiting" ) ) );
+    values.emplace_back( get_percentage( "VOMIT", val, reduced ), val, _( "vomiting" ),
+                         _( "vomiting" ) );
     val = get_avg_mod( "SLEEP", reduced );
-    values.push_back( desc_freq( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
-                                 _( "blackouts" ) ) );
+    values.emplace_back( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
+                         _( "blackouts" ) );
 
     for( auto &i : values ) {
         if( i.val > 0 ) {
@@ -907,7 +923,7 @@ std::vector<efftype_id> effect::get_blocks_effects() const
     return ret;
 }
 
-int effect::get_mod( std::string arg, bool reduced ) const
+int effect::get_mod( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -939,7 +955,7 @@ int effect::get_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_avg_mod( std::string arg, bool reduced ) const
+int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -971,7 +987,7 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_amount( std::string arg, bool reduced ) const
+int effect::get_amount( const std::string &arg, bool reduced ) const
 {
     int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
@@ -988,7 +1004,7 @@ int effect::get_amount( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_min_val( std::string arg, bool reduced ) const
+int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -1003,7 +1019,7 @@ int effect::get_min_val( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_max_val( std::string arg, bool reduced ) const
+int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -1028,7 +1044,7 @@ bool effect::get_sizing( const std::string &arg ) const
     return false;
 }
 
-double effect::get_percentage( std::string arg, int val, bool reduced ) const
+double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
@@ -1105,7 +1121,7 @@ double effect::get_percentage( std::string arg, int val, bool reduced ) const
     return ret;
 }
 
-bool effect::activated( const time_point &when, std::string arg, int val, bool reduced,
+bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
     auto &mod_data = eff_type->mod_data;
@@ -1280,7 +1296,7 @@ void load_effect_type( const JsonObject &jo )
             new_etype.desc.push_back( line );
         }
     } else {
-        new_etype.desc.push_back( "" );
+        new_etype.desc.emplace_back( "" );
     }
     if( jo.has_member( "reduced_desc" ) ) {
         for( const std::string line : jo.get_array( "reduced_desc" ) ) {
@@ -1316,16 +1332,16 @@ void load_effect_type( const JsonObject &jo )
     new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
 
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
-        new_etype.resist_traits.push_back( trait_id( f ) );
+        new_etype.resist_traits.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "resist_effects" ) ) { // *NOPAD*
-        new_etype.resist_effects.push_back( efftype_id( f ) );
+        new_etype.resist_effects.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
-        new_etype.removes_effects.push_back( efftype_id( f ) );
+        new_etype.removes_effects.emplace_back( f );
     }
     for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
-        new_etype.blocks_effects.push_back( efftype_id( f ) );
+        new_etype.blocks_effects.emplace_back( f );
     }
 
     if( jo.has_string( "max_duration" ) ) {
@@ -1367,7 +1383,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    new_etype.flags = jo.get_tags( "flags" );
+    new_etype.flags = jo.get_tags<flag_id>( "flags" );
 
     assign( jo, "morale", new_etype.morale );
 
@@ -1384,8 +1400,8 @@ void load_effect_type( const JsonObject &jo )
     }
 
     // TODO: Implement handling of reduced morale, remove this
-    static const std::vector<const char *> mod_types = {{
-            "base_mods", "scaling_mods"
+    static const std::vector<std::string> mod_types = {{
+            {"base_mods"}, {"scaling_mods"}
         }
     };
     if( has_morale_effect ) {
@@ -1404,12 +1420,20 @@ void load_effect_type( const JsonObject &jo )
         }
     }
 
+    if( jo.has_array( "effects_on_remove" ) ) {
+        JsonArray jarr = jo.get_array( "effects_on_remove" );
+        for( JsonObject jo_decay : jarr ) {
+            new_etype.effects_on_remove.emplace_back();
+            new_etype.effects_on_remove.back().load_decay( jo_decay );
+        }
+    }
+
     effect_types[new_etype.id] = new_etype;
 }
 
-bool effect::has_flag( const std::string &flag ) const
+bool effect::has_flag( const flag_id &flag ) const
 {
-    return eff_type->flags.count( flag ) > 0;
+    return eff_type->has_flag( flag );
 }
 
 void reset_effect_types()
@@ -1498,4 +1522,71 @@ std::string texitify_healing_power( const int power )
         debugmsg( "Converted value out of bounds." );
     }
     return "";
+}
+
+void caused_effect::load_decay( const JsonObject &jo )
+{
+    assign( jo, "allow_on_decay", allow_on_decay );
+    assign( jo, "allow_on_remove", allow_on_remove );
+    load( jo );
+}
+
+void caused_effect::load( const JsonObject &jo )
+{
+    assign( jo, "effect_type", type );
+    assign( jo, "intensity_requirement", intensity_requirement );
+
+    if( assign( jo, "duration", duration ) ) {
+        // In case of copy-from
+        inherit_duration = false;
+    }
+    assign( jo, "inherit_duration", inherit_duration );
+    if( jo.has_member( "duration" ) && jo.has_member( "inherit_duration" ) ) {
+        jo.throw_error( R"("duration" and "inherit_duration" can't both be set at the same time.)" );
+    }
+
+    if( assign( jo, "intensity", intensity ) ) {
+        inherit_intensity = false;
+    }
+    assign( jo, "inherit_intensity", inherit_intensity );
+    if( jo.has_member( "intensity" ) && jo.has_member( "inherit_intensity" ) ) {
+        jo.throw_error( R"("intensity" and "inherit_intensity" can't both be set at the same time.)" );
+    }
+
+    if( assign( jo, "body_part", bp ) ) {
+        inherit_body_part = false;
+    }
+    assign( jo, "inherit_body_part", inherit_body_part );
+    if( jo.has_member( "intensity" ) && jo.has_member( "inherit_intensity" ) ) {
+        jo.throw_error( R"("body_part" and "inherit_body_part" can't both be set at the same time.)" );
+    }
+}
+
+std::vector<effect> effect::create_decay_effects() const
+{
+    return create_child_effects( true );
+}
+
+std::vector<effect> effect::create_removal_effects() const
+{
+    return create_child_effects( false );
+}
+
+std::vector<effect> effect::create_child_effects( bool decay ) const
+{
+    std::vector<effect> ret;
+    for( const auto &new_effect : eff_type->effects_on_remove ) {
+        if( this->intensity < new_effect.intensity_requirement ||
+            ( decay && !new_effect.allow_on_decay ) ||
+            ( !decay && !new_effect.allow_on_remove ) ) {
+            continue;
+        }
+        const effect_type *new_effect_type = &*new_effect.type;
+        time_duration dur = new_effect.inherit_duration ? this->duration : new_effect.duration;
+        int intensity = new_effect.inherit_intensity ? this->intensity : new_effect.intensity;
+        bodypart_str_id bp = new_effect.inherit_body_part ? convert_bp( this->bp ) : new_effect.bp;
+        effect e = effect( new_effect_type, dur, bp, intensity, calendar::turn );
+        ret.emplace_back( e );
+    }
+    return ret;
 }

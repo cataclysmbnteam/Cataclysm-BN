@@ -1,7 +1,9 @@
-#include "vehicle.h" // IWYU pragma: associated
+#include "vehicle.h"
+#include "vehicle_part.h" // IWYU pragma: associated
 
 #include <cstdlib>
 #include <algorithm>
+#include <optional>
 #include <set>
 #include <memory>
 
@@ -20,7 +22,6 @@
 #include "units.h"
 #include "units_utility.h"
 #include "color.h"
-#include "optional.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id itype_battery( "battery" );
@@ -52,14 +53,22 @@ char vehicle::part_sym( const int p, const bool exact ) const
 // similar to part_sym(int p) but for use when drawing SDL tiles. Called only by cata_tiles
 // during draw_vpart vector returns at least 1 element, max of 2 elements. If 2 elements the
 // second denotes if it is open or damaged
-vpart_id vehicle::part_id_string( const int p, char &part_mod ) const
+vpart_id vehicle::part_id_string( const int p, bool roof, char &part_mod ) const
 {
     part_mod = 0;
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return vpart_id::NULL_ID();
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount );
+    int displayed_part = -1;
+
+    if( roof ) {
+        displayed_part = roof_at_part( p );
+    }
+    if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
+        parts[ displayed_part ].removed ) {
+        displayed_part = part_displayed_at( parts[p].mount );
+    }
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return vpart_id::NULL_ID();
@@ -221,7 +230,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     }
 
     // print the label for this location
-    const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
+    const std::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
             p ).get_label();
     if( label && y <= max_y ) {
         mvwprintz( win, point( 1, y++ ), c_light_red, _( "Label: %s" ), label->c_str() );
@@ -340,7 +349,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
  * @param desc true if the name of the fuel should be at the end
  * @param isHorizontal true if the menu is not vertical
  */
-void vehicle::print_fuel_indicators( const catacurses::window &win, const point &p, int start_index,
+void vehicle::print_fuel_indicators( const catacurses::window &win, point p, int start_index,
                                      bool fullsize, bool verbose, bool desc, bool isHorizontal )
 {
     auto fuels = get_printable_fuel_types();
@@ -388,14 +397,14 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
  * @param desc true if the name of the fuel should be at the end
  * @param fuel_usages map of fuel types to consumption for verbose
  */
-void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
+void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
     std::map<itype_id, float> fuel_usages;
     print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
-void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
+void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
                                     const itype_id &fuel_type,
                                     std::map<itype_id, float> fuel_usages,
                                     bool verbose, bool desc )
@@ -450,8 +459,8 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
                 tank_color = c_light_red;
                 tank_goal = _( "empty" );
             }
-
-            item fitem( fuel_type );
+            //TODO!: push up
+            item &fitem = *item::spawn_temporary( fuel_type );
             int charges_per_L = fitem.charges_per_volume( 1_liter );
             if( charges_per_L == 0 || charges_per_L == item::INFINITE_CHARGES ) {
                 return;

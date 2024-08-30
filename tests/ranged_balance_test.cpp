@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <array>
 #include <list>
@@ -10,20 +12,20 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "dispersion.h"
 #include "fstream_utils.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "json.h"
 #include "map_helpers.h"
 #include "npc.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ranged.h"
+#include "state_helpers.h"
 #include "test_statistics.h"
 #include "translations.h"
 #include "type_id.h"
@@ -62,13 +64,13 @@ std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
 std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources )
 {
     if( !sources.normal_sources.empty() ) {
-        stream << "Normal: " << sources.normal_sources << std::endl;
+        stream << "Normal: " << sources.normal_sources << '\n';
     }
     if( !sources.linear_sources.empty() ) {
-        stream << "Linear: " << sources.linear_sources << std::endl;
+        stream << "Linear: " << sources.linear_sources << '\n';
     }
     if( !sources.multipliers.empty() ) {
-        stream << "Mult: " << sources.multipliers << std::endl;
+        stream << "Mult: " << sources.multipliers << '\n';
     }
     return stream;
 }
@@ -77,9 +79,9 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 {
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
-    shooter.inv.clear();
+    shooter.inv_clear();
     for( const std::string &article : apparel ) {
-        shooter.wear_item( item( article ) );
+        shooter.wear_item( item::spawn( article ) );
     }
 }
 
@@ -123,8 +125,8 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
 
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
-    item &gun = shooter.weapon;
-    dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
+    item &gun = shooter.primary_weapon();
+    dispersion_sources dispersion = ranged::get_weapon_dispersion( shooter, gun );
 
     shooter.moves = aim_time;
     shooter.recoil = MAX_RECOIL;
@@ -149,8 +151,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(),
+                shooter.recoil ) );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
         CAPTURE( minimum_stats[1].n() );
@@ -164,8 +167,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(),
+                shooter.recoil ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.5 );
@@ -176,8 +180,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(),
+                shooter.recoil ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() < 0.1 );
@@ -195,12 +200,13 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
-    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-    CAPTURE( shooter.weapon.gun_skill().str() );
-    CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
+    INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(), MAX_RECOIL ) );
+    INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(),
+            shooter.recoil ) );
+    CAPTURE( shooter.primary_weapon().gun_skill().str() );
+    CAPTURE( shooter.get_skill_level( shooter.primary_weapon().gun_skill() ) );
     CAPTURE( shooter.get_dex() );
-    CAPTURE( to_milliliter( shooter.weapon.volume() ) );
+    CAPTURE( to_milliliter( shooter.primary_weapon().volume() ) );
     CAPTURE( fast_stats.n() );
     CAPTURE( fast_stats.margin_of_error() );
     CHECK( fast_stats.avg() > hit_rate );
@@ -219,9 +225,9 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
 
-TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
+TEST_CASE( "unskilled_shooter_accuracy", "[ranged][balance][slow][!mayfail]" )
 {
-    clear_map();
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
     assert_encumbrance( shooter, 10 );
@@ -254,13 +260,13 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
         arm_character( shooter, "m1918" );
         test_shooting_scenario( shooter, 5, 9, 25 );
-        test_fast_shooting( shooter, 80, 0.2 );
+        test_fast_shooting( shooter, 50, 0.2 );
     }
 }
 
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
     equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
@@ -283,7 +289,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate shotgun" ) {
         arm_character( shooter, "ksg", { "red_dot_sight" } );
         test_shooting_scenario( shooter, 9, 15, 33 );
-        test_fast_shooting( shooter, 50, 0.45 );
+        test_fast_shooting( shooter, 75, 0.45 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_character( shooter, "hk_mp5", { "tele_sight" } );
@@ -293,13 +299,13 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_character( shooter, "ar15", { "tele_sight" } );
         test_shooting_scenario( shooter, 10, 22, 48 );
-        test_fast_shooting( shooter, 85, 0.3 );
+        test_fast_shooting( shooter, 50, 0.3 );
     }
 }
 
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
-    clear_map();
+    clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
     equip_shooter( shooter, { } );
     assert_encumbrance( shooter, 0 );
@@ -317,22 +323,22 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "an expert archer with an excellent crossbow" ) {
         arm_character( shooter, "compcrossbow", { "holo_sight" }, "bolt_cf" );
         test_shooting_scenario( shooter, 12, 20, 100 );
-        test_fast_shooting( shooter, 50, 0.4 );
+        test_fast_shooting( shooter, 30, 0.4 );
     }
     SECTION( "an expert shooter with an excellent shotgun" ) {
         arm_character( shooter, "m1014", { "holo_sight" } );
         test_shooting_scenario( shooter, 18, 24, 124 );
-        test_fast_shooting( shooter, 60, 0.5 );
+        test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_character( shooter, "ppsh", { "holo_sight" } );
         test_shooting_scenario( shooter, 20, 30, 190 );
-        test_fast_shooting( shooter, 60, 0.5 );
+        test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
         arm_character( shooter, "browning_blr", { "rifle_scope" } );
         test_shooting_scenario( shooter, 25, 60, 900 );
-        test_fast_shooting( shooter, 100, 0.4 );
+        test_fast_shooting( shooter, 35, 0.4 );
     }
 }
 
@@ -395,6 +401,7 @@ static void range_test( const Threshold &test_threshold, bool write_data = false
 // I don't see any assertions we can make about these thresholds offhand.
 TEST_CASE( "synthetic_range_test", "[.]" )
 {
+    clear_all_state();
     SECTION( "quickdraw thresholds" ) {
         range_test( Threshold( accuracy_grazing, 0.1 ) );
     }

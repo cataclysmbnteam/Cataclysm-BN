@@ -1,6 +1,7 @@
 #include "iuse_software_lightson.h"
 
 #include <algorithm>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -9,7 +10,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
@@ -45,17 +45,17 @@ void lightson_game::reset_level()
     position = point_zero;
 }
 
-bool lightson_game::get_value_at( const point &pt )
+bool lightson_game::get_value_at( point pt )
 {
     return level[pt.y * level_size.x + pt.x];
 }
 
-void lightson_game::set_value_at( const point &pt, bool value )
+void lightson_game::set_value_at( point pt, bool value )
 {
     level[pt.y * level_size.x + pt.x] = value;
 }
 
-void lightson_game::toggle_value_at( const point &pt )
+void lightson_game::toggle_value_at( point pt )
 {
     set_value_at( pt, !get_value_at( pt ) );
 }
@@ -108,7 +108,7 @@ void lightson_game::toggle_lights()
     toggle_lights_at( position );
 }
 
-void lightson_game::toggle_lights_at( const point &pt )
+void lightson_game::toggle_lights_at( point pt )
 {
     toggle_value_at( pt );
 
@@ -151,9 +151,9 @@ int lightson_game::start_game()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<spacebar or 5> toggle lights" ) );
-        shortcuts.push_back( _( "<r>eset" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<spacebar or 5> toggle lights" ) );
+        shortcuts.emplace_back( _( "<r>eset" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {
@@ -191,7 +191,7 @@ int lightson_game::start_game()
         }
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             position.y = clamp( position.y + vec->y, 0, level_size.y - 1 );
             position.x = clamp( position.x + vec->x, 0, level_size.x - 1 );
         } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {

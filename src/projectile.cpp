@@ -15,13 +15,13 @@
 #include "rng.h"
 #include "string_id.h"
 
-projectile::projectile() :
-    drop( nullptr ), custom_explosion( nullptr )
+projectile::projectile() : custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;
 
-projectile::projectile( projectile && ) = default;
+projectile::projectile( projectile && )  noexcept = default;
+
 
 projectile::projectile( const projectile &other )
 {
@@ -34,43 +34,30 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     proj_effects = other.proj_effects;
-    set_drop( other.get_drop() );
+    set_drop( item::spawn( *other.get_drop() ) );
     set_custom_explosion( other.get_custom_explosion() );
 
     return *this;
 }
 
-const item &projectile::get_drop() const
+detached_ptr<item> projectile::unset_drop()
 {
-    if( drop != nullptr ) {
-        return *drop;
-    }
-
-    static const item null_drop;
-    return null_drop;
+    detached_ptr<item> ret;
+    ret = std::move( drop );
+    return ret;
 }
 
-void projectile::set_drop( const item &it )
+void projectile::set_drop( detached_ptr<item> &&it )
 {
-    if( it.is_null() ) {
-        unset_drop();
-    } else {
-        drop = std::make_unique<item>( it );
-    }
+    drop = std::move( it );
 }
 
-void projectile::set_drop( item &&it )
+item *projectile::get_drop() const
 {
-    if( it.is_null() ) {
-        unset_drop();
-    } else {
-        drop = std::make_unique<item>( std::move( it ) );
+    if( !drop ) {
+        return &null_item_reference();
     }
-}
-
-void projectile::unset_drop()
-{
-    drop.reset( nullptr );
+    return &*drop;
 }
 
 const explosion_data &projectile::get_custom_explosion() const
@@ -107,22 +94,24 @@ void projectile::load( JsonObject &jo )
     jo.read( "proj_effects", proj_effects );
 }
 
-void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects )
+void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &effects,
+                         Creature *source )
 {
+    map &here = get_map();
     for( const ammo_effect_str_id &ae_id : effects ) {
         const ammo_effect &ae = *ae_id;
         if( ae.aoe_field_type )
-            for( auto &pt : g->m.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
+            for( auto &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
-                    const bool check_sees = !ae.aoe_check_sees || g->m.sees( p, pt, ae.aoe_check_sees_radius );
-                    const bool check_passable = !ae.aoe_check_passable || g->m.passable( pt );
+                    const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
+                    const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
                     if( check_sees && check_passable ) {
-                        g->m.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
+                        here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
                     }
                 }
             }
         if( ae.aoe_explosion_data ) {
-            explosion_handler::explosion( p, ae.aoe_explosion_data );
+            explosion_handler::explosion( p, ae.aoe_explosion_data, source );
         }
         if( ae.do_flashbang ) {
             explosion_handler::flashbang( p, false, "explosion" );
@@ -133,7 +122,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<ammo_effect_str_id> &
     }
 }
 
-void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
+void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects, Creature *source )
 {
     std::set<ammo_effect_str_id> effect_ids;
     for( const std::string &s : effects ) {
@@ -142,7 +131,7 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
             effect_ids.emplace( id );
         }
     }
-    apply_ammo_effects( p, effect_ids );
+    apply_ammo_effects( p, effect_ids, source );
 }
 
 static int aoe_of( const ammo_effect_str_id &ae_id )

@@ -8,85 +8,75 @@
       "//": "Default terrain is floor but some things are outside (tables)",
       "fill_ter": "t_floor",
       "rows": [
-        "-||||||||||||||-        ",
-        "-FwlwL-P#######-4      Y",
-        "-Flwlw#..U.U.U.g        ",
-        "-#wlwl@........g        ",
-        "-#lwlw#........g        ",
-        "-#wlwl{........g        ",
-        "-Olwlw{........g        ",
-        "-Owlwl{........g        ",
-        "-#lwlw{........G        ",
-        "-#wlwl#........g        ",
-        "-wlwlw#....BB..g        ",
-        "-lwlwl#....TT..g        ",
-        "-##f###....BB..-       Y",
-        "-.............P-rfrrrrrR",
-        "-..............-cccccccR",
-        "-C.....BB..BB..gccccBccR",
-        "-C.....TT..TT..gcccBTBcR",
-        "---....BB..BB..gccccBccR",
-        "-<+............gcccccccR",
-        "---+-..........GccccBccR",
-        "-sll-..BB..BB..gcccBTBcR",
-        "-lll-..TT..TT..gccccBccR",
-        "-tll-..BB..BB.PgcccccccR",
-        "-||||||||||||||-rfrrrrrR"
-      ],
-      "set": [
-        { "line": "terrain", "id": "t_concrete", "x": 20, "x2": 20, "y": 15, "y2": 17 },
-        { "point": "terrain", "id": "t_concrete", "x": 21, "y": 16 },
-        { "point": "terrain", "id": "t_concrete", "x": 19, "y": 16 },
-        { "line": "terrain", "id": "t_concrete", "x": 20, "x2": 20, "y": 19, "y2": 21 },
-        { "point": "terrain", "id": "t_concrete", "x": 21, "y": 20 },
-        { "point": "terrain", "id": "t_concrete", "x": 19, "y": 20 }
+        "-||||||||||||||-       Y",
+        "-lwlwl-Pccccccc-4       ",
+        "-wlwlwl..U.U.U.g        ",
+        "-lwlwl@........g        ",
+        "-wlwlwl........g        ",
+        "-lwlwlw........g        ",
+        "-wlwlwl........g        ",
+        "-lwlwlw........g        ",
+        "-wlwlwl........G        ",
+        "-lwlwlw........g        ",
+        "-wlwlwl....BB..g        ",
+        "-lwlwlw....TT..g        ",
+        "-wlwlwl....BB..-       Y",
+        "-.............P-r rrrrrR",
+        "-..............-,,,,,,,R",
+        "-C.....BB..BB..g,,,,b,,R",
+        "-C.....TT..TT..g,,,b#b,R",
+        "---....BB..BB..g,,,,b,,R",
+        "-<+............g,,,,,,,R",
+        "---+-..........G,,,,b,,R",
+        "-sll-..BB..BB..g,,,b#b,R",
+        "-lll-..TT..TT..g,,,,b,,R",
+        "-tll-..BB..BB.Pg,,,,,,,R",
+        "-||||||||||||||-r rrrrrR"
       ],
       "terrain": {
+        "@": "t_console_broken",
+        "l": "t_linoleum_gray",
+        "w": "t_linoleum_white",
+        ",": "t_concrete",
         " ": "t_sidewalk",
-        "#": "t_linoleum_white",
         "+": "t_door_c",
         "-": "t_wall_r",
         ".": "t_floor",
-        "@": "t_console_broken",
-        "F": "t_linoleum_white",
         "G": "t_door_glass_c",
-        "L": "t_linoleum_white",
-        "O": "t_linoleum_white",
         "R": "t_railing_v",
-        "c": "t_concrete",
-        "f": "t_fencegate_c",
         "g": "t_wall_glass",
-        "l": "t_linoleum_gray",
         "r": "t_railing_h",
         "s": "t_linoleum_gray",
         "t": "t_linoleum_gray",
-        "w": "t_linoleum_white",
-        "{": "t_linoleum_white",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
         "|": "t_wall_r"
       },
       "furniture": {
-        "#": "f_counter",
+        "c": "f_counter",
         "B": "f_bench",
         "C": "f_trashcan",
-        "F": "f_fridge",
-        "H": "f_chair",
-        "L": "f_locker",
-        "O": "f_woodstove",
         "P": "f_indoor_plant",
         "T": "f_table",
         "U": "f_chair",
-        "Y": "f_street_light",
-        "s": "f_sink",
-        "{": "f_rack"
+        "s": "f_sink"
+      },
+      "mapping": {
+        "Y": { "terrain": "t_sidewalk", "furniture": "f_street_light" },
+        "#": { "terrain": "t_concrete", "furniture": "f_table" },
+        "b": { "terrain": "t_concrete", "furniture": "f_bench" }
       },
       "toilets": { "t": {  } },
+      "place_nested": [
+        { "chunks": [ "pizza_parlor_kitchen_a" ], "x": 1, "y": 1 },
+        { "chunks": [ "pizza_parlor_kitchen_b" ], "x": 1, "y": 7 }
+      ],
       "place_items": [
         { "item": "pizza_display", "x": 6, "y": [ 5, 8 ], "chance": 65, "repeat": [ 3, 4 ] },
-        { "item": "pizza_kitchen", "x": 1, "y": [ 3, 5 ], "chance": 80, "repeat": [ 7, 10 ] },
+        { "item": "pizza_kitchen", "x": 1, "y": [ 4, 5 ], "chance": 80, "repeat": [ 7, 10 ] },
         { "item": "pizza_kitchen", "x": 1, "y": [ 8, 9 ], "chance": 82, "repeat": [ 7, 9 ] },
         { "item": "pizza_fridge", "x": 1, "y": [ 1, 2 ], "chance": 80, "repeat": [ 9, 10 ] },
+        { "item": "restaur_freezer", "x": 1, "y": 3, "chance": 80, "repeat": [ 5, 6 ] },
         { "item": "pizza_beer", "x": [ 9, 13 ], "y": 1, "chance": 70, "repeat": [ 2, 3 ] },
         { "item": "pizza_soda", "x": 6, "y": [ 9, 12 ], "chance": 70, "repeat": [ 2, 5 ] },
         { "item": "pizza_table", "x": [ 11, 12 ], "y": 11, "chance": 25 },
@@ -110,7 +100,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_pizza_parlor_roof",
-    "weight": 200,
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -139,17 +128,8 @@
         "|.=............3        ",
         "----------------        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_ladder_down",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "A": "f_air_conditioner" },
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
       "place_items": [ { "item": "roof_trash", "x": [ 4, 13 ], "y": [ 3, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
       "place_nested": [
         {
@@ -178,7 +158,7 @@
       "//": "Default terrain is floor but some things are outside (tables)",
       "fill_ter": "t_floor",
       "rows": [
-        "      ************* SS  ",
+        "      ************* SS Y",
         "      *SSSSSSSSSSS* SS  ",
         "  SSSSSSbxbSSSbxbSSSSSSS",
         "  S   *SbxbSSSbxbS|gGGg|",
@@ -201,7 +181,7 @@
         "|...|   |LLlL|||||||||||",
         "|...DSSSDlllL|W..<|     ",
         "|...|   |||||||D|||     ",
-        "|...|                  Y"
+        "|...|                   "
       ],
       "terrain": {
         " ": [
@@ -264,9 +244,9 @@
         "U": "f_chair",
         "s": "f_sink",
         "W": "f_water_heater",
-        "Y": "f_street_light",
         "{": "f_rack"
       },
+      "mapping": { "Y": { "terrain": [ "t_dirt", "t_grass" ], "furniture": "f_street_light" } },
       "items": {
         "C": { "item": "pizza_trash", "chance": 50, "repeat": [ 7, 9 ] },
         "F": { "item": "pizza_fridge", "chance": 80, "repeat": [ 9, 10 ] },
@@ -283,7 +263,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "s_pizza_parlor_roof_1",
-    "weight": 200,
     "object": {
       "fill_ter": "t_tar_flat_roof",
       "rows": [

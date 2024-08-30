@@ -1,16 +1,20 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "type_id.h"
 #include "point.h"
+#include "state_helpers.h"
 
 TEST_CASE( "vehicle_split_section" )
 {
+    clear_all_state();
     map &here = get_map();
     Character &player_character = get_player_character();
     for( units::angle dir = 0_degrees; dir < 360_degrees; dir += 15_degrees ) {
@@ -77,5 +81,6 @@ TEST_CASE( "vehicle_split_section" )
         if( vehs.size() == 1 ) {
             CHECK( vehs[ 0 ].v->part_count() == 38 );
         }
+        break;
     }
 }

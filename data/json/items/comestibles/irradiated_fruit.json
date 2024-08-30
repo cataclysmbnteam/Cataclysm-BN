@@ -5,7 +5,7 @@
     "copy-from": "rose_hips",
     "name": { "str_sp": "irradiated rose hips" },
     "description": "An irradiated rose hips will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -15,7 +15,7 @@
     "copy-from": "elderberries",
     "name": { "str": "irradiated elderberry", "str_pl": "irradiated elderberries" },
     "description": "An irradiated elderberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -25,7 +25,7 @@
     "copy-from": "mulberries",
     "name": { "str": "irradiated mulberry", "str_pl": "irradiated mulberries" },
     "description": "An irradiated mulberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -35,7 +35,7 @@
     "copy-from": "huckleberries",
     "name": { "str": "irradiated huckleberry", "str_pl": "irradiated huckleberries" },
     "description": "An irradiated huckleberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -45,7 +45,7 @@
     "copy-from": "raspberries",
     "name": { "str": "irradiated raspberry", "str_pl": "irradiated raspberries" },
     "description": "An irradiated raspberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -55,7 +55,7 @@
     "copy-from": "cranberries",
     "name": { "str": "irradiated cranberry", "str_pl": "irradiated cranberries" },
     "description": "An irradiated cranberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -65,7 +65,7 @@
     "copy-from": "strawberries",
     "name": { "str": "irradiated strawberry", "str_pl": "irradiated strawberries" },
     "description": "An irradiated strawberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -75,7 +75,7 @@
     "copy-from": "blueberries",
     "name": { "str": "irradiated blueberry", "str_pl": "irradiated blueberries" },
     "description": "An irradiated blueberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -85,7 +85,7 @@
     "copy-from": "apple",
     "name": "irradiated apple",
     "description": "Mmm, irradiated.  Will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -95,7 +95,7 @@
     "copy-from": "banana",
     "name": "irradiated banana",
     "description": "An irradiated banana will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -105,7 +105,7 @@
     "copy-from": "orange",
     "name": "irradiated orange",
     "description": "An irradiated orange will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -115,7 +115,7 @@
     "copy-from": "lemon",
     "name": "irradiated lemon",
     "description": "An irradiated lemon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -125,7 +125,7 @@
     "copy-from": "grapefruit",
     "name": "irradiated grapefruit",
     "description": "An irradiated grapefruit will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -135,7 +135,7 @@
     "copy-from": "pear",
     "name": "irradiated pear",
     "description": "An irradiated pear will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "flags": [ "SMOKABLE" ],
     "container": "bag_plastic"
@@ -146,7 +146,7 @@
     "copy-from": "cherries",
     "name": { "str": "irradiated cherry", "str_pl": "irradiated cherries" },
     "description": "An irradiated cherry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -156,7 +156,7 @@
     "copy-from": "plums",
     "name": "irradiated plum",
     "description": "A group of irradiated plums will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -166,7 +166,7 @@
     "copy-from": "grapes",
     "name": { "str": "irradiated grape" },
     "description": "An irradiated grape will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -176,7 +176,7 @@
     "copy-from": "pineapple",
     "name": "irradiated pineapple",
     "description": "An irradiated pineapple will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -186,7 +186,7 @@
     "copy-from": "peach",
     "name": { "str": "irradiated peach", "str_pl": "irradiated peaches" },
     "description": "An irradiated peach will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -196,7 +196,7 @@
     "copy-from": "watermelon",
     "name": "irradiated watermelon",
     "description": "An irradiated watermelon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "flags": [ "EATEN_COLD", "SMOKABLE" ],
     "container": "bag_plastic"
@@ -207,7 +207,7 @@
     "copy-from": "melon",
     "name": "irradiated melon",
     "description": "An irradiated melon will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -217,7 +217,7 @@
     "copy-from": "blackberries",
     "name": { "str": "irradiated blackberry", "str_pl": "irradiated blackberries" },
     "description": "An irradiated blackberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -227,7 +227,7 @@
     "copy-from": "mango",
     "name": "irradiated mango",
     "description": "An irradiated mango will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -237,7 +237,7 @@
     "copy-from": "pomegranate",
     "name": "irradiated pomegranate",
     "description": "An irradiated pomegranate will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -247,7 +247,7 @@
     "copy-from": "papaya",
     "name": "irradiated papaya",
     "description": "An irradiated papaya will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -257,7 +257,7 @@
     "copy-from": "kiwi",
     "name": "irradiated kiwi",
     "description": "An irradiated kiwi will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   },
@@ -267,7 +267,7 @@
     "copy-from": "apricot",
     "name": "irradiated apricot",
     "description": "An irradiated apricot will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-    "proportional": { "price": 2.0 },
+    "proportional": { "price": 2 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
   }

@@ -58,7 +58,7 @@
     "decomp_learn": 3,
     "book_learn": [ [ "radio_book", 3 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "wire", 6 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 12 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "wire", 6 ] ], [ [ "2x4", 2 ] ], [ [ "nail_glue", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -83,6 +83,8 @@
     "skill_used": "electronics",
     "difficulty": 1,
     "time": "6 m 30 s",
+    "reversible": true,
+    "decomp_learn": 1,
     "book_learn": [ [ "manual_electronics", 1 ], [ "textbook_electronics", 2 ], [ "advanced_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -96,6 +98,8 @@
     "skill_used": "electronics",
     "difficulty": 1,
     "time": "7 m",
+    "reversible": true,
+    "decomp_learn": 1,
     "autolearn": [ [ "electronics", 3 ] ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "textbook_electronics", 1 ], [ "advanced_electronics", 1 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
@@ -158,7 +162,7 @@
     "time": "1 h 25 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "recipe_lab_elec", 7 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_atomic_lab", 8 ] ],
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 6 ] ], [ [ "amplifier", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 14 ] ], [ [ "plut_cell", 2 ] ] ]
@@ -174,14 +178,8 @@
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
     "reversible": true,
-    "decomp_learn": [  ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [
-      [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "sheet_metal_small", 5 ] ],
-      [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
-    ]
+    "components": [ [ [ "cu_pipe", 3 ] ], [ [ "motor_tiny", 1 ] ], [ [ "sheet_metal_small", 5 ] ], [ [ "steel_tiny", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -194,9 +192,8 @@
     "book_learn": [ [ "textbook_mechanics", 5 ] ],
     "time": "1 h",
     "reversible": true,
-    "decomp_learn": [  ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 2 } ],
-    "components": [ [ [ "cu_pipe", 4 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "sheet_metal", 2 ] ] ]
+    "components": [ [ [ "cu_pipe", 6 ] ], [ [ "sheet_metal_small", 6 ] ] ]
   },
   {
     "result": "battery_ups",
@@ -286,5 +283,21 @@
     "using": [ [ "soldering_standard", 15 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
+  },
+  {
+    "result": "turret_chassis",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "mechanics", 4 ],
+    "time": "2 h",
+    "reversible": true,
+    "decomp_learn": 5,
+    "book_learn": [ [ "recipe_lab_elec", 5 ], [ "textbook_robots", 7 ] ],
+    "using": [ [ "steel_standard", 1 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "material_aluminium_ingot", 2 ] ] ]
   }
 ]

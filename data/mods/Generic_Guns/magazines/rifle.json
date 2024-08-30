@@ -3,7 +3,7 @@
     "id": "rifle_belt",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": { "str": "ammo belt" },
+    "name": { "str": "5.56mm ammo belt" },
     "description": "An ammo belt consisting of metal linkages which separate from the belt upon firing.  Holds rifle ammunition.",
     "delete": { "ammo_type": "308" },
     "ammo_type": "ammo_rifle",
@@ -14,21 +14,21 @@
   },
   {
     "id": "rifle_mag",
-    "copy-from": "falbigmag",
+    "copy-from": "stanag30",
     "type": "MAGAZINE",
     "material": "aluminum",
-    "name": "standard rifle magazine",
+    "name": "5.56mm rifle magazine",
     "description": "A 30 round standard capacity magazine for service rifles, cheaper than the cost of a meal due to its adoption by nearly every other common rifle.  They're made of aluminum and were originally meant to be dispsoable, so they're not the most durable; don't let them get damaged.",
     "delete": { "ammo_type": "308" },
     "ammo_type": "ammo_rifle"
   },
   {
-    "id": "rifle_sniper_mag",
-    "copy-from": "m2010mag",
+    "id": "rifle_mag_hc",
+    "copy-from": "rifle_mag",
     "type": "MAGAZINE",
-    "name": { "str": "compact rifle magazine" },
-    "description": "A short 5 round steel magazine compatible with nearly every common rifle.  Although it has a low capacity it is easy to store and quick to reload.",
-    "delete": { "ammo_type": "308" },
-    "ammo_type": "ammo_rifle"
+    "material": "aluminum",
+    "name": "5.56mm high capacity rifle magazine",
+    "description": "A 60 round standard capacity magazine for service rifles, cheaper than the cost of a meal due to its adoption by nearly every other common rifle.  They're made of aluminum and were originally meant to be dispsoable, so they're not the most durable; don't let them get damaged.",
+    "proportional": { "weight": 1.5, "volume": 1.7, "price": 1.8, "price_postapoc": 2.2, "capacity": 2 }
   }
 ]

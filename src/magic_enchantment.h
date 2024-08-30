@@ -3,13 +3,13 @@
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "magic.h"
-#include "optional.h"
 #include "type_id.h"
 
 class Character;
@@ -35,30 +35,15 @@ enum class mod : int {
     METABOLISM,
     MANA_CAP,
     MANA_REGEN,
-    BIONIC_POWER,
-    MAX_STAMINA,
-    REGEN_STAMINA,
-    MAX_HP,
-    REGEN_HP,
+    STAMINA_CAP,
+    STAMINA_REGEN,
     THIRST,
     FATIGUE,
-    PAIN,
     BONUS_DODGE,
-    BONUS_BLOCK,
-    BONUS_DAMAGE,
-    ATTACK_NOISE,
-    SPELL_NOISE,
-    SHOUT_NOISE,
-    FOOTSTEP_NOISE,
-    SIGHT_RANGE,
-    CARRY_WEIGHT,
-    CARRY_VOLUME,
-    SOCIAL_LIE,
-    SOCIAL_PERSUADE,
-    SOCIAL_INTIMIDATE,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,
+    ARMOR_BULLET,
     ARMOR_HEAT,
     ARMOR_COLD,
     ARMOR_ELEC,
@@ -68,26 +53,16 @@ enum class mod : int {
     ITEM_DAMAGE_BASH,
     ITEM_DAMAGE_CUT,
     ITEM_DAMAGE_STAB,
-    ITEM_DAMAGE_HEAT,
-    ITEM_DAMAGE_COLD,
-    ITEM_DAMAGE_ELEC,
-    ITEM_DAMAGE_ACID,
-    ITEM_DAMAGE_BIO,
-    ITEM_DAMAGE_AP,
     ITEM_ARMOR_BASH,
     ITEM_ARMOR_CUT,
     ITEM_ARMOR_STAB,
+    ITEM_ARMOR_BULLET,
     ITEM_ARMOR_HEAT,
     ITEM_ARMOR_COLD,
     ITEM_ARMOR_ELEC,
     ITEM_ARMOR_ACID,
     ITEM_ARMOR_BIO,
-    ITEM_WEIGHT,
-    ITEM_ENCUMBRANCE,
-    ITEM_VOLUME,
-    ITEM_COVERAGE,
     ITEM_ATTACK_COST,
-    ITEM_WET_PROTECTION,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -170,7 +145,7 @@ class enchantment
         void check() const;
     private:
         std::set<trait_id> mutations;
-        cata::optional<emit_id> emitter;
+        std::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
         std::map<enchant_vals::mod, int> values_add;

@@ -1,16 +1,14 @@
 #include "catch/catch.hpp"
 
-#include "avatar.h"
 #include "calendar.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "npc.h"
 
 TEST_CASE( "player_morale_from_effects_consistent", "[morale][effect][slow]" )
 {
-    avatar dummy;
+    npc dummy;
     dummy.add_effect( efftype_id( "test_high" ), 1_minutes );
-    // Why the fuck is normalize needed here? set_body should be in constructor
-    dummy.normalize();
     const time_point start = calendar::turn_zero;
     const time_point end = start + 2_minutes;
     const time_duration tick_size = 1_turns;

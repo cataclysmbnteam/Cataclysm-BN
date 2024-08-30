@@ -12,6 +12,7 @@
 #include "input.h"
 #include "map.h"
 #include "mapdata.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -115,7 +116,17 @@ void game::extended_description( const tripoint &p )
                     desc = _( "You do not see any furniture here." );
                 } else {
                     const furn_id fid = m.furn( p );
-                    desc = fid.obj().extended_description();
+                    if( display_mod_source ) {
+                        const std::string mod_src = enumerate_as_string( fid->src.begin(),
+                        fid->src.end(), []( const std::pair<furn_str_id, mod_id> &source ) {
+                            return string_format( "'%s'", source.second->name() );
+                        }, enumeration_conjunction::arrow );
+                        desc = string_format( _( "Origin: %s\n" ), mod_src );
+                    }
+                    if( display_object_ids ) {
+                        desc += colorize( string_format( "[%s]\n", fid.id() ), c_light_blue );
+                    }
+                    desc += fid.obj().extended_description();
                 }
                 break;
             case description_target::terrain:
@@ -123,7 +134,17 @@ void game::extended_description( const tripoint &p )
                     desc = _( "You can't see the terrain here." );
                 } else {
                     const ter_id tid = m.ter( p );
-                    desc = tid.obj().extended_description();
+                    if( display_mod_source ) {
+                        const std::string mod_src = enumerate_as_string( tid->src.begin(),
+                        tid->src.end(), []( const std::pair<ter_str_id, mod_id> &source ) {
+                            return string_format( "'%s'", source.second->name() );
+                        }, enumeration_conjunction::arrow );
+                        desc = string_format( _( "Origin: %s\n" ), mod_src );
+                    }
+                    if( display_object_ids ) {
+                        desc += colorize( string_format( "[%s]\n", tid.id() ), c_light_blue );
+                    }
+                    desc += tid.obj().extended_description();
                 }
                 break;
         }
@@ -157,16 +178,16 @@ std::string map_data_common_t::extended_description() const
 {
     std::stringstream ss;
     ss << "<header>" << string_format( _( "That is a %s." ), name() ) << "</header>" << '\n';
-    ss << description << std::endl;
+    ss << description << '\n';
     bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
     []( const harvest_id & hv ) {
         return !hv.obj().empty();
     } );
 
     if( has_any_harvest ) {
-        ss << "--" << std::endl;
+        ss << "--" << '\n';
         int player_skill = get_avatar().get_skill_level( skill_survival );
-        ss << _( "You could harvest the following things from it:" ) << std::endl;
+        ss << _( "You could harvest the following things from it:" ) << '\n';
         // Group them by identical ids to avoid repeating same blocks of data
         // First, invert the mapping: season->id to id->seasons
         std::multimap<harvest_id, season_type> identical_harvest;
@@ -195,27 +216,27 @@ std::string map_data_common_t::extended_description() const
 
                 return "<dark>" + calendar::name_season( pr.second ) + "</dark>";
             } );
-            ss << ":" << std::endl;
+            ss << ":" << '\n';
             // List the drops
             // They actually describe what player can get from it now, so it isn't spoily
             // TODO: Allow spoily listing of everything
-            ss << range.first->first.obj().describe( player_skill ) << std::endl;
+            ss << range.first->first.obj().describe( player_skill ) << '\n';
             // Remove the range from the multimap so that it isn't listed twice
             identical_harvest.erase( range.first, range.second );
         }
 
-        ss << std::endl;
+        ss << '\n';
     }
 
     if( deconstruct.can_do ) {
         const auto items = item_group::every_possible_item_from( deconstruct.drop_group );
         if( !items.empty() ) {
-            ss << std::endl << _( "You could deconstruct it to get some of those items:" ) << std::endl;
+            ss << '\n' << _( "You could deconstruct it to get some of those items:" ) << '\n';
             for( const itype *it : items ) {
-                ss << "<good>" << item::nname( it->get_id() ) << "</good>" << std::endl;
+                ss << "<good>" << item::nname( it->get_id() ) << "</good>" << '\n';
             }
         } else {
-            ss << _( "It can be deconstructed, but won't yield any resources." ) << std::endl;
+            ss << _( "It can be deconstructed, but won't yield any resources." ) << '\n';
         }
     }
 
@@ -231,6 +252,12 @@ std::string map_data_common_t::extended_description() const
             }
             ss << indent << "Block unaimed chance: " << bash.ranged->block_unaimed_chance;
         }
+    }
+
+    if( !flags.empty() ) {
+        ss << _( "Flags: " ) << enumerate_as_string( flags.begin(), flags.end(), []( const auto & it ) {
+            return it;
+        } ) << '\n';
     }
 
     return replace_colors( ss.str() );

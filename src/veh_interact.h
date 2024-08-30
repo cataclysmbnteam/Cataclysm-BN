@@ -12,9 +12,8 @@
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
-#include "item_location.h"
 #include "memory_fast.h"
-#include "player_activity.h"
+#include "player_activity_ptr.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -47,7 +46,7 @@ class veh_interact
         using part_selector = std::function<bool( const vehicle_part &pt )>;
 
     public:
-        static player_activity run( vehicle &veh, const point &p );
+        static std::unique_ptr<player_activity> run( vehicle &veh, point p );
 
         /** Prompt for a part matching the selector function */
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
@@ -56,10 +55,10 @@ class veh_interact
         static void complete_vehicle( player &p );
 
     private:
-        veh_interact( vehicle &veh, const point &p = point_zero );
+        veh_interact( vehicle &veh, point p = point_zero );
         ~veh_interact();
 
-        item_location target;
+        item *target = nullptr;
 
         point dd = point_zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */
@@ -93,8 +92,8 @@ class veh_interact
         bool ui_hidden = false;
         weak_ptr_fast<ui_adaptor> ui;
 
-        cata::optional<std::string> title;
-        cata::optional<std::string> msg;
+        std::optional<std::string> title;
+        std::optional<std::string> msg;
 
         int highlight_part = -1;
 
@@ -113,14 +112,14 @@ class veh_interact
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
         void hide_ui( bool hide );
 
-        player_activity serialize_activity();
+        std::unique_ptr<player_activity> serialize_activity();
 
         /** Format list of requirements returning true if all are met */
         bool format_reqs( std::string &msg, const requirement_data &reqs,
                           const std::map<skill_id, int> &skills, int moves ) const;
 
-        int part_at( const point &d );
-        void move_cursor( const point &d, int dstart_at = 0 );
+        int part_at( point d );
+        void move_cursor( point d, int dstart_at = 0 );
         task_reason cant_do( char mode );
         bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
@@ -164,7 +163,6 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &win );
 
         struct part_option {
             part_option( const std::string &key, vehicle_part *part, char hotkey,

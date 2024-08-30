@@ -30,13 +30,13 @@ class scenario
 
         bool blacklist = false; // If true, professions is a blacklist.
         bool extra_professions = false; // If true, professions add to default professions.
-        std::vector<string_id<profession>> professions; // as specified in JSON, verbatim
+        std::vector<profession_id> professions; // as specified in JSON, verbatim
 
         /**
          * @ref permitted_professions populates this vector on the first call, which takes
          * a bit of work. On subsequent calls, this vector is returned.
         */
-        mutable std::vector<string_id<profession>> cached_permitted_professions;
+        mutable std::vector<profession_id> cached_permitted_professions;
 
         std::set<trait_id> _allowed_traits;
         std::set<trait_id> _forced_traits;
@@ -51,6 +51,8 @@ class scenario
 
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
+
+        std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
@@ -81,8 +83,8 @@ class scenario
 
         vproto_id vehicle() const;
 
-        const profession *weighted_random_profession() const;
-        std::vector<string_id<profession>> permitted_professions() const;
+        const profession_id &weighted_random_profession() const;
+        std::vector<profession_id> permitted_professions() const;
 
         bool traitquery( const trait_id &trait ) const;
         std::set<trait_id> get_locked_traits() const;
@@ -113,11 +115,13 @@ class scenario
 
         const std::vector<mission_type_id> &missions() const;
 
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 };
 
 struct scen_blacklist {
-    std::set<string_id<scenario>> scenarios;
-    bool whitelist = false;
+    std::set<string_id<scenario>> whitelist_scenarios;
+    std::set<string_id<scenario>> blacklist_scenarios;
+    std::set<string_id<scenario>> allowed_scenarios;
 
     static void load_scen_blacklist( const JsonObject &jo, const std::string &src );
     void load( const JsonObject &jo, const std::string & );
@@ -125,5 +129,8 @@ struct scen_blacklist {
 };
 
 void reset_scenarios_blacklist();
+
+const scenario *get_scenario();
+void set_scenario( const scenario *new_scenario );
 
 #endif // CATA_SRC_SCENARIO_H

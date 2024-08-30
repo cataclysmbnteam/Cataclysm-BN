@@ -6,6 +6,9 @@
 
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "character.h"
+#include "character_effects.h"
+#include "character_functions.h"
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
@@ -19,8 +22,10 @@
 #include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
+#include "morale_types.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "mutation_data.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "rng.h"
@@ -29,6 +34,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "teleport.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "weather.h"
 #include "vitamin.h"
@@ -52,10 +58,12 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_datura( "datura" );
+static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_fungus( "fungus" );
@@ -65,7 +73,6 @@ static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_mutating( "mutating" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -74,7 +81,6 @@ static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_panacea( "panacea" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_recover( "recover" );
-static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_spores( "spores" );
@@ -82,7 +88,6 @@ static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
-static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
@@ -93,7 +98,7 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
-static const bionic_id bio_watch( "bio_watch" );
+static const bionic_id bio_infolink( "bio_infolink" );
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -151,7 +156,8 @@ static void eff_fun_fungus( player &u, effect &it )
                 u.moves -= 100;
                 u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
             }
-            if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 24 ) ) || one_in( 12000 + bonus * 60 ) ) {
+            if( x_in_y( character_effects::vomit_mod( u ), ( 4800 + bonus * 24 ) ) ||
+                one_in( 12000 + bonus * 60 ) ) {
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
@@ -182,10 +188,10 @@ static void eff_fun_rat( player &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( "RAT" );
+            u.mutate_category( mutation_category_id( "RAT" ) );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( "TROGLOBITE" );
+            u.mutate_category( mutation_category_id( "TROGLOBITE" ) );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -204,7 +210,7 @@ static void eff_fun_bleed( player &u, effect &it )
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
-    if( one_in( 36 / intense ) && u.activity.id() != ACT_FIRSTAID ) {
+    if( one_in( 36 / intense ) && u.activity->id() != ACT_FIRSTAID ) {
         u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
                                  _( "<npcname> loses some blood." ) );
         // Prolonged hemorrhage is a significant risk for developing anemia
@@ -239,7 +245,8 @@ static void eff_fun_hallu( player &u, effect &it )
             u.add_msg_if_player( m_warning, _( "Something feels very, very wrong." ) );
         }
     } else if( dur > peakTime && dur < comeupTime ) {
-        if( u.stomach.get_calories() > 0 && ( one_in( 1200 ) || x_in_y( u.vomit_mod(), 300 ) ) ) {
+        if( u.stomach.get_calories() > 0 &&
+            ( one_in( 1200 ) || x_in_y( character_effects::vomit_mod( u ), 300 ) ) ) {
             u.add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
             u.mod_stored_kcal( 20 );
             if( one_in( 6 ) ) {
@@ -461,7 +468,7 @@ static void eff_fun_mutating( player &u, effect &it )
     }
 }
 
-void player::hardcoded_effects( effect &it )
+void Character::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
         if( buff->is_valid_character( *this ) ) {
@@ -490,7 +497,7 @@ void player::hardcoded_effects( effect &it )
     const efftype_id &id = it.get_id();
     const auto &iter = hc_effect_map.find( id );
     if( iter != hc_effect_map.end() ) {
-        iter->second( *this, it );
+        iter->second( *as_player(), it );
         return;
     }
 
@@ -555,10 +562,10 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_evil ) {
         // Worn or wielded; diminished effects
-        bool lesserEvil = weapon.has_effect_when_wielded( AEP_EVIL ) ||
-                          weapon.has_effect_when_carried( AEP_EVIL );
+        bool lesserEvil = primary_weapon().has_effect_when_wielded( AEP_EVIL ) ||
+                          primary_weapon().has_effect_when_carried( AEP_EVIL );
         for( auto &w : worn ) {
-            if( w.has_effect_when_worn( AEP_EVIL ) ) {
+            if( w->has_effect_when_worn( AEP_EVIL ) ) {
                 lesserEvil = true;
                 break;
             }
@@ -585,42 +592,98 @@ void player::hardcoded_effects( effect &it )
             mod_per_bonus( -( dur > 400_minutes ? 10.0 : dur / 40_minutes ) );
         }
     } else if( id == effect_attention ) {
-        if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
-            one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
-            tripoint dest( 0, 0, posz() );
-            int tries = 0;
-            do {
-                dest.x = posx() + rng( -4, 4 );
-                dest.y = posy() + rng( -4, 4 );
-                tries++;
-            } while( g->critter_at( dest ) && tries < 10 );
-            if( tries < 10 ) {
-                if( g->m.impassable( dest ) ) {
-                    g->m.make_rubble( dest, f_rubble_rock, true );
+        if( intense > 6 ) {
+            if( one_in( 7200 - ( intense * 450 ) ) ) {
+                add_msg_if_player( m_bad,
+                                   _( "You feel something reaching out to you, before reality around you frays!" ) );
+                if( has_psy_protection( *this, 10 ) ) {
+                    // Transfers half of remaining duration of nether attention, tinfoil only sometimes helps
+                    add_effect( effect_teleglow, ( dur / 2 ), num_bp, ( intense / 2 ) );
+                } else {
+                    // Transfers all remaining duration of nether attention to dimensional instability
+                    add_effect( effect_teleglow, dur, num_bp, intense );
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                       GROUP_NETHER );
-                g->place_critter_at( spawn_details.name, dest );
-                if( g->u.sees( dest ) ) {
-                    g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
-                                                        _( "A monster appears nearby!" ) );
-                    add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
+                it.set_duration( 0_turns );
+            }
+            if( one_in( 8000 - ( intense * 500 ) ) && one_in( 2 ) ) {
+                if( !is_npc() ) {
+                    add_msg( m_bad, _( "You pass out from the strain of something bearing down on your mind." ) );
                 }
-                it.mult_duration( .25 );
+                fall_asleep( 2_hours );
+                if( one_in( 10 ) ) {
+                    it.set_duration( 0_turns );
+                }
+                it.mod_duration( -20_minutes * intense );
+                it.mod_intensity( -1 );
+            }
+        }
+        if( intense > 4 ) {
+            if( one_in( 6000 - ( intense * 375 ) ) ) {
+                if( has_psy_protection( *this, 4 ) ) {
+                    add_msg_if_player( m_bad, _( "You feel something probing your mind, but it is rebuffed!" ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "A terrifying image in the back out your mind paralyzes you." ) );
+                    add_effect( effect_fearparalyze, 5_turns );
+                    moves -= 4 * get_speed();
+                }
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 2 ) ) {
+                    it.mod_intensity( -1 );
+                }
+            }
+            if( one_turn_in( 1200_minutes - ( intense * 90_minutes ) ) ) {
+                if( has_psy_protection( *this, 4 ) ) {
+                    add_msg_if_player( m_bad, _( "You feel a buzzing in the back of your mind, but it passes." ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "You feel something scream in the back of your mind!" ) );
+                    add_effect( effect_dazed, rng( 1_minutes, 2_minutes ) );
+                }
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 3 ) ) {
+                    it.mod_intensity( -1 );
+                }
+            }
+        }
+        if( intense > 2 ) {
+            if( one_turn_in( 1200_minutes - ( intense * 90_minutes ) ) ) {
+                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
+                add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 4 ) ) {
+                    it.mod_intensity( -1 );
+                }
+            }
+            if( one_in( 5000 ) && !has_effect( effect_nausea ) ) {
+                add_msg_if_player( m_bad, _( "A wave of nausea passes over you." ) );
+                add_effect( effect_nausea, 5_minutes );
+            }
+        }
+        if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
+            add_msg_if_player( m_bad, _( "Shifting shapes dance on the edge of your vision." ) );
+            add_effect( effect_hallu, 4_hours );
+            it.mod_duration( -10_minutes * intense );
+        }
+        if( one_turn_in( 40_minutes ) ) {
+            if( has_psy_protection( *this, 4 ) ) {
+                add_msg_if_player( m_bad, _( "You feel weird for a moment, but it passes." ) );
+            } else {
+                // Less morale drop and faster decay than Psychosis negative messages, but more frequent
+                const translation snip = SNIPPET.random_from_category( "nether_attention_watching" ).value_or(
+                                             translation() );
+                add_msg_if_player( m_warning, "%s", snip );
+                add_morale( MORALE_FEELING_BAD, -10, -50, 60_minutes, 20_minutes, true );
             }
         }
     } else if( id == effect_teleglow ) {
-        // Default we get around 300 duration points per teleport (possibly more
-        // depending on the source).
+        // Each teleportation increases intensity by 1, 2 intensities per tier of effect.
         // TODO: Include a chance to teleport to the nether realm.
         // TODO: This with regards to NPCS
         if( !is_player() ) {
             // NO, no teleporting around the player because an NPC has teleglow!
             return;
         }
-        if( dur > 10_hours ) {
-            // 20 teleports (no decay; in practice at least 21)
-            if( one_in( 6000 - ( ( dur - 600_minutes ) / 1_minutes ) ) ) {
+        if( intense > 6 ) {
+            if( one_in( 6000 - ( intense * 250 ) ) ) {
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
@@ -630,8 +693,11 @@ void player::hardcoded_effects( effect &it )
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
+                // Since teleporting grants 1 intensity and 30 minutes duration,
+                // if it doesn't remove it'll get more intense but shorter.
+                it.mod_duration( -20_minutes * intense );
             }
-            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+            if( one_in( 7200 - ( intense * 250 ) ) ) {
                 add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
                 for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
                     if( g->m.is_cornerfloor( dest ) ) {
@@ -644,21 +710,12 @@ void player::hardcoded_effects( effect &it )
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
-            }
-            if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
-                if( !is_npc() ) {
-                    add_msg( m_bad, _( "You pass out." ) );
-                }
-                fall_asleep( 2_hours );
-                if( one_in( 6 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+                it.mod_intensity( -1 );
             }
         }
-        if( dur > 6_hours ) {
-            // 12 teleports
-            if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
+        if( intense > 4 ) {
+            // Once every 4 hours baseline, once every 2 hours max
+            if( one_turn_in( 14_hours - ( intense * 90_minutes ) ) ) {
                 tripoint dest( 0, 0, posz() );
                 int &x = dest.x;
                 int &y = dest.y;
@@ -673,7 +730,7 @@ void player::hardcoded_effects( effect &it )
                 } while( g->critter_at( dest ) );
                 if( tries < 10 ) {
                     if( g->m.impassable( dest ) ) {
-                        g->m.make_rubble( dest, f_rubble_rock, true );
+                        g->m.make_rubble( dest, f_rubble_rock );
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            GROUP_NETHER );
@@ -683,58 +740,58 @@ void player::hardcoded_effects( effect &it )
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
                     }
-                    if( one_in( 2 ) ) {
-                        // Set ourselves up for removal
-                        it.set_duration( 0_turns );
-                    }
+                    it.mod_duration( -10_minutes * intense );
+                    it.mod_intensity( -1 );
                 }
             }
-            if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            if( one_in( 21000 - ( intense * 1125 ) ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
                 mutate();
-                if( one_in( 4 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 2 ) ) {
+                    it.mod_intensity( -1 );
                 }
             }
         }
-        if( dur > 4_hours ) {
-            // 8 teleports
-            if( one_turn_in( 1000_minutes - dur ) && !has_effect( effect_valium ) ) {
-                add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
-            }
-            if( one_turn_in( 1200_minutes - dur ) ) {
-                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
-                add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
-                if( one_in( 8 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
+        if( intense > 2 ) {
+            if( one_in( 10000 ) ) {
+                if( !has_trait( trait_M_IMMUNE ) ) {
+                    add_effect( effect_fungus, 1_turns, num_bp );
+                    add_msg_if_player( m_bad, _( "You smell mold, and your skin itches." ) );
+                } else {
+                    add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
                 }
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
             }
-            if( one_in( 5000 ) && !has_effect( effect_hallu ) ) {
-                add_effect( effect_hallu, 6_hours );
-                if( one_in( 5 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
+            if( one_in( 5000 ) ) {
+                // Like with the glow anomaly trap, but lower max and bypasses radsuits
+                add_msg_if_player( m_bad, _( "A blue flash of radiation permeates your vision briefly!" ) );
+                irradiate( rng( 10, 20 ), true );
+                it.mod_duration( -10_minutes * intense );
+                if( one_in( 4 ) ) {
+                    it.mod_intensity( -1 );
                 }
             }
         }
         if( one_in( 4000 ) ) {
             add_msg_if_player( m_bad, _( "You're suddenly covered in ectoplasm." ) );
             add_effect( effect_boomered, 10_minutes );
-            if( one_in( 4 ) ) {
-                // Set ourselves up for removal
-                it.set_duration( 0_turns );
-            }
+            it.mod_duration( -10_minutes * intense );
         }
-        if( one_in( 10000 ) ) {
-            if( !has_trait( trait_M_IMMUNE ) ) {
-                add_effect( effect_fungus, 1_turns, num_bp );
+        if( one_in( 5000 ) ) {
+            add_msg_if_player( m_bad, _( "A strange sound reverberates around the edges of reality." ) );
+            // Comparable to the humming anomaly trap, with a narrower range
+            int volume = rng( 25, 150 );
+            std::string sfx;
+            if( volume <= 50 ) {
+                sfx = _( "hrmmm" );
+            } else if( volume <= 100 ) {
+                sfx = _( "HRMMM" );
             } else {
-                add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
+                sfx = _( "VRMMMMMM" );
             }
-            // Set ourselves up for removal
-            it.set_duration( 0_turns );
+            sounds::sound( pos(), volume, sounds::sound_t::activity, sfx, false, "humming", "machinery" );
         }
     } else if( id == effect_asthma ) {
         if( has_effect( effect_adrenaline ) || has_effect( effect_datura ) ) {
@@ -804,7 +861,7 @@ void player::hardcoded_effects( effect &it )
                                    _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
                 add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
                 add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, 0, true );
-                if( one_in( 8 ) || x_in_y( vomit_mod(), 10 ) ) {
+                if( one_in( 8 ) || x_in_y( character_effects::vomit_mod( *this ), 10 ) ) {
                     vomit();
                 }
             }
@@ -832,7 +889,7 @@ void player::hardcoded_effects( effect &it )
             if( one_in( 8 ) ) {
                 add_msg_if_player( m_bad,
                                    _( "The possibility of physical and mental collapse is now very real." ) );
-                if( one_in( 2 ) || x_in_y( vomit_mod(), 10 ) ) {
+                if( one_in( 2 ) || x_in_y( character_effects::vomit_mod( *this ), 10 ) ) {
                     add_msg_if_player( m_bad, _( "No one should be asked to handle this trip." ) );
                     vomit();
                     mod_pain( rng( 8, 40 ) );
@@ -991,7 +1048,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_lying_down ) {
         set_moves( 0 );
-        if( can_sleep() ) {
+        if( character_funcs::roll_can_sleep( *this ) ) {
             fall_asleep();
             // Set ourselves up for removal
             it.set_duration( 0_turns );
@@ -1001,17 +1058,15 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
-#if defined(TILES)
-        if( is_player() ) {
-            SDL_PumpEvents();
+        if( is_avatar() ) {
+            inp_mngr.pump_events();
         }
-#endif // TILES
 
         if( has_effect( effect_narcosis ) && get_fatigue() <= 25 ) {
             set_fatigue( 25 ); //Prevent us from waking up naturally while under anesthesia
         }
 
-        if( get_fatigue() <= 10 && !has_effect( effect_narcosis ) ) {
+        if( get_fatigue() <= 10 && !has_effect( effect_narcosis ) && !is_hibernating() ) {
             set_fatigue( 0 );
             if( get_sleep_deprivation() < sleep_deprivation_levels::harmless ) {
                 add_msg_if_player( m_good, _( "You feel well rested." ) );
@@ -1055,7 +1110,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         // Check mutation category strengths to see if we're mutated enough to get a dream
-        std::string highcat = get_highest_category();
+        mutation_category_id highcat = get_highest_category();
         int highest = mutation_category_level[highcat];
 
         // Determine the strength of effects or dreams based upon category strength
@@ -1075,14 +1130,14 @@ void player::hardcoded_effects( effect &it )
             //Once every 6 / 3 / 2 hours, with a bit of randomness
             if( calendar::once_every( 6_hours / strength ) && one_in( 3 ) ) {
                 // Select a dream
-                std::string dream = get_category_dream( highcat, strength );
+                std::string dream = dreams::get_random_for_category( highcat, strength );
                 if( !dream.empty() ) {
                     add_msg_if_player( dream );
                 }
                 // Mycus folks upgrade in their sleep.
                 if( has_trait( trait_THRESH_MYCUS ) ) {
                     if( one_in( 8 ) ) {
-                        mutate_category( "MYCUS" );
+                        mutate_category( mutation_category_id( "MYCUS" ) );
                         mod_stored_nutr( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );
@@ -1196,11 +1251,11 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_alarm_clock ) {
         if( in_sleep_state() ) {
             const bool asleep = has_effect( effect_sleep );
-            if( has_bionic( bio_watch ) ) {
+            if( has_bionic( bio_infolink ) ) {
                 if( dur == 1_turns ) {
                     if( !asleep ) {
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
-                        activity.set_to_null();
+                        activity->set_to_null();
                     } else {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
@@ -1231,17 +1286,13 @@ void player::hardcoded_effects( effect &it )
                     sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
                                    "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
-                    g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
+                    g->cancel_activity_or_ignore_query( distraction_type::alert, alarm );
                     add_msg( _( "Your alarm went off." ) );
                 }
             }
         }
-    } else if( id == effect_mending ) {
-        if( !is_limb_broken( convert_bp( bp ) ) ) {
-            it.set_duration( 0_turns );
-        }
     } else if( id == effect_disabled ) {
-        if( !is_limb_broken( convert_bp( bp ) ) ) {
+        if( get_part_hp_cur( convert_bp( bp ) ) >= get_part_hp_max( convert_bp( bp ) ) ) {
             remove_effect( effect_disabled );
         }
     } else if( id == effect_panacea ) {

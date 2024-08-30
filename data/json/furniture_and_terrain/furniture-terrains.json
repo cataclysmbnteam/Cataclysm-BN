@@ -92,7 +92,11 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+      "items": [
+        { "item": "cardboard", "charges": [ 30, 60 ] },
+        { "item": "plastic_chunk", "charges": [ 5, 10 ] },
+        { "item": "rag", "charges": [ 20, 40 ] }
+      ]
     }
   },
   {
@@ -100,7 +104,7 @@
     "id": "f_cardboard_wall",
     "name": "cardboard wall",
     "symbol": "#",
-    "bgcolor": "brown",
+    "color": "brown",
     "move_cost_mod": -1,
     "coverage": 100,
     "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.",
@@ -118,8 +122,148 @@
       ]
     },
     "bash": {
-      "str_min": 8,
-      "str_max": 30,
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_large", "count": [ 0, 1 ] },
+        { "item": "box_medium", "count": [ 0, 2 ] },
+        { "item": "box_small", "count": [ 0, 4 ] },
+        { "item": "rag", "count": [ 20, 50 ] },
+        { "item": "paper", "count": [ 20, 40 ] },
+        { "item": "plastic_chunk", "count": [ 5, 20 ] },
+        { "item": "plastic_sheet", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_floor",
+    "name": "cardboard floor",
+    "symbol": "_",
+    "color": "brown",
+    "looks_like": "f_tatami",
+    "move_cost_mod": 0,
+    "description": "A flat floor made of sheets of cardboard duct-taped together overtop a plastic sheet.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ORGANIC", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [ { "item": "cardboard", "count": 10 }, { "item": "paper", "count": 50 }, { "item": "plastic_sheet", "count": 2 } ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 10,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "cardboard", "count": [ 5, 9 ] },
+        { "item": "paper", "count": [ 10, 40 ] },
+        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_roof",
+    "name": "cardboard roof",
+    "symbol": "_",
+    "color": "brown",
+    "looks_like": "f_tatami",
+    "move_cost_mod": 0,
+    "description": "A sloped roof made of cardboard boxes, stuffed with scrap cardboard and paper and layered atop each other.  Sheets of plastic are carefully arrayed on top to shed water.  It looks like it could last a season or two at least before crumbling.",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ORGANIC", "EASY_DECONSTRUCT", "ALLOW_ON_OPEN_AIR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "box_small", "count": 10 },
+        { "item": "cardboard", "count": 10 },
+        { "item": "rag", "count": 10 },
+        { "item": "paper", "count": 50 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 10,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_small", "count": [ 0, 10 ] },
+        { "item": "cardboard", "count": [ 5, 9 ] },
+        { "item": "paper", "count": [ 10, 40 ] },
+        { "item": "rag", "count": [ 0, 10 ] },
+        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_door_o",
+    "name": "cardboard door",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "f_tatami",
+    "move_cost_mod": 1,
+    "coverage": 100,
+    "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is open.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "close": "f_cardboard_door",
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "box_medium", "count": 2 },
+        { "item": "box_small", "count": 4 },
+        { "item": "rag", "count": 50 },
+        { "item": "paper", "count": [ 30, 80 ] },
+        { "item": "plastic_chunk", "count": 20 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_large", "count": [ 0, 1 ] },
+        { "item": "box_medium", "count": [ 0, 2 ] },
+        { "item": "box_small", "count": [ 0, 4 ] },
+        { "item": "rag", "count": [ 20, 50 ] },
+        { "item": "paper", "count": [ 30, 80 ] },
+        { "item": "plastic_chunk", "count": [ 5, 20 ] },
+        { "item": "plastic_sheet", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_door",
+    "name": "cardboard door",
+    "symbol": "+",
+    "color": "brown",
+    "looks_like": "f_cardboard_box",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is closed.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
+    "open": "f_cardboard_door_o",
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "box_medium", "count": 2 },
+        { "item": "box_small", "count": 4 },
+        { "item": "rag", "count": 50 },
+        { "item": "paper", "count": [ 30, 80 ] },
+        { "item": "plastic_chunk", "count": 20 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 13,
       "sound": "crash!",
       "sound_fail": "whump.",
       "items": [
@@ -515,7 +659,18 @@
       "TINY",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "nail", "charges": [ 5, 10 ] },
+        { "item": "splinter", "count": [ 5, 10 ] },
+        { "group": "building_rubble", "count": [ 1, 3 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -539,7 +694,14 @@
       "SHORT",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 10 ] }, { "item": "sharp_rock", "count": [ 1, 5 ] } ]
+    }
   },
   {
     "type": "furniture",
@@ -563,7 +725,14 @@
       "SHORT",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "group": "trash", "count": [ 3, 6 ] } ]
+    }
   },
   {
     "type": "furniture",
@@ -588,7 +757,18 @@
       "SHORT",
       "RUBBLE"
     ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "group": "wreckage", "count": [ 0, 2 ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -600,7 +780,14 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM", "RUBBLE" ],
-    "examine_action": "rubble"
+    "examine_action": "rubble",
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "ash", "charges": [ 1, 100 ] } ]
+    }
   },
   {
     "type": "furniture",
@@ -619,7 +806,14 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "sharp_rock", "count": [ 0, 2 ] } ]
+      "items": [
+        { "item": "rock", "count": [ 16, 32 ] },
+        { "item": "sharp_rock", "count": [ 0, 6 ] },
+        { "item": "material_limestone", "charges": [ 3, 8 ], "prob": 80 },
+        { "group": "rock_mining_extra", "prob": 8 }
+      ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 16, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -630,7 +824,7 @@
     "symbol": "0",
     "color": "dark_gray",
     "move_cost_mod": 6,
-    "coverage": 45,
+    "coverage": 60,
     "required_str": 16,
     "crafting_pseudo_item": "boulder_anvil",
     "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
@@ -639,7 +833,13 @@
       "str_max": 80,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 5, 11 ] }, { "item": "sharp_rock", "count": [ 1, 4 ] } ]
+      "items": [
+        { "item": "rock", "count": [ 35, 50 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "material_limestone", "charges": [ 5, 15 ], "prob": 80 },
+        { "group": "rock_mining_extra", "prob": 15 }
+      ],
+      "ranged": { "reduction": [ 32, 64 ], "destroy_threshold": 64, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -659,13 +859,12 @@
       "sound": "smash!",
       "sound_fail": "thump.",
       "items": [
-        { "item": "rock", "count": [ 10, 22 ] },
-        { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
-        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
-        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 }
-      ]
+        { "item": "rock", "count": [ 50, 70 ] },
+        { "item": "sharp_rock", "count": [ 4, 7 ] },
+        { "item": "material_limestone", "charges": [ 8, 20 ], "prob": 80 },
+        { "group": "rock_mining_extra", "prob": 20 }
+      ],
+      "ranged": { "reduction": [ 64, 128 ], "destroy_threshold": 128 }
     }
   },
   {
@@ -678,8 +877,18 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "coverage": 40,
-    "required_str": 32,
-    "flags": [ "BASHABLE" ],
+    "required_str": -1,
+    "flags": [ "BASHABLE", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "amplifier", "count": 4 },
+        { "item": "light_bulb", "count": 2 },
+        { "item": "cable", "charges": 4 },
+        { "item": "plastic_chunk", "count": 4 }
+      ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -689,10 +898,11 @@
         { "item": "pipe", "count": [ 1, 7 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
-        { "item": "light_bulb", "count": [ 0, 3 ] },
+        { "item": "light_bulb", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -706,7 +916,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 32,
-    "flags": [ "BASHABLE" ],
+    "flags": [ "BASHABLE", "TRANSPARENT" ],
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -719,7 +929,8 @@
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "scrap", "count": [ 3, 12 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -744,7 +955,31 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "scrap", "count": [ 3, 5 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_concrete_lump",
+    "looks_like": "f_boulder_medium",
+    "name": "concrete lump",
+    "description": "The result of you pouring concrete over mi-go gas emitters.  It's stuck to the floor.  It can be used as a primitive anvil.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "move_cost_mod": 6,
+    "coverage": 60,
+    "required_str": -1,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 35, 50 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 32, 64 ], "destroy_threshold": 64, "block_unaimed_chance": "50%" }
     }
   }
 ]

@@ -7,12 +7,8 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <optional>
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 struct tripoint;
 struct point;
 
@@ -173,6 +169,8 @@ enum action_id : int {
     ACTION_FIRE_BURST,
     /** Change fire mode of the current weapon */
     ACTION_SELECT_FIRE_MODE,
+    /** Change default ammo for current weapon */
+    ACTION_SELECT_DEFAULT_AMMO,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
     /** Open the drop-item menu */
@@ -247,10 +245,14 @@ enum action_id : int {
     ACTION_MORALE,
     /** Display messages screen */
     ACTION_MESSAGES,
+    /** Open external Wiki webpage */
+    ACTION_OPEN_WIKI,
     /** Display help screen */
     ACTION_HELP,
     /** Display main menu */
     ACTION_MAIN_MENU,
+    /** Display diary window */
+    ACTION_DIARY,
     /** Display keybindings list */
     ACTION_KEYBINDINGS,
     /** Display options window */
@@ -265,6 +267,13 @@ enum action_id : int {
     ACTION_COLOR,
     /** Open active world mods */
     ACTION_WORLD_MODS,
+    /** Open distraction manager */
+    ACTION_DISTRACTION_MANAGER,
+    /**@}*/
+
+    // Additional UI action
+    /**@{*/
+    ACTION_TOGGLE_CHARACTER_PREVIEW_CLOTHES,
     /**@}*/
 
     // Debug Functions
@@ -273,6 +282,10 @@ enum action_id : int {
     ACTION_TOGGLE_FULLSCREEN,
     /** Open debug menu */
     ACTION_DEBUG,
+    /** Open Lua console */
+    ACTION_LUA_CONSOLE,
+    /** Hot-reload Lua code */
+    ACTION_LUA_RELOAD,
     /** Toggle scent map */
     ACTION_DISPLAY_SCENT,
     /** Toggle scent type map */
@@ -409,7 +422,7 @@ action_id action_from_key( char ch );
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
-cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
+std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -422,7 +435,7 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_direction( const std::string &message,
+std::optional<tripoint> choose_direction( const std::string &message,
         bool allow_vertical = false );
 
 /**
@@ -440,7 +453,7 @@ cata::optional<tripoint> choose_direction( const std::string &message,
  * @param[in] action An action ID to drive the highlighting output
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, action_id action, bool allow_vertical = false );
 
 /**
@@ -459,7 +472,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
         bool allow_vertical = false );
 
@@ -472,7 +485,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
 // Return "Press X" or nullopt if not bound
-cata::optional<std::string> press_x_if_bound( action_id act );
+std::optional<std::string> press_x_if_bound( action_id act );
 
 // only has effect in iso mode
 enum class iso_rotate {

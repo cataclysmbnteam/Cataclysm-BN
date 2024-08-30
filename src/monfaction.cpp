@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "debug.h"
+#include "enum_conversions.h"
 #include "int_id.h"
 #include "json.h"
 #include "string_id.h"
@@ -57,6 +58,13 @@ template<>
 const monfaction &string_id<monfaction>::obj() const
 {
     return id().obj();
+}
+
+/** @relates int_id */
+template<>
+bool int_id<monfaction>::is_valid() const
+{
+    return faction_map.count( this->id() ) > 0;
 }
 
 /** @relates string_id */
@@ -227,6 +235,25 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
         const auto &faction = mfaction_str_id( k ).id();
         map[faction] = value;
     }
+}
+
+template<>
+std::string io::enum_to_string<mf_attitude>( mf_attitude att )
+{
+    switch( att ) {
+        case MFA_BY_MOOD:
+            return "ByMood";
+        case MFA_NEUTRAL:
+            return "Neutral";
+        case MFA_FRIENDLY:
+            return "Friendly";
+        case MFA_HATE:
+            return "Hate";
+        case NUM_MFA:
+            break;
+    }
+    debugmsg( "Invalid mf_attitude" );
+    abort();
 }
 
 void monfactions::load_monster_faction( const JsonObject &jo )

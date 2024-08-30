@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -16,16 +17,14 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "enums.h"
-#include "explosion.h"
+#include "explosion_queue.h"
 #include "game.h"
 #include "item.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
-#include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -57,10 +56,14 @@ static const efftype_id effect_bounced( "bounced" );
 
 static const std::string flag_LIQUID( "LIQUID" );
 
-static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
+static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 {
-    const auto &proj = attack.proj;
-    const item &drop_item = proj.get_drop();
+    auto &proj = attack.proj;
+    detached_ptr<item> drop = proj.unset_drop();
+    if( !drop ) {
+        return;
+    }
+    item &drop_item = *drop;
     if( drop_item.is_null() ) {
         return;
     }
@@ -74,7 +77,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         // copies the drop item to spill the contents
-        item( drop_item ).spill_contents( pt );
+        drop_item.spill_contents( pt );
 
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
@@ -90,14 +93,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         // copies the drop item to spill the contents
-        item( drop_item ).spill_contents( pt );
+        drop_item.spill_contents( pt );
 
         // TODO: Sound
         return;
     }
-
-    // Copy the item
-    item dropped_item = drop_item;
 
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
 
@@ -108,10 +108,10 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
                  !proj.has_effect( ammo_effect_TANGLE );
     // Don't embed in small creatures
     if( embed ) {
-        const m_size critter_size = mon->get_size();
-        const units::volume vol = dropped_item.volume();
-        embed = embed && ( critter_size > MS_TINY || vol < 250_ml );
-        embed = embed && ( critter_size > MS_SMALL || vol < 500_ml );
+        const creature_size critter_size = mon->get_size();
+        const units::volume vol = drop_item.volume();
+        embed = embed && ( critter_size > creature_size::tiny || vol < 250_ml );
+        embed = embed && ( critter_size > creature_size::small || vol < 500_ml );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
@@ -122,9 +122,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 
     if( embed ) {
-        mon->add_item( dropped_item );
+        mon->add_item( std::move( drop ) );
         if( g->u.sees( *mon ) ) {
-            add_msg( _( "The %1$s embeds in %2$s!" ), dropped_item.tname(), mon->disp_name() );
+            add_msg( _( "The %1$s embeds in %2$s!" ), drop_item.tname(), mon->disp_name() );
         }
     } else {
         bool do_drop = true;
@@ -138,22 +138,23 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         if( proj.has_effect( ammo_effect_ACT_ON_RANGED_HIT ) ) {
             // Don't drop if it exploded
-            do_drop = !dropped_item.process( nullptr, attack.end_point, true );
+            drop = item::process( std::move( drop ), nullptr, attack.end_point, true );
         }
 
-        if( do_drop ) {
-            g->m.add_item_or_charges( attack.end_point, dropped_item );
+        map &here = get_map();
+        if( drop && do_drop ) {
+            here.add_item_or_charges( attack.end_point, std::move( drop ) );
         }
 
         if( proj.has_effect( ammo_effect_HEAVY_HIT ) ) {
-            if( g->m.has_flag( flag_LIQUID, pt ) ) {
+            if( here.has_flag( flag_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
-            const trap &tr = g->m.tr_at( pt );
-            if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, nullptr, &dropped_item );
+            const trap &tr = here.tr_at( pt );
+            if( tr.triggered_by_item( drop_item ) ) {
+                tr.trigger( pt, nullptr, &drop_item );
             }
         }
     }
@@ -207,9 +208,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     double range = rl_dist( source, target_arg );
 
     Creature *target_critter = g->critter_at( target_arg );
+    map &here = get_map();
     double target_size = target_critter != nullptr ?
                          target_critter->ranged_target_size() :
-                         g->m.ranged_target_size( target_arg );
+                         here.ranged_target_size( target_arg );
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
 
     // TODO: move to-hit roll back in here
@@ -231,7 +233,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                         proj.has_effect( ammo_effect_JET );
     const char bullet = stream ? '#' : '*';
     const bool no_item_damage = proj.has_effect( ammo_effect_NO_ITEM_DAMAGE );
-    const bool do_draw_line = proj.has_effect( ammo_effect_DRAW_AS_LINE );
+    const bool do_draw_line = proj.has_effect( ammo_effect_DRAW_AS_LINE ) ||
+                              get_option<bool>( "BULLETS_AS_LASERS" );
     const bool null_source = proj.has_effect( ammo_effect_NULL_SOURCE );
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 &&
@@ -240,7 +243,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj.has_effect( ammo_effect_NO_OVERSHOOT ) ||
-                              ( g->critter_at( target_arg ) == nullptr && g->m.passable( target_arg ) );
+                              ( g->critter_at( target_arg ) == nullptr && here.passable( target_arg ) );
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
 
@@ -283,7 +286,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory = line_to( source, target );
     } else {
         // Go around obstacles a little if we're on target.
-        trajectory = g->m.find_clear_path( source, target );
+        trajectory = here.find_clear_path( source, target );
     }
 
     add_msg( m_debug, "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
@@ -300,7 +303,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
     if( proj.has_effect( ammo_effect_MUZZLE_SMOKE ) ) {
-        g->m.emit_field( trajectory.front(), muzzle_smoke );
+        here.emit_field( trajectory.front(), muzzle_smoke );
     }
 
     if( !no_overshoot && range < extend_to_range ) {
@@ -322,7 +325,6 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
-    map &here = get_map();
     for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
         prev_point = tp;
         tp = trajectory[i];
@@ -363,7 +365,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
 
         if( in_veh != nullptr ) {
-            const optional_vpart_position other = g->m.veh_at( tp );
+            const optional_vpart_position other = here.veh_at( tp );
             if( in_veh == veh_pointer_or_null( other ) && other->is_inside() ) {
                 // Turret is on the roof and can't hit anything inside
                 continue;
@@ -402,8 +404,28 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                                       critter->ranged_target_size(), 0.4 );
         }
 
+        if( here.obstructed_by_vehicle_rotation( prev_point, tp ) ) {
+            //We're firing through an impassible gap in a rotated vehicle, randomly hit one of the two walls
+            tripoint rand = tp;
+            if( one_in( 2 ) ) {
+                rand.x = prev_point.x;
+            } else {
+                rand.y = prev_point.y;
+            }
+            if( in_veh == nullptr || veh_pointer_or_null( here.veh_at( rand ) ) != in_veh ) {
+                here.shoot( source, rand, proj, false );
+                if( proj.impact.total_damage() <= 0 ) {
+                    //If the projectile stops here move it back a square so it doesn't end up inside the vehicle
+                    traj_len = i - 1;
+                    tp = prev_point;
+                    break;
+                }
+            }
+        }
+
+
         if( critter != nullptr && cur_missed_by < 1.0 ) {
-            if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh &&
+            if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
                 critter->is_player() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
@@ -417,21 +439,21 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                 const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
                 if( bt_len > 0 ) {
                     const tripoint &dest = move_along_line( tp, trajectory, bt_len );
-                    g->m.add_splatter_trail( critter->bloodType(), tp, dest );
+                    here.add_splatter_trail( critter->bloodType(), tp, dest );
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
             } else {
                 attack.missed_by = aim.missed_by;
             }
-        } else if( in_veh != nullptr && veh_pointer_or_null( g->m.veh_at( tp ) ) == in_veh ) {
+        } else if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh ) {
             // Don't do anything, especially don't call map::shoot as this would damage the vehicle
         } else {
-            g->m.shoot( tp, proj, !no_item_damage && tp == target );
+            here.shoot( source, tp, proj, !no_item_damage && tp == target );
             has_momentum = proj.impact.total_damage() > 0;
         }
 
-        if( ( !has_momentum || !is_bullet ) && g->m.impassable( tp ) ) {
+        if( ( !has_momentum || !is_bullet ) && here.impassable( tp ) ) {
             // Don't let flamethrowers go through walls
             // TODO: Let them go through bars
             traj_len = i;
@@ -446,16 +468,16 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
-    if( g->m.impassable( tp ) ) {
+    if( here.impassable( tp ) ) {
         tp = prev_point;
     }
 
     drop_or_embed_projectile( attack );
 
-    apply_ammo_effects( tp, proj.get_ammo_effects() );
+    apply_ammo_effects( tp, proj.get_ammo_effects(), origin );
     const auto &expl = proj.get_custom_explosion();
     if( expl ) {
-        explosion_handler::explosion( tp, expl );
+        explosion_handler::explosion( tp, expl, origin );
     }
 
     // TODO: Move this outside now that we have hit point in return values?
@@ -467,7 +489,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
             // search for creatures in radius 4 around impact site
             if( rl_dist( z.pos(), tp ) <= 4 &&
-                g->m.sees( z.pos(), tp, -1 ) ) {
+                here.sees( z.pos(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
                 if( !z.has_effect( effect_bounced ) ) {
                     return true;
@@ -484,7 +506,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                                      sfx::get_heard_volume( z.pos() ), sfx::get_heard_angle( z.pos() ) );
         }
     }
-
+    explosion_handler::get_explosion_queue().execute();
     return attack;
 }
 

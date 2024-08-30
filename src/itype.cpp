@@ -4,6 +4,7 @@
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
@@ -39,9 +40,42 @@ std::string enum_to_string<condition_type>( condition_type data )
 itype::itype()
 {
     melee.fill( 0 );
+    attacks["DEFAULT"] = attack_statblock();
 }
 
 itype::~itype() = default;
+
+int itype::damage_min() const
+{
+    return count_by_charges() ? 0 : damage_min_;
+}
+
+int itype::damage_max() const
+{
+    return count_by_charges() ? 0 : damage_max_;
+}
+
+std::string itype::get_item_type_string() const
+{
+    if( tool ) {
+        return "TOOL";
+    } else if( comestible ) {
+        return "FOOD";
+    } else if( container ) {
+        return "CONTAINER";
+    } else if( armor ) {
+        return "ARMOR";
+    } else if( book ) {
+        return "BOOK";
+    } else if( gun ) {
+        return "GUN";
+    } else if( bionic ) {
+        return "BIONIC";
+    } else if( ammo ) {
+        return "AMMO";
+    }
+    return "misc";
+}
 
 std::string itype::nname( unsigned int quantity ) const
 {
@@ -51,6 +85,49 @@ std::string itype::nname( unsigned int quantity ) const
         quantity = 1;
     }
     return name.translated( quantity );
+}
+
+const itype_id &itype::get_id() const
+{
+    return id;
+}
+
+bool itype::count_by_charges() const
+{
+    return stackable_ || ammo || comestible;
+}
+
+int itype::charges_default() const
+{
+    if( tool ) {
+        return tool->def_charges;
+    } else if( comestible ) {
+        return comestible->def_charges;
+    } else if( ammo ) {
+        return ammo->def_charges;
+    }
+    return count_by_charges() ? 1 : 0;
+}
+
+int itype::charges_to_use() const
+{
+    if( tool ) {
+        return static_cast<int>( tool->charges_per_use );
+    }
+    return 1;
+}
+
+int itype::charge_factor() const
+{
+    return tool ? tool->charge_factor : 1;
+}
+
+int itype::maximum_charges() const
+{
+    if( tool ) {
+        return tool->max_charges;
+    }
+    return 0;
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const
@@ -68,7 +145,7 @@ bool itype::has_use() const
     return !use_methods.empty();
 }
 
-bool itype::has_flag( const std::string &flag ) const
+bool itype::has_flag( const flag_id &flag ) const
 {
     return item_tags.count( flag );
 }
@@ -120,13 +197,16 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
         p.add_msg_if_player( m_info, ret.str() );
         return 0;
     }
+    // used for grenades and such, to increase kill count
+    // invoke is called a first time with transform, when the explosive item is activated
+    // then a second time with draw explosion
+    // the player responsible of the explosion is the one that activated the object
+    if( iuse_name == "transform" ) {
+        //TODO!: put this back to a safe reference once players are added
+        it.activated_by = &p;
+    }
 
     return use->call( p, it, false, pos );
-}
-
-std::string gun_type_type::name() const
-{
-    return pgettext( "gun_type_type", name_.c_str() );
 }
 
 bool itype::can_have_charges() const
@@ -140,8 +220,13 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;
+}
+
+bool itype::is_seed() const
+{
+    return !!seed;
 }

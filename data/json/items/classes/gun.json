@@ -5,16 +5,21 @@
     "reload_noise_volume": 10,
     "name": { "str": "base gun" },
     "symbol": "(",
+    "durability": 8,
+    "to_hit": -1,
     "color": "light_gray",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "handling": 30
+    "handling": 15
   },
   {
     "abstract": "flamethrower_base",
     "copy-from": "gun_base",
     "type": "GUN",
+    "weapon_category": [ "FLAMETHROWERS" ],
     "reload_noise": "slosh.",
     "name": { "str": "base flamethrower" },
+    "looks_like": "m79",
+    "bashing": 10,
     "skill": "launcher",
     "ammo": "flammable",
     "ammo_effects": [ "FLARE" ],
@@ -27,7 +32,11 @@
     "abstract": "launcher_base",
     "copy-from": "gun_base",
     "type": "GUN",
+    "weapon_category": [ "GRENADE_LAUNCHERS" ],
     "name": { "str": "base launcher" },
+    "looks_like": "m79",
+    "bashing": 12,
+    "to_hit": -3,
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
@@ -35,12 +44,24 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
+    "abstract": "rocket_base",
+    "copy-from": "launcher_base",
+    "type": "GUN",
+    "weapon_category": [ "ROCKET_LAUNCHERS" ],
+    "name": { "str": "base rocket launcher" },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "PYROMANIAC_WEAPON" ]
+  },
+  {
     "abstract": "pistol_base",
     "copy-from": "gun_base",
     "type": "GUN",
+    "weapon_category": [ "PISTOLS", "AUTOLOADING" ],
     "name": { "str": "base pistol" },
+    "looks_like": "glock_17",
     "skill": "pistol",
-    "handling": 15,
+    "bashing": 8,
+    "dispersion": 480,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -62,6 +83,8 @@
     "type": "GUN",
     "name": { "str": "backup pistol" },
     "//": "diminuitive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
+    "to_hit": -3,
+    "bashing": 1,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -70,17 +93,31 @@
       [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ]
+  },
+  {
+    "abstract": "pistol_1shot",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "weapon_category": [ "PISTOLS", "1SHOT" ],
+    "name": { "str": "single shot pistols" },
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
+    "//": "More reliable than other pistols because it uses no magazine and has no loading/cycling mechanisms.",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "abstract": "pistol_revolver",
     "copy-from": "pistol_base",
     "type": "GUN",
+    "weapon_category": [ "REVOLVERS", "MANUAL_ACTION" ],
     "name": { "str": "revolver" },
+    "looks_like": "sw_619",
+    "to_hit": -2,
+    "clip_size": 6,
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
@@ -93,35 +130,69 @@
       [ "mechanism", 4 ],
       [ "sights", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
     "abstract": "pistol_revolver_cap_ball",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": { "str": "cap & ball revolver" },
+    "looks_like": "sw_619",
     "reload": 150,
-    "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
+    "extend": { "flags": [ "NO_UNLOAD" ] },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "sights", 1 ] ]
+  },
+  {
+    "abstract": "pistol_energy",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "weapon_category": [ "PISTOLS", "ENERGY_WEAPONS" ],
+    "name": { "str": "energy pistol" },
+    "looks_like": "v29",
+    "//": "No conventional faults because it uses non-conventional systems.",
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
+      [ "emitter", 1 ],
       [ "grip", 1 ],
+      [ "lens", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
-    ]
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [  ]
+  },
+  {
+    "abstract": "pistol_elastic",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "weapon_category": [ "PISTOLS", "ELASTIC" ],
+    "name": { "str": "elastic pistol" },
+    "bashing": 7,
+    "to_hit": -2,
+    "//": "No conventional faults because it uses non-conventional systems.",
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "dispersion": 120,
+    "reload": 600,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "underbarrel", 1 ] ],
+    "faults": [  ]
   },
   {
     "abstract": "rifle_base",
     "copy-from": "gun_base",
     "type": "GUN",
+    "weapon_category": [ "RIFLES", "AUTOLOADING" ],
     "name": { "str": "base rifle" },
+    "looks_like": "ar15",
+    "bashing": 12,
     "skill": "rifle",
+    "handling": 20,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -142,9 +213,156 @@
     "abstract": "rifle_manual",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "RIFLES", "MANUAL_ACTION" ],
     "name": { "str": "rifle with manual actions", "str_pl": "rifles with manual actions" },
-    "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
+    "//": "Slightly more reliable than autoloading actions.",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+  },
+  {
+    "abstract": "rifle_semi",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": { "str": "semi-automatic rifle" }
+  },
+  {
+    "abstract": "rifle_auto",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": { "str": "fully automatic rifle" }
+  },
+  {
+    "abstract": "rifle_1shot",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "weapon_category": [ "RIFLES", "1SHOT" ],
+    "name": { "str": "single shot rifle" },
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+  },
+  {
+    "abstract": "rifle_home_made",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "weapon_category": [ "RIFLES", "1SHOT" ],
+    "name": { "str": "home-made rifle" },
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 550,
+    "durability": 6,
+    "blackpowder_tolerance": 60,
+    "loudness": 25,
+    "clip_size": 1,
+    "reload": 200,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_EJECT" ]
+  },
+  {
+    "abstract": "rifle_energy",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "weapon_category": [ "RIFLES", "ENERGY_WEAPONS" ],
+    "name": { "str": "energy rifle" },
+    "looks_like": "laser_rifle",
+    "//": "No conventional faults because it uses non-conventional systems.",
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "lens", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [  ]
+  },
+  {
+    "abstract": "rifle_magnetic",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "weapon_category": [ "RIFLES", "MAGNETIC" ],
+    "name": { "str": "magnetic rifle" },
+    "looks_like": "hk_g80",
+    "//": "No conventional faults because it uses non-conventional systems.",
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [  ]
+  },
+  {
+    "abstract": "rifle_elastic",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "weapon_category": [ "RIFLES", "ELASTIC" ],
+    "name": { "str": "elastic rifle" },
+    "bashing": 8,
+    "to_hit": -2,
+    "//": "No conventional faults because it uses non-conventional systems.",
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "dispersion": 90,
+    "reload": 700,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [  ]
+  },
+  {
+    "abstract": "rifle_pneumatic",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "weapon_category": [ "RIFLES", "PNEUMATIC" ],
+    "name": { "str": "pneumatic rifle" },
+    "bashing": 8,
+    "//": "No conventional faults because it uses non-conventional systems.",
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "dispersion": 350,
+    "reload": 600,
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "stock", 1 ],
+      [ "rail", 1 ]
+    ],
+    "faults": [  ]
+  },
+  {
+    "abstract": "shotgun_base",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "weapon_category": [ "SHOTGUNS", "AUTOLOADING" ],
+    "name": { "str": "base shotgun" },
+    "skill": "shotgun",
+    "bashing": 12,
+    "looks_like": "remington_870",
+    "ammo": "shot",
+    "handling": 30,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -161,46 +379,22 @@
     ]
   },
   {
-    "abstract": "rifle_semi",
-    "copy-from": "rifle_base",
+    "abstract": "shotgun_1shot",
+    "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "semi-automatic rifle" }
-  },
-  {
-    "abstract": "rifle_auto",
-    "copy-from": "rifle_base",
-    "type": "GUN",
-    "name": { "str": "fully automatic rifle" }
-  },
-  {
-    "abstract": "shotgun_base",
-    "copy-from": "gun_base",
-    "type": "GUN",
-    "name": { "str": "base shotgun" },
-    "skill": "shotgun",
-    "ammo": "shot",
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ]
+    "weapon_category": [ "SHOTGUNS", "1SHOT" ],
+    "name": { "str": "single shot shotguns" },
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ] },
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "abstract": "shotgun_pump",
     "copy-from": "shotgun_base",
     "type": "GUN",
+    "weapon_category": [ "SHOTGUNS", "MANUAL_ACTION" ],
     "name": { "str": "pump action shotgun" },
     "reload_noise": "chuk chuk.",
-    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ],
+    "extend": { "flags": [ "RELOAD_ONE", "PUMP_ACTION" ] },
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
@@ -214,22 +408,102 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "loading port", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
     "abstract": "smg_base",
     "copy-from": "gun_base",
     "type": "GUN",
+    "weapon_category": [ "SUBMACHINE_GUNS", "AUTOLOADING" ],
     "name": { "str": "base SMG" },
-    "skill": "smg"
+    "bashing": 10,
+    "ascii_picture": "hk_mp5a2",
+    "skill": "smg",
+    "handling": 30,
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
+  },
+  {
+    "abstract": "mg_base",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "weapon_category": [ "MACHINE_GUNS", "AUTOLOADING" ],
+    "name": { "str": "base machine gun" },
+    "to_hit": -4,
+    "bashing": 18,
+    "reload": 400,
+    "handling": 40
+  },
+  {
+    "abstract": "gatling_base",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "weapon_category": [ "GATLING_GUNS", "AUTOLOADING" ],
+    "name": { "str": "base gatling gun" },
+    "looks_like": "ar15",
+    "to_hit": -4,
+    "bashing": 18,
+    "skill": "rifle",
+    "dispersion": 300,
+    "reload": 400,
+    "handling": 60,
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
+    "flags": [ "MOUNTED_GUN" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+  },
+  {
+    "abstract": "gatling_energy",
+    "copy-from": "gatling_base",
+    "type": "GUN",
+    "weapon_category": [ "GATLING_GUNS", "ENERGY_WEAPONS" ],
+    "name": { "str": "energy gatling gun" },
+    "bashing": 8,
+    "reload": 200,
+    "handling": 40,
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING" ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
+    "faults": [  ]
+  },
+  {
+    "abstract": "chemical_sprayer_base",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "weapon_category": [ "SPRAY_GUNS" ],
+    "name": { "str": "base chemical sprayer" },
+    "looks_like": "m79",
+    "bashing": 9,
+    "skill": "launcher",
+    "ammo": "chemical_spray",
+    "flags": [ "FIRE_50", "NEVER_JAMS", "NON_FOULING" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
   }
 ]

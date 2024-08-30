@@ -143,6 +143,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
@@ -159,6 +160,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "4 seconds",
             "max_duration": "4 seconds",
@@ -176,6 +178,7 @@
         "effects": [
           {
             "effect_id": "sap",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "6 seconds",
             "max_duration": "6 seconds",
@@ -233,7 +236,7 @@
     "description_affix": "on",
     "decay_amount_factor": 3,
     "has_fire": true,
-    "priority": 4,
+    "priority": 9,
     "half_life": "30 minutes",
     "phase": "plasma",
     "stacking_type": "duration",
@@ -288,8 +291,7 @@
             "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
-            "max_duration": "15 seconds",
-            "immune_inside_vehicle": true
+            "max_duration": "15 seconds"
           }
         ],
         "scent_neutralization": 5
@@ -526,6 +528,62 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_fire"
+  },
+  {
+    "id": "fd_pollen_triffid",
+    "type": "field_type",
+    "legacy_enum_id": 51,
+    "intensity_levels": [
+      {
+        "name": "faint triffid pollen",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effects": [
+          {
+            "effect_id": "tpollen",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the triffid pollen.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "triffid pollen",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 10,
+        "effects": [
+          {
+            "effect_id": "tpollen",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the triffid pollen.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
   },
   {
     "id": "fd_electricity",
@@ -1182,7 +1240,6 @@
       {
         "name": "foul-smelling air",
         "sym": "8",
-        "dangerous": true,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1227,7 +1284,7 @@
     "dirty_transparency_cache": true,
     "has_fume": true,
     "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
-    "priority": 8,
+    "priority": -1,
     "half_life": "10 minutes",
     "phase": "gas"
   },

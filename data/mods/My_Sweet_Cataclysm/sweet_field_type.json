@@ -12,6 +12,7 @@
         "effects": [
           {
             "effect_id": "gummed",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "2 seconds",
             "immune_in_vehicle": true,
@@ -27,6 +28,7 @@
         "effects": [
           {
             "effect_id": "gummed",
+            "body_part": "torso",
             "intensity": 2,
             "min_duration": "20 seconds",
             "immune_in_vehicle": true,
@@ -43,6 +45,7 @@
         "effects": [
           {
             "effect_id": "gummed",
+            "body_part": "torso",
             "intensity": 3,
             "min_duration": "40 seconds",
             "immune_in_vehicle": true,

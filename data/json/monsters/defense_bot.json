@@ -23,13 +23,25 @@
     "dodge": 8,
     "armor_bash": 12,
     "armor_cut": 8,
+    "armor_bullet": 15,
+    "armor_fire": 12,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_copbot",
     "special_attacks": [ [ "COPBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_riotbot",
@@ -52,6 +64,8 @@
     "dodge": 8,
     "armor_bash": 12,
     "armor_cut": 8,
+    "armor_bullet": 15,
+    "armor_fire": 12,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_riotbot",
@@ -59,7 +73,17 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_secubot",
@@ -80,21 +104,26 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 14,
+    "armor_bullet": 30,
+    "armor_fire": 15,
     "vision_day": 50,
     "revert_to_itype": "bot_secubot",
     "starting_ammo": { "556": 30 },
     "special_attacks": [
       {
         "type": "gun",
-        "cooldown": 1,
+        "cooldown": 3,
         "move_cost": 150,
         "gun_type": "m16a4",
         "ammo_type": "556",
-        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
-        "fake_dex": 12,
-        "ranges": [ [ 0, 30, "DEFAULT" ] ],
+        "//": "A quarter as effective as a nice, stable turret",
+        "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
+        "fake_str": 4,
+        "fake_dex": 3,
+        "ranges": [ [ 0, 20, "BURST" ], [ 21, 30, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": false,
         "no_crits": true,
         "targeting_cost": 200,
@@ -106,7 +135,17 @@
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "DROPS_AMMO",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_talon_m202a1",
@@ -127,21 +166,25 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 14,
+    "armor_bullet": 30,
+    "armor_fire": 15,
     "vision_day": 50,
     "revert_to_itype": "bot_talon_m202a1",
     "starting_ammo": { "m235tpa": 4 },
     "special_attacks": [
       {
         "type": "gun",
-        "cooldown": 1,
+        "cooldown": 5,
         "move_cost": 150,
         "gun_type": "m202_flash",
         "ammo_type": "m235tpa",
-        "fake_skills": [ [ "gun", 8 ], [ "launcher", 8 ] ],
-        "fake_dex": 12,
-        "ranges": [ [ 0, 20, "DEFAULT" ] ],
+        "//": "A quarter as effective as a nice, stable turret",
+        "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
+        "fake_dex": 3,
+        "ranges": [ [ 5, 20, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": false,
         "no_crits": true,
         "targeting_cost": 200,
@@ -153,7 +196,17 @@
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "DROPS_AMMO",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_skitterbot",
@@ -175,13 +228,15 @@
     "melee_cut": 0,
     "armor_bash": 12,
     "armor_cut": 12,
+    "armor_bullet": 10,
+    "armor_fire": 5,
     "vision_day": 50,
     "revert_to_itype": "bot_skitterbot",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "TAZER", 5 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "BIOPROOF" ]
   },
   {
     "id": "mon_science_bot",
@@ -207,6 +262,8 @@
     "dodge": 2,
     "armor_bash": 12,
     "armor_cut": 12,
+    "armor_bullet": 10,
+    "armor_fire": 5,
     "vision_day": 50,
     "vision_night": 10,
     "revert_to_itype": "bot_science_bot",
@@ -222,10 +279,12 @@
       "GOODHEARING",
       "ELECTRONIC",
       "COLDPROOF",
+      "ACIDPROOF",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "BIOPROOF"
     ]
   },
   {
@@ -250,6 +309,8 @@
     "melee_cut": 10,
     "armor_bash": 15,
     "armor_cut": 50,
+    "armor_bullet": 40,
+    "armor_fire": 20,
     "vision_night": 5,
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "SMASH", 20 ], [ "BIO_OP_TAKEDOWN", 20 ] ],
@@ -260,12 +321,14 @@
       "HEARS",
       "ELECTRONIC",
       "COLDPROOF",
+      "FIREPROOF",
       "BASHES",
       "GOODHEARING",
       "NO_BREATHE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
-      "LOUDMOVES"
+      "LOUDMOVES",
+      "BIOPROOF"
     ]
   },
   {
@@ -292,6 +355,8 @@
     "dodge": 2,
     "armor_bash": 8,
     "armor_cut": 8,
+    "armor_bullet": 15,
+    "armor_fire": 7,
     "vision_day": 30,
     "vision_night": 10,
     "revert_to_itype": "bot_dispatch",
@@ -308,7 +373,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
       "LOUDMOVES",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "BIOPROOF"
     ]
   },
   {
@@ -335,6 +401,8 @@
     "dodge": 2,
     "armor_bash": 12,
     "armor_cut": 12,
+    "armor_bullet": 30,
+    "armor_fire": 15,
     "vision_day": 30,
     "vision_night": 10,
     "revert_to_itype": "bot_dispatch_military",
@@ -351,7 +419,8 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
       "LOUDMOVES",
-      "DROPS_AMMO"
+      "DROPS_AMMO",
+      "BIOPROOF"
     ]
   }
 ]

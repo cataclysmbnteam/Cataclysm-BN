@@ -21,7 +21,7 @@
         { "id": [ "highlight", "line_target", "line_trail", "cursor" ], "fg": 12 },
         { "id": "highlight_item", "fg": 13, "rotates": false },
         { "id": "unknown", "fg": 14, "rotates": false },
-        { "id": ["footstep", "footstep_above", "footstep_below"], "fg": 15, "rotates": false },
+        { "id": [ "footstep", "footstep_above", "footstep_below" ], "fg": 15, "rotates": false },
         { "id": "infrared_creature", "fg": 16, "rotates": false },
         {
           "id": "explosion",
@@ -1454,7 +1454,7 @@
         { "id": "t_machinery_old", "fg": 565, "rotates": false },
         { "id": [ "t_machinery_heavy", "t_sewage_pump" ], "fg": 566, "rotates": false },
         { "id": "t_machinery_electronic", "fg": 567, "rotates": false },
-        { "id": "f_autodoc", "fg": 568, "rotates": false },
+        { "id": [ "f_autodoc", "vp_autodoc" ], "fg": 568, "rotates": false },
         { "id": "f_robotic_arm", "fg": 569, "rotates": false },
         { "id": "t_ind_assembler", "fg": 570, "rotates": false },
         { "id": "t_ind_drill", "fg": 571, "rotates": false },
@@ -1671,7 +1671,7 @@
             { "id": "unconnected", "fg": 689 }
           ]
         },
-        { "id": [ "f_autodoc_couch", "f_sofa" ], "fg": 695, "rotates": false },
+        { "id": [ "f_autodoc_couch", "vp_autodoc_couch", "f_sofa" ], "fg": 695, "rotates": false },
         {
           "id": "f_table",
           "fg": 696,
@@ -4642,7 +4642,7 @@
           "rotates": false
         },
         { "id": "bokken", "fg": 1543, "rotates": false },
-        { "id": "kevlar_harness", "fg": 1544, "rotates": false },
+        { "id": "kevlar_armor_small_quadruped", "fg": 1544, "rotates": false },
         { "id": "ceramic_armor", "fg": 1545, "rotates": false },
         { "id": "kevlar_plate", "fg": 1546, "rotates": false },
         { "id": "khopesh", "fg": 1547, "rotates": false },
@@ -7959,7 +7959,11 @@
           ]
         },
         { "id": "fd_tindalos_rift", "fg": 3083, "rotates": false },
-        { "id": [ "voltmeter", "balance_small", "melting_point", "spectrophotometer", "ph_meter", "vortex" ], "fg": 3084, "rotates": false },
+        {
+          "id": [ "voltmeter", "balance_small", "melting_point", "spectrophotometer", "ph_meter", "vortex" ],
+          "fg": 3084,
+          "rotates": false
+        },
         { "id": "beaker", "fg": 3085, "rotates": false },
         { "id": "gelbox", "fg": 3086, "rotates": false },
         { "id": [ "survival_kit", "survival_kit_box", "cuvettes" ], "fg": 3087, "rotates": false },

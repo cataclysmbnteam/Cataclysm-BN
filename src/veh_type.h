@@ -6,6 +6,7 @@
 #include <bitset>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -14,7 +15,6 @@
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "string_id.h"
@@ -101,18 +101,10 @@ struct vpslot_engine {
     std::vector<itype_id> fuel_opts;
 };
 
-struct veh_ter_mod {
-    /* movecost for moving through this terrain (overrides current terrain movecost)
-                     * if movecost <= 0 ignore this parameter */
-    int movecost;
-    // penalty while not on this terrain (adds to movecost)
-    int penalty;
-};
-
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
+    std::vector<std::pair<std::string, int>> terrain_mod;
     float or_rating = 0.0f;
 };
 
@@ -143,10 +135,10 @@ class vpart_info
         /** Unique identifier for this part */
         vpart_id id;
 
-        cata::optional<vpslot_engine> engine_info;
-        cata::optional<vpslot_wheel> wheel_info;
-        cata::optional<vpslot_rotor> rotor_info;
-        cata::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_engine> engine_info;
+        std::optional<vpslot_wheel> wheel_info;
+        std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_workbench> workbench_info;
 
     public:
         /** Translated name of a part */
@@ -280,7 +272,7 @@ class vpart_info
         int cargo_weight_modifier = 100;
 
         /** Flat decrease of damage of a given type. */
-        std::array<float, NUM_DT> damage_reduction = {};
+        resistances damage_reduction;
 
         /* Contains data for terrain transformer parts */
         transform_terrain_data transform_terrain;
@@ -308,7 +300,7 @@ class vpart_info
          */
         float wheel_rolling_resistance() const;
         int wheel_area() const;
-        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
+        std::vector<std::pair<std::string, int>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
         /** @name rotor specific functions
         */
@@ -316,7 +308,7 @@ class vpart_info
         /**
          * Getter for optional workbench info
          */
-        const cata::optional<vpslot_workbench> &get_workbench_info() const;
+        const std::optional<vpslot_workbench> &get_workbench_info() const;
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
@@ -349,11 +341,11 @@ class vpart_info
         }
         void set_flag( const std::string &flag );
 
-        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+        static void load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                                  const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
-        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
+        static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
@@ -391,10 +383,10 @@ struct vehicle_prototype {
     vehicle_prototype( const std::string &name, const std::vector<part_def> &parts,
                        const std::vector<vehicle_item_spawn> &item_spawns,
                        std::unique_ptr<vehicle> &&blueprint );
-    vehicle_prototype( vehicle_prototype && );
+    vehicle_prototype( vehicle_prototype && ) noexcept ;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept ;
 
     std::string name;
     std::vector<part_def> parts;

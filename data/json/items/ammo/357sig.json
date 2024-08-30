@@ -6,9 +6,8 @@
     "description": "Jacketed .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
     "weight": "8 g",
     "volume": "250 ml",
-    "price": 370,
-    "price_postapoc": 1000,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price": "370 cent",
+    "price_postapoc": "10 USD",
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "light_gray",
@@ -18,7 +17,7 @@
     "casing": "357sig_casing",
     "range": 16,
     "//": "Base damage of 28, balance increase of two-nineths.",
-    "damage": { "damage_type": "stab", "amount": 34, "armor_penetration": 19 },
+    "damage": { "damage_type": "bullet", "amount": 34, "armor_penetration": 19 },
     "dispersion": 30,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
@@ -29,24 +28,34 @@
     "type": "AMMO",
     "name": { "str": ".357 SIG JHP" },
     "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
-    "damage": { "damage_type": "stab", "amount": 42, "armor_penetration": 0 }
+    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 0 }
   },
   {
-    "id": "reloaded_357sig_fmj",
+    "id": "bp_357sig_fmj",
     "copy-from": "357sig_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 SIG FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "name": { "str": ".357 SIG FMJ, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   },
   {
-    "id": "reloaded_357sig_jhp",
+    "id": "bp_357sig_jhp",
     "copy-from": "357sig_jhp",
     "type": "AMMO",
-    "name": { "str": ".357 SIG JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "name": { "str": ".357 SIG JHP, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

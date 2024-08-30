@@ -8,12 +8,11 @@
     "name": { "str": "cryopod bodyglove" },
     "looks_like": "jumpsuit",
     "description": "A dark orange bodyglove, hundreds of tubes curl over its surface, tracing the contours of human musculature.  Meant to control body temperature during prolonged cryopreservation, it could easily keep you comfortable in any earthly climate.  Use it to activate its climate control functionality.",
-    "price": 1500000,
-    "price_postapoc": 150000,
+    "price": "15 kUSD",
+    "price_postapoc": "1500 USD",
     "material": [ "graphene_weave" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "charges_per_use": 5,
     "ammo": "battery",
     "magazines": [
       [
@@ -22,12 +21,13 @@
       ]
     ],
     "rigid": true,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "afs_cryopod_bodyglove_on",
       "active": true,
+      "transform_charges": 1,
       "need_charges": 5,
       "need_charges_msg": "The %s's batteries are dead."
     },
@@ -37,7 +37,7 @@
     "coverage": 100,
     "material_thickness": 1,
     "encumbrance": 5,
-    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "HYGROMETER" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "RAINPROOF", "STURDY", "WATERPROOF", "HYGROMETER", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "afs_cryopod_bodyglove_on",
@@ -50,7 +50,7 @@
     "power_draw": 90000,
     "revert_to": "afs_cryopod_bodyglove",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_cryopod_bodyglove" },
-    "magazine_well": 1,
-    "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF", "CLIMATE_CONTROL" ]
+    "magazine_well": "250 ml",
+    "flags": [ "STURDY", "WATERPROOF", "THERMOMETER", "RAINPROOF", "CLIMATE_CONTROL", "POWERARMOR_COMPATIBLE" ]
   }
 ]

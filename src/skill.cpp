@@ -9,6 +9,7 @@
 
 #include "cata_utility.h"
 #include "debug.h"
+#include "game_constants.h"
 #include "item.h"
 #include "json.h"
 #include "options.h"
@@ -138,6 +139,19 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
+/** @relates string_id */
+template<>
+const SkillDisplayType &skill_displayType_id::obj() const
+{
+    for( const SkillDisplayType &skill : SkillDisplayType::skillTypes ) {
+        if( skill.ident() == *this ) {
+            return skill;
+        }
+    }
+
+    return invalid_skill_type;
+}
+
 void SkillDisplayType::load( const JsonObject &jsobj )
 {
     // TEMPORARY until 0.G: Remove "ident" support
@@ -205,6 +219,13 @@ bool Skill::is_contextual_skill() const
 {
     static const std::string contextual_skill( "contextual_skill" );
     return _tags.count( contextual_skill ) > 0;
+}
+
+// used to check NPC weapon skills for determining starting weapon
+bool Skill::is_weapon_skill() const
+{
+    static const std::string weapon_skill( "weapon_skill" );
+    return _tags.count( weapon_skill ) > 0;
 }
 
 void SkillLevel::train( int amount, bool skip_scaling )
@@ -297,7 +318,7 @@ void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 
 bool SkillLevel::can_train() const
 {
-    return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
+    return ( get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0 && _level < MAX_SKILL );
 }
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
@@ -349,7 +370,7 @@ int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context )
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
 {
-    return meets_skill_requirements( req, item() );
+    return meets_skill_requirements( req, null_item_reference() );
 }
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
@@ -364,7 +385,7 @@ bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req
 std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
     const std::map<skill_id, int> &req ) const
 {
-    return compare_skill_requirements( req, item() );
+    return compare_skill_requirements( req, null_item_reference() );
 }
 
 std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(

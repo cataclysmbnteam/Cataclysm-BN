@@ -18,13 +18,13 @@ source_file_2 = args[1]
 destination_file = args[2]
 
 if not os.path.isfile(source_file_1):
-    print("Error: Couldn't find file '{}'.".format(source_file_1))
+    print(f"Error: Couldn't find file '{source_file_1}'.")
     exit(1)
 if not os.path.isfile(source_file_2):
-    print("Error: Couldn't find file '{}'.".format(source_file_2))
+    print(f"Error: Couldn't find file '{source_file_2}'.")
     exit(1)
 
-print("==> Merging '{}' and '{}' into '{}".format(source_file_1, source_file_2, destination_file))
+print(f"==> Merging '{source_file_1}' and '{source_file_2}' into '{destination_file}")
 
 pot1 = polib.pofile(source_file_1)
 pot2 = polib.pofile(source_file_2)

@@ -30,6 +30,7 @@
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
       { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } },
       { "skill": "speech", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "barter", "bonus": { "rng": [ 0, 1 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 0, 2 ] } }
     ]
   },
@@ -205,8 +206,7 @@
       {
         "text": "I've got a secure base.  You and your wife could come with me.",
         "topic": "TALK_REFUGEE_Pablo_Recruit",
-        "effect": { "u_add_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" },
-        "condition": "u_has_camp"
+        "effect": { "u_add_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" }
       }
     ]
   },

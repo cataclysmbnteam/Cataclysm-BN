@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <list>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -12,11 +13,9 @@
 #include <vector>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "colony.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "damage.h"
@@ -35,6 +34,7 @@
 #include "item_contents.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -44,7 +44,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "pldata.h"
@@ -58,8 +57,10 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "profile.h"
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
@@ -82,7 +83,6 @@ static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const std::string flag_FUNGUS( "FUNGUS" );
-static const std::string flag_GAS_PROOF( "GAS_PROOF" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -93,7 +93,8 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 
-void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
+void map::create_burnproducts( std::vector < detached_ptr<item>> &out, const item &fuel,
+                               const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
@@ -115,7 +116,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
             if( n <= 0 ) {
                 continue;
             }
-            spawn_item( p, id, n, 1, calendar::turn );
+            out.push_back( item::spawn( id ) );
         }
     }
 }
@@ -140,6 +141,8 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
 
 void map::process_fields()
 {
+    ZoneScoped;
+
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int z = minz; z <= maxz; z++ ) {
@@ -208,14 +211,16 @@ std::array<std::pair<tripoint, maptile>, 8> map::get_neighbors( const tripoint &
     };
 }
 
-bool map::gas_can_spread_to( field_entry &cur, const maptile &dst )
+bool map::gas_can_spread_to( field_entry &cur, const tripoint &src, const tripoint &dst )
 {
-    const field_entry *tmpfld = dst.get_field().find_field( cur.get_field_type() );
+    maptile dst_tile = maptile_at( dst );
+    const field_entry *tmpfld = dst_tile.get_field().find_field( cur.get_field_type() );
     // Candidates are existing weaker fields or navigable/flagged tiles with no field.
     if( tmpfld == nullptr || tmpfld->get_field_intensity() < cur.get_field_intensity() ) {
-        const ter_t &ter = dst.get_ter_t();
-        const furn_t &frn = dst.get_furn_t();
-        return ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE );
+        const ter_t &ter = dst_tile.get_ter_t();
+        const furn_t &frn = dst_tile.get_furn_t();
+        return !obstructed_by_vehicle_rotation( src, dst ) &&
+               ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) );
     }
     return false;
 }
@@ -287,8 +292,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
     if( zlevels && p.z > -OVERMAP_DEPTH ) {
         const tripoint down{ p.xy(), p.z - 1 };
-        maptile down_tile = maptile_at_internal( down );
-        if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
+        if( gas_can_spread_to( cur, p, down ) && valid_move( p, down, true, true ) ) {
+            maptile down_tile = maptile_at_internal( down );
             gas_spread_to( cur, down_tile, down );
             return;
         }
@@ -306,7 +311,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
         const auto &neigh = neighs[i];
-        if( gas_can_spread_to( cur, neigh.second ) ) {
+        if( gas_can_spread_to( cur, p, neigh.first ) ) {
             spread.push_back( i );
         }
     }
@@ -342,8 +347,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
         }
     } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
         const tripoint up{ p.xy(), p.z + 1 };
-        maptile up_tile = maptile_at_internal( up );
-        if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
+        if( gas_can_spread_to( cur, p, up ) && valid_move( p, up, true, true ) ) {
+            maptile up_tile = maptile_at_internal( up );
             gas_spread_to( cur, up_tile, up );
         }
     }
@@ -400,6 +405,7 @@ void map::process_fields_in_submap( submap *const current_submap,
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
 
+    map &here = get_map();
     tripoint thep;
     thep.z = submap.z;
 
@@ -534,26 +540,21 @@ void map::process_fields_in_submap( submap *const current_submap,
                     // without forcing the function to use i_at( p ) for fires without items
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
                         map_stack items_here = i_at( p );
-                        std::vector<item> new_content;
-                        for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                            if( explosive->will_explode_in_fire() ) {
-                                // We need to make a copy because the iterator validity is not predictable
-                                item copy = *explosive;
-                                explosive = items_here.erase( explosive );
-                                if( copy.detonate( p, new_content ) ) {
-                                    // Need to restart, iterators may not be valid
-                                    explosive = items_here.begin();
-                                }
-                            } else {
-                                ++explosive;
+                        std::vector<detached_ptr<item>> new_content;
+
+                        items_here.remove_top_items_with( [&p, &new_content]( detached_ptr<item> &&it ) {
+                            if( it->will_explode_in_fire() ) {
+                                it = item::detonate( std::move( it ), p, new_content );
                             }
-                        }
+                            return std::move( it );
+                        } );
 
                         fire_data frd( cur.get_field_intensity(), !can_spread );
                         // The highest # of items this fire can remove in one turn
                         int max_consume = cur.get_field_intensity() * 2;
 
-                        for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
+                        for( auto fuel_it = items_here.begin(); fuel_it != items_here.end() && consumed < max_consume; ) {
+                            item *fuel = *fuel_it;
                             // `item::burn` modifies the charges in order to simulate some of them getting
                             // destroyed by the fire, this changes the item weight, but may not actually
                             // destroy it. We need to spawn products anyway.
@@ -564,26 +565,25 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // which we can not use, so only call `weight` when it's still an existing item.
                             const units::mass new_weight = destroyed ? 0_gram : fuel->weight( false );
                             if( old_weight != new_weight ) {
-                                create_burnproducts( p, *fuel, old_weight - new_weight );
+                                create_burnproducts( new_content, *fuel, old_weight - new_weight );
                             }
 
                             if( destroyed ) {
                                 // If we decided the item was destroyed by fire, remove it.
                                 // But remember its contents, except for irremovable mods, if any
-                                const std::list<item *> content_list = fuel->contents.all_items_top();
-                                for( item *it : content_list ) {
+                                for( detached_ptr<item> &it : fuel->contents.clear_items() ) {
                                     if( !it->is_irremovable() ) {
-                                        new_content.push_back( item( *it ) );
+                                        new_content.push_back( std::move( it ) );
                                     }
                                 }
-                                fuel = items_here.erase( fuel );
+                                fuel_it = items_here.erase( fuel_it );
                                 consumed++;
                             } else {
-                                ++fuel;
+                                ++fuel_it;
                             }
                         }
 
-                        spawn_items( p, new_content );
+                        spawn_items( p, std::move( new_content ) );
                         time_added = 1_turns * roll_remainder( frd.fuel_produced );
                     }
 
@@ -636,7 +636,6 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( cur.get_field_intensity() > 1 &&
                                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 furn_set( p, f_ash );
-                                add_item_or_charges( p, item( "ash" ) );
                             }
 
                         }
@@ -854,7 +853,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur_fd_type_id == fd_fungal_haze ) {
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
-                        fungal_effects( *g, g->m ).spread_fungus( p );
+                        fungal_effects( *g, here ).spread_fungus( p );
                     }
                 }
 
@@ -924,7 +923,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             while( tries < 10 && cur.get_field_age() < 5_minutes && cur.get_field_intensity() > 1 ) {
                                 pnt.x = p.x + rng( -1, 1 );
                                 pnt.y = p.y + rng( -1, 1 );
-                                if( passable( pnt ) ) {
+                                if( passable( pnt ) && !obstructed_by_vehicle_rotation( p, pnt ) ) {
                                     add_field( pnt, fd_electricity, 1, cur.get_field_age() + 1_turns );
                                     cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                     tries = 0;
@@ -944,11 +943,12 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( valid.empty() ) {
                                 tripoint dst( p + point( rng( -1, 1 ), rng( -1, 1 ) ) );
                                 field_entry *elec = get_field( dst ).find_field( fd_electricity );
-                                if( passable( dst ) && elec != nullptr &&
+                                bool pass = passable( dst ) && !obstructed_by_vehicle_rotation( p, dst );
+                                if( pass && elec != nullptr &&
                                     elec->get_field_intensity() < 3 ) {
                                     elec->set_field_intensity( elec->get_field_intensity() + 1 );
                                     cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                                } else if( passable( dst ) ) {
+                                } else if( pass ) {
                                     add_field( dst, fd_electricity, 1, cur.get_field_age() + 1_turns );
                                 }
                                 cur.set_field_intensity( cur.get_field_intensity() - 1 );
@@ -971,7 +971,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                         if( !spawn_details.name ) {
                             continue;
                         }
-                        if( const cata::optional<tripoint> spawn_point = random_point(
+                        if( const std::optional<tripoint> spawn_point = random_point(
                                     points_in_radius( p, cur.monster_spawn_radius() ),
                         [this]( const tripoint & n ) {
                         return passable( n );
@@ -984,13 +984,15 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( cur_fd_type_id == fd_push_items ) {
                     map_stack items = i_at( p );
                     for( auto pushee = items.begin(); pushee != items.end(); ) {
-                        if( pushee->typeId() != itype_rock ||
-                            pushee->age() < 1_turns ) {
+                        if( ( *pushee )->typeId() != itype_rock ||
+                            ( *pushee )->age() < 1_turns ) {
                             pushee++;
                         } else {
-                            item tmp = *pushee;
+                            //TODO!: check
+                            item &tmp = **pushee;
                             tmp.set_age( 0_turns );
-                            pushee = items.erase( pushee );
+                            detached_ptr<item> detached;
+                            pushee = items.erase( pushee, &detached );
                             std::vector<tripoint> valid;
                             for( const tripoint &dst : points_in_radius( p, 1 ) ) {
                                 if( get_field( dst, fd_push_items ) != nullptr ) {
@@ -999,7 +1001,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             }
                             if( !valid.empty() ) {
                                 tripoint newp = random_entry( valid );
-                                add_item_or_charges( newp, tmp );
+                                add_item_or_charges( newp, std::move( detached ) );
                                 if( g->u.pos() == newp ) {
                                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
                                     const bodypart_id hit = g->u.get_random_body_part();
@@ -1124,7 +1126,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 
                             std::vector<point> candidate_positions =
                                 squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );
-                            for( const point &candidate_position : candidate_positions ) {
+                            for( point candidate_position : candidate_positions ) {
                                 field &target_field = get_field( tripoint( candidate_position, p.z ) );
                                 // Only shift if there are no bees already there.
                                 // TODO: Figure out a way to merge bee fields without allowing
@@ -1357,19 +1359,19 @@ void map::player_in_field( player &u )
                     if( !u.is_on_ground() ) {
                         switch( adjusted_intensity ) {
                             case 3:
-                                parts_burned.push_back( bodypart_id( "hand_l" ) );
-                                parts_burned.push_back( bodypart_id( "hand_r" ) );
-                                parts_burned.push_back( bodypart_id( "arm_l" ) );
-                                parts_burned.push_back( bodypart_id( "arm_r" ) );
+                                parts_burned.emplace_back( "hand_l" );
+                                parts_burned.emplace_back( "hand_r" );
+                                parts_burned.emplace_back( "arm_l" );
+                                parts_burned.emplace_back( "arm_r" );
                             /* fallthrough */
                             case 2:
-                                parts_burned.push_back( bodypart_id( "torso" ) );
+                                parts_burned.emplace_back( "torso" );
                             /* fallthrough */
                             case 1:
-                                parts_burned.push_back( bodypart_id( "foot_l" ) );
-                                parts_burned.push_back( bodypart_id( "foot_r" ) );
-                                parts_burned.push_back( bodypart_id( "leg_l" ) );
-                                parts_burned.push_back( bodypart_id( "leg_r" ) );
+                                parts_burned.emplace_back( "foot_l" );
+                                parts_burned.emplace_back( "foot_r" );
+                                parts_burned.emplace_back( "leg_l" );
+                                parts_burned.emplace_back( "leg_r" );
                         }
                     } else {
                         // Lying in the fire is BAAAD news, hits every body part.
@@ -1500,9 +1502,9 @@ void map::player_in_field( player &u )
                 for( int i = 0; i < rng( 1, 7 ); i++ ) {
                     bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
-                    for( const item &i : u.worn ) {
-                        if( i.covers( bp->token ) ) {
-                            sum_cover += i.get_coverage();
+                    for( const item * const &i : u.worn ) {
+                        if( i->covers( bp ) ) {
+                            sum_cover += i->get_coverage( bp );
                         }
                     }
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
@@ -1535,13 +1537,15 @@ void map::player_in_field( player &u )
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
-                if( !( u.worn_with_flag( flag_GAS_PROOF ) && u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
+                if( !( u.worn_with_flag( STATIC( flag_id( "GAS_PROOF" ) ) ) &&
+                       u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
                        u.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
                     bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
                     if( u.has_trait( trait_THRESH_MYCUS ) || u.has_trait( trait_THRESH_MARLOSS ) ||
-                        ( ft == fd_insecticidal_gas && ( u.get_highest_category() == "INSECT" ||
-                                                         u.get_highest_category() == "SPIDER" ) ) ) {
+                        ( ft == fd_insecticidal_gas &&
+                          ( u.get_highest_category() == mutation_category_id( "INSECT" ) ||
+                            u.get_highest_category() == mutation_category_id( "SPIDER" ) ) ) ) {
                         inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
@@ -1558,6 +1562,8 @@ void map::player_in_field( player &u )
 
 void map::creature_in_field( Creature &critter )
 {
+    ZoneScoped;
+
     bool in_vehicle = false;
     bool inside_vehicle = false;
     player *u = critter.as_player();
@@ -1658,6 +1664,9 @@ void map::monster_in_field( monster &z )
                 const int d = rng( cur.get_field_intensity(), cur.get_field_intensity() * 3 );
                 z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
+                if( d > 0 ) {
+                    z.add_effect( effect_corroding, 1_turns * rng( d / 2, d * 2 ) );
+                }
             }
 
         }
@@ -1937,7 +1946,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     using gas_blast = std::pair<float, tripoint>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp_first> open;
     std::set<tripoint> closed;
-    open.push( { 0.0f, center } );
+    open.emplace( 0.0f, center );
 
     const bool not_gas = type.obj().phase != GAS;
 
@@ -1990,8 +1999,9 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     closed.insert( pt );
                     continue;
                 }
-
-                open.push( { static_cast<float>( rl_dist( center, pt ) ), pt } );
+                if( !obstructed_by_vehicle_rotation( gp.second, pt ) ) {
+                    open.emplace( static_cast<float>( rl_dist( center, pt ) ), pt );
+                }
             }
         }
     }

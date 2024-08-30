@@ -1,14 +1,13 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "behavior.h"
 #include "behavior_strategy.h"
-#include "catch/catch.hpp"
 #include "character_oracle.h"
-#include "game.h"
 #include "item.h"
-#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
@@ -18,6 +17,7 @@
 #include "player.h"
 #include "player_helpers.h"
 #include "string_id.h"
+#include "state_helpers.h"
 #include "weather.h"
 
 namespace behavior
@@ -43,6 +43,7 @@ static behavior::node_t make_test_node( std::string goal, const behavior::status
 
 TEST_CASE( "behavior_tree", "[behavior]" )
 {
+    clear_all_state();
     behavior::status_t cold_state = behavior::running;
     behavior::status_t thirsty_state = behavior::running;
     behavior::status_t hungry_state = behavior::running;
@@ -143,7 +144,7 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 // Make assertions about loaded behaviors.
 TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
-    clear_map();
+    clear_all_state();
     behavior::tree npc_needs;
     npc_needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
     npc &test_npc = spawn_npc( { 50, 50 }, "test_talker" );
@@ -152,17 +153,19 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
         weather_manager &weather = get_weather();
-        weather.temperature = -100;
+        weather.temperature = -100_c;
         weather.clear_temp_cache();
         test_npc.update_bodytemp( get_map(), weather );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
+        detached_ptr<item> det = item::spawn( itype_id( "sweater" ) );
+        item &sweater = *det;
+        test_npc.i_add( std::move( det ) );
         CHECK( npc_needs.tick( &oracle ) == "wear_warmer_clothes" );
-        item sweater_copy = test_npc.i_rem( &sweater );
-        test_npc.wear_item( sweater_copy );
+        det = sweater.detach( );
+        test_npc.wear_item( std::move( det ) );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        test_npc.i_add( item( itype_id( "lighter" ) ) );
-        test_npc.i_add( item( itype_id( "2x4" ) ) );
+        test_npc.i_add( item::spawn( itype_id( "lighter" ) ) );
+        test_npc.i_add( item::spawn( itype_id( "2x4" ) ) );
         CHECK( npc_needs.tick( &oracle ) == "start_fire" );
     }
     SECTION( "Hungry" ) {
@@ -170,26 +173,29 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
         test_npc.set_thirst( 100 );
         CHECK( oracle.needs_food_badly() == behavior::status_t::running );
         REQUIRE( npc_needs.tick( &oracle ) == "idle" );
-        item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
-        item_location loc = item_location( test_npc, &food );
+        detached_ptr<item> det = item::spawn( itype_id( "pelmeni" ) );
+        item &food = *det;
+        test_npc.i_add( std::move( det ) );
         REQUIRE( oracle.has_food() == behavior::status_t::running );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
-        test_npc.consume( loc );
+        test_npc.consume( food );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
         test_npc.set_thirst( 700 );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
-        item &water = test_npc.i_add( item( itype_id( "water" ) ) );
-        item_location loc = item_location( test_npc, &water );
+        detached_ptr<item> det = item::spawn( itype_id( "water" ) );
+        item &water = *det;
+        test_npc.i_add( std::move( det ) );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
-        test_npc.consume( loc );
+        test_npc.consume( water );
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
 }
 
 TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
 {
+    clear_all_state();
     behavior::tree monster_goals;
     monster_goals.add( &string_id<behavior::node_t>( "monster_special" ).obj() );
     monster &test_monster = spawn_test_monster( "mon_zombie", { 5, 5, 0 } );

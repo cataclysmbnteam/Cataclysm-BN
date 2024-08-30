@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -11,8 +12,8 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "flat_set.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -39,6 +40,10 @@ struct bionic_data {
     units::energy power_deactivate = 0_kJ;
     /** Power cost over time, does nothing without a non-zero charge_time */
     units::energy power_over_time = 0_kJ;
+    /** Power cost when the bionic's special effect is triggered */
+    units::energy power_trigger = 0_kJ;
+    /** Kcal cost when the bionic's special effect is triggered */
+    int kcal_trigger = 0;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
@@ -65,10 +70,12 @@ struct bionic_data {
     int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
     float fuel_efficiency = 0.0f;
+    /**Multiplies the amount of fuel when loading into the bionic storage*/
+    int fuel_multiplier = 1;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency = 0.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/
-    cata::optional<float> coverage_power_gen_penalty;
+    std::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
@@ -80,6 +87,9 @@ struct bionic_data {
     std::map<bodypart_str_id, int> bash_protec;
     /**Amount of cut protection offered by this bionic*/
     std::map<bodypart_str_id, int> cut_protec;
+    /**Amount of bullet protection offered by this bionic*/
+    std::map<bodypart_str_id, int> bullet_protec;
+
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -125,8 +135,8 @@ struct bionic_data {
      */
     std::set<bionic_id> available_upgrades;
 
-    std::set<flag_str_id> flags;
-    bool has_flag( const flag_str_id &flag ) const;
+    std::set<flag_id> flags;
+    bool has_flag( const flag_id &flag ) const;
 
     itype_id itype() const;
 
@@ -138,9 +148,11 @@ struct bionic_data {
     static void reset();
 
     bool was_loaded = false;
-    void load( const JsonObject &obj, std::string );
+    void load( const JsonObject &obj, const std::string & );
     void check() const;
     void finalize() const;
+
+    LUA_TYPE_OPS( bionic_data, id );
 };
 
 struct bionic {
@@ -154,6 +166,8 @@ struct bionic {
         unsigned int         ammo_count = 0;
         /* An amount of time during which this bionic has been rendered inoperative. */
         time_duration        incapacitated_time;
+        /* The amount of energy the Bionic has stored for it's function. [Currently only used for ADS]*/
+        units::energy        energy_stored = 0_kJ;
         bionic()
             : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
         }
@@ -177,6 +191,7 @@ struct bionic {
         void set_auto_start_thresh( float val );
         float get_auto_start_thresh() const;
         bool is_auto_start_on() const;
+        bool is_auto_start_keep_full() const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -195,7 +210,7 @@ class bionic_collection : public std::vector<bionic>
 /**List of bodyparts occupied by a bionic*/
 std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
-char get_free_invlet( player &p );
+char get_free_invlet( bionic_collection &bionics );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 

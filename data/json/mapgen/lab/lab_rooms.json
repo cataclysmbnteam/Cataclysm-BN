@@ -139,7 +139,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_room_9x9",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
         ".........",
@@ -257,17 +257,25 @@
       "mapgensize": [ 9, 9 ],
       "rows": [
         ".........",
-        ".C.C.C.C.",
+        ".C6...xC.",
         ".........",
-        ".C.C.C.C.",
         ".........",
-        ".C.C.C.C.",
         ".........",
-        ".C.C.C.C.",
+        ".........",
+        ".........",
+        ".Cx...xC.",
         "........."
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": [ "t_centrifuge" ] }
+      "terrain": { "C": [ "t_thconc_floor" ] },
+      "furniture": { "C": [ "f_centrifuge" ] },
+      "computers": {
+        "6": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
+        }
+      }
     }
   },
   {
@@ -729,19 +737,11 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "sub_t_machinery",
+    "//": "Todo: add f_centrifuge once all of the below terrain are converted to furniture.",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
-      "terrain": {
-        "A": [
-          "t_machinery_heavy",
-          "t_machinery_heavy",
-          "t_machinery_electronic",
-          "t_machinery_light",
-          "t_centrifuge",
-          "t_console_broken"
-        ]
-      }
+      "terrain": { "A": [ "t_machinery_heavy", "t_machinery_heavy", "t_machinery_electronic", "t_machinery_light", "t_console_broken" ] }
     }
   },
   {
@@ -844,14 +844,14 @@
       "rows": [
         ",,=.=,,",
         ",,=.=,,",
-        "=^=.=^=",
+        "=H=.=H=",
         ".......",
-        "=^=....",
+        "=H=....",
         ",,=..hl",
         ",,=.ccx"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "terrain": { "=": "t_chainfence_h", "^": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ] },
+      "terrain": { "=": "t_chainfence_h", "H": [ "t_chaingate_c", "t_chaingate_c", "t_chaingate_c", "t_chaingate_o" ] },
       "mapping": { "l": { "items": [ { "item": "vet_softdrug", "chance": 80, "repeat": 2 } ] } },
       "place_monster": [
         { "monster": "mon_zombie_dog", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "pack_size": [ 1, 2 ], "one_or_none": true },

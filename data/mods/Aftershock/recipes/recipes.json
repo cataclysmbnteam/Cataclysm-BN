@@ -13,7 +13,7 @@
     "components": [
       [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
-      [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ]
+      [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -65,7 +65,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
-      [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
       [ [ "plut_cell", 1 ] ]
     ]
   },
@@ -100,27 +100,6 @@
       [ [ "scrap", 3 ] ],
       [ [ "sharp_rock", 1 ], [ "lighter", 1 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "result": "afs_survivor_belt",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": 1000,
-    "autolearn": true,
-    "components": [ [ [ "survivor_belt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "survivor_belt",
-    "id_suffix": "form_afs",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_OTHER",
-    "skill_used": "fabrication",
-    "time": 1000,
-    "autolearn": true,
-    "components": [ [ [ "afs_survivor_belt", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -290,28 +269,6 @@
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
   },
   {
-    "result": "laser_rifle_cheap",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "time": 300000,
-    "reversible": true,
-    "autolearn": [ [ "electronics", 4 ] ],
-    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
-    "components": [
-      [ [ "amplifier", 2 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 100 ] ],
-      [ [ "e_scrap", 10 ] ],
-      [ [ "lens", 2 ] ],
-      [ [ "plastic_chunk", 6 ] ]
-    ]
-  },
-  {
     "result": "plut_cell",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
@@ -329,7 +286,7 @@
       [ [ "lead", 25 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "scrap", 5 ] ],
-      [ [ "can_drink", 5 ], [ "can_food", 5 ], [ "canister_empty", 5 ] ]
+      [ [ "can_drink_unsealed", 5 ], [ "can_food_unsealed", 5 ], [ "canister_empty", 5 ] ]
     ]
   },
   {
@@ -388,6 +345,7 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -426,6 +384,7 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -460,6 +419,7 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -521,33 +481,5 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "software_hacking", -1 ] ] ],
     "components": [ [ [ "laptop", 1 ] ], [ [ "receiver", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "antenna", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "afs_rebar_rifle",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",
-    "skills_required": [ "mechanics", 6 ],
-    "difficulty": 9,
-    "time": "6 h",
-    "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "GLARE", "level": 2 },
-      { "id": "DRILL", "level": 2 },
-      { "id": "SAW_W", "level": 1 }
-    ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
-    "components": [
-      [ [ "cable", 80 ] ],
-      [ [ "afs_circuitry_1", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "afs_energy_storage_3", 4 ] ],
-      [ [ "afs_material_1", 6 ] ],
-      [ [ "pipe", 3 ] ]
-    ]
   }
 ]

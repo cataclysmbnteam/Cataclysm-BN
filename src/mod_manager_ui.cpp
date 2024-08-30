@@ -5,6 +5,7 @@
 
 #include "color.h"
 #include "debug.h"
+#include "catalua.h"
 #include "dependency_tree.h"
 #include "output.h"
 #include "string_formatter.h"
@@ -74,6 +75,17 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     if( !mod->version.empty() ) {
         info += colorize( _( "Mod version" ), c_light_blue ) + ": " + mod->version + "\n";
+    }
+
+    if( mod->lua_api_version ) {
+        nc_color col_lua = cata::has_lua() ? c_light_blue : c_red;
+        int this_api = cata::get_lua_api_version();
+        nc_color col_api = this_api == *mod->lua_api_version ? c_white : c_yellow;
+        info += string_format(
+                    _( "%s: API version %s\n" ),
+                    colorize( _( "Needs Lua" ), col_lua ),
+                    colorize( string_format( "%d", *mod->lua_api_version ), col_api )
+                );
     }
 
     if( !mod->description().empty() ) {

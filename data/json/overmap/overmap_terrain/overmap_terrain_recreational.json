@@ -161,13 +161,22 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "communitygarden",
+    "id": [ "communitygarden", "communitygarden_1", "communitygarden_2" ],
     "name": "community garden",
     "sym": "g",
     "color": "yellow",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SOURCE_FARMING" ]
+    "flags": [ "SOURCE_FARMING", "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "communitygarden_roof", "communitygarden_2_roof" ],
+    "name": "community garden",
+    "sym": "g",
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -369,6 +378,7 @@
       "stadium_2_1",
       "stadium_3_1",
       "stadium_0_2",
+      "stadium_3_2",
       "stadium_0_3",
       "stadium_3_3",
       "stadium_1_4",
@@ -389,7 +399,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "stadium_1_2", "stadium_2_2", "stadium_3_2", "stadium_1_3", "stadium_2_3" ],
+    "id": [ "stadium_1_2", "stadium_2_2", "stadium_1_3", "stadium_2_3" ],
     "copy-from": "generic_city_building",
     "name": "stadium field",
     "sym": "X",
@@ -449,9 +459,11 @@
     "id": [
       "movietheater_roof_0_0",
       "movietheater_roof_2_0",
+      "movietheater_roof2_2_0",
       "movietheater_roof_0_1",
       "movietheater_roof_1_1",
       "movietheater_roof_2_1",
+      "movietheater_roof2_2_1",
       "movietheater_roof_0_2",
       "movietheater_roof_1_2",
       "movietheater_roof_2_2"

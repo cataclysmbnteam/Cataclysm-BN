@@ -4,6 +4,7 @@
     "object": {
       "place_item": [ { "item": "ref_lighter", "chance": 10, "x": 11, "y": 11 } ],
       "furniture": {
+        "'": "f_street_light",
         "#": "f_null",
         ".": "f_null",
         "4": "f_null",
@@ -15,7 +16,7 @@
         "o": "f_boulder_small"
       },
       "rows": [
-        "........................",
+        ".......................'",
         "........................",
         "..4__#f#f#f..f#f#f#__4..",
         "..__#fo_o_o..o_o_of#__..",
@@ -43,6 +44,7 @@
       "terrain": {
         "#": "t_shrub",
         ".": "t_sidewalk",
+        "'": "t_sidewalk",
         "4": "t_tree_willow",
         "F": "t_shrub",
         "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
@@ -76,7 +78,7 @@
       },
       "place_items": [ { "chance": 7, "item": "homebooks", "x": 2, "y": 12 } ],
       "rows": [
-        "...........__...........",
+        "...........__..........'",
         "...........__...........",
         "..||||||P.____.|||||||..",
         "..|#f#f#f._**_.f#f#f#|..",
@@ -105,6 +107,7 @@
         "#": "t_shrub",
         "*": "t_shrub",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "B": "t_shrub",
         "F": "t_grass",
         "S": "t_grass",

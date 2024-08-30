@@ -40,5 +40,11 @@
     "id": [ "river_ne", "river_nw", "river_se", "river_sw" ],
     "copy-from": "generic_river_bank",
     "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_shore",
+    "copy-from": "generic_river",
+    "mapgen": [ { "method": "builtin", "name": "river_shore" } ]
   }
 ]

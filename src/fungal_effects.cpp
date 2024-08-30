@@ -36,6 +36,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const skill_id skill_melee( "melee" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
 
@@ -45,8 +47,10 @@ static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_INDOORS( "INDOORS" );
+static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
+static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLOWER( "FLOWER" );
 static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_ORGANIC( "ORGANIC" );
@@ -97,7 +101,8 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         if( hit ) {
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
-    } else if( gm.num_creatures() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
+    } else if( static_cast<int>( gm.num_creatures() ) < fungal_opt.spore_creatures_threshold &&
+               x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
         if( monster *const spore = gm.place_critter_at( mon_spore, p ) ) {
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
@@ -114,8 +119,8 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
 
 void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 {
-    for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
-        fungalize( tmp, origin, 0.25 );
+    for( const tripoint &tmp : get_map().points_in_radius( p, 1 ) ) {
+        fungalize( tmp, origin, fungal_opt.spore_chance );
     }
 }
 
@@ -145,13 +150,14 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             m.ter_set( p, t_fungus );
             converted = true;
         }
-    } else if( m.has_flag( flag_FLAT, p ) ) {
-        if( m.has_flag( TFLAG_INDOORS, p ) ) {
+    } else if( fungal_opt.spread_on_flat_tiles_allowed &&
+               m.has_flag( flag_FLAT, p ) ) {
+        if( m.has_flag( flag_INDOORS, p ) ) {
             if( x_in_y( growth * 10, 500 ) ) {
                 m.ter_set( p, t_fungus_floor_in );
                 converted = true;
             }
-        } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, p ) ) {
+        } else if( m.has_flag( flag_SUPPORTS_ROOF, p ) ) {
             if( x_in_y( growth * 10, 1000 ) ) {
                 m.ter_set( p, t_fungus_floor_sup );
                 converted = true;
@@ -168,6 +174,11 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             converted = true;
         } else if( x_in_y( growth, 1000 ) ) {
             m.ter_set( p, t_marloss );
+            converted = true;
+        }
+    } else if( m.has_flag( flag_WALL, p ) && m.has_flag( flag_FLAMMABLE, p ) ) {
+        if( x_in_y( growth * 10, 5000 ) ) {
+            m.ter_set( p, t_fungus_wall );
             converted = true;
         }
     } else if( m.has_flag( flag_THIN_OBSTACLE, p ) ) {
@@ -207,11 +218,6 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             }
             converted = true;
         }
-    } else if( m.has_flag( flag_WALL, p ) && m.has_flag( flag_FLAMMABLE, p ) ) {
-        if( x_in_y( growth * 10, 5000 ) ) {
-            m.ter_set( p, t_fungus_wall );
-            converted = true;
-        }
     }
     // Furniture conversion
     if( converted ) {
@@ -227,13 +233,14 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             // Replace the (already existing) seed
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = m.i_at( p );
-            const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.is_seed();
+            const map_stack::iterator seed = std::find_if( items.begin(),
+            items.end(), []( const item * const & it ) {
+                return it->is_seed();
             } );
-            if( seed == items.end() || !seed->is_seed() ) {
+            if( seed == items.end() || !( *seed )->is_seed() ) {
                 dbg( DL::Warn ) << "No seed item in the PLANT terrain at position " << p;
             } else {
-                *seed = item( "fungal_seeds", calendar::turn );
+                ( *seed )->convert( itype_fungal_seeds );
             }
         }
     }
@@ -242,7 +249,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 void fungal_effects::spread_fungus( const tripoint &p )
 {
     int growth = 1;
-    for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
+    map &here = get_map();
+    for( const tripoint &tmp : here.points_in_radius( p, 1 ) ) {
         if( tmp == p ) {
             continue;
         }
@@ -258,7 +266,7 @@ void fungal_effects::spread_fungus( const tripoint &p )
         if( growth == 9 ) {
             return;
         }
-        for( const tripoint &dest : g->m.points_in_radius( p, 1 ) ) {
+        for( const tripoint &dest : here.points_in_radius( p, 1 ) ) {
             // One spread on average
             if( !m.has_flag( flag_FUNGUS, dest ) && one_in( 9 - growth ) ) {
                 //growth chance is 100 in X simplified

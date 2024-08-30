@@ -125,7 +125,7 @@ num_errors = 0
 for file in sorted(os.listdir("lang/po")):
     if file.endswith(".po") and not file.endswith("en.po"):
         print("Checking", file, end="", flush=True)
-        errors = check_po_file("lang/po/" + file)
+        errors = check_po_file(f"lang/po/{file}")
         n = len(errors)
         num_errors += n
         if n > 0:

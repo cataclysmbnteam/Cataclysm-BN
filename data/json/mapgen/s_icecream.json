@@ -6,7 +6,7 @@
     "weight": 100,
     "object": {
       "rows": [
-        ".............d__d.......",
+        ".............d__d......`",
         ".............d__d.......",
         "...D...b.....d__d.......",
         "..bab.DaD...d____d......",
@@ -21,7 +21,7 @@
         "..|cc-ff+___tt__tt__v|..",
         "..|ffcff+___##__##__v|..",
         "..|efcff||||||||||||||..",
-        "..|ff-ff-T&-j{{{c&ccc|..",
+        "..|ff-ff-T&-j{{[c&ccc|..",
         "..|ff-ffgfc-fffffffff|..",
         "..|ff-k-----offfffffh|..",
         "..|fffffffffffffffffh|..",
@@ -38,6 +38,7 @@
         "+": "t_door_glass_c",
         "-": "t_wall_y",
         ".": "t_grass",
+        "`": "t_dirt",
         "C": "t_sidewalk",
         "D": "t_dirt",
         "T": "t_floor",
@@ -62,10 +63,12 @@
         "v": "t_sidewalk",
         "w": "t_window",
         "{": "t_floor",
+        "[": "t_floor",
         "|": "t_brick_wall",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "`": "f_street_light",
         "#": "f_bench",
         "&": "f_sink",
         "C": "f_counter",
@@ -83,8 +86,10 @@
         "o": "f_oven",
         "t": "f_table",
         "v": "f_vending_c",
-        "{": "f_fridge"
+        "{": "f_fridge",
+        "[": "f_freezer"
       },
+      "items": { "i": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "vending_drink", "x": 20, "y": 13, "chance": 75, "repeat": [ 1, 4 ] },

@@ -1,7 +1,6 @@
-#if defined(LOCALIZE)
-#include "cata_libintl.h"
-
 #include "catch/catch.hpp"
+
+#include "cata_libintl.h"
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "rng.h"
@@ -702,4 +701,3 @@ TEST_CASE( "bench_asssemble_trans_lib", "[libintl][i18n][benchmark][.]" )
         ( void ) res;
     };
 }
-#endif // LOCALIZE

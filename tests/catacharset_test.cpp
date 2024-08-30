@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <clocale>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
 #include "catacharset.h"
-#include "catch/catch.hpp"
 #include "options_helpers.h"
 #include "translations.h"
 

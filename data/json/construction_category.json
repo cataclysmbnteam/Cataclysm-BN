@@ -56,6 +56,12 @@
     "name": "Others"
   },
   {
+    "//": "Should be second to last in the list",
+    "type": "construction_category",
+    "id": "FAVORITE",
+    "name": "Favorite"
+  },
+  {
     "//": "Should be last in the list",
     "type": "construction_category",
     "id": "FILTER",

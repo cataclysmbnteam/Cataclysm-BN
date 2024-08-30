@@ -13,6 +13,7 @@
 #include "json.h"
 #include "pldata.h"
 #include "type_id.h"
+#include "locations.h"
 
 const bodypart_str_id body_part_head( "head" );
 const bodypart_str_id body_part_eyes( "eyes" );
@@ -82,6 +83,41 @@ std::string enum_to_string<hp_part>( hp_part data )
     abort();
 }
 
+template<>
+std::string enum_to_string<body_part>( body_part data )
+{
+    switch( data ) {
+        case body_part::bp_torso:
+            return "TORSO";
+        case body_part::bp_head:
+            return "HEAD";
+        case body_part::bp_eyes:
+            return "EYES";
+        case body_part::bp_mouth:
+            return "MOUTH";
+        case body_part::bp_arm_l:
+            return "ARM_L";
+        case body_part::bp_arm_r:
+            return "ARM_R";
+        case body_part::bp_hand_l:
+            return "HAND_L";
+        case body_part::bp_hand_r:
+            return "HAND_R";
+        case body_part::bp_leg_l:
+            return "LEG_L";
+        case body_part::bp_leg_r:
+            return "LEG_R";
+        case body_part::bp_foot_l:
+            return "FOOT_L";
+        case body_part::bp_foot_r:
+            return "FOOT_R";
+        case body_part::num_bp:
+            break;
+    }
+    debugmsg( "Invalid body_part" );
+    abort();
+}
+
 } // namespace io
 
 namespace
@@ -90,6 +126,28 @@ namespace
 generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
+
+bool is_legacy_bodypart_id( const std::string &id )
+{
+    static const std::vector<std::string> legacy_body_parts = {
+        "TORSO",
+        "HEAD",
+        "EYES",
+        "MOUTH",
+        "ARM_L",
+        "ARM_R",
+        "HAND_L",
+        "HAND_R",
+        "LEG_L",
+        "LEG_R",
+        "FOOT_L",
+        "FOOT_R",
+        "NUM_BP",
+    };
+
+    return std::find( legacy_body_parts.begin(), legacy_body_parts.end(),
+                      id ) != legacy_body_parts.end();
+}
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
@@ -235,20 +293,23 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "heading", name_as_heading );
     // Same as the above comment
-    mandatory( jo, was_loaded, "heading_multiple", name_as_heading_multiple );
+    optional( jo, was_loaded, "heading_multiple", name_as_heading_multiple, name_as_heading );
     optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
-    mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
-    mandatory( jo, was_loaded, "hit_size", hit_size );
-    mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
-    mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
+    optional( jo, was_loaded, "encumbrance_text", encumb_text );
 
-    mandatory( jo, was_loaded, "base_hp", base_hp );
+    assign( jo, "hit_size", hit_size, true );
+    assign( jo, "hit_difficulty", hit_difficulty, true );
+    assign( jo, "hit_size_relative", hit_size_relative, true );
 
-    mandatory( jo, was_loaded, "legacy_id", legacy_id );
+    assign( jo, "base_hp", base_hp, true );
+
+    assign( jo, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
 
-    mandatory( jo, was_loaded, "main_part", main_part );
-    mandatory( jo, was_loaded, "opposite_part", opposite_part );
+    optional( jo, was_loaded, "main_part", main_part, id );
+    optional( jo, was_loaded, "opposite_part", opposite_part, id );
+
+    optional( jo, was_loaded, "essential", essential, false );
 
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
@@ -256,11 +317,10 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
-
-
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
 
-    part_side = jo.get_enum_value<side>( "side" );
+    const auto side_reader = enum_flags_reader<side> { "side" };
+    optional( jo, was_loaded, "side", part_side, side_reader, side::BOTH );
 }
 
 void body_part_type::reset()
@@ -377,7 +437,14 @@ body_part opposite_body_part( body_part bp )
     return get_bp( bp ).opposite_part->token;
 }
 
+bodypart::bodypart() : bodypart( new fake_item_location() ) {};
+
 bodypart_id bodypart::get_id() const
+{
+    return id;
+}
+
+bodypart_str_id bodypart::get_str_id() const
 {
     return id;
 }
@@ -467,6 +534,53 @@ void bodypart::mod_damage_disinfected( int mod )
     damage_disinfected += mod;
 }
 
+body_part_set &body_part_set::unify_set( const body_part_set &rhs )
+{
+    for( auto i = rhs.parts.begin(); i != rhs.parts.end(); i++ ) {
+        if( parts.count( *i ) == 0 ) {
+            parts.insert( *i );
+        }
+    }
+    return *this;
+}
+
+body_part_set &body_part_set::intersect_set( const body_part_set &rhs )
+{
+    for( auto it = parts.begin(); it < parts.end(); ) {
+        if( rhs.parts.count( *it ) == 0 ) {
+            it = parts.erase( it );
+        } else {
+            it++;
+        }
+    }
+    return *this;
+}
+
+body_part_set &body_part_set::substract_set( const body_part_set &rhs )
+{
+    for( auto j = rhs.parts.begin(); j != rhs.parts.end(); j++ ) {
+        if( parts.count( *j ) > 0 ) {
+            parts.erase( *j );
+        }
+    }
+    return *this;
+}
+
+body_part_set body_part_set::make_intersection( const body_part_set &rhs ) const
+{
+    body_part_set new_intersection;
+    new_intersection.parts = parts;
+    new_intersection.intersect_set( rhs );
+    return new_intersection;
+}
+
+void body_part_set::fill( const std::vector<bodypart_id> &bps )
+{
+    for( const bodypart_id &bp : bps ) {
+        parts.insert( bp.id() );
+    }
+}
+
 void bodypart::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -486,4 +600,21 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "hp_max", hp_max, true );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
+}
+
+void bodypart::set_location( location<item> *loc )
+{
+    wielding.wielded.set_loc_hack( loc );
+}
+
+wield_status::wield_status( wield_status &&source ) noexcept : wielded(
+        source.wielded.get_loc_hack() )
+{
+    wielded = source.wielded.release();
+}
+
+wield_status &wield_status::operator=( wield_status &&source ) noexcept
+{
+    wielded = source.wielded.release();
+    return *this;
 }

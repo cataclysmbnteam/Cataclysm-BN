@@ -1,16 +1,18 @@
 [
   {
     "type": "recipe",
-    "result": "butter",
-    "result_mult": 1,
+    "result": "ghee",
+    "id_suffix": "with_the_power_of_the_atom",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": "15 m",
+    "time": "5 m",
+    "charges": 5,
     "qualities": [ { "id": "CHURN", "level": 2 } ],
+    "tools": [ [ [ "rag", -1 ] ] ],
     "autolearn": true,
-    "components": [ [ [ "milk_raw", 45 ] ], [ [ "salt", 15 ] ] ]
+    "components": [ [ [ "milk_raw", 4 ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ] ]
   },
   {
     "type": "recipe",

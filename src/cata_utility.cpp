@@ -13,6 +13,7 @@
 #include <string>
 
 #include "debug.h"
+#include "enum_conversions.h"
 #include "filesystem.h"
 #include "json.h"
 #include "options.h"
@@ -53,7 +54,7 @@ int modulo( int v, int m )
     // but this is supposed to be mathematical modulo: 0 <= v%m < m,
     const int r = v % m;
     // Adding m in that (and only that) case.
-    return r >= 0 ? r : r + m;
+    return r >= 0 ? r : r + ( m * ( 1 - r / m ) );
 }
 
 bool isBetween( int test, int down, int up )
@@ -217,6 +218,7 @@ static std::wstring cata_ios_mode_to_c( bool out, cata_ios_mode m )
 }
 
 cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _buffer = std::move( x._buffer );
@@ -265,6 +267,7 @@ void cata_ofstream::close()
 #else // defined (_WIN32) && !defined (_MSC_VER)
 
 cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _mode = x._mode;
@@ -301,6 +304,7 @@ void cata_ofstream::close()
 cata_ofstream::cata_ofstream() = default;
 
 cata_ofstream::cata_ofstream( cata_ofstream &&x )
+noexcept
 {
     *this = std::move( x );
 }
@@ -338,6 +342,7 @@ std::ostream *cata_ofstream::operator->()
 #if defined (_WIN32) && !defined (_MSC_VER)
 
 cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _buffer = std::move( x._buffer );
@@ -385,6 +390,7 @@ void cata_ifstream::close()
 #else // defined (_WIN32) && !defined (_MSC_VER)
 
 cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _mode = x._mode;
@@ -421,6 +427,7 @@ void cata_ifstream::close()
 cata_ifstream::cata_ifstream() = default;
 
 cata_ifstream::cata_ifstream( cata_ifstream &&x )
+noexcept
 {
     *this = std::move( x );
 }
@@ -617,7 +624,7 @@ void ofstream_wrapper::close()
     }
 }
 
-std::string obscure_message( const std::string &str, std::function<char()> f )
+std::string obscure_message( const std::string &str, const std::function<char()> &f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
@@ -632,9 +639,12 @@ std::string obscure_message( const std::string &str, std::function<char()> f )
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
         std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
-        if( transformation[0] == -1 ) {
+        // mk_wcwidth, which is used by utf8_width, might return -1 for some values, such as newlines 0x0A
+        if( transformation[0] == -1 || utf8_width( this_char ) == -1 ) {
+            // Leave unchanged
             continue;
         } else if( transformation[0] == 0 ) {
+            // Replace with random character
             if( utf8_width( this_char ) == 1 ) {
                 w_str[i] = random_entry( w_gibberish_narrow );
             } else {
@@ -669,4 +679,105 @@ void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const
     std::istringstream buffer( data );
     JsonIn jsin( buffer );
     callback( jsin );
+}
+
+/* compare against table of easter dates */
+static bool is_easter( int day, int month, int year )
+{
+    if( month == 3 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2024: return day == 31;
+            case 2027: return day == 28;
+            default: break;
+            // *INDENT-ON*
+        }
+    } else if( month == 4 ) {
+        switch( year ) {
+            // *INDENT-OFF*
+            case 2021: return day == 4;
+            case 2022: return day == 17;
+            case 2023: return day == 9;
+            case 2025: return day == 20;
+            case 2026: return day == 5;
+            case 2028: return day == 16;
+            case 2029: return day == 1;
+            case 2030: return day == 21;
+            default: break;
+            // *INDENT-ON*
+        }
+    }
+    return false;
+}
+
+holiday get_holiday_from_time( std::time_t time, bool force_refresh )
+{
+    static holiday cached_holiday = holiday::none;
+    static bool is_cached = false;
+
+    if( force_refresh ) {
+        is_cached = false;
+    }
+    if( is_cached ) {
+        return cached_holiday;
+    }
+
+    is_cached = true;
+
+    bool success = false;
+
+    std::tm local_time;
+    std::time_t current_time = time == 0 ? std::time( nullptr ) : time;
+
+    /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
+#if defined(_WIN32)
+
+    errno_t err = localtime_s( &local_time, &current_time );
+    if( err == 0 ) {
+        success = true;
+    }
+
+#else
+
+    success = !!localtime_r( &current_time, &local_time );
+
+#endif
+
+    if( success ) {
+
+        const int month = local_time.tm_mon + 1;
+        const int day = local_time.tm_mday;
+        const int wday = local_time.tm_wday;
+        const int year = local_time.tm_year + 1900;
+
+        /* check date against holidays */
+        if( month == 1 && day == 1 ) {
+            cached_holiday = holiday::new_year;
+            return cached_holiday;
+        }
+        // only run easter date calculation if currently March or April
+        else if( ( month == 3 || month == 4 ) && is_easter( day, month, year ) ) {
+            cached_holiday = holiday::easter;
+            return cached_holiday;
+        } else if( month == 7 && day == 4 ) {
+            cached_holiday = holiday::independence_day;
+            return cached_holiday;
+        }
+        // 13 days seems appropriate for Halloween
+        else if( month == 10 && day >= 19 ) {
+            cached_holiday = holiday::halloween;
+            return cached_holiday;
+        } else if( month == 11 && ( day >= 22 && day <= 28 ) && wday == 4 ) {
+            cached_holiday = holiday::thanksgiving;
+            return cached_holiday;
+        }
+        // For the 12 days of Christmas, my true love gave to me...
+        else if( month == 12 && ( day >= 14 && day <= 25 ) ) {
+            cached_holiday = holiday::christmas;
+            return cached_holiday;
+        }
+    }
+    // fall through to here if localtime fails, or none of the day tests hit
+    cached_holiday = holiday::none;
+    return cached_holiday;
 }

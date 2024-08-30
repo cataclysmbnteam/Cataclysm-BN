@@ -11,10 +11,9 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "per", "scale": -0.25 } ],
     "stun_dur": 2,
     "messages": [ "Your pistol whip sends %s careening", "<npcname> smacks %s" ],
-    "description": "95% moves, 88% Bash, 66% Cut, 66% Stab, Down two turns, STR (C) greatly reduces action cost"
+    "description": "95% moves, 88% Bash, 66% Cut, 66% Stab, Down two turns"
   },
   {
     "type": "technique",
@@ -30,13 +29,12 @@
       { "stat": "damage", "type": "stab", "scale": 0.5 }
     ],
     "flat_bonuses": [
-      { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.15 },
       { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.1 },
       { "stat": "damage", "type": "cut", "scaling-stat": "per", "scale": 0.1 }
     ],
     "messages": [ "Your swing the stock of your weapon at %s", "<npcname> strikes at %s" ],
     "aoe": "wide",
-    "description": "60% moves, 50% damage, wide arc, STR (S) dramatically reduces action cost, and adds a (C) damage bonus, min 4 melee"
+    "description": "60% moves, 50% damage, wide arc, damage increased by 10-15% of PER, min 4 melee"
   }
 ]

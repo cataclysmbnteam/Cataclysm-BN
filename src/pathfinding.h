@@ -40,7 +40,7 @@ inline pf_special &operator &= ( pf_special &lhs, pf_special rhs )
 
 struct pathfinding_cache {
     pathfinding_cache();
-    ~pathfinding_cache();
+    ~pathfinding_cache() = default;
 
     bool dirty;
 
@@ -70,6 +70,7 @@ struct pathfinding_settings {
         : bash_strength( bs ), max_dist( md ), max_length( ml ), climb_cost( cc ),
           allow_open_doors( aod ), avoid_traps( at ), allow_climb_stairs( acs ), avoid_rough_terrain( art ),
           avoid_sharp( as ) {}
+    pathfinding_settings &operator = ( const pathfinding_settings & ) = default;
 };
 
 #endif // CATA_SRC_PATHFINDING_H

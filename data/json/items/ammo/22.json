@@ -6,7 +6,7 @@
     "name": { "str": ".22 CPHP" },
     "description": ".22 Long Rifle ammunition with 30gr copper-plated, hollow-point bullets.  Has a higher velocity and slightly more stopping power than lead round-nose ammunition, but armor will have a magnified effect on its already-low penetration.",
     "//": "Hollowpoint damage increase of 25%",
-    "damage": { "damage_type": "stab", "amount": 20, "armor_penetration": 0 },
+    "damage": { "damage_type": "bullet", "amount": 20, "armor_penetration": 0 },
     "relative": { "range": 3 },
     "proportional": { "recoil": 1.5 }
   },
@@ -17,9 +17,8 @@
     "description": ".22 Long Rifle ammunition with 40gr unjacketed bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals.",
     "weight": "3 g",
     "volume": "250 ml",
-    "price": 150,
-    "price_postapoc": 800,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price": "150 cent",
+    "price_postapoc": "8 USD",
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -29,7 +28,7 @@
     "casing": "22_casing",
     "range": 13,
     "//": "Base damage of 12, balance increase of one-third.",
-    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 9 },
+    "damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 9 },
     "dispersion": 60,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
@@ -41,20 +40,26 @@
     "name": { "str": ".22 rat-shot" },
     "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and penetration ability, but it can hit targets with greater ease.",
     "count": 100,
-    "price_postapoc": 400,
+    "price_postapoc": "4 USD",
     "dispersion": 0,
-    "relative": { "range": -9 },
+    "range": 0,
+    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "proportional": { "recoil": 0.334 },
-    "extend": { "effects": [ "SHOT", "NOGIB" ] }
+    "extend": { "effects": [ "SHOT", "NOGIB" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
     "id": "bp_22_cphp",
     "copy-from": "22_cphp",
     "type": "AMMO",
     "name": { "str": ".22 LR CPHP, black powder" },
-    "proportional": { "price": 0.3, "damage": { "damage_type": "stab", "amount": 0.57 }, "recoil": 0.57, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
+      "recoil": 0.57,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   },
   {
     "id": "bp_22_lr",
@@ -62,30 +67,12 @@
     "type": "AMMO",
     "name": { "str": ".22 LR, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.57,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_22_lr",
-    "copy-from": "22_lr",
-    "type": "AMMO",
-    "name": { "str": ".22 LR, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_22_cphp",
-    "copy-from": "22_cphp",
-    "type": "AMMO",
-    "name": { "str": ".22 CPHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

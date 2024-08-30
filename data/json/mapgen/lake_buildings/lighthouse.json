@@ -69,7 +69,7 @@
         "W": "f_woodstove",
         "v": "f_workbench"
       },
-      "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "l": { "liquid": "water", "amount": [ 0, 100 ] } },
       "items": {
         "7": { "item": "fishing_items", "chance": 20, "repeat": [ 2, 4 ] },
         "b": { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
@@ -156,7 +156,7 @@
       "items": {
         "b": { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
         "o": { "item": "oven", "chance": 25, "repeat": [ 1, 2 ] },
-        "f": { "item": "fridge", "chance": 25, "repeat": [ 1, 2 ] },
+        "f": { "item": "SUS_fridge", "chance": 70 },
         "S": { "item": "shower", "chance": 25, "repeat": [ 1, 2 ] },
         "R": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
         "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },

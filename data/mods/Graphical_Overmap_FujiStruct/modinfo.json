@@ -2,12 +2,12 @@
   {
     "type": "MOD_INFO",
     "id": "Graphical_Overmap_Fujistruct",
-    "name": "Graphical Overmap Fujistruct",
+    "name": "Larwick's Overmap Fujistruct",
     "authors": [ "Kilvoctu" ],
     "maintainers": [ "Kilvoctu" ],
-    "description": "Fuji Structures mod support for Graphical Overmap.",
+    "description": "Fuji Structures mod support for Larwick's Overmap.",
     "category": "graphical",
-    "dependencies": [ "dda", "Graphical_Overmap", "FujiStruct" ],
+    "dependencies": [ "bn", "Graphical_Overmap", "FujiStruct" ],
     "obsolete": true
   }
 ]

@@ -1,7 +1,10 @@
 #include "player_activity.h"
+#include "cata_utility.h"
+#include "player_activity_ptr.h"
 
 #include <algorithm>
 #include <array>
+#include <map>
 #include <memory>
 #include <utility>
 
@@ -11,9 +14,12 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_turn.h"
 #include "color.h"
 #include "construction.h"
+#include "construction_partial.h"
 #include "crafting.h"
+#include "distraction_manager.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -26,6 +32,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "value_ptr.h"
+#include "profile.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -49,12 +56,24 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 {
 }
 
-player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
-    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+player_activity::player_activity( std::unique_ptr<activity_actor> &&actor ) : type(
+        actor->get_type() ),
+    actor( std::move( actor ) ), moves_total( 0 ), moves_left( 0 )
 {
 }
 
 player_activity::~player_activity() = default;
+
+
+void player_activity::resolve_active()
+{
+    if( active ) {
+        active = false;
+    } else {
+        delete this;
+    }
+}
+
 
 void player_activity::migrate_item_position( Character &guy )
 {
@@ -66,11 +85,11 @@ void player_activity::migrate_item_position( Character &guy )
         type == ACT_ATM;
 
     if( simple_action_replace ) {
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.emplace_back( &guy.i_at( position ) );
     } else if( type == ACT_GUNMOD_ADD ) {
         // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
-        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+        targets.emplace_back( &guy.i_at( position ) );
+        targets.emplace_back( &guy.i_at( values[0] ) );
     }
 }
 
@@ -82,7 +101,7 @@ void player_activity::set_to_null()
 
 bool player_activity::rooted() const
 {
-    return type->rooted();
+    return type != activity_id::NULL_ID() && type->rooted();
 }
 
 std::string player_activity::get_stop_phrase() const
@@ -117,7 +136,7 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 static std::string craft_progress_message( const avatar &u, const player_activity &act )
 {
-    const item *craft = act.targets.front().get_item();
+    const item *craft = &*act.targets.front();
     if( craft == nullptr ) {
         // Should never happen (?)
         return string_format( _( "%s…" ), act.get_verb().translated() );
@@ -131,9 +150,9 @@ static std::string craft_progress_message( const avatar &u, const player_activit
 
     const bench_location bench{bench_t, bench_pos};
 
-    const float light_mult = u.lighting_craft_speed_multiplier( rec );
+    const float light_mult = lighting_crafting_speed_multiplier( u, rec );
     const float bench_mult = workbench_crafting_speed_multiplier( *craft, bench );
-    const float morale_mult = u.morale_crafting_speed_multiplier( rec );
+    const float morale_mult = morale_crafting_speed_multiplier( u, rec );
     const int assistants = u.available_assistant_count( craft->get_making() );
     const float base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
     const float assist_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, assistants ) );
@@ -173,10 +192,23 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
-cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( !type || get_verb().empty() ) {
-        return cata::optional<std::string>();
+        return std::optional<std::string>();
+    }
+
+    if( actor ) {
+        act_progress_message msg = actor->get_progress_message( *this, u );
+        if( msg.implemented ) {
+            if( msg.msg_full ) {
+                return *msg.msg_full;
+            } else if( msg.msg_extra_info ) {
+                return string_format( _( "%s: %s" ), get_verb().translated(), *msg.msg_extra_info );
+            } else {
+                return std::nullopt;
+            }
+        }
     }
 
     if( type == activity_id( "ACT_ADV_INVENTORY" ) ||
@@ -187,14 +219,14 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == activity_id( "ACT_CONSUME_FOOD_MENU" ) ||
         type == activity_id( "ACT_CONSUME_MEDS_MENU" ) ||
         type == activity_id( "ACT_EAT_MENU" ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     std::string extra_info;
     if( type == activity_id( "ACT_CRAFT" ) ) {
         return craft_progress_message( u, *this );
     } else if( type == activity_id( "ACT_READ" ) ) {
-        if( const item *book = targets.front().get_item() ) {
+        if( const item *book = &*targets.front() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
                 if( skill && u.get_skill_level( skill ) < reading->level &&
@@ -214,7 +246,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
-            type == activity_id( "ACT_DISASSEMBLE" ) ||
             type == activity_id( "ACT_VEHICLE" ) ||
             type == activity_id( "ACT_FILL_PIT" ) ||
             type == activity_id( "ACT_DIG" ) ||
@@ -229,7 +260,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         }
 
         if( type == activity_id( "ACT_BUILD" ) ) {
-            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity.placement ) );
+            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity->placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;
@@ -256,6 +287,12 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 
 void player_activity::do_turn( player &p )
 {
+    ZoneScopedN( "player_activity::do_turn" );
+    active = true;
+    on_out_of_scope _resolve_on_return( [this]() {
+        this->resolve_active();
+    } );
+
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
@@ -266,12 +303,12 @@ void player_activity::do_turn( player &p )
     }
     if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
         if( p.get_kcal_percent() < 0.95f ) {
-            if( !find_auto_consume( p, true ) ) {
+            if( !find_auto_consume( p, consume_type::FOOD ) ) {
                 no_food_nearby_for_auto_consume = true;
             }
         }
         if( p.get_thirst() > thirst_levels::thirsty && !no_drink_nearby_for_auto_consume ) {
-            if( !find_auto_consume( p, false ) ) {
+            if( !find_auto_consume( p, consume_type::DRINK ) ) {
                 no_drink_nearby_for_auto_consume = true;
             }
         }
@@ -294,7 +331,7 @@ void player_activity::do_turn( player &p )
         }
     }
     int previous_stamina = p.get_stamina();
-    if( p.is_npc() && p.check_outbounds_activity( *this ) ) {
+    if( p.is_npc() && p.restore_outbounds_activity() ) {
         // npc might be operating at the edge of the reality bubble.
         // or just now reloaded back into it, and their activity target might
         // be still unloaded, can cause infinite loops.
@@ -323,14 +360,15 @@ void player_activity::do_turn( player &p )
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
         auto_resume = true;
-        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
-        new_act.values.push_back( 200 + p.get_stamina_max() / 3 );
-        p.assign_activity( new_act );
+        std::unique_ptr<player_activity> new_act = std::make_unique<player_activity>
+                ( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
+        new_act->values.push_back( 200 + p.get_stamina_max() / 3 );
+        p.assign_activity( std::move( new_act ) );
         return;
     }
     if( *this && type->rooted() ) {
         p.rooted();
-        p.pause();
+        character_funcs::do_pause( p );
     }
 
     if( *this && moves_left <= 0 ) {
@@ -345,9 +383,9 @@ void player_activity::do_turn( player &p )
             }
         }
     }
-    if( !*this ) {
+    if( !p.activity ) {
         // Make sure data of previous activity is cleared
-        p.activity = player_activity();
+        p.activity = std::make_unique<player_activity>();
         p.resume_backlog_activity();
 
         // If whatever activity we were doing forced us to pick something up to
@@ -422,7 +460,8 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
 bool player_activity::is_distraction_ignored( distraction_type type ) const
 {
-    return ignored_distractions.find( type ) != ignored_distractions.end();
+    return ( get_distraction_manager().is_ignored( type ) ||
+             ignored_distractions.find( type ) != ignored_distractions.end() );
 }
 
 void player_activity::ignore_distraction( distraction_type type )
@@ -440,4 +479,59 @@ void player_activity::inherit_distractions( const player_activity &other )
     for( auto &type : other.ignored_distractions ) {
         ignore_distraction( type );
     }
+}
+
+
+activity_ptr::activity_ptr() : act( std::make_unique<player_activity>() ) {}
+
+activity_ptr::activity_ptr( activity_ptr && )  noexcept = default;
+activity_ptr::activity_ptr( std::unique_ptr<player_activity> &&source )
+{
+    check_active();
+    act = std::move( source );
+}
+activity_ptr &activity_ptr::operator=( activity_ptr && )  noexcept = default;
+activity_ptr &activity_ptr::operator=( std::unique_ptr<player_activity> &&source )
+{
+    check_active();
+    act = std::move( source );
+    return *this;
+}
+
+activity_ptr::~activity_ptr()
+{
+    check_active();
+};
+
+void activity_ptr::check_active()
+{
+    if( act && act->active ) {
+        //If the activity is active then we're currently inside it's do_turn so it's not safe to delete it.
+        //It will delete itself at the end of it's do_turn function.
+        act->active = false;
+        player_activity *ptr = act.release();
+        ( void )ptr;
+    }
+}
+
+std::unique_ptr<player_activity> activity_ptr::release()
+{
+    std::unique_ptr<player_activity> ret = std::move( act );
+    act = std::make_unique < player_activity>();
+    return ret;
+}
+
+activity_ptr::operator bool() const
+{
+    return !!*act;
+}
+
+void activity_ptr::serialize( JsonOut &json ) const
+{
+    act->serialize( json );
+}
+
+void activity_ptr::deserialize( JsonIn &jsin )
+{
+    act->deserialize( jsin );
 }

@@ -3,15 +3,16 @@
     "type": "palette",
     "id": "roof_palette",
     "terrain": {
+      ">": "t_stairs_down",
       ".": "t_flat_roof",
       " ": "t_open_air",
       "o": "t_glass_roof",
       "_": "t_floor",
-      "2": "t_gutter_north",
-      "-": "t_gutter_south",
-      "3": "t_gutter_east",
+      "2": "t_gutter",
+      "-": "t_gutter",
+      "3": "t_gutter",
       "4": "t_gutter_downspout",
-      "|": "t_gutter_west",
+      "|": "t_gutter",
       "5": "t_gutter_drop",
       "#": "t_grate",
       "&": "t_null",
@@ -47,6 +48,7 @@
       "S": "f_sink",
       "e": "f_oven",
       "F": "f_fridge",
+      "Я": "f_standing_tank",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
     "toilets": { "T": {  } }

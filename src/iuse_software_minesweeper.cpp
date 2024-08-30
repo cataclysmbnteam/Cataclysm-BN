@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -10,7 +11,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
@@ -104,7 +104,7 @@ void minesweeper_game::new_level()
     for( int y = 0; y < level.y; y++ ) {
         for( int x = 0; x < level.x; x++ ) {
             if( mLevel[y][x] == bomb ) {
-                for( const point &p : closest_points_first( {x, y}, 1 ) ) {
+                for( point p : closest_points_first( {x, y}, 1 ) ) {
                     if( p.x >= 0 && p.x < level.x && p.y >= 0 && p.y < level.y ) {
                         if( mLevel[p.y][p.x] != bomb ) {
                             mLevel[p.y][p.x]++;
@@ -181,9 +181,9 @@ int minesweeper_game::start_game()
         draw_border( w_minesweeper_border );
 
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<n>ew level" ) );
-        shortcuts.push_back( _( "<f>lag" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<n>ew level" ) );
+        shortcuts.emplace_back( _( "<f>lag" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {
@@ -257,12 +257,12 @@ int minesweeper_game::start_game()
         wnoutrefresh( w_minesweeper );
     } );
 
-    std::function<void ( const point & )> rec_reveal = [&]( const point & pt ) {
+    std::function<void ( point )> rec_reveal = [&]( point  pt ) {
         if( mLevelReveal[pt.y][pt.x] == unknown || mLevelReveal[pt.y][pt.x] == flag ) {
             mLevelReveal[pt.y][pt.x] = seen;
 
             if( mLevel[pt.y][pt.x] == 0 ) {
-                for( const point &p : closest_points_first( pt, 1 ) ) {
+                for( point p : closest_points_first( pt, 1 ) ) {
                     if( p.x >= 0 && p.x < level.x && p.y >= 0 && p.y < level.y ) {
                         if( mLevelReveal[p.y][p.x] != seen ) {
                             rec_reveal( p );
@@ -308,7 +308,7 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             const point newp = pl + vec->xy();
             if( half_open_rectangle<point>( point_zero, level ).contains( newp ) ) {
                 pl = newp;

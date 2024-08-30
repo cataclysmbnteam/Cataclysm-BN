@@ -1,26 +1,21 @@
 [
   {
     "id": "trex_gun",
-    "looks_like": "ar15",
+    "copy-from": "rifle_1shot",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "Elephant gun" },
-    "description": "A custom-made single shot rifle specially designed for the hunting of huge game.  You could obviously kill everything with this, EVERYTHING.  If you ever find enough ammo of course.",
+    "description": "A ornately engraved, custom-made double rifle specially designed for the hunting of huge game.  You could obviously kill everything with this, EVERYTHING.  If you ever find enough ammo of course.",
     "weight": "8082 g",
     "volume": "3 L",
-    "price": 2000000,
-    "price_postapoc": 5000,
+    "price": "20 kUSD",
+    "price_postapoc": "50 USD",
     "to_hit": 1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
     "color": "light_blue",
     "ammo": "700nx",
-    "skill": "rifle",
     "dispersion": 90,
-    "durability": 8,
-    "clip_size": 1,
-    "reload": 600,
+    "clip_size": 2,
+    "reload": 300,
     "barrel_length": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -33,6 +28,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   }
 ]

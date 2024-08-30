@@ -1,5 +1,6 @@
-#include "shape_impl.h"
 #include "catch/catch.hpp"
+
+#include "shape_impl.h"
 
 class square_distance_from_zero_shape : public shape_impl
 {

@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <list>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <string>
@@ -24,7 +25,6 @@
 #include "item_contents.h"
 #include "map_selector.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -40,55 +40,29 @@
 #include "visitable.h"
 
 static const skill_id skill_barter( "barter" );
+static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
-void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
-                                  player &receiver, std::list<item_location *> &from_map,
-                                  bool npc_gives )
+void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &,
+                                  player &receiver, bool npc_gives )
 {
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
         }
 
-        if( ip.loc.get_item() == nullptr ) {
-            debugmsg( "Null item being traded in npc_trading::transfer_items" );
-            continue;
-        }
-
-        item gift = *ip.loc.get_item();
-        gift.set_owner( receiver );
-        int charges = npc_gives ? ip.u_charges : ip.npc_charges;
-        int count = npc_gives ? ip.u_has : ip.npc_has;
+        item &gift = *ip.locs.front();
+        const int charges = npc_gives ? ip.u_charges : ip.npc_charges;
 
         if( ip.charges ) {
-            gift.charges = charges;
-            receiver.i_add( gift );
-        } else {
-            for( int i = 0; i < count; i++ ) {
-                receiver.i_add( gift );
-            }
-        }
+            auto to_give = gift.split( charges );
+            to_give->set_owner( receiver );
 
-        if( ip.loc.where() == item_location::type::character ) {
-            const auto filter = [&]( const item & item ) //To make sure that we are removing proper item
-            ->bool {
-                return item.stacks_with( gift, true );
-            };
-            if( ip.charges > 0 ) {
-                giver.use_charges( gift.typeId(), charges, filter );
-            } else if( ip.count > 0 ) {
-                for( int i = 0; i < count; i++ ) {
-
-                    giver.use_amount( gift.typeId(), 1, filter );
-                }
-            }
+            receiver.i_add( std::move( to_give ) );
         } else {
-            if( ip.charges > 0 ) {
-                ip.loc.get_item()->set_var( "trade_charges", charges );
-            } else {
-                ip.loc.get_item()->set_var( "trade_amount", 1 );
+            gift.set_owner( receiver );
+            for( item *&it : ip.locs ) {
+                receiver.i_add( it->detach() );
             }
-            from_map.push_back( &ip.loc );
         }
     }
 }
@@ -96,23 +70,23 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    invslice slice = np.inv.slice();
-    for( auto &i : slice ) {
-        item &it = i->front();
+    const_invslice slice = np.inv_const_slice();
+    for( auto const &i : slice ) {
+        item &it = *i->front();
 
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
+            result.emplace_back( *i, val, static_cast<int>( i->size() ) );
         }
     }
 
-    if(
-        np.will_exchange_items_freely() &&
-        !np.weapon.is_null() &&
-        !np.weapon.has_flag( "NO_UNWIELD" )
-    ) {
-        result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
+    if( np.will_exchange_items_freely() ) {
+        for( item *weapon : np.wielded_items() ) {
+            if( !weapon->has_flag( json_flag_NO_UNWIELD ) ) {
+                result.emplace_back( std::vector<item *> {weapon}, np.value( *weapon ), 0 );
+            }
+        }
     }
 
     return result;
@@ -138,8 +112,8 @@ double npc_trading::net_price_adjustment( const player &buyer, const player &sel
 template <typename T, typename Callback>
 void buy_helper( T &src, Callback cb )
 {
-    src.visit_items( [&src, &cb]( item * node ) {
-        cb( std::move( item_location( src, node ) ), 1 );
+    src.visit_items( [&cb]( item * node ) {
+        cb( node, 1 );
 
         return VisitResponse::SKIP;
     } );
@@ -157,9 +131,10 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [fac, adjust, is_npc, &np, &result, &seller]( item_location &&
-    loc, int count = 1 ) {
-        item *it_ptr = loc.get_item();
+    const auto check_item = [fac, adjust, is_npc, &np, &result,
+                                  &seller]( const std::vector<item *> &locs,
+    int count = 1 ) {
+        item *it_ptr = locs.front();
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
         }
@@ -174,36 +149,43 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
             np.wants_to_buy( it, val, market_price ) ) {
-            result.emplace_back( std::move( loc ), val, count );
+            result.emplace_back( locs, val, count );
             result.back().adjust_values( adjust, fac );
         }
     };
 
-    invslice slice = seller.inv.slice();
-    for( auto &i : slice ) {
-        check_item( item_location( seller, &i->front() ), i->size() );
+    const_invslice slice = seller.inv_const_slice();
+    for( const auto &i : slice ) {
+        check_item( *i, i->size() );
     }
 
-    if( !seller.weapon.has_flag( "NO_UNWIELD" ) ) {
-        check_item( item_location( seller, &seller.weapon ), 1 );
+    if( !seller.primary_weapon().has_flag( json_flag_NO_UNWIELD ) ) {
+        check_item( {&seller.primary_weapon()}, 1 );
     }
 
     //nearby items owned by the NPC will only show up in
     //the trade window if the NPC is also a shopkeeper
     if( np.mission == NPC_MISSION_SHOPKEEP ) {
         for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
-            buy_helper( cursor, check_item );
+            cursor.visit_items( [&check_item]( item * node ) {
+                check_item( {node}, 1 );
+                return VisitResponse::SKIP;
+            } );
         }
     }
 
     for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
-        buy_helper( cursor, check_item );
+        cursor.visit_items( [&check_item]( item * node ) {
+            check_item( {node}, 1 );
+            return VisitResponse::SKIP;
+        } );
     }
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
         // Sort items by category first, then name.
-        return localized_compare( std::make_pair( a.loc->get_category(), a.loc->display_name() ),
-                                  std::make_pair( b.loc->get_category(), b.loc->display_name() ) );
+        return localized_compare( std::make_pair( a.locs.front()->get_category(),
+                                  a.locs.front()->display_name() ),
+                                  std::make_pair( b.locs.front()->get_category(), b.locs.front()->display_name() ) );
     };
 
     std::sort( result.begin(), result.end(), cmp );
@@ -213,7 +195,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
 void item_pricing::set_values( int ip_count )
 {
-    const item *i_p = loc.get_item();
+    const item *i_p = locs.front();
     is_container = i_p->is_container() || i_p->is_ammo_container();
     vol = i_p->volume();
     weight = i_p->weight();
@@ -231,7 +213,7 @@ void item_pricing::set_values( int ip_count )
 // faction we're trading with, as that should always be worth face value.
 void item_pricing::adjust_values( const double adjust, const faction *fac )
 {
-    if( !fac || fac->currency != loc.get_item()->typeId() ) {
+    if( !fac || fac->currency != locs.front()->typeId() ) {
         price *= adjust;
     }
 }
@@ -274,13 +256,13 @@ void trading_window::update_win( npc &np, const std::string &deal )
 
     for( item_pricing &pricing : yours ) {
         if( pricing.selected ) {
-            added.push_back( pricing.loc.get_item() );
+            added.push_back( pricing.locs.front() );
         }
     }
 
     for( item_pricing &pricing : theirs ) {
         if( pricing.selected ) {
-            without.insert( pricing.loc.get_item() );
+            without.insert( pricing.locs.front() );
         }
     }
 
@@ -350,14 +332,14 @@ void trading_window::update_win( npc &np, const std::string &deal )
         win_w -= 2;
         for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
             const item_pricing &ip = list[i];
-            const item *it = ip.loc.get_item();
-            auto color = it == &person.weapon ? c_yellow : c_light_gray;
+            const item *it = ip.locs.front();
+            auto color = it == &person.primary_weapon() ? c_yellow : c_light_gray;
             const int &owner_sells = they ? ip.u_has : ip.npc_has;
             const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
             std::string itname = it->display_name();
 
-            if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &g->u ) + ")";
+            if( np.will_exchange_items_freely() && ip.locs.front()->where() != item_location_type::character ) {
+                itname = itname + " (" + ip.locs.front()->describe_location( &g->u ) + ")";
                 color = c_light_blue;
             }
 
@@ -438,7 +420,7 @@ void trading_window::show_item_data( size_t offset,
             exit = true;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard || evt.sequence.empty() ) {
                 continue;
             }
             size_t help = evt.get_first_input();
@@ -452,9 +434,9 @@ void trading_window::show_item_data( size_t offset,
 
             help += offset;
             if( help < target_list.size() ) {
-                std::vector<iteminfo> info;
-                const item &itm = *target_list[help].loc.get_item();
-                itm.info( true, info );
+                const item &itm = *target_list[help].locs.front();
+                std::vector<iteminfo> info = itm.info();
+
                 item_info_data data( itm.tname(),
                                      itm.type_name(),
                                      info, {} );
@@ -586,7 +568,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             confirm = false;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard || evt.sequence.empty() ) {
                 continue;
             }
             size_t ch = evt.get_first_input();
@@ -630,7 +612,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                     }
                 } else if( ip.charges > 0 ) {
                     int hint = calc_amount_hint();
-                    change_amount = get_var_trade( *ip.loc.get_item(), ip.charges, hint );
+                    change_amount = get_var_trade( *ip.locs.front(), ip.charges, hint );
                     if( change_amount < 1 ) {
                         continue;
                     }
@@ -638,7 +620,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 } else {
                     if( ip.count > 1 ) {
                         int hint = calc_amount_hint();
-                        change_amount = get_var_trade( *ip.loc.get_item(), ip.count, hint );
+                        change_amount = get_var_trade( *ip.locs.front(), ip.count, hint );
                         if( change_amount < 1 ) {
                             continue;
                         }
@@ -653,7 +635,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 if( !np.will_exchange_items_freely() ) {
                     your_balance -= delta_price;
                 }
-                if( ip.loc.where() == item_location::type::character ) {
+                if( ip.locs.front()->where() == item_location_type::character ) {
                     volume_left += ip.vol * change_amount;
                     weight_left += ip.weight * change_amount;
                 }
@@ -698,7 +680,10 @@ void trading_window::update_npc_owed( npc &np )
 // cost is positive when the player owes the NPC money for a service to be performed
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
-    np.shop_restock();
+    // Only allow actual shopkeepers to refresh their inventory like this
+    if( np.mission == NPC_MISSION_SHOPKEEP ) {
+        np.shop_restock();
+    }
     //np.drop_items( np.weight_carried() - np.weight_capacity(),
     //               np.volume_carried() - np.volume_capacity() );
     np.drop_invalid_inventory();
@@ -710,30 +695,8 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
     if( traded ) {
         int practice = 0;
 
-        std::list<item_location *> from_map;
-
-        npc_trading::transfer_items( trade_win.yours, g->u, np, from_map, false );
-        npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
-
-        for( item_location *loc_ptr : from_map ) {
-            if( !loc_ptr ) {
-                continue;
-            }
-            item *it = loc_ptr->get_item();
-            if( !it ) {
-                continue;
-            }
-            if( it->has_var( "trade_charges" ) && it->count_by_charges() ) {
-                it->charges -= static_cast<int>( it->get_var( "trade_charges", 0 ) );
-                if( it->charges <= 0 ) {
-                    loc_ptr->remove_item();
-                } else {
-                    it->erase_var( "trade_charges" );
-                }
-            } else if( it->has_var( "trade_amount" ) ) {
-                loc_ptr->remove_item();
-            }
-        }
+        npc_trading::transfer_items( trade_win.yours, g->u, np, false );
+        npc_trading::transfer_items( trade_win.theirs, np, g->u, true );
 
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {

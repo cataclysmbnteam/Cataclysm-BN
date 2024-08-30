@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <fstream>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "overmap_noise.h"
 #include "point.h"
@@ -11,15 +12,15 @@ static void export_raw_noise( const std::string &filename, const om_noise::om_no
 {
     std::ofstream testfile;
     testfile.open( filename, std::ofstream::trunc );
-    testfile << "P2" << std::endl;
-    testfile << width << " " << height << std::endl;
-    testfile << "255" << std::endl;
+    testfile << "P2" << '\n';
+    testfile << width << " " << height << '\n';
+    testfile << "255" << '\n';
 
     for( int x = 0; x < width; x++ ) {
         for( int y = 0; y < height; y++ ) {
             testfile << static_cast<int>( noise.noise_at( {x, y} ) * 255 ) << " ";
         }
-        testfile << std::endl;
+        testfile << '\n';
     }
 
     testfile.close();
@@ -31,9 +32,9 @@ static void export_interpreted_noise(
 {
     std::ofstream testfile;
     testfile.open( filename, std::ofstream::trunc );
-    testfile << "P2" << std::endl;
-    testfile << width << " " << height << std::endl;
-    testfile << "255" << std::endl;
+    testfile << "P2" << '\n';
+    testfile << width << " " << height << '\n';
+    testfile << "255" << '\n';
 
     for( int x = 0; x < width; x++ ) {
         for( int y = 0; y < height; y++ ) {
@@ -43,7 +44,7 @@ static void export_interpreted_noise(
                 testfile << 0 << " ";
             }
         }
-        testfile << std::endl;
+        testfile << '\n';
     }
 
     testfile.close();

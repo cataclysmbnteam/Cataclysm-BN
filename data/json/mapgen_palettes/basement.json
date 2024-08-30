@@ -140,9 +140,10 @@
       "<": "t_stairs_up",
       "M": "t_wall_metal",
       "|": "t_reinforced_glass",
-      "/": "t_door_curtain_c",
-      "W": "t_water_dispenser"
+      "/": "t_door_curtain_c"
     },
+    "furniture": { "W": "f_water_dispenser" },
+    "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
     "toilets": { "&": {  } }
   },
   {
@@ -172,9 +173,9 @@
       "z": "f_cardboard_box"
     },
     "toilets": { "t": {  } },
-    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
     "items": {
-      "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
+      "t": { "item": "SUS_toilet", "chance": 75 },
       "v": [
         { "item": "art", "chance": 5 },
         { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },

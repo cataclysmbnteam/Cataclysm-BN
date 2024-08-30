@@ -6,7 +6,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "   addddddaeeadddddda   ",
         "   affffffa..affffffa   ",
@@ -34,6 +34,7 @@
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
         ".": "t_floor",
+        "'": "t_sidewalk",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
@@ -46,6 +47,7 @@
         "o": "t_shrub"
       },
       "furniture": {
+        "'": "f_street_light",
         "f": "f_table",
         "g": "f_dumpster",
         "h": "f_counter",
@@ -57,6 +59,7 @@
         "L": "f_locker",
         "p": "f_metal_butcher_rack"
       },
+      "items": { "g": { "item": "trash_dumpster", "chance": 80 } },
       "place_loot": [
         { "group": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 4, 4 ], "y": [ 3, 3 ] },
         { "group": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 5, 5 ], "y": [ 3, 3 ] },
@@ -210,7 +213,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "   addddddaeeadddddda   ",
         "   akkkkkk....kkkkkka   ",
@@ -238,6 +241,7 @@
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
         ".": "t_floor",
+        "'": "t_sidewalk",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
@@ -248,6 +252,7 @@
         "j": "t_console_broken"
       },
       "furniture": {
+        "'": "f_street_light",
         "c": "f_chair",
         "f": "f_table",
         "g": "f_dumpster",
@@ -261,6 +266,7 @@
         "p": "f_metal_butcher_rack",
         "S": "f_sink"
       },
+      "items": { "g": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_loot": [
         { "group": "butcher_meat", "chance": 80, "x": [ 4, 5 ], "y": 3, "repeat": [ 1, 3 ] },
@@ -410,7 +416,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "   addddddaeeadddddda   ",
         "   akkkkkk....kkkkkka   ",
@@ -438,6 +444,7 @@
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
         ".": "t_floor",
+        "'": "t_sidewalk",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
@@ -449,6 +456,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "c": "f_chair",
         "f": "f_table",
         "g": "f_dumpster",
@@ -467,7 +475,8 @@
       "items": {
         "F": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] },
         "k": { "item": "butcher_meat", "chance": 80, "repeat": [ 1, 3 ] },
-        "i": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] }
+        "i": { "item": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ] },
+        "g": { "item": "trash_dumpster", "chance": 80 }
       },
       "place_loot": [
         { "group": "trash", "chance": 80, "x": 11, "y": 16 },

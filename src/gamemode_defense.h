@@ -6,10 +6,10 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "gamemode.h"
-#include "omdata.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -54,8 +54,8 @@ enum caravan_category {
 struct defense_game : public special_game {
         defense_game();
 
-        special_game_id id() override {
-            return SGAME_DEFENSE;
+        special_game_type id() override {
+            return special_game_type::DEFENSE;
         }
         bool init() override;
         void per_turn() override;

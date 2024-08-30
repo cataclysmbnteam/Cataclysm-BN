@@ -6,6 +6,7 @@
       " ": "t_region_groundcover_urban",
       "*": [ [ "t_region_groundcover_urban", 4 ], "t_region_tree_shade" ],
       "_": "t_sidewalk",
+      "'": "t_sidewalk",
       ".": "t_floor",
       "#": "t_wall_w",
       "-": "t_wall_glass",
@@ -37,6 +38,7 @@
       "4": "t_gutter_downspout"
     },
     "furniture": {
+      "'": "f_street_light",
       "c": "f_counter",
       "D": "f_vending_c",
       "F": "f_vending_c",

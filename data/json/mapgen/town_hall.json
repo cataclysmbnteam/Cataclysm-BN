@@ -26,6 +26,7 @@
       "O": "t_linoleum_white",
       "u": "t_linoleum_white",
       "s": "t_sidewalk",
+      "[": "t_sidewalk",
       "x": "t_console_broken",
       "|": "t_brick_wall",
       "!": "t_door_glass_c",
@@ -34,6 +35,7 @@
       "v": "t_window"
     },
     "furniture": {
+      "[": "f_street_light",
       "3": "f_bench",
       "B": "f_bench",
       "S": "f_sink",
@@ -90,8 +92,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
+        "ssssssssssssssssssss[ssssssssssssssssssssssssss[",
         "ssssssssssssssssssssssssssssssssssssssssssssssss",
-        ".ssssssssssssssssssssssssssssssssssssssssssssss.",
         ".s.....||vvvv||......ssssss......||vvvv||.....s.",
         ".s.|||||p    p|||||...ssss...|||||pBBBBp|||||.s.",
         ".s.|T+i|c    c|i+T|...3ss3...|p            p|.s.",
@@ -134,7 +136,7 @@
         ".s.||||| #### |||||''|||||||||      c xc|||||.s.",
         ".s..,,,|  cc  + hx|''+'''|x h  hc  hc hd|,,,..s.",
         ".s..,,,|h    h|ddx|''|lll|ddc ddx ddx  d|,,,..s.",
-        ".ss..,,|||vv|||||||--|||||||||||||||vv|||,,..ss.",
+        ".ss[.,,|||vv|||||||--|||||||||||||||vv|||,,.[ss.",
         "..ss...............ss.......................ss..",
         "...ssssssssssssssssssssssssssssssssssssssssss...",
         "................................................",

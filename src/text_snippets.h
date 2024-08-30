@@ -3,11 +3,11 @@
 #define CATA_SRC_TEXT_SNIPPETS_H
 
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -38,12 +38,12 @@ class snippet_library
 
         bool has_category( const std::string &category ) const;
         /**
-         * Returns the snippet referenced by the id, or cata::nullopt if there
+         * Returns the snippet referenced by the id, or std::nullopt if there
          * is no snippet with such id.
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          */
-        cata::optional<translation> get_snippet_by_id( const snippet_id &id ) const;
+        std::optional<translation> get_snippet_by_id( const snippet_id &id ) const;
         /**
          * Returns a reference to the snippet with the id, or a reference to an
          * empty translation object if no such snippet exist.
@@ -75,23 +75,23 @@ class snippet_library
         /**
          * Returns a random snippet out of the given category. Both snippets with
          * or without an id may be returned.
-         * If there isn't any snippet in the category, cata::nullopt is returned.
+         * If there isn't any snippet in the category, std::nullopt is returned.
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          */
-        cata::optional<translation> random_from_category( const std::string &cat ) const;
+        std::optional<translation> random_from_category( const std::string &cat ) const;
         /**
          * Use the given seed to select a random snippet from the category.
          * For the same seed, the returned snippet stays the same *in a single
          * game session*, but may change after reloading or restarting a game,
          * due to layout changes in the JSON files, for example. If there isn't
-         * any snippet in the category, cata::nullopt is returned.
+         * any snippet in the category, std::nullopt is returned.
          * The tags in the snippet are not automatically expanded - you need to
          * call `expand()` to do that.
          *
          * TODO: make the result stay the same through different game sessions
          */
-        cata::optional<translation> random_from_category( const std::string &cat, unsigned int seed ) const;
+        std::optional<translation> random_from_category( const std::string &cat, unsigned int seed ) const;
         /**
          * Used only for legacy compatibility. `hash_to_id_migration` will be
          * initialized if it hasn't been yet, and the snippet with the given
@@ -109,9 +109,12 @@ class snippet_library
         };
         std::unordered_map<std::string, category_snippets> snippets_by_category;
 
-        cata::optional<std::map<int, snippet_id>> hash_to_id_migration;
+        std::optional<std::map<int, snippet_id>> hash_to_id_migration;
 };
 
 extern snippet_library SNIPPET;
+
+/** Get random pre-translated tip of the day for the main menu. */
+std::string get_random_tip_of_the_day();
 
 #endif // CATA_SRC_TEXT_SNIPPETS_H

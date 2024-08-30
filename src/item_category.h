@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_ITEM_CATEGORY_H
 #define CATA_SRC_ITEM_CATEGORY_H
 
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "flat_set.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -19,7 +19,7 @@ struct zone_priority_data {
     bool was_loaded = false;
     zone_type_id id;
     bool filthy = false;
-    cata::flat_set<std::string> flags;
+    cata::flat_set<flag_id> flags;
 
     void deserialize( JsonIn &jsin );
     void load( JsonObject &jo );
@@ -39,7 +39,7 @@ class item_category
         /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank_ = 0;
 
-        cata::optional<zone_type_id> zone_;
+        std::optional<zone_type_id> zone_;
         std::vector<zone_priority_data> zone_priority_;
 
     public:
@@ -59,8 +59,8 @@ class item_category
 
         std::string name() const;
         item_category_id get_id() const;
-        cata::optional<zone_type_id> priority_zone( const item &it ) const;
-        cata::optional<zone_type_id> zone() const;
+        std::optional<zone_type_id> priority_zone( const item &it ) const;
+        std::optional<zone_type_id> zone() const;
         int sort_rank() const;
 
         /**

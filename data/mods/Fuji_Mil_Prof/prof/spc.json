@@ -5,6 +5,7 @@
     "name": "Operator Recon",
     "description": "The only easy day was yesterday.",
     "points": 4,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 2, "name": "survival" },
       { "level": 2, "name": "gun" },
@@ -51,6 +52,7 @@
     "name": "Operator Sniper",
     "description": "You spent days dueling an enemy sniper, then he just… died.  And then un-died.",
     "points": 5,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [ { "level": 2, "name": "survival" }, { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
       "both": {
@@ -86,6 +88,7 @@
     "name": "Operator Hacker",
     "description": "You insist you're not a hacker, you're an 'Electronic Warfare Specialist'",
     "points": 5,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "gun" },
@@ -135,6 +138,7 @@
     "name": "Operator Undercover",
     "description": "You've been tailing your target for months and now he's a zombie.  So much for that lead.",
     "points": 3,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 1, "name": "survival" },
       { "level": 2, "name": "gun" },
@@ -173,6 +177,7 @@
     "name": "Operator CBRN",
     "description": "Chemical weapons?  Check.  Biological outbreak?  Check.  Nuclear war?  Check.  Sounds like the perfect job for you!",
     "points": 5,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "gun" },

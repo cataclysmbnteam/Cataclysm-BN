@@ -425,6 +425,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_freshwater_research_station",
+    "name": "Freshwater Research Station",
+    "terrain": [ "sealab_small_surface" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_gas_station",
     "name": "Gas Station",
     "terrain": [ "s_gas_rural" ]
@@ -438,8 +444,39 @@
   {
     "type": "start_location",
     "id": "sloc_military_base_warehouse",
+    "//": "Obsoleted, may be dangerous to start in due to robot spawns",
     "name": "Military Base Warehouse",
     "terrain": [ "mil_base_2g" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_military_base_barracks",
+    "name": "Barracks",
+    "terrain": [ "mil_base_2d", "mil_base_2e", "mil_base_3d", "mil_base_3e", "mil_base_5c", "mil_base_6c", "mil_base_7c" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_military_base_mess_hall",
+    "name": "Mess Hall",
+    "terrain": [ "mil_base_2f", "mil_base_3f" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_military_base_communications_center",
+    "name": "Communications Center",
+    "terrain": [ "mil_base_3h" ]
+  },
+  {
+    "type": "start_location",
+    "id": "aircraft_carrier_berth",
+    "name": "Aircraft Carrier Berth",
+    "terrain": [ "aircraft_carrier_1b" ]
+  },
+  {
+    "type": "start_location",
+    "id": "aircraft_carrier_bridge",
+    "name": "Aircraft Carrier Captain's Bridge",
+    "terrain": [ "aircraft_carrier_1b" ]
   },
   {
     "type": "start_location",
@@ -452,6 +489,13 @@
     "id": "sloc_mansion",
     "name": "Mansion",
     "terrain": [ "mansion_+2", "mansion_+1", "mansion_+4", "mansion_+3" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bastion_fort",
+    "name": "Bastion Fort",
+    "terrain": [ "Bastion_Fort_1_SW" ],
     "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

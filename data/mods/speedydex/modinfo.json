@@ -7,7 +7,7 @@
     "maintainers": [ "KorGgenT" ],
     "description": "Higher dex increases your speed.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   },
   {
     "type": "EXTERNAL_OPTION",

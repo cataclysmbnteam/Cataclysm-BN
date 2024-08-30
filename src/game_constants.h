@@ -18,7 +18,6 @@ static constexpr int LOCATION_WIDTH = 48;
 static constexpr int STATUS_HEIGHT = 4;
 static constexpr int STATUS_WIDTH = 55;
 
-static constexpr int BLINK_SPEED = 300;
 static constexpr int EXPLOSION_MULTIPLIER = 7;
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet).
@@ -79,30 +78,37 @@ static constexpr int PLUTONIUM_CHARGES = 500;
 // Temperature constants.
 namespace temperatures
 {
+
+/// Average annual temperature used for climate, weather and temperature calculation.
+constexpr units::temperature annual_average = 6_c;
+
 // temperature at which something starts is considered HOT.
-constexpr int hot = 100; // ~ 38 Celsius
+constexpr units::temperature hot = 38_c;
 
 // the "normal" temperature midpoint between cold and hot.
-constexpr int normal = 70; // ~ 21 Celsius
+constexpr units::temperature normal = 21_c;
 
-// Temperature inside an active fridge in Fahrenheit.
-constexpr int fridge = 37; // ~ 2.7 Celsius
+// Temperature inside an active fridge
+constexpr units::temperature fridge = 2_c;
 
 // Temperature at which things are considered "cold".
-constexpr int cold = 40; // ~4.4 C
+constexpr units::temperature cold = 5_c;
 
-// Temperature inside an active freezer in Fahrenheit.
-constexpr int freezer = 23; // -5 Celsius
+// Temperature inside an active freezer.
+constexpr units::temperature freezer = -5_c;
 
-// Temperature in which water freezes in Fahrenheit.
-constexpr int freezing = 32; // 0 Celsius
+// Temperature in which water freezes.
+constexpr units::temperature freezing = 0_c;
+
+// Arbitrary constant for root cellar temperature
+constexpr units::temperature root_cellar = annual_average;
 } // namespace temperatures
 
 // Weight per level of LIFT/JACK tool quality.
-#define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
+static constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram; // 500kg/level
 
 // Cap JACK requirements to support arbitrarily large vehicles.
-#define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
+static constexpr units::mass JACK_LIMIT = 8500_kilogram;
 
 // Slowest speed at which a gun can be aimed.
 static constexpr int MAX_AIM_COST = 10;
@@ -137,18 +143,6 @@ static constexpr int BIO_CQB_LEVEL = 5;
 static constexpr int HORDE_VISIBILITY_SIZE = 3;
 
 /**
- * Average annual temperature in F used for climate, weather and temperature calculation.
- * Average New England temperature = 43F/6C rounded to int.
-*/
-static constexpr int AVERAGE_ANNUAL_TEMPERATURE = 43;
-
-/**
- * Base starting spring temperature in F used for climate, weather and temperature calculation.
- * New England base spring temperature = 65F/18C rounded to int.
-*/
-static constexpr int SPRING_TEMPERATURE = 65;
-
-/**
  * Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
  * Windows has a rand limit of 32768, other operating systems can have higher limits.
 */
@@ -181,5 +175,6 @@ constexpr float obese = 30.0f;
 constexpr float very_obese = 35.0f;
 constexpr float morbidly_obese = 40.0f;
 } // namespace character_weight_category
+
 
 #endif // CATA_SRC_GAME_CONSTANTS_H

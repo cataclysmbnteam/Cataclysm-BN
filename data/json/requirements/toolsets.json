@@ -1,15 +1,33 @@
 [
   {
+    "id": "3d_printing_standard",
+    "type": "requirement",
+    "//": "For working with an printing items made from plastic using a 3D printer, per 50 grams material.",
+    "//2": "Time is typically 1 minute per plastic chunk used.",
+    "tools": [ [ [ "3d_printer_basic", 4 ], [ "3d_printer_advanced", 2 ] ] ]
+  },
+  {
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "tools": [ [ [ "press", -1 ], [ "press_workbench", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "shot_forming",
     "type": "requirement",
     "//": "Forming of shot from raw materials, allows use of makeshift press",
-    "tools": [ [ [ "press", -1 ], [ "press_dowel", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "//2": "Shotshell press being first on the list makes it require cutting quality to reverse instead of pulling",
+    "tools": [
+      [ [ "press_dowel", -1 ], [ "press", -1 ], [ "press_workbench", -1 ] ],
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+    ]
+  },
+  {
+    "id": "rifle_bullet_forming",
+    "type": "requirement",
+    "//": "Forming of rifle bullets from raw materials",
+    "//2": "Reloading bench press being first on the list makes reversal bump required pulling quality up to level 2",
+    "tools": [ [ [ "press_workbench", -1 ], [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
   },
   {
     "id": "earthenware_firing",
@@ -26,9 +44,23 @@
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
-    "//": "Includes forging resources as well as tools needed for most blacksmithing",
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "//": "Includes forging resources as well as tools needed for basic blacksmithing.  Permits working hot metal on stone surfaces.",
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
+    "id": "blacksmithing_intermediate",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for mid-level blacksmithing.  Require a harder work surface for hot-cut chiseling and other uses of chisel quality.",
+    "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
+    "id": "blacksmithing_advanced",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for advanced blacksmithing.  Require a proper dediciated anvil for use of a swage and die set.",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "id": "mutagen_production_standard",
@@ -56,25 +88,39 @@
     "type": "requirement",
     "//": "Crafting or repair of steel items or installation of vehicle parts",
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ]
+    "tools": [ [ [ "welder", 10 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ]
   },
   {
     "id": "chainmail_standard",
     "type": "requirement",
-    "//": "Construction of chainmail items",
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [
-      [ [ "pliers", -1 ], [ "multitool", -1 ] ],
-      [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
-      [ [ "cordless_drill", 10 ] ]
-    ]
+    "//": "Construction of riveted mail items, 1 per 925 (min, links only) to 1085 (max with weight of rags) grams of item weight.  It is assumed that each ring used comes with a prepared rivet.  Time used should be 5 minutes per sheet, most of the time having already been spent making the sheets in advance.",
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "DRILL", "level": 2 }
+    ],
+    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ] ],
+    "components": [ [ [ "link_sheet", 1 ] ], [ [ "chain_link", 25 ] ], [ [ "rag", 2 ] ] ]
   },
   {
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 1 ], [ "soldering_ethanol", 10 ], [ "toolset", 1 ] ] ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "id": "drawing_tool",
+    "type": "requirement",
+    "//": "Things suitable for drawing or writing something on paper, cardboard, cloth or similar materials.",
+    "tools": [ [ [ "permanent_marker", 1 ], [ "survival_marker", 1 ] ] ]
+  },
+  {
+    "id": "coding_standard",
+    "type": "requirement",
+    "//": "For writing software",
+    "tools": [ [ [ "laptop", 1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -134,11 +180,10 @@
     "//": "Tools for removing a normal wall / floor / glass",
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 },
+      { "id": "CHISEL", "level": 1 },
+      { "id": "PRY", "level": 2 },
       { "id": "DIG", "level": 3 }
-    ],
-    "tools": [ [ [ "angle_grinder", 200 ] ] ]
+    ]
   },
   {
     "id": "linoleum_removal_standard",
@@ -169,6 +214,32 @@
       { "id": "CHISEL", "level": 2 },
       { "id": "PRY", "level": 3 },
       { "id": "SCREW", "level": 1 }
+    ]
+  },
+  {
+    "id": "tool_flat_press_large",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  For larger items like glass panes.",
+    "tools": [ [ [ "sheet_metal", -1 ], [ "steel_plate", -1 ], [ "alloy_plate", -1 ], [ "hard_plate", -1 ] ] ]
+  },
+  {
+    "id": "tool_flat_press_small",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  For smaller items like neoprene.",
+    "tools": [ [ [ "sheet_metal_small", -1 ], [ "alloy_sheet", -1 ] ] ]
+  },
+  {
+    "id": "tool_flat_press_improvised",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  Allow for makeshift items where high temps aren't a concern.",
+    "tools": [
+      [
+        [ "glass_sheet", -1 ],
+        [ "tempered_glass_sheet", -1 ],
+        [ "rigid_plastic_sheet", -1 ],
+        [ "wood_panel", -1 ],
+        [ "wood_sheet", -1 ]
+      ]
     ]
   }
 ]

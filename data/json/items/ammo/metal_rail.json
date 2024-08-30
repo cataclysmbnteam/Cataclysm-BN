@@ -5,9 +5,9 @@
     "name": { "str": "rebar rail" },
     "description": "A short piece of ferromagnetic rebar which has been straightened and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
     "weight": "160 g",
-    "volume": "25ml",
-    "price": 1000,
-    "price_postapoc": 250,
+    "volume": "25 ml",
+    "price": "10 USD",
+    "price_postapoc": "250 cent",
     "to_hit": -1,
     "bashing": 5,
     "cutting": 1,
@@ -16,10 +16,10 @@
     "color": "dark_gray",
     "count": 10,
     "ammo_type": "metal_rail",
-    "range": 40,
-    "damage": { "damage_type": "stab", "amount": 70, "armor_penetration": 25 },
-    "dispersion": 150,
-    "effects": [ "RECYCLED", "NON-FOULING" ]
+    "range": 20,
+    "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 10 },
+    "dispersion": 200,
+    "effects": [ "RECYCLED", "NON_FOULING" ]
   },
   {
     "id": "steel_rail",
@@ -27,15 +27,15 @@
     "type": "AMMO",
     "name": { "str": "steel rail" },
     "description": "A short piece of steel which has been forged true and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
-    "volume": "20ml",
-    "price": 1500,
-    "price_postapoc": 500,
+    "volume": "20 ml",
+    "price": "15 USD",
+    "price_postapoc": "5 USD",
     "bashing": 4,
     "cutting": 2,
     "material": [ "steel" ],
     "color": "light_gray",
-    "dispersion": 0,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ],
-    "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 15 } }
+    "dispersion": 100,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -10, "armor_penetration": 20 } }
   }
 ]

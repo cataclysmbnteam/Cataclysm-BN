@@ -1,11 +1,13 @@
+#include "catch/catch.hpp"
+
 #include <string>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "options.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 // Clear player traits and give them a single trait by name
@@ -39,6 +41,7 @@ static int height_with_base_and_size( player &dummy, int base_height, std::strin
 
 TEST_CASE( "character height and body size mutations", "[biometrics][height][mutation]" )
 {
+    clear_all_state();
     // If character is 175cm starting height, they are 15cm shorter than the upper threshold for
     // MEDIUM size (which is 190cm). If they mutate to LARGE size, their height will be at the same
     // relationship to the upper threshold, 240cm - 15cm = 225cm.
@@ -55,7 +58,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
         REQUIRE( dummy.base_height() == init_height );
 
         WHEN( "they are normal-sized (MEDIUM)" ) {
-            REQUIRE( dummy.get_size() == MS_MEDIUM );
+            REQUIRE( dummy.get_size() == creature_size::medium );
 
             THEN( "height is initial height" ) {
                 CHECK( dummy.height() == init_height );
@@ -64,7 +67,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become SMALL" ) {
             set_single_trait( dummy, "SMALL" );
-            REQUIRE( dummy.get_size() == MS_SMALL );
+            REQUIRE( dummy.get_size() == creature_size::small );
 
             THEN( "they are 50cm shorter" ) {
                 CHECK( dummy.height() == init_height - 50 );
@@ -73,7 +76,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become LARGE" ) {
             set_single_trait( dummy, "LARGE" );
-            REQUIRE( dummy.get_size() == MS_LARGE );
+            REQUIRE( dummy.get_size() == creature_size::large );
 
             THEN( "they are 50cm taller" ) {
                 CHECK( dummy.height() == init_height + 50 );
@@ -82,7 +85,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
         WHEN( "they become HUGE" ) {
             set_single_trait( dummy, "HUGE" );
-            REQUIRE( dummy.get_size() == MS_HUGE );
+            REQUIRE( dummy.get_size() == creature_size::huge );
 
             THEN( "they are 100cm taler" ) {
                 CHECK( dummy.height() == init_height + 100 );
@@ -111,6 +114,7 @@ TEST_CASE( "character height and body size mutations", "[biometrics][height][mut
 
 TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabolism]" )
 {
+    clear_all_state();
     avatar dummy;
 
     // Metabolic base rate uses PLAYER_HUNGER_RATE from game_balance.json, described as "base hunger

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <climits>
 #include <list>
 #include <memory>
@@ -6,11 +8,11 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -24,7 +26,7 @@ static void clear_bionics( player &p )
 static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
                                      bool when_max )
 {
-    item it = item( itemname, calendar::start_of_cataclysm, 0 );
+    item &it = *item::spawn_temporary( itemname, calendar::start_of_cataclysm, 0 );
 
     INFO( "\'" + it.tname() + "\' is count-by-charges" );
     CHECK( it.count_by_charges() );
@@ -41,22 +43,23 @@ static void test_consumable_charges( player &p, std::string &itemname, bool when
 static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
                                   bool when_full )
 {
-    item it = item( itemname, calendar::start_of_cataclysm, 0 );
+    detached_ptr<item> it = item::spawn( itemname, calendar::start_of_cataclysm, 0 );
 
-    it.ammo_unset();
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_empty );
+    it->ammo_unset();
+    INFO( "consume \'" + it->tname() + "\' with " + std::to_string( it->ammo_remaining() ) +
+          " charges" );
+    REQUIRE( p.can_consume( *it ) == when_empty );
 
-    it.ammo_set( it.ammo_default(), -1 ); // -1 -> full
-    INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_full );
+    it->ammo_set( it->ammo_default(), -1 ); // -1 -> full
+    INFO( "consume \'" + it->tname() + "\' with " + std::to_string( it->ammo_remaining() ) +
+          " charges" );
+    REQUIRE( p.can_consume( *it ) == when_full );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
+    clear_all_state();
     avatar &dummy = get_avatar();
-    clear_avatar();
-
     // one section failing shouldn't affect the rest
     clear_bionics( dummy );
 
@@ -69,26 +72,6 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
-
-    SECTION( "bio_advreactor" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_advreactor" ) );
-
-        static const std::list<std::string> always = {
-            "plut_cell",  // solid
-            "plut_slurry" // uncontained liquid! not shown in game menu
-        };
-        for( auto it : always ) {
-            test_consumable_charges( dummy, it, true, true );
-        }
-
-        static const std::list<std::string> never = {
-            "light_atomic_battery_cell", // TOOLMOD, no ammo actually
-            "rm13_armor"      // TOOL_ARMOR
-        };
-        for( auto it : never ) {
-            test_consumable_ammo( dummy, it, false, false );
-        }
-    }
 
     SECTION( "bio_batteries" ) {
         give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );

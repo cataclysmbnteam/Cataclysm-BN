@@ -240,6 +240,67 @@
     ]
   },
   {
+    "id": "motorized_draisine_trirail",
+    "type": "vehicle",
+    "name": "Three-Railed Motorized Draisine",
+    "blueprint": [
+      [ "O---O" ],
+      [ "|XXX|" ],
+      [ "|XXX|" ],
+      [ "O---O" ],
+      [ "|XXX|" ],
+      [ "|XX#|" ],
+      [ "O---O" ]
+    ],
+    "parts": [
+      { "x": -1, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": -1, "y": -2, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -1, "y": -3, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -1, "y": -4, "parts": [ "xlframe_vertical" ] },
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [
+          "xlframe_vertical_2",
+          "engine_vtwin",
+          "alternator_motorbike",
+          "battery_motorbike",
+          { "part": "tank_small", "fuel": "gasoline" }
+        ]
+      },
+      { "x": -1, "y": 1, "parts": [ "xlframe_vertical_2", "seat", "controls" ] },
+      { "x": -1, "y": 2, "parts": [ "xlframe_vertical" ] },
+      { "x": -2, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": -2, "y": -2, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -2, "y": -3, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -2, "y": -4, "parts": [ "xlframe_vertical" ] },
+      { "x": -2, "y": 0, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -2, "y": 1, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -2, "y": 2, "parts": [ "xlframe_vertical" ] },
+      { "x": -3, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": -3, "y": -2, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -3, "y": -3, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -3, "y": -4, "parts": [ "xlframe_vertical" ] },
+      { "x": -3, "y": 0, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -3, "y": 1, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -3, "y": 2, "parts": [ "xlframe_vertical" ] },
+      { "x": -4, "y": -1, "parts": [ "xlframe_horizontal", "rail_wheel" ] },
+      { "x": -4, "y": -2, "parts": [ "xlframe_horizontal" ] },
+      { "x": -4, "y": -3, "parts": [ "xlframe_horizontal" ] },
+      { "x": -4, "y": -4, "parts": [ "xlframe_sw", "rail_wheel" ] },
+      { "x": -4, "y": 0, "parts": [ "xlframe_horizontal" ] },
+      { "x": -4, "y": 1, "parts": [ "xlframe_horizontal" ] },
+      { "x": -4, "y": 2, "parts": [ "xlframe_se", "rail_wheel" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe_horizontal", "rail_wheel_steerable" ] },
+      { "x": 0, "y": -2, "parts": [ "xlframe_horizontal" ] },
+      { "x": 0, "y": -3, "parts": [ "xlframe_horizontal" ] },
+      { "x": 0, "y": -4, "parts": [ "xlframe_nw", "rail_wheel_steerable" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe_horizontal" ] },
+      { "x": 0, "y": 1, "parts": [ "xlframe_horizontal" ] },
+      { "x": 0, "y": 2, "parts": [ "xlframe_ne", "rail_wheel_steerable" ] }
+    ]
+  },
+  {
     "id": "miniature_train_loco",
     "type": "vehicle",
     "name": "Miniature Train Locomotive",

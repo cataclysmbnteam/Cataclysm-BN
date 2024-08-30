@@ -22,7 +22,7 @@
       }
     },
     "mon_faction": "player",
-    "epilogues": [ { "power_min": 0, "id": "epilogue_faction_your_followers_0" } ],
+    "epilogues": [ { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -74,6 +74,10 @@
       },
       "marloss": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_robofac_0" },
+      { "power_min": 150, "id": "epilogue_faction_robofac_150" }
+    ],
     "description": "The surviving staff of Hub 01, a pre-Cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
   {
@@ -135,10 +139,94 @@
       "hells_raiders": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_old_guard_0" },
-      { "power_max": 150, "id": "epilogue_faction_old_guard_150" }
+      { "power_min": 0, "power_max": 99, "id": "epilogue_faction_old_guard_0" },
+      { "power_min": 115, "power_max": 139, "id": "epilogue_faction_old_guard_115" },
+      { "power_min": 140, "id": "epilogue_faction_old_guard_140" }
     ],
     "description": "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
+  },
+  {
+    "type": "faction",
+    "id": "lapin",
+    "name": "Rabbit Enthusiasts",
+    "likes_u": 30,
+    "respects_u": 20,
+    "known_by_u": false,
+    "size": 1,
+    "power": 1,
+    "currency": "fur",
+    "food_supply": 87500,
+    "wealth": 82500,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": false
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "isherwood_family": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": true,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true },
+      "marloss": { "kill on sight": true }
+    },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_lapin_0" },
+      { "power_min": 150, "id": "epilogue_faction_lapin_150" }
+    ],
+    "description": "Mr. Lapin and any acolytes he may have gathered in the apocalypse."
   },
   {
     "type": "faction",
@@ -210,8 +298,8 @@
       "hells_raiders": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_free_merchants_0" },
-      { "power_max": 150, "id": "epilogue_faction_free_merchants_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_free_merchants_0" },
+      { "power_min": 150, "id": "epilogue_faction_free_merchants_150" }
     ],
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
@@ -299,8 +387,8 @@
       }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_tacoma_commune_0" },
-      { "power_max": 150, "id": "epilogue_faction_tacoma_commune_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_tacoma_commune_0" },
+      { "power_min": 150, "id": "epilogue_faction_tacoma_commune_150" }
     ],
     "description": "An outpost started by the Free Merchants to provide a source of food and raw materials."
   },
@@ -368,8 +456,8 @@
       "no_faction": { "knows your voice": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_wasteland_scavengers_0" },
-      { "power_max": 150, "id": "epilogue_faction_wasteland_scavengers_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_wasteland_scavengers_0" },
+      { "power_min": 150, "id": "epilogue_faction_wasteland_scavengers_150" }
     ],
     "description": "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },
@@ -399,8 +487,8 @@
       "your_followers": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 0, "id": "epilogue_faction_hells_raiders_0" },
-      { "power_max": 150, "id": "epilogue_faction_hells_raiders_150" }
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_hells_raiders_0" },
+      { "power_min": 150, "id": "epilogue_faction_hells_raiders_150" }
     ],
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   },
@@ -498,6 +586,10 @@
       },
       "hells_raiders": { "kill on sight": true }
     },
+    "epilogues": [
+      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_isherwoods_0" },
+      { "power_min": 150, "id": "epilogue_faction_isherwoods_150" }
+    ],
     "description": "A small family surviving on their generational land."
   },
   {

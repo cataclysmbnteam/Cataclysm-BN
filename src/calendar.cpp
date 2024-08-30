@@ -20,16 +20,20 @@ static constexpr double moonlight_per_quarter = 2.25;
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 const time_duration calendar::INDEFINITELY_LONG_DURATION(
     time_duration::from_turns( std::numeric_limits<int>::max() ) );
-static bool is_eternal_season = false;
 static int cur_season_length = 1;
 
 const time_point calendar::before_time_starts = time_point::from_turn( -1 );
 const time_point calendar::turn_zero = time_point::from_turn( 0 );
 
-time_point calendar::start_of_cataclysm = calendar::turn_zero;
-time_point calendar::start_of_game = calendar::turn_zero;
+calendar_config calendar::config( calendar::turn_zero,
+                                  calendar::turn_zero,
+                                  SPRING,
+                                  false );
+
+const time_point &calendar::start_of_cataclysm = calendar::config.start_of_cataclysm();
+const time_point &calendar::start_of_game = calendar::config.start_of_game();
+const season_type &calendar::initial_season = calendar::config.initial_season();
 time_point calendar::turn = calendar::turn_zero;
-season_type calendar::initial_season = SPRING;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -451,7 +455,7 @@ weekdays day_of_week( const time_point &p )
 
 bool calendar::eternal_season()
 {
-    return is_eternal_season;
+    return config.eternal_season();
 }
 
 time_duration calendar::year_length()
@@ -465,7 +469,11 @@ time_duration calendar::season_length()
 }
 void calendar::set_eternal_season( bool is_eternal )
 {
-    is_eternal_season = is_eternal;
+    set_calendar_config(
+        calendar_config( start_of_cataclysm,
+                         start_of_game,
+                         initial_season,
+                         is_eternal ) );
 }
 void calendar::set_season_length( const int dur )
 {
@@ -538,6 +546,7 @@ const std::vector<std::pair<std::string, time_duration>> time_duration::units = 
 
 season_type season_of_year( const time_point &p )
 {
+    // TODO: Explain why is it cached, make the cache explicit, or get rid of caching
     static time_point prev_turn = calendar::before_time_starts;
     static season_type prev_season = calendar::initial_season;
 
@@ -576,4 +585,9 @@ std::string to_string( const time_point &p )
 time_point::time_point()
 {
     turn_ = 0;
+}
+
+void calendar::set_calendar_config( const calendar_config &calendar_config )
+{
+    calendar::config = calendar_config;
 }

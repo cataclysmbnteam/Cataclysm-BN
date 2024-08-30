@@ -8,6 +8,7 @@
 #include <set>
 #include <utility>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -18,9 +19,11 @@
 #include "effect.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "game.h"
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "make_static.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
@@ -530,7 +533,7 @@ void player_morale::decay( const time_duration &ticks )
     invalidate();
 }
 
-void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty )
+void player_morale::display( int focus_eq, int pain_penalty, int fatigue_cap )
 {
     /*calculates the percent contributions of the morale points,
      * must be done before anything else in this method
@@ -720,11 +723,11 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
             morale_line::line_color::green_gray_red
         );
     }
-    if( fatigue_penalty != 0 ) {
+    if( fatigue_cap ) {
         bottom_lines.emplace_back(
-            _( "Fatigue level:" ), -fatigue_penalty,
-            morale_line::number_format::signed_or_dash,
-            morale_line::line_color::green_gray_red
+            _( "Fatigue Morale Cap:" ), fatigue_cap,
+            morale_line::number_format::normal,
+            morale_line::line_color::red_gray_green
         );
     }
     bottom_lines.emplace_back(
@@ -942,12 +945,6 @@ void player_morale::on_item_takeoff( const item &it )
     set_worn( it, false );
 }
 
-void player_morale::on_worn_item_transform( const item &old_it, const item &new_it )
-{
-    set_worn( old_it, false );
-    set_worn( new_it, true );
-}
-
 void player_morale::on_worn_item_washed( const item &it )
 {
     const auto update_body_part = [&]( body_part_data & bp_data ) {
@@ -957,11 +954,9 @@ void player_morale::on_worn_item_washed( const item &it )
     const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const bodypart_id &bp_id : get_player_character().get_all_body_parts() ) {
-            auto bp = bp_id->token;
-            if( covered.test( bp ) ) {
-                const bodypart_id bp_id = convert_bp( bp ).id();
-                update_body_part( body_parts[bp_id] );
+        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+            if( covered.test( bp.id() ) ) {
+                update_body_part( body_parts[bp] );
             }
         }
     } else {
@@ -999,9 +994,9 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool fancy = it.has_flag( "FANCY" );
-    const bool super_fancy = it.has_flag( "SUPER_FANCY" );
-    const bool filthy_gear = it.has_flag( "FILTHY" );
+    const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
+    const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
+    const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
     const int sign = ( worn ) ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
@@ -1017,11 +1012,9 @@ void player_morale::set_worn( const item &it, bool worn )
     const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const bodypart_id &bp_id : get_player_character().get_all_body_parts() ) {
-            auto bp = bp_id->token;
-            if( covered.test( bp ) ) {
-                const bodypart_id bp_id = convert_bp( bp ).id();
-                update_body_part( body_parts[bp_id] );
+        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+            if( covered.test( bp.id() ) ) {
+                update_body_part( body_parts[bp] );
             }
         }
     } else {

@@ -10,7 +10,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "fabric_standard", 1, "LIST" ] ] ]
   },
   {
     "result": "arm_warmers",
@@ -34,7 +34,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ], [ [ "leather", 4 ] ] ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "armguard_acidchitin",
@@ -46,8 +46,8 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 4 ] ], [ [ "leather", 4 ] ] ]
+    "using": [ [ "sewing_standard", 16 ] ],
+    "components": [ [ [ "acidchitin_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "armguard_hard",
@@ -59,7 +59,7 @@
     "skills_required": [ [ "tailor", 2 ] ],
     "time": "20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
+    "tools": [ [ [ "soldering_standard", 15, "LIST" ], [ "surface_heat", 15, "LIST" ] ] ],
     "components": [ [ [ "neoprene", 6 ] ], [ [ "plastic_chunk", 8 ] ] ]
   },
   {
@@ -68,11 +68,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 4,
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 16 ] ],
-    "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 12, "LIST" ] ] ]
   },
   {
     "result": "armguard_lightplate",
@@ -84,9 +84,22 @@
     "skills_required": [ [ "tailor", 3 ] ],
     "time": "50 m",
     "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "components": [ [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 24 ], [ "steel_standard", 6 ] ],
+    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+  },
+  {
+    "result": "armguard_lightplate_superalloy",
+    "//": "Superalloy armor recipes use alloy sheets equal to steel lumps used, difficulty 2 levels higher (maxing out at 10)",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "skills_required": [ [ "tailor", 3 ] ],
+    "time": "50 m",
+    "book_learn": [ [ "textbook_armwest", 8 ] ],
+    "using": [ [ "blacksmithing_advanced", 24 ] ],
+    "components": [ [ [ "alloy_sheet", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "armguard_metal",
@@ -101,6 +114,19 @@
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "result": "armguard_bronze",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ], [ "recipe_melee", 3 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "fabric_standard", 1, "LIST" ], [ "fabric_hides_any", 1, "LIST" ] ], [ [ "scrap_bronze", 7 ] ] ]
   },
   {
     "result": "armguard_paper",
@@ -125,7 +151,7 @@
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 60 ] ] ]
+    "components": [ [ [ "scrap", 60 ], [ "sheet_metal_small", 12 ] ] ]
   },
   {
     "result": "armguard_soft",
@@ -137,7 +163,7 @@
     "time": "20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "welder", 10 ], [ "hotplate", 10 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "neoprene", 4 ] ], [ [ "rag", 2 ] ] ]
   },
   {
@@ -152,7 +178,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "fabric_standard", 2, "LIST" ], [ "fabric_hides_proper", 2, "LIST" ] ] ]
   },
   {
     "result": "stockings_tent_arms",
@@ -185,11 +211,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "tailor",
-    "difficulty": 2,
+    "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "leather", 4 ], [ "fur", 4 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
   {
     "result": "chainmail_arms",
@@ -197,11 +223,24 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
-    "difficulty": 7,
+    "difficulty": 4,
     "skills_required": [ [ "tailor", 2 ] ],
-    "time": "40 m",
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 3 ] ],
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 1 ] ], [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+    "time": "15 m",
+    "autolearn": [ [ "fabrication", 6 ], [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_armwest", 3 ], [ "textbook_fabrication", 3 ], [ "recipe_melee", 3 ] ],
+    "using": [ [ "chainmail_standard", 3 ] ]
+  },
+  {
+    "result": "carbon_armguard",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "33 m",
+    "book_learn": [ [ "textbook_computer", 1 ], [ "advanced_electronics", 1 ], [ "reference_fabrication1", 1 ] ],
+    "using": [ [ "3d_printing_standard", 33 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 330 ] ] ]
   }
 ]

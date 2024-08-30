@@ -12,6 +12,17 @@
   },
   {
     "type": "recipe",
+    "result": "pointy_stick_long",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "48 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "makeshift_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -21,7 +32,13 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "rag", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
+      [
+        [ "fabric_standard", 1, "LIST" ],
+        [ "felt_patch", 1 ],
+        [ "duct_tape", 50 ],
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ]
+      ],
       [ [ "spike", 1 ] ]
     ]
   },
@@ -45,10 +62,8 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 1 ], [ "leather", 1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -63,7 +78,13 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "duct_tape", 50 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
+      [
+        [ "fabric_standard", 1, "LIST" ],
+        [ "felt_patch", 1 ],
+        [ "duct_tape", 50 ],
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ]
+      ],
       [ [ "copper_scrap_equivalent", 8, "LIST" ] ]
     ]
   },
@@ -81,7 +102,7 @@
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "long_pole", 1 ] ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
   },
@@ -99,7 +120,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "long_pole", 1 ] ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
       [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ],
       [ [ "copper_scrap_equivalent", 12, "LIST" ] ]
     ]
@@ -118,7 +139,7 @@
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "stick_long", 1 ] ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
   },
@@ -136,7 +157,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
       [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ],
       [ [ "copper_scrap_equivalent", 12, "LIST" ] ]
     ]
@@ -155,7 +176,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "stick_long", 1 ], [ "pool_cue", 1 ] ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 75 ] ],
       [ [ "spike", 3 ] ]
     ]
@@ -174,7 +195,7 @@
     "components": [
       [ [ "stick_long", 1 ] ],
       [ [ "spike", 1 ] ],
-      [ [ "rag", 3 ], [ "felt_patch", 3 ], [ "leather", 3 ], [ "fur", 3 ] ],
+      [ [ "fabric_standard", 3, "LIST" ], [ "felt_patch", 3 ], [ "fabric_hides_any", 3, "LIST" ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 75 ] ]
     ]
   },
@@ -192,7 +213,7 @@
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
   },
@@ -206,8 +227,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 1 ] ],
     "components": [ [ [ "javelin", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
@@ -259,7 +279,7 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
@@ -292,7 +312,6 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "nail", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -308,7 +327,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "spear_knife", 1 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -329,11 +348,9 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "6 h",
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
     "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -344,9 +361,7 @@
     "difficulty": 6,
     "time": "6 h 30 m",
     "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -359,9 +374,7 @@
     "time": "7 h 40 m",
     "autolearn": true,
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 3 ], [ "steel_tiny", 3 ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -374,9 +387,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "book_learn": [ [ "manual_knives", 3 ], [ "recipe_melee", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ]
   },
   {
     "type": "recipe",
@@ -387,9 +398,7 @@
     "difficulty": 7,
     "time": "4 h 20 m",
     "book_learn": [ [ "manual_knives", 3 ], [ "recipe_melee", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -402,18 +411,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "sharp_toothbrush",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_PIERCING",
-    "skill_used": "fabrication",
-    "time": "30 s",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-    "components": [ [ [ "toothbrush_plain", 1 ], [ "hairbrush", 1 ], [ "comb_pocket", 1 ], [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -424,10 +422,8 @@
     "difficulty": 9,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -480,8 +476,8 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "fencing_foil_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "fabric_hides_any", 1, "LIST" ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -501,8 +497,8 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "fencing_epee_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "fabric_hides_any", 1, "LIST" ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -522,8 +518,29 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "fencing_sabre_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "fabric_hides_any", 1, "LIST" ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "tazer", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "shock_rapier_off",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "rapier", 1 ] ],
+      [ [ "fabric_hides_any", 1, "LIST" ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -537,10 +554,8 @@
     "difficulty": 8,
     "time": "8 h 10 m",
     "book_learn": [ [ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ] ],
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 16 ], [ "steel_standard", 4 ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -551,10 +566,8 @@
     "difficulty": 7,
     "time": "6 h 20 m",
     "book_learn": [ [ "textbook_weapeast", 6 ], [ "manual_knives", 7 ], [ "recipe_melee", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -565,10 +578,8 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
+    "components": [ [ [ "long_pole", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -579,9 +590,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ]
   },
   {
     "type": "recipe",
@@ -592,9 +601,7 @@
     "difficulty": 6,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ]
   },
   {
     "type": "recipe",
@@ -605,10 +612,8 @@
     "difficulty": 7,
     "time": "7 h 40 m",
     "book_learn": [ [ "textbook_armschina", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -620,9 +625,8 @@
     "skills_required": [ "melee", 5 ],
     "time": "5 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 5 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "blade", 1 ] ], [ [ "spike", 1 ] ], [ [ "pipe", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
@@ -635,9 +639,7 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 3 ], [ "steel_tiny", 3 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -650,9 +652,7 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -665,9 +665,7 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
@@ -679,9 +677,7 @@
     "difficulty": 5,
     "time": "3 h",
     "book_learn": [ [ "textbook_weapeast", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ]
   },
   {
     "result": "kris",
@@ -692,9 +688,7 @@
     "difficulty": 9,
     "time": "10 h",
     "book_learn": [ [ "textbook_weapeast", 9 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -706,9 +700,7 @@
     "difficulty": 5,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -720,9 +712,7 @@
     "difficulty": 8,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 3 ], [ "steel_tiny", 3 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -734,13 +724,12 @@
     "difficulty": 4,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "stick_long", 1 ] ],
       [ [ "filament", 100, "LIST" ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "fabric_standard", 2, "LIST" ], [ "felt_patch", 2 ], [ "fabric_hides_any", 2, "LIST" ] ]
     ]
   },
   {
@@ -784,7 +773,7 @@
     "components": [
       [ [ "scrap_bronze", 4 ] ],
       [ [ "stick_long", 1 ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "fabric_standard", 2, "LIST" ], [ "felt_patch", 2 ], [ "fabric_hides_any", 2, "LIST" ] ]
     ]
   },
   {
@@ -801,7 +790,130 @@
     "components": [
       [ [ "scrap_bronze", 2 ] ],
       [ [ "stick_long", 1 ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "fabric_standard", 2, "LIST" ], [ "felt_patch", 2 ], [ "fabric_hides_any", 2, "LIST" ] ]
     ]
+  },
+  {
+    "result": "sai_weapon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "1 h 8 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapeast", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
+    "components": [ [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dagger_medieval",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "2 h 30 m",
+    "book_learn": [ [ "textbook_weapwest", 3 ] ],
+    "autolearn": true,
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dagger_bronze",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "1 h 15 m",
+    "book_learn": [ [ "textbook_weapwest", 3 ] ],
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "scrap_bronze", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "knife_heat",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": [ [ "electronics", 8 ] ],
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 6 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [
+        [ "dagger_medieval", 1 ],
+        [ "tanto", 1 ],
+        [ "kukri", 1 ],
+        [ "knife_trench", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_combat_mod", 1 ],
+        [ "knife_hunting", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "jamadhar",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapeast", 3 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 4 ] ]
+  },
+  {
+    "result": "knife_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "computer",
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "//": "Increased time since some forging incorporated into material for the edge",
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 50 ] ] ]
+  },
+  {
+    "result": "spear_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "//": "Increased time since some forging incorporated into material for the edge",
+    "time": "45 m",
+    "using": [ [ "3d_printing_standard", 10 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 100 ] ] ]
+  },
+  {
+    "result": "jamadhar_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "//": "Increased time since some forging for the spearhead",
+    "time": "15 m",
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_standard", 2 ], [ "blacksmithing_standard", 8 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 50 ] ] ]
   }
 ]

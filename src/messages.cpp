@@ -1,5 +1,4 @@
 #include "messages.h"
-
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -10,7 +9,6 @@
 #include "ime.h"
 #include "input.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -18,8 +16,10 @@
 #include "string_utils.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "uistate.h"
 
 #if defined(__ANDROID__)
+#include <optional>
 #include <SDL_keyboard.h>
 #endif
 #include "options.h"
@@ -114,7 +114,7 @@ class messages_impl
     public:
         std::deque<game_message> messages;   // Messages to be printed
         std::vector<game_message> cooldown_templates; // Message cooldown
-        time_point curmes = calendar::start_of_cataclysm; // The last-seen message.
+        time_point curmes = calendar::turn_zero; // The last-seen message.
         bool active = true;
 
         bool has_undisplayed_messages() const {
@@ -398,6 +398,7 @@ static bool msg_type_from_name( game_message_type &type, const std::string &name
 
 namespace Messages
 {
+
 // NOLINTNEXTLINE(cata-xy)
 class dialog
 {
@@ -405,10 +406,12 @@ class dialog
         dialog();
         void run();
     private:
+        void init_first_time();
         void init( ui_adaptor &ui );
         void show();
-        void input();
+        void input( const ui_adaptor &ui );
         void do_filter( const std::string &filter_str );
+        void set_size();
         static std::vector<std::string> filter_help_text( int width );
 
         const nc_color border_color;
@@ -461,7 +464,7 @@ class dialog
         bool canceled = false;
         bool errored = false;
 
-        cata::optional<ime_sentry> filter_sentry;
+        std::optional<ime_sentry> filter_sentry;
 
         bool first_init = true;
 };
@@ -474,29 +477,43 @@ Messages::dialog::dialog()
 {
 }
 
-void Messages::dialog::init( ui_adaptor &ui )
+inline void Messages::dialog::set_size()
 {
-    w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
-    w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    w_width
+        = std::min( TERMX, static_cast<int>( FULL_SCREEN_WIDTH * ( uistate.msg_window_wide_display ? 1.8 :
+                    1 ) ) );
+    w_height = std::min( TERMY, uistate.msg_window_full_height_display ? TERMY : FULL_SCREEN_HEIGHT );
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
+}
+
+void Messages::dialog::init_first_time()
+{
+    ctxt = input_context( "MESSAGE_LOG" );
+    ctxt.register_action( "UP", to_translation( "Scroll up" ) );
+    ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
+
+    static auto actionnames = {
+        "PAGE_UP", "PAGE_DOWN", "FILTER", "RESET_FILTER",
+        "QUIT", "HELP_KEYBINDINGS", "TOGGLE_WIDE_DISPLAY", "TOGGLE_FULL_HEIGHT_DISPLAY"
+    };
+    for( const auto &actionname : actionnames ) {
+        ctxt.register_action( actionname );
+    }
+
+    // Calculate time string display width. The translated strings are expected to
+    // be aligned, so we choose an arbitrary duration here to calculate the width.
+    time_width = utf8_width( to_string_clipped( 1_turns, clipped_align::right ) );
+}
+
+void Messages::dialog::init( ui_adaptor &ui )
+{
+    set_size();
 
     w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
     if( first_init ) {
-        ctxt = input_context( "MESSAGE_LOG" );
-        ctxt.register_action( "UP", to_translation( "Scroll up" ) );
-        ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
-        ctxt.register_action( "PAGE_UP" );
-        ctxt.register_action( "PAGE_DOWN" );
-        ctxt.register_action( "FILTER" );
-        ctxt.register_action( "RESET_FILTER" );
-        ctxt.register_action( "QUIT" );
-        ctxt.register_action( "HELP_KEYBINDINGS" );
-
-        // Calculate time string display width. The translated strings are expected to
-        // be aligned, so we choose an arbitrary duration here to calculate the width.
-        time_width = utf8_width( to_string_clipped( 1_turns, clipped_align::right ) );
+        init_first_time();
     }
 
     if( border_width * 2 + time_width + padding_width >= w_width ||
@@ -512,7 +529,7 @@ void Messages::dialog::init( ui_adaptor &ui )
     w_fh_width = w_width;
     w_fh_x = w_x;
     help_text = filter_help_text( w_fh_width - border_width * 2 );
-    w_fh_height = help_text.size() + border_width * 2;
+    w_fh_height = static_cast<int>( help_text.size() ) + border_width * 2;
     w_fh_y = w_y + w_height - w_fh_height;
     w_filter_help = catacurses::newwin( w_fh_height, w_fh_width, point( w_fh_x, w_fh_y ) );
 
@@ -635,8 +652,10 @@ void Messages::dialog::show()
     } else {
         if( filter_str.empty() ) {
             mvwprintz( w, point( border_width, w_height - 1 ), border_color,
-                       _( "< Press %s to filter, %s to reset >" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "RESET_FILTER" ) );
+                       _( "< Press %s to filter, %s to reset, %s or %s to adjust size >" ),
+                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "RESET_FILTER" ),
+                       ctxt.get_desc( "TOGGLE_WIDE_DISPLAY" ), ctxt.get_desc( "TOGGLE_FULL_HEIGHT_DISPLAY" )
+                     );
         } else {
             mvwprintz( w, point( border_width, w_height - 1 ), border_color, "< %s >", filter_str );
             mvwprintz( w, point( border_width + 2, w_height - 1 ), filter_color, "%s", filter_str );
@@ -683,7 +702,7 @@ void Messages::dialog::do_filter( const std::string &filter_str )
     }
 }
 
-void Messages::dialog::input()
+void Messages::dialog::input( const ui_adaptor &ui )
 {
     canceled = false;
     if( filtering ) {
@@ -739,6 +758,13 @@ void Messages::dialog::input()
             do_filter( filter_str );
         } else if( action == "QUIT" ) {
             canceled = true;
+        } else if( action == "TOGGLE_WIDE_DISPLAY" || action == "TOGGLE_FULL_HEIGHT_DISPLAY" ) {
+            if( action == "TOGGLE_WIDE_DISPLAY" ) {
+                uistate.msg_window_wide_display = !uistate.msg_window_wide_display;
+            } else {
+                uistate.msg_window_full_height_display = !uistate.msg_window_full_height_display;
+            }
+            ui.mark_resize();
         }
     }
 }
@@ -756,7 +782,7 @@ void Messages::dialog::run()
 
     while( !errored && !canceled ) {
         ui_manager::redraw();
-        input();
+        input( ui );
     }
 }
 

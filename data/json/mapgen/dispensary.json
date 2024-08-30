@@ -30,6 +30,7 @@
         { "item": "cannabis", "repeat": [ 1, 4 ], "x": 13, "y": 18 }
       ],
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
         "+": "f_null",
@@ -62,7 +63,7 @@
         { "chance": 75, "item": "stoner", "x": 10, "y": 7 }
       ],
       "rows": [
-        "......ss.d.............d",
+        "......ss.d.............'",
         "......ss................",
         "..d...ss..........d.d...",
         "......ss...d.......d4d..",
@@ -93,6 +94,7 @@
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
         ".": "t_grass",
+        "'": "t_dirt",
         "4": "t_tree_pine",
         "B": "t_pavement",
         "C": "t_floor",
@@ -193,6 +195,7 @@
         { "item": "cannabis", "repeat": [ 1, 4 ], "x": 18, "y": 21 }
       ],
       "furniture": {
+        "'": "f_street_light",
         "#": "f_null",
         "&": "f_trashcan",
         "+": "f_null",
@@ -228,7 +231,7 @@
         { "chance": 75, "item": "stoner", "x": [ 17, 19 ], "y": 12 }
       ],
       "rows": [
-        "_.._..___sss...__..__...",
+        "_.._..___sss...__..__..'",
         ".........sss........_...",
         "........_sssss_..#._4_._",
         "..._.._..sss{{.._..__...",
@@ -254,6 +257,7 @@
         "._....._..__..__.._._..."
       ],
       "terrain": {
+        "'": "t_dirt",
         "#": "t_underbrush",
         "&": "t_floor",
         "D": "t_floor",
@@ -348,7 +352,7 @@
     "weight": 100,
     "object": {
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
         "__|||||||--e--||||---|__",
         "__|&.+..bb...bbb^|.C.-__",
@@ -375,6 +379,7 @@
       ],
       "terrain": {
         "#": "t_underbrush_harvested_summer",
+        "'": "t_sidewalk",
         "&": "t_floor",
         "+": "t_door_c",
         "-": "t_wall_glass",
@@ -403,6 +408,7 @@
         "|": "t_wall_g"
       },
       "furniture": {
+        "'": "f_street_light",
         "&": "f_toilet",
         "B": "f_bench",
         "C": "f_chair",

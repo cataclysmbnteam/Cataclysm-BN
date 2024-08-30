@@ -2,33 +2,56 @@
   {
     "id": "achievement_kill_zombie",
     "type": "achievement",
-    "name": "One down, billions to go\u2026",
-    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ]
+    "name": { "str": "[Combat] One Down, Billions to Go…" },
+    "kill_requirements": [ { "species": "ZOMBIE", "is": ">=", "count": 1 } ],
+    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_kill_zombie_50",
+    "type": "achievement",
+    "name": { "str": "[Combat] The Undertaker" },
+    "hidden_by": [ "achievement_kill_zombie" ],
+    "kill_requirements": [ { "species": "ZOMBIE", "is": ">=", "count": 50 } ],
+    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_kill_in_first_minute",
     "type": "achievement",
-    "name": "Rude awakening",
+    "name": { "str": "[Combat] Rude Awakening" },
     "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" },
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
+    "kill_requirements": [ { "is": ">=", "count": 1 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
-    "id": "achievement_kill_10_monsters",
+    "id": "achievement_kill_pacifist",
     "type": "achievement",
-    "name": "Decamate",
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 10 } ]
+    "name": { "str": "[Combat] Pacifist" },
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "7 days" },
+    "kill_requirements": [ { "is": "<=", "count": 0 } ],
+    "requirements": [
+      { "event_statistic": "num_avatar_kills", "is": "anything" },
+      { "event_statistic": "num_avatar_wake_ups", "is": "anything" }
+    ]
   },
   {
-    "id": "achievement_kill_100_monsters",
+    "id": "achievement_kill_monsters_10",
     "type": "achievement",
-    "name": "Centinel",
-    "hidden_by": [ "achievement_kill_10_monsters" ],
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 100 } ]
+    "name": { "str": "[Combat] Decamate" },
+    "kill_requirements": [ { "is": ">=", "count": 10 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_kill_monsters_100",
+    "type": "achievement",
+    "name": { "str": "[Combat] Centinel" },
+    "hidden_by": [ "achievement_kill_monsters_10" ],
+    "kill_requirements": [ { "is": ">=", "count": 100 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_survive_one_day",
     "type": "achievement",
-    "name": "The first day of the rest of their unlives",
+    "name": { "str": "[Survival] The First Day of the Rest of their Unlives" },
     "description": "Survive for a day and find a safe place to sleep",
     "time_constraint": { "since": "game_start", "is": ">=", "target": "1 day" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
@@ -36,7 +59,7 @@
   {
     "id": "achievement_survive_7_days",
     "type": "achievement",
-    "name": "Thank God it's Friday",
+    "name": { "str": "[Survival] Thank God It's Friday" },
     "description": "Survive for a week",
     "hidden_by": [ "achievement_survive_one_day" ],
     "time_constraint": { "since": "game_start", "is": ">=", "target": "7 days" },
@@ -45,8 +68,8 @@
   {
     "id": "achievement_survive_28_days",
     "type": "achievement",
-    "name": "28 days later",
-    "description": "Survive for a month",
+    "name": { "str": "[Survival] 28 Days Later" },
+    "description": "Survive for 28 days",
     "hidden_by": [ "achievement_survive_7_days" ],
     "time_constraint": { "since": "game_start", "is": ">=", "target": "28 days" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
@@ -54,8 +77,8 @@
   {
     "id": "achievement_survive_91_days",
     "type": "achievement",
-    "name": "A time to every purpose under heaven",
-    "description": "Survive for a season",
+    "name": { "str": "[Survival] A Time to Every Purpose Under Heaven" },
+    "description": "Survive for 91 days",
     "hidden_by": [ "achievement_survive_28_days" ],
     "time_constraint": { "since": "game_start", "is": ">=", "target": "91 days" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
@@ -63,8 +86,8 @@
   {
     "id": "achievement_survive_365_days",
     "type": "achievement",
-    "name": "Brighter days ahead?",
-    "description": "Survive for a year",
+    "name": { "str": "[Survival] And Yet It Moves" },
+    "description": "Survive for 365 days",
     "hidden_by": [ "achievement_survive_91_days" ],
     "time_constraint": { "since": "game_start", "is": ">=", "target": "365 days" },
     "requirements": [ { "event_statistic": "num_avatar_wake_ups", "is": "anything" } ]
@@ -72,27 +95,27 @@
   {
     "id": "achievement_marathon",
     "type": "achievement",
-    "name": "Pheidippides was a hack",
+    "name": { "str": "[Travel] Pheidippides Was a Hack" },
     "description": "Run a marathon…plus a little bit more.",
     "requirements": [ { "event_statistic": "num_moves_ran", "is": ">=", "target": 42196 } ]
   },
   {
     "id": "achievement_walk_1000_miles",
     "type": "achievement",
-    "name": "Please don't fall down at my door",
+    "name": { "str": "[Travel] Please Don't Fall Down at My Door" },
     "description": "Walk 500 miles, then walk 500 more.",
     "requirements": [ { "event_statistic": "num_moves_walked", "is": ">=", "target": 1609340 } ]
   },
   {
     "id": "achievement_traverse_sharp_terrain",
     "type": "achievement",
-    "name": "Every rose has its thorn",
+    "name": { "str": "[Travel] Every Rose Has Its Thorn" },
     "requirements": [ { "event_statistic": "num_moves_sharp_terrain", "is": ">=", "target": 100 } ]
   },
   {
     "id": "achievement_swim_merit_badge",
     "type": "achievement",
-    "name": "Swimming merit badge",
+    "name": { "str": "[Travel] Swimming Merit Badge" },
     "requirements": [
       { "event_statistic": "num_moves_swam", "is": ">=", "target": 10000 },
       { "event_statistic": "num_moves_swam_underwater", "is": ">=", "target": 1000 },
@@ -102,13 +125,649 @@
   {
     "id": "achievement_reach_max_z_level",
     "type": "achievement",
-    "name": "Ain't no mountain high enough",
+    "name": { "str": "[Travel] Ain't No Mountain High Enough" },
     "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 10 } ]
   },
   {
     "id": "achievement_reach_min_z_level",
     "type": "achievement",
-    "name": "Ain't no valley low enough",
+    "name": { "str": "[Travel] Ain't No Valley Low Enough" },
     "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -10 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_alpha",
+    "type": "achievement",
+    "name": { "str": "[Mutation] More Human Than Human" },
+    "description": "You've evolved beyond your constraints.  You are now a post-threshold Prime mutant.",
+    "//": "Threshold achievements are hidden until obtained",
+    "hidden_by": [ "achievement_mutation_threshold_alpha" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_alpha", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_bear",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Just the Necessities" },
+    "description": "Now you're armed for bear!  You are now a post-threshold Bear mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_bear" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_bear", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_beast",
+    "type": "achievement",
+    "name": { "str": "[Mutation] The Nature of the Me" },
+    "description": "Your number has come up.  You are now a post-threshold Beast mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_beast" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_beast", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_bird",
+    "type": "achievement",
+    "name": { "str": "[Mutation] The Modern-Day Dinosaur" },
+    "description": "It's not flight (yet), it's falling with style.  You are now a post-threshold Bird mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_bird" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_bird", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_cattle",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Don't Drive a Limousine, Become It" },
+    "description": "Is that red you see?  No, just movement.  You are now a post-threshold Bovine mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_cattle" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_cattle", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_cephalopod",
+    "type": "achievement",
+    "name": { "str": "[Mutation] How Did I Ever Get Surrounded by Such Undead Neighbors?" },
+    "description": "From the depths, something stirs!  You are now a post-threshold Cephalopod mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_cephalopod" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_cephalopod", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_chimera",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Equal Opportunity Assimilator" },
+    "description": "What even ARE you anymore?  You are now a post-threshold Chaos mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_chimera" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_chimera", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_feline",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Nine Lives" },
+    "description": "It wasn't monday you hated, it was the grind.  You are now a post-threshold Feline mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_feline" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_feline", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_fey",
+    "type": "achievement",
+    "name": { "str": "[Mutation] The Fair Folk" },
+    "description": "The iron may be cold, but it still suits you.  You are now a post-threshold Fey mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_fey" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_fey", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_fish",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Tipping the Scales" },
+    "description": "Swim swim hungry!  You are now a post-threshold Aquatic mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_fish" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_fish", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_insect",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Heard of the Swarm?" },
+    "description": "One's opinion on jazz is actually irrelevant to the rest of the hive.  You are now a post-threshold Insect mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_insect" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_insect", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_lizard",
+    "type": "achievement",
+    "name": { "str": "[Mutation] You Feel Limber" },
+    "description": "No, eating you will not cure petrification.  You are now a post-threshold Lizard mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_lizard" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_lizard", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_medical",
+    "type": "achievement",
+    "name": { "str": "[Mutation] What Doesn't Kill You, Makes You Stranger" },
+    "description": "Through the power of science!  And also drugs.  You are now a post-threshold Prototype mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_medical" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_medical", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_mouse",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Judge Me by My Size" },
+    "description": "You're more in the mood for peanut butter rather than cheese.  You are now a post-threshold Diminutive mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_mouse" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_mouse", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_mycus",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Mycus Must Grow" },
+    "description": "The Fruit, the Seed, the Sap.  Consume this, and we will be as one, to bring unity to this world.",
+    "hidden_by": [ "achievement_mutation_threshold_mycus" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_mycus", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_plant",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Carbon Neutral" },
+    "description": "As the ivy conquers ruined stone, so shall we regrow.  You are now a post-threshold Plant mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_plant" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_plant", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_rat",
+    "type": "achievement",
+    "name": { "str": "[Mutation] At First I Was Afraid, I Was Petrified…" },
+    "description": "You're the giant rat (er sorry, survivor) that makes all of the rules.  You are now a post-threshold Survivor mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_rat" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_rat", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_raptor",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Clever Girl" },
+    "description": "Be what you want to be, the only creatures that could tell you otherwise are made of meat.  You are now a post-threshold Raptor mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_raptor" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_raptor", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_slime",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Slippery When Moist" },
+    "description": "A slime draws near!  Wait, that's just your reflection.  You are now a post-threshold Aqueous mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_slime" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_slime", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_spider",
+    "type": "achievement",
+    "name": { "str": "[Mutation] With Great Power…" },
+    "description": "…comes a lot of silk getting stuck to your chitin.  You are now a post-threshold Arachnid mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_spider" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_spider", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_troglobite",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Spelunking: A Lifestyle, Not a Hobby" },
+    "description": "Raise your pick and raise your voice!  You are now a post-threshold Subterranean mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_troglobite" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_troglobite", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_wolf",
+    "type": "achievement",
+    "name": { "str": "[Mutation] Leader of the Pack" },
+    "description": "Fine, you'll start your own furry convention, with blackjack and hookers.  You are now a post-threshold Wolf mutant.",
+    "hidden_by": [ "achievement_mutation_threshold_wolf" ],
+    "requirements": [ { "event_statistic": "num_avatar_mutation_threshold_wolf", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_5_archery",
+    "type": "achievement",
+    "name": { "str": "[Skill] Bull's Eye" },
+    "description": "Wilhelm Tell?  Never heard of him.",
+    "skill_requirements": [ { "skill": "archery", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_archery", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_archery",
+    "type": "achievement",
+    "name": { "str": "[Skill] Parthian Shot" },
+    "description": "Nock, draw, loose!",
+    "skill_requirements": [ { "skill": "archery", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_archery", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_archery" ]
+  },
+  {
+    "id": "achievement_lvl_5_barter",
+    "type": "achievement",
+    "name": { "str": "[Skill] Free Trader" },
+    "description": "Extraordinary gizmos for obscenely low prices!",
+    "skill_requirements": [ { "skill": "barter", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_barter", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_barter",
+    "type": "achievement",
+    "name": { "str": "[Skill] Robber Baron" },
+    "description": "It's gettin' tougher and tougher to make an honest buck these days!",
+    "skill_requirements": [ { "skill": "barter", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_barter", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_barter" ]
+  },
+  {
+    "id": "achievement_lvl_5_bashing",
+    "type": "achievement",
+    "name": { "str": "[Skill] Batter" },
+    "description": "Every strike brings me closer to a home run.",
+    "skill_requirements": [ { "skill": "bashing", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_bashing", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_bashing",
+    "type": "achievement",
+    "name": { "str": "[Skill] Stone Age" },
+    "description": "The cudgel was humanity's first tool.  And it may be it's last, so why not master it?",
+    "skill_requirements": [ { "skill": "bashing", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_bashing", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_bashing" ]
+  },
+  {
+    "id": "achievement_lvl_5_computer",
+    "type": "achievement",
+    "name": { "str": "[Skill] Hack the Planet" },
+    "description": "This OS has a back door.  there is always a back door.",
+    "skill_requirements": [ { "skill": "computer", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_computer", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_computer",
+    "type": "achievement",
+    "name": { "str": "[Skill] Now Rewrite It in JavaScript" },
+    "description": "It's not cheating.  It's debugging.",
+    "skill_requirements": [ { "skill": "computer", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_computer", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_computer" ]
+  },
+  {
+    "id": "achievement_lvl_5_cooking",
+    "type": "achievement",
+    "name": { "str": "[Skill] FoodPerson" },
+    "description": "Glazed tenderloin is a cakewalk.",
+    "skill_requirements": [ { "skill": "cooking", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_cooking", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_cooking",
+    "type": "achievement",
+    "name": { "str": "[Skill] Hell's Kitchen" },
+    "description": "Today's menu: Soupe a l'oignon, Boeuf Bourguignon and Creme brulee.",
+    "skill_requirements": [ { "skill": "cooking", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_cooking", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_cooking" ]
+  },
+  {
+    "id": "achievement_lvl_5_cutting",
+    "type": "achievement",
+    "name": { "str": "[Skill] Way of the Sword" },
+    "description": "When the sword is once drawn, the passions of men observe no bounds of moderation.",
+    "skill_requirements": [ { "skill": "cutting", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_cutting", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_cutting",
+    "type": "achievement",
+    "name": { "str": "[Skill] Sword-Saint" },
+    "description": "The sword has to be more than a simple weapon; it has to be an answer to life's questions.",
+    "skill_requirements": [ { "skill": "cutting", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_cutting", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_cutting" ]
+  },
+  {
+    "id": "achievement_lvl_5_dodge",
+    "type": "achievement",
+    "name": { "str": "[Skill] Elusive" },
+    "description": "The strongest of blows is nothing if it doesn't land.",
+    "skill_requirements": [ { "skill": "dodge", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_dodge", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_dodge",
+    "type": "achievement",
+    "name": { "str": "[Skill] Danmaku" },
+    "description": "I can dodge the rain!",
+    "skill_requirements": [ { "skill": "dodge", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_dodge", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_dodge" ]
+  },
+  {
+    "id": "achievement_lvl_5_driving",
+    "type": "achievement",
+    "name": { "str": "[Skill] Ace Driver" },
+    "description": "No turn is too sharp.",
+    "skill_requirements": [ { "skill": "driving", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_driving", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_driving",
+    "type": "achievement",
+    "name": { "str": "[Skill] Bottom Gear" },
+    "description": "Formula One is for Sunday drivers.",
+    "skill_requirements": [ { "skill": "driving", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_driving", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_driving" ]
+  },
+  {
+    "id": "achievement_lvl_5_electronics",
+    "type": "achievement",
+    "name": { "str": "[Skill] Thunder Ohm" },
+    "description": "Two volts enter, one volt leaves.  Resistance is futile.",
+    "skill_requirements": [ { "skill": "electronics", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_electronics", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_electronics",
+    "type": "achievement",
+    "name": { "str": "[Skill] Full Bridge Rectifier" },
+    "description": "One does not simply taste a 9V battery.",
+    "skill_requirements": [ { "skill": "electronics", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_electronics", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_electronics" ]
+  },
+  {
+    "id": "achievement_lvl_5_fabrication",
+    "type": "achievement",
+    "name": { "str": "[Skill] Do-It-Yourselfer" },
+    "description": "Take this thing, put it in that thing, and voila.",
+    "skill_requirements": [ { "skill": "fabrication", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_fabrication", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_fabrication",
+    "type": "achievement",
+    "name": { "str": "[Skill] Jack of All Trades" },
+    "description": "With a right amount of glue, there is nothing I can't do.",
+    "skill_requirements": [ { "skill": "fabrication", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_fabrication", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_fabrication" ]
+  },
+  {
+    "id": "achievement_lvl_5_firstaid",
+    "type": "achievement",
+    "name": { "str": "[Skill] Medic!" },
+    "description": "Is there a doctor in the house?",
+    "skill_requirements": [ { "skill": "firstaid", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_firstaid", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_firstaid",
+    "type": "achievement",
+    "name": { "str": "[Skill] The Doctor is In" },
+    "description": "No, it's never lupus.",
+    "skill_requirements": [ { "skill": "firstaid", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_firstaid", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_firstaid" ]
+  },
+  {
+    "id": "achievement_lvl_5_gun",
+    "type": "achievement",
+    "name": { "str": "[Skill] Eagle Eye" },
+    "description": "Only me and my target.",
+    "skill_requirements": [ { "skill": "gun", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_gun", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_gun",
+    "type": "achievement",
+    "name": { "str": "[Skill] Deadshot" },
+    "description": "Don't run.  You'll die tired.",
+    "skill_requirements": [ { "skill": "gun", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_gun", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_gun" ]
+  },
+  {
+    "id": "achievement_lvl_5_launcher",
+    "type": "achievement",
+    "name": { "str": "[Skill] Grenadier" },
+    "description": "Caliber makes the difference.",
+    "skill_requirements": [ { "skill": "launcher", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_launcher", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_launcher",
+    "type": "achievement",
+    "name": { "str": "[Skill] Rocket Man" },
+    "description": "I'm sending you to the moon.  In pieces.",
+    "skill_requirements": [ { "skill": "launcher", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_launcher", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_launcher" ]
+  },
+  {
+    "id": "achievement_lvl_5_mechanics",
+    "type": "achievement",
+    "name": { "str": "[Skill] Engineer" },
+    "description": "Just give me my wrench.",
+    "skill_requirements": [ { "skill": "mechanics", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_mechanics", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_mechanics",
+    "type": "achievement",
+    "name": { "str": "[Skill] Captain of the R-MCC Landship" },
+    "description": "This whole deal is holding on faith, spit and duct tape.",
+    "skill_requirements": [ { "skill": "mechanics", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_mechanics", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_mechanics" ]
+  },
+  {
+    "id": "achievement_lvl_5_melee",
+    "type": "achievement",
+    "name": { "str": "[Skill] Brawler" },
+    "description": "Bottle in left hand, chair leg in right hand.",
+    "skill_requirements": [ { "skill": "melee", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_melee", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_melee",
+    "type": "achievement",
+    "name": { "str": "[Skill] Street Fighter" },
+    "description": "It's winning that matters, not the style.",
+    "skill_requirements": [ { "skill": "melee", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_melee", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_melee" ]
+  },
+  {
+    "id": "achievement_lvl_5_pistol",
+    "type": "achievement",
+    "name": { "str": "[Skill] Small but Deadly" },
+    "description": "Caliber doesn't count when you're on the receiving side of the barrel.",
+    "skill_requirements": [ { "skill": "pistol", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_pistol", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_pistol",
+    "type": "achievement",
+    "name": { "str": "[Skill] Big Iron" },
+    "description": "Six bullets.  More than enough to kill anything that moves.",
+    "skill_requirements": [ { "skill": "pistol", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_pistol", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_pistol" ]
+  },
+  {
+    "id": "achievement_lvl_5_rifle",
+    "type": "achievement",
+    "name": { "str": "[Skill] Rifleman" },
+    "description": "This is my rifle.  there are many like it, but this one is mine.  My rifle is my best friend.  It is my life.  I must master it as I must master my life.",
+    "skill_requirements": [ { "skill": "rifle", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_rifle", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_rifle",
+    "type": "achievement",
+    "name": { "str": "[Skill] Soldier" },
+    "description": "Without me, my rifle is useless.  Without my rifle, I am useless.  I will keep my rifle clean and ready, even as I am clean and ready.  We will become part of each other.",
+    "skill_requirements": [ { "skill": "rifle", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_rifle", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_rifle" ]
+  },
+  {
+    "id": "achievement_lvl_5_shotgun",
+    "type": "achievement",
+    "name": { "str": "[Skill] Double Barrel, Double Fun" },
+    "description": "I like to keep this handy for close encounters.",
+    "skill_requirements": [ { "skill": "shotgun", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_shotgun", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_shotgun",
+    "type": "achievement",
+    "name": { "str": "[Skill] This is My Boomstick!" },
+    "description": "Both barrels for you, you bastards.",
+    "skill_requirements": [ { "skill": "shotgun", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_shotgun", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_shotgun" ]
+  },
+  {
+    "id": "achievement_lvl_5_smg",
+    "type": "achievement",
+    "name": { "str": "[Skill] Spray'n'Pray" },
+    "description": "One will hit.  It's a matter of statistics.",
+    "skill_requirements": [ { "skill": "smg", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_smg", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_smg",
+    "type": "achievement",
+    "name": { "str": "[Skill] Chicago Typewriter" },
+    "description": "We definitely need more ammo.",
+    "skill_requirements": [ { "skill": "smg", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_smg", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_smg" ]
+  },
+  {
+    "id": "achievement_lvl_5_speech",
+    "type": "achievement",
+    "name": { "str": "[Skill] Eloquent" },
+    "description": "We're friends, aren't we?",
+    "skill_requirements": [ { "skill": "speech", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_speech", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_speech",
+    "type": "achievement",
+    "name": { "str": "[Skill] Silver Tongue" },
+    "description": "Legend has it that you convinced a zombie hulk to go away.",
+    "skill_requirements": [ { "skill": "speech", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_speech", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_speech" ]
+  },
+  {
+    "id": "achievement_lvl_5_stabbing",
+    "type": "achievement",
+    "name": { "str": "[Skill] Lancer" },
+    "description": "He learned to deal the far-off stone, and poke the long, safe spear.",
+    "skill_requirements": [ { "skill": "stabbing", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_stabbing", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_stabbing",
+    "type": "achievement",
+    "name": { "str": "[Skill] Five Finger Fillet" },
+    "description": "Is this a dagger which I see before me, the handle toward my hand?  Come, let me clutch thee.",
+    "skill_requirements": [ { "skill": "stabbing", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_stabbing", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_stabbing" ]
+  },
+  {
+    "id": "achievement_lvl_5_survival",
+    "type": "achievement",
+    "name": { "str": "[Skill] Survivalist" },
+    "description": "Survival is my game.",
+    "skill_requirements": [ { "skill": "survival", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_survival", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_survival",
+    "type": "achievement",
+    "name": { "str": "[Skill] Innawoods" },
+    "description": "Some people think I'm over-prepared.  Paranoid.  Maybe even a little crazy.  But they never met any Precambrian life forms, did they?",
+    "skill_requirements": [ { "skill": "survival", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_survival", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_survival" ]
+  },
+  {
+    "id": "achievement_lvl_5_swimming",
+    "type": "achievement",
+    "name": { "str": "[Skill] Swimmer" },
+    "description": "Like a fish to water.",
+    "skill_requirements": [ { "skill": "swimming", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_swimming", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_swimming",
+    "type": "achievement",
+    "name": { "str": "[Skill] Sky of Blue, and Sea of Green" },
+    "description": "Faster than Jaws.",
+    "skill_requirements": [ { "skill": "swimming", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_swimming", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_swimming" ]
+  },
+  {
+    "id": "achievement_lvl_5_tailor",
+    "type": "achievement",
+    "name": { "str": "[Skill] Tailor" },
+    "description": "A needle, a thread and a dream.",
+    "skill_requirements": [ { "skill": "tailor", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_tailor", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_tailor",
+    "type": "achievement",
+    "name": { "str": "[Skill] Fashion Designer" },
+    "description": "Male, female and mutant fashion alike.",
+    "skill_requirements": [ { "skill": "tailor", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_tailor", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_tailor" ]
+  },
+  {
+    "id": "achievement_lvl_5_throw",
+    "type": "achievement",
+    "name": { "str": "[Skill] Yeet!" },
+    "description": "And never come back.",
+    "skill_requirements": [ { "skill": "throw", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_throw", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_throw",
+    "type": "achievement",
+    "name": { "str": "[Skill] Frag Out!" },
+    "description": "This sounds like a job for Ambassador Pineapple.",
+    "skill_requirements": [ { "skill": "throw", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_throw", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_throw" ]
+  },
+  {
+    "id": "achievement_lvl_5_traps",
+    "type": "achievement",
+    "name": { "str": "[Skill] Trapper" },
+    "description": "A good trap doesn't discriminate between beavers and zombeavers.",
+    "skill_requirements": [ { "skill": "traps", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_traps", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_traps",
+    "type": "achievement",
+    "name": { "str": "[Skill] Minesweeper" },
+    "description": "All it takes is one mistake.",
+    "skill_requirements": [ { "skill": "traps", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_traps", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_traps" ]
+  },
+  {
+    "id": "achievement_lvl_5_unarmed",
+    "type": "achievement",
+    "name": { "str": "[Skill] Road to Shaolin" },
+    "description": "I feel an army in my fist.",
+    "skill_requirements": [ { "skill": "unarmed", "is": ">=", "level": 5 } ],
+    "requirements": [ { "event_statistic": "num_gains_unarmed", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_lvl_10_unarmed",
+    "type": "achievement",
+    "name": { "str": "[Skill] Wax On, Wax Off" },
+    "description": "To be your own weapon.",
+    "skill_requirements": [ { "skill": "unarmed", "is": ">=", "level": 10 } ],
+    "requirements": [ { "event_statistic": "num_gains_unarmed", "is": "anything" } ],
+    "hidden_by": [ "achievement_lvl_5_unarmed" ]
   }
 ]

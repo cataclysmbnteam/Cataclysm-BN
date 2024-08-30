@@ -31,7 +31,7 @@ mtype::mtype()
     name = pl_translation( "human", "humans" );
     sym = " ";
     color = c_white;
-    size = MS_MEDIUM;
+    size = creature_size::medium;
     volume = 62499_ml;
     weight = 81499_gram;
     mat = { material_id( "flesh" ) };
@@ -121,6 +121,9 @@ bool mtype::in_category( const std::string &category ) const
 
 bool mtype::in_species( const species_id &spec ) const
 {
+    if( spec == species_id( "ALL" ) ) {
+        return true;
+    }
     return species.count( spec ) > 0;
 }
 

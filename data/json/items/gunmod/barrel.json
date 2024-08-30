@@ -5,15 +5,15 @@
     "name": { "str": "shortened barrel" },
     "description": "A shortened barrel results in markedly reduced accuracy, and a minor increase in noise, but also greatly improves the ease with which the weapon can be carried and wielded.",
     "volume": "0 ml",
-    "price": 12000,
-    "price_postapoc": 250,
+    "price": "120 USD",
+    "price_postapoc": "250 cent",
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
-    "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "dispersion_modifier": 75,
-    "loudness_modifier": 2,
+    "loudness_modifier": 5,
     "flags": [ "IRREMOVABLE" ]
   },
   {
@@ -21,18 +21,26 @@
     "type": "GUNMOD",
     "name": { "str": "upstest" },
     "description": "Testmod for UPS drain on mods, this should never spawn, if you see this, it's a bug.  50x more UPS drain.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "500 ml",
-    "price": 20000,
-    "price_postapoc": 0,
+    "price": "200 USD",
+    "price_postapoc": "0 cent",
     "bashing": 5,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
-    "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "damage_modifier": 500,
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "SHOTGUNS" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ]
+    ],
+    "damage_modifier": { "damage_type": "stab", "amount": 500 },
     "dispersion_modifier": 500,
-    "ups_charges_multiplier": 50.0
+    "ups_charges_multiplier": 50
   }
 ]

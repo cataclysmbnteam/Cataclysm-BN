@@ -1,12 +1,12 @@
 #include "item_factory.h"
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
@@ -22,6 +22,7 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
@@ -30,20 +31,19 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
-#include "optional.h"
 #include "options.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
 #include "skill.h"
-#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_utils.h"
@@ -72,10 +72,12 @@ static const ammo_effect_str_id ammo_effect_FRAG( "FRAG" );
 static const ammo_effect_str_id ammo_effect_INCENDIARY( "INCENDIARY" );
 static const ammo_effect_str_id ammo_effect_NAPALM( "NAPALM" );
 static const ammo_effect_str_id ammo_effect_NAPALM_BIG( "NAPALM_BIG" );
-static const ammo_effect_str_id ammo_effect_NEVER_MISFIRES( "NEVER_MISFIRES" );
 static const ammo_effect_str_id ammo_effect_SMOKE( "SMOKE" );
 static const ammo_effect_str_id ammo_effect_SMOKE_BIG( "SMOKE_BIG" );
 static const ammo_effect_str_id ammo_effect_TOXICGAS( "TOXICGAS" );
+
+static const gun_mode_id gun_mode_REACH( "REACH" );
+
 
 std::unique_ptr<Item_factory> item_controller = std::make_unique<Item_factory>();
 
@@ -120,35 +122,42 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
                                        body_part_set &parts, bool &sided )
 {
     auto parse = [&parts, &sided]( const std::string & val_in ) {
-        const std::string &val = ( test_mode || json_report_unused_fields )
+        const std::string &val = json_report_strict
                                  ? val_in
                                  : to_lower_case( val_in );
         if( val == "arms" || val == "arm_either" ) {
-            parts.set( bp_arm_l );
-            parts.set( bp_arm_r );
+            parts.set( bodypart_str_id( "arm_l" ) );
+            parts.set( bodypart_str_id( "arm_r" ) );
         } else if( val == "hands" || val == "hand_either" ) {
-            parts.set( bp_hand_l );
-            parts.set( bp_hand_r );
+            parts.set( bodypart_str_id( "hand_l" ) );
+            parts.set( bodypart_str_id( "hand_r" ) );
         } else if( val == "legs" || val == "leg_either" ) {
-            parts.set( bp_leg_l );
-            parts.set( bp_leg_r );
+            parts.set( bodypart_str_id( "leg_l" ) );
+            parts.set( bodypart_str_id( "leg_r" ) );
         } else if( val == "feet" || val == "foot_either" ) {
-            parts.set( bp_foot_l );
-            parts.set( bp_foot_r );
+            parts.set( bodypart_str_id( "foot_l" ) );
+            parts.set( bodypart_str_id( "foot_r" ) );
         } else {
-            parts.set( get_body_part_token( val ) );
+            // Convert from legacy enum to new and apply coverage
+            if( !is_legacy_bodypart_id( val ) ) {
+                parts.set( bodypart_str_id( val ) );
+            } else {
+                parts.set( convert_bp( get_body_part_token( val ) ) );
+            }
         }
         sided |= val == "arm_either" || val == "hand_either" ||
                  val == "leg_either" || val == "foot_either";
     };
 
     if( jo.has_array( key ) ) {
+        parts.reset();
         for( const std::string line : jo.get_array( key ) ) {
             parse( line );
         }
         return true;
 
     } else if( jo.has_string( key ) ) {
+        parts.reset();
         parse( jo.get_string( key ) );
         return true;
 
@@ -157,15 +166,48 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
+namespace
+{
+
+// TODO: add explicit action field to gun definitions
+auto defmode_name( itype &obj )
+{
+    if( obj.mod ) {
+        return translate_marker( "gunmod" ); // grenade launchers
+    } else if( obj.gun->clip == 1 ) {
+        return translate_marker( "manual" ); // break-type actions
+    } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( flag_RELOAD_ONE ) ) {
+        return translate_marker( "revolver" );
+    } else {
+        return translate_marker( "semi" );
+    }
+};
+
+} //namespace
+
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
-        obj.item_tags.insert( "NO_REPAIR" );
+        obj.item_tags.insert( flag_NO_REPAIR );
     }
 
-    if( obj.has_flag( "STAB" ) || obj.has_flag( "SPEAR" ) ) {
+    if( obj.has_flag( flag_STAB ) ) {
         std::swap( obj.melee[DT_CUT], obj.melee[DT_STAB] );
+    }
+
+    // We want to recalculate DEFAULT attack, because it defaults to 0
+    // But if it doesn't exist, we want to keep it that way
+    if( obj.attacks.empty() || obj.attacks.count( "DEFAULT" ) ) {
+        attack_statblock att;
+        att.to_hit = obj.m_to_hit;
+        for( size_t i = 0; i < NUM_DT; i++ ) {
+            if( obj.melee[i] > 0 ) {
+                att.damage.add_damage( static_cast<damage_type>( i ), obj.melee[i] );
+            }
+        }
+
+        obj.attacks["DEFAULT"] = att;
     }
 
     // add usage methods (with default values) based upon qualities
@@ -233,8 +275,8 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
     // remove LIGHT_[X] flags
-    erase_if( obj.item_tags, []( const std::string & f ) {
-        return f.find( "LIGHT_" ) == 0;
+    erase_if( obj.item_tags, []( const flag_id & f ) {
+        return string_starts_with( f.str(), "LIGHT_" );
     } );
 
     // Set max volume for containers to prevent integer overflow
@@ -287,6 +329,23 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
     }
+    const auto check_ammo_effects = []( const itype_id & id, std::set<ammo_effect_str_id> &effects ) {
+        for( auto iter = effects.begin(); iter != effects.end(); ) {
+            const ammo_effect_str_id &ae_id = *iter;
+            if( ae_id.is_valid() ) {
+                iter++;
+            } else {
+                debugmsg( "%s has unknown ammo_effect %s, removing", id, ae_id );
+                iter = effects.erase( iter );
+            }
+        }
+    };
+    if( obj.gun ) {
+        check_ammo_effects( obj.id, obj.gun->ammo_effects );
+    }
+    if( obj.gunmod ) {
+        check_ammo_effects( obj.id, obj.gunmod->ammo_effects );
+    }
 
     // Helper for ammo migration in following sections
     auto migrate_ammo_set = [&]( std::set<ammotype> &ammoset ) {
@@ -319,7 +378,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Migrate compataible magazines
-    for( auto kv : obj.magazines ) {
+    for( auto &kv : obj.magazines ) {
         for( auto mag_it = kv.second.begin(); mag_it != kv.second.end(); ) {
             auto maybe_migrated = migrated_magazines.find( *mag_it );
             if( maybe_migrated != migrated_magazines.end() ) {
@@ -332,7 +391,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Migrate default magazines
-    for( auto kv : obj.magazine_default ) {
+    for( auto &kv : obj.magazine_default ) {
         auto maybe_migrated = migrated_magazines.find( kv.second );
         if( maybe_migrated != migrated_magazines.end() ) {
             kv.second = maybe_migrated->second;
@@ -357,54 +416,58 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
+    if( obj.gunmod && !obj.has_flag( flag_MELEE_GUNMOD ) ) {
+        for( const std::pair<const gun_mode_id, gun_modifier_data> &pr : obj.gunmod->mode_modifier ) {
+            if( pr.first == gun_mode_REACH ) {
+                obj.item_tags.insert( flag_MELEE_GUNMOD );
+                break;
+            }
+        }
+    }
+
     if( obj.gun ) {
         // If the gun has ammo types for which the default ammo has been migrated, we need to
         // replace those ammo types with that of the migrated ammo
         for( auto ammo_type_it = obj.gun->ammo.begin(); ammo_type_it != obj.gun->ammo.end(); ) {
             auto maybe_migrated = migrated_ammo.find( ammo_type_it->obj().default_ammotype() );
-            if( maybe_migrated != migrated_ammo.end() ) {
-                const ammotype old_ammo = *ammo_type_it;
-                // Remove the old ammotype add the migrated version
-                ammo_type_it = obj.gun->ammo.erase( ammo_type_it );
-                const ammotype &new_ammo = maybe_migrated->second;
-                obj.gun->ammo.insert( obj.gun->ammo.begin(), new_ammo );
-                // Migrate the compatible magazines
-                auto old_mag_it = obj.magazines.find( old_ammo );
-                if( old_mag_it != obj.magazines.end() ) {
-                    for( const itype_id &old_mag : old_mag_it->second ) {
-                        obj.magazines[new_ammo].insert( old_mag );
-                    }
-                    obj.magazines.erase( old_ammo );
-                }
-                // And the default magazines for each magazine type
-                auto old_default_mag_it = obj.magazine_default.find( old_ammo );
-                if( old_default_mag_it != obj.magazine_default.end() ) {
-                    const itype_id &old_default_mag = old_default_mag_it->second;
-                    obj.magazine_default[new_ammo] = old_default_mag;
-                    obj.magazine_default.erase( old_ammo );
-                }
-            } else {
+            if( maybe_migrated == migrated_ammo.end() ) {
                 ++ammo_type_it;
+                continue;
+            }
+
+            const ammotype old_ammo = *ammo_type_it;
+
+            // Remove the old ammotype add the migrated version
+            ammo_type_it = obj.gun->ammo.erase( ammo_type_it );
+            const ammotype &new_ammo = maybe_migrated->second;
+            obj.gun->ammo.insert( obj.gun->ammo.begin(), new_ammo );
+
+            // Migrate the compatible magazines
+            auto old_mag_it = obj.magazines.find( old_ammo );
+            if( old_mag_it != obj.magazines.end() ) {
+                for( const itype_id &old_mag : old_mag_it->second ) {
+                    obj.magazines[new_ammo].insert( old_mag );
+                }
+                obj.magazines.erase( old_ammo );
+            }
+
+            // And the default magazines for each magazine type
+            auto old_default_mag_it = obj.magazine_default.find( old_ammo );
+            if( old_default_mag_it != obj.magazine_default.end() ) {
+                const itype_id &old_default_mag = old_default_mag_it->second;
+                obj.magazine_default[new_ammo] = old_default_mag;
+                obj.magazine_default.erase( old_ammo );
             }
         }
 
-        // TODO: add explicit action field to gun definitions
-        const auto defmode_name = [&]() {
-            if( obj.gun->clip == 1 ) {
-                return translate_marker( "manual" ); // break-type actions
-            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.has_flag( "RELOAD_ONE" ) ) {
-                return translate_marker( "revolver" );
-            } else {
-                return translate_marker( "semi" );
-            }
-        };
+
 
         // if the gun doesn't have a DEFAULT mode then add one now
         obj.gun->modes.emplace( gun_mode_id( "DEFAULT" ),
-                                gun_modifier_data( defmode_name(), 1, std::set<std::string>() ) );
+                                gun_modifier_data( defmode_name( obj ), 1, std::set<std::string>() ) );
 
         // If a "gun" has a reach attack, give it an additional melee mode.
-        if( obj.has_flag( "REACH_ATTACK" ) ) {
+        if( obj.has_flag( flag_REACH_ATTACK ) ) {
             obj.gun->modes.emplace( gun_mode_id( "MELEE" ),
                                     gun_modifier_data( translate_marker( "melee" ), 1,
             { "MELEE" } ) );
@@ -433,14 +496,6 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         obj.gun->reload_noise = _( obj.gun->reload_noise );
-
-        // TODO: Move to jsons?
-        if( obj.gun->skill_used == skill_id( "archery" ) ||
-            obj.gun->skill_used == skill_id( "throw" ) ) {
-            obj.item_tags.insert( "WATERPROOF_GUN" );
-            obj.item_tags.insert( "NEVER_JAMS" );
-            obj.gun->ammo_effects.insert( ammo_effect_NEVER_MISFIRES );
-        }
     }
 
     set_allergy_flags( obj );
@@ -458,7 +513,7 @@ void Item_factory::finalize_pre( itype &obj )
         } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
-            auto mat = obj.materials;
+            auto &mat = obj.materials;
 
             // TODO: migrate inedible comestibles to appropriate alternative types.
             mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
@@ -493,19 +548,19 @@ void Item_factory::finalize_pre( itype &obj )
             cauterize_actor cauterize;
             cauterize.flame = false;
             obj.use_methods["cauterize"] = cauterize.clone();
-            obj.item_tags.emplace( "HEATS_FOOD_USING_CHARGES" );
+            obj.item_tags.insert( flag_HEATS_FOOD_USING_CHARGES );
         }
 
         if( obj.use_methods.count( "HEAT_FOOD" ) != 0 ) {
             obj.use_methods.erase( "HEAT_FOOD" );
-            obj.item_tags.emplace( "HEATS_FOOD_USING_FIRE" );
+            obj.item_tags.insert( flag_HEATS_FOOD_USING_FIRE );
         }
 
         if( obj.use_methods.count( "HEATPACK" ) != 0 ) {
             obj.use_methods.erase( "HEATPACK" );
             obj.use_methods["TOGGLE_HEATS_FOOD"] =
                 use_function( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
-            obj.item_tags.emplace( "HEATS_FOOD_IS_CONSUMED" );
+            obj.item_tags.insert( flag_HEATS_FOOD_IS_CONSUMED );
         }
     }
 
@@ -517,17 +572,17 @@ void Item_factory::finalize_pre( itype &obj )
         obj.drop_action.get_actor_ptr()->finalize( obj.id );
     }
 
-    if( obj.has_flag( "PERSONAL" ) ) {
+    if( obj.has_flag( flag_PERSONAL ) ) {
         obj.layer = PERSONAL_LAYER;
-    } else if( obj.has_flag( "SKINTIGHT" ) ) {
+    } else if( obj.has_flag( flag_SKINTIGHT ) ) {
         obj.layer = UNDERWEAR_LAYER;
-    } else if( obj.has_flag( "WAIST" ) ) {
+    } else if( obj.has_flag( flag_WAIST ) ) {
         obj.layer = WAIST_LAYER;
-    } else if( obj.has_flag( "OUTER" ) ) {
+    } else if( obj.has_flag( flag_OUTER ) ) {
         obj.layer = OUTER_LAYER;
-    } else if( obj.has_flag( "BELTED" ) ) {
+    } else if( obj.has_flag( flag_BELTED ) ) {
         obj.layer = BELTED_LAYER;
-    } else if( obj.has_flag( "AURA" ) ) {
+    } else if( obj.has_flag( flag_AURA ) ) {
         obj.layer = AURA_LAYER;
     } else {
         obj.layer = REGULAR_LAYER;
@@ -538,6 +593,31 @@ void Item_factory::finalize_pre( itype &obj )
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
+    }
+
+    if( obj.armor ) {
+
+        auto set_resist = [&obj]( damage_type dt,
+        std::function<int( const material_type & )> resist_getter ) {
+            if( obj.armor->resistance.flat.find( dt ) != obj.armor->resistance.flat.end() ) {
+                return;
+            }
+            float resist = 0.0f;
+            if( !obj.materials.empty() ) {
+                for( const material_id &mat : obj.materials ) {
+                    resist += resist_getter( *mat );
+                }
+                resist /= obj.materials.size();
+            }
+
+            obj.armor->resistance.flat[dt] = std::lround( resist * obj.armor->thickness );
+        };
+        set_resist( DT_BASH, &material_type::bash_resist );
+        set_resist( DT_CUT, &material_type::cut_resist );
+        set_resist( DT_STAB, []( const material_type & t ) {
+            return t.cut_resist() * 0.8f;
+        } );
+        set_resist( DT_BULLET, &material_type::bullet_resist );
     }
 }
 
@@ -558,19 +638,17 @@ void Item_factory::register_cached_uses( const itype &obj )
 
 void Item_factory::finalize_post( itype &obj )
 {
-    // erase all invalid flags (not defined in flags.json), display warning about invalid flags
-    erase_if( obj.item_tags, [&]( const std::string & f ) {
-        if( !json_flag::get( f ).id.is_valid() ) {
+    erase_if( obj.item_tags, [&]( const flag_id & f ) {
+        if( !f.is_valid() ) {
             debugmsg( "itype '%s' uses undefined flag '%s'. Please add corresponding 'json_flag' entry to json.",
-                      obj.id.c_str(), f );
+                      obj.id.str(), f.str() );
             return true;
-        } else {
-            return false;
         }
+        return false;
     } );
 
     // handle complex firearms as a special case
-    if( obj.gun && !obj.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+    if( obj.gun && !obj.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
         std::copy( gun_tools.begin(), gun_tools.end(), std::inserter( obj.repair, obj.repair.begin() ) );
         return;
     }
@@ -707,7 +785,7 @@ void Item_factory::finalize_item_blacklist()
         if( maybe_ammo != m_templates.end() && maybe_ammo->second.ammo ) {
             auto replacement = m_templates.find( migrate.second.replace );
             if( replacement->second.ammo ) {
-                migrated_ammo.emplace( std::make_pair( migrate.first, replacement->second.ammo->type ) );
+                migrated_ammo.emplace( migrate.first, replacement->second.ammo->type );
             } else {
                 debugmsg( "Replacement item %s for migrated ammo %s is not ammo.",
                           migrate.second.replace.str(), migrate.first.str() );
@@ -719,7 +797,7 @@ void Item_factory::finalize_item_blacklist()
         if( maybe_mag != m_templates.end() && maybe_mag->second.magazine ) {
             auto replacement = m_templates.find( migrate.second.replace );
             if( replacement->second.magazine ) {
-                migrated_magazines.emplace( std::make_pair( migrate.first, migrate.second.replace ) );
+                migrated_magazines.emplace( migrate.first, migrate.second.replace );
             } else {
                 debugmsg( "Replacement item %s for migrated magazine %s is not a magazine.",
                           migrate.second.replace.str(), migrate.first.str() );
@@ -855,13 +933,10 @@ void Item_factory::init()
     add_iuse( "CAPTURE_MONSTER_VEH", &iuse::capture_monster_veh );
     add_iuse( "CARVER_OFF", &iuse::carver_off );
     add_iuse( "CARVER_ON", &iuse::carver_on );
-    add_iuse( "CATFOOD", &iuse::catfood );
-    add_iuse( "CATTLEFODDER", &iuse::feedcattle );
     add_iuse( "CHAINSAW_OFF", &iuse::chainsaw_off );
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
-    add_iuse( "BIRDFOOD", &iuse::feedbird );
     add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
@@ -883,7 +958,6 @@ void Item_factory::init()
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
     add_iuse( "CRAFT", &iuse::craft );
-    add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
     add_iuse( "ECIG", &iuse::ecig );
@@ -903,7 +977,6 @@ void Item_factory::init()
     // Obsolete
     add_iuse( "FLUMED", &iuse::flumed );
     add_iuse( "FLUSLEEP", &iuse::flusleep );
-    add_iuse( "FLU_VACCINE", &iuse::flu_vaccine );
     add_iuse( "FOODPERSON", &iuse::foodperson );
     add_iuse( "FUNGICIDE", &iuse::fungicide );
     add_iuse( "GASMASK", &iuse::gasmask,
@@ -916,6 +989,7 @@ void Item_factory::init()
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
+    add_iuse( "GUN_CLEAN", &iuse::gun_clean );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
@@ -952,7 +1026,9 @@ void Item_factory::init()
     add_iuse( "OXYTORCH", &iuse::oxytorch );
     add_iuse( "PACK_CBM", &iuse::pack_cbm );
     add_iuse( "PACK_ITEM", &iuse::pack_item );
+    add_iuse( "PETFOOD", &iuse::petfood );
     add_iuse( "PHEROMONE", &iuse::pheromone );
+    add_iuse( "PICK_LOCK", &iuse::pick_lock );
     add_iuse( "PICKAXE", &iuse::pickaxe );
     add_iuse( "PLANTBLECH", &iuse::plantblech );
     add_iuse( "POISON", &iuse::poison );
@@ -973,14 +1049,11 @@ void Item_factory::init()
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
     add_iuse( "REPORT_GRID_CHARGE", &iuse::report_grid_charge );
     add_iuse( "REPORT_GRID_CONNECTIONS", &iuse::report_grid_connections );
-    add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
-    add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
+    add_iuse( "MODIFY_GRID_CONNECTIONS", &iuse::modify_grid_connections );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SHAVEKIT", &iuse::shavekit );
-    add_iuse( "SHOCKTONFA_OFF", &iuse::shocktonfa_off );
-    add_iuse( "SHOCKTONFA_ON", &iuse::shocktonfa_on );
     add_iuse( "SIPHON", &iuse::siphon );
     add_iuse( "SLEEP", &iuse::sleep );
     add_iuse( "SMOKING", &iuse::smoking );
@@ -996,6 +1069,7 @@ void Item_factory::init()
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
+    add_iuse( "TOGGLE_UPS_CHARGING", &iuse::toggle_ups_charging );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
@@ -1026,6 +1100,8 @@ void Item_factory::init()
     add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
+    add_actor( std::make_unique<set_transform_iuse>() );
+    add_actor( std::make_unique<set_transformed_iuse>() );
     add_actor( std::make_unique<enzlave_actor>() );
     add_actor( std::make_unique<explosion_iuse>() );
     add_actor( std::make_unique<firestarter_actor>() );
@@ -1039,7 +1115,6 @@ void Item_factory::init()
     add_actor( std::make_unique<countdown_actor>() );
     add_actor( std::make_unique<manualnoise_actor>() );
     add_actor( std::make_unique<musical_instrument_actor>() );
-    add_actor( std::make_unique<pick_lock_actor>() );
     add_actor( std::make_unique<deploy_furn_actor>() );
     add_actor( std::make_unique<place_monster_iuse>() );
     add_actor( std::make_unique<change_scent_iuse>() );
@@ -1047,10 +1122,10 @@ void Item_factory::init()
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
     add_actor( std::make_unique<unfold_vehicle_iuse>() );
-    add_actor( std::make_unique<ups_based_armor_actor>() );
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<saw_stock_actor>() );
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
     add_actor( std::make_unique<mutagen_actor>() );
@@ -1097,6 +1172,23 @@ void Item_factory::check_definitions() const
 
         if( !type->category_force.is_valid() ) {
             msg += "undefined category " + type->category_force.str() + "\n";
+        }
+
+        if( type->armor ) {
+            cata::flat_set<bodypart_str_id> observed_bps;
+            for( const armor_portion_data &portion : type->armor->data ) {
+                if( portion.covers.none() ) {
+                    continue;
+                }
+                for( const body_part &bp : all_body_parts ) {
+                    if( portion.covers.test( convert_bp( bp ) ) ) {
+                        if( observed_bps.count( convert_bp( bp ) ) ) {
+                            msg += "multiple portions with same body_part defined\n";
+                        }
+                        observed_bps.insert( convert_bp( bp ) );
+                    }
+                }
+            }
         }
 
         if( type->weight < 0_gram ) {
@@ -1166,7 +1258,13 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->has_flag( "FIRESTARTER" ) &&
+        for( const weapon_category_id &cat_id : type->weapon_category ) {
+            if( !cat_id.is_valid() ) {
+                msg += string_format( "invalid weapon category: %s\n", cat_id.c_str() );
+            }
+        }
+
+        if( type->has_flag( flag_FIRESTARTER ) &&
             !type->can_have_charges() &&
             !type->get_use( "firestarter" ) ) {
             msg += string_format( "has 'FIRESTARTER' flag, but neither can have charges nor defines 'firestarter' use func" );
@@ -1222,6 +1320,14 @@ void Item_factory::check_definitions() const
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
             msg += "has use_action MA_MANUAL but is not a book\n";
         }
+        if( type->milling_data ) {
+            if( !has_template( type->milling_data->into_ ) ) {
+                msg += "type to mill into is invalid: " + type->milling_data->into_.str() + "\n";
+            }
+            if( !type->milling_data->into_->count_by_charges() ) {
+                msg += "type to mill into must be counted by charges: " + type->milling_data->into_.str() + "\n";
+            }
+        }
         if( type->ammo ) {
             if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
                 msg += "must define at least one ammo type\n";
@@ -1253,12 +1359,12 @@ void Item_factory::check_definitions() const
                     msg += "cannot specify clip_size or magazine without ammo type\n";
                 }
 
-                if( type->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                if( type->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                     msg += "RELOAD_AND_SHOOT requires an ammo type to be specified\n";
                 }
 
             } else {
-                if( type->has_flag( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
+                if( type->has_flag( flag_RELOAD_AND_SHOOT ) && !type->magazines.empty() ) {
                     msg += "RELOAD_AND_SHOOT cannot be used with magazines\n";
                 }
                 for( const ammotype &at : type->gun->ammo ) {
@@ -1294,41 +1400,62 @@ void Item_factory::check_definitions() const
             if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
                 msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
             }
-            for( const gun_type_type &t : type->gunmod->usable ) {
-                // TODO: Make gun_type_type not require horrid checks like this one
-                const skill_id gun_skill = skill_id( t.name_ );
-                bool is_skill = ( gun_skill.is_valid() && gun_skill->is_combat_skill() )
-                                || t.name_ == "bow"
-                                || t.name_ == "crossbow";
-                itype_id item_type( t.name_ );
-                bool is_item = item_type.is_valid();
-                if( !is_skill && !is_item ) {
-                    msg += string_format( "gunmod is usable for invalid item/gun type %s\n", t.name_ );
+            for( const itype_id &t : type->gunmod->usable ) {
+                if( !t.is_valid() ) {
+                    msg += string_format( "gunmod is usable for invalid item %s\n", t.c_str() );
                     continue;
                 }
 
-                // We need to check is_skill because something can be both an item and a skill
-                if( !is_skill && is_item ) {
-                    const itype *target = &*item_type;
-                    if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
-                        msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
-                                              t.name_, type->gunmod->location.str() );
-                    }
+                const itype *target = &*t;
+                if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
+                    msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
+                                          t.c_str(), type->gunmod->location.str() );
+                }
 
-                    if( type->mod != nullptr && !type->mod->ammo_modifier.empty() ) {
-                        auto acceptable_ammo = type->mod->ammo_modifier;
-                        for( const auto &pr : type->mod->magazine_adaptor ) {
-                            acceptable_ammo.insert( pr.first );
+                if( type->mod != nullptr && !type->mod->ammo_modifier.empty() ) {
+                    auto &acceptable_ammo = type->mod->ammo_modifier;
+                    for( const auto &pr : type->mod->magazine_adaptor ) {
+                        acceptable_ammo.insert( pr.first );
+                    }
+                    auto &acceptable_magazines = !type->mod->magazine_adaptor.empty()
+                                                 ? type->mod->magazine_adaptor
+                                                 : target->magazines;
+                    for( const ammotype &ammo : acceptable_ammo ) {
+                        if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
+                            msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
+                                                  t.c_str(), ammo.str() );
                         }
-                        auto acceptable_magazines = !type->mod->magazine_adaptor.empty()
-                                                    ? type->mod->magazine_adaptor
-                                                    : target->magazines;
-                        for( const ammotype &ammo : acceptable_ammo ) {
-                            if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
-                                msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
-                                                      t.name_, ammo.str() );
-                            }
-                        }
+                    }
+                }
+            }
+            for( const itype_id &t : type->gunmod->exclusion ) {
+                if( !t.is_valid() ) {
+                    msg += string_format( "gunmod excludes for invalid item %s\n", t.c_str() );
+                }
+                if( type->gunmod->usable.count( t ) ) {
+                    msg += string_format( "gunmod includes and excludes same item %s\n", t.c_str() );
+                }
+            }
+            for( const std::unordered_set<weapon_category_id> &wv : type->gunmod->usable_category ) {
+                for( const weapon_category_id &wid : wv ) {
+                    if( !wid.is_valid() ) {
+                        msg += string_format( "gunmod is usable for invalid weapon category %s\n", wid.c_str() );
+                    }
+                }
+            }
+            for( const std::unordered_set<weapon_category_id> &wv : type->gunmod->exclusion_category ) {
+                for( const weapon_category_id &wid : wv ) {
+                    if( !wid.is_valid() ) {
+                        msg += string_format( "gunmod excludes for invalid weapon category %s\n", wid.c_str() );
+                    }
+                }
+                for( const std::unordered_set<weapon_category_id> &test_wv : type->gunmod->usable_category ) {
+                    if( wv == test_wv ) {
+                        std::string group_format = ( "[" ) + enumerate_as_string( wv.begin(),
+                        wv.end(), []( const weapon_category_id & wcid ) {
+                            return string_format( "%s", wcid.c_str() );
+                        }, enumeration_conjunction::none ) + ( "]" );
+                        msg += string_format( "gunmod includes and excludes weapon category group %s\n", group_format );
                     }
                 }
             }
@@ -1400,10 +1527,10 @@ void Item_factory::check_definitions() const
                                ammo_variety.first.str() );
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
                     msg += string_format( "magazine \"%s\" does not take compatible ammo\n", magazine );
-                } else if( mag_ptr->has_flag( "SPEEDLOADER" ) &&
-                           mag_ptr->magazine->capacity != type->gun->clip ) {
+                } else if( mag_ptr->has_flag( flag_SPEEDLOADER ) &&
+                           mag_ptr->magazine->capacity > type->gun->clip ) {
                     msg += string_format(
-                               "speedloader %s capacity (%d) does not match gun capacity (%d).\n",
+                               "speedloader %s capacity (%d) is bigger than gun capacity (%d).\n",
                                magazine.str(), mag_ptr->magazine->capacity, type->gun->clip );
                 }
             }
@@ -1481,6 +1608,7 @@ void Item_factory::check_definitions() const
     }
     for( const auto &elem : m_template_groups ) {
         elem.second->check_consistency( elem.first.str() );
+        inp_mngr.pump_events();
     }
 }
 
@@ -1627,10 +1755,16 @@ void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
+void Item_factory::load( islot_milling &slot, const JsonObject &jo, const std::string & )
+{
+    assign( jo, "into", slot.into_ );
+    assign( jo, "conversion_rate", slot.conversion_rate_ );
+}
+
 void islot_ammo::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "ammo_type", type );
-    optional( jo, was_loaded, "casing", casing, cata::nullopt );
+    optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "dont_recover_one_in", dont_recover_one_in, 1 );
@@ -1642,8 +1776,8 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "count", def_charges, 1 );
     optional( jo, was_loaded, "loudness", loudness, -1 );
     assign( jo, "effects", ammo_effects );
-    optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
-    optional( jo, was_loaded, "shape", shape, cata::nullopt );
+    optional( jo, was_loaded, "show_stats", force_stat_display, std::nullopt );
+    optional( jo, was_loaded, "shape", shape, std::nullopt );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )
@@ -1656,7 +1790,7 @@ void Item_factory::load_ammo( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
+        assign( jo, "stack_size", def.stack_size, is_strict_enabled( src ), 1 );
         if( def.was_loaded ) {
             if( def.ammo ) {
                 def.ammo->was_loaded = true;
@@ -1703,7 +1837,7 @@ void Item_factory::load_wheel( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_fuel &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "energy", slot.energy, strict, 0.001f );
     if( jo.has_member( "pump_terrain" ) ) {
@@ -1731,7 +1865,7 @@ void Item_factory::load_fuel( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
         jo.throw_error( "cannot specify both burst and modes", "burst" );
@@ -1806,13 +1940,39 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
     }
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<layer_level>( layer_level data )
+{
+    switch( data ) {
+        case layer_level::PERSONAL_LAYER:
+            return "Personal";
+        case layer_level::UNDERWEAR_LAYER:
+            return "Underwear";
+        case layer_level::REGULAR_LAYER:
+            return "Regular";
+        case layer_level::WAIST_LAYER:
+            return "Waist";
+        case layer_level::OUTER_LAYER:
+            return "Outer";
+        case layer_level::BELTED_LAYER:
+            return "Belted";
+        case layer_level::AURA_LAYER:
+            return "Aura";
+        case layer_level::MAX_CLOTHING_LAYER:
+            break;
+    }
+    debugmsg( "Invalid layer_level" );
+    abort();
+}
+} // namespace io
+
 void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
-    assign( jo, "encumbrance", slot.encumber, strict, 0 );
-    assign( jo, "max_encumbrance", slot.max_encumber, strict, slot.encumber );
-    assign( jo, "coverage", slot.coverage, strict, 0, 100 );
+    assign( jo, "resistance", slot.resistance, strict );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
@@ -1820,15 +1980,101 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
-    assign( jo, "power_armor", slot.power_armor, strict );
     assign( jo, "valid_mods", slot.valid_mods, strict );
 
-    assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
+    if( jo.has_array( "armor_portion_data" ) ) {
+        bool dont_add_first = false;
+        if( !slot.data.empty() ) { // Uses copy-from
+            dont_add_first = true;
+            const JsonObject &obj = *jo.get_array( "armor_portion_data" ).begin();
+
+            if( obj.has_array( "encumbrance" ) ) {
+                slot.data[0].encumber = obj.get_array( "encumbrance" ).get_int( 0 );
+                slot.data[0].max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
+            } else if( obj.has_int( "encumbrance" ) ) {
+                slot.data[0].encumber = obj.get_int( "encumbrance" );
+                slot.data[0].max_encumber = slot.data[0].encumber;
+            }
+            if( obj.has_int( "coverage" ) ) {
+                slot.data[0].coverage = obj.get_int( "coverage" );
+            }
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( obj, "covers", temp_cover_data, slot.sided );
+            if( temp_cover_data.any() ) {
+                slot.data[0].covers = temp_cover_data;
+            }
+        }
+
+        for( const JsonObject &obj : jo.get_array( "armor_portion_data" ) ) {
+            // If this item used copy-from, data[0] is already set, so skip adding first data
+            if( dont_add_first ) {
+                obj.allow_omitted_members();
+                dont_add_first = false;
+                continue;
+            }
+            armor_portion_data tempData;
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( obj, "covers", temp_cover_data, slot.sided );
+            tempData.covers = temp_cover_data;
+
+            if( obj.has_array( "encumbrance" ) ) {
+                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
+                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
+            } else if( obj.has_int( "encumbrance" ) ) {
+                tempData.encumber = obj.get_int( "encumbrance" );
+                tempData.max_encumber = tempData.encumber;
+            }
+            if( obj.has_int( "coverage" ) ) {
+                tempData.coverage = obj.get_int( "coverage" );
+            }
+            slot.data.push_back( tempData );
+
+            // TODO: Not currently supported, we still use flags for this
+            //if( obj.has_string( "layer" ) ) {
+            //    for( auto &piece : data ) {
+            //        layer_level layer;
+            //        obj.read( "layer", layer );
+            //    }
+            //} else {
+            //    for( armor_portion_data &piece : data ) {
+            //        piece.layer = layer_level::REGULAR;
+            //    }
+            //}
+        }
+    } else {
+        if( slot.data.empty() ) { // Loading item does not have copy-from
+            slot.data.emplace_back();
+            optional( jo, slot.was_loaded, "encumbrance", slot.data[0].encumber, 0 );
+            optional( jo, slot.was_loaded, "max_encumbrance", slot.data[0].max_encumber,
+                      slot.data[0].encumber );
+            optional( jo, slot.was_loaded, "coverage", slot.data[0].coverage, 0 );
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
+            slot.data[0].covers = temp_cover_data;
+        } else { // This item has copy-from and already has taken data from parent
+            if( jo.has_int( "encumbrance" ) ) {
+                slot.data[0].encumber = jo.get_int( "encumbrance" );
+                slot.data[0].max_encumber = slot.data[0].encumber;
+            }
+            if( jo.has_int( "max_encumbrance" ) ) {
+                slot.data[0].max_encumber = jo.get_int( "max_encumbrance" );
+            }
+            if( jo.has_int( "coverage" ) ) {
+                slot.data[0].coverage = jo.get_int( "coverage" );
+            }
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
+            if( temp_cover_data.any() ) {
+                slot.data[0].covers = temp_cover_data;
+            }
+        }
+    }
+
 }
 
 void Item_factory::load( islot_pet_armor &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "max_pet_vol", slot.max_vol, strict, 0_ml );
@@ -1837,12 +2083,11 @@ void Item_factory::load( islot_pet_armor &slot, const JsonObject &jo, const std:
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
     assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0_ml );
-    assign( jo, "power_armor", slot.power_armor, strict );
 }
 
 void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     if( jo.has_array( "ammo" ) ) {
         for( const std::string id : jo.get_array( "ammo" ) ) {
@@ -1893,7 +2138,7 @@ void Item_factory::load( relic &slot, const JsonObject &jo, const std::string & 
 
 void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     if( jo.has_array( "ammo_modifier" ) ) {
         for( const std::string id : jo.get_array( "ammo_modifier" ) ) {
@@ -1945,7 +2190,7 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
 
 void Item_factory::load( islot_book &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "max_level", slot.level, strict, 0, MAX_SKILL );
     assign( jo, "required_level", slot.req, strict, 0, MAX_SKILL );
@@ -1973,7 +2218,7 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     JsonObject relative = jo.get_object( "relative" );
     JsonObject proportional = jo.get_object( "proportional" );
@@ -1990,10 +2235,10 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "radiation", slot.radiation, strict );
-    assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
+    assign( jo, "petfood", slot.petfood, strict );
 
     for( const JsonObject &jsobj : jo.get_array( "contamination" ) ) {
         slot.contamination.emplace( diseasetype_id( jsobj.get_string( "disease" ) ),
@@ -2103,7 +2348,7 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
+        assign( jo, "stack_size", def.stack_size, is_strict_enabled( src ), 1 );
         load_slot( def.comestible, jo, src );
         load_basic_info( jo, def, src );
     }
@@ -2126,6 +2371,7 @@ void Item_factory::load( islot_seed &slot, const JsonObject &jo, const std::stri
     assign( jo, "fruit", slot.fruit_id );
     assign( jo, "seeds", slot.spawn_seeds );
     assign( jo, "byproducts", slot.byproducts );
+    assign( jo, "required_terrain_flag", slot.required_terrain_flag );
 }
 
 void Item_factory::load( islot_container &slot, const JsonObject &jo, const std::string & )
@@ -2139,7 +2385,7 @@ void Item_factory::load( islot_container &slot, const JsonObject &jo, const std:
 
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "damage_modifier", slot.damage, strict, damage_instance( DT_NULL, -20, -20, -20,
             -20 ) );
@@ -2164,12 +2410,10 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
                                              time_duration::units ) );
     }
 
-    if( jo.has_member( "mod_targets" ) ) {
-        slot.usable.clear();
-        for( const auto &t : jo.get_tags( "mod_targets" ) ) {
-            slot.usable.insert( gun_type_type( t ) );
-        }
-    }
+    assign( jo, "mod_targets", slot.usable );
+    assign( jo, "mod_target_category", slot.usable_category );
+    assign( jo, "mod_exclusions", slot.exclusion );
+    assign( jo, "mod_exclusion_category", slot.exclusion_category );
 
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
@@ -2195,7 +2439,7 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
     if( jo.has_array( "ammo_type" ) ) {
         slot.type.clear();
         for( const std::string &id : jo.get_array( "ammo_type" ) ) {
@@ -2239,7 +2483,7 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_bionic &slot, const JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     if( jo.has_member( "bionic_id" ) ) {
         assign( jo, "bionic_id", slot.id, strict );
@@ -2274,42 +2518,40 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    using material_allergy_pair = std::pair<material_id, std::string>;
-    static const std::vector<material_allergy_pair> all_pairs = {{
-            // First allergens:
-            // An item is an allergen even if it has trace amounts of allergenic material
-            std::make_pair( material_id( "hflesh" ), "CANNIBALISM" ),
+    static const std::pair<material_id, flag_id> all_pairs[] = {
+        // First allergens:
+        // An item is an allergen even if it has trace amounts of allergenic material
+        std::make_pair( material_id( "hflesh" ), flag_CANNIBALISM ),
 
-            std::make_pair( material_id( "hflesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "iflesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "flesh" ), "ALLERGEN_MEAT" ),
-            std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
-            std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
-            std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "bean" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "tomato" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "garlic" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "nut" ), "ALLERGEN_NUT" ),
-            std::make_pair( material_id( "mushroom" ), "ALLERGEN_VEGGY" ),
-            std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
-            std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
-            std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),
-            // Not food, but we can keep it here
-            std::make_pair( material_id( "wool" ), "ALLERGEN_WOOL" ),
-            // Now "made of". Those flags should not be passed
-            std::make_pair( material_id( "flesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "hflesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "iflesh" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "milk" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "egg" ), "CARNIVORE_OK" ),
-            std::make_pair( material_id( "honey" ), "URSINE_HONEY" ),
-        }
+        std::make_pair( material_id( "hflesh" ), flag_ALLERGEN_MEAT ),
+        std::make_pair( material_id( "iflesh" ), flag_ALLERGEN_MEAT ),
+        std::make_pair( material_id( "flesh" ), flag_ALLERGEN_MEAT ),
+        std::make_pair( material_id( "wheat" ), flag_ALLERGEN_WHEAT ),
+        std::make_pair( material_id( "fruit" ), flag_ALLERGEN_FRUIT ),
+        std::make_pair( material_id( "veggy" ), flag_ALLERGEN_VEGGY ),
+        std::make_pair( material_id( "bean" ), flag_ALLERGEN_VEGGY ),
+        std::make_pair( material_id( "tomato" ), flag_ALLERGEN_VEGGY ),
+        std::make_pair( material_id( "garlic" ), flag_ALLERGEN_VEGGY ),
+        std::make_pair( material_id( "nut" ), flag_ALLERGEN_NUT ),
+        std::make_pair( material_id( "mushroom" ), flag_ALLERGEN_VEGGY ),
+        std::make_pair( material_id( "milk" ), flag_ALLERGEN_MILK ),
+        std::make_pair( material_id( "egg" ), flag_ALLERGEN_EGG ),
+        std::make_pair( material_id( "junk" ), flag_ALLERGEN_JUNK ),
+        // Not food, but we can keep it here
+        std::make_pair( material_id( "wool" ), flag_ALLERGEN_WOOL ),
+        // Now "made of". Those flags should not be passed
+        std::make_pair( material_id( "flesh" ), flag_CARNIVORE_OK ),
+        std::make_pair( material_id( "hflesh" ), flag_CARNIVORE_OK ),
+        std::make_pair( material_id( "iflesh" ), flag_CARNIVORE_OK ),
+        std::make_pair( material_id( "milk" ), flag_CARNIVORE_OK ),
+        std::make_pair( material_id( "egg" ), flag_CARNIVORE_OK ),
+        std::make_pair( material_id( "honey" ), flag_URSINE_HONEY ),
     };
 
     const auto &mats = item_template.materials;
     for( const auto &pr : all_pairs ) {
-        if( std::find( mats.begin(), mats.end(), std::get<0>( pr ) ) != mats.end() ) {
-            item_template.item_tags.insert( std::get<1>( pr ) );
+        if( std::find( mats.begin(), mats.end(), pr.first ) != mats.end() ) {
+            item_template.item_tags.insert( pr.second );
         }
     }
 }
@@ -2324,42 +2566,42 @@ void hflesh_to_flesh( itype &item_template )
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
         std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
-        mats.push_back( material_id( "flesh" ) );
+        mats.emplace_back( "flesh" );
     }
 }
 
 void Item_factory::npc_implied_flags( itype &item_template )
 {
     if( item_template.use_methods.count( "explosion" ) ) {
-        item_template.item_tags.insert( "DANGEROUS" );
+        item_template.item_tags.insert( flag_DANGEROUS );
     }
 
-    if( item_template.has_flag( "DANGEROUS" ) ) {
-        item_template.item_tags.insert( "NPC_THROW_NOW" );
+    if( item_template.has_flag( flag_DANGEROUS ) ) {
+        item_template.item_tags.insert( flag_NPC_THROW_NOW );
     }
 
-    if( item_template.has_flag( "BOMB" ) ) {
-        item_template.item_tags.insert( "NPC_ACTIVATE" );
+    if( item_template.has_flag( flag_BOMB ) ) {
+        item_template.item_tags.insert( flag_NPC_ACTIVATE );
     }
 
-    if( item_template.has_flag( "NPC_THROW_NOW" ) ) {
-        item_template.item_tags.insert( "NPC_THROWN" );
+    if( item_template.has_flag( flag_NPC_THROW_NOW ) ) {
+        item_template.item_tags.insert( flag_NPC_THROWN );
     }
 
-    if( item_template.has_flag( "NPC_ACTIVATE" ) ||
-        item_template.has_flag( "NPC_THROWN" ) ) {
-        item_template.item_tags.insert( "NPC_ALT_ATTACK" );
+    if( item_template.has_flag( flag_NPC_ACTIVATE ) ||
+        item_template.has_flag( flag_NPC_THROWN ) ) {
+        item_template.item_tags.insert( flag_NPC_ALT_ATTACK );
     }
 
-    if( item_template.has_flag( "DANGEROUS" ) ||
-        item_template.has_flag( "PSEUDO" ) ) {
-        item_template.item_tags.insert( "TRADER_AVOID" );
+    if( item_template.has_flag( flag_DANGEROUS ) ||
+        item_template.has_flag( flag_PSEUDO ) ) {
+        item_template.item_tags.insert( flag_TRADER_AVOID );
     }
 }
 
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
-    bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     assign( jo, "category", def.category_force, strict );
     assign( jo, "weight", def.weight, strict, 0_gram );
@@ -2381,7 +2623,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "emits", def.emits );
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
-    assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
 
@@ -2393,9 +2634,24 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }
 
+    if( jo.has_member( "attacks" ) ) {
+        // TODO: Implement "proportional" and "relative"
+        JsonArray jarr = jo.get_array( "attacks" );
+        for( JsonObject jo : jarr ) {
+            std::string id = jo.get_string( "id" );
+            attack_statblock att = def.attacks[id];
+            att.to_hit = jo.get_int( "to_hit", att.to_hit );
+            JsonObject damage = jo.get_object( "damage" );
+            att.damage = load_damage_instance_inherit( damage, att.damage );
+            def.attacks[id] = att;
+        }
+    }
+
     if( jo.has_member( "repairs_like" ) ) {
         jo.read( "repairs_like", def.repairs_like );
     }
+
+    assign( jo, "weapon_category", def.weapon_category );
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
@@ -2419,6 +2675,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         "GUNMOD",
         "MAGAZINE",
         "PET_ARMOR",
+        "SPECIES",
         "TOOL",
         "TOOLMOD",
         "TOOL_ARMOR",
@@ -2456,19 +2713,39 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.phase = jo.get_enum_value<phase_id>( "phase" );
     }
 
-    if( jo.has_array( "magazines" ) ) {
-        def.magazine_default.clear();
-        def.magazines.clear();
+    bool assigned_magazines = assign( jo, "magazines", def.magazines );
+    if( assigned_magazines ) {
+        if( jo.has_array( "magazines" ) ) {
+            def.magazine_default.clear();
+            for( JsonArray arr : jo.get_array( "magazines" ) ) {
+                ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
+                JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
-        for( JsonArray arr : jo.get_array( "magazines" ) ) {
-            ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
-            JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+                // The first magazine for this ammo type is the default
+                def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
+            }
+        }
+        // Hacky, but needed to preserve the "first magazine is default" functionality
+        if( jo.has_object( "extend" ) ) {
+            JsonObject jo_extend = jo.get_object( "extend" );
+            jo_extend.allow_omitted_members();
+            if( jo_extend.has_array( "magazines" ) ) {
+                for( JsonArray arr : jo_extend.get_array( "magazines" ) ) {
+                    ammotype ammo( arr.get_string( 0 ) );
+                    JsonArray compat = arr.get_array( 1 );
 
-            // the first magazine for this ammo type is the default
-            def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
-
-            while( compat.has_more() ) {
-                def.magazines[ ammo ].insert( itype_id( compat.next_string() ) );
+                    if( def.magazine_default.count( ammo ) == 0 ) {
+                        def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
+                    }
+                }
+            }
+        }
+        // TODO: Implement after figuring out what to do with magazine_default
+        if( jo.has_object( "delete" ) ) {
+            JsonObject jo_delete = jo.get_object( "delete" );
+            jo_delete.allow_omitted_members();
+            if( jo_delete.has_array( "magazines" ) ) {
+                jo.throw_error( "Deleting magazines is not supported yet" );
             }
         }
     }
@@ -2513,9 +2790,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( auto &s : jo.get_tags( "techniques" ) ) {
-        def.techniques.insert( matec_id( s ) );
-    }
+    assign( jo, "techniques", def.techniques );
 
     set_use_methods_from_json( jo, "use_action", def.use_methods );
 
@@ -2566,12 +2841,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.book, jo, "book_data", src );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
-    assign( jo, "ammo_data", def.ammo, src == "dda" );
+    assign( jo, "ammo_data", def.ammo, is_strict_enabled( src ) );
     load_slot_optional( def.seed, jo, "seed_data", src );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
+    load_slot_optional( def.milling_data, jo, "milling", src );
 
     // optional gunmod slot may also specify mod data
     if( jo.has_member( "gunmod_data" ) ) {
@@ -2587,6 +2863,11 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     } else {
         jo.read( "id", def.id, true );
     }
+
+    if( !def.src.empty() && def.src.back().first != def.id ) {
+        def.src.clear();
+    }
+    def.src.emplace_back( def.id, mod_id( src ) );
 
     // snippet_category should be loaded after def.id is determined
     if( jo.has_array( "snippet_category" ) ) {
@@ -2639,7 +2920,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
     auto iter = migrations.find( id );
     if( iter != migrations.end() ) {
         for( const std::string &f : iter->second.flags ) {
-            obj.set_flag( f );
+            obj.set_flag( flag_id( f ) );
         }
         if( iter->second.charges > 0 ) {
             obj.charges = iter->second.charges;
@@ -2811,10 +3092,10 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const Js
         return false;
     }
     if( obj.has_string( iname ) ) {
-        entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
+        entries.emplace_back( obj.get_string( iname ), false );
     }
     if( obj.has_string( gname ) ) {
-        entries.push_back( std::make_pair( obj.get_string( gname ), true ) );
+        entries.emplace_back( obj.get_string( gname ), true );
     }
 
     if( entries.size() > 1 && name != "contents" ) {
@@ -2862,6 +3143,22 @@ bool Item_factory::load_string( std::vector<std::string> &vec, const JsonObject 
     return result;
 }
 
+namespace
+{
+auto load_active( std::vector<ItemFn> &xs, const JsonObject &obj ) -> bool
+{
+    const bool result = obj.has_bool( "active" ) && obj.get_bool( "active" );
+    if( result ) {
+        xs.emplace_back( []( detached_ptr<item> &&it ) {
+            it->activate();
+            return std::move( it );
+        } );
+    }
+    return result;
+}
+
+} // namespace
+
 void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
 {
     std::unique_ptr<Item_group> gptr;
@@ -2900,14 +3197,20 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
     use_modifier |= load_min_max( modifier.dirt, obj, "dirt" );
-    modifier.damage.first *= itype::damage_scale;
-    modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
     use_modifier |= load_min_max( modifier.count, obj, "count" );
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
-    use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
+    use_modifier |= load_active( modifier.postprocess_fns, obj );
+
+    std::vector<std::string> custom_flags;
+    use_modifier |= load_string( custom_flags, obj, "custom-flags" );
+    modifier.custom_flags.clear();
+    for( const auto &cf : custom_flags ) {
+        modifier.custom_flags.emplace_back( cf );
+    }
+
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
     }
@@ -3144,7 +3447,7 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
 {
     std::vector<item_group_id> rval;
     for( GroupMap::value_type &group_pair : m_template_groups ) {
-        rval.push_back( item_group_id( group_pair.first ) );
+        rval.emplace_back( group_pair.first );
     }
     return rval;
 }
@@ -3183,12 +3486,12 @@ void item_group::debug_spawn()
         if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
-        // Spawn items from the group 100 times
+        // Spawn items from the group 1000 times
         std::map<std::string, int> itemnames;
-        for( size_t a = 0; a < 100; a++ ) {
+        for( size_t a = 0; a < 1000; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
             for( auto &it : items ) {
-                itemnames[it.display_name()]++;
+                itemnames[it->display_name()]++;
             }
         }
         // Invert the map to get sorting!
@@ -3197,7 +3500,7 @@ void item_group::debug_spawn()
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
         uilist menu2;
-        menu2.text = _( "Result of 100 spawns:" );
+        menu2.text = _( "Result of 1000 spawns:" );
         for( const auto &e : itemnames2 ) {
             menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
                                         string_format( _( "%d x %s" ), e.first, e.second ) );

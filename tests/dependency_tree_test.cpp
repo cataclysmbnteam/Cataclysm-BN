@@ -1,6 +1,6 @@
 #include "catch/catch.hpp"
-#include "stringmaker.h"
 
+#include "stringmaker.h"
 #include "mod_manager.h"
 #include "dependency_tree.h"
 
@@ -13,7 +13,7 @@ static std::map<mod_id, std::vector<mod_id>> build_map( const t_key_dep_map &m )
 {
     std::map<mod_id, std::vector<mod_id>> ret;
 
-    for( const t_map_entry &entry : m ) {
+    for( const auto &entry : m ) {
         std::vector<mod_id> ids;
         for( t_mod_id elem : entry.second ) {
             ids.emplace_back( elem );

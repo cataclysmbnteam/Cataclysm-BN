@@ -19,7 +19,7 @@
         "  |..................|  ",
         "  |..................|  ",
         "  |..........|---+---|  ",
-        "  |..........|]......|  ",
+        "  |..........|].....P|  ",
         "  |###s##|-+-|].....#|  ",
         "  |------|...+....h.#|  ",
         "         |<..|...####|  ",
@@ -46,7 +46,7 @@
         "{": "t_rock_floor",
         "|": "t_wall"
       },
-      "furniture": { "#": "f_counter", "]": "f_bookcase", "h": "f_chair", "s": "f_gunsafe_ml", "{": "f_rack" },
+      "furniture": { "#": "f_counter", "]": "f_bookcase", "h": "f_chair", "P": "f_reloading_station", "s": "f_gunsafe_ml", "{": "f_rack" },
       "place_loot": [
         { "group": "guns_smg_rare", "x": 6, "y": 2, "chance": 20, "magazine": 100 },
         { "group": "guns_rifle_rare", "x": 7, "y": 2, "chance": 30, "magazine": 100 },
@@ -59,7 +59,7 @@
         { "group": "guns_smg_common", "x": 14, "y": 2, "chance": 70, "magazine": 100 },
         { "group": "guns_pistol_rare", "x": 15, "y": 2, "chance": 40, "magazine": 100 },
         { "group": "mags_smg_common", "x": 16, "y": 2, "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "guns_shotgun_rare_static", "x": 17, "y": 2, "chance": 30, "magazine": 100 },
+        { "group": "guns_shotgun_rare", "x": 17, "y": 2, "chance": 30, "magazine": 100 },
         { "group": "ammo_shotgun_reloaded", "x": 6, "y": 5, "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "ammo_rifle_reloaded", "x": 7, "y": 5, "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "ammo_shotgun_common", "x": 8, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
@@ -67,6 +67,7 @@
         { "group": "ammo_rifle_reloaded", "x": 10, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "ammo_rifle_common", "x": 11, "y": 5, "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "ammo_smg_common", "x": 12, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
+        { "group": "archery_ammo", "x": 12, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "ammo_pistol_common", "x": 13, "y": 5, "chance": 90, "repeat": [ 1, 2 ] },
         { "group": "ammo_rifle_common", "x": 14, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "ammo_pistol_common", "x": 15, "y": 5, "chance": 40, "repeat": [ 1, 2 ] },
@@ -80,6 +81,7 @@
         { "group": "gunmod_rare", "x": 18, "y": 13, "chance": 30 },
         { "group": "gunmod_rare", "x": 19, "y": 13, "chance": 100 }
       ],
+      "items": { "X": { "item": "guns_safe", "chance": 100 } },
       "place_monsters": [
         { "monster": "GROUP_PREPPER_HOUSE", "x": [ 3, 20 ], "y": [ 1, 8 ], "chance": 2 },
         { "monster": "GROUP_PREPPER_HOUSE", "x": [ 14, 20 ], "y": [ 10, 13 ], "chance": 4 }

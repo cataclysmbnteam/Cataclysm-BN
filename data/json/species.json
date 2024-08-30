@@ -1,74 +1,120 @@
 [
   {
     "type": "SPECIES",
+    "id": "ALL",
+    "name": { "str": "everything (debug)" },
+    "description": "an everything (debug)",
+    "//": "This only exists for special interactions where you want a filter to take all species"
+  },
+  {
+    "type": "SPECIES",
     "id": "MAMMAL",
+    "name": { "str": "mammal" },
     "description": "a mammal",
     "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
   },
   {
     "type": "SPECIES",
     "id": "AMPHIBIAN",
+    "name": { "str": "amphibian" },
     "description": "an amphibian",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "BIRD",
+    "name": { "str": "bird" },
     "description": "a bird",
     "fear_triggers": [ "HURT", "SOUND" ]
   },
   {
     "type": "SPECIES",
     "id": "REPTILE",
+    "name": { "str": "reptile" },
     "description": "a reptile",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "FISH",
+    "name": { "str_sp": "fish" },
     "description": "a fish",
     "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ]
   },
   {
     "type": "SPECIES",
     "id": "MUTANT",
+    "name": { "str": "mutant" },
     "description": "a mutant",
     "fear_triggers": [ "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "NETHER",
+    "name": { "str": "nether creature" },
     "description": "a nether creature",
     "fear_triggers": [ "HURT" ]
   },
   {
     "type": "SPECIES",
     "id": "BLOB",
+    "name": { "str": "blob" },
     "description": "a blob",
     "footsteps": "plop."
   },
   {
     "type": "SPECIES",
     "id": "FUNGUS",
+    "name": { "str": "fungus", "str_pl": "fungi" },
     "description": "a fungus",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "LEECH_PLANT",
+    "name": { "str": "leech plant" },
     "description": "a leech plant",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "INSECT",
+    "name": { "str": "insect" },
     "description": "an insect",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
+    "id": "INSECT_FLYING",
+    "name": "a flying insect",
+    "description": "a flying insect",
+    "footsteps": "bzzzzzzzzzzzzzzzzz",
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WASP",
+    "name": "an angry wasp",
+    "description": "a flying insect",
+    "footsteps": "BZZZZZZZZZZZZZZZZZ",
+    "anger_triggers": [ "FRIEND_DIED", "HURT", "SOUND" ],
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "LOUDMOVES" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "CENTIPEDE",
+    "name": { "str": "centipede" },
+    "description": "a centipede",
+    "footsteps": "skittering.",
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "SPIDER",
+    "name": { "str": "spider" },
     "description": "a spider",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ]
@@ -76,18 +122,21 @@
   {
     "type": "SPECIES",
     "id": "PLANT",
+    "name": { "str": "plant" },
     "description": "a plant",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "MOLLUSK",
+    "name": { "str": "mollusk" },
     "description": "a mollusk",
     "fear_triggers": [ "HURT", "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "WORM",
+    "name": { "str": "worm" },
     "description": "a worm",
     "footsteps": "rustle.",
     "fear_triggers": [ "HURT" ]
@@ -95,36 +144,43 @@
   {
     "type": "SPECIES",
     "id": "ZOMBIE",
+    "name": { "str": "zombie" },
     "description": "a zombie",
     "footsteps": "shuffling."
   },
   {
     "type": "SPECIES",
     "id": "ROBOT",
+    "name": { "str": "robot" },
     "description": "a robot",
     "footsteps": "mechanical whirring."
   },
   {
     "type": "SPECIES",
     "id": "HORROR",
+    "name": { "str": "horror" },
     "description": "a horror"
   },
   {
     "type": "SPECIES",
     "id": "ABERRATION",
+    "name": { "str": "abberation" },
     "description": "an aberration"
   },
   {
     "type": "SPECIES",
+    "name": { "str": "hallucination" },
     "id": "HALLUCINATION"
   },
   {
     "type": "SPECIES",
     "id": "HUMAN",
+    "name": { "str": "human" },
     "description": "a human"
   },
   {
     "type": "SPECIES",
+    "name": { "str_sp": "unknown species" },
     "id": "UNKNOWN"
   }
 ]

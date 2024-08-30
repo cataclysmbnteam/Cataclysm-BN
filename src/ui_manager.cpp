@@ -1,33 +1,86 @@
 #include "ui_manager.h"
 
 #include <algorithm>
+#include <cassert>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <vector>
 
+#include "cached_options.h"
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h"
+#include "profile.h"
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 
+static bool redraw_in_progress = false;
+static bool showing_debug_message = false;
+static bool restart_redrawing = false;
+#if defined( TILES )
+static std::optional<SDL_Rect> prev_clip_rect;
+#endif
 static ui_stack_t ui_stack;
 
-ui_adaptor::ui_adaptor() : disabling_uis_below( false ), invalidated( false ),
-    deferred_resize( false )
-{
-    ui_stack.emplace_back( *this );
-}
-
-ui_adaptor::ui_adaptor( ui_adaptor::disable_uis_below ) : disabling_uis_below( true ),
+ui_adaptor::ui_adaptor() : disabling_uis_below( false ), is_debug_message_ui( false ),
     invalidated( false ), deferred_resize( false )
 {
     ui_stack.emplace_back( *this );
 }
 
+ui_adaptor::ui_adaptor( ui_adaptor::disable_uis_below ) : disabling_uis_below( true ),
+    is_debug_message_ui( false ), invalidated( false ), deferred_resize( false )
+{
+    ui_stack.emplace_back( *this );
+}
+
+ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( true ),
+    is_debug_message_ui( true ), invalidated( false ), deferred_resize( false )
+{
+    assert( !showing_debug_message );
+    showing_debug_message = true;
+    if( redraw_in_progress ) {
+        restart_redrawing = true;
+    }
+#if defined( TILES )
+    // Reset the clip rect because the debug message UI might be created in a
+    // redraw callback when a clip rect is active. When the UI is deconstructed,
+    // restore the previous clip rect to prevent the redraw callback from
+    // drawing outside the clip area, which will cause stuck graphics. This
+    // alone does not prevent the graphics from becoming borked in other ways,
+    // but `ui_manager` will redo the entire redrawing as soon as the redraw
+    // callback returns.
+    const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+    if( SDL_RenderIsClipEnabled( renderer.get() ) ) {
+        prev_clip_rect = SDL_Rect();
+        SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
+        SDL_RenderSetClipRect( renderer.get(), nullptr );
+    } else {
+        prev_clip_rect = std::nullopt;
+    }
+#endif
+    // The debug message might be shown during a normal UI's redraw callback,
+    // so we need to invalidate the frame buffer so it does not interfere
+    // with the display of the debug message.
+    reinitialize_framebuffer( true );
+    ui_stack.emplace_back( *this );
+}
+
 ui_adaptor::~ui_adaptor()
 {
+    if( is_debug_message_ui ) {
+        assert( showing_debug_message );
+        showing_debug_message = false;
+#if defined( TILES )
+        // See ui_adaptor( debug_message_ui )
+        if( prev_clip_rect.has_value() ) {
+            const SDL_Renderer_Ptr &renderer = get_sdl_renderer();
+            SDL_RenderSetClipRect( renderer.get(), &prev_clip_rect.value() );
+        }
+#endif
+    }
     for( auto it = ui_stack.rbegin(); it < ui_stack.rend(); ++it ) {
         if( &it->get() == this ) {
             ui_stack.erase( std::prev( it.base() ) );
@@ -58,7 +111,7 @@ void ui_adaptor::position_from_window( const catacurses::window &win )
     }
 }
 
-void ui_adaptor::position( const point &topleft, const point &size )
+void ui_adaptor::position( point topleft, point size )
 {
     const rectangle<point> old_dimensions = dimensions;
     // ensure position is updated before calling invalidate
@@ -83,12 +136,72 @@ void ui_adaptor::on_screen_resize( const screen_resize_callback_t &fun )
     screen_resized_cb = fun;
 }
 
+void ui_adaptor::set_cursor( const catacurses::window &w, const point &pos )
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getbegx( w ), getbegy( w ) ) + pos;
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+    static_cast<void>( w );
+    static_cast<void>( pos );
+#endif
+}
+
+void ui_adaptor::record_cursor( const catacurses::window &w )
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getbegx( w ) + getcurx( w ), getbegy( w ) + getcury( w ) );
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+    static_cast<void>( w );
+#endif
+}
+
+void ui_adaptor::record_term_cursor()
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+#endif
+}
+
+void ui_adaptor::default_cursor()
+{
+#if !defined( TILES )
+    cursor_type = cursor::last;
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+#endif
+}
+
+void ui_adaptor::disable_cursor()
+{
+    cursor_type = cursor::disabled;
+}
+
+static void restore_cursor( const point &p )
+{
+#if !defined( TILES )
+    wmove( catacurses::newscr, p );
+#else
+    static_cast<void>( p );
+#endif
+}
+
 void ui_adaptor::mark_resize() const
 {
     deferred_resize = true;
 }
 
-static bool contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
+static bool rect_contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return rhs.p_min.x >= lhs.p_min.x && rhs.p_max.x <= lhs.p_max.x &&
            rhs.p_min.y >= lhs.p_min.y && rhs.p_max.y <= lhs.p_max.y;
@@ -106,7 +219,7 @@ static bool overlap( const rectangle<point> &lhs, const rectangle<point> &rhs )
 // 2. Optimize the invalidated flag so completely occluded UIs will not be redrawn.
 //
 // The current implementation may still invalidate UIs that in fact do not need to
-// be redrawn, but all UIs that need to be redrawn are guaranteed be invalidated.
+// be redrawn, but all UIs that need to be redrawn are guaranteed to be invalidated.
 void ui_adaptor::invalidation_consistency_and_optimization()
 {
     // Only ensure consistency and optimize for UIs not disabled by another UI
@@ -131,7 +244,7 @@ void ui_adaptor::invalidation_consistency_and_optimization()
                 ui_upper.invalidated = true;
             }
             if( ui_upper.invalidated && ui_lower.invalidated &&
-                contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
+                rect_contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
                 // fully obscured lower UIs do not need to be redrawn.
                 ui_lower.invalidated = false;
                 // Note: we don't need to re-test ui_lower from earlier iterations
@@ -161,7 +274,7 @@ void ui_adaptor::invalidate_ui() const
     }
     // If an upper UI occludes this UI then nothing gets redrawn
     for( auto it_upper = std::next( it ); it_upper < ui_stack.cend(); ++it_upper ) {
-        if( contains( it_upper->get().dimensions, dimensions ) ) {
+        if( rect_contains( it_upper->get().dimensions, dimensions ) ) {
             return;
         }
     }
@@ -206,49 +319,116 @@ void ui_adaptor::redraw()
         ui_stack.back().get().invalidated = true;
     }
     redraw_invalidated();
+    FrameMark;
 }
 
 void ui_adaptor::redraw_invalidated()
 {
-    ui_stack_t ui_stack_copy = ui_stack;
-    // apply deferred resizing
-    auto first = ui_stack_copy.rbegin();
-    for( ; first != ui_stack_copy.rend(); ++first ) {
-        if( first->get().disabling_uis_below ) {
-            break;
-        }
+    ZoneScoped;
+    if( test_mode || ui_stack.empty() ) {
+        return;
     }
-    for( auto it = first == ui_stack_copy.rend() ? ui_stack_copy.begin() : std::prev( first.base() );
-         it != ui_stack_copy.end(); ++it ) {
-        ui_adaptor &ui = *it;
-        if( ui.deferred_resize ) {
-            if( ui.screen_resized_cb ) {
-                ui.screen_resized_cb( ui );
-            }
-            ui.deferred_resize = false;
-        }
-    }
-    reinitialize_framebuffer();
 
-    // redraw invalidated uis
-    if( !ui_stack_copy.empty() ) {
-        auto first = ui_stack_copy.crbegin();
-        for( ; first != ui_stack_copy.crend(); ++first ) {
+    restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
+    restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
+    redraw_in_progress = true;
+
+    do {
+        // Changed by the resize and redraw callbacks if they call `debugmsg`.
+        // When this becomes true, the `debugmsg` call would have already changed
+        // the resize and redraw flags according to the resized and redrawn states
+        // so far, so we restart redrawing using the changed flags to redraw
+        // the area invalidated by the debug message popup.
+        restart_redrawing = false;
+
+        // Find the first enabled UI. From now on enabling and disabling UIs
+        // have no effect until the end of this call.
+        auto first = ui_stack.rbegin();
+        for( ; first != ui_stack.rend(); ++first ) {
             if( first->get().disabling_uis_below ) {
                 break;
             }
         }
-        for( auto it = first == ui_stack_copy.crend() ? ui_stack_copy.cbegin() : std::prev( first.base() );
-             it != ui_stack_copy.cend(); ++it ) {
-            const ui_adaptor &ui = *it;
-            if( ui.invalidated ) {
-                if( ui.redraw_cb ) {
-                    ui.redraw_cb( ui );
-                }
-                ui.invalidated = false;
+
+        // Avoid a copy if possible to improve performance. `ui_stack_orig`
+        // always contains the original UI stack, and `first_enabled` always points
+        // to elements of `ui_stack_orig`.
+        std::unique_ptr<ui_stack_t> ui_stack_copy;
+        auto first_enabled = first == ui_stack.rend() ? ui_stack.begin() : std::prev( first.base() );
+        ui_stack_t *ui_stack_orig = &ui_stack;
+
+        // Apply deferred resizing.
+        bool needs_resize = false;
+        for( auto it = first_enabled; !needs_resize && it != ui_stack_orig->end(); ++it ) {
+            ui_adaptor &ui = *it;
+            if( ui.deferred_resize && ui.screen_resized_cb ) {
+                needs_resize = true;
             }
         }
-    }
+        if( needs_resize ) {
+            if( !ui_stack_copy ) {
+                // Callbacks may modify the UI stack; make a copy of the original one.
+                ui_stack_copy = std::make_unique<ui_stack_t>( *ui_stack_orig );
+                first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
+                ui_stack_orig = &*ui_stack_copy;
+            }
+            for( auto it = first_enabled; !restart_redrawing && it != ui_stack_orig->end(); ++it ) {
+                ui_adaptor &ui = *it;
+                if( ui.deferred_resize ) {
+                    if( ui.screen_resized_cb ) {
+                        ui.screen_resized_cb( ui );
+                    }
+                    if( !restart_redrawing ) {
+                        ui.deferred_resize = false;
+                    }
+                }
+            }
+            // Callbacks may have changed window sizes; reinitialize the frame buffer.
+            reinitialize_framebuffer();
+        }
+
+        // Redraw invalidated UIs.
+        bool needs_redraw = false;
+        if( !restart_redrawing ) {
+            for( auto it = first_enabled; !needs_redraw && it != ui_stack_orig->end(); ++it ) {
+                const ui_adaptor &ui = *it;
+                if( ui.invalidated && ui.redraw_cb ) {
+                    needs_redraw = true;
+                }
+            }
+        }
+        if( !restart_redrawing && needs_redraw ) {
+            if( !ui_stack_copy ) {
+                // Callbacks may change the UI stack; make a copy of the original one.
+                ui_stack_copy = std::make_unique<ui_stack_t>( *ui_stack_orig );
+                first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
+                ui_stack_orig = &*ui_stack_copy;
+            }
+            std::optional<point> cursor_pos;
+            for( auto it = first_enabled; !restart_redrawing && it != ui_stack_orig->end(); ++it ) {
+                ui_adaptor &ui = *it;
+                if( ui.invalidated ) {
+                    if( ui.redraw_cb ) {
+                        ui.default_cursor();
+                        ui.redraw_cb( ui );
+                        if( ui.cursor_type == cursor::last ) {
+                            ui.record_term_cursor();
+                            assert( ui.cursor_type != cursor::last );
+                        }
+                        if( ui.cursor_type == cursor::custom ) {
+                            cursor_pos = ui.cursor_pos;
+                        }
+                    }
+                    if( !restart_redrawing ) {
+                        ui.invalidated = false;
+                    }
+                }
+            }
+            if( !restart_redrawing && cursor_pos.has_value() ) {
+                restore_cursor( cursor_pos.value() );
+            }
+        }
+    } while( restart_redrawing );
 }
 
 void ui_adaptor::screen_resized()

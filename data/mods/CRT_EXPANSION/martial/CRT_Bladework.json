@@ -29,10 +29,10 @@
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "flat_bonuses": [
-          { "stat": "damage", "type": "stab", "scale": 1.0 },
-          { "stat": "damage", "type": "cut", "scale": 1.0 },
-          { "stat": "arpen", "type": "stab", "scale": 1.0 },
-          { "stat": "arpen", "type": "cut", "scale": 1.0 }
+          { "stat": "damage", "type": "stab", "scale": 1 },
+          { "stat": "damage", "type": "cut", "scale": 1 },
+          { "stat": "arpen", "type": "stab", "scale": 1 },
+          { "stat": "arpen", "type": "cut", "scale": 1 }
         ]
       }
     ],
@@ -49,38 +49,13 @@
         "flat_bonuses": [
           { "stat": "damage", "type": "stab", "scale": 0.25 },
           { "stat": "damage", "type": "cut", "scale": 0.5 },
-          { "stat": "arpen", "type": "cut", "scale": 1.0 }
+          { "stat": "arpen", "type": "cut", "scale": 1 }
         ]
       }
     ],
     "techniques": [ "tec_crt_blade_normal", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_blade_arpen", "tec_feint" ],
-    "weapons": [
-      "sword_crt",
-      "blade_crt",
-      "knife_crt",
-      "knife_combat",
-      "knife_hunting",
-      "knife_rambo",
-      "knife_rm42",
-      "knife_steak",
-      "knife_trench",
-      "knife_folding",
-      "knife_paring",
-      "knife_carving",
-      "knife_vegetable_cleaver",
-      "knife_meat_cleaver",
-      "knife_bread",
-      "knife_chef",
-      "knife_butcher",
-      "makeshift_knife",
-      "primitive_knife",
-      "pockknife",
-      "copper_knife",
-      "diveknife",
-      "kris",
-      "switchblade",
-      "xacto"
-    ]
+    "weapon_category": [ "KNIVES", "1H_SWORDS" ],
+    "weapons": [ "crt_hatchet", "crt_etool", "xacto" ]
   },
   {
     "type": "technique",
@@ -122,7 +97,7 @@
       { "stat": "movecost", "scale": 0.8 },
       { "stat": "damage", "type": "bash", "scale": 0.66 },
       { "stat": "damage", "type": "cut", "scale": 1.05 },
-      { "stat": "damage", "type": "stab", "scale": 1.0 }
+      { "stat": "damage", "type": "stab", "scale": 1 }
     ],
     "crit_tec": true,
     "messages": [ "You release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],

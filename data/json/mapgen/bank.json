@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "         S        SIS   ",
+        "         S        SIS  '",
         " #gggggggGgggggggggggg# ",
         " #A..........CTC.CTC.p# ",
         " #A...................w ",
@@ -34,6 +34,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub" ],
+        "'": "t_dirt",
         "#": "t_wall_w",
         "$": "t_metal_floor",
         "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
@@ -54,7 +55,7 @@
         "w": "t_window_alarm"
       },
       "furniture": {
-        "$": "f_safe_l",
+        "'": "f_street_light",
         "C": "f_chair",
         "T": "f_table",
         "c": "f_counter",
@@ -88,6 +89,7 @@
     "method": "json",
     "om_terrain": "bank_roof",
     "object": {
+      "palettes": [ "roof_palette" ],
       "fill_ter": "t_flat_roof",
       "rows": [
         "                        ",
@@ -110,23 +112,12 @@
         " |....................3 ",
         " |............=.......3 ",
         " |....................3 ",
-        " |........>.....&.....3 ",
-        " 5....................3 ",
+        " |..............&.....3 ",
+        " 5..........>.........3 ",
         " ---------------------- ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_flat_roof",
-        " ": "t_open_air",
-        "2": "t_gutter_north",
-        "-": "t_gutter_south",
-        "3": "t_gutter_east",
-        "|": "t_gutter_west",
-        ">": "t_ladder_down",
-        "o": "t_glass_roof",
-        "5": "t_gutter_drop"
-      },
-      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" },
+      "terrain": { ">": "t_ladder_down" },
       "place_nested": [
         {
           "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
@@ -144,8 +135,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "   SS                SSS",
-        " ggGGgggggggggg#######iS",
+        "   SS              SiSS'",
+        " ggGGgggggggggg#######SS",
         " gA.........ccx.#....##S",
         " gA........C-C..+....p# ",
         " gA.........ccx.#aca..##",
@@ -171,6 +162,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_sidewalk",
         "_": "t_metal_floor",
         "|": [ "t_door_c", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w" ],
         "I": "t_wall_w",
@@ -197,6 +189,7 @@
         "w": "t_window_alarm"
       },
       "furniture": {
+        "'": "f_street_light",
         "a": "f_armchair",
         "D": "f_sofa",
         "o": "f_bookcase",
@@ -230,7 +223,7 @@
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
         }
       },
-      "place_loot": [ { "item": "american_flag", "x": 22, "y": 0, "chance": 50 } ],
+      "place_loot": [ { "item": "american_flag", "x": 21, "y": 0, "chance": 50 } ],
       "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
     }
   },

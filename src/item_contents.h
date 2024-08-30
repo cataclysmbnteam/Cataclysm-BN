@@ -13,6 +13,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "visitable.h"
+#include "location_vector.h"
 
 class Character;
 class JsonIn;
@@ -23,21 +24,25 @@ struct tripoint;
 class item_contents
 {
     public:
-        item_contents() = default;
+        item_contents( item *container );
         /** used to aid migration */
-        item_contents( const std::list<item> &items ) : items( items ) {}
+        item_contents( item *container, std::vector<detached_ptr<item>> &items );
+        ~item_contents();
 
         bool empty() const;
 
         /** returns a list of pointers to all top-level items */
-        std::list<item *> all_items_top();
-        /** returns a list of pointers to all top-level items */
-        std::list<const item *> all_items_top() const;
+        const std::vector<item *> &all_items_top() const;
+
+        /** removes a top-level item */
+        detached_ptr<item> remove_top( item *it );
+        location_vector<item>::iterator remove_top( location_vector<item>::iterator &it,
+                detached_ptr<item> *removed = nullptr );
 
         // returns a list of pointers to all items inside recursively
-        std::list<item *> all_items_ptr();
+        std::vector<item *> all_items_ptr();
         // returns a list of pointers to all items inside recursively
-        std::list<const item *> all_items_ptr() const;
+        std::vector<const item *> all_items_ptr() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -64,7 +69,7 @@ class item_contents
 
         int best_quality( const quality_id &id ) const;
 
-        ret_val<bool> insert_item( const item &it );
+        ret_val<bool> insert_item( detached_ptr<item> &&it );
 
         /**
          * returns the number of items stacks in contents
@@ -74,7 +79,7 @@ class item_contents
         size_t num_item_stacks() const;
 
         bool spill_contents( const tripoint &pos );
-        void clear_items();
+        std::vector<detached_ptr<item>> clear_items();
 
         /**
          * Sets the items contained to their defaults.
@@ -82,7 +87,7 @@ class item_contents
         void set_item_defaults();
 
         void handle_liquid_or_spill( Character &guy );
-        void casings_handle( const std::function<bool( item & )> &func );
+        void casings_handle( const std::function < detached_ptr<item>( detached_ptr<item> && ) > &func );
 
         item *get_item_with( const std::function<bool( const item & )> &filter );
 
@@ -97,13 +102,18 @@ class item_contents
          */
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );
-        bool remove_internal( const std::function<bool( item & )> &filter,
-                              int &count, std::list<item> &res );
+        void remove_top_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) >
+                                    &filter );
+
+        void remove_items_with( const std::function < VisitResponse( detached_ptr<item> && ) >
+                                &filter );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        void on_destroy();
     private:
-        std::list<item> items;
+        location_vector<item> items;
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

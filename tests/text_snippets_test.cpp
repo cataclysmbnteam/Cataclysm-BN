@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "text_snippets.h"
 
 TEST_CASE( "random_snippet_with_small_seed", "[text_snippets][rng]" )
@@ -6,9 +7,9 @@ TEST_CASE( "random_snippet_with_small_seed", "[text_snippets][rng]" )
     const int seed_start = -10;
     const int seed_end = 10;
     int snip_change = 0;
-    cata::optional<translation> prev_snip;
+    std::optional<translation> prev_snip;
     for( int seed = seed_start; seed <= seed_end; ++seed ) {
-        const cata::optional<translation> snip = SNIPPET.random_from_category( "lab_notes", seed );
+        const std::optional<translation> snip = SNIPPET.random_from_category( "lab_notes", seed );
         REQUIRE( snip.has_value() );
         if( prev_snip.has_value() && *prev_snip != *snip ) {
             snip_change++;

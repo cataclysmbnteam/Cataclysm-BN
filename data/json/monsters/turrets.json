@@ -19,12 +19,14 @@
     "melee_cut": 0,
     "armor_bash": 14,
     "armor_cut": 16,
+    "armor_bullet": 30,
+    "armor_fire": 15,
     "luminance": 4,
     "revert_to_itype": "bot_turret_searchlight",
     "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
     "death_drops": { "groups": [ [ "robots", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": [ "FOCUSEDBEAM" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "BIOPROOF" ]
   },
   {
     "id": "mon_laserturret",
@@ -45,12 +47,15 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
+    "armor_bullet": 30,
+    "armor_fire": 15,
     "vision_day": 50,
     "revert_to_itype": "bot_laserturret",
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
+        "target_moving_vehicles": true,
         "gun_type": "laser_cannon_turret_fake",
         "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
@@ -61,7 +66,17 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "ID_CARD_DESPAWN", "CONSOLE_DESPAWN" ]
+    "flags": [
+      "SEES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "ID_CARD_DESPAWN",
+      "CONSOLE_DESPAWN",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_turret_riot",
@@ -84,6 +99,8 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "armor_bash": 14,
     "armor_cut": 16,
+    "armor_bullet": 30,
+    "armor_fire": 15,
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_riot",
@@ -101,6 +118,7 @@
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": false,
         "no_crits": true,
         "targeting_cost": 200,
@@ -112,13 +130,24 @@
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "DROPS_AMMO",
+      "ID_CARD_DESPAWN",
+      "CONSOLE_DESPAWN",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_turret_light",
     "type": "MONSTER",
     "name": { "str": "light turret" },
-    "description": "The General Atomics TX-1 Guardian, an popular automated turret equipped with a 9mm carbine.  Initially it was designed mainly for corporate property protection and police needs, however due its popularity it ended up being used even for military needs.  Hight quality targetting system allows it to engage targets even at medium range.",
+    "description": "The General Atomics TX-1 Guardian, an popular automated turret equipped with a 9mm carbine.  Initially it was designed mainly for corporate property protection and police needs, however due to its popularity, it ended up being used even for military needs.  Its high-quality targeting system allows it to engage targets even at medium range.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret",
@@ -134,6 +163,8 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
+    "armor_bullet": 15,
+    "armor_fire": 7,
     "vision_day": 32,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_light",
@@ -151,6 +182,7 @@
         "ranges": [ [ 0, 16, "AUTO" ], [ 17, 32, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": false,
         "no_crits": true,
         "targeting_cost": 200,
@@ -172,14 +204,15 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
-      "CONSOLE_DESPAWN"
+      "CONSOLE_DESPAWN",
+      "BIOPROOF"
     ]
   },
   {
     "id": "mon_turret_medium",
     "type": "MONSTER",
     "name": { "str": "medium milspec turret" },
-    "description": "The General Atomics TX-5 Sentinel, an automated milspec turret equipped with a 5.56mm gun.  Direct upgare of orignal TX-1 Guardian for military use.  Designed to efficiently take down enemy personnel protected by body armor at medium range.",
+    "description": "The General Atomics TX-5 Sentinel, an automated milspec turret equipped with a 5.56mm gun.  A direct upgrade of original TX-1 Guardian for military use.  Designed to efficiently take down enemy personnel protected by body armor at medium range.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret_rifle",
@@ -195,6 +228,8 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
+    "armor_bullet": 30,
+    "armor_fire": 15,
     "vision_day": 36,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_medium",
@@ -212,6 +247,7 @@
         "ranges": [ [ 0, 20, "AUTO" ], [ 21, 36, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": false,
         "no_crits": true,
         "targeting_cost": 200,
@@ -233,14 +269,15 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
-      "CONSOLE_DESPAWN"
+      "CONSOLE_DESPAWN",
+      "BIOPROOF"
     ]
   },
   {
     "id": "mon_turret_longrange",
     "type": "MONSTER",
     "name": { "str": "longrange milspec turret" },
-    "description": "The General Atomics TX-7 Sniper, an automated milspec turret equipped with a 7.62mm gun.  Designed as counter sniper turret to cover vulnerability of TX-5 Sentinel to sniper fire.  Its advanced target recognition system and 7.62mm gun allows it to engage targets protected by modern body armor at very long range.",
+    "description": "The General Atomics TX-7 Sniper, an automated milspec turret equipped with a 7.62x51mm gun.  Designed as a counter-sniper turret to cover the vulnerability of TX-5 Sentinel to sniper fire.  Its advanced target recognition system and 7.62x51mm gun allows it to engage targets protected by modern body armor at very long range.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
     "looks_like": "mon_turret_bmg",
@@ -256,6 +293,8 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
+    "armor_bullet": 30,
+    "armor_fire": 15,
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_longrange",
@@ -273,6 +312,7 @@
         "ranges": [ [ 0, 60, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": false,
         "no_crits": true,
         "targeting_cost": 200,
@@ -294,7 +334,8 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "CONSOLE_DESPAWN",
-      "ID_CARD_DESPAWN"
+      "ID_CARD_DESPAWN",
+      "BIOPROOF"
     ]
   }
 ]

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -6,19 +8,19 @@
 
 #include "ammo.h"
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 static std::vector<const vpart_info *> turret_types()
 {
@@ -39,7 +41,7 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
     for( const auto &e : vpart_info::all() ) {
         const auto &vp = e.second;
-        if( !item( vp.item ).is_watertight_container() ) {
+        if( !item::spawn_temporary( vp.item )->is_watertight_container() ) {
             continue;
         }
 
@@ -61,9 +63,12 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
 TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
+    clear_all_state();
+    map &here = get_map();
+    avatar &player_character = get_avatar();
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
-            vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270_degrees, 0, 0 );
+            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270_degrees, 0, 0 );
             REQUIRE( veh );
 
             const int idx = veh->install_part( point_zero, e->get_id(), true );
@@ -73,7 +78,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             veh->charge_battery( 10000 );
 
             auto ammo =
-                ammotype( veh->turret_query( veh->part( idx ) ).base()->ammo_default().str() );
+                ammotype( veh->turret_query( veh->part( idx ) ).base().ammo_default().str() );
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
                 auto *tank = biggest_tank( ammo );
@@ -94,10 +99,10 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            g->u.setpos( veh->global_part_pos3( idx ) );
-            REQUIRE( qry.fire( g->u, g->u.pos() + point( qry.range(), 0 ) ) > 0 );
+            player_character.setpos( veh->global_part_pos3( idx ) );
+            REQUIRE( qry.fire( player_character, player_character.pos() + point( qry.range(), 0 ) ) > 0 );
 
-            g->m.destroy_vehicle( veh );
+            here.destroy_vehicle( veh );
         }
     }
 }

@@ -2,22 +2,53 @@
 #ifndef CATA_TESTS_STRINGMAKER_H
 #define CATA_TESTS_STRINGMAKER_H
 
+#include <optional>
+#include <utility>
+
 #include "cuboid_rectangle.h"
 #include "catch/catch.hpp"
 #include "cata_variant.h"
 #include "dialogue.h"
 #include "distribution_grid.h"
 #include "item.h"
+#include "units_angle.h"
 
 // StringMaker specializations for Cata types for reporting via Catch2 macros
 
 namespace Catch
 {
 
+template<typename T1, typename T2>
+struct StringMaker<std::pair<T1, T2>> {
+    static std::string convert( const std::pair<T1, T2> &p ) {
+        return string_format( "{ %s, %s }", StringMaker<T1>::convert( p.first ),
+                              StringMaker<T2>::convert( p.second ) );
+    }
+};
+
 template<typename T>
 struct StringMaker<string_id<T>> {
     static std::string convert( const string_id<T> &i ) {
         return string_format( "string_id( \"%s\" )", i.str() );
+    }
+};
+
+template<typename T>
+struct StringMaker<std::optional<T>> {
+    static std::string convert( const std::optional<T> &i ) {
+        if( i.has_value() ) {
+            const T &val = *i;
+            return string_format( "optional( %s )", StringMaker<T>::convert( val ) );
+        } else {
+            return "optional()";
+        }
+    }
+};
+
+template<>
+struct StringMaker<std::nullopt_t> {
+    static std::string convert( const std::nullopt_t & ) {
+        return "optional()";
     }
 };
 
@@ -32,6 +63,13 @@ template<>
 struct StringMaker<point> {
     static std::string convert( const point &p ) {
         return string_format( "point( %d, %d )", p.x, p.y );
+    }
+};
+
+template<>
+struct StringMaker<tripoint> {
+    static std::string convert( const tripoint &p ) {
+        return string_format( "tripoint( %d, %d, %d )", p.x, p.y, p.z );
     }
 };
 
@@ -61,6 +99,14 @@ template<>
 struct StringMaker<time_duration> {
     static std::string convert( const time_duration &d ) {
         return string_format( "time_duration( %d ) [%s]", to_turns<int>( d ), to_string( d ) );
+    }
+};
+
+template<>
+struct StringMaker<units::angle> {
+    static std::string convert( const units::angle &a ) {
+        return string_format( "angle( %fdeg | %frad )", units::to_degrees( a ),
+                              units::to_radians( a ) );
     }
 };
 

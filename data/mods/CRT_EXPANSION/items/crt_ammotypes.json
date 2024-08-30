@@ -2,7 +2,7 @@
   {
     "type": "ammunition_type",
     "id": "pellets",
-    "name": "lead pellets",
+    "name": ".117 pellets",
     "default": "pellet"
   },
   {

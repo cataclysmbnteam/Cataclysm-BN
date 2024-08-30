@@ -8,11 +8,10 @@
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "weight": "5 g",
     "volume": "250 ml",
-    "price": 250,
+    "price": "250 cent",
     "container": "bag_plastic",
     "material": "powder",
     "symbol": "%",
-    "charges": 100,
-    "freezing_point": -490
+    "charges": 100
   }
 ]

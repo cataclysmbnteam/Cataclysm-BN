@@ -152,9 +152,20 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "BLED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "SKINNED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
+  },
+  {
+    "id": "CAN_PLANT_UNDERGROUND",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This seed can be <good>planted underground</good>."
   },
   {
     "id": "CANT_HEAL_EVERYONE",
@@ -190,6 +201,12 @@
     "type": "json_flag",
     "context": [  ],
     "info": "This item disappears as soon as its timer runs out whether it is food or not."
+  },
+  {
+    "id": "BIO_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>biological damage</info>."
   },
   {
     "id": "BASH_IMMUNE",
@@ -383,6 +400,11 @@
     "inherit": false
   },
   {
+    "id": "MUSHROOM_PLANTABLE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -439,6 +461,12 @@
     "info": "This clothing is large enough to accommodate <info>abnormally large mutated anatomy</info>."
   },
   {
+    "id": "resized_large",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has been modified to accommodate <info>abnormally large mutated anatomy</info> with some <bad>increase to encumbrance</bad>."
+  },
+  {
     "id": "UNDERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -471,6 +499,13 @@
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
+  },
+  {
+    "id": "SPAWN_FRIENDLY",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "//": "This item will spawn friendly. Used for pets and such.",
+    "info": "Any creature spawned from this item will <info>always</info> emerge <good>friendly to you</good>."
   },
   {
     "id": "STAB",
@@ -647,6 +682,12 @@
     "info": "This item can be used to communicate with radio waves."
   },
   {
+    "id": "PERFECT_LOCKPICK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item can be used to <info>pick locks</info> with <good>zero effort</good>."
+  },
+  {
     "id": "RAINPROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -665,6 +706,12 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Prevents the item from participating in the encumbrance system when worn.",
     "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things when worn."
+  },
+  {
+    "id": "COMPACT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Prevents the item from participating in the layering encumbrance system when worn."
   },
   {
     "id": "SHEATH_AXE",
@@ -803,6 +850,27 @@
     "context": [ "GENERIC", "ARMOR", "TOOL_ARMOR" ]
   },
   {
+    "id": "POWERARMOR_EXO",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines the main exo that all other parts attach to.",
+    "info": "This is a suit of power armor."
+  },
+  {
+    "id": "POWERARMOR_EXTERNAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines the other parts that activate simultaneously with the exo.",
+    "info": "This is a piece of power armor."
+  },
+  {
+    "id": "POWERARMOR_MOD",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "//": "Defines mods that are attached to power armour.",
+    "info": "This is a power armor modification."
+  },
+  {
     "id": "POWERARMOR_COMPATIBLE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -855,12 +923,6 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
-  },
-  {
-    "id": "USES_GRID_POWER",
-    "type": "json_flag",
-    "context": [ "TOOL" ],
-    "info": "This item is uses power from an <info>electric grid</info>."
   },
   {
     "id": "USES_GRID_POWER",
@@ -951,7 +1013,7 @@
     "id": "MAGIC_FOCUS",
     "type": "json_flag",
     "context": [ "item" ],
-    "//": "You can cast spells with this item in your hand."
+    "info": "This item is a <info>magical focus</info>.  You can cast spells with it in your hand."
   },
   {
     "id": "HOSTILE_SUMMON",
@@ -970,6 +1032,12 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "//": "The spell makes no sound at its point of impact."
+  },
+  {
+    "id": "NO_EXPLOSION_VFX",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "This makes the spell skip displaying visual effect sprites for faster rendering."
   },
   {
     "id": "LOUD",
@@ -1020,12 +1088,6 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
-    "id": "NON_THRESH",
-    "type": "json_flag",
-    "context": [ "mutation" ],
-    "//": "This mutation does not count toward thresholds at all."
-  },
-  {
     "id": "EFFECT_FEATHER_FALL",
     "context": [  ],
     "type": "json_flag"
@@ -1042,6 +1104,26 @@
   },
   {
     "id": "EFFECT_CUT_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BULLET_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CLAIRVOYANCE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CLAIRVOYANCE_PLUS",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_SUPER_CLAIRVOYANCE",
     "context": [  ],
     "type": "json_flag"
   },
@@ -1172,6 +1254,11 @@
     "context": [ "TOOL" ]
   },
   {
+    "id": "BOOK_CANNIBAL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "BYPRODUCT",
     "type": "json_flag",
     "context": [  ]
@@ -1232,6 +1319,11 @@
     "context": [  ]
   },
   {
+    "id": "VERY_COLD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "COLLAPSIBLE_STOCK",
     "type": "json_flag",
     "context": [  ]
@@ -1253,6 +1345,11 @@
   },
   {
     "id": "CORPSE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CROSSBOW",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1282,11 +1379,6 @@
     "context": [  ]
   },
   {
-    "id": "EDIBLE_FROZEN",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "EFFECT_IMPEDING",
     "type": "json_flag",
     "context": [  ]
@@ -1297,12 +1389,22 @@
     "context": [  ]
   },
   {
-    "id": "ETHEREAL_ITEM",
+    "id": "EXPLOSION_SMASHED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
   },
   {
     "id": "E_COMBUSTION",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "E_NO_POWER_DECAY",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1422,12 +1524,27 @@
     "context": [  ]
   },
   {
+    "id": "IN_CBM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag",
     "context": [  ]
   },
   {
     "id": "IS_ARMOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IS_BLOOD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "IS_EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1487,10 +1604,15 @@
     "context": [  ]
   },
   {
+    "id": "MORBID",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "MOUNTED_GUN",
     "type": "json_flag",
     "context": [  ],
-    "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use."
+    "info": "This weapon <bad>can only be fired if mounted</bad> on a vehicle or furniture (window, table, mound of dirt, etc.) to fire, <info>Large or Huge</info> mutants or those with active <info>Power Armor</info> can fire from the hip with <bad>reduced accuracy.</bad>"
   },
   {
     "id": "MYCUS_OK",
@@ -1524,6 +1646,11 @@
   },
   {
     "id": "NON_FOULING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_DAMAGE",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1673,6 +1800,11 @@
     "context": [  ]
   },
   {
+    "id": "REACH",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "REACH_ATTACK",
     "type": "json_flag",
     "context": [  ]
@@ -1715,10 +1847,21 @@
   {
     "id": "REQUIRES_TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item <bad>requires adequate tinder</bad> to be provided as fuel when starting a fire."
   },
   {
     "id": "SAFECRACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SHATTERS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SHOCKING",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1758,6 +1901,12 @@
     "context": [  ]
   },
   {
+    "id": "STR_DRAW",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "Using this weapon with <info>less strength than its requirement</info> will still allow you to fire, but at reduced <bad>damage and range</bad>."
+  },
+  {
     "id": "STR_RELOAD",
     "type": "json_flag",
     "context": [  ]
@@ -1785,7 +1934,8 @@
   {
     "id": "TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item can be used as tinder in a firewood source, <info>automatically being used</info> to light fires if using a a firestarting tool that requires it."
   },
   {
     "id": "TOBACCO",
@@ -1849,6 +1999,11 @@
   },
   {
     "id": "USE_UPS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NAT_UPS",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1939,6 +2094,12 @@
     "context": [  ]
   },
   {
+    "id": "HEAVY_WEAPON_SUPPORT",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This equipment <good>allows you to fire</good> unwieldy weapons without requiring support from mountable terrain, as a <info>Large or Huge</info> mutant could, at the expense of <bad>reduced accuracy.</bad>"
+  },
+  {
     "id": "FIRE_TWOHAND",
     "type": "json_flag",
     "context": [  ]
@@ -1969,22 +2130,12 @@
     "context": [  ]
   },
   {
-    "id": "NON-FOULING",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "PUMP_RAIL_COMPATIBLE",
     "type": "json_flag",
     "context": [  ]
   },
   {
     "id": "RADIO_MODABLE",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "STR_DRAW",
     "type": "json_flag",
     "context": [  ]
   },
@@ -2030,5 +2181,28 @@
     "type": "json_flag",
     "context": [ "TOOL" ],
     "info": "This item <good>can be used as a flat surface</good> for <info>butchering</info>."
+  },
+  {
+    "id": "MELEE_GUNMOD",
+    "type": "json_flag",
+    "context": [ "GUNMOD" ],
+    "//": "Implied by having a reach attack mode on the gunmod, but can be explicit for non-reach bayonets.",
+    "info": "When attached to a gun, this item <good>contributes to its melee damage</good>."
+  },
+  {
+    "id": "ROOF",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WEATHER_FORECAST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "It can show the automated weather forcast."
+  },
+  {
+    "id": "WINDMETER",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]

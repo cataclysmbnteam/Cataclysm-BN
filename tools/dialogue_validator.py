@@ -30,7 +30,7 @@ def get_dialogue_from_json():
             arg_path = arg_path[:-1]
         for subdir_path, dirnames, filenames in os.walk(arg_path):
            for filename in filenames:
-               path = subdir_path + "/" + filename
+               path = f"{subdir_path}/{filename}"
                if path == "data/json/npcs/TALK_TEST.json":
                    continue
                if path.endswith(".json"):
@@ -151,15 +151,15 @@ def validate(dialogue):
         if not topic_record.get("valid", False):
             all_topics_valid = False
             if topic_id in start_topics:
-                print("talk topic {} referenced in an NPC chat but not defined".format(topic_id))
+                print(f"talk topic {topic_id} referenced in an NPC chat but not defined")
             else:
-                print("talk topic {} referenced in a response but not defined".format(topic_id))
+                print(f"talk topic {topic_id} referenced in a response but not defined")
         if not topic_record.get("in_response", False):
             all_topics_valid = False
-            print("talk topic {} defined but not referenced in a response".format(topic_id))
+            print(f"talk topic {topic_id} defined but not referenced in a response")
         if topic_id in OBSOLETE_TOPICS:
             all_topics_valid = False
-            print("talk topic {} referenced despite being listed as obsolete.".format(topic_id))
+            print(f"talk topic {topic_id} referenced despite being listed as obsolete.")
 
     no_change = False
     passes = 0
@@ -208,8 +208,8 @@ def validate(dialogue):
             continue
         branch_record = topic_branches[topic_id]
         if not branch_record["ends"]:
-            print("{} does not reach TALK_DONE".format(topic_id))
+            print(f"{topic_id} does not reach TALK_DONE")
         if not branch_record["parent"] in start_topics:
-            print("no path from a start topic to {}".format(topic_id))
+            print(f"no path from a start topic to {topic_id}")
 
 validate(get_dialogue_from_json())

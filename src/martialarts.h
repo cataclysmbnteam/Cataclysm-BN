@@ -10,6 +10,7 @@
 
 #include "bonuses.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "input.h"
 #include "translations.h"
 #include "type_id.h"
@@ -21,6 +22,33 @@ class JsonObject;
 class effect;
 class item;
 struct itype;
+
+class weapon_category
+{
+    public:
+        static void load_weapon_categories( const JsonObject &jo, const std::string &src );
+        static void reset();
+
+        void load( const JsonObject &jo, const std::string &src );
+
+        static const std::vector<weapon_category> &get_all();
+
+        const weapon_category_id &getId() const {
+            return id;
+        }
+
+        const translation &name() const {
+            return name_;
+        }
+
+    private:
+        friend class generic_factory<weapon_category>;
+
+        weapon_category_id id;
+        bool was_loaded = false;
+
+        translation name_;
+};
 
 matype_id martial_art_learned_from( const itype & );
 
@@ -42,7 +70,7 @@ struct ma_requirements {
     std::vector<std::pair<damage_type, int>> min_damage;
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
-    std::set<std::string> req_flags; // any item flags required for this technique
+    std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
         unarmed_allowed = false;
@@ -163,7 +191,6 @@ class ma_buff
         // returns various boolean flags
         bool is_throw_immune() const;
         bool is_quiet() const;
-        bool can_melee() const;
         bool is_stealthy() const;
 
         // The ID of the effect that is used to store this buff
@@ -191,12 +218,13 @@ class ma_buff
         bonus_container bonuses;
 
         bool quiet = false;
-        bool melee_allowed = false;
         bool throw_immune = false; // are we immune to throws/grabs?
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?
 
         void load( const JsonObject &jo, const std::string &src );
+
+        LUA_TYPE_OPS( ma_buff, id );
 };
 
 class martialart
@@ -254,6 +282,7 @@ class martialart
         bool leg_block_with_bio_armor_legs = false;
         std::set<matec_id> techniques; // all available techniques
         std::set<itype_id> weapons; // all style weapons
+        std::set<weapon_category_id> weapon_category; // all style weapon categories
         bool strictly_unarmed = false; // Punch daggers etc.
         bool strictly_melee = false; // Must have a weapon.
         bool allow_melee = false; // Can use unarmed or with ANY weapon
@@ -296,5 +325,8 @@ std::string martialart_difficulty( const matype_id &mstyle );
 
 std::vector<matype_id> all_martialart_types();
 std::vector<matype_id> autolearn_martialart_types();
+
+/** Returns true if the character can learn the entered martial art */
+bool can_autolearn_martial_art( const Character &who, const matype_id &ma_id );
 
 #endif // CATA_SRC_MARTIALARTS_H

@@ -36,9 +36,9 @@ def import_data(json_dir=JSON_DIR, json_fmatch=JSON_FNMATCH):
                     try:
                         candidates = json.load(file, object_pairs_hook=OrderedDict)
                     except Exception as err:
-                        errors.append("Problem reading file %s, reason: %s" % (json_file, err))
+                        errors.append(f"Problem reading file {json_file}, reason: {err}")
                     if type(candidates) != list:
-                        errors.append("Problem parsing data from file %s, reason: expected a list." % json_file)
+                        errors.append(f"Problem parsing data from file {json_file}, reason: expected a list.")
                     else:
                         data += candidates
     return (data, errors)
@@ -250,7 +250,7 @@ class CDDAJSONWriter(object):
         self.buf.write(self.indent*self.indent_multiplier + s)
 
     def write_key(self, k):
-        self.indented_write("\"%s\": " % k)
+        self.indented_write(f"\"{k}\": ")
 
     def write_primitive_key_val(self, k, v):
         self.write_key(k)

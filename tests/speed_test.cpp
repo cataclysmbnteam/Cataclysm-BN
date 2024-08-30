@@ -1,9 +1,11 @@
 #include "catch/catch.hpp"
 
 #include "avatar.h"
+#include "character_effects.h"
 #include "player_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "state_helpers.h"
 
 static void advance_turn( Character &guy )
 {
@@ -13,7 +15,6 @@ static void advance_turn( Character &guy )
 
 static player &prepare_player()
 {
-    clear_map();
     player &guy = *get_player_character().as_player();
     clear_character( *guy.as_player(), true );
     guy.set_moves( 0 );
@@ -31,6 +32,7 @@ static player &prepare_player()
 
 TEST_CASE( "Character regains moves each turn", "[speed]" )
 {
+    clear_all_state();
     player &guy = prepare_player();
 
     advance_turn( guy );
@@ -47,7 +49,7 @@ static void pain_penalty_test( player &guy, int pain, int speed_exp )
     guy.set_painkiller( 0 );
     REQUIRE( guy.get_painkiller() == 0 );
     REQUIRE( guy.get_perceived_pain() == pain );
-    REQUIRE( guy.get_pain_penalty().speed == penalty );
+    REQUIRE( character_effects::get_pain_penalty( guy ).speed == penalty );
 
     advance_turn( guy );
 
@@ -58,6 +60,7 @@ static void pain_penalty_test( player &guy, int pain, int speed_exp )
 
 TEST_CASE( "Character is slowed down by pain", "[speed][pain]" )
 {
+    clear_all_state();
     player &guy = prepare_player();
 
     WHEN( "10 pain" ) {
@@ -73,14 +76,14 @@ TEST_CASE( "Character is slowed down by pain", "[speed][pain]" )
 
 static void carry_weight_test( Character &guy, int load_kg, int speed_exp )
 {
-    item item_1kg( "test_1kg_cube" );
+    item &item_1kg = *item::spawn_temporary( "test_1kg_cube" );
     REQUIRE( item_1kg.weight() == 1_kilogram );
     REQUIRE( item_1kg.volume() == 10_ml );
 
     CAPTURE( load_kg, speed_exp );
     WHEN( "Character carries specified weight" ) {
         for( int i = 0; i < load_kg; i++ ) {
-            guy.inv.add_item( item_1kg );
+            guy.i_add( item::spawn( item_1kg ) );
         }
         THEN( "No effect on speed" ) {
             CHECK( guy.get_speed() == 100 );
@@ -98,15 +101,15 @@ static void carry_weight_test( Character &guy, int load_kg, int speed_exp )
 
 TEST_CASE( "Character is slowed down while overburdened", "[speed]" )
 {
+    clear_all_state();
     player &guy = prepare_player();
 
-    item backpack( "test_backpack" );
-    REQUIRE( backpack.get_storage() == 15_liter );
-    REQUIRE( backpack.weight() == 633_gram );
+    detached_ptr<item> backpack = item::spawn( "test_backpack" );
+    REQUIRE( backpack->get_storage() == 15_liter );
+    REQUIRE( backpack->weight() == 633_gram );
 
     guy.clear_mutations();
-    guy.weapon = backpack;
-    guy.wear( guy.weapon, false );
+    guy.wear_item( std::move( backpack ), false );
     REQUIRE( guy.weight_capacity() == 45_kilogram );
     REQUIRE( guy.volume_capacity() == 15_liter );
 

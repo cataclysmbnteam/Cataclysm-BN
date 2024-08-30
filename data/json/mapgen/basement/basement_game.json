@@ -35,7 +35,7 @@
         "                        "
       ],
       "furniture": { "F": "f_home_furnace", "W": "f_water_heater", "S": "f_utility_shelf", "L": "f_floor_lamp", "G": "f_glass_cabinet" },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
         { "group": "alcohol", "x": [ 16, 20 ], "y": 5, "chance": 96 },
@@ -87,7 +87,7 @@
         "                        "
       ],
       "furniture": { "F": "f_home_furnace", "W": "f_water_heater", "L": "f_floor_lamp" },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
         { "group": "alcohol", "x": [ 16, 20 ], "y": 5, "chance": 96 },
@@ -139,7 +139,7 @@
         "                        "
       ],
       "furniture": { "F": "f_home_furnace", "W": "f_water_heater", "S": "f_utility_shelf" },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
         { "group": "alcohol", "x": [ 16, 20 ], "y": 5, "chance": 96 },
@@ -189,7 +189,7 @@
         "                        "
       ],
       "furniture": { "F": "f_home_furnace", "W": "f_water_heater" },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
         { "group": "alcohol", "x": [ 16, 20 ], "y": 5, "chance": 96 },
@@ -239,7 +239,7 @@
         "                        "
       ],
       "furniture": { "H": "f_home_furnace", "W": "f_water_heater" },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "W": { "liquid": "water", "amount": [ 0, 100 ] } },
       "palettes": [ "basement_game" ],
       "place_loot": [
         { "item": "dnd_handbook", "x": 18, "y": 8, "chance": 100 },

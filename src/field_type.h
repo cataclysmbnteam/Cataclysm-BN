@@ -15,6 +15,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "catalua_type_operators.h"
 #include "color.h"
 #include "effect.h"
 #include "enums.h"
@@ -183,6 +184,8 @@ struct field_type {
         std::string looks_like;
 
         fields::stacking_type stacking_type = fields::stacking_type::intensity;
+
+        LUA_TYPE_OPS( field_type, id );
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;

@@ -10,10 +10,13 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
+#include "iteminfo_query.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "output.h"
 #include "player.h"
 #include "requirements.h"
@@ -191,8 +194,9 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
             }
 
             case search_type::description_result: {
-                const item result = r->create_result();
-                return lcmatch( remove_color_tags( result.info( true ) ), txt );
+                //TODO!: push this up, it's a potentially infinite one I think
+                detached_ptr<item> result = r->create_result();
+                return lcmatch( remove_color_tags( result->info_string( iteminfo_query::no_conditions ) ), txt );
             }
 
             default:
@@ -327,6 +331,11 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
 
     r.load( jo, src );
 
+    if( !r.src.empty() && r.src.back().first != r.ident() ) {
+        r.src.clear();
+    }
+    r.src.emplace_back( r.ident(), mod_id( src ) );
+
     return out[ r.ident() ] = std::move( r );
 }
 
@@ -354,6 +363,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
         elem.second.finalize();
+        inp_mngr.pump_events();
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
@@ -385,7 +395,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->has_flag( "NUTRIENT_OVERRIDE" ) ) {
+        if( !i->comestible || i->has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
@@ -457,7 +467,7 @@ void recipe_dictionary::finalize()
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
-            int pages = e->volume / 12.5_ml;
+            int pages = std::max( 1, static_cast<int>( e->volume / 12.5_ml ) );
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
             bk.result_ = id;

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <memory>
+#include <optional>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -24,9 +25,13 @@
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "ranged.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "vehicle.h"
+#include "vehicle_part.h"
+#include "vpart_range.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
@@ -44,6 +49,10 @@ static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 static bool is_adjacent( const monster &z, const Creature &target )
 {
     if( rl_dist( z.pos(), target.pos() ) != 1 ) {
+        return false;
+    }
+
+    if( !z.can_squeeze_to( target.pos() ) ) {
         return false;
     }
 
@@ -86,8 +95,9 @@ bool leap_actor::call( monster &z ) const
     if( !allow_no_target && z.attack_target() == nullptr ) {
         return false;
     }
+    map &here = get_map();
     std::multimap<int, tripoint> candidates;
-    for( const tripoint &candidate : g->m.points_in_radius( z.pos(), max_range ) ) {
+    for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
             continue;
         }
@@ -116,12 +126,14 @@ bool leap_actor::call( monster &z ) const
         }
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
-        std::vector<tripoint> line = g->m.find_clear_path( z.pos(), dest );
+        std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
+        tripoint prev_point = z.pos();
         for( auto &i : line ) {
-            if( g->m.impassable( i ) ) {
+            if( here.impassable( i ) || here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
                 blocked_path = true;
                 break;
             }
+            prev_point = i;
         }
         // don't leap into water if you could drown (#38038)
         if( z.is_aquatic_danger( dest ) ) {
@@ -168,6 +180,10 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data = intermediate.get_spell();
     spell_data.set_message( monster_message );
+}
+
+void mon_spellcasting_actor::finalize()
+{
     avatar fake_player;
     move_cost = spell_data.casting_time( fake_player );
 }
@@ -183,7 +199,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    const tripoint target = mon.attack_target()->pos();
+    const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
 
     std::string fx = spell_data.effect();
     // is the spell an attack that needs to hit the target?
@@ -332,7 +348,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
-    auto msg_type = target.attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
+    auto msg_type = target.attitude_to( g->u ) == Attitude::A_FRIENDLY ? m_bad : m_neutral;
     const body_part bp = dealt.bp_hit;
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );
@@ -448,11 +464,13 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 
     obj.read( "targeting_volume", targeting_volume );
 
-    obj.get_bool( "laser_lock", laser_lock );
+    obj.read( "laser_lock", laser_lock );
+
+    obj.read( "target_moving_vehicles", target_moving_vehicles );
 
     obj.read( "require_sunlight", require_sunlight );
 
-    no_crits = obj.get_bool( "no_crits", no_crits );
+    obj.read( "no_crits", no_crits );
 }
 
 std::unique_ptr<mattack_actor> gun_actor::clone() const
@@ -468,10 +486,79 @@ int gun_actor::get_max_range()  const
     }
     return max_range;
 }
+namespace
+{
+
+auto find_target_vehicle( monster &z, int range ) -> std::optional<tripoint>
+{
+    const auto is_different_plane = []( const wrapped_vehicle & v, const monster & m ) -> bool {
+        return !fov_3d && v.pos.z != m.pos().z;
+    };
+
+    map &here = get_map();
+    bool found = false;
+    tripoint aim_at;
+    for( wrapped_vehicle &v : here.get_vehicles() ) {
+        if( is_different_plane( v, z ) || v.v->velocity == 0 ) {
+            continue;
+        }
+
+        bool found_controls = false;
+
+        for( const vpart_reference &vp : v.v->get_avail_parts( "CONTROLS" ) ) {
+            if( !z.sees( vp.pos() ) ) {
+                continue;
+            }
+
+            int new_dist = rl_dist( z.pos(), vp.pos() );
+            if( new_dist <= range ) {
+                aim_at = vp.pos();
+                range = new_dist;
+                found = true;
+                found_controls = true;
+            }
+        }
+
+
+        if( !found_controls ) {
+            std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
+            tripoint prev_point = z.pos();
+            for( tripoint &i : line ) {
+                if( !z.sees( i ) ||  here.floor_between( prev_point, i ) ) {
+                    break;
+                }
+                optional_vpart_position vp = here.veh_at( i );
+                if( vp && &vp->vehicle() == v.v ) {
+                    int new_dist = rl_dist( z.pos(), i );
+                    if( new_dist <= range ) {
+                        aim_at = i;
+                        range = new_dist;
+                        found = true;
+                    }
+                    break;
+                }
+                if( !here.is_transparent( i ) ) {
+                    break;
+                }
+                prev_point = i;
+            }
+        }
+    }
+    if( found ) {
+        return std::make_optional( aim_at );
+    } else {
+        return std::optional<tripoint>();
+    }
+}
+
+} // namespace
+
 
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
+    tripoint aim_at;
+    bool untargeted = false;
 
     if( z.friendly ) {
         int max_range = get_max_range();
@@ -487,19 +574,34 @@ bool gun_actor::call( monster &z ) const
             }
             return false;
         }
-
+        aim_at = target->pos();
     } else {
         target = z.attack_target();
         if( !target || !z.sees( *target ) ) {
-            return false;
+            if( !target_moving_vehicles ) {
+                return false;
+            }
+            //No living targets, try to find a moving car
+            std::optional<tripoint> aim = find_target_vehicle( z, get_max_range() );
+            if( !aim ) {
+                return false;
+            }
+            aim_at = *aim;
+            untargeted = true;
+        } else {
+            aim_at = target->pos();
         }
     }
 
-    int dist = rl_dist( z.pos(), target->pos() );
+    // One last check to make sure we're not firing on a friendly
+    if( target && z.attitude_to( *target ) == Attitude::A_FRIENDLY ) {
+        return false;
+    }
+    int dist = rl_dist( z.pos(), aim_at );
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
-            if( try_target( z, *target ) ) {
-                shoot( z, target->pos(), e.second );
+            if( untargeted || try_target( z, *target ) ) {
+                shoot( z, aim_at, e.second );
             }
 
             return true;
@@ -559,15 +661,15 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
 {
     z.moves -= move_cost;
 
-    item gun( gun_type );
-    gun.gun_set_mode( mode );
+    detached_ptr<item> gun = item::spawn( gun_type );
+    gun->gun_set_mode( mode );
 
-    itype_id ammo = ammo_type ? ammo_type : gun.ammo_default();
+    itype_id ammo = ammo_type ? ammo_type : gun->ammo_default();
     if( ammo ) {
-        gun.ammo_set( ammo, z.ammo[ammo] );
+        gun->ammo_set( ammo, z.ammo[ammo] );
     }
 
-    if( !gun.ammo_sufficient() ) {
+    if( !gun->ammo_sufficient() ) {
         if( !no_ammo_sound.empty() ) {
             sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( no_ammo_sound ) );
         }
@@ -586,14 +688,13 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     for( const auto &pr : fake_skills ) {
         tmp.set_skill_level( pr.first, pr.second );
     }
-
-    tmp.weapon = gun;
-    tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
+    int qty = gun->gun_current_mode().qty;
+    tmp.set_primary_weapon( std::move( gun ) );
+    tmp.i_add( item::spawn( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
+        add_msg( m_warning, _( description ), z.name(), tmp.primary_weapon().tname() );
     }
 
-    z.ammo[ammo] -= tmp.fire_gun( target, gun.gun_current_mode().qty );
-
+    z.ammo[ammo] -= ranged::fire_gun( tmp, target, qty );
 }

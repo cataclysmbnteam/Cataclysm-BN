@@ -12,7 +12,6 @@
 #include "enums.h"
 #include "mapdata.h"
 #include "memory_fast.h"
-#include "omdata.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "weather_gen.h"
@@ -49,17 +48,9 @@ struct city_settings {
     building_bin shops;
     building_bin parks;
 
-    overmap_special_id pick_house() const {
-        return houses.pick()->id;
-    }
-
-    overmap_special_id pick_shop() const {
-        return shops.pick()->id;
-    }
-
-    overmap_special_id pick_park() const {
-        return parks.pick()->id;
-    }
+    overmap_special_id pick_house() const;
+    overmap_special_id pick_shop() const;
+    overmap_special_id pick_park() const;
 
     void finalize();
 };
@@ -254,6 +245,8 @@ struct regional_settings {
 using t_regional_settings_map = std::unordered_map<std::string, regional_settings>;
 using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
+
+void check_regional_settings();
 
 void load_region_settings( const JsonObject &jo );
 void reset_region_settings();

@@ -1,7 +1,7 @@
 [
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_feral_scientist_scalpel" ],
     "sound": "\"Hello?\"",
     "volume": 40
   },
@@ -31,7 +31,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_feral_scientist_scalpel" ],
     "sound": "\"Can you repeat that?\"",
     "volume": 30
   },
@@ -73,13 +73,13 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"So, what is this thing supposed to be, exactly?\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
     "sound": "\"Uncategorized object seven-seven-three-four.\"",
     "volume": 20
   },
@@ -91,7 +91,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"Area nineteen has a few in cold storage.\"",
     "volume": 20
   },
@@ -103,7 +103,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"We're still trying to figure out what makes it tick.\"",
     "volume": 20
   },
@@ -121,7 +121,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"It does seem to have some form of higher level brain functioning.\"",
     "volume": 20
   },
@@ -205,19 +205,43 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"You're gonna rot in hell for this!\"",
     "volume": 60
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight"
+    ],
     "sound": "\"You hear me!?\"",
     "volume": 50
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"You're gonna rot in hell, you pieces of shit!\"",
     "volume": 60
   },
@@ -235,7 +259,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"Why don't you touch it and find out?\"",
     "volume": 20
   },
@@ -277,7 +301,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"We'd have to terminate the specimen.\"",
     "volume": 20
   },
@@ -295,7 +319,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_feral_scientist_scalpel" ],
     "sound": "\"It's probably more scared of us than we are of it.\"",
     "volume": 20
   },
@@ -325,7 +349,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight"
+    ],
     "sound": "\"U-O Seven-Seven-Three-Four.\"",
     "volume": 20
   },
@@ -361,37 +391,73 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"Kill them all and let God sort them out!\"",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
     "sound": "\"I watched a snail crawl along the edge of a straight razor.\"",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
     "sound": "\"I've seen horrors, horrors that you've seen.\"",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [
+      "mon_mi_go",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight",
+      "mon_feral_jackboot",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist",
+      "mon_feral_soldier"
+    ],
     "sound": "\"I love the smell of napalm in the morning.\"",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight",
+      "mon_feral_jackboot",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist",
+      "mon_feral_soldier"
+    ],
     "sound": "\"This is the way the fuckin' world ends.\"",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"Look at this fuckin' shit we're in, man.\"",
     "volume": 40
   },
@@ -403,31 +469,47 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_jackboot",
+      "mon_feral_prepper",
+      "mon_feral_survivalist",
+      "mon_feral_militia"
+    ],
     "sound": "\"I'ma cut those fuckin' tentacles off, bitch!\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_jackboot",
+      "mon_feral_prepper",
+      "mon_feral_survivalist",
+      "mon_feral_militia"
+    ],
     "sound": "\"Watch you bleed out!\"",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_feral_scientist_scalpel" ],
     "sound": "\"I wonder if it understands us.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"Do you understand what I'm saying?\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"Look, it's responding!\"",
     "volume": 40
   },
@@ -553,7 +635,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"It won't hurt a bit.\"",
     "volume": 20
   },
@@ -721,7 +803,15 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_jackboot",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"God damn it!\"",
     "volume": 40
   },
@@ -733,7 +823,15 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_jackboot",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"Damn it!\"",
     "volume": 40
   },
@@ -751,25 +849,48 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_jackboot",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"Fuck!\"",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_jackboot",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"Shit!\"",
     "volume": 40
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"Fuckin' piece of garbage.\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_scientist_scalpel" ],
     "sound": "\"I need a new lab coat.\"",
     "volume": 20
   },
@@ -865,7 +986,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
     "sound": "\"We have a serious situation here.\"",
     "volume": 20
   },
@@ -1165,13 +1286,13 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
     "sound": "\"Nobody is helping us.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go",
+    "speaker": [ "mon_mi_go", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
     "sound": "\"We're on our own.\"",
     "volume": 20
   },
@@ -1231,7 +1352,16 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight",
+      "mon_feral_militia",
+      "mon_feral_prepper",
+      "mon_feral_survivalist"
+    ],
     "sound": "\"It's heading right for us!\"",
     "volume": 40
   },
@@ -1315,7 +1445,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_feral_survivalist" ],
     "sound": "\"Please, I don't want to die.\"",
     "volume": 20
   },
@@ -1483,7 +1613,19 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mi_go_slaver",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Let me in…\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "\"Let me in!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_mi_go_slaver", "mon_feral_jackboot", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
     "sound": "\"We're both scavs, in't we?\"",
     "volume": 15
   },
@@ -1591,13 +1733,13 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mutant_experimental",
+    "speaker": [ "mon_mutant_experimental", "mon_feral_human_chainsaw" ],
     "sound": "\"Hrgm…  Blood…  Hungry…\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": "mon_mutant_experimental",
+    "speaker": [ "mon_mutant_experimental", "mon_feral_human_chainsaw" ],
     "sound": "\"Hunger…  Must eat…\"",
     "volume": 20
   },
@@ -1609,7 +1751,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mutant_experimental",
+    "speaker": [ "mon_mutant_experimental", "mon_feral_human_chainsaw" ],
     "sound": "hysterical laughing.",
     "volume": 20
   },
@@ -1675,7 +1817,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mutant_experimental",
+    "speaker": [ "mon_mutant_experimental", "mon_feral_human_chainsaw" ],
     "sound": "\"MEAT!\"",
     "volume": 40
   },
@@ -1825,7 +1967,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_prototype_cyborg",
+    "speaker": [ "mon_prototype_cyborg", "mon_feral_scientist_scalpel" ],
     "sound": "\"I have done what you asked.  Please let me go!\"",
     "volume": 10
   },
@@ -1837,13 +1979,13 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_prototype_cyborg",
+    "speaker": [ "mon_prototype_cyborg", "mon_feral_scientist_scalpel" ],
     "sound": "\"This is a dream.  This has to be a dream.\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": "mon_prototype_cyborg",
+    "speaker": [ "mon_prototype_cyborg", "mon_feral_scientist_scalpel" ],
     "sound": "\"This is my life now… this is my life now… this is my life now…\"",
     "volume": 10
   },
@@ -1975,7 +2117,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm" ],
     "sound": "\"Stop where you are!\"",
     "volume": 15
   },
@@ -2005,13 +2147,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm" ],
     "sound": "\"Suspect on the move!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm" ],
     "sound": "\"Suspect in sight!\"",
     "volume": 15
   },
@@ -2029,7 +2171,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm" ],
     "sound": "\"Requesting assistance!\"",
     "volume": 15
   },
@@ -2053,7 +2195,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm", "mon_feral_soldier" ],
     "sound": "\"Let me see your hands!\"",
     "volume": 15
   },
@@ -2065,19 +2207,19 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm" ],
     "sound": "\"Code 10-66.  Copy 10-4.  Possible 10-55.\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm" ],
     "sound": "\"Probable 10-70.\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm", "mon_feral_soldier" ],
     "sound": "\"Get on the ground!  Now!\"",
     "volume": 15
   },
@@ -2095,19 +2237,19 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm" ],
     "sound": "\"Do not reach for your pockets!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm", "mon_feral_soldier" ],
     "sound": "\"Keep your hands up!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm", "mon_feral_soldier" ],
     "sound": "\"Get on your knees!\"",
     "volume": 15
   },
@@ -2125,7 +2267,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_eyebot",
+    "speaker": [ "mon_eyebot", "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_9mm", "mon_feral_soldier" ],
     "sound": "\"Remain where you are!\"",
     "volume": 15
   },
@@ -2464,5 +2606,443 @@
     "speaker": "mon_dog_auscattle",
     "sound": "BARK!",
     "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_scalpel" ],
+    "sound": "\"I'll show them.  I'll prove I was right all along!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_scalpel" ],
+    "sound": "\"The vectors, the vectors are all wrong…\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_scalpel" ],
+    "sound": "\"There's nothing there.  This is all just a simulation, a bad dream…\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_scalpel" ],
+    "sound": "\"There's.  Nothing.  There.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_scientist_scalpel" ],
+    "sound": "\"They called me a fool.  Now who's the fool!?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
+    "sound": "\"Get back in your cage!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight", "mon_feral_soldier" ],
+    "sound": "\"X-ray breaching perimeter!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
+    "sound": "\"Lock this sector down, damnit!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
+    "sound": "\"Unknown entity escaping containment!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot" ],
+    "sound": "\"I am the night rider!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot" ],
+    "sound": "\"I'm here to swim in gasoline, baby!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot" ],
+    "sound": "\"Give me unleaded, or you'll get lead!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot" ],
+    "sound": "\"I'm a fuel-injected suicide machine!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot" ],
+    "sound": "\"I'm gonna tan your god damn hide!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot" ],
+    "sound": "\"Which one of you fuckers touched my bike!?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"Reach for the sky!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_militia", "mon_feral_prepper" ],
+    "sound": "\"Clear my line of fire!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"Reach for the sky!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper" ],
+    "sound": "\"Weapons hot!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper" ],
+    "sound": "\"Lock and load!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_survivalist" ],
+    "sound": "\"I don't have to be faster than them, just faster than you!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_survivalist" ],
+    "sound": "\"My feet failed me!  Arms, don't fail me!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"Look at me.  I am the captain now.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"I don't have to take this abuse from you, there are plenty of people to abuse me!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"You're a monster!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"I've had enough of your bullshit!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"Adios, motherfucker!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"Get out of here or I'll kill you!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"Keep your distance!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"This is my territory, asshole!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"Fuck off, I saw this place first!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_jackboot", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
+    "sound": "\"Get out of here, I own this town now!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"We've got incoming!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"Hostiles inbound.\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight", "mon_feral_soldier" ],
+    "sound": "\"I've got movement!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"Danger close!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"Last one alive, lock the door!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"We have you surrounded, at least from this side!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"Charge!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"Contact!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"Contact, enemy in sight!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"Target in sight!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_soldier" ],
+    "sound": "\"We've got hostiles!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_feral_human_pipe",
+      "mon_feral_human_crowbar",
+      "mon_feral_human_axe",
+      "mon_feral_human_tool",
+      "mon_feral_maid_broom",
+      "mon_feral_maid_candlestick",
+      "mon_feral_maid_knife",
+      "mon_feral_fancy_rapier",
+      "mon_feral_fancy_rapier_fake",
+      "mon_feral_fancy_crossbow",
+      "mon_feral_armored_mace",
+      "mon_feral_armored_battleaxe"
+    ],
+    "sound": "\"What do you think you're doing?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_feral_human_pipe",
+      "mon_feral_human_crowbar",
+      "mon_feral_human_axe",
+      "mon_feral_human_tool",
+      "mon_feral_maid_broom",
+      "mon_feral_maid_candlestick",
+      "mon_feral_maid_knife",
+      "mon_feral_fancy_rapier",
+      "mon_feral_fancy_rapier_fake",
+      "mon_feral_fancy_crossbow",
+      "mon_feral_armored_mace",
+      "mon_feral_armored_battleaxe"
+    ],
+    "sound": "\"Stop laughing at me!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_feral_human_pipe",
+      "mon_feral_human_crowbar",
+      "mon_feral_human_axe",
+      "mon_feral_human_tool",
+      "mon_feral_maid_broom",
+      "mon_feral_maid_candlestick",
+      "mon_feral_maid_knife",
+      "mon_feral_fancy_rapier",
+      "mon_feral_fancy_rapier_fake",
+      "mon_feral_fancy_crossbow",
+      "mon_feral_armored_mace",
+      "mon_feral_armored_battleaxe"
+    ],
+    "sound": "\"Stay away from me!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_feral_human_pipe",
+      "mon_feral_human_crowbar",
+      "mon_feral_human_axe",
+      "mon_feral_human_tool",
+      "mon_feral_maid_broom",
+      "mon_feral_maid_candlestick",
+      "mon_feral_maid_knife",
+      "mon_feral_fancy_rapier",
+      "mon_feral_fancy_rapier_fake",
+      "mon_feral_fancy_crossbow",
+      "mon_feral_armored_mace",
+      "mon_feral_armored_battleaxe"
+    ],
+    "sound": "\"It wasn't my fault!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_feral_human_pipe",
+      "mon_feral_human_crowbar",
+      "mon_feral_human_axe",
+      "mon_feral_human_tool",
+      "mon_feral_maid_broom",
+      "mon_feral_maid_candlestick",
+      "mon_feral_maid_knife",
+      "mon_feral_fancy_rapier",
+      "mon_feral_fancy_rapier_fake",
+      "mon_feral_fancy_crossbow",
+      "mon_feral_armored_mace",
+      "mon_feral_armored_battleaxe"
+    ],
+    "sound": "\"They made me do it!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_feral_human_pipe",
+      "mon_feral_human_crowbar",
+      "mon_feral_human_axe",
+      "mon_feral_human_tool",
+      "mon_feral_maid_broom",
+      "mon_feral_maid_candlestick",
+      "mon_feral_maid_knife",
+      "mon_feral_fancy_rapier",
+      "mon_feral_fancy_rapier_fake",
+      "mon_feral_fancy_crossbow",
+      "mon_feral_armored_mace",
+      "mon_feral_armored_battleaxe"
+    ],
+    "sound": "\"What are you!?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "the roar of a chainsaw!",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "a motor sputtering to life!",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "an engine revving up!",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "hummm!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "whirrr!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "vroom!",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "heavy breathing",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "labored breathing",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "a whimper",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_dog" ],
+    "sound": "a rasping growl",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_spider" ],
+    "sound": "a quiet chittering",
+    "volume": 5
   }
 ]

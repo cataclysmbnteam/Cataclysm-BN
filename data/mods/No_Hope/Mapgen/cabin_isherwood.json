@@ -156,7 +156,7 @@
         "2": "f_smoking_rack"
       },
       "toilets": { "&": {  } },
-      "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "l": { "liquid": "water", "amount": [ 0, 100 ] } },
       "place_loot": [
         { "item": "cattlefodder", "x": [ 17, 18 ], "y": [ 2, 4 ], "chance": 50 },
         { "item": "horse_tack", "x": 15, "y": 2, "chance": 50 },

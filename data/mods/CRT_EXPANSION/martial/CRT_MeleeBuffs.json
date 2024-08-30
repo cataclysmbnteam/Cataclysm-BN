@@ -96,8 +96,7 @@
     ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.1 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.15 }
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.1 }
     ],
     "messages": [ "You quickly dig your fingers into %s", "<npcname> digs their fingers into %s" ]
   },
@@ -116,8 +115,7 @@
     ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.015 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.0125 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.35 }
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.0125 }
     ],
     "messages": [ "You swiftly impale your fingers into %s joints", "<npcname> swiftly impales their fingers into %s" ]
   },
@@ -136,8 +134,7 @@
     ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.015 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.0125 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.35 }
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.0125 }
     ],
     "messages": [ "You explosively jab your weapon at %s joints", "<npcname> explosively jabs at %s" ]
   },
@@ -156,8 +153,7 @@
     ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.2 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.01 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.2 }
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.01 }
     ],
     "crit_tec": true,
     "messages": [ "You steady your hand and release a piercing jab at %s", "<npcname> releases a piercing jab at %s" ],
@@ -181,12 +177,11 @@
     ],
     "flat_bonuses": [
       { "stat": "damage", "type": "stab", "scaling-stat": "dex", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+      { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.25 }
     ],
     "crit_tec": true,
     "messages": [
-      "You envision a gathering tempest in and then release it's energy on %s's top half",
+      "You envision a gathering tempest in and then release its energy into %s",
       "<npcname> lands a piercing blow on %s's face"
     ],
     "stun_dur": 1,

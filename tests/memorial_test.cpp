@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <memory>
 #include <string>
@@ -5,7 +7,6 @@
 
 #include "avatar.h"
 #include "bodypart.h"
-#include "catch/catch.hpp"
 #include "character_id.h"
 #include "event.h"
 #include "game.h"
@@ -13,6 +14,7 @@
 #include "mutation.h"
 #include "player_helpers.h"
 #include "pldata.h"
+#include "state_helpers.h"
 #include "string_utils.h"
 #include "type_id.h"
 
@@ -50,10 +52,9 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
 
 TEST_CASE( "memorials" )
 {
+    clear_all_state();
     memorial_logger &m = g->memorial();
     m.clear();
-    clear_avatar();
-
     event_bus &b = g->events();
 
     character_id ch = g->u.getID();
@@ -117,7 +118,7 @@ TEST_CASE( "memorials" )
         m, b, "Opened the Marloss Gateway.", ch );
 
     check_memorial<event_type::crosses_mutation_threshold>(
-        m, b, "Became one with the bears.", ch, "URSINE" );
+        m, b, "Became one with the bears.", ch, mutation_category_id( "URSINE" ) );
 
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );

@@ -25,7 +25,7 @@ TEST_CASE( "translations_sanity_test", "[translations][i18n]" )
 }
 
 // assuming [en] language is used for this test
-// test should succeed both with and without the LOCALIZE
+// test should succeed both with and without the .mo file
 TEST_CASE( "translations_macro_string_stability", "[translations][i18n]" )
 {
     std::vector<std::string> test_strings;
@@ -50,7 +50,7 @@ TEST_CASE( "translations_macro_string_stability", "[translations][i18n]" )
 }
 
 // assuming [en] language is used for this test
-// test should succeed both with and without the LOCALIZE
+// test should succeed both with and without the .mo file
 TEST_CASE( "translations_macro_char_address", "[translations][i18n]" )
 {
     SECTION( "address should be same when translation is absent" ) {
@@ -100,8 +100,6 @@ TEST_CASE( "translations_add_context", "[translations][i18n]" )
     }
 }
 
-#ifdef LOCALIZE
-// this test will only succeed when LOCALIZE is enabled
 // assuming [en] language is used for this test
 // requires .mo file for "en" language
 TEST_CASE( "translations_macro_char_address_translated", "[.][translations][i18n]" )
@@ -125,18 +123,23 @@ TEST_CASE( "translations_macro_char_address_translated", "[.][translations][i18n
     CHECK( translated != test_string );
 }
 
-// this test will only succeed when LOCALIZE is enabled
+struct trans_test_case {
+    std::string id;
+    std::string str;
+    bool must_have_files = false;
+};
+
 // requires .mo files for languages listed below
 TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
 {
-    const std::vector<std::pair<std::string, std::string>> test_cases = {{
-            { "en_US", "Play <N|n>ow!" },
-            { "fr_FR", "Jouer <M|m>aintenant!" },
-            { "ru_RU", "Сразу в игру!" },
+    const std::vector<trans_test_case> test_cases = {{
+            { "en_US", "<R|r>andom Character", false },
+            { "fr_FR", "Personnage <A|a>léatoire", true },
+            { "ru_RU", "<R|r> Случайный персонаж", true },
         }
     };
 
-    const char *test_msgid = "Play <N|n>ow!";
+    const char *test_msgid = "<R|r>andom Character";
     const char *test_msgctx = "Main Menu|New Game";
 
     if( !try_set_utf8_locale() ) {
@@ -156,48 +159,33 @@ TEST_CASE( "translations_actually_translate", "[translations][i18n]" )
     };
 
     for( const auto &test : test_cases ) {
-        const std::string &lang = test.first;
+        const std::string &lang = test.id;
         CAPTURE( lang );
         REQUIRE( has_lang( lang ) );
-        if( !translations_exists_for_lang( lang ) ) {
+        if( test.must_have_files && !translations_exists_for_lang( lang ) ) {
             WARN( string_format( "Skipped (translation files not found for lang '%s')", lang ) );
             return;
         }
     }
 
-    // Back up current language (should be 'en')
     const static std::string USE_LANG( "USE_LANG" );
-    const static std::string MODULAR( "MODULAR_TRANSLATIONS" );
-    std::string lang_default = get_option<std::string>( USE_LANG );
-    bool modular_default = get_option<bool>( MODULAR );
 
-    const auto test_system = [&]( const std::string modular ) {
-        for( const auto &test : test_cases ) {
-            CAPTURE( modular );
-            CAPTURE( test.first );
+    for( const auto &test : test_cases ) {
+        CAPTURE( test.id );
 
-            get_options().get_option( USE_LANG ).setValue( test.first );
-            get_options().get_option( MODULAR ).setValue( modular );
-            get_options().save();
-            CHECK( get_option<std::string>( USE_LANG ) == test.first );
+        get_options().get_option( USE_LANG ).setValue( test.id );
+        get_options().save();
+        CHECK( get_option<std::string>( USE_LANG ) == test.id );
 
-            set_language();
+        set_language();
 
-            // Should return translated string (or original/same string for English)
-            const char *translated = pgettext( test_msgctx, test_msgid );
-            CHECK( test.second == translated );
-        }
-    };
-
-    // Test GNU libintl
-    test_system( "False" );
-    // Test cata_libintl
-    test_system( "True" );
+        // Should return translated string (or original/same string for English)
+        const char *translated = pgettext( test_msgctx, test_msgid );
+        CHECK( test.str == translated );
+    }
 
     // Restore language
-    get_options().get_option( USE_LANG ).setValue( lang_default );
-    get_options().get_option( MODULAR ).setValue( modular_default ? "True" : "False" );
+    get_options().get_option( USE_LANG ).setValue( "en_US" );
     get_options().save();
     set_language();
 }
-#endif

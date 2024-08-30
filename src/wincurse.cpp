@@ -663,6 +663,19 @@ static uint64_t GetPerfCount()
     return Count;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    lastchar = ERR;
+    previously_pressed_key = 0;
+}
+
 input_event input_manager::get_input_event()
 {
     // standards note: getch is sometimes required to call refresh
@@ -699,17 +712,17 @@ input_event input_manager::get_input_event()
     input_event rval;
     if( lastchar == ERR ) {
         if( input_timeout > 0 ) {
-            rval.type = CATA_INPUT_TIMEOUT;
+            rval.type = input_event_t::timeout;
         } else {
-            rval.type = CATA_INPUT_ERROR;
+            rval.type = input_event_t::error;
         }
     } else {
         // == Unicode DELETE
         if( lastchar == 127 ) {
             previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+            return input_event( KEY_BACKSPACE, input_event_t::keyboard );
         }
-        rval.type = CATA_INPUT_KEYBOARD;
+        rval.type = input_event_t::keyboard;
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point
@@ -725,10 +738,10 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window & )
+std::optional<tripoint> input_context::get_coordinates( const catacurses::window & )
 {
     // TODO: implement this properly
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 // Ends the terminal, destroy everything

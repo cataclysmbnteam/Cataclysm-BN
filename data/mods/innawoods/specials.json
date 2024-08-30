@@ -1,0 +1,932 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "motel-twd",
+    "copy-from": "motel-twd",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Motel",
+    "copy-from": "Motel",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Boat Rental",
+    "copy-from": "Boat Rental",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Riverside Dwelling",
+    "copy-from": "Riverside Dwelling",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "farm_abandoned",
+    "copy-from": "farm_abandoned",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Shipwreck",
+    "copy-from": "Shipwreck",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "office_tower_collapsed",
+    "copy-from": "office_tower_collapsed",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "LMOE Shelter",
+    "copy-from": "LMOE Shelter",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Sewage Treatment Plant",
+    "copy-from": "Sewage Treatment Plant",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Rural Gas Station",
+    "copy-from": "Rural Gas Station",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Gas Station",
+    "copy-from": "Gas Station",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin",
+    "copy-from": "Cabin",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_1",
+    "copy-from": "Cabin_1",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_2",
+    "copy-from": "Cabin_2",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_3",
+    "copy-from": "Cabin_3",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_4",
+    "copy-from": "Cabin_4",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_5",
+    "copy-from": "Cabin_5",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_6",
+    "copy-from": "Cabin_6",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_7",
+    "copy-from": "Cabin_7",
+    "occurrences": [ 0, 1 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Cabin_Lapin",
+    "copy-from": "Cabin_Lapin",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Strange Cabin",
+    "copy-from": "Strange Cabin",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Sugar House",
+    "copy-from": "Sugar House",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Farm_2side",
+    "copy-from": "Farm_2side",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Farm",
+    "copy-from": "Farm",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Farm_stills",
+    "copy-from": "Farm_stills",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "farm_horse",
+    "copy-from": "farm_horse",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "farm_lot_wired_2x3",
+    "copy-from": "farm_lot_wired_2x3",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "farm_lot_empty_3x2",
+    "copy-from": "farm_lot_empty_3x2",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "farm_lot_forest",
+    "copy-from": "farm_lot_forest",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "farm_lot_2x4",
+    "copy-from": "farm_lot_2x4",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "St_Johns_farm",
+    "copy-from": "St_Johns_farm",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Strangle Temple",
+    "copy-from": "Strangle Temple",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Standing stones",
+    "copy-from": "Standing stones",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lab",
+    "copy-from": "Lab",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "FEMA Camp",
+    "copy-from": "FEMA Camp",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "FEMA_camp",
+    "copy-from": "FEMA_camp",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Military Bunker",
+    "copy-from": "Military Bunker",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Military Outpost",
+    "copy-from": "Military Outpost",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Military Outpost 1",
+    "copy-from": "Military Outpost 1",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Missile Silo",
+    "copy-from": "Missile Silo",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Radio Tower",
+    "copy-from": "Radio Tower",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Radio Tower 1",
+    "copy-from": "Radio Tower 1",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wasp Tower",
+    "copy-from": "Wasp Tower",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wasp Tower 1",
+    "copy-from": "Wasp Tower 1",
+    "occurrences": [ 8, 10 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Prison",
+    "copy-from": "Prison",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Alcatraz Prison",
+    "copy-from": "Alcatraz Prison",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Prison Hidden Lab",
+    "copy-from": "Prison Hidden Lab",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter",
+    "copy-from": "Evac Shelter",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter 1",
+    "copy-from": "Evac Shelter 1",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter 2",
+    "copy-from": "Evac Shelter 2",
+    "occurrences": [ 0, 2 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Vandalized",
+    "copy-from": "Evac Shelter Vandalized",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Vandalized 2",
+    "copy-from": "Evac Shelter Vandalized 2",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Evac Shelter Vandalized 3",
+    "copy-from": "Evac Shelter Vandalized 3",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Toxic Waste Dump",
+    "copy-from": "Toxic Waste Dump",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Hazardous Waste Sarcophagus",
+    "copy-from": "Hazardous Waste Sarcophagus",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Necropolis",
+    "copy-from": "Necropolis",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "evac_center",
+    "copy-from": "evac_center",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "bandit_cabin",
+    "copy-from": "bandit_cabin",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "bandit_camp",
+    "copy-from": "bandit_camp",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "sai",
+    "copy-from": "sai",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "power_station_small",
+    "copy-from": "power_station_small",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "power_station_large",
+    "copy-from": "power_station_large",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "warehouse",
+    "copy-from": "warehouse",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ranch_camp",
+    "copy-from": "ranch_camp",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campsite",
+    "copy-from": "campsite",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campsite_cabin_incomplete",
+    "copy-from": "campsite_cabin_incomplete",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campsite_field_biker",
+    "copy-from": "campsite_field_biker",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campsite_a",
+    "copy-from": "campsite_a",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campsite_field_biker_destroyed",
+    "copy-from": "campsite_field_biker_destroyed",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "rest_stop",
+    "copy-from": "rest_stop",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "roadstop_a",
+    "copy-from": "roadstop_a",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "roadstop_b",
+    "copy-from": "roadstop_b",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "pump_station",
+    "copy-from": "pump_station",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "garage_gas",
+    "copy-from": "garage_gas",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "cemetery_religious",
+    "copy-from": "cemetery_religious",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Pond",
+    "copy-from": "Pond",
+    "occurrences": [ 1, 5 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "basin",
+    "copy-from": "basin",
+    "occurrences": [ 1, 5 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "bog",
+    "copy-from": "bog",
+    "occurrences": [ 1, 5 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Swamp Shack",
+    "copy-from": "Swamp Shack",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Swamp Shack 1",
+    "copy-from": "Swamp Shack 1",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Apple Orchard",
+    "copy-from": "Apple Orchard",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Dairy Farm",
+    "copy-from": "Dairy Farm",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "State Park",
+    "copy-from": "State Park",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Fishing Pond",
+    "copy-from": "Fishing Pond",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Derelict Property",
+    "copy-from": "Derelict Property",
+    "occurrences": [ 0, 1 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Hunting Blind",
+    "copy-from": "Hunting Blind",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mansion_Road",
+    "copy-from": "Mansion_Road",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mansion_Road_Alt",
+    "copy-from": "Mansion_Road_Alt",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mansion_Wild",
+    "copy-from": "Mansion_Wild",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mansion_WildAlt",
+    "copy-from": "Mansion_WildAlt",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "junkyard",
+    "copy-from": "junkyard",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "dumpsite",
+    "copy-from": "dumpsite",
+    "occurrences": [ 1, 5 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "nature trail",
+    "copy-from": "nature trail",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "public pond",
+    "copy-from": "public pond",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "cemetery",
+    "copy-from": "cemetery",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "tree farm",
+    "copy-from": "tree farm",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "shooting range",
+    "copy-from": "shooting range",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campground",
+    "copy-from": "campground",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "desolate barn",
+    "copy-from": "desolate barn",
+    "occurrences": [ 0, 1 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "bandit_garage",
+    "copy-from": "bandit_garage",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "golf course",
+    "copy-from": "golf course",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Rest_Area",
+    "copy-from": "Rest_Area",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Movie Theater",
+    "copy-from": "Movie Theater",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Trailer Park",
+    "copy-from": "Trailer Park",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Homeless Camp",
+    "copy-from": "Homeless Camp",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "rural_house",
+    "copy-from": "rural_house",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "rural_house_turn",
+    "copy-from": "rural_house_turn",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "rural_house_yard",
+    "copy-from": "rural_house_yard",
+    "occurrences": [ 0, 3 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Moonshine Still",
+    "copy-from": "Moonshine Still",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Moonshine Still 1",
+    "copy-from": "Moonshine Still 1",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Moonshine Still 2",
+    "copy-from": "Moonshine Still 2",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Railroad Station",
+    "copy-from": "Railroad Station",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "2fMotel",
+    "copy-from": "2fMotel",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "hub_01",
+    "copy-from": "hub_01",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "4x4_microlab",
+    "copy-from": "4x4_microlab",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "4x4_microlab_surface",
+    "copy-from": "4x4_microlab_surface",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "4x4_microlab_vent_shaft",
+    "copy-from": "4x4_microlab_vent_shaft",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "double_microlab",
+    "copy-from": "double_microlab",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "lab_subway_vent_shaft",
+    "copy-from": "lab_subway_vent_shaft",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ws_survivor_bunker_place",
+    "copy-from": "ws_survivor_bunker_place",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ws_survivor_camp_place",
+    "copy-from": "ws_survivor_camp_place",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ws_fire_lookout_tower",
+    "copy-from": "ws_fire_lookout_tower",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ws_regional_dump",
+    "copy-from": "ws_regional_dump",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "lab_surface_big",
+    "copy-from": "lab_surface_big",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "irradiator",
+    "copy-from": "irradiator",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "regional_airport",
+    "copy-from": "regional_airport",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lumbermill",
+    "copy-from": "Lumbermill",
+    "occurrences": [ 0, 2 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ws_biker_dump",
+    "copy-from": "ws_biker_dump",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "lake_shore_dock_small",
+    "copy-from": "lake_shore_dock_small",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lighthouse Island",
+    "copy-from": "Lighthouse Island",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lake Cabin",
+    "copy-from": "Lake Cabin",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "marina",
+    "copy-from": "marina",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Isherwood Farms",
+    "copy-from": "Isherwood Farms",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "airliner_crashed",
+    "copy-from": "airliner_crashed",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Large Campground",
+    "copy-from": "Large Campground",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "steel mill",
+    "copy-from": "steel mill",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "miniature railway",
+    "copy-from": "miniature railway",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Luna Park",
+    "copy-from": "Luna Park",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "private_resort",
+    "copy-from": "private_resort",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "military helipad",
+    "copy-from": "military helipad",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "mil_base",
+    "copy-from": "mil_base",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "o_airport",
+    "copy-from": "o_airport",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Bastion Fort",
+    "copy-from": "Bastion Fort",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Industrial_Center",
+    "copy-from": "Industrial_Center",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Power_Plant_Small",
+    "copy-from": "Power_Plant_Small",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Freshwater Research Station",
+    "copy-from": "Freshwater Research Station",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Chem Lab",
+    "copy-from": "Occupied Chem Lab",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Scrap Yard",
+    "copy-from": "Occupied Scrap Yard",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Occupied Lumbermill",
+    "copy-from": "Occupied Lumbermill",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "municipal_reactor",
+    "copy-from": "municipal_reactor",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Mine Entrance",
+    "copy-from": "Mine Entrance",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Spiral mine",
+    "copy-from": "Spiral mine",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Amigara mine",
+    "copy-from": "Amigara mine",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wyrms mine",
+    "copy-from": "Wyrms mine",
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "aircraft_carrier",
+    "copy-from": "aircraft_carrier",
+    "occurrences": [ 0, 0 ]
+  }
+]

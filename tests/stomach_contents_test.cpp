@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <memory>
 #include <string>
@@ -10,6 +12,7 @@
 #include "item.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -22,7 +25,6 @@ static void reset_time()
     calendar::turn = calendar::start_of_cataclysm;
     player &p = g->u;
     p.set_stored_kcal( p.max_stored_kcal() );
-    clear_avatar();
 }
 
 static void pass_time( player &p, time_duration amt )
@@ -63,7 +65,7 @@ static void eat_all_nutrients( player &p )
 {
     // Vitamin target: 100% DV -- or 96 vitamin "units" since all vitamins currently decay every 15m.
     // Energy target: 2100 kcal -- debug target will be completely sedentary.
-    item f( "debug_nutrition" );
+    item &f = *item::spawn_temporary( "debug_nutrition" );
     p.eat( f );
 }
 
@@ -71,6 +73,7 @@ static void eat_all_nutrients( player &p )
 // player does not thirst or tire or require vitamins
 TEST_CASE( "starve_test", "[starve][slow]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
@@ -105,6 +108,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 // player does not thirst or tire or require vitamins
 TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
@@ -125,11 +129,15 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     unsigned int day = 0;
 
     do {
-        results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
+        const auto begin = dummy.get_stored_kcal();
+
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
+
+        const auto end = dummy.get_stored_kcal();
+        results.push_back( string_format( "\nday %d: %d -> %d", day, begin, end ) );
         day++;
     } while( dummy.get_stored_kcal() > 0 );
 
@@ -141,6 +149,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 // does eating enough food per day keep you alive
 TEST_CASE( "all_nutrition_starve_test", "[!mayfail][starve][slow]" )
 {
+    clear_all_state();
     // change this bool when editing the test
     const bool print_tests = false;
     player &dummy = g->u;
@@ -182,6 +191,7 @@ TEST_CASE( "all_nutrition_starve_test", "[!mayfail][starve][slow]" )
 
 TEST_CASE( "tape_worm_halves_nutrients" )
 {
+    clear_all_state();
     const efftype_id effect_tapeworm( "tapeworm" );
     const bool print_tests = false;
     player &dummy = g->u;
@@ -201,6 +211,7 @@ TEST_CASE( "tape_worm_halves_nutrients" )
 
 TEST_CASE( "One day of waiting at full calories eats up about bmr of stored calories", "[stomach]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
@@ -212,6 +223,7 @@ TEST_CASE( "One day of waiting at full calories eats up about bmr of stored calo
 
 TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[stomach]" )
 {
+    clear_all_state();
     constexpr time_duration test_time = 1_days;
     player &dummy = g->u;
     reset_time();
@@ -235,12 +247,13 @@ TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[st
 
 TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
     dummy.set_stored_kcal( 100 );
     dummy.set_thirst( 500 );
-    item food( "protein_drink", calendar::start_of_cataclysm, 10 );
+    item &food = *item::spawn_temporary( "protein_drink", calendar::start_of_cataclysm, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal == 100 );
     int attempts = 10;
     do {
@@ -251,11 +264,12 @@ TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
 
 TEST_CASE( "Eating above max kcal causes bloating", "[stomach]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     reset_time();
     clear_stomach( dummy );
     dummy.set_stored_kcal( dummy.max_stored_kcal() - 10 );
-    item food( "protein_drink", calendar::start_of_cataclysm, 10 );
+    item &food = *item::spawn_temporary( "protein_drink", calendar::start_of_cataclysm, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal > 0 );
     WHEN( "Character consumes calories above max" ) {
         dummy.eat( food, true );

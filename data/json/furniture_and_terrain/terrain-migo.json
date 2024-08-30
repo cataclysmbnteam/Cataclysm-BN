@@ -16,7 +16,8 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ],
+      "ranged": { "reduction": [ 125, 250 ], "destroy_threshold": 700 }
     }
   },
   {
@@ -27,7 +28,7 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
-    "coverage": 100,
+    "coverage": 60,
     "roof": "t_resin_roof",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
     "bash": {
@@ -36,7 +37,8 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_floor_resin",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ],
+      "ranged": { "reduction": [ 35, 70 ], "destroy_threshold": 300, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -46,7 +48,7 @@
     "description": "This nearly opaque, plastic-like floor has a gentle curve from wall to wall, but in the central areas is quite flat.  The material is hard, warm to the touch, and slightly damp.",
     "symbol": "~",
     "color": "dark_gray",
-    "move_cost": 1,
+    "move_cost": 2,
     "roof": "t_resin_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NONFLAMMABLE" ],
     "bash": {
@@ -66,7 +68,7 @@
     "symbol": "~",
     "color": "light_gray",
     "looks_like": "t_floor_resin",
-    "move_cost": 1,
+    "move_cost": 2,
     "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE" ],
     "bash": {
       "str_min": 250,
@@ -108,7 +110,8 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ],
+      "ranged": { "reduction": [ 45, 90 ], "destroy_threshold": 120 }
     }
   },
   {

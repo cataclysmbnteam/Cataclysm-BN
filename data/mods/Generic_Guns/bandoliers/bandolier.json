@@ -16,7 +16,7 @@
     "copy-from": "bandolier_rifle",
     "type": "ARMOR",
     "name": { "str": "rifle bandolier" },
-    "use_action": { "type": "bandolier", "capacity": 16, "ammo": [ "ammo_rifle", "ammo_rifle_huge" ], "draw_cost": 20 }
+    "use_action": { "type": "bandolier", "capacity": 16, "ammo": [ "ammo_rifle", "ammo_sniper", "ammo_rifle_huge" ], "draw_cost": 20 }
   },
   {
     "id": "bandolier_shotgun",
@@ -37,14 +37,14 @@
     "copy-from": "flintlock_pouch",
     "type": "ARMOR",
     "name": { "str": "paper cartridge pouch", "str_pl": "paper cartridge pouches" },
-    "use_action": { "type": "bandolier", "capacity": 14, "ammo": [ "ammo_black_powder", "blunderbuss", "shotcanister" ], "draw_cost": 20 }
+    "use_action": { "type": "bandolier", "capacity": 14, "ammo": [ "ammo_black_powder", "ammo_black_powder_shot" ], "draw_cost": 20 }
   },
   {
     "id": "bandolier_wrist",
     "copy-from": "bandolier_wrist",
     "type": "ARMOR",
     "name": { "str": "wrist bandolier" },
-    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "ammo_pistol_magnum", "ammo_rifle" ], "draw_cost": 20 }
+    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "ammo_pistol_magnum", "ammo_rifle", "ammo_sniper" ], "draw_cost": 20 }
   },
   {
     "id": "grenade_pouch",
@@ -68,13 +68,13 @@
         "ammo_pistol",
         "ammo_pistol_magnum",
         "ammo_rifle",
+        "ammo_sniper",
         "ammo_rifle_huge",
         "ammo_shot",
         "signal_flare",
         "stimpack_ammo",
         "ampoule",
-        "blunderbuss",
-        "shotcanister",
+        "ammo_black_powder_shot",
         "paintball"
       ],
       "draw_cost": 35

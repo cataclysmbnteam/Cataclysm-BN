@@ -44,7 +44,6 @@
 #include "type_id.h"
 #include "units.h"
 
-static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_jetinjector( "jetinjector" );
@@ -315,12 +314,12 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Equipment
     file << _( "Weapon:" ) << eol;
-    file << indent << u.weapon.invlet << " - " << u.weapon.tname( 1, false ) << eol;
+    file << indent << u.primary_weapon().invlet << " - " << u.primary_weapon().tname( 1, false ) << eol;
     file << eol;
 
     file << _( "Equipment:" ) << eol;
-    for( const item &elem : u.worn ) {
-        item next_item = elem;
+    for( const item * const &elem : u.worn ) {
+        const item &next_item = *elem;
         file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             file << " (" << next_item.charges << ")";
@@ -333,10 +332,10 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Inventory
     file << _( "Inventory:" ) << eol;
-    u.inv.restack( u );
-    invslice slice = u.inv.slice();
-    for( const std::list<item> *elem : slice ) {
-        const item &next_item = elem->front();
+    u.inv_restack( );
+    const_invslice slice = u.inv_const_slice();
+    for( const std::vector<item *> *elem : slice ) {
+        const item &next_item = *elem->front();
         file << indent << next_item.invlet << " - " <<
              next_item.tname( static_cast<unsigned>( elem->size() ), false );
         if( elem->size() > 1 ) {
@@ -656,7 +655,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::crosses_mutation_threshold: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                std::string category_id =
+                mutation_category_id category_id =
                     e.get<cata_variant_type::mutation_category_id>( "category" );
                 const mutation_category_trait &category =
                     mutation_category_trait::get_category( category_id );
@@ -712,9 +711,6 @@ void memorial_logger::notify( const cata::event &e )
                 } else if( effect == effect_jetinjector ) {
                     add( pgettext( "memorial_male", "Died of a healing stimulant overdose." ),
                          pgettext( "memorial_female", "Died of a healing stimulant overdose." ) );
-                } else if( effect == effect_adrenaline ) {
-                    add( pgettext( "memorial_male", "Died of adrenaline overdose." ),
-                         pgettext( "memorial_female", "Died of adrenaline overdose." ) );
                 } else if( effect == effect_drunk ) {
                     add( pgettext( "memorial_male", "Died of an alcohol overdose." ),
                          pgettext( "memorial_female", "Died of an alcohol overdose." ) );

@@ -1,6 +1,11 @@
 [
   {
     "type": "snippet",
+    "category": "<number>",
+    "text": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
+  },
+  {
+    "type": "snippet",
     "category": "necropolis_intro",
     "text": [
       {
@@ -18,6 +23,30 @@
       {
         "id": "necropolis_intro_4",
         "text": "WANT TO CONTINUE YOUR EDUCATION?  Our educational facilities are top notch and offer courses for individuals at all age groups.  Many new careers are opening up to those who are willing to learn a new craft.  Our library and research labs will keep even the hungriest minds fed!"
+      },
+      {
+        "id": "necropolis_intro_5",
+        "text": "BUILDING THE FUTURE!  Our civilian contractors and engineering department are working tirelessly to improve the safety and comfort of this facility.  If you have any questions or would like to join our team, please see command and control on level 1."
+      },
+      {
+        "id": "necropolis_intro_6",
+        "text": "PARDON OUR DUST!  We are working around the clock to bring the future to you.  Do note that housing facilities and amenities on levels 2 and 3, as well as surface amenities, are still under construction.  You can help, if you're interested in joining our growing family of civilian contractors, please visit the engineering office on level 3."
+      },
+      {
+        "id": "necropolis_intro_7",
+        "text": "WANTING TO STRETCH YOUR LEGS?  Recreational facilities on the surface are expanding to accommodate growing demand.  Contact control on level 1 if you would have any questions or concerns about your personnel rotation schedule.  Notice: surface activities may be subject to civil defense drills and alerts."
+      },
+      {
+        "id": "necropolis_intro_8",
+        "text": "WE WANT YOU!  If you're looking to serve your country and help keep our home safe in these uncertain times, speak with your employment adviser.  In addition to recruitment offices for on-site personnel, we are always hiring new contractors to assist with construction and maintenance."
+      },
+      {
+        "id": "necropolis_intro_9",
+        "text": "CLEAN AND EFFICIENT!  When our facility is complete, it will be completely self-sustaining no matter what may come.  Our new reactor complex on level 3 will provide continuous, uninterrupted power even in the event of EMP from nuclear attack.  Until and unless such an event occurs, our growing planned community topside will provide regular exchange of personnel and materiel."
+      },
+      {
+        "id": "necropolis_intro_10",
+        "text": "KEEPING IN TOUCH?  Every level of the primary facility, and every building on our surface community, is provided with free and unlimited wifi access to all guests, contractors, and personnel.  And with the latest mil-net developments, communication with the world around us will remain uninterrupted on our end.  If you have family you wish to visit, or would like to make arrangements for them to join our family with you, please contact staff at the visitor center on level 1."
       }
     ]
   },
@@ -191,6 +220,23 @@
         "id": "death_note_1",
         "text": "This is General Baker.  Today I received a top-secret letter with new orders from high command.  These orders described a new set of coordinates for our ICBM.  My men deciphered it, and it became crystal-clear that coordinates are pointing to a certain place inside our country.  I requested re-confirmation, and after a short while I received it with the same coordinates, so it wasn't an weird error as I originally thought.  I don't know what's on the minds of these guys in the government, but I'm not gonna bomb innocent people of my country.  We're just one step away from starting a war, so failure to comply with an order will obviously result in a execution.  And it's just a matter of time when they come for me.  So actually I'm already a dead man.  Whomever may find this.  Please tell my wife Jane I love her and Michael Jr.  And tell her I'm sorry.  General Michael Baker"
       }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "nether_attention_watching",
+    "text": [
+      "You feel the weight of your actions on your shoulders.",
+      "Everything just feels so futile for some reason…",
+      "For a brief moment, everything just feels WRONG.",
+      "You are being watched by someone.  No, some THING…",
+      "The whole world seems like just a speck of dust drifting in an infinite void.",
+      "There's a whole world inside your head, and they want in.",
+      "You feel empty inside.  But that emptiness seems more alive and wondrous than anything that lives.",
+      "The infinite nothingness out there is inviting you in.  You can hear it inside you.",
+      "Your brain feels like it's squirming inside your skull, like something's straining to get out.",
+      "The air seems to shift, like something massive just reacted to your presence.",
+      "Insect.  That's what it feels like, like a bug under the magnifying glass of something out there."
     ]
   }
 ]

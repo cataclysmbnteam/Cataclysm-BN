@@ -2,6 +2,7 @@
 
 #include <array>
 #include <memory>
+#include <optional>
 
 #include "avatar.h"
 #include "avatar_action.h"
@@ -20,7 +21,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -96,7 +96,7 @@ void timed_event::actualize()
         case TIMED_EVENT_AMIGARA: {
             g->events().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
-            cata::optional<tripoint> fault_point;
+            std::optional<tripoint> fault_point;
             bool horizontal = false;
             for( const tripoint &p : g->m.points_on_zlevel() ) {
                 if( g->m.ter( p ) == t_fault ) {
@@ -283,7 +283,7 @@ void timed_event::per_turn()
                 }
             }
 
-            if( calendar::once_every( time_duration::from_seconds( 10 ) ) && faults ) {
+            if( calendar::once_every( 10_seconds ) && faults ) {
                 add_msg( m_info, "You hear someone whispering \"%s\"",
                          SNIPPET.random_from_category( "amigara_whispers" ).value_or( translation() ) );
             }

@@ -1,0 +1,68 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/External_Tileset_DP_Normal.png",
+        "tiles": [
+          { "id": "f_steam_turbine", "fg": 0 },
+          { "id": "animation_bullet_normal_0deg", "fg": 1, "rotates": true },
+          { "id": "animation_bullet_normal_45deg", "fg": 2, "rotates": true },
+          { "id": "shield_wooden", "fg": 3 },
+          { "id": [ "overlay_worn_shield_wooden", "overlay_wielded_shield_wooden" ], "fg": 4 },
+          { "id": "shield_wooden_large", "fg": 5 },
+          { "id": [ "overlay_worn_shield_wooden_large", "overlay_wielded_shield_wooden_large" ], "fg": 6 },
+          { "id": "shield_riot", "fg": 7 },
+          { "id": [ "overlay_worn_shield_riot", "overlay_wielded_shield_riot" ], "fg": 8 },
+          { "id": "shield_ballistic", "fg": 9 },
+          { "id": [ "overlay_worn_shield_ballistic", "overlay_worn_shield_ballistic" ], "fg": 10 },
+          { "id": "sling_bullet", "fg": 11 },
+          { "id": "shield_leather", "fg": 12 },
+          { "id": [ "overlay_worn_shield_leather", "overlay_wielded_shield_leather" ], "fg": 13 },
+          { "id": "shield_banded", "fg": 14 },
+          { "id": [ "overlay_worn_shield_banded", "overlay_wielded_shield_banded" ], "fg": 15 },
+          { "id": "shield_leather_large", "fg": 16 },
+          { "id": [ "overlay_worn_shield_leather_large", "overlay_wielded_shield_leather_large" ], "fg": 17 },
+          { "id": "shield_banded_large", "fg": 18 },
+          { "id": [ "overlay_worn_shield_banded_large", "overlay_wielded_shield_banded_large" ], "fg": 19 },
+          { "id": "t_shrub_blueberry_season_spring", "fg": 20 },
+          { "id": "t_shrub_blueberry_season_summer", "fg": 21 },
+          { "id": "t_shrub_strawberry_season_spring", "fg": 22 },
+          { "id": "t_shrub_strawberry_season_summer", "fg": 23 },
+          { "id": "overlay_worn_woodgreatbow", "fg": 24 },
+          { "id": "compgreatbow", "fg": 25 },
+          { "id": "overlay_wielded_compgreatbow", "fg": 26 },
+          { "id": "overlay_worn_compgreatbow", "fg": 27 },
+          { "id": "katar", "fg": 28 },
+          { "id": "overlay_wielded_katar", "fg": 29 },
+          { "id": "sai_weapon", "fg": 30 },
+          { "id": "overlay_wielded_sai_weapon", "fg": 31 },
+          {
+            "id": "mon_feral_human_chainsaw",
+            "fg": [ { "weight": 10, "sprite": 32 }, { "weight": 10, "sprite": 33 }, { "weight": 10, "sprite": 34 } ],
+            "animated": false
+          },
+          { "id": "corpse_mon_feral_human_chainsaw", "fg": 35 },
+          { "id": "shield_welded", "fg": 36 },
+          { "id": [ "overlay_worn_shield_welded", "overlay_wielded_shield_welded" ], "fg": 37 },
+          { "id": "shield_buckler", "fg": 38 },
+          { "id": [ "overlay_worn_shield_buckler", "overlay_wielded_shield_buckler" ], "fg": 39 },
+          { "id": "mask_cavalry_iron", "fg": 40 },
+          { "id": "overlay_worn_mask_cavalry_iron", "fg": 41 },
+          { "id": "mask_cavalry_bronze", "fg": 42 },
+          { "id": "overlay_worn_mask_cavalry_bronze", "fg": 43 },
+          { "id": "armguard_bronze", "fg": 44 },
+          { "id": "overlay_worn_armguard_bronze", "fg": 45 },
+          { "id": "cacao_pod", "fg": 46 },
+          { "id": "overlay_wielded_cacao_pod", "fg": 46 },
+          { "id": "f_sign", "fg": 47 },
+          { "id": "tr_can_alarm", "fg": 48 },
+          { "id": "mon_mothman", "fg": 49 }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]

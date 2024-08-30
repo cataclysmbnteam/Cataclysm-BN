@@ -2,12 +2,12 @@
   {
     "type": "MOD_INFO",
     "id": "Graphical_Overmap_More_Locations",
-    "name": "Graphical Overmap More Locations",
+    "name": "Larwick's Overmap More Locations",
     "authors": [ "Kilvoctu" ],
     "maintainers": [ "Kilvoctu" ],
-    "description": "More Locations mod support for Graphical Overmap.",
+    "description": "More Locations mod support for Larwick's Overmap.",
     "category": "graphical",
-    "dependencies": [ "dda", "Graphical_Overmap", "more_locations" ],
+    "dependencies": [ "bn", "Graphical_Overmap", "more_locations" ],
     "obsolete": true
   }
 ]

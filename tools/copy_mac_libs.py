@@ -22,25 +22,25 @@ def rewrite_identity(object):
     shutil.chown(object, os.getuid())
     st = os.stat(object)
     os.chmod(object, st.st_mode | stat.S_IWUSR)
-    id = "@executable_path/{}".format(os.path.basename(object))
+    id = f"@executable_path/{os.path.basename(object)}"
     ret = subprocess.run(["install_name_tool", "-id", id, object])
     if ret.returncode != 0:
         print("Error:", ret.stderr.decode('utf-8'))
     os.chmod(object, (st.st_mode | stat.S_IWUSR) ^ stat.S_IWUSR)
-    print("Rewritten identity of {}".format(object))
+    print(f"Rewritten identity of {object}")
 
 
 def rewrite_dependency(object, dependency):
     shutil.chown(object, os.getuid())
     st = os.stat(object)
     os.chmod(object, st.st_mode | stat.S_IWUSR)
-    dest = "@executable_path/{}".format(os.path.basename(dependency))
+    dest = f"@executable_path/{os.path.basename(dependency)}"
     ret = subprocess.run(["install_name_tool", "-change", dependency,
                           dest, object])
     if ret.returncode != 0:
         print("Error:", ret.stderr.decode('utf-8'))
     os.chmod(object, (st.st_mode | stat.S_IWUSR) ^ stat.S_IWUSR)
-    print("Rewritten reference from {} to {}".format(dependency, dest))
+    print(f"Rewritten reference from {dependency} to {dest}")
 
 
 def copy_and_rewrite(file):
@@ -48,6 +48,8 @@ def copy_and_rewrite(file):
     global executable_dir
     if not os.path.isfile(file):
         # raise Exception("{} is not a file.".format(executable))
+        return []
+    if os.path.exists(executable_dir + "/" + os.path.basename(file)):
         return []
     otool_ret = subprocess.run(["otool", "-L", file], capture_output=True)
     if otool_ret.returncode != 0:
@@ -64,7 +66,7 @@ def copy_and_rewrite(file):
     copied_file = file
     if file != executable:
         copied_file = shutil.copy2(file, executable_dir)
-        print("Copied {} to {}".format(file, copied_file))
+        print(f"Copied {file} to {copied_file}")
     for dependency in dependencies:
         if dependency == file:
             rewrite_identity(copied_file)

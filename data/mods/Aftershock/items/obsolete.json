@@ -10,7 +10,7 @@
     "location": "center",
     "durability": 400,
     "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
-    "size": 6000,
+    "size": "1500 L",
     "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
   },
@@ -28,7 +28,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Precision Solderers CBM" },
     "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
-    "price": 20000,
+    "price": "200 USD",
     "difficulty": 3
   },
   {
@@ -45,7 +45,7 @@
     "volume": "100 L",
     "bashing": 2,
     "category": "veh_parts",
-    "price": 50000
+    "price": "500 USD"
   },
   {
     "id": "afs_dough",
@@ -58,7 +58,7 @@
     "calories": 86,
     "quench": -5,
     "description": "Flour mixed with water, kneaded into a gooey paste.  This dough can be used to bake bread more efficiently than with just flour.",
-    "price": 100,
+    "price": "1 USD",
     "volume": "500 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
@@ -74,8 +74,8 @@
     "color": "yellow",
     "weight": "3501 g",
     "volume": "2500 ml",
-    "price": 100000000,
-    "price_postapoc": 50000,
+    "price": "1000 kUSD",
+    "price_postapoc": "500 USD",
     "material": [ "superalloy", "kevlar" ],
     "covers": [ "torso", "arms", "hands", "legs", "feet" ],
     "coverage": 100,
@@ -106,8 +106,8 @@
     "color": "yellow",
     "weight": "581 g",
     "volume": "2 L",
-    "price": 10000000,
-    "price_postapoc": 5000,
+    "price": "100 kUSD",
+    "price_postapoc": "50 USD",
     "material": [ "superalloy", "plastic" ],
     "covers": [ "head", "eyes", "mouth" ],
     "coverage": 100,
@@ -142,7 +142,7 @@
         ]
       ]
     ],
-    "magazine_well": 1
+    "magazine_well": "250 ml"
   },
   {
     "id": "afs_hev_helmet_on",
@@ -163,7 +163,7 @@
     "description": "This is a makeshift quiver made from a thigh-high boot with the heel removed and patched shut, and strings used as a strap run through a hole punched into its side.  It can hold 40 arrows or bolts for easy access.",
     "weight": "770 g",
     "volume": "2 L",
-    "price": 500,
+    "price": "5 USD",
     "bashing": 4,
     "material": [ "leather" ],
     "symbol": "[",
@@ -177,60 +177,10 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "id": "afs_quilt",
-    "type": "ARMOR",
-    "name": "quilt",
-    "description": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
-    "weight": "1814 g",
-    "volume": "5 L",
-    "price": 5500,
-    "to_hit": -1,
-    "material": [ "wool" ],
-    "symbol": "[",
-    "color": "white",
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "coverage": 100,
-    "encumbrance": 40,
-    "warmth": 100,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
-    "looks_like": "down_blanket"
-  },
-  {
-    "id": "afs_quilt_patchwork",
-    "type": "ARMOR",
-    "copy-from": "afs_quilt",
-    "name": "patchwork quilt",
-    "description": "A huge, patchwork wool quilt.  Very, very warm.",
-    "encumbrance": 50,
-    "warmth": 90
-  },
-  {
     "id": "afs_survivor_belt",
-    "copy-from": "survivor_belt",
-    "type": "ARMOR",
-    "name": { "str": "survivor utility belt (holster)", "str_pl": "survivor utility belts (holster)" },
-    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a clip for holding various equipment.  Durable and carefully crafted to be comfortable to wear.  Activate to clip something to it.",
-    "use_action": [
-      {
-        "type": "holster",
-        "holster_prompt": "Attach what to belt loop?",
-        "holster_msg": "You clip your %s to your %s",
-        "max_volume": "1500 ml",
-        "max_weight": 2000,
-        "draw_cost": 50,
-        "flags": [ "BELT_CLIP" ]
-      },
-      "CROWBAR",
-      "HAMMER"
-    ]
-  },
-  {
-    "id": "survivor_belt",
-    "copy-from": "survivor_belt",
-    "type": "ARMOR",
-    "name": { "str": "survivor utility belt (sheath)", "str_pl": "survivor utility belts (sheath)" }
+    "type": "MIGRATION",
+    "replace": "survivor_belt_notools",
+    "contents": [ "screwdriver_set", "wrench", "saw", "hacksaw", "hammer" ]
   },
   {
     "id": "afs_brigandine",
@@ -239,7 +189,7 @@
     "description": "A piece of body armor from the Middle Ages consisting of boiled leather with riveted metal plates lying underneath.  Typically used to protect from arrows, it has very good protection against cuts.",
     "weight": "3268 g",
     "volume": "1500 ml",
-    "price": 5000,
+    "price": "50 USD",
     "to_hit": -3,
     "material": [ "leather", "steel" ],
     "symbol": "[",
@@ -260,7 +210,7 @@
     "description": "A Modular Bullet Resistant Vest.  Titanium scraps have been inserted to improve its protection.  It has four pouches capable of carrying magazines.",
     "weight": "3108 g",
     "volume": "6 L",
-    "price": 110000,
+    "price": "1100 USD",
     "to_hit": -3,
     "bashing": 6,
     "material": [ "kevlar", "titanium" ],
@@ -313,7 +263,7 @@
     "description": "Modeled after a proper brigandine from medieval times, this makeshift piece of body armor consists of layered cloth with small pieces of sheet metal affixed to the underside.  While not as protective as a proper piece of armor, it'll still keep you relatively safe.",
     "weight": "3268 g",
     "volume": "1500 ml",
-    "price": 1000,
+    "price": "10 USD",
     "to_hit": -3,
     "material": [ "cotton", "steel" ],
     "symbol": "[",
@@ -325,5 +275,40 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "OUTER", "VARSIZE" ]
+  },
+  {
+    "id": "afs_rebar_rifle",
+    "type": "GUN",
+    "copy-from": "rifle_magnetic",
+    "reload_noise_volume": 10,
+    "name": { "str": "makeshift rail rifle" },
+    "description": "A single-shot, break-action, electrically propelled, steel rail launcher handcrafted from scrap.  The hypervelocity metal stake that it fires is accelerated to the point of spontaneous combustion by a Lorentz force generated by electromagnetic induction, powered by a standard UPS.",
+    "weight": "4213 g",
+    "volume": "2500 ml",
+    "price": "5500 USD",
+    "price_postapoc": "500 USD",
+    "to_hit": -3,
+    "bashing": 10,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": [ "metal_rail" ],
+    "ranged_damage": { "damage_type": "stab", "amount": 20 },
+    "skill": "rifle",
+    "dispersion": 90,
+    "durability": 6,
+    "ups_charges": 40,
+    "clip_size": 1,
+    "reload": 1200,
+    "valid_mod_locations": [
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "sights", 1 ],
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "ammo_effects": [ "TRAIL" ]
   }
 ]

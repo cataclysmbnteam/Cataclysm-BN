@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -12,7 +14,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "game.h"
 #include "item.h"
@@ -22,12 +23,14 @@
 #include "map_helpers.h"
 #include "point.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "string_formatter.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -224,18 +227,18 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     CHECK( veh.safe_velocity() > 0 );
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles_left > 0 ) {
         cycles_left--;
-        g->m.vehmove();
+        here.vehmove();
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
         for( const tripoint &pos : veh.get_points() ) {
-            REQUIRE( g->m.ter( pos ) );
+            REQUIRE( here.ter( pos ) );
         }
         // How much it moved
         tiles_travelled += square_dist( starting_point, veh.global_pos3() );
         // Bring it back to starting point to prevent it from leaving the map
         const tripoint displacement = starting_point - veh.global_pos3();
-        g->m.displace_vehicle( veh, displacement );
+        here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;
         }
@@ -259,6 +262,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     const float fuel_percentage_used = fuel_level * ( starting_fuel_per - fuel_left );
     int adjusted_tiles_travelled = tiles_travelled / fuel_percentage_used;
     if( target_distance >= 0 ) {
+        INFO( veh.name );
         CHECK( adjusted_tiles_travelled >= min_dist );
         CHECK( adjusted_tiles_travelled <= max_dist );
     }
@@ -401,6 +405,7 @@ std::vector<std::string> vehs_to_test = {{
  **/
 TEST_CASE( "vehicle_find_efficiency", "[.]" )
 {
+    clear_all_state();
     for( const std::string &veh : vehs_to_test ) {
         find_efficiency( veh );
     }
@@ -409,6 +414,7 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" )
 /** This is even less of a test. It generates C++ lines for the actual test below */
 TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 {
+    clear_all_state();
     const float acceptable = 1.25;
     std::map<std::string, int> forward_distance;
     for( const std::string &veh : vehs_to_test ) {
@@ -428,42 +434,43 @@ TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 815669, 431300, 338700, 95610, 68060 );
-    test_vehicle( "car", 1120618, 617500, 386100, 52730, 25170 );
-    test_vehicle( "car_sports", 1154214, 352600, 267600, 36790, 22350 );
-    test_vehicle( "electric_car", 1126087, 132700, 72290, 8160, 3390 );
-    test_vehicle( "suv", 1320286, 1163000, 630000, 85540, 30810 );
-    test_vehicle( "motorcycle", 163085, 120300, 99920, 63320, 50810 );
+    clear_all_state();
+    test_vehicle( "beetle", 818837, 431300, 338700, 95610, 68060 );
+    test_vehicle( "car", 1124954, 617500, 386100, 52730, 25170 );
+    test_vehicle( "car_sports", 1157382, 352600, 267600, 36790, 22350 );
+    test_vehicle( "electric_car", 878423, 183880, 127125, 13410, 8705 );
+    test_vehicle( "suv", 1324622, 1163000, 614130, 85540, 32000 );
+    test_vehicle( "motorcycle", 163085, 120300, 99930, 63320, 50810 );
     test_vehicle( "quad_bike", 265345, 116100, 116100, 46770, 46770 );
     test_vehicle( "scooter", 57587, 233500, 233500, 167900, 167900 );
-    test_vehicle( "superbike", 242085, 109800, 65300, 41780, 24070 );
-    test_vehicle( "ambulance", 1839299, 613400, 504700, 77700, 58290 );
-    test_vehicle( "fire_engine", 2628611, 1885000, 1558000, 334700, 257000 );
-    test_vehicle( "fire_truck", 6314603, 410700, 83850, 19080, 4063 );
-    test_vehicle( "truck_swat", 5959334, 682900, 131700, 29610, 7604 );
-    test_vehicle( "tractor_plow", 723658, 681200, 681200, 132400, 132400 );
-    test_vehicle( "apc", 5801619, 1626000, 1119000, 130800, 85590 );
-    test_vehicle( "humvee", 5503245, 767900, 306900, 25620, 9171 );
-    test_vehicle( "road_roller", 8829220, 602500, 147100, 22760, 6925 );
-    test_vehicle( "golf_cart", 444630, 37080, 27460, 14080, 5671 );
+    test_vehicle( "superbike", 244085, 109800, 65300, 41780, 24070 );
+    test_vehicle( "ambulance", 1842467, 613400, 504700, 77700, 58290 );
+    test_vehicle( "fire_engine", 2257115, 1938615, 1819475, 394660, 363895 );
+    test_vehicle( "fire_truck", 6319523, 410700, 83850, 19080, 4063 );
+    test_vehicle( "truck_swat", 5966006, 682900, 131700, 29610, 7604 );
+    test_vehicle( "tractor_plow", 725658, 681200, 681200, 132400, 132400 );
+    test_vehicle( "apc", 5805459, 2103310, 2124343, 110600, 110657 );
+    test_vehicle( "humvee", 5506381, 767900, 564679, 25620, 18343 );
+    test_vehicle( "road_roller", 8831804, 602500, 147100, 22760, 6925 );
+    test_vehicle( "golf_cart", 319630, 49585, 47185, 22700, 12745 );
 
     // in reverse
-    test_vehicle( "beetle", 815669, 58970, 58870, 44560, 43060, 0, 0, true );
-    test_vehicle( "car", 1120618, 76060, 76060, 44230, 24870, 0, 0, true );
-    test_vehicle( "car_sports", 1154214, 353200, 268000, 35200, 19540, 0, 0, true );
-    test_vehicle( "electric_car", 1126087, 133100, 72520, 8140, 3390, 0, 0, true );
-    test_vehicle( "suv", 1320286, 112000, 111800, 66880, 31670, 0, 0, true );
+    test_vehicle( "beetle", 818837, 58970, 58870, 44560, 43060, 0, 0, true );
+    test_vehicle( "car", 1124954, 76060, 76060, 44230, 24870, 0, 0, true );
+    test_vehicle( "car_sports", 1157382, 353200, 268000, 35200, 19540, 0, 0, true );
+    test_vehicle( "electric_car", 878423, 133100, 72520, 8140, 3390, 0, 0, true );
+    test_vehicle( "suv", 1324622, 112000, 111800, 66880, 31670, 0, 0, true );
     test_vehicle( "motorcycle", 163085, 19980, 19030, 15490, 14890, 0, 0, true );
     test_vehicle( "quad_bike", 265345, 19650, 19650, 15440, 15440, 0, 0, true );
     test_vehicle( "scooter", 57587, 62440, 62440, 47990, 47990, 0, 0, true );
-    test_vehicle( "superbike", 242085, 18320, 10570, 13070, 8497, 0, 0, true );
-    test_vehicle( "ambulance", 1839299, 58460, 57780, 42480, 39130, 0, 0, true );
-    test_vehicle( "fire_engine", 2628611, 258000, 257800, 179800, 173300, 0, 0, true );
-    test_vehicle( "fire_truck", 6314603, 58480, 58640, 18600, 4471, 0, 0, true );
-    test_vehicle( "truck_swat", 5959334, 129300, 130100, 29350, 7668, 0, 0, true );
-    test_vehicle( "tractor_plow", 723658, 72240, 72240, 53610, 53610, 0, 0, true );
-    test_vehicle( "apc", 5801619, 381500, 382100, 123600, 82000, 0, 0, true );
-    test_vehicle( "humvee", 5503245, 89940, 89940, 25780, 9086, 0, 0, true );
-    test_vehicle( "road_roller", 8829220, 97490, 97690, 22880, 6606, 0, 0, true );
-    test_vehicle( "golf_cart", 444630, 37140, 11510, 14110, 4440, 0, 0, true );
+    test_vehicle( "superbike", 244085, 18320, 10570, 13070, 8497, 0, 0, true );
+    test_vehicle( "ambulance", 1842467, 58460, 57780, 42480, 39130, 0, 0, true );
+    test_vehicle( "fire_engine", 2257115, 258000, 257800, 179800, 173300, 0, 0, true );
+    test_vehicle( "fire_truck", 6319523, 58480, 58640, 18600, 4471, 0, 0, true );
+    test_vehicle( "truck_swat", 5966006, 129300, 130100, 29350, 7668, 0, 0, true );
+    test_vehicle( "tractor_plow", 725658, 72240, 72240, 53610, 53610, 0, 0, true );
+    test_vehicle( "apc", 5805459, 418700, 419400, 107300, 74330, 0, 0, true );
+    test_vehicle( "humvee", 5506381, 89940, 89940, 25780, 9086, 0, 0, true );
+    test_vehicle( "road_roller", 8831804, 97490, 97690, 22880, 6606, 0, 0, true );
+    test_vehicle( "golf_cart", 319630, 37140, 11510, 14110, 4450, 0, 0, true );
 }

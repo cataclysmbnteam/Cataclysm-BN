@@ -1,44 +1,5 @@
 [
   {
-    "id": "bio_advreactor",
-    "type": "bionic",
-    "name": { "str": "Advanced Microreactor System" },
-    "description": "This stripped down mini-reactor is more efficient and safer than the base model due to integrated radiation cleansers.  There is no way to shut it down once active, but you can toggle additional fuel intake.",
-    "occupied_bodyparts": [ [ "torso", 55 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "included_bionics": [ "bio_plutdump" ],
-    "upgraded_bionic": "bio_reactor"
-  },
-  {
-    "id": "bio_plut_filter",
-    "type": "bionic",
-    "name": { "str": "Plutonium Filter" },
-    "description": "This set of tanks and filters allows you to extract plutonium from radioactive slurry.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 12
-  },
-  {
-    "id": "bio_plutdump",
-    "type": "bionic",
-    "name": { "str": "Plutonium Purger" },
-    "included": true,
-    "description": "Triggers an emergency reactor fuel purge that ejects all fuel from your reactor.",
-    "act_cost": 1
-  },
-  {
-    "id": "bio_reactor",
-    "type": "bionic",
-    "name": { "str": "Microreactor System" },
-    "description": "This stripped down mini-reactor generates impressive amounts of bionic power.  There is no way to shut it down, but you can toggle additional fuel intake.  Irradiates your body when active.",
-    "occupied_bodyparts": [ [ "torso", 55 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "available_upgrades": [ "bio_advreactor" ],
-    "included_bionics": [ "bio_plutdump" ]
-  },
-  {
     "id": "bio_furnace",
     "type": "bionic",
     "name": { "str": "Internal Furnace" },
@@ -230,7 +191,7 @@
     "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
     "weight": "80 g",
     "volume": "250 ml",
-    "price": 0,
+    "price": "0 cent",
     "material": "cotton",
     "symbol": ",",
     "color": "white",
@@ -261,12 +222,12 @@
     "description": "This is an expansion device for use on plutonium-powered equipment.  With enough electronics skill, you could attach this to an atomic tool to double the amount of plutonium it can hold.  Note that this device is incompatible with the atomic battery mod.",
     "weight": "694 g",
     "volume": "750 ml",
-    "price": 10000,
+    "price": "100 USD",
     "material": [ "superalloy", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "acceptable_ammo": [ "plutonium" ],
-    "capacity_multiplier": 2.0
+    "capacity_multiplier": 2
   },
   {
     "result": "double_plutonium_core",
@@ -300,68 +261,151 @@
     "time": 1
   },
   {
-    "type": "recipe",
-    "result": "pneumatic_shotgun",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_launcher",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rebar_rifle",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "heavy_rail_rifle",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "coilgun",
-    "obsolete": true
-  },
-  {
-    "result": "nailrifle",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "result": "nailmag",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_mod",
-    "obsolete": true
-  },
-  {
-    "id": "mounted_mininuke_launcher",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted mininuke launcher" },
-    "item": "mininuke_launcher",
-    "color": "green",
-    "broken_color": "green",
-    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
-    "id": "mounted_coilgun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted coilgun" },
-    "item": "coilgun",
+    "type": "terrain",
+    "id": "t_centrifuge",
+    "name": "broken centrifuge",
+    "description": "This used to be a centrifuge, a liquid separating device with an automated analyzer unit.  If it was still functional, it could have been used to analyze a medical fluid sample.",
+    "symbol": "{",
     "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    "move_cost": 0,
+    "coverage": 30,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 45,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autoclave_full",
+    "name": "broken autoclave",
+    "description": "This thing is basically an extremely high tech laundry machine or dishwasher.  It seems to not do anything useful anymore.",
+    "symbol": "0",
+    "color": "light_blue_white",
+    "move_cost_mod": 3,
+    "coverage": 60,
+    "required_str": 16,
+    "looks_like": "f_washer",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "material",
+    "id": "lycra",
+    "name": "Lycra",
+    "//": "not actually pure Lycra, but poly/nylon and Lycra blend",
+    "density": 2,
+    "specific_heat_liquid": 1.7,
+    "specific_heat_solid": 1.7,
+    "latent_heat": 27,
+    "soft": true,
+    "reinforces": true,
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "bullet_resist": 2,
+    "acid_resist": 9,
+    "fire_resist": 2,
+    "elec_resist": 2,
+    "chip_resist": 6,
+    "repaired_with": "lycra_patch",
+    "salvaged_into": "lycra_patch",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "650 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 3 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "terrain",
+    "//": "Obsoleted in favor of a furniture version.",
+    "id": "t_water_dispenser",
+    "name": "water dispenser",
+    "looks_like": "f_sink",
+    "description": "A machine with several taps that dispenses clean water.",
+    "symbol": "W",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ]
+    },
+    "examine_action": "clean_water_source"
+  },
+  {
+    "type": "trap",
+    "id": "tr_shotgun_2_1",
+    "trigger_weight": "200 g",
+    "name": "half-empty shotgun trap",
+    "color": "red",
+    "symbol": "^",
+    "visibility": 4,
+    "avoidance": 5,
+    "difficulty": 6,
+    "action": "shotgun",
+    "remove_on_trigger": true,
+    "trigger_items": [ "tripwire", "shotgun_d", { "item": "shot_hull", "quantity": 2, "charges": 1 } ],
+    "drops": [ "tripwire", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "vehicle_data": {
+      "chance": 70,
+      "damage": 300,
+      "sound_volume": 60,
+      "sound": "Bang!",
+      "sound_type": "fire_gun",
+      "sound_variant": "shotgun_d",
+      "remove_trap": true,
+      "spawn_items": [ "shotgun_d", "string_6" ]
     }
   }
 ]

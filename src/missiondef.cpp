@@ -236,7 +236,7 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
 
 void mission_type::load( const JsonObject &jo, const std::string &src )
 {
-    const bool strict = src == "dda";
+    const bool strict = is_strict_enabled( src );
 
     mandatory( jo, was_loaded, "name", name );
 
@@ -268,13 +268,13 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "urgent", urgent );
-    optional( jo, was_loaded, "item", item_id );
+    optional( jo, was_loaded, "item", item_id, itype_id::NULL_ID() );
     optional( jo, was_loaded, "item_group", group_id );
     optional( jo, was_loaded, "count", item_count, 1 );
-    optional( jo, was_loaded, "required_container", container_id );
+    optional( jo, was_loaded, "required_container", container_id, itype_id::NULL_ID() );
     optional( jo, was_loaded, "remove_container", remove_container );
     //intended for situations where closed and open container are different
-    optional( jo, was_loaded, "empty_container", empty_container );
+    optional( jo, was_loaded, "empty_container", empty_container, itype_id::NULL_ID() );
     optional( jo, was_loaded, "has_generic_rewards", has_generic_rewards, true );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
@@ -308,20 +308,12 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     assign( jo, "deadline_low", deadline_low, false, 1_days );
     assign( jo, "deadline_high", deadline_high, false, 1_days );
 
-    if( jo.has_member( "followup" ) ) {
-        follow_up = mission_type_id( jo.get_string( "followup" ) );
-    }
+    optional( jo, was_loaded, "followup", follow_up, mission_type_id::NULL_ID() );
+    optional( jo, was_loaded, "monster_species", monster_species );
+    optional( jo, was_loaded, "monster_type", monster_type, mtype_id::NULL_ID() );
+    optional( jo, was_loaded, "monster_kill_goal", monster_kill_goal );
 
-    if( jo.has_member( "monster_species" ) ) {
-        monster_species = species_id( jo.get_string( "monster_species" ) );
-    }
-    if( jo.has_member( "monster_type" ) ) {
-        monster_type = mtype_id( jo.get_string( "monster_type" ) );
-    }
-
-    if( jo.has_member( "monster_kill_goal" ) ) {
-        monster_kill_goal = jo.get_int( "monster_kill_goal" );
-    }
+    optional( jo, was_loaded, "recruit_class", recruit_class, npc_class_id::NULL_ID() );
 
     assign( jo, "destination", target_id, strict );
 
@@ -348,6 +340,13 @@ void mission_type::check_consistency()
     for( const auto &m : get_all() ) {
         if( !m.item_id.is_empty() && !m.item_id.is_valid() ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
+        }
+        // 40 is an arbitrary limit, but it's enough to convey the meaning.
+        // Any extra details and such belong in the 'description' field.
+        if( json_report_strict && m.name.debug_get_raw().length() > 40 ) {
+            debugmsg( "Mission %s has name that exceeds recommended width of 40 characters (\"%s\").  "
+                      "Consider moving the details into 'description' field.",
+                      m.id, m.name.debug_get_raw() );
         }
     }
 }

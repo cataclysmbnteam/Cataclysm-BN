@@ -23,7 +23,9 @@ class map_item_stack
                 item_group( const tripoint &p, int arg_count );
         };
     public:
+        // This should be per-group!
         const item *example; //an example item for showing stats, etc.
+        tripoint example_item_pos;
         std::vector<item_group> vIG;
         int totalcount;
 

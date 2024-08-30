@@ -11,6 +11,7 @@
 #include <utility>
 #include <vector>
 
+#include "catalua_type_operators.h"
 #include "character_id.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -70,6 +71,7 @@ class faction_template
 
     public:
         explicit faction_template( const faction_template & ) = default;
+        faction_template &operator = ( const faction_template & ) = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
@@ -87,7 +89,7 @@ class faction_template
         bool lone_wolf_faction; // is this a faction for just one person?
         itype_id currency; // id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
-        std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
+        mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
         std::set<std::tuple<int, int, snippet_id>> epilogue_data;
 };
 
@@ -103,6 +105,8 @@ class faction : public faction_template
 
         std::string describe() const;
         std::vector<std::string> epilogue() const;
+
+        LUA_TYPE_OPS( faction, id );
 
         std::string food_supply_text();
         nc_color food_supply_color();

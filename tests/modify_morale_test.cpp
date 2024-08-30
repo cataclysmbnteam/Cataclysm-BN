@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <map>
 #include <memory>
 #include <string>
@@ -5,7 +7,7 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
@@ -13,9 +15,6 @@
 #include "morale_types.h"
 #include "point.h"
 #include "type_id.h"
-
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
@@ -48,18 +47,24 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
     std::pair<int, int> fun;
 
     GIVEN( "food with positive fun" ) {
-        item &toastem = dummy.i_add( item( "toastem" ) );
-        fun = dummy.fun_for( toastem );
+        detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
+                                              item::default_charges_tag{} );
+        item &jihelucake = *det;
+        dummy.i_add( std::move( det ) );
+        fun = dummy.fun_for( jihelucake );
         REQUIRE( fun.first > 0 );
 
         THEN( "character gets a morale bonus becase it tastes good" ) {
-            dummy.modify_morale( toastem );
+            dummy.modify_morale( jihelucake );
             CHECK( dummy.get_morale( MORALE_FOOD_GOOD ) >= fun.first );
         }
     }
 
     GIVEN( "food with negative fun" ) {
-        item &garlic = dummy.i_add( item( "garlic" ) );
+        detached_ptr<item> det = item::spawn( "garlic", calendar::start_of_cataclysm,
+                                              item::default_charges_tag{} );
+        item &garlic = *det;
+        dummy.i_add( std::move( det ) );
         fun = dummy.fun_for( garlic );
         REQUIRE( fun.first < 0 );
 
@@ -93,7 +98,7 @@ TEST_CASE( "drugs", "[food][modify_morale][drug]" )
         REQUIRE( dummy.get_morale_level() == 0 );
 
         for( std::string drug_name : drugs_to_test ) {
-            item drug( drug_name );
+            item &drug = *item::spawn_temporary( drug_name );
             std::pair<int, int> fun = dummy.fun_for( drug );
 
             REQUIRE( fun.first > 0 );
@@ -110,7 +115,10 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 {
     avatar dummy;
 
-    item &human = dummy.i_add( item( "bone_human" ) );
+    detached_ptr<item> det = item::spawn( "bone_human", calendar::start_of_cataclysm,
+                                          item::default_charges_tag{} );
+    item &human = *det;
+    dummy.i_add( std::move( det ) );
     REQUIRE( human.has_flag( flag_CANNIBALISM ) );
 
     GIVEN( "character is not a cannibal or sapiovore" ) {
@@ -152,7 +160,10 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
     avatar dummy;
 
     GIVEN( "some sweet junk food" ) {
-        item &necco = dummy.i_add( item( "neccowafers" ) );
+        detached_ptr<item> det = item::spawn( "neccowafers", calendar::start_of_cataclysm,
+                                              item::default_charges_tag{} );
+        item &necco = *det;
+        dummy.i_add( std::move( det ) );
 
         WHEN( "character has a sweet tooth" ) {
             dummy.toggle_trait( trait_PROJUNK );
@@ -203,7 +214,10 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
 {
     avatar dummy;
 
-    item &caff_gum = dummy.i_add( item( "caff_gum" ) );
+    detached_ptr<item> det = item::spawn( "caff_gum", calendar::start_of_cataclysm,
+                                          item::default_charges_tag{} );
+    item &caff_gum = *det;
+    dummy.i_add( std::move( det ) );
 
     // This is a regression test for gum having "junk" material, and being
     // treated as junk food (despite not being ingested). At the time of
@@ -211,11 +225,11 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
     // are treated as junk food, but might not always be so. Here we set the
     // relevant flags to cover the scenario we're interested in, namely any
     // comestible having both "junk" and "no ingest" flags.
-    caff_gum.set_flag( "ALLERGEN_JUNK" );
-    caff_gum.set_flag( "NO_INGEST" );
+    caff_gum.set_flag( flag_ALLERGEN_JUNK );
+    caff_gum.set_flag( flag_NO_INGEST );
 
-    REQUIRE( caff_gum.has_flag( "ALLERGEN_JUNK" ) );
-    REQUIRE( caff_gum.has_flag( "NO_INGEST" ) );
+    REQUIRE( caff_gum.has_flag( flag_ALLERGEN_JUNK ) );
+    REQUIRE( caff_gum.has_flag( flag_NO_INGEST ) );
 
     GIVEN( "character has a sweet tooth" ) {
         dummy.toggle_trait( trait_PROJUNK );
@@ -273,8 +287,11 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_VEGETARIAN ) );
 
         THEN( "they get a morale penalty for eating meat" ) {
-            item &meat = dummy.i_add( item( "meat" ) );
-            REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
+            detached_ptr<item> det = item::spawn( "meat", calendar::start_of_cataclysm,
+                                                  item::default_charges_tag{} );
+            item &meat = *det;
+            dummy.i_add( std::move( det ) );
+            REQUIRE( meat.has_flag( flag_ALLERGEN_MEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( meat );
             CHECK( dummy.get_morale( MORALE_VEGETARIAN ) <= penalty );
@@ -286,8 +303,11 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_LACTOSE ) );
 
         THEN( "they get a morale penalty for drinking milk" ) {
-            item &milk = dummy.i_add( item( "milk" ) );
-            REQUIRE( milk.has_flag( "ALLERGEN_MILK" ) );
+            detached_ptr<item> det = item::spawn( "milk", calendar::start_of_cataclysm,
+                                                  item::default_charges_tag{} );
+            item &milk = *det;
+            dummy.i_add( std::move( det ) );
+            REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();
             dummy.modify_morale( milk );
             CHECK( dummy.get_morale( MORALE_LACTOSE ) <= penalty );
@@ -299,8 +319,11 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_ANTIWHEAT ) );
 
         THEN( "they get a morale penalty for eating wheat" ) {
-            item &wheat = dummy.i_add( item( "wheat" ) );
-            REQUIRE( wheat.has_flag( "ALLERGEN_WHEAT" ) );
+            detached_ptr<item> det = item::spawn( "wheat", calendar::start_of_cataclysm,
+                                                  item::default_charges_tag{} );
+            item &wheat = *det;
+            dummy.i_add( std::move( det ) );
+            REQUIRE( wheat.has_flag( flag_ALLERGEN_WHEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( wheat );
             CHECK( dummy.get_morale( MORALE_ANTIWHEAT ) <= penalty );
@@ -312,8 +335,11 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_MEATARIAN ) );
 
         THEN( "they get a morale penalty for eating vegetables" ) {
-            item &veggy = dummy.i_add( item( "broccoli" ) );
-            REQUIRE( veggy.has_flag( "ALLERGEN_VEGGY" ) );
+            detached_ptr<item> det = item::spawn( "broccoli", calendar::start_of_cataclysm,
+                                                  item::default_charges_tag{} );
+            item &veggy = *det;
+            dummy.i_add( std::move( det ) );
+            REQUIRE( veggy.has_flag( flag_ALLERGEN_VEGGY ) );
             dummy.clear_morale();
             dummy.modify_morale( veggy );
             CHECK( dummy.get_morale( MORALE_MEATARIAN ) <= penalty );
@@ -325,8 +351,11 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_ANTIFRUIT ) );
 
         THEN( "they get a morale penalty for eating fruit" ) {
-            item &fruit = dummy.i_add( item( "apple" ) );
-            REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
+            detached_ptr<item> det = item::spawn( "apple", calendar::start_of_cataclysm,
+                                                  item::default_charges_tag{} );
+            item &fruit = *det;
+            dummy.i_add( std::move( det ) );
+            REQUIRE( fruit.has_flag( flag_ALLERGEN_FRUIT ) );
             dummy.clear_morale();
             dummy.modify_morale( fruit );
             CHECK( dummy.get_morale( MORALE_ANTIFRUIT ) <= penalty );
@@ -338,8 +367,11 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_ANTIJUNK ) );
 
         THEN( "they get a morale penalty for eating junk food" ) {
-            item &junk = dummy.i_add( item( "neccowafers" ) );
-            REQUIRE( junk.has_flag( "ALLERGEN_JUNK" ) );
+            detached_ptr<item> det = item::spawn( "neccowafers", calendar::start_of_cataclysm,
+                                                  item::default_charges_tag{} );
+            item &junk = *det;
+            dummy.i_add( std::move( det ) );
+            REQUIRE( junk.has_flag( flag_ALLERGEN_JUNK ) );
             dummy.clear_morale();
             dummy.modify_morale( junk );
             CHECK( dummy.get_morale( MORALE_ANTIJUNK ) <= penalty );
@@ -357,25 +389,31 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
         REQUIRE( dummy.has_trait( trait_SAPROPHAGE ) );
 
         AND_GIVEN( "some rotten chewable food" ) {
-            item &toastem = dummy.i_add( item( "toastem" ) );
+            detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
+                                                  item::default_charges_tag{} );
+            item &jihelucake = *det;
+            dummy.i_add( std::move( det ) );
             // food rot > 1.0 is rotten
-            toastem.set_relative_rot( 1.5 );
-            REQUIRE( toastem.rotten() );
+            jihelucake.set_relative_rot( 1.5 );
+            REQUIRE( jihelucake.rotten() );
 
             THEN( "they enjoy it" ) {
-                dummy.modify_morale( toastem );
+                dummy.modify_morale( jihelucake );
                 CHECK( dummy.get_morale( MORALE_FOOD_GOOD ) > 10 );
             }
         }
 
         AND_GIVEN( "some fresh chewable food" ) {
-            item &toastem = dummy.i_add( item( "toastem" ) );
+            detached_ptr<item> det = item::spawn( "jihelucake", calendar::start_of_cataclysm,
+                                                  item::default_charges_tag{} );
+            item &jihelucake = *det;
+            dummy.i_add( std::move( det ) );
             // food rot < 0.1 is fresh
-            toastem.set_relative_rot( 0.0 );
-            REQUIRE( toastem.is_fresh() );
+            jihelucake.set_relative_rot( 0.0 );
+            REQUIRE( jihelucake.is_fresh() );
 
             THEN( "they get a morale penalty due to indigestion" ) {
-                dummy.modify_morale( toastem );
+                dummy.modify_morale( jihelucake );
                 CHECK( dummy.get_morale( MORALE_NO_DIGEST ) <= -25 );
             }
         }
@@ -386,7 +424,10 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
 
-    item &honeycomb = dummy.i_add( item( "honeycomb" ) );
+    detached_ptr<item> det = item::spawn( "honeycomb", calendar::start_of_cataclysm,
+                                          item::default_charges_tag{} );
+    item &honeycomb = *det;
+    dummy.i_add( std::move( det ) );
     REQUIRE( honeycomb.has_flag( flag_URSINE_HONEY ) );
 
     GIVEN( "character is post-threshold ursine" ) {
@@ -402,7 +443,7 @@ TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
             dummy.mutate_towards( trait_URSINE_FUR );
             dummy.mutate_towards( trait_URSINE_EYE );
             dummy.mutate_towards( trait_PADDED_FEET );
-            REQUIRE( dummy.mutation_category_level["URSINE"] > 40 );
+            REQUIRE( dummy.mutation_category_level[mutation_category_id( "URSINE" )] > 40 );
 
             THEN( "they get an extra honey morale bonus for eating it" ) {
                 dummy.modify_morale( honeycomb );

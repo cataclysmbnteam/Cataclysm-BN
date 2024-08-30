@@ -35,10 +35,10 @@ class tileray
         bool infinite = false;  // ray is infinite (end will always return true)
     public:
         tileray();
-        tileray( const point &ad );
+        tileray( point ad );
         tileray( units::angle adir );
 
-        void init( const point &ad );   // init ray with ad
+        void init( point ad );   // init ray with ad
         void init( units::angle adir ); // init ray with direction
 
         int dx() const;       // return dx of last advance (-1 to 1)

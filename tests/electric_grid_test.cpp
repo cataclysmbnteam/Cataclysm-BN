@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <vector>
 
 #include "active_tile_data.h"
 #include "active_tile_data_def.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "distribution_grid.h"
 #include "map.h"
@@ -12,8 +13,10 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "submap.h"
+#include "state_helpers.h"
 #include "stringmaker.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 static furn_str_id f_battery( "f_battery" );
 static furn_str_id f_cable_connector( "f_cable_connector" );
@@ -86,13 +89,14 @@ static void connect_grid_vehicle( map &m, vehicle &veh, vehicle_connector_tile &
                                   const tripoint_abs_ms &connector_abs_pos )
 {
     const point cable_part_pos;
-    vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos, item( "jumper_cable" ) );
+    vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos,
+                              item::spawn( "jumper_cable" ), &veh );
     source_part.target.first = connector_abs_pos.raw();
     source_part.target.second = connector_abs_pos.raw();
     source_part.set_flag( vehicle_part::targets_grid );
     connector.connected_vehicles.clear();
     connector.connected_vehicles.emplace_back( m.getabs( veh.global_pos3() ) );
-    int part_index = veh.install_part( cable_part_pos, source_part );
+    int part_index = veh.install_part( cable_part_pos, std::move( source_part ) );
 
     REQUIRE( part_index >= 0 );
 }
@@ -144,7 +148,8 @@ static grid_setup set_up_grid( map &m )
 
 TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     GIVEN( "vehicle and battery are on one grid" ) {
         auto setup = set_up_grid( get_map() );
         test_grid_veh( setup.grid, setup.veh, setup.battery );
@@ -153,7 +158,8 @@ TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle]" )
 
 TEST_CASE( "grid_and_vehicle_outside_bubble", "[grids][vehicle]" )
 {
-    clear_map_and_put_player_underground();
+    clear_all_state();
+    put_player_underground();
     map &m = get_map();
     const tripoint old_abs_sub = m.get_abs_sub();
     // Ugly: we move the real map instead of the tinymap to reuse clear_map() results
@@ -356,8 +362,9 @@ static void test_charge_watcher( grid_setup_watcher &setup )
 
 TEST_CASE( "steady_consumer_in_bubble", "[grids]" )
 {
+    clear_all_state();
     calendar::turn = calendar::turn_zero;
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     GIVEN( "consumer and battery are on one grid" ) {
         grid_setup_consumer setup = set_up_grid_with_consumer<steady_consumer_tile, grid_setup_consumer>
@@ -368,8 +375,9 @@ TEST_CASE( "steady_consumer_in_bubble", "[grids]" )
 
 TEST_CASE( "charge_watcher_in_bubble", "[grids]" )
 {
+    clear_all_state();
     calendar::turn = calendar::turn_zero;
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     GIVEN( "watcher and battery are on one grid" ) {
         grid_setup_watcher setup = set_up_grid_with_consumer<charge_watcher_tile, grid_setup_watcher>
@@ -380,8 +388,9 @@ TEST_CASE( "charge_watcher_in_bubble", "[grids]" )
 
 TEST_CASE( "grid_furn_transform_queue_in_bubble", "[grids]" )
 {
+    clear_all_state();
     calendar::turn = calendar::turn_zero;
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     tripoint pos_local( 22, 7, 0 );
     tripoint_abs_ms pos_abs( get_map().getabs( pos_local ) );
@@ -401,8 +410,9 @@ TEST_CASE( "grid_furn_transform_queue_in_bubble", "[grids]" )
 
 TEST_CASE( "grid_furn_transform_queue_outside_bubble", "[grids]" )
 {
+    clear_all_state();
     calendar::turn = calendar::turn_zero;
-    clear_map_and_put_player_underground();
+    put_player_underground();
 
     tripoint pos_local( 22, 7, 0 );
     tripoint_abs_ms pos_abs( get_map().getabs( pos_local ) );

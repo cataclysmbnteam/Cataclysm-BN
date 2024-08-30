@@ -5,9 +5,6 @@
 #include <string>
 #include <vector>
 
-/** For experimental translations system. */
-extern bool gettext_use_modular;
-
 /**
  * Contains information on a language supported by the game.
  *
@@ -124,7 +121,6 @@ std::vector<std::string> get_lang_path_substring( const std::string &lang_id );
  */
 bool translations_exists_for_lang( const std::string &lang_id );
 
-#if defined(LOCALIZE)
 namespace cata_libintl
 {
 class trans_library;
@@ -139,6 +135,5 @@ void unload_catalogues();
 void load_mod_catalogues();
 void unload_mod_catalogues();
 } // namespace l10n_data
-#endif // LOCALIZE
 
 #endif // CATA_SRC_LANGUAGE_H

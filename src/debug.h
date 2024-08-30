@@ -48,6 +48,7 @@
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
 #include <iostream>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -110,9 +111,12 @@ std::string operating_system();
 /** Return a detailed version of the operating system; e.g. "Ubuntu 18.04" or "(Windows) 10 1809".
  */
 std::string operating_system_version();
-/** Return the "bitness" of the game (not necessarily of the operating system); either: 64-bit, 32-bit or Unknown.
+/** Return the "bitness" of the game (not necessarily of the operating system); either: 64, 32 or nullopt.
  */
-std::string bitness();
+std::optional<int> bitness();
+/** Return the "bitness" string of the game (not necessarily of the operating system); either: 64-bit, 32-bit or Unknown.
+ */
+std::string bitness_string();
 /** Return the game version, as in the entry screen.
  */
 std::string game_version();
@@ -184,6 +188,8 @@ enum class DC : int {
     NPC,
     /** SDL & tiles & anything graphical & sound */
     SDL,
+    /** Output from Lua */
+    Lua,
     /** Unused */
     Num,
 };
@@ -221,6 +227,11 @@ void setDebugLogClasses( const enum_bitset<DC> &mask, bool silent = false );
 bool debug_has_error_been_observed();
 
 /**
+ * Reset any ignored debug messages
+ */
+void debug_reset_ignored_messages();
+
+/**
  * Capturing debug messages during func execution,
  * used to test debugmsg calls in the unit tests
  * @return std::string debugmsg
@@ -232,6 +243,11 @@ std::string capture_debugmsg_during( const std::function<void()> &func );
  * If catacurses::stdscr is available, shows all buffered debugmsg prompts.
  */
 void replay_buffered_debugmsg_prompts();
+
+/**
+ * Retrieves OS bitness (32, 64 or nullopt if detection failed)
+ */
+std::optional<int> get_os_bitness();
 
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------

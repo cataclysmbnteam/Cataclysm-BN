@@ -1,10 +1,11 @@
-﻿#include <algorithm>
+﻿#include "catch/catch.hpp"
+
+#include <algorithm>
 #include <array>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"
@@ -14,21 +15,20 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "string_id.h"
 #include "type_id.h"
 
-// TODO: Fix these tests for z+1 bridges.
-// Cherry-picking from https://github.com/CleverRaven/Cataclysm-DDA/pull/41135 should do the trick.
-
 TEST_CASE( "mx_minefield real spawn", "[.][map_extra][overmap]" )
 {
+    clear_all_state();
     // Pick a point in the middle of the overmap so we don't generate quite so
     // many overmaps when searching.
     const tripoint_abs_omt origin( 90, 90, 0 );
 
     // Find all of the bridges within a 180 OMT radius of this location.
     omt_find_params find_params;
-    find_params.types = {{"bridge", ot_match_type::type}};
+    find_params.types = {{"bridgehead_ground", ot_match_type::type}};
     find_params.search_range = 180;
     const std::vector<tripoint_abs_omt> bridges = overmap_buffer.find_all( origin, find_params );
 
@@ -58,10 +58,12 @@ TEST_CASE( "mx_minefield real spawn", "[.][map_extra][overmap]" )
 
 TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
 {
+    clear_all_state();
     overmap &om = overmap_buffer.get( point_abs_om() );
 
     const oter_id road( "road_ns" );
-    const oter_id bridge( "bridge_north" );
+    const oter_id bridge( "bridge_under_north" );
+    const oter_id bridgehead( "bridgehead_ground_north" );
 
     // The mx_minefield map extra expects to have a particular configuration with
     // three OMTs--a road, then a bridge, then a bridge once again.
@@ -69,7 +71,7 @@ TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )
     // and west of the target point.
     const auto setup_terrain_and_generate = [&]( const tripoint_om_omt & center,
     om_direction::type bridge_direction ) {
-        om.ter_set( center, bridge );
+        om.ter_set( center, bridgehead );
         om.ter_set( center + om_direction::displace( bridge_direction, 1 ), bridge );
         om.ter_set( center + om_direction::displace( om_direction::opposite( bridge_direction ), 1 ),
                     road );

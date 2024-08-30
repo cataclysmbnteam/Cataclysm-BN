@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -14,7 +15,6 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "event_bus.h"
-#include "optional.h"
 #include "point.h"
 #include "sounds.h"
 #include "translations.h"
@@ -42,6 +42,7 @@ enum spell_flag {
     HOSTILE_SUMMON, // summon spell always spawns a hostile monster
     HOSTILE_50, // summoned monster spawns friendly 50% of the time
     SILENT, // spell makes no noise at target
+    NO_EXPLOSION_VFX, // spell has no visual explosion
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
@@ -95,7 +96,7 @@ struct fake_spell {
     spell_id id;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
-    cata::optional<int> max_level;
+    std::optional<int> max_level;
     // level for things that need it
     int level = 0;
     // target tripoint is source (true) or target (false)
@@ -109,7 +110,7 @@ struct fake_spell {
 
     fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
-                const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+                const std::optional<int> &max_level = std::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
     // gets the spell with an additional override for minimum level (default 0)
@@ -148,6 +149,9 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+
+        requirement_id spell_components;
+
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
         bool sound_ambient = false;
         std::string sound_id;
@@ -161,7 +165,7 @@ class spell_type
         std::vector<fake_spell> additional_spells;
 
         // if the spell has a field name defined, this is where it is
-        cata::optional<field_type_id> field;
+        std::optional<field_type_id> field;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
         int field_chance = 0;
         // field intensity at spell level 0
@@ -355,9 +359,11 @@ class spell
         std::string colorized_fail_percent( const Character &guy ) const;
         // how long does it take to cast the spell
         int casting_time( const Character &guy ) const;
-
+        // the requirement data for spell components. includes tools, items, and qualities.
+        const requirement_data &components() const;
+        bool has_components() const;
         // can the Character cast this spell?
-        bool can_cast( const Character &guy ) const;
+        bool can_cast( Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // is this spell valid
@@ -428,7 +434,8 @@ class spell
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
-
+        // uses up the components in @you's inventory
+        void use_components( player &you ) const;
         // checks if a target point is in spell range
         bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
@@ -439,7 +446,7 @@ class spell
         bool target_by_monster_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
-        cata::optional<tripoint> random_valid_target( const Creature &caster,
+        std::optional<tripoint> random_valid_target( const Creature &caster,
                 const tripoint &caster_pos ) const;
 };
 
@@ -479,7 +486,7 @@ class known_magic
         spell &get_spell( const spell_id &sp );
         // opens up a ui that the Character can choose a spell from
         // returns the index of the spell in the vector of spells
-        int select_spell( const Character &guy );
+        int select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
@@ -547,7 +554,7 @@ void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void noise( const spell &sp, Creature &, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
-void explosion( const spell &sp, Creature &, const tripoint &target );
+void explosion( const spell &sp, Creature &caster, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
 void map_area( const spell &sp, Creature &caster, const tripoint & );
@@ -555,6 +562,7 @@ void morale( const spell &sp, Creature &caster, const tripoint &target );
 void charm_monster( const spell &sp, Creature &caster, const tripoint &target );
 void mutate( const spell &sp, Creature &caster, const tripoint &target );
 void bash( const spell &sp, Creature &caster, const tripoint &target );
+void dash( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

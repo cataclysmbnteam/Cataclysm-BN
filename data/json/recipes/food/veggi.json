@@ -92,7 +92,9 @@
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "veggy_wild_cooked", 1 ],
-        [ "veggy_cooked", 1 ]
+        [ "veggy_cooked", 1 ],
+        [ "spinach", 1 ],
+        [ "grape_leaves", 1 ]
       ],
       [ [ "soysauce", 1 ], [ "horseradish", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
@@ -130,7 +132,9 @@
         [ "dandelion_cooked", 2 ],
         [ "burdock_cooked", 2 ],
         [ "veggy_wild_cooked", 2 ],
-        [ "veggy_cooked", 2 ]
+        [ "veggy_cooked", 2 ],
+        [ "spinach", 2 ],
+        [ "grape_leaves", 2 ]
       ],
       [ [ "soysauce", 1 ], [ "horseradish", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
@@ -187,7 +191,13 @@
         [ "honeycomb", 1 ],
         [ "honey_bottled", 1 ]
       ],
-      [ [ "irradiated_broccoli", 2 ], [ "broccoli", 2 ], [ "veggy_wild_cooked", 2 ], [ "veggy_cooked", 2 ] ],
+      [
+        [ "irradiated_broccoli", 2 ],
+        [ "broccoli", 2 ],
+        [ "veggy_wild_cooked", 2 ],
+        [ "veggy_cooked", 2 ],
+        [ "chili_pepper_roasted", 2 ]
+      ],
       [ [ "soysauce", 1 ] ]
     ]
   },
@@ -1047,15 +1057,8 @@
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ]
       ],
-      [
-        [ "sauce_pesto", 1 ],
-        [ "sauce_red", 1 ],
-        [ "seasoning_italian", 5 ],
-        [ "wild_herbs", 10 ],
-        [ "tomato", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "can_tomato", 1 ]
-      ],
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
+      [ [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -1124,17 +1127,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1145,14 +1138,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
+      [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "jam_fruit", 1 ] ],
       [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
     ]
@@ -1166,14 +1152,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
+      [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "honeycomb", 2 ], [ "honey_bottled", 2 ], [ "honey_glassed", 4 ] ],
       [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
     ]
@@ -1186,18 +1165,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "syrup", 1 ] ],
-      [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "syrup", 1 ] ], [ [ "peanutbutter", 1 ], [ "peanutbutter_imitation", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1207,18 +1175,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "book_learn": [ [ "mag_glam", 1 ] ],
-    "components": [
-      [
-        [ "flatbread", 1 ],
-        [ "bread", 1 ],
-        [ "cornbread", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
-        [ "brioche", 1 ]
-      ],
-      [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ],
-      [ [ "sprinkles", 3 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ], [ [ "sprinkles", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1299,7 +1256,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "veggy", 1 ], [ "lettuce", 1 ], [ "veggy_wild", 1 ], [ "cabbage", 1 ] ]
+      [ [ "veggy", 2 ], [ "lettuce", 2 ], [ "veggy_wild", 2 ], [ "cabbage", 2 ] ]
     ]
   },
   {
@@ -1319,7 +1276,7 @@
       [ [ "vinegar", 1 ] ],
       [ [ "saline", 1 ], [ "salt", 2 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "cucumber", 6 ] ]
+      [ [ "cucumber", 2 ] ]
     ]
   },
   {
@@ -1358,6 +1315,7 @@
     "difficulty": 2,
     "time": "30 m",
     "charges": 8,
+    "autolearn": [ [ "cooking", 3 ] ],
     "book_learn": [ [ "sweets_book", 1 ], [ "cookbook", 1 ] ],
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
@@ -1387,7 +1345,9 @@
         [ "fiddlehead_sauteed", 2 ],
         [ "sauerkraut", 2 ],
         [ "irradiated_cabbage", 2 ],
-        [ "cabbage", 2 ]
+        [ "cabbage", 2 ],
+        [ "spinach", 1 ],
+        [ "grape_leaves", 1 ]
       ],
       [
         [ "cucumber", 1 ],
@@ -1405,7 +1365,8 @@
         [ "irradiated_raspberries", 1 ],
         [ "blackberries", 1 ],
         [ "irradiated_blackberries", 1 ],
-        [ "sugar_beet", 1 ]
+        [ "sugar_beet", 1 ],
+        [ "chili_pepper_roasted", 2 ]
       ],
       [
         [ "sugar", 1 ],
@@ -1441,61 +1402,7 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [
-        [ "veggy_cooked", 1 ],
-        [ "veggy_wild_cooked", 1 ],
-        [ "veggy_salted", 1 ],
-        [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
-        [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
-        [ "sauerkraut", 1 ],
-        [ "tomato", 1 ],
-        [ "can_tomato", 1 ],
-        [ "irradiated_pumpkin", 1 ],
-        [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
-        [ "broccoli", 1 ],
-        [ "irradiated_tomato", 1 ],
-        [ "irradiated_broccoli", 1 ],
-        [ "rehydrated_veggy", 1 ],
-        [ "morel_cooked", 1 ],
-        [ "mushroom_cooked", 1 ],
-        [ "sauerkraut_onions", 1 ],
-        [ "pickle", 1 ],
-        [ "veggy_canned", 1 ],
-        [ "beans_cooked", 1 ],
-        [ "irradiated_carrot", 1 ],
-        [ "irradiated_zucchini", 1 ],
-        [ "irradiated_lettuce", 1 ],
-        [ "carrot", 1 ],
-        [ "zucchini", 1 ],
-        [ "lettuce", 1 ],
-        [ "pine_nuts", 1 ],
-        [ "morel_fried", 1 ],
-        [ "veggy_aspic", 1 ],
-        [ "dahlia_baked", 1 ],
-        [ "irradiated_cucumber", 1 ],
-        [ "cucumber", 1 ],
-        [ "veggy_pickled", 1 ],
-        [ "cooked_cattail_stalk", 1 ],
-        [ "cooked_pumpkin", 1 ],
-        [ "potato_baked", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "can_tomato", 1 ],
-        [ "dandelion_cooked", 1 ],
-        [ "burdock_cooked", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "veggy_sandwich", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1505,17 +1412,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "jam_fruit", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1833,16 +1730,11 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
-    "result_mult": 4,
+    "charges": 4,
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "water", 12 ], [ "water_clean", 12 ] ],
-      [ [ "jar_glass", 1 ] ],
-      [ [ "sweet_fruit", 4, "LIST" ] ],
-      [ [ "sugar_standard", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "jar_glass", 1 ] ], [ [ "sweet_fruit", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1942,7 +1834,7 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "cookbook_italian", 4 ], [ "manual_canning", 3 ] ],
-    "result_mult": 4,
+    "result_mult": 2,
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
@@ -2018,8 +1910,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "sweet_fruit", 2, "LIST" ] ],
-      [ [ "sugar_standard", 1, "LIST" ] ]
+      [ [ "sweet_fruit", 2, "LIST" ] ]
     ]
   },
   {
@@ -2129,17 +2020,12 @@
     "difficulty": 4,
     "time": "40 m",
     "book_learn": [ [ "manual_canning", 3 ] ],
-    "result_mult": 24,
+    "charges": 24,
     "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "water", 22 ], [ "water_clean", 22 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "sweet_fruit", 24, "LIST" ] ],
-      [ [ "sugar_standard", 12, "LIST" ] ]
-    ]
+    "components": [ [ [ "water", 22 ], [ "water_clean", 22 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "sweet_fruit", 24, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2378,130 +2264,6 @@
   },
   {
     "type": "recipe",
-    "result": "oj",
-    "id_suffix": "jarred",
-    "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
-    "container": "jar_glass_sealed",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 4,
-    "time": "30 m",
-    "charges": 2,
-    "book_learn": [ [ "preserving_juice", 2 ] ],
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "irradiated_orange", 4 ], [ "orange", 4 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "oj",
-    "id_suffix": "canned",
-    "byproducts": [ [ "juice_pulp", 4 ] ],
-    "container": "can_medium",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "24 m",
-    "book_learn": [ [ "preserving_juice", 2 ] ],
-    "contained": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "irradiated_orange", 4 ], [ "orange", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "oj",
-    "id_suffix": "jarred_3l",
-    "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
-    "container": "jar_3l_glass_sealed",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 4,
-    "time": "40 m",
-    "charges": 12,
-    "book_learn": [ [ "preserving_juice", 2 ] ],
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "irradiated_orange", 24 ], [ "orange", 24 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "cranberry_juice",
-    "id_suffix": "jarred",
-    "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
-    "container": "jar_glass_sealed",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 4,
-    "time": "30 m",
-    "charges": 2,
-    "book_learn": [ [ "preserving_juice", 2 ] ],
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "irradiated_cranberries", 6 ], [ "cranberries", 6 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "cranberry_juice",
-    "id_suffix": "canned",
-    "byproducts": [ [ "juice_pulp", 4 ] ],
-    "container": "can_medium",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "24 m",
-    "book_learn": [ [ "preserving_juice", 2 ] ],
-    "contained": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "can_medium_unsealed", 1 ] ], [ [ "scrap", 1 ] ], [ [ "irradiated_cranberries", 6 ], [ "cranberries", 6 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "cranberry_juice",
-    "id_suffix": "jarred_3l",
-    "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
-    "container": "jar_3l_glass_sealed",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 4,
-    "time": "40 m",
-    "charges": 12,
-    "book_learn": [ [ "preserving_juice", 2 ] ],
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "irradiated_cranberries", 36 ], [ "cranberries", 36 ] ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "juice",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 2 ] ],
@@ -2555,5 +2317,175 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "sweet_fruit", 12, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "porridge_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "9 m",
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "wheat", 1 ], [ "barley", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "garlic_roasted",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "40 m",
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "garlic", 1 ], [ "garlic_clove", 6 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chili_pepper_roasted",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "10 m",
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "chili_pepper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cacao_nibs",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "60 m",
+    "//": "The original fermentation and roasting process for making cacao nibs can take anywhere from two days to a week, depending on the cacao variety, but I cut it down to an hour to avoid that hassle.",
+    "charges": 30,
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [ [ [ "cacao_pod", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "veggy_sausage",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "1 h",
+    "charges": 6,
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_foodfashions", 3 ] ],
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 10 ] ] ],
+    "components": [
+      [ [ "tofu", 2 ] ],
+      [
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ],
+      [ [ "sausage_casings_plastic", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "veggy_sausage",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "id_suffix": "no_tofu",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "1 h",
+    "charges": 6,
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_foodfashions", 3 ] ],
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 10 ] ] ],
+    "components": [
+      [ [ "flour", 6 ] ],
+      [ [ "yeast", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ],
+      [ [ "sausage_casings_plastic", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "veggy_sausage_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "30 m",
+    "charges": 6,
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_foodfashions", 3 ] ],
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "tofu", 2 ] ],
+      [
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ],
+      [ [ "sausage_casings_plastic", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "veggy_sausage_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "id_suffix": "no_tofu",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "30 m",
+    "charges": 6,
+    "autolearn": true,
+    "book_learn": [ [ "cookbook_foodfashions", 3 ] ],
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 6 ] ],
+      [ [ "yeast", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "salt", 4 ],
+        [ "soysauce", 2 ],
+        [ "seasoning_italian", 4 ],
+        [ "wild_herbs", 4 ],
+        [ "seasoning_salt", 4 ],
+        [ "pepper", 4 ]
+      ],
+      [ [ "sausage_casings_plastic", 1 ] ]
+    ]
   }
 ]

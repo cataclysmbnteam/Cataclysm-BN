@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "shape.h"
 #include "shape_impl.h"
 #include "map.h"
@@ -8,6 +9,7 @@
 #include "map_helpers.h"
 #include "overmapbuffer.h"
 #include "game.h"
+#include "state_helpers.h"
 
 static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
         const tripoint &origin, const tripoint &end )
@@ -45,7 +47,7 @@ static void shape_coverage_vs_distance_no_obstacle( const shape_factory_impl &c,
 
 TEST_CASE( "expected shape coverage mass test", "[shape]" )
 {
-    clear_map();
+    clear_all_state();
     cone_factory c( 15_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     for( const tripoint &end : points_in_radius<tripoint>( origin, 5 ) ) {
@@ -58,7 +60,7 @@ TEST_CASE( "expected shape coverage mass test", "[shape]" )
 
 TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
 {
-    clear_map();
+    clear_all_state();
     cone_factory c( 22.5_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     const tripoint offset( 5, 5, 0 );
@@ -76,7 +78,7 @@ TEST_CASE( "expected shape coverage without obstacles", "[shape]" )
 
 TEST_CASE( "expected shape coverage through windows", "[shape]" )
 {
-    clear_map();
+    clear_all_state();
     cone_factory c( 22.5_degrees, 10.0 );
     const tripoint origin( 60, 60, 0 );
     const tripoint offset( 5, 0, 0 );
@@ -97,8 +99,8 @@ TEST_CASE( "expected shape coverage through windows", "[shape]" )
 
 TEST_CASE( "character using birdshot against another character", "[shape][ranged]" )
 {
+    clear_all_state();
     REQUIRE( get_map().has_zlevels() );
-    clear_map();
     get_player_character().setpos( {60, 60, -2} );
 
     const tripoint shooter_pos( 60, 60, 0 );
@@ -112,17 +114,18 @@ TEST_CASE( "character using birdshot against another character", "[shape][ranged
     overmap_buffer.insert_npc( target );
     g->load_npcs();
 
-    item gun( itype_id( "m1014" ) );
-    gun.ammo_set( itype_id( "shot_bird" ) );
+    detached_ptr<item> gun = item::spawn( itype_id( "m1014" ) );
+    gun->ammo_set( itype_id( "shot_bird" ) );
 
-    REQUIRE( gun.gun_range() >= rl_dist( shooter_pos, target_pos ) );
+    REQUIRE( gun->gun_range() >= rl_dist( shooter_pos, target_pos ) );
     REQUIRE( g->all_npcs().items.size() == 1 );
     REQUIRE( target->pos() == target_pos );
     REQUIRE( g->critter_at( target_pos ) == &*target );
     const int target_hp_total_before = target->get_hp();
     REQUIRE( target->get_hp() >= 100 );
-    shooter.wield( gun );
-    int shots_fired = shooter.fire_gun( target_pos, 1, shooter.weapon );
+    shooter.wield( std::move( gun ) );
+    int shots_fired = ranged::fire_gun( shooter, target_pos, 1, shooter.primary_weapon(),
+                                        nullptr );
 
     REQUIRE( shots_fired > 0 );
     CHECK( target->get_hp() < target_hp_total_before );

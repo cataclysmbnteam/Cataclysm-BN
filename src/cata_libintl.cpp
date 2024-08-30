@@ -1,4 +1,3 @@
-#if defined(LOCALIZE)
 #include "cata_libintl.h"
 
 #include "fstream_utils.h"
@@ -8,6 +7,7 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
+#include <cassert>
 #include <iostream>
 #include <limits>
 #include <sstream>
@@ -849,4 +849,3 @@ const char *trans_library::get_ctx_pl( const char *msgctxt, const char *msgid, c
     return ret ? ret : ( n == 1  ? msgid : msgid_pl );
 }
 } // namespace cata_libintl
-#endif // LOCALIZE

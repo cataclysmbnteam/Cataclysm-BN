@@ -7,7 +7,7 @@
     "gender": "male",
     "class": "NC_ISHERWOOD_JACK",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_ISHERWOOD_JACK",
     "mission_offered": "MISSION_ISHERWOOD_JACK_1",
     "faction": "isherwood_family"
@@ -20,9 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_male_worn",
+    "carry_override": "NC_ISHERWOOD_carry",
+    "weapon_override": "EMPTY_GROUP",
     "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
     "skills": [
       {
@@ -39,53 +39,139 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Isherwood_worn",
+    "id": "NC_Isherwood_male_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "backpack_leather" },
+      { "item": "boxer_shorts" },
       { "item": "jeans" },
-      { "item": "tshirt" },
-      { "item": "gloves_fingerless" },
-      { "item": "panties" },
+      {
+        "distribution": [ { "item": "tshirt", "prob": 50 }, { "item": "longshirt", "prob": 25 }, { "item": "dress_shirt", "prob": 25 } ]
+      },
+      {
+        "distribution": [
+          { "item": "jacket_light", "prob": 20 },
+          { "item": "jacket_leather", "prob": 20 },
+          { "item": "trenchcoat", "prob": 20 },
+          { "item": "jacket_jean", "prob": 20 },
+          { "item": "jacket_flannel", "prob": 20 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "gloves_work", "prob": 50 },
+          { "item": "gloves_leather", "prob": 25 },
+          { "item": "gloves_fingerless", "prob": 25 }
+        ]
+      },
       { "item": "socks" },
-      { "item": "cowboy_hat" },
-      { "item": "boots" }
-    ],
-    "items": [
-      [ "jacket_light", 20 ],
-      [ "jacket_leather", 20 ],
-      [ "trenchcoat", 20 ],
-      [ "jacket_jean", 20 ],
-      [ "jacket_flannel", 20 ]
+      { "item": "boots" },
+      { "distribution": [ { "item": "cowboy_hat", "prob": 75 }, { "item": "straw_hat", "prob": 25 } ] },
+      { "distribution": [ { "item": "backpack_leather", "prob": 75 }, { "item": "backpack", "prob": 25 } ] }
     ]
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_archery",
-    "subtype": "distribution",
+    "id": "NC_Isherwood_female_worn",
+    "subtype": "collection",
     "entries": [
-      { "item": "crossbow", "prob": 20 },
-      { "item": "shortbow", "prob": 5 },
-      { "item": "compbow", "prob": 15 },
-      { "item": "compositebow", "prob": 15 },
-      { "item": "longbow", "prob": 10 },
-      { "item": "hand_crossbow", "prob": 15 },
-      { "item": "selfbow", "prob": 5 }
+      { "item": "panties" },
+      { "item": "jeans" },
+      { "item": "bra" },
+      {
+        "distribution": [ { "item": "tshirt", "prob": 50 }, { "item": "longshirt", "prob": 25 }, { "item": "dress_shirt", "prob": 25 } ]
+      },
+      {
+        "distribution": [
+          { "item": "jacket_light", "prob": 20 },
+          { "item": "jacket_leather", "prob": 20 },
+          { "item": "trenchcoat", "prob": 20 },
+          { "item": "jacket_jean", "prob": 20 },
+          { "item": "jacket_flannel", "prob": 20 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "gloves_work", "prob": 50 },
+          { "item": "gloves_leather", "prob": 25 },
+          { "item": "gloves_fingerless", "prob": 25 }
+        ]
+      },
+      { "item": "socks" },
+      { "item": "boots" },
+      { "distribution": [ { "item": "cowboy_hat", "prob": 75 }, { "item": "straw_hat", "prob": 25 } ] },
+      { "distribution": [ { "item": "backpack_leather", "prob": 75 }, { "item": "backpack", "prob": 25 } ] }
     ]
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_rifle",
+    "id": "NC_ISHERWOOD_carry",
     "subtype": "distribution",
     "entries": [
-      { "item": "rifle_22", "prob": 5 },
-      { "item": "rifle_9mm", "prob": 5 },
-      { "item": "ruger_1022", "prob": 10 },
-      { "item": "browning_blr", "prob": 10 },
-      { "item": "remington_700", "prob": 10 },
-      { "item": "savage_111f", "prob": 5 },
-      { "item": "marlin_9a", "prob": 25 },
-      { "item": "m1903", "prob": 5 }
+      {
+        "collection": [ { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1 }, { "item": "bolt_steel", "charges": [ 15, 30 ] } ],
+        "prob": 20
+      },
+      {
+        "collection": [ { "item": "shortbow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "prob": 5
+      },
+      {
+        "collection": [ { "item": "compbow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "prob": 15
+      },
+      {
+        "collection": [ { "item": "compositebow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "prob": 15
+      },
+      {
+        "collection": [ { "item": "longbow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "hand_crossbow", "ammo-item": "bolt_steel", "charges": 1 },
+          { "item": "bolt_steel", "charges": [ 15, 30 ] }
+        ],
+        "prob": 15
+      },
+      {
+        "collection": [ { "item": "selfbow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "prob": 5
+      },
+      {
+        "collection": [ { "item": "rifle_22", "ammo-item": "22_cphp", "charges": 1 }, { "item": "22_cphp", "charges": [ 20, 40 ] } ],
+        "prob": 5
+      },
+      { "collection": [ { "item": "rifle_9mm", "charges": 1 }, { "item": "9mm", "charges": [ 20, 40 ] } ], "prob": 5 },
+      {
+        "collection": [
+          { "item": "ruger_1022", "ammo-item": "22_cphp", "charges": 10 },
+          { "item": "ruger1022mag", "ammo-item": "22_cphp", "charges": 10 },
+          { "item": "22_cphp", "charges": [ 10, 20 ] }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "browning_blr", "charges": 4 },
+          { "item": "blrmag", "charges": 4 },
+          { "item": "3006", "charges": [ 10, 20 ] }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "remington_700", "charges": 4 }, { "item": "3006", "charges": [ 10, 20 ] } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "savage_111f", "ammo-item": "308", "charges": 3 }, { "item": "308", "charges": [ 10, 20 ] } ],
+        "prob": 5
+      },
+      {
+        "collection": [ { "item": "rifle_22", "ammo-item": "22_cphp", "charges": 19 }, { "item": "22_cphp", "charges": [ 10, 20 ] } ],
+        "prob": 25
+      },
+      { "collection": [ { "item": "m1903", "charges": 5 }, { "item": "3006", "charges": [ 10, 20 ] } ], "prob": 5 }
     ]
   },
   {

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <array>
 #include <functional>
 #include <list>
@@ -7,18 +9,19 @@
 
 #include "avatar.h"
 #include "bodypart.h"
-#include "catch/catch.hpp"
 #include "character.h"
+#include "character_encumbrance.h"
 #include "game.h"
 #include "item.h"
 #include "material.h"
 #include "npc.h"
 #include "player.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
 static void test_encumbrance_on(
     player &p,
-    const std::vector<item> &clothing,
+    std::vector<detached_ptr<item>> &clothing,
     const std::string &body_part,
     int expected_encumbrance,
     const std::function<void( player & )> &tweak_player = {}
@@ -31,16 +34,16 @@ static void test_encumbrance_on(
     if( tweak_player ) {
         tweak_player( p );
     }
-    for( const item &i : clothing ) {
-        p.worn.push_back( i );
+    for( detached_ptr<item> &i : clothing ) {
+        p.worn.push_back( std::move( i ) );
     }
     p.reset_encumbrance();
-    encumbrance_data enc = p.get_encumbrance()[ get_body_part_token( body_part ) ];
+    encumbrance_data enc = p.get_encumbrance().elems[ get_body_part_token( body_part ) ];
     CHECK( enc.encumbrance == expected_encumbrance );
 }
 
 static void test_encumbrance_items(
-    const std::vector<item> &clothing,
+    std::vector<detached_ptr<item>> &clothing,
     const std::string &body_part,
     const int expected_encumbrance,
     const std::function<void( player & )> &tweak_player = {}
@@ -64,9 +67,9 @@ static void test_encumbrance(
 )
 {
     CAPTURE( clothing_types );
-    std::vector<item> clothing;
+    std::vector<detached_ptr<item>> clothing;
     for( const std::string &type : clothing_types ) {
-        clothing.push_back( item( type ) );
+        clothing.push_back( item::spawn( type ) );
     }
     test_encumbrance_items( clothing, body_part, expected_encumbrance );
 }
@@ -82,53 +85,68 @@ struct add_trait {
     trait_id trait;
 };
 
-static constexpr int postman_shirt_e = 0;
-static constexpr int longshirt_e = 3;
-static constexpr int jacket_jean_e = 11;
+static constexpr int karate_gi_e = 0;
+static constexpr int vest_e = 5;
+static constexpr int greatcoat_e = 23;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {
-    test_encumbrance( { "postman_shirt" }, "TORSO", postman_shirt_e );
-    test_encumbrance( { "longshirt" }, "TORSO", longshirt_e );
-    test_encumbrance( { "jacket_jean" }, "TORSO", jacket_jean_e );
+    clear_all_state();
+    test_encumbrance( { "karate_gi" }, "TORSO", karate_gi_e );
+    test_encumbrance( { "vest" }, "TORSO", vest_e );
+    test_encumbrance( { "greatcoat" }, "TORSO", greatcoat_e );
 }
 
 TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
 {
-    test_encumbrance( { "longshirt", "jacket_jean" }, "TORSO", longshirt_e + jacket_jean_e );
+    clear_all_state();
+    test_encumbrance( { "vest", "greatcoat" }, "TORSO", vest_e + greatcoat_e );
 }
 
 TEST_CASE( "out_of_order_encumbrance", "[encumbrance]" )
 {
-    test_encumbrance( { "jacket_jean", "longshirt" }, "TORSO", longshirt_e * 2 + jacket_jean_e );
+    clear_all_state();
+    test_encumbrance( { "greatcoat", "vest" }, "TORSO", vest_e * 2 + greatcoat_e );
 }
 
 TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 {
+    clear_all_state();
     // When stacking within a layer, encumbrance for additional items is
     // counted twice
-    test_encumbrance( { "longshirt", "longshirt" }, "TORSO", longshirt_e * 2 + longshirt_e );
+    test_encumbrance( { "vest", "vest" }, "TORSO", vest_e * 2 + vest_e );
     // ... with a minimum of 2
-    test_encumbrance( { "postman_shirt", "postman_shirt" }, "TORSO", postman_shirt_e * 2 + 2 );
+    test_encumbrance( { "karate_gi", "karate_gi" }, "TORSO", karate_gi_e * 2 + 2 );
     // ... and a maximum of 10
-    test_encumbrance( { "jacket_jean", "jacket_jean" }, "TORSO", jacket_jean_e * 2 + 10 );
+    test_encumbrance( { "greatcoat", "greatcoat" }, "TORSO", greatcoat_e * 2 + 10 );
 }
 
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
-    item i( "longshirt" );
-    i.set_flag( "UNDERSIZE" );
-    test_encumbrance_items( { i }, "TORSO", longshirt_e * 3 );
+    clear_all_state();
+    detached_ptr<item> i = item::spawn( "vest" );
+    i->set_flag( flag_id( "UNDERSIZE" ) );
+    std::vector<detached_ptr<item>> items;
+    items.push_back( std::move( i ) );
+    test_encumbrance_items( items, "TORSO",
+                            vest_e * 3 );
 }
 
 TEST_CASE( "tiny_character", "[encumbrance]" )
 {
-    item i( "longshirt" );
+    clear_all_state();
+    detached_ptr<item> i = item::spawn( "vest" );
+    item &obj = *i;
+    std::vector<detached_ptr<item>> items;
+    items.push_back( std::move( i ) );
     SECTION( "regular shirt" ) {
-        test_encumbrance_items( { i }, "TORSO", longshirt_e * 2, add_trait( "SMALL2" ) );
+        test_encumbrance_items( items, "TORSO",
+                                vest_e * 2,
+                                add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        i.set_flag( "UNDERSIZE" );
-        test_encumbrance_items( { i }, "TORSO", longshirt_e, add_trait( "SMALL2" ) );
+        obj.set_flag( flag_id( "UNDERSIZE" ) );
+        test_encumbrance_items( items, "TORSO", vest_e,
+                                add_trait( "SMALL2" ) );
     }
 }

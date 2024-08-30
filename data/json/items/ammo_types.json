@@ -79,6 +79,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
+  },
+  {
+    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410 shot",
     "default": "410shot_000"
@@ -212,7 +218,8 @@
   {
     "type": "ammunition_type",
     "id": "223",
-    "name": ".223",
+    "//": "This is a 5.56x45mm round, but it's called 223 because legacy migration reasons.",
+    "name": "5.56x45mm",
     "default": "556"
   },
   {
@@ -230,7 +237,7 @@
   {
     "type": "ammunition_type",
     "id": "308",
-    "name": ".308",
+    "name": "7.62x51mm",
     "default": "762_51"
   },
   {
@@ -511,6 +518,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "flintlockshot",
+    "name": "paper shot cartridge",
+    "default": "flintlock_shot"
+  },
+  {
+    "type": "ammunition_type",
     "id": "papershot",
     "name": "20ga percussion",
     "default": "nail"
@@ -622,5 +635,29 @@
     "id": "glass_shard",
     "name": "glass shards",
     "default": "glass_shard"
+  },
+  {
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "3-inch cannon",
+    "default": "cannon_explosive_shell"
+  },
+  {
+    "id": "acid",
+    "type": "ammunition_type",
+    "name": "acid",
+    "default": "acid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mininuke_mod",
+    "name": "modified mininuke",
+    "default": "mininuke_mod"
   }
 ]

@@ -56,6 +56,7 @@
       { "item": "power_armor_helmet_heavy", "prob": 30 },
       { "item": "power_armor_helmet_light", "prob": 30 },
       { "item": "power_armor_light", "prob": 30 },
+      { "item": "exosuit_military", "prob": 50 },
       { "item": "processor", "prob": 150 },
       { "item": "purifier", "prob": 120 },
       { "item": "pur_tablets", "prob": 200 },
@@ -77,7 +78,10 @@
       { "item": "survivormap", "prob": 50 },
       { "item": "survnote", "prob": 10 },
       { "item": "tool_rdx_charge", "prob": 10 },
-      { "item": "v29", "prob": 10 }
+      { "item": "v29", "prob": 10 },
+      { "item": "bot_mininuke_hack", "prob": 10 },
+      { "item": "mininuke", "prob": 10 },
+      { "item": "mininuke_launcher", "prob": 0 }
     ]
   },
   {
@@ -102,7 +106,8 @@
       { "item": "mininuke", "prob": 10 },
       { "item": "adv_UPS_off", "prob": 10 },
       { "item": "optical_cloak", "prob": 10 },
-      { "item": "superalloy_harness_dog", "prob": 10 },
+      { "item": "superalloy_armor_small_quadruped", "prob": 10 },
+      { "item": "superalloy_armor_medium_quadruped", "prob": 10 },
       { "item": "holo_cloak", "prob": 10 },
       { "item": "plasma_rifle", "prob": 10 },
       { "item": "portal", "prob": 10 },
@@ -113,6 +118,7 @@
       { "item": "power_armor_helmet_basic", "prob": 10 },
       { "item": "power_armor_helmet_heavy", "prob": 10 },
       { "item": "power_armor_helmet_light", "prob": 10 },
+      { "item": "exosuit_military", "prob": 10 },
       { "item": "high_density_capacitor", "prob": 10 },
       { "item": "beam_scatterer", "prob": 10 },
       { "item": "power_armor_light", "prob": 10 },
@@ -193,12 +199,15 @@
     "id": "antique_guns",
     "subtype": "distribution",
     "entries": [
-      { "item": "pistol_flintlock", "prob": 60 },
-      { "item": "carbine_flintlock", "prob": 40 },
+      { "item": "pistol_flintlock", "prob": 30 },
+      { "item": "carbine_flintlock", "prob": 20 },
       { "item": "lemat_revolver", "prob": 30 },
-      { "item": "rifle_flintlock", "prob": 75 },
+      { "item": "rifle_flintlock", "prob": 50 },
+      { "item": "longrifle_flintlock", "prob": 75 },
+      { "item": "shotgun_paper", "prob": 60 },
       { "item": "colt_army", "prob": 30 },
-      { "item": "colt_navy", "prob": 30 }
+      { "item": "colt_navy", "prob": 30 },
+      { "item": "m1874_gatling", "prob": 10 }
     ]
   },
   {
@@ -208,12 +217,15 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "item": "pistol_flintlock", "prob": 60 },
-      { "item": "carbine_flintlock", "prob": 40 },
+      { "item": "pistol_flintlock", "prob": 30 },
+      { "item": "carbine_flintlock", "prob": 20 },
       { "item": "lemat_revolver", "prob": 30 },
-      { "item": "rifle_flintlock", "prob": 75 },
+      { "item": "rifle_flintlock", "prob": 50 },
+      { "item": "longrifle_flintlock", "prob": 75 },
+      { "item": "shotgun_paper", "prob": 60 },
       { "item": "colt_army", "prob": 30 },
-      { "item": "colt_navy", "prob": 30 }
+      { "item": "colt_navy", "prob": 30 },
+      { "item": "m1874_gatling", "prob": 10 }
     ]
   },
   {
@@ -223,8 +235,12 @@
     "entries": [
       { "item": "flintlock_ammo", "prob": 60 },
       { "item": "flintlock_shot", "prob": 40 },
+      { "item": "shot_paper_00", "prob": 25 },
+      { "item": "shot_paper_bird", "prob": 15 },
+      { "item": "shot_paper_slug", "prob": 10 },
       { "item": "36navy", "prob": 50 },
-      { "item": "44army", "prob": 50 }
+      { "item": "44army", "prob": 50 },
+      { "item": "4570_low", "prob": 25 }
     ]
   },
   {
@@ -234,6 +250,7 @@
     "entries": [
       { "item": "crossbow", "prob": 70 },
       { "item": "compcrossbow", "prob": 10 },
+      { "item": "crossbow_carbon", "prob": 10 },
       { "item": "bullet_crossbow", "prob": 10 },
       { "item": "hand_crossbow", "prob": 10 },
       { "item": "longbow", "prob": 40 },
@@ -256,6 +273,7 @@
       { "item": "bow_silencer", "prob": 50 },
       { "item": "bow_stabilizer", "prob": 50 },
       { "item": "bow_stabilizer_set", "prob": 40 },
+      { "item": "crossbow_lever", "prob": 20 },
       { "item": "gun_crossbow", "prob": 40 }
     ]
   },
@@ -267,9 +285,15 @@
       { "item": "arrow_wood", "prob": 100 },
       { "item": "arrow_field_point_fletched", "prob": 50 },
       { "item": "arrow_cf", "prob": 100 },
+      { "item": "arrow_metal_bodkin", "prob": 100 },
+      { "item": "arrow_metal", "prob": 100 },
+      { "item": "arrow_metal_target", "prob": 100 },
       { "item": "bolt_wood", "prob": 100 },
       { "item": "bolt_wood_bodkin", "prob": 50 },
-      { "item": "bolt_cf", "prob": 100 }
+      { "item": "bolt_cf", "prob": 100 },
+      { "item": "bolt_steel", "prob": 100 },
+      { "item": "bolt_steel_target", "prob": 100 },
+      { "item": "bolt_steel_bodkin", "prob": 100 }
     ]
   }
 ]

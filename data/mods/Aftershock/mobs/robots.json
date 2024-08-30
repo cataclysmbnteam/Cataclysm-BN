@@ -18,6 +18,7 @@
     "morale": 100,
     "armor_bash": 14,
     "armor_cut": 16,
+    "armor_bullet": 13,
     "vision_day": 50,
     "starting_ammo": { "acidic_bore": 500 },
     "revert_to_itype": "bot_migoturret",
@@ -67,10 +68,12 @@
     "melee_cut": 0,
     "armor_bash": 18,
     "armor_cut": 14,
+    "armor_bullet": 11,
+    "armor_fire": 5,
     "vision_day": 50,
     "vision_night": 35,
     "revert_to_itype": "bot_chickenbot",
-    "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
+    "starting_ammo": { "556": 1000, "40x46mm_m433": 100 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_function": [ "BROKEN" ],
@@ -99,9 +102,13 @@
     "melee_cut": 0,
     "armor_bash": 90,
     "armor_cut": 90,
+    "armor_bullet": 72,
+    "armor_fire": 36,
+    "armor_cold": 36,
+    "armor_electric": 72,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
-    "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
+    "starting_ammo": { "556": 3000, "40x46mm_m433": 200 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
     "death_function": [ "BROKEN" ],
@@ -114,6 +121,7 @@
       "DESTROYS",
       "NO_BREATHE",
       "ELECTRONIC",
+      "FIREPROOF",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO"
     ]
@@ -141,6 +149,8 @@
     "melee_cut": 6,
     "armor_bash": 12,
     "armor_cut": 8,
+    "armor_bullet": 6,
+    "armor_fire": 12,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
     "starting_ammo": { "napalm": 10000 },
@@ -165,7 +175,7 @@
     ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "afs_mon_sentinel_lx",
@@ -191,6 +201,8 @@
     "dodge": 8,
     "armor_bash": 10,
     "armor_cut": 20,
+    "armor_bullet": 16,
+    "armor_fire": 8,
     "vision_day": 6,
     "vision_night": 6,
     "path_settings": { "max_dist": 6 },
@@ -208,17 +220,7 @@
     ],
     "death_function": [ "BROKEN" ],
     "death_drops": { "groups": [ [ "mon_afs_sentinel_lx_drops", 1 ] ] },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "BASHES",
-      "ELECTRONIC",
-      "NO_BREATHE",
-      "PRIORITIZE_TARGETS",
-      "GOODHEARING",
-      "PATH_AVOID_DANGER_2",
-      "HIT_AND_RUN"
-    ]
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "GOODHEARING", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_bloodhound_drone",
@@ -238,6 +240,8 @@
     "melee_cut": 12,
     "armor_bash": 2,
     "armor_cut": 8,
+    "armor_bullet": 6,
+    "armor_fire": 3,
     "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": [ "BROKEN" ],
@@ -263,6 +267,7 @@
     "anger_triggers": [ "HURT" ],
     "armor_bash": 8,
     "armor_cut": 8,
+    "armor_bullet": 6,
     "armor_fire": 4,
     "armor_acid": 6,
     "vision_day": 50,
@@ -322,6 +327,8 @@
     "melee_dice": 4,
     "melee_dice_sides": 5,
     "melee_cut": 1,
+    "//": "Monsters made out of steel and related materials get an additional resistance to being in flames in map::monster_in_field, but this fits thematically and makes it harder to melt with flamethrowers or lasers.",
+    "armor_fire": 20,
     "starting_ammo": { "water": 1000 },
     "special_attacks": [
       {
@@ -333,7 +340,7 @@
         "ranges": [ [ 0, 5, "BURST" ] ]
       }
     ],
-    "extend": { "flags": [ "FIREPROOF", "BASHES" ] }
+    "extend": { "flags": [ "BASHES" ] }
   },
   {
     "id": "mon_medibot",
@@ -352,6 +359,7 @@
     "color": "white",
     "armor_bash": 6,
     "armor_cut": 6,
+    "armor_bullet": 5,
     "armor_fire": 2,
     "armor_acid": 6,
     "morale": 100,
@@ -378,6 +386,8 @@
     "hp": 30,
     "armor_bash": 8,
     "armor_cut": 8,
+    "armor_bullet": 6,
+    "armor_fire": 3,
     "vision_night": 20,
     "revert_to_itype": "bot_skitterbot_rat",
     "melee_skill": 6,
@@ -399,6 +409,8 @@
     "hp": 30,
     "armor_bash": 8,
     "armor_cut": 8,
+    "armor_bullet": 6,
+    "armor_fire": 3,
     "vision_day": 20,
     "revert_to_itype": "bot_skitterbot_grab",
     "melee_skill": 6,
@@ -420,6 +432,8 @@
     "hp": 30,
     "armor_bash": 8,
     "armor_cut": 8,
+    "armor_bullet": 6,
+    "armor_fire": 3,
     "vision_day": 20,
     "revert_to_itype": "bot_skitterbot_hunter",
     "starting_ammo": { "8mm_caseless": 120 },
@@ -483,6 +497,7 @@
     "dodge": 4,
     "armor_bash": 12,
     "armor_cut": 12,
+    "armor_bullet": 10,
     "armor_stab": 6,
     "armor_fire": 5,
     "armor_acid": 12,
@@ -528,7 +543,7 @@
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
     "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 7.62mm firearm.",
+    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 7.62x51mm firearm.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "762_51": 1000 },
@@ -656,9 +671,10 @@
     "name": "military flame robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated flamethrower.",
     "diff": 20,
+    "armor_fire": 12,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "napalm": 1000 },
-    "extend": { "flags": [ "FIREPROOF", "DROPS_AMMO" ] },
+    "extend": { "flags": [ "DROPS_AMMO" ] },
     "special_attacks": [
       {
         "type": "gun",
@@ -691,6 +707,7 @@
     "hp": 100,
     "armor_bash": 8,
     "armor_cut": 6,
+    "armor_bullet": 5,
     "armor_stab": 6,
     "armor_fire": 8,
     "armor_acid": 12,
@@ -735,7 +752,7 @@
     "diff": 20,
     "color": "magenta",
     "luminance": 20,
-    "extend": { "flags": [ "FIREPROOF" ] },
+    "armor_fire": 15,
     "special_attacks": [
       {
         "type": "gun",
@@ -834,8 +851,9 @@
     "dodge": 4,
     "armor_bash": 10,
     "armor_cut": 10,
+    "armor_bullet": 8,
     "armor_stab": 5,
-    "armor_fire": 5,
+    "armor_fire": 4,
     "armor_acid": 10,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },

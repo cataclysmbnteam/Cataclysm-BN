@@ -6,7 +6,7 @@
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
-    "price": 90000,
+    "price": "900 USD",
     "bashing": 5,
     "material": [ "leather" ],
     "symbol": "[",
@@ -19,10 +19,10 @@
       "holster_prompt": "Stick what into your belt",
       "holster_msg": "You tuck your %s into your %s",
       "max_volume": "500 ml",
-      "max_weight": 400,
-      "draw_cost": 60,
+      "max_weight": "400 g",
       "flags": [ "BELT_CLIP" ]
     },
+    "valid_mods": [ "resized_large" ],
     "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
   },
   {
@@ -45,7 +45,7 @@
     "environmental_protection": 20,
     "weight_capacity_bonus": "50 kg",
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1.0 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1 } ] } ]
     }
   },
   {
@@ -86,7 +86,6 @@
       "min_volume": "1 ml",
       "max_volume": "4 L",
       "max_weight": "5 kg",
-      "draw_cost": 5,
       "multi": 4,
       "skills": [
         "pistol",
@@ -129,7 +128,6 @@
         "type": "holster",
         "holster_prompt": "Sheath blade",
         "holster_msg": "You sheath your %s",
-        "draw_cost": 3,
         "min_volume": "250 ml",
         "max_volume": "1 L",
         "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
@@ -178,7 +176,7 @@
     "description": "A long braided flexible steel bullwhip that narrows into a sharp blade at the end.  Easily capable of slicing and dicing anything that comes at you.  It transforms back into a belt.",
     "weight": "2154 g",
     "volume": "2 L",
-    "price": 350000,
+    "price": "3500 USD",
     "material": [ "steel" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "WHIP_DISARM", "WRAP" ],

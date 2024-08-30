@@ -20,7 +20,8 @@
       "specops"
     ],
     "start_name": "Fema Camp",
-    "flags": [ "HELI_CRASH", "SUR_START", "FIRE_START", "INFECTED", "CHALLENGE" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "HELI_CRASH", "FIRE_START", "INFECTED", "CHALLENGE" ]
   },
   {
     "type": "scenario",
@@ -31,14 +32,7 @@
     "allowed_locs": [ "sloc_mansion", "sloc_mansion_entrance" ],
     "professions": [ "maid" ],
     "start_name": "Mansion",
-    "flags": [ "SUR_START" ]
-  },
-  {
-    "type": "scenario",
-    "id": "cyberpunk",
-    "copy-from": "cyberpunk",
-    "add_professions": true,
-    "extend": { "professions": [ "bio_gangster", "bionic_hitman" ] }
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ]
   },
   {
     "type": "scenario",

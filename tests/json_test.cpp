@@ -1,13 +1,14 @@
-#include "json.h"
+#include "catch/catch.hpp"
 
 #include <list>
 #include <sstream>
 
 #include "bodypart.h"
-#include "catch/catch.hpp"
+#include "json.h"
+#include "cached_options.h"
+#include "cata_utility.h"
 #include "string_formatter.h"
 #include "type_id.h"
-#include "colony.h"
 
 template<typename T>
 void test_serialization( const T &val, const std::string &s )
@@ -30,9 +31,9 @@ void test_serialization( const T &val, const std::string &s )
     }
 }
 
-TEST_CASE( "serialize_colony", "[json]" )
+TEST_CASE( "serialize_vector", "[json]" )
 {
-    cata::colony<std::string> c = { "foo", "bar" };
+    std::vector<std::string> c = { "foo", "bar" };
     test_serialization( c, R"(["foo","bar"])" );
 }
 
@@ -88,6 +89,8 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
 {
     // this test case is mainly for checking the caret position.
     // the text style check itself is tested in the lit test of clang-tidy.
+    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    error_log_format = error_log_format_t::human_readable;
 
     // string, ascii
     test_translation_text_style_check(
@@ -171,6 +174,9 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
 
 TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" )
 {
+    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    error_log_format = error_log_format_t::human_readable;
+
     SECTION( "string" ) {
         const std::string json =
             R"([)" "\n"
@@ -270,6 +276,9 @@ static void test_string_error_throws_matches( Matcher &&matcher, const std::stri
 
 TEST_CASE( "jsonin_get_string", "[json]" )
 {
+    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    error_log_format = error_log_format_t::human_readable;
+
     // read plain text
     test_get_string( "foo", R"("foo")" );
     // ignore starting spaces
@@ -451,4 +460,24 @@ TEST_CASE( "jsonin_get_string", "[json]" )
             R"(      ^)" "\n"
             R"(       ar")" "\n" ),
         R"("foo\nbar")", 5 );
+}
+
+TEST_CASE( "serialize_optional", "[json]" )
+{
+    SECTION( "simple_empty_optional" ) {
+        std::optional<int> o;
+        test_serialization( o, "null" );
+    }
+    SECTION( "optional_of_int" ) {
+        std::optional<int> o( 7 );
+        test_serialization( o, "7" );
+    }
+    SECTION( "vector_of_empty_optional" ) {
+        std::vector<std::optional<int>> v( 3 );
+        test_serialization( v, "[null,null,null]" );
+    }
+    SECTION( "vector_of_optional_of_int" ) {
+        std::vector<std::optional<int>> v{ { 1 }, { 2 }, { 3 } };
+        test_serialization( v, "[1,2,3]" );
+    }
 }

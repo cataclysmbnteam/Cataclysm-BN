@@ -30,7 +30,8 @@
       { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
       [ "lutefisk", 1 ],
       [ "pemmican", 10 ],
-      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "potted_meat", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
     ]
   },
   {

@@ -40,10 +40,10 @@ struct point {
     constexpr point() = default;
     constexpr point( int X, int Y ) : x( X ), y( Y ) {}
 
-    constexpr point operator+( const point &rhs ) const {
+    constexpr point operator+( point rhs ) const {
         return point( x + rhs.x, y + rhs.y );
     }
-    point &operator+=( const point &rhs ) {
+    point &operator+=( point rhs ) {
         x += rhs.x;
         y += rhs.y;
         return *this;
@@ -51,10 +51,10 @@ struct point {
     constexpr point operator-() const {
         return point( -x, -y );
     }
-    constexpr point operator-( const point &rhs ) const {
+    constexpr point operator-( point rhs ) const {
         return point( x - rhs.x, y - rhs.y );
     }
-    point &operator-=( const point &rhs ) {
+    point &operator-=( point rhs ) {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
@@ -62,7 +62,7 @@ struct point {
     constexpr point operator*( const int rhs ) const {
         return point( x * rhs, y * rhs );
     }
-    friend constexpr point operator*( int lhs, const point &rhs ) {
+    friend constexpr point operator*( int lhs, point rhs ) {
         return rhs * lhs;
     }
     point &operator*=( const int rhs ) {
@@ -86,38 +86,24 @@ struct point {
      * by @param dim
      * By default rotates around the origin (0, 0).
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
-    point rotate( int turns, const point &dim = { 1, 1 } ) const {
-        assert( turns >= 0 );
-        assert( turns <= 4 );
-
-        switch( turns ) {
-            case 1:
-                return { dim.y - y - 1, x };
-            case 2:
-                return { dim.x - x - 1, dim.y - y - 1 };
-            case 3:
-                return { y, dim.x - x - 1 };
-        }
-
-        return *this;
-    }
+    point rotate( int turns, point dim = { 1, 1 } ) const;
 
     std::string to_string() const;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
-    friend inline constexpr bool operator<( const point &a, const point &b ) {
+    friend inline constexpr bool operator<( point a, point b ) {
         return a.x < b.x || ( a.x == b.x && a.y < b.y );
     }
-    friend inline constexpr bool operator==( const point &a, const point &b ) {
+    friend inline constexpr bool operator==( point a, point b ) {
         return a.x == b.x && a.y == b.y;
     }
-    friend inline constexpr bool operator!=( const point &a, const point &b ) {
+    friend inline constexpr bool operator!=( point a, point b ) {
         return !( a == b );
     }
 
-    friend std::ostream &operator<<( std::ostream &, const point & );
+    friend std::ostream &operator<<( std::ostream &, point );
 };
 
 inline int divide_round_to_minus_infinity( int n, int d )
@@ -132,12 +118,12 @@ inline int divide_round_to_minus_infinity( int n, int d )
     return ( n - d + 1 ) / d; // NOLINT(clang-analyzer-core.DivideZero)
 }
 
-inline point multiply_xy( const point &p, int f )
+inline point multiply_xy( point p, int f )
 {
     return point( p.x * f, p.y * f );
 }
 
-inline point divide_xy_round_to_minus_infinity( const point &p, int d )
+inline point divide_xy_round_to_minus_infinity( point p, int d )
 {
     return point( divide_round_to_minus_infinity( p.x, d ),
                   divide_round_to_minus_infinity( p.y, d ) );
@@ -152,7 +138,7 @@ struct tripoint {
     int z = 0;
     constexpr tripoint() = default;
     constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
-    constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
+    constexpr tripoint( point p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
 
     constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
@@ -185,21 +171,21 @@ struct tripoint {
         return tripoint( x / rhs, y / rhs, z / rhs );
     }
     /*** some point operators and functions ***/
-    constexpr tripoint operator+( const point &rhs ) const {
+    constexpr tripoint operator+( point rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z );
     }
-    friend constexpr tripoint operator+( const point &lhs, const tripoint &rhs ) {
+    friend constexpr tripoint operator+( point lhs, const tripoint &rhs ) {
         return rhs + lhs;
     }
-    constexpr tripoint operator-( const point &rhs ) const {
+    constexpr tripoint operator-( point rhs ) const {
         return tripoint( x - rhs.x, y - rhs.y, z );
     }
-    tripoint &operator+=( const point &rhs ) {
+    tripoint &operator+=( point rhs ) {
         x += rhs.x;
         y += rhs.y;
         return *this;
     }
-    tripoint &operator-=( const point &rhs ) {
+    tripoint &operator-=( point rhs ) {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
@@ -221,7 +207,24 @@ struct tripoint {
         return point( x, y );
     }
 
+    /**
+     * Rotates just the x,y component of the tripoint. See point::rotate()
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
+    tripoint rotate( int turns, const point &dim = { 1, 1 } ) const {
+        return tripoint( xy().rotate( turns, dim ), z );
+    }
+
     std::string to_string() const;
+
+    /**
+     * Rotate x and y components clockwise @param turns times,
+     * 90 degrees per turn, around the center of a rectangle with
+     * the dimensions specified by @param dim.
+     * By default rotates around the origin (0, 0).
+     * NOLINTNEXTLINE(cata-use-named-point-constants) */
+    inline tripoint rotate_2d( int turns, point dim = { 1, 1 } ) const {
+        return tripoint( xy().rotate( turns, dim ), z );
+    }
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
@@ -302,8 +305,8 @@ struct sphere {
 std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist );
 std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist );
 
-std::vector<point> closest_points_first( const point &center, int max_dist );
-std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
+std::vector<point> closest_points_first( point center, int max_dist );
+std::vector<point> closest_points_first( point center, int min_dist, int max_dist );
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
@@ -317,7 +320,7 @@ namespace std
 {
 template <>
 struct hash<point> {
-    std::size_t operator()( const point &k ) const noexcept {
+    std::size_t operator()( point k ) const noexcept {
         constexpr uint64_t a = 2862933555777941757;
         size_t result = k.y;
         result *= a;
@@ -347,6 +350,10 @@ struct hash<tripoint> {
 
 static constexpr std::array<point, 4> four_adjacent_offsets{{
         point_north, point_east, point_south, point_west
+    }};
+
+static constexpr std::array<point, 4> four_diagonal_offsets{{
+        point_north_east, point_south_east, point_south_west, point_north_west
     }};
 
 static constexpr std::array<point, 8> eight_adjacent_offsets{{

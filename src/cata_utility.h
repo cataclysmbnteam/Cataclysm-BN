@@ -2,13 +2,17 @@
 #ifndef CATA_SRC_CATA_UTILITY_H
 #define CATA_SRC_CATA_UTILITY_H
 
+#include <algorithm>
+#include <cstddef>
+#include <ctime>
 #include <functional>
 #include <string>
 #include <utility>
 #include <vector>
-#include <algorithm>
 #include <memory>
 #include <type_traits>
+
+#include "enums.h"
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -221,7 +225,7 @@ class list_circularizer
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char()> f );
+std::string obscure_message( const std::string &str, const std::function<char()> &f );
 
 /**
  * Erases elements from a set that match given predicate function.
@@ -243,6 +247,53 @@ bool erase_if( Col &set, Pred predicate )
         }
     }
     return ret;
+}
+
+/**
+ * Checks if two sets are equal, ignoring specified elements.
+ * Works as if `ignored_elements` were temporarily erased from both sets before comparison.
+ * @tparam Set type of the set (must be ordered, i.e. std::set, cata::flat_set)
+ * @param set first set to compare
+ * @param set2 second set to compare
+ * @param ignored_elements elements from both sets to ignore
+ * @return true, if sets without ignored elements are equal, false otherwise
+ */
+template<typename Set, typename T = std::decay_t<decltype( *std::declval<const Set &>().begin() )>>
+bool equal_ignoring_elements( const Set &set, const Set &set2, const Set &ignored_elements )
+{
+    // general idea: splits both sets into the ranges bounded by elements from `ignored_elements`
+    // and checks that these ranges are equal
+
+    // traverses ignored elements in
+    if( ignored_elements.empty() ) {
+        return set == set2;
+    }
+
+    using Iter = typename Set::iterator;
+    Iter end = ignored_elements.end();
+    Iter cur = ignored_elements.begin();
+    Iter prev = cur;
+    cur++;
+
+    // first comparing the sets range [set.begin() .. ignored_elements.begin()]
+    if( !std::equal( set.begin(), set.lower_bound( *prev ),
+                     set2.begin(), set2.lower_bound( *prev ) ) ) {
+        return false;
+    }
+
+    // compare ranges bounded by two elements: [`prev` .. `cur`]
+    while( cur != end ) {
+        if( !std::equal( set.upper_bound( *prev ), set.lower_bound( *cur ),
+                         set2.upper_bound( *prev ), set2.lower_bound( *cur ) ) ) {
+            return false;
+        }
+        prev = cur;
+        cur++;
+    }
+
+    // compare the range after the last element of ignored_elements: [ignored_elements.back() .. set.end()]
+    return static_cast<bool>( std::equal( set.upper_bound( *prev ), set.end(),
+                                          set2.upper_bound( *prev ), set2.end() ) );
 }
 
 int modulo( int v, int m );
@@ -284,5 +335,12 @@ class restore_on_out_of_scope
         }
         // *INDENT-ON*
 };
+
+/**
+ * Get the current holiday based on the given time, or based on current time if time = 0
+ * @param time The timestampt to assess
+ * @param force_refresh Force recalculation of current holiday, otherwise use cached value
+*/
+holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false );
 
 #endif // CATA_SRC_CATA_UTILITY_H

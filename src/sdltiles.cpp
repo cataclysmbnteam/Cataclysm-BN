@@ -16,6 +16,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <stack>
 #include <stdexcept>
@@ -32,7 +33,6 @@
 #endif
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "cata_tiles.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -50,13 +50,14 @@
 #include "input.h"
 #include "runtime_handlers.h"
 #include "json.h"
+#include "make_static.h"
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_location.h"
+#include "overmap_special.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
@@ -70,6 +71,7 @@
 #include "uistate.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
+#include "worldfactory.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -89,6 +91,7 @@
 #include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "worldfactory.h"
 #endif
@@ -234,20 +237,22 @@ static void WinCreate()
     WindowHeight = TERMINAL_HEIGHT * fontheight * scaling_factor;
     window_flags |= SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI;
 
-    if( get_option<std::string>( "SCALING_MODE" ) != "none" ) {
-        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, get_option<std::string>( "SCALING_MODE" ).c_str() );
-    }
+    // We want our textures clean and sharp when zooming in.
+    SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "nearest" );
 
 #if !defined(__ANDROID__)
-    if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
+    const auto screen_mode = get_option<std::string>( "FULLSCREEN" );
+    const auto minimize = get_option<bool>( "MINIMIZE_ON_FOCUS_LOSS" );
+
+    SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, minimize ? "1" : "0" );
+
+    if( screen_mode == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
-    } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
+    } else if( screen_mode == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
-    } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
+    } else if( screen_mode == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
 #endif
@@ -345,8 +350,12 @@ static void WinCreate()
     if( !software_renderer ) {
         dbg( DL::Info ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, SDL_RENDERER_ACCELERATED |
-                                            SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
+        int init_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE;
+        if( get_option<bool>( "VSYNC" ) ) {
+            init_flags |= SDL_RENDERER_PRESENTVSYNC;
+        }
+
+        renderer.reset( SDL_CreateRenderer( ::window.get(), renderer_id, init_flags ) );
         if( printErrorIf( !renderer,
                           "Failed to initialize accelerated renderer, falling back to software rendering" ) ) {
             software_renderer = true;
@@ -491,12 +500,12 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
     // draw it at the top of the screen so it doesn't get covered up
     // by the virtual keyboard. Otherwise just center it.
     SDL_Rect dstrect;
-    float DisplayBufferAspect = DisplayBufferWidth / ( float )DisplayBufferHeight;
-    float WindowHeightLessShortcuts = ( float )WindowHeight;
+    float DisplayBufferAspect = DisplayBufferWidth / static_cast<float>( DisplayBufferHeight );
+    float WindowHeightLessShortcuts = static_cast<float>( WindowHeight );
     if( !get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" ) && quick_shortcuts_enabled ) {
         WindowHeightLessShortcuts -= get_option<int>( "ANDROID_SHORTCUT_HEIGHT" );
     }
-    float WindowAspect = WindowWidth / ( float )WindowHeightLessShortcuts;
+    float WindowAspect = WindowWidth / static_cast<float>( WindowHeightLessShortcuts );
     if( WindowAspect < DisplayBufferAspect ) {
         dstrect.x = 0;
         dstrect.y = 0;
@@ -537,12 +546,11 @@ void refresh_display()
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
     SetRenderTarget( renderer, nullptr );
+    ClearScreen();
 #if defined(__ANDROID__)
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth,
                        TERMINAL_HEIGHT * fontheight );
-    SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-    RenderClear( renderer );
-    RenderCopy( renderer, display_buffer, NULL, &dstrect );
+    RenderCopy( renderer, display_buffer, nullptr, &dstrect );
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
 #endif
@@ -572,7 +580,7 @@ void set_displaybuffer_rendertarget()
     SetRenderTarget( renderer, display_buffer );
 }
 
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
+static void invalidate_framebuffer( std::vector<curseline> &framebuffer, point p, int width,
                                     int height )
 {
     for( int j = 0, fby = p.y; j < height; j++, fby++ ) {
@@ -587,7 +595,7 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
     }
 }
 
-void reinitialize_framebuffer()
+void reinitialize_framebuffer( const bool force_invalidate )
 {
     static int prev_height = -1;
     static int prev_width = -1;
@@ -605,7 +613,7 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
-    } else if( need_invalidate_framebuffers ) {
+    } else if( force_invalidate || need_invalidate_framebuffers ) {
         need_invalidate_framebuffers = false;
         invalidate_framebuffer( oversized_framebuffer );
         invalidate_framebuffer( terminal_framebuffer );
@@ -678,14 +686,14 @@ void clear_window_area( const catacurses::window &win_ )
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
-static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
+static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
 {
     if( get_avatar().get_active_mission() == nullptr ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( !get_avatar().get_active_mission()->has_target() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
 
@@ -712,7 +720,7 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     if( traj.empty() ) {
         debugmsg( "Failed to gen overmap mission trajectory %s %s",
                   center.to_string(), mission_target.to_string() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     tripoint arr_pos = traj[0];
@@ -774,7 +782,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
     oter_id ot_id = oter_at( omp );
     const oter_t &ot = *ot_id;
     oter_type_id ot_type_id = ot.get_type_id();
-    oter_type_t ot_type = *ot_type_id;
+    const oter_type_t &ot_type = *ot_type_id;
 
     if( ot_type.has_connections() ) {
         // This would be for connected terrain
@@ -824,7 +832,7 @@ static point draw_string( Font &font,
     return p;
 }
 
-void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink )
+void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bool blink )
 {
     if( !g ) {
         return;
@@ -914,7 +922,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
             // light level is now used for choosing between grayscale filter and normal lit tiles.
             draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
-                                 subtile, rotation, ll, false, height_3d );
+                                 subtile, rotation, ll, false, height_3d, 0 );
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {
@@ -923,7 +931,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                         auto mgroup_iter = mgroups.begin();
                         std::advance( mgroup_iter, rng( 0, mgroups.size() - 1 ) );
                         draw_from_id_string( ( *mgroup_iter )->type->defaultMonster.str(),
-                                             omp.raw(), 0, 0, lit_level::LIT, false );
+                                             omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                     }
                 }
                 const int horde_size = overmap_buffer.get_horde_size( omp );
@@ -931,32 +939,32 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                     // a little bit of hardcoded fallbacks for hordes
                     if( find_tile_with_season( id ) ) {
                         draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
-                                             omp.raw(), 0, 0, lit_level::LIT, false );
+                                             omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                     } else {
                         switch( horde_size ) {
                             case HORDE_VISIBILITY_SIZE:
                                 draw_from_id_string( "mon_zombie", omp.raw(), 0, 0, lit_level::LIT,
-                                                     false );
+                                                     false, 0 );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 1:
                                 draw_from_id_string( "mon_zombie_tough", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 2:
                                 draw_from_id_string( "mon_zombie_brute", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 3:
                                 draw_from_id_string( "mon_zombie_hulk", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                             case HORDE_VISIBILITY_SIZE + 4:
                                 draw_from_id_string( "mon_zombie_necro", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                             default:
                                 draw_from_id_string( "mon_zombie_master", omp.raw(), 0, 0,
-                                                     lit_level::LIT, false );
+                                                     lit_level::LIT, false, 0 );
                                 break;
                         }
                     }
@@ -967,17 +975,17 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 // Highlight areas that already have been generated
                 // TODO: fix point types
                 if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
-                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
+                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                 }
             }
 
             if( blink && overmap_buffer.has_vehicle( omp ) ) {
                 if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE ) ) {
                     draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
-                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
+                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                 } else {
                     draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
-                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
+                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
                 }
             }
 
@@ -991,7 +999,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
                 std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
                 draw_from_id_string( note_name, TILE_CATEGORY::C_OVERMAP_NOTE, "overmap_note",
-                                     omp.raw(), 0, 0, lit_level::LIT, false );
+                                     omp.raw(), 0, 0, lit_level::LIT, false, 0 );
             }
         }
     }
@@ -1004,10 +1012,10 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         int subtile;
         terrain.get_rotation_and_subtile( rotation, subtile );
         draw_from_id_string( id, global_omt_to_draw_position( center_abs_omt ), subtile, rotation,
-                             lit_level::LOW, true );
+                             lit_level::LOW, true, 0 );
     }
     if( uistate.place_special ) {
-        for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
+        for( const overmap_special_terrain &s_ter : uistate.place_special->preview_terrains() ) {
             if( s_ter.p.z == 0 ) {
                 // TODO: fix point types
                 const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
@@ -1019,7 +1027,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 terrain.get_rotation_and_subtile( rotation, subtile );
 
                 draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
-                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true );
+                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true, 0 );
             }
         }
     }
@@ -1040,7 +1048,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                                    lit_level::LIT, height_3d );
     }
     draw_from_id_string( "cursor", global_omt_to_draw_position( center_abs_omt ), 0, 0, lit_level::LIT,
-                         false );
+                         false, 0 );
 
     if( blink ) {
         // Draw path for auto-travel
@@ -1053,17 +1061,17 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             } else {
                 id = "overmap_path_below";
             }
-            draw_from_id_string( id, global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT, false );
+            draw_from_id_string( id, global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT, false, 0 );
         }
 
         // reduce the area where the map cursor is drawn so it doesn't get cut off
         inclusive_cuboid<tripoint> map_cursor_area = overmap_area;
         map_cursor_area.p_max.y--;
-        const cata::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
+        const std::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
                     get_mission_arrow( map_cursor_area, center_abs_omt );
         if( mission_arrow ) {
             draw_from_id_string( mission_arrow->second, global_omt_to_draw_position( mission_arrow->first ), 0,
-                                 0, lit_level::LIT, false );
+                                 0, lit_level::LIT, false, 0 );
         }
     }
 
@@ -1103,14 +1111,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 label_bg( city.abs_sm_pos, city.city->name );
             }
         }
-
-        for( const camp_reference &camp : overmap_buffer.get_camps_near(
-                 coords::project_to<coords::sm>( center_abs_omt ), radius ) ) {
-            const tripoint_abs_omt camp_center = coords::project_to<coords::omt>( camp.abs_sm_pos );
-            if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
-                label_bg( camp.abs_sm_pos, camp.camp->name );
-            }
-        }
     }
 
     std::vector<std::pair<nc_color, std::string>> notes_window_text;
@@ -1145,7 +1145,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !notes_window_text.empty() ) {
         constexpr int padding = 2;
 
-        const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,
+        const auto draw_note_text = [&]( point  draw_pos, const std::string & name,
         nc_color & color ) {
             char note_fg_color = color == c_yellow ? 11 :
                                  cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
@@ -1227,7 +1227,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                   "SDL_RenderSetClipRect failed" );
 }
 
-static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
+static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offset )
 {
     if( scaling_factor > 1 ) {
         SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
@@ -1633,7 +1633,7 @@ static int HandleDPad()
                     return 0;
                 }
 
-                last_input = input_event( lc, CATA_INPUT_GAMEPAD );
+                last_input = input_event( lc, input_event_t::gamepad );
                 lastdpad = lc;
                 queued_dpad = ERR;
 
@@ -1653,7 +1653,7 @@ static int HandleDPad()
         // If we didn't hold it down for a while, just
         // fire the last registered press.
         if( queued_dpad != ERR ) {
-            last_input = input_event( queued_dpad, CATA_INPUT_GAMEPAD );
+            last_input = input_event( queued_dpad, input_event_t::gamepad );
             queued_dpad = ERR;
             return 1;
         }
@@ -1893,7 +1893,7 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         need_invalidate_framebuffers = true;
         catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
-        SetupRenderTarget();
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
         game_ui::init_ui();
         ui_manager::screen_resized();
         return true;
@@ -1986,8 +1986,8 @@ std::string get_quick_shortcut_name( const std::string &category )
 
 float android_get_display_density()
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = static_cast< JNIEnv *>( SDL_AndroidGetJNIEnv() );
+    jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "getDisplayDensity", "()F" );
     jfloat ans = env->CallFloatMethod( activity, method_id );
@@ -2024,7 +2024,7 @@ input_event *get_quick_shortcut_under_finger( bool down = false )
 {
 
     if( !quick_shortcuts_enabled ) {
-        return NULL;
+        return nullptr;
     }
 
     quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name(
@@ -2035,7 +2035,7 @@ input_event *get_quick_shortcut_under_finger( bool down = false )
 
     float finger_y = down ? finger_down_y : finger_curr_y;
     if( finger_y < WindowHeight - height ) {
-        return NULL;
+        return nullptr;
     }
 
     int i = 0;
@@ -2058,7 +2058,7 @@ input_event *get_quick_shortcut_under_finger( bool down = false )
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 // when pre-populating a quick shortcut list with defaults, ignore these actions (since they're all handleable by native touch operations)
@@ -2139,7 +2139,7 @@ int choose_best_key_for_action( const std::string &action, const std::string &ca
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action, category );
     int best_key = -1;
     for( const auto &events_event : events ) {
-        if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 ) {
+        if( events_event.type == input_event_t::keyboard && events_event.sequence.size() == 1 ) {
             bool is_ascii_char = isprint( events_event.sequence.front() ) &&
                                  events_event.sequence.front() < 0xFF;
             bool is_best_ascii_char = best_key >= 0 && isprint( best_key ) && best_key < 0xFF;
@@ -2155,7 +2155,7 @@ bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back
 {
     if( key > 0 ) {
         quick_shortcuts_t &qsl = quick_shortcuts_map[get_quick_shortcut_name( category )];
-        input_event event = input_event( key, CATA_INPUT_KEYBOARD );
+        input_event event = input_event( key, input_event_t::keyboard );
         quick_shortcuts_t::iterator it = std::find( qsl.begin(), qsl.end(), event );
         if( it != qsl.end() ) { // already exists
             ( *it ).shortcut_last_used_action_counter =
@@ -2235,11 +2235,11 @@ void remove_stale_inventory_quick_shortcuts()
             valid = inv_chars.valid( key );
             in_inventory = false;
             if( valid ) {
-                in_inventory = g->u.inv.invlet_to_position( key ) != INT_MIN;
+                in_inventory = g->u.inv_invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     for( const auto &item : g->u.worn ) {
-                        if( item.invlet == key ) {
+                        if( item->invlet == key ) {
                             in_inventory = true;
                             break;
                         }
@@ -2247,7 +2247,7 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( g->u.weapon.invlet == key ) {
+                    if( g->u.primary_weapon().invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2328,7 +2328,7 @@ void draw_quick_shortcuts()
             std::vector<input_context::manual_key> &registered_manual_keys =
                 touch_input_context.get_registered_manual_keys();
             for( const auto &manual_key : registered_manual_keys ) {
-                input_event event( manual_key.key, CATA_INPUT_KEYBOARD );
+                input_event event( manual_key.key, input_event_t::keyboard );
                 add_quick_shortcut( qsl, event, !shortcut_right, true );
             }
         }
@@ -2368,20 +2368,20 @@ void draw_quick_shortcuts()
         if( show_hint ) {
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = g->u.inv.find_item( g->u.inv.invlet_to_position( key ) ).display_name();
+                hint_text = g->u.inv_find_item( g->u.inv_invlet_to_position( key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     for( const auto &item : g->u.worn ) {
-                        if( item.invlet == key ) {
-                            hint_text = item.display_name();
+                        if( item->invlet == key ) {
+                            hint_text = item->display_name();
                             break;
                         }
                     }
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( g->u.weapon.invlet == key ) {
-                        hint_text = g->u.weapon.display_name();
+                    if( g->u.primary_weapon().invlet == key ) {
+                        hint_text = g->u.primary_weapon().display_name();
                     }
                 }
             } else {
@@ -2396,9 +2396,9 @@ void draw_quick_shortcuts()
             }
         }
         if( shortcut_right )
-            rect = { WindowWidth - ( int )( ( i + 1 ) * width + border ), ( int )( WindowHeight - height ), ( int )( width - border * 2 ), ( int )( height ) };
+            rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         else
-            rect = { ( int )( i * width + border ), ( int )( WindowHeight - height ), ( int )( width - border * 2 ), ( int )( height ) };
+            rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         if( hovered ) {
             SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         } else {
@@ -2410,15 +2410,15 @@ void draw_quick_shortcuts()
         if( hovered ) {
             // draw a second button hovering above the first one
             if( shortcut_right )
-                rect = { WindowWidth - ( int )( ( i + 1 ) * width + border ), ( int )( WindowHeight - height * 2.2f ), ( int )( width - border * 2 ), ( int )( height ) };
+                rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             else
-                rect = { ( int )( i * width + border ), ( int )( WindowHeight - height * 2.2f ), ( int )( width - border * 2 ), ( int )( height ) };
+                rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             SetRenderDrawColor( renderer, 0, 0, 196, 255 );
             RenderFillRect( renderer, &rect );
 
             if( show_hint ) {
                 // draw a backdrop for the hint text
-                rect = { 0, ( int )( ( WindowHeight - height ) * 0.5f ), ( int )WindowWidth, ( int )height };
+                rect = { 0, static_cast<int>( ( WindowHeight - height ) * 0.5f ), static_cast<int>( WindowWidth ), static_cast<int>( height ) };
                 SetRenderDrawColor( renderer, 0, 0, 0,
                                     get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
                 RenderFillRect( renderer, &rect );
@@ -2499,20 +2499,20 @@ void draw_virtual_joystick()
     dstrect.w = dstrect.h = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w / 2;
     dstrect.y = finger_down_y - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, nullptr, &dstrect );
 
     // Draw repeat delay range
     dstrect.w = dstrect.h = ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) +
                               get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge * 2;
     dstrect.x = finger_down_x - dstrect.w / 2;
     dstrect.y = finger_down_y - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, nullptr, &dstrect );
 
     // Draw current touch position (50% size of repeat delay range)
     dstrect.w = dstrect.h = dstrect.w / 2;
     dstrect.x = finger_down_x + ( finger_curr_x - finger_down_x ) / 2 - dstrect.w / 2;
     dstrect.y = finger_down_y + ( finger_curr_y - finger_down_y ) / 2 - dstrect.h / 2;
-    RenderCopy( renderer, touch_joystick, NULL, &dstrect );
+    RenderCopy( renderer, touch_joystick, nullptr, &dstrect );
 
 }
 
@@ -2573,56 +2573,56 @@ void handle_finger_input( uint32_t ticks )
                  WindowHeight ) ) ) {
         if( !handle_diagonals ) {
             if( delta_x >= 0 && delta_y >= 0 ) {
-                last_input = input_event( delta_x > delta_y ? KEY_RIGHT : KEY_DOWN, CATA_INPUT_KEYBOARD );
+                last_input = input_event( delta_x > delta_y ? KEY_RIGHT : KEY_DOWN, input_event_t::keyboard );
             } else if( delta_x < 0 && delta_y >= 0 ) {
-                last_input = input_event( -delta_x > delta_y ? KEY_LEFT : KEY_DOWN, CATA_INPUT_KEYBOARD );
+                last_input = input_event( -delta_x > delta_y ? KEY_LEFT : KEY_DOWN, input_event_t::keyboard );
             } else if( delta_x >= 0 && delta_y < 0 ) {
-                last_input = input_event( delta_x > -delta_y ? KEY_RIGHT : KEY_UP, CATA_INPUT_KEYBOARD );
+                last_input = input_event( delta_x > -delta_y ? KEY_RIGHT : KEY_UP, input_event_t::keyboard );
             } else if( delta_x < 0 && delta_y < 0 ) {
-                last_input = input_event( -delta_x > -delta_y ? KEY_LEFT : KEY_UP, CATA_INPUT_KEYBOARD );
+                last_input = input_event( -delta_x > -delta_y ? KEY_LEFT : KEY_UP, input_event_t::keyboard );
             }
         } else {
             if( delta_x > 0 ) {
                 if( std::abs( delta_y ) < delta_x * 0.5f ) {
                     // swipe right
-                    last_input = input_event( KEY_RIGHT, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( KEY_RIGHT, input_event_t::keyboard );
                 } else if( std::abs( delta_y ) < delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-right
-                        last_input = input_event( JOY_RIGHTUP, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_RIGHTUP, input_event_t::gamepad );
                     } else {
                         // swipe down-right
-                        last_input = input_event( JOY_RIGHTDOWN, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_RIGHTDOWN, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
                         // swipe up
-                        last_input = input_event( KEY_UP, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_UP, input_event_t::keyboard );
                     } else {
                         // swipe down
-                        last_input = input_event( KEY_DOWN, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_DOWN, input_event_t::keyboard );
                     }
                 }
             } else {
                 if( std::abs( delta_y ) < -delta_x * 0.5f ) {
                     // swipe left
-                    last_input = input_event( KEY_LEFT, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( KEY_LEFT, input_event_t::keyboard );
                 } else if( std::abs( delta_y ) < -delta_x * 2.0f ) {
                     if( delta_y < 0 ) {
                         // swipe up-left
-                        last_input = input_event( JOY_LEFTUP, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_LEFTUP, input_event_t::gamepad );
 
                     } else {
                         // swipe down-left
-                        last_input = input_event( JOY_LEFTDOWN, CATA_INPUT_GAMEPAD );
+                        last_input = input_event( JOY_LEFTDOWN, input_event_t::gamepad );
                     }
                 } else {
                     if( delta_y < 0 ) {
                         // swipe up
-                        last_input = input_event( KEY_UP, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_UP, input_event_t::keyboard );
                     } else {
                         // swipe down
-                        last_input = input_event( KEY_DOWN, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( KEY_DOWN, input_event_t::keyboard );
                     }
                 }
             }
@@ -2634,13 +2634,13 @@ void handle_finger_input( uint32_t ticks )
             // We only allow repeats for waiting, not confirming in menus as that's a bit silly
             if( is_default_mode ) {
                 last_input = input_event( get_key_event_from_string( get_option<std::string>( "ANDROID_TAP_KEY" ) ),
-                                          CATA_INPUT_KEYBOARD );
+                                          input_event_t::keyboard );
             }
         } else {
             if( last_tap_time > 0 &&
                 ticks - last_tap_time < static_cast<uint32_t>( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                 // Double tap
-                last_input = input_event( is_default_mode ? KEY_ESCAPE : KEY_ESCAPE, CATA_INPUT_KEYBOARD );
+                last_input = input_event( is_default_mode ? KEY_ESCAPE : KEY_ESCAPE, input_event_t::keyboard );
                 last_tap_time = 0;
             } else {
                 // First tap detected, waiting to decide whether it's a single or a double tap input
@@ -2652,8 +2652,8 @@ void handle_finger_input( uint32_t ticks )
 
 bool android_is_hardware_keyboard_available()
 {
-    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    JNIEnv *env = static_cast<JNIEnv *>( SDL_AndroidGetJNIEnv() );
+    jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
     jclass clazz( env->GetObjectClass( activity ) );
     jmethodID method_id = env->GetMethodID( clazz, "isHardwareKeyboardAvailable", "()Z" );
     jboolean ans = env->CallBooleanMethod( activity, method_id );
@@ -2666,8 +2666,8 @@ void android_vibrate()
 {
     int vibration_ms = get_option<int>( "ANDROID_VIBRATION" );
     if( vibration_ms > 0 && !android_is_hardware_keyboard_available() ) {
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = static_cast<JNIEnv *>( SDL_AndroidGetJNIEnv() );
+        jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID method_id = env->GetMethodID( clazz, "vibrate", "(I)V" );
         env->CallVoidMethod( activity, method_id, vibration_ms );
@@ -2706,8 +2706,8 @@ static void CheckMessages()
         needs_sdl_surface_visibility_refresh = false;
 
         // Call Java show_sdl_surface()
-        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-        jobject activity = ( jobject )SDL_AndroidGetActivity();
+        JNIEnv *env = static_cast<JNIEnv *>( SDL_AndroidGetJNIEnv() );
+        jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
         jclass clazz( env->GetObjectClass( activity ) );
         jmethodID method_id = env->GetMethodID( clazz, "show_sdl_surface", "()V" );
         env->CallVoidMethod( activity, method_id );
@@ -2761,7 +2761,8 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+                    if( g->u.primary_weapon().is_gun() ||
+                        g->u.primary_weapon().has_flag( STATIC( flag_id( "REACH_ATTACK" ) ) ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
@@ -2780,6 +2781,7 @@ static void CheckMessages()
                     actions_remove.insert( ACTION_CYCLE_MOVE );
                 }
 
+                map &here = get_map();
                 // Check if we can perform one of our actions on nearby terrain. If so,
                 // display that action at the top of the list.
                 for( int dx = -1; dx <= 1; dx++ ) {
@@ -2791,7 +2793,7 @@ static void CheckMessages()
 
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
-                            const optional_vpart_position vp = g->m.veh_at( pos );
+                            const optional_vpart_position vp = here.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 const int veh_part = vp ? vp->part_index() : -1;
@@ -2925,8 +2927,8 @@ static void CheckMessages()
 
                 // Display an Android toast message
                 {
-                    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
-                    jobject activity = ( jobject )SDL_AndroidGetActivity();
+                    JNIEnv *env = static_cast<JNIEnv *>( SDL_AndroidGetJNIEnv() );
+                    jobject activity = static_cast<jobject>( SDL_AndroidGetActivity() );
                     jclass clazz( env->GetObjectClass( activity ) );
                     jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
                                             "Shortcuts hidden" );
@@ -2968,7 +2970,7 @@ static void CheckMessages()
             // Single tap
             last_tap_time = ticks;
             last_input = input_event( is_default_mode ? get_key_event_from_string(
-                                          get_option<std::string>( "ANDROID_TAP_KEY" ) ) : '\n', CATA_INPUT_KEYBOARD );
+                                          get_option<std::string>( "ANDROID_TAP_KEY" ) ) : '\n', input_event_t::keyboard );
             last_tap_time = 0;
             return;
         }
@@ -2984,7 +2986,8 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    bool need_redraw = false;
+    std::optional<point> resize_dims;
+    bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
         switch( ev.type ) {
@@ -3001,7 +3004,7 @@ static void CheckMessages()
                             world_generator->active_world &&
                             g && g->uquit == QUIT_NO &&
                             get_option<bool>( "ANDROID_QUICKSAVE" ) &&
-                            !std::uncaught_exception() ) {
+                            !std::uncaught_exceptions() ) {
                             g->quicksave();
                         }
                         break;
@@ -3020,7 +3023,6 @@ static void CheckMessages()
                     case SDL_WINDOWEVENT_FOCUS_GAINED:
                         break;
                     case SDL_WINDOWEVENT_EXPOSED:
-                        need_redraw = true;
                         needupdate = true;
                         break;
                     case SDL_WINDOWEVENT_RESTORED:
@@ -3032,18 +3034,15 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED: {
-                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
-                        needupdate = handle_resize( ev.window.data1, ev.window.data2 );
+                    case SDL_WINDOWEVENT_RESIZED:
+                        resize_dims = point( ev.window.data1, ev.window.data2 );
                         break;
-                    }
                     default:
                         break;
                 }
                 break;
             case SDL_RENDER_TARGETS_RESET:
-                need_redraw = true;
-                needupdate = true;
+                render_target_reset = true;
                 break;
             case SDL_KEYDOWN: {
 #if defined(__ANDROID__)
@@ -3065,7 +3064,7 @@ static void CheckMessages()
                 } else if( add_alt_code( lc ) ) {
                     // key was handled
                 } else {
-                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( lc, input_event_t::keyboard );
 #if defined(__ANDROID__)
                     if( !android_is_hardware_keyboard_available() ) {
                         if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
@@ -3074,7 +3073,7 @@ static void CheckMessages()
                             }
 
                             // add a quick shortcut
-                            if( !last_input.text.empty() || !inp_mngr.get_keyname( lc, CATA_INPUT_KEYBOARD ).empty() ) {
+                            if( !last_input.text.empty() || !inp_mngr.get_keyname( lc, input_event_t::keyboard ).empty() ) {
                                 qsl.remove( last_input );
                                 add_quick_shortcut( qsl, last_input, false, true );
                                 refresh_display();
@@ -3108,7 +3107,7 @@ static void CheckMessages()
                 if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
                     int code = end_alt_code();
                     if( code ) {
-                        last_input = input_event( code, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( code, input_event_t::keyboard );
                         last_input.text = utf32_to_utf8( code );
                     }
                 }
@@ -3118,7 +3117,7 @@ static void CheckMessages()
                 if( !add_alt_code( *ev.text.text ) ) {
                     if( strlen( ev.text.text ) > 0 ) {
                         const unsigned lc = UTF8_getch( ev.text.text );
-                        last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                        last_input = input_event( lc, input_event_t::keyboard );
 #if defined(__ANDROID__)
                         if( !android_is_hardware_keyboard_available() ) {
                             if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
@@ -3141,7 +3140,7 @@ static void CheckMessages()
                     } else {
                         // no key pressed in this event
                         last_input = input_event();
-                        last_input.type = CATA_INPUT_KEYBOARD;
+                        last_input.type = input_event_t::keyboard;
                     }
                     last_input.text = ev.text.text;
                     text_refresh = true;
@@ -3150,11 +3149,11 @@ static void CheckMessages()
             case SDL_TEXTEDITING: {
                 if( strlen( ev.edit.text ) > 0 ) {
                     const unsigned lc = UTF8_getch( ev.edit.text );
-                    last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                    last_input = input_event( lc, input_event_t::keyboard );
                 } else {
                     // no key pressed in this event
                     last_input = input_event();
-                    last_input.type = CATA_INPUT_KEYBOARD;
+                    last_input.type = input_event_t::keyboard;
                 }
                 last_input.edit = ev.edit.text;
                 last_input.edit_refresh = true;
@@ -3162,7 +3161,7 @@ static void CheckMessages()
             }
             break;
             case SDL_JOYBUTTONDOWN:
-                last_input = input_event( ev.jbutton.button, CATA_INPUT_KEYBOARD );
+                last_input = input_event( ev.jbutton.button, input_event_t::keyboard );
                 break;
             case SDL_JOYAXISMOTION:
                 // on gamepads, the axes are the analog sticks
@@ -3176,26 +3175,26 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MOUSE_MOVE, CATA_INPUT_MOUSE );
+                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MOUSE_BUTTON_LEFT, CATA_INPUT_MOUSE );
+                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MOUSE_BUTTON_RIGHT, CATA_INPUT_MOUSE );
+                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
                         break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( SCROLLWHEEL_UP, CATA_INPUT_MOUSE );
+                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( SCROLLWHEEL_DOWN, CATA_INPUT_MOUSE );
+                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
                 }
                 break;
 
@@ -3234,7 +3233,7 @@ static void CheckMessages()
                     finger_down_y = finger_curr_y = ev.tfinger.y * WindowHeight;
                     finger_down_time = ticks;
                     finger_repeat_time = 0;
-                    is_quick_shortcut_touch = get_quick_shortcut_under_finger() != NULL;
+                    is_quick_shortcut_touch = get_quick_shortcut_under_finger() != nullptr;
                     if( !is_quick_shortcut_touch ) {
                         update_finger_repeat_delay();
                     }
@@ -3291,7 +3290,7 @@ static void CheckMessages()
 
                                 if( std::max( d1, d2 ) < get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) {
                                     last_input = input_event( get_key_event_from_string(
-                                                                  get_option<std::string>( "ANDROID_2_TAP_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                  get_option<std::string>( "ANDROID_2_TAP_KEY" ) ), input_event_t::keyboard );
                                 } else {
                                     float dot = ( x1 * x2 + y1 * y2 ) / ( d1 * d2 ); // dot product of two finger vectors, -1 to +1
                                     if( dot > 0.0f ) { // both fingers mostly heading in same direction, check for double-finger swipe gesture
@@ -3304,16 +3303,16 @@ static void CheckMessages()
                                             float yavg = 0.5f * ( y1 + y2 );
                                             if( xavg > 0 && xavg > std::abs( yavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_LEFT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_LEFT_KEY" ) ), input_event_t::keyboard );
                                             } else if( xavg < 0 && -xavg > std::abs( yavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_RIGHT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_RIGHT_KEY" ) ), input_event_t::keyboard );
                                             } else if( yavg > 0 && yavg > std::abs( xavg ) ) {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_DOWN_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_DOWN_KEY" ) ), input_event_t::keyboard );
                                             } else {
                                                 last_input = input_event( get_key_event_from_string(
-                                                                              get_option<std::string>( "ANDROID_2_SWIPE_UP_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                              get_option<std::string>( "ANDROID_2_SWIPE_UP_KEY" ) ), input_event_t::keyboard );
                                             }
                                         }
                                     } else {
@@ -3329,10 +3328,10 @@ static void CheckMessages()
                                         const float zoom_ratio = 0.9f;
                                         if( curr_dist < down_dist * zoom_ratio ) {
                                             last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_PINCH_IN_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                          get_option<std::string>( "ANDROID_PINCH_IN_KEY" ) ), input_event_t::keyboard );
                                         } else if( curr_dist > down_dist / zoom_ratio ) {
                                             last_input = input_event( get_key_event_from_string(
-                                                                          get_option<std::string>( "ANDROID_PINCH_OUT_KEY" ) ), CATA_INPUT_KEYBOARD );
+                                                                          get_option<std::string>( "ANDROID_PINCH_OUT_KEY" ) ), input_event_t::keyboard );
                                         }
                                     }
                                 }
@@ -3369,16 +3368,24 @@ static void CheckMessages()
             break;
         }
     }
-    if( need_redraw ) {
+    bool resized = false;
+    if( resize_dims.has_value() ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
+        needupdate = resized = handle_resize( resize_dims.value().x, resize_dims.value().y );
+    }
+    // resizing already reinitializes the render target
+    if( !resized && render_target_reset ) {
+        throwErrorIf( !SetupRenderTarget(), "SetupRenderTarget failed" );
+        reinitialize_framebuffer( true );
+        needupdate = true;
         restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
-        window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ), false );
-        ui_manager::redraw();
+        ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
+        ui_manager::redraw_invalidated();
     }
     if( needupdate ) {
         try_sdl_update();
@@ -3511,6 +3518,7 @@ void catacurses::init_interface()
 
     get_options().init();
     get_options().load();
+    get_options().save();
 
     font_loader fl;
     fl.load();
@@ -3534,7 +3542,14 @@ void catacurses::init_interface()
     dbg( DL::Info ) << "Initializing SDL Tiles context";
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
+        std::vector<mod_id> dummy;
+        tilecontext->load_tileset(
+            get_option<std::string>( "TILES" ),
+            dummy,
+            /*precheck=*/true,
+            /*force=*/false,
+            /*pump_events=*/true
+        );
     } catch( const std::exception &err ) {
         dbg( DL::Error ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3573,8 +3588,16 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
-    tilecontext->do_tile_loading_report();
+    tilecontext->load_tileset(
+        get_option<std::string>( "TILES" ),
+        world_generator->active_world->active_mod_order,
+        /*precheck=*/false,
+        /*force=*/false,
+        /*pump_events=*/true
+    );
+    tilecontext->do_tile_loading_report( []( const std::string & str ) {
+        DebugLog( DL::Info, DC::Main ) << str;
+    } );
 }
 
 //Ends the terminal, destroy everything
@@ -3604,6 +3627,19 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    last_input = input_event();
+    previously_pressed_key = 0;
+}
+
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
 input_event input_manager::get_input_event()
@@ -3623,11 +3659,11 @@ input_event input_manager::get_input_event()
     if( inputdelay < 0 ) {
         do {
             CheckMessages();
-            if( last_input.type != CATA_INPUT_ERROR ) {
+            if( last_input.type != input_event_t::error ) {
                 break;
             }
             SDL_Delay( 1 );
-        } while( last_input.type == CATA_INPUT_ERROR );
+        } while( last_input.type == input_event_t::error );
     } else if( inputdelay > 0 ) {
         uint32_t starttime = SDL_GetTicks();
         uint32_t endtime = 0;
@@ -3635,29 +3671,29 @@ input_event input_manager::get_input_event()
         do {
             CheckMessages();
             endtime = SDL_GetTicks();
-            if( last_input.type != CATA_INPUT_ERROR ) {
+            if( last_input.type != input_event_t::error ) {
                 break;
             }
             SDL_Delay( 1 );
             timedout = endtime >= starttime + inputdelay;
             if( timedout ) {
-                last_input.type = CATA_INPUT_TIMEOUT;
+                last_input.type = input_event_t::timeout;
             }
         } while( !timedout );
     } else {
         CheckMessages();
     }
 
-    if( last_input.type == CATA_INPUT_MOUSE ) {
+    if( last_input.type == input_event_t::mouse ) {
         SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
-    } else if( last_input.type == CATA_INPUT_KEYBOARD ) {
+    } else if( last_input.type == input_event_t::keyboard ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
         android_vibrate();
 #endif
     }
 #if defined(__ANDROID__)
-    else if( last_input.type == CATA_INPUT_GAMEPAD ) {
+    else if( last_input.type == input_event_t::gamepad ) {
         android_vibrate();
     }
 #endif
@@ -3676,7 +3712,7 @@ void rescale_tileset( int size )
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,
-        const point &pos, const point &size )
+        point pos, point size )
 {
     window_dimensions dim;
     if( use_tiles && g && win == g->w_terrain ) {
@@ -3729,15 +3765,15 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     return get_window_dimensions( win, point_zero, point_zero );
 }
 
-window_dimensions get_window_dimensions( const point &pos, const point &size )
+window_dimensions get_window_dimensions( point pos, point size )
 {
     return get_window_dimensions( {}, pos, size );
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
+std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
 {
     if( !coordinate_input_received ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     const catacurses::window &capture_win = capture_win_ ? capture_win_ : g->w_terrain;
@@ -3745,15 +3781,15 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
-    const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
+    point win_min = dim.window_pos_pixel;
+    point win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
     const inclusive_rectangle<point> win_bounds( win_min, win_max );
     if( !win_bounds.contains( coordinate ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     point view_offset;
@@ -3898,5 +3934,11 @@ HWND getWindowHandle()
     return info.info.win.window;
 }
 #endif
+
+const SDL_Renderer_Ptr &get_sdl_renderer()
+{
+    return renderer;
+}
+
 
 #endif // TILES

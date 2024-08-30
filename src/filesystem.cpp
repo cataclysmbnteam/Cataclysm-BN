@@ -1,6 +1,7 @@
 #include "filesystem.h"
 
 // FILE I/O
+#include <stdexcept>
 #include <sys/stat.h>
 #include <cstdlib>
 #include <algorithm>
@@ -8,6 +9,7 @@
 #include <cstdio>
 #include <cstring>
 #include <deque>
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -80,7 +82,19 @@ bool file_exist( const std::string &path )
 }
 #endif
 
+std::string as_norm_dir( const std::string &path )
+{
+    std::filesystem::path dir = std::filesystem::u8path( path ) / std::filesystem::path{};
+    std::filesystem::path norm = dir.lexically_normal();
+    std::string ret = norm.generic_u8string();
+    if( "." == ret ) {
+        ret = "./"; // TODO Change the many places that use strings instead of paths
+    }
+    return ret;
+}
+
 #if defined(_WIN32)
+
 bool remove_file( const std::string &path )
 {
     return DeleteFileW( utf8_to_wstr( path ).c_str() ) != 0;
@@ -115,6 +129,19 @@ bool remove_directory( const std::string &path )
 #else
     return remove( path.c_str() ) == 0;
 #endif
+}
+
+bool remove_tree( const std::string &path )
+{
+    try {
+        // TODO: C++20 - path constructor should be able to take the string as is
+        auto fs_path = std::filesystem::u8path( path );
+        std::filesystem::remove_all( fs_path );
+    } catch( std::filesystem::filesystem_error &e ) {
+        dbg( DL::Error ) << "remove_tree [" << path << "] failed with \"" << e.what() << "\".";
+        return false;
+    }
+    return true;
 }
 
 const char *cata_files::eol()
@@ -289,6 +316,7 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
 // Return every file at root_path matching predicate.
 //
 // If root_path is empty, search the current working directory.
+// If root_path does not exist, returns empty list.
 // If recursive_search is true, search breadth-first into the directory hierarchy.
 //
 // Results are ordered depth-first with directories searched in lexically order. Furthermore,
@@ -310,6 +338,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
         directories.emplace_back( root_path + "/" );
     }
     std::vector<std::string> results;
+    if( !dir_exist( *directories.begin() ) ) {
+        return results;
+    }
 
     while( !directories.empty() ) {
         const auto path = std::move( directories.front() );
@@ -480,7 +511,7 @@ bool can_write_to_dir( const std::string &dir_path )
 
     const auto writer = []( std::ostream & s ) {
         // Write at least something to check if there is free space on disk
-        s << CBN << std::endl;
+        s << CBN << '\n';
     };
 
     if( !write_to_file( dummy_file, writer, nullptr ) ) {

@@ -68,6 +68,7 @@ void distribution_grid::update( time_point to )
 
 // TODO: Shouldn't be here
 #include "vehicle.h"
+#include "vehicle_part.h"
 static itype_id itype_battery( "battery" );
 int distribution_grid::mod_resource( int amt, bool recurse )
 {
@@ -221,15 +222,23 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
 
 void distribution_grid_tracker::on_saved()
 {
-    grids_requiring_updates.clear();
-    parent_distribution_grids.clear();
     if( !get_option<bool>( "ELECTRIC_GRID" ) ||
         world_generator->active_world == nullptr ) {
         return;
     }
     tripoint_abs_sm min_bounds( bounds.p_min, -OVERMAP_DEPTH );
     tripoint_abs_sm max_bounds( bounds.p_max, OVERMAP_HEIGHT );
-    for( const tripoint_abs_sm &sm_pos : tripoint_range<tripoint_abs_sm>( min_bounds, max_bounds ) ) {
+    tripoint_range<tripoint_abs_sm> bounds_range( min_bounds, max_bounds );
+    // Remove all grids that are no longer in the bounds
+    for( auto iter = parent_distribution_grids.begin(); iter != parent_distribution_grids.end(); ) {
+        if( !bounds_range.is_point_inside( iter->first ) ) {
+            grids_requiring_updates.erase( iter->second );
+            iter = parent_distribution_grids.erase( iter );
+        } else {
+            ++iter;
+        }
+    }
+    for( const tripoint_abs_sm &sm_pos : bounds_range ) {
         if( parent_distribution_grids.find( sm_pos ) == parent_distribution_grids.end() ) {
             make_distribution_grid_at( sm_pos );
         }
@@ -297,11 +306,15 @@ void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker 
 
         const furn_t &old_t = sm->get_furn( p_within_sm.raw() ).obj();
         const furn_t &new_t = qt.id.obj();
+        const tripoint pos_local = m.getlocal( qt.p.raw() );
 
-        sm->set_furn( p_within_sm.raw(), qt.id );
+        if( m.inbounds( pos_local ) ) {
+            m.furn_set( pos_local, qt.id );
+        } else {
+            sm->set_furn( p_within_sm.raw(), qt.id );
+        }
 
         if( !qt.msg.empty() ) {
-            const tripoint pos_local = m.getlocal( qt.p.raw() );
             if( u.sees( pos_local ) ) {
                 add_msg( "%s", _( qt.msg ) );
             }
@@ -345,7 +358,6 @@ void distribution_grid_tracker::update( time_point to )
 void distribution_grid_tracker::load( half_open_rectangle<point_abs_sm> area )
 {
     bounds = area;
-    // TODO: Don't reload everything when not needed
     on_saved();
 }
 

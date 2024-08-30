@@ -6,7 +6,7 @@ import copy
 
 def hash_key(key):
     if isinstance(key, list):
-        return "list_" + "".join(key)
+        return f"list_{''.join(key)}"
     else:
         return key
 
@@ -64,15 +64,15 @@ argsDict = vars(args.parse_args())
 mapgen = []
 mapgen_source = argsDict.get("mapgen_source", "")
 palette_name = argsDict.get("palette_name", "")
-palette_source = argsDict.get("palette_path", "") + "/" + palette_name + ".json"
+palette_source = f"{argsDict.get('palette_path', '')}/{palette_name}.json"
 if mapgen_source.endswith(".json"):
    try:
        with open(mapgen_source) as mapgen_file:
            mapgen += json.load(mapgen_file)
    except FileNotFoundError:
-       exit("Failed: could not find {}".format(mapgen_source))
+       exit(f"Failed: could not find {mapgen_source}")
 else:
-   exit("Failed: invalid mapgen file name {}".format(mapgen_source))
+   exit(f"Failed: invalid mapgen file name {mapgen_source}")
 
 furn_pal = {}
 furn_conflicts = {}

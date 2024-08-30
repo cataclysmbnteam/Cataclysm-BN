@@ -83,6 +83,94 @@
     }
   },
   {
+    "method": "json",
+    "om_terrain": "moonshine_still",
+    "type": "mapgen",
+    "weight": 10000,
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "faction_owner": [ { "id": "no_faction", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              ___       ",
+        "             _c___      ",
+        "             ___c_      ",
+        "             _a___      ",
+        "            _____       ",
+        "           ________     ",
+        "        ||||++|++|____  ",
+        "        |Od+ddddd|w____ ",
+        "        |Od|bdddd|w____ ",
+        "        |^^|tttd~|   _  ",
+        "        ||||||||||      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_underbrush",
+        "+": "t_dirtfloor",
+        ".": "t_grass",
+        "4": "t_tree_pine",
+        "7": "t_tree",
+        "B": "t_grass",
+        "C": "t_dirtfloor",
+        "D": "t_dirtmound",
+        "O": "t_dirtfloor",
+        "T": "t_tree_maple",
+        "^": "t_dirtfloor",
+        "b": "t_dirtfloor",
+        "d": "t_dirtfloor",
+        "e": "t_tree_hickory",
+        "s": "t_shrub",
+        "t": "t_dirtfloor",
+        "_": "t_grass",
+        "w": "t_grass",
+        "|": "t_wall_wood"
+      },
+      "furniture": {
+        "+": "f_canvas_door",
+        "B": "f_boulder_small",
+        "C": "f_canvas_door_o",
+        "H": "f_wood_keg",
+        "O": "f_fvat_empty",
+        "^": "f_still",
+        "a": "f_ash",
+        "b": "f_chair",
+        "c": "f_chair",
+        "o": "f_boulder_small",
+        "t": "f_table",
+        "~": "f_makeshift_bed",
+        "w": "f_wood_keg"
+      },
+      "place_npcs": [ { "class": "survivor_moonshiner", "x": 13, "y": 12 } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "no_faction", "x": [ 14, 14 ], "y": [ 13, 13 ] },
+        { "type": "LOOT_DRINK", "faction": "no_faction", "x": [ 12, 13 ], "y": [ 13, 13 ] }
+      ],
+      "place_items": [
+        { "item": "still_alcohol", "x": [ 12, 13 ], "y": [ 13, 13 ], "chance": 100, "repeat": [ 20, 43 ] },
+        { "item": "keg_wine_intact", "x": [ 12, 13 ], "y": [ 13, 13 ], "chance": 70, "repeat": [ 2, 5 ] }
+      ],
+      "place_loot": [
+        { "item": "cig_butt", "x": 12, "y": 6 },
+        { "item": "cig_butt", "x": 18, "y": 7 },
+        { "item": "shovel", "x": 21, "y": 12 },
+        { "item": "stepladder", "x": 21, "y": 13 },
+        { "item": "blanket", "x": 16, "y": 13 }
+      ]
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "moonshine_still_roof",

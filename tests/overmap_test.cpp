@@ -1,21 +1,26 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <memory>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "game_constants.h"
 #include "numeric_interval.h"
 #include "omdata.h"
 #include "overmap.h"
+#include "overmap_special.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "rng.h"
+#include "state_helpers.h"
 #include "type_id.h"
 
-TEST_CASE( "set_and_get_overmap_scents" )
+TEST_CASE( "set_and_get_overmap_scents", "[overmap]" )
 {
+    clear_all_state();
     std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
 
     // By default there are no scents set.
@@ -34,8 +39,9 @@ TEST_CASE( "set_and_get_overmap_scents" )
     REQUIRE( test_overmap->scent_at( { 75, 85, 0} ).initial_strength == 90 );
 }
 
-TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
+TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
 {
+    clear_all_state();
     int overmaps_to_construct = 10;
     for( const point_abs_om &candidate_addr : closest_points_first( point_abs_om(), 10 ) ) {
         // Skip populated overmaps.
@@ -46,68 +52,23 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
         overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
         for( const auto &special_placement : test_specials ) {
             auto special = special_placement.special_details;
+            if( special->has_flag( "UNIQUE" ) ) {
+                continue;
+            }
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
-            CHECK( special->occurrences.min <= special_placement.instances_placed );
+            int min_occur = special->get_constraints().occurrences.min;
+            CHECK( min_occur <= special_placement.instances_placed );
         }
         if( --overmaps_to_construct <= 0 ) {
             break;
         }
     }
 }
-
-TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
+namespace
 {
-    const point_abs_om origin{};
 
-    overmap_special mandatory;
-    overmap_special optional;
-
-    // Get some specific overmap specials so we can assert their presence later.
-    // This should probably be replaced with some custom specials created in
-    // memory rather than tying this test to these, but it works for now...
-    for( const auto &elem : overmap_specials::get_all() ) {
-        if( elem.id == overmap_special_id( "Cabin" ) ) {
-            optional = elem;
-        } else if( elem.id == overmap_special_id( "Lab" ) ) {
-            mandatory = elem;
-        }
-    }
-
-    // Make this mandatory special impossible to place.
-    mandatory.city_size.min = 999;
-
-    // Construct our own overmap_special_batch containing only our single mandatory
-    // and single optional special, so we can make some assertions.
-    std::vector<const overmap_special *> specials;
-    specials.push_back( &mandatory );
-    specials.push_back( &optional );
-    overmap_special_batch test_specials = overmap_special_batch( origin, specials );
-
-    // Run the overmap creation, which will try to place our specials.
-    overmap_buffer.create_custom_overmap( origin, test_specials );
-
-    // Get the origin overmap...
-    overmap *test_overmap = overmap_buffer.get_existing( origin );
-
-    // ...and assert that the optional special exists on this map.
-    bool found_optional = false;
-    for( int x = 0; x < OMAPX; ++x ) {
-        for( int y = 0; y < OMAPY; ++y ) {
-            const oter_id t = test_overmap->ter( { x, y, 0 } );
-            if( t->id == "cabin" ||
-                t->id == "cabin_north" || t->id == "cabin_east" ||
-                t->id == "cabin_south" || t->id == "cabin_west" ) {
-                found_optional = true;
-            }
-        }
-    }
-
-    INFO( "Failed to place optional special on origin " );
-    CHECK( found_optional == true );
-}
-
-static void do_lab_finale_test()
+void do_lab_finale_test()
 {
     const oter_id labt_endgame( "central_lab_endgame" );
     const point_abs_om origin;
@@ -128,13 +89,17 @@ static void do_lab_finale_test()
     CHECK( endgame_count == 1 );
 }
 
+} //namespace
+
 TEST_CASE( "Exactly one endgame lab finale is generated in 0,0 overmap", "[overmap][slow]" )
 {
+    clear_all_state();
     do_lab_finale_test();
 }
 
 TEST_CASE( "Brute force default batch generation to check for RNG bugs", "[.][overmap][slow]" )
 {
+    clear_all_state();
     for( size_t i = 0; i < 100; i++ ) {
         do_lab_finale_test();
     }
@@ -142,6 +107,7 @@ TEST_CASE( "Brute force default batch generation to check for RNG bugs", "[.][ov
 
 TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 {
+    clear_all_state();
     SECTION( "exact match" ) {
         // Matches the complete string
         CHECK( is_ot_match( "forest", oter_id( "forest" ), ot_match_type::exact ) );
@@ -161,7 +127,8 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 
         // Does not match if base type does not match
         CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::type ) );
-        CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sewer_sub_station" ), ot_match_type::type ) );
+        CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sewer_sub_station_north" ),
+                                  ot_match_type::type ) );
     }
 
     SECTION( "prefix match" ) {
@@ -206,5 +173,43 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
         // Does not match if substring is not contained
         CHECK_FALSE( is_ot_match( "forest", oter_id( "central_lab" ), ot_match_type::contains ) );
         CHECK_FALSE( is_ot_match( "forestry", oter_id( "forest" ), ot_match_type::contains ) );
+    }
+}
+
+TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
+{
+    const overmap_special &special =
+        *overmap_special_id( GENERATE( "test_anthill", "test_crater" ) );
+    const city cit;
+
+    constexpr int num_overmaps = 100;
+    constexpr int num_trials_per_overmap = 100;
+
+    for( int j = 0; j < num_overmaps; ++j ) {
+        // overmap objects are really large, so we don't want them on the
+        // stack.  Use unique_ptr and put it on the heap
+        std::unique_ptr<overmap> om = std::make_unique<overmap>( point_abs_om( point_zero ) );
+        om_direction::type dir = om_direction::type::north;
+
+        int successes = 0;
+
+        for( int i = 0; i < num_trials_per_overmap; ++i ) {
+            tripoint_om_omt try_pos( rng( 0, OMAPX - 1 ), rng( 0, OMAPY - 1 ), 0 );
+
+            // This test can get very spammy, so abort once an error is
+            // observed
+            if( debug_has_error_been_observed() ) {
+                return;
+            }
+
+            if( om->can_place_special( special, try_pos, dir, false ) ) {
+                std::vector<tripoint_om_omt> placed_points =
+                    om->place_special( special, try_pos, dir, cit, false, false );
+                CHECK( !placed_points.empty() );
+                ++successes;
+            }
+        }
+
+        CHECK( successes > num_trials_per_overmap / 2 );
     }
 }

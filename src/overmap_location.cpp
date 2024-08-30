@@ -31,7 +31,7 @@ const overmap_location &string_id<overmap_location>::obj() const
     return locations.obj( *this );
 }
 
-bool overmap_location::test( const int_id<oter_t> &oter ) const
+bool overmap_location::test( const oter_id &oter ) const
 {
     return std::any_of( terrains.cbegin(), terrains.cend(),
     [ &oter ]( const oter_type_str_id & type ) {
@@ -56,8 +56,9 @@ void overmap_location::load( const JsonObject &jo, const std::string & )
 std::vector<oter_type_id> overmap_location::get_all_terrains() const
 {
     std::vector<oter_type_id> ret;
+    ret.reserve( terrains.size() );
     for( oter_type_str_id elem : terrains ) {
-        ret.push_back( elem );
+        ret.emplace_back( elem );
     }
     return ret;
 }

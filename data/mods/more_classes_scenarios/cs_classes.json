@@ -4,8 +4,8 @@
     "subtype": "collection",
     "id": "army_mags_rm2000",
     "entries": [
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 },
-      { "item": "8x40_10_mag", "ammo-item": "8mm_fmj", "charges": 10 }
+      { "item": "8x40_10_mag", "ammo-item": "8mm_caseless", "charges": 10 },
+      { "item": "8x40_10_mag", "ammo-item": "8mm_caseless", "charges": 10 }
     ]
   },
   {
@@ -14,6 +14,7 @@
     "name": "Bionic Special Operator",
     "description": "Once bionic augmentation proved safe, you were chosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancements allow you to handle any combat scenario be it human or not.",
     "points": 8,
+    "traits": [ "PROF_MILITARY" ],
     "CBMs": [
       "bio_targeting",
       "bio_purifier",
@@ -53,7 +54,7 @@
           { "item": "kukri", "container-item": "sheath" },
           {
             "item": "rm2000_smg",
-            "ammo-item": "8mm_fmj",
+            "ammo-item": "8mm_caseless",
             "charges": 25,
             "contents-item": [ "shoulder_strap", "suppressor", "holo_sight" ]
           },

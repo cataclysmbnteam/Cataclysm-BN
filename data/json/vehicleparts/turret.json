@@ -22,6 +22,34 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
+    "id": "mounted_huge_crossbow",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted huge crossbow" },
+    "item": "huge_crossbow",
+    "looks_like": "mounted_bigun",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 6, 12 ] },
+      { "item": "splinter", "count": [ 8, 16 ] },
+      { "item": "string_36", "count": [ 3, 6 ] }
+    ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
+    "id": "mounted_rep_crossbow",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted repeating crossbow" },
+    "item": "rep_crossbow",
+    "looks_like": "mounted_bigun",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "splinter", "count": [ 4, 8 ] }, { "item": "string_6", "count": [ 1, 2 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "smg", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
     "id": "mounted_emp_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -63,6 +91,20 @@
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
+    "id": "mounted_rm451_flamethrower",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted RM451 flamethrower" },
+    "item": "rm451_flamethrower",
+    "looks_like": "flamethrower",
+    "default_ammo": "napalm",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 3 }, { "item": "steel_chunk", "count": 1 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 6 ], [ "launcher", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 4 ] ] } },
+    "extend": { "flags": [ "USE_TANKS" ] }
+  },
+  {
     "id": "mounted_plasma_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -91,6 +133,21 @@
     }
   },
   {
+    "id": "mounted_laser_rifle_cheap",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted shoddy laser rifle" },
+    "item": "laser_rifle_cheap",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "looks_like": "laser_rifle",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
     "id": "laser_cannon",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -102,6 +159,34 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_gatling_mech_laser_rebuilt",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted gatling laser" },
+    "item": "gatling_mech_laser_rebuilt",
+    "color": "blue",
+    "broken_color": "blue",
+    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
+  },
+  {
+    "id": "mounted_recon_mech_laser_rebuilt",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted marksman laser" },
+    "item": "recon_mech_laser_rebuilt",
+    "color": "blue",
+    "broken_color": "blue",
+    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
     }
   },
   {
@@ -127,6 +212,30 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
+    "id": "mounted_helsing",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted pneumatic bolt driver" },
+    "item": "helsing",
+    "looks_like": "mounted_m1918",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
+    "id": "mounted_tihar",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted pneumatic assault rifle" },
+    "item": "tihar",
+    "looks_like": "mounted_m1918",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
     "id": "mounted_browning",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -135,6 +244,18 @@
     "color": "green",
     "broken_color": "green",
     "breaks_into": [ { "item": "scrap", "count": 80 }, { "item": "steel_chunk", "count": 48 }, { "item": "steel_lump", "count": 18 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "mounted_m2browning_sawn",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted .50 caliber rifle" },
+    "item": "m2browning_sawn",
+    "looks_like": "mounted_browning",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "scrap", "count": 40 }, { "item": "steel_chunk", "count": 24 }, { "item": "steel_lump", "count": 9 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
@@ -205,6 +326,30 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
+    "id": "mounted_m202_flash",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M202A1 FLASH" },
+    "item": "m202_flash",
+    "looks_like": "tow_launcher",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 16 }, { "item": "steel_chunk", "count": 2 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "launcher", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "mounted_surv_rocket_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted crude rocket launcher" },
+    "item": "surv_rocket_launcher",
+    "looks_like": "tow_launcher",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "breaks_into": [ { "item": "scrap", "count": [ 10, 20 ] } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
     "id": "mounted_rm298",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -252,5 +397,111 @@
     "breaks_into": [ { "item": "scrap", "count": 40 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 13 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
     "extend": { "flags": [ "USE_TANKS" ] }
+  },
+  {
+    "id": "mounted_paintballgun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted Paintball gun" },
+    "item": "paintballgun",
+    "looks_like": "mounted_m1918",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "breaks_into": [ { "item": "scrap", "count": 8 }, { "item": "steel_chunk", "count": 3 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
+    "id": "mounted_heavy_rail_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted heavy rail rifle" },
+    "item": "heavy_rail_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 30 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_rebar_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted ferromagnetic rail rifle" },
+    "item": "rebar_rifle",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_3in_ordnance_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted 3-inch ordnance rifle" },
+    "item": "cannon_3in_ordnance",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 72 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 10 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
+    "description": "A light (by artillery standards) rifled cannon widely used in the American Civil War, noted for its reliability."
+  },
+  {
+    "id": "mounted_m1874_gatling",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M1874 Gatling gun" },
+    "item": "m1874_gatling",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 20 }, { "item": "steel_lump", "count": 12 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
+    "description": "A rotary firearm from the 19th Century driving multiple barrels with a hand crank for sustained fire."
+  },
+  {
+    "id": "mounted_slingshot_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted slingshot cannon" },
+    "item": "slingshot_cannon",
+    "looks_like": "tow_launcher",
+    "color": "brown",
+    "broken_color": "light_gray",
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 8, 16 ] },
+      { "item": "hose", "count": [ 0, 2 ] }
+    ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
+    "id": "mounted_coilgun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted coilgun" },
+    "item": "coilgun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_mininuke_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted mininuke launcher" },
+    "item": "mininuke_launcher",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   }
 ]

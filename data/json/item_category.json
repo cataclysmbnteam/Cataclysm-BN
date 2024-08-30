@@ -64,59 +64,66 @@
     "sort_rank": -15
   },
   {
+    "id": "spellbooks",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "SPELLBOOKS" },
+    "zone": "LOOT_SPELLBOOKS",
+    "sort_rank": -14
+  },
+  {
     "id": "maps",
     "type": "ITEM_CATEGORY",
     "name": { "str": "MAPS" },
-    "sort_rank": -14
+    "sort_rank": -13
   },
   {
     "id": "mods",
     "type": "ITEM_CATEGORY",
     "name": { "str": "MODS" },
     "zone": "LOOT_MODS",
-    "sort_rank": -13
+    "sort_rank": -12
   },
   {
     "id": "mutagen",
     "type": "ITEM_CATEGORY",
     "name": { "str": "MUTAGENS" },
     "zone": "LOOT_MUTAGENS",
-    "sort_rank": -12
+    "sort_rank": -11
   },
   {
     "id": "bionics",
     "type": "ITEM_CATEGORY",
     "name": { "str": "BIONICS" },
     "zone": "LOOT_BIONICS",
-    "sort_rank": -12
+    "sort_rank": -10
   },
   {
     "id": "veh_parts",
     "type": "ITEM_CATEGORY",
     "name": { "str": "VEHICLE PARTS" },
     "zone": "LOOT_VEHICLE_PARTS",
-    "sort_rank": -10
+    "sort_rank": -9
   },
   {
     "id": "other",
     "type": "ITEM_CATEGORY",
     "name": { "str": "OTHER" },
     "zone": "LOOT_OTHER",
-    "sort_rank": -9
+    "sort_rank": -8
   },
   {
     "id": "fuel",
     "type": "ITEM_CATEGORY",
     "name": { "str": "FUEL" },
     "zone": "LOOT_FUEL",
-    "sort_rank": -8
+    "sort_rank": -7
   },
   {
     "id": "seeds",
     "type": "ITEM_CATEGORY",
     "name": { "str": "SEEDS" },
     "zone": "LOOT_SEEDS",
-    "sort_rank": -7
+    "sort_rank": -6
   },
   {
     "id": "chems",

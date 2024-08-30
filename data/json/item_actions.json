@@ -26,7 +26,7 @@
   },
   {
     "type": "item_action",
-    "id": "picklock",
+    "id": "PICK_LOCK",
     "name": { "str": "Pick a lock" }
   },
   {
@@ -93,6 +93,11 @@
     "type": "item_action",
     "id": "GUNMOD_ATTACH",
     "name": { "str": "Attach as gunmod" }
+  },
+  {
+    "type": "item_action",
+    "id": "GUN_CLEAN",
+    "name": { "str": "Clean/mend a gun" }
   },
   {
     "type": "item_action",
@@ -231,6 +236,11 @@
   },
   {
     "type": "item_action",
+    "id": "saw_stock",
+    "name": { "str": "Saw down stock" }
+  },
+  {
+    "type": "item_action",
     "id": "ACIDBOMB_ACT",
     "name": { "str": "Activate" }
   },
@@ -346,11 +356,6 @@
   },
   {
     "type": "item_action",
-    "id": "CATFOOD",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
     "id": "CHAINSAW_OFF",
     "name": { "str": "Turn on" }
   },
@@ -431,7 +436,7 @@
   },
   {
     "type": "item_action",
-    "id": "DOGFOOD",
+    "id": "PETFOOD",
     "name": { "str": "Place" }
   },
   {
@@ -523,11 +528,6 @@
     "type": "item_action",
     "id": "FLUSLEEP",
     "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
-    "id": "FLU_VACCINE",
-    "name": { "str": "Inject" }
   },
   {
     "type": "item_action",
@@ -821,16 +821,6 @@
   },
   {
     "type": "item_action",
-    "id": "RM13ARMOR_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "RM13ARMOR_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },
@@ -843,16 +833,6 @@
     "type": "item_action",
     "id": "SHAVEKIT",
     "name": { "str": "Shave" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHOCKTONFA_ON",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",
@@ -901,6 +881,11 @@
   },
   {
     "type": "item_action",
+    "id": "TOGGLE_UPS_CHARGING",
+    "name": { "str": "Enable/disable UPS charging" }
+  },
+  {
+    "type": "item_action",
     "id": "REPORT_GRID_CHARGE",
     "name": { "str": "Check grid charge" }
   },
@@ -908,6 +893,11 @@
     "type": "item_action",
     "id": "REPORT_GRID_CONNECTIONS",
     "name": { "str": "Check grid connections" }
+  },
+  {
+    "type": "item_action",
+    "id": "MODIFY_GRID_CONNECTIONS",
+    "name": { "str": "Modify grid connections" }
   },
   {
     "type": "item_action",
@@ -1011,6 +1001,16 @@
   },
   {
     "type": "item_action",
+    "id": "set_transform",
+    "name": { "str": "Activate" }
+  },
+  {
+    "type": "item_action",
+    "id": "set_transformed",
+    "name": { "str": "Activate" }
+  },
+  {
+    "type": "item_action",
     "id": "explosion",
     "name": { "str": "Activate" }
   },
@@ -1058,21 +1058,6 @@
     "type": "item_action",
     "id": "unfold_vehicle",
     "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
-    "id": "ups_based_armor",
-    "name": { "str": "Activate/deactivate" }
-  },
-  {
-    "type": "item_action",
-    "id": "CATTLEFODDER",
-    "name": { "str": "Place" }
-  },
-  {
-    "type": "item_action",
-    "id": "BIRDFOOD",
-    "name": { "str": "Place" }
   },
   {
     "type": "item_action",

@@ -1,0 +1,671 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NC_res_personal_items_1X1",
+    "//": "NEST CONTAINER - Items of interest or use to a specific person (hobbies, job-related, uniforms, tools, etc), meant to add personality. Should be able to fit in a closet or corner of a bedroom. This should be the nested chunk called by each individual house file. Global spawn rates for all houses that call this chunk can be managed by editing values below. ",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "_" ],
+      "terrain": { "_": "t_null" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 40 ],
+            [ "res_personal_scuba_1X1", 5 ],
+            [ "res_personal_elecgtr_1X1", 5 ],
+            [ "res_personal_acoustgtr_1X1", 5 ],
+            [ "res_personal_nostalgist_1X1", 5 ],
+            [ "res_personal_ergometer_1X1", 5 ],
+            [ "res_personal_comicoll_1X1", 5 ],
+            [ "res_personal_bowhunter_1X1", 5 ],
+            [ "res_personal_bodypillow_1X1", 5 ],
+            [ "res_personal_dresses_1X1", 5 ],
+            [ "res_personal_fencing_1X1", 5 ],
+            [ "res_personal_clown_1X1", 5 ],
+            [ "res_personal_mascot_1X1", 5 ],
+            [ "res_personal_fisher_1X1", 5 ],
+            [ "res_personal_gobag_1X1", 2 ],
+            [ "res_personal_histreenactor_1X1", 2 ],
+            [ "res_personal_horrornovels_1X1", 5 ],
+            [ "res_personal_LARPer_1X1", 2 ],
+            [ "res_personal_esotericist_1X1", 5 ],
+            [ "res_personal_dungeonmaster_1X1", 5 ],
+            [ "res_personal_boardgames_1X1", 5 ],
+            [ "res_personal_hatrack_1X1", 5 ],
+            [ "res_personal_bugoutbox_1X1", 5 ],
+            [ "res_personal_saxophone_1X1", 5 ],
+            [ "res_personal_tinkerer_1X1", 5 ],
+            [ "res_personal_construction_1X1", 5 ],
+            [ "res_personal_donationbox_1X1", 5 ],
+            [ "res_personal_campinggear_1X1", 5 ],
+            [ "res_personal_golfgear_1X1", 5 ],
+            [ "res_personal_stoner_1X1", 5 ],
+            [ "res_personal_football_gear_1X1", 5 ],
+            [ "res_personal_baseball_gear_1X1", 5 ],
+            [ "res_personal_rollerskates_1X1", 5 ]
+          ],
+          "x": [ 0 ],
+          "y": [ 0 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_scuba_1X1",
+    "//": "amateur dive gear.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "wetsuit", "x": 0, "y": 0 },
+        { "item": "small_scuba_tank", "x": 0, "y": 0 },
+        { "item": "dive_bag", "x": 0, "y": 0 },
+        { "item": "swim_fins", "x": 0, "y": 0 },
+        { "item": "diving_watch", "x": 0, "y": 0, "chance": 5 },
+        { "item": "wetsuit_hood", "x": 0, "y": 0, "chance": 5 },
+        { "item": "wetsuit_spring", "x": 0, "y": 0, "chance": 5 },
+        { "item": "wetsuit_gloves", "x": 0, "y": 0, "chance": 5 },
+        { "item": "wetsuit_booties", "x": 0, "y": 0, "chance": 5 },
+        { "item": "rebreather", "x": 0, "y": 0, "chance": 5 },
+        { "item": "rebreather_filter", "x": 0, "y": 0, "chance": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_elecgtr_1X1",
+    "//": "a decent setup, looks like it had seen some use, possibly on the road.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_speaker_cabinet" },
+      "place_loot": [
+        { "item": "cable_instrument", "x": 0, "y": 0, "repeat": [ 2, 3 ] },
+        { "item": "amplifier_head", "x": 0, "y": 0 },
+        { "item": "guitar_electric", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_acoustgtr_1X1",
+    "//": "a beat-up old guitar that looks like its seen a lot of outdoor use.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [ { "item": "guitar_stand", "x": 0, "y": 0 }, { "item": "acoustic_guitar", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_ergometer_1X1",
+    "//": "little-used exercise equipment, collecting dust.",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "x" ], "terrain": { "x": "t_null" }, "furniture": { "x": [ "f_ergometer" ] } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_nostalgist_1X1",
+    "//": "someone's treasured memories.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "survnote", "x": 0, "y": 0, "chance": 5 },
+        { "item": "fairy_tales", "x": 0, "y": 0, "chance": 5 },
+        { "item": "child_book", "x": 0, "y": 0, "chance": 5 },
+        { "item": "family_cookbook", "x": 0, "y": 0, "chance": 5 },
+        { "item": "veil_wedding", "x": 0, "y": 0, "chance": 5 },
+        { "item": "ring_wedding", "x": 0, "y": 0, "chance": 5 },
+        { "item": "family_photo", "x": 0, "y": 0, "repeat": [ 5, 10 ] },
+        { "item": "photo_album", "x": 0, "y": 0, "repeat": [ 3, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_comicoll_1X1",
+    "//": "well-worn and much-read comics.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "mag_porn", "x": 0, "y": 0, "chance": 5, "repeat": [ 2, 4 ] },
+        { "item": "mag_animecon", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
+        { "item": "mag_comic", "x": 0, "y": 0, "repeat": [ 30, 50 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_bowhunter_1X1",
+    "//": "bow hunting gear.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "knife_hunting", "x": 0, "y": 0, "chance": 10 },
+        { "item": "binoculars", "x": 0, "y": 0, "chance": 10 },
+        { "item": "quiver", "x": 0, "y": 0 },
+        { "item": "book_archery", "x": 0, "y": 0, "chance": 15 },
+        { "item": "manual_archery", "x": 0, "y": 0, "chance": 5 },
+        { "item": "mag_archery", "x": 0, "y": 0, "chance": 35 },
+        { "item": "bow_sight", "x": 0, "y": 0, "chance": 5 },
+        { "item": "bow_scope", "x": 0, "y": 0, "chance": 5 },
+        { "item": "compbow", "x": 0, "y": 0 },
+        { "item": "arrow_cf", "x": 0, "y": 0, "repeat": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_bodypillow_1X1",
+    "//": "someone's beloved pillows.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "bodypillow", "x": 0, "y": 0, "repeat": [ 1, 2 ] },
+        { "item": "mag_animecon", "x": 0, "y": 0, "chance": 25, "repeat": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_dresses_1X1",
+    "//": "beautiful dresses, some of which have seen better days.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [
+        { "item": "dress", "x": 0, "y": 0, "repeat": [ 5, 7 ] },
+        { "item": "skirt", "x": 0, "y": 0, "repeat": [ 2, 3 ] },
+        { "item": "sundress", "x": 0, "y": 0, "repeat": [ 2, 4 ] },
+        { "item": "skirt_leather", "x": 0, "y": 0, "chance": 10, "repeat": [ 2, 4 ] },
+        { "item": "nanoskirt", "x": 0, "y": 0, "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_mascot_1X1",
+    "//": "a mascot costume, worn during many a game. it still smells of sweat and cigarettes.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [ { "item": "whistle", "x": 0, "y": 0 }, { "item": "jersey", "x": 0, "y": 0 }, { "item": "wolfsuit", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_clown_1X1",
+    "//": "clown costume, pressed and neatly hung.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [
+        { "item": "airhorn", "x": 0, "y": 0 },
+        { "item": "clown_nose", "x": 0, "y": 0 },
+        { "item": "clown_wig", "x": 0, "y": 0 },
+        { "item": "clownshoes", "x": 0, "y": 0 },
+        { "item": "clown_suit", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_fencing_1X1",
+    "//": "a competitive fencer's gear.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [
+        { "item": "duffelbag", "x": 0, "y": 0 },
+        { "item": "fencing_pants", "x": 0, "y": 0 },
+        { "item": "fencing_mask", "x": 0, "y": 0 },
+        { "item": "fencing_jacket", "x": 0, "y": 0 },
+        { "item": "gauntlet_fencing", "x": 0, "y": 0 },
+        { "item": "plastron_cotton", "x": 0, "y": 0 },
+        { "item": "fencing_epee", "x": 0, "y": 0 },
+        { "item": "fencing_foil", "x": 0, "y": 0 },
+        { "item": "manual_fencing", "x": 0, "y": 0, "chance": 10 },
+        { "item": "fencing_jacket", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_gobag_1X1",
+    "//": "someone's go bag, ready for easy deployment.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [ { "item": "personal_gobag", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_fisher_1X1",
+    "//": "hobbyist fishing gear.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "fishing_waders", "x": 0, "y": 0 },
+        { "item": "vest", "x": 0, "y": 0 },
+        { "item": "hat_boonie", "x": 0, "y": 0 },
+        { "item": "jacket_flannel", "x": 0, "y": 0 },
+        { "item": "fishing_rod_professional", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_histreenactor_1X1",
+    "//": "clothing for recreating a life in another time and place.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_clothing_rail" },
+      "place_loot": [
+        { "item": "knee_high_boots", "x": 0, "y": 0 },
+        { "item": "breeches", "x": 0, "y": 0 },
+        { "item": "waistcoat", "x": 0, "y": 0 },
+        { "item": "peacoat", "x": 0, "y": 0 },
+        { "item": "leather_belt", "x": 0, "y": 0 },
+        { "item": "knit_scarf", "x": 0, "y": 0 },
+        { "item": "tricorne", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_horrornovels_1X1",
+    "//": "genre enthusiast's collection. mostly horror with some other genre adjacent titles.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_bookcase" },
+      "place_loot": [
+        { "item": "novel_horror", "x": 0, "y": 0, "repeat": [ 15, 20 ] },
+        { "item": "novel_crime", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "novel_thriller", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "novel_fantasy", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "novel_scifi", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_LARPer_1X1",
+    "//": "someone's costume for acting out another life.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "broadsword_fake", "x": 0, "y": 0, "chance": 5 },
+        { "item": "cloak", "x": 0, "y": 0 },
+        { "item": "novel_fantasy", "x": 0, "y": 0 },
+        { "item": "tunic", "x": 0, "y": 0 },
+        { "item": "breeches", "x": 0, "y": 0 },
+        { "item": "longsword_fake", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_esotericist_1X1",
+    "//": "curious collection of edgy and difficult reading material, meant for display.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_bookcase" },
+      "place_loot": [
+        { "item": "novel_experimental", "x": 0, "y": 0, "chance": 80, "repeat": [ 4, 6 ] },
+        { "item": "poetry_book", "x": 0, "y": 0, "chance": 50, "repeat": [ 2, 3 ] },
+        { "item": "novel_erotic", "x": 0, "y": 0, "chance": 50, "repeat": [ 2, 3 ] },
+        { "item": "philosophy_book", "x": 0, "y": 0, "chance": 50, "repeat": [ 4, 6 ] },
+        { "item": "essay_book", "x": 0, "y": 0, "chance": 50, "repeat": [ 4, 6 ] },
+        { "group": "religious_books", "x": 0, "y": 0, "chance": 20, "repeat": [ 4, 6 ] },
+        { "group": "exotic_books", "x": 0, "y": 0, "chance": 10, "repeat": [ 2, 3 ] },
+        { "item": "cookbook_human", "x": 0, "y": 0, "chance": 1 },
+        { "item": "textbook_robots", "x": 0, "y": 0, "chance": 5 },
+        { "item": "textbook_anarch", "x": 0, "y": 0, "chance": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_dungeonmaster_1X1",
+    "//": "a box of well-thumbed role-playing game manuals, some with copious notes written in the margins.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "cloak", "x": 0, "y": 0, "chance": 5 },
+        { "item": "catan", "x": 0, "y": 0, "chance": 25 },
+        { "item": "g_warhammer", "x": 0, "y": 0, "chance": 30 },
+        { "item": "g_warhammer40k", "x": 0, "y": 0, "chance": 30 },
+        { "item": "dnd", "x": 0, "y": 0, "chance": 40 },
+        { "item": "novel_fantasy", "x": 0, "y": 0, "chance": 20, "repeat": [ 2, 3 ] },
+        { "item": "dnd_handbook", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 3 ] },
+        { "item": "character_sheet", "x": 0, "y": 0, "chance": 100, "repeat": [ 4, 8 ] },
+        { "item": "metal_RPG_die", "x": 0, "y": 0, "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "RPG_die", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_boardgames_1X1",
+    "//": "family game night.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "chess", "x": 0, "y": 0, "chance": 100 },
+        { "item": "catan", "x": 0, "y": 0, "chance": 50 },
+        { "item": "deck_of_cards", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 3 ] },
+        { "item": "pictionary", "x": 0, "y": 0, "chance": 100 },
+        { "item": "checkers", "x": 0, "y": 0, "chance": 100 },
+        { "item": "battleship", "x": 0, "y": 0, "chance": 100 },
+        { "item": "clue", "x": 0, "y": 0, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_bugoutbox_1X1",
+    "//": "someone's bugout box, perhaps hastily assembled at the first rumblings of onset apocalypse. ready to be thrown in the back of a car or dumped in a bag.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "textbook_survival", "x": 0, "y": 0, "chance": 100 },
+        { "item": "water_clean", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 3 ] },
+        { "item": "money_bundle", "x": 0, "y": 0, "chance": 60 },
+        { "item": "multitool", "x": 0, "y": 0, "chance": 60 },
+        { "item": "jacket_flannel", "x": 0, "y": 0, "chance": 60 },
+        { "item": "long_underpants", "x": 0, "y": 0, "chance": 60 },
+        { "item": "longshirt", "x": 0, "y": 0, "chance": 60 },
+        { "item": "lighter", "x": 0, "y": 0, "chance": 60 },
+        { "item": "socks_wool", "x": 0, "y": 0, "chance": 60 },
+        { "item": "roadmap", "x": 0, "y": 0, "chance": 60 },
+        { "item": "backpack_hiking", "x": 0, "y": 0, "chance": 50 },
+        { "item": "pocket_firstaid", "x": 0, "y": 0, "chance": 25 },
+        { "item": "survival_kit", "x": 0, "y": 0, "chance": 25 },
+        { "item": "hatchet", "x": 0, "y": 0, "chance": 25 },
+        { "item": "radio", "x": 0, "y": 0, "chance": 25 },
+        { "item": "wearable_light", "x": 0, "y": 0, "chance": 25 },
+        { "item": "tent_kit", "x": 0, "y": 0, "chance": 25 },
+        { "item": "pur_tablets", "x": 0, "y": 0, "chance": 25 },
+        { "item": "knife_trench", "x": 0, "y": 0, "chance": 25 },
+        { "item": "mre_hashbrownbacon_box", "x": 0, "y": 0, "chance": 25 },
+        { "item": "mre_macaronimarinara_box", "x": 0, "y": 0, "chance": 25 },
+        { "item": "mre_meatball_box", "x": 0, "y": 0, "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_hatrack_1X1",
+    "//": "Someone's hat collection.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_rack_coat" },
+      "place_loot": [
+        { "item": "beret", "x": 0, "y": 0, "chance": 50 },
+        { "item": "beret_wool", "x": 0, "y": 0, "chance": 50 },
+        { "item": "hat_hard", "x": 0, "y": 0, "chance": 50 },
+        { "item": "hat_hunting", "x": 0, "y": 0, "chance": 50 },
+        { "item": "hat_knit", "x": 0, "y": 0, "chance": 50 },
+        { "group": "hatstore_hats", "x": 0, "y": 0, "chance": 100, "repeat": [ 4, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_saxophone_1X1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [ { "item": "fedora", "x": 0, "y": 0 }, { "item": "saxophone", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_tinkerer_1X1",
+    "//": "an amateur tinkerer's collection of electronic parts and books.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "item": "textbook_robots", "x": 0, "y": 0, "chance": 5 },
+        { "item": "textbook_electronics", "x": 0, "y": 0, "chance": 100 },
+        { "item": "advanced_electronics", "x": 0, "y": 0, "chance": 10 },
+        { "item": "advanced_electronics", "x": 0, "y": 0, "chance": 10 },
+        { "item": "soldering_iron", "x": 0, "y": 0 },
+        { "item": "solder_wire", "x": 0, "y": 0 },
+        { "item": "processor", "x": 0, "y": 0 },
+        { "item": "RAM", "x": 0, "y": 0 },
+        { "item": "power_supply", "x": 0, "y": 0, "chance": 10 },
+        { "item": "solar_cell", "x": 0, "y": 0, "chance": 10 },
+        { "item": "screwdriver_set", "x": 0, "y": 0 },
+        { "item": "3d_printer_basic", "x": 0, "y": 0, "chance": 10 },
+        { "item": "transponder", "x": 0, "y": 0, "chance": 10 },
+        { "item": "receiver", "x": 0, "y": 0, "chance": 10 },
+        { "item": "antenna", "x": 0, "y": 0, "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_construction_1X1",
+    "//": "work gear dropped unceremoniously after a long day.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "toolbox", "x": 0, "y": 0, "chance": 20 },
+        { "item": "gloves_work", "x": 0, "y": 0 },
+        { "item": "hat_hard", "x": 0, "y": 0 },
+        { "item": "hammer", "x": 0, "y": 0, "chance": 50 },
+        { "item": "pliers", "x": 0, "y": 0, "chance": 50 },
+        { "item": "screwdriver", "x": 0, "y": 0, "chance": 50 },
+        { "item": "wrench", "x": 0, "y": 0, "chance": 50 },
+        { "item": "chisel", "x": 0, "y": 0, "chance": 50 },
+        { "item": "xacto", "x": 0, "y": 0, "chance": 50 },
+        { "item": "tool_belt", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_donationbox_1X1",
+    "//": " box of odds and ends bound for a charity donation box.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_cardboard_box" },
+      "place_loot": [
+        { "group": "homebooks", "x": 0, "y": 0, "chance": 25, "repeat": [ 4, 5 ] },
+        { "group": "dishes_dining", "x": 0, "y": 0, "chance": 25, "repeat": [ 4, 5 ] },
+        { "group": "donated_clothes", "x": 0, "y": 0, "chance": 25, "repeat": [ 4, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_campinggear_1X1",
+    "//": "random camping gear, as if someone has just gotten back from a trip. or is about to go on one.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "tent_kit", "x": 0, "y": 0 },
+        { "item": "trailmap", "x": 0, "y": 0 },
+        { "item": "sleeping_bag", "x": 0, "y": 0 },
+        { "item": "boots_hiking", "x": 0, "y": 0 },
+        { "item": "hatchet", "x": 0, "y": 0, "chance": 10 },
+        { "item": "binoculars", "x": 0, "y": 0, "chance": 10 },
+        { "item": "hammer", "x": 0, "y": 0, "chance": 10 },
+        { "item": "inflatable_boat", "x": 0, "y": 0, "chance": 10 },
+        { "item": "lighter", "x": 0, "y": 0, "chance": 10 },
+        { "item": "hotplate", "x": 0, "y": 0, "chance": 10 },
+        { "item": "coffeemaker", "x": 0, "y": 0, "chance": 10 },
+        { "item": "bottle_metal", "x": 0, "y": 0, "chance": 10 },
+        { "group": "tinware", "x": 0, "y": 0, "chance": 10 },
+        { "item": "backpack_hiking", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_golfgear_1X1",
+    "//": "golf clubs and other gear.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "gloves_golf", "x": 0, "y": 0 },
+        { "item": "hat_golf", "x": 0, "y": 0 },
+        { "item": "golf_shoes", "x": 0, "y": 0 },
+        { "item": "golf_club", "x": 0, "y": 0, "repeat": [ 5, 7 ] },
+        { "item": "golf_bag", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_football_gear_1X1",
+    "//": "football gear. still smells of sweat",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "football_armor", "x": 0, "y": 0 },
+        { "item": "helmet_football", "x": 0, "y": 0 },
+        { "item": "football", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_baseball_gear_1X1",
+    "//": "baseball gear. the bat is worn, and looks like its seen a lot of use.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [ { "item": "baseball", "x": 0, "y": 0 }, { "item": "helmet_ball", "x": 0, "y": 0 }, { "item": "bat", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_rollerskates_1X1",
+    "//": "rollerskates and protective gear",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "place_loot": [
+        { "item": "elbow_pads", "x": 0, "y": 0 },
+        { "item": "knee_pads", "x": 0, "y": 0 },
+        { "item": "helmet_bike", "x": 0, "y": 0 },
+        { "item": "rollerskates", "x": 0, "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "res_personal_stoner_1X1",
+    "//": "desk containing someone's stash and paraphernalia.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "x" ],
+      "terrain": { "x": "t_null" },
+      "furniture": { "x": "f_desk" },
+      "place_loot": [
+        { "group": "stoner", "x": 0, "y": 0, "chance": 50, "repeat": [ 4, 5 ] },
+        { "item": "lighter", "x": 0, "y": 0 },
+        { "item": "weed", "x": 0, "y": 0 },
+        { "item": "rolling_paper", "x": 0, "y": 0, "repeat": [ 4, 5 ] }
+      ]
+    }
+  }
+]

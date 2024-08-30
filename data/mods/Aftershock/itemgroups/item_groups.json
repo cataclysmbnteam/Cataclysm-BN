@@ -80,11 +80,6 @@
     "items": [ [ "afs_atompot", 3 ] ]
   },
   {
-    "id": "bed",
-    "type": "item_group",
-    "items": [ [ "afs_quilt", 10 ], [ "afs_quilt_patchwork", 8 ] ]
-  },
-  {
     "id": "livingroom",
     "type": "item_group",
     "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]
@@ -348,12 +343,27 @@
     "id": "supplies_metal",
     "type": "item_group",
     "items": [
-      [ "bionic_maintenance_toolkit", 20 ],
-      [ "afs_biomaterial_2", 20 ],
-      [ "afs_biomaterial_3", 10 ],
-      [ "afs_biomaterial_1", 20 ],
-      [ "afs_neural_io_2", 15 ]
+      { "item": "afs_titanium_frame", "prob": 5 },
+      { "item": "afs_scrap_titanium", "prob": 5, "count": [ 2, 8 ] },
+      [ "afs_titanium_small", 5 ]
     ]
+  },
+  {
+    "id": "clothing_watch",
+    "type": "item_group",
+    "items": [ { "item": "afs_titanium_watch", "prob": 50 } ]
+  },
+  {
+    "id": "accessory_ring",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "afs_titanium_ring", "prob": 50 } ]
+  },
+  {
+    "id": "accessory_teeth",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "afs_titanium_tooth", 25 ] ]
   },
   {
     "id": "swat_gear",
@@ -362,8 +372,8 @@
       { "item": "xlswat_armor", "prob": 12 },
       { "item": "xlballistic_vest_empty", "prob": 6 },
       { "item": "xlballistic_vest_esapi", "prob": 3 },
-      { "item": "xlboots_combat", "prob": 15 },
-      { "item": "xlgloves_tactical", "prob": 10 },
+      { "item": "boots_combat", "prob": 15, "custom-flags": [ "resized_large" ] },
+      { "item": "gloves_tactical", "prob": 10, "custom-flags": [ "resized_large" ] },
       { "item": "tripaw_xlgloves_tactical", "prob": 8 }
     ]
   },
@@ -373,8 +383,8 @@
     "items": [
       { "item": "xlballistic_vest_empty", "prob": 6 },
       { "item": "xlballistic_vest_esapi", "prob": 3 },
-      { "item": "xlboots_combat", "prob": 15 },
-      { "item": "xlgloves_tactical", "prob": 10 },
+      { "item": "boots_combat", "prob": 15, "custom-flags": [ "resized_large" ] },
+      { "item": "gloves_tactical", "prob": 10, "custom-flags": [ "resized_large" ] },
       { "item": "tripaw_xlgloves_tactical", "prob": 8 }
     ]
   },
@@ -385,8 +395,8 @@
       { "item": "xlswat_armor", "prob": 60 },
       { "item": "xlballistic_vest_empty", "prob": 65 },
       { "item": "xlballistic_vest_esapi", "prob": 39 },
-      { "item": "xlboots_combat", "prob": 70 },
-      { "item": "xlgloves_tactical", "prob": 50 },
+      { "item": "boots_combat", "prob": 70, "custom-flags": [ "resized_large" ] },
+      { "item": "gloves_tactical", "prob": 50, "custom-flags": [ "resized_large" ] },
       { "item": "tripaw_xlgloves_tactical", "prob": 48 }
     ]
   },

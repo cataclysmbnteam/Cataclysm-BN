@@ -31,6 +31,12 @@ bool remove_file( const std::string &path );
  */
 bool remove_directory( const std::string &path );
 /**
+ * Remove a directory and all its children.
+ * @return true on success or if the directory did not exist,
+ *         false on failure to remove (e.g. no permissions, directory is being used).
+ */
+bool remove_tree( const std::string &path );
+/**
  * Rename a file, overwriting the target. Does not overwrite directories.
  * @return true on success, false on failure.
  */
@@ -53,6 +59,9 @@ std::string get_pid_string();
  * @return empty string on failure.
  */
 std::string read_entire_file( const std::string &path );
+
+/** Force 'path' to be a normalized directory */
+std::string as_norm_dir( const std::string &path );
 
 namespace cata_files
 {

@@ -14,10 +14,11 @@
 #include "pimpl.h"
 #include "type_id.h"
 
+enum class special_game_type;
+
 class JsonIn;
 class JsonObject;
 
-enum special_game_id : int;
 namespace catacurses
 {
 class window;
@@ -31,10 +32,10 @@ class save_t
         save_t( const std::string &name );
 
     public:
-        std::string player_name() const;
+        std::string decoded_name() const;
         std::string base_path() const;
 
-        static save_t from_player_name( const std::string &name );
+        static save_t from_save_id( const std::string &save_id );
         static save_t from_base_path( const std::string &base_path );
 
         bool operator==( const save_t &rhs ) const {
@@ -68,6 +69,8 @@ struct WORLD {
         WORLD();
         void COPY_WORLD( const WORLD *world_to_copy );
 
+        bool needs_lua() const;
+
         bool save_exists( const save_t &name ) const;
         void add_save( const save_t &name );
 
@@ -92,18 +95,20 @@ class worldfactory
 
         // Generate a world
         WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
-        WORLDPTR make_new_world( special_game_id special_type );
+        WORLDPTR make_new_world( special_game_type special_type );
         // Used for unit tests - does NOT verify if the mods can be loaded
         WORLDPTR make_new_world( const std::vector<mod_id> &mods );
-        /// Returns the *existing* world of given name.
+        // Returns the *existing* world of given name.
         WORLDPTR get_world( const std::string &name );
+        // Returns index for world name, 0 if world cannot be found.
+        size_t get_world_index( const std::string &name );
         bool has_world( const std::string &name ) const;
 
         void set_active_world( WORLDPTR world );
 
         void init();
 
-        WORLDPTR pick_world( bool show_prompt = true );
+        WORLDPTR pick_world( bool show_prompt = true, bool empty_only = false );
 
         WORLDPTR active_world;
 

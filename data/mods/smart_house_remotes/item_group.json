@@ -1,0 +1,8 @@
+[
+  {
+    "type": "item_group",
+    "id": "SUS_junk_drawer",
+    "subtype": "collection",
+    "entries": [ { "item": "smart_house_remote", "count": 1, "prob": 70 } ]
+  }
+]

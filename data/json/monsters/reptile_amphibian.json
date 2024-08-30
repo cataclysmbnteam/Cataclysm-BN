@@ -54,6 +54,7 @@
     "dodge": 2,
     "armor_bash": 6,
     "armor_cut": 8,
+    "armor_bullet": 6,
     "vision_day": 3,
     "vision_night": 35,
     "harvest": "animal_large_noskin",
@@ -68,7 +69,7 @@
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
         "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
-        "no_infection_chance": 2
+        "no_infection_chance": 17
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
@@ -109,7 +110,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "ANIMAL" ]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -137,6 +138,7 @@
     "dodge": 1,
     "armor_bash": 2,
     "armor_cut": 4,
+    "armor_bullet": 3,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "mutant_animal_large_noskin",

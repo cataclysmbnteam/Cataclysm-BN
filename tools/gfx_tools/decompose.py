@@ -178,16 +178,16 @@ class TileSheetData(object):
             pngnum = all_pngnums[i]
             if pngnum in refs.pngnum_to_pngname:
                 continue
-            pngname = "{}_{}_{}".format(pngnum, tile_id, i + offset)
+            pngname = f"{pngnum}_{tile_id}_{i + offset}"
             while pngname in refs.pngname_to_pngnum:
                 offset += 1
-                pngname = "{}_{}_{}".format(pngnum, tile_id, i + offset)
+                pngname = f"{pngnum}_{tile_id}_{i + offset}"
             try:
                 refs.pngnum_to_pngname.setdefault(pngnum, pngname)
                 refs.pngname_to_pngnum.setdefault(pngname, pngnum)
                 refs.add_pngnum_to_tsfilepath(pngnum)
             except TypeError:
-                print("failed to parse {}".format(json.dumps(tile_entry, indent=2)))
+                print(f"failed to parse {json.dumps(tile_entry, indent=2)}")
                 raise
         return tile_id
 
@@ -204,7 +204,7 @@ class TileSheetData(object):
         if self.pngnum_max > 0:
             refs.ts_data[self.ts_filename] = self
             ts_tile_info = {
-                "//": "indices {} to {}".format(self.pngnum_min, self.pngnum_max)
+                "//": f"indices {self.pngnum_min} to {self.pngnum_max}"
             }
             if self.write_dim:
                 ts_tile_info["sprite_offset_x"] = self.sprite_offset_x
@@ -224,8 +224,8 @@ class ExtractionData(object):
         self.valid = True
 
         ts_base = ts_filename.split(".png")[0]
-        geometry_dim = "{}x{}".format(self.ts_data.sprite_width, self.ts_data.sprite_height)
-        pngs_dir = "/pngs_" +  ts_base + "_{}".format(geometry_dim)
+        geometry_dim = f"{self.ts_data.sprite_width}x{self.ts_data.sprite_height}"
+        pngs_dir = f"/pngs_{ts_base}_{geometry_dim}"
         self.ts_dir_pathname = refs.tileset_pathname + pngs_dir
         find_or_make_dir(self.ts_dir_pathname)
         self.tilenum_in_dir = 256
@@ -237,12 +237,12 @@ class ExtractionData(object):
             expansion_id = expand_entry.get("id", "expansion")
             if not isinstance(expansion_id, str):
                 continue
-            expand_entry_pathname = self.ts_dir_pathname + "/" + expansion_id + ".json"
+            expand_entry_pathname = f"{self.ts_dir_pathname}/{expansion_id}.json"
             write_to_json(expand_entry_pathname, expand_entry)
 
     def increment_dir(self):
         if self.tilenum_in_dir > 255:
-            self.subdir_pathname = self.ts_dir_pathname + "/" + "images{}".format(self.dir_count)
+            self.subdir_pathname = f"{self.ts_dir_pathname}/images{self.dir_count}"
             find_or_make_dir(self.subdir_pathname)
             self.tilenum_in_dir = 0
             self.dir_count += 1
@@ -268,7 +268,7 @@ class ExtractionData(object):
         tile_image = tile_data.ts_image.extract_area(tile_off_x, tile_off_y,
                                                      tile_data.sprite_width,
                                                      tile_data.sprite_height)
-        tile_png_pathname = self.subdir_pathname + "/" + pngname + ".png"
+        tile_png_pathname = f"{self.subdir_pathname}/{pngname}.png"
         tile_image.pngsave(tile_png_pathname)
         refs.extracted_pngnums[png_index] = True
 
@@ -303,7 +303,7 @@ class PngRefs(object):
         try:
             os.stat(self.tileset_pathname)
         except KeyError:
-            print("cannot find a directory {}".format(self.tileset_pathname))
+            print(f"cannot find a directory {self.tileset_pathname}")
             exit -1
 
         tileset_confname = refs.tileset_pathname + "/" + "tile_config.json"
@@ -311,7 +311,7 @@ class PngRefs(object):
         try:
             os.stat(tileset_confname)
         except KeyError:
-            print("cannot find a directory {}".format(tileset_confname))
+            print(f"cannot find a directory {tileset_confname}")
             exit -1
 
         if delete_pathname:
@@ -389,7 +389,7 @@ class PngRefs(object):
     def report_missing(self):
         for pngnum in self.pngnum_to_pngname:
             if not self.extracted_pngnums.get(pngnum):
-                print("missing index {}, {}".format(pngnum, self.pngnum_to_pngname[pngnum]))
+                print(f"missing index {pngnum}, {self.pngnum_to_pngname[pngnum]}")
 
 
 args = argparse.ArgumentParser(description="Split a tileset's tile_config.json into a directory per tile containing the tile data and png.")
@@ -452,7 +452,7 @@ for ts_filename in ts_sequence:
             tile_entry_name, tile_entry = refs.convert_pngnum_to_pngname(tile_entry)
             if not tile_entry_name:
                 continue
-            tile_entry_pathname = subdir_pathname + "/" + tile_entry_name + "_" + str(idx) + ".json"
+            tile_entry_pathname = f"{subdir_pathname}/{tile_entry_name}_{str(idx)}.json"
             #if os.path.isfile(tile_entry_pathname):
             #    print("overwriting {}".format(tile_entry_pathname))
             write_to_json(tile_entry_pathname, tile_entry)

@@ -1,50 +1,43 @@
+#include "catch/catch.hpp"
+
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
-#include "colony.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "point.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "weather.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
-static const efftype_id effect_blind( "blind" );
-
-static void reset_player()
-{
-    // Move player somewhere safe
-    REQUIRE( !g->u.in_vehicle );
-    g->u.setpos( tripoint_zero );
-    // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 365_days, num_bp );
-}
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 {
-    reset_player();
+    clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
+    map &here = get_map();
 
     SECTION( "vehicle with reactor" ) {
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0_degrees, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
 
         REQUIRE( !veh_ptr->reactors.empty() );
         vehicle_part &reactor = veh_ptr->part( veh_ptr->reactors.front() );
+        reactor.enabled = true;
 
         GIVEN( "the reactor is empty" ) {
             reactor.ammo_unset();
@@ -68,7 +61,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
     SECTION( "vehicle with solar panels" ) {
         const tripoint solar_origin = tripoint( 5, 5, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0_degrees, 0,
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0_degrees, 0,
                                              0 );
         REQUIRE( veh_ptr != nullptr );
 
@@ -87,16 +80,16 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
                     THEN( "the battery should be partially charged" ) {
                         int charge = veh_ptr->fuel_left( fuel_type_battery ) / 100;
-                        CHECK( 10 <= charge );
-                        CHECK( charge <= 15 );
+                        CHECK( 20 <= charge );
+                        CHECK( charge <= 30 );
 
                         AND_WHEN( "another 30 minutes elapse" ) {
                             veh_ptr->update_time( start_time + 2 * 30_minutes );
 
                             THEN( "the battery should be further charged" ) {
                                 charge = veh_ptr->fuel_left( fuel_type_battery ) / 100;
-                                CHECK( 20 <= charge );
-                                CHECK( charge <= 30 );
+                                CHECK( 25 <= charge );
+                                CHECK( charge <= 35 );
                             }
                         }
                     }
@@ -127,16 +120,16 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
 TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 {
-    reset_player();
+    clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
+    map &here = get_map();
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
         const tripoint origin = tripoint( 10, 0, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_test" ), origin, 0_degrees, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_test" ), origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        veh_ptr->charge_battery( 500 );
-        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 500 );
+        veh_ptr->charge_battery( 600 );
+        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 600 );
 
         WHEN( "the engine is started" ) {
             veh_ptr->start_engines();
@@ -158,7 +151,7 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with an electric motor and charged battery" ) {
         const tripoint origin = tripoint( 15, 0, 0 );
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0_degrees, 0,
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0_degrees, 0,
                                              0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 5000 );
@@ -184,9 +177,8 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
 TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
 {
-    reset_player();
+    clear_all_state();
     build_test_map( ter_id( "t_pavement" ) );
-    clear_vehicles();
 
     GIVEN( "Vehicle with a charged battery and an active recharging station on a box" ) {
         const tripoint vehicle_origin = tripoint( 10, 10, 0 );
@@ -205,12 +197,12 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
         chargers.front()->enabled = true;
 
         AND_GIVEN( "Rechargable, empty battery in the station" ) {
-            item battery = item( "light_battery_cell" );
+            detached_ptr<item> det = item::spawn( "light_battery_cell" );
+            item &battery = *det;
             battery.ammo_unset();
             REQUIRE( battery.ammo_remaining() == 0 );
-            REQUIRE( battery.has_flag( "RECHARGE" ) );
-            auto bat_in_veh = veh_ptr->add_item( cargo_part, battery );
-            REQUIRE( bat_in_veh );
+            REQUIRE( battery.has_flag( flag_RECHARGE ) );
+            veh_ptr->add_item( cargo_part, std::move( det ) );
             WHEN( "An hour passes" ) {
                 // Should use vehicle::update_time, but that doesn't do charging...
                 for( int i = 0; i < to_turns<int>( 1_hours ); i++ ) {
@@ -218,32 +210,30 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
                 }
 
                 THEN( "The battery is fully charged" ) {
-                    REQUIRE( ( **bat_in_veh ).ammo_remaining() == ( **bat_in_veh ).ammo_capacity() );
+                    REQUIRE( battery.ammo_remaining() == battery.ammo_capacity() );
                 }
             }
         }
         AND_GIVEN( "Tool with a rechargable, empty battery in the station" ) {
-            item battery = item( "light_battery_cell" );
+            detached_ptr<item> det = item::spawn( "light_battery_cell" );
+            item &battery = *det;
             battery.ammo_unset();
             REQUIRE( battery.ammo_remaining() == 0 );
-            REQUIRE( battery.has_flag( "RECHARGE" ) );
-            auto bat_in_veh = veh_ptr->add_item( cargo_part, battery );
-            REQUIRE( bat_in_veh );
+            REQUIRE( battery.has_flag( flag_RECHARGE ) );
+            veh_ptr->add_item( cargo_part, std::move( det ) );
 
-            item tool = item( "soldering_iron" );
+            det = item::spawn( "soldering_iron" );
+            item &tool = *det;
             REQUIRE( tool.magazine_current() == nullptr );
-            item_location tool_location = item_location( vehicle_cursor( *veh_ptr, cargo_part_index ),
-                                          &( **bat_in_veh ) );
-            tool.reload( g->u, tool_location, 1 );
-            auto tool_in_veh = veh_ptr->add_item( cargo_part, tool );
-            REQUIRE( tool_in_veh );
+            tool.reload( g->u, battery, 1 );
+            veh_ptr->add_item( cargo_part, std::move( det ) );
             WHEN( "An hour passes" ) {
                 for( int i = 0; i < to_turns<int>( 1_hours ); i++ ) {
                     g->m.process_items();
                 }
 
                 THEN( "The battery is fully charged" ) {
-                    REQUIRE( ( **tool_in_veh ).ammo_remaining() == ( **tool_in_veh ).ammo_capacity() );
+                    REQUIRE( tool.ammo_remaining() == tool.ammo_capacity() );
                 }
             }
         }

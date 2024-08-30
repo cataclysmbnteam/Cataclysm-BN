@@ -13,6 +13,8 @@
 #include "cached_options.h"
 #include "units_angle.h"
 
+template <typename T> struct enum_traits;
+
 /**
  * Calculate base of an isosceles triangle
  * @param distance one of the equal lengths
@@ -66,7 +68,23 @@ enum class direction : unsigned {
     ABOVESOUTHEAST = make_xyz_unit( tripoint_above + tripoint_south_east ),
     SOUTHEAST      = make_xyz_unit( tripoint_south_east ),
     BELOWSOUTHEAST = make_xyz_unit( tripoint_below + tripoint_south_east ),
+
+    last = 27
 };
+
+template<>
+struct enum_traits<direction> {
+    static constexpr direction last = direction::last;
+};
+
+namespace std
+{
+template <> struct hash<direction> {
+    std::size_t operator()( const direction &d ) const {
+        return static_cast<std::size_t>( d );
+    }
+};
+} // namespace std
 
 template< class T >
 constexpr inline direction operator%( const direction &lhs, const T &rhs )
@@ -104,12 +122,13 @@ constexpr inline bool operator!=( const direction &lhs, const T &rhs )
     return !operator==( lhs, rhs );
 }
 
-direction direction_from( const point &p ) noexcept;
+direction direction_from( point p ) noexcept;
 direction direction_from( const tripoint &p ) noexcept;
-direction direction_from( const point &p1, const point &p2 ) noexcept;
+direction direction_from( point p1, point p2 ) noexcept;
 direction direction_from( const tripoint &p, const tripoint &q );
 
-point direction_XY( direction dir );
+tripoint displace( direction dir );
+point displace_XY( direction dir );
 std::string direction_name( direction dir );
 std::string direction_name_short( direction dir );
 
@@ -120,15 +139,15 @@ std::string direction_suffix( const tripoint &p, const tripoint &q );
  * The actual Bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
  */
-void bresenham( const point &p1, const point &p2, int t,
-                const std::function<bool( const point & )> &interact );
+void bresenham( point p1, point p2, int t,
+                const std::function<bool( point )> &interact );
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool( const tripoint & )> &interact );
 
 tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
                           int distance );
 // The "t" value decides WHICH Bresenham line is used.
-std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
+std::vector<point> line_to( point p1, point p2, int t = 0 );
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
@@ -143,7 +162,7 @@ inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
     return std::sqrt( static_cast<double>( trig_dist_squared( loc1, loc2 ) ) );
 }
-inline float trig_dist( const point &loc1, const point &loc2 )
+inline float trig_dist( point loc1, point loc2 )
 {
     return trig_dist( tripoint( loc1, 0 ), tripoint( loc2, 0 ) );
 }
@@ -154,7 +173,7 @@ inline int square_dist( const tripoint &loc1, const tripoint &loc2 )
     const tripoint d = ( loc1 - loc2 ).abs();
     return std::max( { d.x, d.y, d.z } );
 }
-inline int square_dist( const point &loc1, const point &loc2 )
+inline int square_dist( point loc1, point loc2 )
 {
     const point d = ( loc1 - loc2 ).abs();
     return std::max( d.x, d.y );
@@ -168,7 +187,7 @@ inline int rl_dist( const tripoint &loc1, const tripoint &loc2 )
     }
     return square_dist( loc1, loc2 );
 }
-inline int rl_dist( const point &a, const point &b )
+inline int rl_dist( point a, point b )
 {
     return rl_dist( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
@@ -223,29 +242,28 @@ inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripo
     }
     return square_dist_fast( loc1, loc2 );
 }
-inline FastDistanceApproximation rl_dist_fast( const point &a, const point &b )
+inline FastDistanceApproximation rl_dist_fast( point a, point b )
 {
     return rl_dist_fast( tripoint( a, 0 ), tripoint( b, 0 ) );
 }
 
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
-int manhattan_dist( const point &loc1, const point &loc2 );
+int manhattan_dist( point loc1, point loc2 );
 
 // Travel distance between 2 points on a square grid, assuming diagonal moves
 // cost sqrt(2) and cardinal moves cost 1.
-int octile_dist( const point &loc1, const point &loc2, int multiplier = 1 );
-float octile_dist_exact( const point &loc1, const point &loc2 );
+int octile_dist( point loc1, point loc2, int multiplier = 1 );
+float octile_dist_exact( point loc1, point loc2 );
 
 // get angle of direction represented by point
-units::angle atan2( const point & );
+units::angle atan2( point );
 
 // Get the magnitude of the slope ranging from 0.0 to 1.0
-float get_normalized_angle( const point &start, const point &end );
+float get_normalized_angle( point start, point end );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
-std::vector<point> squares_in_direction( const point &p1, const point &p2 );
+std::vector<point> squares_in_direction( point p1, point p2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
-// Currently limited to the same z-level as @from.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
 /**

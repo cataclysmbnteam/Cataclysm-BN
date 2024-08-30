@@ -3,16 +3,54 @@
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
 #include "activity_type.h"
 #include "clone_ptr.h"
 
+class avatar;
 class Character;
 class JsonIn;
 class JsonOut;
 class player_activity;
+
+struct act_progress_message {
+    /**
+     * Whether activity actor implements the method.
+     * TODO: remove once migration to actors is complete.
+     */
+    bool implemented = true;
+
+    std::optional<std::string> msg_extra_info;
+    std::optional<std::string> msg_full;
+
+    /**
+     * The text will completely overwrite default message.
+     */
+    static act_progress_message make_full( std::string &&text ) {
+        act_progress_message ret;
+        ret.msg_full = std::move( text );
+        return ret;
+    }
+
+    /**
+     * The text will be appended to default message.
+     */
+    static act_progress_message make_extra_info( std::string &&text ) {
+        act_progress_message ret;
+        ret.msg_extra_info = std::move( text );
+        return ret;
+    }
+
+    /**
+     * There will be no message shown.
+     */
+    static act_progress_message make_empty() {
+        return act_progress_message{};
+    }
+};
 
 class activity_actor
 {
@@ -79,24 +117,19 @@ class activity_actor
         }
 
         /**
-         * Returns a deep copy of this object. Example implementation:
-         * \code
-         * class my_activity_actor {
-         *     std::unique_ptr<activity_actor> clone() const override {
-         *         return std::make_unique<my_activity_actor>( *this );
-         *     }
-         * };
-         * \endcode
-         * The returned value should behave like the original item and must have the same type.
-         */
-        virtual std::unique_ptr<activity_actor> clone() const = 0;
-
-        /**
          * Must write any custom members of the derived class to json
          * Note that a static member function for deserialization must also be created and
          * added to the `activity_actor_deserializers` hashmap in activity_actor.cpp
          */
         virtual void serialize( JsonOut &jsout ) const = 0;
+
+        virtual act_progress_message get_progress_message(
+            const player_activity &, const Character & ) const {
+            // TODO: make it create default message once migration to actors is complete.
+            act_progress_message msg;
+            msg.implemented = false;
+            return msg;
+        }
 };
 
 namespace activity_actors
@@ -108,7 +141,7 @@ deserialize_functions;
 
 } // namespace activity_actors
 
-void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
+void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout );
+void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin );
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_H

@@ -82,7 +82,7 @@ class advanced_inv_area
 
         advanced_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
         advanced_inv_area(
-            aim_location id, const point &hscreen, tripoint off, const std::string &name,
+            aim_location id, point hscreen, tripoint off, const std::string &name,
             const std::string &shortname, std::string minimapname, std::string actionname,
             aim_location relative_location );
 

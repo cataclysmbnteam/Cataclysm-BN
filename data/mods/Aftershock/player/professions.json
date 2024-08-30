@@ -12,6 +12,7 @@
       "bio_power_storage_mkII",
       "bio_flashlight",
       "bio_tools",
+      "bio_electrosense",
       "bio_sunglasses"
     ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
@@ -210,18 +211,19 @@
       { "level": 3, "name": "bashing" }
     ],
     "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "MUT_TANK", "TUSKS", "HUGE_OK" ],
-    "//": "Need to add XL gear for MASTODON's in more items.",
     "items": {
       "both": {
-        "items": [ "xlswat_armor", "xlboots_combat", "xlgloves_tactical", "badge_swat", "wristwatch" ],
+        "items": [ "xlswat_armor", "badge_swat", "wristwatch" ],
         "entries": [
+          { "item": "boots_combat", "custom-flags": [ "resized_large" ] },
+          { "item": "gloves_tactical", "custom-flags": [ "resized_large" ] },
           { "group": "army_mags_usp9" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
           { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" },
-          { "item": "baton", "container-item": "xlpolice_belt" }
+          { "item": "police_belt", "contents-item": "baton", "custom-flags": [ "resized_large" ] }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -274,7 +276,7 @@
           "knife_hunting"
         ],
         "entries": [
-          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
+          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 750, "container-item": "mil_mess_kit" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
           {

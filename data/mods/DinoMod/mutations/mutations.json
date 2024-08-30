@@ -65,12 +65,6 @@
   },
   {
     "type": "mutation",
-    "id": "TOUGH_FEET",
-    "copy-from": "TOUGH_FEET",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
-  },
-  {
-    "type": "mutation",
     "id": "TOUGH",
     "copy-from": "TOUGH",
     "valid": true,

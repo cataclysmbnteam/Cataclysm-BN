@@ -5,7 +5,7 @@
     "name": "Prevent Zombie Revivication",
     "description": "Disables zombie revival.",
     "category": "rebalance",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   },
   {
     "type": "monster_adjustment",

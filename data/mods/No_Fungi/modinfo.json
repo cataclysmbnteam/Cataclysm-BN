@@ -6,11 +6,11 @@
     "authors": [ "Chaosvolt" ],
     "description": "Removes fungal monsters and regions from the game.",
     "category": "monster_exclude",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "bn" ]
   },
   {
     "type": "MONSTER_BLACKLIST",
-    "categories": [ "GROUP_FUNGI", "GROUP_FUNGI_TOWER", "GROUP_FUNGI_FLOWERS" ]
+    "categories": [ "GROUP_FUNGI", "GROUP_FUNGI_FUNGALOID", "GROUP_FUNGI_TOWER", "GROUP_FUNGI_FLOWERS" ]
   },
   {
     "type": "MONSTER_BLACKLIST",
@@ -27,7 +27,11 @@
       "mon_fungal_hedgerow",
       "mon_fungaloid_tower",
       "mon_fungal_blossom",
-      "mon_fungaloid_seeder"
+      "mon_fungaloid_seeder",
+      "mon_zombie_gasbag_fungus",
+      "mon_zombie_smoker_fungus",
+      "mon_skeleton_hulk_fungus",
+      "mon_spider_fungus"
     ]
   },
   {

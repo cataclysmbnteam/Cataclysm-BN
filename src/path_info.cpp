@@ -38,14 +38,7 @@ static std::string memorialdir_value;
 
 void PATH_INFO::init_base_path( std::string path )
 {
-    if( !path.empty() ) {
-        const char ch = path.back();
-        if( ch != '/' && ch != '\\' ) {
-            path.push_back( '/' );
-        }
-    }
-
-    base_path_value = path;
+    base_path_value = as_norm_dir( path );
 }
 
 void PATH_INFO::init_user_dir( std::string dir )
@@ -55,24 +48,24 @@ void PATH_INFO::init_user_dir( std::string dir )
 #if defined(_WIN32)
         user_dir = getenv( "LOCALAPPDATA" );
         // On Windows userdir without dot
-        dir = std::string( user_dir ) + "/cataclysm-dda/";
+        dir = std::string( user_dir ) + "/cataclysm-bn/";
 #elif defined(MACOSX)
         user_dir = getenv( "HOME" );
-        dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm/";
+        dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm-BN/";
 #elif defined(USE_XDG_DIR)
         if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) ) {
-            dir = std::string( user_dir ) + "/cataclysm-dda/";
+            dir = std::string( user_dir ) + "/cataclysm-bn/";
         } else {
             user_dir = getenv( "HOME" );
-            dir = std::string( user_dir ) + "/.local/share/cataclysm-dda/";
+            dir = std::string( user_dir ) + "/.local/share/cataclysm-bn/";
         }
 #else
         user_dir = getenv( "HOME" );
-        dir = std::string( user_dir ) + "/.cataclysm-dda/";
+        dir = std::string( user_dir ) + "/.cataclysm-bn/";
 #endif
     }
 
-    user_dir_value = dir;
+    user_dir_value = as_norm_dir( dir );
 }
 
 void PATH_INFO::set_standard_filenames()
@@ -103,10 +96,10 @@ void PATH_INFO::set_standard_filenames()
     const char *user_dir;
     std::string dir;
     if( ( user_dir = getenv( "XDG_CONFIG_HOME" ) ) ) {
-        dir = std::string( user_dir ) + "/cataclysm-dda/";
+        dir = std::string( user_dir ) + "/cataclysm-bn/";
     } else {
         user_dir = getenv( "HOME" );
-        dir = std::string( user_dir ) + "/.config/cataclysm-dda/";
+        dir = std::string( user_dir ) + "/.config/cataclysm-bn/";
     }
     config_dir_value = dir;
 #else
@@ -207,17 +200,13 @@ std::string PATH_INFO::help()
 {
     return datadir_value + "help/" + "texts.json";
 }
-std::string PATH_INFO::keybindings()
+std::string PATH_INFO::keybindingsdir()
 {
-    return datadir_value + "raw/" + "keybindings.json";
+    return datadir_value + "raw/keybindings/";
 }
-std::string PATH_INFO::keybindings_vehicle()
+std::string PATH_INFO::main_menu_tips()
 {
-    return datadir_value + "raw/" + "keybindings/vehicle.json";
-}
-std::string PATH_INFO::keybindings_edit_creature()
-{
-    return datadir_value + "raw/" + "keybindings/edit_creature_effects.json";
+    return datadir_value + "raw/" + "tips.json";
 }
 std::string PATH_INFO::lastworld()
 {
@@ -226,10 +215,6 @@ std::string PATH_INFO::lastworld()
 std::string PATH_INFO::memorialdir()
 {
     return memorialdir_value;
-}
-std::string PATH_INFO::jsondir()
-{
-    return datadir_value + "core/";
 }
 std::string PATH_INFO::moddir()
 {
@@ -246,6 +231,10 @@ std::string PATH_INFO::panel_options()
 std::string PATH_INFO::safemode()
 {
     return config_dir_value + "safemode.json";
+}
+std::string PATH_INFO::distraction()
+{
+    return config_dir_value + "distraction.json";
 }
 std::string PATH_INFO::savedir()
 {
@@ -306,6 +295,10 @@ std::string PATH_INFO::mods_user_default()
 std::string PATH_INFO::soundpack_conf()
 {
     return "soundpack.txt";
+}
+std::string PATH_INFO::lua_doc_output()
+{
+    return config_dir_value + "lua_doc.md";
 }
 std::string PATH_INFO::gfxdir()
 {

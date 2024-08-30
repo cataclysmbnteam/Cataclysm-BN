@@ -4,7 +4,7 @@
     "id": "sports",
     "items": [
       [ "bandages", 50 ],
-      [ "cotton_ball", 50 ],
+      { "item": "cotton_ball", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "aspirin", 85 ],
       [ "bat", 60 ],
       [ "bat_nerf", 60 ],
@@ -106,8 +106,7 @@
       [ "survnote", 1 ],
       [ "halter_top", 30 ],
       [ "iceaxe", 30 ],
-      [ "tourist_table", 30 ],
-      [ "fitness_band", 5 ]
+      [ "tourist_table", 30 ]
     ]
   },
   {
@@ -156,8 +155,7 @@
       { "item": "slingshot", "prob": 10 },
       { "item": "wristrocket", "prob": 5 },
       { "item": "powered_earmuffs", "prob": 80 },
-      { "item": "bandolier_wrist", "prob": 100 },
-      { "item": "fitness_band", "prob": 5 }
+      { "item": "bandolier_wrist", "prob": 100 }
     ]
   },
   {
@@ -186,6 +184,7 @@
       { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
       [ "knife_hunting", 18 ],
+      [ "knife_heat", 10 ],
       [ "knife_rambo", 20 ],
       [ "machete", 5 ],
       [ "machete_gimmick", 5 ],
@@ -200,6 +199,8 @@
       [ "bb", 8 ],
       [ "bolt_steel", 7 ],
       [ "bolt_cf", 5 ],
+      [ "bolt_steel_target", 5 ],
+      [ "bolt_steel_bodkin", 5 ],
       [ "bbgun", 10 ],
       [ "crossbow", 2 ],
       [ "compcrossbow", 2 ],
@@ -225,6 +226,7 @@
       [ "lighter", 60 ],
       [ "ref_lighter", 10 ],
       [ "matches", 60 ],
+      [ "electric_lighter", 10 ],
       [ "sewing_kit", 47 ],
       [ "tailors_kit", 3 ],
       [ "thread", 40 ],
@@ -248,6 +250,9 @@
       [ "hand_crossbow", 1 ],
       [ "arrow_wood", 7 ],
       [ "arrow_cf", 5 ],
+      [ "arrow_metal_bodkin", 5 ],
+      [ "arrow_metal", 5 ],
+      [ "arrow_metal_target", 5 ],
       [ "wire", 50 ],
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
@@ -290,6 +295,7 @@
       [ "runner_bag", 15 ],
       [ "pur_tablets", 10 ],
       [ "e_tool", 10 ],
+      [ "shovel_short", 2 ],
       [ "knife_trench", 7 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],
@@ -324,6 +330,30 @@
       [ "mess_tin", 10 ],
       [ "survival_kit", 30 ],
       [ "premium_survival_kit", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "games",
+    "items": [
+      [ "chess", 50 ],
+      [ "checkers", 50 ],
+      [ "deck_of_cards", 50 ],
+      [ "cards_magic", 50 ],
+      [ "pictionary", 50 ],
+      [ "monopoly", 50 ],
+      [ "dnd", 50 ],
+      [ "g_warhammer", 50 ],
+      [ "g_warhammer40k", 50 ],
+      [ "catan", 50 ],
+      [ "battleship", 50 ],
+      [ "clue", 50 ],
+      [ "metal_RPG_die", 30 ],
+      [ "RPG_die", 40 ],
+      [ "character_sheet", 20 ],
+      [ "scorecard", 10 ],
+      [ "dnd_handbook", 5 ],
+      [ "portable_game", 5 ]
     ]
   }
 ]

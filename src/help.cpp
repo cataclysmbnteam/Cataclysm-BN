@@ -6,6 +6,7 @@
 #include <iterator>
 #include <list>
 #include <numeric>
+#include <optional>
 #include <vector>
 
 #include "action.h"
@@ -17,7 +18,6 @@
 #include "fstream_utils.h"
 #include "input.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -26,6 +26,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "path_display.h"
 
 help &get_help()
 {
@@ -61,6 +62,8 @@ void help::deserialize( JsonIn &jsin )
             } else if( line == "<HELP_DRAW_DIRECTIONS>" ) {
                 line = replace_all( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
                 continue;
+            } else if( line == "<GAME_DIRECTORIES>" ) {
+                line = resolved_game_paths();
             }
         }
 

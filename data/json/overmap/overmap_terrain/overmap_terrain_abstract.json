@@ -110,6 +110,17 @@
   },
   {
     "type": "overmap_terrain",
+    "abstract": "generic_road",
+    "name": "generic_road",
+    "land_use_code": "transportation"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_parking",
+    "name": "parking"
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_waste_disposal",
     "name": "generic_waste_disposal",
     "land_use_code": "waste_disposal"

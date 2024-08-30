@@ -15,41 +15,107 @@
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_CPT",
     "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "Marshal, I hope you're here to assist us.",
+      "u_has_var": "npc_necro_gave_clearance",
+      "type": "dialogue",
+      "context": "necropolis",
+      "value": "yes",
+      "yes": "I hope you're here to assist us.",
       "no": {
-        "u_male": "Sir, I don't know how the hell you got down here but if you have any sense you'll get out while you can.",
-        "no": "Ma'am, I don't know how the hell you got down here but if you have any sense you'll get out while you can."
+        "u_is_wearing": "badge_marshal",
+        "yes": "I don't know how you got down here Marshal, but if Command sent you we could use your help.",
+        "no": {
+          "u_male": "Sir, I don't know how the hell you got down here but if you have any sense you'll get out while you can.",
+          "no": "Ma'am, I don't know how the hell you got down here but if you have any sense you'll get out while you can."
+        }
       }
     },
     "responses": [
       {
+        "text": "[MISSION] I was asked to get a report from you to send to your superiors.",
+        "topic": "TALK_OLD_GUARD_NEC_CPT_REPORT",
+        "condition": {
+          "and": [
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" },
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_5" },
+            { "not": { "u_has_item": "necropolis_datasheet" } }
+          ]
+        }
+      },
+      {
         "text": "What are you doing down here?",
         "topic": "TALK_OLD_GUARD_NEC_CPT_GOAL",
-        "condition": { "u_is_wearing": "badge_marshal" }
+        "condition": { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
       },
       {
         "text": "Can you tell me about this facility?",
         "topic": "TALK_OLD_GUARD_NEC_CPT_VAULT",
-        "condition": { "u_is_wearing": "badge_marshal" }
+        "condition": { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
       },
       {
         "text": "What do you need done?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_is_wearing": "badge_marshal" }
+        "switch": true,
+        "condition": { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+      },
+      {
+        "text": "I've had experience with Old Guard matters before, I can help.",
+        "topic": "TALK_OLD_GUARD_NEC_CPT_MARSHAL",
+        "switch": true,
+        "condition": { "or": [ { "u_is_wearing": "badge_marshal" }, { "u_has_trait": "PROF_FED" } ] }
+      },
+      {
+        "text": "This seems like a military matter to me, I'm here to assist.",
+        "topic": "TALK_OLD_GUARD_NEC_CPT_MILITARY",
+        "switch": true,
+        "condition": { "u_has_trait": "PROF_MILITARY" }
       },
       {
         "text": "About the mission…",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "has_assigned_mission", { "u_is_wearing": "badge_marshal" } ] }
+        "condition": {
+          "and": [
+            "has_assigned_mission",
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+          ]
+        }
       },
       {
         "text": "About one of those missions…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
+        "condition": {
+          "and": [
+            "has_many_assigned_missions",
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+          ]
+        }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_NEC_CPT_MARSHAL",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "We can use all the help we can get.  I'll send word out to the others that you're cleared to be here, but be careful.  There are still some hotspots contaminated with radiation in this sector, and the lower level is in even worse shape.",
+      "no": "I was expecting someone wearing their badge, but alright.  I'll give you clearance but try to be careful down here.  I don't want over-eager civilian contractors, or whatever you may be, getting themselves killed just for our sake."
+    },
+    "speaker_effect": { "effect": { "u_add_var": "npc_necro_gave_clearance", "type": "dialogue", "context": "necropolis", "value": "yes" } },
+    "responses": [ { "text": "I'll do what I can.", "topic": "TALK_OLD_GUARD_NEC_CPT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_NEC_CPT_MILITARY",
+    "dynamic_line": "Not like I could look up personnel records from down here.  Our team in the comms center might be able to uplink with some old registries but then I'd have to give you clearance to go wandering around down here anyway.  I'll take your word for it but watch yourself down here, this place is dangerous.",
+    "speaker_effect": { "effect": { "u_add_var": "npc_necro_gave_clearance", "type": "dialogue", "context": "necropolis", "value": "yes" } },
+    "responses": [ { "text": "Understood.", "topic": "TALK_OLD_GUARD_NEC_CPT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_NEC_CPT_REPORT",
+    "dynamic_line": "Alright, I've got a sitrep written out.  As helpful as it'd be to have you here, getting this back to the others could also help get us reinforcements somewhere down the line.  Not a lot of this place is operational anymore, but we're expecting comms to provide a link to other assets in the region if we can get it in full working order.",
+    "speaker_effect": { "effect": { "u_buy_item": "necropolis_datasheet" } },
+    "responses": [ { "text": "Thank you.", "topic": "TALK_NONE" }, { "text": "Thank you, that's all for now.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

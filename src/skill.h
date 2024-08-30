@@ -94,9 +94,6 @@ class Skill
         bool operator==( const Skill &b ) const {
             return this->_ident == b._ident;
         }
-        bool operator< ( const Skill &b ) const {
-            return this->_ident < b._ident;    // Only here for the benefit of std::map<Skill,T>
-        }
 
         bool operator!=( const Skill &b ) const {
             return !( *this == b );
@@ -104,6 +101,12 @@ class Skill
 
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
+        bool is_weapon_skill() const;
+
+        // Required for LUA
+        inline bool operator<( const Skill &rhs ) const {
+            return _ident < rhs._ident;
+        }
 };
 
 class SkillLevel

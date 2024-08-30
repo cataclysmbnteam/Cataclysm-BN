@@ -25,6 +25,13 @@ using bodypart_str_id = string_id<body_part_type>;
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
+struct construction_group;
+using construction_group_str_id = string_id<construction_group>;
+
+struct construction_sequence;
+using construction_sequence_int_id = int_id<construction_sequence>;
+using construction_sequence_id = string_id<construction_sequence>;
+
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
@@ -72,6 +79,9 @@ using item_group_id = string_id<Item_group>;
 struct itype;
 using itype_id = string_id<itype>;
 
+class weapon_category;
+using weapon_category_id = string_id<weapon_category>;
+
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
 
@@ -80,6 +90,9 @@ using matype_id = string_id<martialart>;
 
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+
+class mapgen_palette;
+using palette_id = string_id<mapgen_palette>;
 
 class material_type;
 using material_id = string_id<material_type>;
@@ -106,12 +119,31 @@ using mtype_id = string_id<mtype>;
 class npc_class;
 using npc_class_id = string_id<npc_class>;
 
+class npc_template;
+using npc_template_id = string_id<npc_template>;
+
 class faction;
 using faction_id = string_id<faction>;
 
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
+
+struct oter_type_t;
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+class overmap_connection;
+using overmap_connection_id = string_id<overmap_connection>;
+
+struct overmap_location;
+using overmap_location_id = string_id<overmap_location>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
+
+class profession;
+using profession_id = string_id<profession>;
 
 class recipe;
 using recipe_id = string_id<recipe>;
@@ -133,6 +165,9 @@ using spell_id = string_id<spell_type>;
 
 class start_location;
 using start_location_id = string_id<start_location>;
+
+struct mutation_category_trait;
+using mutation_category_id = string_id<mutation_category_trait>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;
@@ -183,7 +218,10 @@ using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
 
 class json_flag;
-using flag_id = int_id<json_flag>;
-using flag_str_id = string_id<json_flag>;
+using flag_id = string_id<json_flag>;
+
+class json_trait_flag;
+using trait_flag_id = int_id<json_trait_flag>;
+using trait_flag_str_id = string_id<json_trait_flag>;
 
 #endif // CATA_SRC_TYPE_ID_H

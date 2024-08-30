@@ -126,38 +126,38 @@
       "fill_ter": "t_strconc_floor",
       "rows": [
         " cc  |   c|  |c  c|r    ",
-        " cc  |   c| u|c  c|r  c ",
-        "     | h 6| k2    2u  c ",
+        " cc  |   c|  |c  c|r  c ",
+        "     | h 6|  2    2   c ",
         " dd  |==|||  ||||||6h   ",
-        "uhd  |tt|--  -----|6uku ",
-        "|||u ||||-    uuu-||||||",
-        " c|ku|##|-DDd  ku-|hd^= ",
-        " c|u ||||-      k-| d = ",
-        " c|   uku(   u  c-|   [ ",
-        "  uk   u|-k  A  u-|=[== ",
-        "|||k    |- ukuu  -|kuk||",
-        "          u TAu   u     ",
-        " kkuu    k kuAc   2     ",
-        "||u|| uk|-uukuk  -|  |||",
-        "  kk|  Y|-kk Au  (  u|r ",
-        "cc  |    (k uu   ( uk|r ",
-        "cc  |||||-  ddd u-|  |r ",
-        "     2 r|-ku h ku-|  |r ",
-        "||2|||rr|-- u--((-|  |||",
-        "     ||||||uk||  ||  |c ",
-        "  c      6|k        k|c ",
-        "  iccc   6|          uk ",
-        "  c      6| k||22|||||  ",
+        " hd  |tt|--  -----|6    ",
+        "|||  ||||-       -||||||",
+        " c|  |##|-DDd    -|hd^= ",
+        " c|  ||||-       -| d = ",
+        " c|      (      c-|   [ ",
+        "        |-   A   -|=[== ",
+        "|||     |-       -|   ||",
+        "             A          ",
+        "             Ac   2     ",
+        "|| ||   |-       -|  |||",
+        "    |  Y|-   A   (   |r ",
+        "cc  |    (       (   |r ",
+        "cc  |||||-  ddd  -|  |r ",
+        "     2 r|-   h   -|  |r ",
+        "||2|||rr|--  --((-|  |||",
+        "     ||||||  ||  ||  |c ",
+        "  c      6|          |c ",
+        "  iccc   6|             ",
+        "  c      6|  ||22|||||  ",
         "  c c|c   |  |    |cc   "
       ],
       "palettes": [ "microlab" ],
       "terrain": { "A": "t_plut_generator" },
-      "item": { "u": { "item": "corpse" }, "k": { "item": "corpse" }, "T": { "item": "corpse" } },
-      "monster": {
-        "T": { "monster": "mon_leech_blossom" },
-        "k": { "monster": "mon_leech_pod_cluster" },
-        "u": { "monster": "mon_leech_stalk" }
-      },
+      "place_loot": [ { "item": "corpse", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 5, 10 ] } ],
+      "place_monster": [
+        { "monster": "mon_leech_blossom", "x": 12, "y": 11 },
+        { "monster": "mon_leech_pod_cluster", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 5, 10 ] },
+        { "monster": "mon_leech_stalk", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 5, 10 ] }
+      ],
       "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
     }
   },
@@ -200,7 +200,9 @@
         "p": { "item": "bionics", "chance": 20 },
         "T": [
           { "item": "bionics_sci", "chance": 100, "repeat": [ 1, 2 ] },
-          { "item": "bionics", "chance": 100, "repeat": [ 1, 3 ] }
+          { "item": "bionics", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "bionic_power_storage_mil", "chance": 100 },
+          { "item": "autodoc_installation_programs", "chance": 50 }
         ],
         "7": { "item": "autodoc_supplies", "chance": 100 }
       },
@@ -218,6 +220,201 @@
           ],
           "failures": [ { "action": "manhacks" }, { "action": "secubots" } ]
         }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |    |  |((((|     ",
+        "     ||22||  | 66 |     ",
+        " ccc      2  2    2     ",
+        "          2  2 cc 2     ",
+        " UUU      |  |    | ??V^",
+        "|((((2|||||||||22|||||||",
+        "       |  |   |         ",
+        " hhh   |  5   2   666   ",
+        " ttt   |  5   2   666   ",
+        "       |  |7  |         ",
+        "|((|||||44|||||22|||||||",
+        "   |----  ----|         ",
+        "   |-r +  - S-| ????    ",
+        "|22|----  - S-||((((|22|",
+        "   |-r +  + S-|UUcc    |",
+        "  d|----  - S-|       6|",
+        " hd|-r +  - S-|       6|",
+        "   |----------|        |",
+        "|22|||||||||||||22||||||",
+        "    B|             2  cF",
+        "    B|ccii         2  c ",
+        " F   |((((|22|||||||  c ",
+        " i   2 66 2  2  Y  2    ",
+        "     |    |  |     |    "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "+": "t_door_metal_c", "7": "t_console" },
+      "furniture": { "S": "f_utility_shelf" },
+      "mapping": {
+        "S": { "items": { "item": "microlab_storage_cvd_carbon", "chance": 50, "repeat": 2 } },
+        "r": { "items": { "item": "microlab_storage_cvd_hydrogen", "chance": 50, "repeat": 4 } }
+      },
+      "computers": {
+        "7": {
+          "name": "Hydrocarbon Materials Storage Control",
+          "security": 5,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock" } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "    h|||||||||    |     ",
+        " 6 dd|B  h  ^(    (cc   ",
+        " 6 dd|B ddd  (    (cc   ",
+        "    h|       (    (     ",
+        "     2       2    2     ",
+        "    n|||||||||||||||||||",
+        "     2       Y      2   ",
+        "     2       Y      2   ",
+        "   hd||22||||||||||||   ",
+        "    d|    |---------|   ",
+        "||2((|    55      r-|22|",
+        "     |    55      r-|   ",
+        "     |   7|-      r-|   ",
+        "|    ||22||-       -|22|",
+        "|t   |    |-     ---|   ",
+        "|^   |l  b|-     4 -|   ",
+        "|?   |l  b|-rrr  -S-|   ",
+        "|?   |l  b|---------|   ",
+        "|||2|||||||||||||||||22|",
+        "     | cFF|B   ??? |    ",
+        " FF  |    |B       2    ",
+        " cc  2 66 ||||     (6   ",
+        "     | 66 2  2     (6h  ",
+        "     |    |  |     |    "
+      ],
+      "palettes": [ "microlab" ],
+      "furniture": { "S": "f_utility_shelf" },
+      "set": [ { "square": "radiation", "amount": [ 10, 30 ], "x": 12, "y": 10, "x2": 18, "y2": 16 } ],
+      "mapping": {
+        "S": { "items": { "item": "microlab_storage_plutonium_special" } },
+        "l": { "items": { "item": "rad_gear", "chance": 50, "repeat": 2 } },
+        "r": {
+          "item": { "item": "plut_cell", "chance": 40, "repeat": 2 },
+          "items": { "item": "ammo_atomic_batteries_full", "chance": 25 }
+        }
+      },
+      "computers": {
+        "7": {
+          "name": "Nuclear Materials Storage Control",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+          "security": 5,
+          "options": [ { "name": "UNLOCK STORAGE - CAUTION: RADIATION LEAK DETECTED", "action": "unlock" } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |    |  ||||||     ",
+        " FF c|    |  |?  V(th   ",
+        " FF i||22||  |?  n(th   ",
+        " 66  2       |    (th   ",
+        "     2       2    2     ",
+        "||2||||||||||||||||||2||",
+        "      FF|------|  |     ",
+        "  66    |-r  x-|  2  d  ",
+        "  66  h |-r   -|  2  h  ",
+        "      cc|-r   -|  | BBB ",
+        "22|||||||-    -|  ||||||",
+        "  |FF|cc|--55--|YY      ",
+        "  |     |||55|||YY      ",
+        "22|     |    7 |  |||2||",
+        "    U O |      |  (6    ",
+        "    U O | 6    2  (6    ",
+        "    U O |hd    |  (dh   ",
+        "        | d BBB|  (d    ",
+        "||||||22||||||||22|||22|",
+        " 666n|    2  2    |6    ",
+        " h   2    2  2    |   c ",
+        "    c( YY |  | BB 2   c ",
+        "    c( YY |  | BB |  FF ",
+        "     |    |  |    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "mapping": {
+        "r": { "item": { "item": "nanomaterial", "chance": 50, "repeat": 2 } },
+        "x": { "item": { "item": "standard_template_construct", "repeat": [ 1, 2 ] } }
+      },
+      "computers": {
+        "7": {
+          "name": "Nanomaterial Storage Control",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+          "security": 5,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock" } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "weight": 2500,
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |    |  | cc |     ",
+        "     | cc |  | cc | c c ",
+        "  cc | cc 2  2    | c c ",
+        "  cc | cc |  | h h| c c ",
+        "     |    |  |6666|     ",
+        "||22|||||||22||||||2||||",
+        "    c|SSS Y  Y    | ccc ",
+        "   Yr|6h          |     ",
+        "    r|6    CC h8  |     ",
+        "    c|     CC  7  |FFrr ",
+        "||2|||     CC  7  ||||||",
+        "     2  GGGtt  7  2     ",
+        "     2  999tt  7  2     ",
+        "||2|||        67  ||||2|",
+        "    F|  h    h67  |ccr  ",
+        "    F|  877777P8  |c    ",
+        "   YF|            |c    ",
+        "    F|    Y  Y    |cc   ",
+        "||22|||||||22|||||||||2|",
+        "Fc   |ccc |YY( UUU|ccc  ",
+        "  Y  |c   2  2    |c    ",
+        "     |c   2  2    |F cc ",
+        "     |ccc |  |2(((|F cc ",
+        "   cc|    |  |    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "G": "t_generator_broken", "7": "t_conveyor", "8": "t_machinery_heavy", "9": "t_machinery_electronic" },
+      "furniture": { "C": "f_crate_c", "P": "f_3d_printer_advanced", "S": "f_server" },
+      "mapping": {
+        "C": {
+          "items": [ { "item": "3d_printing_raw_materials", "chance": 100 }, { "item": "supplies_metal", "chance": 50, "repeat": 2 } ]
+        },
+        "t": { "items": { "item": "tools_electronics", "chance": 50, "repeat": 2 } }
       }
     }
   }

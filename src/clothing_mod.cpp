@@ -49,6 +49,7 @@ std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
         case clothing_mod_type_fire: return "fire";
         case clothing_mod_type_bash: return "bash";
         case clothing_mod_type_cut: return "cut";
+        case clothing_mod_type_bullet: return "bullet";
         case clothing_mod_type_encumbrance: return "encumbrance";
         case clothing_mod_type_warmth: return "warmth";
         case clothing_mod_type_storage: return "storage";
@@ -95,7 +96,7 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
 float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it ) const
 {
     const int thickness = it.get_thickness();
-    const int coverage = it.get_coverage();
+    const int coverage = it.get_avg_coverage();
     float result = 0.0f;
     for( const mod_value &mv : mod_values ) {
         if( mv.type == type ) {

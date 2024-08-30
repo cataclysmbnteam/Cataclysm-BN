@@ -4,10 +4,11 @@
 
 #include <cstddef>
 #include <functional>
+#include <optional>
 #include <string>
 #include <utility>
+#include <limits>
 
-#include "optional.h"
 
 class vehicle;
 struct vehicle_part;
@@ -37,11 +38,13 @@ class vpart_position
 {
     private:
         std::reference_wrapper<::vehicle> vehicle_;
-        size_t part_index_;
+        // silence GCC maybe-uninitialized warning by giving it a default value
+        size_t part_index_ = std::numeric_limits<size_t>::max();
 
     public:
         vpart_position( ::vehicle &v, const size_t part ) : vehicle_( v ), part_index_( part ) { }
         vpart_position( const vpart_position & ) = default;
+        vpart_position &operator = ( const vpart_position & ) = default;
 
         ::vehicle &vehicle() const {
             return vehicle_.get();
@@ -60,21 +63,21 @@ class vpart_position
         /**
          * @returns The label at this part of the vehicle, if there is any.
          */
-        cata::optional<std::string> get_label() const;
+        std::optional<std::string> get_label() const;
         /// @see vehicle::part_with_feature
-        cata::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
+        std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
         /// @see vehicle::part_with_feature
-        cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
+        std::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
         /**
          * Returns the obstacle that exists at this point of the vehicle (if any).
          * Open doors don't count as obstacles, but closed one do.
          * Broken parts are also never obstacles.
          */
-        cata::optional<vpart_reference> obstacle_at_part() const;
+        std::optional<vpart_reference> obstacle_at_part() const;
         /**
          * Returns the part displayed at this point of the vehicle.
          */
-        cata::optional<vpart_reference> part_displayed() const;
+        std::optional<vpart_reference> part_displayed() const;
         /**
          * Returns the position of this part in the coordinates system that @ref game::m uses.
          * Postcondition (if the vehicle cache of the map is correct and if there are un-removed
@@ -93,23 +96,23 @@ class vpart_position
 };
 
 /**
- * Simple wrapper to forward functions that may return a @ref cata::optional
+ * Simple wrapper to forward functions that may return a @ref std::optional
  * to @ref vpart_position. They generally return an empty `optional`, or
  * forward to the same function in `vpart_position`.
  */
-class optional_vpart_position : public cata::optional<vpart_position>
+class optional_vpart_position : public std::optional<vpart_position>
 {
     public:
-        optional_vpart_position( cata::optional<vpart_position> p ) : cata::optional<vpart_position>
+        optional_vpart_position( std::optional<vpart_position> p ) : std::optional<vpart_position>
             ( std::move( p ) ) { }
 
-        cata::optional<std::string> get_label() const {
-            return has_value() ? value().get_label() : cata::nullopt;
+        std::optional<std::string> get_label() const {
+            return has_value() ? value().get_label() : std::nullopt;
         }
-        cata::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
-        cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
-        cata::optional<vpart_reference> obstacle_at_part() const;
-        cata::optional<vpart_reference> part_displayed() const;
+        std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
+        std::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
+        std::optional<vpart_reference> obstacle_at_part() const;
+        std::optional<vpart_reference> part_displayed() const;
 };
 
 /**

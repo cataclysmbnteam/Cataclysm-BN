@@ -2,12 +2,14 @@
   {
     "name": "GROUP_NECROPOLIS_VAULT2",
     "type": "monstergroup",
-    "default": "mon_irradiated_wanderer_3",
+    "default": "mon_irradiated_wanderer_1",
     "monsters": [
-      { "monster": "mon_irradiated_wanderer_2", "freq": 30, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 50, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_4", "freq": 30, "cost_multiplier": 1 },
-      { "monster": "mon_charred_nightmare", "freq": 20, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_hazmat", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_2", "freq": 200, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_3", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_irradiated_wanderer_4", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_charred_nightmare", "freq": 25, "cost_multiplier": 1 }
     ]
   },
   {
@@ -18,10 +20,10 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "..........|---|.........|---|...............................|---|.......",
-        "..........|r r|..|---|..|r r|...............................|r r|..|---|",
+        "..........|L L|..|---|..|L L|...............................|L L|..|---|",
         ".......|--|-+-|--|S t|--|-+-|--|.........................|--|-+-|--|S t|",
         ".......|d@@      +   +      @@d|.........................|d@@      +   +",
         ".......| @@      |---|      @@ |.........................| @@      |---|",
@@ -30,21 +32,21 @@
         ".......|---------|   |---------|.|---------------------|.|---------|   |",
         ".................|   |...........|rrrrrrrrrrrrrrrrrrrrr|...........|   |",
         "..........|-|-|..|  G|..|-|-|....|r                   r|....|-|-|..|G  |",
-        ".......|--|r|r|--|   |--|r|r|--|.|r  ccc         ccc  r|.|--|r|r|--|   |",
+        ".......|--|L|L|--|   |--|L|L|--|.|r  ccc         ccc  r|.|--|L|L|--|   |",
         ".....|-|@@|+|+|@@|   |@@|+|+|@@|-|r  ccc    G    ccc  r|-|@@|+|+|@@|   |",
         ".....|t|         |   |         |t|r                   r|t|         |   |",
         ".....| +         [   [         + |-------|     |----|--| +         [   [",
         ".....|S|         |   |         |S|.......|    5|EEEE|..|S|         |   |",
-        ".....|-|@@|+|+|@@|   |@@|+|+|@@|-|-------|-===-|EEEE|..|-|@@|+|+|@@|   |",
-        ".......|--|r|r|--|   |--|r|r|--|.|rrrrrrr|    6|-==-|....|--|r|r|--|   |",
-        "..........|-|-|r +   + r|-|-|....|r      +  G       |.......|-|-|r +   +",
-        ".......|--|r|r|--|   |--|r|r|--|.|r rrrr |  h       |....|--|r|r|--|   |",
+        ".....|-|@@|+|+|@@|   |@@|+|+|@@|-|-------|-===-|%EEE|..|-|@@|+|+|@@|   |",
+        ".......|--|L|L|--|   |--|L|L|--|.|rrrrrrr|    6|-==-|....|--|L|L|--|   |",
+        "..........|-|-|L +   + L|-|-|....|r      +  G       |.......|-|-|L +   +",
+        ".......|--|L|L|--|   |--|L|L|--|.|r rrrr |  h       |....|--|L|L|--|   |",
         ".....|-|@@|+|+|@@|G  |@@|+|+|@@|-|r rrrr |k6kkk|-|  |..|-|@@|+|+|@@|  G|",
         ".....|t|         |   |         |t|r      |!!!!!|.|  |..|t|         |   |",
         ".....| +         [   [         + |rGrrrr |     |.|  |..| +         [   [",
         ".....|S|         |   |         |S|r rrrr v     |.|  |..|S|         |   |",
         ".....|-|@@|+|+|@@|   |@@|+|+|@@|-|r      v     |-|[[|--|-|@@|+|+|@@|   |",
-        ".......|--|r|r|--|   |--|r|r|--|.|r rrrr v     +       |.|--|r|r|--|   |",
+        ".......|--|L|L|--|   |--|L|L|--|.|r rrrr v     +       |.|--|L|L|--|   |",
         "..........|-|-|..|   |..|-|-|....|r rrrr v     vk  G  k|....|-|-|..|   |",
         ".................|   |...........|r      |     vkh   hk|...........|   |",
         ".............|---|   |.|--|......|r   rr |    5v6kkkkk6|......|--|.|   |",
@@ -53,7 +55,7 @@
         ".............|   c     =          ,,,,,,,,,,,,,,,,,,,,,          =     c",
         ".............|G        =         /,///,///,///,///,///,/         =      ",
         ".............|------| 5||-[-|++-|/,///,///,///,///,///,/|-++--[-||5 |---",
-        "....................|--||   |EEE|/,///,///,///,///,///,/|EEE|   ||--|...",
+        "....................|--||   |EE%|/,///,///,///,///,///,/|%EE|   ||--|...",
         "........................| > |EEE|/,,,,,,,,,,,,,,,,,,,,,/|EEE| > |.......",
         "........................|---|---|///////////////////////|---|---|...|---",
         "................................|G/////////////////////G|...........|   ",
@@ -62,7 +64,7 @@
         "...|S  |  J J J J c C C C C C   V  |.|-|/////////|-|................|k6k",
         "...|c D|          c             V  |...|-|/////|-|..................| h ",
         "...|-+-|  J J J J c C C C C C   V  |.....|/////|....................|k  ",
-        "...|r                          D|  |.....|/////|....................|6h ",
+        "...|c                          D|  |.....|/////|....................|6h ",
         "...|l                           [  |.....|/////|....................|k k",
         "...|l                           [  |.....|/////|....................|---",
         "...|D                           |  |.....|/////|........................",
@@ -70,20 +72,39 @@
         "...|c D|          jjj  jj  jj   V  |...|/////////|----------------------"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.35 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.35 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.35 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.45 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.45 }
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
+      "items": {
+        "@": { "item": "army_bed", "chance": 50 },
+        "L": { "item": "army_personal_locker", "chance": 40, "repeat": 2 },
+        "o": { "item": "book_military", "chance": 40, "repeat": 2 },
+        "r": { "item": "military", "chance": 40 }
+      },
+      "place_loot": [
+        { "group": "gym", "x": 18, "y": [ 39, 41 ], "chance": 50, "repeat": 2 },
+        { "group": "drugs_soldier", "x": [ 37, 39 ], "y": [ 10, 11 ], "chance": 50, "repeat": 3 },
+        { "group": "mil_food_nodrugs", "x": [ 49, 51 ], "y": [ 10, 11 ], "chance": 50, "repeat": 3 }
+      ],
+      "place_vendingmachines": [ { "item_group": "vending_food", "x": 4, "y": 43 }, { "item_group": "vending_drink", "x": 4, "y": 44 } ],
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 5, 9 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 5, 9 ] }
       ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 40, "y": 32, "chance": 75, "rotation": 90 } ]
     },
@@ -97,50 +118,50 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "..|---|.................................................................",
-        "..|r r|.................................................................",
+        "..|L L|.................................................................",
         "--|-+-|--|..............................|------|........................",
         "      @@d|..............................|     d|........|--|-------|...|",
-        "      @@ |..............................|    @@|........|  |r  G  r|---|",
+        "      @@ |..............................|    ##|........|  |r  G  r|---|",
         "   h     |..............................|      |........|  V   n   |   |",
         "  kkk   o|..............................|      |........|  V   n   [   [",
-        "---------|..............................|    @@|........|  |       [   [",
+        "---------|..............................|    ##|........|  |       [   [",
         "........................................|     d|....|---|  [       |   |",
         "..|-|-|.................................|  |---|....|ScS   |rrSrrrr|   |",
-        "--|r|r|--|..............................|  +  B|....|      |-|---|||   |",
+        "--|L|L|--|..............................|  +  B|....|      |-|---|||   |",
         "@@|+|+|@@|-|............................|  |StB|--|.|rr    +r|r r|||   |",
         "         |t|..................|---------|-[|---| 5|-|----[-|-|-+-||     ",
         "         + |..................|         |         =                     ",
         "         |S|..................|         [         =                  G  ",
         "@@|+|+|@@|-|..................|      |+-|         =                     ",
-        "--|r|r|--|....................|      | S|   |---|-|5 |===|--[--|--|     ",
-        " r|-|-|.......................| @  @ | t|   |rrr|.|--|EEE|cc   |..||   |",
-        "--|r|r|--|....................|d@  @d|BB|   +   |....|EEE|S    |--||   |",
+        "--|L|L|--|....................|      | S|   |---|-|5 |-++|--[--|--|     ",
+        " L|-|-|.......................| #  # | t|   |rrr|.|--|%EE|cc   |..||   |",
+        "--|L|L|--|....................|d#  #d|BB|   +   |....|EEE|S    |--||   |",
         "@@|+|+|@@|-|..................|------|--|   |rrr|....|---|O    |r r|   |",
         "         |t|..................|         |   |---|........|f    |r r|   c",
         "         + |...|------------|.|         [   |rrr|........|     |-+-|   c",
         "         |S|...|  V  h V  h |.|      |+-|G  +   |........|hnnh |   c   c",
         "@@|+|+|@@|-|...|  V k6kV k6k|.|      | S|   |   |........|hnnh [   c G |",
-        "--|r|r|--|.....|  V    V    |.| @  @ | t|   |r S|........|-----|   c   |",
-        "..|-|-|........|  VHH[HVHH[H|.|d@  @d|BB|   |---|..............| h c   |",
+        "--|L|L|--|.....|  V    V    |.| #  # | t|   |r S|........|-----|   c   |",
+        "..|-|-|........|  VHH[HVHH[H|.|d#  #d|BB|   |---|..............| h c   |",
         "......|--------|            |.|------|--|       |........|---|-|cc6c   |",
         "---|..|        V            |.|         |   cc  |........|EEE|b         ",
-        "   |..|  hnnh  [  VHH[HVHH[H|.|         [   c   |........|EEE|b         ",
+        "   |..|  hnnh  [  VHH[HVHH[H|.|         [   c   |........|%EE|b         ",
         "h  |..|  hnnh  [  V    V    |.|      |+-|   6h  |........|-++|b         ",
         "   |..|  hnnh  V  V k6kV k6k|.|      | S|   cccc|--------|5             ",
-        "  G|..|  hnnh  V  V  h V  h |.| @  @ | t|                =       bbbb bb",
-        "---|--|  hnnh  [  V    V    |.|d@  @d|BB|                =      |-HHHHHH",
+        "  G|..|  hnnh  V  V  h V  h |.| #  # | t|                =       bbbb bb",
+        "---|--|  hnnh  [  V    V    |.|d#  #d|BB|                =      |-HHHHHH",
         "...| t|  hnnh  [  |---------|.|------|--|-[|---|-[|---| 5|---|  |    G  ",
         "...| S|        V  |.....................|  |StB|  |StB|--|S D|  [       ",
         "---|+-|HHH[[HHHV  |------------------|..|  +  B|  +  B|..|c  +  [       ",
         "                                h c P|..|  |---|  |---|..|S  |--|       ",
         "                               c6cc  |..|     d|     d|..|-| |  |-|     ",
-        "V   VHHH|+|HHHV   VHHH|---|          |..||   @@|    @@|..|t+ + t|.|    5",
-        "V   Vk6k|L|k6kV[H[Vk6k|...|          |...|     |      |..|-|-|--|.|-===-",
+        "V   VHHH|+|HHHV   VHHH|---|          |..||   ##|    ##|..|t+ + t|.|    5",
+        "V   Vk6k|1|k6kV[H[Vk6k|...|          |...|     |      |..|-|-|--|.|-===-",
         "      h |-| h       h |.|-|HHHH[[HHHH|-|.|     |      |...........|    5",
-        "       k|.|k         k|.|  G        G  |.|   @@|    @@|....|------|     ",
+        "       k|.|k         k|.|  G        G  |.|   ##|    ##|....|------|     ",
         "h   h h6|.|6h h   h h6|.|/,,,,,  ,,,,,/|.|    d|     d|....|  G         ",
         "6k k6k k|.|k k6k k6k k|.|/,///,  ,///,/|.|-----|------|....| ,,,,,,,,,,,",
         "--------|.|-----------|.|/,///,  ,///,/|...................| ,///,///,//",
@@ -149,20 +170,37 @@
         "----|/////////|---------|/////,//,/////|-------------------| ,,,,,,,,,,,"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.35 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.45 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.45 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.45 }
+      "terrain": { "#": "t_metal_floor", "1": "t_metal_floor" },
+      "furniture": { "#": "f_bed", "1": "f_locker" },
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
+      "items": {
+        "#": { "item": "bed", "chance": 50 },
+        "@": { "item": "army_bed", "chance": 50 },
+        "1": { "item": "cleaning", "chance": 50, "repeat": 3 },
+        "L": { "item": "army_personal_locker", "chance": 40, "repeat": 2 },
+        "o": { "item": "book_military", "chance": 40, "repeat": 2 },
+        "r": { "item": "hospital_medical_items", "chance": 30 }
+      },
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 5, 9 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 5, 9 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 5, 9 ] }
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": 28, "y": 44, "chance": 75, "rotation": 90 },
@@ -179,7 +217,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "........................................................................",
         "........................................................................",
@@ -218,33 +256,50 @@
         "  [  |D S|--|BtS|  |BtS|  |...................|-------|    5|...........",
         "  [  +  c|..|B  +  |B..+  |...................|          G  |...........",
         "  |--|  S|..|---|  |---|  |.......|--------|..|             |...........",
-        "|-|  | |-|..|d     |d     |.......|rrrrrrr |..|   |---------|...........",
+        "|-|  | |-|..|d     |d     |.......|LLLLLLL |..|   |---------|...........",
         "|.|t + +t|..|@@    |@@    |.......|        |..|   |.....................",
         "|.|--|-|-|..|      |      |.......|        ||-|   |-------------------|.",
-        "|...........|      |      |.......|rrrrrr  5|5     Vbbb6k V  6  V  h  |.",
-        "|------|....|@@    |@@    |.......|rrrrrr   =      V   kh V k6k V k6k |.",
+        "|...........|      |      |.......|LLLLLL  5|5     Vbbb6k V  6  V  h  |.",
+        "|------|....|@@    |@@    |.......|LLLLLL   =      V   kh V k6k V k6k |.",
         "    G  |....|d     |d     |.......|         =   G      k  V     V     |.",
-        ",,,,,, |....|------|------|.......|rrrrrr   =             VH   HVH   H|.",
-        "/,///, |..........................|rrrrrr   |      V                  |.",
+        ",,,,,, |....|------|------|.......|LLLLLL   =             VH   HVH   H|.",
+        "/,///, |..........................|LLLLLL   |      V                  |.",
         "/,///, |..........................|        ||-|    Vbbb               |.",
         "/,///, |............|-------|.....|        |..|   |-----|             |.",
-        ",,,,,, |------------|///////|.....|rrrrrrr |..|   |.....|kh         hk|."
+        ",,,,,, |------------|///////|.....|LLLLLLL |..|   |.....|kh         hk|."
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.45 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 36 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 36 ], "y": [ 25, 46 ], "density": 0.45 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.45 }
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
+      "items": {
+        "L": [
+          { "item": "cop_helmet", "chance": 25 },
+          { "item": "cop_torso", "chance": 25 },
+          { "item": "cop_pants", "chance": 25 },
+          { "item": "cop_gloves", "chance": 25 },
+          { "item": "cop_shoes", "chance": 25 }
+        ],
+        "r": { "item": "hospital_medical_items", "chance": 30 }
+      },
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 5, 9 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 36 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 36 ], "y": [ 25, 46 ], "repeat": [ 5, 9 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 5, 9 ] }
       ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 3, "y": 46, "chance": 75, "rotation": 90 } ]
     },
@@ -258,7 +313,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "...|S  |  jj  jj  j j   j   j   V  |...|//////////////////////////////=/",
         "...|c T|           G           P|  |...|//////////////////////////////=/",
@@ -274,21 +329,21 @@
         "........................|-------|  |....................................",
         "........................|          |....................................",
         "........................|          |....................................",
-        "....................|---|  |-------|............|-|..|-------|....|-----",
-        "....................|  5|  |........|-----------|F|..|///2222|....|r//rr",
-        "....................|   =  |---|----|rrrGrrr rrr| |..|//44//2|....|r////",
+        "....................|---|  |-------|.................|-------|....|-----",
+        "....................|  5|  |........|-----------|-|..|///2222|....|r//rr",
+        "....................|   =  |---|----|RRRGRRR RRR|F|..|//44//2|....|r////",
         "....................| |-|  | < |EEEE|           | |..|//44//2|....|r////",
-        "....................| |.|  |   |EEEE|   EEEEEE  | |..|//////2|....|r////",
+        "....................| |.|  |   |EEE%|   EEEEEE  | |..|//////2|....|r////",
         "...................|| |-|  |-[-|-++-|   EEEEEE  | |..|---|792|----|7777|",
         "...................|   c|  |        |   EEEEEE  | |..|rrr|//2/////8////V",
         "..................||G  cv  v        v   EEEEEE  | |--|   v//2//K//8////V",
         "..................|L  h6v  v        v   EEEEEE  |    +   =//44/G//9////V",
         "..................|L   cv  v       G|   EEEEEE  |----|  5|//44////9////V",
-        "..................||  h6v  v        [   EEEEEE  |....|rrr|//X/////8////V",
+        "..................||  h6v  v        [  %EEEEEE  |....|rrr|//X/////8////V",
         "...................|   c|  |        |   EEEEEE  |....|---|//2|----|////|",
         "...................|----|  |--|  |--|   EEEEEE  |....|r/////2|....|/////",
         "........................|  |..|  |  +   EEEEEE  |....|r/44//2|....|L////",
-        "........................|  |..|[[|Sr|  5       G|....|r/44//2|....|L////",
+        "........................|  |..|[[|Sc|  5       G|....|r/44//2|....|L////",
         "........................|  |--|  |--|---======-||....|r//2222|....|L////",
         "........................|         G    ,//////5|.....|-------|....|-----",
         "................|-------|,,,,,,,,,,,,,,,///////|-|......................",
@@ -310,18 +365,32 @@
         "..............|///////|...|//,/////,///,/////,///,/////,//|...|///////|."
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 12 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 12 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 10 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 28, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 28, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.25 }
+      "terrain": { "R": "t_metal_floor" },
+      "furniture": { "R": "f_rack" },
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
+      "items": { "r": { "item": "hardware", "chance": 40 }, "R": { "item": "mechanics", "chance": 30, "repeat": 2 } },
+      "place_loot": [
+        { "group": "swat_gear", "x": 19, "y": [ 22, 23 ], "chance": 50, "repeat": 4 },
+        { "group": "cleaning", "x": 35, "y": 28, "chance": 50, "repeat": 3 }
+      ],
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 12 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 12 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 10 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 28, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 28, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] }
       ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 34, "y": 33, "chance": 25, "rotation": 180 } ]
     },
@@ -335,7 +404,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "//////////////////////////////,,,,/////////////////////////,,,//////////",
         "//////////////////////////////,//,/////////////////////////,/,//////////",
@@ -350,18 +419,18 @@
         "......|/////|.................|G               |--|   |----|  G         ",
         "......|/////|.................|-----|     |----|..|   |....|------------",
         "......|/////|.......................|    5|.......|   |.................",
-        "......|/////|.......................|-===-|.......|   |--|.....|--|-----",
-        "----|.|//G//|.......................|    5|.......|   |  |.....|EE|     ",
-        "r//r|.|/////|............|-----|----|     |--|....|   [ >|.....|EE+     ",
-        "///r|.|/////|............|     vccc6c     |St|....|   |  |.....|EE+   |-",
-        "///r|.|/////|............| RRR vc  h      +  |....|   |--|.....|--|   | ",
-        "///r|.|/////|---|........| RRR v6h   G    |--|....|   |....|--|...|   | ",
-        "-=--|-|/////////|........| RRR vc h       + r|....|   |----| 5|---|   | ",
-        "c rr| //////,,,,|........|     vcc6cc     |--|....|           =       | ",
+        "......|/////|.......................|-===-|.......|   |...........|-----",
+        "----|.|//G//|.......................|    5|.......|   |...........|     ",
+        "1//1|.|/////|............|-----|----|     |--|....|   |...........|     ",
+        "///1|.|/////|............|     vccc6c     |St|....|   |...........|   |-",
+        "///1|.|/////|............| RRR vc  h      +  |....|   |...........|   | ",
+        "///1|.|/////|---|........| RRR v6h   G    |--|....|   |....|--|...|   | ",
+        "-=--|-|/////////|........| RRR vc h       + L|....|   |----| 5|---|   | ",
+        "c 11| //////,,,,|........|     vcc6cc     |--|....|           =       | ",
         "c   | //////,//,|........|-|=--|HHHHH[H|[-|rr|....|     G     =       | ",
         "6hG + //////,//G|..........|           |     |....|           =       | ",
         "c   | //////,//,|..........|H[H|H[H|H[H|rrrrr|....|---|   |---|5  |---| ",
-        "c 5r|G//////,,,,|..........|   |   |   |-----|........|   |Pll|---|   a ",
+        "c 51|G//////,,,,|..........|   |   |   |-----|........|   |Pll|---|   a ",
         "-=--|-|/////////|..........|c6 |c6 |c6 |..............|   |   h   +   a ",
         "////|.|/////|---|..........| h | h | h |..............|   | hnnnh |b  aA",
         "////|.|/////|..............|---|---|---|..............|   | hn nh |b   h",
@@ -387,20 +456,26 @@
         "|EE|                  |EE|.|/////|..........|---|G  h6   G|..|k6k   a 6k"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 6, 22 ], "y": [ 1, 20 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 6, 22 ], "y": [ 1, 20 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 10 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 10 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.15 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.15 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 4, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 4, 22 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 30, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 30, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 36, 38 ], "density": 0.35 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 36, 38 ], "density": 0.35 }
+      "terrain": { "1": "t_metal_floor" },
+      "furniture": { "1": "f_rack" },
+      "items": {
+        "1": { "item": "plumbing_bulk", "chance": 50 },
+        "L": { "item": "cleaning", "chance": 50, "repeat": 3 },
+        "r": [ { "item": "tools_electronics", "chance": 30 }, { "item": "supplies_electronics", "chance": 30 } ]
+      },
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 6, 22 ], "y": [ 1, 20 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 6, 22 ], "y": [ 1, 20 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 10 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 10 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 4, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 4, 22 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 30, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 30, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 36, 38 ], "repeat": [ 4, 8 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 36, 38 ], "repeat": [ 4, 8 ] }
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": 13, "y": 22, "chance": 50, "rotation": 270 },
@@ -416,6 +491,7 @@
         { "vehicle": "golf_cart", "x": 43, "y": 32, "chance": 15, "rotation": 270 },
         { "vehicle": "golf_cart", "x": 43, "y": 42, "chance": 15, "rotation": 270 }
       ],
+      "place_vendingmachines": [ { "item_group": "vending_food", "x": 60, "y": 24 }, { "item_group": "vending_drink", "x": 61, "y": 24 } ],
       "place_npcs": [
         { "class": "old_guard_necropolis_commo", "x": 34, "y": 18 },
         { "class": "old_guard_soldier", "x": 41, "y": 20 },
@@ -433,10 +509,10 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "/////,,,////////////////////|.....|--------|..|   |---|.|6kkh     hkk6|.",
-        "/////,/,////////////////////|.................|   |EEE|.|             |.",
+        "/////,/,////////////////////|.................|   |%EE|.|             |.",
         "/////,,,//////G/////////G///|.....|---------|-|   +EEE|.|             |.",
         "/////,/,////////////////////|.....|rrrrrrr 5|5    +EEE|.|kh         hk|.",
         "/////,,,////////////////////|.....|         =     |EEE|.|6kkh     hkk6|.",
@@ -445,7 +521,7 @@
         "/,///, |.............|/////|......|rrrrrrr  |     V6kkh Vkh         hk|.",
         "/,///, |...........|-|/////|-|....|--|------|-|   V     V6kkh      kk6|.",
         ",,,,,, |.|----|----|/////////|----|..|t+ cScSc|   VHH+HHV           h |.",
-        "    G  |.|rrrr|  ///////////////  |..|-|      |                       |.",
+        "    G  |.|RRRR|  ///////////////  |..|-|      |                       |.",
         "-------|.|   6|  ,,,,,/////,,,,,  |..|t+     D|                       |.",
         ".........|  h6|  ,///,/////,///,  |..|-|-|-+--|   VHH+HHV             |.",
         "---------|u=uu|  ,///,/////,///,  |......|        V     V6kkh     hkk6|.",
@@ -482,23 +558,28 @@
         "  k6kkG  k6k|......|BB t |                 V^^^^^^^^^^|.|/////|.........",
         "  kh     kh |......|BB   +    G         G  VHHHHHHV^^^|.|/////|.........",
         "AAAAAa      |......|    c|    I cc I cc I         VHV^|.|/////|.........",
-        "66k6 a   k6k|......|rcSSc|                       6  V^|.|/////|........."
+        "66k6 a   k6k|......|DcSSc|                       6  V^|.|/////|........."
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 36 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 36 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 36 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 36 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 38 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 38 ], "density": 0.05 }
+      "terrain": { "R": "t_metal_floor" },
+      "furniture": { "R": "f_filing_cabinet" },
+      "items": {
+        "R": { "item": "file_room", "chance": 50, "repeat": 5 },
+        "r": [ { "item": "cop_gear", "chance": 25 }, { "item": "cop_armory", "chance": 25 } ]
+      },
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 36 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 36 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 36 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 36 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 38 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 38 ], "repeat": [ 1, 3 ] }
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": 19, "y": 17, "chance": 25, "rotation": 90 },
@@ -520,7 +601,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "..............|///////|...|//,/////,///,/////,///,/////,//|...|///////|.",
         "..............|///////|...|//,/////,/&/,/////,/&/,/////,//|...|///////|.",
@@ -542,7 +623,7 @@
         "..........................|///////////,EEEEEEE,//,/////,//|.............",
         "..........................|///////////,EEEEEEE,//,/////,//|...|---------",
         "..........................|///////////,EEEEEEE,&/,/////,//|...|o     G  ",
-        "..........................|///////////,EEEEEEE,//,/////,//|...|o     h h",
+        "..........................|///////////%EEEEEEE,//,/////,//|...|o     h h",
         "..........................|-|/////////,,,,,,,,,//,/////,//|...|      h h",
         "............................|////////|-7799977-|/,/////,//|...|  n   h h",
         "............................|////////|r/////rrr|/,/////,//|...| hn      ",
@@ -572,18 +653,22 @@
         "..........................|////////////////////////////////////,,,,,////"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "items": {
+        "c": { "item": "SUS_welding_gear", "chance": 50 },
+        "o": { "item": "magazines", "chance": 50, "repeat": 3 },
+        "r": { "item": "mechanics", "chance": 50 }
+      },
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_vehicles": [
         { "vehicle": "humvee", "x": 33, "y": 1, "chance": 60, "rotation": 90 },
@@ -606,11 +691,11 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "|EE+                  +EE|.|/////|..........|r r|    c    |..| hk   a k ",
         "|EE+                  +EE|.|/////|..........|r r|   cc    |..|      aG  ",
-        "|EE|      cc6ccc      |EE|.|/////|..........|r r|         |..|      aAa ",
+        "|E%|      cc6ccc      |%E|.|/////|..........|r r|         |..|      aAa ",
         "|--|     cc  h cc     |--|-|/////|..........|-+-|HHHHV    |..|      kka ",
         "V   G    c      c    G  bV///////|..........|c       V    |--|u=u|  h6a ",
         "V       cc  rr  cc   nn bV///////|..........|6h          5|5    Gv   ka ",
@@ -638,13 +723,13 @@
         " h h h h  V      |     ,///,/////,///, |.........| bnnb                 ",
         "          |  G   =     ,,,,,/////,,,,, |.........| bnnb                 ",
         "----------|      =     ,///,/////,///, |.........| bnnb    |---|-==-|-=-",
-        "..........|     5|5    ,///,/////,///, |.|--|--|.| bnnb    |  r|EEEE|r  ",
-        "--------|.||  |--|--|  ,///,/////,///, |-| 5|5 |-|         c  r|EEEE|r  ",
-        "////////|..|  |  |EE|  ,,,,,,,,,,,,,,,      =              c  r|-||-|r  ",
+        "..........|     5|5    ,///,/////,///, |.|--|--|.| bnnb    |  f|%EEE|f  ",
+        "--------|.||  |--|--|  ,///,/////,///, |-| 5|5 |-|         c  f|EEEE|f  ",
+        "////////|..|  |  |E%|  ,,,,,,,,,,,,,,,      =              c  O|-||-|O  ",
         "/,,,,,//|..|  + >|EE+ G/////,/,/,/////G     =      G       c   +r||r+   ",
-        "/,///,//|..|  |  |EE+  ,,,,,,,,,,,,,,,      =              c  r|-||-|r  ",
+        "/,///,//|..|  |  |EE+  ,,,,,,,,,,,,,,,      =              c  S|-||-|S  ",
         "/,///,//|..|  |--|--|  ,///,/////,///, |-|  |  |-|         c   =EEEE=   ",
-        "/,///,//|..|  |.....|  ,///,/////,///, |.|--|--|.| bnnb    |   =EEEE=   ",
+        "/,///,//|..|  |.....|  ,///,/////,///, |.|--|--|.| bnnb    |   =E%EE=   ",
         "/,,,,,//|..|  |.....|  ,///,/////,///, |.........| bnnb    |-=-|----|---",
         "/,///,//|..|  |.....|  ,,,,,/////,,,,, |.........| bnnb                 ",
         "G,///,//|..|  |.....|  ,///,/////,///, |.........| bnnb                 ",
@@ -658,20 +743,33 @@
         "////////|..|  |...........|-=====-|....................| bnnb   bnnb   b"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 36 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 36 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 18, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 18, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.15 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.25 }
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
+      "place_loot": [
+        { "group": "magazines", "x": [ 12, 13 ], "y": [ 5, 8 ], "chance": 50, "repeat": 6 },
+        { "group": "necropolis_visitors", "x": [ 12, 13 ], "y": [ 5, 8 ], "chance": 25, "repeat": 3 },
+        { "group": "pantry", "x": 45, "y": [ 0, 2 ], "chance": 40, "repeat": 4 },
+        { "group": "pantry", "x": 47, "y": [ 0, 2 ], "chance": 40, "repeat": 4 }
+      ],
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 36 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 36 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 18, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 18, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] }
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": 3, "y": 43, "chance": 25, "rotation": 90 },
@@ -697,7 +795,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         " h k a   kh |......|-----|                   kk  66 V^|.|/////|.........",
         "    Ga      |......|     +                   k    6GV^|.|/////|.........",
@@ -729,13 +827,13 @@
         "  G  bnnb  bnnb                      bnnb |.......| ,,,,,/////,,,,, |...",
         "     bnnb  bnnb                      bnnb |.......| ,///,/////,///, |...",
         "|    bnnb  bnnb    |---|-==-|-=-|    bnnb |.......| ,///,/////,///, |...",
-        "|    bnnb  bnnb    |  r|EEEE|r  |    bnnb |.|--|--| ,///,/////,///, |...",
-        "c                  c  r|EEEE|r  c         |-| 5|5   ,,,,,/////,,,,, |...",
-        "c                  c  r|-||-|r  c              =    //////////,///, |...",
+        "|    bnnb  bnnb    |  f|EEE%|f  |    bnnb |.|--|--| ,///,/////,///, |...",
+        "c                  c  f|EEEE|f  c         |-| 5|5   ,,,,,/////,,,,, |...",
+        "c                  c  O|-||-|O  c              =    //////////,///, |...",
         "c                  c   +r||r+   c       G      =  G ///////G//,///, |...",
-        "c                  c  r|-||-|r  c              =    //////////,///, |...",
+        "c                  c  S|-||-|S  c              =    //////////,///, |...",
         "c                  c   =EEEE=   c         |-|  |    ,,,,,/////,,,,, |...",
-        "|    bnnb  bnnb    |   =EEEE=   |    bnnb |.|--|--| ,///,/////,///, |...",
+        "|    bnnb  bnnb    |   =EE%E=   |    bnnb |.|--|--| ,///,/////,///, |...",
         "|    bnnb  bnnb    |-=-|----|---|    bnnb |.......| ,///,/////,///, |...",
         "     bnnb  bnnb                      bnnb |.......| ,///,/////,///, |...",
         "     bnnb  bnnb  G                   bnnb |.......| ,,,,,/////,,,,, |...",
@@ -749,20 +847,20 @@
         "nnb |t|t|  |t|t| bnnb   bnnb   bnnb |..................|///////|........"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 28 ], "y": [ 20, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 30 ], "y": [ 20, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 60, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 60, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.15 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.15 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 }
+      "place_loot": [ { "group": "mil_food", "x": [ 16, 19 ], "y": 9, "chance": 40, "repeat": 6 } ],
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 18, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 28 ], "y": [ 20, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 30 ], "y": [ 20, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 60, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 60, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] }
       ],
       "place_npcs": [
         { "class": "old_guard_necropolis_cpt", "x": 47, "y": 1 },
@@ -790,32 +888,32 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
-        "..........................|////////////////////////////////////,///,//|-",
-        "..........................|////////////////////////////////////,///,//|.",
-        "..........................|////////////////////////////////////,///,//|.",
-        "..........................|////////////I&I//|---------------|//,,,,,//|.",
-        "..........................|/////////////////|...............|/////////|.",
-        "..........................||///G///|--------|...............|---------|.",
-        "...........................|//////5|....................................",
-        "..............|---------|..|-=====-|....................................",
-        "..............|/////////|--|//////5|------------------------------------",
-        "..............|/////////////////////////////////////////////////////////",
-        "..............|/////////////////////////////////////////////////////////",
-        "..............|////G//////////////////////////////G//////////////////G//",
-        "..............|/////////////////////////////////////////////////////////",
-        "..............|/////////////////////////////////////////////////////////",
-        "..............|/////////|-------------------|////,,,,,,,,,,,,,,,,,,,,,,,",
-        "..............|---------|...................|-|//,///,///,///,///,///,//",
-        "..............................................|//,///,///,///,///,///,//",
-        "..............................................|//,///,///,///,///,///,//",
-        "..............................................|//,,,,,,,,,,,,,,,,,,,,,,,",
-        "..............................................|                         ",
-        "..............................................|                         ",
-        "..............................................|-----------|  G  |-------",
-        "..........................................................|    5|.......",
-        "..............................|-----------|.|-----------|.|-===-|.......",
+        "///////...................|////////////////////////////////////,///,//|-",
+        "///////.........|-----|...|////////////////////////////////////,///,//|.",
+        "///////.........|nnn h|...|////////////////////////////////////,///,//|.",
+        "ggggggg.........|    h|...|////////////I&I//|---------------|//,,,,,//|.",
+        "pppppppww|-|----|    h|...|/////////////////|...............|/////////|.",
+        "gggggggwb|.|G        h|...||///G///|--------|...............|---------|.",
+        "gggggggwb|.|          |....|//////5|....................................",
+        "gggggggwb|.|  |----[--|-|..|-=====-|....................................",
+        "pppppppwb|.|  |/////////|--|//////5|------------------------------------",
+        "gggggggwG|-|++|/////////////////////////////////////////////////////////",
+        "wwwwwwwww|h   |/////////////////////////////////////////////////////////",
+        "wbbbwwwww=    |////G//////////////////////////////G//////////////////G//",
+        "wbbbwwwww=    |/////////////////////////////////////////////////////////",
+        "wwwwwwwww%    |/////////////////////////////////////////////////////////",
+        "gggggggwG|-uu-|/////////|-------------------|////,,,,,,,,,,,,,,,,,,,,,,,",
+        "pppppppwb|cc6c|----=-|--|...................|-|//,///,///,///,///,///,//",
+        "gggggggwbu  h |...| 5|........................|//,///,///,///,///,///,//",
+        "gggggggwbu    |---| ||........................|//,///,///,///,///,///,//",
+        "gggggggwb|G         |.........................|//,,,,,,,,,,,,,,,,,,,,,,,",
+        "pppppppww||rr|------|.........................|                         ",
+        "ggggggg...|--|................................|                         ",
+        "///////.......................................|-----------|  G  |-------",
+        "///////...................................................|    5|.......",
+        "///////.......................|-----------|.|-----------|.|-===-|.......",
         "..............................|kh         |.|kh         |.|    5|.......",
         "..............................|6kk nnn    |.|6kk nnn    |.|     |.......",
         "..............................|           |.|           |.|     |-------",
@@ -835,25 +933,40 @@
         ".......|cScScScScSc       +           G                                 ",
         ".......|                 D|LLLLLLL         LLLLLLL        |HHHHH|       ",
         ".......|            |-----|--------|     |-------|-[[-|++-|ccccc|-++|-[[",
-        ".......|-+|+|+|+|+|+|..............|     |.......|    |EEE|-----|EEE|   ",
+        ".......|-+|+|+|+|+|+|..............|     |.......|    |EE%|-----|%EE|   ",
         ".......|  | | | | | |.|----------|.|L   L|.......|    |EEE|     |EEE|   ",
         ".......|t |t|t|t|t|t|.|          |.|L   L|..|----|    |---|     |---|   ",
         ".......|--|-|-|-|-|-|.|   khkhkh |.|L   L|..|                           ",
         "......................|          |.|L   L|..|                           "
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.15 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.25 }
+      "terrain": {
+        "%": "t_card_military",
+        "b": "t_thconc_floor",
+        "g": "t_railroad_rubble",
+        "p": "t_railroad_track",
+        "w": "t_thconc_floor"
+      },
+      "items": {
+        "k": { "item": "book_school", "chance": 50 },
+        "r": { "item": "swat_gear", "chance": 50, "repeat": 2 },
+        "L": [ { "item": "book_school", "chance": 25 }, { "item": "school", "chance": 25 } ]
+      },
+      "place_loot": [
+        { "group": "swat_gear", "x": 19, "y": [ 22, 23 ], "chance": 50, "repeat": 4 },
+        { "group": "magazines", "x": [ 17, 19 ], "y": 2, "chance": 50, "repeat": 3 }
+      ],
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] }
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": 67, "y": 16, "chance": 20, "rotation": 270 },
@@ -874,7 +987,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "--------|..|  |...........|//////5|....................| bnnb   bnnb   b",
         "...........|  |...........|///////|....................| bnnb   bnnb   b",
@@ -894,8 +1007,8 @@
         "/,  |-|..................|---------|......................|-|,//,/////,/",
         "/,  |.|--------------|......................................|,,,,/////,/",
         "/,  |.|P    k h     P|.|------------|.......|---------|.....|,//,/////,/",
-        ",,  |.|     k6kkk    |.|rrrrrrrrrrrr|.......|L        |.....|-[[-|////,,",
-        "    |.|             o|.|            |...|---|L c h c  |.....|    |////,/",
+        ",,  |.|     k6kkk    |.|rrrrrrrrrrrr|.......|1        |.....|-[[-|////,,",
+        "    |.|             o|.|            |...|---|1 c h c  |.....|    |////,/",
         "    |.|       h     o|.|r rr rr rr  |...|r r|  cc6cc  |.....|    V////,/",
         "----|.|[[|-----------|.|r rr rr rr  |...|r S|         |...|-|    V////,/",
         "......|  |P         o|.|r rr rr rr  |...|r c|        P|---|      V////,,",
@@ -903,14 +1016,14 @@
         "......|  [   h  kh  o|.|r rr rr rr    =                   =   G  [////,/",
         "......|  |h     kk  o|.|r rr rr rr    =                   =      [////,/",
         "------|  |h         o|.|             5|5   |-uu-uu-uu-|---|      |////,,",
-        "LL kk6|  |------|----|.|rrrrrrrrrrrr  |    |    kk6k o|...|      V//////",
-        "    hk|   bbbbbb|......|--------------|-|  [    k hk o|...|-|    V//////",
-        "      [         |.......................|  |kk        |---|.|    V/G////",
+        "LL kk6|  |------|----|.|rrrrrrrrrrrr  |    |    2262 o|...|      V//////",
+        "    hk|   bbbbbb|......|--------------|-|  [    2 h2 o|...|-|    V//////",
+        "      [         |.......................|  |22        |---|.|    V/G////",
         "k     [         |------------|.|------|.|  v6h        +   |.|    |//////",
-        "6   oo|b        |LLL   rr@  @|.|rrrrrr|.|  |k   ooP   |rrr|.|    |-HHHH-",
+        "6   oo|b        |111   rr@  @|.|rrrrrr|.|  |2   ooP   |rrr|.|    |-HHHH-",
         "------|b        [        @  @|.|r     |.|  |----------|---|.|           ",
         "......|Pbb      |6kk        r|.|r  rrr|.|  |................|           ",
-        "......|---|[[|--| h   LLL   r|.|r  rrr|.|  |-------------|..|           ",
+        "......|---|[[|--| h   111   r|.|r  rrr|.|  |-------------|..|           ",
         "..........|  |..||-----------|-|r     |.|  |             |..|           ",
         "----------|  |-|.|r  S  S  S  r|r  rrr|.|  |!*!!*!!*!!*! |..|-----------",
         "LLLLLLLLLLL  LL|.|r  c  c  c  r|r  rrr|.|  |  !  !  !  ! |..............",
@@ -926,20 +1039,37 @@
         "      |..|L   L|.|-------------|r     |.|  |c           c|..|   !    !  "
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.1 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.15 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 34 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 34 ], "density": 0.05 }
+      "terrain": { "1": "t_metal_floor", "2": "t_metal_floor" },
+      "furniture": { "1": "f_rack", "2": "f_desk" },
+      "items": {
+        "1": { "item": "gear_medical", "chance": 40, "repeat": 2 },
+        "k": { "item": "book_school", "chance": 50 },
+        "r": { "item": "science", "chance": 25 },
+        "2": [
+          { "item": "office", "chance": 50, "repeat": 2 },
+          { "item": "necropolis_visitors", "chance": 1 },
+          { "item": "lab_dorm", "chance": 25 }
+        ],
+        "L": [ { "item": "book_school", "chance": 25 }, { "item": "school", "chance": 25 } ]
+      },
+      "place_loot": [
+        { "group": "gear_medical", "x": [ 17, 19 ], "y": 31, "chance": 30, "repeat": 3 },
+        { "group": "gear_medical", "x": [ 22, 23 ], "y": 34, "chance": 30 },
+        { "group": "gear_medical", "x": [ 24, 26 ], "y": 34, "chance": 30, "repeat": 2 }
+      ],
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 34 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 34 ], "repeat": [ 1, 3 ] }
       ]
     },
     "om_terrain": [
@@ -952,7 +1082,7 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "nnb |+|+|  |+|+| bnnb   bnnb   bnnb |..................|//////5|........",
         "nnb |          | bnnb   bnnb   bnnb |..................|-=====-|........",
@@ -972,11 +1102,11 @@
         "//,///,//////,///,///,/////,//,|-|....................|--------|........",
         "//,///,///G//,///,///,/////,,,,|........................................",
         "//,///,//////,///,///,/////,//,|.....|--------|--------|................",
-        ",,,,,,,//////,,,,,,,,,////|-[[-|.....|r      r|0000__00|................",
-        "//,///,//////,///,///,////|    |.....|r r  r r|0   __ 0|................",
-        "//,///,//////,///,///,////V    |.....|  r  r  |$$     N|................",
-        "//,///,//////,///,///,////V    |-|...|r      r|$$ c6c 0|................",
-        ",,,,,,,//////,,,,,,,,,////V      |---|r      r|    h  c|................",
+        ",,,,,,,//////,,,,,,,,,////|-[[-|.....|R      R|0000__00|................",
+        "//,///,//////,///,///,////|    |.....|R R  R R|0   __ 0|................",
+        "//,///,//////,///,///,////V    |.....|  R  R  |$$     N|................",
+        "//,///,//////,///,///,////V    |-|...|R      R|$$ c6c 0|................",
+        ",,,,,,,//////,,,,,,,,,////V      |---|R      R|    h  c|................",
         "//,///,//////,///,///,////|     6|5  |-uuuu-=-|-uuuu-=-||-----|.........",
         "//,///,//////,///,///,////[  G   =                      |k6koo|----|....",
         "//,///,///G//,///,///,////[      =                      vkh   =    |....",
@@ -986,38 +1116,57 @@
         "////////////////////////G/V    |...|tS|D  hnnh  hnnh V  |    P|   c|....",
         "//////////////////////////|    |...|  +   hnnh  hnnh V  =   hk|----|....",
         "HHHH-HHHH--HHHH-HHHH-HHHH-|    |...|--|    hh    hh  V  |ook6k|.........",
-        "                               |...|  +              |  |-uuu-|--|......",
-        "                               |...|tS|l             [           |......",
-        "                               |...|--|l      G      [           |......",
-        "                               |......|c             |  |-----|  |......",
-        "-----|      6 |----------------|......|S   hh    hh  V  |ook6k|  |......",
-        ".....|--====--|.......................|c  hnnh  hnnh V  =   hk|  |......",
-        ".....|      6 |.......................|c  hnnh  hnnh V  |     |  |---|..",
-        "-|...|        |....|--------|.........|-|  hh    hh  V  v     |  |rrr|..",
-        " |...|    G   |....|  !  !  |...........|            |  v    P|  +   |..",
-        " |..||-|    |-|....|  !  !  |........|--|-HHH-[[-HHH-|  vk   o|  |rcS|..",
-        "!|..|EE|    |......|  !  !  |..|-----|                  vkh  o|  |---|..",
-        " |..|EE=    |......|  *  *  |..| kh  |                  |6k  o|  |......",
-        " |..|EE=    |------|  !  !  |..| k6k v  |-uuu-|-uuuuuu-||-----|  |......",
+        "                               |...|  +              |  |-uuu-|----|....",
+        "                               |...|tS|l             [             |--|.",
+        "                               |...|--|l      G      [             v  |.",
+        "                               |......|c             |  |-----|    [ >|.",
+        "-----|      6 |----------------|......|S   hh    hh  V  |ook6k|    v  |.",
+        ".....|--====--|.......................|c  hnnh  hnnh V  =   hk|    |--|.",
+        ".....|      6 |.......................|c  hnnh  hnnh V  |     |  |-|....",
+        "-|...|        |....|--------|.........|-|  hh    hh  V  v     |  |......",
+        " |...|    G   |....|  !  !  |...........|            |  v    P|  |---|..",
+        " |..||-|    |-|....|  !  !  |........|--|-HHH-[[-HHH-|  vk   o|  |rrr|..",
+        "!|..|E%|    |......|  !  !  |..|-----|                  vkh  o|  +   |..",
+        " |..|EE=    |......|  *  *  |..| kh  |                  |6k  o|  |rcS|..",
+        " |..|EE=    |------|  !  !  |..| k6k v  |-uuu-|-uuuuuu-||-----|  |---|..",
         "!|..|--|    |cccc P|-uu++uu-|..|  h  v  |o  kk|        |rrrrrr|  |......",
         " |..|EE|    V6h    |      c6|..|     v  =  h6h| i    i |      v  |-|-|..",
         " |..|EE=    Vc     |c6c   hc|..| k   v  |   k |        |rrrr  +  |t|t|.."
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 16 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 16 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.25 }
+      "terrain": { "R": "t_metal_floor" },
+      "furniture": { "R": "f_rack" },
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+      ],
+      "items": {
+        "R": { "item": "tools_robotics", "chance": 25 },
+        "o": { "item": "lab_bookshelves", "chance": 50 },
+        "r": { "item": "chem_lab", "chance": 25 }
+      },
+      "place_loot": [
+        { "group": "gear_medical", "x": 66, "y": [ 26, 29 ], "chance": 25, "repeat": 4 },
+        { "group": "autodoc_installation_programs_advanced", "x": [ 66, 68 ], "y": 41, "chance": 50, "repeat": 3 }
+      ],
+      "place_vendingmachines": [ { "item_group": "vending_food", "x": 39, "y": 33 }, { "item_group": "vending_drink", "x": 39, "y": 34 } ],
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 16 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 16 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 3, 6 ] }
       ],
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": 19, "y": 16, "chance": 20, "rotation": 180 },
@@ -1044,10 +1193,10 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "......................|   khkhkh |.|    L|--|  hhhhhhhhhhhh     hhhhhhhh",
-        "......................| n        |-|     |EE|                           ",
+        "......................| n        |-|     |%E|                           ",
         "......................| n         [      +EE|  hhhhhhhhhhhh     hhhhhhhh",
         "......................| n        |-|     +EE|                           ",
         "......................|   khkhkh |.|     |--|  hhhhhhhhhhhh     hhhhhhhh",
@@ -1072,12 +1221,20 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.2 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.45 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.45 }
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
+      ],
+      "items": {
+        "L": [ { "item": "book_school", "chance": 25 }, { "item": "school", "chance": 25 } ],
+        "k": { "item": "book_school", "chance": 50 }
+      },
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 3, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 5, 9 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 5, 9 ] }
       ]
     },
     "om_terrain": [ [ "necropolis_c_73", "necropolis_c_74", "necropolis_c_75" ] ],
@@ -1087,10 +1244,10 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
         "hhhh  |--|L   L|...............|r   rr|.|  |c   |u+u|   c|..|---|   |---",
-        "      |EE|    L|...............|-|  |-|.|  |6h cv   vc h6|......|5  |...",
+        "      |E%|    L|...............|-|  |-|.|  |6h cv   vc h6|......|5  |...",
         "hhhh  |EE+     |.................|[[|...|  |ccccv   vcccc|......|-==|...",
         "      |EE+     |-----------------|  |---|  |-uu-|u+u|-uu-|------|6  |---",
         "hhhh  |--|                                                              ",
@@ -1115,14 +1272,23 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.25 }
+      "set": [
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [ 1, 5 ], "x": 48, "x2": 71, "y": 0, "y2": 23 }
+      ],
+      "items": {
+        "L": [ { "item": "book_school", "chance": 25 }, { "item": "school", "chance": 25 } ],
+        "k": { "item": "book_school", "chance": 50 },
+        "r": { "item": "science", "chance": 25 }
+      },
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 2, 5 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] }
       ]
     },
     "om_terrain": [ [ "necropolis_c_76", "necropolis_c_77", "necropolis_c_78" ] ],
@@ -1132,9 +1298,9 @@
   {
     "method": "json",
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_metal_floor",
       "rows": [
-        "-|..|EE=    Vc    o| h     c|..|h6h  |  v     | i   c6c|      v  |+|+|..",
+        "-|..|E%=    Vc    o| h     c|..|h6h  |  v     | i   c6c|      v  |+|+|..",
         "....|--|    V     o|        |..|kk   =  v    o|      hc|rrrrrr|  |   |..",
         ".......|    |      |        |..|o   o|  v h  o|--|+|---|------|  +   |..",
         "-------|    |-H[[H-|-uuuu-=-|--|-uuu-|  vk6k  |..| |..........|  |SDS|..",
@@ -1160,14 +1326,14 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b2" ],
-      "terrain": { "R": "t_hole" },
-      "place_monsters": [
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.25 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.05 },
-        { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.25 }
+      "items": { "o": { "item": "lab_bookshelves", "chance": 50 }, "r": { "item": "chem_lab", "chance": 25 } },
+      "place_monster": [
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_NECROPOLIS_VAULT2", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 3, 6 ] }
       ]
     },
     "om_terrain": [ [ "necropolis_c_79", "necropolis_c_80", "necropolis_c_81" ] ],

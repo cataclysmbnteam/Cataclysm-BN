@@ -6,9 +6,9 @@
 #include <functional>
 #include <cstddef>
 #include <iterator>
+#include <optional>
 #include <utility>
 
-#include "optional.h"
 #include "vpart_position.h"
 #include "vehicle.h"
 
@@ -26,7 +26,7 @@ class vehicle_part_iterator
 {
     private:
         std::reference_wrapper<const range_type> range_;
-        cata::optional<vpart_reference> vp_;
+        std::optional<vpart_reference> vp_;
 
         const range_type &range() const {
             return range_.get();
@@ -49,6 +49,7 @@ class vehicle_part_iterator
             skip_to_next_valid( i );
         }
         vehicle_part_iterator( const vehicle_part_iterator & ) = default;
+        vehicle_part_iterator &operator=( const vehicle_part_iterator & ) = default;
 
         const vpart_reference &operator*() const {
             assert( vp_ );
@@ -84,6 +85,8 @@ namespace std
 template<class T> struct iterator_traits<vehicle_part_iterator<T>> {
     using difference_type = size_t;
     using value_type = vpart_reference;
+    using pointer = vpart_reference*;
+    using reference = vpart_reference&;
     // TODO: maybe change into random access iterator? This requires adding
     // more operators to the iterator, which may not be efficient.
     using iterator_category = std::forward_iterator_tag;

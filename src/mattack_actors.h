@@ -58,6 +58,7 @@ class mon_spellcasting_actor : public mattack_actor
         void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
+        void finalize() override;
 };
 
 class melee_actor : public mattack_actor
@@ -160,6 +161,9 @@ class gun_actor : public mattack_actor
 
         /** Number of moves required for each attack */
         int move_cost = 150;
+
+        /** Should moving vehicles be targeted */
+        bool target_moving_vehicles = false;
 
         /*@{*/
         /** Turrets may need to expend moves targeting before firing on certain targets */

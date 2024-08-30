@@ -55,8 +55,8 @@ if __name__ == "__main__":
 
     if args.human:
         title = "Count of keys"
-        print("\n\n%s" % title)
-        print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
+        print(f"\n\n{title}")
+        print(f"(Data from {num_matches} out of {len(json_data)} blobs)")
         print("-" * len(title))
         ui_counts_to_columns(stats)
     else:

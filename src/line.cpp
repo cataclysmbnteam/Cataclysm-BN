@@ -13,6 +13,7 @@
 #include "string_formatter.h"
 #include "string_utils.h"
 #include "enums.h"
+#include "enum_conversions.h"
 #include "point_float.h"
 
 double iso_tangent( double distance, units::angle vertex )
@@ -21,8 +22,8 @@ double iso_tangent( double distance, units::angle vertex )
     return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( vertex ) ) );
 }
 
-void bresenham( const point &p1, const point &p2, int t,
-                const std::function<bool( const point & )> &interact )
+void bresenham( point p1, point p2, int t,
+                const std::function<bool( point )> &interact )
 {
     // The slope components.
     const point d = p2 - p1;
@@ -255,7 +256,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
 
 //Trying to pull points out of a tripoint vector is messy and
 //probably slow, so leaving two full functions for now
-std::vector<point> line_to( const point &p1, const point &p2, int t )
+std::vector<point> line_to( point p1, point p2, int t )
 {
     std::vector<point> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
@@ -264,7 +265,7 @@ std::vector<point> line_to( const point &p1, const point &p2, int t )
         line.push_back( p1 );
     } else {
         line.reserve( numCells );
-        bresenham( p1, p2, t, [&line]( const point & new_point ) {
+        bresenham( p1, p2, t, [&line]( point  new_point ) {
             line.push_back( new_point );
             return true;
         } );
@@ -297,13 +298,13 @@ float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
     return square_dist( loc1, loc2 );
 }
 
-int manhattan_dist( const point &loc1, const point &loc2 )
+int manhattan_dist( point loc1, point loc2 )
 {
     const point d = ( loc1 - loc2 ).abs();
     return d.x + d.y;
 }
 
-int octile_dist( const point &loc1, const point &loc2, int multiplier )
+int octile_dist( point loc1, point loc2, int multiplier )
 {
     const point d = ( loc1 - loc2 ).abs();
     const int mind = std::min( d.x, d.y );
@@ -311,14 +312,14 @@ int octile_dist( const point &loc1, const point &loc2, int multiplier )
     return ( d.x + d.y - 2 * mind ) * multiplier + mind * multiplier * 99 / 70;
 }
 
-float octile_dist_exact( const point &loc1, const point &loc2 )
+float octile_dist_exact( point loc1, point loc2 )
 {
     const point d = ( loc1 - loc2 ).abs();
     const int mind = std::min( d.x, d.y );
     return d.x + d.y - 2 * mind + mind * M_SQRT2;
 }
 
-units::angle atan2( const point &p )
+units::angle atan2( point p )
 {
     return units::atan2( p.y, p.x );
 }
@@ -379,7 +380,7 @@ static std::tuple<double, double, double> slope_of( const std::vector<tripoint> 
     return std::make_tuple( normDx, normDy, normDz );
 }
 
-float get_normalized_angle( const point &start, const point &end )
+float get_normalized_angle( point start, point end )
 {
     // Taking the abs value of the difference puts the values in the first quadrant.
     const float absx = std::abs( std::max( start.x, end.x ) - std::min( start.x, end.x ) );
@@ -410,7 +411,54 @@ std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const in
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
-direction direction_from( const point &p ) noexcept
+namespace io
+{
+
+template<>
+std::string enum_to_string<direction>( direction data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case direction::ABOVENORTHWEST: return "above_north_west";
+        case direction::NORTHWEST: return "north_west";
+        case direction::BELOWNORTHWEST: return "below_north_west";
+        case direction::ABOVENORTH: return "above_north";
+        case direction::NORTH: return "north";
+        case direction::BELOWNORTH: return "below_north";
+        case direction::ABOVENORTHEAST: return "above_north_east";
+        case direction::NORTHEAST: return "north_east";
+        case direction::BELOWNORTHEAST: return "below_north_east";
+
+        case direction::ABOVEWEST: return "above_west";
+        case direction::WEST: return "west";
+        case direction::BELOWWEST: return "below_west";
+        case direction::ABOVECENTER: return "above";
+        case direction::CENTER: return "center";
+        case direction::BELOWCENTER: return "below";
+        case direction::ABOVEEAST: return "above_east";
+        case direction::EAST: return "east";
+        case direction::BELOWEAST: return "below_east";
+
+        case direction::ABOVESOUTHWEST: return "above_south_west";
+        case direction::SOUTHWEST: return "south_west";
+        case direction::BELOWSOUTHWEST: return "below_south_west";
+        case direction::ABOVESOUTH: return "above_south";
+        case direction::SOUTH: return "south";
+        case direction::BELOWSOUTH: return "below_south";
+        case direction::ABOVESOUTHEAST: return "above_south_east";
+        case direction::SOUTHEAST: return "south_east";
+        case direction::BELOWSOUTHEAST: return "below_south_east";
+        // *INDENT-ON*
+        case direction::last:
+            break;
+    }
+    debugmsg( "Invalid direction" );
+    abort();
+}
+
+} // namespace io
+
+direction direction_from( point p ) noexcept
 {
     return static_cast<direction>( make_xyz( tripoint( p, 0 ) ) );
 }
@@ -420,7 +468,7 @@ direction direction_from( const tripoint &p ) noexcept
     return static_cast<direction>( make_xyz( p ) );
 }
 
-direction direction_from( const point &p1, const point &p2 ) noexcept
+direction direction_from( point p1, point p2 ) noexcept
 {
     return direction_from( p2 - p1 );
 }
@@ -430,7 +478,72 @@ direction direction_from( const tripoint &p, const tripoint &q )
     return direction_from( q - p );
 }
 
-point direction_XY( const direction dir )
+tripoint displace( direction dir )
+{
+    switch( dir ) {
+        case direction::NORTHWEST:
+            return tripoint_north_west;
+        case direction::ABOVENORTHWEST:
+            return point_north_west + tripoint_above;
+        case direction::BELOWNORTHWEST:
+            return point_north_west + tripoint_below;
+        case direction::NORTH:
+            return tripoint_north;
+        case direction::ABOVENORTH:
+            return point_north + tripoint_above;
+        case direction::BELOWNORTH:
+            return point_north + tripoint_below;
+        case direction::NORTHEAST:
+            return tripoint_north_east;
+        case direction::ABOVENORTHEAST:
+            return point_north_east + tripoint_above;
+        case direction::BELOWNORTHEAST:
+            return point_north_east + tripoint_below;
+        case direction::WEST:
+            return tripoint_west;
+        case direction::ABOVEWEST:
+            return point_west + tripoint_above;
+        case direction::BELOWWEST:
+            return point_west + tripoint_below;
+        case direction::CENTER:
+            return tripoint_zero;
+        case direction::ABOVECENTER:
+            return tripoint_above;
+        case direction::BELOWCENTER:
+            return tripoint_below;
+        case direction::EAST:
+            return tripoint_east;
+        case direction::ABOVEEAST:
+            return point_east + tripoint_above;
+        case direction::BELOWEAST:
+            return point_east + tripoint_below;
+        case direction::SOUTHWEST:
+            return tripoint_south_west;
+        case direction::ABOVESOUTHWEST:
+            return point_south_west + tripoint_above;
+        case direction::BELOWSOUTHWEST:
+            return point_south_west + tripoint_below;
+        case direction::SOUTH:
+            return tripoint_south;
+        case direction::ABOVESOUTH:
+            return point_south + tripoint_above;
+        case direction::BELOWSOUTH:
+            return point_south + tripoint_below;
+        case direction::SOUTHEAST:
+            return tripoint_south_east;
+        case direction::ABOVESOUTHEAST:
+            return point_south_east + tripoint_above;
+        case direction::BELOWSOUTHEAST:
+            return point_south_east + tripoint_below;
+        case direction::last:
+            debugmsg( "Invalid direction" );
+            abort();
+    }
+
+    return tripoint_zero;
+}
+
+point displace_XY( const direction dir )
 {
     switch( dir % 9 ) {
         case direction::NORTHWEST:
@@ -469,6 +582,9 @@ point direction_XY( const direction dir )
         case direction::ABOVESOUTHEAST:
         case direction::BELOWSOUTHEAST:
             return point_south_east;
+        case direction::last:
+            debugmsg( "Invalid direction" );
+            abort();
     }
 
     return point_zero;
@@ -549,13 +665,15 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
+// Plus the z-level cardinal, if z != 0.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
 {
     std::vector<tripoint> adjacent_closer_squares;
+    adjacent_closer_squares.reserve( 5 );
     const tripoint d( -from + to );
     const point a( std::abs( d.x ), std::abs( d.y ) );
     if( d.z != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
+        adjacent_closer_squares.push_back( from + tripoint( 0, 0, sgn( d.z ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.
@@ -585,24 +703,25 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
-std::vector<point> squares_in_direction( const point &p1, const point &p2 )
+std::vector<point> squares_in_direction( point p1, point p2 )
 {
     int junk = 0;
     point center_square = line_to( p1, p2, junk )[0];
     std::vector<point> adjacent_squares;
+    adjacent_squares.reserve( 3 );
     adjacent_squares.push_back( center_square );
     if( p1.x == center_square.x ) {
         // Horizontally adjacent.
-        adjacent_squares.push_back( point( p1.x + 1, center_square.y ) );
-        adjacent_squares.push_back( point( p1.x - 1, center_square.y ) );
+        adjacent_squares.emplace_back( p1.x + 1, center_square.y );
+        adjacent_squares.emplace_back( p1.x - 1, center_square.y );
     } else if( p1.y == center_square.y ) {
         // Vertically adjacent.
-        adjacent_squares.push_back( point( center_square.x, p1.y + 1 ) );
-        adjacent_squares.push_back( point( center_square.x, p1.y - 1 ) );
+        adjacent_squares.emplace_back( center_square.x, p1.y + 1 );
+        adjacent_squares.emplace_back( center_square.x, p1.y - 1 );
     } else {
         // Diagonally adjacent.
-        adjacent_squares.push_back( point( p1.x, center_square.y ) );
-        adjacent_squares.push_back( point( center_square.x, p1.y ) );
+        adjacent_squares.emplace_back( p1.x, center_square.y );
+        adjacent_squares.emplace_back( center_square.x, p1.y );
     }
     return adjacent_squares;
 }

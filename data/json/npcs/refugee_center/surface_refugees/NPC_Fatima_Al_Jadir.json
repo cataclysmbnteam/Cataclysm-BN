@@ -88,11 +88,6 @@
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Fatima_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Fatima_Situation" },
       { "text": "How did you wind up here at the center?", "topic": "TALK_REFUGEE_Fatima_Cataclysm" },
-      {
-        "text": "Hey, you free for a bit of teaching?",
-        "topic": "TALK_REFUGEE_Fatima_Teach",
-        "condition": { "u_has_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" }
-      },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -148,10 +143,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Welding",
-    "dynamic_line": "You'd be surprised actually!  Metal art has been part of Muslim traditions for years, although that's not why I got into it.  I'm not a very traditional girl.  My parents aren't very traditional either, but my grandparents are really old fashioned and strict.  My sister came out as gay and they made her life really hard; mom and dad thought she should keep it secret, but she didn't believe in that.  I always loved mechanics and working with my hands, so when they started harassing my parents about getting my sister and I married off to nice men so we'd stop being so immoral, I decided to pick a job I liked that would bother them as much as possible.  It was a good choice, not only did it make them livid but I love welding.  I love the feel of standing back and looking at my work, knowing I took a few chunks of scrap metal and made them into something useful.  I love how it feels to make it fit together perfectly.  It just puts me at peace.\n\nI… I do hope my grandparents are okay though.  They were old fashioned, and they made choices I didn't like, but they were family and I still have sweet memories of them from when I was little.  I've had to do a lot more thinking about God since <the_cataclysm>, and while I'd never agree with the decisions they made, I understand more why they thought they had to make them.  They just wanted the whole family to share their relationship with God, in their messed up way.",
-    "responses": [
-      { "text": "Welding comes up a lot in my life.  Do you think you could teach me?", "topic": "TALK_REFUGEE_Fatima_Teach" }
-    ]
+    "dynamic_line": "You'd be surprised actually!  Metal art has been part of Muslim traditions for years, although that's not why I got into it.  I'm not a very traditional girl.  My parents aren't very traditional either, but my grandparents are really old fashioned and strict.  My sister came out as gay and they made her life really hard; mom and dad thought she should keep it secret, but she didn't believe in that.  I always loved mechanics and working with my hands, so when they started harassing my parents about getting my sister and I married off to nice men so we'd stop being so immoral, I decided to pick a job I liked that would bother them as much as possible.  It was a good choice, not only did it make them livid but I love welding.  I love the feel of standing back and looking at my work, knowing I took a few chunks of scrap metal and made them into something useful.  I love how it feels to make it fit together perfectly.  It just puts me at peace.\n\nI… I do hope my grandparents are okay though.  They were old fashioned, and they made choices I didn't like, but they were family and I still have sweet memories of them from when I was little.  I've had to do a lot more thinking about God since <the_cataclysm>, and while I'd never agree with the decisions they made, I understand more why they thought they had to make them.  They just wanted the whole family to share their relationship with God, in their messed up way."
   },
   {
     "type": "talk_topic",

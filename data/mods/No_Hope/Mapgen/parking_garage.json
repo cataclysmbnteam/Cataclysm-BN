@@ -39,7 +39,9 @@
       "#": "t_rock",
       "*": "t_open_air",
       "E": "t_elevator",
+      "e": "t_elevator_control",
       "x": "t_console_broken",
+      "X": "t_gates_control_concrete",
       "@": "t_generator_broken",
       "&": "t_machinery_heavy"
     },

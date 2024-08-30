@@ -8,7 +8,7 @@
       "//": "default fill is floor but dumpster is on pavement",
       "fill_ter": "t_floor",
       "rows": [
-        " ,    ,    ,    ,    ,  ",
+        " ,    ,    ,    ,    , `",
         " ,    ,    ,    ,    ,  ",
         " ,    ,    ,    ,    ,  ",
         " ,    ,    ,    ,    ,  ",
@@ -39,6 +39,7 @@
       ],
       "terrain": {
         " ": "t_pavement",
+        "`": "t_pavement",
         "&": "t_linoleum_gray",
         "'": "t_window",
         "+": "t_door_c",
@@ -60,6 +61,7 @@
         "|": "t_wall_g"
       },
       "furniture": {
+        "`": "f_street_light",
         "#": "f_table",
         "&": "f_fridge",
         "B": "f_bench",
@@ -74,6 +76,7 @@
         "q": "f_stool",
         "{": "f_rack"
       },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
       "place_items": [
         { "item": "pool_table", "x": [ 5, 8 ], "y": [ 17, 18 ], "chance": 50, "repeat": [ 2, 3 ] },
@@ -167,7 +170,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        " ,___,___,___,   ~~~    ",
+        " ,___,___,___,   ~~~   `",
         " ,___,___,___,~~~~~~    ",
         " ,___,___,___,   ~~~    ",
         " ,___,___,___,|-'-+-'-| ",
@@ -194,6 +197,7 @@
       ],
       "terrain": {
         "_": "t_pavement",
+        "`": "t_dirt",
         "~": "t_sidewalk",
         " ": [ "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_dirt" ],
         "&": "t_linoleum_gray",
@@ -222,6 +226,7 @@
         "!": "t_brick_wall"
       },
       "furniture": {
+        "`": "f_street_light",
         "#": "f_table",
         "$": "f_glass_fridge",
         "&": "f_fridge",
@@ -243,7 +248,7 @@
       "toilets": { "t": {  } },
       "items": {
         "o": { "item": "novels", "chance": 20 },
-        "d": { "item": "bar_trash", "chance": 35 },
+        "d": { "item": "trash_dumpster", "chance": 80 },
         "#": { "item": "bar_table", "chance": 35, "repeat": [ 2, 3 ] },
         "c": { "item": "bar_alcohol", "chance": 50, "repeat": [ 2, 3 ] },
         "u": { "item": "bar_alcohol", "chance": 50, "repeat": [ 2, 3 ] },

@@ -63,7 +63,7 @@
     "to_hit": 2,
     "cutting": 8,
     "techniques": "PRECISE",
-    "flags": [ "TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "SPEAR" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "STAB" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },
   {
@@ -71,7 +71,8 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic razor" },
-    "qualities": [ [ "BUTCHER", 8 ] ]
+    "//": "Bonus unarmed damage for having Fingertip Razors installed is applied in melee.cpp, see function Character::roll_cut_damage",
+    "qualities": [ [ "BUTCHER", 15 ], [ "CUT", 1 ], [ "CUT_FINE", 2 ] ]
   },
   {
     "id": "clairvoyance_plus_rod",
@@ -80,7 +81,7 @@
     "color": "red",
     "name": { "str": "clairvoyance rod" },
     "description": "Item to test aep_clairvoyance_plus flag.  If this spawns randomly, then it's a bug.",
-    "price": 5000,
+    "price": "50 USD",
     "material": [ "steel" ],
     "weight": "150 g",
     "volume": "750 ml",
@@ -104,16 +105,14 @@
   },
   {
     "id": "reach_bow",
+    "copy-from": "bow_base",
     "type": "GUN",
-    "symbol": "(",
     "color": "yellow",
     "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
-    "price": 16000,
+    "price": "160 USD",
     "material": "steel",
     "flags": [ "REACH_ATTACK" ],
-    "skill": "archery",
-    "ammo": "arrow",
     "weight": "340 g",
     "volume": "1500 ml",
     "bashing": 6,
@@ -121,7 +120,6 @@
     "range": 5,
     "dispersion": 210,
     "durability": 6,
-    "clip_size": 1,
     "reload": 60,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ]
   },
@@ -172,13 +170,29 @@
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
   },
   {
+    "id": "fake_autoclave",
+    "copy-from": "fake_item",
+    "looks_like": "autoclave",
+    "type": "TOOL",
+    "name": "laboratory autoclave"
+  },
+  {
+    "id": "fake_centrifuge",
+    "copy-from": "fake_item",
+    "looks_like": "microcentrifuge",
+    "type": "TOOL",
+    "name": "centrifuge",
+    "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ], [ "ANALYSIS", 1 ] ]
+  },
+  {
     "id": "fake_oven",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "oven" },
     "sub": "hotplate",
-    "max_charges": 1000,
-    "flags": [ "USES_GRID_POWER" ]
+    "max_charges": 2500,
+    "charges_per_use": 5,
+    "flags": [ "USES_GRID_POWER", "HEATS_FOOD_USING_CHARGES", "HEATS_FOOD_USING_FIRE", "HEATS_FOOD" ]
   },
   {
     "id": "fake_gridwelder",
@@ -187,15 +201,40 @@
     "name": { "str": "grid welder" },
     "sub": "welder",
     "max_charges": 1000,
+    "charges_per_use": 5,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy", "glass" ],
+        "skill": "fabrication",
+        "tool_quality": 10,
+        "cost_scaling": 0.1,
+        "move_cost": 500
+      }
+    ],
     "flags": [ "USES_GRID_POWER" ]
   },
   {
     "id": "fake_gridsolderingiron",
     "copy-from": "fake_item",
+    "looks_like": "soldering_iron",
     "type": "TOOL",
-    "name": { "str": "soldering iron" },
+    "name": { "str": "grid soldering iron" },
     "sub": "soldering_iron",
     "max_charges": 1000,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
     "flags": [ "USES_GRID_POWER" ]
   },
   {
@@ -205,6 +244,32 @@
     "name": { "str": "grid forge" },
     "sub": "forge",
     "max_charges": 2500,
+    "charges_per_use": 4,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "lead",
+          "tin",
+          "zinc"
+        ],
+        "skill": "fabrication",
+        "tool_quality": 8,
+        "cost_scaling": 0.1,
+        "move_cost": 500
+      }
+    ],
     "flags": [ "USES_GRID_POWER" ]
   },
   {
@@ -244,6 +309,16 @@
     "flags": [ "USES_GRID_POWER" ]
   },
   {
+    "id": "fake_gridwater_purifier",
+    "copy-from": "fake_item",
+    "looks_like": "water_purifier",
+    "type": "TOOL",
+    "name": { "str": "grid water purifier" },
+    "sub": "water_purifier",
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
     "id": "fake_gridelectrolysis_kit",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -251,5 +326,89 @@
     "sub": "electrolysis_kit",
     "max_charges": 2500,
     "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_chemistry_set",
+    "copy-from": "fake_item",
+    "looks_like": "chemistry_set_basic",
+    "type": "TOOL",
+    "name": { "str": "grid chemistry set" },
+    "sub": "chemistry_set_basic",
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
+    "max_charges": 2500,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "gridautoclave",
+    "copy-from": "fake_item",
+    "looks_like": "autoclave",
+    "type": "TOOL",
+    "name": { "str": "grid autoclave" },
+    "sub": "autoclave",
+    "max_charges": 1000,
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_3d_printer",
+    "copy-from": "fake_item",
+    "looks_like": "3d_printer_basic",
+    "type": "TOOL",
+    "name": { "str": "Grid 3D Printer" },
+    "sub": "3d_printer_basic",
+    "max_charges": 2500,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "carbon_fiber" ],
+        "skill": "computer",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_3d_printer_advanced",
+    "copy-from": "fake_item",
+    "looks_like": "3d_printer_advanced",
+    "type": "TOOL",
+    "name": { "str": "Advanced Grid 3D Printer" },
+    "sub": "3d_printer_advanced",
+    "charges_per_use": 1,
+    "max_charges": 2500,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "glass",
+          "plastic",
+          "carbon_fiber"
+        ],
+        "skill": "computer",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      }
+    ],
+    "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "press_workbench",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "installed reloading press" },
+    "//": "Doesn't substitute for hand press because we want to define this tool in crafting requirements separately, due to disassembly code.",
+    "qualities": [ [ "PULL", 2 ] ]
   }
 ]

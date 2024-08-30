@@ -6,7 +6,7 @@
     "weight": 100,
     "object": {
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
         "||||||||||ss||||||||||||",
         "|.##u...u|ss|..u.#.u...|",
@@ -39,6 +39,7 @@
         "0": "t_pit_shallow",
         "S": "t_shrub",
         "_": "t_pavement",
+        "'": "t_sidewalk",
         "c": "t_chainfence_posts",
         "l": "t_little_column",
         "p": "t_pavement_y",
@@ -48,7 +49,7 @@
         "w": "t_wall",
         "|": "t_chainfence_v"
       },
-      "furniture": { "&": "f_trashcan" },
+      "furniture": { "'": "f_street_light", "&": "f_trashcan" },
       "place_items": [ { "item": "snacks", "x": 10, "y": 19, "chance": 5 } ],
       "place_monsters": [
         { "monster": "GROUP_SCHOOL", "x": [ 11, 15 ], "y": [ 10, 15 ], "chance": 2, "repeat": 2 },

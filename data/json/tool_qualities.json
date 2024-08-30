@@ -70,7 +70,7 @@
     "type": "tool_quality",
     "id": "SAW_W",
     "name": { "str": "wood sawing" },
-    "usages": [ [ 2, [ "LUMBER" ] ] ]
+    "usages": [ [ 2, [ "LUMBER", "saw_stock" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -178,6 +178,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "HOSE",
+    "name": { "str": "siphoning" },
+    "usages": [ [ 1, [ "SIPHON" ] ] ]
+  },
+  {
+    "type": "tool_quality",
     "id": "CHISEL",
     "name": { "str": "chiseling" }
   },
@@ -265,7 +271,8 @@
   {
     "type": "tool_quality",
     "id": "LOCKPICK",
-    "name": { "str": "lockpicking" }
+    "name": { "str": "lockpicking" },
+    "usages": [ [ 1, [ "PICK_LOCK" ] ] ]
   },
   {
     "type": "tool_quality",

@@ -4,6 +4,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "distribution_grid.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -11,6 +12,7 @@
 #include "mapbuffer.h"
 #include "rng.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_range.h"
 #include "weather.h"
 
@@ -18,9 +20,6 @@
 #include "submap.h"
 
 static const itype_id itype_battery( "battery" );
-
-static const std::string flag_RECHARGE( "RECHARGE" );
-static const std::string flag_USE_UPS( "USE_UPS" );
 
 namespace active_tiles
 {
@@ -256,8 +255,8 @@ void charger_tile::update_internal( time_point to, const tripoint_abs_ms &p,
     }
     std::int64_t power = this->power * to_seconds<std::int64_t>( to - get_last_updated() );
     // TODO: Make not a copy from map.cpp
-    for( item &outer : sm->get_items( p_within_sm.raw() ) ) {
-        outer.visit_items( [&power, &grid]( item * it ) {
+    for( item *const outer : sm->get_items( p_within_sm.raw() ) ) {
+        outer->visit_items( [&power, &grid]( item * it ) {
             item &n = *it;
             if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                 return VisitResponse::NEXT;

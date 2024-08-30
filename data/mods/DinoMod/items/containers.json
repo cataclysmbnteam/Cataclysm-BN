@@ -1,0 +1,22 @@
+[
+  {
+    "id": "sauropod_stomach_sealed",
+    "type": "CONTAINER",
+    "category": "container",
+    "name": { "str": "sealed sauropod stomach" },
+    "description": "The stomach of a sauropod, cleaned and sealed with strings.  It can hold 6 liters of water.",
+    "weight": "1566 g",
+    "volume": "1 L",
+    "price": "90 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [ "gutskin" ],
+    "symbol": ")",
+    "color": "brown",
+    "rigid": false,
+    "contains": "6 L",
+    "seals": true,
+    "watertight": true
+  }
+]

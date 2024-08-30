@@ -2,8 +2,10 @@
 #ifndef CATA_SRC_STRING_ID_H
 #define CATA_SRC_STRING_ID_H
 
+#include <cstdint>
 #include <string>
 #include <type_traits>
+#include <utility>
 
 static constexpr int64_t INVALID_VERSION = -1;
 static constexpr int INVALID_CID = -1;
@@ -220,6 +222,13 @@ class string_id
          */
         string_id() : _id() {}
         /**
+         * Constructor for converting from int_id.
+         */
+        explicit string_id( const int_id<T> &iid ) {
+            *this = std::move( iid.id() );
+        }
+
+        /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
          * Guarantees total order, but DOESN'T guarantee the same order after process restart!
          * To have a predictable lexicographic order, use `LexCmp` (much slower!)
@@ -332,6 +341,11 @@ class string_id
          */
         explicit operator bool() const {
             return !is_null();
+        }
+
+        friend std::ostream &operator<<( std::ostream &os, const string_id &s ) {
+            os << s.str();
+            return os;
         }
 
     private:

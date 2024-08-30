@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "catalua_type_operators.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -34,6 +35,8 @@ class morale_type_data
         static void load_type( const JsonObject &jo, const std::string &src );
         static void check_all();
         static void reset();
+
+        LUA_TYPE_OPS( morale_type_data, id );
 };
 
 // Legacy crap - get rid of it when possible
@@ -95,7 +98,6 @@ extern const morale_type MORALE_PERM_OPTIMIST;
 extern const morale_type MORALE_PERM_BADTEMPER;
 extern const morale_type MORALE_PERM_CONSTRAINED;
 extern const morale_type MORALE_PERM_NOMAD;
-extern const morale_type MORALE_GAME_FOUND_KITTEN;
 extern const morale_type MORALE_HAIRCUT;
 extern const morale_type MORALE_SHAVE;
 extern const morale_type MORALE_CHAT;

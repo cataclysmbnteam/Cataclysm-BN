@@ -31,6 +31,8 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
+    "fuel_options": [ "gasoline", "avgas", "biodiesel" ],
+    "//2": "TODO: remove when injectors are implemented",
     "m2c": 60,
     "//": "30% energy efficiency",
     "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
@@ -43,7 +45,8 @@
     "fuel_options": [ "gasoline", "diesel", "lamp_oil", "jp8", "motor_oil", "avgas", "biodiesel" ],
     "m2c": 60,
     "//": "25% energy efficiency",
-    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
+    "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
+    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine but consumes more fuel, its power will not diminish even when multiple of them are installed."
   },
   {
     "id": "diesel_engine_i6",
@@ -55,14 +58,15 @@
     "power": 223800,
     "energy_consumption": 559500,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
-      { "item": "scrap", "count": [ 30, 40 ] }
+      { "item": "engine_block_medium" },
+      { "item": "steel_lump", "count": [ 0, 6 ] },
+      { "item": "steel_chunk", "count": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -76,14 +80,15 @@
     "power": 149200,
     "energy_consumption": 373000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
-      { "item": "scrap", "count": [ 30, 40 ] }
+      { "item": "engine_block_medium" },
+      { "item": "steel_lump", "count": [ 0, 6 ] },
+      { "item": "steel_chunk", "count": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -97,14 +102,15 @@
     "power": 242450,
     "energy_consumption": 606250,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
-      { "item": "scrap", "count": [ 30, 40 ] }
+      { "item": "engine_block_large" },
+      { "item": "steel_lump", "count": [ 0, 6 ] },
+      { "item": "steel_chunk", "count": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -118,16 +124,17 @@
     "epower": 0,
     "power": 5370,
     "energy_consumption": 14425,
-    "folded_volume": 4,
+    "folded_volume": "1 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 5, 10 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
-      { "item": "scrap", "count": [ 5, 10 ] }
+      { "item": "engine_block_tiny" },
+      { "item": "steel_lump", "count": [ 0, 1 ] },
+      { "item": "steel_chunk", "count": [ 0, 1 ] },
+      { "item": "scrap", "count": [ 0, 1 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
@@ -142,16 +149,17 @@
     "epower": 0,
     "power": 41000,
     "energy_consumption": 124500,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 12 ] },
-      { "item": "steel_chunk", "count": [ 6, 12 ] },
-      { "item": "scrap", "count": [ 6, 12 ] }
+      { "item": "engine_block_small" },
+      { "item": "steel_lump", "count": [ 0, 2 ] },
+      { "item": "steel_chunk", "count": [ 0, 22 ] },
+      { "item": "scrap", "count": [ 0, 2 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 40 }
@@ -166,14 +174,15 @@
     "power": 93250,
     "energy_consumption": 311000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 20, 30 ] },
-      { "item": "steel_chunk", "count": [ 20, 30 ] },
-      { "item": "scrap", "count": [ 20, 30 ] }
+      { "item": "engine_block_small" },
+      { "item": "steel_lump", "count": [ 0, 5 ] },
+      { "item": "steel_chunk", "count": [ 0, 5 ] },
+      { "item": "scrap", "count": [ 0, 5 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "damage_reduction": { "all": 50 }
   },
@@ -187,14 +196,15 @@
     "power": 447600,
     "energy_consumption": 1492000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 45, 58 ] },
-      { "item": "steel_chunk", "count": [ 45, 58 ] },
-      { "item": "scrap", "count": [ 45, 58 ] }
+      { "item": "engine_block_massive" },
+      { "item": "steel_lump", "count": [ 0, 10 ] },
+      { "item": "steel_chunk", "count": [ 0, 10 ] },
+      { "item": "scrap", "count": [ 0, 10 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "damage_reduction": { "all": 110 }
   },
@@ -208,14 +218,15 @@
     "power": 447600,
     "energy_consumption": 1119000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 45, 58 ] },
-      { "item": "steel_chunk", "count": [ 45, 58 ] },
-      { "item": "scrap", "count": [ 45, 58 ] }
+      { "item": "engine_block_massive" },
+      { "item": "steel_lump", "count": [ 0, 10 ] },
+      { "item": "steel_chunk", "count": [ 0, 10 ] },
+      { "item": "scrap", "count": [ 0, 10 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "damage_reduction": { "all": 110 }
   },
@@ -229,14 +240,15 @@
     "power": 149200,
     "energy_consumption": 497500,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 30, 40 ] },
-      { "item": "steel_chunk", "count": [ 30, 40 ] },
-      { "item": "scrap", "count": [ 30, 40 ] }
+      { "item": "engine_block_medium" },
+      { "item": "steel_lump", "count": [ 0, 6 ] },
+      { "item": "steel_chunk", "count": [ 0, 6 ] },
+      { "item": "scrap", "count": [ 0, 6 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -250,14 +262,15 @@
     "power": 242450,
     "energy_consumption": 808200,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 40, 50 ] },
-      { "item": "steel_chunk", "count": [ 40, 50 ] },
-      { "item": "scrap", "count": [ 40, 50 ] }
+      { "item": "engine_block_large" },
+      { "item": "steel_lump", "count": [ 0, 8 ] },
+      { "item": "steel_chunk", "count": [ 0, 8 ] },
+      { "item": "scrap", "count": [ 0, 8 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "damage_reduction": { "all": 100 }
   },
@@ -270,16 +283,17 @@
     "epower": -50,
     "power": 37300,
     "energy_consumption": 124500,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 10, 20 ] },
-      { "item": "scrap", "count": [ 10, 20 ] }
+      { "item": "engine_block_tiny" },
+      { "item": "steel_lump", "count": [ 0, 3 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "scrap", "count": [ 0, 3 ] }
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 60 }
@@ -318,7 +332,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ] }
     },
     "damage_reduction": { "all": 40 }
   },
@@ -340,7 +354,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ] }
     },
     "damage_reduction": { "all": 45 }
   },
@@ -362,7 +376,31 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ] }
+    },
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "engine_steam_turbine",
+    "copy-from": "steam_engine",
+    "type": "vehicle_part",
+    "item": "steam_turbine",
+    "durability": 300,
+    "epower": -20,
+    "//": "45% energy efficiency",
+    "power": 1006695,
+    "energy_consumption": 2237100,
+    "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
+    "description": "A closed cycle steam engine powering a hefty turbine.  Burns coal or charcoal from a bunker in the vehicle to produce steam, its power will not diminish even when multiple of them are installed.",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 120, 240 ] },
+      { "item": "steel_chunk", "count": [ 120, 240 ] },
+      { "item": "scrap", "count": [ 120, 240 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ] }
     },
     "damage_reduction": { "all": 50 }
   },
@@ -384,7 +422,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ] }
     },
     "damage_reduction": { "all": 60 }
   },
@@ -406,7 +444,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ] }
     },
     "damage_reduction": { "all": 65 }
   },
@@ -428,7 +466,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ], [ "steel_standard", 1 ] ] }
     },
     "damage_reduction": { "all": 70 }
   }

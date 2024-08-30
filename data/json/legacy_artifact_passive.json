@@ -84,6 +84,7 @@
     "name": "EEEEEEVVVVVIIIIILLLL!",
     "description": "You debugged in this spell!  It makes you evil for 30 minutes.",
     "valid_targets": [ "hostile", "ally", "self" ],
+    "flags": [ "NO_EXPLOSION_VFX" ],
     "effect": "target_attack",
     "effect_str": "evil",
     "min_duration": 180000,

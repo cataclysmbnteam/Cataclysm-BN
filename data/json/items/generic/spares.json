@@ -17,8 +17,8 @@
     "material": [ "rubber", "steel" ],
     "weight": "850 g",
     "volume": "500 ml",
-    "price": 1200,
-    "price_postapoc": 500
+    "price": "12 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "id": "drivebelt_makeshift",
@@ -29,8 +29,21 @@
     "material": [ "cotton", "leather" ],
     "weight": "1250 g",
     "volume": "750 ml",
-    "price": 200,
-    "price_postapoc": 50
+    "price": "2 USD",
+    "price_postapoc": "50 cent"
+  },
+  {
+    "id": "five-point_harness",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": { "str": "5-point harness", "str_pl": "5-point harnesses" },
+    "description": "A harness made of three belts meant to be mounted on vehicle to fasten a passenger securely to their seat.",
+    "looks_like": "seatbelt",
+    "material": "nylon",
+    "weight": "2 kg",
+    "volume": "750 ml",
+    "price": "100 USD",
+    "price_postapoc": "50 USD"
   },
   {
     "id": "filter_air",
@@ -41,8 +54,8 @@
     "material": [ "plastic", "paper" ],
     "weight": "360 g",
     "volume": "500 ml",
-    "price": 1900,
-    "price_postapoc": 200
+    "price": "19 USD",
+    "price_postapoc": "2 USD"
   },
   {
     "id": "filter_air_makeshift",
@@ -51,10 +64,10 @@
     "name": { "str": "makeshift air filter" },
     "description": "An improvised air filter useful for repairing engines or other industrial equipment when no better alternative is available.",
     "material": [ "plastic", "paper" ],
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "750 ml",
-    "price": 200,
-    "price_postapoc": 50
+    "price": "2 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "filter_liquid",
@@ -63,10 +76,10 @@
     "name": { "str": "automotive filter" },
     "description": "A steel can containing filter paper designed for automotive use.",
     "material": [ "steel", "paper" ],
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "500 ml",
-    "price": 1900,
-    "price_postapoc": 250
+    "price": "19 USD",
+    "price_postapoc": "250 cent"
   },
   {
     "id": "filter_liquid_makeshift",
@@ -77,8 +90,8 @@
     "material": [ "steel", "paper" ],
     "weight": "690 g",
     "volume": "750 ml",
-    "price": 200,
-    "price_postapoc": 50
+    "price": "2 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "glowplug",
@@ -89,8 +102,8 @@
     "material": [ "plastic", "copper" ],
     "weight": "260 g",
     "volume": "250 ml",
-    "price": 2300,
-    "price_postapoc": 500
+    "price": "23 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "id": "pump_complex",
@@ -101,8 +114,8 @@
     "material": "iron",
     "weight": "2800 g",
     "volume": "1250 ml",
-    "price": 28900,
-    "price_postapoc": 750,
+    "price": "289 USD",
+    "price_postapoc": "750 cent",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
@@ -114,7 +127,7 @@
     "material": "iron",
     "weight": "2400 g",
     "volume": "1 L",
-    "price": 1800,
-    "price_postapoc": 500
+    "price": "18 USD",
+    "price_postapoc": "5 USD"
   }
 ]

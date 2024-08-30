@@ -1,0 +1,9 @@
+[
+  {
+    "id": "style_swordsmanship",
+    "copy-from": "style_swordsmanship",
+    "type": "martial_art",
+    "name": { "str": "Medieval Swordsmanship" },
+    "extend": { "weapons": [ "blade_crt", "sword_crt" ] }
+  }
+]

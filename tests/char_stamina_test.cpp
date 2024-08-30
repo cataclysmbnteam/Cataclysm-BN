@@ -1,15 +1,17 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "game.h"
 #include "item.h"
 #include "options.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -86,8 +88,7 @@ static void burden_player( player &dummy, float burden_proportion )
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
-        item pile( "test_platinum_bit", calendar::turn, units );
-        dummy.i_add( pile );
+        dummy.i_add( item::spawn( "test_platinum_bit", calendar::turn, units ) );
     }
 
     // Ensure we are carrying the expected number of grams
@@ -123,6 +124,7 @@ static float actual_regen_rate( player &dummy, int moves )
 
 TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
 {
+    clear_all_state();
     player &dummy = g->u;
 
     SECTION( "running cost is double walking cost for the same stamina level" ) {
@@ -164,6 +166,7 @@ TEST_CASE( "stamina movement cost modifier", "[stamina][cost]" )
 
 TEST_CASE( "modify character stamina", "[stamina][modify]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     clear_character( dummy );
     REQUIRE_FALSE( dummy.is_npc() );
@@ -225,6 +228,7 @@ TEST_CASE( "modify character stamina", "[stamina][modify]" )
 
 TEST_CASE( "stamina burn for movement", "[stamina][burn][move]" )
 {
+    clear_all_state();
     player &dummy = g->u;
 
     // Defined in game_balance.json
@@ -288,6 +292,7 @@ TEST_CASE( "stamina burn for movement", "[stamina][burn][move]" )
 
 TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][pain]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     int pain_before;
     int pain_after;
@@ -331,6 +336,7 @@ TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][
 
 TEST_CASE( "stamina regeneration rate", "[stamina][update][regen]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     clear_character( dummy, false );
     int turn_moves = to_moves<int>( 1_turns );
@@ -349,6 +355,7 @@ TEST_CASE( "stamina regeneration rate", "[stamina][update][regen]" )
 
 TEST_CASE( "stamina regen in different movement modes", "[stamina][update][regen][mode]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     clear_character( dummy );
 
@@ -381,6 +388,7 @@ TEST_CASE( "stamina regen in different movement modes", "[stamina][update][regen
 
 TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][encumbrance]" )
 {
+    clear_all_state();
     player &dummy = g->u;
     clear_character( dummy );
 
@@ -390,7 +398,7 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
     REQUIRE( normal_regen_rate > 0 );
 
     GIVEN( "character has 10 mouth encumbrance" ) {
-        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
         REQUIRE( dummy.encumb( bp_mouth ) == 10 );
 
         THEN( "stamina regen is reduced by 10%" ) {
@@ -400,8 +408,8 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
 
     GIVEN( "character has 30 mouth encumbrance" ) {
         // Layering two scarves triples the encumbrance
-        dummy.wear_item( item( "scarf_fur" ) );
-        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
         REQUIRE( dummy.encumb( bp_mouth ) == 30 );
 
         THEN( "stamina regen is reduced by 30%" ) {
@@ -410,10 +418,10 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
     }
 
     GIVEN( "character has 100+ mouth encumbrance" ) {
-        dummy.wear_item( item( "mask_gas" ) );
-        dummy.wear_item( item( "mask_gas" ) );
-        dummy.wear_item( item( "scarf_fur" ) );
-        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "mask_gas" ) );
+        dummy.wear_item( item::spawn( "mask_gas" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
+        dummy.wear_item( item::spawn( "scarf_fur" ) );
         REQUIRE( dummy.encumb( bp_mouth ) >= 100 );
 
         THEN( "stamina regen is above 0" ) {

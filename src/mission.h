@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,8 +14,6 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
-#include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "point.h"
 #include "translations.h"
@@ -143,10 +142,10 @@ struct mission_target_params {
     mission *mission_pointer = nullptr;
 
     bool origin_u = true;
-    cata::optional<tripoint_rel_omt> offset;
-    cata::optional<std::string> replaceable_overmap_terrain;
-    cata::optional<overmap_special_id> overmap_special;
-    cata::optional<int> reveal_radius;
+    std::optional<tripoint_rel_omt> offset;
+    std::optional<std::string> replaceable_overmap_terrain;
+    std::optional<overmap_special_id> overmap_special;
+    std::optional<int> reveal_radius;
     int min_distance = 0;
 
     bool must_see = false;
@@ -154,7 +153,7 @@ struct mission_target_params {
     bool random = false;
     bool create_if_necessary = true;
     int search_range = OMAPX;
-    cata::optional<int> z;
+    std::optional<int> z;
     npc *guy = nullptr;
 };
 
@@ -177,7 +176,7 @@ void set_reveal( const std::string &terrain,
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params parse_mission_om_target( const JsonObject &jo );
-cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
+std::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
 tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
@@ -230,13 +229,13 @@ struct mission_type {
         bool remove_container = false;
         itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
-        npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
+        npc_class_id recruit_class = npc_class_id::NULL_ID();  // The type of NPC you are to recruit
         character_id target_npc_id;
         mtype_id monster_type = mtype_id::NULL_ID();
         species_id monster_species;
         int monster_kill_goal = -1;
-        string_id<oter_type_t> target_id;
-        mission_type_id follow_up = mission_type_id( "MISSION_NULL" );
+        oter_type_str_id target_id;
+        mission_type_id follow_up = mission_type_id::NULL_ID();
 
         std::function<bool( const tripoint_abs_omt & )> place = mission_place::always;
         std::function<void( mission * )> start = mission_start::standard;
@@ -320,7 +319,7 @@ class mission
         // The number of above items needed
         int item_count = 0;
         // Destination type to be reached
-        string_id<oter_type_t> target_id;
+        oter_type_str_id target_id = oter_type_str_id::NULL_ID();
         // The type of NPC you are to recruit
         npc_class_id recruit_class;
         // The ID of a specific NPC to interact with

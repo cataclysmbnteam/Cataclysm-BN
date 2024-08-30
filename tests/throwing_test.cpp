@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <list>
 #include <memory>
@@ -8,7 +10,6 @@
 #include "avatar.h"
 #include "ballistics.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "damage.h"
 #include "dispersion.h"
 #include "game.h"
@@ -25,13 +26,15 @@
 #include "point.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "state_helpers.h"
 #include "test_statistics.h"
 #include "type_id.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
+    clear_all_state();
     const standard_npc thrower( "Thrower", tripoint( 60, 60, 0 ), {}, 4, 10, 10, 10, 10 );
-    item grenade( "grenade" );
+    item &grenade = *item::spawn_temporary( "grenade" );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );
 }
@@ -94,14 +97,14 @@ static void test_throwing_player_versus(
     bool hit_thresh_met = false;
     bool dmg_thresh_met = false;
     throw_test_data data;
-    item it( throw_id );
+
 
     do {
         reset_player( p, pstats, player_start );
         p.set_moves( 1000 );
         p.set_stamina( p.get_stamina_max() );
-
-        p.wield( it );
+        detached_ptr<item> det = item::spawn( throw_id );
+        item &it = *det;
         monster &mon = spawn_test_monster( mon_id, monster_start );
         mon.set_moves( 0 );
 
@@ -120,7 +123,7 @@ static void test_throwing_player_versus(
             return;
         }
 
-        auto atk = p.throw_item( mon.pos(), it );
+        dealt_projectile_attack atk = ranged::throw_item( p, mon.pos(), std::move( det ), std::nullopt );
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
@@ -140,7 +143,6 @@ static void test_throwing_player_versus(
             }
         }
         g->remove_zombie( mon );
-        p.i_rem( -1 );
         // only need to check dmg_thresh_met because it can only be true if
         // hit_thresh_met first
     } while( !dmg_thresh_met && data.hits.n() < max_throw_test_iterations );
@@ -169,8 +171,8 @@ constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
 
 TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 {
+    clear_all_state();
     player &p = g->u;
-    clear_map();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
         test_throwing_player_versus( p, "mon_zombie", "rock", 1, lo_skill_base_stats, { 0.99, 0.10 }, { 10, 3 } );
@@ -214,9 +216,8 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 
 TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 {
+    clear_all_state();
     player &p = g->u;
-    clear_map();
-
     // we already cover low stats in the sanity tests and we only cover a few
     // ranges here because what we're really trying to capture is the effect
     // the throwing skill has while the sanity tests are more explicit.
@@ -235,13 +236,14 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 
 TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
 {
+    clear_all_state();
     player &p = g->u;
-    clear_avatar();
 
-    item thrown( "throwing_stick", calendar::turn, 10 );
+    detached_ptr<item> det = item::spawn( "throwing_stick", calendar::turn, 10 );
+    item &thrown = *det;
     REQUIRE( thrown.charges > 1 );
     REQUIRE( thrown.count_by_charges() );
-    p.wield( thrown );
+    p.wield( std::move( det ) );
     int initial_moves = -1;
     while( thrown.charges > 0 ) {
         const int cost = ranged::throw_cost( p, thrown );

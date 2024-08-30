@@ -8,6 +8,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <optional>
 
 #if defined(__ANDROID__)
 #include <algorithm>
@@ -19,11 +20,6 @@
 
 enum action_id : int;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
 namespace catacurses
 {
 class window;
@@ -58,6 +54,17 @@ inline constexpr bool IS_F_KEY( const int key )
 {
     return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
 }
+/** @return true if the given character is in the range of basic ASCII control characters */
+inline constexpr bool IS_CTRL_CHAR( const int key )
+{
+    // https://en.wikipedia.org/wiki/C0_and_C1_control_codes#Basic_ASCII_control_codes
+    return key >= 0 && key < ' ';
+}
+/** @return true if the given character is an ASCII control char but should not be rendered with "CTRL+" */
+inline constexpr bool IS_NAMED_CTRL_CHAR( const int key )
+{
+    return key == '\t' || key == '\n' || key == KEY_ESCAPE || key == KEY_BACKSPACE;
+}
 inline constexpr int KEY_NUM( const int n )
 {
     return 0x30 + n;     /* Numbers 0, 1, ..., 9 */
@@ -76,12 +83,12 @@ std::string get_input_string_from_file( const std::string &fname = "input.txt" )
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
-enum input_event_t {
-    CATA_INPUT_ERROR,
-    CATA_INPUT_TIMEOUT,
-    CATA_INPUT_KEYBOARD,
-    CATA_INPUT_GAMEPAD,
-    CATA_INPUT_MOUSE
+enum class input_event_t : int  {
+    error,
+    timeout,
+    keyboard,
+    gamepad,
+    mouse
 };
 
 /**
@@ -116,7 +123,7 @@ struct input_event {
 #endif
 
     input_event() : edit_refresh( false ) {
-        type = CATA_INPUT_ERROR;
+        type = input_event_t::error;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
@@ -136,6 +143,7 @@ struct input_event {
     }
 
 #if defined(__ANDROID__)
+    input_event( const input_event &other ) = default;
     input_event &operator=( const input_event &other ) {
         type = other.type;
         modifiers = other.modifiers;
@@ -275,6 +283,10 @@ class input_manager
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
         input_event get_input_event();
+        /**
+         * Resize & refresh if necessary, process all pending window events, and ignore keypresses
+         */
+        void pump_events();
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,
@@ -395,8 +407,8 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( const std::string &category ) : registered_any_input( false ),
-            category( category ), coordinate_input_received( false ), handling_coordinate_input( false ) {
+        input_context( const std::string &category ) : registered_any_input( false ), category( category ),
+            coordinate_input_received( false ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -573,7 +585,16 @@ class input_context
          * @param text The base text for action description
          *
          * @param evt_filter Only keys satisfying this function will be considered
+         * @param inline_fmt Action description format when a key is found in the
+         *                   text (for example "(a)ctive")
+         * @param separate_fmt Action description format when a key is not found
+         *                     in the text (for example "[X] active" or "[N/A] active")
          */
+        std::string get_desc( const std::string &action_descriptor,
+                              const std::string &text,
+                              const input_event_filter &evt_filter,
+                              const translation &inline_fmt,
+                              const translation &separate_fmt ) const;
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
                               const input_event_filter &evt_filter = allow_all_keys ) const;
@@ -606,7 +627,7 @@ class input_context
          * the delta vector associated with it. Otherwise returns an empty value.
          * The returned vector will always have a z component of 0.
          */
-        cata::optional<tripoint> get_direction( const std::string &action ) const;
+        std::optional<tripoint> get_direction( const std::string &action ) const;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
@@ -615,7 +636,7 @@ class input_context
          *       and returns the absolute map coordinate.
          *       Eventually this should be made more flexible.
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
+        std::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
@@ -679,7 +700,7 @@ class input_context
          * Sets input polling timeout as appropriate for the current interface system.
          * Use this method to set timeouts when using input_context, rather than calling
          * the old timeout() method or using input_manager::(re)set_timeout, as using
-         * this method will cause CATA_INPUT_TIMEOUT events to be generated correctly,
+         * this method will cause input_event_t::timeout events to be generated correctly,
          * and will reset timeout correctly when a new input context is entered.
          */
         void set_timeout( int val );

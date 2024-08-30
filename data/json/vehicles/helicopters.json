@@ -1,5 +1,89 @@
 [
   {
+    "id": "2seater2_scenario",
+    "type": "vehicle",
+    "name": "2-seater helicopter",
+    "parts": [
+      { "x": -5, "y": -1, "part": "frame_cover" },
+      { "x": -5, "y": 0, "part": "frame_se" },
+      { "x": -4, "y": 0, "part": "frame_vertical" },
+      { "x": -3, "y": 0, "part": "frame_vertical" },
+      { "x": -3, "y": 1, "part": "frame_vertical" },
+      { "x": -2, "y": 1, "part": "frame_horizontal" },
+      { "x": -2, "y": 0, "part": "frame_horizontal" },
+      { "x": -2, "y": -1, "part": "frame_sw" },
+      { "x": -1, "y": 0, "part": "frame_cross" },
+      { "x": -1, "y": 1, "part": "frame_cross" },
+      { "x": -1, "y": 2, "part": "frame_vertical" },
+      { "x": -1, "y": -1, "part": "frame_vertical" },
+      { "x": 0, "y": -1, "part": "frame_vertical" },
+      { "x": 0, "y": 2, "part": "frame_vertical" },
+      { "x": 1, "y": 2, "part": "frame_ne" },
+      { "x": 1, "y": -1, "part": "frame_nw" },
+      { "x": 1, "y": 1, "part": "frame_horizontal" },
+      { "x": 0, "y": 1, "part": "frame_cross" },
+      { "x": 1, "y": 0, "part": "frame_horizontal" },
+      { "x": 0, "y": 0, "part": "frame_cross" },
+      { "x": -5, "y": 1, "part": "frame_sw" },
+      { "x": -4, "y": 1, "part": "frame_vertical" },
+      { "x": -2, "y": 2, "part": "frame_se" },
+      { "x": -5, "y": 2, "part": "frame_cover" },
+      { "x": 1, "y": 0, "part": "windshield" },
+      { "x": 1, "y": 1, "part": "windshield" },
+      { "x": 0, "y": 2, "part": "windshield" },
+      { "x": 0, "y": -1, "part": "windshield" },
+      { "x": 1, "y": -1, "part": "halfboard_nw" },
+      { "x": 1, "y": 2, "part": "halfboard_ne" },
+      { "x": -1, "y": 2, "part": "door_sliding" },
+      { "x": -1, "y": -1, "part": "door_sliding" },
+      { "x": -2, "y": -1, "part": "halfboard_sw" },
+      { "x": -2, "y": 0, "part": "board_horizontal" },
+      { "x": -2, "y": 1, "part": "board_horizontal" },
+      { "x": -2, "y": 2, "part": "halfboard_se" },
+      { "x": 0, "y": 0, "part": "reclining_seat" },
+      { "x": 0, "y": 1, "part": "reclining_seat" },
+      { "x": 0, "y": 0, "part": "controls" },
+      { "x": 0, "y": 1, "part": "controls" },
+      { "x": 0, "y": 0, "part": "dashboard" },
+      { "x": 0, "y": 1, "part": "dashboard" },
+      { "x": 0, "y": 0, "part": "seatbelt" },
+      { "x": 0, "y": 1, "part": "seatbelt" },
+      { "x": -1, "y": 0, "part": "aisle_vertical" },
+      { "x": -1, "y": 1, "part": "aisle_vertical" },
+      { "x": -5, "y": -1, "part": "halfboard_cover" },
+      { "x": -5, "y": 0, "part": "halfboard_se" },
+      { "x": -5, "y": 1, "part": "halfboard_sw" },
+      { "x": -5, "y": 2, "part": "halfboard_cover" },
+      { "x": -4, "y": 1, "part": "halfboard_vertical" },
+      { "x": -3, "y": 1, "part": "halfboard_vertical" },
+      { "x": -3, "y": 0, "part": "halfboard_vertical" },
+      { "x": -4, "y": 0, "part": "halfboard_vertical" },
+      { "x": 0, "y": 0, "part": "roof" },
+      { "x": 0, "y": 1, "part": "roof" },
+      { "x": -1, "y": 1, "part": "small_civilian_rotors" },
+      { "x": -1, "y": 1, "part": "roof" },
+      { "x": -1, "y": 0, "part": "roof" },
+      { "x": -2, "y": -1, "part": "engine_turbine_small" },
+      { "x": -2, "y": 2, "part": "engine_turbine_small" },
+      { "x": -2, "y": -1, "part": "alternator_car" },
+      { "x": -2, "y": 2, "part": "alternator_car" },
+      { "x": -1, "y": -1, "part": "roof" },
+      { "x": -1, "y": 2, "part": "roof" },
+      { "x": -2, "y": 1, "part": "roof" },
+      { "x": -2, "y": 0, "part": "roof" },
+      { "x": -2, "y": 0, "part": "tank_55gal_drum" },
+      { "x": -2, "y": 1, "part": "tank_55gal_drum" },
+      { "x": -3, "y": 0, "part": "tank_55gal_drum" },
+      { "x": -1, "y": 1, "part": "medium_storage_battery" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 100, "items": [ "caff_gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "items": [ "gum" ] },
+      { "x": 0, "y": 0, "chance": 100, "items": [ "nic_gum" ] },
+      { "x": 0, "y": 1, "chance": 100, "items": [ "roadmap" ] }
+    ]
+  },
+  {
     "id": "2seater2",
     "type": "vehicle",
     "name": "2-seater helicopter",
@@ -1079,7 +1163,10 @@
       { "x": -1, "y": -1, "part": "plating_military" },
       { "x": 3, "y": -2, "part": "plating_military" },
       { "x": 4, "y": -1, "part": "plating_military" },
-      { "x": 3, "y": 0, "part": "plating_military" }
+      { "x": 3, "y": 0, "part": "plating_military" },
+      { "x": -10, "y": -1, "part": "wheel_10" },
+      { "x": -2, "y": 0, "part": "wheel_10" },
+      { "x": -2, "y": -2, "part": "wheel_10" }
     ],
     "items": [
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "drugs_soldier" ] },
@@ -1228,7 +1315,9 @@
       { "x": -1, "y": -1, "part": "plating_military" },
       { "x": 3, "y": -2, "part": "plating_military" },
       { "x": 4, "y": -1, "part": "plating_military" },
-      { "x": 3, "y": 0, "part": "plating_military" }
+      { "x": 3, "y": 0, "part": "plating_military" },
+      { "x": -2, "y": 0, "part": "wheel_10" },
+      { "x": -2, "y": -2, "part": "wheel_10" }
     ],
     "items": [
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "drugs_soldier" ] },
@@ -3453,6 +3542,43 @@
       { "x": 0, "y": 2, "chance": 7, "items": [ "roadmap" ] },
       { "x": 0, "y": 2, "chance": 7, "items": [ "pockknife" ] },
       { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] }
+    ]
+  },
+  {
+    "id": "helicopter_gyro",
+    "type": "vehicle",
+    "name": "Gyrocopter",
+    "blueprint": [ [ "-X#" ] ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "xlframe_cross",
+          "seat",
+          "seatbelt",
+          { "part": "tank", "fuel": "gasoline" },
+          "controls",
+          "dashboard",
+          "wheel_mount_light_steerable",
+          "wheel_motorbike"
+        ]
+      },
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [
+          "xlframe_vertical",
+          "stowboard_vertical",
+          "engine_inline4",
+          "alternator_car",
+          "battery_car",
+          "gyrocopter_rotors",
+          "wheel_mount_light",
+          "wheel_motorbike_rear"
+        ]
+      },
+      { "x": -2, "y": 0, "parts": [ "xlframe_vertical" ] }
     ]
   }
 ]

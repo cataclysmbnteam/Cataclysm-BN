@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -11,7 +12,6 @@
 #include <tuple>
 
 #include "translations.h"
-#include "optional.h"
 
 class JsonIn;
 class JsonOut;
@@ -95,7 +95,7 @@ class options_manager
                 std::vector<id_and_option> getItems() const;
 
                 int getIntPos( int iSearch ) const;
-                cata::optional< std::tuple<int, std::string> > findInt( int iSearch ) const;
+                std::optional< std::tuple<int, std::string> > findInt( int iSearch ) const;
 
                 int getMaxLength() const;
 
@@ -104,7 +104,7 @@ class options_manager
                 //set to previous item
                 void setPrev();
                 //set value
-                void setValue( std::string sSetIn );
+                void setValue( const std::string &sSetIn );
                 void setValue( float fSetIn );
                 void setValue( int iSetIn );
 
@@ -193,6 +193,7 @@ class options_manager
         void add_options_world_default();
         void add_options_android();
         void load();
+        static void cache_balance_options();
         bool save();
         std::string show( bool ingame = false, bool world_options_only = false,
                           const std::function<bool()> &on_quit = nullptr );
@@ -265,7 +266,7 @@ class options_manager
 
     private:
         options_container options;
-        cata::optional<options_container *> world_options;
+        std::optional<options_container *> world_options;
 
         /** Option group. */
         class Group
@@ -340,7 +341,7 @@ class options_manager
          *                Receives "page_id" as it's only argument.
          */
         void add_option_group( const std::string &page_id, const Group &group,
-                               std::function<void( const std::string & )> entries );
+                               const std::function<void( const std::string & )> &entries );
 
         /** Add empty line to page. */
         void add_empty_line( const std::string &sPageIn );

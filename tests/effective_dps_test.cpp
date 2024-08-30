@@ -1,15 +1,17 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
 #include "sounds.h"
+#include "state_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -35,9 +37,9 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
         for( int j = 0; j < trials; j++ ) {
             // Reset and re-wield weapon before each attack to prevent skill-up during trials
             clear_character( attacker );
-            attacker.wield( weapon );
+            attacker.wield( item::spawn( weapon ) );
             // Verify that wielding worked (and not e.g. using martial arts instead)
-            REQUIRE( attacker.used_weapon().type == weapon.type );
+            REQUIRE( attacker.primary_weapon().type == weapon.type );
 
             int before_moves = attacker.get_moves();
 
@@ -101,12 +103,13 @@ static void check_accuracy_dps( avatar &attacker, monster &defender, item &wpn1,
 }
 TEST_CASE( "effective damage per second", "[effective][dps]" )
 {
+    clear_all_state();
     avatar &dummy = g->u;
     clear_character( dummy );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item &clumsy_sword = *item::spawn_temporary( "test_clumsy_sword" );
+    item &normal_sword = *item::spawn_temporary( "test_normal_sword" );
+    item &good_sword = *item::spawn_temporary( "test_balanced_sword" );
 
     SECTION( "against a debug monster with no armor or dodge" ) {
         monster mummy( mtype_id( "debug_mon" ) );
@@ -164,6 +167,7 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
 
 TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 {
+    clear_all_state();
     avatar &dummy = g->u;
     clear_character( dummy );
 
@@ -171,9 +175,9 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item &clumsy_sword = *item::spawn_temporary( "test_clumsy_sword" );
+    item &normal_sword = *item::spawn_temporary( "test_normal_sword" );
+    item &good_sword = *item::spawn_temporary( "test_balanced_sword" );
 
     SECTION( "soldier zombie" ) {
         check_actual_dps( dummy, soldier, clumsy_sword );
@@ -196,6 +200,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 
 TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
 {
+    clear_all_state();
     avatar &dummy = g->u;
     clear_character( dummy );
 
@@ -203,9 +208,9 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item &clumsy_sword = *item::spawn_temporary( "test_clumsy_sword" );
+    item &normal_sword = *item::spawn_temporary( "test_normal_sword" );
+    item &good_sword = *item::spawn_temporary( "test_balanced_sword" );
 
     SECTION( "soldier zombie" ) {
         check_accuracy_dps( dummy, soldier, clumsy_sword, normal_sword, good_sword );

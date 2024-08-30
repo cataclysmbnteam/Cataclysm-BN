@@ -41,7 +41,7 @@ class Font
         /// @param color Curses color to use when drawing
         /// @param opacity Optional opacity of the character
         virtual void OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
-                                 const std::string &ch, const point &p,
+                                 const std::string &ch, point p,
                                  unsigned char color, float opacity = 1.0f ) = 0;
 
         /// Draw an ascii line using font's palette.
@@ -50,7 +50,7 @@ class Font
         /// @param color Curses color to use when drawing
         virtual void draw_ascii_lines( const SDL_Renderer_Ptr &renderer,
                                        const GeometryRenderer_Ptr &geometry,
-                                       unsigned char line_id, const point &p, unsigned char color ) const;
+                                       unsigned char line_id, point p, unsigned char color ) const;
 
         /// Try to load a font by typeface (Bitmap or Truetype).
         static std::unique_ptr<Font> load_font(
@@ -82,7 +82,7 @@ class CachedTTFFont : public Font
         bool isGlyphProvided( const std::string &ch ) const override;
         void OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                          const std::string &ch,
-                         const point &p,
+                         point p,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
         SDL_Texture_Ptr create_glyph( const SDL_Renderer_Ptr &renderer, const std::string &ch, int color );
@@ -134,13 +134,13 @@ class BitmapFont : public Font
         bool isGlyphProvided( const std::string &ch ) const override;
         void OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                          const std::string &ch,
-                         const point &p,
+                         point p,
                          unsigned char color, float opacity = 1.0f ) override;
         void OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,  int t,
-                         const point &p,
+                         point p,
                          unsigned char color, float opacity = 1.0f );
         void draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
-                               unsigned char line_id, const point &p, unsigned char color ) const override;
+                               unsigned char line_id, point p, unsigned char color ) const override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
         int tilewidth;
@@ -162,7 +162,7 @@ class FontFallbackList : public Font
         bool isGlyphProvided( const std::string &ch ) const override;
         void OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                          const std::string &ch,
-                         const point &p,
+                         point p,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
         std::vector<std::unique_ptr<Font>> fonts;

@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+class calendar_config;
 class JsonIn;
 class JsonOut;
 class time_duration;
@@ -49,7 +50,7 @@ enum moon_phase {
 };
 
 /**
- * Time keeping class
+ * Time keeping namespace that holds global time.
  *
  * Encapsulates the current time of day, date, and year.  Also tracks seasonal variation in day
  * length, the passing of the seasons themselves, and the phases of the moon.
@@ -101,10 +102,14 @@ float season_ratio();
 /** Returns the translated name of the season (with first letter being uppercase). */
 std::string name_season( season_type s );
 
-extern time_point start_of_cataclysm;
-extern time_point start_of_game;
+const extern time_point &start_of_cataclysm;
+const extern time_point &start_of_game;
+const extern season_type &initial_season;
 extern time_point turn;
-extern season_type initial_season;
+
+extern calendar_config config;
+
+void set_calendar_config( const calendar_config & );
 
 /**
  * A time point that is always before the current turn, even when the game has
@@ -517,6 +522,55 @@ inline T day_of_season( const time_point &p )
 {
     return to_days<T>( ( p - calendar::turn_zero ) % calendar::season_length() );
 }
+
+/**
+ * A class that keeps time data other than current time. Similar to @ref calendar namespace, but not static and so more testable.
+ */
+class calendar_config
+{
+    private:
+        time_point _start_of_cataclysm;
+        time_point _start_of_game;
+        season_type _initial_season;
+
+        bool _eternal_season;
+
+        // TODO: Remove and make the class immutable, have set_calendar in game or something
+        friend class game;
+        friend void calendar::set_calendar_config( const calendar_config & );
+
+        calendar_config &operator=( const calendar_config & ) = default;
+
+    public:
+        calendar_config( time_point start_of_cataclysm,
+                         time_point start_of_game,
+                         season_type initial_season,
+                         bool eternal_season )
+            : _start_of_cataclysm( start_of_cataclysm )
+            , _start_of_game( start_of_game )
+            , _initial_season( initial_season )
+            , _eternal_season( eternal_season )
+        {}
+        calendar_config( const calendar_config & ) = default;
+
+        // TODO: Remove reference bit after testing!
+        const time_point &start_of_cataclysm() const {
+            return _start_of_cataclysm;
+        }
+        const time_point &start_of_game() const {
+            return _start_of_game;
+        }
+        const season_type &initial_season() const {
+            return _initial_season;
+        }
+        bool eternal_season() const {
+            return _eternal_season;
+        }
+        time_duration season_length() const {
+            // TODO: Store it in calendar config once the rest of the game looks at config properly
+            return calendar::season_length();
+        }
+};
 
 /// @returns The season of the of the given time point. Returns the same season for
 /// any input if the calendar::eternal_season yields true.

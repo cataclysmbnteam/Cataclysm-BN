@@ -85,51 +85,8 @@ using chtype = int;
 #define LINE_XXXX_UNICODE 0x253C
 
 // Supports line drawing
-inline std::string string_from_int( const catacurses::chtype ch )
-{
-    catacurses::chtype charcode = ch;
-    // LINE_NESW  - X for on, O for off
-    switch( ch ) {
-        case LINE_XOXO:
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            charcode = ch;
-            break;
-    }
-    char buffer[2] = { static_cast<char>( charcode ), '\0' };
-    return buffer;
-}
+
+std::string string_from_int( const catacurses::chtype ch );
 
 // a consistent border color
 #define BORDER_COLOR c_light_gray
@@ -241,7 +198,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, char spl
  * change to a color according to the color tags that are in the text.
  * @param base_color Base color that is used outside of any color tag.
  **/
-void print_colored_text( const catacurses::window &w, const point &p, nc_color &cur_color,
+void print_colored_text( const catacurses::window &w, point p, nc_color &cur_color,
                          const nc_color &base_color, const std::string &text,
                          report_color_error color_error = report_color_error::yes );
 /**
@@ -273,13 +230,13 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
  */
-int fold_and_print( const catacurses::window &w, const point &begin, int width,
+int fold_and_print( const catacurses::window &w, point begin, int width,
                     const nc_color &base_color, const std::string &text, char split = ' ' );
 /**
  * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
 template<typename ...Args>
-inline int fold_and_print( const catacurses::window &w, const point &begin,
+inline int fold_and_print( const catacurses::window &w, point begin,
                            const int width, const nc_color &base_color,
                            const char *const mes, Args &&... args )
 {
@@ -303,13 +260,13 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
  */
-int fold_and_print_from( const catacurses::window &w, const point &begin, int width,
+int fold_and_print_from( const catacurses::window &w, point begin, int width,
                          int begin_line, const nc_color &base_color, const std::string &text );
 /**
  * Same as other @ref fold_and_print_from, but does formatting via @ref string_format.
  */
 template<typename ...Args>
-inline int fold_and_print_from( const catacurses::window &w, const point &begin,
+inline int fold_and_print_from( const catacurses::window &w, point begin,
                                 const int width, const int begin_line, const nc_color &base_color,
                                 const char *const mes, Args &&... args )
 {
@@ -326,12 +283,12 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  * @param base_color The initially used color. This can be overridden using color tags.
  * @param text Actual message to print
  */
-void trim_and_print( const catacurses::window &w, const point &begin, int width,
+void trim_and_print( const catacurses::window &w, point begin, int width,
                      const nc_color &base_color, const std::string &text,
                      report_color_error color_error = report_color_error::yes );
 std::string trim_by_length( const std::string &text, int width );
 template<typename ...Args>
-inline void trim_and_print( const catacurses::window &w, const point &begin,
+inline void trim_and_print( const catacurses::window &w, point begin,
                             const int width, const nc_color &base_color,
                             const char *const mes, Args &&... args )
 {
@@ -339,7 +296,7 @@ inline void trim_and_print( const catacurses::window &w, const point &begin,
                            string_format( mes, std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
-inline void trim_and_print( const catacurses::window &w, const point &begin,
+inline void trim_and_print( const catacurses::window &w, point begin,
                             const int width, const nc_color &base_color,
                             const report_color_error color_error,
                             const char *const mes, Args &&... args )
@@ -362,20 +319,20 @@ std::string name_and_value( const std::string &name, const std::string &value, i
 
 void wputch( const catacurses::window &w, nc_color FG, int ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
-void mvwputch( const catacurses::window &w, const point &p, nc_color FG, int ch );
-void mvwputch( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch );
+void mvwputch( const catacurses::window &w, point p, nc_color FG, int ch );
+void mvwputch( const catacurses::window &w, point p, nc_color FG, const std::string &ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
-void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG, int ch );
-void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG,
+void mvwputch_inv( const catacurses::window &w, point p, nc_color FG, int ch );
+void mvwputch_inv( const catacurses::window &w, point p, nc_color FG,
                    const std::string &ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
-void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, int ch );
-void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch );
+void mvwputch_hi( const catacurses::window &w, point p, nc_color FG, int ch );
+void mvwputch_hi( const catacurses::window &w, point p, nc_color FG, const std::string &ch );
 
-void mvwprintz( const catacurses::window &w, const point &p, const nc_color &FG,
+void mvwprintz( const catacurses::window &w, point p, const nc_color &FG,
                 const std::string &text );
 template<typename ...Args>
-inline void mvwprintz( const catacurses::window &w, const point &p, const nc_color &FG,
+inline void mvwprintz( const catacurses::window &w, point p, const nc_color &FG,
                        const char *const mes, Args &&... args )
 {
     mvwprintz( w, p, FG, string_format( mes, std::forward<Args>( args )... ) );
@@ -393,7 +350,7 @@ void draw_custom_border(
     const catacurses::window &w, catacurses::chtype ls = 1, catacurses::chtype rs = 1,
     catacurses::chtype ts = 1, catacurses::chtype bs = 1, catacurses::chtype tl = 1,
     catacurses::chtype tr = 1, catacurses::chtype bl = 1, catacurses::chtype br = 1,
-    nc_color FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
+    nc_color FG = BORDER_COLOR, point pos = point_zero, int height = 0, int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
 void draw_border_below_tabs( const catacurses::window &w, nc_color border_color = BORDER_COLOR );
@@ -404,7 +361,7 @@ class border_helper
         class border_info
         {
             public:
-                void set( const point &pos, const point &size );
+                void set( point pos, point size );
 
                 // Prevent accidentally copying the return value from border_helper::add_border
                 border_info( const border_info & ) = delete;
@@ -434,7 +391,7 @@ class border_helper
 
             int as_curses_line() const;
         };
-        cata::optional<std::map<point, border_connection>> border_connection_map;
+        std::optional<std::map<point, border_connection>> border_connection_map;
 
         std::forward_list<border_info> border_info_list;
 };
@@ -448,6 +405,13 @@ template<typename ...Args>
 inline bool query_yn( const char *const msg, Args &&... args )
 {
     return query_yn( string_format( msg, std::forward<Args>( args )... ) );
+}
+
+bool query_int( int &result, int default_val, const std::string &text );
+template<typename ...Args>
+inline bool query_int( int &result, int default_val, const char *const msg, Args &&... args )
+{
+    return query_int( result, default_val, string_format( msg, std::forward<Args>( args )... ) );
 }
 
 bool query_int( int &result, const std::string &text );
@@ -512,39 +476,39 @@ inline void full_screen_popup( const char *mes, Args &&... args )
 }
 
 /*@}*/
-std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
-                              const std::vector<iteminfo> &vItemCompare );
+std::string format_item_info( const std::vector<iteminfo> &item_display,
+                              const std::vector<iteminfo> &item_compare );
 
 // the extra data that item_info needs to draw
 struct item_info_data {
     private:
-        std::string sItemName;
-        std::string sTypeName;
-        std::vector<iteminfo> vItemDisplay;
-        std::vector<iteminfo> vItemCompare;
+        std::string item_name;
+        std::string type_name;
+        std::vector<iteminfo> item_display;
+        std::vector<iteminfo> item_compare;
         int selected = 0;
 
     public:
 
         item_info_data();
         ~item_info_data();
-        item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare );
-        item_info_data( const std::string &sItemName, const std::string &sTypeName,
-                        const std::vector<iteminfo> &vItemDisplay, const std::vector<iteminfo> &vItemCompare,
+        item_info_data( const std::string &item_name, const std::string &type_name,
+                        const std::vector<iteminfo> &item_display, const std::vector<iteminfo> &item_compare );
+        item_info_data( const std::string &item_name, const std::string &type_name,
+                        const std::vector<iteminfo> &item_display, const std::vector<iteminfo> &item_compare,
                         int &ptr_selected );
 
         const std::string &get_item_name() const {
-            return sItemName;
+            return item_name;
         }
         const std::string &get_type_name() const {
-            return sTypeName;
+            return type_name;
         }
         const std::vector<iteminfo> &get_item_display() const {
-            return vItemDisplay;
+            return item_display;
         }
         const std::vector<iteminfo> &get_item_compare() const {
-            return vItemCompare;
+            return item_compare;
         }
 
         int *ptr_selected = &selected;
@@ -584,7 +548,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 char rand_char();
 int special_symbol( int sym );
 
-size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
+size_t shortcut_print( const catacurses::window &w, point p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt );
 size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
                        const std::string &fmt );
@@ -660,7 +624,8 @@ enum class enumeration_conjunction {
     none,
     and_,
     or_,
-    newline
+    newline,
+    arrow
 };
 
 /**
@@ -682,9 +647,20 @@ std::string enumerate_as_string( const _Container &values,
                 return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
             case enumeration_conjunction::newline:
                 return "\n";
+            case enumeration_conjunction::arrow:
+                return _( " > " );
         }
         debugmsg( "Unexpected conjunction" );
         return _( ", " );
+    }
+    ();
+    const std::string separator = [&conj]() {
+        switch( conj ) {
+            case enumeration_conjunction::arrow:
+                return _( " > " );
+            default:
+                return _( ", " );
+        }
     }
     ();
     std::string res;
@@ -695,7 +671,7 @@ std::string enumerate_as_string( const _Container &values,
             } else if( std::next( iter ) == values.end() ) {
                 res += final_separator;
             } else {
-                res += _( ", " );
+                res += separator;
             }
         }
         res += *iter;
@@ -712,7 +688,7 @@ std::string enumerate_as_string( const _Container &values,
  * @param conj Choose how to separate the last elements.
  */
 template<typename _FIter, typename F>
-std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
+std::string enumerate_as_string( _FIter first, _FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
@@ -724,6 +700,13 @@ std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
         }
     }
     return enumerate_as_string( values, conj );
+}
+
+template<typename Container, typename F>
+std::string enumerate_as_string( const Container &cont, F &&string_for,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
+{
+    return enumerate_as_string( cont.begin(), cont.end(), std::forward<F>( string_for ), conj );
 }
 
 /**
@@ -802,7 +785,7 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
 
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
-                     int iContentHeight, int iNumLines, const point &offset = point_zero,
+                     int iContentHeight, int iNumLines, point offset = point_zero,
                      nc_color bar_color = c_white, bool bDoNotScrollToEnd = false );
 void calcStartPos( int &iStartPos, int iCurrentLine, int iContentHeight,
                    int iNumEntries );
@@ -902,7 +885,7 @@ class scrollingcombattext
                 bool iso_mode;
 
             public:
-                cSCT( const point &pos, direction p_oDir,
+                cSCT( point pos, direction p_oDir,
                       const std::string &p_sText, game_message_type p_gmt,
                       const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                       const std::string &p_sType = "" );
@@ -939,7 +922,7 @@ class scrollingcombattext
 
         std::vector<cSCT> vSCT;
 
-        void add( const point &pos, direction p_oDir,
+        void add( point pos, direction p_oDir,
                   const std::string &p_sText, game_message_type p_gmt,
                   const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                   const std::string &p_sType = "" );

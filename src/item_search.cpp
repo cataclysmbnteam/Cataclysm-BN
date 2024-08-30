@@ -6,8 +6,10 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_factory.h"
 #include "material.h"
 #include "requirements.h"
+#include "skill.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -68,6 +70,15 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
             return [filter]( const item & i ) {
                 const std::string note = i.get_var( "item_note" );
                 return !note.empty() && lcmatch( note, filter );
+            };
+        // skill taught
+        case 'k':
+            return [filter]( const item & i ) {
+                if( i.is_book() ) {
+                    const islot_book &book = *i.type->book;
+                    return lcmatch( book.skill->name(), filter );
+                }
+                return false;
             };
         // by name
         default:

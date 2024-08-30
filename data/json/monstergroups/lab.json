@@ -19,7 +19,11 @@
       { "monster": "mon_zombie_static", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 },
-      { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_skeleton_hulk", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_labsecurity_9mm", "starts": 250, "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_human_tool", "freq": 5, "cost_multiplier": 1 }
     ]
   },
   {
@@ -52,7 +56,11 @@
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_labsecurity_9mm", "starts": 250, "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_human_tool", "freq": 5, "cost_multiplier": 1 }
     ]
   },
   {
@@ -84,7 +92,12 @@
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_haulerbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_feral_scientist_scalpel", "starts": 250, "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_labsecurity_9mm", "starts": 500, "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_labsecurity_flashlight", "starts": 250, "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_human_tool", "starts": 250, "freq": 5, "cost_multiplier": 1 }
     ]
   },
   {
@@ -107,7 +120,9 @@
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 8 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_labsecurity_9mm", "starts": 250, "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 10, "cost_multiplier": 5 }
     ]
   },
   {
@@ -126,7 +141,9 @@
       { "monster": "mon_zombie_hazmat", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_brute", "freq": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_scientist_scalpel", "starts": 250, "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_soldier", "starts": 250, "freq": 5, "cost_multiplier": 1 }
     ]
   },
   {
@@ -159,7 +176,12 @@
       { "monster": "mon_zombie_armored", "freq": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_necro", "freq": 1, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_brute_shocker", "freq": 1, "cost_multiplier": 5 },
+      { "monster": "mon_haulerbot", "freq": 1, "cost_multiplier": 0 },
+      { "monster": "mon_feral_scientist_scalpel", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_feral_labsecurity_9mm", "starts": 250, "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_labsecurity_flashlight", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_feral_human_tool", "freq": 5, "cost_multiplier": 1 }
     ]
   },
   {

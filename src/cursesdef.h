@@ -6,10 +6,10 @@
 #include <string>
 #include <utility>
 
+#include "point.h"
 #include "string_formatter.h"
 
 class nc_color;
-struct point;
 
 /**
  * Contains the curses interface used by the whole game.
@@ -89,21 +89,22 @@ enum base_color : short {
 using chtype = int;
 using attr_t = unsigned short;
 
+extern window newscr;
 extern window stdscr;
 
-window newwin( int nlines, int ncols, const point &begin );
+window newwin( int nlines, int ncols, point begin );
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );
-void mvwhline( const window &win, const point &p, chtype ch, int n );
-void mvwvline( const window &win, const point &p, chtype ch, int n );
+void mvwhline( const window &win, point p, chtype ch, int n );
+void mvwvline( const window &win, point p, chtype ch, int n );
 void wnoutrefresh( const window &win );
 void wrefresh( const window &win );
 void refresh();
 void doupdate();
 void wredrawln( const window &win, int beg_line, int num_lines );
-void mvwprintw( const window &win, const point &p, const std::string &text );
+void mvwprintw( const window &win, point p, const std::string &text );
 template<typename ...Args>
-inline void mvwprintw( const window &win, const point &p, const char *const fmt,
+inline void mvwprintw( const window &win, point p, const char *const fmt,
                        Args &&... args )
 {
     return mvwprintw( win, p, string_format( fmt, std::forward<Args>( args )... ) );
@@ -119,11 +120,11 @@ inline void wprintw( const window &win, const char *const fmt, Args &&... args )
 void resizeterm();
 void werase( const window &win );
 void init_pair( short pair, base_color f, base_color b );
-void wmove( const window &win, const point &p );
+void wmove( const window &win, point p );
 void clear();
 void erase();
 void endwin();
-void mvwaddch( const window &win, const point &p, chtype ch );
+void mvwaddch( const window &win, point p, chtype ch );
 void wclear( const window &win );
 void curs_set( int visibility );
 void wattron( const window &win, const nc_color &attrs );

@@ -6,8 +6,8 @@
     "description": "Snug, soft cloth sleeves to keep your arms warm.",
     "weight": "32 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "armguard_larmor",
@@ -17,6 +17,7 @@
     "encumbrance": 1,
     "warmth": 20,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "SKINTIGHT" ]
   },
   {
@@ -25,9 +26,10 @@
     "name": { "str": "camo tank top" },
     "description": "A sleeveless cotton shirt with camouflage dye.  Very easy to move in.",
     "weight": "78 g",
+    "repairs_like": "tank_top",
     "volume": "250 ml",
-    "price": 1500,
-    "price_postapoc": 50,
+    "price": "15 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tank_top",
@@ -35,7 +37,7 @@
     "covers": [ "torso" ],
     "coverage": 60,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bikini_bottom",
@@ -44,8 +46,8 @@
     "description": "A simple bikini bottom.",
     "weight": "32 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "panties",
@@ -54,7 +56,7 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bikini_top",
@@ -63,8 +65,8 @@
     "description": "A simple bikini top.",
     "weight": "32 g",
     "volume": "250 ml",
-    "price": 1800,
-    "price_postapoc": 50,
+    "price": "18 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "bra",
@@ -72,7 +74,7 @@
     "covers": [ "torso" ],
     "coverage": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bikini_top_fur",
@@ -81,8 +83,8 @@
     "description": "A simple fur bikini top.",
     "weight": "44 g",
     "volume": "250 ml",
-    "price": 4900,
-    "price_postapoc": 100,
+    "price": "49 USD",
+    "price_postapoc": "1 USD",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "bikini_top",
@@ -91,7 +93,7 @@
     "coverage": 10,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bikini_top_leather",
@@ -100,8 +102,8 @@
     "description": "A simple leather bikini top.",
     "weight": "38 g",
     "volume": "250 ml",
-    "price": 3500,
-    "price_postapoc": 50,
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "bikini_top",
@@ -110,7 +112,7 @@
     "coverage": 10,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "boxer_briefs",
@@ -119,8 +121,8 @@
     "description": "The age-old question, boxers or briefs?  Your answer?  Yes.",
     "weight": "37 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "shorts",
@@ -129,7 +131,7 @@
     "coverage": 20,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "boxer_shorts",
@@ -138,8 +140,8 @@
     "description": "Men's boxer shorts.  More fashionable than briefs and just as comfortable.",
     "weight": "42 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "boxer_briefs",
@@ -148,7 +150,7 @@
     "coverage": 25,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "boy_shorts",
@@ -157,8 +159,8 @@
     "description": "Female underwear similar to men's boxer shorts, but much more close-fitting.",
     "weight": "42 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "boxer_briefs",
@@ -167,7 +169,7 @@
     "coverage": 25,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "bra",
@@ -176,8 +178,8 @@
     "description": "A simple bra.  For protecting those bits you don't want zombies to look at.",
     "weight": "32 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tank_top",
@@ -186,7 +188,7 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "briefs",
@@ -195,8 +197,8 @@
     "description": "A pair of briefs.  Comfortable underwear worn by men.",
     "weight": "32 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "boxer_briefs",
@@ -205,17 +207,18 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "camisole",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "camisole" },
     "description": "A small camisole made from silk.  Typically used as an undergarment, they are light and easy to wear.",
     "weight": "42 g",
     "volume": "500 ml",
-    "price": 2000,
-    "price_postapoc": 50,
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -224,7 +227,7 @@
     "covers": [ "torso" ],
     "coverage": 45,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE", "FANCY" ]
   },
   {
     "id": "chestwrap",
@@ -233,8 +236,8 @@
     "description": "Rags wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "64 g",
     "volume": "500 ml",
-    "price": 500,
-    "price_postapoc": 10,
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tshirt",
@@ -252,8 +255,8 @@
     "description": "Fur pelts wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "154 g",
     "volume": "750 ml",
-    "price": 700,
-    "price_postapoc": 10,
+    "price": "7 USD",
+    "price_postapoc": "10 cent",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "chestwrap_leather",
@@ -272,8 +275,8 @@
     "description": "Leather patches wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "137 g",
     "volume": "750 ml",
-    "price": 525,
-    "price_postapoc": 10,
+    "price": "525 cent",
+    "price_postapoc": "10 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "chestwrap",
@@ -292,8 +295,8 @@
     "description": "Felt patches wrapped around the chest.  Preserves your modesty and keeps things out of the way, but not good for much else.",
     "weight": "64 g",
     "volume": "500 ml",
-    "price": 500,
-    "price_postapoc": 10,
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "chestwrap",
@@ -307,13 +310,14 @@
   },
   {
     "id": "corset",
+    "repairs_like": "jacket_leather",
     "type": "ARMOR",
     "name": { "str": "leather corset" },
     "description": "A snug, black leather corset.  Has no pockets, but its thick material provides good protection from harm.",
     "weight": "640 g",
     "volume": "1250 ml",
-    "price": 11000,
-    "price_postapoc": 100,
+    "price": "110 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
@@ -325,6 +329,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "FANCY", "SKINTIGHT" ]
   },
   {
@@ -334,8 +339,8 @@
     "description": "Snug, soft cloth sleeves to keep your legs warm.",
     "weight": "46 g",
     "volume": "500 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "leggings",
@@ -345,6 +350,7 @@
     "encumbrance": 1,
     "warmth": 20,
     "material_thickness": 1,
+    "valid_mods": [ "resized_large" ],
     "flags": [ "SKINTIGHT" ]
   },
   {
@@ -354,8 +360,8 @@
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
     "weight": "694 g",
     "volume": "1500 ml",
-    "price": 1500,
-    "price_postapoc": 250,
+    "price": "15 USD",
+    "price_postapoc": "250 cent",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "leg_warmers",
@@ -368,34 +374,14 @@
     "flags": [ "VARSIZE" ]
   },
   {
-    "id": "leg_warmers_xl",
-    "type": "ARMOR",
-    "name": { "str": "pair of XL leg warmers", "str_pl": "pairs of XL leg warmers" },
-    "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
-    "weight": "50 g",
-    "volume": "750 ml",
-    "price": 20000,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "leg_warmers",
-    "color": "light_gray",
-    "covers": [ "legs" ],
-    "coverage": 60,
-    "encumbrance": 7,
-    "warmth": 20,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
-  },
-  {
     "id": "long_underpants",
     "type": "ARMOR",
     "name": { "str": "long underwear bottom" },
     "description": "A pair of long underwear that help to maintain body temperature.",
     "weight": "88 g",
     "volume": "500 ml",
-    "price": 1500,
-    "price_postapoc": 100,
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "leggings",
@@ -405,7 +391,7 @@
     "encumbrance": 3,
     "warmth": 30,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "long_undertop",
@@ -414,8 +400,8 @@
     "description": "A long underwear top that helps to maintain body temperature.",
     "weight": "96 g",
     "volume": "500 ml",
-    "price": 1500,
-    "price_postapoc": 100,
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "longshirt",
@@ -425,7 +411,7 @@
     "encumbrance": 3,
     "warmth": 30,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "long_undertop_sleeveless",
@@ -434,8 +420,8 @@
     "description": "A sleeveless underwear top that helps to maintain body temperature.",
     "weight": "80 g",
     "volume": "400 ml",
-    "price": 1200,
-    "price_postapoc": 100,
+    "price": "12 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "long_undertop",
@@ -445,7 +431,7 @@
     "encumbrance": 3,
     "warmth": 30,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "panties",
@@ -454,8 +440,8 @@
     "description": "Underwear designed to be worn by women.  Preserves your modesty in desperate times.",
     "weight": "32 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "briefs",
@@ -464,7 +450,7 @@
     "coverage": 15,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "thermal_shirt",
@@ -473,16 +459,16 @@
     "description": "A lightweight, form-fitting long-sleeved spandex undershirt that helps maintains body temperature.",
     "weight": "92 g",
     "volume": "250 ml",
-    "price": 3200,
-    "price_postapoc": 250,
-    "material": [ "lycra" ],
+    "price": "32 USD",
+    "price_postapoc": "250 cent",
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "torso", "arms" ],
     "coverage": 95,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "sports_bra",
@@ -491,9 +477,9 @@
     "description": "A sturdy nylon bra to provide additional support during physical movement.  Typically worn when exercising, it clings to the skin and is easy to wear.",
     "weight": "92 g",
     "volume": "500 ml",
-    "price": 4200,
-    "price_postapoc": 50,
-    "material": [ "lycra" ],
+    "price": "42 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "bra",
     "color": "white",
@@ -501,7 +487,7 @@
     "coverage": 30,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tank_top",
@@ -510,8 +496,8 @@
     "description": "A sleeveless cotton shirt.  Very easy to move in.",
     "weight": "78 g",
     "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 50,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tshirt",
@@ -519,7 +505,7 @@
     "covers": [ "torso" ],
     "coverage": 40,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "tights",
@@ -529,8 +515,8 @@
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
     "weight": "114 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 100,
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "leggings",
@@ -539,7 +525,7 @@
     "coverage": 100,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "under_armor",
@@ -548,9 +534,9 @@
     "description": "Nylon sportswear that clings to your chest and maintains body temperature.",
     "weight": "92 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 100,
-    "material": [ "lycra" ],
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "dark_gray",
@@ -558,7 +544,7 @@
     "coverage": 95,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "under_armor_shorts",
@@ -567,9 +553,9 @@
     "description": "Nylon sportswear that clings to your upper legs, aiding muscle tone and maintaining warmth.",
     "weight": "82 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 100,
-    "material": [ "lycra" ],
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "shorts",
     "color": "dark_gray",
@@ -577,7 +563,7 @@
     "coverage": 45,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "undershirt",
@@ -586,8 +572,8 @@
     "description": "A simple white undershirt.  Worn beneath your regular clothes, it provides a little extra warmth.",
     "weight": "64 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tshirt",
@@ -596,7 +582,7 @@
     "coverage": 60,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
   },
   {
     "id": "unitard",
@@ -605,15 +591,15 @@
     "description": "A skin-tight spandex garment resembling a crew necked leotard combined with leggings.  Commonly used by gymnasts, dancers and equestrian vaulters, the unitard provides overall coverage with great flexibility.",
     "weight": "110 g",
     "volume": "250 ml",
-    "price": 3100,
-    "price_postapoc": 50,
-    "material": [ "lycra" ],
+    "price": "31 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "nylon" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "torso", "legs" ],
     "coverage": 90,
     "warmth": 20,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "POWERARMOR_COMPATIBLE" ]
   }
 ]

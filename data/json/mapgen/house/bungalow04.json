@@ -1,0 +1,111 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow04",
+    "method": "json",
+    "object": {
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "..........p.,,,.........",
+        "............,,,.........",
+        "......[.....,,,.........",
+        "............,,,.........",
+        "............,,,.........",
+        "....!!!=====---!!!......",
+        "....!#####oo#*#oo#......",
+        ".[..!#R~~l♦♦Ə~T♦♦#......",
+        ".!!!!#s~~H~~~~~~~#...[..",
+        ".##o##x~~H~~RRR~~#......",
+        ".#@@¤|s~~H~~|||++#......",
+        ".#@@ |R~~l~~+L|zz#///...",
+        ".o   +~~~~~~|||||#///...",
+        ".o   |b~~~~~+____o///...",
+        ".#D  ||+||~~|98St#///...",
+        ".#d ɸ|Z_W|~~|||||#///...",
+        ".#######||~~+U|qq#####..",
+        "..jjj.^#y   |||++|662#..",
+        ".......#       ______o..",
+        "......-*       _JJJ_Fo..",
+        ".......o   ff  _____3o..",
+        ".......#y hffh __O5J1#..",
+        ".......######oo###oo##..",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_adobe_brick_wall",
+        "=": "t_shrub_lilac",
+        "_": "t_linoleum_gray",
+        ",": "t_dirt",
+        "W": "t_linoleum_gray",
+        "Z": "t_linoleum_gray",
+        "~": "t_carpet_red",
+        "R": "t_carpet_red",
+        "♦": "t_carpet_red",
+        "Ə": "t_carpet_red",
+        "T": "t_carpet_red",
+        "l": "t_carpet_red",
+        "H": "t_carpet_red",
+        "s": "t_carpet_red",
+        "x": "t_carpet_red",
+        "/": "t_dirtmound",
+        "K": "t_region_groundcover_urban",
+        "G": "t_region_groundcover_urban",
+        "b": "t_carpet_red",
+        "!": "t_dirtmound"
+      },
+      "furniture": { "♦": [ "f_indoor_plant", "f_indoor_plant_y" ], "&": "f_region_flower" },
+      "items": { "/": { "item": "hydro", "chance": 40 } },
+      "place_loot": [
+        { "item": "television", "x": 6, "y": 9 },
+        { "group": "tools_earthworking", "x": [ 18, 20 ], "y": [ 10, 10 ], "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 19, "y": 2 }, { "chunks": [ "NC_res_backyard_3X3" ], "x": 1, "y": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow04_roof",
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     -------------      ",
+        "     -...........-      ",
+        "     -...........-      ",
+        " -----...........-      ",
+        " -...............-      ",
+        " -...............-      ",
+        " -...............-      ",
+        " -...............-      ",
+        " -...=.........N.-      ",
+        " -...............-      ",
+        " -------.........-----  ",
+        "       5.............-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "       ---------------  ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 12, "y": 17 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 6, 12 ], "y": [ 10, 12 ] }
+      ]
+    }
+  }
+]

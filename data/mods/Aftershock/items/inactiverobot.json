@@ -6,7 +6,7 @@
     "description": "This is a horrifying monstrosity.  Using this item is cannibalism in all but taste and involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.",
     "weight": "40750 g",
     "volume": "30 L",
-    "price": 600000,
+    "price": "6 kUSD",
     "to_hit": -3,
     "bashing": 8,
     "material": [ "alien_resin" ],
@@ -20,7 +20,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "cooking", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_chickenbot",
@@ -29,7 +30,7 @@
     "description": "This is an inactive chicken walker.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the chicken walker will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
     "weight": "120000 g",
     "volume": "92500 ml",
-    "price": 50000000,
+    "price": "500 kUSD",
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -44,7 +45,8 @@
       "difficulty": 9,
       "moves": 250,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_tankbot",
@@ -55,7 +57,7 @@
     "weight": "200000 g",
     "//": "cheating a bit with the volume due to lack of proper vehicle storage options",
     "volume": "250 L",
-    "price": 100000000,
+    "price": "1000 kUSD",
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -70,7 +72,8 @@
       "difficulty": 10,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_chickenbot",
@@ -81,7 +84,7 @@
     "weight": "190000 g",
     "//": "cheating a bit with the volume due to lack of proper vehicle storage options",
     "volume": "250 L",
-    "price": 100000000,
+    "price": "1000 kUSD",
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -96,7 +99,8 @@
       "difficulty": 10,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_tripod",
@@ -106,7 +110,7 @@
     "description": "This is an inactive Honda Regnal.  Using this item involves placing it on the ground, wondering how it fuels its flamethrower and turning it on.  If reprogrammed and rewired successfully the tribot will then identify you as an ally, roam around or follow you, and impale hostiles with its spiked cable weapons.",
     "weight": "120000 g",
     "volume": "92500 ml",
-    "price": 100000000,
+    "price": "1000 kUSD",
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel" ],
@@ -121,7 +125,8 @@
       "difficulty": 15,
       "moves": 500,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "type": "GENERIC",
@@ -131,7 +136,7 @@
     "name": { "str": "broken tribot" },
     "category": "other",
     "description": "A broken tribot.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "steel", "plastic" ],
     "weight": "430000 g",
     "volume": "187500 ml",
@@ -148,7 +153,7 @@
     "name": { "str": "broken tank drone" },
     "category": "other",
     "description": "A broken tank drone.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "steel", "plastic" ],
     "weight": "1223850 g",
     "volume": "875 L",
@@ -165,7 +170,7 @@
     "name": { "str": "broken chickenbot" },
     "category": "other",
     "description": "A broken chicken walker.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "steel", "plastic" ],
     "weight": "1023850 g",
     "volume": "1100 L",
@@ -181,10 +186,10 @@
     "description": "Crouched and dead still, this armored luxurious robot resembles an ancient knight immersed in deep prayer.  If reprogrammed and rewired successfully the robot will identify you as a friendly, and will protect you from nearby foes.",
     "weight": "40750 g",
     "volume": "30 L",
-    "price": 600000,
+    "price": "6 kUSD",
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "alien_resin" ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -192,8 +197,10 @@
       "monster_id": "afs_mon_sentinel_lx",
       "difficulty": 4,
       "moves": 100,
+      "is_pet": true,
       "skills": [ "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_bloodhound_drone",
@@ -202,7 +209,7 @@
     "description": "This is an inactive bloodhound drone.  If successfully deployed, it will fly towards enemy targets and highlight them with a powerful spotlight.",
     "weight": "5400 g",
     "volume": "750 ml",
-    "price": 60000,
+    "price": "600 USD",
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
@@ -218,7 +225,8 @@
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_laserturret_x-ray",
@@ -227,8 +235,8 @@
     "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its replaceable laser cannons.  It requires ammunition tubes to fire.",
     "weight": "40750 g",
     "volume": "30 L",
-    "price": 600000,
-    "price_postapoc": 12000,
+    "price": "6 kUSD",
+    "price_postapoc": "120 USD",
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -240,7 +248,8 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_utilibot_beehive",
@@ -265,8 +274,8 @@
     "material": [ "steel", "plastic" ],
     "weight": "70 kg",
     "volume": "50 L",
-    "price": 10000,
-    "price_postapoc": 10000,
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
     "to_hit": -3,
     "bashing": 6,
     "symbol": ";",
@@ -278,15 +287,15 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "abstract": "bot_utilibot_base",
     "type": "TOOL",
     "name": "inactive utilibot",
     "looks_like": "mon_cleanerbot",
-    "price": 10000,
-    "price_postapoc": 10000,
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
     "weight": "140 kg",
     "volume": "62500 ml",
     "to_hit": -3,
@@ -294,7 +303,7 @@
     "material": [ "steel", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "abstract": "bot_hack_base",
@@ -303,14 +312,15 @@
     "description": "This is an inactive manhack.  Manhacks are fist-sized robots that fly through the air.  They are covered with whirring blades and attack by throwing themselves against their target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
     "volume": "750 ml",
-    "price": 10000,
-    "price_postapoc": 10000,
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
     "to_hit": -3,
     "bashing": 4,
     "cutting": 4,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
-    "color": "light_green"
+    "color": "light_green",
+    "flags": [ "ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_light_hack",
@@ -339,20 +349,20 @@
     "material": [ "steel", "kevlar" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "price": 10000,
-    "price_postapoc": 10000,
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
     "to_hit": -3,
     "bashing": 8,
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_milbot_308",
     "type": "TOOL",
     "copy-from": "bot_milbot_base",
     "name": "inactive military robot",
-    "description": "An unpowered military robot fitted with an integrated 7.62 firearm and electric prod.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
+    "description": "An unpowered military robot fitted with an integrated 7.62x51mm firearm and electric prod.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
     "color": "green",
     "use_action": {
       "type": "place_monster",
@@ -385,13 +395,13 @@
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
-    "price": 10000,
-    "price_postapoc": 10000,
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
     "to_hit": -3,
     "bashing": 8,
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "abstract": "bot_skitterbot_base",
@@ -401,13 +411,13 @@
     "material": [ "steel", "plastic" ],
     "weight": "62650 g",
     "volume": "30 L",
-    "price": 10000,
-    "price_postapoc": 10000,
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
     "to_hit": -3,
     "bashing": 6,
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_skitterbot_rat",
@@ -459,8 +469,8 @@
     "type": "TOOL",
     "name": "inactive eyebot",
     "looks_like": "broken_eyebot",
-    "price": 10000,
-    "price_postapoc": 10000,
+    "price": "100 USD",
+    "price_postapoc": "100 USD",
     "material": [ "steel", "plastic" ],
     "weight": "62650 g",
     "volume": "30 L",
@@ -469,7 +479,7 @@
     "to_hit": -3,
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "bot_eyebot_heater",
@@ -493,8 +503,8 @@
     "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
     "weight": "40750 g",
     "volume": "30 L",
-    "price": 600000,
-    "price_postapoc": 12000,
+    "price": "6 kUSD",
+    "price_postapoc": "120 USD",
     "to_hit": -3,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -506,6 +516,7 @@
       "difficulty": 6,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

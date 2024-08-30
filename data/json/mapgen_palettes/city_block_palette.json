@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "city_block_foundation_palette",
     "furniture": {
+      "'": "f_street_light",
       "A": "f_stool",
       "B": "f_beaded_door",
       "D": "f_chair",
@@ -35,6 +36,7 @@
       "l": "f_fridge",
       "m": "f_glass_fridge",
       "p": [ "f_dumpster", "f_recycle_bin" ],
+      "p̄": [ "f_dumpster", "f_recycle_bin" ],
       "r": "f_wood_keg",
       "v": "f_safe_l",
       "w": "f_rack_wood",
@@ -45,6 +47,7 @@
       ".": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
       "-": "t_open_air",
       "p": "t_concrete",
+      "p̄": "t_pavement",
       "X": "t_region_groundcover_urban",
       " ": "t_floor",
       "|": "t_brick_wall",
@@ -57,6 +60,7 @@
       "*": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 3 ] ],
       "!": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
       "s": "t_concrete",
+      "'": "t_concrete",
       "~": "t_pavement",
       "#": "t_chainfence",
       "u": "t_chaingate_l",
@@ -72,8 +76,10 @@
       "$": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
     },
     "toilets": { "t": {  } },
-    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
     "items": {
+      "p": { "item": "trash_dumpster", "chance": 80 },
+      "p̄": { "item": "trash_dumpster", "chance": 80 },
       "O": [ { "item": "SUS_wardrobe_mens", "chance": 50 }, { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] } ],
       "Q": [
         { "item": "preserved_food", "chance": 20, "repeat": [ 1, 2 ] },
@@ -118,6 +124,7 @@
       "l": { "item": "SUS_fridge", "chance": 30, "repeat": [ 1, 2 ] },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
       "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] }
-    }
+    },
+    "nested": { "@": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   }
 ]

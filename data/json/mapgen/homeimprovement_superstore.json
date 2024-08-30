@@ -45,9 +45,10 @@
         "________________________",
         "..........|_____________",
         "..........|_____________",
-        "-----------_____________"
+        "-----------____________!"
       ],
       "terrain": {
+        "!": "t_pavement",
         "$": "t_floor",
         "&": "t_floor",
         "+": "t_door_glass_c",
@@ -66,6 +67,7 @@
         "|": "t_wall"
       },
       "furniture": {
+        "!": "f_street_light",
         "$": "f_vending_c",
         "C": "f_chair",
         "T": "f_table",
@@ -92,13 +94,13 @@
     "object": {
       "rows": [
         "|rrrrrrr...........F|s..",
-        "|..................F|t..",
+        "|..................f|t..",
         "|rrrrrrr................",
         "|.......................",
         "|...................---.",
         "|..ccc.............O|CT.",
         "|..................O|s..",
-        "|..ccc.............O|t..",
+        "|..ccc.............f|t..",
         "|........|..............",
         "|..ccc...|.CT.CT........",
         "|........|$.......|.....",
@@ -114,10 +116,11 @@
         "________________________",
         "___________|............",
         "___________|............",
-        "___________-------------"
+        "__________!-------------"
       ],
       "terrain": {
         "$": "t_floor",
+        "!": "t_pavement",
         "&": "t_floor",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
@@ -133,10 +136,12 @@
         "s": "t_floor",
         "O": "t_floor",
         "F": "t_floor",
+        "f": "t_floor",
         "t": "t_floor",
         "|": "t_wall"
       },
       "furniture": {
+        "!": "f_street_light",
         "$": "f_vending_c",
         "&": "f_trashcan",
         "C": "f_chair",
@@ -146,6 +151,7 @@
         "r": "f_rack",
         "s": "f_sink",
         "O": "f_oven",
+        "f": "f_freezer",
         "F": "f_fridge",
         "t": "f_toilet"
       },
@@ -314,12 +320,12 @@
         { "item": "hardware_clothing", "x": [ 17, 18 ], "y": [ 12, 13 ], "chance": 80, "repeat": [ 1, 8 ] },
         { "item": "hardware_clothing", "x": [ 13, 14 ], "y": [ 16, 17 ], "chance": 80, "repeat": [ 1, 8 ] },
         { "item": "hardware_clothing", "x": [ 17, 18 ], "y": [ 16, 17 ], "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "paint", "x": [ 9, 22 ], "y": 1, "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "paint", "x": 9, "y": [ 2, 7 ], "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "paint", "x": [ 12, 13 ], "y": [ 3, 4 ], "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "paint", "x": [ 12, 13 ], "y": [ 6, 7 ], "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "paint", "x": [ 19, 20 ], "y": [ 3, 4 ], "chance": 80, "repeat": [ 1, 8 ] },
-        { "item": "paint", "x": [ 19, 20 ], "y": [ 6, 7 ], "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "home_improvement_housewares", "x": [ 9, 22 ], "y": 1, "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "home_improvement_housewares", "x": 9, "y": [ 2, 7 ], "chance": 80, "repeat": [ 1, 8 ] },
+        { "item": "paint", "x": [ 12, 13 ], "y": [ 3, 4 ], "chance": 80, "repeat": [ 2, 8 ] },
+        { "item": "paint", "x": [ 12, 13 ], "y": [ 6, 7 ], "chance": 80, "repeat": [ 2, 8 ] },
+        { "item": "paint", "x": [ 19, 20 ], "y": [ 3, 4 ], "chance": 80, "repeat": [ 2, 8 ] },
+        { "item": "paint", "x": [ 19, 20 ], "y": [ 6, 7 ], "chance": 80, "repeat": [ 2, 8 ] },
         { "item": "hardware_trash", "x": 7, "y": 1, "chance": 100, "repeat": [ 3, 8 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 } ]
@@ -469,6 +475,7 @@
         "t": "f_toilet",
         "x": "f_crate_c"
       },
+      "items": { "X": { "item": "trash_dumpster", "chance": 80 } },
       "place_items": [ { "item": "hardware_trash", "x": [ 0, 1 ], "y": [ 10, 11 ], "chance": 100, "repeat": [ 3, 8 ] } ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.5 } ]
     }

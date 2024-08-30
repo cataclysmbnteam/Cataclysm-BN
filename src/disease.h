@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_DISEASE_H
 #define CATA_SRC_DISEASE_H
 
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "optional.h"
+#include "catalua_type_operators.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -30,9 +31,11 @@ class disease_type
         /**Affected body parts*/
         std::set<body_part> affected_bodyparts;
         /**If not empty this sets the health threshold above which you're immune to the disease*/
-        cata::optional<int> health_threshold;
+        std::optional<int> health_threshold;
         /**effect applied by this disease*/
         efftype_id symptoms;
+
+        LUA_TYPE_OPS( disease_type, id );
 
 };
 #endif // CATA_SRC_DISEASE_H

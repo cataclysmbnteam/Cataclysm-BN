@@ -3,6 +3,7 @@
     "id": "MISSION_EXPLORE_SARCOPHAGUS",
     "type": "mission_definition",
     "name": { "str": "Follow Sarcophagus Team" },
+    "description": "Lead this person with you into a <color_pink>Hazardous Waste Sarcophagus</color>, then talk to them once you've <color_light_red>entered the lower level</color>.",
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 50000,
@@ -28,6 +29,7 @@
     "id": "MISSION_GET_INHALER",
     "type": "mission_definition",
     "name": { "str": "Find Inhaler" },
+    "description": "If you don't find an <color_light_blue>inhaler</color> for this person within the time limit, they will <color_red>most likely die</color>.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "u_has_item": "inhaler" },
     "difficulty": 2,
@@ -62,11 +64,12 @@
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
     "name": { "str": "Find Antibiotics" },
-    "goal": "MGOAL_FIND_ITEM",
+    "description": "If you don't find <color_light_blue>antibiotics</color> for this person within the time limit, they will <color_red>most likely die</color>.",
+    "goal": "MGOAL_FIND_ITEM_GROUP",
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
-    "item": "antibiotics",
+    "item_group": "drugs_antibiotics",
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "deadline_low": 24,
     "deadline_high": 48,
@@ -98,6 +101,7 @@
     "id": "MISSION_GET_BLACK_BOX",
     "type": "mission_definition",
     "name": { "str": "Retrieve Military Black Box" },
+    "description": "Obtain a <color_light_blue>black box</color> from a military helicoper, crashed or otherwise, and <color_light_red>extract it from the vehicle</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 100000,
@@ -120,6 +124,7 @@
     "id": "MISSION_GET_BLACK_BOX_TRANSCRIPT",
     "type": "mission_definition",
     "name": { "str": "Retrieve Black Box Transcript" },
+    "description": "Bring the black box with you into a <color_light_blue>science lab</color>, in order to find a working terminal that might allow you to <color_light_red>access the data on the black box</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
@@ -305,6 +310,7 @@
     "type": "mission_definition",
     "name": { "str": "Retrieve Software" },
     "goal": "MGOAL_FIND_ANY_ITEM",
+    "description": "Visit the location this person requested you to visit and <color_light_red>access the terminal their software is stored on</color>.  You'll need to bring an <color_light_blue>empty USB drive</color> with you.",
     "difficulty": 2,
     "value": 80000,
     "place": "near_town",
@@ -327,6 +333,7 @@
     "type": "mission_definition",
     "name": { "str": "Analyze Zombie Blood" },
     "goal": "MGOAL_FIND_ITEM",
+    "description": "Use a <color_light_blue>blood draw kit</color> to extract <color_red>tainted blood</color> from a zombie, then bring the blood sample to a <color_red>hospital</color> and locate a centrifuge to analyze the blood with.",
     "difficulty": 8,
     "value": 250000,
     "item": "software_blood_data",
@@ -545,6 +552,7 @@
     "id": "MISSION_REACH_FARM_HOUSE",
     "type": "mission_definition",
     "name": { "str": "Reach Farm House" },
+    "description": "Lead this person with you into a <color_brown>Farm</color>, then talk to them once you've <color_light_red>reached the farm house</color>.",
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
@@ -568,13 +576,17 @@
     "id": "MISSION_REACH_FEMA_CAMP",
     "type": "mission_definition",
     "name": { "str": "Reach FEMA Camp" },
+    "description": "Lead this person with you into a <color_blue>FEMA Camp</color>, then talk to them once you've <color_light_red>reached the main entrance</color>.",
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": { "effect": "follow_only" },
+    "start": {
+      "effect": "follow_only",
+      "assign_mission_target": { "om_terrain": "fema_entrance", "reveal_radius": 3, "search_range": 256 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_REACH_FARM_HOUSE",
-    "destination": "fema",
+    "destination": "fema_entrance",
     "dialogue": {
       "describe": "Maybe they escaped to one of the camps…",
       "offer": "I can't thank you enough for bringing me the patient records but I do have another request.  You seem to know your way around… could you take me to one of the FEMA camps?  I know some were overrun but I don't want to believe all of them could have fallen.",
@@ -586,6 +598,20 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "I bet some of them are still out there…"
     }
+  },
+  {
+    "id": "MISSION_HELICOPTER_REFUEL",
+    "type": "mission_definition",
+    "name": { "str": "Refuel your helicopter." },
+    "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "s_air_hangars",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 100 }
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
   },
   {
     "id": "MISSION_REACH_SAFETY",
@@ -600,7 +626,8 @@
   {
     "id": "MISSION_LAST_DELIVERY",
     "type": "mission_definition",
-    "name": { "str": "Reach The Mansion And Finish This Delivery" },
+    "name": { "str": "Finish The Delivery" },
+    "description": { "str": "Reach the mansion and finish this delivery." },
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "mansion_c3",
     "difficulty": 1,
@@ -681,7 +708,8 @@
   {
     "id": "MISSION_GET_CITY_COP_MOMENTO",
     "type": "mission_definition",
-    "name": { "str": "Break into armory to retrieve family photo" },
+    "name": { "str": "Retrieve Family Photo" },
+    "description": { "str": "Break into armory to retrieve family photo." },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 800,
@@ -741,20 +769,20 @@
     "id": "MISSION_PROVE_YOU_ARE_A_SURVIVOR",
     "type": "mission_definition",
     "name": { "str": "Prove You're A Survivor" },
-    "description": "Prove you're a survivor by surviving for 10 days after the Cataclysm, and then returning to the person who gave you this mission.",
+    "description": "Prove you're a survivor by surviving for 7 days after the Cataclysm, and then returning to the person who gave you this mission.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "days_since_cataclysm": 10 },
+    "goal_condition": { "days_since_cataclysm": 7 },
     "difficulty": 1,
     "value": 0,
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "end": { "effect": "follow" },
     "dialogue": {
       "describe": "It's hard to tell who actually has the skills to survive these days…",
-      "offer": "It's hard surviving out here on our own, and we'd probably have a better chance working together.  Problem is, I don't really know you and what you're capable of.  You might have what it takes, or you might not.  Either way, I'm going to need some proof.  Come back in a few days and I'll gladly follow you.  It's basically a win-win for me: either you come back and I'll know you've got what it takes, or you don't and I'll know that I was right not to follow you.",
+      "offer": "It's hard surviving out here on our own, and we'd probably have a better chance working together.  Problem is, I don't really know you and what you're capable of.  You might have what it takes, or you might not.  Either way, I'm going to need some proof.  Come back in a week and I'll gladly follow you.  It's basically a win-win for me: either you come back and I'll know you've got what it takes, or you don't and I'll know that I was right not to follow you.",
       "accepted": "I'll see you then…or I won't, and then I'll know I made the right decision.",
       "rejected": "Ya, it was a long shot I admit.",
       "advice": "Don't die.  If you're asking me for advice, that doesn't bode well for you.",
-      "inquire": "Well, you're not dead…yet.",
+      "inquire": "Don't think it's been a week, but at least you're not dead…yet.",
       "success": "I'll be honest, I wasn't really expecting to see you again.  A promise is a promise, I'll follow you now!",
       "success_lie": "I know time is relative and all that.",
       "failure": "I'm not quite sure how you failed to survive AND are talking to me."
@@ -763,7 +791,7 @@
   {
     "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
     "type": "mission_definition",
-    "name": { "str": "Gather cattail stalks to create cattail jelly" },
+    "name": { "str": "Gather Cattail Stalks" },
     "description": "Gather <color_light_blue>80 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag</color> as well.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
@@ -783,8 +811,8 @@
     },
     "end": {
       "effect": [
-        { "u_sell_item": "duffelbag" },
         { "u_sell_item": "cattail_stalk", "count": 80 },
+        { "u_sell_item": "duffelbag" },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
         { "u_buy_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
@@ -801,5 +829,35 @@
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."
     }
+  },
+  {
+    "id": "MISSION_ASSASSINATION",
+    "type": "mission_definition",
+    "name": { "str": "One Last Assassination" },
+    "description": "Your mission required you to eliminate a certain high-ranking individual in hiding.  Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 4,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_term",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 45,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
+          { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
+          { "monster": "mon_feral_soldier", "name": "The Collaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
+          { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0
   }
 ]

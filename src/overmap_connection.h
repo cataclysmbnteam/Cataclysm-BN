@@ -7,13 +7,23 @@
 #include <set>
 #include <string>
 
-#include "int_id.h"
 #include "omdata.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonIn;
 struct overmap_location;
+
+enum class overmap_connection_layout {
+    city,
+    p2p,
+    last
+};
+
+template<>
+struct enum_traits<overmap_connection_layout> {
+    static constexpr overmap_connection_layout last = overmap_connection_layout::last;
+};
 
 class overmap_connection
 {
@@ -26,11 +36,11 @@ class overmap_connection
                 enum class flag { orthogonal };
 
             public:
-                string_id<oter_type_t> terrain;
+                oter_type_str_id terrain;
 
                 int basic_cost = 0;
 
-                bool allows_terrain( const int_id<oter_t> &oter ) const;
+                bool allows_terrain( const oter_id &oter ) const;
                 bool allows_turns() const {
                     return terrain->is_linear();
                 }
@@ -43,21 +53,28 @@ class overmap_connection
                 void deserialize( JsonIn &jsin );
 
             private:
-                std::set<string_id<overmap_location>> locations;
+                std::set<overmap_location_id> locations;
                 std::set<flag> flags;
         };
 
     public:
-        const subtype *pick_subtype_for( const int_id<oter_t> &ground ) const;
-        bool has( const int_id<oter_t> &oter ) const;
+        const subtype *pick_subtype_for( const oter_id &ground ) const;
+        bool can_start_at( const oter_id &ground ) const;
+        bool has( const oter_id &oter ) const;
+
+        const overmap_connection_layout &get_layout() const {
+            return layout;
+        }
 
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
 
     public:
-        string_id<overmap_connection> id;
+        overmap_connection_id id;
         bool was_loaded = false;
+
+        oter_type_str_id default_terrain;
 
     private:
         struct cache {
@@ -68,6 +85,7 @@ class overmap_connection
             }
         };
 
+        overmap_connection_layout layout;
         std::list<subtype> subtypes;
         mutable std::vector<cache> cached_subtypes;
 };
@@ -80,8 +98,8 @@ void finalize();
 void check_consistency();
 void reset();
 
-string_id<overmap_connection> guess_for( const int_id<oter_type_t> &oter_id );
-string_id<overmap_connection> guess_for( const int_id<oter_t> &oter_id );
+overmap_connection_id guess_for( const oter_type_id &oter );
+overmap_connection_id guess_for( const oter_id &oter );
 
 } // namespace overmap_connections
 

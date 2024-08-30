@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <array>
 #include <cstddef>
@@ -5,10 +7,9 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "npc.h"
-
+#include "state_helpers.h"
 
 static const efftype_id effect_sleep( "sleep" );
 
@@ -27,6 +28,7 @@ static void update_body_for( Character &dude, time_duration time )
 
 TEST_CASE( "must_sleep_8_hours", "[fatigue]" )
 {
+    clear_all_state();
     standard_npc dude( "sleeper", tripoint_north_west );
     dude.set_fatigue( 0 );
     WHEN( "The character is active for 16 hours" ) {
@@ -52,6 +54,7 @@ TEST_CASE( "must_sleep_8_hours", "[fatigue]" )
 
 TEST_CASE( "sleep_deprivation_rate", "[fatigue]" )
 {
+    clear_all_state();
     standard_npc dude( "sleeper", tripoint_north_west );
     dude.set_fatigue( 0 );
     dude.set_sleep_deprivation( 0 );

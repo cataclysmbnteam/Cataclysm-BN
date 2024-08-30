@@ -19,7 +19,6 @@ class character_martial_arts
     private:
         std::vector<matype_id> ma_styles;
         matype_id style_selected = matype_id( "style_none" );
-        bool keep_hands_free = false;
     public:
         character_martial_arts();
         character_martial_arts( const std::vector<matype_id> &styles,
@@ -32,6 +31,7 @@ class character_martial_arts
         void reset_style();
         // checks that style selected is one that is known, otherwise resets it
         void selected_style_check();
+        bool keep_hands_free = false;
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style( const avatar &you );
 
@@ -85,6 +85,7 @@ class character_martial_arts
         bool is_force_unarmed() const;
 
         std::vector<matec_id> get_all_techniques( const item &weap ) const;
+        std::vector<matype_id> get_known_styles() const;
         std::vector<matype_id> get_unknown_styles( const character_martial_arts &from ) const;
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;

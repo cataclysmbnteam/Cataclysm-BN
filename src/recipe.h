@@ -5,12 +5,12 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
@@ -19,6 +19,8 @@ class JsonObject;
 class item;
 class time_duration;
 class Character;
+template<typename T>
+class detached_ptr;
 
 enum class recipe_filter_flags : int {
     none = 0,
@@ -48,6 +50,8 @@ class recipe
         const itype_id &result() const {
             return result_;
         }
+
+        std::vector<std::pair<recipe_id, mod_id>> src;
 
         bool obsolete = false;
 
@@ -110,7 +114,7 @@ class recipe
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
         std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
-        std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
+        std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
         // Format: skill_name(level/amount), skill_name(level/amount)
@@ -135,11 +139,11 @@ class recipe
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
-        item create_result() const;
-        std::vector<item> create_results( int batch = 1 ) const;
+        detached_ptr<item> create_result() const;
+        std::vector<detached_ptr<item>> create_results( int batch = 1 ) const;
 
         // Create byproduct instances as if the recipe was just finished
-        std::vector<item> create_byproducts( int batch = 1 ) const;
+        std::vector<detached_ptr<item>> create_byproducts( int batch = 1 ) const;
 
         bool has_byproducts() const;
 
@@ -175,6 +179,13 @@ class recipe
         void check_blueprint_requirements();
 
         bool hot_result() const;
+
+        bool dehydrate_result() const;
+
+        /** Returns the amount or charges recipe will produce. */
+        int makes_amount() const;
+        /** Returns number of charges of the item needed for single disassembly. */
+        int disassembly_batch_size() const;
 
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
@@ -212,7 +223,7 @@ class recipe
         std::set<std::string> flags;
 
         /** If set (zero or positive) set charges of output result for items counted by charges */
-        cata::optional<int> charges;
+        std::optional<int> charges;
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.

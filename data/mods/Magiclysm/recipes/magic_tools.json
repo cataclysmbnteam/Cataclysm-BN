@@ -76,7 +76,7 @@
     "time": "180 m",
     "book_learn": [ [ "cooking_poison", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "demon_chitin_piece", 16 ] ], [ [ "bone_glue", 10 ] ] ]
+    "components": [ [ [ "demon_chitin_piece", 16 ] ], [ [ "adhesive_proper", 10, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -100,6 +100,40 @@
       [ [ "pilot_light", 1 ] ],
       [ [ "pipe", 3 ] ],
       [ [ "crystallized_mana", 80 ] ]
+    ]
+  },
+  {
+    "result": "butchering_kit_plus_one",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "reversible": true,
+    "time": "30 s",
+    "autolearn": true,
+    "components": [
+      [ [ "knife_butcher_plus_one", 1 ] ],
+      [ [ "knife_carving_plus_one", 1 ] ],
+      [ [ "knife_meat_cleaver_plus_one", 1 ] ],
+      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
+    ]
+  },
+  {
+    "result": "butchering_kit_plus_two",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "reversible": true,
+    "time": "30 s",
+    "autolearn": true,
+    "components": [
+      [ [ "knife_butcher_plus_two", 1 ] ],
+      [ [ "knife_carving_plus_two", 1 ] ],
+      [ [ "knife_meat_cleaver_plus_two", 1 ] ],
+      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
     ]
   }
 ]

@@ -1,16 +1,20 @@
 Cataclysm is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 
+Documentation site (doc/*, excluding doc/src/content/docs/*) is licensed under the AGPL 3.0-only license, see doc/LICENSE for text of license.
+
+Scripts (scripts/*) are licensed under the AGPL 3.0-only license, see doc/LICENSE for text of license.
+
 GNU Unifont (data/font/unifont.ttf) is licensed under GNU General Public License v2+ with the GNU font embedding exception. Visit http://unifoundry.com/LICENSE.txt for details.
 
 Terminus Font (data/font/terminus.ttf) is licensed under the SIL Open Font License (see LICENSE-OFL-Terminus-Font.txt).
 
 CATCH unit-test framework (tests/catch/catch.hpp) is licensed under the Boost Software License. Visit https://github.com/philsquared/Catch/blob/master/LICENSE.txt to read the license.
 
-PLF List and PLF Colony (src/list.h, src/colony.h) are licensed under the zLib license (https://www.zlib.net/zlib_license.html).
-
 getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, see file for text of license.
 
+Lua (src/lua/*) is licensed under the MIT license, see src_lua/LICENSE.md for text of license.
 
+sol2 (src/sol/*) is licensed under the MIT license, see src/sol/sol.hpp for text of license.
 
 fmtlib (src/fmtlib_*) is licensed under the MIT license (https://github.com/fmtlib/fmt/blob/master/LICENSE.rst). The full license text is as follows:
 
@@ -51,13 +55,13 @@ libbacktrace is licensed under a BSD license (https://github.com/ianlancetaylor/
 # met:
 
 #     (1) Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer. 
+#     notice, this list of conditions and the following disclaimer.
 
 #     (2) Redistributions in binary form must reproduce the above copyright
 #     notice, this list of conditions and the following disclaimer in
 #     the documentation and/or other materials provided with the
-#     distribution.  
-    
+#     distribution.
+
 #     (3) The name of the author may not be used to
 #     endorse or promote products derived from this software without
 #     specific prior written permission.

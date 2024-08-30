@@ -44,6 +44,22 @@
     ]
   },
   {
+    "id": "supplies_household_cleaning",
+    "//": "General purpose cleaning solvents, detergents, and the like for around the kitchen, bathroom, and the like.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "soap", "prob": 25, "charges-min": 1 },
+      { "item": "detergent", "prob": 25, "charges-min": 1 },
+      { "item": "bleach", "prob": 15, "charges-min": 1 },
+      { "item": "ammonia", "prob": 15, "charges-min": 1 },
+      { "item": "vinegar", "prob": 5, "charges-min": 1 },
+      { "item": "lye", "prob": 5, "charges-min": 1 },
+      { "item": "lye_powder", "prob": 5, "charges-min": 1 },
+      { "item": "oxy_powder", "prob": 5, "charges-min": 1 }
+    ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -112,7 +128,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
       [ "duct_tape", 200 ],
-      [ "superglue", 100 ],
+      { "item": "superglue", "prob": 100, "charges": [ 5, 10 ] },
       [ "string_6", 100 ],
       [ "string_36", 100 ],
       [ "rope_6", 100 ],
@@ -122,9 +138,7 @@
       [ "pump_complex", 5 ],
       [ "well_pump", 5 ],
       [ "plastic_sheet", 20 ],
-      [ "recharge_station", 20 ],
-      [ "plunger_toilet", 75 ],
-      [ "plunger_futuristic", 25 ]
+      [ "recharge_station", 20 ]
     ]
   },
   {
@@ -144,9 +158,7 @@
       [ "jerrycan", 10 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 10 ],
-      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] },
-      { "item": "plunger_toilet", "prob": 90, "count": [ 1, 2 ] },
-      [ "plunger_futuristic", 50 ]
+      { "item": "scrap_copper", "prob": 15, "count": [ 1, 10 ] }
     ]
   },
   {
@@ -205,7 +217,7 @@
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       [ "solder_wire", 20 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "chain", 20 ],
       [ "rope_6", 4 ],
       [ "rope_30", 35 ],
@@ -244,12 +256,13 @@
       [ "chem_muriatic_acid", 35 ],
       [ "peephole", 25 ],
       { "item": "chem_chromium_oxide", "prob": 5, "charges-min": 100 },
-      { "item": "chem_zinc_powder", "prob": 5, "charges-min": 100 },
+      { "item": "zinc_metal", "prob": 5, "charges-min": 100 },
       [ "denat_alcohol", 5 ],
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
-      [ "rigid_plastic_sheet", 30 ]
+      [ "rigid_plastic_sheet", 30 ],
+      [ "trash_can_empty", 25 ]
     ]
   },
   {
@@ -282,7 +295,7 @@
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
       [ "chem_ammonium_nitrate", 10 ],
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
+      { "item": "zinc_metal", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       [ "chem_hydrogen_peroxide_conc", 10 ],
       [ "material_rocksalt", 2 ],
@@ -298,7 +311,8 @@
       [ "salt", 10 ],
       [ "sugar", 10 ],
       [ "chem_ethanol", 10 ],
-      [ "oxygen_cylinder", 8 ]
+      [ "oxygen_cylinder", 8 ],
+      { "item": "carbon_fiber_filament", "prob": 10, "count": [ 25, 50 ] }
     ]
   },
   {
@@ -351,7 +365,7 @@
       { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
       { "item": "copper", "prob": 10, "count": [ 1, 5 ] },
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 10 ] },
       { "item": "scrap_copper", "prob": 5, "count": [ 1, 10 ] },
       { "item": "wire", "prob": 5 },
       { "item": "scrap", "prob": 70, "count": [ 1, 10 ] }
@@ -385,6 +399,8 @@
       [ "wheel_bicycle_or", 5 ],
       [ "wheel_motorbike_or", 5 ],
       [ "wheel_slick", 5 ],
+      { "item": "seatbelt", "prob": 10, "count": [ 3, 10 ] },
+      { "item": "five-point_harness", "prob": 3, "count": [ 2, 4 ] },
       [ "1cyl_combustion", 10 ],
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
@@ -434,16 +450,41 @@
     ]
   },
   {
+    "id": "spares_drivebelts",
+    "type": "item_group",
+    "//": "belts used for the MISSION_GET_DRIVEBELTS quest",
+    "items": [ [ "drivebelt", 200 ], [ "drivebelt_makeshift", 100 ] ]
+  },
+  {
+    "id": "blankets",
+    "type": "item_group",
+    "//": "Blankets used for the MISSION_LUMBERMILL_GET_6_BLANKETS quest",
+    "items": [
+      [ "blanket", 100 ],
+      [ "fur_blanket", 100 ],
+      [ "electric_blanket", 100 ],
+      [ "down_blanket", 100 ],
+      [ "afs_quilt", 100 ],
+      [ "afs_quilt_patchwork", 100 ]
+    ]
+  },
+  {
     "id": "file_room",
     "type": "item_group",
-    "items": [ [ "file", 99 ], [ "file", 99 ], [ "record_accounting", 10 ], [ "paper", 80 ], [ "safe_box", 1 ] ]
+    "items": [
+      [ "file", 99 ],
+      [ "file", 99 ],
+      [ "record_accounting", 10 ],
+      { "item": "paper", "prob": 80, "charges": [ 40, 60 ] },
+      [ "safe_box", 1 ]
+    ]
   },
   {
     "id": "office_mess",
     "type": "item_group",
     "items": [
       [ "file", 99 ],
-      [ "paper", 60 ],
+      { "item": "paper", "prob": 60, "charges": [ 40, 60 ] },
       [ "laptop", 2 ],
       [ "inhaler", 1 ],
       [ "mbag", 2 ],
@@ -479,7 +520,7 @@
     "id": "office_supplies",
     "type": "item_group",
     "items": [
-      [ "paper", 100 ],
+      { "item": "paper", "prob": 100, "charges": [ 40, 60 ] },
       [ "permanent_marker", 35 ],
       [ "file", 15 ],
       [ "duct_tape", 15 ],
@@ -514,12 +555,23 @@
   {
     "id": "fuel_barrel",
     "type": "item_group",
-    "//": "barrel with gasoline, diesel or motor oil like you would find at fuel depot",
+    "//": "barrel with gasoline, diesel or Jp8 fuel like you would find at fuel depot",
     "subtype": "distribution",
     "entries": [
-      { "item": "gasoline", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 },
-      { "item": "diesel", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 10 },
-      { "item": "motor_oil", "charges": [ 0, 10000 ], "container-item": "jerrycan", "prob": 5 }
+      { "item": "gasoline", "charges": [ 0, 25000 ], "container-item": "30gal_drum", "prob": 20 },
+      { "item": "diesel", "charges": [ 0, 12000 ], "container-item": "30gal_drum", "prob": 10 },
+      { "item": "jp8", "charges": [ 0, 45000 ], "container-item": "30gal_drum", "prob": 20 }
+    ]
+  },
+  {
+    "id": "fuel_barrel_full",
+    "type": "item_group",
+    "//": "barrel with gasoline, diesel or Jp8 fuel like you would find at fuel depot",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gasoline", "container-item": "30gal_drum", "prob": 20 },
+      { "item": "diesel", "container-item": "30gal_drum", "prob": 10 },
+      { "item": "jp8", "container-item": "30gal_drum", "prob": 20 }
     ]
   },
   {
@@ -536,12 +588,32 @@
     "id": "civilian_helicopter_parts",
     "type": "item_group",
     "//": "Parts for civilian helicopter",
-    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 50 ] ]
+    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 40 ], [ "homebuilt_gyrocopter_rotor", 10 ] ]
   },
   {
     "id": "military_helicopter_parts",
     "type": "item_group",
     "//": "GParts for military helicopter",
     "items": [ [ "medium_turbine_engine", 30 ], [ "large_turbine_engine", 20 ], [ "heavy_duty_military_rotor", 50 ] ]
+  },
+  {
+    "id": "survivor_currency",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "FMCNote", "prob": 80, "count": [ 1, 8 ] }, { "item": "RobofacCoin", "prob": 20, "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "3d_printing_raw_materials",
+    "subtype": "collection",
+    "entries": [
+      { "item": "plastic_chunk", "count": [ 5, 10 ] },
+      { "item": "plastic_scrap", "prob": 50, "count": [ 10, 20 ] },
+      { "item": "carbon_fiber_filament", "prob": 50, "count": [ 50, 100 ] },
+      {
+        "distribution": [ { "item": "rigid_plastic_sheet", "prob": 50 }, { "item": "plastic_sheet", "prob": 50 } ],
+        "prob": 50
+      }
+    ]
   }
 ]

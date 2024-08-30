@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -11,7 +12,6 @@
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "character.h"
-#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -24,7 +24,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -33,6 +32,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 // Gates namespace
@@ -74,7 +74,7 @@ struct gate_data {
 
 gate_id get_gate_id( const tripoint &pos )
 {
-    return gate_id( g->m.ter( pos ).id().str() );
+    return gate_id( get_map().ter( pos ).id().str() );
 }
 
 generic_factory<gate_data> gates_data( "gate type" );
@@ -131,7 +131,7 @@ void gate_data::check() const
 
 bool gate_data::is_suitable_wall( const tripoint &pos ) const
 {
-    const auto wid = g->m.ter( pos );
+    const auto wid = get_map().ter( pos );
     const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
         return wall.id() == wid;
     } );
@@ -165,7 +165,7 @@ void gates::reset()
 //  !|   |!        !   |
 //
 
-void gates::open_gate( const tripoint &pos )
+void gates::toggle_gate( const tripoint &pos )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -179,14 +179,15 @@ void gates::open_gate( const tripoint &pos )
     bool close = false;
     bool fail = false;
 
-    for( const point &wall_offset : four_adjacent_offsets ) {
+    map &here = get_map();
+    for( point wall_offset : four_adjacent_offsets ) {
         const tripoint wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
-        for( const point &gate_offset : four_adjacent_offsets ) {
+        for( point gate_offset : four_adjacent_offsets ) {
             const tripoint gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {
@@ -195,7 +196,7 @@ void gates::open_gate( const tripoint &pos )
 
             if( !open ) { // Closing the gate...
                 tripoint cur_pos = gate_pos;
-                while( g->m.ter( cur_pos ) == gate.floor.id() ) {
+                while( here.ter( cur_pos ) == gate.floor.id() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
                     cur_pos += gate_offset;
@@ -205,10 +206,10 @@ void gates::open_gate( const tripoint &pos )
             if( !close ) { // Opening the gate...
                 tripoint cur_pos = gate_pos;
                 while( true ) {
-                    const ter_id ter = g->m.ter( cur_pos );
+                    const ter_id ter = here.ter( cur_pos );
 
                     if( ter == gate.door.id() ) {
-                        g->m.ter_set( cur_pos, gate.floor.id() );
+                        here.ter_set( cur_pos, gate.floor.id() );
                         open = !fail;
                     } else if( ter != gate.floor.id() ) {
                         break;
@@ -232,7 +233,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, player &p )
+void gates::toggle_gate( const tripoint &pos, player &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -244,10 +245,10 @@ void gates::open_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( player_activity( open_gate_activity_actor(
-                                            gate.moves,
-                                            pos
-                                        ) ) );
+    p.assign_activity( std::make_unique<player_activity>( std::make_unique<toggle_gate_activity_actor>(
+                           gate.moves,
+                           pos
+                       ) ) );
 }
 
 // Doors namespace
@@ -278,7 +279,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( who.is_avatar() && !veh->handle_potential_theft( *who.as_avatar() ) ) {
                 return;
             }
             Character *ch = who.as_character();
@@ -314,12 +315,12 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             const units::volume max_nudge = 25_liter;
 
             const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
-            [&max_nudge]( const item & it ) {
-                return it.volume() > max_nudge;
+            [&max_nudge]( const item * const & it ) {
+                return it->volume() > max_nudge;
             } );
             if( toobig != items_in_way.end() ) {
                 who.add_msg_if_player( m_info, _( "The %s is too big to just nudge out of the way." ),
-                                       toobig->tname() );
+                                       ( *toobig )->tname() );
             } else if( items_in_way.stored_volume() > max_nudge ) {
                 who.add_msg_if_player( m_info, _( "There is too much stuff in the way." ) );
             } else {
@@ -332,10 +333,10 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                 if( m.has_flag( "NOITEM", closep ) ) {
                     // Just plopping items back on their origin square will displace them to adjacent squares
                     // since the door is closed now.
-                    for( auto &elem : items_in_way ) {
-                        m.add_item_or_charges( closep, elem );
+
+                    for( auto &elem : m.i_clear( closep ) ) {
+                        m.add_item_or_charges( closep, std::move( elem ) );
                     }
-                    m.i_clear( closep );
                 }
             }
         } else {

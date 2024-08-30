@@ -6,9 +6,9 @@
 #include <map>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -16,9 +16,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
-#include "magic.h"
 #include "options.h"
-#include "player.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
@@ -26,7 +24,7 @@
 namespace
 {
 generic_factory<profession> all_profs( "profession" );
-const string_id<profession> generic_profession_id( "unemployed" );
+const profession_id generic_profession_id( "unemployed" );
 } // namespace
 
 static class json_item_substitution
@@ -58,7 +56,8 @@ static class json_item_substitution
         std::vector<std::pair<itype_id, trait_requirements>> bonuses;
     public:
         std::vector<itype_id> get_bonus_items( const std::vector<trait_id> &traits ) const;
-        std::vector<item> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
+        std::vector<detached_ptr<item>> get_substitution( const item &it,
+                                     const std::vector<trait_id> &traits ) const;
 } item_substitutions;
 
 /** @relates string_id */
@@ -248,9 +247,9 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 }
 
-const profession *profession::generic()
+const profession_id &profession::generic()
 {
-    return &generic_profession_id.obj();
+    return generic_profession_id;
 }
 
 const std::vector<profession> &profession::get_all()
@@ -342,7 +341,7 @@ bool profession::has_initialized()
     return generic_profession_id.is_valid();
 }
 
-const string_id<profession> &profession::ident() const
+const profession_id &profession::ident() const
 {
     return id;
 }
@@ -386,52 +385,62 @@ static void clear_faults( item &it )
     }
 }
 
-std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
+std::vector<detached_ptr<item>> profession::items( bool male,
+                             const std::vector<trait_id> &traits ) const
 {
-    std::list<item> result;
+    std::vector<detached_ptr<item>> result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
         for( const itypedec &elem : vec ) {
-            item it( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
+            detached_ptr<item> it = item::spawn( elem.type_id, advanced_spawn_time(), item::default_charges_tag {} );
             if( !elem.snip_id.is_null() ) {
-                it.set_snippet( elem.snip_id );
+                it->set_snippet( elem.snip_id );
             }
-            it = it.in_its_container();
-            result.push_back( it );
+            it = item::in_its_container( std::move( it ) );
+            result.push_back( std::move( it ) );
         }
     };
 
     add_legacy_items( legacy_starting_items );
     add_legacy_items( male ? legacy_starting_items_male : legacy_starting_items_female );
 
-    const std::vector<item> group_both = item_group::items_from( _starting_items,
-                                         advanced_spawn_time() );
-    const std::vector<item> group_gender = item_group::items_from( male ? _starting_items_male :
-                                           _starting_items_female, advanced_spawn_time() );
-    result.insert( result.begin(), group_both.begin(), group_both.end() );
-    result.insert( result.begin(), group_gender.begin(), group_gender.end() );
+    std::vector<detached_ptr<item>> group_both = item_group::items_from( _starting_items,
+                                 advanced_spawn_time() );
+    std::vector<detached_ptr<item>> group_gender = item_group::items_from(
+                                     male ? _starting_items_male :
+                                     _starting_items_female, advanced_spawn_time() );
+    result.insert( result.end(),
+                   std::make_move_iterator( group_both.begin() ),
+                   std::make_move_iterator( group_both.end() ) );
+    result.insert( result.end(),
+                   std::make_move_iterator( group_gender.begin() ),
+                   std::make_move_iterator( group_gender.end() ) );
 
     std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
     for( const itype_id &elem : bonus ) {
         if( elem != no_bonus ) {
-            result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+            result.push_back( item::spawn( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
-        const auto sub = item_substitutions.get_substitution( *iter, traits );
+        auto sub = item_substitutions.get_substitution( **iter, traits );
         if( !sub.empty() ) {
-            result.insert( result.begin(), sub.begin(), sub.end() );
             iter = result.erase( iter );
+            int offset = std::distance( result.begin(), iter );
+            result.insert( result.end(), std::make_move_iterator( sub.begin() ),
+                           std::make_move_iterator( sub.end() ) );
+            iter = result.begin();
+            std::advance( iter, offset );
         } else {
             ++iter;
         }
     }
-    for( item &it : result ) {
-        clear_faults( it );
-        if( it.is_holster() && it.contents.num_item_stacks() == 1 ) {
-            clear_faults( it.contents.front() );
+    for( detached_ptr<item> &it : result ) {
+        clear_faults( *it );
+        if( it->is_holster() && it->contents.num_item_stacks() == 1 ) {
+            clear_faults( it->contents.front() );
         }
-        if( it.has_flag( "VARSIZE" ) ) {
-            it.set_flag( "FIT" );
+        if( it->has_flag( flag_VARSIZE ) ) {
+            it->set_flag( flag_FIT );
         }
     }
 
@@ -442,12 +451,12 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
 
     // Merge charges for items that stack with each other
     for( auto outer = result.begin(); outer != result.end(); ++outer ) {
-        if( !outer->count_by_charges() ) {
+        if( !( *outer )->count_by_charges() ) {
             continue;
         }
         for( auto inner = std::next( outer ); inner != result.end(); ) {
-            if( outer->stacks_with( *inner ) ) {
-                outer->merge_charges( *inner );
+            if( ( *outer )->stacks_with( **inner ) ) {
+                ( *outer )->merge_charges( std::move( *inner ) );
                 inner = result.erase( inner );
             } else {
                 ++inner;
@@ -455,8 +464,9 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
 
-    result.sort( []( const item & first, const item & second ) {
-        return first.get_layer() < second.get_layer();
+    std::stable_sort( result.begin(), result.end(),
+    []( const detached_ptr<item> &first, const detached_ptr<item> &second ) {
+        return first->get_layer() < second->get_layer();
     } );
     return result;
 }
@@ -501,11 +511,6 @@ bool profession::has_flag( const std::string &flag ) const
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( const player &u, const int points ) const
-{
-    return point_cost() - u.prof->point_cost() <= points;
-}
-
 bool profession::is_locked_trait( const trait_id &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
@@ -520,17 +525,6 @@ bool profession::is_forbidden_trait( const trait_id &trait ) const
 std::map<spell_id, int> profession::spells() const
 {
     return _starting_spells;
-}
-
-void profession::learn_spells( avatar &you ) const
-{
-    for( const std::pair<spell_id, int> spell_pair : spells() ) {
-        you.magic->learn_spell( spell_pair.first, you, true );
-        spell &sp = you.magic->get_spell( spell_pair.first );
-        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
-        }
-    }
 }
 
 // item_substitution stuff:
@@ -609,7 +603,7 @@ void json_item_substitution::load( const JsonObject &jo )
             if( check_duplicate_item( old_it ) ) {
                 sub.throw_error( "Duplicate definition of item" );
             }
-            s.trait_reqs.present.push_back( trait_id( title ) );
+            s.trait_reqs.present.emplace_back( title );
             for( const JsonValue info : sub.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
@@ -664,15 +658,16 @@ bool json_item_substitution::trait_requirements::meets_condition( const std::vec
            std::none_of( absent.begin(), absent.end(), pred );
 }
 
-std::vector<item> json_item_substitution::get_substitution( const item &it,
-        const std::vector<trait_id> &traits ) const
+std::vector<detached_ptr<item>> json_item_substitution::get_substitution( const item &it,
+                             const std::vector<trait_id> &traits ) const
 {
     auto iter = substitutions.find( it.typeId() );
-    std::vector<item> ret;
+    std::vector<detached_ptr<item>> ret;
     if( iter == substitutions.end() ) {
         for( const item *con : it.contents.all_items_top() ) {
-            const auto sub = get_substitution( *con, traits );
-            ret.insert( ret.end(), sub.begin(), sub.end() );
+            auto sub = get_substitution( *con, traits );
+            ret.insert( ret.end(), std::make_move_iterator( sub.begin() ),
+                        std::make_move_iterator( sub.end() ) );
         }
         return ret;
     }
@@ -687,19 +682,20 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
 
     const int old_amt = it.count();
     for( const substitution::info &inf : sub->infos ) {
-        item result( inf.new_item, advanced_spawn_time() );
         const int new_amt = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
-
-        if( !result.count_by_charges() ) {
+        if( !inf.new_item->count_by_charges() ) {
             for( int i = 0; i < new_amt; i++ ) {
-                ret.push_back( result.in_its_container() );
+                ret.push_back( item::in_its_container( item::spawn( inf.new_item, advanced_spawn_time() ) ) );
             }
         } else {
-            result.mod_charges( -result.charges + new_amt );
-            while( result.charges > 0 ) {
-                const item pushed = result.in_its_container();
-                ret.push_back( pushed );
-                result.mod_charges( pushed.contents.empty() ? -pushed.charges : -pushed.contents.back().charges );
+            detached_ptr<item> result = item::spawn( inf.new_item, advanced_spawn_time() );
+            result->mod_charges( -result->charges + new_amt );
+            while( result->charges > 0 ) {
+                item &pushed = *result;
+                ret.push_back( item::in_its_container( std::move( result ) ) );
+                result = item::spawn( pushed );
+                result->mod_charges( pushed.contents.empty() ? -pushed.charges :
+                                     -pushed.contents.back().charges );
             }
         }
     }

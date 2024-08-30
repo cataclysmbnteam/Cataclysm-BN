@@ -93,7 +93,8 @@
         { "item": "drugs_emergency", "x": [ 1, 5 ], "y": [ 14, 16 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "drugs_pharmacy", "x": [ 1, 5 ], "y": [ 14, 16 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "drugs_soldier", "x": [ 1, 5 ], "y": [ 14, 16 ], "chance": 5, "repeat": [ 1, 3 ] },
-        { "item": "bionics_common", "x": [ 1, 5 ], "y": [ 14, 16 ], "chance": 5, "repeat": [ 1, 3 ] },
+        { "item": "bionics_common", "x": [ 1, 5 ], "y": [ 14, 16 ], "chance": 5, "repeat": [ 1, 2 ] },
+        { "item": "bionic_power_storage_civ", "x": [ 1, 5 ], "y": [ 14, 16 ], "chance": 5 },
         { "item": "dining", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "kitchen", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
         { "item": "oven", "x": [ 1, 5 ], "y": [ 18, 22 ], "chance": 5, "repeat": [ 1, 3 ] },
@@ -162,7 +163,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "|------------2rrrrrrrrr2",
+        "|------------2rrrrrrrrr'",
         "|A MM  7y....2yrrryrrry2",
         "|A  M  7y....2yrrryrrry2",
         "|A     |8....2yrrryrrry2",
@@ -194,6 +195,7 @@
         ".": "t_pavement",
         "1": "t_window",
         "2": "t_sidewalk",
+        "'": "t_sidewalk",
         "V": "t_sidewalk",
         "W": "t_sidewalk",
         "3": "t_tree_young",
@@ -209,6 +211,7 @@
         "|": "t_wall_w"
       },
       "furniture": {
+        "'": "f_street_light",
         "A": "f_rack",
         "B": "f_toilet",
         "C": "f_counter",

@@ -327,6 +327,45 @@
   },
   {
     "type": "recipe",
+    "result": "bot_haulerbot",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 7 ], [ "computer", 5 ] ],
+    "reversible": true,
+    "decomp_learn": 7,
+    "book_learn": [ [ "schematics_haulerbot", 6 ] ],
+    "difficulty": 7,
+    "time": "45 m",
+    "using": [ [ "soldering_standard", 15 ], [ "welding_standard", 5 ], [ "surface_heat", 10 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "motor_tiny", 8 ] ],
+      [ [ "motor_micro", 20 ] ],
+      [ [ "power_supply", 12 ] ],
+      [ [ "cable", 24 ] ],
+      [ [ "steel_chunk", 8 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "bot_copbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -346,9 +385,11 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
@@ -382,12 +423,15 @@
       [ [ "identification_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
-      [ [ "lens", 1 ] ]
+      [ [ "lens", 1 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "sheet_metal_small", 24 ], [ "sheet_metal", 1 ] ]
     ]
   },
   {
@@ -440,9 +484,11 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
@@ -476,6 +522,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
@@ -510,6 +557,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
@@ -545,6 +593,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -573,6 +622,7 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "spidery_legs_small", 1 ] ],
@@ -611,10 +661,45 @@
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
-      [ [ "medium_storage_battery", 3 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "floodlight", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bot_turret_riot",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
+    "difficulty": 8,
+    "time": "1 h",
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "m203", 6 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "power_supply", 3 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ]
     ]
   },
   {
@@ -623,34 +708,31 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
     "skill_used": "electronics",
-    "skills_required": [ [ "mechanics", 6 ], [ "computer", 6 ], [ "fabrication", 6 ] ],
+    "skills_required": [ [ "mechanics", 6 ], [ "computer", 5 ] ],
     "difficulty": 7,
-    "time": "6 h",
+    "time": "30 m",
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
-    "using": [ [ "steel_standard", 1 ], [ "welding_standard", 20 ], [ "soldering_standard", 14 ] ],
+    "using": [ [ "soldering_standard", 14 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "WRENCH", "level": 2 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "gun_module", 1 ] ],
-      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "omnicamera", 1 ], [ "sensor_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "ksub2000", 1 ] ],
-      [ [ "sheet_metal", 2 ] ],
-      [ [ "pipe", 4 ] ],
-      [ [ "spring", 2 ] ]
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -678,6 +760,7 @@
       [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "m16a4", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -708,6 +791,7 @@
       [ [ "ai_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "gun_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "m14ebr", 1 ] ],
@@ -716,6 +800,20 @@
       [ [ "power_supply", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "software_hacking",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "computer",
+    "skills_required": [ [ "computer", 8 ] ],
+    "difficulty": 8,
+    "time": "6 h",
+    "autolearn": true,
+    "contained": true,
+    "using": [ [ "coding_standard", 500 ] ],
+    "components": [ [ [ "usb_drive", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -733,11 +831,11 @@
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "superglue", 3 ] ],
       [ [ "cable", 5 ] ],
       [ [ "small_lcd_screen", 1 ] ],
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ]
+      [ [ "ai_module_basic", 1 ], [ "ai_module", 1 ], [ "ai_module_advanced", 1 ] ],
+      [ [ "omnicamera", 1 ], [ "sensor_module", 1 ], [ "camera", 1 ], [ "camera_pro", 1 ] ]
     ]
   }
 ]

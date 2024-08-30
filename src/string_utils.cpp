@@ -11,8 +11,9 @@
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    auto temp_locale = std::locale{};
+    if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
+        auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wneedle = utf8_to_wstr( qry );
         std::wstring whaystack = utf8_to_wstr( str );
 
@@ -115,7 +116,7 @@ std::vector<std::string> string_split( const std::string &text_in, char delim_in
     }
 
     if( text_in.back() == delim_in ) {
-        elems.push_back( "" );
+        elems.emplace_back( "" );
     }
 
     return elems;
@@ -225,30 +226,32 @@ std::string trim_punctuation_marks( const std::string &s )
 using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    auto temp_locale = std::locale();
+    if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
+        const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
         f.toupper( &wstr[0], &wstr[0] + wstr.size() );
         return wstr_to_utf8( wstr );
     }
     std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
+    std::transform( s.begin(), s.end(), std::back_inserter( res ), [&temp_locale]( char_t ch ) {
+        return std::use_facet<std::ctype<char_t>>( temp_locale ).toupper( ch );
     } );
     return res;
 }
 
 std::string to_lower_case( const std::string &s )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    auto temp_locale = std::locale();
+    if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
+        const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
         f.tolower( &wstr[0], &wstr[0] + wstr.size() );
         return wstr_to_utf8( wstr );
     }
     std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).tolower( ch );
+    std::transform( s.begin(), s.end(), std::back_inserter( res ), [&temp_locale]( char_t ch ) {
+        return std::use_facet<std::ctype<char_t>>( temp_locale ).tolower( ch );
     } );
     return res;
 }

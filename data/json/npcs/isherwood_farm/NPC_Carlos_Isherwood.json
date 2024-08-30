@@ -20,9 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_male_worn",
+    "carry_override": "NC_ISHERWOOD_carry",
+    "weapon_override": "EMPTY_GROUP",
     "skills": [
       {
         "skill": "ALL",
@@ -194,7 +194,7 @@
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_item": "leather_armor_horse", "count": 1 } ],
+      "effect": [ { "u_buy_item": "leather_armor_medium_quadruped", "count": 1 } ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }
   },
@@ -212,7 +212,7 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "chainmail_armor_horse", "count": 1 },
+        { "u_buy_item": "chainmail_armor_medium_quadruped", "count": 1 },
         { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     },

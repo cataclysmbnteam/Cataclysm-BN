@@ -14,6 +14,7 @@
 #include "translations.h"
 #include "units_angle.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 using vplacement_id = string_id<VehiclePlacement>;

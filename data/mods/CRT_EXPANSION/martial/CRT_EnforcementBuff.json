@@ -29,9 +29,9 @@
         "melee_allowed": true,
         "flat_bonuses": [
           { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
-          { "stat": "armor", "type": "bash", "scale": 1.0 },
-          { "stat": "armor", "type": "cut", "scale": 1.0 },
-          { "stat": "armor", "type": "stab", "scale": 1.0 },
+          { "stat": "armor", "type": "bash", "scale": 1 },
+          { "stat": "armor", "type": "cut", "scale": 1 },
+          { "stat": "armor", "type": "stab", "scale": 1 },
           { "stat": "hit", "scaling-stat": "str", "scale": 0.4 }
         ]
       }
@@ -58,27 +58,18 @@
       }
     ],
     "techniques": [ "tec_crt_enforcement_normal", "tec_crt_enforcement_rapid", "tec_crt_enforcement_brutal" ],
+    "weapon_category": [ "KNIVES", "TONFAS", "BATONS", "MORNINGSTARS", "MACES" ],
     "weapons": [
-      "knife_crt",
-      "crt_nstick",
       "crt_knuckledusters",
-      "baton-extended",
-      "cudgel",
+      "crt_hatchet",
+      "crt_etool",
       "sword_wood",
       "sword_nail",
       "2x4",
-      "pipe",
       "bat",
       "bwirebat",
       "nailbat",
-      "nailboard",
       "bat_metal",
-      "cane",
-      "mace",
-      "morningstar",
-      "tonfa",
-      "tonfa_wood",
-      "PR24-extended",
       "glass_macuahuitl"
     ]
   },
@@ -90,14 +81,11 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.0 },
-      { "stat": "damage", "type": "cut", "scale": 1.0 },
-      { "stat": "damage", "type": "stab", "scale": 1.0 }
+      { "stat": "damage", "type": "bash", "scale": 1 },
+      { "stat": "damage", "type": "cut", "scale": 1 },
+      { "stat": "damage", "type": "stab", "scale": 1 }
     ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
-      { "stat": "movecost", "scaling-stat": "str", "scale": -0.7 }
-    ],
+    "flat_bonuses": [ { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.15 } ],
     "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
     "down_dur": 1
   },
@@ -109,15 +97,12 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 1.04 },
-      { "stat": "damage", "type": "bash", "scale": 1.0 },
+      { "stat": "movecost", "scale": 0.9 },
+      { "stat": "damage", "type": "bash", "scale": 1 },
       { "stat": "damage", "type": "cut", "scale": 1.05 },
       { "stat": "damage", "type": "stab", "scale": 1.05 }
     ],
-    "flat_bonuses": [
-      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "movecost", "scaling-stat": "str", "scale": -1.2 }
-    ],
+    "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.2 } ],
     "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
   },
   {
@@ -131,12 +116,11 @@
       { "stat": "movecost", "scale": 1.35 },
       { "stat": "damage", "type": "bash", "scale": 1.15 },
       { "stat": "damage", "type": "cut", "scale": 1.05 },
-      { "stat": "damage", "type": "stab", "scale": 1.0 }
+      { "stat": "damage", "type": "stab", "scale": 1 }
     ],
     "flat_bonuses": [
       { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.25 },
-      { "stat": "movecost", "scaling-stat": "str", "scale": -1.5 }
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.25 }
     ],
     "crit_tec": true,
     "messages": [ "You steady your arm and release a crushing blow at %s", "<npcname> releases a crushing blow at %s" ],

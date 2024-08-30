@@ -5,6 +5,7 @@
 
 #include "cached_options.h"
 #include "color.h"
+#include "input.h"
 #include "output.h"
 #include "sdl_wrappers.h"
 #include "translations.h"
@@ -48,8 +49,8 @@ void loading_ui::init()
             menu->reposition( ui );
         } );
         menu->reposition( *ui );
-        ui->on_redraw( [this]( const ui_adaptor & ) {
-            menu->show();
+        ui->on_redraw( [this]( ui_adaptor & ui ) {
+            menu->show( ui );
         } );
     }
 }
@@ -79,8 +80,6 @@ void loading_ui::show()
     if( menu != nullptr ) {
         ui_manager::redraw();
         refresh_display();
-#if defined(TILES)
-        SDL_PumpEvents();
-#endif // TILES
+        inp_mngr.pump_events();
     }
 }

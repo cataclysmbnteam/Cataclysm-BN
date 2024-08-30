@@ -5,7 +5,7 @@
 #include <algorithm>
 
 pixel_minimap_ortho_projector::pixel_minimap_ortho_projector(
-    const point &total_tiles_count,
+    point total_tiles_count,
     const SDL_Rect &max_screen_rect,
     bool square_pixels )
 {
@@ -18,8 +18,8 @@ pixel_minimap_ortho_projector::pixel_minimap_ortho_projector(
 }
 
 SDL_Rect pixel_minimap_ortho_projector::get_chunk_rect(
-    const point &p,
-    const point &tiles_count ) const
+    point p,
+    point tiles_count ) const
 {
     return {
         p.x * tile_size.x,
@@ -34,7 +34,7 @@ point pixel_minimap_ortho_projector::get_tile_size() const
     return tile_size;
 }
 
-point pixel_minimap_ortho_projector::get_tiles_size( const point &tiles_count ) const
+point pixel_minimap_ortho_projector::get_tiles_size( point tiles_count ) const
 {
     return {
         tiles_count.x * tile_size.x,
@@ -42,14 +42,14 @@ point pixel_minimap_ortho_projector::get_tiles_size( const point &tiles_count ) 
     };
 }
 
-point pixel_minimap_ortho_projector::get_tile_pos( const point &p,
-        const point &/*tiles_count*/ ) const
+point pixel_minimap_ortho_projector::get_tile_pos( point p,
+        point /*tiles_count*/ ) const
 {
     return { p.x * tile_size.x, p.y * tile_size.y };
 }
 
 pixel_minimap_iso_projector::pixel_minimap_iso_projector(
-    const point &total_tiles_count,
+    point total_tiles_count,
     const SDL_Rect &max_screen_rect,
     bool square_pixels ) :
 
@@ -64,8 +64,8 @@ pixel_minimap_iso_projector::pixel_minimap_iso_projector(
 }
 
 SDL_Rect pixel_minimap_iso_projector::get_chunk_rect(
-    const point &p,
-    const point &tiles_count ) const
+    point p,
+    point tiles_count ) const
 {
     const point size = get_tiles_size( tiles_count );
     const point offset = point{ 0, tile_size.y *tiles_count.y / 2 };
@@ -79,7 +79,7 @@ point pixel_minimap_iso_projector::get_tile_size() const
     return tile_size;
 }
 
-point pixel_minimap_iso_projector::get_tiles_size( const point &tiles_count ) const
+point pixel_minimap_iso_projector::get_tiles_size( point tiles_count ) const
 {
     return {
         tile_size.x *( 2 * tiles_count.x - 1 ),
@@ -87,7 +87,7 @@ point pixel_minimap_iso_projector::get_tiles_size( const point &tiles_count ) co
     };
 }
 
-point pixel_minimap_iso_projector::get_tile_pos( const point &p, const point &tiles_count ) const
+point pixel_minimap_iso_projector::get_tile_pos( point p, point tiles_count ) const
 {
     return {
         tile_size.x *( p.x + p.y ),

@@ -1,5 +1,6 @@
-#include <unordered_set>
 #include "catch/catch.hpp"
+
+#include <unordered_set>
 
 #include "field_type.h"
 #include "flag.h"

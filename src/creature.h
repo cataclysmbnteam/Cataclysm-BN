@@ -19,6 +19,7 @@
 #include "units.h"
 #include "cached_options.h"
 #include "enums.h"
+#include "memory_fast.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -52,13 +53,133 @@ struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
-enum m_size : int {
-    MS_TINY = 1,    // Squirrel
-    MS_SMALL,      // Dog
-    MS_MEDIUM,    // Human
-    MS_LARGE,    // Cow
-    MS_HUGE     // TAAAANK
-};
+template<typename T> struct enum_traits;
+
+using I = std::underlying_type_t<creature_size>;
+constexpr I operator+( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) + static_cast<I>( rhs );
+}
+
+constexpr I operator+( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) + rhs;
+}
+
+constexpr I operator+( const I lhs, const creature_size rhs )
+{
+    return lhs + static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) - static_cast<I>( rhs );
+}
+
+constexpr I operator-( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) - rhs;
+}
+
+constexpr I operator-( const I lhs, const creature_size rhs )
+{
+    return lhs - static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) * static_cast<I>( rhs );
+}
+
+constexpr I operator*( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) * rhs;
+}
+
+constexpr I operator*( const I lhs, const creature_size rhs )
+{
+    return lhs * static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) / static_cast<I>( rhs );
+}
+
+constexpr I operator/( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) / rhs;
+}
+
+constexpr bool operator<=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) <= rhs;
+}
+
+constexpr bool operator<=( const I lhs, const creature_size rhs )
+{
+    return lhs <= static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) < static_cast<I>( rhs );
+}
+
+constexpr bool operator<( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) < rhs;
+}
+
+constexpr bool operator<( const I lhs, const creature_size rhs )
+{
+    return lhs < static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>=( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) >= rhs;
+}
+
+constexpr bool operator>=( const I lhs, const creature_size rhs )
+{
+    return lhs >= static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const creature_size rhs )
+{
+    return static_cast<I>( lhs ) > static_cast<I>( rhs );
+}
+
+constexpr bool operator>( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) > rhs;
+}
+
+constexpr bool operator>( const I lhs, const creature_size rhs )
+{
+    return lhs > static_cast<I>( rhs );
+}
+
+constexpr bool operator==( const creature_size lhs, const I rhs )
+{
+    return static_cast<I>( lhs ) == rhs;
+}
+
+constexpr bool operator==( const I lhs, const creature_size rhs )
+{
+    return lhs == static_cast<I>( rhs );
+}
 
 enum FacingDirection {
     FD_NONE = 0,
@@ -71,7 +192,7 @@ class Creature
     public:
         virtual ~Creature();
 
-        static const std::map<std::string, m_size> size_map;
+        static const std::map<std::string, creature_size> size_map;
 
         // Like disp_name, but without any "the"
         virtual std::string get_name() const = 0;
@@ -130,8 +251,6 @@ class Creature
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
 
-        /** Recreates the Creature from scratch. */
-        virtual void normalize();
         /** Processes effects and bonuses and allocates move points based on speed. */
         virtual void process_turn();
         /** Resets the value of all bonus fields to 0. */
@@ -145,24 +264,8 @@ class Creature
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die( Creature *killer ) = 0;
 
-        /** Should always be overwritten by the appropriate player/NPC/monster version. */
-        virtual float hit_roll() const = 0;
         virtual float dodge_roll() = 0;
         virtual float stability_roll() const = 0;
-
-        /**
-         * Simplified attitude towards any creature:
-         * hostile - hate, want to kill, etc.
-         * neutral - anything between.
-         * friendly - avoid harming it, maybe even help.
-         * any - any of the above, used in safemode_ui
-         */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
-        };
 
         /**
          * Simplified attitude string for unlocalized needs.
@@ -233,12 +336,17 @@ class Creature
         virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
                                 damage_instance &dam ) = 0;
 
+        // handles interaction of shields and ranged attacks. mutates &dam
+        virtual bool block_ranged_hit( Creature *source, bodypart_id &bp_hit,
+                                       damage_instance &dam ) = 0;
+
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
         virtual void absorb_hit( const bodypart_id &bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
+        /** Knocks the creature to a specified tile */
         virtual void knock_back_to( const tripoint &to ) = 0;
 
         int size_melee_penalty() const;
@@ -282,17 +390,20 @@ class Creature
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, float difficulty ) = 0;
+        virtual void on_dodge( Creature *source, int difficulty );
         /**
          * This creature just got hit by an attack - possibly special/ranged attack - from source.
+         * @param source Source creature, can be nullptr
+         * @param proj Source projectile, can be nullptr
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
-                             float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
+                             dealt_projectile_attack const *proj = nullptr ) = 0;
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const;
+        virtual void set_underwater( bool x );
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 
@@ -342,6 +453,8 @@ class Creature
 
         virtual void setpos( const tripoint &pos ) = 0;
 
+        bool is_loaded() const;
+
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
@@ -375,18 +488,19 @@ class Creature
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        bool has_effect_with_flag( const flag_id &flag, body_part bp = num_bp ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Returns pointers to all effects matching given type. */
         std::vector<const effect *> get_all_effects_of_type( const efftype_id &eff_id ) const;
+        std::vector<effect *> get_all_effects_of_type( const efftype_id &eff_id );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns true if the creature resists an effect */
-        bool resists_effect( const effect &e );
+        bool resists_effect( const effect &e ) const;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
@@ -440,23 +554,28 @@ class Creature
 
         virtual int get_armor_bash( bodypart_id bp ) const;
         virtual int get_armor_cut( bodypart_id bp ) const;
+        virtual int get_armor_bullet( bodypart_id bp ) const;
         virtual int get_armor_bash_base( bodypart_id bp ) const;
         virtual int get_armor_cut_base( bodypart_id bp ) const;
+        virtual int get_armor_bullet_base( bodypart_id bp ) const;
         virtual int get_armor_bash_bonus() const;
         virtual int get_armor_cut_bonus() const;
+        virtual int get_armor_bullet_bonus() const;
 
         virtual int get_armor_type( damage_type dt, bodypart_id bp ) const = 0;
 
         virtual float get_dodge() const;
+        /** Returns melee skill level, to be used to throttle dodge practice. **/
         virtual float get_melee() const = 0;
         virtual float get_hit() const;
 
         virtual int get_speed() const;
-        virtual m_size get_size() const = 0;
+        virtual creature_size get_size() const = 0;
         virtual int get_hp( const bodypart_id &bp ) const;
         virtual int get_hp() const;
         virtual int get_hp_max( const bodypart_id &bp ) const;
         virtual int get_hp_max() const;
+        /** Returns overall % of HP remaining */
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
@@ -471,6 +590,7 @@ class Creature
         virtual bool has_flag( const m_flag ) const {
             return false;
         }
+        /** Handles the uncanny dodge bionic and effects, returns true if the creature successfully dodges */
         virtual bool uncanny_dodge() {
             return false;
         }
@@ -491,29 +611,31 @@ class Creature
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
+        std::map<bodypart_str_id, bodypart> &get_body();
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
-        bodypart *get_part( const bodypart_id &id );
-        bodypart get_part( const bodypart_id &id ) const;
+        bodypart &get_part( const bodypart_id &id );
+        const bodypart &get_part( const bodypart_id &id ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
 
         int get_part_healed_total( const bodypart_id &id ) const;
 
-        void set_part_hp_cur( const bodypart_id &id, int set );
-        void set_part_hp_max( const bodypart_id &id, int set );
+        virtual void set_part_hp_cur( const bodypart_id &id, int set );
+        virtual void set_part_hp_max( const bodypart_id &id, int set );
         void set_part_healed_total( const bodypart_id &id, int set );
-        void mod_part_hp_cur( const bodypart_id &id, int mod );
-        void mod_part_hp_max( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_cur( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_max( const bodypart_id &id, int mod );
         void mod_part_healed_total( const bodypart_id &id, int mod );
 
 
-        void set_all_parts_hp_cur( int set );
+        virtual void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
+        virtual float get_speed_mult() const;
         virtual int get_block_bonus() const;
 
         virtual float get_dodge_base() const = 0;
@@ -533,12 +655,15 @@ class Creature
 
         virtual void set_armor_bash_bonus( int nbasharm );
         virtual void set_armor_cut_bonus( int ncutarm );
+        virtual void set_armor_bullet_bonus( int nbulletarm );
 
         virtual void set_speed_base( int nspeed );
         virtual void set_speed_bonus( int nspeed );
+        virtual void set_speed_mult( float nspeed );
         virtual void set_block_bonus( int nblock );
 
         virtual void mod_speed_bonus( int nspeed );
+        virtual void mod_speed_mult( float nspeed );
         virtual void mod_block_bonus( int nblock );
 
         virtual void set_dodge_bonus( float ndodge );
@@ -555,8 +680,7 @@ class Creature
         virtual std::set<tripoint> get_path_avoid() const = 0;
 
         int moves = 0;
-        bool underwater = false;
-        void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, point origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
          * Write information about this creature.
@@ -785,8 +909,8 @@ class Creature
         effects_map get_all_effects() const;
 
     protected:
-        Creature *killer = nullptr; // whoever killed us. this should be NULL unless we are dead
-        void set_killer( Creature *killer );
+        weak_ptr_fast<Creature> killer; // whoever killed us. this should be NULL unless we are dead
+        void set_killer( Creature *nkiller );
 
         /**
          * Processes one effect on the Creature.
@@ -807,18 +931,20 @@ class Creature
 
         int armor_bash_bonus = 0;
         int armor_cut_bonus = 0;
+        int armor_bullet_bonus = 0;
         int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus = 0;
+        float speed_mult = 0.f;
         float dodge_bonus = 0.0;
         int block_bonus = 0;
         float hit_bonus = 0.0;
 
         bool fake = false;
         Creature();
-        Creature( const Creature & ) = default;
+        Creature( const Creature & );
         Creature( Creature && ) = default;
-        Creature &operator=( const Creature & ) = default;
+        Creature &operator=( const Creature & ) = delete;
         Creature &operator=( Creature && ) = default;
 
     protected:
@@ -873,6 +999,7 @@ class Creature
 
     private:
         int pain = 0;
+        bool underwater = false;
 };
 
 #endif // CATA_SRC_CREATURE_H

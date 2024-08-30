@@ -16,6 +16,9 @@
 #include <locale>
 #include <map>
 #include <memory>
+#include <optional>
+#include <ostream>
+#include <regex>
 #include <set>
 #include <sstream>
 #include <sys/stat.h>
@@ -23,6 +26,7 @@
 #include <utility>
 #include <vector>
 
+#include "catalua.h"
 #include "cata_utility.h"
 #include "cached_options.h"
 #include "color.h"
@@ -34,12 +38,10 @@
 #include "input.h"
 #include "language.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
-#include "sdl_wrappers.h"
 #include "string_utils.h"
 #include "translations.h"
 #include "type_id.h"
@@ -60,18 +62,37 @@
 #   if defined(_WIN32)
 #       include <dbghelp.h>
 #       if defined(LIBBACKTRACE)
-#           include <backtrace.h>
+#           include <winnt.h>
 #       endif
+#   elif defined(__ANDROID__)
+#       include <unwind.h>
+#       include <dlfcn.h>
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
 #   endif
 #endif
 
+#if defined(LIBBACKTRACE)
+#   include <backtrace.h>
+#endif
+
+#if defined(TILES)
+#include "sdl_wrappers.h"
+#endif // TILES
+
 #if defined(__ANDROID__)
 // used by android_version() function for __system_property_get().
 #include <sys/system_properties.h>
 #endif
+
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
+#define BSD
+#endif
+
+// Hack for loading weird saves
+bool dont_debugmsg = false;
+
 
 // Static defines                                                   {{{1
 // ---------------------------------------------------------------------
@@ -91,6 +112,64 @@ static bool error_observed = false;
 static bool capturing = false;
 /** сaptured debug messages */
 static std::string captured;
+
+
+#if defined(_WIN32) && defined(LIBBACKTRACE)
+// Get the image base of a module from its PE header
+static uintptr_t get_image_base( const char *const path )
+{
+    HANDLE file = CreateFile( path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
+                              FILE_ATTRIBUTE_NORMAL, NULL );
+    if( file == INVALID_HANDLE_VALUE ) {
+        return 0;
+    }
+    on_out_of_scope close_file( [file]() {
+        CloseHandle( file );
+    } );
+
+    HANDLE mapping = CreateFileMapping( file, NULL, PAGE_READONLY, 0, 0, NULL );
+    if( mapping == NULL ) {
+        return 0;
+    }
+    on_out_of_scope close_mapping( [mapping]() {
+        CloseHandle( mapping );
+    } );
+
+    LONG nt_header_offset = 0;
+    {
+        LPVOID dos_header_view = MapViewOfFile( mapping, FILE_MAP_READ, 0, 0, sizeof( IMAGE_DOS_HEADER ) );
+        if( dos_header_view == NULL ) {
+            return 0;
+        }
+        on_out_of_scope close_dos_header_view( [dos_header_view]() {
+            UnmapViewOfFile( dos_header_view );
+        } );
+
+        PIMAGE_DOS_HEADER dos_header = reinterpret_cast<PIMAGE_DOS_HEADER>( dos_header_view );
+        if( dos_header->e_magic != IMAGE_DOS_SIGNATURE ) {
+            return 0;
+        }
+        nt_header_offset = dos_header->e_lfanew;
+    }
+
+    LPVOID pe_header_view = MapViewOfFile( mapping, FILE_MAP_READ, 0, 0,
+                                           nt_header_offset + sizeof( IMAGE_NT_HEADERS ) );
+    if( pe_header_view == NULL ) {
+        return 0;
+    }
+    on_out_of_scope close_pe_header_view( [pe_header_view]() {
+        UnmapViewOfFile( pe_header_view );
+    } );
+
+    PIMAGE_NT_HEADERS nt_header = reinterpret_cast<PIMAGE_NT_HEADERS>(
+                                      reinterpret_cast<uintptr_t>( pe_header_view ) + nt_header_offset );
+    if( nt_header->Signature != IMAGE_NT_SIGNATURE
+        || nt_header->FileHeader.SizeOfOptionalHeader != sizeof( IMAGE_OPTIONAL_HEADER ) ) {
+        return 0;
+    }
+    return nt_header->OptionalHeader.ImageBase;
+}
+#endif
 
 /**
  * Class for capturing debugmsg,
@@ -204,9 +283,10 @@ static void debug_error_prompt(
         );
 #endif
 
-    // temporarily disable redrawing and resizing of previous uis since they
-    // could be in an unknown state.
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
+    // Create a special debug message UI that does various things to ensure
+    // the graphics are correct when the debug message is displayed during a
+    // redraw callback.
+    ui_adaptor ui( ui_adaptor::debug_message_ui {} );
     const auto init_window = []( ui_adaptor & ui ) {
         ui.position_from_window( catacurses::stdscr );
     };
@@ -241,7 +321,7 @@ static void debug_error_prompt(
         catacurses::erase();
         fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
                         "%s", message );
-        catacurses::refresh();
+        wnoutrefresh( catacurses::stdscr );
     } );
 
 #if defined(__ANDROID__)
@@ -250,7 +330,7 @@ static void debug_error_prompt(
     ctxt.register_manual_key( 'I' );
     ctxt.register_manual_key( ' ' );
 #endif
-    for( bool stop = false; !stop; ) {
+    for( bool stop = false; !stop && !dont_debugmsg; ) {
         ui_manager::redraw();
         switch( inp_mngr.get_input_event().get_first_input() ) {
 #if defined(TILES)
@@ -299,7 +379,7 @@ struct time_info {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
-        static_assert( std::is_base_of<base, Stream>::value, "" );
+        static_assert( std::is_base_of_v<base, Stream>, "" );
 
         out << std::setfill( '0' );
         out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
@@ -478,6 +558,11 @@ static bool checkDebugLevelClass( DL lev, DC cl )
     }
 }
 
+void debug_reset_ignored_messages()
+{
+    ignored_messages.clear();
+}
+
 // Debug only                                                       {{{1
 // ---------------------------------------------------------------------
 
@@ -487,11 +572,12 @@ static bool checkDebugLevelClass( DL lev, DC cl )
 // Null OStream                                                     {{{2
 // ---------------------------------------------------------------------
 
-struct NullBuf : public std::streambuf {
-    NullBuf() = default;
-    int overflow( int c ) override {
-        return c;
-    }
+class NullStream : public std::ostream
+{
+    public:
+        NullStream() : std::ostream( nullptr ) {}
+        NullStream( const NullStream & ) = delete;
+        NullStream( NullStream && ) = delete;
 };
 
 // DebugFile OStream Wrapper                                        {{{2
@@ -599,7 +685,8 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                        filename.c_str(), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.\n";
-            DebugLog( DL::Info, DC::Main ) << "Cataclysm BN version " << getVersionString();
+            DebugLog( DL::Info, DC::Main ) << "Cataclysm BN version " << getVersionString() << " " <<
+                                           game_info::bitness_string();
             if( rename_failed ) {
                 DebugLog( DL::Info, DC::Main ) << "Moving the previous log file to "
                                                << oldfile << " failed.\n"
@@ -611,7 +698,7 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
         break;
         default:
             std::cerr << "Unexpected debug output mode " << static_cast<int>( output_mode )
-                      << std::endl;
+                      << '\n';
             return;
     }
 
@@ -668,6 +755,7 @@ std::string enum_to_string<DC>( DC x )
         case DC::MapMem: return "MAPMEM";
         case DC::NPC: return "NPC";
         case DC::SDL: return "SDL";
+        case DC::Lua: return "LUA";
         // *INDENT-ON*
         case DC::Num:
             break;
@@ -678,7 +766,7 @@ std::string enum_to_string<DC>( DC x )
 } // namespace io
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32) && !defined(__CYGWIN__)
+#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -729,7 +817,7 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
     return binary;
 }
 
-static cata::optional<uintptr_t> debug_compute_load_offset(
+static std::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {
@@ -756,7 +844,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         char buf[1024];
@@ -780,11 +868,11 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         pclose( nm );
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 #endif
 
-#if defined(_WIN32) && defined(LIBBACKTRACE)
+#if defined(LIBBACKTRACE)
 // wrap libbacktrace to use std::function instead of function pointers
 using bt_error_callback = std::function<void( const char *, int )>;
 using bt_full_callback = std::function<int( uintptr_t, const char *, int, const char * )>;
@@ -801,6 +889,28 @@ static backtrace_state *bt_create_state( const char *const filename, const int t
     const_cast<bt_error_callback *>( &cb ) );
 }
 
+
+#if !defined(_WIN32)
+static int bt_full( backtrace_state *const state, int skip, const bt_full_callback &cb_full,
+                    const bt_error_callback &cb_error )
+{
+    using cb_pair = std::pair<const bt_full_callback &, const bt_error_callback &>;
+    cb_pair cb { cb_full, cb_error };
+    return backtrace_full( state, skip,
+                           // backtrace callback
+                           []( void *const data, const uintptr_t pc, const char *const filename,
+    const int lineno, const char *const function ) -> int {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        return cb.first( pc, filename, lineno, function );
+    },
+    // error callback
+    []( void *const data, const char *const msg, const int errnum ) {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        cb.second( msg, errnum );
+    },
+    &cb );
+}
+#else
 static int bt_pcinfo( backtrace_state *const state, const uintptr_t pc,
                       const bt_full_callback &cb_full, const bt_error_callback &cb_error )
 {
@@ -841,6 +951,7 @@ static int bt_syminfo( backtrace_state *const state, const uintptr_t addr,
     &cb );
 }
 #endif
+#endif
 
 #if defined(_WIN32)
 class sym_init
@@ -869,15 +980,88 @@ static struct {
 } sym_storage;
 static SYMBOL_INFO &sym = reinterpret_cast<SYMBOL_INFO &>( sym_storage );
 #if defined(LIBBACKTRACE)
-static std::map<DWORD64, backtrace_state *> bt_states;
+struct backtrace_module_info_t {
+    backtrace_state *state = nullptr;
+    uintptr_t image_base = 0;
+};
+static std::map<DWORD64, backtrace_module_info_t> bt_module_info_map;
 #endif
-#else
+#elif !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
+#if !defined(_WIN32) && !defined(__ANDROID__) && !defined(LIBBACKTRACE)
+static void write_demangled_frame( std::ostream &out, const char *frame )
+{
+#if defined(__linux__)
+    // ./cataclysm(_ZN4game13handle_actionEv+0x47e8) [0xaaaae91e80fc]
+    static const std::regex symbol_regex( R"(^(.*)\((.*)\+(0x?[a-f0-9]*)\)\s\[(0x[a-f0-9]+)\]$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match file_name = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match address = match_result[4];
+        out << "\n    " << file_name.str() << "(" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << ") [" << address.str() << "]";
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(MACOSX)
+    //1   cataclysm-bn-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
+    static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match prefix = match_result[1];
+        std::csub_match address = match_result[2];
+        std::csub_match raw_symbol_name = match_result[3];
+        std::csub_match offset = match_result[4];
+        out << "\n    " << prefix.str() << address.str() << ' ' << demangle( raw_symbol_name.str().c_str() )
+            << " + " << offset.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#elif defined(BSD)
+    static const std::regex symbol_regex( R"(^(0x[a-f0-9]+)\s<(.*)\+(0?x?[a-f0-9]*)>\sat\s(.*)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match address = match_result[1];
+        std::csub_match raw_symbol_name = match_result[2];
+        std::csub_match offset = match_result[3];
+        std::csub_match file_name = match_result[4];
+        out << "\n    " << address.str() << " <" << demangle( raw_symbol_name.str().c_str() ) << "+" <<
+            offset.str() << "> at " << file_name.str();
+    } else {
+        out << "\n    " << frame;
+    }
+#else
+    out << "\n    " << frame;
+#endif
+}
+#endif // !defined(_WIN32) && !defined(__ANDROID__)
+
+
+#if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
 {
+#if defined(LIBBACKTRACE)
+    auto bt_full_print = [&out]( const uintptr_t pc, const char *const filename,
+    const int lineno, const char *const function ) -> int {
+        std::string file = filename ? filename : "[unknown src]";
+        size_t src = file.find( "/src/" );
+        if( src != std::string::npos )
+        {
+            file.erase( 0, src );
+            file = "…" + file;
+        }
+        out << "\n    0x" << std::hex << pc << std::dec
+            << "    " << file << ":" << lineno
+            << "    " << ( function ? demangle( function ) : "[unknown func]" );
+        return 0;
+    };
+#endif
+
 #if defined(_WIN32)
     if( !sym_init_ ) {
         sym_init_ = std::make_unique<sym_init>();
@@ -892,7 +1076,7 @@ void debug_write_backtrace( std::ostream &out )
         out << "\n  #" << i;
         out << "\n    (dbghelp: ";
         if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
-            out << sym.Name << "+0x" << std::hex << off << std::dec;
+            out << demangle( sym.Name ) << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
         const DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
@@ -914,33 +1098,37 @@ void debug_write_backtrace( std::ostream &out )
         }
         out << "), ";
 #if defined(LIBBACKTRACE)
-        backtrace_state *bt_state = nullptr;
+        backtrace_module_info_t bt_module_info;
         if( mod_base ) {
-            const auto it = bt_states.find( mod_base );
-            if( it != bt_states.end() ) {
-                bt_state = it->second;
+            const auto it = bt_module_info_map.find( mod_base );
+            if( it != bt_module_info_map.end() ) {
+                bt_module_info = it->second;
             } else {
                 const DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
                                       module_path_len );
                 if( mod_len > 0 && mod_len < module_path_len ) {
-                    bt_state = bt_create_state( mod_path, 0,
-                                                // error callback
+                    bt_module_info.state = bt_create_state( mod_path, 0,
+                                                            // error callback
                     [&out]( const char *const msg, const int errnum ) {
                         out << "\n    (backtrace_create_state failed: errno = " << errnum
                             << ", msg = " << ( msg ? msg : "[no msg]" ) << "),";
                     } );
+                    bt_module_info.image_base = get_image_base( mod_path );
+                    if( bt_module_info.image_base == 0 ) {
+                        out << "\n    (cannot locate image base),";
+                    }
                 } else {
                     out << "\n    (executable path exceeds " << module_path_len << " chars),";
                 }
-                if( bt_state ) {
-                    bt_states.emplace( mod_base, bt_state );
-                }
+                bt_module_info_map.emplace( mod_base, bt_module_info );
             }
         } else {
             out << "\n    (unable to get module base address),";
         }
-        if( bt_state ) {
-            bt_syminfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
+        if( bt_module_info.state && bt_module_info.image_base != 0 ) {
+            const uintptr_t de_aslr_pc = reinterpret_cast<uintptr_t>( bt[i] ) - mod_base +
+                                         bt_module_info.image_base;
+            bt_syminfo( bt_module_info.state, de_aslr_pc,
                         // syminfo callback
                         [&out]( const uintptr_t pc, const char *const symname,
             const uintptr_t symval, const uintptr_t ) {
@@ -955,18 +1143,8 @@ void debug_write_backtrace( std::ostream &out )
                     << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
-            bt_pcinfo( bt_state, reinterpret_cast<uintptr_t>( bt[i] ),
-                       // backtrace callback
-                       [&out]( const uintptr_t pc, const char *const filename,
-            const int lineno, const char *const function ) -> int {
-                out << "\n    (libbacktrace: 0x" << std::hex << pc << std::dec
-                    << "    " << ( filename ? filename : "[unknown src]" )
-                    << ":" << lineno
-                    << "    " << ( function ? function : "[unknown func]" )
-                    << "),";
-                return 0;
-            },
-            // error callback
+            bt_pcinfo( bt_module_info.state, de_aslr_pc, bt_full_print,
+                       // error callback
             [&out]( const char *const msg, const int errnum ) {
                 out << "\n    (backtrace_pcinfo failed: errno = " << errnum
                     << ", msg = " << ( msg ? msg : "[no msg]" )
@@ -977,14 +1155,25 @@ void debug_write_backtrace( std::ostream &out )
     }
     out << "\n";
 #else
-#   if defined(__CYGWIN__)
+#   if defined(LIBBACKTRACE)
+    auto bt_error = [&out]( const char *err_msg, int errnum ) {
+        out << "\n    libbacktrace error " << errnum << ": " << err_msg;
+    };
+    static backtrace_state *bt_state = bt_create_state( nullptr, 0, bt_error );
+    if( bt_state ) {
+        bt_full( bt_state, 0, bt_full_print, bt_error );
+        out << '\n';
+    } else {
+        out << "\n\n    Failed to initialize libbacktrace\n";
+    }
+#   elif defined(__CYGWIN__)
     // BACKTRACE is not supported under CYGWIN!
     ( void ) out;
 #   else
     int count = backtrace( bt, bt_cnt );
     char **funcNames = backtrace_symbols( bt, count );
     for( int i = 0; i < count; ++i ) {
-        out << "\n    " << funcNames[i];
+        write_demangled_frame( out, funcNames[i] );
     }
     out << "\n\n    Attempting to repeat stack trace using debug symbols…\n";
     // Try to print the backtrace again, but this time using addr2line
@@ -1044,7 +1233,7 @@ void debug_write_backtrace( std::ostream &out )
 
     for( int i = 0; i < count; ++i ) {
         // An example string from backtrace_symbols is
-        //   ./cataclysm-tiles(_Z21debug_write_backtraceRSo+0x3d) [0x55ddebfa313d]
+        //   ./cataclysm-bn-tiles(_Z21debug_write_backtraceRSo+0x3d) [0x55ddebfa313d]
         // From that we need to extract the binary name, the symbol
         // name, and the offset within the symbol.  We don't need to
         // extract the address (the last thing) because that's already
@@ -1081,7 +1270,7 @@ void debug_write_backtrace( std::ostream &out )
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 
-                cata::optional<uintptr_t> offset =
+                std::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
                                                bt[i], out );
                 if( offset ) {
@@ -1114,6 +1303,51 @@ void debug_write_backtrace( std::ostream &out )
 #endif
 }
 #endif
+#endif
+
+// Probably because there are too many nested #if..#else..#endif in this file
+// NDK compiler doesn't understand #if defined(__ANDROID__)..#else..#endif
+// So write as two separate #if blocks
+#if defined(__ANDROID__)
+
+// The following Android backtrace code was originally written by Eugene Shapovalov
+// on https://stackoverflow.com/questions/8115192/android-ndk-getting-the-backtrace
+struct android_backtrace_state {
+    void **current;
+    void **end;
+};
+
+static _Unwind_Reason_Code unwindCallback( struct _Unwind_Context *context, void *arg )
+{
+    android_backtrace_state *state = static_cast<android_backtrace_state *>( arg );
+    uintptr_t pc = _Unwind_GetIP( context );
+    if( pc ) {
+        if( state->current == state->end ) {
+            return _URC_END_OF_STACK;
+        } else {
+            *state->current++ = reinterpret_cast<void *>( pc );
+        }
+    }
+    return _URC_NO_REASON;
+}
+
+void debug_write_backtrace( std::ostream &out )
+{
+    const size_t max = 50;
+    void *buffer[max];
+    android_backtrace_state state = {buffer, buffer + max};
+    _Unwind_Backtrace( unwindCallback, &state );
+    const std::size_t count = state.current - buffer;
+    // Start from 1: skip debug_write_backtrace ourselves
+    for( size_t idx = 1; idx < count && idx < max; ++idx ) {
+        const void *addr = buffer[idx];
+        Dl_info info;
+        if( dladdr( addr, &info ) && info.dli_sname ) {
+            out << "#" << std::setw( 2 ) << idx << ": " << addr << " " << demangle( info.dli_sname ) << "\n";
+        }
+    }
+}
+#endif
 
 void output_repetitions( std::ostream &out )
 {
@@ -1122,21 +1356,21 @@ void output_repetitions( std::ostream &out )
         if( rep_folder.repeat_count > 1 ) {
             out << "[ Previous repeated " << ( rep_folder.repeat_count - 1 ) << " times ]";
         }
-        out << std::endl;
+        out << '\n';
         out << rep_folder.m_time << " ";
         // repetition folding is only done through realDebugmsg
         out << io::enum_to_string<DL>( DL::Error ) << " ";
         out << io::enum_to_string<DC>( DC::DebugMsg ) << " ";
         out << ": ";
         out << rep_folder.m_filename << ":" << rep_folder.m_line << " [" << rep_folder.m_funcname << "] " <<
-            rep_folder.m_text << std::endl;
+            rep_folder.m_text << '\n';
         rep_folder.reset();
     }
 }
 
 detail::DebugLogGuard::~DebugLogGuard()
 {
-    *s << std::endl;
+    *s << '\n';
 }
 
 detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
@@ -1183,16 +1417,17 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
             time_t after = time( nullptr );
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
-            out << "Backtrace emission took " << after - now << " seconds." << std::endl;
+            out << "Backtrace emission took " << after - now << " seconds." << '\n';
+            cata::debug_write_lua_backtrace( out );
+            out << "(continued from above) " << io::enum_to_string( lev ) << ": ";
         }
 #endif
 
         return DebugLogGuard( out );
     }
 
-    static NullBuf nullBuf;
-    static std::ostream nullStream( &nullBuf );
-    return DebugLogGuard( nullStream );
+    static NullStream null_stream;
+    return DebugLogGuard( null_stream );
 }
 
 std::string game_info::operating_system()
@@ -1219,7 +1454,7 @@ std::string game_info::operating_system()
     /* OSX */
     return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
-#elif defined(BSD) // defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+#elif defined(BSD)
     return "BSD";
 #else
     return "Unix";
@@ -1403,13 +1638,44 @@ static std::string windows_version()
                 output.append( std::to_string( minor_version ) );
             }
         }
-        if( success && major_version == 10 ) {
+        if( success ) {
             buffer_size = c_buffer_size;
-            success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+            success = RegQueryValueExA( handle_key, "CurrentBuildNumber", nullptr, &value_type, &byte_buffer[0],
                                         &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+
             if( success ) {
-                output.append( " " );
-                output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
+                output.append( "." );
+                output.append( std::string( reinterpret_cast<char *>( &byte_buffer[0] ) ) );
+            }
+            if( success ) {
+                buffer_size = c_buffer_size;
+                success = RegQueryValueExA( handle_key, "UBR", nullptr, &value_type, &byte_buffer[0],
+                                            &buffer_size ) == ERROR_SUCCESS && value_type == REG_DWORD;
+                if( success ) {
+                    output.append( "." );
+                    output.append( std::to_string( *reinterpret_cast<const DWORD *>( &byte_buffer[0] ) ) );
+                }
+            }
+
+            // Applies to both Windows 10 and Windows 11
+            if( major_version == 10 ) {
+                buffer_size = c_buffer_size;
+                // present in Windows 10 version >= 20H2 (aka 2009) and Windows 11
+                success = RegQueryValueExA( handle_key, "DisplayVersion", nullptr, &value_type, &byte_buffer[0],
+                                            &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+
+                if( !success ) {
+                    // only accurate in Windows 10 version <= 2009
+                    buffer_size = c_buffer_size;
+                    success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+                                                &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+                }
+
+                if( success ) {
+                    output.append( " (" );
+                    output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
+                    output.append( ")" );
+                }
             }
         }
 
@@ -1463,16 +1729,28 @@ std::string game_info::operating_system_version()
 #endif
 }
 
-std::string game_info::bitness()
+std::optional<int> game_info::bitness()
 {
     if( sizeof( void * ) == 8 ) {
-        return "64-bit";
+        return 64;
     }
 
     if( sizeof( void * ) == 4 ) {
-        return "32-bit";
+        return 32;
     }
 
+    return std::nullopt;
+}
+
+std::string game_info::bitness_string()
+{
+    auto b = bitness();
+    if( b && *b == 32 ) {
+        return "32-bit";
+    }
+    if( b && *b == 64 ) {
+        return "64-bit";
+    }
     return "Unknown";
 }
 
@@ -1506,7 +1784,7 @@ std::string game_info::mods_loaded()
     std::transform( mod_ids.begin(), mod_ids.end(),
     std::back_inserter( mod_names ), []( const mod_id mod ) -> std::string {
         // e.g. "Dark Days Ahead [dda]".
-        return string_format( "%s [%s]", mod->name(), mod->ident.str() );
+        return string_format( "%s [%s]", remove_color_tags( mod->name() ), mod->ident.str() );
     } );
 
     return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
@@ -1529,15 +1807,52 @@ std::string game_info::game_report()
         }
     }
 
+    // Note: We shorten 'Lua API' to 'LAPI' so that 'Lua' word does not show up
+    //       in every issue out there and pollute GitHub issue search results.
     report <<
            "- OS: " << operating_system() << "\n" <<
            "    - OS Version: " << os_version << "\n" <<
-           "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
+           "- Game Version: " << game_version() << " [" << bitness_string() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
+           "- LAPI Version: " << cata::get_lapi_version_string() << "\n" <<
            "- Game Language: " << lang_translated << " [" << lang << "]\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 
     return report.str();
 }
 
-// vim:tw=72:sw=4:fdm=marker:fdl=0:
+std::optional<int> get_os_bitness()
+{
+#if defined(_WIN32)
+    SYSTEM_INFO si;
+    GetNativeSystemInfo( &si );
+    switch( si.wProcessorArchitecture ) {
+        case PROCESSOR_ARCHITECTURE_AMD64:
+            return 64;
+
+        case PROCESSOR_ARCHITECTURE_INTEL:
+            return 32;
+
+        default:
+            // FIXME: other architectures?
+            break;
+    }
+#elif defined(__linux__) && !defined(__ANDROID__)
+    std::string output;
+    output = shell_exec( "getconf LONG_BIT" );
+
+    if( !output.empty() ) {
+        // remove trailing '\n', if any.
+        output.erase( std::remove( output.begin(), output.end(), '\n' ),
+                      output.end() );
+    }
+
+    if( output == "64" ) {
+        return 64;
+    } else if( output == "32" ) {
+        return 32;
+    }
+#endif
+    // FIXME: osx, android
+    return std::nullopt;
+}

@@ -1,18 +1,19 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "map.h"
-#include "map_helpers.h"
 #include "point.h"
+#include "state_helpers.h"
 
 TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
 {
-    clear_map();
+    clear_all_state();
     for( int z = -OVERMAP_DEPTH; z < OVERMAP_HEIGHT; ++z ) {
         for( int x = 0; x < MAPSIZE_X; ++x ) {
             for( int y = 0; y < MAPSIZE_Y; ++y ) {
@@ -22,7 +23,8 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
     }
     REQUIRE( g->m.get_submaps_with_active_items().empty() );
     // An arbitrary active item.
-    item active( "firecracker_act", calendar::start_of_cataclysm, item::default_charges_tag() );
+    item &active = *item::spawn_temporary( "firecracker_act", calendar::start_of_cataclysm,
+                                           item::default_charges_tag() );
     active.activate();
 
     // For each space in a wide area place the item and check if the cache has been updated.
@@ -36,8 +38,10 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
             REQUIRE( g->m.get_submaps_with_active_items().empty() );
             REQUIRE( g->m.get_submaps_with_active_items().find( abs_loc ) ==
                      g->m.get_submaps_with_active_items().end() );
-            item &item_ref = g->m.add_item( { x, y, z }, active );
-            REQUIRE( item_ref.active );
+            detached_ptr<item> n = item::spawn( active );
+            item &item_ref = *n;
+            g->m.add_item( { x, y, z }, std::move( n ) );
+            REQUIRE( item_ref.is_active() );
             REQUIRE_FALSE( g->m.get_submaps_with_active_items().empty() );
             REQUIRE( g->m.get_submaps_with_active_items().find( abs_loc ) !=
                      g->m.get_submaps_with_active_items().end() );

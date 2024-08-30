@@ -2,23 +2,18 @@
   {
     "id": "acr_300blk",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Remington ACR .300BLK" },
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.  This version is chambered for the .300 AAC Blackout round.",
     "weight": "3590 g",
     "volume": "2 L",
-    "price": 234300,
-    "price_postapoc": 5500,
-    "to_hit": -1,
-    "bashing": 12,
+    "price": "2343 USD",
+    "price_postapoc": "55 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
     "color": "dark_gray",
     "ammo": "300blk",
-    "ranged_damage": { "damage_type": "stab", "amount": -1 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 150,
-    "durability": 8,
     "min_cycle_recoil": 1700,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
@@ -39,7 +34,8 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
-          "survivor223mag"
+          "survivor223mag",
+          "carbonmag_223"
         ]
       ]
     ]
@@ -47,22 +43,17 @@
   {
     "id": "iwi_tavor_x95_300blk",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "IWI Tavor X95 .300BLK" },
     "description": "The IWI Tavor X95 (also called Micro-Tavor or MTAR) is an Israeli bullpup assault rifle designed and produced by Israel Weapon Industries.  This is the civilian version chambered for .300 AAC Blackout.",
     "weight": "3610 g",
     "volume": "1500 ml",
-    "price": 490000,
-    "price_postapoc": 4500,
-    "to_hit": -1,
-    "bashing": 12,
+    "price": "4900 USD",
+    "price_postapoc": "45 USD",
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
     "color": "light_gray",
     "ammo": "300blk",
     "dispersion": 140,
-    "durability": 8,
     "min_cycle_recoil": 1700,
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
@@ -95,6 +86,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
