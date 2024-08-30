@@ -1646,7 +1646,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF", "CLIMBABLE" ],
     "connects_to": "WALL",
     "bash": {
       "str_min": 50,
