@@ -434,11 +434,6 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
             std::abort();
         }
     }
-    if( itm.is_magazine() || itm.magazine_integral() ) {
-        if( !itm.ammo_type().is_empty() ) {
-
-        }
-    }
     // If it already has ammo, increment charges of ammo inside.
     if( itm.ammo_data() ) {
         int ammo_charge = clamp( itm.ammo_remaining() + rech.rate, 0, itm.ammo_capacity() );
