@@ -869,5 +869,30 @@
     "time": "45 m",
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapwest", 5 ], [ "textbook_armschina", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 5 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mod_air_pump",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level":  1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ]
+    ]
   }
 ]
