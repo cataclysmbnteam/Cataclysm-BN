@@ -69,6 +69,18 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "ig_vp_plastic",
+    "subtype": "collection",
+    "entries": [ { "item": "plastic_chunk", "count": [ 4, 6 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ig_vp_carbon",
+    "subtype": "collection",
+    "entries": [ { "item": "carbon_fiber_filament", "count": [ 20, 40 ] } ]
+  },
+  {
     "type": "vehicle_part",
     "id": "null",
     "name": { "str": "null part" },

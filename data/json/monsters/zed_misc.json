@@ -726,6 +726,8 @@
     "weight": "81500 g",
     "hp": 70,
     "speed": 105,
+    "//": "A basic zombie is 70 speed, not exactly enough to fully offset the speed difference but will make them fast at running but less so at attacking.",
+    "attack_cost": 135,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "brown_white",

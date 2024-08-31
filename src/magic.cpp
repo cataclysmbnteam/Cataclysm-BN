@@ -1383,6 +1383,10 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
                 } else {
                     return;
                 }
+            } else {
+                guy.set_mutation( sp->spell_class );
+                guy.on_mutation_gain( sp->spell_class );
+                guy.add_msg_if_player( sp->spell_class.obj().desc() );
             }
         }
     }

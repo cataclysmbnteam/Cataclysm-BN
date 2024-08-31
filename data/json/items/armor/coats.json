@@ -1274,7 +1274,7 @@
     "type": "ARMOR",
     "name": { "str": "tuxedo" },
     "description": "A full-body tuxedo.  Makes the apocalypse feel a little more classy.",
-    "weight": "1587 g",
+    "weight": "1500 g",
     "volume": "5500 ml",
     "price": "210 USD",
     "price_postapoc": "750 cent",

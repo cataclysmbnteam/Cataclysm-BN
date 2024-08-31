@@ -150,7 +150,7 @@ profiler may look like:
 ```sh
 mkdir -p build
 cmake \
-  -B build-fedora \
+  -B build \
   -G Ninja \
   -DCATA_CCACHE=ON \
   -DCMAKE_C_COMPILER=clang-17 \

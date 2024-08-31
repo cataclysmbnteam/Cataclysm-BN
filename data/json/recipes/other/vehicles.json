@@ -1505,5 +1505,42 @@
     "book_learn": [ [ "textbook_computer", 1 ], [ "advanced_electronics", 1 ], [ "reference_fabrication1", 1 ] ],
     "using": [ [ "3d_printing_standard", 10 ] ],
     "components": [ [ [ "carbon_fiber_filament", 100 ] ] ]
+  },
+  {
+    "result": "frame_plastic",
+    "type": "recipe",
+    "id_suffix": "printed",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "50 m",
+    "using": [ [ "3d_printing_standard", 50 ] ],
+    "components": [ [ [ "plastic_chunk", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "frame_plastic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "75 m",
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 75, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 50 ] ] ]
+  },
+  {
+    "result": "frame_carbon",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "autolearn": true,
+    "time": "30 m",
+    "using": [ [ "3d_printing_standard", 30 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 300 ] ] ]
   }
 ]

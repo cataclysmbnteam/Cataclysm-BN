@@ -8076,18 +8076,22 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
-    // We have an integral magazine if we're a gun with an ammo capacity (clip)
-    if( is_gun() && type->gun->clip > 0 ) {
-        return true;
-    }
     for( const item *m : is_gun() ? gunmods() : toolmods() ) {
         if( !m->type->mod->magazine_adaptor.empty() ) {
             return false;
         }
     }
+    if( is_gun() ) {
+        // We have an integral magazine if we're a gun with an ammo capacity (clip)
+        return type->gun->clip;
+    } else if( is_tool() ) {
+        // Or we are a tool with max_charges defined
+        return type->tool->max_charges;
+    }
 
-    // or we have no magazines and no battery.
-    return type->magazines.empty() && type->batteries.empty();
+
+    // Or we're a non-gun/tool item with no magazines.
+    return ( type->magazines.empty() );
 }
 
 itype_id item::magazine_default( bool conversion ) const
