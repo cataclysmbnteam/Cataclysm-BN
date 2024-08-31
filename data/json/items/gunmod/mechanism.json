@@ -144,7 +144,7 @@
     "id": "mod_air_pump",
     "type": "GUNMOD",
     "name": { "str": "powered air pump" },
-    "description": "A motor that attaches to a pneumatic weapon's hand pump, converting it into an electric compressor. It makes reloading significantly faster, at the cost of requiring UPS power to function.",
+    "description": "A motor that attaches to a pneumatic weapon's hand pump, converting it into an electric compressor.  It makes reloading significantly faster, at the cost of requiring UPS power to function.",
     "looks_like": "hand_pump",
     "weight": "700 g",
     "volume": "250 ml",
