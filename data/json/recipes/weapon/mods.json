@@ -881,11 +881,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level":  1 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SCREW", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
