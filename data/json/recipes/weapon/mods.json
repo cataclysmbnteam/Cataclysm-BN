@@ -869,5 +869,22 @@
     "time": "45 m",
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapwest", 5 ], [ "textbook_armschina", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 5 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "accelerator_gunmod",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "electronics",
+    "skills_required": [ [ "gun", 3 ] ],
+    "difficulty": 5,
+    "time": "20 m",
+    "book_learn": [
+      [ "manual_electronics", 5 ],
+      [ "advanced_electronics", 4 ],
+      [ "textbook_electronics", 5 ]
+    ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 50 ] ] ]
   }
 ]
