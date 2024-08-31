@@ -97,7 +97,7 @@
         ".##+|++||||         ##..",
         ".#zz|dd|yƏƏ         s#..",
         ".#||||||      r|x l H#..",
-        ".#B////+ ,,  !r|x l Ho..",
+        ".#B////+ ,,   r|x l Ho..",
         ".#BtS88##¶:#y r|x l Ho..",
         ".###oo##---##oo#y   s#..",
         "...%%%%-----jjj###oo##..",
@@ -113,7 +113,7 @@
         "h": "t_carpet_green",
         "&": "t_carpet_green"
       },
-      "furniture": { "!": "f_chair", "&": [ "f_indoor_plant", "f_indoor_plant_y" ] },
+      "furniture": { "&": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [ { "item": "laptop", "x": 14, "y": 18 }, { "item": "television", "x": 16, "y": 18 } ],
       "place_vehicles": [
         { "vehicle": "suv_electric", "x": 21, "y": 5, "chance": 15, "rotation": 90 },

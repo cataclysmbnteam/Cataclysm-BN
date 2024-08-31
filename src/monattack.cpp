@@ -4189,7 +4189,7 @@ bool mattack::command_buff( monster *z )
     bool will_aggro = enemy != nullptr && rl_dist_fast( enemy->pos(), z->pos() ) <= 10;
     for( monster &ally : g->all_monsters() ) {
         if( rl_dist_fast( ally.pos(), z->pos() ) <= 10 &&
-            ally.attitude_to( *z ) == Creature::Attitude::A_FRIENDLY ) {
+            ally.attitude_to( *z ) == Attitude::A_FRIENDLY ) {
             time_duration buff_dur = ally.get_effect_dur( effect_command_buff );
             time_duration half_max_dur = effect_command_buff->get_max_duration() / 2;
             if( buff_dur < half_max_dur ) {
@@ -4197,7 +4197,7 @@ bool mattack::command_buff( monster *z )
             }
 
             if( will_aggro && ally.move_target() != enemy->pos() &&
-                ally.attitude_to( *enemy ) == Creature::Attitude::A_HOSTILE ) {
+                ally.attitude_to( *enemy ) == Attitude::A_HOSTILE ) {
                 ally.set_dest( enemy->pos() );
                 aggroed++;
             }

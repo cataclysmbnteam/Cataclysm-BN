@@ -434,11 +434,18 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
             std::abort();
         }
     }
-    // If relic has a valid ammo type, make sure the first charge loaded isn't a "none"
-    bool was_zero = itm.charges == 0;
-    itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
-    if( was_zero && !itm.ammo_types().empty() ) {
-        itm.ammo_set( itm.ammo_default(), itm.charges );
+    // If it already has ammo, increment charges of ammo inside.
+    if( itm.ammo_data() ) {
+        int ammo_charge = clamp( itm.ammo_remaining() + rech.rate, 0, itm.ammo_capacity() );
+        itm.magazine_integral() ? itm.charges = ammo_charge : itm.contents.front().charges = ammo_charge;
+    } else {
+        // If not, either give it default ammo, or increment charges directly.
+        if( !itm.ammo_types().empty() ) {
+            itm.ammo_set( itm.ammo_default(), clamp( itm.ammo_remaining() + rech.rate, 0,
+                          itm.ammo_capacity() ) );
+        } else {
+            itm.charges = clamp( itm.charges + rech.rate, 0, itm.charges );
+        }
     }
     if( rech.message ) {
         carrier.add_msg_if_player( _( *rech.message ) );
@@ -448,14 +455,14 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
 
 void process_recharge( item &itm, Character &carrier )
 {
-    if( !itm.is_tool() ) {
-        return;
+    if( itm.is_tool() || itm.is_gun() || itm.is_magazine() ) {
+        if( itm.ammo_remaining() >= itm.ammo_capacity() ) {
+            return;
+        }
+        for( const relic_recharge &rech : itm.get_relic_recharge_scheme() ) {
+            process_recharge_entry( itm, rech, carrier );
+        }
     }
-    if( itm.ammo_remaining() >= itm.ammo_capacity() ) {
-        return;
-    }
-    for( const relic_recharge &rech : itm.get_relic_recharge_scheme() ) {
-        process_recharge_entry( itm, rech, carrier );
-    }
+    return;
 }
 } // namespace relic_funcs

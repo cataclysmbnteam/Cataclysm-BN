@@ -201,6 +201,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
 void mdefense::revenge_aggro( monster &m, Creature *source, const dealt_projectile_attack * )
 {
+    // @todo Have it use monattack instead of re-implementing it
     if( source == nullptr ) {
         return;
     }
@@ -208,11 +209,11 @@ void mdefense::revenge_aggro( monster &m, Creature *source, const dealt_projecti
     size_t aggroed = 0;
     for( monster &ally : g->all_monsters() ) {
         if( rl_dist_fast( ally.pos(), m.pos() ) <= 20 &&
-            ally.attitude_to( m ) == Creature::Attitude::A_FRIENDLY ) {
+            ally.attitude_to( m ) == Attitude::A_FRIENDLY ) {
             ally.anger = std::max( ally.anger, 100 );
             ally.morale = std::max( ally.morale, 100 );
             if( ally.move_target() != source->pos() &&
-                ally.attitude_to( *source ) == Creature::Attitude::A_HOSTILE ) {
+                ally.attitude_to( *source ) == Attitude::A_HOSTILE ) {
                 ally.set_dest( source->pos() );
                 aggroed++;
             }
