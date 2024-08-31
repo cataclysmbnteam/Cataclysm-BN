@@ -174,28 +174,29 @@ void itype::tick( player &p, item &it, const tripoint &pos ) const
     }
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos ) const
+std::pair<int, units::energy> itype::invoke( player &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     return invoke( p, it, pos, use_methods.begin()->first );
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
+std::pair<int, units::energy > itype::invoke( player &p, item &it, const tripoint &pos,
+        const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
                   iuse_name, nname( 1 ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     const auto ret = use->can_call( p, it, false, pos );
 
     if( !ret.success() ) {
         p.add_msg_if_player( m_info, ret.str() );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     // used for grenades and such, to increase kill count
     // invoke is called a first time with transform, when the explosive item is activated

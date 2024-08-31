@@ -840,7 +840,8 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        int use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        std::pair<int, units::energy> use( player &p, item &it, bool a,
+                                           const tripoint &pos ) const override {
             return ( *cpp_function )( &p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -1106,8 +1107,6 @@ void Item_factory::init()
     add_actor( std::make_unique<enzlave_actor>() );
     add_actor( std::make_unique<explosion_iuse>() );
     add_actor( std::make_unique<firestarter_actor>() );
-    add_actor( std::make_unique<fireweapon_off_actor>() );
-    add_actor( std::make_unique<fireweapon_on_actor>() );
     add_actor( std::make_unique<heal_actor>() );
     add_actor( std::make_unique<holster_actor>() );
     add_actor( std::make_unique<inscribe_actor>() );

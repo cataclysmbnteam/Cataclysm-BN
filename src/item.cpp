@@ -7741,7 +7741,7 @@ units::energy item::energy_required() const
     return 0_J;
 }
 
-bool item::energy_sufficient( units::energy p_needed ) const
+bool item::energy_sufficient( const Character &ch,  units::energy p_needed ) const
 {
     return energy_remaining() >= p_needed;
 }
@@ -8456,18 +8456,6 @@ int item::units_remaining( const Character &ch, int limit ) const
     }
 
     int res = ammo_remaining();
-    if( res < limit && is_power_armor() ) {
-        if( character_funcs::can_interface_armor( ch ) && has_flag( flag_USE_UPS ) ) {
-            res += std::max( ch.charges_of( itype_UPS, limit - res ), ch.charges_of( itype_bio_armor,
-                             limit - res ) );
-        } else if( character_funcs::can_interface_armor( ch ) ) {
-            res += ch.charges_of( itype_bio_armor, limit - res );
-        } else {
-            res += ch.charges_of( itype_UPS, limit - res );
-        }
-    } else if( res < limit && has_flag( flag_USE_UPS ) ) {
-        res += ch.charges_of( itype_UPS, limit - res );
-    }
 
     return std::min( static_cast<int>( res ), limit );
 }
@@ -10151,7 +10139,7 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
 
     avatar &you = get_avatar();
     if( activate ) {
-        if( self->type->invoke( carrier != nullptr ? *carrier : you, *self, pos ) > 0 ) {
+        if( self->type->invoke( carrier != nullptr ? *carrier : you, *self, pos ).first > 0 ) {
             return detached_ptr<item>();
         }
         return std::move( self );
@@ -10529,7 +10517,7 @@ bool item::on_drop( const tripoint &pos, map &m )
     }
     avatar &you = get_avatar();
     you.flag_encumbrance();
-    return type->drop_action && type->drop_action.call( you, *this, false, pos );
+    return type->drop_action && type->drop_action.call( you, *this, false, pos ).first;
 }
 
 time_duration item::age() const

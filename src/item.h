@@ -1844,7 +1844,7 @@ class item : public location_visitable<item>, public game_object<item>
         units::energy energy_required() const;
 
         /** Check that item has sufficient energy */
-        bool energy_sufficient( units::energy p_needed ) const;
+        bool energy_sufficient( const Character &ch, units::energy p_needed = 0_J ) const;
 
         /**
          * Consume power(if available) and return the amount of power that was consumed

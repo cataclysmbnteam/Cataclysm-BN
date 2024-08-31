@@ -248,12 +248,14 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( const units::volume & );
 
-using use_function_pointer = int ( * )( player *, item *, bool, const tripoint & );
+using use_function_pointer = std::pair<int, units::energy> ( * )( player *, item *, bool,
+                             const tripoint & );
 
 class iuse_actor
 {
     protected:
-        iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
+        iuse_actor( const std::string &type, int cost = -1, units::energy e_cost = -1_J ) :
+            type( type ), cost( cost ), e_cost( e_cost ) {}
 
     public:
         /**
@@ -264,10 +266,12 @@ class iuse_actor
 
         /** Units of ammo required per invocation (or use value from base item if negative) */
         int cost;
+        units::energy e_cost;
 
         virtual ~iuse_actor() = default;
         virtual void load( const JsonObject &jo ) = 0;
-        virtual int use( player &, item &, bool, const tripoint & ) const = 0;
+        virtual std::pair<int, units::energy> use( player &, item &, bool,
+                const tripoint & ) const = 0;
         virtual ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
@@ -305,7 +309,7 @@ struct use_function {
         use_function( const std::string &type, use_function_pointer f );
         use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
-        int call( player &, item &, bool, const tripoint & ) const;
+        std::pair<int, units::energy> call( player &, item &, bool, const tripoint & ) const;
         ret_val<bool> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {

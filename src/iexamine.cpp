@@ -2935,8 +2935,9 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                 p.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
-                    const int charges = actor->use( p, *it, false, examp );
-                    p.use_charges( it->typeId(), charges );
+                    const auto [chrg, enrg] = actor->use( p, *it, false, examp );
+                    it->energy_consume( enrg, examp );
+                    p.use_charges( it->typeId(), chrg );
                     return;
                 } else {
                     p.add_msg_if_player( m_bad, can_use.str() );

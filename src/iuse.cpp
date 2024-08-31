@@ -5642,7 +5642,7 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
 
 int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->units_sufficient( *p ) || !it->energy_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -9735,7 +9735,8 @@ ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t
     return actor->can_use( p, it, t, pos );
 }
 
-int use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
+std::pair<int, units::energy> use_function::call( player &p, item &it, bool active,
+        const tripoint &pos ) const
 {
     return actor->use( p, it, active, pos );
 }

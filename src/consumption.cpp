@@ -821,7 +821,7 @@ bool Character::eat( item &food, bool force )
     int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "PETFOOD" ) ) {
-            charges_used = food.type->invoke( *this->as_player(), food, pos() );
+            charges_used = food.type->invoke( *this->as_player(), food, pos() ).first;
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1631,7 +1631,7 @@ bool Character::consume_med( item &target )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( *this->as_player(), target, pos() );
+        amount_used = target.type->invoke( *this->as_player(), target, pos() ).first;
         if( amount_used <= 0 ) {
             return false;
         }

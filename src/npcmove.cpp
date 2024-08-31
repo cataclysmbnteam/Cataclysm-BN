@@ -3677,8 +3677,9 @@ void npc::heal_player( player &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
-        consume_charges( used, charges_used );
+        auto [chrg, enrg] = used.type->invoke( *this, used, patient.pos(), "heal" );
+        consume_charges( used, chrg );
+        used.energy_consume( enrg, patient.pos() );
     } else {
         pretend_heal( patient, used );
     }
@@ -3726,9 +3727,11 @@ void npc::heal_self()
     }
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( *this, used, pos(), "heal" );
+    auto[chrg, enrg] = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
-        consume_charges( used, charges_used );
+        consume_charges( used, chrg );
+    } else {
+        used.energy_consume( enrg, pos() );
     }
 }
 

@@ -573,8 +573,7 @@
     "warmth": 20,
     "material_thickness": 7,
     "environmental_protection": 3,
-    "max_charges": 500,
-    "ammo": "battery",
+    "max_power": "500 kJ",
     "relic_data": {
       "passive_effects": [
         {
@@ -628,8 +627,7 @@
     "storage": "7 L",
     "warmth": 10,
     "material_thickness": 8,
-    "max_charges": 500,
-    "ammo": "battery",
+    "max_power": "500 kJ",
     "relic_data": {
       "passive_effects": [
         {
@@ -696,8 +694,7 @@
     "storage": "15 L",
     "warmth": 10,
     "material_thickness": 8,
-    "max_charges": 500,
-    "ammo": "battery",
+    "max_charges": "500 kJ",
     "relic_data": {
       "passive_effects": [
         {

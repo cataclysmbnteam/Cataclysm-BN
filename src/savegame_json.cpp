@@ -2342,8 +2342,8 @@ void item::deserialize( JsonIn &jsin )
         convert( type->container->unseals_into );
     }
 
-    // Battery item migration. Items with battery type get their battery charge converted into power
-    if( is_battery() && contents.front().typeId() == itype_id( "battery" ) ) {
+    // Battery item migration. Items with the obsoleted battery charge ammo get their battery charge converted into power
+    if( contents.front().typeId() == itype_id( "battery" ) ) {
         item &bat = contents.front();
         mod_energy( units::from_kilojoule( bat.charges ) );
         remove_item( bat );

@@ -7756,14 +7756,15 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    int charges_used = actually_used->type->invoke( *this->as_player(), *actually_used, pt, method );
-    if( charges_used == 0 ) {
+    auto[chrg, enrg] = actually_used->type->invoke( *this->as_player(), *actually_used, pt, method );
+    if( chrg == 0 && enrg == 0_J ) {
         return false;
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
 
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
-        return consume_charges( *actually_used, charges_used );
+        used->energy_consume( enrg, pt ) == enrg;
+        return( consume_charges( *actually_used, chrg ) );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         used->detach();
         return true;
