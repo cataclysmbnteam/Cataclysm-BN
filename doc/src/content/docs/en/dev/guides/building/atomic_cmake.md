@@ -6,11 +6,7 @@ This article goes over building BN on distros that are immutable, and thus where
 
 # Example: Fedora Atomic-based (Bazzite)
 
-:::note
-
-This section is based off of the process taken to help another contributor build on Bazzite
-
-:::
+Note: This section is based off of the process taken to help another contributor build on Bazzite
 
 :::caution
 
