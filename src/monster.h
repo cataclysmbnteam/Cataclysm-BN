@@ -80,6 +80,7 @@ enum monster_effect_cache_fields {
     MOVEMENT_IMPAIRED = 0,
     FLEEING,
     VISION_IMPAIRED,
+    PATHFINDING_OVERRIDE,
     NUM_MEFF
 };
 

@@ -442,6 +442,14 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
     if( mon.has_flag( MF_CLIMBS ) ) {
         mon.path_settings.climb_cost = 3;
     }
+
+    pathfinding_settings buffed_settings = mon.path_settings;
+    buffed_settings.avoid_traps = true;
+    buffed_settings.avoid_sharp = true;
+    buffed_settings.allow_climb_stairs = true;
+    buffed_settings.max_length = std::max( 30, buffed_settings.max_length );
+    buffed_settings.max_dist = std::max( buffed_settings.max_length * 5, buffed_settings.max_dist );
+    mon.path_settings_buffed = buffed_settings;
 }
 
 void MonsterGenerator::init_phases()
@@ -634,6 +642,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "COMMAND_BUFF", mattack::command_buff );
 }
 
 void MonsterGenerator::init_defense()
@@ -646,6 +655,8 @@ void MonsterGenerator::init_defense()
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash;
     // Blind fire on unseen attacker
     defense_map["RETURN_FIRE"] = &mdefense::return_fire;
+    // Make allies aggro on target
+    defense_map["REVENGE_AGGRO"] = &mdefense::revenge_aggro;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )

@@ -73,6 +73,7 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bouldering( "bouldering" );
+static const efftype_id effect_command_buff( "command_buff" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_deaf( "deaf" );
@@ -2799,6 +2800,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[FLEEING] = true;
     } else if( id == effect_no_sight || id == effect_blind ) {
         effect_cache[VISION_IMPAIRED] = true;
+    } else if( id == effect_command_buff ) {
+        effect_cache[PATHFINDING_OVERRIDE] = true;
     }
 }
 
@@ -3317,7 +3320,10 @@ void monster::on_load()
 
 const pathfinding_settings &monster::get_pathfinding_settings() const
 {
-    return type->path_settings;
+    return !effect_cache[PATHFINDING_OVERRIDE] ?
+           type->path_settings
+           : type->path_settings_buffed;
+
 }
 
 std::set<tripoint> monster::get_path_avoid() const
