@@ -881,7 +881,7 @@
     "time": "20 m",
     "book_learn": [ [ "manual_electronics", 5 ], [ "advanced_electronics", 4 ], [ "textbook_electronics", 5 ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "tools": [ [ "electrolysis_kit", 750 ] ],
+    "tools": [ [ [ "electrolysis_kit", 750 ] ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "components": [
       [ [ "amplifier", 1 ] ],
