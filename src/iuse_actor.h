@@ -190,6 +190,7 @@ class explosion_iuse : public iuse_actor
         int emp_blast_radius = -1;
         /** Calls game::scrambler_blast if >= 0 */
         int scrambler_blast_radius = -1;
+        itype_id drop = itype_id::NULL_ID();
         /** Volume of sound each turn, -1 means no sound at all */
         int sound_volume = -1;
         std::string sound_msg;

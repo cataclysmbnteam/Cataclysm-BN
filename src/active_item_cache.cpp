@@ -101,7 +101,7 @@ std::vector<item *> active_item_cache::get_for_processing()
         std::advance( it, kv.second.first );
 
         kv.second.first += num_to_process + 1;
-        while( num_to_process >= 0 ) {
+        while( num_to_process > 0 ) {
             if( *it ) {
                 items_to_process.push_back( & **it );
                 --num_to_process;

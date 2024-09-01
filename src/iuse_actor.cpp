@@ -565,14 +565,13 @@ void explosion_iuse::load( const JsonObject &obj )
 
 int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
+    it.charges = 0;
     if( t ) {
         if( sound_volume >= 0 ) {
             sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
                            sound_msg.empty() ? _( "Tick." ) : _( sound_msg ), true, "misc", "bomb_ticking" );
         }
-        return 0;
-    }
-    if( it.charges > 0 ) {
+    } else if( it.charges > 0 ) {
         if( p.has_item( it ) ) {
             if( no_deactivate_msg.empty() ) {
                 p.add_msg_if_player( m_warning,
@@ -583,7 +582,10 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
         }
         return 0;
     }
-    trigger_explosion( pos, it.activated_by );
+    if( it.charges == 0 ) {
+        trigger_explosion( pos, it.activated_by );
+        it.detach();
+    }
     return 1;
 }
 

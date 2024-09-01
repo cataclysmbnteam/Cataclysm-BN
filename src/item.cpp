@@ -9901,12 +9901,11 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
             }
         }
 
-        // If no revert is defined, invoke the item (for use in grenades)
+        // If no revert is defined, destroy it (candles and the like).
         if( self->is_active() && self->revert( carrier ) ) {
             self->deactivate();
             return std::move( self );
         } else {
-            self->type->invoke( carrier != nullptr ? *carrier : you, *self, pos );
             return detached_ptr<item>();
         }
     }
