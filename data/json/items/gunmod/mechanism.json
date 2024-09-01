@@ -157,6 +157,6 @@
     "mod_target_category": [ [ "PNEUMATIC" ] ],
     "install_time": "5 m",
     "reload_modifier": -80,
-    "ups_charges_modifier": 60
+    "ups_charges_modifier": 40
   }
 ]
