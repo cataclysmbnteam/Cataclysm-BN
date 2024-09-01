@@ -27,6 +27,8 @@ Relic data object can contain the following fields:
 Relics can recharge under certain conditions. Recharge method is defined as follows (all fields
 optional):
 
+Only works for guns, tools and magazines. Won't work while an item is loaded into another item.
+
 ```json
 {
   "type": "time", // Defines what resource is consumed. Default: time

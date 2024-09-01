@@ -5,7 +5,7 @@
     "category": "drugs",
     "name": { "str": "first aid kit" },
     "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
-    "weight": "1750 g",
+    "weight": "2000 g",
     "volume": "1250 ml",
     "price": "30 USD",
     "price_postapoc": "30 USD",
@@ -1765,7 +1765,7 @@
       "disinfectant_power": 2,
       "bite": 0.5,
       "move_cost": 200,
-      "used_up_item": { "id": "rag", "quantity": 1 }
+      "used_up_item": { "id": "rag", "charges": 1 }
     }
   },
   {
@@ -1786,10 +1786,10 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",
-      "disinfectant_power": 3,
-      "bite": 0.66,
-      "move_cost": 300,
-      "used_up_item": { "id": "cotton_ball", "quantity": 2 }
+      "disinfectant_power": 1,
+      "bite": 0.5,
+      "move_cost": 200,
+      "used_up_item": { "id": "cotton_ball", "charges": 1 }
     }
   },
   {

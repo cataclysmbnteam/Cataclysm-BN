@@ -11,6 +11,7 @@
     "weight": "81500 g",
     "hp": 30,
     "speed": 60,
+    "attack_cost": 90,
     "material": [ "bone" ],
     "symbol": "Z",
     "color": "white",

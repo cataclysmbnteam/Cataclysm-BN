@@ -398,6 +398,7 @@ struct mtype {
         std::map<emit_id, time_duration> emit_fields;
 
         pathfinding_settings path_settings;
+        pathfinding_settings path_settings_buffed;
 
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;

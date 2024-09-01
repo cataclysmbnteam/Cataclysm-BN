@@ -1,18 +1,205 @@
 [
   {
     "type": "item_group",
+    "id": "NC_THUG_pants_male",
+    "subtype": "distribution",
+    "//": "Thugs use the exact same Mad Max getup as ranged bandits.",
+    "entries": [ { "group": "NC_BANDIT_pants_male", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_pants_female",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_pants_female", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_shirt_male",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_shirt_male", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_shirt_female",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_shirt_female", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_gloves",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_gloves", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_coat",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_coat", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_vest",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_vest", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_shoes_male",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_shoes_male", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_shoes_female",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_shoes_female", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_masks",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_masks", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_hat",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_hat", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_extra",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_extra", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_THUG_bashing",
     "subtype": "distribution",
     "entries": [
       { "item": "hammer_sledge", "prob": 10 },
-      { "item": "hammer_sledge_short", "prob": 10 },
-      { "item": "spear_rebar", "prob": 20 },
-      { "item": "bat", "prob": 20 },
-      { "item": "crowbar", "prob": 20 },
-      { "item": "q_staff", "prob": 20 },
-      { "item": "bwirebat", "prob": 20 },
-      { "item": "bat_metal", "prob": 20 },
+      { "item": "hammer_sledge_short", "prob": 5 },
+      { "item": "shovel_short", "prob": 5 },
+      { "item": "crowbar", "prob": 5 },
+      { "item": "bat", "prob": 10 },
+      { "item": "bat_metal", "prob": 5 },
+      { "item": "bwirebat", "prob": 5 },
+      { "item": "nailbat", "prob": 5 },
+      { "item": "pool_cue", "prob": 5 },
+      { "item": "pipe", "prob": 5 },
+      { "item": "makeshift_sap", "prob": 5 },
+      { "item": "q_staff", "prob": 5 },
+      { "item": "qstaff_extended", "prob": 5 },
+      { "item": "nailboard", "prob": 10 },
+      { "item": "club_spiked", "prob": 10 },
       { "item": "homewrecker", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_cutting",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "machete", "prob": 10 },
+      { "item": "machete_gimmick", "prob": 5 },
+      { "item": "kukri", "prob": 5 },
+      { "item": "ax", "prob": 10 },
+      { "item": "fire_ax", "prob": 10 },
+      { "item": "hatchet", "prob": 5 },
+      { "item": "crash_axe", "prob": 5 },
+      { "item": "sword_wood", "prob": 5 },
+      { "item": "sword_nail", "prob": 5 },
+      { "item": "sword_crude", "prob": 5 },
+      { "item": "razor_macuahuitl", "prob": 10 },
+      { "item": "makeshift_machete", "prob": 10 },
+      { "item": "makeshift_scythe_war", "prob": 5 },
+      { "item": "makeshift_halberd", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_stabbing",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "switchblade", "prob": 5 },
+      { "item": "knife_hunting", "prob": 5 },
+      { "item": "knife_rambo", "prob": 5 },
+      { "item": "knife_combat", "prob": 10 },
+      { "item": "knife_trench", "prob": 15 },
+      { "item": "iceaxe", "prob": 5 },
+      { "item": "grip_hook", "prob": 5 },
+      { "item": "makeshift_knife", "prob": 5 },
+      { "item": "bowling_axe", "prob": 5 },
+      { "item": "spear_pipe", "prob": 10 },
+      { "item": "spear_knife", "prob": 15 },
+      { "item": "spear_rebar", "prob": 5 },
+      { "item": "spear_homemade_halfpike", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_unarmed",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "knuckle_brass", "prob": 40 },
+      { "item": "punch_dagger", "prob": 40 },
+      { "item": "impact_knuckle", "prob": 10 },
+      { "item": "cestus", "prob": 10 },
+      { "item": "spiked_boxing", "prob": 10 },
+      { "item": "knuckle_nail", "prob": 10 },
+      { "item": "knuckle_steel", "prob": 10 },
+      { "item": "knuckle_katar", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_pistol",
+    "subtype": "distribution",
+    "//": "Melee bandits only sometimes get a weapon if they rolled higher ranged skills.",
+    "entries": [ { "group": "NC_BANDIT_pistol", "prob": 75 }, { "item": "null", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_shotgun",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_shotgun", "prob": 75 }, { "item": "null", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_rifle",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_rifle", "prob": 75 }, { "item": "null", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_smg",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_smg", "prob": 75 }, { "item": "null", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_launcher",
+    "subtype": "distribution",
+    "//": "Reduce odds even further if we're trying to give a melee bandit a big bada-boom.",
+    "entries": [ { "group": "NC_BANDIT_launcher", "prob": 50 }, { "item": "null", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_throw",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_throw", "prob": 75 }, { "item": "null", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_archery",
+    "subtype": "distribution",
+    "entries": [ { "group": "NC_BANDIT_archery", "prob": 75 }, { "item": "null", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_THUG_misc",
+    "subtype": "distribution",
+    "//": "As with armor, directly use same group that bandits use.",
+    "entries": [ { "group": "NC_BANDIT_misc", "prob": 100 } ]
   }
 ]

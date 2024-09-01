@@ -7,8 +7,8 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "10 m",
-    "autolearn": [ [ "tailor", 4 ] ],
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 1 ], [ "manual_tailor", 1 ], [ "tailor_portfolio", 1 ] ],
     "using": [ [ "sewing_standard", 3 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
   },
@@ -116,6 +116,7 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "felt_patch", 8 ] ] ]
@@ -128,7 +129,8 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "10 h",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "jewelry_book", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "gold_small", 300 ] ] ]
   },
@@ -179,7 +181,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "fur", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
@@ -192,7 +195,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "faux_fur", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
@@ -514,10 +518,10 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
-    "difficulty": 2,
-    "skills_required": [ "tailor", 3 ],
+    "difficulty": 3,
+    "skills_required": [ "tailor", 4 ],
     "time": "28 m",
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
     "autolearn": [ [ "fabrication", 4 ], [ "tailor", 5 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
@@ -844,7 +848,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "mag_animecon", 2 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "leather", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
@@ -1081,8 +1086,8 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "30 m",
-    "autolearn": [ [ "tailor", 7 ] ],
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
     "using": [ [ "sewing_standard", 80 ] ],
     "components": [ [ [ "felt_patch", 8 ] ] ]
   },
@@ -1316,6 +1321,7 @@
     "difficulty": 2,
     "time": "45 m",
     "reversible": true,
+    "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ], [ "textbook_tailor", 0 ] ],
     "components": [ [ [ "straw_pile", 7 ], [ "birchbark", 10 ] ] ]
   },
@@ -1461,7 +1467,8 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h",
-    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
     "tools": [ [ [ "soldering_standard", 5, "LIST" ], [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "neoprene", 2 ] ], [ [ "rag", 2 ] ] ]
@@ -1556,5 +1563,17 @@
     "book_learn": [ [ "textbook_computer", 1 ], [ "advanced_electronics", 1 ], [ "reference_fabrication1", 1 ] ],
     "using": [ [ "3d_printing_standard", 18 ] ],
     "components": [ [ [ "carbon_fiber_filament", 175 ] ] ]
+  },
+  {
+    "result": "bondage_mask",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 18 ] ],
+    "components": [ [ [ "leather", 16 ] ] ]
   }
 ]

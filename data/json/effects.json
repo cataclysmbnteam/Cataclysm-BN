@@ -2222,5 +2222,14 @@
     "max_intensity": 1000,
     "int_dur_factor": "1 s",
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "command_buff",
+    "name": [ "Empowered" ],
+    "//": "Zombie master buff",
+    "base_mods": { "hit_mod": [ 1 ], "dodge_mod": [ 2 ], "speed_mod": [ 20 ], "bash_mod": [ 4 ] },
+    "max_duration": "5 m",
+    "show_in_info": true
   }
 ]

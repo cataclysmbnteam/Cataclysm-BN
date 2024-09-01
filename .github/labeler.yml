@@ -4,7 +4,7 @@ src:
 tests:
   - tests/**/*
 
-data:
+JSON:
   - data/**/*
 
 mods:

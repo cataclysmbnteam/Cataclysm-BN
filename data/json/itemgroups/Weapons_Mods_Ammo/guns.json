@@ -896,8 +896,8 @@
     "//": "Imported or otherwise very obscure shotguns.",
     "items": [
       { "group": "nested_ksg-25", "prob": 15 },
-      { "group": "nested_saiga_12", "prob": 10 },
-      { "group": "nested_saiga_410", "prob": 20 },
+      { "group": "nested_saiga_12", "prob": 25 },
+      { "group": "nested_saiga_410", "prob": 10 },
       { "group": "nested_streetsweeper", "prob": 5 },
       { "group": "nested_USAS_12", "prob": 10 }
     ]
@@ -908,8 +908,8 @@
     "//": "Imported or otherwise very obscure shotguns. Actually has a decent chance of having mags instead of loose ammo.",
     "items": [
       { "group": "everyday_ksg-25", "prob": 15 },
-      { "group": "everyday_saiga_12", "prob": 10 },
-      { "group": "everyday_saiga_410", "prob": 20 },
+      { "group": "everyday_saiga_12", "prob": 25 },
+      { "group": "everyday_saiga_410", "prob": 10 },
       { "group": "everyday_streetsweeper", "prob": 5 },
       { "group": "everyday_USAS_12", "prob": 10 }
     ]
@@ -981,6 +981,7 @@
     "items": [
       { "item": "launcher_simple", "prob": 100 },
       { "item": "triple_launcher_simple", "prob": 15, "charges-min": 0, "charges-max": 3 },
+      { "item": "surv_rocket_launcher", "prob": 80 },
       { "item": "slingshot_cannon", "prob": 30 }
     ]
   },

@@ -2,8 +2,8 @@
   {
     "id": "LOOT_TOOLS",
     "type": "LOOT_ZONE",
-    "name": "Loot: Unsorted Tools",
-    "description": "Destination for unsorted tools."
+    "name": "Loot: Other Tools",
+    "description": "Destination for other tools."
   },
   {
     "id": "LOOT_ENTRY_TOOLS",

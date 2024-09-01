@@ -34,14 +34,18 @@
       { "monster": "mon_zombie_swimmer", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_static", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
-      { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 1440 },
+      { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 720 },
       { "monster": "mon_beekeeper", "freq": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
       { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_feral_human_pipe", "freq": 4, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "freq": 4, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "freq": 2, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_brainless", "freq": 65, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_brainless", "freq": 65, "cost_multiplier": 1 },
+      { "monster": "mon_feral_survivalist", "starts": 250, "freq": 4, "cost_multiplier": 2 },
+      { "monster": "mon_feral_prepper", "starts": 500, "freq": 4, "cost_multiplier": 2 },
+      { "monster": "mon_feral_militia", "starts": 500, "freq": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_jackboot", "starts": 500, "freq": 2, "cost_multiplier": 5 }
     ]
   },
   {
@@ -270,7 +274,12 @@
       { "monster": "mon_zombie_runner", "freq": 150, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fat", "freq": 200, "cost_multiplier": 3 },
       { "monster": "mon_zombie_child", "freq": 200, "cost_multiplier": 3, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_survivor", "freq": 200, "cost_multiplier": 2, "starts": 800 }
+      { "monster": "mon_zombie_survivor", "freq": 200, "cost_multiplier": 2, "starts": 120 },
+      { "monster": "mon_zombie_survivor_elite", "freq": 25, "cost_multiplier": 2, "starts": 720 },
+      { "monster": "mon_feral_survivalist", "starts": 250, "freq": 4, "cost_multiplier": 2 },
+      { "monster": "mon_feral_prepper", "starts": 500, "freq": 4, "cost_multiplier": 2 },
+      { "monster": "mon_feral_militia", "starts": 500, "freq": 1, "cost_multiplier": 2 },
+      { "monster": "mon_feral_jackboot", "starts": 500, "freq": 2, "cost_multiplier": 5 }
     ]
   }
 ]

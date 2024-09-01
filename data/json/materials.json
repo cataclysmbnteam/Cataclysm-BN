@@ -1865,7 +1865,7 @@
     "acid_resist": 5,
     "fire_resist": 3,
     "elec_resist": 2,
-    "chip_resist": 20,
+    "chip_resist": 14,
     "repaired_with": "carbon_fiber_filament",
     "salvaged_into": "carbon_fiber_filament",
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],

@@ -311,9 +311,9 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "charges": 2,
+    "charges": 4,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "rag", 2 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "disinfectant", 1 ], [ "chem_hydrogen_peroxide", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -324,8 +324,8 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "charges": 4,
+    "charges": 8,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "cotton_ball", 8 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "cotton_ball", 8 ] ], [ [ "disinfectant", 1 ], [ "chem_hydrogen_peroxide", 1 ] ] ]
   }
 ]
