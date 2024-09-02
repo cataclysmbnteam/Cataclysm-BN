@@ -197,11 +197,7 @@
     "to_hit": -6,
     "flags": [ "TRADER_AVOID" ],
     "bashing": 18,
-    "explosion": {
-      "damage": 50,
-      "radius": 3,
-      "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
-    },
+    "explosion": { "damage": 70, "radius": 5 },
     "explode_in_fire": true
   },
   {
