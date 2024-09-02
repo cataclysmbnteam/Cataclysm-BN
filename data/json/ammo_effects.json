@@ -140,17 +140,17 @@
   {
     "id": "FRAG_BIG",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 7 } }
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2 }, "range": 7 } }
   },
   {
     "id": "FRAG",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 2 }, "range": 5 } }
   },
   {
     "id": "FRAG_SMALL",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 30, "armor_multiplier": 3 }, "range": 3 } }
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 30, "armor_multiplier": 2.5 }, "range": 3 } }
   },
   {
     "id": "MININUKE_MOD",
