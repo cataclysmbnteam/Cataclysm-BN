@@ -208,7 +208,7 @@ void mdefense::revenge_aggro( monster &m, Creature *source, const dealt_projecti
 
     size_t aggroed = 0;
     for( monster &ally : g->all_monsters() ) {
-        if( rl_dist_fast( ally.pos(), m.pos() ) <= 20 &&
+        if( rl_dist_fast( ally.pos(), m.pos() ) <= 40 &&
             ally.attitude_to( m ) == Attitude::A_FRIENDLY ) {
             ally.anger = std::max( ally.anger, 100 );
             ally.morale = std::max( ally.morale, 100 );
