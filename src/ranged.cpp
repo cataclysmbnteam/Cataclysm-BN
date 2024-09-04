@@ -1851,21 +1851,20 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
+    if( has_flag( flag_SOUND_LAUNCHER ) ) {
         // Grenade launchers
-        return { 8, _( "Thunk!" ) };
+        return { noise, _( "Thunk! Boom!" ) };
 
-    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
+    } else if( has_flag( flag_SOUND_RAILGUN ) ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
-               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
+    } else if( has_flag( flag_SOUND_FLAMETHROWER ) ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == itype_arrow ) {
+    } else if( has_flag( flag_SOUND_BOW ) ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == itype_bolt ) {
+    } else if( has_flag( flag_SOUND_CROSSBOW ) ) {
         return { noise, _( "thonk!" ) };
     }
 

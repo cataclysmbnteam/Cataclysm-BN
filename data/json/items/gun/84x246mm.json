@@ -9,7 +9,7 @@
     "price": "13 kUSD",
     "price_postapoc": "60 USD",
     "material": "steel",
-    "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS", "PYROMANIAC_WEAPON" ],
+    "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS", "PYROMANIAC_WEAPON", "SOUND_FLAMETHROWER" ],
     "ammo": "84x246mm",
     "weight": "6900 g",
     "volume": "4500 ml",

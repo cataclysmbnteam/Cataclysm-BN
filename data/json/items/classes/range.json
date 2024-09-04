@@ -18,7 +18,7 @@
     "reload_noise_volume": 3,
     "color": "yellow",
     "ammo": "arrow",
-    "extend": { "flags": [ "FIRE_TWOHAND" ] },
+    "extend": { "flags": [ "FIRE_TWOHAND", "SOUND_BOW" ] },
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
@@ -31,7 +31,7 @@
     "skill": "rifle",
     "symbol": "(",
     "color": "green",
-    "flags": [ "PRIMITIVE_RANGED_WEAPON", "CROSSBOW", "RELOAD_ONE", "STR_RELOAD" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "CROSSBOW", "SOUND_CROSSBOW", "RELOAD_ONE", "STR_RELOAD" ],
     "clip_size": 1,
     "ammo": "bolt",
     "valid_mod_locations": [

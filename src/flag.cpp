@@ -353,6 +353,11 @@ const flag_id flag_MUTE( "MUTE" );
 const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_id flag_WEATHER_FORECAST( "WEATHER_FORECAST" );
 const flag_id flag_WINDMETER( "WINDMETER" );
+const flag_id flag_SOUND_LAUNCHER( "SOUND_LAUNCHER" );
+const flag_id flag_SOUND_RAILGUN( "SOUND_RAILGUN" );
+const flag_id flag_SOUND_FLAMETHROWER("SOUND_FLAMETHROWER");
+const flag_id flag_SOUND_BOW("SOUND_BOW");
+const flag_id flag_SOUND_CROSSBOW("SOUND_CROSSBOW");
 
 namespace
 {

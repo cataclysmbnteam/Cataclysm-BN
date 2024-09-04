@@ -2204,5 +2204,35 @@
     "id": "WINDMETER",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "SOUND_LAUNCHER",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "This item is meant to sound like a grenade launcher when fired."
+  },
+  {
+    "id": "SOUND_RAILGUN",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "This item is meant to sound like a electromagnetic weapon when fired."
+  },
+  {
+    "id": "SOUND_FLAMETHROWER",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "This item is meant to sound like a flamethrower (or a rocket launcher) when fired."
+  },
+  {
+    "id": "SOUND_BOW",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "This item is meant to sound like a bow when fired."
+  },
+  {
+    "id": "SOUND_CROSSBOW",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "This item is meant to sound like a crossbow when fired."
   }
 ]

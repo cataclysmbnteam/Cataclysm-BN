@@ -130,7 +130,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "SOUND_LAUNCHER" ]
   },
   {
     "id": "triple_launcher_simple",
@@ -166,7 +166,7 @@
     "reload": 400,
     "modes": [ [ "DEFAULT", "semi", 1, "NPC_AVOID" ] ],
     "clip_size": 6,
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": [ "MOUNTED_GUN", "SOUND_LAUNCHER" ]
   },
   {
     "id": "afs_bionic_rocket",
@@ -186,6 +186,6 @@
     "durability": 6,
     "clip_size": 3,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID", "RELOAD_ONE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID", "RELOAD_ONE", "SOUND_LAUNCHER" ]
   }
 ]

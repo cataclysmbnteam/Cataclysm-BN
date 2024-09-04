@@ -21,7 +21,7 @@
     "ups_charges": 120,
     "reload": 200,
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
-    "extend": { "flags": [ "RELOAD_ONE", "MOUNTED_GUN" ] }
+    "extend": { "flags": [ "RELOAD_ONE", "MOUNTED_GUN", "SOUND_RAILGUN" ] }
   },
   {
     "id": "rebar_rifle",
@@ -45,6 +45,7 @@
     "clip_size": 1,
     "ups_charges": 60,
     "reload": 200,
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
+    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
+    "extend": { "flags": [ "SOUND_RAILGUN" ] }
   }
 ]

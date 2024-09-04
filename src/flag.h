@@ -357,6 +357,11 @@ extern const flag_id flag_MUTE;
 extern const flag_id flag_NOT_FOOTWEAR;
 extern const flag_id flag_WEATHER_FORECAST;
 extern const flag_id flag_WINDMETER;
+extern const flag_id flag_SOUND_LAUNCHER;
+extern const flag_id flag_SOUND_RAILGUN;
+extern const flag_id flag_SOUND_FLAMETHROWER;
+extern const flag_id flag_SOUND_BOW;
+extern const flag_id flag_SOUND_CROSSBOW;
 
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json

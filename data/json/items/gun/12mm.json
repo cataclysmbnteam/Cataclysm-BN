@@ -14,6 +14,7 @@
     "range": 60,
     "dispersion": 45,
     "ups_charges": 5,
-    "magazines": [ [ "12mm", [ "hk_g80mag" ] ] ]
+    "magazines": [ [ "12mm", [ "hk_g80mag" ] ] ],
+    "extend": { "flags": [ "SOUND_RAILGUN" ] }
   }
 ]

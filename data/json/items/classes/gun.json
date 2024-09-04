@@ -24,7 +24,7 @@
     "ammo": "flammable",
     "ammo_effects": [ "FLARE" ],
     "reload": 4,
-    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER", "PYROMANIAC_WEAPON" ],
+    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER", "PYROMANIAC_WEAPON", "SOUND_FLAMETHROWER" ],
     "use_action": { "type": "firestarter", "moves": 200 },
     "faults": [  ]
   },
@@ -40,7 +40,7 @@
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "SOUND_LAUNCHER" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
@@ -50,7 +50,7 @@
     "weapon_category": [ "ROCKET_LAUNCHERS" ],
     "name": { "str": "base rocket launcher" },
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "PYROMANIAC_WEAPON" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "PYROMANIAC_WEAPON", "SOUND_FLAMETHROWER" ]
   },
   {
     "abstract": "pistol_base",
