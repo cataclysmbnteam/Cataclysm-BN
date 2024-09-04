@@ -43,12 +43,12 @@
     "subtype": "collection",
     "id": "vending_ammo_low",
     "entries": [
-      { "group": "ammo_pistol_common_full", "prob": 25, "count-min": 1, "count-max": 4 },
-      { "group": "ammo_rifle_common_full", "prob": 12, "count-min": 1, "count-max": 3 },
-      { "group": "ammo_shotgun_common_full", "prob": 12, "count-min": 1, "count-max": 3 },
-      { "group": "ammo_pistol_rare_full", "prob": 5 },
-      { "group": "ammo_rifle_rare_full", "prob": 5 },
-      { "group": "ammo_shotgun_rare_full", "prob": 5 }
+      { "group": "ammo_pistol_common_full", "prob": 13, "count-min": 1, "count-max": 4 },
+      { "group": "ammo_rifle_common_full", "prob": 6, "count-min": 1, "count-max": 3 },
+      { "group": "ammo_shotgun_common_full", "prob": 6, "count-min": 1, "count-max": 3 },
+      { "group": "ammo_pistol_rare_full", "prob": 3 },
+      { "group": "ammo_rifle_rare_full", "prob": 3 },
+      { "group": "ammo_shotgun_rare_full", "prob": 3 }
     ]
   },
   {

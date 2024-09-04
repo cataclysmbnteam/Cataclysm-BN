@@ -48,7 +48,7 @@
       "vendingmachines": {
         "1": { "item_group": "vending_drink" },
         "2": { "item_group": "vending_food" },
-        "$": { "item_group": "vending_ammo_low", "chance": 50, "reinforced": true }
+        "$": { "item_group": "vending_ammo_low", "reinforced": true }
       },
       "place_liquids": [ { "liquid": "gasoline", "x": 3, "y": 3, "repeat": [ 200, 1075 ] } ]
     }

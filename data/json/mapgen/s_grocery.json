@@ -107,7 +107,7 @@
         { "item": "groce_meat", "x": [ 13, 17 ], "y": 21, "chance": 80, "repeat": [ 1, 12 ] },
         { "item": "groce_dairyegg", "x": [ 18, 21 ], "y": 21, "chance": 80, "repeat": [ 1, 12 ] }
       ],
-      "vendingmachines": { "$": { "item_group": "vending_ammo_low", "chance": 50, "reinforced": true } },
+      "vendingmachines": { "$": { "item_group": "vending_ammo_low", "reinforced": true } },
       "place_vehicles": [
         { "vehicle": "shopping_cart", "x": 3, "y": 2, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 4, "y": 2, "chance": 10 },
