@@ -160,7 +160,7 @@
         "                        ",
         "                        "
       ],
-      "furniture": { "I": "f_electrical_conduit", "C": "f_capacitor" },
+      "furniture": { "I": "f_electrical_conduit", "C": "f_capacitor", "W": "f_wind_turbine_rotor" },
       "terrain": {
         " ": "t_open_air",
         "H": "t_ladder_up_down",
@@ -172,7 +172,7 @@
         "|": "t_machinery_heavy",
         "I": "t_metal_floor_no_roof",
         "#": "t_wall_metal",
-        "W": "t_wind_turbine_rotor"
+        "W": "t_metal_floor_no_roof"
       }
     }
   },
