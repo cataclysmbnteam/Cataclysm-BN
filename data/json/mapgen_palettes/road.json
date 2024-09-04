@@ -31,10 +31,11 @@
       "f": "f_fridge",
       "o": "f_oven",
       "S": "f_sink",
-      "T": "f_toilet"
+      "T": "f_toilet",
+      "$": "f_vending_reinforced"
     },
     "toilets": { "T": {  } },
     "gaspumps": { "!": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" }, "$": {  "item_group": "vending_ammo_low", "chance": 50, "reinforced": true } }
   }
 ]

@@ -22,7 +22,7 @@
         "|---                  |_",
         "|ll+   |r  r|t  t|r  r|_",
         "|TS|^  |r  r|t  t|r  r|_",
-        "|---   |r  r|t  t|r  r|_",
+        "|---  $|r  r|t  t|r  r|_",
         "|TS|^ A|r  r|t  t|r  r|_",
         "|ll+  A|r  r|t  t|r  r|_",
         "|--|-I--              |_",
@@ -33,6 +33,7 @@
       ],
       "terrain": {
         " ": "t_linoleum_white",
+        "$": "t_linoleum_white",
         "#": "t_linoleum_white",
         "%": "t_console_broken",
         "*": "t_floor",
@@ -74,7 +75,8 @@
         "b": "f_stool",
         "f": "f_glass_fridge",
         "r": "f_rack",
-        "t": "f_table"
+        "t": "f_table",
+        "$": "f_vending_reinforced"
       },
       "toilets": { "T": {  } },
       "place_items": [
@@ -105,6 +107,7 @@
         { "item": "groce_meat", "x": [ 13, 17 ], "y": 21, "chance": 80, "repeat": [ 1, 12 ] },
         { "item": "groce_dairyegg", "x": [ 18, 21 ], "y": 21, "chance": 80, "repeat": [ 1, 12 ] }
       ],
+      "vendingmachines": { "$": { "item_group": "vending_ammo_low", "chance": 50, "reinforced": true } },
       "place_vehicles": [
         { "vehicle": "shopping_cart", "x": 3, "y": 2, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 4, "y": 2, "chance": 10 },
