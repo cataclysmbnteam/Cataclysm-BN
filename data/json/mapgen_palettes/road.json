@@ -36,6 +36,10 @@
     },
     "toilets": { "T": {  } },
     "gaspumps": { "!": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" }, "$": {  "item_group": "vending_ammo_low", "chance": 50, "reinforced": true } }
+    "vendingmachines": {
+      "D": { "item_group": "vending_drink" },
+      "F": { "item_group": "vending_food" },
+      "$": { "item_group": "vending_ammo_low", "chance": 50, "reinforced": true }
+    }
   }
 ]
