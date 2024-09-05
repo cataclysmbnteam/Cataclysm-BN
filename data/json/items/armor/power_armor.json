@@ -571,7 +571,7 @@
     "coverage": 95,
     "encumbrance": 40,
     "warmth": 20,
-    "material_thickness": 7,
+    "material_thickness": 6,
     "environmental_protection": 3,
     "max_charges": 500,
     "ammo": "battery",
@@ -580,7 +580,7 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "add": 15 } ]
+          "values": [ { "value": "STRENGTH", "add": 2 } ]
         }
       ]
     },
@@ -592,7 +592,7 @@
       "need_worn": true,
       "need_charges": 1
     },
-    "flags": [ "USE_UPS", "NAT_UPS", "STURDY", "NO_UNLOAD", "NO_RELOAD", "BELTED", "COMPACT", "POWERARMOR_COMPATIBLE", "ONLY_ONE" ]
+    "flags": [ "USE_UPS", "NAT_UPS", "STURDY", "NO_UNLOAD", "NO_RELOAD", "OUTER", "ONLY_ONE" ]
   },
   {
     "id": "exosuit_survivor_on",
