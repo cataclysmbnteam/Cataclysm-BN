@@ -30,11 +30,6 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "textbook_fabrication", 2 ], [ "welding_book", 2 ] ],
     "result_mult": 100,
-    "using": [["forging_standard", 3]],
-    "tools": [
-      [["crucible", -1], ["crucible_clay", -1]]
-    ],
-    "components": [ [["charcoal", 10], ["coal_lump", 10]], [["copper", 70]], [["zinc_metal", 850]]]
     "using": [ [ "forging_standard", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ], [ [ "copper", 70 ] ], [ [ "zinc_metal", 850 ] ] ]
