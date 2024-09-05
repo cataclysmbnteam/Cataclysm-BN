@@ -1,0 +1,22 @@
+ [
+{
+    "type": "recipe",
+    "result": "cable",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 7,
+    "time": "1 m",
+    "autolearn": true,
+    "charges": 1,
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
+  }
+ ]

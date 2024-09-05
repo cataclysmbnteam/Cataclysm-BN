@@ -1,0 +1,333 @@
+[
+  {
+    "type": "recipe",
+    "result": "chem_black_powder",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "2 m",
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ],
+    "book_learn": [
+      [ "textbook_anarch", 6 ],
+      [ "recipe_labchem", 4 ],
+      [ "textbook_chemistry", 5 ],
+      [ "textbook_armschina", 5 ],
+      [ "book_icef", 5 ],
+      [ "reference_cooking", 5 ]
+    ],
+    "charges": 10,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "//": "Roughly consistent by weight, saltpeter is in smaller stack sizes than most chems, so much less is used.",
+    "//2": "Charcoal is in excess of the amount required however, due to even smaller stack size.",
+    "components": [ [ [ "chem_saltpetre", 2 ] ], [ [ "chem_sulphur", 5 ] ], [ [ "charcoal", 1 ], [ "coal_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_black_powder",
+    "id_suffix": "generic",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 1 ],
+    "difficulty": 4,
+    "time": "2 m",
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], 
+	"book_learn": [
+      [ "textbook_anarch", 4 ],
+      [ "recipe_bullets", 2 ],
+      [ "manual_shotgun", 3 ],
+      [ "manual_pistol", 3 ],
+      [ "adv_chemistry", 3 ],
+      [ "textbook_chemistry", 3 ],
+      [ "reference_cooking", 4 ]
+    ],
+    "charges": 10,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ] ] ],
+    "components": [ [ [ "oxy_powder", 5 ] ], [ [ "lye_powder", 5 ] ], [ [ "charcoal", 1 ], [ "coal_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "gunpowder",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "cooking",
+    "skills_required": [ "fabrication", 6 ],
+    "difficulty": 8,
+    "time": "2 h 40 m",
+    "charges": 200,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], 
+	"book_learn": [ [ "textbook_anarch", 7 ], [ "adv_chemistry", 8 ], [ "textbook_chemistry", 8 ], [ "reference_cooking", 8 ] ],
+    "batch_time_factors": [ 50, 3 ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 250, "LIST" ] ], [ [ "pastaextruder", -1 ] ] ],
+    "components": [
+      [ [ "cotton_ball", 5 ] ],
+      [ [ "chem_nitric_acid", 3 ] ],
+      [ [ "acid", 3 ], [ "chem_sulphuric_acid", 2 ] ],
+      [ [ "ether", 125 ] ],
+      [ [ "water", 9 ], [ "water_clean", 9 ] ],
+      [ [ "edible_tallow_lard", 2, "LIST" ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "exploding_arrow_warhead",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 5 ], [ "mechanics", 3 ] ],
+    "difficulty": 6,
+    "time": "5 m",
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "adhesive_proper", 1, "LIST" ], [ "cordage", 1, "LIST" ] ],
+      [
+        [ "impact_fuze", 1 ],
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ],
+      [ [ "volatile_explosive", 2, "LIST" ], [ "stable_explosive", 2, "LIST" ], [ "military_explosive", 2, "LIST" ] ]
+    ],
+    "delete_flags": [ "FILTHY" ],
+    "flags": [ "ALLOW_FILTHY" ]
+  },
+  {
+    "result": "incendiary",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "15 m",
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "textbook_chemistry", 4 ], [ "recipe_bullets", 3 ], [ "textbook_anarch", 0 ], [ "reference_cooking", 4 ] ],
+    "using": [ [ "surface_heat", 25 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [ [ [ "magnesium", 100 ], [ "chem_aluminium_powder", 100 ] ], [ [ "oxy_powder", 200 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "smpistol_primer",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": "22 m 30 s",
+    "charges": 100,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "scrap", 2 ],
+        [ "copper_scrap_equivalent", 2, "LIST" ]
+      ],
+      [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "lgpistol_primer",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": "22 m 30 s",
+    "charges": 100,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "scrap", 2 ],
+        [ "copper_scrap_equivalent", 2, "LIST" ]
+      ],
+      [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "smrifle_primer",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": "22 m 30 s",
+    "charges": 100,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "scrap", 2 ],
+        [ "copper_scrap_equivalent", 2, "LIST" ]
+      ],
+      [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "lgrifle_primer",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": "22 m 30 s",
+    "charges": 100,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "mag_rifle", 3 ], [ "recipe_bullets", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "scrap", 2 ],
+        [ "copper_scrap_equivalent", 2, "LIST" ]
+      ],
+      [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotgun_primer",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": "22 m 30 s",
+    "charges": 100,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [
+      [
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "scrap", 2 ],
+        [ "copper_scrap_equivalent", 2, "LIST" ]
+      ],
+      [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "460_casing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 4 ],
+    "time": "3 m",
+    "batch_time_factors": [ 60, 5 ],
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
+    "components": [ [ [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "380_casing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 3 ],
+    "time": "2 m 6 s",
+    "batch_time_factors": [ 80, 5 ],
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
+    "components": [ [ [ "223_casing", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "300blk_casing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 4 ],
+    "time": "2 m 6 s",
+    "batch_time_factors": [ 60, 5 ],
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "manual_rifle", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "press", -1 ] ] ],
+    "components": [ [ [ "223_casing", 1 ] ] ]
+  },
+  {
+    "result": "cannonball_explosive",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "75 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "manual_launcher", 6 ], [ "textbook_anarch", 7 ] ],
+    "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_tiny", 12 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "volatile_explosive", 75, "LIST" ], [ "stable_explosive", 75, "LIST" ], [ "military_explosive", 75, "LIST" ] ],
+      [
+        [ "impact_fuze", 1 ],
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "cannonball_4lb",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "60 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "22_casing_new",
+    "//": "Realistically this would be limited by how many times it's been struck, but would be a hassle to track variations on casings based on how many times it's been re-used.",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 4,
+    "time": "30 s",
+    "charges": 1,
+    "autolearn": [ [ "cooking", 5 ], [ "fabrication", 5 ] ], "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 2 ] ],
+    "components": [ [ [ "22_casing", 1 ] ], [ [ "oxy_powder", 1 ], [ "chem_match_head_powder", 1 ] ] ]
+  }
+]
