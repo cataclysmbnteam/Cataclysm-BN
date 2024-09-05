@@ -575,15 +575,7 @@
     "environmental_protection": 3,
     "max_charges": 500,
     "ammo": "battery",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 2 } ]
-        }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] },
     "use_action": {
       "type": "transform",
       "msg": "The %s engages.",
