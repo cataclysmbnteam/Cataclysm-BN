@@ -1,23 +1,5 @@
 [
-  {
-    "id": "brass_metal",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str_sp": "brass" },
-    "description": "Alloy of %70 copper and %30 zinc, useful for creating bullet casings.",
-    "price": "10 USD",
-    "price_postapoc": "10 cent",
-    "material": "copper",
-    "//": "Density 8.96g/cm³ ~ 2.24kg/250ml, scrap stacks at ~20-25% efficiency",
-    "weight": "45 g",
-    "volume": "25 ml",
-    "bashing": 1,
-    "to_hit": -2,
-    "flags": [ "NO_SALVAGE" ],
-    "stackable": true,
-    "symbol": "="
-  },
-  {
+    {
     "result": "brass_metal",
     "type": "recipe",
     "id_suffix": "smelt",
@@ -32,7 +14,7 @@
     "result_mult": 100,
     "using": [ [ "forging_standard", 3 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ], [ [ "copper", 70 ] ], [ [ "zinc_metal", 850 ] ] ]
+    "components": [ [ [ "charcoal", 10 ], [ "coal_lump", 10 ] ], [ [ "copper", 70 ] ], [ [ "zinc_metal", 400 ] ] ]
   },
   {
     "result": "223_casing",
