@@ -1,0 +1,89 @@
+[
+  {
+    "type": "recipe",
+    "result": "material_quicklime",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "components": [ [ [ "material_limestone", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "material_cement",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "components": [ [ [ "material_quicklime", 50 ] ], [ [ "material_sand", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mortar_build",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "glass_shard",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "result_mult": 4,
+    "components": [
+      [ [ "material_sand", 10 ] ],
+      [ [ "salt", 20 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
+      [ [ "material_quicklime", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "glass_shard",
+    "id_suffix": "from ash",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "result_mult": 4,
+    "components": [ [ [ "material_sand", 10 ] ], [ [ "ash", 540 ] ], [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "glass_tinted",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "components": [ [ [ "glass_shard", 2 ] ], [ [ "chem_sulphur", 1 ] ], [ [ "scrap", 1 ] ], [ [ "charcoal", 1 ] ] ]
+  },{
+    "type": "recipe",
+    "result": "plastic_chunk",
+    "id_suffix": "from chitin",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "90 m",
+    "autolearn": true,
+    "result_mult": 15,
+    "components": [ [ [ "meal_chitin_piece", 30 ] ], [ [ "lye", 4 ]  ] ]
+  }
+
+]

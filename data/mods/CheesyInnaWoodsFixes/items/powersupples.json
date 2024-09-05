@@ -1,0 +1,74 @@
+[
+  {
+    "type": "recipe",
+    "result": "battery_charger",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "45 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "book_learn": [ [ "manual_electronics", 0 ], [ "mag_electronics", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "plastic_chunk", 1 ], [ "duct_tape", 10 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "condensor_coil",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "mechanics",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
+    "components": [
+      [ [ "cu_pipe", 3 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "sheet_metal_small", 5 ] ],
+      [ [ "scrap", 12 ], [ "steel_chunk", 4 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "evaporator_coil",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "mechanics",
+    "using": [ [ "soldering_standard", 50 ] ],
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 2 } ],
+    "components": [ [ [ "cu_pipe", 4 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "sheet_metal", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "light_minus_disposable_cell",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "cooking",
+    "skills_required": [ "electronics", 5 ],
+    "difficulty": 4,
+    "time": "45 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "chem_manganese_dioxide", 29 ] ],
+      [ [ "zinc_metal", 8 ] ],
+      [ [ "acid", 7 ] ],
+      [ [ "duct_tape", 1 ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
+    ]
+  }
+]

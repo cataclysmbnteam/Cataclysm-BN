@@ -1,0 +1,506 @@
+[
+  {
+    "type": "recipe",
+    "result": "chemistry_set_basic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 2 ],
+    "time": "2 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "flags": [ "BLIND_EASY" ],
+    "autolearn": true,
+    "components": [
+      [ [ "glasses_safety", 1 ]],
+      [ [ "hose", 3 ], [ "makeshift_hose", 3 ] ],
+      [ [ "flask_glass", 4 ], [ "jar_glass_sealed", 4 ], [ "bottle_glass", 4 ], [ "test_tube", 20 ] ],
+      [ [ "box_small", 1 ], [ "bag_canvas", 1 ], [ "backpack", 1 ], [ "backpack_leather", 1 ]]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "chemistry_set",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 2 ],
+    "time": "3 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "flags": [ "BLIND_HARD" ],
+    "autolearn": true,
+    "components": [ [ [ "cable", 10 ], [ "wire", 1 ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pipe_cleaner",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "funnel_separation",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "components": [
+      [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
+      [ [ "plastic_chunk", 1 ] ]
+    ]
+  },
+  {
+    "result": "still",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "cooking", 3 ],
+    "difficulty": 4,
+    "time": "200 m",
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ [ [ "material_sand", -1 ] ] ],
+    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
+    "components": [
+      [ [ "pot", 1 ], [ "pot_copper", 1 ], [ "pot_makeshift_copper", 1 ] ],
+      [ [ "cu_pipe", 1 ] ],
+      [ [ "bone_glue", 1 ], [ "superglue", 1 ] ],
+      [ [ "duct_tape", 10 ] ]
+    ]
+  },
+  {
+    "result": "jack",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "mechanics", 3 ],
+    "time": "300 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "jack_makeshift",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "mechanics", 1 ],
+    "time": "100 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "jack_small",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "mechanics", 2 ],
+    "time": "200 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sewing_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }],
+    "tools": [ [ [ "tongs", -1 ] ]],
+    "components": [ [ [ "scrap", 2 ] ], [ [ "splinter", 5 ], [ "bone", 2 ] ], [ [ "leather", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "scissors",
+    "id_suffix": "wooden_handle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "byproducts": [ [ "splinter", 5 ] ],
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }],
+    "tools": [ [ [ "tongs", -1 ] ]],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "water_purifier",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 3,
+    "time": "25 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "element", 8 ]],
+      [ [ "bottle_glass", 2 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "cable", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "soldering_iron",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_anarch", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "e_scrap", 2 ], [ "glowplug", 1 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "duct_tape", 10 ] ],
+      [ [ "cable", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "hotplate",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "element", 4 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 1 ] ],
+      [ [ "scrap", 2 ], [ "pan", 1 ], [ "pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "coffeemaker",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "element", 4 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "sieve_steel", 1 ], [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ],
+      [ [ "scrap", 2 ], [ "pan", 1 ], [ "pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "cable", 15 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "dehydrator",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "textbook_chemistry", 5 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "element", 2 ]],
+      [ [ "amplifier", 2 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "plastic_chunk", 18 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_sealer",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "mechanics", 2 ],
+    "difficulty": 4,
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "superglue", 2 ] ],
+      [ [ "element", 2 ]],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
+      [ [ "power_supply", 1 ] ]
+    ]
+  },
+  {
+    "result": "food_processor",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1,"amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "e_scrap", 1 ], [ "makeshift_transformer", 1 ] ]
+    ]
+  },
+  {
+    "result": "microcentrifuge",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 30 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1, "amount": 1 },
+      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "CUT_FINE", "level": 1, "amount": 1 }
+    ],
+    "components": [
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "xacto",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ]],
+    "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "reading_light",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 1 ] ],
+      [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "electric_lantern",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 7 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 2 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "flashlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
+      [
+        [ "scrap", 4 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_glass", 1 ]
+      ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "floodlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "components": [
+      [ [ "amplifier", 4 ], [ "makeshift_transformer", 8 ] ],
+      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "directed_floodlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "components": [
+      [ [ "amplifier", 4 ], [ "makeshift_transformer", 8 ] ],
+      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "car_headlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 2,
+    "time": "15 m",
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "components": [
+      [ [ "amplifier", 2 ], [ "makeshift_transformer", 4 ] ],
+      [ [ "plastic_chunk", 2 ], [ "scrap", 3 ] ],
+      [ [ "lightstrip_inactive", 2 ], [ "light_bulb", 2 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "car_wide_headlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 2,
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "time": "15 m",
+    "components": [
+      [ [ "amplifier", 3 ], [ "makeshift_transformer", 6 ] ],
+      [ [ "plastic_chunk", 3 ], [ "scrap", 4 ] ],
+      [ [ "lightstrip_inactive", 3 ], [ "light_bulb", 3 ] ],
+      [ [ "cable", 12 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "wearable_light",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
+    "components": [
+      [ [ "flashlight", 1 ] ],
+      [
+        [ "leather", 2 ],
+        [ "cordage_6", 1 ],
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 20 ]
+      ]
+    ]
+  }
+]
