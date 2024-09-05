@@ -85,7 +85,7 @@
         "s": "f_sign",
         "%": "f_trashcan"
       },
-      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
+      "vendingmachines": { "$": { "item_group": "vending_ammo", "reinforced": true } },
       "place_items": [
         { "chance": 10, "item": "ammo_pistol_common", "x": 6, "y": 9 },
         { "chance": 5, "item": "ammo_pistol_common", "x": 3, "y": 9 },

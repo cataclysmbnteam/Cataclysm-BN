@@ -77,7 +77,7 @@
         "$": "f_vending_reinforced"
       },
       "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
-      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
+      "vendingmachines": { "$": { "item_group": "vending_ammo", "reinforced": true } },
       "toilets": { "T": {  } },
       "place_loot": [
         { "group": "gunmod_common", "x": [ 5, 10 ], "y": 10, "chance": 100, "repeat": [ 3, 6 ] },
