@@ -13,7 +13,7 @@
       [ "1st_aid", 5 ],
       [ "aspirin", 50 ],
       [ "bandages", 50 ],
-      { "item": "cotton_ball", "prob": 40, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
+      { "item": "cotton_ball", "prob": 40, "container-item": "box_small", "charges": 20 },
       [ "disinfectant", 20 ],
       [ "chem_hydrogen_peroxide", 30 ],
       [ "eyedrops", 10 ],

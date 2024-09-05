@@ -107,6 +107,14 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "vending_medicine",
+    "entries": [
+      { "group": "drugs_pharmacy", "count-min": 10, "count-max": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "vending_guns",
     "//": "Ammo found in a vending machine.",
     "subtype": "collection",
