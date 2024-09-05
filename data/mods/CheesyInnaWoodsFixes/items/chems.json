@@ -33,7 +33,7 @@
     "phase": "liquid",
     "looks_like": "ether"
   },
-{
+  {
     "id": "bandages_birchbark",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -49,7 +49,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 8, "move_cost": 6000 }
   },
- {
+  {
     "id": "bandages_birchbark_adv",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -65,5 +65,4 @@
     "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
   }
-
 ]
