@@ -1,12 +1,17 @@
-[ 
-{
+[
+  {
     "type": "recipe",
     "result": "wheel",
     "skill_used": "fabrication",
-    "difficulty": 7,   
+    "difficulty": 7,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [
+      { "id": "CHEM", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "steel_lump", 6 ] ], [ [ "chunk_rubber", 15 ] ] ]
   },
@@ -14,33 +19,48 @@
     "type": "recipe",
     "result": "wheel_wide",
     "skill_used": "fabrication",
-    "difficulty": 7,   
+    "difficulty": 7,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [
+      { "id": "CHEM", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ] ]
   },
-{
+  {
     "type": "uncraft",
     "result": "wheel_bicycle",
     "skill_used": "fabrication",
-    "difficulty": 6,   
+    "difficulty": 6,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [
+      { "id": "CHEM", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
   },
- {
+  {
     "type": "uncraft",
     "result": "wheel_motorbike",
     "skill_used": "fabrication",
-    "difficulty": 7,   
+    "difficulty": 7,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "qualities": [
+      { "id": "CHEM", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
   }
- ]
+]

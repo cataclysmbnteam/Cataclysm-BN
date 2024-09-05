@@ -1,5 +1,5 @@
- [
-{
+[
+  {
     "type": "recipe",
     "result": "cable",
     "category": "CC_ELECTRONIC",
@@ -19,4 +19,4 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
     "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
   }
- ]
+]
