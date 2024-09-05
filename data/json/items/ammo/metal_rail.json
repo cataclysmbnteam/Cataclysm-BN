@@ -34,8 +34,9 @@
     "cutting": 2,
     "material": [ "steel" ],
     "color": "light_gray",
+    "dont_recover_one_in": 1000,
     "dispersion": 100,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
-    "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -10, "armor_penetration": 20 } }
+    "relative": { "range": 10, "damage": { "armor_penetration": 20 } }
   }
 ]
