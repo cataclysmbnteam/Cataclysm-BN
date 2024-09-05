@@ -38,7 +38,7 @@
     "tools": [
       [["crucible", -1], ["crucible_clay", -1]]
     ],
-    "components": [ [["charcoal", 10], ["coal_lump", 10]], [["scrap_copper", 70]], [["zinc_metal", 850]]]
+    "components": [ [["charcoal", 10], ["coal_lump", 10]], [["copper", 70]], [["zinc_metal", 850]]]
   },
   {
     "result": "223_casing",
