@@ -116,12 +116,7 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [
-      [ [ "pipe", 6 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "wire", 3 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "pipe", 6 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ], [ [ "wire", 3 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -143,7 +138,7 @@
       [ [ "plastic_chunk", 5 ] ]
     ]
   },
-{
+  {
     "type": "recipe",
     "result": "power_supply",
     "category": "CC_ELECTRONIC",
