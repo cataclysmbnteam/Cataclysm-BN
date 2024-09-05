@@ -84,7 +84,7 @@
     "time": "90 m",
     "autolearn": true,
     "result_mult": 15,
-    "components": [ [ [ "meal_chitin_piece", 30 ] ], [ [ "lye", 4 ]  ] ]
+    "components": [ [ [ "meal_chitin_piece", 30 ] ], [ [ "lye", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -95,7 +95,7 @@
     "difficulty": 4,
     "autolearn": true,
     "time": "30 m",
-	"tools": [  [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "surface_heat", 100, "LIST" ] ] ],
-    "components": [ [ [ "chunk_rubber", 5 ] ] ] 
+    "tools": [ [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "surface_heat", 100, "LIST" ] ] ],
+    "components": [ [ [ "chunk_rubber", 5 ] ] ]
   }
 ]
