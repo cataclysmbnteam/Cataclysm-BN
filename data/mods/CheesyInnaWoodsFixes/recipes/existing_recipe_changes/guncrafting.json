@@ -291,20 +291,6 @@
     ]
   },
   {
-    "result": "cannonball_4lb",
-    "type": "recipe",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_COMPONENTS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "60 m",
-    "batch_time_factors": [ 90, 4 ],
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
-  },
-  {
     "type": "recipe",
     "result": "22_casing_new",
     "//": "Realistically this would be limited by how many times it's been struck, but would be a hassle to track variations on casings based on how many times it's been re-used.",
