@@ -1,25 +1,6 @@
 [
   {
     "type": "recipe",
-    "result": "well_pump",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "6 h 30 m",
-    "autolearn": true,
-    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ] ],
-    "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ],
-      [ [ "pipe", 2 ] ],
-      [ [ "adhesive", 2, "LIST" ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "makeshift_transformer",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
