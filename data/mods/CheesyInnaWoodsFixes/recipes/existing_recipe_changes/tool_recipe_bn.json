@@ -34,18 +34,6 @@
   },
   {
     "type": "recipe",
-    "result": "pipe_cleaner",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "mechanics",
-    "difficulty": 1,
-    "time": "2 m",
-    "reversible": true,
-    "autolearn": true,
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "funnel_separation",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
