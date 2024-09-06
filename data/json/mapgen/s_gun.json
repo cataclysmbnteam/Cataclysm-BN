@@ -73,7 +73,7 @@
         "U": "f_dumpster",
         "@": "f_target"
       },
-      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
+      "vendingmachines": { "$": { "item_group": "vending_ammo", "reinforced": true } },
       "items": {
         "{": {
           "item": {
@@ -243,7 +243,7 @@
         "S": "f_displaycase",
         "T": "f_displaycase"
       },
-      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
+      "vendingmachines": { "$": { "item_group": "vending_ammo", "reinforced": true } },
       "toilets": { ";": {  } },
       "items": {
         "{": {
@@ -523,7 +523,7 @@
         "N": "f_sink",
         "{": "f_locker"
       },
-      "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
+      "vendingmachines": { "$": { "item_group": "vending_ammo", "reinforced": true } },
       "place_items": [
         { "chance": 99, "item": "corpse_male", "x": 19, "y": 12 },
         { "chance": 75, "item": "ammo_casings_bulk", "x": [ 14, 15 ], "y": 14 },
