@@ -233,8 +233,7 @@
         { "item": "cable", "charges": [ 20, 100 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
       ]
-    },
-    "deconstruct": { "items": [ { "item": "cable", "charges": [ 200, 800 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] }
+    }
   },
   {
     "type": "furniture",

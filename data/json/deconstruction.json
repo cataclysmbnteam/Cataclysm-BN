@@ -796,7 +796,7 @@
     "id": "constr_remove_electrical_conduit",
     "//": "Breaks an electrical conduit.",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
+    "required_skills": [ [ "fabrication", 2 ], [ "electronics", 1 ] ],
     "time": "90 m",
     "using": [ [ "object_deconstruction_advanced", 1 ] ],
     "byproducts": [
