@@ -64,7 +64,7 @@
     "type": "recipe",
     "result": "vehicle_controls",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": "30 m",
