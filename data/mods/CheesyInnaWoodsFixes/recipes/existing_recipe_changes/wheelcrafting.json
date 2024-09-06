@@ -2,6 +2,8 @@
   {
     "type": "recipe",
     "result": "wheel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "1 h",
