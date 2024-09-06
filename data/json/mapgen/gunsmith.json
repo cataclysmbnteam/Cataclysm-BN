@@ -73,8 +73,7 @@
         "d": "f_dumpster",
         "l": "f_locker",
         "r": "f_rack",
-        "t": "f_table",
-        "$": "f_vending_reinforced"
+        "t": "f_table"
       },
       "items": { "d": { "item": "trash_dumpster", "chance": 80 } },
       "vendingmachines": { "$": { "item_group": "vending_guns", "reinforced": true } },
