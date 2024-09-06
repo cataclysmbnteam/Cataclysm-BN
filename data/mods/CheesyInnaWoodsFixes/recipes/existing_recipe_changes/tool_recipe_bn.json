@@ -64,20 +64,6 @@
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
-    "result": "jack_makeshift",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "skills_required": [ "mechanics", 1 ],
-    "time": "100 m",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
-  },
-  {
     "result": "jack_small",
     "type": "recipe",
     "category": "CC_OTHER",
