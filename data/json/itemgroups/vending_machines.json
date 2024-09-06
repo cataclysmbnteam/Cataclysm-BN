@@ -124,5 +124,11 @@
       { "group": "drugs_soldier", "prob": 40, "count-min": 5, "count-max": 25 },
       { "group": "harddrugs", "prob": 10, "count-min": 5, "count-max": 25 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "vending_medicine",
+    "entries": [ { "group": "drugs_pharmacy", "count-min": 10, "count-max": 20 } ]
   }
 ]

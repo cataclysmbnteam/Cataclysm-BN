@@ -948,10 +948,10 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
-    "difficulty": 8,
-    "skills_required": [ "electronics", 7 ],
+    "difficulty": 9,
+    "skills_required": [ "electronics", 8 ],
     "time": "3 h 40 m",
-    "book_learn": [ [ "advanced_electronics", 7 ], [ "recipe_lab_elec", 7 ], [ "textbook_anarch", 7 ] ],
+    "book_learn": [ [ "advanced_electronics", 8 ], [ "recipe_lab_elec", 8 ], [ "textbook_anarch", 8 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "soldering_standard", 200, "LIST" ] ], [ [ "welding_standard", 200, "LIST" ] ] ],
     "components": [
@@ -959,14 +959,14 @@
       [ [ "steel_standard", 10, "LIST" ] ],
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
       [ [ "duct_tape", 600 ] ],
-      [ [ "power_supply", 8 ] ],
-      [ [ "amplifier", 6 ] ],
+      [ [ "power_supply", 16 ] ],
+      [ [ "amplifier", 12 ] ],
       [ [ "medium_battery_cell", 1 ] ],
-      [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ],
-      [ [ "hand_crank_charger", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
+      [ [ "motor_small", 4 ], [ "motor_tiny", 8 ] ],
+      [ [ "hand_crank_charger", 4 ], [ "alternator_bicycle", 4 ], [ "alternator_motorbike", 4 ] ],
       [ [ "hose", 4 ], [ "makeshift_hose", 4 ] ],
       [ [ "foldframe", 2 ] ],
-      [ [ "cable", 20 ] ]
+      [ [ "cable", 100 ] ]
     ]
   },
   {

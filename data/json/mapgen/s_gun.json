@@ -67,7 +67,6 @@
         "l": "f_locker",
         "s": "f_sandbag_wall",
         "{": "f_rack",
-        "$": "f_vending_reinforced",
         "N": "f_sink",
         "S": "f_displaycase",
         "T": "f_displaycase",
@@ -241,7 +240,6 @@
         "c": "f_chair",
         "l": "f_locker",
         "{": "f_rack",
-        "$": "f_vending_reinforced",
         "S": "f_displaycase",
         "T": "f_displaycase"
       },
@@ -523,8 +521,7 @@
         "r": "f_rack",
         "t": "f_table",
         "N": "f_sink",
-        "{": "f_locker",
-        "$": "f_vending_reinforced"
+        "{": "f_locker"
       },
       "vendingmachines": { "$": { "item_group": "vending_ammo", "reinforced": true } },
       "place_items": [
