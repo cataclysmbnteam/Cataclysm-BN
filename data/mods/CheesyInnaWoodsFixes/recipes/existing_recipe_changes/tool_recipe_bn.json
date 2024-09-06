@@ -276,14 +276,19 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
     "skill_used": "electronics",
-    "difficulty": 1,
-    "time": "10 m",
     "reversible": true,
-    "decomp_learn": 0,
     "autolearn": true,
     "components": [
       [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
-      [ [ "scrap", 4 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ], [ "bottle_glass", 1 ] ],
+      [
+        [ "scrap", 4 ],
+        [ "can_drink_unsealed", 1 ],
+        [ "can_food_unsealed", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_glass", 1 ],
+        [ "bottle_plastic", 1 ],
+        [ "bottle_plastic_small", 1 ]
+      ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
