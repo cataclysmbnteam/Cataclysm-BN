@@ -2,19 +2,17 @@
   {
     "type": "recipe",
     "result": "alternator_bicycle",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 3 ],
-    "difficulty": 3,
-    "time": "30 m",
+    "difficulty": 4,
+    "time": "40 m",
     "reversible": true,
-    "autolearn": true,
     "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 4 ] ], [ [ "makeshift_transformer", 1 ] ] ]
+    "autolearn": true,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "power_supply", 1 ], [ "e_scrap", 2 ], [ "makeshift_transformer", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 3 ] ] ]
   },
   {
     "type": "recipe",
