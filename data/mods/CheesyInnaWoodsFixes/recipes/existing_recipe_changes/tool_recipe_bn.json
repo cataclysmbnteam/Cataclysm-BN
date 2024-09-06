@@ -276,7 +276,7 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
     "skill_used": "electronics",
-	    "time": "30 m",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
     "components": [

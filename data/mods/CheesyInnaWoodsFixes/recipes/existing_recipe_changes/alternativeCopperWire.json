@@ -20,9 +20,9 @@
     ],
     "using": [ [ "waterproofing", 1 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "copper", 10 ] ]]
+    "components": [ [ [ "copper", 10 ] ] ]
   },
-{
+  {
     "type": "recipe",
     "result": "cable",
     "id_suffix": "from_thread",
@@ -43,6 +43,6 @@
     ],
     "using": [ [ "cordage_short", 6 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "copper", 10 ] ]]
+    "components": [ [ [ "copper", 10 ] ] ]
   }
 ]
