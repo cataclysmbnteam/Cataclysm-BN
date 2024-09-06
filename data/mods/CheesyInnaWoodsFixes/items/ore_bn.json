@@ -1,20 +1,6 @@
 [
   {
     "type": "GENERIC",
-    "id": "iron_ore",
-    "symbol": ",",
-    "color": "brown",
-    "name": { "str": "iron ore" },
-    "category": "spare_parts",
-    "description": "A chunk of iron-rich earth.  Could be refined with a bloomery.",
-    "price": "5 USD 31 cent",
-    "price_postapoc": "10 cent",
-    "material": [ "iron" ],
-    "weight": "1000 g",
-    "volume": "235 ml"
-  },
-  {
-    "type": "GENERIC",
     "id": "chunk_copper",
     "category": "spare_parts",
     "price": "1 USD",
