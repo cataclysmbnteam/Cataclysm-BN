@@ -341,6 +341,7 @@
       [ "hat_sombrero", 5 ],
       [ "bandolier_shotgun", 8 ],
       [ "torso_bandolier_shotgun", 3 ],
+      [ "bandolier_knife", 3 ],
       [ "holster", 8 ],
       [ "shoulder_holster", 4 ],
       [ "bootstrap", 2 ],
