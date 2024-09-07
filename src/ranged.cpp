@@ -1856,8 +1856,15 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { noise, _( "Thunk! Boom!" ) };
 
     } else if( has_flag( flag_SOUND_RAILGUN ) ) {
-        // Railguns
-        return { 24, _( "tz-CRACKck!" ) };
+        if( noise < 20 ) {
+            return { noise, burst ? _( "tz-tz-tzk!" ) : _( "tzk!" ) };
+        } else if( noise < 80 ) {
+            return { noise, burst ? _( "Brzzip!" ) : _( "tz-Zing!" ) };
+        } else if( noise < 200 ) {
+            return { noise, burst ? _( "tzz-CR-CR-CRAck!" ) : _( "tz-CRACKck!" ) };
+        } else {
+            return { noise, burst ? _( "tzz-BOOOM!" ) : _( "tzk-BLAM!" ) };
+        }
 
     } else if( has_flag( flag_SOUND_FLAMETHROWER ) ) {
         // Rocket launchers and flamethrowers

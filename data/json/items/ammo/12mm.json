@@ -16,6 +16,7 @@
     "stack_size": 40,
     "ammo_type": "12mm",
     "damage": { "damage_type": "bullet", "amount": 50, "armor_penetration": 40 },
+    "loudness": 0,
     "dispersion": 45,
     "recoil": 100
   }

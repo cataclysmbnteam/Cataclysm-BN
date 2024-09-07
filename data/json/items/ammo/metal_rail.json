@@ -18,6 +18,7 @@
     "ammo_type": "metal_rail",
     "range": 20,
     "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 10 },
+    "loudness": 0,
     "dispersion": 200,
     "effects": [ "RECYCLED", "NON_FOULING" ]
   },

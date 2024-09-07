@@ -15,13 +15,14 @@
     "ammo": "metal_rail",
     "range": 10,
     "ranged_damage": { "damage_type": "stab", "amount": 40 },
+    "loudness": 220,
     "dispersion": 200,
     "durability": 7,
     "clip_size": 10,
     "ups_charges": 120,
     "reload": 200,
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
-    "extend": { "flags": [ "RELOAD_ONE", "MOUNTED_GUN", "SOUND_RAILGUN" ] }
+    "extend": { "flags": [ "RELOAD_ONE", "MOUNTED_GUN" ] }
   },
   {
     "id": "rebar_rifle",
@@ -40,12 +41,12 @@
     "color": "brown",
     "ammo": "metal_rail",
     "ranged_damage": { "damage_type": "stab", "amount": 20 },
+    "loudness": 180,
     "dispersion": 100,
     "durability": 6,
     "clip_size": 1,
     "ups_charges": 60,
     "reload": 200,
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
-    "extend": { "flags": [ "SOUND_RAILGUN" ] }
+    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
   }
 ]

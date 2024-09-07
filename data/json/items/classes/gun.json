@@ -294,7 +294,7 @@
     "name": { "str": "magnetic rifle" },
     "looks_like": "hk_g80",
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "SOUND_RAILGUN" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

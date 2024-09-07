@@ -11,10 +11,10 @@
     "price_postapoc": "120 USD",
     "material": "steel",
     "ammo": "12mm",
+    "loudness": 24,
     "range": 60,
     "dispersion": 45,
     "ups_charges": 5,
-    "magazines": [ [ "12mm", [ "hk_g80mag" ] ] ],
-    "extend": { "flags": [ "SOUND_RAILGUN" ] }
+    "magazines": [ [ "12mm", [ "hk_g80mag" ] ] ]
   }
 ]
