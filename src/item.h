@@ -649,10 +649,13 @@ class item : public location_visitable<item>, public game_object<item>
         damage_instance base_damage_thrown() const;
 
         /**
-        * Calculate the item's effective damage per second past armor when wielded by a
+         * Calculate the item's effective damage per second past armor when wielded by a
          * character against a monster.
          */
+        /*@{*/
         double effective_dps( const player &guy, const monster &mon ) const;
+        double effective_dps( const player &guy, const monster &mon, const attack_statblock &attack ) const;
+        /*@}*/
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
@@ -660,10 +663,12 @@ class item : public location_visitable<item>, public game_object<item>
          * for_calc - include monsters intended for evaluation purposes
          * for_display and for_calc are inclusive
                */
-        std::map<std::string, double> dps( bool for_display, bool for_calc, const player &guy ) const;
-        std::map<std::string, double> dps( bool for_display, bool for_calc ) const;
+        std::map<std::string, double> dps( bool for_display, bool for_calc, const player &guy,
+                                           const attack_statblock &attack ) const;
+        std::map<std::string, double> dps( bool for_display, bool for_calc,
+                                           const attack_statblock &attack ) const;
         /** return the average dps of the weapon against evaluation monsters */
-        double average_dps( const player &guy ) const;
+        double average_dps( const player &guy, const attack_statblock &attack ) const;
 
         double ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode ) const;
 
