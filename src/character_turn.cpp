@@ -239,8 +239,13 @@ void Character::process_turn()
             }
         }
 
-        //mask from scent altering items;
+        // Mask from scent altering items;
         norm_scent += mask_intensity;
+
+        // Now that all the additions are done, multiply norm_scent by any scent modifiers.
+        for( const trait_id &mut : get_mutations() ) {
+            norm_scent *= mut.obj().scent_modifier;
+        }
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
         // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
@@ -252,10 +257,6 @@ void Character::process_turn()
         // Unusually high scent decreases steadily until it reaches normal levels.
         if( scent > norm_scent ) {
             scent--;
-        }
-
-        for( const trait_id &mut : get_mutations() ) {
-            scent *= mut.obj().scent_modifier;
         }
     }
 
