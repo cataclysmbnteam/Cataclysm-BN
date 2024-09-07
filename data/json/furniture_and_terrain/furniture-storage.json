@@ -951,7 +951,25 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 9,
-    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "LOCKED", "PICKABLE" ],
+    "lockpick_result": "f_displaycase_o",
+    "lockpick_message": "With a satisfying click, the display case slides open.",
+    "examine_action": "locked_object",
+    "pry": {
+      "success_message": "You pry open the display case.",
+      "fail_message": "You pry, but cannot pry open the display.",
+      "break_message": "You break the glass.",
+      "pry_quality": 1,
+      "pry_bonus_mult": 3,
+      "noise": 12,
+      "break_noise": 24,
+      "breakable": true,
+      "break_sound": "glass breaking!",
+      "difficulty": 11,
+      "new_furn_type": "f_displaycase_o",
+      "break_furn_type": "f_displaycase_b",
+      "break_items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ]
+    },
     "bash": {
       "str_min": 6,
       "str_max": 20,
@@ -977,13 +995,41 @@
     "coverage": 80,
     "required_str": 9,
     "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 8 }, { "item": "nail", "charges": 12 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
+      "items": [
+        { "item": "2x4", "count": [ 3, 6 ] },
+        { "item": "splinter", "count": [ 2, 4 ] },
+        { "item": "nail", "charges": [ 0, 8 ] }
+      ],
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_displaycase_o",
+    "copy-from": "f_displaycase_b",
+    "name": "unlocked display case",
+    "looks_like": "f_displaycase",
+    "description": "Display your stuff.  Not very secure anymore, but still looks nice.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "deconstruct": { "items": [ { "item": "2x4", "count": 8 }, { "item": "nail", "charges": 12 }, { "item": "glass_sheet", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ],
+      "//": "reduction matches that of the underlying broken case, destroy_threshold matches str_min since glass might shatter",
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 6, "block_unaimed_chance": "75%" }
     }
   },
   {

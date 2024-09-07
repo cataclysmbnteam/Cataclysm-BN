@@ -1243,6 +1243,15 @@
     "required_str": 30,
     "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE" ],
     "examine_action": "vending",
+    "oxytorch": {
+      "result": "f_vending_o",
+      "duration": "14 seconds",
+      "byproducts": [
+        { "item": "glass_sheet", "count": 1 },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] }
+      ]
+    },
     "bash": {
       "str_min": 150,
       "str_max": 520,
