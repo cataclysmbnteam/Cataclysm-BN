@@ -105,18 +105,8 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 
-static const itype_id itype_12mm( "12mm" );
-static const itype_id itype_40x46mm( "40x46mm" );
-static const itype_id itype_40x53mm( "40x53mm" );
-static const itype_id itype_66mm( "66mm" );
-static const itype_id itype_84x246mm( "84x246mm" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_arrow( "arrow" );
-static const itype_id itype_bolt( "bolt" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
-static const itype_id itype_flammable( "flammable" );
-static const itype_id itype_m235( "m235" );
-static const itype_id itype_metal_rail( "metal_rail" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -1853,7 +1843,7 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     if( has_flag( flag_SOUND_LAUNCHER ) ) {
         // Grenade launchers
-        return { noise, _( "Thunk! Boom!" ) };
+        return { noise, _( "Thunk!  Boom!" ) };
 
     } else if( has_flag( flag_SOUND_RAILGUN ) ) {
         if( noise < 20 ) {
