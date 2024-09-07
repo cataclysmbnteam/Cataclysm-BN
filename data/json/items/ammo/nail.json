@@ -8,7 +8,8 @@
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "proportional": { "price": 3, "damage": { "damage_type": "stab", "amount": 3, "armor_penetration": 3 } }
+    "proportional": { "price": 3, "damage": { "damage_type": "stab", "amount": 3, "armor_penetration": 3 } },
+    "loudness": 0
   },
   {
     "id": "nail",
@@ -28,6 +29,7 @@
     "ammo_type": "nail",
     "range": 3,
     "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 3 },
+    "loudness": 5,
     "dispersion": 120,
     "dont_recover_one_in": 800,
     "effects": [ "NON_FOULING" ],

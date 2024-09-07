@@ -338,7 +338,7 @@
     "name": { "str": "pneumatic rifle" },
     "bashing": 8,
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "SOUND_PNEUMATIC" ],
     "dispersion": 350,
     "reload": 600,
     "valid_mod_locations": [

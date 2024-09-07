@@ -89,7 +89,7 @@
     "description": "A double-barreled pneumatic air shotgun handcrafted from scrap.  Though its firepower is lacking compared to more conventional shotguns, this thing can still pack quite a punch.  That is, if your target is directly in front of you.",
     "price": "2200 USD",
     "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON_FOULING", "NEEDS_NO_LUBE", "SOUND_PNEUMATIC" ],
     "skill": "shotgun",
     "ammo": [ "shotcanister" ],
     "weight": "3410 g",

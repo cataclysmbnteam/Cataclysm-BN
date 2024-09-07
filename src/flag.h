@@ -362,6 +362,7 @@ extern const flag_id flag_SOUND_RAILGUN;
 extern const flag_id flag_SOUND_FLAMETHROWER;
 extern const flag_id flag_SOUND_BOW;
 extern const flag_id flag_SOUND_CROSSBOW;
+extern const flag_id flag_SOUND_PNEUMATIC;
 
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json

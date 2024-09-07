@@ -2234,5 +2234,11 @@
     "type": "json_flag",
     "context": [  ],
     "//": "This item is meant to sound like a crossbow when fired."
+  },
+  {
+    "id": "SOUND_PNEUMATIC",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "This item is meant to sound like a pneumatic weapon when fired."
   }
 ]

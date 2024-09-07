@@ -1866,6 +1866,17 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, burst ? _( "tzz-BOOOM!" ) : _( "tzk-BLAM!" ) };
         }
 
+    } else if( has_flag( flag_SOUND_PNEUMATIC ) ) {
+        if( noise < 10 ) {
+            return { noise, burst ? _( "P-p-p-pft!" ) : _( "pft!" ) };
+        } else if( noise < 20 ) {
+            return { noise, burst ? _( "Plaarp!" ) : _( "Phut!" ) };
+        } else if( noise < 40 ) {
+            return { noise, burst ? _( "Thk-Thk-Thunk!" ) : _( "Thunk!" ) };
+        } else {
+            return { noise, burst ? _( "Chuk-chunk!" ) : _( "Chooo!" ) };
+        }
+
     } else if( has_flag( flag_SOUND_FLAMETHROWER ) ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
