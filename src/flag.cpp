@@ -355,10 +355,10 @@ const flag_id flag_WEATHER_FORECAST( "WEATHER_FORECAST" );
 const flag_id flag_WINDMETER( "WINDMETER" );
 const flag_id flag_SOUND_LAUNCHER( "SOUND_LAUNCHER" );
 const flag_id flag_SOUND_RAILGUN( "SOUND_RAILGUN" );
-const flag_id flag_SOUND_FLAMETHROWER("SOUND_FLAMETHROWER");
-const flag_id flag_SOUND_BOW("SOUND_BOW");
-const flag_id flag_SOUND_CROSSBOW("SOUND_CROSSBOW");
-const flag_id flag_SOUND_PNEUMATIC("SOUND_PNEUMATIC");
+const flag_id flag_SOUND_FLAMETHROWER( "SOUND_FLAMETHROWER" );
+const flag_id flag_SOUND_BOW( "SOUND_BOW" );
+const flag_id flag_SOUND_CROSSBOW( "SOUND_CROSSBOW" );
+const flag_id flag_SOUND_PNEUMATIC( "SOUND_PNEUMATIC" );
 
 namespace
 {
