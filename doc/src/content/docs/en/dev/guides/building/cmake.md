@@ -45,6 +45,22 @@ You can obtain the source code tarball for the latest version from
 
 Obtain packages specified above with your system package manager.
 
+- For Ubuntu-based distros (24.04 onwards):
+
+```sh
+$ sudo apt install git cmake ninja-build mold clang-17 ccache \ 
+  libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev \ 
+  freetype glibc bzip2 zlib libvorbis ncurses gettext libflac++-dev
+```
+
+- For Fedora-based distros:
+
+```sh
+$ sudo dnf install git cmake ninja-build mold clang17 ccache \
+  SDL2-devel SDL2_image-devel SDL2_ttf-devel SDL2_mixer-devel \
+  freetype glibc bzip2 zlib-ng libvorbis ncurses gettext flac-devel
+```
+
 ### Windows Environment (MSYS2)
 
 1. Follow steps from here: https://msys2.github.io/
@@ -126,6 +142,37 @@ values on a console and graphical UI, respectively.
 ```sh
 $ ccmake ..
 $ cmake-gui ..
+```
+
+A CMake build with almost all options with build optimizations (ccache, ninja, mold) + tracy
+profiler may look like:
+
+```sh
+mkdir -p build
+cmake \
+  -B build \
+  -G Ninja \
+  -DCATA_CCACHE=ON \
+  -DCMAKE_C_COMPILER=clang-17 \
+  -DCMAKE_CXX_COMPILER=clang++-17 \
+  -DCMAKE_INSTALL_PREFIX=$HOME/.local/share \
+  -DJSON_FORMAT=ON \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCURSES=OFF \
+  -DTILES=ON \
+  -DSOUND=ON \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+  -DCATA_CLANG_TIDY_PLUGIN=OFF \
+  -DLUA=ON \
+  -DBACKTRACE=ON \
+  -DLINKER=mold \
+  -DUSE_XDG_DIR=ON \
+  -DUSE_HOME_DIR=OFF \
+  -DUSE_PREFIX_DATA_DIR=OFF \
+  -DUSE_TRACY=ON \
+  -DTRACY_VERSION=master \
+  -DTRACY_ON_DEMAND=ON \
+  -DTRACY_ONLY_IPV4=ON
 ```
 
 ## Build for MSYS2 (MinGW)
@@ -361,6 +408,10 @@ Print backtrace with [libbacktrace]. This allows lld and mold to print backtrace
 much faster.
 
 [libbacktrace]: https://github.com/ianlancetaylor/libbacktrace
+
+- USE_TRACY=`<boolean>`
+
+Use tracy profiler. See [Profiling with tracy](../tracy.md) for more information.
 
 - GIT_BINARY=`<str>`
 

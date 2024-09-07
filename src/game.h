@@ -196,7 +196,7 @@ class game
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
         void invalidate_main_ui_adaptor() const;
         void mark_main_ui_adaptor_resize() const;
-        void draw();
+        void draw( ui_adaptor &ui );
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
 
@@ -490,8 +490,6 @@ class game
         void validate_mounted_npcs();
         /** validate towed vehicles so they get linked up again after a load */
         void validate_linked_vehicles();
-        /** validate camps to ensure they are on the overmap list */
-        void validate_camps();
         /** process vehicles that are following the player */
         void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
@@ -689,7 +687,7 @@ class game
                                   units::angle veh_dir, bool hilite, point mount );
         void draw_below_override( const tripoint &p, bool draw );
         void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
-                                    bool more, Creature::Attitude att );
+                                    bool more, Attitude att );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
@@ -881,14 +879,6 @@ class game
         void win_screen();       // Display our stats, "CONGRATULATIONS!"
         void draw_minimap();     // Draw the 5x5 minimap
     public:
-        /**
-         * If there is a robot (that can be disabled), query the player
-         * and try to disable it.
-         * @return true if the robot has been disabled or a similar action has
-         * been done. false if the player did not choose any action and the function
-         * has effectively done nothing.
-         */
-        bool disable_robot( const tripoint &p );
         // Draws the pixel minimap based on the player's current location
         void draw_pixel_minimap( const catacurses::window &w );
     private:

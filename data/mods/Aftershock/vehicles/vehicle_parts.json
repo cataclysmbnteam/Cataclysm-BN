@@ -51,7 +51,24 @@
     "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
     "epower": -100,
     "size": "300 L",
-    "item": "afs_fridge"
+    "item": "fridge"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_glass_fridge",
+    "copy-from": "minifridge",
+    "name": { "str": "glass refrigerator" },
+    "symbol": "{",
+    "categories": [ "Cargo", "Util" ],
+    "color": "white",
+    "broken_color": "white",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A medium-sized glass door refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
+    "epower": -120,
+    "size": "300 L",
+    "item": "glass_fridge",
+    "delete": { "flags": [ "COVERED" ] }
   },
   {
     "type": "vehicle_part",
@@ -64,10 +81,27 @@
     "broken_color": "light_blue",
     "looks_like": "minifridge",
     "durability": 400,
-    "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
+    "description": "A medium sized commercial freezer, converted to run on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
     "epower": -120,
     "size": "300 L",
-    "item": "afs_freezer"
+    "item": "freezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_glass_freezer",
+    "copy-from": "minifreezer",
+    "name": { "str": "glass freezer" },
+    "symbol": "{",
+    "categories": [ "Cargo", "Util" ],
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A medium sized glass door freezer, converted to run on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
+    "epower": -140,
+    "size": "300 L",
+    "item": "glass_freezer",
+    "delete": { "flags": [ "COVERED" ] }
   },
   {
     "type": "vehicle_part",

@@ -18,7 +18,6 @@
 #include "ammo_effect.h"
 #include "artifact.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -79,6 +78,7 @@
 #include "player.h"
 #include "point_float.h"
 #include "projectile.h"
+#include "profile.h"
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
@@ -109,8 +109,11 @@ static const ammo_effect_str_id ammo_effect_LASER( "LASER" );
 static const ammo_effect_str_id ammo_effect_LIGHTNING( "LIGHTNING" );
 static const ammo_effect_str_id ammo_effect_PLASMA( "PLASMA" );
 
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
+
 static const itype_id itype_autoclave( "autoclave" );
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_chemistry_set( "chemistry_set" );
 static const itype_id itype_dehydrator( "dehydrator" );
 static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
@@ -464,6 +467,8 @@ void map::destroy_vehicle( vehicle *veh )
 
 void map::on_vehicle_moved( const int smz )
 {
+    ZoneScoped;
+
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
@@ -473,6 +478,8 @@ void map::on_vehicle_moved( const int smz )
 
 void map::vehmove()
 {
+    ZoneScoped;
+
     // give vehicles movement points
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
@@ -1801,6 +1808,7 @@ std::string map::features( const tripoint &p )
     add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );
     add_if( has_flag( "SHARP", p ), _( "Sharp." ) );
     add_if( has_flag( "FLAT", p ), _( "Flat." ) );
+    add_if( has_flag( "ROOF", p ), _( "Roof." ) );
     add_if( has_flag( "EASY_DECONSTRUCT", p ), _( "Simple." ) );
     add_if( has_flag( "MOUNTABLE", p ), _( "Mountable." ) );
     return result;
@@ -2351,6 +2359,8 @@ void map::support_dirty( const tripoint &p )
 
 void map::process_falling()
 {
+    ZoneScoped;
+
     if( !zlevels ) {
         support_cache_dirty.clear();
         return;
@@ -3093,10 +3103,13 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         if( will_explode_on_impact( power ) && it->will_explode_in_fire() ) {
             return item::detonate( std::move( it ), p, contents );
         }
-        if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
-            return std::move( it );
+        if( it->is_corpse() ) {
+            if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() &&
+                !it->get_mtype()->zombify_into ) {
+                return std::move( it );
+            }
         }
-        bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
+        bool is_active_explosive = it->is_active() && it->type->get_use( "explosion" ) != nullptr;
         if( is_active_explosive && it->charges == 0 ) {
             return std::move( it );
         }
@@ -3652,7 +3665,7 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
     bool smashed_glass = false;
     for( auto bashed_item = bashed_items.begin(); bashed_item != bashed_items.end(); ) {
         // the check for active suppresses Molotovs smashing themselves with their own explosion
-        if( ( *bashed_item )->made_of( material_id( "glass" ) ) && !( *bashed_item )->active &&
+        if( ( *bashed_item )->can_shatter() && !( *bashed_item )->is_active() &&
             one_in( 2 ) ) {
             result.did_bash = true;
             smashed_glass = true;
@@ -3801,12 +3814,15 @@ void map::crush( const tripoint &p )
     }
 }
 
-void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
+void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, const bool hit_items )
 {
     float initial_damage = 0.0;
+    float initial_arpen = 0.0;
+    float initial_armor_mult = 1.0;
     for( const damage_unit &dam : proj.impact ) {
         initial_damage += dam.amount * dam.damage_multiplier;
-        initial_damage += dam.res_pen;
+        initial_arpen += dam.res_pen;
+        initial_armor_mult *= dam.res_mult;
     }
     if( initial_damage < 0 ) {
         return;
@@ -3827,23 +3843,67 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         dam = vp->vehicle().damage( vp->part_index(), dam, inc ? DT_HEAT : DT_STAB, hit_items );
     }
 
+    furn_id furn_here = furn( p );
+    furn_t furn = furn_here.obj();
+
     ter_id terrain = ter( p );
     ter_t ter = terrain.obj();
 
-    if( ter.bash.ranged ) {
-        const ranged_bash_info &ri = *ter.bash.ranged;
-        if( !hit_items && !check( ri.block_unaimed_chance ) ) {
-            // Nothing, it's a miss
-        } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
-            dam -= rng( ri.reduction_laser->min, ri.reduction_laser->max );
+    if( furn.bash.ranged ) {
+        double range = rl_dist( origin, p );
+        const ranged_bash_info &rfi = *furn.bash.ranged;
+        float destroy_roll = dam * rng_float( 0.9, 1.1 );
+        if( !hit_items && ( !check( rfi.block_unaimed_chance ) || ( rfi.block_unaimed_chance < 100_pct &&
+                            range <= 1 ) ) ) {
+            // Nothing, it's a miss or we're shooting over nearby furniture
+        } else if( rfi.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
+            dam -= std::max( ( rng( rfi.reduction_laser->min,
+                                    rfi.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
         } else {
-            dam -= rng( ri.reduction.min, ri.reduction.max );
-            if( dam > ri.destroy_threshold ) {
+            // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
+            dam -= std::max( ( rng( rfi.reduction.min,
+                                    rfi.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
+            // Only print if we hit something we can see enemies through, so we know cover did its job
+            if( get_avatar().sees( p ) ) {
+                if( dam <= 0 ) {
+                    add_msg( _( "The shot is stopped by the %s!" ), furnname( p ) );
+                } else {
+                    add_msg( _( "The shot hits the %s and punches through!" ), furnname( p ) );
+                }
+            }
+            if( destroy_roll > rfi.destroy_threshold ) {
+                bash_params params{0, false, true, hit_items, 1.0, false};
+                bash_furn_success( p, params );
+            }
+            if( rfi.flammable && inc ) {
+                add_field( p, fd_fire, 1 );
+            }
+        }
+    } else if( ter.bash.ranged ) {
+        double range = rl_dist( origin, p );
+        const ranged_bash_info &ri = *ter.bash.ranged;
+        float destroy_roll = dam * rng_float( 0.9, 1.1 );
+        if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
+                            range <= 1 ) ) ) {
+            // Nothing, it's a miss or we're shooting over nearby terrain
+        } else if( ri.reduction_laser && proj.has_effect( ammo_effect_LASER ) ) {
+            dam -= std::max( ( rng( ri.reduction_laser->min,
+                                    ri.reduction_laser->max ) - initial_arpen ) * initial_armor_mult, 0.0f );
+        } else {
+            // Roll damage reduction value, reduce result by arpen, multiply by any armor mult, then finally set to zero if negative result
+            dam -= std::max( ( rng( ri.reduction.min,
+                                    ri.reduction.max ) - initial_arpen ) * initial_armor_mult, 0.0f );
+            // Only print if we hit something we can see enemies through, so we know cover did its job
+            if( get_avatar().sees( p ) ) {
+                if( dam <= 0 ) {
+                    add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
+                } else {
+                    add_msg( _( "The shot hits the %s and punches through!" ), tername( p ) );
+                }
+            }
+            if( destroy_roll > ri.destroy_threshold ) {
                 bash_params params{0, false, true, hit_items, 1.0, false};
                 bash_ter_success( p, params );
-            }
-            if( dam <= 0 && is_transparent( p ) && get_avatar().sees( p ) ) {
-                add_msg( _( "The shot is stopped by the %s!" ), tername( p ) );
             }
             if( ri.flammable && inc ) {
                 add_field( p, fd_fire, 1 );
@@ -4253,6 +4313,10 @@ std::vector<detached_ptr<item>> map::i_clear( const tripoint &p )
 detached_ptr<item> map::spawn_an_item( const tripoint &p, detached_ptr<item> &&new_item,
                                        const int charges, const int damlevel )
 {
+    if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
+        new_item->set_flag( flag_FIT );
+    }
+
     if( charges && new_item->charges > 0 ) {
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item->charges = charges;
@@ -4314,9 +4378,6 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     for( size_t i = 0; i < quantity; i++ ) {
         // spawn the item
         detached_ptr<item> new_item = item::spawn( type_id, birthday );
-        if( one_in( 3 ) && new_item->has_flag( flag_VARSIZE ) ) {
-            new_item->set_flag( flag_FIT );
-        }
 
         spawn_an_item( p, std::move( new_item ), charges, damlevel );
     }
@@ -4481,7 +4542,7 @@ void map::add_item( const tripoint &p, detached_ptr<item> &&new_item )
             new_item->convert( dynamic_cast<const iuse_transform *>
                                ( new_item->type->get_use( "transform" )->get_actor_ptr() )->target );
         }
-        new_item->active = true;
+        new_item->activate();
     }
 
     if( new_item->is_map() && !new_item->has_var( "reveal_map_center_omt" ) ) {
@@ -4553,6 +4614,19 @@ detached_ptr<item> map::water_from( const tripoint &p )
         return item::spawn( furn( p ).obj().provides_liquids, calendar::turn, item::INFINITE_CHARGES );
     }
     return detached_ptr<item>();
+}
+
+void map::make_inactive( item &loc )
+{
+    point l;
+    submap *const current_submap = get_submap_at( loc.position(), l );
+
+    // remove from the active items cache (if it isn't there does nothing)
+    current_submap->active_items.remove( &loc );
+    if( current_submap->active_items.empty() ) {
+        submaps_with_active_items.erase( tripoint( abs_sub.x + loc.position().x / SEEX,
+                                         abs_sub.y + loc.position().y / SEEY, loc.position().z ) );
+    }
 }
 
 void map::make_active( item &loc )
@@ -5048,7 +5122,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
 std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const int range,
                              const itype_id &type, int &quantity,
-                             const std::function<bool( const item & )> &filter, basecamp *bcp )
+                             const std::function<bool( const item & )> &filter )
 {
     std::vector<detached_ptr<item>> ret;
 
@@ -5065,13 +5139,6 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
             water->charges = quantity;
             ret.push_back( std::move( water ) );
             quantity = 0;
-            return ret;
-        }
-    }
-
-    if( bcp ) {
-        ret = bcp->use_charges( type, quantity );
-        if( quantity <= 0 ) {
             return ret;
         }
     }
@@ -5704,40 +5771,6 @@ computer *map::computer_at( const tripoint &p )
     point l;
     submap *const sm = get_submap_at( p, l );
     return sm->get_computer( l );
-}
-
-bool map::point_within_camp( const tripoint &point_check ) const
-{
-    // TODO: fix point types
-    const tripoint_abs_omt omt_check( ms_to_omt_copy( point_check ) );
-    const point_abs_omt p = omt_check.xy();
-    for( int x2 = -2; x2 < 2; x2++ ) {
-        for( int y2 = -2; y2 < 2; y2++ ) {
-            if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( p + point( x2, y2 ) ) ) {
-                return ( *bcp )->camp_omt_pos().z() == point_check.z;
-            }
-        }
-    }
-    return false;
-}
-
-void map::remove_submap_camp( const tripoint &p )
-{
-    get_submap_at( p )->camp.reset();
-}
-
-basecamp map::hoist_submap_camp( const tripoint &p )
-{
-    basecamp *pcamp = get_submap_at( p )->camp.get();
-    return pcamp ? *pcamp : basecamp();
-}
-
-void map::add_camp( const tripoint_abs_omt &omt_pos, const std::string &name )
-{
-    basecamp temp_camp = basecamp( name, omt_pos );
-    overmap_buffer.add_camp( temp_camp );
-    g->u.camps.insert( omt_pos );
-    g->validate_camps();
 }
 
 void map::update_submap_active_item_status( const tripoint &p )
@@ -7246,14 +7279,86 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
 template <typename Container>
 void map::remove_rotten_items( Container &items, const tripoint &pnt, temperature_flag temperature )
 {
-    items.remove_with( [this, &pnt, &temperature]( detached_ptr<item> &&it ) {
+    std::vector<item *> corpses_handle;
+    items.remove_with( [this, &pnt, &temperature, &corpses_handle]( detached_ptr<item> &&it ) {
         item &obj = *it;
         it = item::actualize_rot( std::move( it ), pnt, temperature, get_weather() );
-        if( !it && obj.is_comestible() ) {
-            rotten_item_spawn( obj, pnt );
+        // When !it, that means the item was removed from the world, ie: has rotted.
+        if( !it ) {
+            if( obj.is_comestible() ) {
+                rotten_item_spawn( obj, pnt );
+            } else if( obj.is_corpse() ) {
+                // Corpses cannot be handled at this stage, as it causes memory errors by adding
+                // items to the Container that haven't been accounted for.
+                corpses_handle.push_back( &obj );
+            }
         }
         return std::move( it );
     } );
+
+    // Now that all the removing is done, add items from corpse spawns.
+    for( const item *corpse : corpses_handle ) {
+        handle_decayed_corpse( *corpse, pnt );
+    }
+
+}
+
+void map::handle_decayed_corpse( const item &it, const tripoint &pnt )
+{
+    const mtype *dead_monster = it.get_corpse_mon();
+    if( !dead_monster ) {
+        debugmsg( "Corpse at tripoint %s has no associated monster?!", getglobal( pnt ).to_string() );
+        return;
+    }
+
+    int decayed_weight_grams = to_gram( dead_monster->weight ); // corpse might have stuff in it!
+    decayed_weight_grams *= rng_float( 0.5, 0.9 );
+
+    for( const harvest_entry &entry : dead_monster->harvest.obj() ) {
+        if( entry.type != "bionic" && entry.type != "bionic_group" && entry.type != "blood" ) {
+            detached_ptr<item> harvest = item::spawn( entry.drop, it.birthday() );
+            const float random_decay_modifier = rng_float( 0.0f, static_cast<float>( MAX_SKILL ) );
+            const float min_num = entry.scale_num.first * random_decay_modifier + entry.base_num.first;
+            const float max_num = entry.scale_num.second * random_decay_modifier + entry.base_num.second;
+            int roll = 0;
+            if( entry.mass_ratio != 0.00f ) {
+                roll = static_cast<int>( std::round( entry.mass_ratio * decayed_weight_grams ) );
+                roll = std::ceil( static_cast<double>( roll ) / to_gram( harvest->weight() ) );
+            } else {
+                roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+            }
+            for( int i = 0; i < roll; i++ ) {
+                // This sanity-checks harvest yields that have a default stack amount, e.g. copper wire from cyborgs
+                if( harvest->charges > 1 ) {
+                    harvest->charges = 1;
+                }
+                if( !harvest->rotten() ) {
+                    add_item_or_charges( pnt, item::spawn( *harvest ) );
+                }
+            }
+        }
+    }
+    for( item * const &comp : it.get_components() ) {
+        if( comp->is_bionic() ) {
+            // If CBM, decay successfully at same minimum as dissection
+            // otherwise, yield burnt-out bionic and remove non-sterile if present
+            if( !one_in( 10 ) ) {
+                comp->convert( itype_burnt_out_bionic );
+                if( comp->has_fault( fault_bionic_nonsterile ) ) {
+                    comp->faults.erase( fault_bionic_nonsterile );
+                }
+            }
+            add_item_or_charges( pnt, item::spawn( *comp ) );
+        } else {
+            // Same odds to spawn at all, clearing non-sterile if needed
+            if( one_in( 10 ) ) {
+                if( comp->has_fault( fault_bionic_nonsterile ) ) {
+                    comp->faults.erase( fault_bionic_nonsterile );
+                }
+                add_item_or_charges( pnt, item::spawn( *comp ) );
+            }
+        }
+    }
 }
 
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )
@@ -7270,7 +7375,9 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
                                          get_option<float>( "CARRION_SPAWNRATE" ) );
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details.name, 1, pnt, false );
+        const spawn_disposition disposition = item.has_own_flag( flag_SPAWN_FRIENDLY ) ?
+                                              spawn_disposition::SpawnDisp_Pet : spawn_disposition::SpawnDisp_Default;
+        add_spawn( spawn_details.name, 1, pnt, disposition );
         if( g->u.sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
@@ -7838,7 +7945,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             if( i.name != "NONE" ) {
                 tmp.unique_name = i.name;
             }
-            if( i.friendly ) {
+            if( i.is_friendly() ) {
                 tmp.friendly = -1;
             }
 
@@ -7852,6 +7959,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
                 monster *const placed = g->place_critter_at( make_shared_fast<monster>( tmp ), p );
                 if( placed ) {
                     placed->on_load();
+                    if( i.disposition == spawn_disposition::SpawnDisp_Pet ) {
+                        placed->make_pet();
+                    }
                 }
             };
 
@@ -8218,6 +8328,8 @@ bool map::build_floor_cache( const int zlev )
 
 void map::build_floor_caches()
 {
+    ZoneScoped;
+
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int z = minz; z <= maxz; z++ ) {
@@ -8384,6 +8496,7 @@ void map::do_vehicle_caching( int z )
 
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
+    ZoneScoped;
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     bool seen_cache_dirty = false;

@@ -261,61 +261,6 @@
     "time": 1
   },
   {
-    "type": "recipe",
-    "result": "pneumatic_shotgun",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_launcher",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "coilgun",
-    "obsolete": true
-  },
-  {
-    "result": "nailrifle",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "result": "nailmag",
-    "type": "recipe",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "mininuke_mod",
-    "obsolete": true
-  },
-  {
-    "id": "mounted_mininuke_launcher",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted mininuke launcher" },
-    "item": "mininuke_launcher",
-    "color": "green",
-    "broken_color": "green",
-    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
-    "id": "mounted_coilgun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted coilgun" },
-    "item": "coilgun",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
     "type": "terrain",
     "id": "t_centrifuge",
     "name": "broken centrifuge",
@@ -461,6 +406,49 @@
       "sound_variant": "shotgun_d",
       "remove_trap": true,
       "spawn_items": [ "shotgun_d", "string_6" ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wind_turbine_rotor",
+    "name": "wind turbine rotor assembly",
+    "description": "A large, bladed turbine meant for generating power from wind.  Spinning idly in the breeze trying to power a grid that's since gone dark, the turbine could be salvaged for local power generation instead.",
+    "symbol": "$",
+    "color": "yellow",
+    "looks_like": "vp_heavy_duty_military_rotor",
+    "move_cost": 8,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": {
+      "ter_set": "t_metal_floor_no_roof",
+      "items": [
+        { "item": "frame", "prob": 80 },
+        { "item": "chain", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "steel_lump", "count": [ 1, 3 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "xl_wind_turbine", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "crash!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor_no_roof",
+      "items": [
+        { "item": "sheet_metal", "prob": 75 },
+        { "item": "sheet_metal_small", "count": [ 10, 20 ] },
+        { "item": "steel_lump", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 16, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "50%" }
     }
   }
 ]

@@ -12,7 +12,7 @@
     "color": "yellow",
     "price_postapoc": "10 USD",
     "use_action": "install_bionic",
-    "flags": [ "CBM" ],
+    "flags": [ "CBM", "ALLOWS_REMOTE_USE" ],
     "is_upgrade": false,
     "faults": [ "fault_bionic_nonsterile" ]
   },
@@ -287,16 +287,6 @@
     "difficulty": 6
   },
   {
-    "id": "bio_emp",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Directional EMP CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "Small parabolic EMP field generators that are mounted in the palm of the user's right hand.  These can be used to instantly fire a wide, but short-ranged blast which will disable electronics and robots.",
-    "price": "7200 USD",
-    "difficulty": 5
-  },
-  {
     "id": "bio_emp_armgun",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -483,6 +473,18 @@
     "difficulty": 6
   },
   {
+    "id": "bio_infolink",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Infolink CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "Before the Cataclysm this was a state-of-the-art communications package.  Even without cell service, it can still double as a two-way radio if installed.  Also comes with an internal chronometer with silent alarm clock feature, an air temperature sensor, and more detailed weather readouts when activated.",
+    "price": "3500 USD",
+    "weight": "700 g",
+    "difficulty": 3,
+    "installation_data": "AID_bio_infolink"
+  },
+  {
     "id": "bio_infrared",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -576,7 +578,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Enhanced Memory Banks CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills, and give them near-perfect memory of skills and terrain.",
+    "description": "A set of highly-advanced quantum storage drives used to enhance memory.  While active, they increase the rate that the user learns skills, and give them near-perfect memory of skills.",
     "price": "10 kUSD",
     "weight": "100 g",
     "difficulty": 9
@@ -591,18 +593,6 @@
     "price": "700 USD",
     "weight": "700 g",
     "difficulty": 4
-  },
-  {
-    "id": "bio_meteorologist",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Weather Reader CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells the user their external temperature.",
-    "price": "3500 USD",
-    "weight": "700 g",
-    "difficulty": 3,
-    "installation_data": "AID_bio_meteorologist"
   },
   {
     "id": "bio_nanobots",
@@ -755,7 +745,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingertip Razors CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a small amount of unarmed slashing damage whenever the user's fingertips are uncovered.",
+    "description": "A set of ten double-edged, four centimeter long razor-sharp claws that are implanted underneath the fingernails.  These will deal a fair amount of unarmed slashing damage whenever the user's fingertips are uncovered, and allow the user to somewhat precisely slice things apart.",
     "price": "4500 USD",
     "weight": "5 g",
     "difficulty": 4
@@ -792,6 +782,7 @@
   {
     "id": "bio_reactoroverride",
     "copy-from": "bionic_general_npc_usable",
+    "looks_like": "bio_reactor",
     "type": "BIONIC_ITEM",
     "name": { "str": "Micro Reactor Safety Override CBM" },
     "description": "Disables the radiation safety protocols allowing for much higher energy production.  While active produces 40kJ of power a turn and 1 irradiated stack every 20 turns.",
@@ -987,7 +978,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Uncanny Dodge CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Bionic processors that augment the user's nervous system, allowing them to dodge attacks beyond normal human capability, including bullets.",
+    "description": "Bionic processors that augment the user's nervous system, increasing their ability to dodge while active.  Dodge skill will also allow evading attacks beyond normal human capability, such as bullets.",
     "price": "9500 USD",
     "weight": "1000 g",
     "difficulty": 11
@@ -1003,18 +994,6 @@
     "weight": "700 g",
     "difficulty": 3,
     "installation_data": "AID_bio_ups"
-  },
-  {
-    "id": "bio_watch",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Internal Chronometer CBM" },
-    "looks_like": "bio_int_enhancer",
-    "description": "This bionic module contains an atomic clock, complete with silent alarm clock function.",
-    "price": "10 USD",
-    "weight": "10 g",
-    "difficulty": 1,
-    "installation_data": "AID_bio_watch"
   },
   {
     "id": "bio_water_extractor",
@@ -1043,7 +1022,7 @@
     "id": "bio_weight",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Titanium Skeletal Bracing CBM" },
+    "name": { "str": "Skeletal Bracing CBM" },
     "looks_like": "bio_int_enhancer",
     "description": "A set of hinges, springs, and other synthetic augments for the skeletal structure.  These artificial enhancers strengthen the knees and elbows, allowing the user to carry more weight.",
     "price": "500 USD",
@@ -1306,12 +1285,24 @@
     "difficulty": 3
   },
   {
+    "id": "bio_electrosense",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Electrosense CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "An advanced set of digital scanning equipment for reading electrical signals.  When installed it can be activated to scan nearby corpses for bionics, with the added bonus of detecting robots and creatures charged with electricity through walls.  A secondary mode allows it to assist with electrical work like a voltmeter, for checking and modifying grid connections.",
+    "price": "4500 USD",
+    "weight": "500 g",
+    "difficulty": 6
+  },
+  {
     "id": "bio_perpetual_test",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Perpetual Generator CBM" },
     "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
-    "price": "0 cent"
+    "price": "0 cent",
+    "looks_like": "bio_int_enhancer"
   },
   {
     "id": "debug_bio_fuel_cell",
@@ -1319,6 +1310,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Debug Fuel Cell CBM" },
     "description": "The power of the sun, in the palm of my hand!  Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
-    "price": "0 cent"
+    "price": "0 cent",
+    "looks_like": "bio_int_enhancer"
   }
 ]

@@ -1,0 +1,48 @@
+[
+  {
+    "type": "recipe",
+    "result": "cable",
+    "id_suffix": "from_waterproofing",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 50, 3 ],
+    "charges": 10,
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "using": [ [ "waterproofing", 1 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "copper", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cable",
+    "id_suffix": "from_thread",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 50, 3 ],
+    "charges": 10,
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "using": [ [ "cordage_short", 6 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "copper", 10 ] ] ]
+  }
+]

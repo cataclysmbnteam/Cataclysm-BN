@@ -83,40 +83,6 @@ TEST_CASE( "custom named item", "[item][type_name][named]" )
     CHECK( shotgun.type_name() == "Boomstick" );
 }
 
-TEST_CASE( "blood item", "[item][type_name][blood]" )
-{
-    static const mtype_id mon_zombie( "mon_zombie" );
-    static const mtype_id mon_chicken( "mon_chicken" );
-
-    SECTION( "blood from a zombie corpse" ) {
-        item &corpse = *item::make_corpse( mon_zombie );
-        item &blood = *item::spawn_temporary( "blood" );
-        blood.set_mtype( corpse.get_mtype() );
-        REQUIRE( blood.typeId() == itype_id( "blood" ) );
-        REQUIRE_FALSE( blood.is_corpse() );
-
-        CHECK( blood.type_name() == "zombie blood" );
-    }
-
-    SECTION( "blood from a chicken corpse" ) {
-        item &corpse = *item::make_corpse( mon_chicken );
-        item &blood = *item::spawn_temporary( "blood" );
-        blood.set_mtype( corpse.get_mtype() );
-        REQUIRE( blood.typeId() == itype_id( "blood" ) );
-        REQUIRE_FALSE( blood.is_corpse() );
-
-        CHECK( blood.type_name() == "chicken blood" );
-    }
-
-    SECTION( "blood from an unknown corpse" ) {
-        item &blood = *item::spawn_temporary( "blood" );
-        REQUIRE( blood.typeId() == itype_id( "blood" ) );
-        REQUIRE_FALSE( blood.is_corpse() );
-
-        CHECK( blood.type_name() == "human blood" );
-    }
-}
-
 TEST_CASE( "corpse item", "[item][type_name][corpse]" )
 {
     static const mtype_id mon_zombie( "mon_zombie" );

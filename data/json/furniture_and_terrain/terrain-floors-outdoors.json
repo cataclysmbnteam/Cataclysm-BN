@@ -18,7 +18,8 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW", "SOURCE_SAND" ],
+    "digging_result": "digging_sand_50L",
     "bash": {
       "sound": "thump",
       "ter_set": "t_pit_shallow",
@@ -48,7 +49,8 @@
     "symbol": ".",
     "color": "light_red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SOURCE_CLAY" ],
+    "digging_result": "digging_clay_50L",
     "bash": {
       "sound": "thump",
       "ter_set": "t_pit_shallow",
@@ -67,13 +69,13 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SOURCE_CLAY" ],
     "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump",
+      "sound_fail": "thump!",
+      "str_min": 20,
+      "str_max": 40,
+      "ter_set": "t_dirt",
       "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
     }
   },
@@ -86,13 +88,13 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SOURCE_SAND" ],
     "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
+      "sound": "thump!",
+      "sound_fail": "thump!",
+      "str_min": 20,
+      "str_max": 40,
+      "ter_set": "t_dirt",
       "items": [ { "item": "material_sand", "charges": [ 300, 600 ] } ]
     }
   },
@@ -105,7 +107,7 @@
     "looks_like": "t_claymound",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE", "SOURCE_IRON" ],
     "bash": {
       "str_min": 20,
       "str_max": 40,
@@ -147,6 +149,38 @@
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     },
     "examine_action": "dirtmound"
+  },
+  {
+    "type": "terrain",
+    "id": "t_paddy",
+    "name": "paddy field",
+    "description": "A damp, muddy field used to grow crops that require a lot of water.  The clay holds moisture, making it perfect for the crops.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "VEH_TREAT_AS_BASH_BELOW", "PLANTABLE", "SHALLOW_WATER" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "clay_lump", "count": [ 2, 6 ] } ]
+    },
+    "examine_action": "dirtmound",
+    "//": "Is this work even not t_dirtmound?"
+  },
+  {
+    "type": "terrain",
+    "id": "t_clay_bog",
+    "name": "ooze bog",
+    "description": "A pit filled with muddy water.  With additional work, some clay could be separated from the silt.",
+    "symbol": "O",
+    "color": "brown",
+    "looks_like": "t_mud",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -467,7 +501,7 @@
     "name": "red deck coating",
     "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in red color.",
     "copy-from": "t_deck_coating_no_roof",
-    "looks_like": " ",
+    "looks_like": "t_floor_red",
     "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
     "symbol": ".",
     "color": "red"
@@ -478,7 +512,7 @@
     "name": "white deck coating",
     "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in white color.",
     "copy-from": "t_deck_coating_no_roof",
-    "looks_like": " ",
+    "looks_like": "t_linoleum_white_no_roof",
     "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
     "symbol": ".",
     "color": "white"
@@ -491,6 +525,30 @@
     "description": "A bare and cold concrete floor with a streak of yellow paint.",
     "symbol": ".",
     "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_thconc_floor_no_roof",
+    "alias": "t_thconc_floor_nofloor",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor.",
+    "symbol": ".",
+    "color": "cyan",
+    "looks_like": "t_thconc_floor",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
     "bash": {

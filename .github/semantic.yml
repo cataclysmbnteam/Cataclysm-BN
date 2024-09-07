@@ -42,6 +42,7 @@ scopes:
   - mods/No_Ferals
   - mods/No_Fungi
   - mods/No_Rail_Stations
+  - mods/No_Wasps
   - mods/Old_Mutations
   - mods/Only_Wildlife
   - mods/RL_Classes
@@ -52,7 +53,6 @@ scopes:
   - mods/alt_map_key
   - mods/cbm_slots
   - mods/classic_zombies
-  - mods/craftgp
   - mods/crazy_cataclysm
   - mods/crt_expansion
   - mods/desertpack
@@ -60,6 +60,7 @@ scopes:
   - mods/elevated_bridges
   - mods/fuji_mpp
   - mods/generic_guns
+  - mods/innawoods
   - mods/limit_fungal_growth
   - mods/magiclysm
   - mods/manualbionicinstall
@@ -78,8 +79,9 @@ scopes:
   - mods/no_rivtech_guns
   - mods/no_scifi
   - mods/no_survivor_armor
+  - mods/no_zombify
   - mods/novitamins
-  - mods/ruralbiome
+  - mods/pride_flags
   - mods/saveload_lua_test
   - mods/sees_player_hitbutton
   - mods/sees_player_retro
@@ -88,3 +90,4 @@ scopes:
   - mods/stats_through_kills
   - mods/teleportation_tech
   - mods/test_data
+  - mods/Monster_Girls

@@ -37,7 +37,8 @@ struct ranged_bash_info {
         numeric_interval<int> reduction; // Damage reduction when shot. Rolled like rng(min, max).
         // As above, but for lasers. If set, lasers won't destroy us.
         std::optional<numeric_interval<int>> reduction_laser;
-        int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
+        int destroy_threshold =
+            0; // If dmg (times 0.9 to 1.1) before reduction is above this value, destroy us.
         bool flammable = false; // If true, getting hit with any heat damage creates a fire.
         units::probability block_unaimed_chance =
             100_pct; // Chance to intercept projectiles not aimed at this tile
@@ -316,6 +317,13 @@ enum ter_bitflags : int {
     TFLAG_SMALL_PASSAGE,
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
+    TFLAG_FUNGUS,
+    TFLAG_FLOWER,
+    TFLAG_ORGANIC,
+    TFLAG_PLANT,
+    TFLAG_SHRUB,
+    TFLAG_TREE,
+    TFLAG_YOUNG,
     TFLAG_SUSPENDED,
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
@@ -458,6 +466,8 @@ struct map_data_common_t {
         int movecost = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
+        // What itemgroup spawns when digging a shallow pit in this terrain, defaults to standard soil yield
+        std::string digging_result = "digging_soil_loam_50L";
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 

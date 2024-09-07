@@ -108,7 +108,7 @@
         "d": { "item": "office", "chance": 80 },
         "C": { "item": "office", "chance": 20 },
         "S": { "item": "bed", "chance": 60 },
-        "r": { "item": "hospital_medical_items", "chance": 30 },
+        "r": { "item": "hospital_medical_items", "chance": 70 },
         "R": { "item": "hospital_lab", "chance": 70 },
         "l": { "item": "surgery", "chance": 80 },
         "L": { "item": "allclothes", "chance": 90 },
@@ -116,7 +116,7 @@
         "9": { "item": "produce", "chance": 40 },
         "T": { "item": "snacks", "chance": 50 },
         "2": { "item": "hospital_samples", "chance": 50 },
-        "k": { "item": "doctors_books", "chance": 60 },
+        "k": { "item": "doctors_books", "chance": 75, "repeat": 4 },
         "H": [
           { "item": "harddrugs", "chance": 60 },
           { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
@@ -125,7 +125,7 @@
           { "item": "surgery", "chance": 60 }
         ]
       },
-      "place_loot": [ { "group": "autodoc_installation_programs", "x": 1, "y": [ 34, 37 ], "chance": 75, "repeat": 4 } ],
+      "place_loot": [ { "group": "autodoc_installation_programs_basic", "x": 1, "y": [ 34, 37 ], "chance": 75, "repeat": 4 } ],
       "place_monster": [
         { "group": "GROUP_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 15, 20 ] },
         { "group": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 15, 20 ] },
@@ -238,6 +238,82 @@
         "4": "t_sidewalk",
         "E": "t_elevator_control"
       },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 25 ],
+            [ "roof_2x2_infrastructure", 25 ],
+            [ "roof_2x2_infrastructure_1", 25 ],
+            [ "roof_2x2_infrastructure_2", 25 ]
+          ],
+          "x": [ 1, 18 ],
+          "y": [ 10, 18 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_infrastructure", 25 ],
+            [ "roof_2x2_infrastructure_1", 25 ],
+            [ "roof_2x2_infrastructure_2", 25 ]
+          ],
+          "x": [ 24, 42 ],
+          "y": [ 10, 18 ]
+        },
+        {
+          "chunks": [
+            [ "null", 25 ],
+            [ "roof_2x2_utilities", 10 ],
+            [ "roof_2x2_utilities_b", 5 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 5 ],
+            [ "roof_4x4_utility", 15 ],
+            [ "roof_4x4_utility_1", 10 ],
+            [ "roof_6x6_utility", 25 ]
+          ],
+          "x": [ 56, 65 ],
+          "y": [ 1, 18 ]
+        },
+        {
+          "chunks": [
+            [ "null", 25 ],
+            [ "roof_2x2_utilities", 10 ],
+            [ "roof_2x2_utilities_b", 5 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 5 ],
+            [ "roof_4x4_utility", 15 ],
+            [ "roof_4x4_utility_1", 10 ],
+            [ "roof_6x6_utility", 25 ]
+          ],
+          "x": [ 48, 65 ],
+          "y": [ 24, 42 ]
+        },
+        {
+          "chunks": [
+            [ "null", 25 ],
+            [ "roof_2x2_utilities", 10 ],
+            [ "roof_2x2_utilities_b", 5 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 5 ],
+            [ "roof_4x4_utility", 15 ],
+            [ "roof_4x4_utility_1", 10 ],
+            [ "roof_6x6_utility", 25 ]
+          ],
+          "x": [ 48, 65 ],
+          "y": [ 48, 65 ]
+        },
+        {
+          "chunks": [
+            [ "null", 40 ],
+            [ "roof_2x2_golf", 15 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_holdout", 15 ],
+            [ "roof_4x4_survivor", 15 ]
+          ],
+          "x": [ 1, 20 ],
+          "y": [ 64, 67 ]
+        },
+        { "chunks": [ [ "null", 40 ], [ "roof_16x16_help", 60 ] ], "x": [ 25, 30 ], "y": [ 48, 55 ] }
+      ],
       "place_vehicles": [ { "vehicle": "helicopters", "x": 10, "y": 56, "chance": 80, "rotation": 270 } ]
     }
   }

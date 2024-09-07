@@ -39,7 +39,8 @@
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
     "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital", "sloc_bastion_fort" ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -65,7 +66,8 @@
       "sloc_town_hall"
     ],
     "start_name": "In Town",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -142,7 +144,7 @@
     "id": "bad_day",
     "name": "Challenge - Really Bad Day",
     "points": -8,
-    "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
+    "description": "You start drunk to the point of incapacitation, depressed, infected, and surrounded by fire.  This day went downhill really fast.",
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
@@ -162,7 +164,18 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "professions": [ "svictim", "naked", "tweaker", "crackhead", "convict_ratman", "broken_cyborg" ],
+    "professions": [
+      "svictim",
+      "naked",
+      "tweaker",
+      "crackhead",
+      "homeless",
+      "convict_ratman",
+      "prof_fursuiter",
+      "clown",
+      "broken_cyborg",
+      "true_foodperson"
+    ],
     "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
   },
   {
@@ -237,7 +250,9 @@
       "broken_cyborg",
       "faulty_bionic",
       "cykotic",
-      "convict_political"
+      "convict_political",
+      "homeless",
+      "convict_ratman"
     ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "traits": [
@@ -301,7 +316,7 @@
     "points": -8,
     "description": "You were deemed non-essential and made to stay behind during the lab evacuation.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "labtech", "security", "medic", "bionic_installer", "bio_medic" ],
+    "professions": [ "labtech", "security", "medic", "bionic_installer", "bio_medic", "bionic_mentat", "bionic_spy" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -332,7 +347,8 @@
       "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "WIN_START", "LONE_START" ],
     "add_professions": true,
     "professions": [
       "sheltered_survivor",
@@ -471,16 +487,7 @@
     "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the Cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
-    "professions": [
-      "unemployed",
-      "mutant_patient",
-      "mutant_volunteer",
-      "labtech",
-      "broken_cyborg",
-      "faulty_bionic",
-      "cykotic",
-      "convict_political"
-    ],
+    "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "broken_cyborg", "faulty_bionic", "cykotic", "convict_political" ],
     "traits": [
       "ELFAEYES",
       "NIGHTVISION2",
@@ -605,7 +612,18 @@
     "description": "Your mission required you to eliminate a certain high-ranking individual in hiding. Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
     "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
     "start_name": "Evac Shelter",
-    "professions": [ "assassin", "hitman", "scoundrel", "gangster", "specops", "bionic_hitman", "bio_gangster", "razorgirl", "bio_sniper" ],
+    "professions": [
+      "assassin",
+      "hitman",
+      "scoundrel",
+      "gangster",
+      "specops",
+      "bionic_spy",
+      "bionic_hitman",
+      "bio_gangster",
+      "razorgirl",
+      "bio_sniper"
+    ],
     "flags": [ "CITY_START" ],
     "missions": [ "MISSION_ASSASSINATION" ]
   },
@@ -662,9 +680,9 @@
     "id": "overrun",
     "name": "Overrun",
     "points": 3,
-    "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
-    "start_name": "Military Base Warehouse",
-    "allowed_locs": [ "sloc_military_base_warehouse" ],
+    "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and didn't make it there in time.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
+    "start_name": "Military Base",
+    "allowed_locs": [ "sloc_military_base_barracks", "sloc_military_base_mess_hall", "sloc_military_base_communications_center" ],
     "professions": [
       "unemployed",
       "soldier",
@@ -680,7 +698,7 @@
       "medic",
       "mili_pilot"
     ],
-    "flags": [ "CHALLENGE", "LONE_START" ]
+    "flags": [ "CHALLENGE", "LONE_START", "CITY_START" ]
   },
   {
     "type": "scenario",
@@ -704,7 +722,7 @@
       "roadie",
       "bio_gangster"
     ],
-    "flags": [ "CHALLENGE", "LONE_START" ]
+    "flags": [ "CHALLENGE", "LONE_START", "CITY_START" ]
   },
   {
     "type": "scenario",

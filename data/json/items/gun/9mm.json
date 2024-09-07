@@ -117,9 +117,9 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
@@ -142,9 +142,9 @@
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
@@ -173,8 +173,8 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "underbarrel", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ]
@@ -199,9 +199,9 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
+      [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "underbarrel mount", 1 ],
+      [ "underbarrel", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
@@ -385,10 +385,10 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
   },
@@ -640,5 +640,25 @@
     "ammo": "9mm",
     "magazine_well": "250 ml",
     "magazines": [ [ "9mm", [ "ccpmag" ] ] ]
+  },
+  {
+    "id": "carbon_pistol",
+    "copy-from": "pistol_base",
+    "looks_like": "90two",
+    "type": "GUN",
+    "name": { "str": "carbon fiber machine pistol" },
+    "description": "This 3D printed machine pistol is made completely without any metal parts.  As a result, it is very lightweight.",
+    "material": [ "carbon_fiber" ],
+    "durability": 3,
+    "weight": "370 g",
+    "volume": "600 ml",
+    "price": "50 USD",
+    "price_postapoc": "25 USD",
+    "to_hit": -2,
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "magazine_well": "250 ml",
+    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ]
   }
 ]

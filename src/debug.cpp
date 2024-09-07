@@ -1009,7 +1009,7 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
         out << "\n    " << frame;
     }
 #elif defined(MACOSX)
-    //1   cataclysm-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
+    //1   cataclysm-bn-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
     static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
     std::cmatch match_result;
     if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
@@ -1233,7 +1233,7 @@ void debug_write_backtrace( std::ostream &out )
 
     for( int i = 0; i < count; ++i ) {
         // An example string from backtrace_symbols is
-        //   ./cataclysm-tiles(_Z21debug_write_backtraceRSo+0x3d) [0x55ddebfa313d]
+        //   ./cataclysm-bn-tiles(_Z21debug_write_backtraceRSo+0x3d) [0x55ddebfa313d]
         // From that we need to extract the binary name, the symbol
         // name, and the offset within the symbol.  We don't need to
         // extract the address (the last thing) because that's already

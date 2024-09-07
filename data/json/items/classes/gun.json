@@ -93,10 +93,10 @@
       [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -129,9 +129,9 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock", 1 ],
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -145,15 +145,7 @@
     "delete": { "flags": [ "NEVER_JAMS" ] },
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "stock mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "sights", 1 ] ]
   },
   {
     "abstract": "pistol_energy",
@@ -188,14 +180,7 @@
     "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "dispersion": 120,
     "reload": 600,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "underbarrel", 1 ] ],
     "faults": [  ]
   },
   {
@@ -271,10 +256,10 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
@@ -307,7 +292,7 @@
     "type": "GUN",
     "weapon_category": [ "RIFLES", "MAGNETIC" ],
     "name": { "str": "magnetic rifle" },
-    "looks_like": "laser_rifle",
+    "looks_like": "hk_g80",
     "//": "No conventional faults because it uses non-conventional systems.",
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [
@@ -340,8 +325,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "faults": [  ]
   },
@@ -356,7 +341,15 @@
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "dispersion": 350,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "stock", 1 ],
+      [ "rail", 1 ]
+    ],
     "faults": [  ]
   },
   {
@@ -375,14 +368,14 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -415,15 +408,15 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "loading port", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -475,7 +468,7 @@
     "dispersion": 300,
     "reload": 400,
     "handling": 60,
-    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "flags": [ "MOUNTED_GUN" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
@@ -489,6 +482,7 @@
     "reload": 200,
     "handling": 40,
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING" ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "faults": [  ]
   },
   {

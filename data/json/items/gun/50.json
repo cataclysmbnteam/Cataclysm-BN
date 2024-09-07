@@ -46,8 +46,8 @@
       [ "sling", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "50", [ "belt50" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
@@ -84,8 +84,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "grip", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "magazines": [  ],
     "clip_size": 1,

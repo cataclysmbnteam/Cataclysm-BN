@@ -43,6 +43,49 @@
     "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
   },
   {
+    "id": "clay_pallet_full",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "pallet of wet ceramic", "str_pl": "pallets of wet ceramic" },
+    "description": "A pallet full of crushed wet ceramic, which needs to dry slowly to be usable.",
+    "weight": "35000 g",
+    "volume": "12500 ml",
+    "price": "1 USD",
+    "price_postapoc": "0 cent",
+    "to_hit": -2,
+    "material": [ "ceramic", "wood" ],
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "frame_wood_light",
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
+    "use_action": {
+      "target": "clay_pallet_done",
+      "msg": "You test the ceramic, and it's the right consistency to use.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 43000,
+      "not_ready_msg": "The ceramic is still too damp to be used."
+    }
+  },
+  {
+    "id": "clay_pallet_done",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "pallet of ceramic clay", "str_pl": "pallets of ceramic clay" },
+    "description": "A pallet of ceramic clay which is now ready to be made into pottery.  Disassemble it to retrieve your sheet, frame and crafting supplies.",
+    "weight": "30000 g",
+    "volume": "12500 ml",
+    "price": "400 USD",
+    "price_postapoc": "250 cent",
+    "to_hit": -3,
+    "material": [ "freshclay", "wood" ],
+    "symbol": "#",
+    "color": "brown_yellow",
+    "looks_like": "frame_wood_light",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
+  },
+  {
     "id": "acetylene_machine",
     "type": "GENERIC",
     "category": "tools",
@@ -161,7 +204,7 @@
     "id": "claw_bar",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "CLUBS", "HOOKED_POLES" ],
+    "weapon_category": [ "CLUBS", "1H_HOOKED" ],
     "name": { "str": "claw bar" },
     "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "340 g",
@@ -253,7 +296,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electric jackhammer" },
-    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
+    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a rechargeable cell, optionally compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
     "volume": "5 L",
     "price": "400 USD",
@@ -268,8 +311,8 @@
     "initial_charges": 5000,
     "max_charges": 10000,
     "charges_per_use": 200,
-    "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "use_action": [ "JACKHAMMER", "TOGGLE_UPS_CHARGING" ],
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "hacksaw",
@@ -287,6 +330,11 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
+    "use_action": {
+      "type": "salvage",
+      "moves_per_part": 1000,
+      "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+    },
     "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -318,7 +366,7 @@
     "description": "This is a bronze claw hammer with a wooden grip, commonly used where sparks from a steel hammer might be a safety hazard.  You could board up adjacent doors and windows, among myriad other uses.",
     "weight": "750 g",
     "bashing": 12,
-    "material": [ "steel", "wood" ],
+    "material": [ "bronze", "wood" ],
     "color": "yellow"
   },
   {
@@ -435,6 +483,7 @@
     "category": "tools",
     "name": { "str": "Auger" },
     "description": "This is a construction tool for boring holes in ground.  It runs on gasoline.  For health reasons alone, augers are a worthwhile investment.",
+    "looks_like": "jackhammer",
     "weight": "9875 g",
     "volume": "5 L",
     "price": "200 USD",
@@ -584,7 +633,7 @@
     "ammo": "tape",
     "max_charges": 200,
     "charges_per_use": 5,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
     "use_action": [
       {
         "type": "repair_item",
@@ -690,7 +739,7 @@
     "color": "dark_gray",
     "use_action": "PICKAXE",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
   },
   {
     "id": "pin_reamer",
@@ -785,7 +834,7 @@
     "id": "screwdriver",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "STILETTOS" ],
     "name": { "str": "screwdriver" },
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
@@ -799,7 +848,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "SPEAR", "BELT_CLIP" ]
+    "flags": [ "STAB", "BELT_CLIP" ]
   },
   {
     "id": "screwdriver_set",
@@ -864,8 +913,8 @@
     "id": "soldering_iron",
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
-    "name": { "str": "soldering iron" },
+    "weapon_category": [ "STILETTOS" ],
+    "name": { "str": "electric soldering iron" },
     "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
     "weight": "181 g",
     "volume": "250 ml",
@@ -889,7 +938,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "STAB", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
         "battery",
@@ -905,6 +954,38 @@
       ]
     ],
     "magazine_well": "250 ml"
+  },
+  {
+    "id": "soldering_ethanol",
+    "looks_like": "soldering_iron",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "alcohol-fueled soldering iron" },
+    "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  A metal tip is hold over the burner to create enough heat to solder.  Not as sophisticated as a regular soldering iron.",
+    "weight": "1000 g",
+    "volume": "600 ml",
+    "price": "50 USD",
+    "price_postapoc": "250 cent",
+    "ammo": "conc_alcohol",
+    "to_hit": -1,
+    "bashing": 4,
+    "material": "steel",
+    "symbol": ";",
+    "initial_charges": 500,
+    "max_charges": 500,
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
+        "cost_scaling": 0.1,
+        "move_cost": 1500
+      },
+      { "flame": false, "type": "cauterize" }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "toolbox",
@@ -926,7 +1007,7 @@
       [ "HAMMER", 3 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 2 ],
-      [ "AXE", 1 ],
+      [ "AXE", 2 ],
       [ "WRENCH", 2 ],
       [ "SCREW", 1 ],
       [ "PRY", 1 ],
@@ -936,7 +1017,41 @@
       [ "SCREW_FINE", 1 ],
       [ "BUTCHER", 11 ]
     ],
-    "use_action": [ "HAMMER", "CROWBAR" ]
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
+      }
+    ]
   },
   {
     "id": "toolbox_workshop",
@@ -959,7 +1074,7 @@
       [ "HAMMER", 3 ],
       [ "SAW_M", 2 ],
       [ "SAW_W", 2 ],
-      [ "AXE", 1 ],
+      [ "AXE", 2 ],
       [ "WRENCH", 2 ],
       [ "SCREW", 1 ],
       [ "PRY", 1 ],
@@ -972,7 +1087,41 @@
       [ "REAM", 1 ],
       [ "VISE", 1 ]
     ],
-    "use_action": [ "HAMMER", "CROWBAR" ]
+    "use_action": [
+      "HAMMER",
+      "CROWBAR",
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
+      }
+    ]
   },
   {
     "id": "toolset_extended",
@@ -999,6 +1148,37 @@
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1000
+      },
+      {
+        "type": "salvage",
+        "moves_per_part": 1000,
+        "material_whitelist": [
+          "steel",
+          "hardsteel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron",
+          "acidchitin",
+          "alien_resin",
+          "bone",
+          "chitin",
+          "cotton",
+          "faux_fur",
+          "fur",
+          "kevlar",
+          "kevlar_rigid",
+          "leather",
+          "neoprene",
+          "nomex",
+          "nylon",
+          "plastic",
+          "rubber",
+          "wood",
+          "wool"
+        ]
       },
       { "flame": false, "type": "cauterize" }
     ],
@@ -1059,43 +1239,6 @@
     "magazine_well": "500 ml"
   },
   {
-    "id": "welder_crude",
-    "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "makeshift arc welder" },
-    "description": "This crude arc welder has been fashioned from a few small transformers, some wire, improvised electrode holder and complete disregard for personal safety.  While it's not as efficient as a factory welder, it will serve in a pinch.",
-    "weight": "7250 g",
-    "volume": "3500 ml",
-    "price": 5000,
-    "price_postapoc": 250,
-    "to_hit": -2,
-    "bashing": 7,
-    "material": "steel",
-    "symbol": ";",
-    "color": "light_red",
-    "ammo": "battery",
-    "charges_per_use": 10,
-    "qualities": [ [ "WELD", 1 ] ],
-    "use_action": [
-      {
-        "type": "repair_item",
-        "item_action_type": "repair_metal",
-        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy", "glass" ],
-        "skill": "fabrication",
-        "tool_quality": 5,
-        "cost_scaling": 0.1,
-        "move_cost": 1000
-      }
-    ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
-  },
-  {
     "id": "wood_smoother",
     "type": "GENERIC",
     "category": "tools",
@@ -1147,7 +1290,7 @@
     "color": "light_gray",
     "techniques": "PRECISE",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "id": "wrench",

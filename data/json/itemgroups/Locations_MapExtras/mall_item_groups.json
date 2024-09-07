@@ -146,12 +146,14 @@
     "items": [
       [ "knife_butcher", 20 ],
       [ "knife_combat", 35 ],
+      [ "knife_carbon", 35 ],
       [ "throwing_knife", 10 ],
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],
       [ "knife_trench", 7 ],
       [ "switchblade", 20 ],
       [ "knife_hunting", 20 ],
+      [ "knife_heat", 5 ],
       [ "knife_rambo", 5 ]
     ]
   },
@@ -334,7 +336,8 @@
       [ "cowboy_hat", 20 ],
       [ "tophat", 25 ],
       [ "hat_sombrero", 25 ],
-      [ "apron_leather", 20 ]
+      [ "apron_leather", 20 ],
+      [ "bandolier_knife", 15 ]
     ]
   },
   {

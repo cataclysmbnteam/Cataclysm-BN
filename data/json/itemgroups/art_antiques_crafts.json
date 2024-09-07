@@ -141,6 +141,8 @@
       { "item": "shield_banded_large", "prob": 3 },
       { "item": "apron_leather", "prob": 1 },
       { "item": "pot_copper", "prob": 3 },
+      { "item": "katar", "prob": 3 },
+      { "item": "jamadhar", "prob": 3 },
       { "group": "tinware", "prob": 10 }
     ]
   },
@@ -198,7 +200,12 @@
       { "item": "coin_quarter", "prob": 1 },
       { "item": "bronze_medal", "prob": 1 },
       { "item": "silver_medal", "prob": 1 },
-      { "item": "gold_medal", "prob": 1 }
+      { "item": "gold_medal", "prob": 1 },
+      { "item": "clay_fish_trap", "prob": 1 },
+      { "item": "retort_clay", "prob": 1 },
+      { "item": "retort_copper", "prob": 1 },
+      { "item": "steam_triple_small", "prob": 1 },
+      { "item": "steam_triple_medium", "prob": 1 }
     ]
   },
   {
@@ -262,7 +269,9 @@
       { "item": "khopesh", "prob": 4 },
       { "item": "spear_dory", "prob": 3 },
       { "item": "knife_baselard", "prob": 3 },
-      { "item": "dagger_bronze", "prob": 5 }
+      { "item": "dagger_bronze", "prob": 5 },
+      { "item": "katar", "prob": 2 },
+      { "item": "jamadhar", "prob": 2 }
     ]
   },
   {
@@ -301,7 +310,9 @@
       { "item": "sword_xiphos", "prob": 4 },
       { "item": "khopesh", "prob": 4 },
       { "item": "spear_dory", "prob": 3 },
-      { "item": "knife_baselard", "prob": 3 }
+      { "item": "knife_baselard", "prob": 3 },
+      { "item": "katar", "prob": 2 },
+      { "item": "jamadhar", "prob": 2 }
     ]
   },
   {
@@ -317,7 +328,8 @@
       { "item": "ceramic_plate", "prob": 15 },
       { "item": "ceramic_bowl", "prob": 15 },
       { "item": "ceramic_cup", "prob": 15 },
-      { "item": "jug_clay", "prob": 15 }
+      { "item": "jug_clay", "prob": 15 },
+      { "item": "retort_clay", "prob": 5 }
     ]
   }
 ]

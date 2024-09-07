@@ -1,9 +1,5 @@
 ---
 title: Makefile
-sidebar:
-  badge:
-    text: Recommended
-    variant: success
 ---
 
 To build Cataclysm from source you will need at least a C++ compiler, some basic developer tools,
@@ -636,7 +632,7 @@ For curses builds:
 For SDL:
 
 ```sh
-./cataclysm-tiles
+./cataclysm-bn-tiles
 ```
 
 For `app` builds, launch Cataclysm.app from Finder.

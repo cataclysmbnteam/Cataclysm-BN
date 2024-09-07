@@ -46,6 +46,7 @@
         "|": "t_brick_wall"
       },
       "furniture": { "D": "f_dumpster", "{": "f_dumpster" },
+      "items": { "D": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 30, "item": "nail", "repeat": 1, "x": 7, "y": 4 },
         { "chance": 30, "item": "concrete", "repeat": 1, "x": 2, "y": 6 },
@@ -84,7 +85,8 @@
         { "chance": 30, "item": "hardware_trash", "x": 3, "y": [ 3, 4 ] },
         { "chance": 10, "item": "tools_construction", "x": 12, "y": 4 },
         { "chance": 20, "item": "construction_worker", "x": 15, "y": 8 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 2, 21 ], "y": [ 20, 21 ] } ]
     }
   },
   {
@@ -133,6 +135,7 @@
         "{": "t_dirt"
       },
       "furniture": { "d": "f_dumpster", "{": "f_dumpster" },
+      "items": { "d": { "item": "trash_dumpster", "chance": 80 }, "{": { "item": "trash_dumpster", "chance": 80 } },
       "place_item": [
         { "chance": 30, "item": "nail", "repeat": 1, "x": 7, "y": 4 },
         { "chance": 30, "item": "concrete", "repeat": 1, "x": 2, "y": 6 },
@@ -173,7 +176,8 @@
         { "chance": 30, "item": "hardware_trash", "x": 3, "y": [ 3, 4 ] },
         { "chance": 20, "item": "construction_worker", "x": 15, "y": 8 },
         { "chance": 20, "item": "construction_worker", "x": 6, "y": 3 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "os_work_vehicles", "chance": 40, "x": [ 2, 21 ], "y": [ 20, 21 ] } ]
     }
   }
 ]

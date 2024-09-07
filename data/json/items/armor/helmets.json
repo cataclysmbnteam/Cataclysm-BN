@@ -80,7 +80,7 @@
     "price_postapoc": "10 USD",
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
@@ -88,7 +88,7 @@
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 8,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
@@ -105,7 +105,7 @@
     "price_postapoc": "750 cent",
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "tac_fullhelmet",
     "color": "dark_gray",
@@ -113,7 +113,7 @@
     "coverage": 95,
     "encumbrance": 15,
     "warmth": 10,
-    "material_thickness": 4,
+    "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
@@ -147,7 +147,7 @@
     "type": "ARMOR",
     "name": { "str": "baseball helmet" },
     "description": "A hard plastic helmet that covers the head and ears.  Designed to protect against a baseball to the head.",
-    "weight": "453 g",
+    "weight": "500 g",
     "volume": "1750 ml",
     "price": "31 USD",
     "price_postapoc": "250 cent",
@@ -349,7 +349,7 @@
     "type": "ARMOR",
     "name": { "str": "leather armor helmet" },
     "description": "A thick leather helmet that provides excellent protection for the head.",
-    "weight": "435 g",
+    "weight": "400 g",
     "volume": "2 L",
     "price": "140 USD",
     "price_postapoc": "20 USD",
@@ -513,7 +513,7 @@
     "type": "ARMOR",
     "name": { "str": "nomad cowl" },
     "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.",
-    "weight": "470 g",
+    "weight": "500 g",
     "volume": "2500 ml",
     "price": "250 USD",
     "price_postapoc": "250 cent",
@@ -644,7 +644,7 @@
     "price_postapoc": "20 USD",
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "leather" ],
+    "material": [ "kevlar_rigid", "leather" ],
     "symbol": "[",
     "looks_like": "helmet_army",
     "color": "dark_gray",
@@ -652,7 +652,7 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
-    "material_thickness": 5,
+    "material_thickness": 9,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -676,7 +676,7 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 25,
-    "material_thickness": 5,
+    "material_thickness": 9,
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -687,7 +687,7 @@
     "type": "ARMOR",
     "name": { "str": "superalloy survivor helmet" },
     "description": "A customized, heavily armored superalloy and Kevlar helmet, modified to provide maximum comfort and protection from harm.  All the added material has made it rather heavy.",
-    "material": [ "kevlar", "superalloy" ],
+    "material": [ "kevlar_rigid", "superalloy" ],
     "color": "light_cyan",
     "encumbrance": 35,
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
@@ -760,5 +760,14 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE" ]
+  },
+  {
+    "id": "carbon_helmet",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber helmet" },
+    "description": "A custom helmet of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
+    "copy-from": "helmet_survivor",
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

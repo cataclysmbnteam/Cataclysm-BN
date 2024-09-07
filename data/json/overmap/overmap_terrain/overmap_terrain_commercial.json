@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas", "s_gas_1", "s_gas_rural" ],
+    "id": [ "s_gas", "s_gas_1" ],
     "copy-from": "generic_city_building",
     "name": "gas station",
     "color": "light_blue",
@@ -9,8 +9,23 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_gas_roof_1", "s_gas_rural_roof" ],
+    "id": "s_gas_roof_1",
     "copy-from": "generic_city_building",
+    "name": "gas station roof",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_rural",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "gas station",
+    "color": "light_blue",
+    "extend": { "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_rural_roof",
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "gas station roof",
     "color": "light_blue"
   },
@@ -394,6 +409,7 @@
     "copy-from": "generic_city_building",
     "name": "butcher shop",
     "color": "i_red",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
@@ -830,6 +846,7 @@
     "copy-from": "generic_city_building",
     "name": "candy shop",
     "color": "c_red_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -845,6 +862,7 @@
     "name": "bakery",
     "copy-from": "generic_city_building",
     "color": "c_yellow_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -867,6 +885,7 @@
     "name": "icecream shop",
     "copy-from": "generic_city_building",
     "color": "c_blue_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -1214,7 +1233,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "craft_shop", "craft_shop_1", "craft_shop_2" ],
+    "id": [ "craft_shop", "craft_shop_1", "craft_shop_2", "craft_shop_3" ],
     "copy-from": "generic_city_building",
     "name": "craft shop",
     "sym": "s",
@@ -1231,7 +1250,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2" ],
+    "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2", "craft_shop_roof_3" ],
     "copy-from": "generic_city_building",
     "name": "craft shop roof",
     "sym": "s",

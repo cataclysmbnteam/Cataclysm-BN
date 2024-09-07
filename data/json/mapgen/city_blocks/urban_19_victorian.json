@@ -49,6 +49,64 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_19_2" ],
+    "weight": 150,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "iiiii%%%%%%%%%%%%%%%%%%%",
+        "irrri%%%%%%%%%%%%%%%%%%%",
+        "i:::iiii%%%%%%%%%%%%%%%%",
+        ":::::::iii%%%%%%%%%%%%%%",
+        "::i::::1>i%%%%%%%%%%%%%%",
+        ":iii:::iii%%%%%%%%%%%%%%",
+        "::i:::Li%%%%%%%%%%%%%%%%",
+        "::::::Li%%%%%%%%%%%%%%%%",
+        ":::::::i%%%%%%%%%%%%%%%%",
+        "::rr:::i%%%%%%%%%%%%%%%%",
+        "iiiii+ii%%%%%%%%%%%%%%%%",
+        ":i:+:::i%%%%%%%%%%%%%%%%",
+        ":::iZZZi%%%%%%%%%%%%%%%%",
+        ":iiii+ii%%%%%%%%%%%%%%%%",
+        "ii'''''i%%%%%%%%%%%%%%%%",
+        "%i''ḞḟḞi%%%%%%%%%%%%%%%%",
+        "%iḈ'ḟ''i%%%%%%%%%%%%%%%%",
+        "%iiiḞṆ'i%%%%%%%%%%%%%%%%",
+        "%%%iḞṇ'i%%%%%%%%%%%%%%%%",
+        "%%%iiiii%%%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "terrain": {
+        "Ḉ": "t_strconc_floor",
+        "Ḟ": "t_strconc_floor",
+        "ḟ": "t_strconc_floor",
+        "ṇ": "t_strconc_floor",
+        "Ṇ": "t_strconc_floor"
+      },
+      "furniture": {
+        "Ḉ": "f_crate_o",
+        "Ḟ": "f_large_canvas_wall",
+        "ḟ": "f_large_canvas_door",
+        "ṇ": "f_autodoc",
+        "Ṇ": "f_autodoc_couch"
+      },
+      "place_monsters": [ { "monster": "GROUP_LAB_CYBORG", "x": [ 1, 6 ], "y": [ 4, 14 ], "density": 0.03 } ],
+      "item": { "Ḉ": { "item": "bot_nursebot", "chance": 100 }, "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 } },
+      "items": {
+        "ṇ": { "item": "autodoc_supplies", "chance": 100 },
+        ":": { "item": "home_hw", "chance": 2 },
+        "L": { "item": "farming_tools", "chance": 80 },
+        "r": { "item": "home_hw", "chance": 60 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_19_2" ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -126,7 +184,7 @@
         "A": { "item": "livingroom", "chance": 15 },
         "C": { "item": "kitchen", "chance": 25 },
         "c": { "item": "livingroom", "chance": 25 },
-        "f": { "item": "fridge", "chance": 70 },
+        "f": { "item": "SUS_fridge", "chance": 70 },
         "j": { "item": "cannedfood", "chance": 50 },
         "o": { "item": "oven", "chance": 30 },
         "r": { "item": "cleaning", "chance": 60 },

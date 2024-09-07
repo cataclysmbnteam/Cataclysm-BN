@@ -1,0 +1,55 @@
+[
+  {
+    "type": "scenario",
+    "id": "dm_wilderness",
+    "name": "Hunted by Dinosaurs",
+    "points": -2,
+    "description": "You find yourself among trees.  The screaming and moaning is fainter, but it sounds like something bigger and more dangerous is close by.",
+    "start_name": "Wilderness",
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_swamp", "sloc_campsite", "sloc_campground" ],
+    "flags": [ "LONE_START" ],
+    "surround_groups": [ [ "GROUP_DINOSAUR_MEGA_CARNIVORE", 70.0 ] ]
+  },
+  {
+    "type": "scenario",
+    "id": "missed",
+    "copy-from": "missed",
+    "extend": { "allowed_locs": [ "sloc_dinozoo_giftshop", "sloc_dinozoo_cages", "sloc_dinoexhibit" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "surrounded",
+    "copy-from": "surrounded",
+    "extend": { "allowed_locs": [ "sloc_dinozoo_giftshop", "sloc_dinozoo_cages", "sloc_dinoexhibit" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "infected",
+    "copy-from": "infected",
+    "extend": { "allowed_locs": [ "sloc_dinozoo_giftshop", "sloc_dinozoo_cages", "sloc_dinoexhibit" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "fungal_start",
+    "copy-from": "fungal_start",
+    "extend": { "allowed_locs": [ "sloc_dinozoo_giftshop", "sloc_dinozoo_cages", "sloc_dinoexhibit" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "bad_day",
+    "copy-from": "bad_day",
+    "extend": { "allowed_locs": [ "sloc_dinozoo_giftshop", "sloc_dinozoo_cages", "sloc_dinoexhibit" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "lab_chal",
+    "copy-from": "lab_chal",
+    "extend": { "allowed_locs": [ "sloc_dinolab" ] }
+  },
+  {
+    "type": "scenario",
+    "id": "lab_staff",
+    "copy-from": "lab_staff",
+    "extend": { "allowed_locs": [ "sloc_dinolab" ] }
+  }
+]

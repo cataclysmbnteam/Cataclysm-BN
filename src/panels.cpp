@@ -90,27 +90,6 @@ window_panel::window_panel( std::function<void( avatar &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
-static void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
-                            point bottom_right )
-{
-    // corners
-    mvwaddch( w, top_left, LINE_OXXO );
-    mvwaddch( w, point( top_left.x, bottom_right.y ), LINE_XXOO );
-    mvwaddch( w, point( bottom_right.x, top_left.y ), LINE_OOXX );
-    mvwaddch( w, bottom_right, LINE_XOOX );
-
-    for( int i = 1; i < bottom_right.x; i++ ) {
-        mvwaddch( w, point( i, top_left.y ), LINE_OXOX );
-        mvwaddch( w, point( i, bottom_right.y ), LINE_OXOX );
-    }
-
-    for( int i = 1; i < bottom_right.y; i++ ) {
-        mvwaddch( w, point( top_left.x, i ), LINE_XOXO );
-        mvwaddch( w, point( bottom_right.x, i ), LINE_XOXO );
-    }
-}
-
-
 static std::pair<nc_color, std::string> str_string( const avatar &p )
 {
     const nc_color clr = color_compare_base( p.get_str_base(), p.get_str() );
@@ -314,7 +293,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint_abs_omt curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 7, 7 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -337,7 +316,7 @@ static std::string get_temp( const avatar &u )
 {
     std::string temp;
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
@@ -1532,7 +1511,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
                get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         std::string temp = print_temperature( weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -1580,7 +1559,6 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     werase( w );
 
     draw_minimap( u, w );
-    draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
 
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -1958,7 +1936,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     }
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }

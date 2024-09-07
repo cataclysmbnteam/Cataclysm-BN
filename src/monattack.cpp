@@ -94,6 +94,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_command_buff( "command_buff" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_darkness( "darkness" );
@@ -189,6 +190,7 @@ static const mtype_id mon_fungal_hedgerow( "mon_fungal_hedgerow" );
 static const mtype_id mon_fungal_tendril( "mon_fungal_tendril" );
 static const mtype_id mon_fungal_wall( "mon_fungal_wall" );
 static const mtype_id mon_fungaloid( "mon_fungaloid" );
+static const mtype_id mon_fungaloid_young( "mon_fungaloid_young" );
 static const mtype_id mon_headless_dog_thing( "mon_headless_dog_thing" );
 static const mtype_id mon_hound_tindalos_afterimage( "mon_hound_tindalos_afterimage" );
 static const mtype_id mon_leech_blossom( "mon_leech_blossom" );
@@ -999,7 +1001,7 @@ bool mattack::resurrect( monster *z )
 
         for( auto &i : g->m.i_at( p ) ) {
             const mtype *mt = i->get_mtype();
-            if( !( i->is_corpse() && i->can_revive() && i->active && mt->has_flag( MF_REVIVES ) &&
+            if( !( i->is_corpse() && i->can_revive() && i->is_active() && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
@@ -1042,7 +1044,7 @@ bool mattack::resurrect( monster *z )
         const bool allies = g->get_creature_if( [&]( const Creature & critter ) {
             const monster *const zed = dynamic_cast<const monster *>( &critter );
             return zed && zed != z && zed->type->has_flag( MF_REVIVES ) && zed->type->in_species( ZOMBIE ) &&
-                   z->attitude_to( *zed ) == Creature::Attitude::A_FRIENDLY  &&
+                   z->attitude_to( *zed ) == Attitude::A_FRIENDLY  &&
                    within_target_range( z, zed, 10 );
         } );
         if( !allies ) {
@@ -1472,7 +1474,7 @@ bool mattack::growplants( monster *z )
         Creature *critter = g->critter_at( p );
         // Don't grow under friends (and self)
         if( critter != nullptr &&
-            z->attitude_to( *critter ) == Creature::A_FRIENDLY ) {
+            z->attitude_to( *critter ) == Attitude::A_FRIENDLY ) {
             continue;
         }
 
@@ -1503,7 +1505,7 @@ bool mattack::growplants( monster *z )
         }
 
         Creature *critter = g->critter_at( p );
-        if( critter != nullptr && z->attitude_to( *critter ) == Creature::A_FRIENDLY ) {
+        if( critter != nullptr && z->attitude_to( *critter ) == Attitude::A_FRIENDLY ) {
             // Don't buff terrain below friends (and self)
             continue;
         }
@@ -1565,7 +1567,7 @@ bool mattack::vine( monster *z )
     z->moves -= 100;
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         Creature *critter = g->critter_at( dest );
-        if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::A_HOSTILE ) {
+        if( critter != nullptr && z->attitude_to( *critter ) == Attitude::A_HOSTILE ) {
             if( critter->uncanny_dodge() ) {
                 return true;
             }
@@ -1708,6 +1710,65 @@ bool mattack::fungus( monster *z )
     bool on_fungus = g->m.has_flag_ter( "FUNGUS", z->pos() );
     int radius = one_in( 4 ) ? 2 : 1;
     double spore_chance = ( on_fungus ? 0.5f : 0.2f ) / ( ( radius + 1 ) * ( radius + 1 ) );
+    fungal_effects fe( *g, g->m );
+    for( const tripoint &sporep : g->m.points_in_radius( z->pos(), radius ) ) {
+        if( sporep == z->pos() ) {
+            continue;
+        }
+        const int dist = rl_dist( z->pos(), sporep );
+        if( !one_in( dist ) ||
+            g->m.impassable( sporep ) ||
+            ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
+            continue;
+        }
+
+        fe.fungalize( sporep, z, spore_chance );
+    }
+
+    return true;
+}
+
+bool mattack::fungus_advanced( monster *z )
+{
+    // TODO: Infect NPCs?
+    // It takes a while
+    z->moves -= 200;
+
+    //~ the sound of a fungus releasing spores
+    sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    if( g->u.sees( *z ) ) {
+        add_msg( m_warning, _( "Spores are released from the %s!" ), z->name() );
+    }
+
+    // Calculating spore spawn chance
+    int radius = one_in( 4 ) ? 2 : 1;
+    double spore_chance = fungal_opt.spore_chance;
+    double creatures_threshold = static_cast<float>( fungal_opt.advanced_creatures_threshold );
+    int creatures_nearby = static_cast<int>( g->num_creatures() );
+    if( creatures_nearby > fungal_opt.advanced_creatures_threshold ) {
+        // Number of creatures in the bubble and the resulting average number of spores per "Pouf!"
+        // (assuming that spore_chance is 0.25 and creatures_threshold is 25:
+        // 0-25: 2
+        // 50  : 0.5
+        // 75  : 0.22
+        // 100 : 0.125
+        // Assuming all creatures in the bubble were fungaloids (unlikely), the average number of spores per generation:
+        // 25  : 50
+        // 50  : 25
+        // 75  : 17
+        // 100 : 13
+        spore_chance *= ( creatures_threshold / creatures_nearby ) *
+                        ( creatures_threshold /
+                          creatures_nearby );
+    }
+    if( radius == 2 ) {
+        const double old_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
+        radius++;
+        const double new_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
+        spore_chance *= old_area / new_area;
+    }
+
+    // Applying spore launch in certain radius
     fungal_effects fe( *g, g->m );
     for( const tripoint &sporep : g->m.points_in_radius( z->pos(), radius ) ) {
         if( sporep == z->pos() ) {
@@ -2239,6 +2300,22 @@ bool mattack::fungal_trail( monster *z )
 bool mattack::plant( monster *z )
 {
     fungal_effects fe( *g, g->m );
+
+    // If terrain already infested there is chance for spore to become fungal stalk
+    const bool is_fungi = g->m.has_flag_ter( ter_bitflags::TFLAG_FUNGUS, z->pos() );
+    if( fungal_opt.young_allowed && is_fungi ) {
+        const int base_chance = fungal_opt.young_spawn_base_rate;
+        const int divider = fungal_opt.young_spawn_bubble_creatures_divider;
+        if( one_in( base_chance + static_cast<int>( g->num_creatures() / divider ) ) ) {
+            add_msg( _( "The %s takes seed and becomes a young fungaloid!" ),
+                     z->name() );
+            z->poly( mon_fungaloid_young );
+            z->mod_moves( -to_moves<int>( 10_seconds ) ); // It takes a while
+            return false;
+        }
+    }
+
+    // Spore blows up and infest some terrain
     if( g->u.sees( *z ) ) {
         add_msg( _( "The %s suddenly splits and bursts!" ),
                  z->name() );
@@ -2281,21 +2358,21 @@ static bool blobify( monster &blob, monster &target )
     }
 
     switch( target.get_size() ) {
-        case MS_TINY:
+        case creature_size::tiny:
             // Just consume it
             target.set_hp( 0 );
             blob.set_speed_base( blob.get_speed_base() + 5 );
             return false;
-        case MS_SMALL:
+        case creature_size::small:
             target.poly( mon_blob_small );
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             target.poly( mon_blob );
             break;
-        case MS_LARGE:
+        case creature_size::large:
             target.poly( mon_blob_large );
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             // No polymorphing huge stuff
             target.add_effect( effect_slimed, rng( 2_turns, 10_turns ) );
             break;
@@ -2841,7 +2918,7 @@ bool mattack::gene_sting( monster *z )
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<player *>( target )->mutate();
+        dynamic_cast<player *>( target )->irradiate( rng( 100, 300 ) );
     }
 
     return true;
@@ -3002,7 +3079,7 @@ bool mattack::nurse_assist( monster *z )
 
     if( found_target ) {
         if( target->is_wearing( itype_badge_doctor ) ||
-            z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) {
+            z->attitude_to( *target ) == Attitude::A_FRIENDLY ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
@@ -3027,7 +3104,7 @@ bool mattack::nurse_operate( monster *z )
     }
 
     if( ( ( g->u.is_wearing( itype_badge_doctor ) ||
-            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
+            z->attitude_to( g->u ) == Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
@@ -3056,7 +3133,7 @@ bool mattack::nurse_operate( monster *z )
             }
         }
     }
-    if( found_target && z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) {
+    if( found_target && z->attitude_to( g->u ) == Attitude::A_FRIENDLY ) {
         // 50% chance to not turn hostile again
         if( one_in( 2 ) ) {
             return false;
@@ -3119,9 +3196,9 @@ bool mattack::nurse_operate( monster *z )
 }
 bool mattack::check_money_left( monster *z )
 {
-    if( !z->has_effect( effect_pet ) ) {
+    if( !z->has_effect( effect_paid ) ) {
         if( z->friendly == -1 &&
-            z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
+            z->has_effect( effect_pet ) ) { // if the pet effect runs out we're no longer friends
             z->friendly = 0;
 
             if( !z->get_items().empty() ) {
@@ -3135,11 +3212,11 @@ bool mattack::check_money_left( monster *z )
             const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
             sounds::sound( z->pos(), speech_no_time.volume,
                            sounds::sound_t::electronic_speech, speech_no_time.text );
-            z->remove_effect( effect_paid );
+            z->remove_effect( effect_pet );
             return true;
         }
     } else {
-        const time_duration time_left = z->get_effect_dur( effect_pet );
+        const time_duration time_left = z->get_effect_dur( effect_paid );
         if( time_left < 1_minutes ) {
             if( calendar::once_every( 20_seconds ) ) {
                 const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
@@ -3311,7 +3388,7 @@ void mattack::taze( monster *z, Creature *target )
         return;
     }
 
-    auto m_type = target->attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
+    auto m_type = target->attitude_to( g->u ) == Attitude::A_FRIENDLY ? m_bad : m_neutral;
     target->add_msg_player_or_npc( m_type,
                                    _( "The %s shocks you!" ),
                                    _( "The %s shocks <npcname>!" ),
@@ -3874,7 +3951,7 @@ bool mattack::chickenbot( monster *z )
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
     if( z->get_hp() <= z->get_hp_max() ||
-        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
+        ( mon != nullptr && mon->attitude_to( *z ) == Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
 
@@ -3956,7 +4033,7 @@ bool mattack::multi_robot( monster *z )
     // Only monster-types for now - assuming humans are smart enough not to make it obvious
     // Unless damaged - then everything is hostile
     if( z->get_hp() <= z->get_hp_max() ||
-        ( mon != nullptr && mon->attitude_to( *z ) == Creature::Attitude::A_HOSTILE ) ) {
+        ( mon != nullptr && mon->attitude_to( *z ) == Attitude::A_HOSTILE ) ) {
         cap += 2;
     }
 
@@ -4056,7 +4133,7 @@ bool mattack::upgrade( monster *z )
         // Check this first because it is a relatively cheap check
         if( zed.can_upgrade() ) {
             // Then do the more expensive ones
-            if( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
+            if( z->attitude_to( zed ) != Attitude::A_HOSTILE &&
                 within_target_range( z, &zed, 10 ) ) {
                 targets.push_back( &zed );
             }
@@ -4099,6 +4176,43 @@ bool mattack::upgrade( monster *z )
             add_msg( m_warning, _( "The %s vanishes!" ), old_name );
         } else if( can_see ) {
             add_msg( m_warning, _( "A %s appears!" ), target->name() );
+        }
+    }
+
+    return true;
+}
+
+bool mattack::command_buff( monster *z )
+{
+    size_t aggroed = 0;
+    const Creature *enemy = z->attack_target();
+    bool will_aggro = enemy != nullptr && rl_dist_fast( enemy->pos(), z->pos() ) <= 10;
+    for( monster &ally : g->all_monsters() ) {
+        if( rl_dist_fast( ally.pos(), z->pos() ) <= 10 &&
+            ally.attitude_to( *z ) == Attitude::A_FRIENDLY ) {
+            time_duration buff_dur = ally.get_effect_dur( effect_command_buff );
+            time_duration half_max_dur = effect_command_buff->get_max_duration() / 2;
+            if( buff_dur < half_max_dur ) {
+                ally.add_effect( effect_command_buff, half_max_dur - buff_dur );
+            }
+
+            if( will_aggro && ally.move_target() != enemy->pos() &&
+                ally.attitude_to( *enemy ) == Attitude::A_HOSTILE ) {
+                ally.set_dest( enemy->pos() );
+                aggroed++;
+            }
+        }
+    }
+
+    if( aggroed > 0 && enemy->is_avatar() ) {
+        if( enemy->sees( *z ) ) {
+            add_msg( m_warning, _( "%s points in your direction." ),  z->disp_name( false, true ) );
+        }
+
+        if( aggroed > 25 ) {
+            add_msg( m_bad, _( "You feel intensely hated for a moment." ) );
+        } else if( aggroed > 5 )        {
+            add_msg( m_warning, _( "You feel an angry presence." ) );
         }
     }
 
@@ -4823,7 +4937,7 @@ bool mattack::riotbot( monster *z )
 
             detached_ptr<item> handcuffs = item::spawn( "e_handcuffs", calendar::start_of_cataclysm );
             handcuffs->charges = handcuffs->type->maximum_charges();
-            handcuffs->active = true;
+            handcuffs->activate();
             handcuffs->set_var( "HANDCUFFS_X", foe->posx() );
             handcuffs->set_var( "HANDCUFFS_Y", foe->posy() );
 
@@ -5519,7 +5633,7 @@ bool mattack::kamikaze( monster *z )
             z->die( nullptr );
             // Timer is out, detonate
             detached_ptr<item> i_explodes = item::spawn( act_bomb_type, calendar::turn, 0 );
-            i_explodes->active = true;
+            i_explodes->activate();
             item::process( std::move( i_explodes ), nullptr, z->pos(), false );
             return false;
         }
@@ -5716,7 +5830,7 @@ bool mattack::grenadier( monster *const z )
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
     // actively attacking change this to use that instead.
     Creature *const target = static_cast<Creature *>( &g->u );
-    if( z->attitude_to( *target ) == Creature::A_FRIENDLY ) {
+    if( z->attitude_to( *target ) == Attitude::A_FRIENDLY ) {
         return false;
     }
     int ret = grenade_helper( z, target, 30, 60, grenades );
@@ -5751,7 +5865,7 @@ bool mattack::grenadier_elite( monster *const z )
     // Only can actively target the player right now. Once we have the ability to grab targets that we aren't
     // actively attacking change this to use that instead.
     Creature *const target = static_cast<Creature *>( &g->u );
-    if( z->attitude_to( *target ) == Creature::A_FRIENDLY ) {
+    if( z->attitude_to( *target ) == Attitude::A_FRIENDLY ) {
         return false;
     }
     int ret = grenade_helper( z, target, 30, 60, grenades );

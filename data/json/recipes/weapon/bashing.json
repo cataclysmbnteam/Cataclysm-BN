@@ -10,7 +10,7 @@
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail_glue", 5, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -153,7 +153,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "skills_required": [ "bashing", 1 ],
+    "skills_required": [ "unarmed", 1 ],
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
@@ -179,9 +179,10 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "skills_required": [ "bashing", 1 ],
+    "skills_required": [ "unarmed", 1 ],
     "difficulty": 2,
     "time": "20 m",
+    "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 1 ], [ "textbook_weapeast", 7 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
@@ -206,10 +207,26 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "skills_required": [ "melee", 1 ],
-    "difficulty": 6,
+    "difficulty": 5,
+    "autolearn": true,
     "time": "30 m",
     "book_learn": [ [ "recipe_melee", 4 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tonfa",
+    "id_suffix": "printed",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "computer",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "time": "10 m",
+    "book_learn": [ [ "recipe_melee", 4 ] ],
+    "using": [ [ "3d_printing_standard", 10 ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
   {
@@ -218,9 +235,10 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "skills_required": [ "bashing", 3 ],
+    "skills_required": [ "melee", 1 ],
     "difficulty": 4,
     "time": "30 m",
+    "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
@@ -234,12 +252,13 @@
     "skills_required": [ "electronics", 3 ],
     "difficulty": 6,
     "time": "45 m",
+    "autolearn": true,
     "book_learn": [ [ "recipe_melee", 5 ] ],
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 10 ] ],
+      [ [ "plastic_chunk", 10 ], [ "tonfa", 1 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
@@ -315,6 +334,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "18 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
@@ -389,9 +409,10 @@
     "skills_required": [ "bashing", 2 ],
     "difficulty": 3,
     "time": "32 m",
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -418,7 +439,47 @@
     "skills_required": [ "unarmed", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 8 ] ], [ [ "filament", 12, "LIST" ] ], [ [ "nail", 8 ] ] ]
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 8 ] ], [ [ "nail", 8 ] ] ]
+  },
+  {
+    "result": "impact_knuckle",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "5 h",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 6 ] ],
+    "components": [ [ [ "fabric_standard", 5, "LIST" ] ], [ [ "filament", 25, "LIST" ] ] ]
+  },
+  {
+    "result": "qstaff_retracted",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "melee", 1 ],
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "pipe", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "club_spiked",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "steel_tiny", 2 ] ],
+    "components": [ [ [ "log", 1 ], [ "shillelagh", 1 ], [ "bat", 1 ] ], [ [ "spike", 4 ], [ "steel_chunk", 4 ] ] ]
   }
 ]

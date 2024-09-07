@@ -21,7 +21,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 2 ] ] }
     },
     "durability": 450,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
@@ -40,7 +40,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 10 ], [ "steel_tiny", 1 ] ] }
     },
     "durability": 100,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
@@ -59,7 +59,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
     "durability": 50,
     "description": "A pair of rotor blades powered by a propeller, for light vehicles.",

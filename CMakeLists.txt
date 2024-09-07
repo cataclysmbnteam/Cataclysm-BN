@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.24)
 
 project(CataclysmBN C CXX)
 
@@ -38,6 +38,7 @@ option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
 option(TESTS "Compile Cata's tests" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+option(USE_TRACY "Use Tracy profiler" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
@@ -211,6 +212,7 @@ message(STATUS "SOUND                         : ${SOUND}")
 message(STATUS "LUA                           : ${LUA}")
 message(STATUS "BACKTRACE                     : ${BACKTRACE}")
 message(STATUS "LIBBACKTRACE                  : ${LIBBACKTRACE}")
+message(STATUS "USE_TRACY                     : ${USE_TRACY}")
 message(STATUS "USE_XDG_DIR                   : ${USE_XDG_DIR}")
 message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}")
 message(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
@@ -223,7 +225,7 @@ message(STATUS "See CMake compiling guide for details and more info --")
 
 if (NOT MSVC)
     set(CATA_WARNINGS
-        "-Werror -Wall -Wextra \
+        "-Wall -Wextra \
        -Wformat-signedness \
        -Wlogical-op \
        -Wmissing-declarations \
@@ -269,6 +271,35 @@ endif ()
 #set(THREADS_USE_PTHREADS_WIN32 True)
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
+
+if (USE_TRACY)
+    include(FetchContent)
+
+    if (NOT TRACY_VERSION)
+        if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+            set(TRACY_VERSION 6d1deb5640ed11da01995fb1791115cfebe54dbf)
+        else()
+            set(TRACY_VERSION v0.10)
+        endif()
+        message(STATUS "Using tracy version: ${TRACY_VERSION}")
+    endif()
+
+    FetchContent_Declare(
+        tracy
+        GIT_REPOSITORY https://github.com/wolfpld/tracy.git
+        GIT_TAG "${TRACY_VERSION}"
+        GIT_PROGRESS TRUE)
+
+    FetchContent_MakeAvailable(tracy)
+    set_target_properties(TracyClient PROPERTIES TRACY_ENABLE ON TRACY_ON_DEMAND ON)
+
+    if(NOT MSVC)
+        target_compile_options(TracyClient PRIVATE "-Wno-everything")
+    endif()
+    if (NOT DYNAMIC_LINKING)
+        set_target_properties(TracyClient PROPERTIES TRACY_STATIC ON)
+    endif ()
+endif ()
 
 # Check for build types and libraries
 if (TILES)

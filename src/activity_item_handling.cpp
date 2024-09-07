@@ -53,6 +53,8 @@
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
+#include "options.h"
+#include "overmapbuffer.h"
 #include "pickup.h"
 #include "pickup_token.h"
 #include "player.h"
@@ -98,6 +100,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
+static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_nausea( "nausea" );
 
@@ -127,7 +130,6 @@ static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
-static const zone_type_id z_camp_storage( "CAMP_STORAGE" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -391,6 +393,17 @@ void drop_on_map( Character &c, item_drop_reason reason,
                 );
                 break;
         }
+
+
+        if( get_option<bool>( "AUTO_NOTES_DROPPED_FAVORITES" ) && it->is_favorite ) {
+            const tripoint_abs_omt your_pos = c.global_omt_location();
+            if( !overmap_buffer.has_note( your_pos ) ) {
+                overmap_buffer.add_note( your_pos, it->display_name() );
+            } else {
+                overmap_buffer.add_note( your_pos, overmap_buffer.note( your_pos ) + "; " + it->display_name() );
+            }
+        }
+
     } else {
         switch( reason ) {
             case item_drop_reason::deliberate:
@@ -820,10 +833,12 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
+        pet->add_effect( effect_ai_waiting, 2_turns );
         std::vector<detached_ptr<item>> stashed = obtain_activity_items( who, items );
         stash_on_pet( stashed, *pet, who );
         if( items.empty() ) {
             who.cancel_activity();
+            pet->remove_effect( effect_ai_waiting );
         }
     } else {
         who.add_msg_if_player( _( "The pet has moved somewhere else." ) );
@@ -1528,7 +1543,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             // make sure nobody else is working on that corpse right now
             if( i->is_corpse() && !i->has_var( "activity_var" ) ) {
                 const mtype corpse = *i->get_mtype();
-                if( corpse.size >= MS_MEDIUM ) {
+                if( corpse.size >= creature_size::medium ) {
                     big_count += 1;
                 } else {
                     small_count += 1;
@@ -1586,8 +1601,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_TIDY_UP ) {
-        if( mgr.has_near( zone_type_LOOT_UNSORTED, here.getabs( src_loc ), distance ) ||
-            mgr.has_near( z_camp_storage, here.getabs( src_loc ), distance ) ) {
+        if( mgr.has_near( zone_type_LOOT_UNSORTED, here.getabs( src_loc ), distance ) ) {
             return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
         }
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1631,10 +1645,16 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     // we need a shovel/hoe
                     return activity_reason_info::fail( do_activity_reason::NEEDS_TILLING );
                 }
-            } else if( here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) &&
-                       warm_enough_to_plant( src_loc ) ) {
+            } else if( seed.is_valid() &&
+                       here.has_flag_ter_or_furn( seed->seed->required_terrain_flag, src_loc ) ) {
                 if( here.has_items( src_loc ) ) {
                     return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
+                } else if( !warm_enough_to_plant( src_loc ) ) {
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_WARM_WEATHER );
+                    // Plants underground need to be either valid to plant underground, or given artificial heating
+                } else if( !seed.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && src_loc.z < 0 &&
+                           get_weather().get_temperature( src_loc ) < 10_c ) {
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_ABOVE_GROUND );
                 } else {
                     // do we have the required seed on our person?
                     // If its a farm zone with no specified seed, and we've checked for tilling and harvesting.
@@ -1671,23 +1691,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     }
     // Shouldn't get here because the zones were checked previously. if it does, set enum reason as "no zone"
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
-}
-
-static void add_basecamp_storage_to_loot_zone_list( zone_manager &mgr, const tripoint &src_loc,
-        player &p, std::vector<tripoint> &loot_zone_spots, std::vector<tripoint> &combined_spots )
-{
-    if( npc *const guy = dynamic_cast<npc *>( &p ) ) {
-        map &here = get_map();
-        if( guy->assigned_camp &&
-            mgr.has_near( z_camp_storage, here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE ) ) {
-            std::unordered_set<tripoint> bc_storage_set = mgr.get_near( zone_type_id( "CAMP_STORAGE" ),
-                    here.getabs( src_loc ), ACTIVITY_SEARCH_DISTANCE );
-            for( const tripoint &elem : bc_storage_set ) {
-                loot_zone_spots.push_back( here.getlocal( elem ) );
-                combined_spots.push_back( here.getlocal( elem ) );
-            }
-        }
-    }
 }
 
 static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player &p,
@@ -1744,7 +1747,6 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             combined_spots.push_back( elem );
         }
     }
-    add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_spots, combined_spots );
     // if the requirements aren't available, then stop.
     if( !are_requirements_nearby( pickup_task ? loot_spots : combined_spots, things_to_fetch_id, p,
                                   activity_to_restore, pickup_task, src_loc ) ) {
@@ -2145,7 +2147,7 @@ static bool butcher_corpse_activity( player &p, const tripoint &src_loc,
     for( auto &elem : items ) {
         if( elem->is_corpse() && !elem->has_var( "activity_var" ) ) {
             const mtype corpse = *elem->get_mtype();
-            if( corpse.size >= MS_MEDIUM && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
+            if( corpse.size >= creature_size::medium && reason != do_activity_reason::NEEDS_BIG_BUTCHERING ) {
                 continue;
             }
             elem->set_var( "activity_var", p.name );
@@ -2332,7 +2334,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
             for( auto &it : src_veh->get_items( src_part ) ) {
-                if( !it->is_owned_by( p, true ) ) {
+                if( !it->is_owned_by( p, true ) && it->get_owner()->likes_u >= -10 ) {
                     continue;
                 }
                 it->set_owner( p );
@@ -2343,7 +2345,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             src_part = -1;
         }
         for( auto &it : here.i_at( src_loc ) ) {
-            if( !it->is_owned_by( p, true ) ) {
+            if( !it->is_owned_by( p, true ) && it->get_owner()->likes_u >= -10 ) {
                 continue;
             }
             it->set_owner( p );
@@ -2465,9 +2467,11 @@ static bool mine_activity( player &p, const tripoint &src_loc )
     if( chosen_item == nullptr ) {
         return false;
     }
-    int moves = to_moves<int>( powered ? 30_minutes : 20_minutes );
-    if( !powered ) {
-        moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 5_minutes );
+    int moves = to_moves<int>( powered ? 10_minutes : 30_minutes );
+    if( powered ) {
+        moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 75_seconds );
+    } else {
+        moves += ( ( MAX_STAT + 4 ) - std::min( p.str_cur, MAX_STAT ) ) * to_moves<int>( 225_seconds );
     }
     if( here.move_cost( src_loc ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
@@ -2713,12 +2717,19 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         reason == do_activity_reason::NO_ZONE ||
         reason == do_activity_reason::ALREADY_DONE ||
         reason == do_activity_reason::BLOCKING_TILE ||
+        reason == do_activity_reason::NEEDS_WARM_WEATHER ||
+        reason == do_activity_reason::NEEDS_ABOVE_GROUND ||
         reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
         // we can discount this tile, the work can't be done.
         if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
             p.add_msg_if_player( m_info, _( "You don't have the skill for this task." ) );
         } else if( reason == do_activity_reason::BLOCKING_TILE ) {
             p.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
+        } else if( reason == do_activity_reason::NEEDS_WARM_WEATHER ) {
+            p.add_msg_if_player( m_info, _( "It is too cold to plant anything now." ) );
+        } else if( reason == do_activity_reason::NEEDS_ABOVE_GROUND ) {
+            p.add_msg_if_player( m_info,
+                                 _( "It's too cold down here to plant this type of seed underground." ) );
         }
         return SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
@@ -2746,7 +2757,6 @@ static requirement_check_result generic_multi_activity_check_requirement( player
         for( const tripoint &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
             combined_spots.push_back( elem );
         }
-        add_basecamp_storage_to_loot_zone_list( mgr, src_loc, p, loot_zone_spots, combined_spots );
 
         if( ( reason == do_activity_reason::NO_COMPONENTS ||
               reason == do_activity_reason::NO_COMPONENTS_PREREQ ||
@@ -3223,18 +3233,18 @@ bool find_auto_consume( player &p, const consume_type type )
         {
             return false;
         }
-        /* not ours               */
-        if( !it.is_owned_by( p, true ) )
+        /* not ours, freely steal from hostiles however  */
+        if( !it.is_owned_by( p, true ) && it.get_owner()->likes_u >= -10 )
         {
             return false;
         }
-        /* not quenching enough   */
-        if( type == consume_type::DRINK && comest.get_comestible()->quench < 15 )
+        /* not quenching enough or won't sate auto-eat   */
+        if( ( type == consume_type::DRINK && comest.get_comestible()->quench < 15 ) || ( type == consume_type::FOOD && p.compute_effective_nutrients( comest ).kcal < 1 ) )
         {
             return false;
         }
         /* Unsafe to drink or eat */
-        if( comest.has_flag( flag_UNSAFE_CONSUME ) )
+        if( comest.has_flag( flag_UNSAFE_CONSUME ) || comest.get_comestible()->parasites > 0 )
         {
             return false;
         }
@@ -3368,9 +3378,29 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
     // We need to move fuel from stash to fire
     map_stack potential_fuel = here.i_at( *refuel_spot );
     item *found = nullptr;
+    item *found_tinder = nullptr;
     for( item *&it : potential_fuel ) {
         if( it->made_of( LIQUID ) ) {
             continue;
+        }
+        // If we specifically need tinder to start this fire, grab it the instant it's found and ignore any other fuel
+        if( starting_fire ) {
+            // Only track firestarter if we have an activity assigned to light a new fire, or it will implode.
+            item &firestarter = *act.targets.front();
+            if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
+                if( it->has_flag( flag_TINDER ) ) {
+                    move_item( p, *it, 1, *refuel_spot, *best_fire );
+                    return;
+                } else {
+                    continue;
+                }
+            }
+        } else {
+            // Keep track of any tinder we don't need, but don't use it if we have other options
+            if( it->has_flag( flag_TINDER ) ) {
+                found_tinder = it;
+                continue;
+            }
         }
 
         float last_fuel = fd.fuel_produced;
@@ -3380,9 +3410,14 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
             break;
         }
     }
+    // Only use tinder if we didn't find any other valid fuel to use
     if( found ) {
         const int quantity = std::max( 1, std::min( found->charges, found->charges_per_volume( 250_ml ) ) );
         // Note: move_item() handles messages (they're the generic "you drop x")
         move_item( p, *found, quantity, *refuel_spot, *best_fire );
+    } else if( found_tinder ) {
+        const int quantity = std::max( 1, std::min( found_tinder->charges,
+                                       found_tinder->charges_per_volume( 250_ml ) ) );
+        move_item( p, *found_tinder, quantity, *refuel_spot, *best_fire );
     }
 }

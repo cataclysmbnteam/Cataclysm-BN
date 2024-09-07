@@ -24,6 +24,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "enum_traits.h"
 #include "faction.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -103,38 +104,17 @@ enum npc_attitude : int {
 std::string npc_attitude_id( npc_attitude );
 std::string npc_attitude_name( npc_attitude );
 
+template<>
+struct enum_traits<npc_attitude> {
+    static constexpr npc_attitude last = NPCATT_END;
+};
+
 // Attitudes are grouped by overall behavior towards player
 enum class attitude_group : int {
     neutral = 0, // Doesn't particularly mind the player
     hostile, // Not necessarily attacking, but also mugging, exploiting etc.
     fearful, // Run
     friendly // Follow, defend, listen
-};
-
-// jobs assigned to an NPC when they are stationed at a basecamp.
-class job_data
-{
-    private:
-        std::map<activity_id, int> task_priorities = {
-            { activity_id( "ACT_MULTIPLE_BUTCHER" ), 0 },
-            { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), 0 },
-            { activity_id( "ACT_VEHICLE_REPAIR" ), 0 },
-            { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), 0 },
-            { activity_id( "ACT_MULTIPLE_FARM" ), 0 },
-            { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), 0 },
-            { activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ), 0 },
-            { activity_id( "ACT_MULTIPLE_FISH" ), 0 },
-            { activity_id( "ACT_MOVE_LOOT" ), 0 },
-            { activity_id( "ACT_TIDY_UP" ), 0 },
-        };
-    public:
-        bool set_task_priority( const activity_id &task, int new_priority );
-        void clear_all_priorities();
-        bool has_job() const;
-        int get_priority_of_job( const activity_id &req_job ) const;
-        std::vector<activity_id> get_prioritised_vector() const;
-        void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
 };
 
 enum npc_mission : int {
@@ -165,11 +145,16 @@ std::string npc_class_name_str( const npc_class_id & );
 
 enum npc_action : int;
 
-enum npc_need {
+enum npc_need : int {
     need_none,
     need_ammo, need_weapon, need_gun,
     need_food, need_drink, need_safety,
     num_needs
+};
+
+template<>
+struct enum_traits<npc_need> {
+    static constexpr npc_need last = num_needs;
 };
 
 // TODO: Turn the personality struct into a vector/map?
@@ -525,6 +510,11 @@ struct npc_short_term_cache {
     lru_cache<tripoint, int> searched_tiles;
 };
 
+struct npc_need_goal_cache {
+    tripoint_abs_omt goal;
+    tripoint_abs_omt omt_loc;
+};
+
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
 // TALK_AGREE_FOLLOW. There is also convert_talk_topic which can convert the enumeration values to
 // the new string values (used to load old saves).
@@ -867,7 +857,6 @@ class npc : public player
         bool is_guarding() const;
         // Has a guard patrol mission
         bool is_patrolling() const;
-        bool within_boundaries_of_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
         bool is_travelling() const;
@@ -1097,9 +1086,6 @@ class npc : public player
         void move_away_from( const tripoint &p, bool no_bash_atk = false,
                              std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
-        // workers at camp relaxing/wandering
-        void worker_downtime();
-        bool find_job_to_perform();
         // Same as if the player pressed '.'
         void move_pause();
 
@@ -1146,7 +1132,6 @@ class npc : public player
         bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
-        bool consume_food_from_camp();
 
         // Movement on the overmap scale
         // Do we have a long-term destination?
@@ -1201,9 +1186,6 @@ class npc : public player
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
-        bool has_job() const {
-            return job.has_job();
-        }
         npc_attitude get_previous_attitude();
         npc_mission get_previous_mission();
         void revert_after_activity();
@@ -1215,7 +1197,6 @@ class npc : public player
         std::string idz;
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
-        std::optional<tripoint_abs_omt> assigned_camp = std::nullopt;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
@@ -1234,6 +1215,8 @@ class npc : public player
         std::map<std::string, time_point> complaints;
 
         npc_short_term_cache ai_cache;
+
+        std::map<npc_need, npc_need_goal_cache> goal_cache;
     public:
         /**
          * Global position, expressed in map square coordinate system
@@ -1301,7 +1284,6 @@ class npc : public player
         std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
-        job_data job;
         time_point last_updated;
         /**
          * Do some cleanup and caching as npc is being unloaded from map.

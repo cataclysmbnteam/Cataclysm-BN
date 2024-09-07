@@ -22,7 +22,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "avatar_functions.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -38,7 +37,6 @@
 #include "construction_partial.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
-#include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -73,7 +71,6 @@
 #include "mapdata.h"
 #include "material.h"
 #include "messages.h"
-#include "mission_companion.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -209,7 +206,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -937,7 +933,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
                 critter.has_flag( MF_ID_CARD_DESPAWN ) &&
-                critter.attitude_to( p ) == Creature::Attitude::A_HOSTILE ) {
+                critter.attitude_to( p ) == Attitude::A_HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
@@ -1306,64 +1302,6 @@ void iexamine::slot_machine( player &p, const tripoint & )
     }
 }
 
-/**
- * Attempt to crack safe through audio-feedback manual lock manipulation.
- *
- * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
- * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
- * Small chance of just guessing the combo without listening device.
- */
-void iexamine::safe( player &p, const tripoint &examp )
-{
-    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        //Why not just check the item
-        return it.has_flag( flag_SAFECRACK );
-    } );
-
-    if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
-        p.moves -= to_turns<int>( 10_seconds );
-        // one_in(30^3) chance of guessing
-        if( one_in( 27000 ) ) {
-            p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
-            get_map().furn_set( examp, f_safe_o );
-            return;
-        } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
-            return;
-        }
-    }
-
-    if( p.is_deaf() ) {
-        add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
-        return;
-    } else if( p.has_effect( effect_earphones ) ) {
-        add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
-        return;
-    } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
-
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level(
-                skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
-
-        p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
-        p.activity->placement = examp;
-    }
-}
-
-/**
- * Attempt to "hack" the gunsafe's electronic lock and open it.
- */
-void iexamine::gunsafe_el( player &p, const tripoint &examp )
-{
-    if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
-        try_start_hacking( p, examp );
-    }
-}
-
 static item *find_best_prying_tool( player &p )
 {
     std::vector<item *> prying_items = p.items_with( []( const item & it ) {
@@ -1384,6 +1322,110 @@ static item *find_best_prying_tool( player &p )
     return prying_items[0];
 }
 
+static void apply_prying_tool( player &p, item *it, const tripoint &examp )
+{
+    map &here = get_map();
+    //~ %1$s: terrain/furniture name, %2$s: prying tool name
+    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
+                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
+
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
+    iuse::crowbar( &p, it, false, examp );
+}
+
+/**
+ * Attempt to crack safe through audio-feedback manual lock manipulation.
+ *
+ * Try to unlock the safe by moving the dial and listening for the mechanism to "click into place."
+ *
+ * Time per attempt affected by perception and mechanics. 5 minutes per attempt minimum.
+ * Small chance of just guessing the combo without listening device.
+ */
+void iexamine::safe( player &p, const tripoint &examp )
+{
+
+    map &here = get_map();
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                examp )->pry.pry_quality;
+    if( target_diff > 0 && prying_tool && !p.movement_mode_is( CMM_CROUCH ) ) {
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+
+    // Requires mutant hearing, Enhanced Hearing CBM, or a stethoscope.
+    bool can_safecrack = p.hearing_ability() > 1.5f || p.has_item_with_flag( flag_SAFECRACK );
+    bool can_decode = p.get_skill_level( skill_mechanics ) >= 5;
+
+    // We can skip worrying about a stethoscope if we're skilled enough.
+    if( !can_decode ) {
+        // Lack both the tools and the skills so fiddle with the dial a bit.
+        if( !can_safecrack ) {
+            p.mod_moves( -to_moves<int>( 10_seconds ) );
+            // one_in(30^3) chance of guessing
+            if( one_in( 27000 ) ) {
+                p.add_msg_if_player( m_good,
+                                     _( "Lacking the skill to crack this without tools, you mess with the dial for a little bit… and it opens!" ) );
+                get_map().furn_set( examp, f_safe_o );
+                return;
+            } else {
+                p.add_msg_if_player( m_info,
+                                     _( "Lacking the skill to crack this without tools, you mess with the dial for a little bit." ) );
+                return;
+            }
+        }
+        // We both need and have hearing enhancement, so here we rule out states that prevent us from using it.
+        if( p.is_deaf() ) {
+            add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
+            return;
+        } else if( p.has_effect( effect_earphones ) ) {
+            add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
+            return;
+        }
+    }
+
+    if( query_yn(
+            _( "Attempt to crack the safe?\n\nUses a stethoscope, augmented hearing, or mechanics skill of 5 or higher." ) ) ) {
+        std::string safecracking_message = can_decode ?
+                                           _( "You begin to expertly decode the safe." ) :
+                                           _( "You start cracking the safe." );
+        add_msg( m_info, safecracking_message );
+        // 120 minutes - 10 minutes per mechanics point, - 5 per perception point above 10;
+        // capped at 5 minutes minimum.
+        const time_duration time = std::max( 120_minutes - 10_minutes * p.get_skill_level(
+                skill_mechanics ) - 5_minutes * ( std::max( p.get_per(), 10 ) - 10 ), 5_minutes );
+
+        p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
+        p.activity->placement = examp;
+    }
+}
+
+/**
+ * Attempt to "hack" the gunsafe's electronic lock and open it.
+ * Also allow for trying to pry it open as an alternative.
+ */
+void iexamine::gunsafe_el( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                examp )->pry.pry_quality;
+    if( target_diff > 0 && prying_tool && !p.movement_mode_is( CMM_CROUCH ) ) {
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+    if( query_yn( _( "Attempt to hack this safe?" ) ) ) {
+        try_start_hacking( p, examp );
+    }
+}
+
 static item *find_best_lock_picking_tool( player &p )
 {
     std::vector<item *> picklocks = p.items_with( []( const item & it ) {
@@ -1401,18 +1443,6 @@ static item *find_best_lock_picking_tool( player &p )
     }
 
     return picklocks[0];
-}
-
-static void apply_prying_tool( player &p, item *it, const tripoint &examp )
-{
-    map &here = get_map();
-    //~ %1$s: terrain/furniture name, %2$s: prying tool name
-    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s…" ),
-                         here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
-
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    iuse::crowbar( &p, it, false, examp );
 }
 
 static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp )
@@ -1465,23 +1495,47 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
-    safe_reference<item> prying_tool = find_best_prying_tool( p );
-    if( prying_tool ) {
-        apply_prying_tool( p, prying_tool.get(), examp );
-        return;
+    // if the furniture/terrain is also lockpickable
+    // try lockpicking first if we're crouched
+    if( lockpick_activity_actor::is_pickable( examp ) && p.movement_mode_is( CMM_CROUCH ) ) {
+        if( pick_lock( p, examp ) ) {
+            return;
+        }
     }
 
-    // if the furniture/terrain is also lockpickable
+    safe_reference<item> prying_tool = find_best_prying_tool( p );
+    if( prying_tool ) {
+        const int target_diff = here.has_furn( examp ) ? here.furn( examp )->pry.pry_quality : here.ter(
+                                    examp )->pry.pry_quality;
+        // keep going in case we have a prying tool that can't be used against the target, so we can try lockpicking
+        if( prying_tool->get_quality( quality_id( "PRY" ) ) >= target_diff ) {
+            apply_prying_tool( p, prying_tool.get(), examp );
+            return;
+        }
+    }
+
+    const auto target = here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp );
     if( lockpick_activity_actor::is_pickable( examp ) ) {
         if( !pick_lock( p, examp ) ) {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+            if( prying_tool ) {
+                add_msg( m_info,
+                         _( "The %s is locked.  If only you had something to pick its lock, or a stronger prying tool…" ),
+                         target );
+            } else {
+                add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
+                         target );
+            }
         }
         return;
     }
 
-    add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
-             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+    if( prying_tool ) {
+        add_msg( m_info, _( "The %s is locked, and your tools aren't strong enough to pry it open…" ),
+                 target );
+    } else {
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pry it…" ),
+                 target );
+    }
 }
 
 /**
@@ -1494,32 +1548,6 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     if( !pick_lock( p, examp ) ) {
         add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock…" ),
                  here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-    }
-}
-
-void iexamine::bulletin_board( player &p, const tripoint &examp )
-{
-    g->validate_camps();
-    map &here = get_map();
-    // TODO: fix point types
-    point_abs_omt omt( ms_to_omt_copy( here.getabs( examp.xy() ) ) );
-    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        temp_camp->validate_bb_pos( here.getabs( examp ) );
-        temp_camp->validate_assignees();
-        temp_camp->validate_sort_points();
-
-        const std::string title = ( "Base Missions" );
-        mission_data mission_key;
-        temp_camp->set_by_radio( false );
-        temp_camp->get_available_missions( mission_key );
-        if( talk_function::display_and_choose_opts( mission_key, temp_camp->camp_omt_pos(),
-                "FACTION_CAMP", title ) ) {
-            temp_camp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir );
-        }
-    } else {
-        p.add_msg_if_player( _( "This bulletin board is not inside a camp" ) );
     }
 }
 
@@ -2247,6 +2275,13 @@ void iexamine::dirtmound( player &p, const tripoint &examp )
     }
     const auto &seed_id = std::get<0>( seed_entries[seed_index] );
 
+    // Separate temp check because for now we permit growing regular plants underground with artificial heating
+    if( !seed_id.obj().has_flag( flag_CAN_PLANT_UNDERGROUND ) && examp.z < 0 &&
+        get_weather().get_temperature( examp ) < 10_c ) {
+        add_msg( _( "It's too cold down here to plant this type of seed underground." ) );
+        return;
+    }
+
     if( !here.has_flag_ter_or_furn( seed_id->seed->required_terrain_flag, examp ) ) {
         add_msg( _( "This type of seed can not be planted in this location." ) );
         return;
@@ -2409,9 +2444,16 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
         return;
     }
 
+    map &here = get_map();
+    // The plant furniture has the NOITEM token which prevents adding items on that square,
+    // spawned items are moved to an adjacent field instead, but the fertilizer token
+    // must be on the square of the plant, therefore this hack:
+    const auto old_furn = here.furn( tile );
+    here.furn_set( tile, f_null );
+    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
+    here.furn_set( tile, old_furn );
     std::vector<detached_ptr<item>> planted = p.use_charges( fertilizer, 1 );
 
-    map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( tile );
     map_stack::iterator seed_it = std::find_if( items.begin(),
@@ -2430,17 +2472,8 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     // Reduce the amount of time it takes until the next stage of growth
     // by 60% of the seed's stage duration, or 20% of its overall growth time
     const time_duration fertilized_boost = seed->get_plant_epoch() * 0.6;
-
     seed->set_birthday( seed->birthday() - fertilized_boost );
-    // The plant furniture has the NOITEM token which prevents adding items on that square,
-    // spawned items are moved to an adjacent field instead, but the fertilizer token
-    // must be on the square of the plant, therefore this hack:
-    const auto old_furn = here.furn( tile );
-    here.furn_set( tile, f_null );
-    here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
-    here.furn_set( tile, old_furn );
     p.mod_moves( -to_moves<int>( 10_seconds ) );
-
     //~ %1$s: plant name, %2$s: fertilizer name
     add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
              planted.front()->tname() );
@@ -3145,9 +3178,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     const std::string booze_name = brew_i.tname();
-    if( liquid_handler::handle_liquid( **items_here.begin() ) ) {
-        here.furn_set( examp, f_fvat_empty );
+    liquid_handler::handle_liquid( **items_here.begin() );
+    if( items_here.empty() ) {
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
+        here.furn_set( examp, f_fvat_empty );
+        return;
     }
 }
 
@@ -3577,7 +3612,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case HARVEST_SAP: {
-            liquid_handler::handle_liquid( *container, PICKUP_RANGE );
+            liquid_handler::handle_liquid( container->contents.front(), PICKUP_RANGE );
             return;
         }
 
@@ -4709,7 +4744,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             break;
         }
         default:
-            popup( _( "You decided to step back from the ledge." ) );
+            p.add_msg_if_player( _( "You decided to step back from the ledge." ) );
             break;
     }
 }
@@ -4872,7 +4907,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
     if( &patient == &null_player ) {
         if( cyborg != nullptr ) {
-            if( cyborg->typeId() == itype_corpse && !cyborg->active ) {
+            if( cyborg->typeId() == itype_corpse && !cyborg->is_active() ) {
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
             } else if( cyborg->typeId() == itype_bot_broken_cyborg || cyborg->typeId() == itype_corpse ) {
@@ -6302,7 +6337,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "pit_covered", &iexamine::pit_covered },
             { "slot_machine", &iexamine::slot_machine },
             { "safe", &iexamine::safe },
-            { "bulletin_board", &iexamine::bulletin_board },
             { "fault", &iexamine::fault },
             { "notify", &iexamine::notify },
             { "transform", &iexamine::transform },

@@ -62,6 +62,16 @@
   },
   {
     "type": "recipe",
+    "result": "seed_mushroom",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "seed_mushroom_morel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "milk",
     "id_suffix": "from_condensed",
     "obsolete": true
@@ -660,11 +670,6 @@
   },
   {
     "type": "recipe",
-    "result": "bio_batteries",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_blood_filteruncraft",
     "obsolete": true
   },
@@ -675,27 +680,12 @@
   },
   {
     "type": "recipe",
-    "result": "bio_evap",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_face_maskuncraft",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bio_flashlight",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_ground_sonaruncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_laser",
     "obsolete": true
   },
   {
@@ -710,32 +700,12 @@
   },
   {
     "type": "recipe",
-    "result": "bio_power_armor_interface",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_power_armor_interface_mkII",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "bio_power_storage",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_power_storage_mkII",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "bio_recycleruncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_water_extractor",
     "obsolete": true
   },
   {
@@ -2090,26 +2060,6 @@
   },
   {
     "type": "recipe",
-    "result": "bio_armor_head",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_arms",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_torso",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "bio_armor_legs",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "years_old_newspaperuncraft",
     "obsolete": true
   },
@@ -2413,26 +2363,6 @@
     "type": "recipe",
     "result": "plastic_chunk",
     "id_suffix": "from_cash_cards",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_scrap",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_flechette",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_bearing",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "shotcanister_pebble",
     "obsolete": true
   },
   {
@@ -3263,6 +3193,221 @@
   {
     "type": "recipe",
     "result": "leg_warmers_xl",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "under_armoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "under_armor_shortsuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tshirtuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tshirt_touruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "linuxtshirtuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "grip_mount",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "stock_mount",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "underbarrel_mount",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rail_mount",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sights_mount_pistol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sights_mount_launcher",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sights_mount",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "welder_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "deluxe_eggs",
+    "id_suffix": "from_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "soup_lobster",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_roll",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_canned",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_cooked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_smoked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_salted",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_salted",
+    "id_suffix": "vacuum_packed",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_pickled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lobster_pickled",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rehydrated_lobster",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fish_bagel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sandwich_cucumber",
+    "obsolete": true
+  },
+  {
+    "result": "beltfeed",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "aux_flamer",
+    "obsolete": true
+  },
+  {
+    "result": "makeshift_grenade",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "barrel_big",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "oj",
+    "id_suffix": "jarred_3l",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "jarred",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cranberry_juice",
+    "id_suffix": "jarred_3l",
     "obsolete": true
   }
 ]

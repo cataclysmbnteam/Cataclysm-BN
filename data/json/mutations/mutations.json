@@ -141,6 +141,7 @@
     "description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
     "starting_trait": true,
     "valid": false,
+    "category": [ "RAT", "MOUSE" ],
     "cancels": [ "BADTEMPER" ]
   },
   {
@@ -329,6 +330,7 @@
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 35%.",
     "starting_trait": true,
     "valid": false,
+    "category": [ "CATTLE", "URSINE" ],
     "cancels": [ "BADBACK" ],
     "weight_capacity_modifier": 1.35
   },
@@ -1176,7 +1178,7 @@
     "starting_trait": true,
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "changes_to": [ "DEFORMED" ],
-    "category": [ "RAPTOR", "FELINE", "LUPINE" ]
+    "category": [ "RAPTOR" ]
   },
   {
     "type": "mutation",
@@ -1229,6 +1231,17 @@
   },
   {
     "type": "mutation",
+    "id": "ROBUST",
+    "name": { "str": "Robust Genetics" },
+    "points": 3,
+    "description": "You have a very strong genetic base.  Mutations gained from eating mutant flesh will balance out at a higher number of positive mutations.",
+    "starting_trait": true,
+    "cancels": [ "CHAOTIC_BAD" ],
+    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ],
+    "mutagen_target_modifier": 8
+  },
+  {
+    "type": "mutation",
     "id": "CHAOTIC_BAD",
     "name": { "str": "Genetic Downward Spiral" },
     "points": -12,
@@ -1236,7 +1249,8 @@
     "description": "The events of the Cataclysm have damaged your DNA beyond repair.  You mutate frequently, and all mutations you receive (from any source) are negative.",
     "starting_trait": true,
     "cancels": [ "ROBUST" ],
-    "valid": false
+    "valid": false,
+    "mutagen_target_modifier": -50
   },
   {
     "type": "mutation",
@@ -1269,7 +1283,7 @@
     "id": "NIGHTVISION3",
     "name": { "str": "Full Night Vision" },
     "points": 6,
-    "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
+    "description": "You can see in pitch blackness as if you were wearing night-vision goggles, and read in darkness as one can in dim lighting.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "NIGHTVISION2" ],
     "leads_to": [ "INFRARED" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
@@ -1633,7 +1647,7 @@
     "types": [ "SKIN" ],
     "category": [ "CHIMERA", "RAPTOR", "LIZARD" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
+    "changes_to": [ "THICK_SCALES", "SLEEK_SCALES", "PATCHSKIN1" ],
     "movecost_swim_modifier": 0.9,
     "wet_protection": [
       { "part": "head", "ignored": 3 },
@@ -1759,7 +1773,7 @@
     "category": [ "CHIMERA", "SPIDER", "MOUSE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
-    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR" ]
+    "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR", "PATCHSKIN1" ]
   },
   {
     "type": "mutation",
@@ -1860,7 +1874,7 @@
     "armor": [ { "parts": "ALL", "physical": 2 } ],
     "category": [ "CHIMERA" ],
     "types": [ "SKIN" ],
-    "prereqs": [ "SKIN_ROUGH" ],
+    "prereqs": [ "LIGHTFUR", "SCALES" ],
     "changes_to": [ "PATCHSKIN2" ]
   },
   {
@@ -3863,8 +3877,8 @@
     "name": { "str": "Dextrous" },
     "points": 1,
     "description": "You are a little nimbler.  +1 Dexterity.",
-    "changes_to": [ "DEX_UP_2", "DEX_ALPHA" ],
-    "category": [ "INSECT", "SLIME", "ALPHA" ],
+    "changes_to": [ "DEX_UP_2" ],
+    "category": [ "INSECT", "SLIME" ],
     "passive_mods": { "dex_mod": 1 }
   },
   {
@@ -3874,8 +3888,8 @@
     "points": 2,
     "description": "You are nimbler.  +2 Dexterity.",
     "prereqs": [ "DEX_UP" ],
-    "changes_to": [ "DEX_UP_3" ],
-    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE" ],
+    "changes_to": [ "DEX_UP_3", "DEX_ALPHA" ],
+    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "ALPHA" ],
     "passive_mods": { "dex_mod": 2 }
   },
   {
@@ -3907,10 +3921,10 @@
     "points": 6,
     "description": "You're perfectly coordinated.",
     "valid": false,
-    "prereqs": [ "DEX_UP" ],
+    "prereqs": [ "DEX_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "dex_mod": 1 }
+    "passive_mods": { "dex_mod": 2 }
   },
   {
     "type": "mutation",
@@ -3918,8 +3932,8 @@
     "name": { "str": "Smart" },
     "points": 1,
     "description": "You are a little smarter.  +1 Intelligence.",
-    "changes_to": [ "INT_UP_2", "INT_ALPHA", "INT_SLIME" ],
-    "category": [ "SLIME", "ALPHA" ],
+    "changes_to": [ "INT_UP_2", "INT_SLIME" ],
+    "category": [ "SLIME" ],
     "passive_mods": { "int_mod": 1 }
   },
   {
@@ -3929,7 +3943,8 @@
     "points": 2,
     "description": "You are smarter.  +2 Intelligence.",
     "prereqs": [ "INT_UP" ],
-    "changes_to": [ "INT_UP_3" ],
+    "changes_to": [ "INT_UP_3", "INT_ALPHA" ],
+    "category": [ "ALPHA" ],
     "passive_mods": { "int_mod": 2 }
   },
   {
@@ -3965,10 +3980,10 @@
     "points": 6,
     "description": "You understand almost everything about which you think, with minimal effort.",
     "valid": false,
-    "prereqs": [ "INT_UP" ],
+    "prereqs": [ "INT_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "int_mod": 1 }
+    "passive_mods": { "int_mod": 2 }
   },
   {
     "type": "mutation",
@@ -4299,7 +4314,7 @@
     "cancels": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs": [ "UGLY" ],
     "changes_to": [ "DEFORMED2" ],
-    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "FELINE", "LUPINE", "SPIDER" ]
+    "category": [ "FISH", "CATTLE", "INSECT", "CEPHALOPOD", "SPIDER" ]
   },
   {
     "type": "mutation",
@@ -4901,7 +4916,6 @@
     "id": "CHAOTIC",
     "name": { "str": "Genetic Chaos" },
     "points": -4,
-    "purifiable": false,
     "description": "Your body alters itself rapidly, and without your intervention or conscious control.",
     "prereqs": [ "UNSTABLE", "MUT_JUNKIE" ],
     "category": [ "CHIMERA" ]
@@ -5640,7 +5654,9 @@
     "description": "You sometimes look back on your days before your tail came in.  But you're better now.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "Based on highest of category's iv_hunger, iv_thirst, or iv_fatigue.  Most default to 10+10+5 so default value of 10",
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5650,7 +5666,8 @@
     "description": "You're sure you'll fly someday.  In the meantime, there are still nests to build.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5660,7 +5677,8 @@
     "description": "Ninety percent of the planet, and it's yours to explore.  And colonize.  And enjoy.  What was that about a surface?",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5670,7 +5688,8 @@
     "description": "It's about time you grew out.  Now that you've matured, it is time to make something of yourself.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5680,7 +5699,8 @@
     "description": "Stalking prey, eating well, and lying in the sun.  Mmm, all you could ever desire.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5690,7 +5710,8 @@
     "description": "You're the perfect candidate to lead a pack.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5701,7 +5722,8 @@
     "cancels": [ "CARNIVORE" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5711,7 +5733,8 @@
     "description": "Civilization collapsed?  Great!  You and your kin will never have to worry about a slaughterhouse again.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5721,7 +5744,8 @@
     "description": "It would be good to be a Queen, having workers constantly servicing your every need… but how would you keep them in line?",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5731,7 +5755,8 @@
     "description": "Well, you still have those other walking flowers-and the mushrooms too-to deal with.  But you'll manage.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5741,7 +5766,8 @@
     "description": "What was that old advertisement?  'Paint the planet'?  That might be a good long-term goal, but for now…",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5751,7 +5777,8 @@
     "description": "Not much point to rebuilding up in that horribly bright roofless wasteland.  Now that you've become accustomed to your new digs, there's the beginning of a great empire right here, underground.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5761,7 +5788,8 @@
     "description": "Strange aeons, true, but Death seems to be slacking, and you are doing just fine.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5771,7 +5799,8 @@
     "description": "Well, maybe you'll just have to make your own worldwide web.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5781,7 +5810,8 @@
     "description": "Hey.  Civilization fell.  You're still around.  'Rat' just isn't respectful.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5791,7 +5821,9 @@
     "description": "After all those experiments, what's a few more, hmm?",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "iv_fatigue of 5, other values are lower",
+    "mutagen_target_modifier": 5
   },
   {
     "type": "mutation",
@@ -5801,7 +5833,9 @@
     "description": "You're the perfect candidate to tidy this mess.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "iv_fatigue of 5, other values are lower",
+    "mutagen_target_modifier": 5
   },
   {
     "type": "mutation",
@@ -5811,7 +5845,8 @@
     "description": "You are the tree under which humankind will shelter during these dark times.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5821,7 +5856,9 @@
     "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "//": "iv_hunger, iv_thirst, and iv_fatigue are all at 20",
+    "mutagen_target_modifier": 20
   },
   {
     "type": "mutation",
@@ -5831,7 +5868,8 @@
     "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -5841,7 +5879,8 @@
     "description": "So much food, everywhere!  And nobody's even guarding it anymore!  These are good times.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
@@ -6405,6 +6444,15 @@
     "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "BRAWLER",
+    "name": { "str": "Brawler" },
+    "points": -8,
+    "description": "Whether from personal choice or childhood trauma, using ranged weapons is off-limits to you, even if your life depended on it.",
+    "starting_trait": true,
+    "valid": false
   },
   {
     "type": "mutation",

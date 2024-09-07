@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "animation.h"
-#include "creature.h"
 #include "enums.h"
 #include "lightmap.h"
 #include "line.h"
@@ -347,6 +346,11 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 
 struct tile_render_info;
 
+struct tile_search_result {
+    const tile_type *tt;
+    std::string found_id;
+};
+
 class cata_tiles
 {
     public:
@@ -357,6 +361,12 @@ class cata_tiles
          *  float inaccuracies. */
         void set_draw_scale( int scale );
 
+        /** Tries to find tile with specified parameters and return it if exists **/
+        std::optional<tile_search_result> tile_type_search(
+            const std::string &id, TILE_CATEGORY category, const std::string &subcategory,
+            int subtile, int rota
+        );
+
         void on_options_changed();
 
         /** Draw to screen */
@@ -366,6 +376,9 @@ class cata_tiles
         void draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         bool terrain_requires_animation() const;
+
+        /** Simply displays character on a screen with given X,Y position **/
+        void display_character( const Character &ch, const point &p );
 
         /** Minimap functionality */
         void draw_minimap( point dest, const tripoint &center, int width, int height );
@@ -428,11 +441,15 @@ class cata_tiles
          * @param apply_night_vision_goggles use night vision colors?
          * @param height_3d return parameter for height of the sprite
          * @param overlay_count how blue the tile looks for lower z levels
+         * @param as_independent_entity draw tile as single entity to the screen
+         *                              (like if you would to display something unrelated to game map context
+         *                              e.g. character preview tile in character creation screen)
          * @return always true
          */
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count,
+                                  bool as_independent_entity = false );
 
         /**
          * @brief draw_sprite_at() without height_3d
@@ -516,7 +533,7 @@ class cata_tiles
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
                                              const bool ( &invisible )[5], int z_drop );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
-                                        int &height_3d );
+                                        int &height_3d, bool as_independent_entity = false );
 
 
         bool draw_item_highlight( const tripoint &pos );
@@ -602,7 +619,7 @@ class cata_tiles
         void void_draw_below_override();
 
         void init_draw_monster_override( const tripoint &p, const mtype_id &id, int count,
-                                         bool more, Creature::Attitude att );
+                                         bool more, Attitude att );
         void void_monster_override();
 
         bool has_draw_override( const tripoint &p ) const;
@@ -754,7 +771,7 @@ class cata_tiles
         std::map<tripoint, std::tuple<vpart_id, int, units::angle, bool, point>> vpart_override;
         std::map<tripoint, bool> draw_below_override;
         // int represents spawn count
-        std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
+        std::map<tripoint, std::tuple<mtype_id, int, bool, Attitude>> monster_override;
         pimpl<std::vector<tile_render_info>> draw_points_cache;
 
     private:

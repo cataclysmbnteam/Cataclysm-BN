@@ -20,6 +20,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "hazmat_suit", "prob": 33 },
+      { "item": "exosuit_industrial", "prob": 5 },
       { "item": "prussian_blue", "prob": 33 },
       { "item": "rad_monitor", "prob": 33 },
       { "item": "iodine", "prob": 33 },

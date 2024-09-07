@@ -153,6 +153,8 @@ static const bionic_id bio_blood_filter( "bio_blood_filter" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_electrosense( "bio_electrosense" );
+static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" );
 static const bionic_id bio_emp( "bio_emp" );
 static const bionic_id bio_evap( "bio_evap" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
@@ -160,11 +162,11 @@ static const bionic_id bio_flashbang( "bio_flashbang" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_infolink( "bio_infolink" );
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_magnet( "bio_magnet" );
-static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
@@ -956,7 +958,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         explosion_handler::shockwave( pos(), sw, "explosion", &get_player_character() );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
-    } else if( bio.id == bio_meteorologist ) {
+    } else if( bio.id == bio_infolink ) {
         const weather_manager &weather = get_weather();
         add_msg_activate();
         // Calculate local wind power
@@ -1003,7 +1005,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             ctr->charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( ctr );
             mod_power_level( units::from_kilojoule( -power_use ) );
-            bio.powered = ctr->active;
+            bio.powered = ctr->is_active();
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
@@ -1080,6 +1082,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             refund_power();
             return false;
         }
+    } else if( bio.id == bio_electrosense_voltmeter ) {
+        add_msg_activate();
+        item *vtm;
+        vtm = item::spawn_temporary( "voltmeter", calendar::start_of_cataclysm );
+        invoke_item( vtm );
     } else {
         add_msg_activate();
     }
@@ -1393,7 +1400,7 @@ itype_id Character::find_remote_fuel( bool look_only )
     map &here = get_map();
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL );
+        return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
 
     for( const item *cable : cables ) {
@@ -1445,7 +1452,7 @@ int Character::consume_remote_fuel( int amount )
 {
     int unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL );
+        return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
 
     map &here = get_map();
@@ -1468,7 +1475,7 @@ int Character::consume_remote_fuel( int amount )
             use_charges( itype_UPS_off, unconsumed_amount, used_ups );
             unconsumed_amount -= 1;
         } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.6 ), used_ups );
+            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.5 ), used_ups );
             unconsumed_amount -= 1;
         }
     }
@@ -1773,6 +1780,43 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
+    } else if( bio.id == bio_electrosense ) {
+        // This is a horrible mess but can't use the active iuse behavior directly
+        map &here = get_map();
+        for( const tripoint &pt : here.points_in_radius( pos(), PICKUP_RANGE ) ) {
+            if( !here.has_items( pt ) || !sees( pt ) ) {
+                continue;
+            }
+            for( item * const &corpse : here.i_at( pt ) ) {
+                if( !corpse->is_corpse() ||
+                    corpse->get_var( "bionics_scanned_by", -1 ) == getID().get_value() ) {
+                    continue;
+                }
+
+                std::vector<const item *> cbms;
+                for( const item * const &maybe_cbm : corpse->get_components() ) {
+                    if( maybe_cbm->is_bionic() ) {
+                        cbms.push_back( maybe_cbm );
+                    }
+                }
+
+                corpse->set_var( "bionics_scanned_by", getID().get_value() );
+                if( !cbms.empty() ) {
+                    corpse->set_flag( flag_CBM_SCANNED );
+                    std::string bionics_string =
+                        enumerate_as_string( cbms.begin(), cbms.end(),
+                    []( const item * entry ) -> std::string {
+                        return entry->display_name();
+                    }, enumeration_conjunction::none );
+                    //~ %1 is corpse name, %2 is direction, %3 is bionic name
+                    add_msg_if_player( m_good, _( "A %1$s located %2$s contains %3$s." ),
+                                       corpse->display_name().c_str(),
+                                       direction_name( direction_from( pos(), pt ) ).c_str(),
+                                       bionics_string.c_str()
+                                     );
+                }
+            }
+        }
     } else if( bio.id == bio_radscrubber ) {
         if( calendar::once_every( 10_minutes ) ) {
             const units::energy trigger_cost = bio.info().power_trigger;

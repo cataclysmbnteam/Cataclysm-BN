@@ -152,9 +152,20 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "BLED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "SKINNED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
+  },
+  {
+    "id": "CAN_PLANT_UNDERGROUND",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This seed can be <good>planted underground</good>."
   },
   {
     "id": "CANT_HEAL_EVERYONE",
@@ -190,6 +201,12 @@
     "type": "json_flag",
     "context": [  ],
     "info": "This item disappears as soon as its timer runs out whether it is food or not."
+  },
+  {
+    "id": "BIO_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>biological damage</info>."
   },
   {
     "id": "BASH_IMMUNE",
@@ -383,6 +400,11 @@
     "inherit": false
   },
   {
+    "id": "MUSHROOM_PLANTABLE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -477,6 +499,13 @@
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
+  },
+  {
+    "id": "SPAWN_FRIENDLY",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "//": "This item will spawn friendly. Used for pets and such.",
+    "info": "Any creature spawned from this item will <info>always</info> emerge <good>friendly to you</good>."
   },
   {
     "id": "STAB",
@@ -984,7 +1013,7 @@
     "id": "MAGIC_FOCUS",
     "type": "json_flag",
     "context": [ "item" ],
-    "//": "You can cast spells with this item in your hand."
+    "info": "This item is a <info>magical focus</info>.  You can cast spells with it in your hand."
   },
   {
     "id": "HOSTILE_SUMMON",
@@ -1510,6 +1539,11 @@
     "context": [  ]
   },
   {
+    "id": "IS_BLOOD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
     "id": "IS_EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
@@ -1612,6 +1646,11 @@
   },
   {
     "id": "NON_FOULING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_DAMAGE",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1808,10 +1847,21 @@
   {
     "id": "REQUIRES_TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item <bad>requires adequate tinder</bad> to be provided as fuel when starting a fire."
   },
   {
     "id": "SAFECRACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SHATTERS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SHOCKING",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1884,7 +1934,8 @@
   {
     "id": "TINDER",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item can be used as tinder in a firewood source, <info>automatically being used</info> to light fires if using a a firestarting tool that requires it."
   },
   {
     "id": "TOBACCO",
@@ -2137,5 +2188,21 @@
     "context": [ "GUNMOD" ],
     "//": "Implied by having a reach attack mode on the gunmod, but can be explicit for non-reach bayonets.",
     "info": "When attached to a gun, this item <good>contributes to its melee damage</good>."
+  },
+  {
+    "id": "ROOF",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WEATHER_FORECAST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "It can show the automated weather forcast."
+  },
+  {
+    "id": "WINDMETER",
+    "type": "json_flag",
+    "context": [  ]
   }
 ]

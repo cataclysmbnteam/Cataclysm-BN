@@ -5,7 +5,7 @@
     "category": "drugs",
     "name": { "str": "first aid kit" },
     "description": "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.  Disassemble to get its content.",
-    "weight": "1750 g",
+    "weight": "2000 g",
     "volume": "1250 ml",
     "price": "30 USD",
     "price_postapoc": "30 USD",
@@ -261,7 +261,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": "chewing tobacco",
-    "description": "Mint flavored chewing tobacco.  While still absolutely terrible for your health, it was once a favorite amongst baseball players, cowboys, and other macho types.",
+    "description": "Fruit flavored chewing tobacco.  While still absolutely terrible for your health, it was once a favorite amongst baseball players, cowboys, and other macho types.",
     "weight": "4 g",
     "volume": "250 ml",
     "price": "20 USD",
@@ -326,7 +326,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": "cigar",
-    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.\nA gentleman's vice, cigars set the civil man apart from the savage.",
+    "description": "Rolled, cured tobacco leaf, addictive and hazardous to health.",
     "weight": "3 g",
     "volume": "250 ml",
     "price": "10 USD",
@@ -399,6 +399,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bag_zipper",
+    "fatigue_mod": 15,
     "stim": 20,
     "healthy": -2,
     "addiction_potential": 50,
@@ -463,16 +464,15 @@
     "name": { "str_sp": "cotton balls" },
     "description": "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
     "category": "spare_parts",
-    "weight": "22 g",
-    "volume": "250 ml",
+    "weight": "2 g",
+    "volume": "50 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "charges": 2,
     "material": "cotton",
     "symbol": "*",
     "color": "white",
     "container": "bag_plastic",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "TINDER" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
   },
   {
@@ -491,6 +491,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bag_zipper",
+    "fatigue_mod": 20,
     "stim": 40,
     "healthy": -2,
     "addiction_potential": 80,
@@ -1218,7 +1219,6 @@
     "phase": "liquid",
     "quench": -50,
     "fun": -5,
-    "spoils_in": "28 days",
     "use_action": "ANTIPARASITIC",
     "flags": "NPC_SAFE"
   },
@@ -1295,7 +1295,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "Ambien" },
-    "description": "A habit-forming tranquilizer with a variety of psychoactive side effects.  Used in the treatment of insomnia.  Its generic name is zolpidem tartrate.",
+    "description": "A habit-forming tranquilizer with a variety of psychoactive side effects.  Used in the treatment of insomnia.  Its active ingredient is zolpidem tartrate.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": "30 USD",
@@ -1306,6 +1306,7 @@
     "symbol": "!",
     "color": "light_red",
     "stim": -8,
+    "fatigue_mod": -60,
     "fun": 5,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "addiction_potential": 40,
@@ -1353,7 +1354,9 @@
     "color": "magenta",
     "healthy": -2,
     "addiction_type": "opiate",
-    "use_action": "SLEEP"
+    "use_action": "SLEEP",
+    "stim": -6,
+    "fatigue_mod": -40
   },
   {
     "id": "poppysyrup",
@@ -1488,7 +1491,6 @@
     "symbol": "~",
     "color": "yellow",
     "phase": "liquid",
-    "spoils_in": "28 days",
     "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
   },
@@ -1763,7 +1765,7 @@
       "disinfectant_power": 2,
       "bite": 0.5,
       "move_cost": 200,
-      "used_up_item": { "id": "rag", "quantity": 1 }
+      "used_up_item": { "id": "rag", "charges": 1 }
     }
   },
   {
@@ -1772,9 +1774,9 @@
     "comestible_type": "MED",
     "name": { "str_sp": "antiseptic soaked cotton balls" },
     "description": "Fluffy balls of clean white cotton.  Now soaked with antiseptic, they are somewhat useful to disinfect a wound.",
-    "weight": "25 g",
+    "weight": "3 g",
     "//": "Can't copy-from cotton_ball, breaks volume",
-    "volume": "125 ml",
+    "volume": "50 ml",
     "price": "250 cent",
     "price_postapoc": "50 cent",
     "material": "cotton",
@@ -1784,10 +1786,10 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",
-      "disinfectant_power": 3,
-      "bite": 0.66,
-      "move_cost": 300,
-      "used_up_item": { "id": "cotton_ball", "quantity": 1, "charges": 1 }
+      "disinfectant_power": 1,
+      "bite": 0.5,
+      "move_cost": 200,
+      "used_up_item": { "id": "cotton_ball", "charges": 1 }
     }
   },
   {

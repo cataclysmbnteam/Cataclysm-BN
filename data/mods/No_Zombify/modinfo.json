@@ -1,0 +1,15 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "no_zombify",
+    "name": "Prevent Zombification",
+    "description": "Disables zombification for monsters.",
+    "category": "rebalance",
+    "dependencies": [ "bn" ]
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ALL",
+    "special": "no_zombify"
+  }
+]

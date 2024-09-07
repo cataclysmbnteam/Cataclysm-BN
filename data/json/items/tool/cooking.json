@@ -155,7 +155,7 @@
     "category": "tools",
     "name": { "str": "charcoal cooker" },
     "description": "This is a little metal tank for holding charcoal with a pilot light attached.  You could use it for cooking food.",
-    "weight": "405 g",
+    "weight": "400 g",
     "volume": "1250 ml",
     "price": "50 USD",
     "price_postapoc": "250 cent",
@@ -177,7 +177,7 @@
     "category": "tools",
     "name": { "str": "clay pot" },
     "description": "A crude clay pot with lid used for cooking.",
-    "weight": "480 g",
+    "weight": "500 g",
     "volume": "2 L",
     "price": "25 USD",
     "price_postapoc": "10 cent",
@@ -188,7 +188,7 @@
     "container_data": { "contains": "2 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "SHATTERS" ]
   },
   {
     "id": "clay_quern",
@@ -210,7 +210,7 @@
     "category": "tools",
     "name": { "str": "clay teapot" },
     "description": "A clay teapot.  Now all you need is tea and water.",
-    "weight": "429 g",
+    "weight": "400 g",
     "volume": "750 ml",
     "price": "20 USD",
     "price_postapoc": "10 cent",
@@ -220,7 +220,8 @@
     "symbol": ")",
     "color": "brown",
     "container_data": { "contains": "750 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "coffeemaker",
@@ -323,7 +324,7 @@
     "id": "flask_yeast",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str_sp": "sealed yeast culture" },
+    "name": { "str_sp": "small sealed yeast culture" },
     "description": "A sealed flask holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "weight": "250 g",
     "volume": "250 ml",
@@ -352,6 +353,9 @@
     "name": { "str_sp": "sealed yeast culture" },
     "description": "A sealed jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "copy-from": "flask_yeast",
+    "looks_like": "jar_glass_sealed",
+    "weight": "500 g",
+    "volume": "500 ml",
     "use_action": {
       "target": "yeast",
       "msg": "You open the jar and harvest the culture.",
@@ -359,16 +363,56 @@
       "target_charges": 10,
       "moves": 50,
       "type": "delayed_transform",
-      "transform_age": 43200,
-      "not_ready_msg": "The yeast isn't done culturing yet."
+      "transform_age": 86400,
+      "not_ready_msg": "The yeast isn't done culturing yet.",
+      "//": "24 hours"
+    }
+  },
+  {
+    "id": "clay_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "sealed yeast culture" },
+    "description": "A sealed clay bowl holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
+    "copy-from": "wild_clay_yeast",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You remove the lid from the bowl and harvest the culture.",
+      "container": "bowl_clay",
+      "target_charges": 10,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 86400,
+      "not_ready_msg": "The yeast isn't done culturing yet.",
+      "//": "24 hours"
+    }
+  },
+  {
+    "id": "jar_3l_glass_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "large sealed yeast culture" },
+    "description": "A sealed 3L glass jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
+    "copy-from": "jar_yeast",
+    "looks_like": "jar_3l_glass_sealed",
+    "weight": "3 kg",
+    "volume": "3 L",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You open the jar and harvest the culture.",
+      "container": "jar_3l_glass",
+      "target_charges": 60,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 259200,
+      "not_ready_msg": "The yeast isn't done culturing yet.",
+      "//": "3 days"
     }
   },
   {
     "id": "wild_yeast",
     "type": "GENERIC",
     "name": { "str_sp": "sealed wild yeast culture" },
-    "description": "Mixture of water, sugar and fruits with some naturally occuring yeast, that will eventually produce a more sizeable yeast culture.",
-    "copy-from": "flask_yeast",
+    "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizable yeast culture.",
+    "copy-from": "jar_yeast",
     "use_action": {
       "target": "yeast",
       "msg": "You open the jar and harvest the culture.",
@@ -379,6 +423,30 @@
       "transform_age": 259200,
       "not_ready_msg": "The yeast isn't done culturing yet."
     }
+  },
+  {
+    "id": "wild_clay_yeast",
+    "type": "GENERIC",
+    "name": { "str_sp": "sealed wild yeast culture" },
+    "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizable yeast culture.",
+    "copy-from": "jar_yeast",
+    "looks_like": "bowl_clay",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "material": [ "clay", "powder" ],
+    "symbol": ")",
+    "color": "brown",
+    "use_action": {
+      "target": "yeast",
+      "msg": "You remove the lid from the bowl and harvest the culture.",
+      "container": "bowl_clay",
+      "target_charges": 2,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 259200,
+      "not_ready_msg": "The yeast isn't done culturing yet."
+    },
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "food_processor",
@@ -598,7 +666,7 @@
     "category": "tools",
     "name": { "str": "mess tin" },
     "description": "A compact military-style pan and tray, designed for heating food over a fire or portable stove.  It is shallower than a proper pot or pan, and lacks the integrated heating elements modern mess kits have.",
-    "weight": "450 g",
+    "weight": "500 g",
     "volume": "750 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
@@ -757,7 +825,7 @@
     "category": "tools",
     "name": { "str": "soda can stove kit" },
     "//": "Should be 20 but currently recipes do not utilize this value",
-    "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
+    "description": "This is an ultra-light alcohol-burning stove with simmer ring.  It comes with a 500 ml container to hold concentrated alcohol fuel.",
     "weight": "45 g",
     "volume": "750 ml",
     "price": "250 cent",
@@ -850,6 +918,35 @@
     "symbol": "L",
     "color": "white",
     "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "retort_clay",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "clay retort" },
+    "description": "This is a primitive distillation tool made from clay, with a long neck that acts as a condenser.",
+    "weight": "500 g",
+    "volume": "1 L",
+    "price": "50 USD",
+    "price_postapoc": "250 cent",
+    "to_hit": -2,
+    "bashing": 10,
+    "material": "clay",
+    "symbol": ";",
+    "color": "brown",
+    "looks_like": "clay_pot",
+    "qualities": [ [ "DISTILL", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "retort_copper",
+    "copy-from": "retort_clay",
+    "type": "GENERIC",
+    "name": { "str": "copper retort" },
+    "description": "This is a primitive distillation tool made from copper, with a long neck that acts as a condenser.",
+    "weight": "300 g",
+    "material": "copper",
+    "color": "light_red",
+    "looks_like": "pot_copper"
   },
   {
     "id": "survivor_mess_kit",

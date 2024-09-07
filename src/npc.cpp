@@ -11,7 +11,6 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "bodypart.h"
 #include "character.h"
 #include "character_id.h"
@@ -103,12 +102,14 @@ static const skill_id skill_archery( "archery" );
 static const skill_id skill_barter( "barter" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
+static const skill_id skill_unarmed( "unarmed" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -319,6 +320,16 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     set_fac( fac_id );
     attitude = tguy.attitude;
     mission = tguy.mission;
+    // If we're a shopkeeper force spawn of shopkeeper items here
+    if( mission == NPC_MISSION_SHOPKEEP ) {
+        const item_group_id &from = myclass->get_shopkeeper_items();
+        if( from != item_group_id( "EMPTY_GROUP" ) ) {
+            inv_clear();
+            for( detached_ptr<item> &it : item_group::items_from( from ) ) {
+                i_add( std::move( it ) );
+            }
+        }
+    }
     chatbin.first_topic = tguy.chatbin.first_topic;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
@@ -790,7 +801,7 @@ skill_id npc::best_skill() const
     skill_id highest_skill( skill_id::NULL_ID() );
 
     for( const auto &p : *_skills ) {
-        if( p.first.obj().is_combat_skill() ) {
+        if( p.first.obj().is_weapon_skill() ) {
             const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
@@ -818,6 +829,33 @@ int npc::best_skill_level() const
     return highest_level;
 }
 
+namespace
+{
+
+const std::map<skill_id, std::string> skill_to_weapons = {
+    { skill_bashing, "bashing" },
+    { skill_cutting, "cutting" },
+    { skill_unarmed, "unarmed" },
+    { skill_throw, "throw" },
+    { skill_archery, "archery" },
+    { skill_launcher, "launcher" },
+    { skill_pistol, "pistol" },
+    { skill_shotgun, "shotgun" },
+    { skill_smg, "smg" },
+    { skill_rifle, "rifle" },
+    { skill_stabbing, "stabbing" }
+};
+
+/// if NPC has no suitable skills default to stabbing weapon
+auto best_weapon_category( const skill_id &best_skill ) -> std::string
+{
+    const auto &res = skill_to_weapons.find( best_skill );
+
+    return res != skill_to_weapons.end() ? res->second : "stabbing";
+}
+
+} // namespace
+
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
@@ -826,27 +864,8 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     const skill_id best = best_skill();
-
-    // if NPC has no suitable skills default to stabbing weapon
-    if( !best || best == skill_stabbing ) {
-        set_primary_weapon( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
-    } else if( best == skill_bashing ) {
-        set_primary_weapon( random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) ) );
-    } else if( best == skill_cutting ) {
-        set_primary_weapon( random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) ) );
-    } else if( best == skill_throw ) {
-        set_primary_weapon( random_item_from( type, "throw" ) );
-    } else if( best == skill_archery ) {
-        set_primary_weapon( random_item_from( type, "archery" ) );
-    } else if( best == skill_pistol ) {
-        set_primary_weapon( random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) ) );
-    } else if( best == skill_shotgun ) {
-        set_primary_weapon( random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) ) );
-    } else if( best == skill_smg ) {
-        set_primary_weapon( random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) ) );
-    } else if( best == skill_rifle ) {
-        set_primary_weapon( random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) ) );
-    }
+    const std::string category = best_weapon_category( best );
+    set_primary_weapon( random_item_from( type, category ) );
 
     if( primary_weapon().is_gun() ) {
         primary_weapon().ammo_set( primary_weapon().ammo_default() );
@@ -1396,10 +1415,6 @@ void npc::mutiny()
     my_fac->respects_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_id( "amf" ) );
-    job.clear_all_priorities();
-    if( assigned_camp ) {
-        assigned_camp = std::nullopt;
-    }
     chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
@@ -1758,7 +1773,7 @@ void npc::shop_restock()
     if( !ret.empty() ) {
         // Pick up nearby items as a free action since we'll be immediately deleting these items
         auto old_moves = moves;
-        for( map_cursor &cursor : map_selector( pos(), PICKUP_RANGE ) ) {
+        for( map_cursor &cursor : map_selector( pos(), 0 ) ) {
             cursor.remove_top_items_with( [this]( detached_ptr<item> &&it ) {
                 if( it->is_owned_by( *this ) ) {
                     inv.push_back( std::move( it ) );
@@ -1803,7 +1818,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.is_active() ) || it.made_of( LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
@@ -2092,21 +2107,6 @@ bool npc::is_leader() const
     return attitude == NPCATT_LEAD;
 }
 
-bool npc::within_boundaries_of_camp() const
-{
-    const point_abs_omt p( global_omt_location().xy() );
-    for( int x2 = -3; x2 < 3; x2++ ) {
-        for( int y2 = -3; y2 < 3; y2++ ) {
-            const point_abs_omt nearby = p + point( x2, y2 );
-            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
-            if( bcp ) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 bool npc::is_enemy() const
 {
     return attitude == NPCATT_KILL || attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP;
@@ -2141,15 +2141,15 @@ bool npc::is_travelling() const
     return mission == NPC_MISSION_TRAVELLING;
 }
 
-Creature::Attitude npc::attitude_to( const Creature &other ) const
+Attitude npc::attitude_to( const Creature &other ) const
 {
     if( other.is_npc() || other.is_player() ) {
         const player &guy = dynamic_cast<const player &>( other );
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
-            return A_HOSTILE;
+            return Attitude::A_HOSTILE;
         } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
         }
     }
 
@@ -2160,11 +2160,11 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
     if( other.is_npc() ) {
         // Hostile NPCs are also hostile towards player's allies
-        if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
-            return A_HOSTILE;
+        if( is_enemy() && other.attitude_to( g->u ) == Attitude::A_FRIENDLY ) {
+            return Attitude::A_HOSTILE;
         }
 
-        return A_NEUTRAL;
+        return Attitude::A_NEUTRAL;
     } else if( other.is_player() ) {
         // For now, make it symmetric.
         return other.attitude_to( *this );
@@ -2177,18 +2177,18 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FPASSIVE:
         case MATT_IGNORE:
         case MATT_FLEE:
-            return A_NEUTRAL;
+            return Attitude::A_NEUTRAL;
         case MATT_FRIEND:
         case MATT_ZLAVE:
-            return A_FRIENDLY;
+            return Attitude::A_FRIENDLY;
         case MATT_ATTACK:
-            return A_HOSTILE;
+            return Attitude::A_HOSTILE;
         case MATT_NULL:
         case NUM_MONSTER_ATTITUDES:
             break;
     }
 
-    return A_NEUTRAL;
+    return Attitude::A_NEUTRAL;
 }
 
 void npc::npc_dismount()
@@ -2520,13 +2520,6 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    if( assigned_camp ) {
-        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
-        if( bcp ) {
-            ( *bcp )->remove_assignee( getID() );
-        }
-    }
-    assigned_camp = std::nullopt;
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
@@ -2626,6 +2619,16 @@ std::string npc_attitude_id( npc_attitude att )
     }
 
     return iter->second;
+}
+
+template<>
+std::string io::enum_to_string<npc_attitude>( npc_attitude att )
+{
+    std::string result = npc_attitude_id( att );
+    if( result == "NPCATT_INVALID" ) {
+        abort();
+    }
+    return result;
 }
 
 std::string npc_attitude_name( npc_attitude att )
@@ -2951,6 +2954,33 @@ std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs>
         { "need_safety", overmap_location_str_id( "source_of_safety" ) }
     }
 };
+
+template<>
+std::string io::enum_to_string<npc_need>( npc_need need )
+{
+    // Thought about using npc::need_data, however,
+    // 'Accessing a nonexistent element through [] operator is undefined behavior.'
+    switch( need ) {
+        case need_none:
+            return "need_none";
+        case need_ammo:
+            return "need_ammo";
+        case need_weapon:
+            return "need_weapon";
+        case need_gun:
+            return "need_gun";
+        case need_food:
+            return "need_food";
+        case need_drink:
+            return "need_drink";
+        case need_safety:
+            return "need_safety";
+        case num_needs:
+            break;
+    }
+    debugmsg( "Invalid npc_need" );
+    abort();
+}
 
 std::string npc::get_need_str_id( const npc_need &need )
 {
@@ -3402,58 +3432,5 @@ void npc_follower_rules::clear_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
-}
-
-bool job_data::set_task_priority( const activity_id &task, int new_priority )
-{
-    auto it = task_priorities.find( task );
-    if( it != task_priorities.end() ) {
-        task_priorities[task] = new_priority;
-        return true;
-    }
-    return false;
-}
-
-void job_data::clear_all_priorities()
-{
-    for( auto &elem : task_priorities ) {
-        elem.second = 0;
-    }
-}
-
-std::vector<activity_id> job_data::get_prioritised_vector() const
-{
-    std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
-
-    std::vector<activity_id> ret;
-    sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
-    const std::pair<activity_id, int> &b ) {
-        return a.second > b.second;
-    } );
-    ret.reserve( pairs.size() );
-    for( std::pair<activity_id, int> elem : pairs ) {
-        ret.push_back( elem.first );
-    }
-    return ret;
-}
-
-int job_data::get_priority_of_job( const activity_id &req_job ) const
-{
-    auto it = task_priorities.find( req_job );
-    if( it != task_priorities.end() ) {
-        return it->second;
-    } else {
-        return 0;
-    }
-}
-
-bool job_data::has_job() const
-{
-    for( auto &elem : task_priorities ) {
-        if( elem.second > 0 ) {
-            return true;
-        }
-    }
-    return false;
 }
 

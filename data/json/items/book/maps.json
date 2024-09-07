@@ -2,6 +2,7 @@
   {
     "abstract": "abstractmap",
     "type": "GENERIC",
+    "looks_like": "flyer",
     "category": "maps",
     "name": { "str": "abstract map" },
     "description": "seeing this is a bug",

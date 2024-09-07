@@ -200,7 +200,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Typical damage per second:\n"
             "Best: <color_c_yellow>5.20</color>"
             "  Vs. Agile: <color_c_yellow>2.16</color>"
-            "  Vs. Armored: <color_c_yellow>0.16</color>\n" );
+            "  Vs. Armored: <color_c_yellow>0.21</color>\n" );
     }
 
     SECTION( "bash and cut damage" ) {
@@ -214,7 +214,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Typical damage per second:\n"
             "Best: <color_c_yellow>9.65</color>"
             "  Vs. Agile: <color_c_yellow>5.91</color>"
-            "  Vs. Armored: <color_c_yellow>2.92</color>\n" );
+            "  Vs. Armored: <color_c_yellow>3.46</color>\n" );
     }
 
     SECTION( "bash and pierce damage" ) {
@@ -228,7 +228,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Typical damage per second:\n"
             "Best: <color_c_yellow>9.61</color>"
             "  Vs. Agile: <color_c_yellow>4.97</color>"
-            "  Vs. Armored: <color_c_yellow>0.17</color>\n"
+            "  Vs. Armored: <color_c_yellow>0.26</color>\n"
         );
     }
 
@@ -712,9 +712,8 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
             "test_rock", q,
             "--\n"
             "<color_c_white>Ammunition type</color>: rocks\n"
-            "Damage: <color_c_yellow>7</color>  Armor-pierce: <color_c_yellow>0</color>\n"
-            "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n"
-            "Recoil: <color_c_yellow>0</color>" );
+            "Damage: <color_c_yellow>7</color>\n"
+            "Range: <color_c_yellow>10</color>  Dispersion: <color_c_yellow>14</color>\n" );
     }
 }
 
@@ -725,25 +724,14 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
                                 iteminfo_parts::FOOD_QUENCH
                               } );
 
-    SECTION( "fixed nutrient values in regular item" ) {
+    SECTION( "nutrient values of regular item" ) {
         test_info_equals(
             "icecream", q,
             "--\n"
+            "Nutrition will <color_cyan>vary with available ingredients</color>.\n"
             "<color_c_white>Calories (kcal)</color>: <color_c_yellow>325</color>  "
             "Quench: <color_c_yellow>0</color>\n"
             "Vitamins (RDA): Calcium (9%), Vitamin A (9%), and Vitamin B12 (11%)\n" );
-    }
-    SECTION( "nutrient ranges for recipe exemplars", "[item][iteminfo]" ) {
-        detached_ptr<item> i = item::spawn( "icecream" );
-        i->set_var( "recipe_exemplar", "icecream" );
-        test_info_equals(
-            *i, q,
-            "--\n"
-            "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-            "<color_c_white>Calories (kcal)</color>: <color_c_yellow>282</color>-"
-            "<color_c_yellow>469</color>  Quench: <color_c_yellow>0</color>\n"
-            "Vitamins (RDA): Calcium (7-28%), Iron (0-83%), "
-            "Vitamin A (3-11%), Vitamin B12 (2-6%), and Vitamin C (1-85%)\n" );
     }
 }
 
@@ -795,7 +783,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
     }
 
     SECTION( "liquid food is stored in a container in a fridge" ) {
-        detached_ptr<item> food_item = item::in_container( itype_id( "glass" ),
+        detached_ptr<item> food_item = item::in_container( itype_id( "can_medium_unsealed" ),
                                        item::spawn( itype_id( "milk" ) ) );
         test_info_equals(
             *food_item, q,
@@ -879,11 +867,11 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
     test_info_contains(
         *item::spawn( "test_halligan" ), q,
-        "<color_c_white>Repair</color> using charcoal forge, grid forge, grid welder, electric forge, extended toolset, arc welder, or makeshift arc welder.\n" );
+        "<color_c_white>Repair</color> using charcoal forge, Advanced Grid 3D Printer, grid forge, grid welder, electric forge, extended toolset, arc welder, or makeshift arc welder.\n" );
 
     test_info_contains(
         *item::spawn( "test_hazmat_suit" ), q,
-        "<color_c_white>Repair</color> using grid soldering iron, soldering iron, TEST soldering iron, or extended toolset.\n" );
+        "<color_c_white>Repair</color> using advanced 3D printer, 3D printer, Grid 3D Printer, Advanced Grid 3D Printer, grid soldering iron, alcohol-fueled soldering iron, electric soldering iron, TEST soldering iron, or extended toolset.\n" );
 
     test_info_contains(
         *item::spawn( "test_rock" ), q, "* This item is <color_c_red>not repairable</color>.\n" );
@@ -904,7 +892,7 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
         "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
         " with <color_c_cyan>cutting of 1</color> or more and 1 tool with"
         " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
-        " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
+        " yield</color>: electronic scrap (2), copper (1), scrap metal (1), and copper"
         " wire (5).\n" );
 
     test_info_equals(

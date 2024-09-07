@@ -3,6 +3,8 @@
 #define CATA_SRC_PLDATA_H
 
 #include "calendar.h"
+#include "enum_conversions.h"
+#include "enum_traits.h"
 
 class JsonIn;
 class JsonOut;

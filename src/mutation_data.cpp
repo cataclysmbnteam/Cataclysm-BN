@@ -30,31 +30,6 @@ using trait_reader = auto_flags_reader<trait_id>;
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
 
-namespace io
-{
-template<>
-std::string enum_to_string<m_size>( m_size data )
-{
-    switch( data ) {
-        case m_size::MS_TINY:
-            return "TINY";
-        case m_size::MS_SMALL:
-            return "SMALL";
-        case m_size::MS_MEDIUM:
-            return "MEDIUM";
-        case m_size::MS_LARGE:
-            return "LARGE";
-        case m_size::MS_HUGE:
-            return "HUGE";
-        case m_size::num_m_size:
-            return "num_m_size";
-            break;
-    }
-    debugmsg( "Invalid body_size value for mutation: %d", static_cast<int>( data ) );
-    abort();
-}
-} // namespace io
-
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
@@ -427,6 +402,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
+
+    optional( jo, was_loaded, "mutagen_target_modifier", mutagen_target_modifier, 0 );
 
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );
@@ -894,6 +871,12 @@ std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
         rval.push_back( group.first );
     }
     return rval;
+}
+
+template<>
+const mutation_category_trait &string_id<mutation_category_trait>::obj() const
+{
+    return mutation_category_traits.find( *this )->second;
 }
 
 bool mutation_category_is_valid( const mutation_category_id &cat )

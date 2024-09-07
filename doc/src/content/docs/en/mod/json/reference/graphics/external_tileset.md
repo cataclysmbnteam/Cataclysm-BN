@@ -38,6 +38,9 @@ Links to relevant pull requests, for content covered below:
 - New trees: [#3626](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3626)
 - Alternative sign sprite: [#3670](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3670)
 - New traps: [#3939](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3939)
+- New monster: [#4182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4182)
+- Furniture form of utility light:
+  [#4780](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4780)
 
 ## Undead People
 
@@ -78,6 +81,7 @@ Ultica are planned for the future.
 - Cacao pods. Item specific to BN.
 - Override for sign sprite. Removes lettering on the front specific to DDA.
 - Makeshift perimeter alarm. Trap specific to BN.
+- Lepidopterid. New monster specific to BN.
 
 ### External_Tileset_DP_Tall.png
 
@@ -89,7 +93,8 @@ Ultica are planned for the future.
   berries, due to harvest season being moved in BN.
 - Rewired street light, including active state. Furniture specific to BN.
 - Cocoa tree. Terrain specific to BN.
-- Cocoa plant. Terrain specific to BN.
+- Coca plant. Terrain specific to BN.
+- Grid floodlights, furniture based off now-deconstructabble utility lights, furniture added to BN.
 
 ### alternative_mutation_tileset.png
 

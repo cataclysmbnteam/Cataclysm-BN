@@ -15,7 +15,7 @@
     "luminance": 5,
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ], "//": "80% chance of an item from group robots" },
     "death_function": [ "BROKEN_AMMO" ],
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "BIOPROOF" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "BIOPROOF", "CAN_BE_ORDERED" ]
   },
   {
     "id": "mon_EMP_hack",
@@ -125,6 +125,8 @@
     "type": "MONSTER",
     "name": { "str": "mininuke hack" },
     "description": "Many times as large as a normal manhack, this flying quadcopter drone appears to have a mininuke inside.  If this is targeting you…  Run.",
+    "weight": "24600 g",
+    "volume": "18550 ml",
     "diff": 40,
     "hp": 20,
     "speed": 150,

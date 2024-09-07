@@ -48,6 +48,7 @@
  */
 
 #include <memory>
+#include <algorithm>
 #include <unordered_map>
 
 #include "debug.h"
@@ -154,6 +155,7 @@ class safe_reference
                 } else {
                     rec->mem_count--;
                     rec = rec->target.redirect;
+                    rec->mem_count++;
                 }
             }
         }
@@ -368,13 +370,12 @@ class safe_reference
             if( sec_rec->id == ID_NONE ) {
                 sec_rec->id = REDIRECTED_MASK;
                 sec_rec->target.redirect = pri_rec;
-            }
-
-            //They both have an id
-            if( pri_rec->id != ID_NONE && sec_rec->id != ID_NONE ) {
+                pri_rec->mem_count++;
+            } else {
                 //This is the worse case, we actually need a redirect
                 sec_rec->id = sec_rec->id | REDIRECTED_MASK;
                 sec_rec->target.redirect = pri_rec;
+                pri_rec->mem_count++;
             }
         }
 

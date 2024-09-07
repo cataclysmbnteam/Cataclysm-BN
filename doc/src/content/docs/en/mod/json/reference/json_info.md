@@ -1245,7 +1245,7 @@ wake up for the first time after 24 hours into the game.
     ]
 ],
 "stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
-"night_vision_range" : 0.0, // Night range vision. Only the best and the worst value out of all mutations are added. (default: 0.0)
+"night_vision_range" : 0.0, // Night range vision. Only the best and the worst value out of all mutations are added. A value of 8 or higher will allow reading in complete darkness as though the player were in dim lighting. (default: 0.0)
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
 "starts_active" : true, //When true, this 'active' mutation starts active (default: false, requires 'active')
 "cost" : 8, // Cost to activate this mutation. Needs one of the hunger, thirst, or fatigue values set to true. (default: 0)
@@ -1282,6 +1282,8 @@ wake up for the first time after 24 hours into the game.
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
                "moves": 100 // how many moves this costs. (default: 0)
+"enchantments": [ "MEP_INK_GLAND_SPRAY" ], // Applies this enchantment to the player. See magic.md and effects_json.md
+"mutagen_target_modifier": 5         // Increases or decreases how mutations prefer to balance out when mutating from mutant toxins, negative values push the target value lower (default: 0)
 }
 ```
 
@@ -1455,6 +1457,12 @@ See also VEHICLE_JSON.md
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
 "to_hit": 0,                                 // (Optional, default = 0) To-hit bonus if using it as a melee weapon (whatever for?)
+"attacks": [                                 // (Optional) New attack statblock, WIP feature
+  { "id": "BASH",                            // ID of the attack.  Attack with ID "DEFAULT" will be replaced by calculated data (this can be used to remove custom attacks on "copy-from" item)
+    "to_hit": 1,                             // To-hit bonus of this attack
+    "damage": { "values": [ { "damage_type": "bash", "amount": 50 } ] } }, // Damage of this attack, using `damage_instance` syntax (see below)
+  { "id": "THRUST", "damage": { "values": [ { "damage_type": "stab", "amount": 45 } ] } }
+],
 "flags": ["VARSIZE"],                        // Indicates special effects, see JSON_FLAGS.md
 "environmental_protection_with_filter": 6,   // the resistance to environmental effects if an item (for example a gas mask) requires a filter to operate and this filter is installed. Used in combination with use_action 'GASMASK' and 'DIVE_TANK'
 "magazine_well": 0,                          // Volume above which the magazine starts to protrude from the item and add extra volume
@@ -1472,7 +1480,7 @@ See also VEHICLE_JSON.md
   "radius": 8,                               // Radius of the explosion. 0 means only the epicenter is affected.
   "fire": true,                              // Should the explosion leave fire
   "fragment": {                              // Projectile data of "shrapnel". This projectile will hit every target in its range and field of view exactly once.
-    "damage": {                              // Damage data of the shrapnel projectile.
+    "damage": {                              // Damage data of the shrapnel projectile.  Uses damage_instance syntax (see below)
       "damage_type": "acid",                 // Type of damage dealt.
       "amount": 10                           // Amount of damage dealt.
       "armor_penetration": 4                 // Amount of armor ignored. Applied per armor piece, not in total.
@@ -1482,22 +1490,35 @@ See also VEHICLE_JSON.md
 },
 ```
 
+#### damage_instance
+
+```json
+{
+  "damage_type": "acid", // Type of damage dealt.
+  "amount": 10, // Amount of damage dealt.
+  "armor_penetration": 4, // Amount of armor ignored. Applied per armor piece, not in total.
+  "armor_multiplier": 2.5 // Multiplies remaining damage reduction from armor, applied after armor penetration (if present). Higher numbers make armor more effective at protecting from this attack, lower numbers act as a percentage reduction in remaining armor.
+}
+```
+
 ### Ammo
 
 ```json
-"type" : "AMMO",      // Defines this as ammo
-...                   // same entries as above for the generic item.
-                      // additional some ammo specific entries:
-"ammo_type" : "shot", // Determines what it can be loaded in
-"damage" : 18,        // Ranged damage when fired
-"prop_damage": 2,     // Multiplies the damage of weapon by amount (overrides damage field)
-"pierce" : 0,         // Armor piercing ability when fired
-"range" : 5,          // Range when fired
-"dispersion" : 0,     // Inaccuracy of ammo, measured in quarter-degrees
-"recoil" : 18,        // Recoil caused when firing
-"count" : 25,         // Number of rounds that spawn together
-"stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
-"show_stats" : true,  // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
+"type" : "AMMO",            // Defines this as ammo
+...                         // same entries as above for the generic item.
+                            // additional some ammo specific entries:
+"ammo_type" : "shot",       // Determines what it can be loaded in
+"damage" : 18,              // Ranged damage when fired
+"prop_damage": 2,           // Multiplies the damage of weapon by amount (overrides damage field)
+"pierce" : 0,               // Armor piercing ability when fired
+"range" : 5,                // Range when fired
+"dispersion" : 0,           // Inaccuracy of ammo, measured in quarter-degrees
+"recoil" : 18,              // Recoil caused when firing
+"count" : 25,               // Number of rounds that spawn together
+"stack_size" : 50,          // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
+"show_stats" : true,        // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
+"dont_recover_one_in": 1    // (Optional) 1 in x chance of not recovering the ammo (100 means you have a 99% chance of getting it back)
+"drop": "nail"              // (Optional) Defines an object that drops at the projectile location at a 100% chance.
 "effects" : ["COOKOFF", "SHOT"]
 ```
 
@@ -1536,6 +1557,7 @@ Armor can be defined like this:
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
 "valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
+"resistance": { "cut": 0, "bullet": 1000 } // If set, overrides usual resistance calculation. Values are for undamaged item, thickness affects scaling with damage - 1 thickness means no reduction from damage, 2 means it's halved on first damage, 10 means each level of damage decreases armor by 10%
 ```
 
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
@@ -1803,6 +1825,7 @@ container. It could also be written as a generic item ("type": "GENERIC") with "
 | --------------- | ---------------------------------------------------------------------------------------- |
 | FIST_WEAPONS    | Handheld weapons used to supplement fists in martial arts.                               |
 | ---             | ---                                                                                      |
+| STILETTOS       | Short, tapering 'blade' fixed onto a handle, has no cutting edge                         |
 | KNIVES          | Short blade fixed onto a handle, for cutting or as weapon.                               |
 | SHORT_SWORDS    | One handed sword of length between a large knife and a 'proper' sword.                   |
 | 1H_SWORDS       | Sword meant to be wielded with one hand.                                                 |
@@ -1826,6 +1849,8 @@ container. It could also be written as a generic item ("type": "GENERIC") with "
 | 2H_AXES         | Axes meant to be wielded with two hands.                                                 |
 | ---             | ---                                                                                      |
 | WHIPS           | Flexible tool used to strike at range.                                                   |
+| ---             | ---                                                                                      |
+| 1H_HOOKED       | One handed weapon with hooking capability. (and isn't an axe or hammer)                  |
 | ---             | ---                                                                                      |
 | HOOKED_POLES    | Polearm with hooked end (Like a shepherd's crook)                                        |
 | SPEARS          | Polearm with a long shaft and a sharp tip made of hard material.                         |
@@ -1926,7 +1951,10 @@ Gun mods can be defined like this:
 ...                            // Same entries as above for the generic item.
                                // Additionally some gunmod specific entries:
 "location": "stock",           // Mandatory. Where is this gunmod is installed?
-"mod_targets": [ "crossbow" ], // Mandatory. What kind of weapons can this gunmod be used with?
+"mod_targets": [ "crossbow" ], // Optional. What specific weapons can this gunmod be used with?
+"mod_target_category": [ [ "BOWS" ] ], // Optional. What specific weapon categories can this gunmod be used with?
+"mod_exclusions": [ "laser_rifle" ], // Optional. What specific weapons can't this gunmod be used with?
+"mod_exclusion_category": [ [ "ENERGY_WEAPONS" ] ], // Optional. What specific weapon categories can't this gunmod be used with?
 "acceptable_ammo": [ "9mm" ],  // Optional filter restricting mod to guns with those base (before modifiers) ammo types
 "install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
@@ -2194,7 +2222,8 @@ more structured function.
     "msg": "You turn the lamp on.", // Message to display when activated.
     "need_fire": 1,                 // Whether fire is needed to activate.
     "need_fire_msg": "You need a lighter!", // Message to display if there is no fire.
-    "need_charges": 1,                      // Number of charges the item needs to transform.
+    "transform_charges": 1,         // Number of charges used by item when it transforms.
+    "need_charges": 1,                      // Number of charges the item needs to transform. Just a check, nothing is consumed.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
     "need_worn": true;                        // Whether the item needs to be worn to be transformed, is false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
@@ -2798,6 +2827,7 @@ it for the purpose of surgery.
   "trap": "spike_pit",
   "max_volume": "1000 L",
   "flags": ["TRANSPARENT", "DIGGABLE"],
+  "digging_result": "digging_sand_50L",
   "connects_to": "WALL",
   "close": "t_foo_closed",
   "open": "t_foo_open",
@@ -2846,6 +2876,15 @@ uses `2 * 50 = 100` move points when moving across the terrain.
 How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile
 and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the
 source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+
+#### `digging_result`
+
+(Optional) String defining the ID of what itemgroup this terrain will produce when a pit is dug
+here.
+
+Only relevant for terrain with the `DIGGABLE` flag. If not specificed, default is itemgroup
+`digging_soil_loam_50L`. Note as well that this group will be called 4 times by default, 8 times if
+the terrain has the `DIGGABLE_CAN_DEEPEN` flag.
 
 #### `lockpick_result`
 

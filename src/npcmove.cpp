@@ -13,7 +13,6 @@
 
 #include "active_item_cache.h"
 #include "activity_handlers.h"
-#include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_algo.h"
@@ -84,6 +83,7 @@ static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
+static const bionic_id bio_infolink( "bio_infolink" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_ods( "bio_ods" );
@@ -146,7 +146,6 @@ enum npc_action : int {
     npc_investigate_sound,
     npc_return_to_guard_pos,
     npc_player_activity,
-    npc_worker_downtime,
     num_npc_actions
 };
 
@@ -315,6 +314,10 @@ std::vector<sphere> npc::find_dangerous_explosives() const
             continue;
         }
 
+        if( !sees( elem->position() ) ) {
+            continue;   // We can't worry about what we can't see.
+        }
+
         const explosion_iuse *actor = dynamic_cast<const explosion_iuse *>( use->get_actor_ptr() );
         const int safe_range = actor->explosion.safe_range();
 
@@ -445,7 +448,7 @@ void npc::assess_danger()
 
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( attitude_to( guy ) != A_NEUTRAL && sees( guy.pos() ) ) {
+        } else if( attitude_to( guy ) != Attitude::A_NEUTRAL && sees( guy.pos() ) ) {
             hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
@@ -459,11 +462,11 @@ void npc::assess_danger()
 
     for( const monster &critter : g->all_monsters() ) {
         auto att = critter.attitude_to( *this );
-        if( att == A_FRIENDLY ) {
+        if( att == Attitude::A_FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
             continue;
         }
-        if( att != A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+        if( att != Attitude::A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
             continue;
         }
         if( !sees( critter ) ) {
@@ -884,15 +887,7 @@ void npc::move()
                 mission = NPC_MISSION_NULL;
             }
         }
-        if( assigned_camp && attitude != NPCATT_ACTIVITY ) {
-            if( has_job() && calendar::once_every( 10_minutes ) && find_job_to_perform() ) {
-                action = npc_player_activity;
-            } else {
-                action = npc_worker_downtime;
-                goal = global_omt_location();
-            }
-        }
-        if( is_stationary( true ) && !assigned_camp ) {
+        if( is_stationary( true ) ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
                 action = npc_pause;
@@ -906,9 +901,6 @@ void npc::move()
         } else if( !fetching_item ) {
             find_item();
             print_action( "find_item %s", action );
-        } else if( assigned_camp ) {
-            // this should be covered above, but justincase to stop them zooming away.
-            action = npc_pause;
         }
 
         // check if in vehicle before rushing off to fetch things
@@ -971,9 +963,6 @@ void npc::execute_action( npc_action action )
     switch( action ) {
         case npc_pause:
             move_pause();
-            break;
-        case npc_worker_downtime:
-            worker_downtime();
             break;
         case npc_reload: {
             do_reload( primary_weapon() );
@@ -1391,7 +1380,7 @@ npc_action npc::method_of_attack()
 
     // if the best mode is within the confident range try for a shot
     if( g_mode && sees( *critter ) && has_los &&
-        confident_gun_mode_range( g_mode, cur_recoil ) >= dist ) {
+        g_mode->gun_range( true ) >= dist && confident_gun_mode_range( g_mode, cur_recoil ) >= dist ) {
         if( wont_hit_friend( tar, *g_mode, false ) ) {
             add_msg( m_debug, "%s is trying to shoot someone", disp_name() );
             return npc_shoot;
@@ -1841,9 +1830,6 @@ npc_action npc::address_needs( float danger )
     // Extreme thirst or hunger, bypass safety check.
     if( get_thirst() > thirst_levels::dehydrated ||
         get_stored_kcal() + stomach.get_calories() < max_stored_kcal() * 0.75 ) {
-        if( consume_food_from_camp() ) {
-            return npc_noop;
-        }
         if( consume_food() ) {
             return npc_noop;
         }
@@ -1861,9 +1847,6 @@ npc_action npc::address_needs( float danger )
 
     if( one_in( 3 ) && ( get_thirst() > thirst_levels::thirsty ||
                          get_stored_kcal() + stomach.get_calories() < max_stored_kcal() * 0.95 ) ) {
-        if( consume_food_from_camp() ) {
-            return npc_noop;
-        }
         if( consume_food() ) {
             return npc_noop;
         }
@@ -2330,7 +2313,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             return;
         }
         const auto att = attitude_to( *critter );
-        if( att == A_HOSTILE ) {
+        if( att == Attitude::A_HOSTILE ) {
             if( !no_bashing ) {
                 warn_about( "cant_flee", 5_turns + rng( 0, 5 ) * 1_turns );
                 melee_attack( *critter, true );
@@ -2361,7 +2344,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
             realnomove->insert( pos() );
-            say( "<let_me_pass>" );
+            // Don't spam player with messages over followers blunder into each other.
+            if( !np->is_following() ) {
+                say( "<let_me_pass>" );
+            }
             np->move_away_from( pos(), true, realnomove );
             // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
@@ -2615,100 +2601,6 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
     }
 
     move_to( best_pos, no_bash_atk, nomove );
-}
-
-bool npc::find_job_to_perform()
-{
-    for( activity_id &elem : job.get_prioritised_vector() ) {
-        if( job.get_priority_of_job( elem ) == 0 ) {
-            continue;
-        }
-        player_activity scan_act = player_activity( elem );
-        if( elem == activity_id( "ACT_MOVE_LOOT" ) ) {
-            assign_activity( elem );
-        } else if( generic_multi_activity_handler( scan_act, *this->as_player(), true ) ) {
-            assign_activity( elem );
-            return true;
-        }
-    }
-    return false;
-}
-
-void npc::worker_downtime()
-{
-    map &here = get_map();
-    // are we already in a chair
-    if( here.has_flag_furn( "CAN_SIT", pos() ) ) {
-        // just chill here
-        move_pause();
-        return;
-    }
-    //  already know of a chair, go there
-    if( chair_pos != tripoint_min ) {
-        if( here.has_flag_furn( "CAN_SIT", here.getlocal( chair_pos ) ) ) {
-            update_path( here.getlocal( chair_pos ) );
-            if( pos() == here.getlocal( chair_pos ) || path.empty() ) {
-                move_pause();
-                path.clear();
-            } else {
-                move_to_next();
-            }
-            wander_pos = tripoint_min;
-            return;
-        } else {
-            chair_pos = tripoint_min;
-        }
-    } else {
-        // find a chair
-        if( !is_mounted() ) {
-            for( const tripoint &elem : here.points_in_radius( pos(), 30 ) ) {
-                if( here.has_flag_furn( "CAN_SIT", elem ) && !g->critter_at( elem ) && could_move_onto( elem ) &&
-                    here.point_within_camp( here.getabs( elem ) ) ) {
-                    // this one will do
-                    chair_pos = here.getabs( elem );
-                    return;
-                }
-            }
-        }
-    }
-    // we got here if there are no chairs available.
-    // wander back to near the bulletin board of the camp.
-    if( wander_pos != tripoint_min ) {
-        update_path( here.getlocal( wander_pos ) );
-        if( pos() == here.getlocal( wander_pos ) || path.empty() ) {
-            move_pause();
-            path.clear();
-            if( one_in( 30 ) ) {
-                wander_pos = tripoint_min;
-            }
-        } else {
-            move_to_next();
-        }
-        return;
-    }
-    if( assigned_camp ) {
-        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
-        if( !bcp ) {
-            assigned_camp = std::nullopt;
-            move_pause();
-            return;
-        }
-        basecamp *temp_camp = *bcp;
-        std::vector<tripoint> pts;
-        for( const tripoint &elem : here.points_in_radius( here.getlocal( temp_camp->get_bb_pos() ),
-                10 ) ) {
-            if( g->critter_at( elem ) || !could_move_onto( elem ) || here.has_flag( TFLAG_DEEP_WATER, elem ) ||
-                !here.has_floor( elem ) || g->is_dangerous_tile( elem ) ) {
-                continue;
-            }
-            pts.push_back( elem );
-        }
-        if( !pts.empty() ) {
-            wander_pos = here.getabs( random_entry( pts ) );
-            return;
-        }
-    }
-    move_pause();
 }
 
 void npc::move_pause()
@@ -3674,7 +3566,7 @@ bool npc::alt_attack()
     }
 
     // Are we going to throw this item?
-    if( !used->active && used->has_flag( flag_NPC_ACTIVATE ) ) {
+    if( !used->is_active() && used->has_flag( flag_NPC_ACTIVATE ) ) {
         activate_item( weapon_index );
         // Note: intentional lack of return here
         // We want to ignore player-centric rules to avoid carrying live explosives
@@ -3944,43 +3836,6 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     return weight;
 }
 
-bool npc::consume_food_from_camp()
-{
-    if( !is_player_ally() ) {
-        return false;
-    }
-    Character &player_character = get_player_character();
-    std::optional<basecamp *> potential_bc;
-    for( const tripoint_abs_omt &camp_pos : player_character.camps ) {
-        if( rl_dist( camp_pos, global_omt_location() ) < 3 ) {
-            potential_bc = overmap_buffer.find_camp( camp_pos.xy() );
-            if( potential_bc ) {
-                break;
-            }
-        }
-    }
-    if( !potential_bc ) {
-        return false;
-    }
-    basecamp *bcp = *potential_bc;
-    if( get_thirst() > thirst_levels::thirsty && bcp->has_water() ) {
-        complain_about( "camp_water_thanks", 1_hours, "<camp_water_thanks>", false );
-        set_thirst( 0 );
-        return true;
-    }
-    faction *yours = player_character.get_faction();
-    int camp_kcals = std::min( std::max( 0, 19 * max_stored_kcal() / 20 - get_stored_kcal() -
-                                         stomach.get_calories() ), yours->food_supply );
-    if( camp_kcals > 0 ) {
-        complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
-        mod_stored_kcal( camp_kcals );
-        yours->food_supply -= camp_kcals;
-        return true;
-    }
-    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
-    return false;
-}
-
 bool npc::consume_food()
 {
     float best_weight = 0.0f;
@@ -4165,8 +4020,9 @@ void npc::reach_omt_destination()
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) {
-                if( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
-                    has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
+                if( ( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) ||
+                      player_character.has_bionic( bio_infolink ) ) &&
+                    ( has_item_with_flag( flag_TWO_WAY_RADIO, true ) || has_bionic( bio_infolink ) ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
                                         "'I've arrived, boss!'" ), disp_name() );
                 }
@@ -4251,24 +4107,25 @@ void npc::set_omt_destination()
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurence of any of that locations terrain types
-        std::vector<oter_type_id> loc_list = get_location_for( fulfill )->get_all_terrains();
-        std::shuffle( loc_list.begin(), loc_list.end(), rng_get_engine() );
-        omt_find_params find_params;
-        std::vector<std::pair<std::string, ot_match_type>> temp_types;
-        for( const oter_type_id &elem : loc_list ) {
-            std::pair<std::string, ot_match_type> temp_pair;
-            temp_pair.first = elem.id().str();
-            temp_pair.second = ot_match_type::type;
-            temp_types.push_back( temp_pair );
+        auto cache_iter = goal_cache.find( fulfill );
+        if( cache_iter != goal_cache.end() && cache_iter->second.omt_loc == surface_omt_loc ) {
+            goal = cache_iter->second.goal;
+        } else {
+            // look for the closest occurrence of any of that locations terrain types
+            omt_find_params find_params;
+            for( const oter_type_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
+                find_params.types.emplace_back( elem.id().str(), ot_match_type::type );
+            }
+            // note: no shuffle of `find_params.types` is needed, because `find_closest`
+            // disregards `types` order anyway, and already returns random result among
+            // those having equal minimal distance
+            find_params.search_range = 75;
+            find_params.existing_only = false;
+            goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
+            npc_need_goal_cache &cache = goal_cache[fulfill];
+            cache.goal = goal;
+            cache.omt_loc = surface_omt_loc;
         }
-        find_params.search_range = 75;
-        find_params.min_distance = 0;
-        find_params.must_see = false;
-        find_params.cant_see = false;
-        find_params.types = temp_types;
-        find_params.existing_only = false;
-        goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
         omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
@@ -4380,8 +4237,6 @@ std::string npc_action_name( npc_action action )
             return "Undecided";
         case npc_pause:
             return "Pause";
-        case npc_worker_downtime:
-            return "Relaxing";
         case npc_reload:
             return "Reload";
         case npc_investigate_sound:

@@ -210,9 +210,9 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     aim_actor->initial_view_offset = this->initial_view_offset;
 
     // if invalid target or it's dead - reset it so a new one is acquired
-    shared_ptr_fast<Creature> last_target = who.as_player()->last_target.lock();
+    shared_ptr_fast<Creature> last_target = who.last_target.lock();
     if( last_target && last_target->is_dead_state() ) {
-        who.as_player()->last_target.reset();
+        who.last_target.reset();
     }
     who.assign_activity( std::make_unique<player_activity>( std::move( aim_actor ) ), false );
 }
@@ -863,7 +863,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 }
             } else if( type == HACK_SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                here.furn_set( examp, furn_str_id( "f_safe_o" ) );
+                here.furn_set( examp, furn_str_id( "f_gunsafe_o" ) );
             } else if( type == HACK_DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
@@ -924,7 +924,8 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         // This is for hauling across zlevels, remove when going up and down stairs
         // is no longer teleportation
-        if( target->is_owned_by( who, true ) ) {
+        // Also ignores items owned by other NPCs, unless they'd already attack on sight
+        if( target->is_owned_by( who, true ) || target->get_owner()->likes_u < -10 ) {
             target->set_owner( who );
         } else {
             continue;
@@ -1460,9 +1461,6 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         g->m.furn_set( target, new_furn_type ) :
         static_cast<void>( g->m.ter_set( target, new_ter_type ) );
         who.add_msg_if_player( m_good, open_message );
-    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
-        who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
-        g->m.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
             who.add_msg_if_player( m_bad,

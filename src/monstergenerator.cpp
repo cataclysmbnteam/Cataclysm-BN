@@ -52,6 +52,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::SOUND: return "SOUND";
         case mon_trigger::PLAYER_NEAR_BABY: return "PLAYER_NEAR_BABY";
         case mon_trigger::MATING_SEASON: return "MATING_SEASON";
+        case mon_trigger::NETHER_ATTENTION: return "NETHER_ATTENTION";
         // *INDENT-ON*
         case mon_trigger::_LAST:
             break;
@@ -120,6 +121,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_IMMOBILE: return "IMMOBILE";
         case MF_ID_CARD_DESPAWN: return "ID_CARD_DESPAWN";
         case MF_RIDEABLE_MECH: return "RIDEABLE_MECH";
+        case MF_CARD_OVERRIDE: return "CARD_OVERRIDE";
         case MF_MILITARY_MECH: return "MILITARY_MECH";
         case MF_MECH_RECON_VISION: return "MECH_RECON_VISION";
         case MF_MECH_DEFENSIVE: return "MECH_DEFENSIVE";
@@ -161,10 +163,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_AVOID_FIRE: return "PATH_AVOID_FIRE";
         case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
         case MF_NOT_HALLU: return "NOT_HALLUCINATION";
-        case MF_CATFOOD: return "CATFOOD";
         case MF_CANPLAY: return "CANPLAY";
-        case MF_CATTLEFODDER: return "CATTLEFODDER";
-        case MF_BIRDFOOD: return "BIRDFOOD";
         case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
@@ -179,6 +178,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_STUN_IMMUNE: return "STUN_IMMUNE";
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
+        case MF_CAN_BE_ORDERED: return "CAN_BE_ORDERED";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -263,18 +263,18 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-static m_size volume_to_size( const units::volume &vol )
+static creature_size volume_to_size( const units::volume &vol )
 {
     if( vol <= 7500_ml ) {
-        return MS_TINY;
+        return creature_size::tiny;
     } else if( vol <= 46250_ml ) {
-        return MS_SMALL;
+        return creature_size::small;
     } else if( vol <= 77500_ml ) {
-        return MS_MEDIUM;
+        return creature_size::medium;
     } else if( vol <= 483750_ml ) {
-        return MS_LARGE;
+        return creature_size::large;
     }
-    return MS_HUGE;
+    return creature_size::huge;
 }
 
 struct monster_adjustment {
@@ -305,6 +305,8 @@ void monster_adjustment::apply( mtype &mon )
     if( !special.empty() ) {
         if( special == "nightvision" ) {
             mon.vision_night = mon.vision_day;
+        } else if( special == "no_zombify" ) {
+            mon.zombify_into = mtype_id::NULL_ID();
         }
     }
 }
@@ -353,9 +355,11 @@ void MonsterGenerator::finalize_mtypes()
         set_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
 
-        // adjust for worldgen difficulty parameters
-        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        if( !mon.has_flag( MF_RIDEABLE_MECH ) ) {
+            // adjust for worldgen difficulty parameters
+            mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+            mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        }
 
         for( monster_adjustment adj : adjustments ) {
             adj.apply( mon );
@@ -438,6 +442,14 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
     if( mon.has_flag( MF_CLIMBS ) ) {
         mon.path_settings.climb_cost = 3;
     }
+
+    pathfinding_settings buffed_settings = mon.path_settings;
+    buffed_settings.avoid_traps = true;
+    buffed_settings.avoid_sharp = true;
+    buffed_settings.allow_climb_stairs = true;
+    buffed_settings.max_length = std::max( 30, buffed_settings.max_length );
+    buffed_settings.max_dist = std::max( buffed_settings.max_length * 5, buffed_settings.max_dist );
+    mon.path_settings_buffed = buffed_settings;
 }
 
 void MonsterGenerator::init_phases()
@@ -563,6 +575,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SPIT_SAP", mattack::spit_sap );
     add_hardcoded_attack( "TRIFFID_HEARTBEAT", mattack::triffid_heartbeat );
     add_hardcoded_attack( "FUNGUS", mattack::fungus );
+    add_hardcoded_attack( "FUNGUS_ADVANCED", mattack::fungus_advanced );
     add_hardcoded_attack( "FUNGUS_CORPORATE", mattack::fungus_corporate );
     add_hardcoded_attack( "FUNGUS_HAZE", mattack::fungus_haze );
     add_hardcoded_attack( "FUNGUS_BIG_BLOSSOM", mattack::fungus_big_blossom );
@@ -629,6 +642,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
+    add_hardcoded_attack( "COMMAND_BUFF", mattack::command_buff );
 }
 
 void MonsterGenerator::init_defense()
@@ -641,6 +655,8 @@ void MonsterGenerator::init_defense()
     defense_map["ACIDSPLASH"] = &mdefense::acidsplash;
     // Blind fire on unseen attacker
     defense_map["RETURN_FIRE"] = &mdefense::return_fire;
+    // Make allies aggro on target
+    defense_map["REVENGE_AGGRO"] = &mdefense::revenge_aggro;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -693,6 +709,20 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
             } );
         }
 };
+
+
+void pet_food_data::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "food", food );
+    optional( jo, was_loaded, "feed", feed );
+    optional( jo, was_loaded, "pet", pet );
+}
+
+void pet_food_data::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
 
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
@@ -797,6 +827,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     } else if( jo.has_object( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo );
     }
+
+    // Load pet food data
+    optional( jo, was_loaded, "petfood", petfood );
 
     if( jo.has_array( "scents_tracked" ) ) {
         for( const std::string line : jo.get_array( "scents_tracked" ) ) {

@@ -39,7 +39,8 @@
       "sound": "splorch!",
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar_small",
-      "items": [ { "item": "fetid_goop", "count": [ 3, 7 ], "prob": 100 } ]
+      "items": [ { "item": "fetid_goop", "count": [ 3, 7 ], "prob": 100 } ],
+      "ranged": { "reduction": [ 7, 13 ], "destroy_threshold": 26, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -61,7 +62,8 @@
       "sound": "splorch!",
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar_small",
-      "items": [ { "item": "fetid_goop", "count": [ 15, 25 ], "prob": 100 } ]
+      "items": [ { "item": "fetid_goop", "count": [ 15, 25 ], "prob": 100 } ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -74,7 +76,7 @@
     "move_cost_mod": 4,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "MINEABLE" ],
     "emissions": [ "emit_glimmer", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar_small" }
@@ -89,15 +91,17 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "MINEABLE" ],
     "emissions": [ "emit_hot_air_migo_seep", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": {
-      "str_min": 250,
-      "str_max": 600,
+      "str_min": 50,
+      "str_max": 120,
       "sound": "splorch!",
       "sound_fail": "splat!",
-      "items": [ { "item": "fetid_goop", "count": [ 6, 13 ], "prob": 100 } ]
+      "items": [ { "item": "fetid_goop", "count": [ 6, 13 ], "prob": 100 } ],
+      "//": "reduction matches that of weakest furniture that turns into this when destroyed",
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 120, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -111,11 +115,11 @@
     "move_cost_mod": 4,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT", "EMITTER", "MINEABLE" ],
     "emissions": [ "emit_migo_atmosphere_seep", "emit_shock_burst" ],
     "bash": {
       "str_min": 50,
-      "str_max": 120,
+      "str_max": 80,
       "sound": "splorch!",
       "sound_fail": "splat!",
       "items": [ { "item": "fetid_goop", "count": [ 2, 6 ], "prob": 100 } ]
@@ -139,7 +143,8 @@
       "str_max": 40,
       "sound": "splorch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "fetid_goop", "count": [ 5, 10 ], "prob": 100 }, { "group": "migo_pod_storage", "prob": 50 } ]
+      "items": [ { "item": "fetid_goop", "count": [ 5, 10 ], "prob": 100 }, { "group": "migo_pod_storage", "prob": 50 } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -160,7 +165,8 @@
       "str_max": 40,
       "sound": "splorch!",
       "sound_fail": "whump.",
-      "items": [ { "group": "migo_pod_samples", "prob": 75, "count": [ 1, 2 ] } ]
+      "items": [ { "group": "migo_pod_samples", "prob": 75, "count": [ 1, 2 ] } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -180,7 +186,8 @@
       "str_max": 40,
       "sound": "splorch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "alien_pod_resin", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "alien_pod_resin", "count": [ 1, 2 ] } ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -194,8 +201,15 @@
     "coverage": 40,
     "required_str": -1,
     "light_emitted": 12,
-    "flags": [ "TRANSPARENT" ],
-    "bash": { "str_min": 45, "str_max": 60, "sound": "splorch!", "sound_fail": "whump.", "furn_set": "f_alien_scar" }
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "bash": {
+      "str_min": 45,
+      "str_max": 60,
+      "sound": "splorch!",
+      "sound_fail": "whump.",
+      "furn_set": "f_alien_scar",
+      "ranged": { "reduction": [ 23, 45 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
+    }
   },
   {
     "type": "furniture",
@@ -205,8 +219,8 @@
     "symbol": "i",
     "color": "magenta",
     "looks_like": "t_machinery_light",
-    "move_cost_mod": 4,
-    "coverage": 10,
+    "move_cost_mod": -1,
+    "coverage": 75,
     "light_emitted": 15,
     "required_str": -1,
     "emissions": [ "emit_shock_burst" ],
@@ -218,7 +232,9 @@
       "sound": "splorch!",
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar",
-      "items": [ { "item": "fetid_goop", "count": [ 3, 5 ], "prob": 100 } ]
+      "items": [ { "item": "fetid_goop", "count": [ 3, 5 ], "prob": 100 } ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate wetware, and a pissed-off alien bug installed inside",
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 8, "block_unaimed_chance": "75%" }
     }
   }
 ]

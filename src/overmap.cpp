@@ -20,7 +20,6 @@
 
 #include "all_enum_values.h"
 #include "assign.h"
-#include "basecamp.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -726,8 +725,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "connect_group", connect_group, string_reader{} );
 
-    if( has_flag( line_drawing ) ) {
-        if( has_flag( no_rotate ) ) {
+    if( has_flag( oter_flags::line_drawing ) ) {
+        if( has_flag( oter_flags::no_rotate ) ) {
             jo.throw_error( R"(Mutually exclusive flags: "NO_ROTATE" and "LINEAR".)" );
         }
 
@@ -767,7 +766,7 @@ void oter_type_t::finalize()
         for( om_direction::type dir : om_direction::all ) {
             register_terrain( oter_t( *this, dir ), static_cast<size_t>( dir ), om_direction::size );
         }
-    } else if( has_flag( line_drawing ) ) {
+    } else if( has_flag( oter_flags::line_drawing ) ) {
         for( size_t i = 0; i < om_lines::size; ++i ) {
             register_terrain( oter_t( *this, i ), i, om_lines::size );
         }
@@ -811,7 +810,7 @@ oter_id oter_type_t::get_rotated( om_direction::type dir ) const
 
 oter_id oter_type_t::get_linear( size_t n ) const
 {
-    if( !has_flag( line_drawing ) ) {
+    if( !has_flag( oter_flags::line_drawing ) ) {
         debugmsg( "Overmap terrain \"%s \" isn't drawn with lines.", id.c_str() );
         return ot_null;
     }
@@ -849,14 +848,14 @@ oter_t::oter_t( const oter_type_t &type, size_t line ) :
 
 std::string oter_t::get_mapgen_id() const
 {
-    return type->has_flag( line_drawing )
+    return type->has_flag( oter_flags::line_drawing )
            ? type->id.str() + om_lines::mapgen_suffixes[om_lines::all[line].mapgen]
            : type->id.str();
 }
 
 oter_id oter_t::get_rotated( om_direction::type dir ) const
 {
-    return type->has_flag( line_drawing )
+    return type->has_flag( oter_flags::line_drawing )
            ? type->get_linear( om_lines::rotate( this->line, dir ) )
            : type->get_rotated( om_direction::add( this->dir, dir ) );
 }
@@ -943,9 +942,7 @@ bool oter_t::is_hardcoded() const
         "slimepit_down",
         "temple",
         "temple_finale",
-        "temple_stairs",
-        "triffid_finale",
-        "triffid_roots"
+        "temple_stairs"
     };
 
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
@@ -2943,6 +2940,7 @@ void overmap::init_layers()
                 layer[k].terrain[i][j] = tid;
                 layer[k].visible[i][j] = false;
                 layer[k].explored[i][j] = false;
+                layer[k].path[i][j] = false;
             }
         }
     }
@@ -3018,6 +3016,23 @@ bool overmap::is_explored( const tripoint_om_omt &p ) const
         return false;
     }
     return layer[p.z() + OVERMAP_DEPTH].explored[p.x()][p.y()];
+}
+
+bool &overmap::path( const tripoint_om_omt &p )
+{
+    if( !inbounds( p ) ) {
+        nullbool = false;
+        return nullbool;
+    }
+    return layer[p.z() + OVERMAP_DEPTH].path[p.x()][p.y()];
+}
+
+bool overmap::is_path( const tripoint_om_omt &p ) const
+{
+    if( !inbounds( p ) ) {
+        return false;
+    }
+    return layer[p.z() + OVERMAP_DEPTH].path[p.x()][p.y()];
 }
 
 bool overmap::mongroup_check( const mongroup &candidate ) const
@@ -3747,6 +3762,7 @@ void overmap::move_hordes()
                 !type.species.count( ZOMBIE ) || // Only add zombies to hordes.
                 type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
+                this_monster.has_flag( MF_IMMOBILE ) || // Also exempt anything stationary.
                 this_monster.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
                 !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
                 this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
@@ -6192,16 +6208,6 @@ shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
         }
     }
     return nullptr;
-}
-
-std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
-{
-    for( auto &v : camps ) {
-        if( v.camp_omt_pos().xy() == p ) {
-            return &v;
-        }
-    }
-    return std::nullopt;
 }
 
 bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const

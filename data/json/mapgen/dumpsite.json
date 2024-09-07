@@ -442,7 +442,7 @@
           { "item": "misc_smoking", "chance": 2 }
         ],
         "{": [
-          { "item": "trash", "chance": 25, "repeat": 1 },
+          { "item": "trash_dumpster", "chance": 80 },
           { "item": "road", "chance": 1 },
           { "item": "allclothes_damaged", "chance": 2 },
           { "item": "stoner", "chance": 1 },
@@ -741,7 +741,7 @@
           { "item": "misc_smoking", "chance": 2 }
         ],
         "{": [
-          { "item": "trash", "chance": 25, "repeat": 1 },
+          { "item": "trash_dumpster", "chance": 80 },
           { "item": "road", "chance": 1 },
           { "item": "allclothes_damaged", "chance": 2 },
           { "item": "stoner", "chance": 1 },

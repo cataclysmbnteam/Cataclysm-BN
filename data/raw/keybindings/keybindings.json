@@ -265,6 +265,13 @@
   },
   {
     "type": "keybinding",
+    "id": "EXAMINE",
+    "category": "INVENTORY",
+    "name": "Examine item",
+    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ENABLE_MAPEXTRA_NOTE",
     "category": "AUTO_NOTES",
     "name": "Enable auto note for map extra",
@@ -525,10 +532,17 @@
   },
   {
     "type": "keybinding",
-    "id": "CYCLE_MODE",
+    "id": "SCROLL_RECIPE_INFO_UP",
     "category": "CRAFTING",
-    "name": "Cycle display mode",
-    "bindings": [ { "input_method": "keyboard", "key": "m" } ]
+    "name": "Scroll recipe info up",
+    "bindings": [ { "input_method": "keyboard", "key": "[" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_RECIPE_INFO_DOWN",
+    "category": "CRAFTING",
+    "name": "Scroll recipe info down",
+    "bindings": [ { "input_method": "keyboard", "key": "]" } ]
   },
   {
     "type": "keybinding",
@@ -863,6 +877,13 @@
     "category": "OVERMAP",
     "name": "Toggle Explored",
     "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MARK_PATH",
+    "category": "OVERMAP",
+    "name": "Mark/unmark Travel Path",
+    "bindings": [ { "input_method": "keyboard", "key": "P" } ]
   },
   {
     "type": "keybinding",
@@ -1541,6 +1562,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Show/Hide Preview Outfit",
+    "category": "NEW_CHAR_TRAITS",
+    "id": "TOGGLE_CHARACTER_PREVIEW_CLOTHES",
+    "bindings": [ { "input_method": "keyboard", "key": "c" }, { "input_method": "keyboard", "key": "C" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Toggle Map Memory",
     "category": "DEFAULTMODE",
     "id": "toggle_map_memory"
@@ -1922,7 +1950,8 @@
     "type": "keybinding",
     "name": "Toggle Auto Travel Mode",
     "category": "DEFAULTMODE",
-    "id": "auto_travel_mode"
+    "id": "auto_travel_mode",
+    "bindings": [ { "input_method": "keyboard", "key": "CTRL+M" } ]
   },
   {
     "type": "keybinding",
@@ -1956,8 +1985,7 @@
     "type": "keybinding",
     "name": "Commit Suicide",
     "category": "DEFAULTMODE",
-    "id": "SUICIDE",
-    "bindings": [ { "input_method": "keyboard", "key": "Q" } ]
+    "id": "SUICIDE"
   },
   {
     "type": "keybinding",
@@ -2050,13 +2078,15 @@
     "type": "keybinding",
     "name": "Debug Menu",
     "category": "DEFAULTMODE",
-    "id": "debug"
+    "id": "debug",
+    "bindings": [ { "input_method": "keyboard", "key": "F11" } ]
   },
   {
     "type": "keybinding",
     "name": "Lua Console",
     "category": "DEFAULTMODE",
-    "id": "lua_console"
+    "id": "lua_console",
+    "bindings": [ { "input_method": "keyboard", "key": "`" } ]
   },
   {
     "type": "keybinding",
@@ -2333,13 +2363,15 @@
     "type": "keybinding",
     "id": "cast_spell",
     "name": "Spellcasting",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard", "key": "]" } ]
   },
   {
     "type": "keybinding",
     "id": "diary",
     "name": "Open Diary",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard", "key": "HOME" } ]
   },
   {
     "type": "keybinding",
@@ -3347,5 +3379,134 @@
     "name": "Scroll to the bottom",
     "category": "LUA_CONSOLE",
     "bindings": [ { "input_method": "keyboard", "key": "END" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.QUIT",
+    "name": "Cancel text input",
+    "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.CONFIRM",
+    "name": "Confirm text input",
+    "bindings": [ { "input_method": "keyboard", "key": "RETURN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.UP",
+    "name": "Move cursor up",
+    "bindings": [ { "input_method": "keyboard", "key": "UP" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.DOWN",
+    "name": "Move cursor down",
+    "bindings": [ { "input_method": "keyboard", "key": "DOWN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.LEFT",
+    "name": "Move cursor left",
+    "bindings": [ { "input_method": "keyboard", "key": "LEFT" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.RIGHT",
+    "name": "Move cursor right",
+    "bindings": [ { "input_method": "keyboard", "key": "RIGHT" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.PAGE_UP",
+    "name": "Move cursor to previous page",
+    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.PAGE_DOWN",
+    "name": "Move cursor to next page",
+    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.CLEAR",
+    "name": "Clear text",
+    "bindings": [ { "input_method": "keyboard", "key": "CTRL+U" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.BACKSPACE",
+    "name": "Remove previous character",
+    "bindings": [ { "input_method": "keyboard", "key": "BACKSPACE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.HOME",
+    "name": "Move cursor to start",
+    "bindings": [ { "input_method": "keyboard", "key": "HOME" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.END",
+    "name": "Move cursor to end",
+    "bindings": [ { "input_method": "keyboard", "key": "END" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.DELETE",
+    "name": "Remove current character",
+    "bindings": [ { "input_method": "keyboard", "key": "DELETE" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.PASTE",
+    "name": "Paste from clipboard",
+    "bindings": [ { "input_method": "keyboard", "key": "CTRL+V" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.INPUT_FROM_FILE",
+    "name": "Input text from file",
+    "bindings": [ { "input_method": "keyboard", "key": "F2" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "HISTORY_UP",
+    "name": "Show previous history",
+    "category": "STRING_INPUT",
+    "bindings": [ { "input_method": "keyboard", "key": "UP" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "HISTORY_DOWN",
+    "name": "Show next history",
+    "category": "STRING_INPUT",
+    "bindings": [ { "input_method": "keyboard", "key": "DOWN" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "HELP_KEYBINDINGS",
+    "name": "Display keybindings menu",
+    "category": "STRING_INPUT",
+    "//": "'?' is treated as text input, so a different key is used.",
+    "bindings": [ { "input_method": "keyboard", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TEXT.CONFIRM",
+    "name": "Confirm text input",
+    "category": "STRING_EDITOR",
+    "//": "RETURN is treated as text input, so use a different keybinding",
+    "//2": "CTRL+S is not available on curses, so add CTRL+Y as an alternative",
+    "bindings": [ { "input_method": "keyboard", "key": "CTRL+S" }, { "input_method": "keyboard", "key": "CTRL+Y" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "HELP_KEYBINDINGS",
+    "name": "Display keybindings menu",
+    "category": "STRING_EDITOR",
+    "//": "'?' is treated as text input, so a different key is used.",
+    "bindings": [ { "input_method": "keyboard", "key": "F1" } ]
   }
 ]

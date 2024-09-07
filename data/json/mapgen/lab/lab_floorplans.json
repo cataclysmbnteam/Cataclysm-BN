@@ -115,11 +115,11 @@
       "rotation": [ 0, 1 ],
       "//": "Only allows 0,1 orientation so the right-side rooms stay against a north or east wall",
       "rows": [
-        "...|...|r......|X.ccc.X|",
-        "...|...|r......|X.....X|",
-        "...|...|.......|---W---|",
-        "LLL|LLL|.......|       |",
-        "...C..........l|       |",
+        ".......|r......|X.ccc.X|",
+        ".......|r......|X.....X|",
+        "......%|.......|---W---|",
+        "|LLLLL||.......|       |",
+        "......%.......l|       |",
         "..............l|       |",
         "...............+       |",
         "...............|       |",
@@ -147,16 +147,14 @@
         "P": "t_generator_broken",
         "F": "t_chainfence_h",
         "f": "t_chainfence_v",
-        "H": "t_chaingate_c",
-        "C": "t_gates_control_concrete_lab"
+        "H": "t_chaingate_c"
       },
       "mapping": { "r": { "items": [ { "item": "hardware", "chance": 10 }, { "item": "robots", "chance": 10 } ] } },
       "place_nested": [
         { "chunks": [ "null", "sub_fd_shock_vent", "sub_fd_shock_vent" ], "x": 7, "y": 12 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 14 },
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": 4 },
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 4, 6 ], "y": [ 0, 2 ], "repeat": 4 }
+        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 5 ], "y": [ 0, 2 ], "repeat": 8 }
       ]
     }
   },
@@ -238,10 +236,10 @@
         "..c|c..c|c....c|c..c|c..",
         "..---..---....---..---..",
         "........................",
-        "...C....C......C....C...",
-        "........................",
         "........................",
         "...C....C......C....C...",
+        "...x....x......7....x...",
+        "........................",
         "........................",
         "..---..---.....|---+---|",
         "..c|c..c|c.....|       |",
@@ -258,11 +256,19 @@
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
         "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken" ],
+        "7": "t_console",
         "C": "t_thconc_floor"
       },
       "mapping": {
         "c": { "items": [ { "item": "chem_lab", "chance": 10 }, { "item": "tools_science", "chance": 10 } ] },
         "r": { "items": [ { "item": "cleaning", "chance": 30 } ] }
+      },
+      "computers": {
+        "7": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
+        }
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15 },
@@ -306,16 +312,18 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "set": [
-        { "point": "terrain", "id": "t_vat", "x": 3, "y": 10 },
-        { "point": "terrain", "id": "t_vat", "x": 3, "y": 13 },
-        { "point": "terrain", "id": "t_vat", "x": 8, "y": 10 },
-        { "point": "terrain", "id": "t_vat", "x": 8, "y": 13 }
+        { "point": "terrain", "id": "t_vat", "x": 3, "y": 11 },
+        { "point": "terrain", "id": "t_vat", "x": 3, "y": 12 },
+        { "point": "terrain", "id": "t_vat", "x": 8, "y": 11 },
+        { "point": "terrain", "id": "t_vat", "x": 8, "y": 12 },
+        { "point": "furniture", "id": "f_null", "x": 3, "y": 11 },
+        { "point": "furniture", "id": "f_null", "x": 8, "y": 11 }
       ],
       "place_items": [
-        { "item": "cloning_vat", "x": 3, "y": 10, "chance": 66 },
-        { "item": "cloning_vat", "x": 3, "y": 13, "chance": 66 },
-        { "item": "cloning_vat", "x": 8, "y": 10, "chance": 66 },
-        { "item": "cloning_vat", "x": 8, "y": 13, "chance": 66 }
+        { "item": "cloning_vat", "x": 3, "y": 11, "chance": 66 },
+        { "item": "cloning_vat", "x": 3, "y": 12, "chance": 66 },
+        { "item": "cloning_vat", "x": 8, "y": 11, "chance": 66 },
+        { "item": "cloning_vat", "x": 8, "y": 12, "chance": 66 }
       ],
       "place_nested": [
         { "chunks": [ "lab_hood_windfall" ], "x": 2, "y": 2 },
@@ -434,13 +442,13 @@
       "rotation": [ 0, 3 ],
       "fill_ter": "t_thconc_floor",
       "rows": [
-        ".......L...............l",
+        ".......|...............l",
         ".......L...............l",
         ".......L....----?----..l",
-        "-------|C...|       |..l",
         ".......L....|       |..l",
         ".......L....|       |..l",
-        ".......L....+       |..l",
+        ".......L....|       |..l",
+        "......%|%...+       |..l",
         "-------|....|       |..l",
         "............|       |-+-",
         "............|       |...",
@@ -465,7 +473,6 @@
         "F": "t_chainfence_h",
         "f": "t_chainfence_v",
         "H": "t_chaingate_c",
-        "C": "t_gates_control_concrete_lab",
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ]
       },
       "mapping": {
@@ -492,8 +499,7 @@
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 6, "y": 11 },
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 12, "y": 2 },
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 4, 6 ], "repeat": 8 },
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 0, 2 ], "repeat": 8 }
+        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 0, 5 ], "repeat": 16 }
       ]
     }
   },
@@ -509,7 +515,7 @@
       "rows": [
         "..cccccc.|...|,,,|..|,,,",
         "c........|...|,,,|.6|,,,",
-        "c..Ccxc..|...|,,,g..g,,,",
+        "c..C8cc..|...|,,,g..g,,,",
         "c........g...|,,,g..g,,,",
         "c........g...|,,,L..L,,,",
         "......llS|...|---|..|---",
@@ -520,7 +526,7 @@
         "........|-ggg----|..|---",
         "........|r,,,r|t--G-|...",
         "........g,,/,,L.....G...",
-        "........g,,?,,|-ggg-|...",
+        "........g,,?,%|-ggg-|...",
         "........|r,,,r|.........",
         "........|-ggg-|.........",
         "........................",
@@ -540,6 +546,7 @@
         "?": "t_floor_blue",
         "/": "t_floor_blue",
         "7": "t_console",
+        "8": "t_console",
         "r": "t_floor_blue"
       },
       "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11 } ],
@@ -567,6 +574,11 @@
           "security": 2,
           "options": [ { "name": "UNLOCK AUTODOC DOOR", "action": "unlock", "security": 6 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "8": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
         }
       },
       "place_monster": [
@@ -661,7 +673,7 @@
       "fill_ter": "t_thconc_floor",
       "rows": [
         ",,,,,|..|.....|.........",
-        ",,,,,|7.|.....|..cxcC...",
+        ",,,,,|7.|.....|..cc8C...",
         ",,,,,g..g.....g.......l.",
         ",,,,,g..g.....g.......l.",
         ",,,,,L..g.....|.......S.",
@@ -670,7 +682,7 @@
         ",,,,,g..g...............",
         ",,,,,g..g...............",
         ",,,,,|..|-gggg-|........",
-        "----||G-|,,,,,,|........",
+        "----||G-|%,,,,,|........",
         "....G...L,,,,,,g........",
         "....|-g-|,,,,,,g........",
         "........|,,,,,,|........",
@@ -707,6 +719,11 @@
           "security": 4,
           "options": [ { "name": "EMERGENCY CONTAINMENT UNLOCK", "action": "unlock", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        },
+        "8": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
         }
       },
       "place_monster": [
@@ -733,8 +750,8 @@
         "llll.|...........fXX...r",
         "-----|FFFF|---|..fXX...r",
         ".....f....|...|..f.....r",
-        ".pSp.f.PP.|.&.|..fXX...X",
-        ".pSp.f.PP.|.x.|..fXX...X",
+        ".p!p.f.PP.|.&.|..fXX...X",
+        ".p!p.f.PP.|.x.|..fXX...X",
         ".....f.PP.|...|..f......",
         ".....H....|-M-|..fFFHFFf",
         "FFHFFf........f.........",
@@ -743,26 +760,25 @@
         ".......................x",
         "x................|-g-g--",
         "-------|.........|^.....",
-        ".......L.........G......",
+        "......%|%........G......",
         ".......L.........|..ddd.",
         ".......L.........g..dh..",
-        "-------|C........g......",
+        ".......L.........g......",
         ".......L.........g......",
         ".......L.........|dh....",
         ".......L.........|dxd.^.",
         ".......|.........|......"
       ],
       "palettes": [ "lab_palette" ],
-      "furniture": { "S": "f_null", "^": "f_indoor_plant", "f": "f_null" },
+      "furniture": { "^": "f_indoor_plant", "f": "f_null" },
       "terrain": {
         "F": "t_chainfence_h",
         "f": "t_chainfence_v",
         "H": "t_chaingate_c",
         "&": "t_radio_tower",
         "P": "t_generator_broken",
-        "S": "t_sewage_pump",
+        "!": "t_sewage_pump",
         "p": "t_sewage_pipe",
-        "C": "t_gates_control_concrete_lab",
         "g": "t_wall_glass",
         "G": "t_door_glass_lab_c"
       },
@@ -774,10 +790,7 @@
         "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] }
       },
       "place_monster": [ { "monster": "mon_zombie", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "pack_size": [ 2, 3 ] } ],
-      "place_nested": [
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 16, 18 ], "repeat": 8 },
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 20, 23 ], "repeat": 8 }
-      ]
+      "place_nested": [ { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 0, 6 ], "y": [ 17, 23 ], "repeat": 16 } ]
     }
   },
   {
@@ -822,14 +835,14 @@
         ".................w......",
         "................www.....",
         "--gggGgg-|....|-gggggg-|",
-        "ff.......|....|WWWWWWWW|",
+        "ff.......|....gWWWWWWWW|",
         "...htth..g....gWWWWWWWl|",
         "...htth..g....gWWWcWWWl|",
         ".........G....LWWWcWWWW|",
-        ".........g....gWWWCWWWW|",
-        "...htth..g....gWWWcWWWW|",
+        ".........g....|%WWCWWWW|",
+        "...htth..g....gWWWxWWWW|",
         "...htth..g....gWWWWWWhd|",
-        "........^|....|rrrWWdxd|",
+        "........^|....grrrWWdxd|",
         ".........|....|---------"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
@@ -920,20 +933,20 @@
         "TS|   F +`````+ F   |ST|",
         "--|V  F w`hth`w F  V|--|",
         "rr--|   -w---w-   |--rr|",
-        "-+|s|   CSC|CSC   |s|+-|",
-        "    |     C|C     |   x|",
+        "-+|s|   !S!|!S!   |s|+-|",
+        "    |     !|!     |   x|",
         " t  +     O|O     +   t|",
-        "bb  |hh   f|f   hh|  bb|",
-        "bb ]|tt   C|C   tt|] bb|",
+        "bb  |hh   ḟ|ḟ   hh|  bb|",
+        "bb ]|tt   !|!   tt|] bb|",
         "--------+-----+--------|",
         "........................",
         "........................",
         "--------+-----+--------|",
-        "bb ]|tt   C|C   tt|] bb|",
-        "bb  |hh   f|f   hh|  bb|",
+        "bb ]|tt   !|!   tt|] bb|",
+        "bb  |hh   ḟ|ḟ   hh|  bb|",
         " t  +     O|O     +   t|",
-        "    |     C|C     |    |",
-        "-+|s|   CSC|CSC   |s|+-|",
+        "    |     !|!     |    |",
+        "-+|s|   !S!|!S!   |s|+-|",
         "rr--|   -w---w-   |--rr|",
         "--|V  F w`hth`w F  V|--|",
         "TS|   F +`````+ F   |ST|",
@@ -941,13 +954,13 @@
         "BB|FFFt |`````| tFFF|BB|"
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
-      "furniture": { "F": "f_sofa", "B": "f_bathtub", "C": "f_counter", "O": "f_oven", "V": "f_table" },
+      "furniture": { "F": "f_sofa", "B": "f_bathtub", "!": "f_counter", "O": "f_oven", "V": "f_table" },
       "terrain": { "w": "t_window_domestic", "`": "t_grass", "+": "t_door_lab_c" },
       "mapping": {
         "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
         "F": { "items": [ { "item": "livingroom", "chance": 5 } ] },
-        "f": { "items": [ { "item": "fridge", "chance": 80 } ] },
-        "C": { "items": [ { "item": "kitchen", "chance": 40 } ] },
+        "ḟ": { "items": [ { "item": "fridge", "chance": 80 } ] },
+        "!": { "items": [ { "item": "kitchen", "chance": 40 } ] },
         "O": { "items": [ { "item": "oven", "chance": 70 } ] },
         "r": {
           "items": [

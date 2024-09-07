@@ -2,14 +2,13 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow10",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
       "fill_ter": "t_floor",
       "rows": [
         "...........--.p.........",
-        "...........--........[..",
+        "...........--...........",
         "..[.....!!----!!........",
         ".....%%!!------!!%%.....",
         ".....%%!--------!%%.....",
@@ -22,7 +21,7 @@
         ".# /&//     V||+|||+||#^",
         "-: /ff/             +P#.",
         "-¶ &ff&  R| R||+|||+||#.",
-        ".# /&//  R| R|S_|d  D$#.",
+        ".# /&//  R| R|S_|d  Dɸ#.",
         ".o       R|+|||t|d    o.",
         ".oy  xxx  |_U|||||    o.",
         ".#sE     a|__|t__+ @@ #.",
@@ -46,15 +45,15 @@
         "(": "t_dirtmound",
         ")": "t_dirtmound"
       },
-      "furniture": { "?": "f_locker", "$": "f_treadmill", "&": "f_chair" },
+      "furniture": { "?": "f_locker", "&": "f_chair" },
       "items": { ")": { "item": "hydro", "chance": 35 }, "?": { "item": "tools_earthworking", "chance": 30 } },
-      "place_loot": [ { "item": "television", "x": 6, "y": 16 } ]
+      "place_loot": [ { "item": "television", "x": 6, "y": 16 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 20, "y": 1 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow10_roof",
-    "weight": 250,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -85,7 +84,11 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" }
+      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 3, "y": 15 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 2, 16 ], "y": [ 6, 10 ] }
+      ]
     }
   }
 ]

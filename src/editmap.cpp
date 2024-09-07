@@ -653,7 +653,7 @@ void editmap::draw_main_ui_overlay()
                 }
             }
             // int: count, bool: more than 1 spawn data
-            std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> spawns;
+            std::map<tripoint, std::tuple<mtype_id, int, bool, Attitude>> spawns;
             for( int x = 0; x < 2; x++ ) {
                 for( int y = 0; y < 2; y++ ) {
                     submap *sm = tmpmap.get_submap_at_grid( { x, y, target.z } );
@@ -663,7 +663,7 @@ void editmap::draw_main_ui_overlay()
                             const tripoint spawn_p = sm_origin + sp.pos;
                             const auto spawn_it = spawns.find( spawn_p );
                             if( spawn_it == spawns.end() ) {
-                                const Creature::Attitude att = sp.friendly ? Creature::A_FRIENDLY : Creature::A_ANY;
+                                const Attitude att = sp.is_friendly() ? Attitude::A_FRIENDLY : Attitude::A_ANY;
                                 spawns.emplace( spawn_p, std::make_tuple( sp.type, sp.count, false, att ) );
                             } else {
                                 std::get<2>( spawn_it->second ) = true;

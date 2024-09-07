@@ -4,7 +4,7 @@
     "id": "ranch_construction_2",
     "//": "Construction skill trainer",
     "name_suffix": "Carpenter",
-    "class": "NC_THUG",
+    "class": "NC_COWBOY",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_RANCH_CONSTRUCTION_2",

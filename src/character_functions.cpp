@@ -12,6 +12,7 @@
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "make_static.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -178,13 +179,16 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p )
           !who.has_trait( trait_PER_SLIME_OK ) ) ) {
         return 11.0;
     }
+    // Regular NV trait isn't enough to help at all, while Full Night Vision allows reading at a penalty
+    float nvbonus = who.mutation_value( "night_vision_range" ) >= 8 ? 4 : 0;
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
     float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
 
-    // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
+    // Same calculation as above, but with a result 3 lower, and night vision is allowed to affect it.
+    float ambient_light = std::max( 1.0f,
+                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) - nvbonus + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
@@ -434,8 +438,12 @@ std::string fmt_wielded_weapon( const Character &who )
     }
     const item &weapon = who.primary_weapon();
     if( weapon.is_gun() ) {
-        std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
-                                         weapon.gun_current_mode().tname(), weapon.type_name() );
+        std::string str = weapon.is_gunmod()
+                          ? string_format( "(%d) %s",
+                                           weapon.ammo_remaining(), weapon.type_name() )
+                          : string_format( "(%d) [%s] %s",
+                                           weapon.gun_current_mode()->ammo_remaining(),
+                                           weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
 
@@ -601,19 +609,29 @@ bool try_uncanny_dodge( Character &who )
     who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
-    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
-    if( adjacent ) {
+    // If successful, dodge for free. If we already burned bonus dodges this turn then get_dodge fails and we're overwhelmed.
+    if( x_in_y( who.get_dodge(), 10 ) ) {
         if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+            add_msg( m_good, _( "Time seems to slow down and you effortlessly dodge!" ) );
         } else if( seen ) {
-            add_msg( _( "%s dodges… so fast!" ), who.disp_name() );
+            add_msg( m_good, _( "%s effortlessly dodges… so fast!" ), who.disp_name() );
         }
         return true;
+        // Didn't get a free dodge, burn dodges_left instead. If this zeros them out and there's still more attacks coming this turn the next shot will hit.
+    } else if( who.dodges_left > 0 ) {
+        if( is_u ) {
+            add_msg( m_mixed, _( "Time seems to slow down and you instinctively dodge!" ) );
+        } else if( seen ) {
+            add_msg( m_mixed, _( "%s dodges… so fast!" ), who.disp_name() );
+        }
+        who.dodges_left--;
+        return true;
+        // No dodges left, catch those hands.
     } else {
         if( is_u ) {
-            add_msg( _( "You try to dodge but there's no room!" ) );
+            add_msg( m_bad, _( "You try to dodge but fail!" ) );
         } else if( seen ) {
-            add_msg( _( "%s tries to dodge but there's no room!" ), who.disp_name() );
+            add_msg( m_bad, _( "%s tries to dodge but fails!" ), who.disp_name() );
         }
         return false;
     }
@@ -648,7 +666,7 @@ std::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
         }
     }
 
-    return random_entry( ret );
+    return random_entry_opt( ret );
 }
 
 bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )
@@ -1014,7 +1032,7 @@ item_reload_option select_ammo( const Character &who, item &base, bool prompt,
     const bool ammo_match_found = list_ammo( who, base, ammo_list, include_empty_mags,
                                   include_potential );
 
-    if( ammo_list.empty() ) {
+    if( ammo_list.empty() && !base.is_holster() ) {
         if( !who.is_npc() ) {
             if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
                 who.add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
@@ -1139,12 +1157,22 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
+        const std::set<ammotype> &ammo = obj.ammo_types();
 
-        src.visit_items( [&nested, &out, mags, empty]( item * node ) {
+        src.visit_items( [&nested, &out, mags, empty, &ammo]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
             if( node->is_magazine() ) {
+
+                if( !node->contents.empty() ) {
+                    for( const ammotype &at : ammo ) {
+                        if( node->contents.front().ammo_type() != at ) {
+                            return VisitResponse::SKIP;
+                        }
+                    }
+                }
+
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
                     out = node;
                 }
@@ -1179,9 +1207,6 @@ std::vector<item *> find_reloadables( Character &who )
     std::vector<item *> reloadables;
 
     who.visit_items( [&]( item * node ) {
-        if( node->is_holster() ) {
-            return VisitResponse::NEXT;
-        }
         bool reloadable = false;
         if( node->is_gun() && !node->magazine_compatible().empty() ) {
             reloadable = node->magazine_current() == nullptr ||
@@ -1190,6 +1215,13 @@ std::vector<item *> find_reloadables( Character &who )
             reloadable = ( node->is_magazine() || node->is_bandolier() ||
                            ( node->is_gun() && node->magazine_integral() ) ) &&
                          node->ammo_remaining() < node->ammo_capacity();
+        }
+        if( node->is_holster() ) {
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( node->get_use( "holster" )->get_actor_ptr() );
+            if( static_cast<int>( node->contents.num_item_stacks() ) < ptr->multi ) {
+                reloadable = true;
+            }
         }
         if( reloadable ) {
             reloadables.push_back( node );

@@ -74,7 +74,7 @@
         "C": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
         "K": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
         "d": { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
-        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "U": { "item": "trash_dumpster", "chance": 80 }
       }
     }
   },

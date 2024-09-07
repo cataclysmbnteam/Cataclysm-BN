@@ -43,7 +43,8 @@
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
-      ]
+      ],
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -76,7 +77,7 @@
     },
     "bash": {
       "str_min": 8,
-      "str_max": 150,
+      "str_max": 75,
       "sound": "crunch!",
       "sound_fail": "whack!",
       "furn_set": "f_console_broken_table",
@@ -91,7 +92,9 @@
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
-      ]
+      ],
+      "//": "reduction equal to broken version, but destroy_threshold equal to str_min since fragile",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 8, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -113,7 +116,8 @@
       "str_max": 8,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "char_forge", "count": 1 } ]
+      "items": [ { "item": "char_forge", "count": 1 } ],
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 8, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -129,7 +133,15 @@
     "crafting_pseudo_item": "anvil",
     "deconstruct": { "items": [ { "item": "anvil", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil", "count": 1 } ] }
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil", "count": 1 } ],
+      "//": "reduction equal to str_max since solid steel object",
+      "ranged": { "reduction": [ 40, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+    }
   },
   {
     "type": "furniture",
@@ -145,7 +157,14 @@
     "crafting_pseudo_item": "still",
     "deconstruct": { "items": [ { "item": "still", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "still", "count": 1 } ] }
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "still", "count": 1 } ],
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 8, "block_unaimed_chance": "25%" }
+    }
   },
   {
     "type": "furniture",
@@ -155,10 +174,10 @@
     "symbol": "U",
     "color": "brown",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 90,
     "required_str": -1,
     "examine_action": "kiln_empty",
-    "max_volume": "125 L",
+    "max_volume": "150 L",
     "crafting_pseudo_item": "char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 }, { "item": "material_soil", "count": 2 } ] },
@@ -167,7 +186,9 @@
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] }, { "item": "material_soil", "count": [ 0, 1 ] } ]
+      "items": [ { "item": "rock", "count": [ 15, 30 ] }, { "item": "material_soil", "count": [ 0, 1 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -179,7 +200,7 @@
     "symbol": "U",
     "color": "brown_red",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 90,
     "required_str": -1,
     "examine_action": "kiln_full",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
@@ -189,7 +210,9 @@
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] }, { "item": "material_soil", "count": [ 0, 1 ] } ]
+      "items": [ { "item": "rock", "count": [ 15, 30 ] }, { "item": "material_soil", "count": [ 0, 1 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -200,10 +223,10 @@
     "symbol": "U",
     "color": "blue",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 90,
     "required_str": -1,
     "examine_action": "kiln_empty",
-    "max_volume": "125 L",
+    "max_volume": "200 L",
     "crafting_pseudo_item": "char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "pipe", "count": 4 } ] },
@@ -216,7 +239,8 @@
         { "item": "scrap", "count": [ 2, 4 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -228,7 +252,7 @@
     "symbol": "U",
     "color": "blue_red",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 90,
     "required_str": -1,
     "examine_action": "kiln_full",
     "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
@@ -242,7 +266,8 @@
         { "item": "scrap", "count": [ 2, 4 ] },
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -290,7 +315,8 @@
         { "item": "steel_lump", "count": [ 5, 10 ] },
         { "item": "steel_chunk", "count": [ 5, 20 ] },
         { "item": "scrap", "count": [ 10, 50 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -336,7 +362,8 @@
         { "item": "steel_lump", "count": [ 5, 10 ] },
         { "item": "steel_chunk", "count": [ 5, 20 ] },
         { "item": "scrap", "count": [ 10, 50 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -438,7 +465,7 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 }, { "item": "material_soil", "count": 3 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -446,7 +473,9 @@
       "str_max": 50,
       "sound": "crash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "rock", "count": [ 20, 30 ] }, { "item": "material_soil", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "rock", "count": [ 20, 30 ] }, { "item": "material_soil", "count": [ 0, 2 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 18, 36 ], "destroy_threshold": 36, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -460,7 +489,7 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "brick_kiln",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
     "examine_action": "reload_furniture",
     "bash": {
@@ -468,7 +497,9 @@
       "str_max": 50,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "rock", "count": [ 20, 30 ] } ]
+      "items": [ { "item": "rock", "count": [ 20, 30 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 18, 36 ], "destroy_threshold": 36, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -517,7 +548,8 @@
         { "item": "scrap", "count": [ 8, 12 ] },
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "steel_plate", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150 }
     },
     "deconstruct": {
       "items": [
@@ -539,9 +571,9 @@
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 75,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -552,7 +584,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "75%" }
     },
     "deconstruct": {
       "items": [
@@ -576,7 +609,7 @@
     "symbol": "7",
     "color": "yellow_red",
     "move_cost_mod": 8,
-    "coverage": 40,
+    "coverage": 50,
     "required_str": 10,
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
     "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
@@ -590,7 +623,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     },
     "deconstruct": {
       "items": [
@@ -628,7 +662,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     },
     "deconstruct": {
       "items": [
@@ -652,7 +687,7 @@
     "symbol": "7",
     "color": "yellow_cyan",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 50,
     "required_str": 10,
     "flags": [ "BLOCKSDOOR" ],
     "bash": {
@@ -665,7 +700,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     },
     "deconstruct": {
       "items": [
@@ -689,7 +725,7 @@
     "symbol": "7",
     "color": "yellow_green",
     "move_cost_mod": 8,
-    "coverage": 35,
+    "coverage": 50,
     "required_str": 14,
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
     "bash": {
@@ -702,7 +738,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     },
     "deconstruct": {
       "items": [
@@ -739,7 +776,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     },
     "deconstruct": {
       "items": [
@@ -763,7 +801,7 @@
     "symbol": "7",
     "color": "yellow_magenta",
     "move_cost_mod": 8,
-    "coverage": 40,
+    "coverage": 50,
     "required_str": 14,
     "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
     "bash": {
@@ -776,7 +814,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "plastic_chunk", "count": [ 4, 10 ] },
         { "item": "steel_plate", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     },
     "deconstruct": {
       "items": [
@@ -800,9 +839,9 @@
     "symbol": "9",
     "color": "black_red",
     "move_cost_mod": -1,
-    "coverage": 55,
+    "coverage": 75,
     "required_str": 16,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -813,7 +852,8 @@
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "steel_lump", "count": [ 1, 2 ] },
         { "item": "steel_plate", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "75%" }
     },
     "deconstruct": {
       "items": [
@@ -837,9 +877,9 @@
     "symbol": "4",
     "color": "cyan_red",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 75,
     "required_str": 16,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -849,7 +889,8 @@
         { "item": "scrap", "count": [ 12, 20 ] },
         { "item": "steel_chunk", "count": [ 2, 4 ] },
         { "item": "steel_lump", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "75%" }
     },
     "deconstruct": {
       "items": [
@@ -901,7 +942,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -1149,9 +1191,17 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 25,
-    "flags": [ "SEALED", "ALARMED", "BLOCKSDOOR" ],
+    "flags": [ "SEALED", "ALARMED", "BLOCKSDOOR", "TRANSPARENT" ],
     "examine_action": "pay_gas",
-    "bash": { "str_min": 7, "str_max": 30, "sound": "glass breaking!", "sound_fail": "whack!", "furn_set": "f_aut_gas_console_o" }
+    "bash": {
+      "str_min": 7,
+      "str_max": 30,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "furn_set": "f_aut_gas_console_o",
+      "//": "reduction equal to broken version, but destroy_threshold equal to str_min since fragile",
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 7, "block_unaimed_chance": "25%", "flammable": true }
+    }
   },
   {
     "type": "furniture",
@@ -1164,9 +1214,9 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 20,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "bash": {
-      "str_min": 5,
+      "str_min": 10,
       "str_max": 45,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -1176,7 +1226,8 @@
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 45, "block_unaimed_chance": "25%", "flammable": true }
     }
   },
   {
@@ -1202,7 +1253,8 @@
         { "item": "glass_shard", "count": [ 1, 3 ] },
         { "item": "sheet_metal", "count": [ 0, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 5 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 75, 150 ], "destroy_threshold": 520 }
     }
   },
   {
@@ -1226,7 +1278,9 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_vending_o",
-      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ],
+      "//": "reduction equal to broken version, but destroy_threshold equal to str_min since fragile",
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 20 }
     }
   },
   {
@@ -1252,7 +1306,8 @@
         { "item": "hose", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 50 }
     }
   },
   {

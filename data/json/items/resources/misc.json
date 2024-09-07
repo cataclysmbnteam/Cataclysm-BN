@@ -41,7 +41,7 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": "ceramic",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SHATTERS" ],
     "weight": "750 g",
     "volume": "250 ml",
     "bashing": 5,
@@ -98,7 +98,7 @@
     "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
   },
   {
@@ -114,6 +114,7 @@
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_down_mattress" }
   },
   {
@@ -196,11 +197,7 @@
     "to_hit": -6,
     "flags": [ "TRADER_AVOID" ],
     "bashing": 18,
-    "explosion": {
-      "damage": 50,
-      "radius": 3,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
-    },
+    "explosion": { "damage": 70, "radius": 5 },
     "explode_in_fire": true
   },
   {
@@ -217,5 +214,15 @@
     "to_hit": -5,
     "flags": [ "TRADER_AVOID" ],
     "bashing": 15
+  },
+  {
+    "type": "GENERIC",
+    "id": "wool_mattress",
+    "copy-from": "down_mattress",
+    "looks_like": "down_mattress",
+    "name": { "str": "wool mattress", "str_pl": "wool mattresses" },
+    "description": "A mattress made of wool.  It is quite soft and comfortable.",
+    "material": [ "wool" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_wool_mattress" }
   }
 ]

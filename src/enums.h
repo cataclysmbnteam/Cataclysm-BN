@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_ENUMS_H
 #define CATA_SRC_ENUMS_H
 
+#include "enum_traits.h"
+
 template<typename T> struct enum_traits;
 
 template<typename T>
@@ -9,6 +11,26 @@ constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
+
+/**
+ * Simplified attitude towards any creature:
+ * hostile - hate, want to kill, etc.
+ * neutral - anything between.
+ * friendly - avoid harming it, maybe even help.
+ * any - any of the above, used in safemode_ui
+ */
+enum Attitude : int {
+    A_HOSTILE,
+    A_NEUTRAL,
+    A_FRIENDLY,
+    A_ANY,
+    NUM_A
+};
+
+template<>
+struct enum_traits<Attitude> {
+    static constexpr Attitude last = Attitude::NUM_A;
+};
 
 enum class bionic_ui_sort_mode : int {
     NONE   = 0,
@@ -39,6 +61,20 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
+enum creature_size : int {
+    tiny = 0,    // Squirrel
+    small,      // Dog
+    medium,    // Human
+    large,    // Cow
+    huge,    // TAAAANK
+    num_creature_size // last
+};
+
+template<>
+struct enum_traits<creature_size> {
+    static constexpr creature_size last = creature_size::num_creature_size;
+};
+
 enum class temperature_flag : int {
     TEMP_NORMAL = 0,
     TEMP_HEATER,
@@ -64,7 +100,7 @@ enum visibility_type {
 };
 
 // Matching rules for comparing a string to an overmap terrain id.
-enum class ot_match_type {
+enum class ot_match_type : int {
     // The provided string must completely match the overmap terrain id, including
     // linear direction suffixes for linear terrain types or rotation suffixes
     // for rotated terrain types.

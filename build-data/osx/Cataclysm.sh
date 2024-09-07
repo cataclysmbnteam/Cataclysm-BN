@@ -18,5 +18,5 @@ if [[ -f cataclysm ]]; then
     osascript -e "tell application \"Terminal\" to activate do script \"${V_SHELL_SCRIPT}\""
 else
     export ${K_LIBRARY_PATH}=. ${K_FRAMEWORK_PATH}=.
-    ./cataclysm-tiles
+    ./cataclysm-bn-tiles
 fi

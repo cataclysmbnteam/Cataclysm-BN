@@ -620,11 +620,15 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "FRIDGE" ) ) {
-            vp.part().enabled = true;
+            if( one_in( 2 ) ) {
+                vp.part().enabled = true;
+            }
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "FREEZER" ) ) {
-            vp.part().enabled = true;
+            if( one_in( 2 ) ) {
+                vp.part().enabled = true;
+            }
         }
 
         for( const vpart_reference &vp : get_parts_including_carried( "WATER_PURIFIER" ) ) {
@@ -637,8 +641,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
 
-        if( vp.has_feature( VPFLAG_REACTOR ) ) {
-            // De-hardcoded reactors. Should always start active
+        if( vp.has_feature( VPFLAG_REACTOR ) && one_in( 4 ) ) {
+            // De-hardcoded reactors, may or may not start active
             pt.enabled = true;
         }
 
@@ -692,8 +696,9 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         } else {
             //a bit of initial damage :)
             //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
-            int broken = 8;
-            int unhurt = 20;
+            const float chance =  get_option<float>( "VEHICLE_DAMAGE" ) ;
+            int broken = 8 * chance;
+            int unhurt = 20 * chance;
             int roll = dice( 4, 8 );
             if( roll < unhurt ) {
                 if( roll <= broken ) {
@@ -733,6 +738,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                 set_hp( pt, 0 );
             }
 
+            // An added 5% chance to bust each windshield
+            if( vp.has_feature( "WINDSHIELD" ) && one_in( 20 ) ) {
+                set_hp( pt, 0 );
+            }
+
             /* Bloodsplatter the front-end parts. Assume anything with x > 0 is
             * the "front" of the vehicle (since the driver's seat is at (0, 0).
             * We'll be generous with the blood, since some may disappear before
@@ -761,6 +771,11 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                     blood_inside_pos.emplace( vp.mount() );
                 }
             }
+
+            // Potentially bust a single tire if not already wrecking them
+            if( !destroyTires && !wheelcache.empty() && one_in( 20 ) ) {
+                set_hp( parts[random_entry( wheelcache )], 0 );
+            }
         }
         //sets the vehicle to locked, if there is no key and an alarm part exists
         if( vp.has_feature( "SECURITY" ) && has_no_key && pt.is_available() ) {
@@ -772,11 +787,12 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
             }
         }
     }
-    // destroy tires until the vehicle is not drivable
+    // destroy a random number of tires, vehicles with more wheels are more likely to survive
     if( destroyTires && !wheelcache.empty() ) {
         int tries = 0;
-        while( valid_wheel_config() && tries < 100 ) {
-            // wheel config is still valid, destroy the tire.
+        int maxtries = wheelcache.size();
+        while( valid_wheel_config() && tries < maxtries ) {
+            // keep going until either we've ruined all wheels or made one attempt for every wheel
             set_hp( parts[random_entry( wheelcache )], 0 );
             tries++;
         }
@@ -5397,7 +5413,8 @@ void vehicle::idle( bool on_map )
         engine_on = false;
     }
 
-    if( !warm_enough_to_plant( g->u.pos() ) ) {
+    // Disallow running a planter underground for now
+    if( !warm_enough_to_plant( g->u.pos() ) || global_pos3().z < 0 ) {
         for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
             if( g->u.sees( global_pos3() ) ) {
                 add_msg( _( "The %s's planter turns off due to low temperature." ), name );
@@ -5499,6 +5516,15 @@ units::volume vehicle::max_volume( const int part ) const
 units::volume vehicle::free_volume( const int part ) const
 {
     return get_items( part ).free_volume();
+}
+
+void vehicle::make_inactive( item &target )
+{
+    auto cargo_parts = get_parts_at( target.position(), "CARGO", part_status_flag::any );
+    if( cargo_parts.empty() ) {
+        return;
+    }
+    active_items.remove( &target );
 }
 
 void vehicle::make_active( item &target )
@@ -6579,7 +6605,7 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         damage_dealt = damage_direct( target_part, dmg, type );
     } else {
         // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
-        int protection = part_info( armor_part ).damage_reduction[ type ];
+        int protection = part_info( armor_part ).damage_reduction.type_resist( type );
         // Parts on roof aren't protected
         bool overhead = part_flag( target_part, "ROOF" ) || part_info( target_part ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
@@ -6613,9 +6639,16 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, point impact )
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
         int distance = 1 + square_dist( vp.mount(), impact );
-        if( distance > 1 && part_info( p ).location == part_location_structure &&
-            !part_info( p ).has_flag( "PROTRUSION" ) ) {
-            damage_direct( p, rng( dmg1, dmg2 ) / ( distance * distance ), type );
+        if( distance > 1 ) {
+            int net_dmg = rng( dmg1, dmg2 ) / ( distance * distance );
+            if( part_info( p ).location != part_location_structure ||
+                !part_info( p ).has_flag( "PROTRUSION" ) ) {
+                int shock_absorber = part_with_feature( p, "SHOCK_ABSORBER", true );
+                if( shock_absorber >= 0 ) {
+                    net_dmg = std::max( 0, net_dmg - parts[ shock_absorber ].info().bonus );
+                }
+            }
+            damage_direct( p, net_dmg, type );
         }
     }
 }
@@ -6808,7 +6841,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         return 0;
     }
 
-    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ type ] );
+    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction.type_resist( type ) );
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
         insides_dirty = true;
@@ -6904,6 +6937,10 @@ bool vehicle::restore( const std::string &data )
         debugmsg( "Error restoring vehicle: %s", e.c_str() );
         return false;
     }
+    for( vehicle_part &part : parts ) {
+        part.hack_id = get_next_hack_id();
+    }
+    refresh_locations_hack();
     refresh();
     face.init( 0_degrees );
     turn_dir = 0_degrees;

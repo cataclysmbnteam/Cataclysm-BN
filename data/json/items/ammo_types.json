@@ -79,6 +79,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "shotcanister",
+    "name": "shotcanisters",
+    "default": "shotcanister_scrap"
+  },
+  {
+    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410 shot",
     "default": "410shot_000"
@@ -647,5 +653,11 @@
     "type": "ammunition_type",
     "name": "acid",
     "default": "acid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "mininuke_mod",
+    "name": "modified mininuke",
+    "default": "mininuke_mod"
   }
 ]

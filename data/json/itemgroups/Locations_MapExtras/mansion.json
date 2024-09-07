@@ -203,7 +203,7 @@
     "subtype": "collection",
     "items": [
       [ "money_bundle", 20 ],
-      { "group": "mansion_ammo", "prob": 60 },
+      { "group": "mansion_ammo", "prob": 100 },
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },
       { "group": "mansion_guns", "prob": 95 }
@@ -1112,7 +1112,7 @@
       { "group": "glass_of_wine", "prob": 75 },
       [ "bottle_glass", 50 ],
       [ "glass", 50 ],
-      [ "sandwich_cucumber", 40 ],
+      [ "sandwich_deluxe", 40 ],
       { "item": "coffee", "prob": 30, "container-item": "ceramic_cup" },
       { "group": "tinware", "prob": 20 },
       [ "cake2", 20 ],
@@ -1604,7 +1604,8 @@
       [ "hoe", 50 ],
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
-      [ "shovel", 40 ],
+      [ "shovel", 35 ],
+      [ "shovel_short", 5 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],
       [ "fertilizer_commercial", 30 ],

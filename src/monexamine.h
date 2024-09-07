@@ -28,6 +28,7 @@ void add_leash( monster &z );
 void remove_leash( monster &z );
 void start_leading( monster &z );
 void stop_leading( monster &z );
+void toggle_ignore_targets( monster &z );
 void tie_pet( monster &z );
 void untie_pet( monster &z );
 void shear_animal( monster &z );

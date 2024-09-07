@@ -18,7 +18,6 @@
       "ranch_camp_7",
       "ranch_camp_8",
       "ranch_camp_74",
-      "ranch_camp_74_roof",
       "ranch_camp_79",
       "ranch_camp_80"
     ],
@@ -49,7 +48,6 @@
       "ranch_camp_46",
       "ranch_camp_54",
       "ranch_camp_55",
-      "ranch_camp_57_roof",
       "ranch_camp_63",
       "ranch_camp_64",
       "ranch_camp_72"
@@ -121,17 +119,9 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ranch_camp_57",
+    "id": [ "ranch_camp_57", "ranch_camp_57_roof", "ranch_camp_57_silo" ],
     "name": "silo",
-    "sym": "#",
-    "color": "i_brown",
-    "see_cost": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ranch_camp_57_silo",
-    "name": "silo",
-    "sym": "│",
+    "sym": "O",
     "color": "brown",
     "see_cost": 2
   },
@@ -139,16 +129,16 @@
     "type": "overmap_terrain",
     "id": "ranch_camp_57_silocap",
     "name": "silo cap",
-    "sym": "│",
+    "sym": "O",
     "color": "brown",
     "see_cost": 2
   },
   {
     "type": "overmap_terrain",
-    "id": "ranch_camp_65_roof",
+    "id": [ "ranch_camp_65_roof", "ranch_camp_74_roof", "ranch_camp_75_roof" ],
     "name": "barn roof",
-    "sym": "#",
-    "color": "brown",
+    "sym": ".",
+    "color": "blue",
     "see_cost": 2
   },
   {
@@ -201,7 +191,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "ranch_camp_75", "ranch_camp_75_roof", "ranch_camp_81" ],
+    "id": [ "ranch_camp_75", "ranch_camp_81" ],
     "name": "field",
     "sym": "┘",
     "color": "brown",

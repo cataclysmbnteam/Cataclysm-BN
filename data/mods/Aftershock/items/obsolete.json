@@ -177,60 +177,10 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "id": "afs_quilt",
-    "type": "ARMOR",
-    "name": "quilt",
-    "description": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
-    "weight": "1814 g",
-    "volume": "5 L",
-    "price": "55 USD",
-    "to_hit": -1,
-    "material": [ "wool" ],
-    "symbol": "[",
-    "color": "white",
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
-    "coverage": 100,
-    "encumbrance": 40,
-    "warmth": 100,
-    "material_thickness": 3,
-    "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
-    "looks_like": "down_blanket"
-  },
-  {
-    "id": "afs_quilt_patchwork",
-    "type": "ARMOR",
-    "copy-from": "afs_quilt",
-    "name": "patchwork quilt",
-    "description": "A huge, patchwork wool quilt.  Very, very warm.",
-    "encumbrance": 50,
-    "warmth": 90
-  },
-  {
     "id": "afs_survivor_belt",
-    "copy-from": "survivor_belt",
-    "type": "ARMOR",
-    "name": { "str": "survivor utility belt (holster)", "str_pl": "survivor utility belts (holster)" },
-    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a clip for holding various equipment.  Durable and carefully crafted to be comfortable to wear.  Activate to clip something to it.",
-    "use_action": [
-      {
-        "type": "holster",
-        "holster_prompt": "Attach what to belt loop?",
-        "holster_msg": "You clip your %s to your %s",
-        "max_volume": "1500 ml",
-        "max_weight": 2000,
-        "draw_cost": 50,
-        "flags": [ "BELT_CLIP" ]
-      },
-      "CROWBAR",
-      "HAMMER"
-    ]
-  },
-  {
-    "id": "survivor_belt",
-    "copy-from": "survivor_belt",
-    "type": "ARMOR",
-    "name": { "str": "survivor utility belt (sheath)", "str_pl": "survivor utility belts (sheath)" }
+    "type": "MIGRATION",
+    "replace": "survivor_belt_notools",
+    "contents": [ "screwdriver_set", "wrench", "saw", "hacksaw", "hammer" ]
   },
   {
     "id": "afs_brigandine",
@@ -356,8 +306,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "sights", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "TRAIL" ]
   }

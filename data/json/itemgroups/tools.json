@@ -22,6 +22,26 @@
     ]
   },
   {
+    "id": "tools_cleaning_common",
+    "//": "Common tools for cleaning up around the house or in a business setting.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "broom", 25 ],
+      [ "mop", 25 ],
+      [ "bucket", 10 ],
+      { "item": "bag_plastic", "prob": 15, "count": [ 1, 5 ] },
+      { "group": "tools_cleaning_small", "prob": 25 }
+    ]
+  },
+  {
+    "id": "tools_cleaning_small",
+    "//": "Cleaning tools that specifically could fit under a kitchen sink or in a bathroom cabinet.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "towel", 25 ], [ "rag", 25 ], [ "brush", 25 ], [ "sponge", 25 ] ]
+  },
+  {
     "id": "tools_construction",
     "type": "item_group",
     "//": "Industrial machinery used for construction",
@@ -111,7 +131,8 @@
     "items": [
       [ "binoculars", 15 ],
       [ "canteen", 25 ],
-      [ "e_tool", 20 ],
+      [ "e_tool", 10 ],
+      [ "shovel_short", 10 ],
       [ "flashlight", 20 ],
       [ "goggles_nv", 5 ],
       [ "hand_crank_charger", 15 ],
@@ -121,6 +142,7 @@
       [ "heavy_flashlight", 15 ],
       [ "knife_folding", 25 ],
       [ "knife_hunting", 10 ],
+      [ "knife_heat", 10 ],
       [ "knife_rambo", 10 ],
       [ "knife_swissarmy", 10 ],
       [ "mess_kit", 20 ],
@@ -154,7 +176,8 @@
       [ "pitchfork", 60 ],
       [ "trimmer_off", 20 ],
       [ "scythe", 40 ],
-      [ "shovel", 120 ],
+      [ "shovel", 100 ],
+      [ "shovel_short", 20 ],
       [ "sickle", 40 ]
     ]
   },
@@ -239,24 +262,33 @@
     "items": [
       [ "hammer_bronze", 5 ],
       { "group": "charged_UPS", "prob": 5 },
-      [ "jack", 80 ],
-      [ "jack_small", 80 ],
+      [ "jack", 50 ],
+      [ "jack_small", 50 ],
       {
-        "collection": [
-          { "item": "oxy_torch", "prob": 100 },
+        "distribution": [
           {
-            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
-            "prob": 100
+            "collection": [
+              { "item": "oxy_torch" },
+              {
+                "distribution": [ { "item": "weldtank", "prob": 1 }, { "item": "tinyweldtank", "prob": 1, "count": [ 1, 2 ] } ],
+                "prob": 40
+              }
+            ],
+            "prob": 15
+          },
+          {
+            "collection": [ { "item": "welder", "charges-min": 0 }, { "item": "medium_plus_battery_cell", "count": [ 1, 2 ], "prob": 80 } ],
+            "prob": 10
           }
         ],
+        "prob": 60
+      },
+      [ "polisher", 30 ],
+      [ "angle_grinder", 5 ],
+      {
+        "distribution": [ { "item": "welding_mask", "prob": 1 }, { "item": "goggles_welding", "prob": 1 } ],
         "prob": 80
       },
-      [ "oxy_torch", 60 ],
-      { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
-      { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
-      [ "polisher", 70 ],
-      [ "angle_grinder", 5 ],
-      [ "welder", 10 ],
       [ "clamp", 10 ]
     ]
   },
@@ -283,7 +315,8 @@
       { "group": "tools_blacksmith", "prob": 50 },
       [ "large_repairkit", 50 ],
       [ "puller", 100 ],
-      [ "press", 100 ]
+      [ "press", 100 ],
+      [ "press_workbench_item", 25 ]
     ]
   },
   {
@@ -321,12 +354,14 @@
     "items": [
       [ "binoculars", 30 ],
       [ "canteen", 15 ],
-      [ "e_tool", 10 ],
+      [ "e_tool", 5 ],
+      [ "shovel_short", 5 ],
       [ "flaregun", 20 ],
       [ "handflare", 20 ],
       [ "hatchet", 10 ],
       [ "knife_hunting", 10 ],
       [ "knife_rambo", 10 ],
+      [ "knife_heat", 10 ],
       [ "knife_swissarmy", 5 ],
       [ "knife_trench", 10 ],
       [ "mess_kit", 20 ],
@@ -392,6 +427,7 @@
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
       [ "camera", 3 ],
+      [ "3d_printer_advanced", 3 ],
       [ "flask_glass", 10 ],
       [ "bottle_glass", 10 ],
       [ "thermos", 5 ],
@@ -419,7 +455,7 @@
       [ "test_tube_micro", 5 ],
       [ "syringe", 4 ],
       [ "xacto", 4 ],
-      [ "cotton_ball", 4 ],
+      { "item": "cotton_ball", "prob": 4, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "acetylene_machine", 1 ]
     ]
@@ -460,7 +496,7 @@
       [ "teleporter", 1 ],
       [ "laptop", 4 ],
       [ "plut_cell", 4 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "pliers", 10 ],
       [ "matches", 10 ],
       [ "glasses_safety", 20 ],

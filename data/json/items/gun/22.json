@@ -11,7 +11,7 @@
     "price_postapoc": "25 USD",
     "to_hit": -2,
     "bashing": 11,
-    "material": "steel",
+    "material": [ "steel", "wood" ],
     "ammo": "22",
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "dispersion": 280,
@@ -44,7 +44,7 @@
   },
   {
     "id": "moss_brownie",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_1shot",
     "type": "GUN",
     "name": { "str_sp": "Mossberg Brownie" },
     "description": "The first gun produced by O.F. Mossberg & Sons.  A small pocket pistol, marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
@@ -67,9 +67,9 @@
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
@@ -182,8 +182,8 @@
     "id": "j22",
     "copy-from": "pistol_backup",
     "type": "GUN",
-    "name": { "str": "Jennings J-22" },
-    "description": "One of the quintessential 'saturday night specials', the Jennings J-22 was very affordably priced with its injection molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
+    "name": { "str": "Jimenez JA-22" },
+    "description": "One of the quintessential 'saturday night specials', the Jimenez JA-22 was very affordably priced with its injection molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
     "weight": "370 g",
     "volume": "123 ml",
     "price": "70 USD",

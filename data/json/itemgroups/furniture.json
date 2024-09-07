@@ -31,9 +31,12 @@
     "subtype": "distribution",
     "entries": [
       { "item": "blanket", "prob": 25 },
+      { "item": "afs_quilt", "prob": 4 },
+      { "item": "afs_quilt_patchwork", "prob": 2 },
       { "item": "down_blanket", "prob": 13 },
       { "item": "pillow", "prob": 30 },
       { "item": "down_pillow", "prob": 15 },
+      { "item": "wool_pillow", "prob": 15 },
       { "item": "electric_blanket", "prob": 4 }
     ]
   },

@@ -16,7 +16,8 @@
     "volume": "500 ml",
     "bashing": 12,
     "price": "75 USD",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "stackable": true
   },
   {
     "id": "scrap",
@@ -28,13 +29,14 @@
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "10 cent",
-    "count": 2,
+    "count": 1,
     "stack_size": 10,
     "//": "Density 7.60g/cm³ ~ 1.9kg/250ml @ 50g/unit ~ stack 40 but fragments stacks poorly so only 25% of this",
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "spike",
@@ -104,7 +106,8 @@
     "material": [ "lead" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "gold_small",
@@ -122,7 +125,8 @@
     "material": [ "gold" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "platinum_small",
@@ -140,7 +144,8 @@
     "material": [ "platinum" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "zinc_metal",
@@ -157,7 +162,8 @@
     "material": [ "zinc" ],
     "symbol": "/",
     "color": "blue",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "lead",
@@ -175,7 +181,8 @@
     "material": [ "lead" ],
     "symbol": "=",
     "color": "dark_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "magnesium",
@@ -212,7 +219,8 @@
     "material": [ "silver" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "sheet_metal_small",
@@ -232,7 +240,8 @@
     "material": "steel",
     "symbol": "]",
     "color": "light_cyan",
-    "ammo_type": "components"
+    "ammo_type": "components",
+    "stackable": true
   },
   {
     "id": "steel_chunk",
@@ -252,6 +261,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -272,6 +282,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo_type": "components",
+    "flags": [ "NO_SALVAGE" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -308,7 +319,9 @@
     "weight": "50 g",
     "volume": "25 ml",
     "bashing": 1,
-    "to_hit": -2
+    "to_hit": -2,
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
   },
   {
     "id": "tin",
@@ -326,7 +339,8 @@
     "//": "Density 7.28g/cm³ ~ 1820kg/250ml @ stack 1000 = 2g/unit",
     "ammo_type": "components",
     "count": 100,
-    "stack_size": 200
+    "stack_size": 200,
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "solder_wire",

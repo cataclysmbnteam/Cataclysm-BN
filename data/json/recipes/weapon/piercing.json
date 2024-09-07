@@ -312,7 +312,6 @@
         [ "tanto", 1 ],
         [ "kirpan", 1 ]
       ],
-      [ [ "nail", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -328,7 +327,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "spear_knife", 1 ] ], [ [ "nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "spear_knife", 1 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -478,7 +477,7 @@
     "components": [
       [ [ "fencing_foil_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -499,7 +498,7 @@
     "components": [
       [ [ "fencing_epee_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -520,7 +519,28 @@
     "components": [
       [ [ "fencing_sabre_sharpened", 1 ] ],
       [ [ "fabric_hides_any", 1, "LIST" ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "tazer", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "shock_rapier_off",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "reversible": true,
+    "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "rapier", 1 ] ],
+      [ [ "fabric_hides_any", 1, "LIST" ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "tazer", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
@@ -812,5 +832,88 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 4 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "scrap_bronze", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "knife_heat",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": [ [ "electronics", 8 ] ],
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 6 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "element", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [
+        [ "dagger_medieval", 1 ],
+        [ "tanto", 1 ],
+        [ "kukri", 1 ],
+        [ "knife_trench", 1 ],
+        [ "knife_combat", 1 ],
+        [ "knife_combat_mod", 1 ],
+        [ "knife_hunting", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "jamadhar",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapeast", 3 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 4 ] ]
+  },
+  {
+    "result": "knife_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "computer",
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "//": "Increased time since some forging incorporated into material for the edge",
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 50 ] ] ]
+  },
+  {
+    "result": "spear_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "computer",
+    "difficulty": 2,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "//": "Increased time since some forging incorporated into material for the edge",
+    "time": "45 m",
+    "using": [ [ "3d_printing_standard", 10 ], [ "steel_tiny", 2 ], [ "blacksmithing_standard", 2 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 100 ] ] ]
+  },
+  {
+    "result": "jamadhar_carbon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "computer",
+    "difficulty": 1,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "autolearn": true,
+    "//": "Increased time since some forging for the spearhead",
+    "time": "15 m",
+    "using": [ [ "3d_printing_standard", 5 ], [ "steel_standard", 2 ], [ "blacksmithing_standard", 8 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 50 ] ] ]
   }
 ]

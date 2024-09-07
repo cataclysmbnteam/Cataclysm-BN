@@ -13,12 +13,13 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "creature.h"
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
-#include "point.h"
 #include "pldata.h"
+#include "point.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -226,12 +227,14 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // Body size from mutations, e.g. large, small, etc.
-        std::optional<m_size> body_size;
+        std::optional<creature_size> body_size;
 
         // amount of mana added or subtracted from max
         float mana_modifier = 0.0f;
         float mana_multiplier = 1.0f;
         float mana_regen_multiplier = 1.0f;
+        // Bonus or penalty when mutating from toxins, see Character::mutation_chances
+        float mutagen_target_modifier = 0;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         /** mutation enchantments */
@@ -399,6 +402,8 @@ struct mutation_branch {
          * Return the idents of all trait groups that are known.
          */
         static std::vector<trait_group::Trait_group_tag> get_all_group_names();
+
+        LUA_TYPE_OPS( mutation_branch, id );
 };
 
 struct mutation_category_trait {
@@ -465,6 +470,8 @@ struct mutation_category_trait {
         static void check_consistency();
 
         static void load( const JsonObject &jsobj );
+
+        LUA_TYPE_OPS( mutation_category_trait, id );
 };
 
 void load_mutation_type( const JsonObject &jsobj );

@@ -5,8 +5,10 @@
 #include <set>
 #include <string>
 
+#include "catalua_type_operators.h"
 #include "translations.h"
 #include "type_id.h"
+
 class JsonObject;
 
 extern const flag_id flag_NULL;
@@ -50,6 +52,7 @@ extern const flag_id flag_BUTCHER_RACK;
 extern const flag_id flag_BYPRODUCT;
 extern const flag_id flag_CABLE_SPOOL;
 extern const flag_id flag_CAMERA_PRO;
+extern const flag_id flag_CAN_PLANT_UNDERGROUND;
 extern const flag_id flag_CANNIBAL;
 extern const flag_id flag_CANNIBALISM;
 extern const flag_id flag_CANT_HEAL_EVERYONE;
@@ -161,6 +164,7 @@ extern const flag_id flag_IN_CBM;
 extern const flag_id flag_IRREMOVABLE;
 extern const flag_id flag_IR_EFFECT;
 extern const flag_id flag_IS_ARMOR;
+extern const flag_id flag_IS_BLOOD;
 extern const flag_id flag_IS_EXPLOSION_PROPELLED;
 extern const flag_id flag_IS_PET_ARMOR;
 extern const flag_id flag_IS_UPS;
@@ -199,6 +203,7 @@ extern const flag_id flag_NONCONDUCTIVE;
 extern const flag_id flag_NON_FOULING;
 extern const flag_id flag_NO_BLOAT;
 extern const flag_id flag_NO_CVD;
+extern const flag_id flag_NO_DAMAGE;
 extern const flag_id flag_NO_DISPLAY;
 extern const flag_id flag_NO_DROP;
 extern const flag_id flag_NO_INGEST;
@@ -244,6 +249,7 @@ extern const flag_id flag_PUMP_ACTION;
 extern const flag_id flag_PUMP_RAIL_COMPATIBLE;
 extern const flag_id flag_PYROMANIAC_WEAPON;
 extern const flag_id flag_QUARTERED;
+extern const flag_id flag_BLED;
 extern const flag_id flag_RADIOACTIVE;
 extern const flag_id flag_RADIOCAR;
 extern const flag_id flag_RADIOCARITEM;
@@ -280,6 +286,8 @@ extern const flag_id flag_ROLLER_ONE;
 extern const flag_id flag_ROLLER_QUAD;
 extern const flag_id flag_SAFECRACK;
 extern const flag_id flag_SEMITANGIBLE;
+extern const flag_id flag_SHATTERS;
+extern const flag_id flag_SHOCKING;
 extern const flag_id flag_SILENT;
 extern const flag_id flag_SKINNED;
 extern const flag_id flag_SKINTIGHT;
@@ -292,6 +300,7 @@ extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
 extern const flag_id flag_SOLARPACK;
 extern const flag_id flag_SOLARPACK_ON;
+extern const flag_id flag_SPAWN_FRIENDLY;
 extern const flag_id flag_SPEAR;
 extern const flag_id flag_SPEEDLOADER;
 extern const flag_id flag_SPLINT;
@@ -346,6 +355,8 @@ extern const flag_id flag_ZOOM;
 extern const flag_id flag_wooled;
 extern const flag_id flag_MUTE;
 extern const flag_id flag_NOT_FOOTWEAR;
+extern const flag_id flag_WEATHER_FORECAST;
+extern const flag_id flag_WINDMETER;
 
 /**
  * Flags: json entity with "type": "json_flag", defined in flags.json, vp_flags.json
@@ -412,6 +423,8 @@ class json_flag
         static bool is_ready();
 
         static const std::vector<json_flag> &get_all();
+
+        LUA_TYPE_OPS( json_flag, id );
 
     private:
         translation info_;

@@ -12,6 +12,7 @@
 #include "math_defines.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "cached_item_options.h"
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -66,10 +67,12 @@ TEST_CASE( "stacking_cash_cards", "[item]" )
 
 TEST_CASE( "stacking_over_time", "[item]" )
 {
-    item &A = *item::spawn_temporary( "neccowafers" );
-    item &B = *item::spawn_temporary( "neccowafers" );
+    item &A = *item::spawn_temporary( "bologna" );
+    item &B = *item::spawn_temporary( "bologna" );
 
-    GIVEN( "Two items with the same birthday" ) {
+    GIVEN( "Two items with the same birthday (stack mode: legacy)" ) {
+        merge_comestible_mode = merge_comestible_t::merge_legacy;
+
         REQUIRE( A.stacks_with( B ) );
         WHEN( "the items are aged different numbers of seconds" ) {
             A.mod_rot( A.type->comestible->spoils - 1_turns );
@@ -159,11 +162,138 @@ TEST_CASE( "stacking_over_time", "[item]" )
             }
         }
     }
+
+    GIVEN( "Two items with the same birthday (stack mode: all)" ) {
+        merge_comestible_mode = merge_comestible_t::merge_all;
+        similarity_threshold = 1.0f;
+
+        REQUIRE( A.stacks_with( B ) );
+        WHEN( "the items are aged different numbers of seconds" ) {
+            A.mod_rot( A.type->comestible->spoils - 1_turns );
+            B.mod_rot( B.type->comestible->spoils - 3_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged the same to the minute but different numbers of seconds" ) {
+            A.mod_rot( A.type->comestible->spoils - 5_minutes );
+            B.mod_rot( B.type->comestible->spoils - 5_minutes );
+            B.mod_rot( -5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged a few seconds different but different minutes" ) {
+            A.mod_rot( A.type->comestible->spoils - 5_minutes );
+            B.mod_rot( B.type->comestible->spoils - 5_minutes );
+            B.mod_rot( 5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged the same to the hour but different numbers of minutes" ) {
+            A.mod_rot( A.type->comestible->spoils - 5_hours );
+            B.mod_rot( B.type->comestible->spoils - 5_hours );
+            B.mod_rot( -5_minutes );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged a few seconds different but different hours" ) {
+            A.mod_rot( A.type->comestible->spoils - 5_hours );
+            B.mod_rot( B.type->comestible->spoils - 5_hours );
+            B.mod_rot( 5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged the same to the day but different numbers of seconds" ) {
+            A.mod_rot( A.type->comestible->spoils - 3_days );
+            B.mod_rot( B.type->comestible->spoils - 3_days );
+            B.mod_rot( -5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged a few seconds different but different days" ) {
+            A.mod_rot( A.type->comestible->spoils - 3_days );
+            B.mod_rot( B.type->comestible->spoils - 3_days );
+            B.mod_rot( 5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged the same to the week but different numbers of seconds" ) {
+            A.mod_rot( A.type->comestible->spoils - 7_days );
+            B.mod_rot( B.type->comestible->spoils - 7_days );
+            B.mod_rot( -5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged a few seconds different but different weeks" ) {
+            A.mod_rot( A.type->comestible->spoils - 7_days );
+            B.mod_rot( B.type->comestible->spoils - 7_days );
+            B.mod_rot( 5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged the same to the season but different numbers of seconds" ) {
+            A.mod_rot( A.type->comestible->spoils - calendar::season_length() );
+            B.mod_rot( B.type->comestible->spoils - calendar::season_length() );
+            B.mod_rot( -5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+        WHEN( "the items are aged a few seconds different but different seasons" ) {
+            A.mod_rot( A.type->comestible->spoils - calendar::season_length() );
+            B.mod_rot( B.type->comestible->spoils - calendar::season_length() );
+            B.mod_rot( 5_turns );
+            THEN( "they stack" ) {
+                CHECK( A.stacks_with( B ) );
+            }
+        }
+    }
 }
+
 
 TEST_CASE( "magazine_copyfrom_extends", "[item]" )
 {
     item gun( "glock_19" );
     CHECK( gun.magazine_compatible().count( itype_id( "glockmag_test" ) ) > 0 );
     CHECK( gun.magazine_compatible().count( itype_id( "glockmag" ) ) > 0 );
+}
+
+TEST_CASE( "armor_override", "[item]" )
+{
+    item armor( "test_override_armor" );
+    CHECK( armor.bullet_resist() > 100 );
+    CHECK( armor.cut_resist() == 0 );
+}
+
+TEST_CASE( "armor_override_damaged", "[item]" )
+{
+    item armor_undamaged( "test_override_armor_damageable" );
+    item armor( "test_override_armor_damageable" );
+    armor.inc_damage();
+    CHECK( armor_undamaged.bullet_resist() > armor.bullet_resist() );
+}
+
+TEST_CASE( "items_have_default_attack_statblocks", "[item]" )
+{
+    item sword( "test_balanced_sword" );
+    REQUIRE( sword.type != nullptr );
+    const itype &sword_type = *sword.type;
+
+    REQUIRE( sword_type.attacks.size() == 1 );
+    const attack_statblock &attack = sword_type.attacks.begin()->second;
+    CHECK( attack.to_hit == sword_type.m_to_hit );
+    for( const damage_unit &du : attack.damage.damage_units ) {
+        CHECK( du.amount == sword_type.melee[du.type] );
+        CHECK( du.damage_multiplier == 1.0f );
+        CHECK( du.res_mult == 1.0f );
+        CHECK( du.res_pen == 0.0f );
+    }
 }

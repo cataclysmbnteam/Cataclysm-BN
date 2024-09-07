@@ -26,6 +26,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "path_display.h"
 
 help &get_help()
 {
@@ -61,6 +62,8 @@ void help::deserialize( JsonIn &jsin )
             } else if( line == "<HELP_DRAW_DIRECTIONS>" ) {
                 line = replace_all( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
                 continue;
+            } else if( line == "<GAME_DIRECTORIES>" ) {
+                line = resolved_game_paths();
             }
         }
 

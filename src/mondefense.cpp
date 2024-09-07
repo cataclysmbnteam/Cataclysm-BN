@@ -15,6 +15,7 @@
 #include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
+#include "effect.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -40,6 +41,7 @@
 
 static const ammo_effect_str_id ammo_effect_DRAW_AS_LINE( "DRAW_AS_LINE" );
 static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
+static const efftype_id effect_command_buff( "command_buff" );
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
@@ -193,6 +195,42 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
 
             // We only return fire once with one gun.
             return;
+        }
+    }
+}
+
+void mdefense::revenge_aggro( monster &m, Creature *source, const dealt_projectile_attack * )
+{
+    // @todo Have it use monattack instead of re-implementing it
+    if( source == nullptr ) {
+        return;
+    }
+
+    size_t aggroed = 0;
+    for( monster &ally : g->all_monsters() ) {
+        if( rl_dist_fast( ally.pos(), m.pos() ) <= 20 &&
+            ally.attitude_to( m ) == Attitude::A_FRIENDLY ) {
+            ally.anger = std::max( ally.anger, 100 );
+            ally.morale = std::max( ally.morale, 100 );
+            if( ally.move_target() != source->pos() &&
+                ally.attitude_to( *source ) == Attitude::A_HOSTILE ) {
+                ally.set_dest( source->pos() );
+                aggroed++;
+            }
+
+            time_duration buff_dur = ally.get_effect_dur( effect_command_buff );
+            if( buff_dur < effect_command_buff->get_max_duration() ) {
+                ally.add_effect( effect_command_buff,
+                                 effect_command_buff->get_max_duration() - buff_dur );
+            }
+        }
+    }
+
+    if( source->is_avatar() ) {
+        if( aggroed > 25 ) {
+            add_msg( m_bad, _( "You feel intensely hated for a moment." ) );
+        } else if( aggroed > 5 ) {
+            add_msg( m_warning, _( "You feel an angry presence." ) );
         }
     }
 }

@@ -9,7 +9,7 @@
     "volume": "3 L",
     "price": "850 USD",
     "price_postapoc": "30 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "3006",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
@@ -79,10 +79,10 @@
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "3006", [ "3006_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ]

@@ -375,6 +375,11 @@ to find which flags work elsewhere.
 - `SURVIVORMAP` Learn of local points-of-interest that can help you survive, and show roads.
 - `TAZER` Shock someone or something.
 - `TELEPORT` Teleport.
+- `TOGGLE_HEATS_FOOD` Gives the item the HEATS_FOOD flag if it lacks it, or vice-versa. Used to
+  enable/disable automatically reheating food with that item when eating.
+- `TOGGLE_UPS_CHARGING` Gives the item the USE_UPS flag if it lacks it, or vice-versa. Used to
+  enable/disable recharging that item from a UPS, advanced UPS, Unified Power System CBM, etc.
+- `TELEPORT` Teleport.
 - `TORCH` Light a torch.
 - `TOURISTMAP` Learn of local points-of-interest that a tourist would like to visit, and show roads.
 - `TOWEL` Dry your character using the item as towel.
@@ -456,6 +461,8 @@ to find which flags work elsewhere.
 
 - `ACID` when consumed using the BLECH function, penalties are reduced if acidproof.
 - `CARNIVORE_OK` Can be eaten by characters with the Carnivore mutation.
+- `CAN_PLANT_UNDERGROUND` If this is a seed, it can be planted when below z-level zero, regardless
+  of the ambient temperature.
 - `CANT_HEAL_EVERYONE` This med can't be used by everyone, it require a special mutation. See
   `can_heal_with` in mutation.
 - `EATEN_COLD` Morale bonus for eating cold.
@@ -469,6 +476,7 @@ to find which flags work elsewhere.
 - `HIDDEN_POISON` ... Food displays as poisonous with a certain survival skill level. Note that this
   doesn't make items poisonous on its own, consider adding `"use_action": "POISON"` as well, or
   using `FORAGE_POISON` instead.
+- `IS_BLOOD` Will be scanned if placed in a centrifuge, in hospitals, labs, etc.
 - `MELTS` Provides half fun unless frozen. Edible when frozen.
 - `MILLABLE` Can be placed inside a mill, to turn into flour.
 - `MYCUS_OK` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by
@@ -597,10 +605,15 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `SEALED` Can't use <kbd>e</kbd> to retrieve items; must smash them open first.
 - `SEEN_FROM_ABOVE` Visible from a higher level (provided the tile above has no floor)
 - `SHARP` May do minor damage to players/monsters passing through it.
+- `SHOOT_ME` Players can aim at terrain or furniture with this flag like they can with
+  `tr_practice_target` to train marksmanship.
 - `SHORT` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - `SIGN` Show written message on examine.
 - `SMALL_PASSAGE` This terrain or furniture is too small for large or huge creatures to pass
   through.
+- `SOURCE_CLAY` Enables the `Extract Clay` Construction entry.
+- `SOURCE_IRON` Enables the `Extract Iron` Construction entry.
+- `SOURCE_SAND` Enables the `Extract Sand` Construction entry.
 - `SUN_ROOF_ABOVE` This furniture (terrain is not supported currently) has a "fake roof" above, that
   blocks sunlight. Special hack for #44421, to be removed later.
 - `SUPPORTS_ROOF` Used as a boundary for roof construction.
@@ -628,7 +641,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `autoclave_full` Check on the progress of the cycle, and collect sterile CBM once cycle is
   completed.
 - `bars` Take advantage of AMORPHOUS and slip through the bars.
-- `bulletin_board` Use this to arrange tasks for your faction camp.
 - `cardreader` Use the cardreader with a valid card, or attempt to hack.
 - `chainfence` Hop over the chain fence.
 - `controls_gate` Controls the attached gate.
@@ -733,6 +745,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `REDUCED_WEIGHT` ... Gunmod flag; reduces the item's base weight by 25%.
 - `REQUIRES_TINDER` ... Requires tinder to be present on the tile this item tries to start a fire
   on.
+- `SHATTERS` ... This item can potentially shatter as if it as made of glass when used as a weapon,
+  thrown, bashed, etc.
 - `SLEEP_AID` ... This item helps in sleeping.
 - `SLEEP_IGNORE` ... This item is not shown as before-sleep warning.
 - `SLOW_WIELD` ... Has an additional time penalty upon wielding. For melee weapons and guns this is
@@ -883,7 +897,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   volume not bigger than 2)
 - `SHEATH_SWORD` Item can be sheathed in a sword scabbard
 - `SPEAR` When making reach attacks intervening THIN_OBSTACLE terrain is not an obstacle. Should be
-  paired with REACH_ATTACK.
+  paired with `REACH_ATTACK`.
+- `STAB` A legacy flag that converts an weapon's damage type into pierce. This is a hack as we
+  cannot use the damage object used by ammo to specify the damage type of melee weapon.
 - `UNARMED_WEAPON` Wielding this item still counts as unarmed combat.
 - `WHIP` Has a chance of disarming the opponent.
 
@@ -979,10 +995,12 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BADVENOM` Attack may **severely** poison the player.
 - `BASHES` Bashes down doors.
 - `BILE_BLOOD` Makes monster bleed bile.
+- `BIOPROOF` Makes monster immune to Bio damage (A damage type mostly used by magic mods)
 - `BIRDFOOD` Becomes friendly / tamed with bird food.
 - `BLEED` Causes the player to bleed.
 - `BONES` May produce bones and sinews when butchered.
 - `BORES` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
+- `CAN_BE_ORDERED` This creature can be directed to not attack enemies, if friendly.
 - `CAN_DIG` Can dig _and_ walk.
 - `CAN_OPEN_DOORS` Can open doors on its path.
 - `CANPLAY` This creature can be played with if it's a pet.
@@ -1024,6 +1042,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `HEARS` It can hear you.
 - `HIT_AND_RUN` Flee for several turns after a melee attack.
 - `HUMAN` It's a live human, as long as it's alive.
+- `MF_CARD_OVERRIDE` Not a mech, but can be converted to friendly using an ID card in the same way
+  that mechs can.
 - `CONSOLE_DESPAWN` Despawns when a nearby console is properly hacked.
 - `IMMOBILE` Doesn't move (e.g. turrets)
 - `ID_CARD_DESPAWN` Despawns when a science ID card is used on a nearby console
@@ -1036,7 +1056,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - `MECH_RECON_VISION` This mech grants you night-vision and enhanced overmap sight radius when
   piloted.
 - `MECH_DEFENSIVE` This mech can protect you thoroughly when piloted.
-- `MILITARY_MECH` Is a military-grade mech.
+- `MILITARY_MECH` Will demand a military ID card instead of an industrial one. Doesn't actually have
+  to be a mech.
 - `MILKABLE` Produces milk when milked.
 - `NIGHT_INVISIBILITY` Monster becomes invisible if it's more than one tile away and the lighting on
   its tile is LL_LOW or less. Visibility is not affected by night vision.
@@ -1052,7 +1073,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `NULL` Source use only.
 - `PACIFIST` That monster will never do melee attacks.
 - `PARALYZE` Attack may paralyze the player with venom.
-- `PLASTIC` Absorbs physical damage to a great degree.
+- `PLASTIC` Reduces Bashing damage taken by 50%, 66% or 75%. Randomly selected with each hit.
 - `POISON` Poisonous to eat.
 - `PUSH_MON` Can push creatures out of its way.
 - `QUEEN` When it dies, local populations start to die off too.
@@ -1365,7 +1386,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - `LONE_START` If starting NPC spawn option is switched to "Scenario-based", this scenario won't
   spawn a fellow NPC on game start.
 - `SCEN_ONLY` Profession can be chosen only as part of the appropriate scenario.
-- `SUR_START` Surrounded start, zombies outside the starting location.
 
 #### Season Flags
 
@@ -1497,6 +1517,9 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `NO_PARASITES` Invalidates parasites count set in food->type->comestible->parasites
 - `QUARTERED` Corpse was quartered into parts. Affects butcher results, weight, volume.
 - `REVIVE_SPECIAL` ... Corpses revives when the player is nearby.
+- `SPAWN_FRIENDLY` Applied to eggs laid by pets and to pet bots reverted to items. Any monster that
+  hatches from said egg will also spawn friendly, and deployable bots flagged with this will skip
+  checking for player skills since it's already been configured correctly once already.
 - `USE_UPS` The tool has the UPS mod and is charged from an UPS.
 - `WARM` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - `WET` Item is wet and will slowly dry off (e.g. towel).

@@ -75,27 +75,6 @@ std::string enum_to_string<valid_target>( valid_target data )
     abort();
 }
 template<>
-std::string enum_to_string<body_part>( body_part data )
-{
-    switch( data ) {
-        case body_part::bp_torso: return "TORSO";
-        case body_part::bp_head: return "HEAD";
-        case body_part::bp_eyes: return "EYES";
-        case body_part::bp_mouth: return "MOUTH";
-        case body_part::bp_arm_l: return "ARM_L";
-        case body_part::bp_arm_r: return "ARM_R";
-        case body_part::bp_hand_l: return "HAND_L";
-        case body_part::bp_hand_r: return "HAND_R";
-        case body_part::bp_leg_l: return "LEG_L";
-        case body_part::bp_leg_r: return "LEG_R";
-        case body_part::bp_foot_l: return "FOOT_L";
-        case body_part::bp_foot_r: return "FOOT_R";
-        case body_part::num_bp: break;
-    }
-    debugmsg( "Invalid body_part" );
-    abort();
-}
-template<>
 std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
@@ -242,6 +221,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "charm_monster", spell_effect::charm_monster },
         { "mutate", spell_effect::mutate },
         { "bash", spell_effect::bash },
+        { "dash", spell_effect::dash },
         { "none", spell_effect::none }
     };
 
@@ -997,9 +977,9 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
 {
     bool valid = false;
     if( Creature *const cr = g->critter_at<Creature>( p ) ) {
-        Creature::Attitude cr_att = cr->attitude_to( caster );
-        valid = valid || ( cr_att != Creature::A_FRIENDLY && is_valid_target( target_hostile ) );
-        valid = valid || ( cr_att == Creature::A_FRIENDLY && is_valid_target( target_ally ) &&
+        Attitude cr_att = cr->attitude_to( caster );
+        valid = valid || ( cr_att != Attitude::A_FRIENDLY && is_valid_target( target_hostile ) );
+        valid = valid || ( cr_att == Attitude::A_FRIENDLY && is_valid_target( target_ally ) &&
                            p != caster.pos() );
         valid = valid || ( is_valid_target( target_self ) && p == caster.pos() );
         valid = valid && target_by_monster_id( p );
@@ -1393,14 +1373,20 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
                     trait_cancel += ".";
                 }
             }
-            if( query_yn(
-                    _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
-                    sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
+            if( !sp->spell_class->cancels.empty() ) {
+                if( query_yn(
+                        _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
+                        sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
+                    guy.set_mutation( sp->spell_class );
+                    guy.on_mutation_gain( sp->spell_class );
+                    guy.add_msg_if_player( sp->spell_class.obj().desc() );
+                } else {
+                    return;
+                }
+            } else {
                 guy.set_mutation( sp->spell_class );
                 guy.on_mutation_gain( sp->spell_class );
                 guy.add_msg_if_player( sp->spell_class.obj().desc() );
-            } else {
-                return;
             }
         }
     }

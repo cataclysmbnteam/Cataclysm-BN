@@ -12,6 +12,23 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "hitman_pistol",
+    "entries": [
+      { "item": "walther_ppq_45", "ammo-item": "45_super", "charges": 12, "contents-item": [ "suppressor", "pistol_grip" ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "hitman_mags_ppq",
+    "entries": [
+      { "item": "ppq45mag", "ammo-item": "45_super", "charges": 12 },
+      { "item": "ppq45mag", "ammo-item": "45_super", "charges": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_mags_m14",
     "entries": [
       { "item": "m14mag", "ammo-item": "762_51", "charges": 20 },
@@ -137,6 +154,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "mags_m9_security",
+    "entries": [ { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }, { "item": "m9mag", "ammo-item": "9mm", "charges": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "mags_waste_ranger",
     "entries": [ { "item": "blrmag", "ammo-item": "3006", "charges": 4 }, { "item": "blrmag", "ammo-item": "3006", "charges": 4 } ]
   },
@@ -147,6 +170,24 @@
     "entries": [
       { "item": "38_speedloader", "ammo-item": "357mag_jhp", "charges": 7 },
       { "item": "38_speedloader", "ammo-item": "357mag_jhp", "charges": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "speedloaders_44_detective",
+    "entries": [
+      { "item": "44_speedloader6", "ammo-item": "44fmj", "charges": 6 },
+      { "item": "44_speedloader6", "ammo-item": "44fmj", "charges": 6 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "speedloaders_38_archaeologist",
+    "entries": [
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 }
     ]
   },
   {
@@ -896,6 +937,7 @@
           "boots_combat",
           "wristwatch",
           "canteen",
+          "mag_satchel_leg",
           "molle_pack"
         ],
         "entries": [
@@ -1127,12 +1169,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "power_armor_light", "power_armor_helmet_light", "power_armor_frame" ],
+        "items": [
+          "power_armor_light",
+          "power_armor_helmet_light",
+          "power_armor_frame",
+          "power_armor_back_hardpoint",
+          "power_armor_canteen"
+        ],
         "entries": [
           { "item": "heavy_plus_battery_cell", "charges": 1500, "container-item": "UPS_off" },
           { "item": "two_way_radio", "contents-item": [ "battery_ups" ] },
           { "item": "power_armor_chest_rig", "contents-group": "army_mags_power_armor" },
-          { "item": "knife_combat", "container-item": "power_armor_sheath" },
+          { "item": "knife_combat", "container-item": "power_armor_leg_hardpoint" },
           {
             "item": "stanag100",
             "ammo-item": "556_incendiary",
@@ -1289,8 +1337,7 @@
         "entries": [
           { "group": "charged_flashlight" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
-          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }
+          { "item": "legpouch_large", "contents-group": "mags_m9_security" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -1456,6 +1503,32 @@
       "female": [ "panties", "bra" ]
     },
     "addictions": [ { "intensity": 20, "type": "opiate" } ]
+  },
+  {
+    "type": "profession",
+    "id": "el_eng",
+    "name": "Electrical Engineer",
+    "description": "Fresh out of college, you've got little in the way of practical engineering experience.  The Cataclysm might prove to be a rather complicated problem to solve even from an engineering perspective, and you're not sure if you can solder your way out of this one.",
+    "points": 2,
+    "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" }, { "level": 2, "name": "computer" } ],
+    "items": {
+      "both": { "items": [ "pants", "dress_shirt", "socks", "dress_shoes", "wristwatch", "water_clean", "smart_phone", "file" ] },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "mech_eng",
+    "name": "Mechanical Engineer",
+    "description": "Fresh out of college, you've got little in the way of practical engineering experience.  The Cataclysm might prove to be a rather complicated problem to solve even from an engineering perspective, and you're not sure if you will pass this stress test.",
+    "points": 2,
+    "skills": [ { "level": 4, "name": "mechanics" }, { "level": 2, "name": "fabrication" }, { "level": 2, "name": "computer" } ],
+    "items": {
+      "both": { "items": [ "pants", "dress_shirt", "socks", "dress_shoes", "wristwatch", "water_clean", "smart_phone", "file" ] },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
@@ -1633,8 +1706,9 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
-          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "holster" },
-          { "item": "357mag_fmj", "charges": 24 }
+          { "item": "sw629", "ammo-item": "44fmj", "charges": 6, "container-item": "shoulder_holster" },
+          { "item": "legpouch_large", "contents-group": "speedloaders_44_detective" },
+          { "item": "44fmj", "charges": 12 }
         ]
       },
       "male": [ "briefs" ],
@@ -2088,6 +2162,23 @@
     }
   },
   {
+    "//": "You got a random book box!",
+    "type": "profession",
+    "id": "student_with_books",
+    "name": "Library Nerd",
+    "description": "They say reading is food for the brain, but those corpses seem to see your brain as food.  In your haste to escape, you grabbed the library's return box, but is there anything in there that might help you?",
+    "points": 2,
+    "traits": [ "LOVES_BOOKS" ],
+    "items": {
+      "both": {
+        "items": [ "pants", "tshirt", "socks", "sneakers", "backpack", "wristwatch", "smart_phone" ],
+        "entries": [ { "contents-group": [ "manuals_school", "textbooks_school", "light_reading" ], "item": "box_small" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
     "type": "profession",
     "id": "svictim",
     "name": "Shower Victim",
@@ -2399,11 +2490,11 @@
     "name": "Bionic Boffin",
     "description": "Prior to the apocalypse you were employed by a major international corporation as a representative and technical advisor, utilizing the incredible power of your cybernetically augmented mind.",
     "points": 4,
-    "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_watch", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_int_enhancer", "bio_face_mask", "bio_infolink", "bio_memory", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 2, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "no_bonus": "teleumbrella",
     "items": {
-      "both": [ "socks", "suit", "dress_shoes", "gold_watch", "knit_scarf", "briefcase", "smart_phone", "file", "teleumbrella" ],
+      "both": [ "socks", "suit", "dress_shoes", "knit_scarf", "briefcase", "file", "teleumbrella" ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -2536,7 +2627,7 @@
     "type": "profession",
     "id": "bionic_spy",
     "name": "Bionic Agent",
-    "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, lock picking capabilities and a hacking module.",
+    "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, an infolink, lock picking capabilities and a hacking module.",
     "points": 4,
     "CBMs": [
       "bio_fingerhack",
@@ -2545,14 +2636,11 @@
       "bio_alarm",
       "bio_night_vision",
       "bio_batteries",
+      "bio_infolink",
       "bio_power_storage_mkII"
     ],
     "skills": [ { "level": 2, "name": "speech" } ],
-    "items": {
-      "both": [ "dress_shoes", "socks", "knit_scarf", "suit", "wristwatch", "smart_phone" ],
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    }
+    "items": { "both": [ "dress_shoes", "socks", "knit_scarf", "suit" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
   },
   {
     "type": "profession",
@@ -2646,10 +2734,10 @@
     "name": "Commercial Cyborg",
     "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your passion for electronics and your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
     "points": 6,
-    "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_infolink", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
-      "both": [ "tshirt", "sneakers", "jacket_light", "wristwatch", "smart_phone" ],
+      "both": [ "tshirt", "sneakers", "jacket_light" ],
       "male": [ "briefs", "socks", "pants" ],
       "female": [ "bra", "panties", "stockings", "skirt" ]
     }
@@ -2718,7 +2806,7 @@
     "description": "All you ever wanted was to make people laugh.  Dropping out of school and performing at kids' parties was a dream come true until the world ended.  There's precious few balloon animals in your future now.",
     "points": -1,
     "items": {
-      "both": { "items": [ "clown_wig", "clown_suit", "smart_phone", "clown_nose", "socks", "clownshoes", "airhorn" ] },
+      "both": { "items": [ "clown_wig", "clown_suit", "smart_phone", "clown_nose", "socks", "clownshoes", "airhorn", "balloon" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2773,6 +2861,20 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "prof_fursuiter",
+    "name": "Fursuiter",
+    "description": "You had plans to attend a local convention after your custom order finally arrived, only to find the world is ending.  You're starting to wish the company you bought this from made something armored and scaly instead.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 2, "name": "tailor" } ],
+    "items": {
+      "both": { "items": [ "socks", "tank_top", "wolfsuit", "mbag", "sewing_kit", "water_clean", "smart_phone" ] },
+      "//": "underarmor-style underwear is more common irl for comfort but warmth management would make that less ideal in-game",
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "boy_shorts" ]
     }
   },
   {
@@ -3391,7 +3493,8 @@
         ],
         "entries": [
           { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
-          { "item": "38_special", "charges": 33 }
+          { "item": "legpouch_large", "contents-group": "speedloaders_38_archaeologist" },
+          { "item": "38_special", "charges": 19 }
         ]
       },
       "male": [ "briefs" ],
@@ -4578,7 +4681,7 @@
   {
     "type": "profession",
     "id": "fencer",
-    "name": "Competetive Fencer",
+    "name": "Competitive Fencer",
     "description": "You were an avid sport fencer, always practicing at local clubs and competing in tournaments.  You were on your way to have a few bouts at the club when the world ended.  Now you're in your most important tournament, the refs are all dead, and none of your opponents follow the rules.",
     "points": 5,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "dodge" } ],
@@ -4832,11 +4935,10 @@
     ],
     "items": {
       "both": {
-        "items": [ "fancy_sunglasses", "platinum_watch", "suppressor", "tele_sight_pistol" ],
+        "items": [ "fancy_sunglasses", "platinum_watch" ],
         "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+          { "item": "shoulder_holster", "contents-group": "hitman_pistol" },
+          { "item": "legpouch_large", "contents-group": "hitman_mags_ppq" }
         ]
       },
       "male": [
@@ -4879,16 +4981,14 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "fancy_sunglasses",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife"
-        ],
-        "entries": [ { "item": "knife_combat", "container-item": "bootsheath" } ]
+        "items": [ "fancy_sunglasses" ],
+        "entries": [
+          {
+            "item": "bandolier_knife",
+            "contents-item": [ "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife" ]
+          },
+          { "item": "knife_combat", "container-item": "bootsheath" }
+        ]
       },
       "male": [
         "boxer_briefs",

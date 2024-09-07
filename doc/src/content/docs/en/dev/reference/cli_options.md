@@ -18,6 +18,16 @@ line options to help modders and developers.
 
 ---
 
+## Info
+
+### `--help`
+
+print this message and exit.
+
+### `--paths`
+
+print the paths used by the game and exit.
+
 ## Command line parameters
 
 ### `--seed <string of letters and or numbers>`

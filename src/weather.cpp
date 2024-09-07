@@ -37,6 +37,7 @@
 #include "units_temperature.h"
 #include "vpart_position.h"
 #include "weather_gen.h"
+#include "profile.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
@@ -121,6 +122,9 @@ inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
                 break;
             case precip_class::light:
                 amount = 4 * to_turns<int>( tick_size );
+                break;
+            case precip_class::medium:
+                amount = 6 * to_turns<int>( tick_size );
                 break;
             case precip_class::heavy:
                 amount = 8 * to_turns<int>( tick_size );
@@ -519,13 +523,15 @@ double precip_mm_per_hour( precip_class const p )
 {
     return
         p == precip_class::very_light ? 0.5 :
-        p == precip_class::light ? 1.5 :
-        p == precip_class::heavy ? 3   :
+        p == precip_class::light ? 1 :
+        p == precip_class::medium ? 2 :
+        p == precip_class::heavy ? 4 :
         0;
 }
 
 void handle_weather_effects( const weather_type_id &w )
 {
+    ZoneScoped;
     if( w->rains && w->precip != precip_class::none ) {
         fill_water_collectors( precip_mm_per_hour( w->precip ),
                                w->acidic );
@@ -537,6 +543,9 @@ void handle_weather_effects( const weather_type_id &w )
         } else if( w->precip == precip_class::light ) {
             wetness = 30;
             decay_time = 15_turns;
+        } else if( w->precip == precip_class::medium ) {
+            wetness = 45;
+            decay_time = 30_turns;
         } else if( w->precip == precip_class::heavy ) {
             decay_time = 45_turns;
             wetness = 60;
@@ -565,15 +574,6 @@ static std::string to_string( const weekdays &d )
     return _( weekday_names[ static_cast<int>( d ) ] );
 }
 
-static std::string print_time_just_hour( const time_point &p )
-{
-    const int hour = to_hours<int>( time_past_midnight( p ) );
-    int hour_param = hour % 12;
-    if( hour_param == 0 ) {
-        hour_param = 12;
-    }
-    return string_format( hour < 12 ? _( "%d AM" ) : _( "%d PM" ), hour_param );
-}
 
 constexpr int NUM_FORECAST_PERIODS = 6;
 
@@ -618,15 +618,14 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     std::string weather_report;
     // Local conditions
     const auto cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
-    const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
+    const std::string city_name = cref ? cref.city->name : std::string( _( "#####" ) );
     // Current time
     const weather_manager &weather = get_weather();
     weather_report += string_format(
                           //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
-                          _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
-                          to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
+                          _( "for %1$s:\nCurrently %2$s, %3$s.\nLater " ),
                           city_name,
-                          get_weather().weather_id->name, print_temperature( get_weather().temperature )
+                          print_temperature( get_weather().temperature ), get_weather().weather_id->name
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -691,9 +690,9 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         std::string day;
         if( i == 0 ) {
             if( period.is_day ) {
-                day = _( "Today" );
+                day = _( "today" );
             } else {
-                day = _( "Tonight" );
+                day = _( "tonight" );
             }
         } else {
             if( period.is_day ) {
@@ -706,7 +705,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         weather_report += string_format(
                               //~ %1 is day or night of week (e.g. "Monday", or "Friday Night"),
                               //~ %2 is weather type, %3 and %4 are temperatures.
-                              _( "%1$s… %2$s. Highs of %3$s. Lows of %4$s. " ),
+                              _( "%1$s, between %3$s and %4$s, %2$s.\n" ),
                               day, period.type->name,
                               print_temperature( period.temp_high ),
                               print_temperature( period.temp_low )
@@ -731,7 +730,7 @@ std::string print_temperature( units::temperature temperature, int decimals )
     };
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-        return string_format( pgettext( "temperature in Celsius", "%sC" ),
+        return string_format( pgettext( "temperature in Celsius", "%s°C" ),
                               text( units::to_celsius<double>( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
@@ -977,7 +976,7 @@ std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
     if( windpower < 1 ) {
-        winddesc = _( "Calm" );
+        winddesc = _( "Calm Air" );
     } else if( windpower <= 3 ) {
         winddesc = _( "Light Air" );
     } else if( windpower <= 7 ) {
@@ -1032,12 +1031,13 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint &pos )
 {
     // semi-appropriate temperature for most plants
-    return get_weather().get_temperature( pos ) >= 10_c;
+    // exclude underground areas as we check that later
+    return ( get_weather().get_temperature( pos ) >= 10_c || pos.z < 0 );
 }
 
 bool warm_enough_to_plant( const tripoint_abs_omt &pos )
 {
-    return get_weather().get_temperature( pos ) >= 10_c;
+    return ( get_weather().get_temperature( pos ) >= 10_c || pos.z() < 0 );
 }
 
 weather_manager::weather_manager()
@@ -1060,6 +1060,8 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
+    ZoneScoped;
+
     w_point &w = weather_precise;
     winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
     windspeed = windspeed_override ? *windspeed_override : w.windpower;
@@ -1172,7 +1174,7 @@ bool is_in_sunlight( const map &m, const tripoint &p, const weather_type_id &wea
 {
     // TODO: Remove that game reference and include light in weather data
     return m.is_outside( p ) && g->light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-           weather->sun_intensity >= sun_intensity_type::normal;
+           weather->sun_intensity >= sun_intensity_type::light;
 }
 
 } // namespace weather

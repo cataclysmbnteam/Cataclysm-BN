@@ -157,6 +157,7 @@
     "color": "light_cyan",
     "name": { "str": "superalloy medium quadruped armor" },
     "description": "A thin mesh interwoven with superalloy plates and pouches for military working medium quadrupeds that covers from the dewlap to the croup, down to the elbows.  You could put this on a friendly medium quadruped.",
+    "looks_like": "chitin_armor_medium_quadruped",
     "price": "2500 USD",
     "price_postapoc": "100 USD",
     "material": [ "superalloy" ],

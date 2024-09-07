@@ -12,7 +12,6 @@
 
 #include "achievement.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "cata_io.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
@@ -313,7 +312,7 @@ void game::load_shortcuts( std::istream &fin )
             for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
                 for( const int i : member.get_array() ) {
-                    qslist.push_back( input_event( i, CATA_INPUT_KEYBOARD ) );
+                    qslist.push_back( input_event( i, input_event_t::keyboard ) );
                 }
             }
         }
@@ -561,13 +560,6 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 }
                 npcs.push_back( new_npc );
             }
-        } else if( name == "camps" ) {
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                basecamp new_camp;
-                new_camp.deserialize( jsin );
-                camps.push_back( new_camp );
-            }
         } else if( name == "overmap_special_placements" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
@@ -664,6 +656,14 @@ void overmap::unserialize_view( std::istream &fin, const std::string &file_path 
                 jsin.end_array();
             }
             jsin.end_array();
+        } else if( name == "path" ) {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                unserialize_array_from_compacted_sequence( jsin, layer[z].path );
+                jsin.end_array();
+            }
+            jsin.end_array();
         } else if( name == "notes" ) {
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
@@ -750,6 +750,16 @@ void overmap::serialize_view( std::ostream &fout ) const
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
         serialize_array_to_compacted_sequence( json, layer[z].explored );
+        json.end_array();
+        fout << '\n';
+    }
+    json.end_array();
+
+    json.member( "path" );
+    json.start_array();
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        json.start_array();
+        serialize_array_to_compacted_sequence( json, layer[z].path );
         json.end_array();
         fout << '\n';
     }
@@ -973,14 +983,6 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
-    }
-    json.end_array();
-    fout << '\n';
-
-    json.member( "camps" );
-    json.start_array();
-    for( auto &i : camps ) {
-        json.write( i );
     }
     json.end_array();
     fout << '\n';

@@ -20,7 +20,6 @@
 #include "activity_actor_definitions.h"
 #include "all_enum_values.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "cached_options.h"
 #include "calendar.h"
 #ifdef TILES
@@ -400,45 +399,6 @@ static void draw_city_labels( const catacurses::window &w, const tripoint_abs_om
     }
 }
 
-static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_omt &center )
-{
-    const int win_x_max = getmaxx( w );
-    const int win_y_max = getmaxy( w );
-    const int sm_radius = std::max( win_x_max, win_y_max );
-
-    const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
-
-    for( const auto &element : overmap_buffer.get_camps_near(
-             project_to<coords::sm>( center ), sm_radius ) ) {
-        const point_abs_omt camp_pos( element.camp->camp_omt_pos().xy() );
-        const point screen_pos( ( camp_pos - center.xy() ).raw() + screen_center_pos );
-        const int text_width = utf8_width( element.camp->name, true );
-        const int text_x_min = screen_pos.x - text_width / 2;
-        const int text_x_max = text_x_min + text_width;
-        const int text_y = screen_pos.y;
-        const std::string camp_name = element.camp->name;
-        if( text_x_min < 0 ||
-            text_x_max > win_x_max ||
-            text_y < 0 ||
-            text_y > win_y_max ) {
-            continue;   // outside of the window bounds.
-        }
-
-        if( screen_center_pos.x >= ( text_x_min - 1 ) &&
-            screen_center_pos.x <= ( text_x_max ) &&
-            screen_center_pos.y >= ( text_y - 1 ) &&
-            screen_center_pos.y <= ( text_y + 1 ) ) {
-            continue;   // right under the cursor.
-        }
-
-        if( !overmap_buffer.seen( tripoint_abs_omt( camp_pos, center.z() ) ) ) {
-            continue;   // haven't seen it.
-        }
-
-        mvwprintz( w, point( text_x_min, text_y ), i_white, camp_name );
-    }
-}
-
 static bool query_confirm_delete( bool &ask_when_deleting )
 {
     if( !ask_when_deleting ) {
@@ -778,7 +738,8 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
     return result;
 }
 
-static void draw_ascii( const catacurses::window &w,
+static void draw_ascii( ui_adaptor &ui,
+                        const catacurses::window &w,
                         const tripoint_abs_omt &center,
                         const tripoint_abs_omt &/*orig*/,
                         bool blink,
@@ -1039,6 +1000,9 @@ static void draw_ascii( const catacurses::window &w,
             } else if( blink && is_npc_path ) {
                 ter_color = c_red;
                 ter_sym = "!";
+            } else if( blink && overmap_buffer.is_path( omp ) ) {
+                ter_color = c_light_blue;
+                ter_sym = "!";
             } else if( blink && showhordes && los &&
                        overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
                 // Display Hordes only when within player line-of-sight
@@ -1150,7 +1114,6 @@ static void draw_ascii( const catacurses::window &w,
 
     if( center.z() == 0 && uistate.overmap_show_city_labels ) {
         draw_city_labels( w, center );
-        draw_camp_labels( w, center );
     }
 
     half_open_rectangle<point_abs_omt> screen_bounds(
@@ -1271,8 +1234,9 @@ static void draw_ascii( const catacurses::window &w,
         mvwputch( w, point( om_half_width + 1, om_half_height + 1 ), c_light_gray, LINE_XOOX );
     }
     // Done with all drawing!
-    wmove( w, point( om_half_width, om_half_height ) );
     wnoutrefresh( w );
+    // Set cursor for screen readers
+    ui.set_cursor( w, point( om_half_width, om_half_height ) );
 }
 
 static void draw_om_sidebar(
@@ -1435,6 +1399,7 @@ static void draw_om_sidebar(
 
         const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
         const bool is_explored = overmap_buffer.is_explored( center );
+        const bool is_path = overmap_buffer.is_path( center );
 
         print_hint( "LEVEL_UP" );
         print_hint( "LEVEL_DOWN" );
@@ -1451,6 +1416,7 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
+        print_hint( "TOGGLE_MARK_PATH", is_path ? c_pink : c_magenta );
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERMAP_WEATHER", uistate.overmap_visible_weather ? c_pink : c_magenta );
@@ -1469,6 +1435,7 @@ tiles_redraw_info redraw_info;
 #endif
 
 static void draw(
+    ui_adaptor &ui,
     const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig,
     bool blink,
@@ -1480,7 +1447,7 @@ static void draw(
 {
     draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
     if( !use_tiles || !use_tiles_overmap ) {
-        draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data,
+        draw_ascii( ui, g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data,
                     grids_data );
     } else {
 #ifdef TILES
@@ -1561,6 +1528,7 @@ static void create_note( const tripoint_abs_omt &curs )
         } else if( input_popup.confirmed() ) {
             break;
         }
+        ui.invalidate_ui();
     } while( true );
 
     disable_ime();
@@ -2016,6 +1984,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "TOGGLE_LAND_USE_CODES" );
     ictxt.register_action( "TOGGLE_CITY_LABELS" );
     ictxt.register_action( "TOGGLE_EXPLORED" );
+    ictxt.register_action( "TOGGLE_MARK_PATH" );
     ictxt.register_action( "TOGGLE_FAST_SCROLL" );
     ictxt.register_action( "TOGGLE_OVERMAP_WEATHER" );
     ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
@@ -2035,8 +2004,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     grids_draw_data grids_data;
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw( curs, orig, uistate.overmap_show_overlays,
+
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
+        draw( ui, curs, orig, uistate.overmap_show_overlays,
               show_explored, fast_scroll, &ictxt, data, grids_data );
     } );
 
@@ -2153,6 +2123,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
+        } else if( action == "TOGGLE_MARK_PATH" ) {
+            overmap_buffer.toggle_path( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {
             uistate.overmap_visible_weather = !uistate.overmap_visible_weather;
         } else if( action == "TOGGLE_FAST_SCROLL" ) {

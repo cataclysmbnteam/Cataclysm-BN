@@ -780,7 +780,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of geta", "str_pl": "pairs of geta" },
     "description": "Simple wooden geta.",
-    "weight": "460 g",
+    "weight": "500 g",
     "volume": "1 L",
     "price": "65 USD",
     "price_postapoc": "50 cent",
@@ -1439,7 +1439,7 @@
   {
     "id": "sandal_armor",
     "type": "ARMOR",
-    "name": { "str_sp": "armored sandals" },
+    "name": { "str_sp": "pair of armored sandals" },
     "description": "A pair of strapped sandals with a leather plate in the front to serve as greaves, similar to those used by ancient Roman and Greek soldiers.",
     "weight": "100 g",
     "volume": "1 L",
@@ -1455,5 +1455,25 @@
     "warmth": 2,
     "material_thickness": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "socks_thick",
+    "type": "ARMOR",
+    "name": { "str": "pair of thick socks", "str_pl": "pairs of thick socks" },
+    "copy-from": "socks",
+    "looks_like": "socks",
+    "warmth": 15,
+    "material_thickness": 2,
+    "encumbrance": 3
+  },
+  {
+    "id": "carbon_boots",
+    "type": "ARMOR",
+    "name": { "str": "carbon fiber boots" },
+    "description": "A custom pair of boots made out of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
+    "copy-from": "boots_plarmor",
+    "encumbrance": 22,
+    "material": [ "carbon_fiber" ],
+    "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   }
 ]

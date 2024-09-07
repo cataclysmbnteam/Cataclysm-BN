@@ -130,7 +130,7 @@
         "H": { "item": "magazines", "chance": 30 },
         "L": { "item": "home_hw", "chance": 60 },
         "O": { "item": "alcohol", "chance": 60 },
-        "Q": { "item": "trash", "chance": 50 },
+        "Q": { "item": "trash_dumpster", "chance": 80 },
         "b": { "item": "bed", "chance": 60 },
         "d": { "item": "office", "chance": 40 },
         "e": { "item": "dresser", "chance": 60 },

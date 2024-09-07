@@ -4,6 +4,7 @@
  * 1. collects list of all mod IDs
  * 2. generate list of allowed scopes using mod IDs
  * 3. write to `.github/semantic.yaml` file
+ * 4. write to `doc/src/assets/semantic.json` file
  */
 import type { Config } from "https://raw.githubusercontent.com/Ezard/semantic-prs/d6970fded0b5bcb1a2d55778e5be94a83453a897/functions/src/config.ts"
 import mod from "https://raw.githubusercontent.com/commitizen/conventional-commit-types/c3a9be4c73e47f2e8197de775f41d981701407fb/index.json" with {
@@ -15,6 +16,7 @@ import { SafeParseSuccess, z } from "$zod/mod.ts"
 import * as YAML from "$std/yaml/stringify.ts"
 import type {} from "$ts-reset/entrypoints/filter-boolean.d.ts"
 import { outdent } from "$outdent/mod.ts"
+import { resolve } from "$std/path/resolve.ts"
 
 type Modinfo = z.infer<typeof modinfoSchema>
 
@@ -80,5 +82,14 @@ if (import.meta.main) {
       # Validate the PR title, and ignore all commit messages
       ${setting}
     `
-  await Deno.writeTextFile(".github/semantic.yml", content)
+
+  const rootPath = resolve(import.meta.dirname!, "..")
+
+  await Promise.all([
+    Deno.writeTextFile(resolve(rootPath, ".github/semantic.yml"), content),
+    Deno.writeTextFile(
+      resolve(rootPath, "doc/src/assets/semantic.json"),
+      JSON.stringify({ types: config.types, scopes: config.scopes }, null, 2) + "\n",
+    ),
+  ])
 }

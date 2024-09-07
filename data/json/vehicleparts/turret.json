@@ -461,5 +461,47 @@
     "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 20 }, { "item": "steel_lump", "count": 12 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "description": "A rotary firearm from the 19th Century driving multiple barrels with a hand crank for sustained fire."
+  },
+  {
+    "id": "mounted_slingshot_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted slingshot cannon" },
+    "item": "slingshot_cannon",
+    "looks_like": "tow_launcher",
+    "color": "brown",
+    "broken_color": "light_gray",
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 8, 16 ] },
+      { "item": "hose", "count": [ 0, 2 ] }
+    ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
+  },
+  {
+    "id": "mounted_coilgun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted coilgun" },
+    "item": "coilgun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "mounted_mininuke_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted mininuke launcher" },
+    "item": "mininuke_launcher",
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   }
 ]

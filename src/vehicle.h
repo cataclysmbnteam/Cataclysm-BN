@@ -78,6 +78,12 @@ constexpr int SCATTER_DISTANCE = 3;
 //adjust this to balance collision damage
 constexpr int k_mvel = 200;
 
+enum class turret_filter_types : int {
+    MANUAL = 0,
+    AUTOMATIC,
+    BOTH
+};
+
 enum class part_status_flag : int {
     any = 0,
     working = 1 << 0,
@@ -1244,6 +1250,11 @@ class vehicle
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
         units::volume stored_volume( int part ) const;
+
+        /**
+         * Remove an item from active item processing queue as necessary
+         */
+        void make_inactive( item &target );
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
@@ -1327,17 +1338,17 @@ class vehicle
         void turrets_set_mode();
 
         /** Select a single ready turret, aim it using the aiming UI and fire. */
-        void turrets_aim_and_fire_single();
+        void turrets_aim_and_fire_single( avatar &you );
 
         /*
-         * Find all ready turrets that are set to manual mode, aim them using the aiming UI and fire.
+         * Find all ready turrets, aim them using aiming UI and fire.
+         * @param turret_filter Decide which filter to use (manual, automatic, both)
          * @param show_msg Show 'no such turrets found' message. Does not affect returned value.
          * @return False if there are no such turrets
          */
-        bool turrets_aim_and_fire_all_manual( bool show_msg = false );
 
-        /** Set target for automatic turrets using the aiming UI */
-        void turrets_override_automatic_aim();
+        bool turrets_aim_and_fire_mult( avatar &you, const turret_filter_types turret_filter,
+                                        const bool show_msg = false );
 
         /*
          * Fire turret at automatically acquired target
@@ -1351,7 +1362,7 @@ class vehicle
          * @param manual Include turrets set to 'manual' targeting mode
          * @param automatic Include turrets set to 'automatic' targeting mode
          */
-        std::vector<vehicle_part *> find_all_ready_turrets( bool manual, bool automatic );
+        std::vector<vehicle_part *> find_all_ready_turrets( turret_filter_types filter );
 
         /*
          * Select target using the aiming UI and set turrets to aim at it.

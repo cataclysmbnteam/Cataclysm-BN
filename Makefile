@@ -105,7 +105,7 @@
 # RELEASE_FLAGS is flags for release builds.
 RELEASE_FLAGS =
 WARNINGS = \
-  -Werror -Wall -Wextra \
+  -Wall -Wextra \
   -Wformat-signedness \
   -Wlogical-op \
   -Wmissing-declarations \
@@ -151,7 +151,7 @@ ifndef VERBOSE
   VERBOSE = 0
 endif
 
-TARGET_NAME = cataclysm
+TARGET_NAME = cataclysm-bn
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
 
 TARGET = $(BUILD_PREFIX)$(TARGET_NAME)
@@ -582,6 +582,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
   ODIRLUA = $(W32ODIRLUA)
+  OTHERS += -Wa,-mbig-obj
   ifeq ($(DYNAMIC_LINKING), 1)
     # Windows isn't sold with programming support, these are static to remove MinGW dependency.
     LDFLAGS += -static-libgcc -static-libstdc++
@@ -611,11 +612,7 @@ ifeq ($(SOUND), 1)
     $(error "SOUND=1 only works with TILES=1")
   endif
   ifeq ($(NATIVE),osx)
-    ifdef FRAMEWORK
-      CXXFLAGS += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
-      LDFLAGS += -F$(FRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks \
-		 -framework SDL2_mixer -framework Vorbis -framework Ogg
-    else # libsdl build
+    ifndef FRAMEWORK # libsdl build
       ifeq ($(MACPORTS), 1)
         LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
       else # homebrew
@@ -650,7 +647,7 @@ ifeq ($(TILES), 1)
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
-			ifdef SOUND
+			ifeq ($(SOUND), 1)
 				OSX_INC += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
 			endif
       LDFLAGS += -F$(FRAMEWORKSDIR) \
@@ -666,7 +663,7 @@ ifeq ($(TILES), 1)
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
-      ifdef SOUND
+      ifeq ($(SOUND), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
@@ -1095,7 +1092,7 @@ endif
 ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
-endif  # ifdef SOUND
+endif  # ifeq ($(SOUND), 1)
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
@@ -1103,10 +1100,7 @@ ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
 ifeq ($(SOUND), 1)
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
-	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -maxdepth 1 -type d -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
-endif  # ifdef SOUND
+endif  # ifeq ($(SOUND), 1)
 endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
 
@@ -1197,10 +1191,10 @@ $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
-tests: version $(BUILD_PREFIX)cataclysm.a
+tests: version $(BUILD_PREFIX)$(TARGET_NAME).a
 	$(MAKE) -C tests
 
-check: version $(BUILD_PREFIX)cataclysm.a
+check: version $(BUILD_PREFIX)$(TARGET_NAME).a
 	$(MAKE) -C tests check
 
 clean-tests:

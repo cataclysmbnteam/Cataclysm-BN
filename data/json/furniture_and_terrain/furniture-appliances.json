@@ -4,7 +4,7 @@
     "id": "f_air_conditioner",
     "name": "cooling unit",
     "looks_like": "t_machinery_light",
-    "description": "A big, blocky metal device for refrigerating large areas.",
+    "description": "A big, blocky metal device for refrigerating large areas, now just a source of parts to salvage and repurpose.",
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
@@ -12,16 +12,10 @@
     "required_str": -1,
     "deconstruct": {
       "items": [
-        { "item": "pipe", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "thermostat", "count": 1 },
-        { "item": "refrigerant_tank", "count": 1 },
-        { "item": "motor_small", "count": 1 }
+        { "item": "ac_unit_item", "count": 1 },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 10 ] }
       ]
     },
     "bash": {
@@ -34,10 +28,11 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -77,7 +72,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -92,7 +88,7 @@
     "coverage": 60,
     "required_str": 13,
     "max_volume": "200 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -121,7 +117,8 @@
         { "item": "hose", "count": [ 0, 1 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -135,7 +132,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "37500 ml",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -161,7 +158,8 @@
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -170,6 +168,7 @@
     "symbol": "T",
     "color": "light_gray",
     "name": "abstract floor lamp",
+    "looks_like": "f_rack_coat",
     "description": "Abstract furniture.  If you see this, something went wrong.",
     "move_cost_mod": 2,
     "required_str": 1,
@@ -250,6 +249,89 @@
   },
   {
     "type": "furniture",
+    "id": "f_grid_floodlight_off",
+    "symbol": ".",
+    "color": "white",
+    "copy-from": "f_floor_lamp_base",
+    "looks_like": "t_utility_light_off",
+    "name": "grid floodlight (off)",
+    "description": "An industrial flood light, hooked up to draw from a local grid.  Flicking it on will output a nice, bright source of light.",
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": 4 },
+        { "item": "power_supply", "count": 1 },
+        { "item": "amplifier", "count": 2 },
+        { "item": "floodlight", "count": 1 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 2 }
+      ]
+    },
+    "bash": {
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "str_min": 20,
+      "str_max": 70,
+      "//": "Some extra wire and scrap metal from smash results matching vehicle floodlights",
+      "items": [
+        { "item": "cable", "charges": [ 2, 7 ] },
+        { "item": "e_scrap", "count": [ 0, 2 ] },
+        { "item": "amplifier", "count": [ 1, 5 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 10, 20 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ],
+      "//2": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
+    },
+    "examine_action": "transform",
+    "transforms_into": "f_grid_floodlight",
+    "prompt": "Switch on the floodlight.",
+    "message": "You switch on the floodlight."
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_floodlight",
+    "symbol": ".",
+    "color": "white",
+    "copy-from": "f_grid_floodlight_off",
+    "name": "grid floodlight (no power)",
+    "description": "An industrial flood light, hooked up to draw from a local grid.  It's currently out of power.",
+    "transforms_into": "f_grid_floodlight_off",
+    "prompt": "Switch off the floodlight",
+    "message": "You switch off the floodlight.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 20, "transform": { "id": "f_grid_floodlight_on", "msg": "The utility light shines brightly." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_floodlight_on",
+    "symbol": ".",
+    "color": "white",
+    "copy-from": "f_grid_floodlight_off",
+    "looks_like": "t_utility_light",
+    "name": "grid floodlight (on)",
+    "description": "An industrial flood light, hooked up to draw from a local grid.  It's currently providing plenty of light.",
+    "transforms_into": "f_grid_floodlight_off",
+    "prompt": "Switch off the floodlight",
+    "message": "You switch off the floodlight.",
+    "//": "Increased brightness and power draw over utility lights which don't draw grid power, but far less than vehicle ones",
+    "light_emitted": 400,
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "40 s",
+        "transform": { "id": "f_grid_floodlight", "msg": "The utility light flickers and dies." }
+      }
+    ]
+  },
+  {
+    "type": "furniture",
     "id": "f_street_light_rewired_off",
     "copy-from": "f_floor_lamp_base",
     "name": "rewired street light (off)",
@@ -287,7 +369,8 @@
         { "item": "light_bulb", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -361,7 +444,8 @@
         { "item": "scrap_copper", "count": [ 0, 2 ] },
         { "item": "glass_shard", "count": [ 2, 4 ] },
         { "item": "motor_tiny", "prob": 25 }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -505,7 +589,8 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -519,7 +604,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "30 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -547,7 +632,8 @@
         { "item": "hose", "count": [ 0, 2 ] },
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -578,7 +664,8 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -612,7 +699,8 @@
         { "item": "pilot_light", "count": 1 },
         { "item": "water_faucet", "count": 1 },
         { "item": "pot", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -646,7 +734,8 @@
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "wire", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -683,7 +772,8 @@
         { "item": "chain", "count": [ 1, 3 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "pipe", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -761,7 +851,8 @@
         { "item": "pipe", "count": 1 },
         { "item": "e_scrap", "count": [ 20, 50 ] },
         { "item": "cable", "charges": [ 2, 8 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -803,7 +894,158 @@
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_turbine_unit",
+    "looks_like": "f_wind_mill_active",
+    "name": "mounted wind turbine",
+    "description": "A mounted wind turbine connected to building's electric grid.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "//": "10 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
+    "active": [ "steady_consumer", { "power": -3, "consume_every": "300 s" } ],
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 5 },
+        { "item": "wind_turbine", "count": 1 }
       ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xl_turbine_unit",
+    "looks_like": "f_turbine_unit",
+    "name": "mounted wind turbine",
+    "description": "A large mounted wind turbine connected to building's electric grid.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": -1,
+    "//": "30 watts",
+    "active": [ "steady_consumer", { "power": -9, "consume_every": "300 s" } ],
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 5 },
+        { "item": "xl_wind_turbine", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "2x4", "count": [ 1, 30 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_wheel_unit",
+    "looks_like": "f_water_mill_active",
+    "name": "mounted water wheel",
+    "description": "A mounted water wheel connected to building's electric grid.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": -1,
+    "//": "80 watts",
+    "active": [ "steady_consumer", { "power": -24, "consume_every": "300 s" } ],
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 5 },
+        { "item": "water_wheel", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 10, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_xl_water_wheel_unit",
+    "copy-from": "f_water_wheel_unit",
+    "name": "mounted large water wheel",
+    "description": "A large mounted water wheel connected to building's electric grid.",
+    "symbol": "#",
+    "color": "yellow",
+    "coverage": 60,
+    "//": "30 watts",
+    "active": [ "steady_consumer", { "power": -54, "consume_every": "300 s" } ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "plastic_chunk", "count": 2 },
+        { "item": "steel_chunk", "count": 5 },
+        { "item": "xl_water_wheel", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "2x4", "count": [ 1, 30 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 0, 3 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -815,7 +1057,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "active": [ "solar", { "power": 50 } ],
+    "active": [ "solar", { "power": 80 } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -854,7 +1096,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "active": [ "solar", { "power": 100 } ],
+    "active": [ "solar", { "power": 160 } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -892,10 +1134,11 @@
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
-    "coverage": 90,
+    "coverage": 60,
     "required_str": -1,
     "active": [ "battery", { "max_stored": 10000 } ],
     "examine_action": "check_power",
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -919,7 +1162,9 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "small_storage_battery", "count": [ 4, 16 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -935,6 +1180,7 @@
     "required_str": -1,
     "active": [ "battery", { "max_stored": 50000 } ],
     "examine_action": "check_power",
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -958,7 +1204,9 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "small_storage_battery", "count": [ 20, 80 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -997,7 +1245,9 @@
         { "item": "pipe", "count": 1 },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "small_storage_battery", "count": [ 40, 160 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16 }
     }
   },
   {
@@ -1012,6 +1262,7 @@
     "move_cost_mod": 2,
     "coverage": 10,
     "active": [ "battery", { "max_stored": 500 } ],
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
@@ -1041,7 +1292,7 @@
     "description": "A lead-acid battery salvaged from a vehicle and connected to building's electric grid.",
     "symbol": ":",
     "color": "blue_white",
-    "active": [ "battery", { "max_stored": 2500 } ],
+    "active": [ "battery", { "max_stored": 3000 } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
@@ -1059,7 +1310,7 @@
     "description": "A small lead-acid battery salvaged from a vehicle and connected to building's electric grid.",
     "symbol": ":",
     "color": "blue_white",
-    "active": [ "battery", { "max_stored": 500 } ],
+    "active": [ "battery", { "max_stored": 600 } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
@@ -1077,7 +1328,7 @@
     "description": "A tiny lead-acid battery salvaged from a vehicle and connected to building's electric grid.  Better than nothing if you're desperate to turn the lights back on.",
     "symbol": ":",
     "color": "blue_white",
-    "active": [ "battery", { "max_stored": 150 } ],
+    "active": [ "battery", { "max_stored": 300 } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 10 },
@@ -1096,9 +1347,10 @@
     "symbol": ":",
     "color": "blue_white",
     "move_cost_mod": -1,
-    "coverage": 90,
+    "coverage": 10,
     "required_str": -1,
     "active": [ "charger", { "power": 15 } ],
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -1114,10 +1366,8 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "solder_wire", "charges": [ 10, 20 ] },
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
-        { "item": "pipe", "count": 1 },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 0, 1 ] },
         { "item": "cable", "charges": [ 2, 8 ] }
       ]
     }
@@ -1131,6 +1381,7 @@
     "description": "A vehicle recharging station connected to building's electric grid, providing higher output than consumer battery chargers.",
     "symbol": ":",
     "color": "blue_white",
+    "coverage": 30,
     "active": [ "charger", { "power": 600 } ],
     "deconstruct": {
       "items": [
@@ -1139,6 +1390,19 @@
         { "item": "recharge_station", "count": 1 },
         { "item": "power_supply", "count": 1 }
       ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "e_scrap", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 2, 8 ] }
+      ],
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1210,6 +1474,7 @@
     "color": "red",
     "description": "A vehicle welding rig connected to a electrical grid.  Has a soldering iron attached.",
     "extend": { "crafting_pseudo_item": [ "fake_gridsolderingiron" ] },
+    "coverage": 60,
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -1230,7 +1495,8 @@
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "frame", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1278,6 +1544,7 @@
     "symbol": "U",
     "description": "A vehicle forge rig connected to a electrical grid.",
     "color": "red",
+    "coverage": 60,
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -1297,7 +1564,8 @@
         { "item": "scrap", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "element", "count": [ 2, 6 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1452,10 +1720,10 @@
     "description": "A multi-function crafting station, with a water purifier, food processor, food dehydrator, vacuum sealer, and hand press for making ammo.  Draws power from the electrical grid.  If you attempt to craft an item that needs one of the kitchen buddy's functions, it will automatically be selected as a tool.",
     "color": "blue",
     "move_cost_mod": -1,
-    "coverage": 80,
+    "coverage": 60,
     "required_str": -1,
     "crafting_pseudo_item": [ "fake_gridfood_processor", "fake_griddehydrator", "fake_gridvac_sealer", "fake_gridwater_purifier", "press" ],
-    "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT", "TRANSPARENT" ],
     "deconstruct": {
       "items": [ { "item": "solder_wire", "charges": 20 }, { "item": "craftrig", "count": 1 }, { "item": "cable", "charges": 5 } ]
     },
@@ -1474,7 +1742,8 @@
         { "charges": 0, "item": "dehydrator", "prob": 50 },
         { "charges": 0, "item": "food_processor", "prob": 50 },
         { "charges": 0, "item": "press", "prob": 50 }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1554,6 +1823,7 @@
     "description": "A vehicle chemistry lab connected to a electrical grid, combining the functions of a hotplate, electrolysis kit, and chemistry tools.",
     "color": "blue",
     "crafting_pseudo_item": [ "fake_oven", "fake_chemistry_set", "fake_gridelectrolysis_kit" ],
+    "coverage": 60,
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -1573,7 +1843,8 @@
         { "item": "glass_shard", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 2, 8 ] },
         { "item": "frame", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1639,7 +1910,8 @@
         { "item": "cu_pipe", "count": [ 2, 4 ] },
         { "item": "scrap_copper", "count": [ 1, 2 ] },
         { "item": "motor_tiny", "prob": 25 }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50 }
     }
   },
   {
@@ -1744,7 +2016,7 @@
     "description": "Abstract furniture.  If you see this, something went wrong.",
     "color": "blue",
     "move_cost_mod": -1,
-    "coverage": 50,
+    "coverage": 30,
     "required_str": -1,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "minifreezer", "count": 1 } ] },
@@ -1760,7 +2032,8 @@
         { "item": "scrap", "count": [ 8, 13 ] },
         { "item": "hose", "prob": 50 },
         { "item": "motor_tiny", "prob": 25 }
-      ]
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -1849,8 +2122,101 @@
         { "item": "sheet_metal_small", "count": [ 8, 12 ] },
         { "item": "sheet_metal", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
+  },
+  {
+    "type": "furniture",
+    "abstract": "f_grid_air_conditioner_base",
+    "looks_like": "f_air_conditioner",
+    "symbol": "{",
+    "bgcolor": "white",
+    "name": "abstract air conditioner",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "ac_unit_item", "count": 1 },
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
+        { "item": "cable", "charges": [ 1, 8 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 18 }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_air_conditioner",
+    "copy-from": "f_grid_air_conditioner_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "air conditioner (no power)",
+    "description": "A window-mounted air conditioner, plugged into the wall.  This one has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_grid_air_conditioner_off",
+    "prompt": "Switch off AC unit",
+    "message": "You turn the AC off.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 25, "transform": { "id": "f_grid_air_conditioner_on", "msg": "The air conditioner starts up." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_air_conditioner_off",
+    "copy-from": "f_grid_air_conditioner_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "air conditioner (off)",
+    "description": "A window-mounted air conditioner, plugged into the wall.  This one is currently turned off.",
+    "examine_action": "transform",
+    "transforms_into": "f_grid_air_conditioner",
+    "prompt": "Switch on AC unit",
+    "message": "You turn the AC on."
+  },
+  {
+    "type": "furniture",
+    "id": "f_grid_air_conditioner_on",
+    "copy-from": "f_grid_air_conditioner_base",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "air conditioner (on)",
+    "description": "A window-mounted air conditioner, plugged into the wall.  This one is running and providing cool air.",
+    "examine_action": "transform",
+    "transforms_into": "f_grid_air_conditioner_off",
+    "prompt": "Switch off AC unit",
+    "message": "You turn the AC off.",
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "2 s",
+        "transform": { "id": "f_grid_air_conditioner", "msg": "The AC runs out of power and cools off." }
+      }
+    ],
+    "extend": { "flags": [ "EMITTER" ] },
+    "emissions": [ "emit_cold_air2_ac" ]
   },
   {
     "type": "furniture",
@@ -1998,7 +2364,7 @@
       "steady_consumer",
       {
         "power": 1,
-        "consume_every": "2 s",
+        "consume_every": "1 s",
         "transform": { "id": "f_space_heater_large", "msg": "The heater runs out of power and cools off." }
       }
     ],
@@ -2017,14 +2383,14 @@
     "type": "furniture",
     "id": "f_grid_plut_generator",
     "name": "grid plutonium generator",
-    "description": "This imposing apparatus harnesses the power of the atom.  Refined nuclear fuel is 'burned' to provide nearly limitless electrical power.  Now installed and connected, it will generate little but steady amount of electricy, forever!",
+    "description": "This imposing apparatus harnesses the power of the atom.  A compact nuclear reactor, sealed and configured to provide nearly limitless electrical power from refined nuclear fuel.  Now installed and connected, it will generate a small but constant source of electricity.",
     "symbol": "0",
     "color": "light_green",
     "looks_like": "t_plut_generator",
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 50,
       "str_max": 400,
@@ -2036,7 +2402,9 @@
         { "item": "steel_chunk", "count": [ 1, 6 ] },
         { "item": "plut_cell", "charges": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
-      ]
+      ],
+      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     },
     "deconstruct": {
       "items": [
@@ -2046,5 +2414,110 @@
       ]
     },
     "active": [ "steady_consumer", { "power": -1, "consume_every": "3 s" } ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_3d_printer",
+    "looks_like": "f_heavy_lathe",
+    "name": "grid 3D printer",
+    "symbol": "=",
+    "description": "A 3D printer connected to a electrical grid.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": [ "fake_3d_printer" ],
+    "examine_action": "use_furn_fake_item",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "3d_printer_basic", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_3d_printer_advanced",
+    "looks_like": "f_heavy_lathe",
+    "name": "grid 3D printer (advanced)",
+    "symbol": "=",
+    "description": "An advanced 3D printer connected to a electrical grid.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "crafting_pseudo_item": [ "fake_3d_printer_advanced" ],
+    "examine_action": "use_furn_fake_item",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "3d_printer_advanced", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_reloading_station",
+    "looks_like": "f_hydraulic_press",
+    "name": "grid reloading press",
+    "symbol": "&",
+    "description": "An all-in-one handloading tool that can both assemble ammunition and break it back down for materials, includes a hotplate for bullet molding connected to an electrical grid.",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": -1,
+    "crafting_pseudo_item": [ "press_workbench", "fake_oven" ],
+    "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "solder_wire", "charges": 20 },
+        { "item": "press_workbench_item", "count": 1 },
+        { "item": "cable", "charges": 5 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solder_wire", "charges": [ 10, 20 ] },
+        { "item": "solder_wire", "charges": [ 2, 4 ] },
+        { "count": [ 1, 3 ], "item": "steel_lump" },
+        { "count": [ 1, 3 ], "item": "steel_chunk" },
+        { "count": [ 1, 3 ], "item": "scrap" },
+        { "charges": 0, "item": "hotplate", "prob": 50 },
+        { "charges": 0, "item": "press", "prob": 50 }
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+    }
   }
 ]

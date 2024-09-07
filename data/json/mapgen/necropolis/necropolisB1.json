@@ -55,7 +55,7 @@
     "magazine": 100,
     "ammo": 90,
     "items": [
-      { "group": "guns_rare_readied", "prob": 35 },
+      { "group": "guns_rare", "prob": 35 },
       { "group": "hazmat_mask", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 15 },
       { "item": "radio", "prob": 10 },

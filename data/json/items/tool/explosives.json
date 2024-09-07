@@ -48,7 +48,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
     "use_action": {
       "target": "can_bomb_act",
       "msg": "You light the fuse on the can bomb.  Throw it before it blows in your face!",
@@ -71,13 +71,13 @@
     "max_charges": 5,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
+    "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } },
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss...",
-      "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
+      "explosion": { "fragment": { "impact": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -96,7 +96,7 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": "C4",
-    "flags": [ "GRENADE" ]
+    "flags": [ "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "c4armed",
@@ -121,7 +121,7 @@
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
       "explosion": { "damage": 200, "radius": 6 }
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "dynamite",
@@ -198,7 +198,7 @@
     "explosion": {
       "damage": 70,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 10 }
     },
     "use_action": {
       "target": "dynamite_bomb_act",
@@ -209,7 +209,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "dynamite_bomb_act",
@@ -232,7 +232,7 @@
     "explosion": {
       "damage": 70,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 10 }
     },
     "use_action": {
       "type": "explosion",
@@ -242,10 +242,10 @@
       "explosion": {
         "damage": 70,
         "radius": 6,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 10 }
       }
     },
-    "flags": [ "TRADER_AVOID", "BOMB" ]
+    "flags": [ "TRADER_AVOID", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "EMPbomb",
@@ -272,7 +272,7 @@
       "menu_text": "Activate bomb",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "EMPbomb_act",
@@ -304,7 +304,7 @@
       "explosion": { "damage": 50, "radius": 7 },
       "no_deactivate_msg": "You've already activated the %s, try throwing it instead."
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "improvised_demolition_charge",
@@ -332,7 +332,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "GRENADE" ]
+    "flags": [ "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "improvised_demolition_charge_act",
@@ -362,7 +362,7 @@
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "damage": 150, "radius": 6 }
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "firecracker",
@@ -602,7 +602,7 @@
     "price_postapoc": "10 USD",
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel" ],
     "symbol": "*",
     "color": "green",
     "use_action": {
@@ -627,7 +627,7 @@
     "price_postapoc": "0 cent",
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [ "steel" ],
     "symbol": "*",
     "color": "green",
     "initial_charges": 5,
@@ -641,7 +641,7 @@
       "explosion": {
         "damage": 40,
         "radius": 3,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 6 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2 }, "range": 6 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -839,7 +839,8 @@
     "category": "guns",
     "name": { "str": "packed M72 LAW" },
     "description": "This is a M72 LAW, packed in its storage form.  Use it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
-    "weight": "2500 g",
+    "//": "Combined weight of the launcher plus one round of ammo",
+    "weight": "2800 g",
     "volume": "1500 ml",
     "price": "2 kUSD",
     "price_postapoc": "40 USD",
@@ -854,7 +855,8 @@
       "target_ammo": "66mm_HEAT",
       "menu_text": "Activate",
       "type": "transform"
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "improvised_grenade",
@@ -872,7 +874,7 @@
     "explosion": {
       "damage": 40,
       "radius": 3,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
     },
     "use_action": {
       "target": "improvised_grenade_act",
@@ -903,7 +905,7 @@
       "explosion": {
         "damage": 40,
         "radius": 3,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3 }, "range": 6 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -925,14 +927,22 @@
     "symbol": "*",
     "color": "light_green",
     "use_action": "MININUKE",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "CLOSES_PORTAL" ]
+    "flags": [
+      "LEAK_DAM",
+      "RADIOACTIVE",
+      "RADIO_MODABLE",
+      "RADIO_INVOKE_PROC",
+      "BOMB",
+      "GRENADE",
+      "CLOSES_PORTAL",
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "mininuke_act",
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "mininuke" },
-    "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
     "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode.  You should probably get far, far away from it.",
     "weight": "23000 g",
     "volume": "16 L",
@@ -960,7 +970,8 @@
         "fragment": { "impact": { "damage_type": "heat", "amount": 300, "armor_multiplier": 2 }, "range": 24 }
       }
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL" ]
+    "//": "Allowed to 'use' remotely so that triggering the message telling you to run won't put it back in your inventory and cause a YASD",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "molotov",
@@ -1032,7 +1043,7 @@
     "explosion": {
       "damage": 20,
       "radius": 4,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
     },
     "use_action": {
       "target": "improvised_pipebomb_act",
@@ -1067,7 +1078,7 @@
     "explosion": {
       "damage": 20,
       "radius": 4,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
     },
     "use_action": {
       "type": "explosion",
@@ -1077,7 +1088,7 @@
       "explosion": {
         "damage": 20,
         "radius": 4,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 70, "armor_multiplier": 3 }, "range": 8 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
@@ -1176,9 +1187,9 @@
     "color": "red",
     "explode_in_fire": true,
     "explosion": {
-      "power": 25000,
-      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
-      "shrapnel": 12600
+      "damage": 250,
+      "radius": 12,
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_anfo_charge_act",
@@ -1189,7 +1200,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_anfo_charge_act",
@@ -1213,7 +1224,7 @@
     "explosion": {
       "damage": 250,
       "radius": 12,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1221,12 +1232,13 @@
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
       "explosion": {
-        "power": 48900,
         "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
-        "shrapnel": 12600
+        "damage": 250,
+        "radius": 12,
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 20 }
       }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_small_improvised_fragmentation_device",
@@ -1246,7 +1258,7 @@
     "explosion": {
       "damage": 50,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_small_improvised_fragmentation_device_act",
@@ -1256,7 +1268,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_small_improvised_fragmentation_device_act",
@@ -1279,7 +1291,7 @@
     "explosion": {
       "damage": 50,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1289,10 +1301,10 @@
       "explosion": {
         "damage": 50,
         "radius": 6,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 2.5 }, "range": 20 }
       }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_improvised_barrel_bomb",
@@ -1314,7 +1326,7 @@
     "explosion": {
       "damage": 200,
       "radius": 15,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_improvised_barrel_bomb_act",
@@ -1325,7 +1337,7 @@
       "menu_text": "Light fuse",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_improvised_barrel_bomb_act",
@@ -1350,7 +1362,7 @@
     "explosion": {
       "damage": 200,
       "radius": 15,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1360,10 +1372,10 @@
       "explosion": {
         "damage": 200,
         "radius": 15,
-        "fragment": { "impact": { "damage_type": "cut", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.5 }, "range": 20 }
       }
     },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
+    "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tool_rocket_candy",

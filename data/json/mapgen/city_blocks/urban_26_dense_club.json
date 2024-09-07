@@ -43,6 +43,72 @@
     }
   },
   {
+    "//": "Bionic Ripper Doc",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_26_2" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "iiiiiiiiii%%%%%%%%%%%%%%",
+        "''''''X''i%%%%%%%%%%%%%%",
+        "''''''XX'i%%%%%%%%%%%%%%",
+        "''''XXX''i%%%%%%%%%%%%%%",
+        "'''''''ZZi%%%%%%%%%%%%%%",
+        "iiiiiiii+iiiiiiiiiiiiiii",
+        "''''iḈ''''i  bbbe | rrri",
+        "iii'i'''''i  bbb  |    i",
+        "''''iḞḞḟḞḞi  bbb  +    i",
+        "''''iḞṆ'ṆḞi       |c   i",
+        "Z'''iḞṇ'ṇḞi     |-|c   i",
+        "Z''ZiḞḞḞḞḞi  ee |@     |",
+        "''ZZiiiiiii---|-|@ t   |",
+        "'''ZZi'rriiT2S|>|@ t   i",
+        "Z''''i'''ii-+-|+|@     i",
+        "iiiiii'''ii2222        i",
+        "'''''+'rrii2222       di",
+        "iiii'iiiiii2222      h6i",
+        "'''i'i''>iiCWDC     dddi",
+        "'''i'+'''iiiiiiiiiiiiiii",
+        "b''i'i'''i%%%%%%%%%%%%%%",
+        "iiiiiiiiii%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%",
+        "%%%%%%%%%%%%%%%%%%%%%%%%"
+      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
+      "terrain": {
+        "Ḉ": "t_strconc_floor",
+        "Ḟ": "t_strconc_floor",
+        "ḟ": "t_strconc_floor",
+        "ṇ": "t_strconc_floor",
+        "Ṇ": "t_strconc_floor"
+      },
+      "furniture": {
+        "Ḉ": "f_crate_o",
+        "Ḟ": "f_large_canvas_wall",
+        "ḟ": "f_large_canvas_door",
+        "ṇ": "f_autodoc",
+        "Ṇ": "f_autodoc_couch"
+      },
+      "item": { "Ḉ": { "item": "bot_nursebot", "chance": 100 }, "Ṇ": { "item": "bot_prototype_cyborg", "chance": 10 } },
+      "items": {
+        "ṇ": { "item": "autodoc_supplies", "chance": 100 },
+        " ": { "item": "livingroom", "chance": 2 },
+        "'": { "item": "stash_drugs", "chance": 2 },
+        "2": { "item": "softdrugs", "chance": 10 },
+        "@": { "item": "magazines", "chance": 10 },
+        "b": { "item": "bed", "chance": 60 },
+        "c": { "item": "livingroom", "chance": 25 },
+        "d": { "item": "office", "chance": 40 },
+        "e": { "item": "dresser", "chance": 80 },
+        "r": { "item": "cleaning", "chance": 60 },
+        "t": { "item": "coffee_table", "chance": 25 }
+      }
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "urban_26_2" ],

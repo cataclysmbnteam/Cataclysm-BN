@@ -44,6 +44,22 @@
     ]
   },
   {
+    "id": "supplies_household_cleaning",
+    "//": "General purpose cleaning solvents, detergents, and the like for around the kitchen, bathroom, and the like.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "soap", "prob": 25, "charges-min": 1 },
+      { "item": "detergent", "prob": 25, "charges-min": 1 },
+      { "item": "bleach", "prob": 15, "charges-min": 1 },
+      { "item": "ammonia", "prob": 15, "charges-min": 1 },
+      { "item": "vinegar", "prob": 5, "charges-min": 1 },
+      { "item": "lye", "prob": 5, "charges-min": 1 },
+      { "item": "lye_powder", "prob": 5, "charges-min": 1 },
+      { "item": "oxy_powder", "prob": 5, "charges-min": 1 }
+    ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -112,7 +128,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
       [ "duct_tape", 200 ],
-      [ "superglue", 100 ],
+      { "item": "superglue", "prob": 100, "charges": [ 5, 10 ] },
       [ "string_6", 100 ],
       [ "string_36", 100 ],
       [ "rope_6", 100 ],
@@ -201,7 +217,7 @@
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       [ "solder_wire", 20 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "chain", 20 ],
       [ "rope_6", 4 ],
       [ "rope_30", 35 ],
@@ -245,7 +261,8 @@
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
-      [ "rigid_plastic_sheet", 30 ]
+      [ "rigid_plastic_sheet", 30 ],
+      [ "trash_can_empty", 25 ]
     ]
   },
   {
@@ -294,7 +311,8 @@
       [ "salt", 10 ],
       [ "sugar", 10 ],
       [ "chem_ethanol", 10 ],
-      [ "oxygen_cylinder", 8 ]
+      [ "oxygen_cylinder", 8 ],
+      { "item": "carbon_fiber_filament", "prob": 10, "count": [ 25, 50 ] }
     ]
   },
   {
@@ -432,6 +450,25 @@
     ]
   },
   {
+    "id": "spares_drivebelts",
+    "type": "item_group",
+    "//": "belts used for the MISSION_GET_DRIVEBELTS quest",
+    "items": [ [ "drivebelt", 200 ], [ "drivebelt_makeshift", 100 ] ]
+  },
+  {
+    "id": "blankets",
+    "type": "item_group",
+    "//": "Blankets used for the MISSION_LUMBERMILL_GET_6_BLANKETS quest",
+    "items": [
+      [ "blanket", 100 ],
+      [ "fur_blanket", 100 ],
+      [ "electric_blanket", 100 ],
+      [ "down_blanket", 100 ],
+      [ "afs_quilt", 100 ],
+      [ "afs_quilt_patchwork", 100 ]
+    ]
+  },
+  {
     "id": "file_room",
     "type": "item_group",
     "items": [
@@ -564,5 +601,19 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "FMCNote", "prob": 80, "count": [ 1, 8 ] }, { "item": "RobofacCoin", "prob": 20, "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "3d_printing_raw_materials",
+    "subtype": "collection",
+    "entries": [
+      { "item": "plastic_chunk", "count": [ 5, 10 ] },
+      { "item": "plastic_scrap", "prob": 50, "count": [ 10, 20 ] },
+      { "item": "carbon_fiber_filament", "prob": 50, "count": [ 50, 100 ] },
+      {
+        "distribution": [ { "item": "rigid_plastic_sheet", "prob": 50 }, { "item": "plastic_sheet", "prob": 50 } ],
+        "prob": 50
+      }
+    ]
   }
 ]

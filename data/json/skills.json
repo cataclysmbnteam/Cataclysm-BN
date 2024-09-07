@@ -129,7 +129,7 @@
     "id": "archery",
     "name": { "str": "archery" },
     "description": "Your skill in using bow weapons, from hand-carved self bows to complex compound bows.  Quiet and effective, they require strength of body and sight to wield, and are not terribly accurate over a long distance.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 80, "time_reduction_per_level": 6 },
     "companion_combat_rank_factor": 1,
     "companion_survival_rank_factor": 1,
@@ -156,7 +156,7 @@
     "id": "launcher",
     "name": { "str": "launchers" },
     "description": "Your skill in using heavy weapons like rocket, grenade or missile launchers.  These weapons have a variety of applications and may carry immense destructive power, but they are cumbersome and hard to manage.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "time_to_attack": { "min_time": 30, "base_time": 100, "time_reduction_per_level": 7 },
     "display_category": "display_ranged"
   },
@@ -165,7 +165,7 @@
     "id": "pistol",
     "name": { "str": "handguns" },
     "description": "Handguns have poor accuracy compared to rifles, but are usually quick to fire and reload faster than other guns.  They are very effective at close quarters, though unsuited for long range engagement.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "time_to_attack": { "min_time": 10, "base_time": 80, "time_reduction_per_level": 7 },
     "display_category": "display_ranged",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
@@ -175,7 +175,7 @@
     "id": "rifle",
     "name": { "str": "rifles" },
     "description": "Rifles have terrific range and accuracy compared to other firearms, but may be slow to fire and reload, and can prove difficult to use in close quarters.  Fully automatic rifles can fire rapidly, but are harder to handle properly.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "time_to_attack": { "min_time": 15, "base_time": 75, "time_reduction_per_level": 6 },
     "display_category": "display_ranged",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 45 } ]
@@ -185,7 +185,7 @@
     "id": "shotgun",
     "name": { "str": "shotguns" },
     "description": "Shotguns are easy to shoot and can inflict massive damage, but their effectiveness and accuracy decline rapidly with range.  Slugs can be loaded into shotguns to provide greater range, though they are somewhat inaccurate.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "time_to_attack": { "min_time": 15, "base_time": 75, "time_reduction_per_level": 6 },
     "display_category": "display_ranged",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
@@ -195,7 +195,7 @@
     "id": "smg",
     "name": { "str": "submachine guns" },
     "description": "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, submachine guns can reload and fire quickly, sometimes in bursts, but they are relatively inaccurate and may be prone to mechanical failures.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "time_to_attack": { "min_time": 20, "base_time": 80, "time_reduction_per_level": 6 },
     "display_category": "display_ranged",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 25 } ]
@@ -205,7 +205,7 @@
     "id": "throw",
     "name": { "str": "throwing" },
     "description": "Your skill in throwing objects over a distance.  Skill increases accuracy, and at higher levels, the range of a throw.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "time_to_attack": { "min_time": 50, "base_time": 220, "time_reduction_per_level": 25 },
     "display_category": "display_ranged"
   },
@@ -232,7 +232,7 @@
     "id": "bashing",
     "name": { "str": "bashing weapons" },
     "description": "Your skill in fighting with blunt weaponry, from rocks and sticks to baseball bats and the butts of rifles.  Skill increases damage, and higher levels will improve the accuracy of an attack.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
@@ -242,7 +242,7 @@
     "id": "cutting",
     "name": { "str": "cutting weapons" },
     "description": "Your skill in fighting with weaponry designed to cut, hack and slash an opponent.  Lower levels of skill increase accuracy and damage, while higher levels will help to bypass heavy armor and thick hides.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
@@ -260,7 +260,7 @@
     "id": "stabbing",
     "name": { "str": "piercing weapons" },
     "description": "Your skill in fighting with knives, spears and other such stabbing implements.  Skill increases attack accuracy as well as the chance of inflicting a deadly and critical blow.",
-    "tags": [ "combat_skill" ],
+    "tags": [ "combat_skill", "weapon_skill" ],
     "companion_combat_rank_factor": 1,
     "display_category": "display_melee",
     "companion_skill_practice": [ { "skill": "hunting", "weight": 10 }, { "skill": "combat", "weight": 10 } ]
@@ -269,8 +269,8 @@
     "type": "skill",
     "id": "unarmed",
     "name": { "str": "unarmed combat" },
-    "description": "Your skill in hand-to-hand fighting.  For the unskilled, it's a good way to get hurt, but those with enough practice can perform special blows and techniques to quickly dispatch enemies.",
-    "tags": [ "combat_skill" ],
+    "description": "Your skill in hand-to-hand fighting, with unarmed weapons or empty-handed.  Skill increases attack accuracy and unlocks techniques in many martial arts, while also providing a bonus to bare-handed damage.",
+    "tags": [ "combat_skill", "weapon_skill" ],
     "companion_combat_rank_factor": 1,
     "companion_survival_rank_factor": 1,
     "display_category": "display_melee",

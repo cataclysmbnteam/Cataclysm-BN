@@ -318,6 +318,14 @@ see ITEM_SPAWN.md. The default subtype is "distribution".
 How the monster behaves on death. See JSON_FLAGS.md for a list of possible functions. One can add or
 remove entries in mods via "add:death_function" and "remove:death_function".
 
+## "harvest"
+
+(string, optional)
+
+If this monster's death function leaves a corpse behind, this defines what items will be produced
+when butchering or dissecting its corpse. If none is specified, it will default to `human`. Harvest
+entries, their yields, and mass ratios, are defined in harvest.json
+
 ## "emit_field"
 
 (array of objects of emit_id and time_duration, optional) "emit_fields": [ { "emit_id":
@@ -385,13 +393,18 @@ listed below. Example:
 ]
 ```
 
-One can add entries with "add:death_function", which takes the same content as the "special_attacks"
-member and remove entries with "remove:death_function", which requires an array of attack types.
-Example:
+One can add entries (when doing inheritance) via the `"extend"` field.
 
 ```json
-"remove:special_attacks": [ "GRAB" ],
-"add:special_attacks": [ [ "SHRIEK", 20 ] ]
+"extend": { "special_attacks": [ [ "PARROT", 50 ] ] }
+```
+
+Entries can be removed via the `"delete"` field. However, unlike adding a special attack (manually
+or via extends), the syntax is slightly different. There is no need for a second set of brackets,
+and you should not include the cooldown.
+
+```json
+"delete": { "special_attacks": [ "FUNGUS" ] },
 ```
 
 ## "flags"

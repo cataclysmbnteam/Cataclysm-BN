@@ -297,7 +297,8 @@
       [ "kevlar", 10 ],
       [ "modularvest", 5 ],
       [ "waistcoat", 5 ],
-      [ "flotation_vest", 10 ],
+      [ "flotation_vest", 5 ],
+      [ "flotation_vest_sandbag", 5 ],
       [ "chainmail_vest", 5 ]
     ]
   },
@@ -313,18 +314,70 @@
   },
   {
     "type": "item_group",
+    "id": "npc_bashing",
+    "items": [ { "group": "survivor_bashing", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_cutting",
+    "items": [ { "group": "survivor_cutting", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
     "id": "npc_stabbing",
     "items": [ { "group": "survivor_knife", "prob": 20 }, { "group": "survivor_stabbing", "prob": 80 } ]
   },
   {
     "type": "item_group",
+    "id": "npc_pistol",
+    "items": [ { "group": "guns_pistol_common", "prob": 75 }, { "group": "guns_pistol_improvised", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_shotgun",
+    "items": [ { "group": "guns_shotgun_common", "prob": 75 }, { "group": "guns_shotgun_improvised", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_rifle",
+    "items": [
+      [ "crossbow", 15 ],
+      [ "compcrossbow", 10 ],
+      { "group": "guns_rifle_common", "prob": 50 },
+      { "group": "guns_rifle_improvised", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_smg",
+    "items": [ { "group": "guns_smg_common", "prob": 25 }, { "group": "guns_smg_improvised", "prob": 25 }, [ "null", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_launcher",
+    "items": [ { "group": "guns_launcher_improvised", "prob": 15 }, [ "m79", 10 ], [ "null", 75 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "npc_throw",
-    "items": [ [ "throwing_knife", 7 ], [ "throwing_axe", 4 ] ]
+    "items": [
+      [ "slingshot", 15 ],
+      [ "wristrocket", 10 ],
+      [ "sling", 15 ],
+      [ "staff_sling", 10 ],
+      [ "throwing_knife", 30 ],
+      [ "throwing_axe", 20 ]
+    ]
   },
   {
     "type": "item_group",
     "id": "npc_archery",
-    "items": [ [ "crossbow", 50 ] ]
+    "items": [ [ "shortbow", 50 ], [ "compbow", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_unarmed",
+    "items": [ [ "knuckle_brass", 25 ], [ "punch_dagger", 25 ], [ "null", 50 ] ]
   },
   {
     "type": "item_group",
@@ -386,7 +439,7 @@
       [ "blackberries", 3 ],
       [ "blanket", 5 ],
       [ "bleach", 5 ],
-      [ "blt", 1 ],
+      [ "sandwich_deluxe_nocheese", 1 ],
       [ "blueberries", 3 ],
       [ "bologna", 2 ],
       [ "boltcutters", 5 ],
@@ -1001,7 +1054,8 @@
       [ "sheath", 8 ],
       [ "shot_hull", 1 ],
       [ "shotgun_primer", 2 ],
-      [ "shovel", 8 ],
+      [ "shovel", 4 ],
+      [ "shovel_short", 4 ],
       [ "sickle", 3 ],
       [ "sleeping_bag_roll", 10 ],
       [ "sloppyjoe", 3 ],

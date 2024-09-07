@@ -65,6 +65,7 @@ title: Martial arts & techniques
 "dodge_counter": true,      // This technique may automatically counterattack on a successful dodge
 "weighting": 2,             // Affects likelihood this technique will be seleted when many are available
 "defensive": true,          // Game won't try to select this technique when attacking
+"wall_adjacent": true,      // You must be adjacent to a wall
 "miss_recovery": true,      // Misses while attacking will use fewer moves
 "messages" : [              // What is printed when this technique is used by the player and by an npc
     "You phase-strike %s",
@@ -129,6 +130,12 @@ All cutting damage dealt is multiplied by `(10% of dexterity)*(damage)`:
 Move cost is decreased by 100% of strength value
 
 - `flat_bonuses : [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ]`
+
+Additional fields usable in static_bonuses
+
+"stealthy": true, // All movement will make less noise "quiet": true, // Your attacks will be
+completely silent "wall_adjacent": true, // You must be adjacent to a wall "throw_immune": true, //
+You're immune to being thrown
 
 ### Place relevant items in the world and chargen
 

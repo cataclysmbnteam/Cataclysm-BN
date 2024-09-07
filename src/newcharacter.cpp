@@ -22,6 +22,10 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#if defined(TILES)
+#   include "character_preview.h"
+#   include "cata_tiles.h"
+#endif
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
@@ -35,6 +39,7 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "json.h"
+#include "lightmap.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -54,6 +59,7 @@
 #include "recipe_dictionary.h"
 #include "rng.h"
 #include "scenario.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "start_location.h"
 #include "string_formatter.h"
@@ -75,8 +81,6 @@ static const std::string flag_SECRET( "SECRET" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 
-static const trait_id trait_SMELLY( "SMELLY" );
-static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
@@ -408,6 +412,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     prof = profession::generic();
     g->scen = scenario::generic();
+    male = get_option<std::string>( "DEF_CHAR_GENDER" ) == "male";
 
     const bool interactive = type != character_type::NOW &&
                              type != character_type::FULL_RANDOM;
@@ -528,13 +533,6 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     recalc_hp();
 
-    if( has_trait( trait_SMELLY ) ) {
-        scent = 800;
-    }
-    if( has_trait( trait_WEAKSCENT ) ) {
-        scent = 300;
-    }
-
     remove_primary_weapon( );
 
     // Grab the skills from the profession, if there are any
@@ -576,7 +574,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     for( detached_ptr<item> &it : prof_items ) {
         if( it->has_flag( STATIC( flag_id( "WET" ) ) ) ) {
-            it->active = true;
+            it->activate();
             it->item_counter = 450; // Give it some time to dry off
         }
         if( it->is_book() ) {
@@ -723,13 +721,13 @@ tab_direction set_points( avatar &, points_left &points )
                                          _( "Multiple pools" ),
                                          _( "Stats, traits and skills have separate point pools.\n"
                                             "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
-                                            "Scenarios and professions affect skill point pool" ) );
+                                            "Scenarios and professions affect skill point pool." ) );
 
     const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
                                        _( "Stats, traits and skills share a single point pool." ) );
 
     const point_limit_tuple freeform = std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
-                                       _( "No point limits are enforced" ) );
+                                       _( "No point limits are enforced." ) );
 
     if( point_pool == "multi_pool" ) {
         opts = {{ multi_pool }};
@@ -895,7 +893,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                                _( "Increasing Dex further costs 2 points." ) );
                 }
                 mvwprintz( w_description, point_zero, COL_STAT_BONUS, _( "Melee to-hit bonus: +%.2f" ),
-                           u.get_melee_hit_base() );
+                           u.get_hit_base() );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_BONUS,
                            _( "Throwing penalty per target's dodge: +%d" ),
@@ -1107,11 +1105,40 @@ tab_direction set_traits( avatar &u, points_left &points )
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_description;
+
+#if defined(TILES)
+    character_preview_window character_preview;
+    character_preview.init( &u );
+    const bool use_character_preview = get_option<bool>( "USE_CHARACTER_PREVIEW" ) &&
+                                       get_option<bool>( "USE_TILES" );
+#endif
+
     const auto init_windows = [&]( ui_adaptor & ui ) {
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 3, TERMX - 2, point( 1, TERMY - 4 ) );
-        ui.position_from_window( w );
         page_width = std::min( ( TERMX - 4 ) / used_pages, 38 );
+
+#if defined(TILES)
+        const int int_page_width = static_cast<int>( page_width );
+
+        if( use_character_preview ) {
+            constexpr int preview_nlines_min = 7;
+            constexpr int preview_ncols_min = 10;
+            const int preview_nlines = std::max( ( TERMY - 9 ) / 3, preview_nlines_min );
+            const int preview_ncols = std::max( ( TERMX - int_page_width * 3 - 4 ) / 3 - 5, preview_ncols_min );
+            constexpr auto orientation = character_preview_window::Orientation{
+                character_preview_window::TOP_RIGHT,
+                character_preview_window::Margin{0, 2, 5, 0}
+            };
+            character_preview.prepare(
+                preview_nlines, preview_ncols,
+                &orientation, int_page_width * 3 + 5
+            );
+        }
+#endif
+
+        ui.position_from_window( w );
+
         iContentHeight = TERMY - 9;
 
         for( int i = 0; i < 3; i++ ) {
@@ -1131,6 +1158,12 @@ tab_direction set_traits( avatar &u, points_left &points )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
+#if defined(TILES)
+    ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "zoom_out" );
+    ctxt.register_action( "TOGGLE_CHARACTER_PREVIEW_CLOTHES" );
+#endif
+
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
@@ -1232,14 +1265,31 @@ tab_direction set_traits( avatar &u, points_left &points )
             draw_scrollbar( w, iCurrentLine[iCurrentPage], iContentHeight, traits_size[iCurrentPage],
                             point( page_width * iCurrentPage, 5 ) );
         }
-
+        // Draws main window, traits description window and character preview window
         wnoutrefresh( w );
         wnoutrefresh( w_description );
+#if defined(TILES)
+        // Draws character preview
+        if( use_character_preview ) {
+            character_preview.display();
+        }
+#endif
     } );
 
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+#if defined(TILES)
+        if( action == "zoom_in" && use_character_preview ) {
+            character_preview.zoom_in();
+        }
+        if( action == "zoom_out" && use_character_preview ) {
+            character_preview.zoom_out();
+        }
+        if( action == "TOGGLE_CHARACTER_PREVIEW_CLOTHES" && use_character_preview ) {
+            character_preview.toggle_clothes();
+        }
+#endif
         if( action == "LEFT" ) {
             iCurWorkingPage--;
             if( iCurWorkingPage < 0 ) {
@@ -1268,8 +1318,9 @@ tab_direction set_traits( avatar &u, points_left &points )
 
             // Look through the profession bionics, and see if any of them conflict with this trait
             std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+            const bool has_trait = u.has_trait( cur_trait );
 
-            if( u.has_trait( cur_trait ) ) {
+            if( has_trait ) {
 
                 inc_type = -1;
 
@@ -1318,6 +1369,13 @@ tab_direction set_traits( avatar &u, points_left &points )
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
                 u.toggle_trait( cur_trait );
+#if defined(TILES)
+                // If character had trait - it's now removed. Trait could blocked some clothes, need to retoggle
+                if( has_trait && character_preview.clothes_showing() ) {
+                    character_preview.toggle_clothes();
+                    character_preview.toggle_clothes();
+                }
+#endif
                 points.trait_points -= mdata.points * inc_type;
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
@@ -1328,10 +1386,19 @@ tab_direction set_traits( avatar &u, points_left &points )
 
             recalc_display_cache();
         } else if( action == "PREV_TAB" ) {
+#if defined(TILES)
+            character_preview.clear();
+#endif
             return tab_direction::BACKWARD;
         } else if( action == "NEXT_TAB" ) {
+#if defined(TILES)
+            character_preview.clear();
+#endif
             return tab_direction::FORWARD;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
+#if defined(TILES)
+            character_preview.clear();
+#endif
             return tab_direction::QUIT;
         }
     } while( true );

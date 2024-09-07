@@ -49,6 +49,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "profile.h"
 
 static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
@@ -58,6 +59,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_mon_mitosis( "mon_mitosis" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
@@ -148,7 +150,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( get_size() > MS_MEDIUM && g->m.has_flag_ter( TFLAG_SMALL_PASSAGE, p ) ) {
+    if( get_size() > creature_size::medium && g->m.has_flag_ter( TFLAG_SMALL_PASSAGE, p ) ) {
         return false; // if a large critter, can't move through tight passages
     }
 
@@ -189,7 +191,7 @@ bool monster::will_move_to( const tripoint &p ) const
             }
 
             // Don't enter open pits ever unless tiny, can fly or climb well
-            if( !( type->size == MS_TINY || can_climb() ) &&
+            if( !( type->size == creature_size::tiny || can_climb() ) &&
                 ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
                 return false;
             }
@@ -199,7 +201,7 @@ bool monster::will_move_to( const tripoint &p ) const
         if( attitude( &g->u ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
             if( avoid_simple && g->m.has_flag( "SHARP", p ) &&
-                !( type->size == MS_TINY || flies() ) ) {
+                !( type->size == creature_size::tiny || flies() ) ) {
                 return false;
             }
         }
@@ -319,6 +321,8 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 
 void monster::plan()
 {
+    ZoneScoped;
+
     const auto &factions = g->critter_tracker->factions();
 
     // Bots are more intelligent than most living stuff
@@ -393,14 +397,6 @@ void monster::plan()
 
     if( waiting ) {
         set_dest( pos() );
-        return;
-    }
-
-    if( docile ) {
-        if( friendly != 0 && target != nullptr ) {
-            set_dest( target->pos() );
-        }
-
         return;
     }
 
@@ -520,6 +516,14 @@ void monster::plan()
                     dist = rating;
                 }
             }
+        }
+    }
+
+    // Docile monsters should ignore targets, so place it after all possible ways target could be selected
+    if( docile ) {
+        if( target != nullptr ) {
+            // Stop fighting and focus on following the player
+            target = nullptr;
         }
     }
 
@@ -701,7 +705,8 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
-    if( action == "consume_items" ) {
+    if( action == "consume_items" && ( !has_effect( effect_mon_mitosis ) || hp < type->hp * 3 ) ) {
+        // Eat items unless we're both recently split AND binged too hard afterwards
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name() );
@@ -709,13 +714,19 @@ void monster::move()
         static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem->volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) ) {
+            // Don't split if we're still recovering from last time
+            if( has_flag( MF_ABSORBS_SPLITS ) && !has_effect( effect_mon_mitosis ) ) {
                 while( hp / 2 > type->hp ) {
                     monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
                     if( !spawn ) {
                         break;
                     }
+                    // Splitting takes a bit out of both
                     hp -= type->hp;
+                    hp *= 0.75;
+                    add_effect( effect_mon_mitosis, 1_minutes );
+                    spawn->hp *= 0.75;
+                    spawn->add_effect( effect_mon_mitosis, 1_minutes );
                     //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
                     spawn->make_ally( *this );
                     if( g->u.sees( *this ) ) {
@@ -993,13 +1004,13 @@ void monster::move()
 
             const Creature *target = g->critter_at( candidate, is_hallucination() );
             if( target != nullptr ) {
-                const Creature::Attitude att = attitude_to( *target );
-                if( att == A_HOSTILE ) {
+                const Attitude att = attitude_to( *target );
+                if( att == Attitude::A_HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
                     moved = true;
                     next_step = candidate_abs;
                     break;
-                } else if( att == A_FRIENDLY && ( target->is_player() || target->is_npc() ) ) {
+                } else if( att == Attitude::A_FRIENDLY && ( target->is_player() || target->is_npc() ) ) {
                     continue; // Friendly firing the player or an NPC is illegal for gameplay reasons
                 } else if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                     // Bail out if there's a non-hostile monster in the way and we're not pushy.
@@ -1192,18 +1203,18 @@ void monster::footsteps( const tripoint &p )
         volume = 10;
     }
     switch( type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             volume = 0; // No sound for the tinies
             break;
-        case MS_SMALL:
+        case creature_size::small:
             volume /= 3;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             break;
-        case MS_LARGE:
+        case creature_size::large:
             volume *= 1.5;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             volume *= 2;
             break;
         default:
@@ -1244,6 +1255,12 @@ tripoint monster::scent_move()
         bestsmell = g->scent.get( pos() );
     }
 
+    const scenttype_id player_scent = g->u.get_type_of_scent();
+    // The main purpose of scent_move() is to either move toward scents or away from scents depending on the value of the fleeing flag.
+    // However, if the monster is a pet who is not actively fleeing and has the WONT_FOLLOW flag, we'd rather let it stumble instead of
+    // vaguely follow the player's scent.
+    const bool ignore_player_scent = !fleeing && is_pet() && has_flag( MF_PET_WONT_FOLLOW );
+
     tripoint next( -1, -1, posz() );
     if( ( !fleeing && g->scent.get( pos() ) > smell_threshold ) ||
         ( fleeing && bestsmell == 0 ) ) {
@@ -1272,6 +1289,10 @@ tripoint monster::scent_move()
         }
         // is the monster actually ignoring this scent
         if( !ignored_scents.empty() && ( ignored_scents.find( type_scent ) != ignored_scents.end() ) ) {
+            right_scent = false;
+        }
+
+        if( ignore_player_scent && type_scent == player_scent ) {
             right_scent = false;
         }
 
@@ -1345,6 +1366,14 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
         movecost = ( ( 50 * source_cost ) + ( 50 * dest_cost ) ) / 2.0;
     }
 
+    // If we're leading a pet around by a leash, make it a bit easier for them to catch up if they fall behind too much.
+    if( has_effect( effect_led_by_leash ) && rl_dist( f, g->u.pos() ) > 4 ) {
+        // Only give a bonus if the destination gets them closer to the player
+        if( rl_dist( f, g->u.pos() ) > rl_dist( t, g->u.pos() ) ) {
+            movecost /= 2;
+        }
+    }
+
     return movecost;
 }
 
@@ -1408,7 +1437,7 @@ bool monster::bash_at( const tripoint &p )
 
     // Don't bash if a friendly monster is standing there
     monster *target = g->critter_at<monster>( p );
-    if( target != nullptr && attitude_to( *target ) == A_FRIENDLY ) {
+    if( target != nullptr && attitude_to( *target ) == Attitude::A_FRIENDLY ) {
         return false;
     }
 
@@ -1525,7 +1554,7 @@ bool monster::attack_at( const tripoint &p )
 
         auto attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
-        if( attitude == A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
+        if( attitude == Attitude::A_HOSTILE || has_flag( MF_ATTACKMON ) ) {
             melee_attack( mon );
             return true;
         }
@@ -1668,7 +1697,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
 
-    if( type->size != MS_TINY && on_ground ) {
+    if( type->size != creature_size::tiny && on_ground ) {
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
         if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) &&
@@ -1704,19 +1733,19 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( digging() && g->m.has_flag( "DIGGABLE", pos() ) ) {
         int factor = 0;
         switch( type->size ) {
-            case MS_TINY:
+            case creature_size::tiny:
                 factor = 100;
                 break;
-            case MS_SMALL:
+            case creature_size::small:
                 factor = 30;
                 break;
-            case MS_MEDIUM:
+            case creature_size::medium:
                 factor = 6;
                 break;
-            case MS_LARGE:
+            case creature_size::large:
                 factor = 3;
                 break;
-            case MS_HUGE:
+            case creature_size::huge:
                 factor = 1;
                 break;
             default:
@@ -1968,14 +1997,14 @@ void monster::knock_back_to( const tripoint &to )
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
-        apply_damage( z, bodypart_id( "torso" ), z->type->size );
+        apply_damage( z, bodypart_id( "torso" ), static_cast<float>( z->type->size ) );
         add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
             z->knock_back_from( pos() ); // Chain reaction!
-            z->apply_damage( this, bodypart_id( "torso" ), type->size );
+            z->apply_damage( this, bodypart_id( "torso" ), static_cast<float>( type->size ) );
             z->add_effect( effect_stunned, 1_turns );
         } else if( type->size > z->type->size ) {
-            z->apply_damage( this, bodypart_id( "torso" ), type->size );
+            z->apply_damage( this, bodypart_id( "torso" ), static_cast<float>( type->size ) );
             z->add_effect( effect_stunned, 1_turns );
         }
         z->check_dead_state();
@@ -1990,7 +2019,8 @@ void monster::knock_back_to( const tripoint &to )
     if( npc *const p = g->critter_at<npc>( to ) ) {
         apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
-        p->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH, type->size ) );
+        p->deal_damage( this, bodypart_id( "torso" ), damage_instance( DT_BASH,
+                        static_cast<float>( type->size ) ) );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }
@@ -2012,7 +2042,7 @@ void monster::knock_back_to( const tripoint &to )
     if( g->m.impassable( to ) ) {
 
         // It's some kind of wall.
-        apply_damage( nullptr, bodypart_id( "torso" ), type->size );
+        apply_damage( nullptr, bodypart_id( "torso" ), static_cast<float>( type->size ) );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
             add_msg( _( "The %1$s bounces off a %2$s." ), name(),
@@ -2110,10 +2140,10 @@ void monster::shove_vehicle( const tripoint &remote_destination,
             float shove_damage_min = 0.00F;
             float shove_damage_max = 0.00F;
             switch( this->get_size() ) {
-                case MS_TINY:
-                case MS_SMALL:
+                case creature_size::tiny:
+                case creature_size::small:
                     break;
-                case MS_MEDIUM:
+                case creature_size::medium:
                     if( veh_mass < 500_kilogram ) {
                         shove_moves_minimal = 150;
                         shove_veh_mass_moves_factor = 20;
@@ -2122,7 +2152,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                         shove_damage_max = 0.01F;
                     }
                     break;
-                case MS_LARGE:
+                case creature_size::large:
                     if( veh_mass < 1000_kilogram ) {
                         shove_moves_minimal = 100;
                         shove_veh_mass_moves_factor = 8;
@@ -2131,7 +2161,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                         shove_damage_max = 0.03F;
                     }
                     break;
-                case MS_HUGE:
+                case creature_size::huge:
                     if( veh_mass < 2000_kilogram ) {
                         shove_moves_minimal = 50;
                         shove_veh_mass_moves_factor = 4;

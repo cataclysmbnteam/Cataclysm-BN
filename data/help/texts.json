@@ -319,5 +319,11 @@
       "Q: There are too many calibers and guns.  It confuses me - I don't usually understand what is compatible with what.\nA: Try to remember few usual calibers: \n9x19mm (or simply 9mm) - fits most basic pistols (Glock, for example) and SMGs, quite easy to find and gets job done versus usual zombies;\n 00 buckshot - for most shotguns.  Very powerful against unarmored target at closer ranges;\n 5.56x45mm (.223) - for rifles.  Good long range option.\n 7.62x51mm (.308) - for even more powerful rifles.  Also good long range option.\n  It should be enough in the beginning.  Or even just grab any shotgun, fill it with buckshot and give them hell!",
       "Q: I have a question that's not addressed here. How can I get an answer?\nA: Check the wiki, or ask the helpful people on the forum or at the chat channels. Links are provided in MOTD in the main menu."
     ]
+  },
+  {
+    "type": "help",
+    "order": 21,
+    "name": "<5>: Resolved game directories",
+    "messages": [ "<GAME_DIRECTORIES>" ]
   }
 ]
