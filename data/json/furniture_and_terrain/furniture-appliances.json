@@ -322,7 +322,7 @@
     "message": "You switch off the floodlight.",
     "//": "Increased brightness and power draw over utility lights which don't draw grid power, but far less than vehicle ones",
     "light_emitted": 400,
-    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
@@ -2426,7 +2426,7 @@
         { "item": "power_supply", "count": 3 }
       ]
     },
-    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -100, "consume_every": "300 s" } ]
   },
   {
