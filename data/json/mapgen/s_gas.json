@@ -8,9 +8,9 @@
       "fill_ter": "t_pavement",
       "rows": [
         ".......................'",
-        ".-----..................",
-        ".|...|..........sss.....",
+        ".-----..........sss.....",
         ".|...|...........&s.....",
+        ".|...|...........3s.....",
         ".|...|...........1s.....",
         ".|...|P..........2s.....",
         ".--+--..........sss.....",
@@ -45,7 +45,11 @@
       },
       "furniture": { "'": "f_street_light", "9": "f_aut_gas_console" },
       "signs": { "P": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } },
-      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "vendingmachines": {
+        "1": { "item_group": "vending_drink" },
+        "2": { "item_group": "vending_food" },
+        "3": { "item_group": "vending_medicine", "reinforced": true }
+      },
       "place_liquids": [ { "liquid": "gasoline", "x": 3, "y": 3, "repeat": [ 200, 1075 ] } ]
     }
   },
@@ -75,7 +79,7 @@
         "#r..rrrrr.....rrrrr..{#]",
         "#r...................{#]",
         "#r...................{#]",
-        "#&.AFFD#.CCCCC#rrrrrr1#]",
+        "#&.AMFD#.CCCCC#rrrrrr1#]",
         "##+#####...s..#########]",
         "#S.#...+......+.......~]",
         "#T.#TSl#.rrrrr#HHtcCfl#]",

@@ -30,12 +30,32 @@
     "subtype": "collection",
     "id": "vending_ammo",
     "entries": [
-      { "group": "ammo_pistol_common_full", "count-min": 3, "count-max": 8 },
-      { "group": "ammo_rifle_common_full", "prob": 50, "count-min": 2, "count-max": 6 },
-      { "group": "ammo_shotgun_common_full", "prob": 50, "count-min": 2, "count-max": 6 },
-      { "group": "ammo_pistol_rare_full", "prob": 20, "count-min": 1, "count-max": 2 },
-      { "group": "ammo_rifle_rare_full", "prob": 20, "count-min": 1, "count-max": 2 },
-      { "group": "ammo_shotgun_rare_full", "prob": 20, "count-min": 1, "count-max": 2 }
+      { "group": "ammo_pistol_common_full", "prob": 50 },
+      { "group": "ammo_pistol_common_full", "prob": 50 },
+      { "group": "ammo_pistol_common_full", "prob": 50 },
+      { "group": "ammo_pistol_common_full", "prob": 50 },
+      { "group": "ammo_pistol_common_full", "prob": 50 },
+      { "group": "ammo_pistol_common_full", "prob": 50 },
+      { "group": "ammo_pistol_common_full", "prob": 50 },
+      { "group": "ammo_pistol_common_full", "prob": 50 },
+      { "group": "ammo_rifle_common_full", "prob": 30 },
+      { "group": "ammo_rifle_common_full", "prob": 30 },
+      { "group": "ammo_rifle_common_full", "prob": 30 },
+      { "group": "ammo_rifle_common_full", "prob": 30 },
+      { "group": "ammo_rifle_common_full", "prob": 30 },
+      { "group": "ammo_shotgun_common_full", "prob": 30 },
+      { "group": "ammo_shotgun_common_full", "prob": 30 },
+      { "group": "ammo_shotgun_common_full", "prob": 30 },
+      { "group": "ammo_shotgun_common_full", "prob": 30 },
+      { "group": "ammo_shotgun_common_full", "prob": 30 },
+      { "group": "ammo_pistol_rare_full", "prob": 15 },
+      { "group": "ammo_pistol_rare_full", "prob": 15 },
+      { "group": "ammo_pistol_rare_full", "prob": 15 },
+      { "group": "ammo_pistol_rare_full", "prob": 15 },
+      { "group": "ammo_rifle_rare_full", "prob": 10 },
+      { "group": "ammo_rifle_rare_full", "prob": 10 },
+      { "group": "ammo_shotgun_rare_full", "prob": 10 },
+      { "group": "ammo_shotgun_rare_full", "prob": 10 }
     ]
   },
   {
@@ -107,9 +127,8 @@
   },
   {
     "type": "item_group",
-    "id": "vending_guns",
-    "//": "Ammo found in a vending machine.",
     "subtype": "collection",
-    "items": [ { "group": "vending_ammo", "prob": 100, "count": [ 2, 6 ] } ]
+    "id": "vending_medicine",
+    "entries": [ { "group": "drugs_pharmacy", "count-min": 10, "count-max": 20 } ]
   }
 ]
