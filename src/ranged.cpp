@@ -1843,7 +1843,7 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     if( has_flag( flag_SOUND_LAUNCHER ) ) {
         // Grenade launchers
-        return { noise, _( "Thunk!  Boom!" ) };
+        return { noise, _( "Thump!" ) };
 
     } else if( has_flag( flag_SOUND_RAILGUN ) ) {
         if( noise < 20 ) {
