@@ -271,9 +271,9 @@ static void test_steady_consumer( grid_setup_consumer &setup )
     }
 
     WHEN( "the battery has power for 1 consumer tick" ) {
-        int excess = battery.mod_resource( 1 );
+        int excess = battery.mod_resource( 3 );
         REQUIRE( excess == 0 );
-        REQUIRE( battery.get_resource() == 1 );
+        REQUIRE( battery.get_resource() == 3 );
         REQUIRE( grid.get_resource() == battery.get_resource() );
 
         AND_WHEN( "1 consumer tick passes" ) {
@@ -289,7 +289,7 @@ static void test_steady_consumer( grid_setup_consumer &setup )
             time_point to = calendar::turn + consumer.consume_every - 1_seconds;
             grid.update( to );
             THEN( "no changes" ) {
-                REQUIRE( grid.get_resource() == 1 );
+                REQUIRE( grid.get_resource() == 3 );
                 require_empty_queue( tf_queue );
             }
 
