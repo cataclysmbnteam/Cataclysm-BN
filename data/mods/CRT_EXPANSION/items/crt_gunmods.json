@@ -12,7 +12,14 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
-    "gun_data": { "ammo": "signal_flare", "skill": "launcher", "dispersion": 250, "durability": 8, "clip_size": 1, "gun_sound_type": "FIRE" },
+    "gun_data": {
+      "ammo": "signal_flare",
+      "skill": "launcher",
+      "dispersion": 250,
+      "durability": 8,
+      "clip_size": 1,
+      "gun_sound_type": "FIRE"
+    },
     "dispersion_modifier": 30,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
