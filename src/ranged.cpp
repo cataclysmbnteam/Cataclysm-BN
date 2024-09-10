@@ -2757,6 +2757,11 @@ void target_ui::update_target_list()
 
 tripoint target_ui::choose_initial_target()
 {
+    // If we're casting a spell, don't lock onto enemies if the spell is meant for using on friendlies.
+    if( mode == TargetMode::Spell && !casting->is_valid_target( valid_target::target_hostile ) ) {
+        return src;
+    }
+
     // Try previously targeted creature
     shared_ptr_fast<Creature> cr = you->last_target.lock();
     if( cr && pl_sees( *cr ) && dist_fn( cr->pos() ) <= range ) {

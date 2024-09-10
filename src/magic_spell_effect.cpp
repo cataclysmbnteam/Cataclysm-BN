@@ -131,7 +131,9 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
 static void swap_pos( Creature &caster, const tripoint &target )
 {
     Creature *const critter = g->critter_at<Creature>( target );
-    critter->setpos( caster.pos() );
+    if( critter != nullptr ) {
+        critter->setpos( caster.pos() );
+    }
     caster.setpos( target );
     //update map in case a monster swapped positions with the player
     g->update_map( get_avatar() );
