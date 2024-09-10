@@ -1831,7 +1831,7 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
-    std::string sound_class = type->gun->gun_sound_type;
+    const std::string &sound_class = type->gun->gun_sound_type;
     for( const auto mod : gunmods() ) {
         noise += mod->type->gunmod->loudness;
     }
