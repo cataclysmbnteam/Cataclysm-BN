@@ -101,6 +101,7 @@
     "durability": 10,
     "range": 100,
     "dispersion": 1000,
+    "gun_sound_type": "ARCHERY",
     "ranged_damage": { "damage_type": "acid", "amount": 4 }
   },
   {
@@ -167,6 +168,7 @@
     "durability": 10,
     "range": 100,
     "dispersion": 1000,
+    "gun_sound_type": "PNEUMATIC",
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
   },
   {

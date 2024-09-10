@@ -26,6 +26,7 @@
     "to_hit": 1,
     "reload_noise_volume": 2,
     "loudness": 2,
+    "gun_sound_type": "ARCHERY",
     "range": 12,
     "dispersion": 100,
     "durability": 8
@@ -59,6 +60,7 @@
     "bashing": 1,
     "to_hit": 1,
     "loudness": 2,
+    "gun_sound_type": "ARCHERY",
     "range": 6,
     "dispersion": 150,
     "durability": 8
@@ -101,6 +103,7 @@
     "to_hit": 1,
     "reload_noise_volume": 2,
     "loudness": 2,
+    "gun_sound_type": "LIGHTNING",
     "range": 12,
     "dispersion": 150,
     "durability": 8

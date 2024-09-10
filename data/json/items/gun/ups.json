@@ -17,6 +17,7 @@
     "durability": 10,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 23,
+    "gun_sound_type": "LIGHTNING",
     "ups_charges": 60,
     "valid_mod_locations": [
       [ "accessories", 4 ],

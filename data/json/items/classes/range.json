@@ -1,6 +1,7 @@
 [
   {
     "abstract": "muscle_ranged_base",
+    "gun_sound_type": "ARCHERY",
     "type": "GUN",
     "name": { "str": "base range weapon" },
     "symbol": "(",
@@ -26,6 +27,7 @@
     "type": "GUN",
     "looks_like": "crossbow",
     "weapon_category": [ "M_XBOWS", "ELASTIC" ],
+    "gun_sound_type": "CROSSBOW",
     "name": { "str": "base crossbow" },
     "reload_noise_volume": 10,
     "skill": "rifle",

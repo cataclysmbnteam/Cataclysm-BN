@@ -1842,6 +1842,7 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
+    std::string sound_class = type->gun->gun_sound_type;
     for( const auto mod : gunmods() ) {
         noise += mod->type->gunmod->loudness;
     }
@@ -1851,27 +1852,42 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
-        // Grenade launchers
-        return { 8, _( "Thunk!" ) };
+    if( sound_class == "GRENADE_LAUNCHER" ) {
+        return { noise, _( "Thump!" ) };
 
-    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
-        // Railguns
-        return { 24, _( "tz-CRACKck!" ) };
+    } else if( sound_class == "RAILGUN" ) {
+        if( noise < 20 ) {
+            return { noise, burst ? _( "tz-tz-tzk!" ) : _( "tzk!" ) };
+        } else if( noise < 80 ) {
+            return { noise, burst ? _( "Brzzip!" ) : _( "tz-Zing!" ) };
+        } else if( noise < 200 ) {
+            return { noise, burst ? _( "tzz-CR-CR-CRAck!" ) : _( "tz-CRACKck!" ) };
+        } else {
+            return { noise, burst ? _( "tzz-BOOOM!" ) : _( "tzk-BLAM!" ) };
+        }
 
-    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
-               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
+    } else if( sound_class == "PNEUMATIC" ) {
+        if( noise < 10 ) {
+            return { noise, burst ? _( "P-p-p-pft!" ) : _( "pft!" ) };
+        } else if( noise < 20 ) {
+            return { noise, burst ? _( "F-F-Foomp!" ) : _( "Foomp!" ) };
+        } else if( noise < 40 ) {
+            return { noise, burst ? _( "Thk-Thk-Thunk!" ) : _( "Thunk!" ) };
+        } else {
+            return { noise, burst ? _( "Chuk-chunk!" ) : _( "Chunk!" ) };
+        }
+
+    } else if( sound_class == "FIRE" ) {
         // Rocket launchers and flamethrowers
-        return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == itype_arrow ) {
+        return { noise, _( "Fwoosh!" ) };
+    } else if( sound_class == "ARCHERY" ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == itype_bolt ) {
+    } else if( sound_class == "CROSSBOW" ) {
         return { noise, _( "thonk!" ) };
     }
 
-    auto fx = ammo_effects();
-
-    if( fx.count( ammo_effect_LASER ) || fx.count( ammo_effect_PLASMA ) ) {
+    if( sound_class == "ENERGY_WEAPON" ) {
+        // Lasers and plasma
         if( noise < 20 ) {
             return { noise, _( "Fzzt!" ) };
         } else if( noise < 40 ) {
@@ -1882,7 +1898,8 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, _( "Kra-kow!" ) };
         }
 
-    } else if( fx.count( ammo_effect_LIGHTNING ) ) {
+    } else if( sound_class == "LIGHTNING" ) {
+        // Electric and EMP weapons
         if( noise < 20 ) {
             return { noise, _( "Bzzt!" ) };
         } else if( noise < 40 ) {
@@ -1893,9 +1910,7 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, _( "Kra-koom!" ) };
         }
 
-    } else if( fx.count( ammo_effect_WHIP ) ) {
-        return { noise, _( "Crack!" ) };
-
+    // Default behavior for normal guns without sound class defined.
     } else if( noise > 0 ) {
         if( noise < 10 ) {
             return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };

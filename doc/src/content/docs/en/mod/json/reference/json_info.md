@@ -1893,6 +1893,15 @@ Guns can be defined like this:
 "default_mods": ["m203"]   // An array of mods that will be added to a weapon on spawn.
 "barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
+"gun_sound_type": "RAILGUN",  // Overrides what message will print to describe the sound the gun makes when fired. The following can be used:
+// GRENADE_LAUNCHER
+// RAILGUN (sound message varies with loudness and fire mode)
+// PNEUMATIC (sound message varies with loudness and fire mode)
+// FIRE (used for flamethrowers and rocket launchers)
+// ARCHERY (used by bows, slings, etc)
+// CROSSBOW
+// ENERGY_WEAPON (lasers and plasma, sound message varies)
+// LIGHTNING (sound message varies)
 ```
 
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:

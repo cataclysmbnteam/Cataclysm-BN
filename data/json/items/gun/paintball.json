@@ -5,6 +5,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 6,
+    "gun_sound_type": "PNEUMATIC",
     "color": "light_gray",
     "name": { "str": "Paintball gun" },
     "description": "A fairly harmless gun that shoots small paintballs.",

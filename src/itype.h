@@ -494,6 +494,10 @@ struct islot_gun : common_ranged_data {
      */
     int clip = 0;
     /**
+     * Defines type of sound made by the gun if not default gun sounds, see item::gun_noise in ranged.cpp.
+     */
+    std::string gun_sound_type;
+    /**
      * Reload time, in moves.
      */
     int reload_time = 100;

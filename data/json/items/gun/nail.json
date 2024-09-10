@@ -17,6 +17,7 @@
     "range": 1,
     "dispersion": 800,
     "loudness": 5,
+    "gun_sound_type": "PNEUMATIC",
     "clip_size": 20,
     "reload": 50,
     "ranged_damage": { "damage_type": "stab", "amount": 1 },
