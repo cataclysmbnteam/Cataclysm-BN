@@ -447,7 +447,7 @@
     "type": "COMESTIBLE",
     "id": "seed_lentils",
     "copy-from": "seed",
-    "name": { "str_sp": "raw lentils" },
+    "name": { "str_sp": "seed lentils" },
     "weight": "194 g",
     "symbol": "%",
     "description": "Raw, uncooked lentils, ready for planting.",
