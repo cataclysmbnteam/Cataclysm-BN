@@ -51,6 +51,7 @@
     "durability": 10,
     "range": 10,
     "dispersion": 10,
+    "gun_sound_type": "ARCHERY",
     "ranged_damage": [ { "damage_type": "stab", "amount": 5 } ]
   }
 ]

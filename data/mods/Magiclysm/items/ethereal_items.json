@@ -298,6 +298,7 @@
     "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
     "weapon_category": [ "BOWS", "ELASTIC" ],
+    "gun_sound_type": "ARCHERY",
     "symbol": "(",
     "color": "yellow",
     "looks_like": "longbow",

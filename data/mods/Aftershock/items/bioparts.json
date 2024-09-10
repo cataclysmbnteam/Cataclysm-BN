@@ -98,6 +98,7 @@
     "skill": "launcher",
     "range": 30,
     "ranged_damage": { "damage_type": "stab", "amount": 19, "armor_penetration": 12 },
+    "gun_sound_type": "PNEUMATIC",
     "dispersion": 90,
     "durability": 7,
     "loudness": 4,

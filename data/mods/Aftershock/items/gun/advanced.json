@@ -31,6 +31,7 @@
     "name": "integral railgun",
     "ammo": "metal_rail",
     "skill": "rifle",
+    "gun_sound_type": "RAILGUN",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
     "ammo_effects": [ "TRAIL" ]
   }

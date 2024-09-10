@@ -14,6 +14,7 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
+    "gun_sound_type": "ENERGY_WEAPON",
     "ranged_damage": { "damage_type": "stab", "amount": 24, "armor_penetration": 6 },
     "range": 30,
     "clip_size": 1,

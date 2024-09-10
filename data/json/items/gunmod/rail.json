@@ -18,6 +18,7 @@
       "skill": "rifle",
       "range": 8,
       "ranged_damage": { "damage_type": "stab", "amount": 28 },
+      "gun_sound_type": "CROSSBOW",
       "dispersion": 387,
       "durability": 10,
       "loudness": 10,

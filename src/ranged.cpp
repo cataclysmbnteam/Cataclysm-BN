@@ -77,6 +77,15 @@ struct ammo_effect;
 
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+static const std::string sound_class_GRENADE_LAUNCHER( "GRENADE_LAUNCHER" );
+static const std::string sound_class_RAILGUN( "RAILGUN" );
+static const std::string sound_class_PNEUMATIC( "PNEUMATIC" );
+static const std::string sound_class_FIRE( "FIRE" );
+static const std::string sound_class_ARCHERY( "ARCHERY" );
+static const std::string sound_class_CROSSBOW( "CROSSBOW" );
+static const std::string sound_class_ENERGY_WEAPON( "ENERGY_WEAPON" );
+static const std::string sound_class_LIGHTNING( "LIGHTNING" );
+
 static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
 static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
 static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
@@ -1841,10 +1850,10 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( sound_class == "GRENADE_LAUNCHER" ) {
+    if( sound_class == sound_class_GRENADE_LAUNCHER ) {
         return { noise, _( "Thump!" ) };
 
-    } else if( sound_class == "RAILGUN" ) {
+    } else if( sound_class == sound_class_RAILGUN ) {
         if( noise < 20 ) {
             return { noise, burst ? _( "tz-tz-tzk!" ) : _( "tzk!" ) };
         } else if( noise < 80 ) {
@@ -1855,7 +1864,7 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, burst ? _( "tzz-BOOOM!" ) : _( "tzk-BLAM!" ) };
         }
 
-    } else if( sound_class == "PNEUMATIC" ) {
+    } else if( sound_class == sound_class_PNEUMATIC ) {
         if( noise < 10 ) {
             return { noise, burst ? _( "P-p-p-pft!" ) : _( "pft!" ) };
         } else if( noise < 20 ) {
@@ -1866,16 +1875,16 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, burst ? _( "Chuk-chunk!" ) : _( "Chunk!" ) };
         }
 
-    } else if( sound_class == "FIRE" ) {
+    } else if( sound_class == sound_class_FIRE ) {
         // Rocket launchers and flamethrowers
         return { noise, _( "Fwoosh!" ) };
-    } else if( sound_class == "ARCHERY" ) {
+    } else if( sound_class == sound_class_ARCHERY ) {
         return { noise, _( "whizz!" ) };
-    } else if( sound_class == "CROSSBOW" ) {
+    } else if( sound_class == sound_class_CROSSBOW ) {
         return { noise, _( "thonk!" ) };
     }
 
-    if( sound_class == "ENERGY_WEAPON" ) {
+    if( sound_class == sound_class_ENERGY_WEAPON ) {
         // Lasers and plasma
         if( noise < 20 ) {
             return { noise, _( "Fzzt!" ) };
@@ -1887,7 +1896,7 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, _( "Kra-kow!" ) };
         }
 
-    } else if( sound_class == "LIGHTNING" ) {
+    } else if( sound_class == sound_class_LIGHTNING ) {
         // Electric and EMP weapons
         if( noise < 20 ) {
             return { noise, _( "Bzzt!" ) };
