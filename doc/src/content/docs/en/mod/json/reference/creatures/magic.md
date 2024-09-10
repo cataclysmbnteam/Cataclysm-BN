@@ -93,7 +93,7 @@ experience you need to get to a level is below:
 - `IGNORE_WALLS` - spell's aoe goes through walls
 
 - `SWAP_POS` - teleports the caster to the target location when used by a ranged spell, switching
- places with any creature that might be in the way
+  places with any creature that might be in the way
 
 - `HOSTILE_SUMMON` - summon spell always spawns a hostile monster
 
