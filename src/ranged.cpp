@@ -1882,9 +1882,11 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { noise, _( "Fwsss!" ) };
     } else if( type->weapon_category.count( weapon_cat_GRENADE_LAUNCHERS ) ) {
         return { noise, _( "Thump!" ) };
-    } else if( type->weapon_category.count( weapon_cat_FLAMETHROWERS ) || type->weapon_category.count( weapon_cat_SPRAY_GUNS ) ) {
+    } else if( type->weapon_category.count( weapon_cat_FLAMETHROWERS ) ||
+               type->weapon_category.count( weapon_cat_SPRAY_GUNS ) ) {
         return { noise, _( "Fwoosh!" ) };
-    } else if( type->weapon_category.count( weapon_cat_S_XBOWS ) || type->weapon_category.count( weapon_cat_M_XBOWS ) ) {
+    } else if( type->weapon_category.count( weapon_cat_S_XBOWS ) ||
+               type->weapon_category.count( weapon_cat_M_XBOWS ) ) {
         return { noise, _( "thonk!" ) };
     } else if( type->weapon_category.count( weapon_cat_ELASTIC ) ) {
         return { noise, _( "whizz!" ) };
