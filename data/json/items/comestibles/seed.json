@@ -379,7 +379,7 @@
     "price": "1 USD",
     "weight": "2 g",
     "charges": 2,
-    "flags": [ "RAW", "UNSAFE_CONSUME" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "UNSAFE_CONSUME" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "14 days" }
   },
   {
@@ -447,7 +447,7 @@
     "type": "COMESTIBLE",
     "id": "seed_lentils",
     "copy-from": "seed",
-    "name": { "str_sp": "raw lentils" },
+    "name": { "str_sp": "seed lentils" },
     "weight": "194 g",
     "symbol": "%",
     "description": "Raw, uncooked lentils, ready for planting.",
