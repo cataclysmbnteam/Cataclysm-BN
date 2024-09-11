@@ -88,7 +88,6 @@ static const weapon_category_id weapon_cat_ELASTIC( "ELASTIC" );
 static const weapon_category_id weapon_cat_S_XBOWS( "S_XBOWS" );
 static const weapon_category_id weapon_cat_M_XBOWS( "M_XBOWS" );
 static const weapon_category_id weapon_cat_ENERGY_WEAPONS( "ENERGY_WEAPONS" );
-static const weapon_category_id weapon_cat_LIGHTNING( "LIGHTNING" );
 
 static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
 static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
