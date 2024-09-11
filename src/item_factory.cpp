@@ -496,7 +496,6 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         obj.gun->reload_noise = _( obj.gun->reload_noise );
-        obj.gun->gun_sound_type = _( obj.gun->gun_sound_type );
     }
 
     set_allergy_flags( obj );
@@ -1894,7 +1893,6 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "loudness", slot.loudness, strict );
     assign( jo, "clip_size", slot.clip, strict, 0 );
     assign( jo, "reload", slot.reload_time, strict, 0 );
-    assign( jo, "gun_sound_type", slot.gun_sound_type, strict );
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
     assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );

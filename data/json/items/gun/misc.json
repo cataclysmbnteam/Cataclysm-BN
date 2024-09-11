@@ -26,7 +26,6 @@
     "copy-from": "launcher_base",
     "type": "GUN",
     "weapon_category": [ "WATER_CANNONS" ],
-    "gun_sound_type": "ARCHERY",
     "symbol": "&",
     "color": "dark_gray",
     "name": { "str": "water cannon" },

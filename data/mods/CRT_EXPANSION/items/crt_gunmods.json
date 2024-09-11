@@ -17,8 +17,7 @@
       "skill": "launcher",
       "dispersion": 250,
       "durability": 8,
-      "clip_size": 1,
-      "gun_sound_type": "FIRE"
+      "clip_size": 1
     },
     "dispersion_modifier": 30,
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]

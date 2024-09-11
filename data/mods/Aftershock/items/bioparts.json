@@ -83,6 +83,8 @@
   {
     "id": "vibrating_blaster",
     "looks_like": "ar15",
+    "//": "For sound messages",
+    "weapon_category": [ "PNEUMATIC" ],
     "type": "GUN",
     "name": { "str": "vibrating bioblaster" },
     "description": "You ripped this from a mi-go abomination.  You think you should wear gloves to reload it.  ",
@@ -98,7 +100,6 @@
     "skill": "launcher",
     "range": 30,
     "ranged_damage": { "damage_type": "stab", "amount": 19, "armor_penetration": 12 },
-    "gun_sound_type": "PNEUMATIC",
     "dispersion": 90,
     "durability": 7,
     "loudness": 4,

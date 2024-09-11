@@ -1,6 +1,8 @@
 [
   {
     "id": "barb_launcher",
+    "//": "For sound messages",
+    "weapon_category": [ "PNEUMATIC" ],
     "type": "GUN",
     "symbol": "%",
     "color": "red",
@@ -26,13 +28,13 @@
     "to_hit": 1,
     "reload_noise_volume": 2,
     "loudness": 2,
-    "gun_sound_type": "ARCHERY",
     "range": 12,
     "dispersion": 100,
     "durability": 8
   },
   {
     "id": "feral_human_thrown_rock",
+    "weapon_category": [ "ELASTIC" ],
     "type": "GUN",
     "symbol": "%",
     "color": "red",
@@ -60,7 +62,6 @@
     "bashing": 1,
     "to_hit": 1,
     "loudness": 2,
-    "gun_sound_type": "ARCHERY",
     "range": 6,
     "dispersion": 150,
     "durability": 8
@@ -87,6 +88,7 @@
   },
   {
     "id": "emp_frond",
+    "weapon_category": [ "ENERGY_WEAPONS" ],
     "type": "GUN",
     "symbol": "%",
     "color": "red",
@@ -103,7 +105,6 @@
     "to_hit": 1,
     "reload_noise_volume": 2,
     "loudness": 2,
-    "gun_sound_type": "LIGHTNING",
     "range": 12,
     "dispersion": 150,
     "durability": 8

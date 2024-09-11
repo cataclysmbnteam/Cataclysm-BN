@@ -10,8 +10,7 @@
       "skill": "launcher",
       "dispersion": 270,
       "durability": 10,
-      "clip_size": 1,
-      "gun_sound_type": "GRENADE_LAUNCHER"
+      "clip_size": 1
     },
     "use_action": {
       "menu_text": "Deploy as stand-alone",
@@ -31,8 +30,7 @@
       "skill": "launcher",
       "dispersion": 270,
       "durability": 10,
-      "clip_size": 1,
-      "gun_sound_type": "GRENADE_LAUNCHER"
+      "clip_size": 1
     },
     "mod_target_category": [
       [ "SUBMACHINE_GUNS" ],

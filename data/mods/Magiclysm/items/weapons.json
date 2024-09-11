@@ -42,6 +42,8 @@
   },
   {
     "id": "lizardfolk_javelin_gun",
+    "//": "For sound messages",
+    "weapon_category": [ "ELASTIC" ],
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "barbed javelin" },
@@ -51,7 +53,6 @@
     "durability": 10,
     "range": 10,
     "dispersion": 10,
-    "gun_sound_type": "ARCHERY",
     "ranged_damage": [ { "damage_type": "stab", "amount": 5 } ]
   }
 ]

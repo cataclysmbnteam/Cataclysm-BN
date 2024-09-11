@@ -20,7 +20,6 @@
     "armor_data": { "covers": [ "torso" ], "encumbrance": 14 },
     "reload_noise_volume": 2,
     "loudness": 5,
-    "gun_sound_type": "ARCHERY",
     "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "range": 20,
     "dispersion": 95,

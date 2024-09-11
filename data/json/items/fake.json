@@ -91,6 +91,8 @@
   },
   {
     "id": "acid_spit",
+    "//": "For sound messages",
+    "weapon_category": [ "WATER_CANNONS" ],
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "acid spit gun" },
@@ -101,7 +103,6 @@
     "durability": 10,
     "range": 100,
     "dispersion": 1000,
-    "gun_sound_type": "ARCHERY",
     "ranged_damage": { "damage_type": "acid", "amount": 4 }
   },
   {
@@ -158,6 +159,8 @@
   },
   {
     "id": "migo_bio_gun",
+    "//": "For sound messages",
+    "weapon_category": [ "PNEUMATIC" ],
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "mi-go bio-gun" },
@@ -168,7 +171,6 @@
     "durability": 10,
     "range": 100,
     "dispersion": 1000,
-    "gun_sound_type": "PNEUMATIC",
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
   },
   {

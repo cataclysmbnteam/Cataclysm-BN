@@ -16,7 +16,6 @@
       "skill": "rifle",
       "range": 30,
       "ranged_damage": { "damage_type": "heat", "amount": 22 },
-      "gun_sound_type": "ENERGY_WEAPON",
       "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
       "durability": 10
     },
