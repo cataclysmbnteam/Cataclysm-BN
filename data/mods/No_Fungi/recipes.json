@@ -3,5 +3,10 @@
     "type": "recipe",
     "result": "brew_mycus_wine",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "seed_mycus_fruit",
+    "obsolete": true
   }
 ]
