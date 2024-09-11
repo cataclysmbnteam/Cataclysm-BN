@@ -5,13 +5,7 @@
     "type": "GUNMOD",
     "name": "40mm underbarrel grenade launcher",
     "description": "A stubby single shot launcher with a large bore barrel, suitable for launching grenades or flares.  This launcher can be attached to a rifle or other suitable platform, and includes its own set of sights.  In more recent years, variants were sold commercially to ostensibly launch flares.  With the right cartridges, this would be devastating against hard or soft targets.  The launcher can be detached and its sights reattached to the could be disassembled and attached to a suitable rifle, if so desired.",
-    "gun_data": {
-      "ammo": "ammo_grenade",
-      "skill": "launcher",
-      "dispersion": 270,
-      "durability": 10,
-      "clip_size": 1
-    },
+    "gun_data": { "ammo": "ammo_grenade", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "use_action": {
       "menu_text": "Deploy as stand-alone",
       "type": "transform",
@@ -25,13 +19,7 @@
     "type": "GUNMOD",
     "name": { "str_sp": "40mm modified underbarrel grenade launcher" },
     "description": "A stubby single shot launcher for launching grenades or flares.  This launcher can be attached to a rifle or other suitable platform, and includes its own set of sights.  In more recent years, variants were sold commercially to ostensibly launch flares.  With the right cartridges, this would be devastating against hard or soft targets.  A crude homemade bracket has been attached, allowing a wider variety of hosts.",
-    "gun_data": {
-      "ammo": "ammo_grenade",
-      "skill": "launcher",
-      "dispersion": 270,
-      "durability": 10,
-      "clip_size": 1
-    },
+    "gun_data": { "ammo": "ammo_grenade", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "mod_target_category": [
       [ "SUBMACHINE_GUNS" ],
       [ "RIFLES" ],
