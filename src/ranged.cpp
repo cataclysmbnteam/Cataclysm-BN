@@ -933,6 +933,13 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         }
         curshot++;
 
+        if( !who.is_deaf() ) {
+            who.add_msg_if_player( m_info, _( "You fire your %s, %s" ),
+                                   gun.tname(), gun.gun_noise( shots > 1 ) );
+        } else {
+            who.add_msg_if_player( m_info, _( "You fire your %s!" ),
+                                   gun.tname() );
+        }
         ranged::make_gun_sound_effect( who, shots > 1, gun );
 
         cycle_action( gun, who.pos() );
