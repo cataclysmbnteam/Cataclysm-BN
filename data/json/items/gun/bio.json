@@ -24,6 +24,8 @@
   },
   {
     "id": "bio_emp_gun",
+    "//": "For sound messages",
+    "weapon_category": [ "ENERGY_WEAPONS" ],
     "type": "GUN",
     "name": { "str": "EMP Projector" },
     "description": "this a pseudo item",
@@ -38,7 +40,7 @@
     "skill": "rifle",
     "range": 10,
     "ranged_damage": { "damage_type": "electric", "amount": 10, "armor_penetration": 4 },
-    "//": "This is a pulse, not a laser. It's a point and shoot system, like a shotgun but even more so since this is a single mass.",
+    "//2": "This is a pulse, not a laser. It's a point and shoot system, like a shotgun but even more so since this is a single mass.",
     "durability": 10,
     "loudness": 20,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
@@ -47,6 +49,7 @@
   },
   {
     "id": "bio_laser_gun",
+    "weapon_category": [ "ENERGY_WEAPONS" ],
     "type": "GUN",
     "name": { "str": "laser finger" },
     "description": "this a pseudo item",
@@ -68,6 +71,7 @@
   },
   {
     "id": "bio_lightning",
+    "weapon_category": [ "ENERGY_WEAPONS" ],
     "type": "GUN",
     "name": { "str": "Chain Lightning" },
     "description": "this a pseudo item",
@@ -88,6 +92,7 @@
   },
   {
     "id": "mut_quills",
+    "weapon_category": [ "PNEUMATIC" ],
     "type": "GUN",
     "name": { "str_sp": "Assault barbs" },
     "description": "this a pseudo item",
@@ -107,6 +112,7 @@
   },
   {
     "id": "bio_blaster_gun",
+    "weapon_category": [ "ENERGY_WEAPONS" ],
     "type": "GUN",
     "name": { "str": "fusion blaster" },
     "description": "this a pseudo item",

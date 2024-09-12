@@ -2,6 +2,7 @@
   {
     "id": "paintballgun",
     "copy-from": "gun_base",
+    "weapon_category": [ "SUBMACHINE_GUNS", "PNEUMATIC" ],
     "looks_like": "hk_mp5",
     "type": "GUN",
     "reload_noise_volume": 6,

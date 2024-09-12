@@ -91,6 +91,8 @@
   },
   {
     "id": "acid_spit",
+    "//": "For sound messages",
+    "weapon_category": [ "WATER_CANNONS" ],
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "acid spit gun" },
@@ -157,6 +159,8 @@
   },
   {
     "id": "migo_bio_gun",
+    "//": "For sound messages",
+    "weapon_category": [ "PNEUMATIC" ],
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "mi-go bio-gun" },

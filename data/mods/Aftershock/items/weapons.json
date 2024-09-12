@@ -143,7 +143,7 @@
   {
     "id": "afs_bionic_rocket",
     "type": "GUN",
-    "weapon_category": [ "ROCKET_LAUNCHERS" ],
+    "weapon_category": [ "GRENADE_LAUNCHERS" ],
     "name": { "str": "deployed grenade launcher" },
     "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
     "volume": "2250 ml",

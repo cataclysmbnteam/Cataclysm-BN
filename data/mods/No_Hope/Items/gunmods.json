@@ -176,32 +176,5 @@
     "description": "A Leadworks built-in heavy-duty barrel especially designed for prolonged shooting.  Increases damage output and weapon range.",
     "dispersion_modifier": 0,
     "flags": [ "IRREMOVABLE" ]
-  },
-  {
-    "id": "gun_crossbow",
-    "type": "GUNMOD",
-    "name": { "str": "rail-mounted crossbow" },
-    "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.",
-    "weight": "1450 g",
-    "volume": "500 ml",
-    "price": "500 USD",
-    "material": [ "steel", "wood" ],
-    "symbol": ":",
-    "color": "light_red",
-    "location": "rail",
-    "install_time": "60 s",
-    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "M_XBOWS" ] ],
-    "gun_data": {
-      "ammo": "bolt",
-      "skill": "rifle",
-      "range": 8,
-      "ranged_damage": { "damage_type": "stab", "amount": 10 },
-      "dispersion": 180,
-      "durability": 10,
-      "clip_size": 1
-    },
-    "dispersion_modifier": 60,
-    "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
-    "flags": [ "STR_RELOAD", "NON_FOULING" ]
   }
 ]

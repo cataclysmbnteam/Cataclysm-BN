@@ -83,6 +83,8 @@
   {
     "id": "vibrating_blaster",
     "looks_like": "ar15",
+    "//": "For sound messages",
+    "weapon_category": [ "PNEUMATIC" ],
     "type": "GUN",
     "name": { "str": "vibrating bioblaster" },
     "description": "You ripped this from a mi-go abomination.  You think you should wear gloves to reload it.  ",
