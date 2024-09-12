@@ -1436,9 +1436,14 @@ void explosion_funcs::regular( const queued_explosion &qe )
 {
     const tripoint &p = qe.pos;
     const explosion_data &ex = qe.exp_data;
-
     auto &shr = ex.fragment;
-    const int noise = ( std::max( ex.damage, shr.value().impact.total_damage() ) ) / explosion_handler::power_to_dmg_mult * ( ex.fire ? 2 : 10 );
+
+    int base_noise = ex.damage;
+    if( shr ) {
+        base_noise = shr.value().impact.total_damage();
+    }
+
+    const int noise = base_noise / explosion_handler::power_to_dmg_mult * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );

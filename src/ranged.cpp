@@ -827,6 +827,20 @@ dispersion_sources calculate_dispersion( const map &m, const Character &who, con
     return dispersion;
 }
 
+static int calc_gun_volume( const item &gun )
+{
+    int noise = gun.type->gun->loudness;
+    for( const auto mod : gun.gunmods() ) {
+        noise += mod->type->gunmod->loudness;
+    }
+    if( gun.ammo_data() ) {
+        noise += gun.ammo_data()->ammo->loudness;
+    }
+
+    noise = std::max( noise, 0 );
+    return noise;
+}
+
 int ranged::fire_gun( Character &who, const tripoint &target, int shots )
 {
     return fire_gun( who, target, shots, who.primary_weapon(), nullptr );
@@ -933,11 +947,12 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         }
         curshot++;
 
-        if( !who.is_deaf() ) {
-            who.add_msg_if_player( m_info, _( "You fire your %s, %s" ),
-                                   gun.tname(), gun.gun_noise( shots > 1 ) );
+        int noise = calc_gun_volume( gun );
+        if( !who.is_deaf() && noise > 1 ) {
+            who.add_msg_if_player( m_warning, _( "You fire your %s, %s" ),
+                                   gun.tname(), gun.gun_noise( shots > 1 ).sound );
         } else {
-            who.add_msg_if_player( m_info, _( "You fire your %s!" ),
+            who.add_msg_if_player( m_warning, _( "You fire your %s!" ),
                                    gun.tname() );
         }
         ranged::make_gun_sound_effect( who, shots > 1, gun );
@@ -1848,15 +1863,7 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { 0, "" };
     }
 
-    int noise = type->gun->loudness;
-    for( const auto mod : gunmods() ) {
-        noise += mod->type->gunmod->loudness;
-    }
-    if( ammo_data() ) {
-        noise += ammo_data()->ammo->loudness;
-    }
-
-    noise = std::max( noise, 0 );
+    int noise = calc_gun_volume( *this );
 
     if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
         // Grenade launchers

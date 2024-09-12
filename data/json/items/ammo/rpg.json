@@ -38,7 +38,7 @@
     "range": 60,
     "dispersion": 75,
     "recoil": 450,
-    "effects": [ "COOKOFF", "EXPLOSIVE", "FRAG", "TRAIL", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_PLUS_FRAG", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
