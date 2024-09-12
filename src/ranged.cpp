@@ -948,7 +948,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         curshot++;
 
         int noise = calc_gun_volume( gun );
-        if( !who.is_deaf() && noise > 1 ) {
+        if( !who.is_deaf() && noise > 0 ) {
             who.add_msg_if_player( m_warning, _( "You fire your %s, %s" ),
                                    gun.tname(), gun.gun_noise( shots > 1 ).sound );
         } else {
