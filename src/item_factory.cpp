@@ -2635,6 +2635,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     if( jo.has_member( "attacks" ) ) {
+        def.attacks.clear();
         // TODO: Implement "proportional" and "relative"
         JsonArray jarr = jo.get_array( "attacks" );
         for( JsonObject jo : jarr ) {

@@ -767,7 +767,7 @@ int stumble( Character &u, const item &weap )
 bool Character::scored_crit( float target_dodge, const item &weap,
                              const attack_statblock &attack ) const
 {
-    return rng_float( 0, 1.0 ) < crit_chance( hit_roll( weap, attack ), target_dodge, weap );
+    return rng_float( 0, 1.0 ) < crit_chance( hit_roll( weap, attack ), target_dodge, weap, attack );
 }
 
 /**
@@ -778,7 +778,8 @@ inline double limit_probability( double unbounded_probability )
     return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
 }
 
-double Character::crit_chance( float roll_hit, float target_dodge, const item &weap ) const
+double Character::crit_chance( float roll_hit, float target_dodge, const item &weap,
+                               const attack_statblock &attack ) const
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
@@ -788,10 +789,10 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
     }
 
-    if( weap.type->m_to_hit > 0 ) {
-        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * weap.type->m_to_hit );
-    } else if( weap.type->m_to_hit < 0 ) {
-        weapon_crit_chance += 0.1 * weap.type->m_to_hit;
+    if( attack.to_hit > 0 ) {
+        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * attack.to_hit );
+    } else if( attack.to_hit < 0 ) {
+        weapon_crit_chance += 0.1 * attack.to_hit;
     }
     weapon_crit_chance = limit_probability( weapon_crit_chance );
 
@@ -2355,7 +2356,7 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 double npc_ai::melee_value( const Character &who, const item &weap )
 {
     // start with average effective dps against a range of enemies
-    double my_value = weap.average_dps( *who.as_player() );
+    double my_value = weap.average_dps( *who.as_player(), melee::default_attack( weap ) );
 
     float reach = weap.reach_range( who );
     // value reach weapons more
@@ -2548,9 +2549,9 @@ double melee::expected_damage( const Character &c, const item &weapon,
         return acc + std::max( 0.0f, du.amount - resists.get_effective_resist( du ) );
     } );
 
-    return chance * reduced_damage_sum;
+    float capped_near_hp = std::min( 2.0f + 1.1f * target.get_hp(), reduced_damage_sum );
 
-
+    return chance * capped_near_hp;
 }
 
 const attack_statblock &melee::default_attack( const item &it )
