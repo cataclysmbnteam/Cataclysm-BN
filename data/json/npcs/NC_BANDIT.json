@@ -152,8 +152,9 @@
     "entries": [
       { "item": "null", "prob": 10 },
       { "item": "hat_ball", "prob": 5 },
-      { "item": "hat_boonie", "prob": 5 },
-      { "item": "cowboy_hat", "prob": 5 },
+      { "item": "hat_boonie", "prob": 3 },
+      { "item": "cowboy_hat", "prob": 2 },
+      { "item": "bandana_head", "prob": 5 },
       { "item": "pickelhaube", "prob": 5 },
       { "item": "helmet_skid", "prob": 10 },
       { "item": "helmet_motor", "prob": 10 },

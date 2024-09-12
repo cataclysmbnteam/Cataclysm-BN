@@ -1576,7 +1576,8 @@
       [ "kippah", 30 ],
       [ "eboshi", 30 ],
       [ "balclava", 20 ],
-      [ "porkpie", 30 ]
+      [ "porkpie", 30 ],
+      [ "bandana_head", 10 ]
     ]
   },
   {
@@ -2735,7 +2736,8 @@
     "id": "dollar_clothes",
     "type": "item_group",
     "items": [
-      [ "bandana", 25 ],
+      [ "bandana", 20 ],
+      [ "bandana_head", 5 ],
       [ "boxer_shorts", 25 ],
       [ "boxer_briefs", 25 ],
       [ "boy_shorts", 25 ],
@@ -2819,7 +2821,8 @@
       },
       { "item": "hat_knit", "prob": 30 },
       { "item": "hat_cotton", "prob": 40 },
-      { "item": "hat_ball", "prob": 50 }
+      { "item": "hat_ball", "prob": 50 },
+      { "item": "bandana_head", "prob": 25 }
     ]
   },
   {
