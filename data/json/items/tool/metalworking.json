@@ -80,6 +80,7 @@
         "materials": [
           "iron",
           "steel",
+          "budget_steel",
           "hardsteel",
           "aluminum",
           "copper",
@@ -195,6 +196,7 @@
         "materials": [
           "iron",
           "steel",
+          "budget_steel",
           "hardsteel",
           "aluminum",
           "copper",
