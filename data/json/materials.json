@@ -182,6 +182,7 @@
     "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 10,
+    "repaired_with": "scrap",
     "salvaged_into": "steel_chunk",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
