@@ -20,7 +20,7 @@
     "recoil": 45,
     "count": 4,
     "stack_size": 1,
-    "effects": [ "COOKOFF", "EXPLOSIVE_BIG", "FRAG", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_BIG_PLUS_FRAG", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -52,6 +52,6 @@
     "range": 140,
     "dispersion": 30,
     "extend": { "effects": [ "SMOKE_BIG" ] },
-    "delete": { "effects": [ "EXPLOSIVE_BIG", "FRAG" ] }
+    "delete": { "effects": [ "EXPLOSIVE_BIG_PLUS_FRAG" ] }
   }
 ]
