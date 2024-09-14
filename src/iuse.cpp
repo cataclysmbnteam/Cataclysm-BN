@@ -9707,6 +9707,42 @@ int iuse::modify_grid_connections( player *p, item *it, bool, const tripoint &po
     return 0;
 }
 
+int iuse::amputate( player *, item *it, bool, const tripoint &pos )
+{
+    if( !it->ammo_sufficient() ) {
+        return 0;
+    }
+
+    Creature *patient = g->critter_at<Character>( pos );
+    if( !patient ) {
+        add_msg( m_info, _( "Nevermind." ) );
+        return 0;
+    }
+
+    auto &body = patient->get_body();
+
+    uilist bp_menu;
+    bp_menu.text = _( "Select body part to amputate:" );
+    bp_menu.allow_cancel = true;
+
+    for( const auto &pr : body ) {
+        bp_menu.addentry( pr.first->name_as_heading.translated() );
+    }
+
+    bp_menu.query();
+    if( bp_menu.ret < 0 ) {
+        add_msg( m_info, _( "Nevermind." ) );
+        return 0;
+    }
+
+    auto bp_iter = std::next( body.begin(), bp_menu.ret );
+    // Prepare for bugs!
+    add_msg( m_bad, _( "Body part removed: %s" ), bp_iter->first->name_as_heading.translated() );
+    body.erase( bp_iter );
+
+    return it->type->charges_to_use();
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {

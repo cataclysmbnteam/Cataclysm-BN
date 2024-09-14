@@ -64,6 +64,7 @@ int mycus( player *, item *, bool, const tripoint & );
 int petfood( player *, item *, bool, const tripoint & );
 int antiasthmatic( player *, item *, bool, const tripoint & );
 // TOOLS
+int amputate( player *, item *, bool, const tripoint & );
 int extinguisher( player *, item *, bool, const tripoint & );
 int hammer( player *, item *, bool, const tripoint & );
 int water_purifier( player *, item *, bool, const tripoint & );

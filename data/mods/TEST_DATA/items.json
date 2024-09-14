@@ -1,5 +1,17 @@
 [
   {
+    "type": "GENERIC",
+    "id": "test_amputator",
+    "name": "Amputator",
+    "description": "Evil-looking tool used to amputate body parts.  Known to attract bugs.",
+    "weight": "1 kg",
+    "color": "light_gray",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "volume": "1 L",
+    "use_action": "AMPUTATE"
+  },
+  {
     "type": "AMMO",
     "id": "test_rock",
     "symbol": "*",
