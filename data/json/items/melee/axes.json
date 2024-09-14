@@ -28,10 +28,10 @@
     "description": "This is a huge axe designed for warfare.  You notice that the axe heads aren't seated properly at all.",
     "price_postapoc": "20 USD",
     "material": [ "budget_steel", "wood" ],
-    "bashing": 42,
-    "cutting": 10,
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -20 ] ]
+    "repairs_like": "battleaxe",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "battleaxe_fake",
@@ -43,11 +43,11 @@
     "price_postapoc": "5 USD",
     "material": [ "aluminum", "wood" ],
     "qualities": [  ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE", "FRAGILE_MELEE" ],
-    "weight": "2068 g",
-    "volume": "3250 ml",
-    "bashing": 21,
-    "cutting": 3
+    "repairs_like": "battleaxe",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "halberd",
@@ -77,14 +77,14 @@
     "description": "This is a dull, cheaply made replica of a polearm with an axe blade, a spike, and other fun things attached to a long stick.",
     "price": "50 USD",
     "material": [ "wood", "aluminum" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "weight": "1644 g",
-    "bashing": 22,
-    "cutting": 4,
-    "to_hit": 1,
     "price_postapoc": "5 USD",
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "halberd",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "bowling_axe",
