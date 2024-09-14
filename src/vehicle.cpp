@@ -1310,21 +1310,19 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             if( windpower < 1 ) {
                 pwr = 0;
             } else {
+                // For gameplay purposes, permit adjusting sails enough to sail upwind so long as it's blowing at all.
                 rl_vec2d windvec;
                 double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
                 windvec = windvec.normalized();
                 windvec.y = -std::cos( raddir );
                 windvec.x = std::sin( raddir );
                 rl_vec2d fv = face_vec();
-                double dot = windvec.dot_product( fv );
-                if( dot <= 0 ) {
-                    dot = std::min( -0.1, dot );
-                } else {
-                    dot = std::max( 0.1, dot );
-                }
+                // We want 0.5 multiplier at 90 degrees instead of 0.0, so add 0.5.
+                double dot = windvec.dot_product( fv ) + 0.5;
+                // We don't want negatives or over 100% power, however.
+                dot = std::min( 1.0, std::max( 0.0, dot ) );
                 int windeffectint = static_cast<int>( ( windpower * dot ) * 200 );
-                // For gameplay purposes, permit adjusting sails enough to sail upwind so long as it's blowing at all.
-                pwr = std::max( pwr, pwr + windeffectint );
+                pwr = pwr + windeffectint;
             }
         }
     }
