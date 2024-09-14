@@ -380,9 +380,10 @@
     "name": { "str": "naginata replica" },
     "description": "A sturdy polearm with a curved blade, made in the same manner as the katana and other Japanese blades.  This one has a bit of wiggle to its blade and feels a bit shoddily made.",
     "material": [ "budget_steel", "wood" ],
-    "bashing": 29,
-    "cutting": 11,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR" ],
+    "repairs_like": "naginata",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
     "price_postapoc": "15 USD"
   },
   {
@@ -391,15 +392,15 @@
     "copy-from": "naginata",
     "name": { "str": "naginata fake" },
     "description": "This is a dull, slightly floppy replica of a Japanese polearm with a curved blade.  With a little difficulty, you could use it administer a solid slap from a distance.",
-    "weight": "1000 g",
     "material": [ "aluminum", "wood" ],
-    "bashing": 12,
-    "cutting": 2,
-    "to_hit": 1,
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "FRAGILE_MELEE", "SPEAR" ],
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "naginata",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "spear_survivor",
@@ -523,12 +524,11 @@
     "name": { "ctxt": "weapon", "str": "pike replica" },
     "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spearhead.  The head seems to be pretty dull, and the whole thing feels poorly made.",
     "price_postapoc": "1250 cent",
-    "to_hit": -1,
-    "bashing": 25,
-    "cutting": 8,
     "material": [ "budget_steel", "wood" ],
-    "looks_like": "pike",
-    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "STAB" ]
+    "repairs_like": "pike",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "pike_fake",
@@ -536,15 +536,14 @@
     "copy-from": "pike",
     "name": { "ctxt": "weapon", "str": "pike fake" },
     "description": "This is a dull, cheaply made replica of a medieval weapon consisting of a wood shaft tipped with an iron spearhead.",
-    "weight": "2000 g",
     "price": "40 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
-    "bashing": 13,
-    "cutting": 2,
     "material": [ "aluminum", "wood" ],
-    "looks_like": "pike",
-    "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "STAB" ]
+    "repairs_like": "pike",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "spear_dory",
