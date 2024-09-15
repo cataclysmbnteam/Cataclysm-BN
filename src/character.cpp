@@ -8919,7 +8919,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
+void Character::apply_damage( Creature *source, item *s_weapon, bodypart_id hurt, int dam,
                               const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) ) {
@@ -8961,6 +8961,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
                     get_name() );
         }
         set_killer( source );
+        set_murder_weapon( s_weapon );
     }
 
     if( !bypass_med ) {
@@ -8973,6 +8974,11 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
             reduce_healing_effect( effect_disinfected, remove_med, part_to_damage );
         }
     }
+}
+void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
+                              const bool bypass_med )
+{
+    apply_damage( source, nullptr, hurt, dam, bypass_med );
 }
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,

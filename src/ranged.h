@@ -107,11 +107,11 @@ float str_draw_range_modifier( const item &it, const Character &p );
 std::optional<shape_factory> get_shape_factory( const item &gun );
 
 /** AoE attack, with area given by shape */
-void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker, item *s_weapon );
 
 std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power );
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
+dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, item *s_weapon, const damage_instance &di );
 
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
 
@@ -129,7 +129,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
  */
 void prompt_select_default_ammo_for( avatar &u, item &w );
 
-/** Returns true if a gun misfires, jams, or has other problems, else returns false. */
+/** Returns false if a gun misfires, jams, or has other problems, else returns true. */
 bool handle_gun_damage( Character &shooter, item &it );
 
 /* Adjusts provided sight dispersion to account for character stats */

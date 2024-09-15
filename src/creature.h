@@ -356,11 +356,15 @@ class Creature
 
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
+        virtual void deal_melee_hit( Creature *source, item *s_weapon, int hit_spread, bool critical_hit,
+                                     const damage_instance &dam, dealt_damage_instance &dealt_dam );
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                      const damage_instance &dam, dealt_damage_instance &dealt_dam );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
+        virtual void deal_projectile_attack( Creature *source, item *s_weapon,
+                                             dealt_projectile_attack &attack );
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack );
 
         /**
@@ -372,9 +376,12 @@ class Creature
          * Does nothing if this creature is already dead.
          * Does not call @ref check_dead_state.
          * @param source The attacking creature, can be null.
+         * @param s_weapon The weapon used in the attack, can be null.
          * @param bp The attacked body part
          * @param dam The damage dealt
          */
+        virtual dealt_damage_instance deal_damage( Creature *source, item *s_weapon, bodypart_id bp,
+                const damage_instance &dam );
         virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                 const damage_instance &dam );
         // for each damage type, how much gets through and how much pain do we
@@ -383,6 +390,8 @@ class Creature
                                               bodypart_id bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
+        virtual void apply_damage( Creature *source, item *s_weapon, bodypart_id bp, int amount,
+                                   bool bypass_med = false ) = 0;
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
 
@@ -539,6 +548,7 @@ class Creature
          * mondeath effects to happen after death cleanup
          */
         virtual Creature *get_killer() const;
+        virtual item *get_murder_weapon() const;
 
         /*
          * Getters for stats - combat-related stats will all be held within
@@ -911,6 +921,8 @@ class Creature
     protected:
         weak_ptr_fast<Creature> killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *nkiller );
+        item *murder_weapon; // item used to kill us. this should be NULL unless we are dead
+        void set_murder_weapon( item *murder_weapon );
 
         /**
          * Processes one effect on the Creature.

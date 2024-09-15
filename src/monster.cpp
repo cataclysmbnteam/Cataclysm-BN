@@ -1905,7 +1905,7 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
+void monster::apply_damage( Creature *source, item *s_weapon, bodypart_id /*bp*/, int dam,
                             const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
@@ -1914,9 +1914,15 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
+        set_murder_weapon( s_weapon );
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
     }
+}
+void monster::apply_damage( Creature *source, bodypart_id bp, int dam,
+                            const bool bypass_med )
+{
+    apply_damage( source, nullptr, bp, dam, bypass_med );
 }
 
 void monster::die_in_explosion( Creature *source )
@@ -2546,6 +2552,10 @@ void monster::die( Creature *nkiller )
             mdeath::guilt( *this );
         }
         g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
+        item *murder_weapon = get_murder_weapon();
+        if( murder_weapon != nullptr ) {
+            murder_weapon->kills.add_monster( type->id );
+        }
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
                 const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );

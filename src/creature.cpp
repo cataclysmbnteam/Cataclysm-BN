@@ -578,7 +578,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     return hit_spread;
 }
 
-void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+void Creature::deal_melee_hit( Creature *source, item *s_weapon, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
@@ -592,7 +592,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+                mons->mounted_player->deal_melee_hit( source, s_weapon, hit_spread, critical_hit, dam, dealt_dam );
                 return;
             }
         }
@@ -603,8 +603,13 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     block_hit( source, bp_hit, d );
 
     on_hit( source, bp_hit ); // trigger on-gethit events
-    dealt_dam = deal_damage( source, bp_hit, d );
+    dealt_dam = deal_damage( source, s_weapon, bp_hit, d );
     dealt_dam.bp_hit = bp_token;
+}
+void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+                               const damage_instance &dam, dealt_damage_instance &dealt_dam )
+{
+    deal_melee_hit( source, nullptr, hit_spread, critical_hit, dam, dealt_dam );
 }
 
 namespace ranged
@@ -677,7 +682,8 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
     }
 }
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
+dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, item *s_weapon,
+                                    const damage_instance &di )
 {
     auto &all_body_parts = target.get_body();
     float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
@@ -692,7 +698,7 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
         bool hit_this_bp = false;
         damage_instance impact = di;
         impact.mult_damage( pr.first->hit_size / hit_size_sum );
-        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );
+        dealt_damage_instance bp_damage = target.deal_damage( source, s_weapon, pr.first.id(), impact );
         for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
             dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
             hit_this_bp |= bp_damage.dealt_dams[i] > 0;
@@ -717,7 +723,7 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
         monster *mons = dynamic_cast<monster *>( &target );
         if( mons && mons->mounted_player && !mons->has_flag( MF_MECH_DEFENSIVE ) ) {
             // TODO: Return value
-            hit_with_aoe( *mons->mounted_player, source, di );
+            hit_with_aoe( *mons->mounted_player, source, s_weapon, di );
         }
     }
 
@@ -758,7 +764,8 @@ auto get_stun_srength( const projectile &proj, creature_size size ) -> int
  * @param attack A structure describing the attack and its results.
  * @param print_messages enables message printing by default.
  */
-void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+void Creature::deal_projectile_attack( Creature *source, item *s_weapon,
+                                       dealt_projectile_attack &attack )
 {
     const bool magic = attack.proj.has_effect( ammo_effect_magic );
     const bool targetted_crit_allowed = !attack.proj.has_effect( ammo_effect_NO_CRIT );
@@ -773,7 +780,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, attack );
+                mons->mounted_player->deal_projectile_attack( source, s_weapon, attack );
                 return;
             }
         }
@@ -891,7 +898,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
-    dealt_dam = deal_damage( source, bp_hit, impact );
+    dealt_dam = deal_damage( source, s_weapon, bp_hit, impact );
     dealt_dam.bp_hit = bp_hit->token;
 
     // Apply ammo effects to target.
@@ -973,7 +980,12 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
-dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+{
+    deal_projectile_attack( source, nullptr, attack );
+}
+
+dealt_damage_instance Creature::deal_damage( Creature *source, item *s_weapon, bodypart_id bp,
         const damage_instance &dam )
 {
     if( is_dead_state() ) {
@@ -998,8 +1010,13 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     mod_pain( total_pain );
 
-    apply_damage( source, bp, total_damage );
+    apply_damage( source, s_weapon, bp, total_damage );
     return dealt_dams;
+}
+dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam )
+{
+    return deal_damage( source, nullptr, bp, dam );
 }
 void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                         int &pain )
@@ -1587,12 +1604,25 @@ Creature *Creature::get_killer() const
     return killer.lock().get();
 }
 
+item *Creature::get_murder_weapon() const
+{
+    return murder_weapon;
+}
+
 void Creature::set_killer( Creature *nkiller )
 {
     // Only the first killer will be stored, calling set_killer again with a different
     // killer would mean it's called on a dead creature and therefore ignored.
     if( !get_killer() && nkiller && !nkiller->is_fake() ) {
         killer = g->shared_from( *nkiller );
+    }
+}
+
+void Creature::set_murder_weapon( item *weapon )
+{
+    // As with the killer, only the first murder weapon is stored.
+    if( !get_murder_weapon() && weapon ) {
+        murder_weapon = weapon;
     }
 }
 
