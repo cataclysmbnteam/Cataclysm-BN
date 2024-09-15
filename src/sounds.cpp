@@ -390,13 +390,13 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::movement:
             case sounds::sound_t::activity:
             case sounds::sound_t::destructive_activity:
+            case sounds::sound_t::combat:
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
             case sounds::sound_t::speech:
                 return false;
             case sounds::sound_t::electronic_speech:
             case sounds::sound_t::alarm:
-            case sounds::sound_t::combat:
                 return true;
         }
     } else {

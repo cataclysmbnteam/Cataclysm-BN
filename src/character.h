@@ -650,7 +650,8 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll( const item &weapon, const attack_statblock &attack ) const;
         /** Returns the chance to critical given a hit roll and target's dodge roll */
-        double crit_chance( float roll_hit, float target_dodge, const item &weap ) const;
+        double crit_chance( float roll_hit, float target_dodge, const item &weap,
+                            const attack_statblock &attack ) const;
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge, const item &weap, const attack_statblock &attack ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */

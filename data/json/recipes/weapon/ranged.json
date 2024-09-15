@@ -606,6 +606,17 @@
   },
   {
     "type": "recipe",
+    "result": "shuriken",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_intermediate", 3 ], [ "steel_tiny", 1 ] ]
+  },
+  {
+    "type": "recipe",
     "result": "lawn_dart",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

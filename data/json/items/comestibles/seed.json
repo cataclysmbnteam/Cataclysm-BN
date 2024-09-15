@@ -379,7 +379,7 @@
     "price": "1 USD",
     "weight": "2 g",
     "charges": 2,
-    "flags": [ "RAW", "UNSAFE_CONSUME" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "UNSAFE_CONSUME" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "14 days" }
   },
   {
@@ -447,7 +447,7 @@
     "type": "COMESTIBLE",
     "id": "seed_lentils",
     "copy-from": "seed",
-    "name": { "str_sp": "raw lentils" },
+    "name": { "str_sp": "seed lentils" },
     "weight": "194 g",
     "symbol": "%",
     "description": "Raw, uncooked lentils, ready for planting.",
@@ -812,5 +812,17 @@
       "grow": "14 days"
     },
     "extend": { "flags": [ "CAN_PLANT_UNDERGROUND" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mycus_fruit",
+    "copy-from": "seed_fruit",
+    "name": { "str_sp": "mycus fruit seedpod" },
+    "description": "A cluster of stony seeds entangled in a net of fine gray mycelium.  If planted on a tree trunk or dedicated mushroom rack, great things could grow from it.",
+    "color": "light_gray",
+    "calories": 35,
+    "use_action": "MYCUS",
+    "seed_data": { "plant_name": "mycus fruit", "required_terrain_flag": "MUSHROOM_PLANTABLE", "fruit": "mycus_fruit", "grow": "7 days" },
+    "extend": { "flags": [ "MYCUS_OK", "CAN_PLANT_UNDERGROUND" ] }
   }
 ]

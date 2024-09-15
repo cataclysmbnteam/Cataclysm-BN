@@ -77,6 +77,18 @@ struct ammo_effect;
 
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+static const weapon_category_id weapon_cat_GRENADE_LAUNCHERS( "GRENADE_LAUNCHERS" );
+static const weapon_category_id weapon_cat_MAGNETIC( "MAGNETIC" );
+static const weapon_category_id weapon_cat_PNEUMATIC( "PNEUMATIC" );
+static const weapon_category_id weapon_cat_FLAMETHROWERS( "FLAMETHROWERS" );
+static const weapon_category_id weapon_cat_SPRAY_GUNS( "SPRAY_GUNS" );
+static const weapon_category_id weapon_cat_WATER_CANNONS( "WATER_CANNONS" );
+static const weapon_category_id weapon_cat_ROCKET_LAUNCHERS( "ROCKET_LAUNCHERS" );
+static const weapon_category_id weapon_cat_ELASTIC( "ELASTIC" );
+static const weapon_category_id weapon_cat_S_XBOWS( "S_XBOWS" );
+static const weapon_category_id weapon_cat_M_XBOWS( "M_XBOWS" );
+static const weapon_category_id weapon_cat_ENERGY_WEAPONS( "ENERGY_WEAPONS" );
+
 static const ammo_effect_str_id ammo_effect_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
 static const ammo_effect_str_id ammo_effect_BLACKPOWDER( "BLACKPOWDER" );
 static const ammo_effect_str_id ammo_effect_BOUNCE( "BOUNCE" );
@@ -98,25 +110,14 @@ static const ammo_effect_str_id ammo_effect_RECYCLED( "RECYCLED" );
 static const ammo_effect_str_id ammo_effect_SHATTER_SELF( "SHATTER_SELF" );
 static const ammo_effect_str_id ammo_effect_SHOT( "SHOT" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
-static const ammo_effect_str_id ammo_effect_WHIP( "WHIP" );
 static const ammo_effect_str_id ammo_effect_WIDE( "WIDE" );
 
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 
-static const itype_id itype_12mm( "12mm" );
-static const itype_id itype_40x46mm( "40x46mm" );
-static const itype_id itype_40x53mm( "40x53mm" );
-static const itype_id itype_66mm( "66mm" );
-static const itype_id itype_84x246mm( "84x246mm" );
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_arrow( "arrow" );
-static const itype_id itype_bolt( "bolt" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
-static const itype_id itype_flammable( "flammable" );
-static const itype_id itype_m235( "m235" );
-static const itype_id itype_metal_rail( "metal_rail" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -827,6 +828,20 @@ dispersion_sources calculate_dispersion( const map &m, const Character &who, con
     return dispersion;
 }
 
+static int calc_gun_volume( const item &gun )
+{
+    int noise = gun.type->gun->loudness;
+    for( const auto mod : gun.gunmods() ) {
+        noise += mod->type->gunmod->loudness;
+    }
+    if( gun.ammo_data() ) {
+        noise += gun.ammo_data()->ammo->loudness;
+    }
+
+    noise = std::max( noise, 0 );
+    return noise;
+}
+
 int ranged::fire_gun( Character &who, const tripoint &target, int shots )
 {
     return fire_gun( who, target, shots, who.primary_weapon(), nullptr );
@@ -933,6 +948,14 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         }
         curshot++;
 
+        int noise = calc_gun_volume( gun );
+        if( !who.is_deaf() && noise > 0 ) {
+            who.add_msg_if_player( m_warning, _( "You fire your %s, %s" ),
+                                   gun.tname(), gun.gun_noise( shots > 1 ).sound );
+        } else {
+            who.add_msg_if_player( m_warning, _( "You fire your %s!" ),
+                                   gun.tname() );
+        }
         ranged::make_gun_sound_effect( who, shots > 1, gun );
 
         cycle_action( gun, who.pos() );
@@ -1841,37 +1864,49 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { 0, "" };
     }
 
-    int noise = type->gun->loudness;
-    for( const auto mod : gunmods() ) {
-        noise += mod->type->gunmod->loudness;
-    }
-    if( ammo_data() ) {
-        noise += ammo_data()->ammo->loudness;
-    }
+    int noise = calc_gun_volume( *this );
 
-    noise = std::max( noise, 0 );
+    if( type->weapon_category.count( weapon_cat_WATER_CANNONS ) ) {
+        return { noise, _( "Splash!" ) };
 
-    if( ammo_current() == itype_40x46mm || ammo_current() == itype_40x53mm ) {
-        // Grenade launchers
-        return { 8, _( "Thunk!" ) };
+    } else if( type->weapon_category.count( weapon_cat_MAGNETIC ) ) {
+        if( noise < 20 ) {
+            return { noise, burst ? _( "tz-tz-tzk!" ) : _( "tzk!" ) };
+        } else if( noise < 80 ) {
+            return { noise, burst ? _( "Brzzip!" ) : _( "tz-Zing!" ) };
+        } else if( noise < 200 ) {
+            return { noise, burst ? _( "tzz-CR-CR-CRAck!" ) : _( "tz-CRACKck!" ) };
+        } else {
+            return { noise, burst ? _( "tzz-BOOOM!" ) : _( "tzk-BLAM!" ) };
+        }
 
-    } else if( ammo_current() == itype_12mm || ammo_current() == itype_metal_rail ) {
-        // Railguns
-        return { 24, _( "tz-CRACKck!" ) };
+    } else if( type->weapon_category.count( weapon_cat_PNEUMATIC ) ) {
+        if( noise < 10 ) {
+            return { noise, burst ? _( "P-p-p-pft!" ) : _( "pft!" ) };
+        } else if( noise < 20 ) {
+            return { noise, burst ? _( "F-F-Foomp!" ) : _( "Foomp!" ) };
+        } else if( noise < 40 ) {
+            return { noise, burst ? _( "Thk-Thk-Thunk!" ) : _( "Thunk!" ) };
+        } else {
+            return { noise, burst ? _( "Chuk-chunk!" ) : _( "Chunk!" ) };
+        }
 
-    } else if( ammo_current() == itype_flammable || ammo_current() == itype_66mm ||
-               ammo_current() == itype_84x246mm || ammo_current() == itype_m235 ) {
-        // Rocket launchers and flamethrowers
-        return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_current() == itype_arrow ) {
-        return { noise, _( "whizz!" ) };
-    } else if( ammo_current() == itype_bolt ) {
+    } else if( type->weapon_category.count( weapon_cat_ROCKET_LAUNCHERS ) ) {
+        return { noise, _( "Fwsss!" ) };
+    } else if( type->weapon_category.count( weapon_cat_GRENADE_LAUNCHERS ) ) {
+        return { noise, _( "Thump!" ) };
+    } else if( type->weapon_category.count( weapon_cat_FLAMETHROWERS ) ||
+               type->weapon_category.count( weapon_cat_SPRAY_GUNS ) ) {
+        return { noise, _( "Fwoosh!" ) };
+    } else if( type->weapon_category.count( weapon_cat_S_XBOWS ) ||
+               type->weapon_category.count( weapon_cat_M_XBOWS ) ) {
         return { noise, _( "thonk!" ) };
+    } else if( type->weapon_category.count( weapon_cat_ELASTIC ) ) {
+        return { noise, _( "whizz!" ) };
     }
 
-    auto fx = ammo_effects();
-
-    if( fx.count( ammo_effect_LASER ) || fx.count( ammo_effect_PLASMA ) ) {
+    if( type->weapon_category.count( weapon_cat_ENERGY_WEAPONS ) ) {
+        // Lasers and plasma
         if( noise < 20 ) {
             return { noise, _( "Fzzt!" ) };
         } else if( noise < 40 ) {
@@ -1882,20 +1917,7 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, _( "Kra-kow!" ) };
         }
 
-    } else if( fx.count( ammo_effect_LIGHTNING ) ) {
-        if( noise < 20 ) {
-            return { noise, _( "Bzzt!" ) };
-        } else if( noise < 40 ) {
-            return { noise, _( "Bzap!" ) };
-        } else if( noise < 60 ) {
-            return { noise, _( "Bzaapp!" ) };
-        } else {
-            return { noise, _( "Kra-koom!" ) };
-        }
-
-    } else if( fx.count( ammo_effect_WHIP ) ) {
-        return { noise, _( "Crack!" ) };
-
+        // Default behavior for normal guns without sound class defined.
     } else if( noise > 0 ) {
         if( noise < 10 ) {
             return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
@@ -2757,6 +2779,11 @@ void target_ui::update_target_list()
 
 tripoint target_ui::choose_initial_target()
 {
+    // If we're casting a spell, don't lock onto enemies if the spell is meant for using on friendlies.
+    if( mode == TargetMode::Spell && !casting->is_valid_target( valid_target::target_hostile ) ) {
+        return src;
+    }
+
     // Try previously targeted creature
     shared_ptr_fast<Creature> cr = you->last_target.lock();
     if( cr && pl_sees( *cr ) && dist_fn( cr->pos() ) <= range ) {

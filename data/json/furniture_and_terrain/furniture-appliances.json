@@ -238,11 +238,12 @@
     "prompt": "Switch off the floor lamp.",
     "message": "You switch off the floor lamp.",
     "light_emitted": 160,
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "100 s",
+        "power": 3,
+        "consume_every": "300 s",
         "transform": { "id": "f_floor_lamp", "msg": "The lamp flickers and dies." }
       }
     ]
@@ -321,11 +322,12 @@
     "message": "You switch off the floodlight.",
     "//": "Increased brightness and power draw over utility lights which don't draw grid power, but far less than vehicle ones",
     "light_emitted": 400,
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "40 s",
+        "power": 7,
+        "consume_every": "300 s",
         "transform": { "id": "f_grid_floodlight", "msg": "The utility light flickers and dies." }
       }
     ]
@@ -405,11 +407,12 @@
     "prompt": "Switch off the street light.",
     "message": "You switch off the street light.",
     "light_emitted": 320,
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "50 s",
+        "power": 6,
+        "consume_every": "300 s",
         "transform": { "id": "f_street_light_rewired", "msg": "The street light flickers and dies." }
       }
     ]
@@ -909,6 +912,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "//": "10 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -3, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -946,6 +950,7 @@
     "coverage": 30,
     "required_str": -1,
     "//": "30 watts",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -9, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -985,6 +990,7 @@
     "coverage": 30,
     "required_str": -1,
     "//": "80 watts",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -24, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -1022,6 +1028,7 @@
     "color": "yellow",
     "coverage": 60,
     "//": "30 watts",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -54, "consume_every": "300 s" } ],
     "deconstruct": {
       "items": [
@@ -1954,6 +1961,7 @@
     "message": "You switch off the fridge.",
     "color": "light_cyan",
     "extend": { "flags": [ "FRIDGE" ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       { "power": 20, "consume_every": "600 s", "transform": { "id": "f_fridge", "msg": "The fridge shuts down." } }
@@ -2002,6 +2010,7 @@
     "color": "blue",
     "extend": { "flags": [ "FREEZER" ] },
     "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       { "power": 25, "consume_every": "600 s", "transform": { "id": "f_freezer", "msg": "The freezer shuts down." } }
@@ -2079,6 +2088,7 @@
     "message": "You switch off the minifreezer.",
     "color": "blue",
     "extend": { "flags": [ "FREEZER" ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
@@ -2207,11 +2217,12 @@
     "transforms_into": "f_grid_air_conditioner_off",
     "prompt": "Switch off AC unit",
     "message": "You turn the AC off.",
+    "//": "Exception on steady_consumer for some furniture.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "2 s",
+        "power": 30,
+        "consume_every": "60 s",
         "transform": { "id": "f_grid_air_conditioner", "msg": "The AC runs out of power and cools off." }
       }
     ],
@@ -2292,11 +2303,12 @@
     "transforms_into": "f_space_heater_off",
     "message": "You turn the heater off.",
     "light_emitted": 2,
+    "//": "Exception on steady_consumer for some furniture.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "2 s",
+        "power": 30,
+        "consume_every": "60 s",
         "transform": { "id": "f_space_heater", "msg": "The heater runs out of power and cools off." }
       }
     ],
@@ -2360,11 +2372,12 @@
     "transforms_into": "f_space_heater_large_off",
     "message": "You turn the heater off.",
     "light_emitted": 2,
+    "//": "Exception on steady_consumer for some furniture.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "1 s",
+        "power": 60,
+        "consume_every": "60 s",
         "transform": { "id": "f_space_heater_large", "msg": "The heater runs out of power and cools off." }
       }
     ],
@@ -2413,7 +2426,8 @@
         { "item": "power_supply", "count": 3 }
       ]
     },
-    "active": [ "steady_consumer", { "power": -1, "consume_every": "3 s" } ]
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
+    "active": [ "steady_consumer", { "power": -100, "consume_every": "300 s" } ]
   },
   {
     "type": "furniture",

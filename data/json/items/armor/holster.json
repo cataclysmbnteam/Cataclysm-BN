@@ -183,6 +183,27 @@
     "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
   },
   {
+    "id": "baldric_holster",
+    "type": "ARMOR",
+    "name": { "str": "baldric holster" },
+    "description": "A leather harness which can hold up to six pistol-sized guns in total, available for quick drawing.  Historically, similar harnesses were used by pirates to carry multiple loaded flintlock pistols at once, as reloading them is a lengthy process.  Activate to holster/draw a gun.",
+    "weight": "1320 g",
+    "volume": "3 L",
+    "price": "200 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "tool_belt",
+    "color": "light_gray",
+    "covers": [ "torso" ],
+    "coverage": 15,
+    "encumbrance": 1,
+    "max_encumbrance": 6,
+    "material_thickness": 1,
+    "use_action": { "type": "holster", "max_volume": "500 ml", "min_volume": "100 ml", "multi": 6, "skills": [ "pistol" ] },
+    "flags": [ "BELTED", "COMPACT" ]
+  },
+  {
     "id": "XL_holster",
     "type": "ARMOR",
     "name": { "str": "XL holster" },

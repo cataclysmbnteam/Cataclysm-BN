@@ -407,14 +407,15 @@
     "copy-from": "cavalry_sabre",
     "name": { "str": "cavalry saber fake" },
     "description": "This is a dull, cheap replica of a curved sword associated with cavalry, from the Early Modern period onwards.",
-    "weight": "600 g",
     "price": "97 USD",
     "price_postapoc": "50 cent",
-    "bashing": 9,
-    "cutting": 2,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "cavalry_sabre",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "kris",
@@ -446,10 +447,12 @@
     "price": "38 USD",
     "price_postapoc": "10 cent",
     "material": "aluminum",
-    "bashing": 2,
-    "cutting": 2,
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "kris",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "kukri",
@@ -500,9 +503,10 @@
     "description": "This is an ancient Chinese doubled-edged straight sword.  The sword is quite worn, and bent at an odd angle.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 7,
-    "cutting": 24
+    "repairs_like": "jian",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "jian_fake",
@@ -513,10 +517,12 @@
     "price": "100 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "400 g",
-    "cutting": 2,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "jian",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "scimitar",
@@ -547,9 +553,10 @@
     "description": "This is a curved sword associated with various Middle Eastern and Central Asian countries.  This one seems oddly dull and worn.",
     "price_postapoc": "5 USD",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 5,
-    "cutting": 24
+    "repairs_like": "scimitar",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "scimitar_fake",
@@ -560,11 +567,12 @@
     "price": "93 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "586 g",
-    "volume": "2 L",
-    "cutting": 2,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "scimitar",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "estoc",
@@ -594,9 +602,10 @@
     "description": "This is a thin, edgeless thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  It seems a bit too bendy.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "STAB", "SHEATH_SWORD" ],
-    "bashing": 29,
-    "cutting": 10
+    "repairs_like": "estoc",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "estoc_fake",
@@ -607,11 +616,11 @@
     "price": "135 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "STAB", "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "939 g",
-    "bashing": 13,
-    "cutting": 2,
-    "to_hit": 2
+    "repairs_like": "estoc",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "longsword",
@@ -642,9 +651,10 @@
     "description": "This is a classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  You feel like the pommel could just snap off if you used it.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 30,
-    "cutting": 9
+    "repairs_like": "longsword",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "longsword_fake",
@@ -655,12 +665,12 @@
     "price": "130 USD",
     "price_postapoc": "1 USD",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "939 g",
-    "bashing": 15,
-    "cutting": 2,
-    "to_hit": 1,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "longsword",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "arming_sword",
@@ -692,10 +702,10 @@
     "description": "This is a classic medieval sword, just the right size to use one-handed.  This one doesn't seem to have been made right.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "weight": "2721 g",
-    "bashing": 12,
-    "cutting": 25
+    "repairs_like": "arming_sword",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "arming_sword_fake",
@@ -707,11 +717,12 @@
     "price": "100 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "704 g",
-    "cutting": 2,
-    "to_hit": 2,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "arming_sword",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "sword_xiphos",
@@ -865,14 +876,14 @@
     "type": "GENERIC",
     "copy-from": "tanto",
     "name": { "str": "tanto replica" },
-    "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced",
-    "looks_like": "tanto",
-    "weight": "374 g",
+    "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced.",
     "price_postapoc": "25 cent",
-    "cutting": 12,
     "material": "budget_steel",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "repairs_like": "tanto",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ]
   },
   {
     "id": "tanto_fake",
@@ -881,14 +892,15 @@
     "name": { "str": "tanto fake" },
     "description": "This is a dull, cheaply made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
     "looks_like": "tanto",
-    "weight": "374 g",
     "price": "18 USD",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
-    "cutting": 7,
     "material": "aluminum",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
+    "qualities": [  ],
+    "repairs_like": "tanto",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "wakizashi",
@@ -920,9 +932,10 @@
     "price": "178 USD",
     "price_postapoc": "5 USD",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 17,
-    "cutting": 7
+    "repairs_like": "wakizashi",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "wakizashi_fake",
@@ -933,11 +946,12 @@
     "price": "78 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "557 g",
-    "bashing": 8,
-    "cutting": 2,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "wakizashi",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "zweihander",
@@ -968,9 +982,10 @@
     "description": "This is a huge two-handed sword from Germany.  You're not quite sure it's supposed to be that bendy.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "bashing": 38,
-    "cutting": 10
+    "repairs_like": "zweihaender",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "zweihander_fake",
@@ -981,11 +996,12 @@
     "price": "80 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
-    "bashing": 19,
-    "cutting": 3,
-    "to_hit": 1,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "zweihander",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "kirpan",
@@ -1018,9 +1034,12 @@
     "looks_like": "kirpan",
     "price": "9 USD",
     "price_postapoc": "50 cent",
-    "cutting": 9,
     "material": "budget_steel",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
+    "repairs_like": "kirpan",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "nodachi",
@@ -1052,11 +1071,11 @@
     "price": "150 USD",
     "price_postapoc": "5 USD",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
-    "weight": "1882 g",
-    "bashing": 30,
-    "cutting": 12
+    "repairs_like": "nodachi",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] },
+    "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ]
   },
   {
     "id": "nodachi_fake",
@@ -1067,13 +1086,13 @@
     "price": "150 USD",
     "price_postapoc": "250 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
-    "weight": "1882 g",
-    "to_hit": 1,
-    "bashing": 15,
-    "cutting": 3,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "nodachi",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "fencing_foil",
@@ -1308,9 +1327,10 @@
     "description": "This is an early modern sword seeing use in the 16th, 17th, and 18th centuries.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 7,
-    "cutting": 29
+    "repairs_like": "broadsword",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "broadsword_fake",
@@ -1321,11 +1341,11 @@
     "price": "120 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "753 g",
-    "bashing": 10,
-    "cutting": 2,
-    "to_hit": 1
+    "repairs_like": "broadsword",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "rapier",
@@ -1396,11 +1416,11 @@
     "price": "98 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "STAB", "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "660 g",
-    "bashing": 4,
-    "cutting": 2,
-    "to_hit": 1
+    "repairs_like": "rapier",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "katana",
@@ -1428,13 +1448,14 @@
     "type": "GENERIC",
     "copy-from": "katana",
     "name": { "str": "katana replica" },
-    "description": "This is a rare sword from Japan.  While it's got the right edge and weight, the pommel just snaps off, and the blade seems pretty worn.",
+    "description": "This is a rare sword from Japan.  While it's got the right edge and balance, the pommel just snaps off, and the blade seems pretty worn.",
     "price": "980 USD",
     "price_postapoc": "250 cent",
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
-    "bashing": 22,
-    "cutting": 9
+    "repairs_like": "katana",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "katana_fake",
@@ -1445,12 +1466,12 @@
     "price": "50 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "753 g",
-    "bashing": 11,
-    "cutting": 2,
-    "to_hit": 1,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "katana",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "butterfly_swords",
@@ -1587,9 +1608,10 @@
     "description": "This is a broad saber known for its use by sailors and pirates.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
     "price_postapoc": "750 cent",
     "material": "budget_steel",
-    "bashing": 23,
-    "cutting": 7,
-    "flags": [ "SHEATH_SWORD" ]
+    "repairs_like": "cutlass",
+    "proportional": { "weight": 1.2, "cutting": 0.85 },
+    "relative": { "to_hit": -1 },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "id": "cutlass_fake",
@@ -1600,12 +1622,12 @@
     "price": "96 USD",
     "price_postapoc": "50 cent",
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "weight": "634 g",
-    "bashing": 12,
-    "cutting": 1,
-    "to_hit": 1,
-    "qualities": [  ]
+    "qualities": [  ],
+    "repairs_like": "cutlass",
+    "proportional": { "weight": 0.6, "bashing": 0.75, "cutting": 0.1 },
+    "relative": { "to_hit": -1 },
+    "extend": { "flags": [ "FRAGILE_MELEE" ] },
+    "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
     "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",

@@ -23,7 +23,7 @@
     "id": "bandana",
     "type": "ARMOR",
     "name": { "str": "bandana" },
-    "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
+    "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.  Activate to adjust it to wear over your head instead.",
     "weight": "42 g",
     "volume": "250 ml",
     "price": "6 USD",
@@ -39,7 +39,28 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE" ],
+    "use_action": {
+      "menu_text": "Cover head",
+      "type": "transform",
+      "target": "bandana_head",
+      "msg": "You adjust the %s to cover your head."
+    }
+  },
+  {
+    "id": "bandana_head",
+    "copy-from": "bandana",
+    "type": "ARMOR",
+    "name": { "str": "head bandana" },
+    "description": "A cotton bandana, worn over the head for warmth and to keep the wind out of your hair.  Activate to adjust it to wear over your mouth instead.",
+    "looks_like": "headscarf",
+    "covers": [ "head" ],
+    "use_action": {
+      "menu_text": "Cover mouth",
+      "type": "transform",
+      "target": "bandana",
+      "msg": "You adjust the %s to cover your mouth."
+    }
   },
   {
     "id": "bondage_mask",

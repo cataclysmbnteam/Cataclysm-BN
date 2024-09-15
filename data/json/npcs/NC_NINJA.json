@@ -1,6 +1,11 @@
 [
   {
     "type": "item_group",
+    "id": "NC_NINJA_throw",
+    "items": [ [ "throwing_knife", 30 ], [ "throwing_axe", 20 ], [ "shuriken", 50 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_NINJA_shirt",
     "subtype": "distribution",
     "entries": [

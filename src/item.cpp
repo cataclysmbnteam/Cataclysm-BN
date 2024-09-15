@@ -1487,9 +1487,15 @@ static const double hits_by_accuracy[41] = {
 
 double item::effective_dps( const player &guy, const monster &mon ) const
 {
+    return effective_dps( guy, mon, melee::default_attack( *this ) );
+}
+
+double item::effective_dps( const player &guy, const monster &mon,
+                            const attack_statblock &attack ) const
+{
     const float mon_dodge = mon.get_dodge();
     // TODO: Handle multiple attacks
-    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this, melee::default_attack( *this ) );
+    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this, attack );
     base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bp_torso ) / 100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
     constexpr double hit_trials = 10000.0;
@@ -1506,8 +1512,8 @@ double item::effective_dps( const player &guy, const monster &mon ) const
     const int rng_high_mean = std::max( std::min( static_cast<int>( base_hit - 1.5 * mon_dodge ),
                                         20 ), -20 ) + 20;
     double num_high_hits = hits_by_accuracy[ rng_high_mean ] * num_all_hits / hit_trials;
-    double double_crit_chance = guy.crit_chance( 4, 0, *this );
-    double crit_chance = guy.crit_chance( 0, 0, *this );
+    double double_crit_chance = guy.crit_chance( 4, 0, *this, attack );
+    double crit_chance = guy.crit_chance( 0, 0, *this, attack );
     double num_low_hits = std::max( 0.0, num_all_hits - num_high_hits );
 
     double moves_per_attack = guy.attack_cost( *this );
@@ -1592,7 +1598,7 @@ static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monster
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
-        const player &guy ) const
+        const player &guy, const attack_statblock &attack ) const
 {
     std::map<std::string, double> results;
     for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
@@ -1601,19 +1607,20 @@ std::map<std::string, double> item::dps( const bool for_display, const bool for_
             continue;
         }
         monster test_mon = monster( comp_mon.second.mon_id );
-        results[ comp_mon.first.translated() ] = effective_dps( guy, test_mon );
+        results[ comp_mon.first.translated() ] = effective_dps( guy, test_mon, attack );
     }
     return results;
 }
 
-std::map<std::string, double> item::dps( const bool for_display, const bool for_calc ) const
+std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
+        const attack_statblock &attack ) const
 {
-    return dps( for_display, for_calc, get_avatar() );
+    return dps( for_display, for_calc, get_avatar(), attack );
 }
 
-double item::average_dps( const player &guy ) const
+double item::average_dps( const player &guy, const attack_statblock &attack ) const
 {
-    const auto &dps_data = dps( false, true, guy );
+    const auto &dps_data = dps( false, true, guy, attack );
     const double sum = std::transform_reduce( dps_data.begin(), dps_data.end(),
                        0.0, std::plus{},
                        []( const auto & entry ) -> double { return entry.second; } );
@@ -3464,47 +3471,104 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 {
     const std::string space = "  ";
 
-    int dmg_bash = damage_melee( DT_BASH );
-    int dmg_cut  = damage_melee( DT_CUT );
-    int dmg_stab = damage_melee( DT_STAB );
-    if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
-        insert_separation_line( info );
-        std::string sep;
-        if( dmg_bash || dmg_cut || dmg_stab ) {
-            info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
-        }
-        if( dmg_bash ) {
-            info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
-            sep = space;
-        }
-        if( dmg_cut ) {
-            info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
-            sep = space;
-        }
-        if( dmg_stab ) {
-            info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
-        }
-    }
+    bool print_attacks = false;
 
-    if( dmg_bash || dmg_cut || dmg_stab ) {
-        if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
-            info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
-                               iteminfo::show_plus, type->m_to_hit );
+    // Old behavior - default to it for now
+    if( type->attacks.size() == 1 ) {
+        const auto &attack = melee::default_attack( *this );
+        int dmg_bash = damage_melee( DT_BASH );
+        int dmg_cut  = damage_melee( DT_CUT );
+        int dmg_stab = damage_melee( DT_STAB );
+        if( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) {
+            print_attacks = true;
         }
 
-        if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
-            info.emplace_back( "BASE", _( "Moves per attack: " ), "",
-                               iteminfo::lower_is_better, attack_cost() );
-            info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
-            const std::map<std::string, double> &dps_data = dps( true, false );
+        if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
+            insert_separation_line( info );
             std::string sep;
-            for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
-                info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
-                                   iteminfo::no_newline | iteminfo::is_decimal,
-                                   dps_entry.second );
+            if( dmg_bash || dmg_cut || dmg_stab ) {
+                info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
+            }
+            if( dmg_bash ) {
+                info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
                 sep = space;
             }
-            info.emplace_back( "BASE", "" );
+            if( dmg_cut ) {
+                info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
+                sep = space;
+            }
+            if( dmg_stab ) {
+                info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
+            }
+        }
+
+        if( dmg_bash || dmg_cut || dmg_stab ) {
+            if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
+                info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
+                                   iteminfo::show_plus, type->m_to_hit );
+            }
+
+            if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
+                info.emplace_back( "BASE", _( "Moves per attack: " ), "",
+                                   iteminfo::lower_is_better, attack_cost() );
+                info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
+                const std::map<std::string, double> &dps_data = dps( true, false, attack );
+                std::string sep;
+                for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
+                    info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
+                                       iteminfo::no_newline | iteminfo::is_decimal,
+                                       dps_entry.second );
+                    sep = space;
+                }
+                info.emplace_back( "BASE", "" );
+            }
+        }
+    } else {
+        print_attacks = true;
+
+        for( const auto &attack_pr : type->attacks ) {
+            const auto &attack = attack_pr.second;
+
+            int dmg_bash = damage_melee( attack, DT_BASH );
+            int dmg_cut  = damage_melee( attack, DT_CUT );
+            int dmg_stab = damage_melee( attack, DT_STAB );
+            // @todo Other types
+
+            if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
+                insert_separation_line( info );
+                std::string sep;
+                if( dmg_bash ) {
+                    info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
+                    sep = space;
+                }
+                if( dmg_cut ) {
+                    info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
+                    sep = space;
+                }
+                if( dmg_stab ) {
+                    info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
+                }
+            }
+
+            if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
+                info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
+                                   iteminfo::show_plus, attack.to_hit );
+            }
+
+            if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
+                info.emplace_back( "BASE", _( "Moves per attack: " ), "",
+                                   iteminfo::lower_is_better, attack_cost() );
+                info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
+                const std::map<std::string, double> &dps_data = dps( true, false, attack );
+                std::string sep;
+                for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
+                    info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
+                                       iteminfo::no_newline | iteminfo::is_decimal,
+                                       dps_entry.second );
+                    sep = space;
+                }
+                info.emplace_back( "BASE", "" );
+            }
         }
     }
 
@@ -3549,7 +3613,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    if( ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) || debug_mode ) {
+    if( print_attacks || debug_mode ) {
+        // @todo Handle multiple attacks
         const attack_statblock &default_attack = melee::default_attack( *this );
         damage_instance non_crit;
         melee::roll_all_damage( you, false, non_crit, true, *this, default_attack );
@@ -3562,11 +3627,12 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         // Chance of critical hit
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
+            const auto &attack = melee::default_attack( *this );
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "Critical hit chance <neutral>%d%% - %d%%</neutral>" ),
-                                              static_cast<int>( you.crit_chance( 0, 100, *this ) *
+                                              static_cast<int>( you.crit_chance( 0, 100, *this, attack ) *
                                                       100 ),
-                                              static_cast<int>( you.crit_chance( 100, 0, *this ) *
+                                              static_cast<int>( you.crit_chance( 100, 0, *this, attack ) *
                                                       100 ) ) );
         }
         // Bash damage
@@ -3603,6 +3669,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         insert_separation_line( info );
     }
+
 }
 
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,

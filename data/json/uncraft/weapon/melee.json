@@ -1,0 +1,200 @@
+[
+  {
+    "result": "battleaxe_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "splinter", 4 ] ] ]
+  },
+  {
+    "result": "halberd_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ], [ [ "splinter", 6 ] ] ]
+  },
+  {
+    "result": "lucern_hammerfake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ], [ [ "splinter", 6 ] ] ]
+  },
+  {
+    "result": "mace_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "splinter", 2 ] ] ]
+  },
+  {
+    "result": "morningstar_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "splinter", 2 ] ] ]
+  },
+  {
+    "result": "naginata_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "splinter", 2 ] ] ]
+  },
+  {
+    "result": "pike_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "splinter", 5 ] ] ]
+  },
+  {
+    "result": "cavalry_sabre_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
+  },
+  {
+    "result": "kris_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
+  },
+  {
+    "result": "jian_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
+  },
+  {
+    "result": "scimitar_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
+  },
+  {
+    "result": "estoc_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 4 ] ] ]
+  },
+  {
+    "result": "longsword_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 4 ] ] ]
+  },
+  {
+    "result": "arming_sword_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 3 ] ] ]
+  },
+  {
+    "result": "tanto_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
+  },
+  {
+    "result": "wakizashi_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
+  },
+  {
+    "result": "zweihander_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 7 ] ] ]
+  },
+  {
+    "result": "nodachi_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 6 ] ] ]
+  },
+  {
+    "result": "broadsword_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
+  },
+  {
+    "result": "rapier_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
+  },
+  {
+    "result": "katana_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
+  },
+  {
+    "result": "cutlass_fake",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
+  }
+]

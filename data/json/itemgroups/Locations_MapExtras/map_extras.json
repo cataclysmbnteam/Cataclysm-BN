@@ -113,6 +113,10 @@
       { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
       { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 50 },
       { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+      {
+        "distribution": [ { "item": "bandana", "damage": [ 1, 4 ], "prob": 50 }, { "item": "bandana_head", "damage": [ 1, 4 ], "prob": 25 } ],
+        "prob": 10
+      },
       { "group": "underwear", "damage-min": 1, "damage-max": 3 },
       { "item": "corpse", "damage": 3 }
     ]
