@@ -2562,7 +2562,7 @@ void npc::die( Creature *nkiller )
     }
     item *murder_weapon = get_murder_weapon();
     if( murder_weapon != nullptr ) {
-        murder_weapon->kills.add_npc( get_name() );
+        murder_weapon.add_npc_kill( get_name() );
     }
 
     if( get_killer() == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {

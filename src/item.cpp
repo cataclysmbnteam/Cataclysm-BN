@@ -10702,3 +10702,18 @@ location_vector<item> &item::get_components()
 {
     return components;
 }
+
+void item::add_monster_kill( mtype_id mon )
+{
+    if( !kills ) {
+        kills = &kill_tracker();
+    }
+    kills->add_monster( mon );
+}
+void item::add_npc_kill( std::string npc )
+{
+    if( !kills ) {
+        kills = &kill_tracker();
+    }
+    kills->add_npc( npc );
+}

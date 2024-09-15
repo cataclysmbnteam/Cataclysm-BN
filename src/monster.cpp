@@ -2543,6 +2543,10 @@ void monster::die( Creature *nkiller )
     if( !no_extra_death_drops ) {
         drop_items_on_death();
     }
+    item *murder_weapon = get_murder_weapon();
+    if( murder_weapon != nullptr ) {
+        murder_weapon.add_monster_kill( type->id );
+    }
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player *>( get_killer() );
     if( !is_hallucination() && ch != nullptr ) {
@@ -2552,10 +2556,6 @@ void monster::die( Creature *nkiller )
             mdeath::guilt( *this );
         }
         g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
-        item *murder_weapon = get_murder_weapon();
-        if( murder_weapon != nullptr ) {
-            murder_weapon->kills.add_monster( type->id );
-        }
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
                 const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );

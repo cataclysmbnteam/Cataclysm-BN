@@ -31,6 +31,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+#include <kill_tracker.h>
 
 class Character;
 class JsonIn;
@@ -2425,6 +2426,14 @@ class item : public location_visitable<item>, public game_object<item>
          * Ideally, this would be stored outside item class.
          */
         pimpl<item_drop_token> drop_token;
+
+    /** Kill tracker */
+    private:
+        kill_tracker *kills = nullptr;
+
+    public:
+        void add_monster_kill( mtype_id );
+        void add_npc_kill( std::string );
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
