@@ -41,10 +41,15 @@ class kill_tracker : public event_subscriber
         void clear();
 
         void notify( const cata::event & ) override;
+        /** directly adds a monster kill to the tracker, bypassing the event bus. */
+        void add_monster( mtype_id );
+        /** directly adds an NPC kill to the tracker, bypassing the event bus. */
+        void add_npc( std::string );
 
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
     private:
+        bool option_xp() const;
         std::map<mtype_id, int> kills;         // player's kill count
         std::vector<std::string> npc_kills;    // names of NPCs the player killed
 };

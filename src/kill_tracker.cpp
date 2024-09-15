@@ -66,6 +66,11 @@ int kill_tracker::kill_xp() const
     return ret;
 }
 
+bool kill_tracker::option_xp() const
+{
+    return get_option<bool>( "STATS_THROUGH_KILLS" );
+}
+
 std::string kill_tracker::get_kills_text() const
 {
     std::vector<std::string> data;
@@ -98,7 +103,7 @@ std::string kill_tracker::get_kills_text() const
         buffer = _( "You haven't killed any monsters yet!" );
     } else {
         buffer = string_format( _( "KILL COUNT: %d" ), totalkills );
-        if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
+        if( option_xp() ) {
             buffer += string_format( _( "\nExperience: %d (%d points available)" ), kill_xp(),
                                      get_avatar().free_upgrade_points() );
         }
@@ -141,4 +146,14 @@ void kill_tracker::notify( const cata::event &e )
         default:
             break;
     }
+}
+
+void kill_tracker::add_monster( mtype_id victim )
+{
+    kills[victim]++;
+}
+
+void kill_tracker::add_npc( std::string victim )
+{
+    npc_kills.push_back( victim );
 }
