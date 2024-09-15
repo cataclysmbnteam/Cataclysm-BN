@@ -236,7 +236,7 @@
     "om_terrain": [ [ "microlab_generic_surface" ] ],
     "method": "json",
     "object": {
-      "fill_ter": "t_concrete",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         " yyyyyyyyyyyyyyyyyyyyyy ",
         " yyyyyyyyyyyyyyyyyyyyyy ",
@@ -249,14 +249,14 @@
         " |         SS|________y ",
         " |         SS|________y ",
         " |   |((((|22||555555|y ",
-        " |   |........|yyyyyy|. ",
-        " |   |..dddd..|......|. ",
-        " |   |^.d.hd..5yyyyyy|  ",
+        " |   |........|ZZZZZZ|  ",
+        " |   |..dddd..|......|  ",
+        " |   |^.d.hd..5ZZZZZZ|  ",
         " |   |||||||..5......|  ",
-        " |   (V.??....Gyyyyyy|  ",
+        " |   (V.??....GZZZZZZ|  ",
         " |   (t.......|......|  ",
-        " |   (^???....|yyyyyy|  ",
-        " |   ||||||..^|yyyyyy|  ",
+        " |   (^???....|ZZZZZZ|  ",
+        " |   ||||||..^|ZZZZZZ|  ",
         " |   |.hd^=..^|eeeeee|  ",
         " |   |.dd.=..^|eeeeee|  ",
         " |   |B...=..^|EeeeeE|  ",
@@ -267,10 +267,11 @@
       "terrain": {
         "e": "t_elevator",
         "E": "t_elevator_control",
-        " ": "t_grass",
+        " ": "t_region_groundcover",
         "_": "t_pavement",
         "S": "t_sidewalk",
         ".": "t_thconc_floor",
+        "Z": "t_thconc_y",
         "G": "t_card_science"
       }
     }
