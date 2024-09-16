@@ -134,7 +134,8 @@
         { "item": "paper", "count": [ 20, 40 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
-      ],      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 20 }
+      ],
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 20 }
     }
   },
   {
@@ -274,7 +275,8 @@
         { "item": "paper", "count": [ 50, 150 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
-      ],      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 13 }
+      ],
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 13 }
     }
   },
   {
