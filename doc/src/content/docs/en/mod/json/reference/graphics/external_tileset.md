@@ -43,6 +43,7 @@ Links to relevant pull requests, for content covered below:
   [#4780](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4780)
 - Knocked-down version of steel target:
   [#5361](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5361)
+- Flagpoles: [#5363](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5363)
 
 ## Undead People
 
@@ -99,6 +100,7 @@ Ultica are planned for the future.
 - Cocoa tree. Terrain specific to BN.
 - Coca plant. Terrain specific to BN.
 - Grid floodlights, furniture based off now-deconstructabble utility lights, furniture added to BN.
+- Metal and wooden flagpoles (including with flag raised), furniture added to BN.
 
 ### alternative_mutation_tileset.png
 
