@@ -134,7 +134,8 @@
         { "item": "paper", "count": [ 20, 40 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 20 }
     }
   },
   {
@@ -274,7 +275,8 @@
         { "item": "paper", "count": [ 50, 150 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 13 }
     }
   },
   {
@@ -303,7 +305,9 @@
         { "item": "string_36", "count": [ 3, 15 ] },
         { "item": "stick_long", "count": 1 },
         { "item": "wooden_bead", "count": [ 200, 500 ] }
-      ]
+      ],
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -362,7 +366,9 @@
       "sound": "rrrrip!",
       "sound_fail": "slap!",
       "sound_vol": 8,
-      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -383,7 +389,9 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "collapse_radius": 2,
-      "tent_centers": [ "f_center_groundsheet" ]
+      "tent_centers": [ "f_center_groundsheet" ],
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -404,7 +412,9 @@
       "sound": "rrrrip!",
       "sound_fail": "slap!",
       "sound_vol": 8,
-      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -446,7 +456,9 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "collapse_radius": 2,
-      "tent_centers": [ "f_center_groundsheet" ]
+      "tent_centers": [ "f_center_groundsheet" ],
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -571,7 +583,9 @@
       "sound": "rrrrip!",
       "sound_fail": "slap!",
       "sound_vol": 8,
-      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -592,7 +606,9 @@
       "sound": "rrrrip!",
       "sound_fail": "slap!",
       "sound_vol": 8,
-      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ],
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
