@@ -46,7 +46,7 @@
         "3": "t_tree_young",
         "E": "t_dirtfloor",
         "G": "t_dirtfloor",
-        "i": "t_column",
+        "i": "t_sidewalk",
         "r": "t_pavement",
         "U": "t_pavement",
         "y": "t_pavement_y",
@@ -63,6 +63,7 @@
         "G": "f_locker",
         "H": "f_table",
         "I": "f_sofa",
+        "i": [ "f_us_flag_metal", "f_flagpole_metal" ],
         "X": "f_birdbath",
         "U": [ "f_dumpster", "f_recycle_bin" ],
         "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
@@ -78,8 +79,7 @@
         { "item": "vfw_books", "x": 13, "y": 14, "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "vfw_alcohol", "x": 16, "y": [ 17, 19 ], "chance": 35, "repeat": [ 1, 3 ] },
         { "item": "vfw_alcohol", "x": 19, "y": [ 17, 19 ], "chance": 35, "repeat": [ 1, 3 ] }
-      ],
-      "place_loot": [ { "item": "american_flag", "x": 10, "y": 6, "chance": 50 } ]
+      ]
     }
   },
   {
@@ -130,7 +130,7 @@
         "3": "t_tree_young",
         "E": "t_dirtfloor",
         "G": "t_dirtfloor",
-        "i": "t_column",
+        "i": "t_grass",
         "r": "t_pavement",
         "U": "t_pavement",
         "y": "t_pavement_y",
@@ -147,6 +147,7 @@
         "G": "f_locker",
         "H": "f_table",
         "I": "f_sofa",
+        "i": [ "f_us_flag_metal", "f_flagpole_metal" ],
         "X": "f_grave_monument",
         "U": [ "f_dumpster", "f_recycle_bin" ],
         "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
@@ -163,7 +164,6 @@
         { "item": "vfw_alcohol", "x": 16, "y": [ 17, 19 ], "chance": 35, "repeat": [ 1, 3 ] },
         { "item": "vfw_alcohol", "x": 19, "y": [ 17, 19 ], "chance": 35, "repeat": [ 1, 3 ] }
       ],
-      "place_loot": [ { "item": "american_flag", "x": 18, "y": 2, "chance": 50 } ],
       "place_vehicles": [ { "vehicle": "military_display_vehicles", "x": 19, "y": 7, "chance": 100, "rotation": 270 } ]
     }
   },

@@ -90,7 +90,7 @@
     "type": "furniture",
     "id": "f_grave_monument",
     "name": "obelisk",
-    "description": "Monument to pride.",
+    "description": "A monument to the fallen, from a time when the dead weren't so restless.",
     "symbol": "$",
     "color": "black_white",
     "move_cost_mod": -1,
