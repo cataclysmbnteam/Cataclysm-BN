@@ -3944,6 +3944,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_steel_target",
+    "group": "build_steel_target",
+    "category": "FURN",
+    "pre_note": "Firing will automatically target the first practice target found in gun range, if no enemies are around.",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "steel_plate", 1 ] ], [ [ "pipe", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_furniture": "f_target"
+  },
+  {
+    "type": "construction",
     "id": "constr_metal_grate_window",
     "group": "build_metal_grate_over_a_window",
     "//": "Step 1: Build metal grate over a window",

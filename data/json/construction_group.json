@@ -1126,6 +1126,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_steel_target",
+    "name": "Build steel target"
+  },
+  {
+    "type": "construction_group",
     "id": "mine_downstair",
     "name": "Mine Downstair"
   },
