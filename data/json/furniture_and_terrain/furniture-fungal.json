@@ -35,7 +35,13 @@
     "move_cost_mod": -10,
     "required_str": -1,
     "flags": [ "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT" ],
-    "bash": { "str_min": 6, "str_max": 30, "sound": "poof.", "sound_fail": "poof." }
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "poof.",
+      "sound_fail": "poof.",
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
+    }
   },
   {
     "type": "furniture",
@@ -60,6 +66,12 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "flags": [ "FLAMMABLE_ASH", "FUNGUS" ],
-    "bash": { "str_min": 26, "str_max": 50, "sound": "poof.", "sound_fail": "squelch." }
+    "bash": {
+      "str_min": 26,
+      "str_max": 50,
+      "sound": "poof.",
+      "sound_fail": "squelch.",
+      "ranged": { "reduction": [ 13, 26 ], "destroy_threshold": 50, "block_unaimed_chance": "75%" }
+    }
   }
 ]
