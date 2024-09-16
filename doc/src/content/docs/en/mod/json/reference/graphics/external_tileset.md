@@ -41,7 +41,8 @@ Links to relevant pull requests, for content covered below:
 - New monster: [#4182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4182)
 - Furniture form of utility light:
   [#4780](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4780)
-- Knocked-down version of steel target: [#5361](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5361)
+- Knocked-down version of steel target:
+  [#5361](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5361)
 
 ## Undead People
 
