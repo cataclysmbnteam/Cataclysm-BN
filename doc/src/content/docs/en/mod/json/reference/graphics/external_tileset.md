@@ -41,6 +41,8 @@ Links to relevant pull requests, for content covered below:
 - New monster: [#4182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4182)
 - Furniture form of utility light:
   [#4780](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4780)
+- Knocked-down version of steel target:
+  [#5361](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5361)
 
 ## Undead People
 
@@ -82,6 +84,8 @@ Ultica are planned for the future.
 - Override for sign sprite. Removes lettering on the front specific to DDA.
 - Makeshift perimeter alarm. Trap specific to BN.
 - Lepidopterid. New monster specific to BN.
+- Furniture version of utility light. Furniture specific to BN.
+- Knocked-down steel target. Furniture specific to BN.
 
 ### External_Tileset_DP_Tall.png
 
