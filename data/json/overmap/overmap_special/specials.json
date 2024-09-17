@@ -2922,6 +2922,7 @@
     "overmaps": [
       { "point": [ 2, 1, 1 ], "overmap": "microlab_generic_surface_roof_north" },
       { "point": [ 2, 1, 0 ], "overmap": "microlab_generic_surface_north" },
+      { "point": [ 2, 1, -1 ], "overmap": "microlab_under_connector" },
       { "point": [ 2, -1, -2 ], "overmap": "microlab_sub_station_north" },
       { "point": [ 0, -1, -2 ], "overmap": "microlab_rock_border" },
       { "point": [ 1, -1, -2 ], "overmap": "microlab_rock_border" },
