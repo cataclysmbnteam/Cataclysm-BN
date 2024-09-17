@@ -4109,6 +4109,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
             }
         }
     }
+    if( kills ) {
+        info.emplace_back( "DESCRIPTION", kills->get_kills_text() );
+    }
 }
 
 std::vector<iteminfo> item::info() const
@@ -10706,14 +10709,14 @@ location_vector<item> &item::get_components()
 void item::add_monster_kill( mtype_id mon )
 {
     if( !kills ) {
-        kills = &kill_tracker();
+        kills = std::make_unique<kill_tracker>( false );
     }
     kills->add_monster( mon );
 }
 void item::add_npc_kill( std::string npc )
 {
-    if( !kills ) {
+    /*if( kills == nullptr ) {
         kills = &kill_tracker();
     }
-    kills->add_npc( npc );
+    kills->add_npc( npc );*/
 }

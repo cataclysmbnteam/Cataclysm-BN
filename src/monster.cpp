@@ -1914,7 +1914,9 @@ void monster::apply_damage( Creature *source, item *s_weapon, bodypart_id /*bp*/
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
-        set_murder_weapon( s_weapon );
+        if ( s_weapon != nullptr ) {
+            s_weapon->add_monster_kill(type->id);
+        }
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
     }
@@ -2542,10 +2544,6 @@ void monster::die( Creature *nkiller )
     }
     if( !no_extra_death_drops ) {
         drop_items_on_death();
-    }
-    item *murder_weapon = get_murder_weapon();
-    if( murder_weapon != nullptr ) {
-        murder_weapon.add_monster_kill( type->id );
     }
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player *>( get_killer() );

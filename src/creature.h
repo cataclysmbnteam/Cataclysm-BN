@@ -548,7 +548,6 @@ class Creature
          * mondeath effects to happen after death cleanup
          */
         virtual Creature *get_killer() const;
-        virtual item *get_murder_weapon() const;
 
         /*
          * Getters for stats - combat-related stats will all be held within
@@ -921,9 +920,7 @@ class Creature
     protected:
         weak_ptr_fast<Creature> killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *nkiller );
-        item *murder_weapon; // item used to kill us. this should be NULL unless we are dead
-        void set_murder_weapon( item *murder_weapon );
-
+        
         /**
          * Processes one effect on the Creature.
          */

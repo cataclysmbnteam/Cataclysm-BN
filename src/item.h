@@ -2429,7 +2429,7 @@ class item : public location_visitable<item>, public game_object<item>
 
     /** Kill tracker */
     private:
-        kill_tracker *kills = nullptr;
+        std::unique_ptr<kill_tracker> kills;
 
     public:
         void add_monster_kill( mtype_id );

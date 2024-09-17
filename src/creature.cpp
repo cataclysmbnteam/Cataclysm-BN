@@ -1604,25 +1604,12 @@ Creature *Creature::get_killer() const
     return killer.lock().get();
 }
 
-item *Creature::get_murder_weapon() const
-{
-    return murder_weapon;
-}
-
 void Creature::set_killer( Creature *nkiller )
 {
     // Only the first killer will be stored, calling set_killer again with a different
     // killer would mean it's called on a dead creature and therefore ignored.
     if( !get_killer() && nkiller && !nkiller->is_fake() ) {
         killer = g->shared_from( *nkiller );
-    }
-}
-
-void Creature::set_murder_weapon( item *weapon )
-{
-    // As with the killer, only the first murder weapon is stored.
-    if( !get_murder_weapon() && weapon ) {
-        murder_weapon = weapon;
     }
 }
 
