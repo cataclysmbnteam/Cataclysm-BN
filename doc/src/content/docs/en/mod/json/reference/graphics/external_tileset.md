@@ -44,6 +44,8 @@ Links to relevant pull requests, for content covered below:
 - Knocked-down version of steel target:
   [#5361](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5361)
 - Flagpoles: [#5363](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5363)
+- Vehicle-mounted Flags: [#5372](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5372)
+
 
 ## Undead People
 
@@ -101,6 +103,7 @@ Ultica are planned for the future.
 - Coca plant. Terrain specific to BN.
 - Grid floodlights, furniture based off now-deconstructabble utility lights, furniture added to BN.
 - Metal and wooden flagpoles (including with flag raised), furniture added to BN.
+- American flag displayed as a vehiclepart, specific to BN.
 
 ### alternative_mutation_tileset.png
 
