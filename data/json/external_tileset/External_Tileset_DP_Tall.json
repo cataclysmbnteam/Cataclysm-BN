@@ -40,7 +40,8 @@
           { "id": "f_flagpole_metal", "fg": 20 },
           { "id": "f_flagpole_wood", "fg": 21 },
           { "id": "f_us_flag_metal", "fg": 22 },
-          { "id": "f_us_flag_wood", "fg": 23 }
+          { "id": "f_us_flag_wood", "fg": 23 },
+          { "id": "vp_mounted_american_flag", "fg": 24 }
         ],
         "sprite_width": 64,
         "sprite_height": 80,
