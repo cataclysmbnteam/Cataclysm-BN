@@ -46,7 +46,6 @@ Links to relevant pull requests, for content covered below:
 - Flagpoles: [#5363](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5363)
 - Vehicle-mounted Flags: [#5372](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5372)
 
-
 ## Undead People
 
 The following is a current list of sprites this folder adds to the UDP tileset, in which files and
