@@ -275,9 +275,10 @@
     "id": "cave_minerals",
     "subtype": "distribution",
     "entries": [
-      { "item": "material_niter", "prob": 20 },
-      { "item": "iron_ore", "prob": 10 },
-      { "item": "material_limestone", "prob": 5 }
+      { "item": "material_niter", "prob": 75 },
+      { "item": "material_rocksalt", "prob": 10 },
+      { "item": "chunk_sulfur", "prob": 10 },
+      { "item": "iron_ore", "prob": 5 }
     ]
   },
   {
