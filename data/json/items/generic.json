@@ -1757,7 +1757,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "clock" },
-    "description": "A cheap digital clock.  Tells the time and has an alarm clock feature.",
+    "description": "A small mechanical clock.  Tells the time and has an alarm clock feature.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "plastic", "steel" ],
