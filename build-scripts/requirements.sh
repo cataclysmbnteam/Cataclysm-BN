@@ -15,8 +15,8 @@ if [[ "$LIBBACKTRACE" == "1" ]]; then
 fi
 
 if [ -n "$CATA_CLANG_TIDY" ]; then
-  pip install --user wheel --upgrade --break-system-packages
-  pip install --user 'lit==0.11.1' 'click==7.1.2' --break-system-packages
+  pip install --user wheel 
+  pip install --user 'lit==0.11.1' 'click==7.1.2' 
 fi
 
 if [ -n "$LANGUAGES" ]; then
