@@ -1627,7 +1627,7 @@
     "type": "uncraft",
     "time": "1 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "processor", 1 ] ], [ [ "power_supply", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "processor", 1 ] ], [ [ "light_battery_cell", 1 ] ] ]
   },
   {
     "result": "collarpin",
