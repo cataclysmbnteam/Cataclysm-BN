@@ -76,9 +76,27 @@
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "22 s",
+    "time": "15 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 20 ] ] ]
+    "components": [ [ [ "rag", 60 ] ], [ [ "cotton_ball", 100 ] ], [ [ "spring", 5 ] ] ]
+  },
+  {
+    "result": "down_mattress",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+  },
+  {
+    "result": "wool_mattress",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "felt_patch", 60 ] ], [ [ "yarn", 650 ] ] ]
   },
   {
     "result": "character_sheet",
@@ -1609,7 +1627,7 @@
     "type": "uncraft",
     "time": "1 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ], [ [ "clockworks", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "processor", 1 ] ], [ [ "power_supply", 1 ] ] ]
   },
   {
     "result": "collarpin",
