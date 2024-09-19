@@ -22,7 +22,7 @@
         "...,,,,,,,,,,,,,,,,,,,,,",
         "...,,,,,,,,,,,,,,,,,,,,r",
         "...##,,,,,,,,,,,,,,,,,,r",
-        "...##,,,,,,,,,,,,,,,,,,r",
+        "...##,I,,,,,,,,,,,,,,,,r",
         "...##,,,,,,,,,,,,,,,,,,r",
         "...##PPPP##,,,,,,,,,,,,r",
         ".........##PPPP##,,,,,,,",
@@ -46,8 +46,8 @@
         { "point": "trap", "id": "tr_landmine_buried", "x": [ 6, 14 ], "y": [ 20, 22 ], "repeat": [ 2, 4 ] },
         { "point": "trap", "id": "tr_landmine_buried", "x": [ 12, 21 ], "y": [ 21, 23 ], "repeat": [ 2, 4 ] }
       ],
-      "terrain": { ".": "t_grass", ",": "t_dirt", "#": "t_wall_log", "P": "t_palisade", "r": "t_dirt", "S": "t_sidewalk" },
-      "furniture": { "r": "f_rack" },
+      "terrain": { ".": "t_grass", ",": "t_dirt", "#": "t_wall_log", "I": "t_dirt", "P": "t_palisade", "r": "t_dirt", "S": "t_sidewalk" },
+      "furniture": { "I": [ [ "f_null", 9 ], "f_pirate_flag_wood" ], "r": "f_rack" },
       "place_npcs": [ { "class": "bandit", "x": 4, "y": 9 }, { "class": "bandit", "x": 22, "y": 13 } ]
     }
   },
