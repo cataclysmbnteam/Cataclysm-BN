@@ -10,7 +10,7 @@
     "type": "requirement",
     "//": "Compatible with legacy flag NAILABLE",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "nail", 20 ] ] ]
+    "components": [ [ [ "nail_glue", 1, "LIST" ] ] ]
   },
   {
     "id": "vehicle_nail_removal",
