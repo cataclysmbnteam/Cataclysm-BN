@@ -15,12 +15,12 @@ if [[ "$LIBBACKTRACE" == "1" ]]; then
 fi
 
 if [ -n "$CATA_CLANG_TIDY" ]; then
-  pip install --user wheel --upgrade
-  pip install --user 'lit==0.11.1' 'click==7.1.2'
+  pip install --user wheel --upgrade --break-system-packages
+  pip install --user 'lit==0.11.1' 'click==7.1.2' --break-system-packages
 fi
 
 if [ -n "$LANGUAGES" ]; then
-  pip install --user polib luaparser
+  pip install --user polib luaparser --break-system-packages
 fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
