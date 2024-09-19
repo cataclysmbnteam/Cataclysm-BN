@@ -83,7 +83,7 @@ jobs:
         # === Temporarily disabled because of #3664 ===
         #  - title: GCC 12, Ubuntu, Tiles, NoSound, ASan
         #    compiler: g++-12
-        #    os: ubuntu-22.04
+        #    os: ubuntu-24.04
         #    cmake: 0
         #    tiles: 1
         #    sound: 0
@@ -96,7 +96,7 @@ jobs:
         # === Temporarily disabled because of #3664 ===
         #  - title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
         #    compiler: clang++-14
-        #    os: ubuntu-22.04
+        #    os: ubuntu-24.04
         #    cmake: 0
         #    tiles: 1
         #    sound: 0

@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     environment: github-pages
     steps:
       - name: Checkout your repository using git
@@ -35,7 +35,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
