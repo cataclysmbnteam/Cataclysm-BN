@@ -1141,6 +1141,21 @@
   },
   {
     "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build Wooden Flagpole"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_us_flag",
+    "name": "Hoist American Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_pirate_flag",
+    "name": "Hoist Jolly Roger"
+  },
+  {
+    "type": "construction_group",
     "id": "paint_grass_white",
     "name": "Paint Grass White"
   },

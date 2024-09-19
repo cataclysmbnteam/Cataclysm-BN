@@ -699,6 +699,20 @@
   },
   {
     "type": "recipe",
+    "result": "mixed_alcohol_weak",
+    "id_suffix": "diluted",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "1 s",
+    "charges": 5,
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "//": "4:1 ratio by volume, matches ratio expected by ethanol and denatured alcohol recipes",
+    "components": [ [ [ "water_clean", 4 ] ], [ [ "hard_liquor", 7, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "drink_strawberry_surprise",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",

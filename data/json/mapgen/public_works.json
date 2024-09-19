@@ -53,7 +53,7 @@
         "    ____________,_____,_____sss|^..c...ddd|4    ",
         "    ________________________sss|-www--www-|     ",
         "    ________________________ssssss              ",
-        "    ________________________ssssOs              ",
+        "    ________________________ssssIs              ",
         "'   ________________________!sssss              "
       ],
       "terrain": {
@@ -70,6 +70,7 @@
         "D": "t_door_locked_alarm",
         "F": "t_chainfence_h",
         "G": "t_grate",
+        "I": "t_sidewalk",
         "O": "t_column",
         "_": "t_pavement",
         "f": "t_chainfence_v",
@@ -92,6 +93,7 @@
         "e": "f_fridge",
         "h": "f_chair",
         "H": "f_hydraulic_press",
+        "I": [ "f_us_flag_metal", [ "f_flagpole_metal", 3 ] ],
         "i": "f_filing_cabinet",
         "l": "f_locker",
         "L": "f_heavy_lathe",
@@ -137,7 +139,6 @@
         { "item": "log", "x": 27, "y": 2, "amount": [ 5, 20 ] },
         { "item": "stepladder", "x": 2, "y": 2 }
       ],
-      "place_loot": [ { "item": "american_flag", "x": 31, "y": 46, "chance": 25 } ],
       "place_monsters": [
         { "monster": "GROUP_PUBLICWORKERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.2 },
         { "monster": "GROUP_PUBLICWORKERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.1 },

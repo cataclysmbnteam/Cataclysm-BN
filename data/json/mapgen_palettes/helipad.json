@@ -22,7 +22,7 @@
       "_": "t_thconc_floor",
       "B": "t_thconc_floor",
       "C": "t_thconc_floor",
-      "i": "t_column",
+      "i": "t_sidewalk",
       "r": "t_thconc_floor",
       "l": "t_thconc_floor",
       "R": "t_thconc_floor",
@@ -44,6 +44,7 @@
       "<": "t_stairs_up"
     },
     "furniture": {
+      "i": [ [ "f_us_flag_metal", 3 ], "f_flagpole_metal" ],
       "C": "f_crate_c",
       "r": "f_rack",
       "z": [ "f_indoor_plant_y", "f_indoor_plant" ],

@@ -608,7 +608,32 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
+    "components": [
+      [ [ "sheet", 2 ] ],
+      [ [ "wood_structural", 2, "LIST" ] ],
+      [ [ "rope_natural_short", 1, "LIST" ] ],
+      [ [ "nail_glue", 20, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "sail_large_item",
+    "byproducts": [ [ "splinter", 15 ] ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "50 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "using": [ [ "sewing_standard", 250 ] ],
+    "components": [
+      [ [ "sheet", 8 ] ],
+      [ [ "wood_beam", 1 ] ],
+      [ [ "wood_structural", 2, "LIST" ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "nail_glue", 50, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",

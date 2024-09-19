@@ -15,8 +15,8 @@
         "gp____p____s|Y.......#|g",
         "gp____p____s+........2|g",
         "gp____p____s+........#|g",
-        "gsssssssssss|&.......#|g",
-        "8||w|||||||||v.......#|g",
+        "g8ssssssssss|&.......#|g",
+        "g||w|||||||||v.......#|g",
         "g|^IIIF|...&|......||||g",
         "g|..c.......|.......XX|g",
         "g|..........#........X|g",
@@ -36,7 +36,7 @@
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
         ".": "t_floor",
-        "8": "t_column",
+        "8": "t_sidewalk",
         "D": "t_door_locked",
         "_": "t_pavement",
         "'": "t_sidewalk",
@@ -52,6 +52,7 @@
       },
       "furniture": {
         "'": "f_street_light",
+        "8": [ [ "f_us_flag_metal", 9 ], "f_flagpole_metal" ],
         "#": "f_counter",
         "%": "f_counter",
         "&": "f_trashcan",
@@ -101,7 +102,6 @@
         { "item": "trash", "x": 11, "y": 10, "chance": 50 },
         { "item": "trash", "x": 13, "y": 8, "chance": 50 }
       ],
-      "place_loot": [ { "item": "american_flag", "x": 0, "y": 8, "chance": 90 } ],
       "place_vehicles": [
         { "vehicle": "beetle", "x": 3, "y": 3, "chance": 10, "fuel": 10, "rotation": 270 },
         { "vehicle": "motorcycle_sidecart", "x": 8, "y": 4, "chance": 25, "fuel": 15, "rotation": 270 },
@@ -206,7 +206,7 @@
         "4": "t_tree_pine",
         "7": "t_tree_apple",
         "D": "t_door_c",
-        "8": "t_column",
+        "8": "t_sidewalk",
         "S": "t_sidewalk",
         "W": "t_window",
         "a": "t_door_locked",
@@ -223,6 +223,7 @@
       },
       "furniture": {
         "'": "f_street_light",
+        "8": [ [ "f_us_flag_metal", 9 ], "f_flagpole_metal" ],
         "#": "f_counter",
         "&": "f_trashcan",
         "C": "f_chair",
@@ -266,8 +267,7 @@
         { "item": "office", "x": 4, "y": 13, "chance": 55 },
         { "item": "file_room", "x": 4, "y": 21, "chance": 75 },
         { "item": "file_room", "x": 13, "y": 16, "chance": 75 }
-      ],
-      "place_loot": [ { "item": "american_flag", "x": 10, "y": 6, "chance": 90 } ]
+      ]
     }
   },
   {

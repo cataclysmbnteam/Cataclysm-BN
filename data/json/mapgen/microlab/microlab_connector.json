@@ -2,6 +2,12 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "microlab_under_connector" ],
+    "object": { "fill_ter": "t_rock" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "microlab_sub_connector" ],
     "weight": 1000,
     "object": {

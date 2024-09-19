@@ -997,5 +997,157 @@
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
       "ranged": { "reduction": [ 32, 64 ], "destroy_threshold": 64, "block_unaimed_chance": "50%" }
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flagpole_metal",
+    "name": "flagpole",
+    "looks_like": "f_dancing_pole",
+    "description": "An old metal flagpole, with no flag to fly.  Don't lick it if it's cold out.",
+    "symbol": "i",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "BASHABLE", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 8 }, { "item": "sheet_metal", "count": 2 }, { "item": "rope_30", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_us_flag_metal",
+    "copy-from": "f_flagpole_metal",
+    "name": "flagpole with American flag",
+    "looks_like": "american_flag",
+    "description": "An old metal flagpole flying an American flag.  A leftover from before the world ended, you could take it down if you need one for some reason.",
+    "symbol": "i",
+    "color": "light_red",
+    "extend": { "flags": [ "EASY_DECONSTRUCT" ] },
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "american_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "american_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flagpole_wood",
+    "name": "wooden flagpole",
+    "description": "A makeshift flagpole constructed from a wooden beam and rope.",
+    "symbol": "i",
+    "color": "brown",
+    "looks_like": "f_utility_pole",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "BASHABLE", "TRANSPARENT" ],
+    "deconstruct": { "items": [ { "item": "wood_beam", "count": 1 }, { "item": "rope_makeshift_30", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_us_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with American flag",
+    "looks_like": "american_flag",
+    "description": "Someone's hoisted an old American flag from this makeshift flagpole.",
+    "symbol": "i",
+    "color": "light_red",
+    "extend": { "flags": [ "EASY_DECONSTRUCT" ] },
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "american_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "american_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pirate_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Jolly Roger",
+    "looks_like": "pirate_flag",
+    "description": "An old metal flagpole, now flying a black pirate flag.",
+    "symbol": "i",
+    "color": "dark_gray",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "pirate_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "pirate_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pirate_flag_wood",
+    "copy-from": "f_us_flag_wood",
+    "name": "wooden flagpole with Jolly Roger",
+    "looks_like": "pirate_flag",
+    "description": "Someone's hoisted a black pirate flag from this makeshift flagpole.",
+    "symbol": "i",
+    "color": "light_red",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "pirate_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "pirate_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
   }
 ]

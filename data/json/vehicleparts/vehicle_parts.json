@@ -1311,7 +1311,8 @@
   {
     "type": "vehicle_part",
     "id": "sail",
-    "name": { "str": "sail" },
+    "name": { "str": "small sail" },
+    "description": "A sail for a raft, small enough to be foldable.",
     "symbol": "M",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1324,12 +1325,12 @@
     "m2c": 90,
     "exclusions": [ "wind" ],
     "item": "sail",
-    "location": "engine_block",
+    "location": "on_roof",
     "folded_volume": "500 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
     "flags": [
       "ENGINE",
@@ -1343,6 +1344,28 @@
       "UNMOUNT_ON_DAMAGE"
     ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "rag", "count": [ 5, 10 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "sail_large",
+    "copy-from": "sail",
+    "name": { "str": "large sail" },
+    "description": "Sails and rigging fit for a yacht or sloop, about as large as a single person can reasonably crew.",
+    "durability": 150,
+    "power": 4000,
+    "item": "sail_large_item",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_nail_removal", 2 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+    },
+    "breaks_into": [
+      { "item": "log", "count": [ 1, 2 ] },
+      { "item": "splinter", "count": [ 10, 20 ] },
+      { "item": "sheet", "count": [ 0, 1 ] },
+      { "item": "rag", "count": [ 25, 50 ] }
+    ],
+    "delete": { "flags": [ "UNMOUNT_ON_DAMAGE" ] }
   },
   {
     "type": "vehicle_part",
@@ -3289,5 +3312,38 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_american_flag",
+    "name": { "str": "mounted American flag" },
+    "description": "An American flag, fluttering in the breeze atop a vehicle.",
+    "symbol": "F",
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "looks_like": "vp_sail",
+    "damage_modifier": 1,
+    "durability": 200,
+    "item": "american_flag",
+    "location": "on_roof",
+    "folded_volume": "500 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "cordage", 1 ], [ "wood_structural_small", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [  ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "fabric_standard", 1 ] ] }
+    },
+    "flags": [ "FOLDABLE", "PROTRUSION", "OVER", "UNMOUNT_ON_DAMAGE" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 1, 5 ] }, { "item": "american_flag", "count": 1 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_pirate_flag",
+    "copy-from": "mounted_american_flag",
+    "name": { "str": "mounted Jolly Roger" },
+    "description": "A black pirate flag, fluttering in the breeze atop a vehicle.",
+    "color": "dark_gray",
+    "item": "pirate_flag",
+    "breaks_into": [ { "item": "splinter", "count": [ 1, 5 ] }, { "item": "pirate_flag", "count": 1 } ]
   }
 ]

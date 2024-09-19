@@ -275,9 +275,10 @@
     "id": "cave_minerals",
     "subtype": "distribution",
     "entries": [
-      { "item": "material_niter", "prob": 20 },
-      { "item": "iron_ore", "prob": 10 },
-      { "item": "material_limestone", "prob": 5 }
+      { "item": "material_niter", "prob": 75 },
+      { "item": "material_rocksalt", "prob": 10 },
+      { "item": "chunk_sulfur", "prob": 10 },
+      { "item": "iron_ore", "prob": 5 }
     ]
   },
   {
@@ -1101,7 +1102,8 @@
       [ "retort_copper", 10 ],
       { "group": "tinware", "prob": 50 },
       [ "crown_golden", 10 ],
-      [ "fluid_preserved_brain", 20 ]
+      [ "fluid_preserved_brain", 20 ],
+      [ "pirate_flag", 25 ]
     ]
   },
   {
@@ -1798,7 +1800,8 @@
       [ "barometer", 3 ],
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
-      [ "bodypillow", 1 ]
+      [ "bodypillow", 1 ],
+      [ "pirate_flag", 5 ]
     ]
   },
   {

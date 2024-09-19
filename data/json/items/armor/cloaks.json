@@ -23,6 +23,29 @@
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "pirate_flag",
+    "copy-from": "american_flag",
+    "type": "ARMOR",
+    "name": { "str": "Jolly Roger" },
+    "description": "A black replica pirate flag.",
+    "looks_like": "plastic_sheet",
+    "color": "dark_gray",
+    "snippet_category": [
+      { "id": "pirate_flag_1", "text": "A black replica pirate flag, depicting a skull-and-crossbones." },
+      {
+        "id": "pirate_flag_2",
+        "text": "A black replica pirate flag, depicting a skull-and-crossbones over an hourglass."
+      },
+      { "id": "pirate_flag_3", "text": "A black replica pirate flag, depicting a skull over a cutlass." },
+      {
+        "id": "pirate_flag_4",
+        "text": "A black replica pirate flag, depicting a skeleton stabbing a heart with a spear."
+      },
+      { "id": "pirate_flag_5", "text": "A black replica pirate flag, depicting an arm holding a cutlass." },
+      { "id": "pirate_flag_6", "text": "A black replica pirate flag, depicting a skull." }
+    ]
+  },
+  {
     "id": "cape_fp",
     "repairs_like": "sheet",
     "type": "ARMOR",
