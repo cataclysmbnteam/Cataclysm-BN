@@ -15,7 +15,7 @@ env:
 jobs:
   release:
     name: Create Release
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       release_already_exists: ${{ steps.tag_check.outputs.exists }}
@@ -100,7 +100,7 @@ jobs:
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             mxe: none
             android: none
             tiles: 1
@@ -108,7 +108,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: linux-curses-x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             mxe: none
             android: none
             tiles: 0
