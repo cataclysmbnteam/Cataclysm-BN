@@ -1129,7 +1129,7 @@
     "item": "w_table",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
