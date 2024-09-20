@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install gettext python3-pip
-          sudo pip3 install polib luaparser
+          sudo pip3 install --break-system-packages polib luaparser
 
       - uses: actions/checkout@v4
 
