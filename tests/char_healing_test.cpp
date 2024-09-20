@@ -276,8 +276,8 @@ static float untreated_rate( const std::string bp_name, const float rest_quality
 static float bandaged_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
-    const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
+    const bodypart_str_id &bp = bodypart_str_id( bp_name );
+    dummy.add_effect( effect_bandaged, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
@@ -285,8 +285,8 @@ static float bandaged_rate( const std::string bp_name, const float rest_quality 
 static float disinfected_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
-    const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
+    const bodypart_str_id &bp = bodypart_str_id( bp_name );
+    dummy.add_effect( effect_disinfected, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
@@ -294,9 +294,9 @@ static float disinfected_rate( const std::string bp_name, const float rest_quali
 static float together_rate( const std::string bp_name, const float rest_quality )
 {
     avatar dummy;
-    const bodypart_id &bp = bodypart_id( bp_name );
-    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
-    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
+    const bodypart_str_id &bp = bodypart_str_id( bp_name );
+    dummy.add_effect( effect_bandaged, 1_turns, bp );
+    dummy.add_effect( effect_disinfected, 1_turns, bp );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
@@ -395,4 +395,3 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][ba
         }
     }
 }
-

@@ -421,10 +421,10 @@ std::string encumb_text( body_part bp )
     return !txt.empty() ? _( txt ) : txt;
 }
 
-body_part random_body_part( bool main_parts_only )
+bodypart_str_id random_body_part( bool main_parts_only )
 {
     const auto &part = human_anatomy->random_body_part();
-    return main_parts_only ? part->main_part->token : part->token;
+    return main_parts_only ? part->main_part : part.id();
 }
 
 body_part mutate_to_main_part( body_part bp )

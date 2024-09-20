@@ -526,8 +526,8 @@ bool mattack::shriek_stun( monster *z )
             continue;
         }
         if( one_in( dist / 2 ) && !( target->is_immune_effect( effect_deaf ) ) ) {
-            target->add_effect( effect_dazed, rng( 1_minutes, 2_minutes ), num_bp, rng( 1,
-                                ( 15 - dist ) / 3 ) );
+            target->add_effect( effect_dazed, rng( 1_minutes, 2_minutes ), bodypart_str_id::NULL_ID(),
+                                rng( 1, ( 15 - dist ) / 3 ) );
         }
 
     }
@@ -953,8 +953,8 @@ bool mattack::boomer_glow( monster *z )
             target->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
             target->on_dodge( z, 5 );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = random_body_part();
-                target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
+                bodypart_str_id bp = random_body_part();
+                target->add_env_effect( effect_glowing, bp->token, 4, 4_minutes );
                 if( target->has_effect( effect_glowing ) ) {
                     break;
                 }
@@ -1901,7 +1901,7 @@ bool mattack::fungus_inject( monster *z )
                  body_part_name_accusative( hit->token ) );
 
         if( one_in( 10 - dam ) ) {
-            g->u.add_effect( effect_fungus, 10_minutes, num_bp );
+            g->u.add_effect( effect_fungus, 10_minutes, bodypart_str_id::NULL_ID() );
             add_msg( m_warning, _( "You feel thousands of live spores pumping into you…" ) );
         }
     } else {
@@ -1957,7 +1957,7 @@ bool mattack::fungus_bristle( monster *z )
                                    body_part_name_accusative( hit->token ) );
 
         if( one_in( 15 - dam ) ) {
-            target->add_effect( effect_fungus, 20_minutes, num_bp );
+            target->add_effect( effect_fungus, 20_minutes, bodypart_str_id::NULL_ID() );
             target->add_msg_if_player( m_warning,
                                        _( "You feel thousands of live spores pumping into you…" ) );
         }
@@ -2126,7 +2126,7 @@ bool mattack::fungus_fortify( monster *z )
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit->token ) );
-        g->u.add_effect( effect_fungus, 40_minutes, num_bp );
+        g->u.add_effect( effect_fungus, 40_minutes, bodypart_str_id::NULL_ID() );
         add_msg( m_warning, _( "You feel millions of live spores pumping into you…" ) );
     } else {
         //~ 1$s is monster name, 2$s bodypart in accusative
@@ -2177,7 +2177,7 @@ bool mattack::impale( monster *z )
 
         target->on_hit( z, bodypart_id( "torso" ) );
         if( one_in( 60 / ( dam + 20 ) ) ) {
-            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso );
+            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), body_part_torso );
 
         }
 
@@ -2271,7 +2271,7 @@ bool mattack::dermatik( monster *z )
                                z->name(),
                                body_part_name_accusative( targeted->token ) );
     if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
-        foe->add_effect( effect_dermatik, 1_turns, targeted->token );
+        foe->add_effect( effect_dermatik, 1_turns, targeted.id() );
         g->events().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }
 
@@ -2767,7 +2767,7 @@ bool mattack::ranged_pull( monster *z )
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
     //Duration needs to be at least 2, or grab will immediately be removed
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, prev_effect + 4 );
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, prev_effect + 4 );
     z->add_effect( effect_grabbing, 2_turns );
     return true;
 }
@@ -2823,7 +2823,7 @@ bool mattack::grab( monster *z )
 
     const int prev_effect = target->get_effect_int( effect_grabbed );
     z->add_effect( effect_grabbing, 2_turns );
-    target->add_effect( effect_grabbed, 2_turns, bp_torso,
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso,
                         prev_effect + z->get_grab_strength() );
     target->add_msg_player_or_npc( m_bad, _( "The %s grabs you!" ), _( "The %s grabs <npcname>!" ),
                                    z->name() );
@@ -2897,7 +2897,7 @@ bool mattack::grab_drag( monster *z )
     }
     int prev_effect = target->get_effect_int( effect_grabbed );
     z->add_effect( effect_grabbing, 2_turns );
-    target->add_effect( effect_grabbed, 2_turns, bp_torso, prev_effect + 3 );
+    target->add_effect( effect_grabbed, 2_turns, body_part_torso, prev_effect + 3 );
 
     // cooldown was not reset prior to refactor here
     return true;
@@ -3084,7 +3084,7 @@ bool mattack::nurse_assist( monster *z )
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
                                Name::generate( target->male ) ) );
-            target->add_effect( effect_assisted, 20_turns, num_bp, 12 );
+            target->add_effect( effect_assisted, 20_turns, bodypart_str_id::NULL_ID(), 12 );
             return true;
         }
     }
@@ -3828,7 +3828,7 @@ void mattack::flame( monster *z, Creature *target )
             here.add_field( i, fd_fire, 1 );
             prev_point = i;
         }
-        target->add_effect( effect_onfire, 8_turns, bp_torso );
+        target->add_effect( effect_onfire, 8_turns, body_part_torso );
 
         return;
     }
@@ -3869,7 +3869,7 @@ void mattack::flame( monster *z, Creature *target )
         prev_point = i;
     }
     if( !target->uncanny_dodge() ) {
-        target->add_effect( effect_onfire, 8_turns, bp_torso );
+        target->add_effect( effect_onfire, 8_turns, body_part_torso );
     }
 }
 
@@ -4319,11 +4319,11 @@ bool mattack::stretch_bite( monster *z )
 
         if( one_in( 16 - dam ) ) {
             if( target->has_effect( effect_bite, hit_token ) ) {
-                target->add_effect( effect_bite, 40_minutes, hit_token );
+                target->add_effect( effect_bite, 40_minutes, hit.id() );
             } else if( target->has_effect( effect_infected, hit_token ) ) {
-                target->add_effect( effect_infected, 25_minutes, hit_token );
+                target->add_effect( effect_infected, 25_minutes, hit.id() );
             } else {
-                target->add_effect( effect_bite, 1_turns, hit_token );
+                target->add_effect( effect_bite, 1_turns, hit.id() );
             }
         }
     } else {
@@ -4650,7 +4650,7 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
-        target->add_effect( effect_bleed, 10_minutes, bp_head );
+        target->add_effect( effect_bleed, 10_minutes, body_part_head );
     } else {
         target->add_msg_player_or_npc( _( "The %1$s slashes at your %2$s, but glances off your armor!" ),
                                        _( "The %1$s slashes at <npcname>'s %2$s, but glances off armor!" ),
@@ -4742,7 +4742,7 @@ bool mattack::darkman( monster *z )
             add_msg( _( "\"Please dont\"" ) );
             break;
     }
-    g->u.add_effect( effect_darkness, 1_turns, num_bp );
+    g->u.add_effect( effect_darkness, 1_turns, bodypart_str_id::NULL_ID() );
 
     return true;
 }
@@ -5479,7 +5479,7 @@ bool mattack::bio_op_impale( monster *z )
         // Handle mons earlier - less to check for
         target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_STAB, dam ) );
         if( do_bleed ) {
-            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso );
+            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), body_part_torso );
         }
         if( seen ) {
             add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
@@ -5500,7 +5500,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso );
+            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), body_part_torso );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),

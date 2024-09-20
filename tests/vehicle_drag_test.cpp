@@ -39,7 +39,7 @@ static void clear_game_drag( const ter_id &terrain )
     CHECK( !player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    player_character.add_effect( effect_blind, 365_days, num_bp );
+    player_character.add_effect( effect_blind, 365_days, bodypart_str_id::NULL_ID() );
     // Make sure the ST is 8 so that muscle powered results are consistent
     player_character.str_cur = 8;
 
