@@ -2432,8 +2432,10 @@ class item : public location_visitable<item>, public game_object<item>
         std::unique_ptr<kill_tracker> kills;
 
     public:
+        bool kills_set();
         void add_monster_kill( mtype_id );
         void add_npc_kill( std::string );
+        void show_kill_list();
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

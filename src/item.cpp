@@ -93,6 +93,7 @@
 #include "ret_val.h"
 #include "rot.h"
 #include "rng.h"
+#include "scores_ui.h"
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -4108,9 +4109,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                 info.emplace_back( "DESCRIPTION", line );
             }
         }
-    }
-    if( kills ) {
-        info.emplace_back( "DESCRIPTION", kills->get_kills_text() );
     }
 }
 
@@ -10706,6 +10704,15 @@ location_vector<item> &item::get_components()
     return components;
 }
 
+bool item::kills_set()
+{
+    if( kills ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void item::add_monster_kill( mtype_id mon )
 {
     if( !kills ) {
@@ -10719,4 +10726,12 @@ void item::add_npc_kill( std::string npc )
         kills = &kill_tracker();
     }
     kills->add_npc( npc );*/
+}
+void item::show_kill_list()
+{
+    if( !kills ) {
+        debugmsg( "Tried to display empty kill list" );
+        return;
+    }
+    show_kills( *kills );
 }
