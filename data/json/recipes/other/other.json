@@ -25,13 +25,24 @@
   },
   {
     "type": "recipe",
+    "result": "mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "cotton_ball", 100 ] ], [ [ "spring", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "down_mattress",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "240 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
@@ -576,7 +587,6 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "240 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "felt_patch", 60 ] ], [ [ "yarn", 650 ] ] ]
