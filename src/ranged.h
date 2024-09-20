@@ -111,8 +111,6 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
 
 std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power );
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di );
-
 void draw_cone_aoe( const tripoint &origin, const std::map<tripoint, double> &aoe );
 
 enum class hit_tier : int {
