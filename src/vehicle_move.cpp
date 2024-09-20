@@ -1306,7 +1306,7 @@ vehicle *vehicle::act_on_map()
         const float old_vel = vmiph_to_mps( vertical_velocity );
         // Formula is v_2 = sqrt( 2*d*g + v_1^2 )
         // Note: That drops the sign
-        const float new_vel = -std::sqrt( 2 * tile_height * GRAVITY_OF_EARTH + old_vel * old_vel );
+        const float new_vel = -std::sqrt( 2 * tile_height * GRAVITY_OF_EARTH + static_cast<double>(old_vel) * old_vel );
         vertical_velocity = mps_to_vmiph( new_vel );
         is_falling = true;
     } else {
