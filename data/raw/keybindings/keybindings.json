@@ -3268,7 +3268,7 @@
     "name": "Disassemble",
     "bindings": [ { "input_method": "keyboard", "key": "D" } ]
   },
-    {
+  {
     "id": "SHOW_KILL_LIST",
     "type": "keybinding",
     "category": "INVENTORY_ITEM",
