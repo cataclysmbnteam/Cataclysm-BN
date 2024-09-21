@@ -7,7 +7,7 @@
 #include "type_id.h"
 
 class item;
-class Character;
+class avatar;
 
 /** Gets size of single width terminal unit size value in pixels **/
 auto termx_to_pixel_value() -> int;
@@ -34,7 +34,7 @@ struct character_preview_window {
 
         catacurses::window w_preview;
 
-        void init( Character *character );
+        void init( const avatar &u );
         /** Window preparations before displaying. Sets desirable position. Could also be usefull for ui-rescale **/
         void prepare( int nlines, int ncols, const Orientation *orientation, int hide_below_ncols );
         void zoom_in();
@@ -42,7 +42,7 @@ struct character_preview_window {
         void toggle_clothes();
         void display() const;
         /** Use it as you done with preview **/
-        void clear() const;
+        void clear();
         auto clothes_showing() const -> bool;
 
     private:
@@ -56,7 +56,7 @@ struct character_preview_window {
         int hide_below_ncols = 0;
         int ncols_width = 0;
         int nlines_width = 0;
-        Character *character = nullptr;
+        std::unique_ptr<avatar> preview;
         std::vector<detached_ptr<item>> clothes;
         std::vector<trait_id> spells;
         bool show_clothes = true;

@@ -1108,7 +1108,7 @@ tab_direction set_traits( avatar &u, points_left &points )
 
 #if defined(TILES)
     character_preview_window character_preview;
-    character_preview.init( &u );
+    character_preview.init( u );
     const bool use_character_preview = get_option<bool>( "USE_CHARACTER_PREVIEW" ) &&
                                        get_option<bool>( "USE_TILES" );
 #endif
@@ -1369,13 +1369,6 @@ tab_direction set_traits( avatar &u, points_left &points )
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
                 u.toggle_trait( cur_trait );
-#if defined(TILES)
-                // If character had trait - it's now removed. Trait could blocked some clothes, need to retoggle
-                if( has_trait && character_preview.clothes_showing() ) {
-                    character_preview.toggle_clothes();
-                    character_preview.toggle_clothes();
-                }
-#endif
                 points.trait_points -= mdata.points * inc_type;
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;

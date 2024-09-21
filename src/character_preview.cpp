@@ -1,10 +1,11 @@
 #if defined(TILES)
+#include "avatar.h"
+#include "character.h"
 #include "character_preview.h"
 #include "bionics.h"
 #include "magic.h"
 #include "messages.h"
 #include "type_id.h"
-#include "character.h"
 #include "profession.h"
 #include "sdltiles.h"
 #include "output.h"
@@ -22,25 +23,18 @@ auto termy_to_pixel_value() -> int
     return projected_window_height() / TERMY;
 }
 
-void character_preview_window::init( Character *character )
+void character_preview_window::init( const avatar &u )
 {
-    this->character = character;
+    preview = std::make_unique<avatar>( u );
 
     // Setting bionics
-    for( const bionic_id &bio : character->prof->CBMs() ) {
-        character->add_bionic( bio );
-        // Saving possible spells to cancell them later
-        for( const std::pair<const spell_id, int> &spell_pair : bio->learned_spells ) {
-            const spell_id learned_spell = spell_pair.first;
-            if( learned_spell->spell_class != trait_id( "NONE" ) ) {
-                spells.push_back( learned_spell->spell_class );
-            }
-        }
+    for( const bionic_id &bio : preview->prof->CBMs() ) {
+        preview->add_bionic( bio );
     }
 
     // Collecting profession clothes
-    std::vector<detached_ptr<item>> prof_items = character->prof->items( character->male,
-                                 character->get_mutations() );
+    std::vector<detached_ptr<item>> prof_items = preview->prof->items( preview->male,
+                                 preview->get_mutations() );
     for( detached_ptr<item> &it : prof_items ) {
         if( it->is_armor() ) {
             clothes.push_back( std::move( it ) );
@@ -130,10 +124,10 @@ void character_preview_window::zoom_out()
 void character_preview_window::toggle_clothes()
 {
     if( !show_clothes ) {
-        character->worn.clear();
+        preview->worn.clear();
     } else {
         for( detached_ptr<item> &it : clothes ) {
-            character->wear_item( item::spawn( *std::move( it ) ), false );
+            preview->wear_item( item::spawn( *std::move( it ) ), false );
         }
     }
     show_clothes = !show_clothes;
@@ -153,23 +147,13 @@ void character_preview_window::display() const
 
     // Drawing character itself
     const point pos = calc_character_pos();
-    tilecontext->display_character( *character, pos );
+    tilecontext->display_character( *preview, pos );
 }
 
-void character_preview_window::clear() const
+void character_preview_window::clear()
 {
-    character->worn.clear();
-    character->clear_bionics();
-    character->set_max_power_level( 0_kJ );
-    character->set_power_level( character->get_max_power_level() );
-    character->magic = pimpl<known_magic>();
-    for( const trait_id &spell : spells ) {
-        if( character->has_trait( spell ) ) {
-            character->remove_mutation( spell );
-        }
-    }
-    character->clear_morale();
-    Messages::clear_messages();
+    preview.reset( nullptr );
+    clothes.clear();
     tilecontext->set_draw_scale( DEFAULT_TILESET_ZOOM );
 }
 
