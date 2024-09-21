@@ -8961,6 +8961,9 @@ void Character::apply_damage( Creature *source, item *s_weapon, bodypart_id hurt
                     get_name() );
         }
         set_killer( source );
+        if( s_weapon != nullptr ) {
+            s_weapon->add_npc_kill( get_name() );
+        }
     }
 
     if( !bypass_med ) {

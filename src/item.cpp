@@ -10722,10 +10722,10 @@ void item::add_monster_kill( mtype_id mon )
 }
 void item::add_npc_kill( std::string npc )
 {
-    /*if( kills == nullptr ) {
-        kills = &kill_tracker();
+    if( !kills ) {
+        kills = std::make_unique<kill_tracker>( false );
     }
-    kills->add_npc( npc );*/
+    kills->add_npc( npc );
 }
 void item::show_kill_list()
 {
