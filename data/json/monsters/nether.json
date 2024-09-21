@@ -581,7 +581,7 @@
     "armor_bash": 6,
     "armor_cut": 12,
     "armor_bullet": 10,
-    "harvest": "human",
+    "harvest": "mutant_human_acid",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
