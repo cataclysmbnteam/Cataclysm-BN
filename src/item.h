@@ -2427,7 +2427,7 @@ class item : public location_visitable<item>, public game_object<item>
          */
         pimpl<item_drop_token> drop_token;
 
-    /** Kill tracker */
+        /** Kill tracker */
     private:
         std::unique_ptr<kill_tracker> kills;
 
@@ -2436,6 +2436,7 @@ class item : public location_visitable<item>, public game_object<item>
         void add_monster_kill( mtype_id );
         void add_npc_kill( std::string );
         void show_kill_list();
+        int kill_count();
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

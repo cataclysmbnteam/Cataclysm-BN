@@ -10735,3 +10735,11 @@ void item::show_kill_list()
     }
     show_kills( *kills );
 }
+int item::kill_count()
+{
+    if( !kills ) {
+        return 0;
+    } else {
+        return kills->monster_kill_count() + kills->npc_kill_count();
+    }
+}
