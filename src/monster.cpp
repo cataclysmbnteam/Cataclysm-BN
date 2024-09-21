@@ -1905,7 +1905,8 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, item *s_weapon, bodypart_id /*bp*/, int dam,
+void monster::apply_damage( Creature *source, item *s_weapon, item *s_proj, bodypart_id /*bp*/,
+                            int dam,
                             const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
@@ -1914,17 +1915,25 @@ void monster::apply_damage( Creature *source, item *s_weapon, bodypart_id /*bp*/
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
-        if ( s_weapon != nullptr ) {
-            s_weapon->add_monster_kill(type->id);
+        if( s_weapon ) {
+            s_weapon->add_monster_kill( type->id );
+        }
+        if( s_proj ) {
+            s_proj->add_monster_kill( type->id );
         }
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
     }
 }
+void monster::apply_damage( Creature *source, item *s_weapon, bodypart_id bp, int dam,
+                            const bool bypass_med )
+{
+    return apply_damage( source, s_weapon, nullptr, bp, dam, bypass_med );
+}
 void monster::apply_damage( Creature *source, bodypart_id bp, int dam,
                             const bool bypass_med )
 {
-    apply_damage( source, nullptr, bp, dam, bypass_med );
+    return apply_damage( source, nullptr, nullptr, bp, dam, bypass_med );
 }
 
 void monster::die_in_explosion( Creature *source )

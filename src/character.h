@@ -671,13 +671,15 @@ class Character : public Creature, public location_visitable<Character>
         void did_hit( Creature &target );
 
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
+        void apply_damage( Creature *source, item *s_weapon, item *s_proj, bodypart_id hurt, int dam,
+                           bool bypass_med = false ) override;
         void apply_damage( Creature *source, item *s_weapon, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                                           const damage_instance &d ) override;
+                                           const damage_instance &d, item *s_weapon = nullptr, item *s_proj = nullptr ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, const bodypart_id &hurt );
 

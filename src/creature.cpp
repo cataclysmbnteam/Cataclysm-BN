@@ -603,7 +603,7 @@ void Creature::deal_melee_hit( Creature *source, item *s_weapon, int hit_spread,
     block_hit( source, bp_hit, d );
 
     on_hit( source, bp_hit ); // trigger on-gethit events
-    dealt_dam = deal_damage( source, s_weapon, bp_hit, d );
+    dealt_dam = deal_damage( source, bp_hit, d, s_weapon );
     dealt_dam.bp_hit = bp_token;
 }
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
@@ -698,7 +698,7 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, item *s_
         bool hit_this_bp = false;
         damage_instance impact = di;
         impact.mult_damage( pr.first->hit_size / hit_size_sum );
-        dealt_damage_instance bp_damage = target.deal_damage( source, s_weapon, pr.first.id(), impact );
+        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact, s_weapon );
         for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
             dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
             hit_this_bp |= bp_damage.dealt_dams[i] > 0;
@@ -761,6 +761,7 @@ auto get_stun_srength( const projectile &proj, creature_size size ) -> int
  * Attempts to harm a creature with a projectile.
  *
  * @param source Pointer to the creature who shot the projectile.
+ * @param s_weapon Pointer to the weapon used to fire the projectile.
  * @param attack A structure describing the attack and its results.
  * @param print_messages enables message printing by default.
  */
@@ -898,7 +899,8 @@ void Creature::deal_projectile_attack( Creature *source, item *s_weapon,
 
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
-    dealt_dam = deal_damage( source, s_weapon, bp_hit, impact );
+    // If the projectile survives, both it and the launcher get credit for the kill.
+    dealt_dam = deal_damage( source, bp_hit, impact, s_weapon, attack.proj.get_drop() );
     dealt_dam.bp_hit = bp_hit->token;
 
     // Apply ammo effects to target.
@@ -985,8 +987,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     deal_projectile_attack( source, nullptr, attack );
 }
 
-dealt_damage_instance Creature::deal_damage( Creature *source, item *s_weapon, bodypart_id bp,
-        const damage_instance &dam )
+dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam, item *s_weapon, item *s_proj )
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();
@@ -1010,13 +1012,18 @@ dealt_damage_instance Creature::deal_damage( Creature *source, item *s_weapon, b
 
     mod_pain( total_pain );
 
-    apply_damage( source, s_weapon, bp, total_damage );
+    apply_damage( source, s_weapon, s_proj, bp, total_damage );
     return dealt_dams;
+}
+dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam, item *s_weapon )
+{
+    return deal_damage( source, bp, dam, s_weapon, nullptr );
 }
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam )
 {
-    return deal_damage( source, nullptr, bp, dam );
+    return deal_damage( source, bp, dam, nullptr, nullptr );
 }
 void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                         int &pain )

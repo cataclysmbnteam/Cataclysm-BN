@@ -376,20 +376,27 @@ class Creature
          * Does nothing if this creature is already dead.
          * Does not call @ref check_dead_state.
          * @param source The attacking creature, can be null.
-         * @param s_weapon The weapon used in the attack, can be null.
          * @param bp The attacked body part
          * @param dam The damage dealt
+         * @param s_weapon The weapon used in the attack, optional
+         * @param s_proj The projectile fired in the attack, optional
          */
-        virtual dealt_damage_instance deal_damage( Creature *source, item *s_weapon, bodypart_id bp,
-                const damage_instance &dam );
+        virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                const damage_instance &dam, item *s_weapon, item *s_proj );
+        virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                const damage_instance &dam, item *s_weapon );
         virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                 const damage_instance &dam );
+
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const damage_unit &du,
                                               bodypart_id bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
+        virtual void apply_damage( Creature *source, item *s_weapon, item *s_proj, bodypart_id bp,
+                                   int amount,
+                                   bool bypass_med = false ) = 0;
         virtual void apply_damage( Creature *source, item *s_weapon, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
@@ -920,7 +927,7 @@ class Creature
     protected:
         weak_ptr_fast<Creature> killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *nkiller );
-        
+
         /**
          * Processes one effect on the Creature.
          */
