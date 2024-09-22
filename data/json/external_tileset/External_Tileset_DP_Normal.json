@@ -62,7 +62,15 @@
           { "id": "f_target_downed", "fg": 50 },
           { "id": [ "pirate_flag", "overlay_wielded_pirate_flag" ], "fg": 51 },
           { "id": "overlay_worn_pirate_flag", "fg": 52 },
-          { "id": "vp_sail", "fg": 53 }
+          { "id": "vp_sail", "fg": 53 },
+          { "id": "cannon_3in_makeshift", "fg": 54 },
+          { "id": "overlay_wielded_cannon_3in_makeshift", "fg": 55 },
+          { "id": "vp_mounted_makeshift_cannon", "fg": 56 },
+          { "id": [ "cannonball_explosive", "overlay_wielded_cannonball_explosive" ], "fg": 57 },
+          { "id": [ "cannon_scrap_shot", "overlay_wielded_cannon_scrap_shot" ], "fg": 58 },
+          { "id": [ "cannon_canister_shot", "overlay_wielded_cannon_canister_shot" ], "fg": 59 },
+          { "id": [ "cannon_round_ball", "overlay_wielded_cannon_round_ball" ], "fg": 60 },
+          { "id": [ "cannon_explosive_shell", "overlay_wielded_cannon_explosive_shell" ], "fg": 61 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
