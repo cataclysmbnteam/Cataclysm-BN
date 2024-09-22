@@ -10704,14 +10704,6 @@ location_vector<item> &item::get_components()
     return components;
 }
 
-bool item::kills_set()
-{
-    if( kills ) {
-        return true;
-    } else {
-        return false;
-    }
-}
 bool item::init_kill_tracker()
 {
     if( kills ) {

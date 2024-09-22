@@ -2439,7 +2439,6 @@ class item : public location_visitable<item>, public game_object<item>
         bool init_kill_tracker();
 
     public:
-        bool kills_set();
         void add_monster_kill( mtype_id );
         void add_npc_kill( std::string );
         void show_kill_list();
