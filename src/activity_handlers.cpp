@@ -486,7 +486,7 @@ static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int ro
             if( p.is_npc() ) {
                 drop_on_map( p, item_drop_reason::deliberate, { std::move( it ) }, p.pos() );
             } else {
-                liquid_handler::handle_all_liquid( std::move( it ), 1 );
+                liquid_handler::handle_all_liquid( std::move( it ), PICKUP_RANGE );
             }
         } else {
             get_map().add_item( p.pos(), std::move( it ) );
@@ -1087,7 +1087,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( p.is_npc() || action != butcher_type::BLEED ) {
                     drop_on_map( p, item_drop_reason::deliberate, std::move( it ), p.pos() );
                 } else {
-                    liquid_handler::handle_all_liquid( std::move( it ), 1 );
+                    liquid_handler::handle_all_liquid( std::move( it ), PICKUP_RANGE );
                 }
             } else if( drop->count_by_charges() ) {
                 detached_ptr<item> it = item::spawn( drop, calendar::turn, roll );

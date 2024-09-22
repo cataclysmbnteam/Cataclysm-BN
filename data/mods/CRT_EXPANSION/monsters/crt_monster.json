@@ -288,7 +288,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 1,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_acid",
     "special_attacks": [ [ "ACID_BARF", 5 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],
