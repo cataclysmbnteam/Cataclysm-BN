@@ -10712,20 +10712,28 @@ bool item::kills_set()
         return false;
     }
 }
-
+bool item::init_kill_tracker()
+{
+    if( kills ) {
+        return true;
+    } else if( get_option<bool>( "ENABLE_EVENTS" ) ) {
+        kills = std::make_unique<kill_tracker>( false );
+        return true;
+    } else {
+        return false;
+    }
+}
 void item::add_monster_kill( mtype_id mon )
 {
-    if( !kills ) {
-        kills = std::make_unique<kill_tracker>( false );
+    if( init_kill_tracker() ) {
+        kills->add_monster( mon );
     }
-    kills->add_monster( mon );
 }
 void item::add_npc_kill( std::string npc )
 {
-    if( !kills ) {
-        kills = std::make_unique<kill_tracker>( false );
+    if( init_kill_tracker() ) {
+        kills->add_npc( npc );
     }
-    kills->add_npc( npc );
 }
 void item::show_kill_list()
 {

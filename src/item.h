@@ -23,6 +23,7 @@
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_contents.h"
+#include "kill_tracker.h"
 #include "location_vector.h"
 #include "pimpl.h"
 #include "safe_reference.h"
@@ -31,7 +32,6 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
-#include <kill_tracker.h>
 
 class Character;
 class JsonIn;
@@ -2427,9 +2427,16 @@ class item : public location_visitable<item>, public game_object<item>
          */
         pimpl<item_drop_token> drop_token;
 
-        /** Kill tracker */
     private:
+        /** Kill tracker */
         std::unique_ptr<kill_tracker> kills;
+        /**
+         * Check if there's a kill_tracker
+         * Make one if there isn't and if ENABLE_EVENTS option is toggled on
+         * @returns true if a kill_tracker exists, or if one was created
+         *          false if there is no kill_tracker, and one wasn't created
+         */
+        bool init_kill_tracker();
 
     public:
         bool kills_set();
