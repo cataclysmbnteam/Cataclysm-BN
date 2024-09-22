@@ -51,7 +51,7 @@ static void clear_game( const ter_id &terrain )
     REQUIRE_FALSE( g->u.in_vehicle );
     g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 365_days, num_bp );
+    g->u.add_effect( effect_blind, 365_days, bodypart_str_id::NULL_ID() );
 
     build_test_map( terrain );
 }

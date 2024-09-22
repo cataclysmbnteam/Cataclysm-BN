@@ -647,7 +647,7 @@ void Character::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp );
+            add_effect( type, dur, bodypart_str_id::NULL_ID() );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
@@ -1059,7 +1059,7 @@ void do_pause( Character &who )
 
         // Don't drop on the ground when the ground is on fire
         if( total_left > 3_turns && !who.is_dangerous_fields( here.field_at( who.pos() ) ) ) {
-            who.add_effect( effect_downed, 2_turns, num_bp, 0, true );
+            who.add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0, true );
             who.add_msg_player_or_npc( m_warning,
                                        _( "You roll on the ground, trying to smother the fire!" ),
                                        _( "<npcname> rolls on the ground!" ) );
