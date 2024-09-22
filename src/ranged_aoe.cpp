@@ -42,7 +42,8 @@ struct aoe_flood_node {
 namespace ranged
 {
 
-void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker, item *s_weapon)
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
+                            item *s_weapon )
 {
     map &here = get_map();
     const auto sigdist_to_coverage = []( const double sigdist ) {
