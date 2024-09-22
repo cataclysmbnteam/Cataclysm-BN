@@ -451,6 +451,24 @@
     "description": "A light (by artillery standards) rifled cannon widely used in the American Civil War, noted for its reliability."
   },
   {
+    "id": "mounted_makeshift_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted makeshift 3-inch cannon" },
+    "item": "cannon_3in_makeshift",
+    "color": "brown",
+    "broken_color": "dark_gray",
+    "looks_like": "mounted_3in_ordnance_rifle",
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 1, 5 ] },
+      { "item": "scrap", "count": [ 5, 10 ] },
+      { "item": "log", "count": [ 0, 1 ] },
+      { "item": "splinter", "count": [ 25, 50 ] }
+    ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } },
+    "description": "A muzzleloading cannon improvised from logs reinforced with iron bands, less effective than a proper artillery piece."
+  },
+  {
     "id": "mounted_m1874_gatling",
     "copy-from": "turret",
     "type": "vehicle_part",
