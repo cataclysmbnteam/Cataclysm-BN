@@ -33,6 +33,7 @@
     "weight": "900 g",
     "bashing": 5,
     "cutting": 11,
+    "thrown_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 9 } ],
     "price_postapoc": "10 cent",
     "flags": [ "STAB" ],
     "techniques": [ "WBLOCK_1" ],
