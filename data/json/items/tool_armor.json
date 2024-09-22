@@ -630,7 +630,7 @@
     "price": "300 USD",
     "price_postapoc": "5 USD",
     "material": [ "plastic", "glass" ],
-    "flags": [ "ZOOM", "OVERSIZE", "BELTED", "COMPACT", "ALLOWS_NATURAL_ATTACKS", "FIRESTARTER" ],
+    "flags": [ "ZOOM", "OVERSIZE", "BELTED", "COMPACT", "ALLOWS_NATURAL_ATTACKS", "FIRESTARTER", "FRAGILE" ],
     "weight": "708 g",
     "volume": "500 ml",
     "bashing": 4,
