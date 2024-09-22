@@ -46,6 +46,7 @@ Links to relevant pull requests, for content covered below:
 - Flagpoles: [#5363](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5363)
 - Vehicle-mounted Flags: [#5372](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5372)
 - Pirate Flag: [#5375](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5375)
+- Makeshift cannons and canister shot: [#5398](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5398)
 
 ## Undead People
 
@@ -90,6 +91,8 @@ Ultica are planned for the future.
 - Furniture version of utility light. Furniture specific to BN.
 - Knocked-down steel target. Furniture specific to BN.
 - Jolly Roger, item and worn sprite. Item specific to BN.
+- Makeshift cannon, item and vehiclepart sprite. Item specific to BN.
+- Explosive cannonshells and sprites for readied cannon ammo. Items specific to BN.
 
 ### External_Tileset_DP_Tall.png
 
