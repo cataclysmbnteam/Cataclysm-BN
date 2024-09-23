@@ -500,7 +500,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
-    "components": [ [ [ "steel_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "steel_plate", 1 ], [ "manhole_cover", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "shield_welded_superalloy",
@@ -564,7 +564,48 @@
     "components": [ [ [ "shield_wooden_large", 1 ] ] ]
   },
   {
+    "result": "shield_riot",
+    "byproducts": [ [ "plastic_chunk", 40 ] ],
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "60 m",
+    "autolearn": true,
+    "using": [ [ "surface_heat", 50 ], [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "rigid_plastic_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shield_riot",
+    "id_suffix": "printed",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ [ "fabrication", 2 ] ],
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
+    "using": [ [ "3d_printing_standard", 45 ], [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ],
+    "components": [ [ [ "plastic_chunk", 45 ] ] ]
+  },
+  {
     "result": "american_flag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "tailor",
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 15 ], [ "drawing_tool", 20 ] ],
+    "components": [ [ [ "rag", 30 ] ] ]
+  },
+  {
+    "result": "pirate_flag",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",

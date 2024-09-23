@@ -1249,7 +1249,7 @@ void map::player_in_field( player &u )
             // Moving through multiple webs stacks the effect.
             if( !u.has_trait( trait_WEB_WALKER ) && !u.in_vehicle ) {
                 // Between 5 and 15 minus your current web level.
-                u.add_effect( effect_webbed, 1_turns, num_bp, cur.get_field_intensity() );
+                u.add_effect( effect_webbed, 1_turns, bodypart_str_id::NULL_ID(), cur.get_field_intensity() );
                 // It is spent.
                 cur.set_field_intensity( 0 );
                 continue;
@@ -1528,7 +1528,7 @@ void map::player_in_field( player &u )
             } else {
                 u.add_msg_player_or_npc( m_bad, _( "The incendiary melts into your skin!" ),
                                          _( "The incendiary melts into <npcname>s skin!" ) );
-                u.add_effect( effect_onfire, 8_turns, bp_torso );
+                u.add_effect( effect_onfire, 8_turns, body_part_torso );
                 u.hurtall( rng( 2, 6 ), nullptr );
             }
         }

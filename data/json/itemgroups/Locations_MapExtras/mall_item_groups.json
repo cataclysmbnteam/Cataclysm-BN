@@ -339,7 +339,8 @@
       [ "hat_sombrero", 25 ],
       [ "apron_leather", 20 ],
       [ "bandolier_knife", 15 ],
-      [ "baldric_holster", 10 ]
+      [ "baldric_holster", 10 ],
+      [ "pirate_flag", 15 ]
     ]
   },
   {

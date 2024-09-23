@@ -840,7 +840,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
             dur *= 1.2;
         }
-        p.add_effect( eff.id, dur, eff.bp );
+        p.add_effect( eff.id, dur, convert_bp( eff.bp ) );
         if( eff.permanent ) {
             p.get_effect( eff.id, eff.bp ).set_permanent();
         }
@@ -1935,7 +1935,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         }
         const body_part bp = player::hp_to_bp( hpart );
         if( p.has_effect( effect_bite, bp ) ) {
-            p.add_effect( effect_bite, 260_minutes, bp );
+            p.add_effect( effect_bite, 260_minutes, convert_bp( bp ) );
         }
 
         p.moves = 0;
@@ -2404,7 +2404,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2_turns, num_bp, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, bodypart_str_id::NULL_ID(), speed_penalty );
     }
 
     std::string desc = "music";
@@ -3793,7 +3793,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     }
 
     for( const auto &eff : effects ) {
-        patient.add_effect( eff.id, eff.duration, eff.bp );
+        patient.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
         if( eff.permanent ) {
             patient.get_effect( eff.id, eff.bp ).set_permanent();
         }
@@ -3817,7 +3817,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     // apply healing over time effects
     if( bandages_power > 0 ) {
         int bandages_intensity = get_bandaged_level( healer );
-        patient.add_effect( effect_bandaged, 1_turns, bp_healed );
+        patient.add_effect( effect_bandaged, 1_turns, convert_bp( bp_healed ) );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.damage_bandaged[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
@@ -3825,7 +3825,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     }
     if( disinfectant_power > 0 ) {
         int disinfectant_intensity = get_disinfected_level( healer );
-        patient.add_effect( effect_disinfected, 1_turns, bp_healed );
+        patient.add_effect( effect_disinfected, 1_turns, convert_bp( bp_healed ) );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.damage_disinfected[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
@@ -4504,7 +4504,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     if( balanced && no_category ) {
         for( int i = ( is_strong ? 1 : 0 ) + ( is_weak ? 0 : 1 ); i > 0; i-- ) {
-            p.add_effect( effect_accumulated_mutagen, 2_days, num_bp );
+            p.add_effect( effect_accumulated_mutagen, 2_days, bodypart_str_id::NULL_ID() );
         }
     }
     const mutation_category_trait &m_category = mutation_category_trait::get_category(
@@ -4521,7 +4521,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );
-        p.add_effect( effect_downed, 20_turns, num_bp, 0 );
+        p.add_effect( effect_downed, 20_turns, bodypart_str_id::NULL_ID(), 0 );
     }
 
     int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
@@ -5026,14 +5026,14 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, scent_mod );
+    p.add_effect( efftype_id( "masked_scent" ), duration, bodypart_str_id::NULL_ID(), scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
 
     // Apply the various effects.
     for( const auto &eff : effects ) {
-        p.add_effect( eff.id, eff.duration, eff.bp );
+        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
         if( eff.permanent ) {
             p.get_effect( eff.id, eff.bp ).set_permanent();
         }

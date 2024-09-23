@@ -356,7 +356,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp : eff.bp;
-            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), convert_bp( affected_bp ) );
             if( eff.permanent ) {
                 target.get_effect( eff.id, affected_bp ).set_permanent();
             }
@@ -381,7 +381,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
-        const body_part hit = dealt.bp_hit;
+        const bodypart_str_id hit = convert_bp( dealt.bp_hit );
         if( target.has_effect( effect_bite, hit ) ) {
             target.add_effect( effect_bite, 40_minutes, hit );
         } else if( target.has_effect( effect_infected, hit ) ) {

@@ -1328,8 +1328,8 @@ void Character::mount_creature( monster &z )
         add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;
     }
-    add_effect( effect_riding, 1_turns, num_bp );
-    z.add_effect( effect_ridden, 1_turns, num_bp );
+    add_effect( effect_riding, 1_turns, bodypart_str_id::NULL_ID() );
+    z.add_effect( effect_ridden, 1_turns, bodypart_str_id::NULL_ID() );
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
         if( z.get_tied_item() ) {
@@ -1518,7 +1518,7 @@ void Character::forced_dismount()
             }
             check_dead_state();
         }
-        add_effect( effect_downed, 5_turns, num_bp );
+        add_effect( effect_downed, 5_turns, bodypart_str_id::NULL_ID() );
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
@@ -1927,11 +1927,13 @@ void Character::expose_to_disease( const diseasetype_id dis_type )
     const std::set<body_part> &bps = dis_type->affected_bodyparts;
     if( !bps.empty() ) {
         for( const body_part &bp : bps ) {
-            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), bp,
+            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ),
+                        convert_bp( bp ),
                         rng( dis_type->min_intensity, dis_type->max_intensity ) );
         }
     } else {
-        add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), num_bp,
+        add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ),
+                    bodypart_str_id::NULL_ID(),
                     rng( dis_type->min_intensity, dis_type->max_intensity ) );
     }
 }
@@ -5107,7 +5109,7 @@ void Character::regen( int rate_multiplier )
             damage_bandaged[i] -= healing_apply;
             if( damage_bandaged[i] <= 0 ) {
                 damage_bandaged[i] = 0;
-                remove_effect( effect_bandaged, bp->token );
+                remove_effect( effect_bandaged, bp.id() );
                 add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
@@ -5115,20 +5117,20 @@ void Character::regen( int rate_multiplier )
             damage_disinfected[i] -= healing_apply;
             if( damage_disinfected[i] <= 0 ) {
                 damage_disinfected[i] = 0;
-                remove_effect( effect_disinfected, bp->token );
+                remove_effect( effect_disinfected, bp.id() );
                 add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
 
         // remove effects if the limb was healed by other way
-        if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp ).is_at_max_hp() ) ) {
+        if( has_effect( effect_bandaged, bp.id() ) && ( get_part( bp ).is_at_max_hp() ) ) {
             damage_bandaged[i] = 0;
-            remove_effect( effect_bandaged, bp->token );
+            remove_effect( effect_bandaged, bp.id() );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
-        if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp ).is_at_max_hp() ) ) {
+        if( has_effect( effect_disinfected, bp.id() ) && ( get_part( bp ).is_at_max_hp() ) ) {
             damage_disinfected[i] = 0;
-            remove_effect( effect_disinfected, bp->token );
+            remove_effect( effect_disinfected, bp.id() );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }
     }
@@ -5928,7 +5930,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         // Fire protection protects from blisters.
         // Heatsinks give near-immunity.
         if( blister_count - fire_armor_per_bp[bp] > 0 ) {
-            add_effect( effect_blisters, 1_turns, bp->token );
+            add_effect( effect_blisters, 1_turns, bp.id() );
             if( pyromania ) {
                 add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
                             30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
@@ -6008,33 +6010,33 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         int temp_after = temp_cur[bp->token];
         // PENALTIES
         if( temp_cur[bp->token] < BODYTEMP_FREEZING ) {
-            add_effect( effect_cold, 1_turns, bp->token, 3 );
+            add_effect( effect_cold, 1_turns, bp.id(), 3 );
         } else if( temp_cur[bp->token] < BODYTEMP_VERY_COLD ) {
-            add_effect( effect_cold, 1_turns, bp->token, 2 );
+            add_effect( effect_cold, 1_turns, bp.id(), 2 );
         } else if( temp_cur[bp->token] < BODYTEMP_COLD ) {
-            add_effect( effect_cold, 1_turns, bp->token, 1 );
+            add_effect( effect_cold, 1_turns, bp.id(), 1 );
         } else if( temp_cur[bp->token] > BODYTEMP_SCORCHING ) {
-            add_effect( effect_hot, 1_turns, bp->token, 3 );
+            add_effect( effect_hot, 1_turns, bp.id(), 3 );
             if( bp->main_part.id() == bp ) {
-                add_effect( effect_hot_speed, 1_turns, bp->token, 3 );
+                add_effect( effect_hot_speed, 1_turns, bp.id(), 3 );
             }
         } else if( temp_cur[bp->token] > BODYTEMP_VERY_HOT ) {
-            add_effect( effect_hot, 1_turns, bp->token, 2 );
+            add_effect( effect_hot, 1_turns, bp.id(), 2 );
             if( bp->main_part.id() == bp ) {
-                add_effect( effect_hot_speed, 1_turns, bp->token, 2 );
+                add_effect( effect_hot_speed, 1_turns, bp.id(), 2 );
             }
         } else if( temp_cur[bp->token] > BODYTEMP_HOT ) {
-            add_effect( effect_hot, 1_turns, bp->token, 1 );
+            add_effect( effect_hot, 1_turns, bp.id(), 1 );
             if( bp->main_part.id() == bp ) {
-                add_effect( effect_hot_speed, 1_turns, bp->token, 1 );
+                add_effect( effect_hot_speed, 1_turns, bp.id(), 1 );
             }
         } else {
             if( temp_cur[bp->token] >= BODYTEMP_COLD ) {
-                remove_effect( effect_cold, bp->token );
+                remove_effect( effect_cold, bp.id() );
             }
             if( temp_cur[bp->token] <= BODYTEMP_HOT ) {
-                remove_effect( effect_hot, bp->token );
-                remove_effect( effect_hot_speed, bp->token );
+                remove_effect( effect_hot, bp.id() );
+                remove_effect( effect_hot_speed, bp.id() );
             }
         }
 
@@ -6131,18 +6133,18 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
             }
             // Frostbite, no recovery possible
             if( frostbite_timer[bp->token] >= 3600 ) {
-                add_effect( effect_frostbite, 1_turns, bp->token, 2 );
-                remove_effect( effect_frostbite_recovery, bp->token );
+                add_effect( effect_frostbite, 1_turns, bp.id(), 2 );
+                remove_effect( effect_frostbite_recovery, bp.id() );
                 // Else frostnip, add recovery if we were frostbitten
             } else if( frostbite_timer[bp->token] >= 1800 ) {
                 if( intense == 2 ) {
-                    add_effect( effect_frostbite_recovery, 1_turns, bp->token );
+                    add_effect( effect_frostbite_recovery, 1_turns, bp.id() );
                 }
-                add_effect( effect_frostbite, 1_turns, bp->token, 1 );
+                add_effect( effect_frostbite, 1_turns, bp.id(), 1 );
                 // Else fully recovered
             } else if( frostbite_timer[bp->token] == 0 ) {
-                remove_effect( effect_frostbite, bp->token );
-                remove_effect( effect_frostbite_recovery, bp->token );
+                remove_effect( effect_frostbite, bp.id() );
+                remove_effect( effect_frostbite_recovery, bp.id() );
             }
         }
         // Warn the player if condition worsens
@@ -8619,7 +8621,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 destroy = armor.burn( frd );
                 int fuel = roll_remainder( frd.fuel_produced );
                 if( fuel > 0 ) {
-                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp->token, 0, false, true );
+                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp.id(), 0, false, true );
                 }
             }
 
@@ -8909,7 +8911,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
             }
             // This kind of downing is not subject to immunity.
-            add_effect( effect_downed, 2_turns, num_bp, 0, true );
+            add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0, true );
         }
     }
     enchantment_cache->cast_hit_me( *this, source );
@@ -9112,7 +9114,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
                 }
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
-                add_effect( effect_grabbed, 2_turns, bp_torso, prev_effect + 2 );
+                add_effect( effect_grabbed, 2_turns, body_part_torso, prev_effect + 2 );
                 source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
                                        source->disp_name() );
@@ -9136,12 +9138,12 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
             const int infection_chance = ( combined_dam * sum_cover ) / 100;
             if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp->token ) ) {
-                    add_effect( effect_bite, 40_minutes, bp->token );
-                } else if( has_effect( effect_infected, bp->token ) ) {
-                    add_effect( effect_infected, 25_minutes, bp->token );
+                if( has_effect( effect_bite, bp.id() ) ) {
+                    add_effect( effect_bite, 40_minutes, bp.id() );
+                } else if( has_effect( effect_infected, bp.id() ) ) {
+                    add_effect( effect_infected, 25_minutes, bp.id() );
                 } else {
-                    add_effect( effect_bite, 1_turns, bp->token );
+                    add_effect( effect_bite, 1_turns, bp.id() );
                 }
                 add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
             }
@@ -9363,17 +9365,17 @@ void Character::update_vitamins( const vitamin_id &vit )
         remove_effect( exc );
     }
     if( lvl > 0 ) {
-        if( has_effect( def, num_bp ) ) {
-            get_effect( def, num_bp ).set_intensity( lvl, true );
+        if( has_effect( def, bodypart_str_id::NULL_ID() ) ) {
+            get_effect( def, bodypart_str_id::NULL_ID() ).set_intensity( lvl, true );
         } else {
-            add_effect( def, 1_turns, num_bp, lvl );
+            add_effect( def, 1_turns, bodypart_str_id::NULL_ID(), lvl );
         }
     }
     if( lvl < 0 ) {
-        if( has_effect( exc, num_bp ) ) {
-            get_effect( exc, num_bp ).set_intensity( -lvl, true );
+        if( has_effect( exc, bodypart_str_id::NULL_ID() ) ) {
+            get_effect( exc, bodypart_str_id::NULL_ID() ).set_intensity( -lvl, true );
         } else {
-            add_effect( exc, 1_turns, num_bp, -lvl );
+            add_effect( exc, 1_turns, bodypart_str_id::NULL_ID(), -lvl );
         }
     }
 }

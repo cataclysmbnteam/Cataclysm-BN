@@ -148,7 +148,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -156,7 +156,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter_seed" },
     "examine_action": "dirtmound"
@@ -183,7 +185,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -191,7 +193,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter", "base": "f_planter" }
   },
@@ -217,7 +221,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -225,7 +229,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
   },
@@ -251,7 +257,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -259,7 +265,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
@@ -285,7 +293,7 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
+      "str_max": 20,
       "sound": "crunch.",
       "sound_fail": "whish.",
       "items": [
@@ -293,7 +301,9 @@
         { "item": "nail", "charges": [ 15, 30 ] },
         { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      ],
+      "//": "reduction equal to str_max, since filled with soil.",
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
   },
@@ -314,7 +324,8 @@
       "str_max": 15,
       "sound": "crack.",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 0, 8 ] }, { "item": "rag", "count": [ 0, 12 ] } ]
+      "items": [ { "item": "2x4", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 0, 8 ] }, { "item": "rag", "count": [ 0, 12 ] } ],
+      "ranged": { "reduction": [ 3, 5 ], "destroy_threshold": 15, "block_unaimed_chance": "25%" }
     },
     "examine_action": "dirtmound",
     "plant_data": { "transform": "f_rack_mushroom_seed" }

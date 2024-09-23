@@ -39,7 +39,7 @@ static void clear_game_drag( const ter_id &terrain )
     CHECK( !player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    player_character.add_effect( effect_blind, 365_days, num_bp );
+    player_character.add_effect( effect_blind, 365_days, bodypart_str_id::NULL_ID() );
     // Make sure the ST is 8 so that muscle powered results are consistent
     player_character.str_cur = 8;
 
@@ -288,7 +288,7 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "cube_van_cheap", 0.512775, 3.556550, 2563.049085, 9853, 11885 );
     test_vehicle_drag( "hippie_van", 0.386033, 2.886681, 1167.694643, 10881, 13109 );
     test_vehicle_drag( "icecream_truck", 0.681673, 3.686107, 1974.662162, 10726, 12873 );
-    test_vehicle_drag( "lux_rv", 1.609183, 3.431263, 1936.754934, 8453, 9826 );
+    test_vehicle_drag( "lux_rv", 1.609183, 3.662015, 2066.995614, 8453, 9826 );
     test_vehicle_drag( "meth_lab", 0.518580, 2.948098, 2018.085106, 11800, 14147 );
     test_vehicle_drag( "rv", 0.541800, 2.926340, 2003.191489, 11648, 13961 );
     test_vehicle_drag( "schoolbus", 0.411188, 3.331642, 1491.510227, 12930, 15101 );

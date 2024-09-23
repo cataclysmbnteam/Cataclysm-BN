@@ -684,55 +684,6 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
     }
 }
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, item *source_weapon,
-                                    const damage_instance &di )
-{
-    auto &all_body_parts = target.get_body();
-    float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
-    []( float acc, const std::pair<const bodypart_str_id, bodypart> &pr ) {
-        return acc + pr.first->hit_size;
-    } );
-    dealt_damage_instance dealt_damage;
-    // This should be set to only body part that was damaged, or null, if not exactly one was damaged
-    bodypart_str_id bp_hit = bodypart_str_id::NULL_ID();
-    bool hit_multiple_bps = false;
-    for( std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
-        bool hit_this_bp = false;
-        damage_instance impact = di;
-        impact.mult_damage( pr.first->hit_size / hit_size_sum );
-        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact,
-                                          source_weapon );
-        for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
-            dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
-            hit_this_bp |= bp_damage.dealt_dams[i] > 0;
-        }
-
-        if( !hit_multiple_bps && hit_this_bp ) {
-            if( !bp_hit ) {
-                bp_hit = pr.first;
-            } else {
-                bp_hit = bodypart_str_id::NULL_ID();
-                hit_multiple_bps = true;
-            }
-        }
-    }
-
-    dealt_damage.bp_hit = bp_hit->token;
-    if( get_player_character().sees( target ) ) {
-        ranged::print_dmg_msg( target, source, dealt_damage );
-    }
-
-    if( target.has_effect( effect_ridden ) ) {
-        monster *mons = dynamic_cast<monster *>( &target );
-        if( mons && mons->mounted_player && !mons->has_flag( MF_MECH_DEFENSIVE ) ) {
-            // TODO: Return value
-            hit_with_aoe( *mons->mounted_player, source, source_weapon, di );
-        }
-    }
-
-    return dealt_damage;
-}
-
 } // namespace ranged
 
 namespace
@@ -930,15 +881,15 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     }
     if( proj.has_effect( ammo_effect_INCENDIARY ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit.id() );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
-            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit.id() );
         }
     } else if( proj.has_effect( ammo_effect_IGNITE ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, 6_turns, bp_hit->token );
+            add_effect( effect_onfire, 6_turns, bp_hit.id() );
         } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, 10_turns, bp_hit->token );
+            add_effect( effect_onfire, 10_turns, bp_hit.id() );
         }
     }
 
@@ -1057,7 +1008,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp->token );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
             }
             break;
 
@@ -1116,11 +1067,9 @@ void Creature::add_effect( const effect &eff, bool force, bool deferred )
                 force, deferred );
 }
 
-
-void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
-                           int intensity, bool force, bool deferred )
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur )
 {
-    add_effect( eff_id, dur, convert_bp( bp ), intensity, force, deferred );
+    add_effect( eff_id, dur, bodypart_str_id::NULL_ID() );
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
@@ -1252,7 +1201,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
     if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
-        add_effect( eff_id, dur, bp, intensity, true );
+        add_effect( eff_id, dur, convert_bp( bp ), intensity, true );
         return true;
     } else {
         return false;
@@ -1349,11 +1298,29 @@ effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
 }
 
+effect &Creature::get_effect( const efftype_id &eff_id )
+{
+    return get_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+const effect &Creature::get_effect( const efftype_id &eff_id ) const
+{
+    return get_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
 const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
+{
+    return get_effect( eff_id, convert_bp( bp ) );
+}
+effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
+{
+    return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
+}
+const effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     auto got_outer = effects->find( eff_id );
     if( got_outer != effects->end() ) {
-        auto got_inner = got_outer->second.find( convert_bp( bp ) );
+        auto got_inner = got_outer->second.find( bp );
         if( got_inner != got_outer->second.end() && !got_inner->second.is_removed() ) {
             return got_inner->second;
         }

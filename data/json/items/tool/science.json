@@ -593,7 +593,8 @@
     "looks_like": "flask_glass",
     "symbol": "V",
     "color": "light_blue",
-    "qualities": [ [ "SEPARATE", 1 ] ]
+    "qualities": [ [ "SEPARATE", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "rotovap",

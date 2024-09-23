@@ -1,4 +1,4 @@
-name: "Experimental Release"
+name: "Nightly Release"
 concurrency: release
 on:
   schedule:
@@ -25,7 +25,7 @@ jobs:
           YESTERDAY_TAG_NAME=$(date -u --iso-8601 --date='2 day ago')
           LAST_TAG_NAME=$(git for-each-ref --sort=-creatordate --format '%(creatordate:short)' refs/tags | head -n 1)
           COMMITS=$(git log --oneline --since="$TAG_NAME" | wc -l)
-          RELEASE_NAME="Experimental $TAG_NAME"
+          RELEASE_NAME="Nightly $TAG_NAME"
 
           echo "commits yesterday ($TAG_NAME): $COMMITS" >> "$GITHUB_STEP_SUMMARY"
 
@@ -38,7 +38,7 @@ jobs:
   release:
     needs: metadata
     name: Create Release
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     if: github.event_name == 'workflow_dispatch' || fromJson(needs.metadata.outputs.count) > 0
     outputs:
@@ -85,7 +85,7 @@ jobs:
           name: ${{ needs.metadata.outputs.release_name }}
           body: |
             ${{ steps.build_changelog.outputs.changelog }}
-            These are the outputs for the experimental build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            These are the outputs for the build of commit [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
           draft: false
           prerelease: true
 
@@ -114,18 +114,18 @@ jobs:
             mxe: x86_64
             mxe_apt: x86-64
             artifact: windows-tiles-x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             ext: zip
             content: application/zip
           - name: Windows Tiles x32
             mxe: i686
             mxe_apt: i686
             artifact: windows-tiles-x32
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             mxe: none
             android: none
             tiles: 1
@@ -133,7 +133,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: linux-curses-x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             mxe: none
             android: none
             tiles: 0
@@ -169,21 +169,21 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: Android x64
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             mxe: none
             android: arm64
             artifact: android-x64
             ext: apk
             content: application/apk
           - name: Android x32
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             mxe: none
             android: arm32
             artifact: android-x32
             ext: apk
             content: application/apk
           - name: Android Bundle
-            os: ubuntu-22.04
+            os: ubuntu-24.04
             mxe: none
             android: bundle
             artifact: android-bundle

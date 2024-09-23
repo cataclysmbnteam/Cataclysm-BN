@@ -481,8 +481,7 @@ class Creature
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect( const efftype_id &eff_id, const time_duration &dur,
                                  const bodypart_str_id &bp, int intensity = 0, bool force = false, bool deferred = false );
-        void add_effect( const efftype_id &eff_id, const time_duration &dur,
-                         body_part bp = num_bp, int intensity = 0, bool force = false, bool deferred = false );
+        void add_effect( const efftype_id &eff_id, const time_duration &dur );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
                              const time_duration &dur,
@@ -508,8 +507,12 @@ class Creature
         /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const flag_id &flag, body_part bp = num_bp ) const;
         /** Return the effect that matches the given arguments exactly. */
-        const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
-        effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        const effect &get_effect( const efftype_id &eff_id, body_part bp ) const;
+        effect &get_effect( const efftype_id &eff_id, body_part bp );
+        const effect &get_effect( const efftype_id &eff_id ) const;
+        effect &get_effect( const efftype_id &eff_id );
+        const effect &get_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
+        effect &get_effect( const efftype_id &eff_id, const bodypart_str_id &bp );
         /** Returns pointers to all effects matching given type. */
         std::vector<const effect *> get_all_effects_of_type( const efftype_id &eff_id ) const;
         std::vector<effect *> get_all_effects_of_type( const efftype_id &eff_id );

@@ -432,7 +432,8 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -45,
-    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true },
+    "//": "No scale_qty for this since can get this acid from butchering acidic monsters, player would be forced to dump any excess at their feet.",
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ] },
     "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "ACID_TRAIL" ] }
   },
   {

@@ -220,6 +220,7 @@
     "symbol": "|",
     "color": "light_gray",
     "move_cost_mod": 1,
+    "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
     "bash": {
@@ -232,7 +233,8 @@
         { "item": "scrap_copper", "count": [ 10, 20 ] },
         { "item": "cable", "charges": [ 20, 100 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -262,7 +264,8 @@
         { "item": "amplifier", "count": [ 0, 4 ] },
         { "item": "power_supply", "count": [ 0, 2 ] },
         { "item": "metal_tank_little", "count": [ 0, 6 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     }
   },
   {

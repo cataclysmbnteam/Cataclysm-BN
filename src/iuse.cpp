@@ -871,7 +871,7 @@ int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good,
                           _( "You no longer need to worry about asthma attacks, at least for a while." ) );
-    p->add_effect( effect_took_antiasthmatic, 1_days, num_bp );
+    p->add_effect( effect_took_antiasthmatic, 1_days, bodypart_str_id::NULL_ID() );
     return it->type->charges_to_use();
 }
 
@@ -5535,7 +5535,7 @@ int iuse::jet_injector( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the jet injector." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_jetinjector, 20_minutes, num_bp, 2 );
+        p->add_effect( effect_jetinjector, 20_minutes, bodypart_str_id::NULL_ID(), 2 );
         p->mod_painkiller( 20 );
         p->mod_stim( 10 );
         p->healall( 20 );
@@ -5563,7 +5563,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the stimulants." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_stimpack, 25_minutes, num_bp, 2 );
+        p->add_effect( effect_stimpack, 25_minutes, bodypart_str_id::NULL_ID(), 2 );
         p->mod_painkiller( 2 );
         p->mod_stim( 20 );
         p->mod_fatigue( -100 );
@@ -9705,6 +9705,42 @@ int iuse::modify_grid_connections( player *p, item *it, bool, const tripoint &po
     }
 
     return 0;
+}
+
+int iuse::amputate( player *, item *it, bool, const tripoint &pos )
+{
+    if( !it->ammo_sufficient() ) {
+        return 0;
+    }
+
+    Creature *patient = g->critter_at<Character>( pos );
+    if( !patient ) {
+        add_msg( m_info, _( "Nevermind." ) );
+        return 0;
+    }
+
+    auto &body = patient->get_body();
+
+    uilist bp_menu;
+    bp_menu.text = _( "Select body part to amputate:" );
+    bp_menu.allow_cancel = true;
+
+    for( const auto &pr : body ) {
+        bp_menu.addentry( pr.first->name_as_heading.translated() );
+    }
+
+    bp_menu.query();
+    if( bp_menu.ret < 0 ) {
+        add_msg( m_info, _( "Nevermind." ) );
+        return 0;
+    }
+
+    auto bp_iter = std::next( body.begin(), bp_menu.ret );
+    // Prepare for bugs!
+    add_msg( m_bad, _( "Body part removed: %s" ), bp_iter->first->name_as_heading.translated() );
+    body.erase( bp_iter );
+
+    return it->type->charges_to_use();
 }
 
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const

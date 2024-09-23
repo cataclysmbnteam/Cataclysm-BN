@@ -19,7 +19,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "....----p...........YYY.",
+        "....----p...../.....YYY.",
         ".####**####oo##########.",
         ".#sEL   H|S  Q| hffh 6#.",
         ".#E     H|t  B| hffh 6#.",
@@ -46,13 +46,14 @@
       ],
       "palettes": [ "standard_domestic_palette" ],
       "terrain": {
+        "/": "t_region_groundcover_urban",
         "Y": "t_region_groundcover_urban",
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "#": "t_rock_wall"
       },
+      "furniture": { "/": "f_us_flag_metal" },
       "place_loot": [
-        { "item": "american_flag", "x": [ 2, 2 ], "y": [ 5, 5 ], "chance": 100 },
-        { "group": "book_house_quiverfull_bible", "x": [ 2, 2 ], "y": [ 6, 6 ], "chance": 100 },
+        { "group": "book_house_quiverfull_bible", "x": [ 2, 2 ], "y": [ 5, 5 ], "chance": 100 },
         { "item": "quiver_large", "x": [ 2, 2 ], "y": [ 7, 7 ], "chance": 100 }
       ],
       "place_monsters": [

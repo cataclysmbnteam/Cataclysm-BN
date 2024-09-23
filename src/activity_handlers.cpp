@@ -486,7 +486,7 @@ static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int ro
             if( p.is_npc() ) {
                 drop_on_map( p, item_drop_reason::deliberate, { std::move( it ) }, p.pos() );
             } else {
-                liquid_handler::handle_all_liquid( std::move( it ), 1 );
+                liquid_handler::handle_all_liquid( std::move( it ), PICKUP_RANGE );
             }
         } else {
             get_map().add_item( p.pos(), std::move( it ) );
@@ -1087,7 +1087,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( p.is_npc() || action != butcher_type::BLEED ) {
                     drop_on_map( p, item_drop_reason::deliberate, std::move( it ), p.pos() );
                 } else {
-                    liquid_handler::handle_all_liquid( std::move( it ), 1 );
+                    liquid_handler::handle_all_liquid( std::move( it ), PICKUP_RANGE );
                 }
             } else if( drop->count_by_charges() ) {
                 detached_ptr<item> it = item::spawn( drop, calendar::turn, roll );
@@ -3425,7 +3425,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
             if( !bps.empty() ) {
                 for( const bodypart_id &bp : bps ) {
-                    p->add_effect( effect_bleed, 1_hours, bp->token, difficulty );
+                    p->add_effect( effect_bleed, 1_hours, bp.id(), difficulty );
                     p->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
@@ -3434,11 +3434,11 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
 
                     if( bp == bodypart_id( "eyes" ) ) {
-                        p->add_effect( effect_blind, 1_hours, num_bp );
+                        p->add_effect( effect_blind, 1_hours, bodypart_str_id::NULL_ID() );
                     }
                 }
             } else {
-                p->add_effect( effect_bleed, 1_hours, num_bp, difficulty );
+                p->add_effect( effect_bleed, 1_hours, bodypart_str_id::NULL_ID(), difficulty );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
