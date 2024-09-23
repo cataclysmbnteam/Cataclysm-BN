@@ -43,7 +43,7 @@ namespace ranged
 {
 
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
-                            item *s_weapon )
+                            item *source_weapon )
 {
     map &here = get_map();
     const auto sigdist_to_coverage = []( const double sigdist ) {
@@ -123,7 +123,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     for( const std::pair<const tripoint, double> &pr : final_coverage ) {
         Creature *critter = g->critter_at( pr.first );
         if( critter != nullptr ) {
-            ranged::hit_with_aoe( *critter, &attacker, s_weapon, proj.impact );
+            ranged::hit_with_aoe( *critter, &attacker, source_weapon, proj.impact );
         }
     }
 }

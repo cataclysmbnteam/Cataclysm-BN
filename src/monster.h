@@ -337,9 +337,10 @@ class monster : public Creature, public location_visitable<monster>
         void melee_attack( Creature &p, bool ) = delete;
         using Creature::deal_projectile_attack;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
-        void apply_damage( Creature *source, item *s_weapon, item *s_proj, bodypart_id bp, int dam,
+        void apply_damage( Creature *source, item *source_weapon, item *source_projectile, bodypart_id bp,
+                           int dam,
                            bool bypass_med = false ) override;
-        void apply_damage( Creature *source, item *s_weapon, bodypart_id bp, int dam,
+        void apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;

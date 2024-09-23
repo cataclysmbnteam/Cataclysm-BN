@@ -578,7 +578,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     return hit_spread;
 }
 
-void Creature::deal_melee_hit( Creature *source, item *s_weapon, int hit_spread, bool critical_hit,
+void Creature::deal_melee_hit( Creature *source, item *source_weapon, int hit_spread,
+                               bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
@@ -592,7 +593,8 @@ void Creature::deal_melee_hit( Creature *source, item *s_weapon, int hit_spread,
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_melee_hit( source, s_weapon, hit_spread, critical_hit, dam, dealt_dam );
+                mons->mounted_player->deal_melee_hit( source, source_weapon, hit_spread, critical_hit, dam,
+                                                      dealt_dam );
                 return;
             }
         }
@@ -603,7 +605,7 @@ void Creature::deal_melee_hit( Creature *source, item *s_weapon, int hit_spread,
     block_hit( source, bp_hit, d );
 
     on_hit( source, bp_hit ); // trigger on-gethit events
-    dealt_dam = deal_damage( source, bp_hit, d, s_weapon );
+    dealt_dam = deal_damage( source, bp_hit, d, source_weapon );
     dealt_dam.bp_hit = bp_token;
 }
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
@@ -682,7 +684,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
     }
 }
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, item *s_weapon,
+dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, item *source_weapon,
                                     const damage_instance &di )
 {
     auto &all_body_parts = target.get_body();
@@ -698,7 +700,8 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, item *s_
         bool hit_this_bp = false;
         damage_instance impact = di;
         impact.mult_damage( pr.first->hit_size / hit_size_sum );
-        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact, s_weapon );
+        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact,
+                                          source_weapon );
         for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
             dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
             hit_this_bp |= bp_damage.dealt_dams[i] > 0;
@@ -723,7 +726,7 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, item *s_
         monster *mons = dynamic_cast<monster *>( &target );
         if( mons && mons->mounted_player && !mons->has_flag( MF_MECH_DEFENSIVE ) ) {
             // TODO: Return value
-            hit_with_aoe( *mons->mounted_player, source, s_weapon, di );
+            hit_with_aoe( *mons->mounted_player, source, source_weapon, di );
         }
     }
 
@@ -761,11 +764,11 @@ auto get_stun_srength( const projectile &proj, creature_size size ) -> int
  * Attempts to harm a creature with a projectile.
  *
  * @param source Pointer to the creature who shot the projectile.
- * @param s_weapon Pointer to the weapon used to fire the projectile.
+ * @param source_weapon Pointer to the weapon used to fire the projectile.
  * @param attack A structure describing the attack and its results.
  * @param print_messages enables message printing by default.
  */
-void Creature::deal_projectile_attack( Creature *source, item *s_weapon,
+void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
                                        dealt_projectile_attack &attack )
 {
     const bool magic = attack.proj.has_effect( ammo_effect_magic );
@@ -781,7 +784,7 @@ void Creature::deal_projectile_attack( Creature *source, item *s_weapon,
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, s_weapon, attack );
+                mons->mounted_player->deal_projectile_attack( source, source_weapon, attack );
                 return;
             }
         }
@@ -900,7 +903,7 @@ void Creature::deal_projectile_attack( Creature *source, item *s_weapon,
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
     // If the projectile survives, both it and the launcher get credit for the kill.
-    dealt_dam = deal_damage( source, bp_hit, impact, s_weapon, attack.proj.get_drop() );
+    dealt_dam = deal_damage( source, bp_hit, impact, source_weapon, attack.proj.get_drop() );
     dealt_dam.bp_hit = bp_hit->token;
 
     // Apply ammo effects to target.
@@ -988,7 +991,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 }
 
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &dam, item *s_weapon, item *s_proj )
+        const damage_instance &dam, item *source_weapon, item *source_projectile )
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();
@@ -1012,13 +1015,13 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     mod_pain( total_pain );
 
-    apply_damage( source, s_weapon, s_proj, bp, total_damage );
+    apply_damage( source, source_weapon, source_projectile, bp, total_damage );
     return dealt_dams;
 }
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &dam, item *s_weapon )
+        const damage_instance &dam, item *source_weapon )
 {
-    return deal_damage( source, bp, dam, s_weapon, nullptr );
+    return deal_damage( source, bp, dam, source_weapon, nullptr );
 }
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &dam )

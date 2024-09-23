@@ -1905,7 +1905,8 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, item *s_weapon, item *s_proj, bodypart_id /*bp*/,
+void monster::apply_damage( Creature *source, item *source_weapon, item *source_projectile,
+                            bodypart_id /*bp*/,
                             int dam,
                             const bool /*bypass_med*/ )
 {
@@ -1915,20 +1916,20 @@ void monster::apply_damage( Creature *source, item *s_weapon, item *s_proj, body
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
-        if( s_weapon ) {
-            s_weapon->add_monster_kill( type->id );
+        if( source_weapon ) {
+            source_weapon->add_monster_kill( type->id );
         }
-        if( s_proj ) {
-            s_proj->add_monster_kill( type->id );
+        if( source_projectile ) {
+            source_projectile->add_monster_kill( type->id );
         }
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
     }
 }
-void monster::apply_damage( Creature *source, item *s_weapon, bodypart_id bp, int dam,
+void monster::apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
                             const bool bypass_med )
 {
-    return apply_damage( source, s_weapon, nullptr, bp, dam, bypass_med );
+    return apply_damage( source, source_weapon, nullptr, bp, dam, bypass_med );
 }
 void monster::apply_damage( Creature *source, bodypart_id bp, int dam,
                             const bool bypass_med )
