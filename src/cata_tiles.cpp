@@ -944,6 +944,13 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
         // All tiles need at least foreground or background data, otherwise they are useless.
         if( td.bg.empty() && td.fg.empty() ) {
             dbg( DL::Warn ) << "tile " << it->first << " has no (valid) foreground nor background";
+            // remove the id from seasonal variations!
+            for( auto &container : ts.tile_ids_by_season ) {
+                if( container.count( it->first ) != 0 ) {
+                    container.erase( it->first );
+                }
+            }
+            // remove id from full list of ids
             ts.tile_ids.erase( it++ );
         } else {
             ++it;
