@@ -18,6 +18,16 @@ script
 
 :::
 
+:::caution
+
+when using [distrobox](https://distrobox.it), using
+[exported](https://github.com/89luca89/distrobox/blob/main/docs/usage/distrobox-export.md) compiler
+(e.g `~/.local/bin/clang`)
+[won't work as it cannot access `/usr`.](https://github.com/89luca89/distrobox/issues/1548) instead,
+use absolute path for compilers like `/usr/bin/clang`.
+
+:::
+
 ## Setting up the container
 
 Bazzite, being based on the Atomic versions of Fedora Linux, has the containerization tool known as
