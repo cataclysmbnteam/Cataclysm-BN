@@ -2017,6 +2017,7 @@
     ]
   },
   {
+    "type": "furniture",
     "abstract": "f_minifridge_base",
     "copy-from": "f_fridge_base",
     "name": "abstract minifridge",
@@ -2053,7 +2054,7 @@
     "copy-from": "f_minifridge_base",
     "name": "grid minifridge (off)",
     "symbol": "H",
-    "description": "A very small fridge for keeping food cool.  It is switched off.",
+    "description": "Refrigerate your food with the amazing science of electricity!  It is switched off.",
     "examine_action": "transform",
     "transforms_into": "f_minifridge",
     "prompt": "Switch on the minifridge.",
@@ -2066,7 +2067,7 @@
     "name": "grid minifridge",
     "copy-from": "f_minifridge_base",
     "symbol": "H",
-    "description": "A very small fridge for keeping food cool.  It has no power.",
+    "description": "Refrigerate your food with the amazing science of electricity!  It has no power.",
     "examine_action": "transform",
     "transforms_into": "f_minifridge_off",
     "prompt": "Switch off the minifridge.",
@@ -2080,7 +2081,7 @@
     "name": "grid minifridge (on)",
     "copy-from": "f_minifridge_base",
     "symbol": "H",
-    "description": "A very small fridge for keeping food cool.  It is switched on.",
+    "description": "Refrigerate your food with the amazing science of electricity!  It is switched on.",
     "examine_action": "transform",
     "transforms_into": "f_minifridge_off",
     "prompt": "Switch off the minifridge.",
@@ -2090,7 +2091,11 @@
     "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
-      { "power": 18, "consume_every": "600 s", "transform": { "id": "f_minifridge", "msg": "The minifridge shuts down." } }
+      {
+        "power": 18,
+        "consume_every": "600 s",
+        "transform": { "id": "f_minifridge", "msg": "The minifridge shuts down." }
+      }
     ]
   },
   {
