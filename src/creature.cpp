@@ -677,53 +677,6 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
     }
 }
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
-{
-    auto &all_body_parts = target.get_body();
-    float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
-    []( float acc, const std::pair<const bodypart_str_id, bodypart> &pr ) {
-        return acc + pr.first->hit_size;
-    } );
-    dealt_damage_instance dealt_damage;
-    // This should be set to only body part that was damaged, or null, if not exactly one was damaged
-    bodypart_str_id bp_hit = bodypart_str_id::NULL_ID();
-    bool hit_multiple_bps = false;
-    for( std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
-        bool hit_this_bp = false;
-        damage_instance impact = di;
-        impact.mult_damage( pr.first->hit_size / hit_size_sum );
-        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );
-        for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
-            dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
-            hit_this_bp |= bp_damage.dealt_dams[i] > 0;
-        }
-
-        if( !hit_multiple_bps && hit_this_bp ) {
-            if( !bp_hit ) {
-                bp_hit = pr.first;
-            } else {
-                bp_hit = bodypart_str_id::NULL_ID();
-                hit_multiple_bps = true;
-            }
-        }
-    }
-
-    dealt_damage.bp_hit = bp_hit->token;
-    if( get_player_character().sees( target ) ) {
-        ranged::print_dmg_msg( target, source, dealt_damage );
-    }
-
-    if( target.has_effect( effect_ridden ) ) {
-        monster *mons = dynamic_cast<monster *>( &target );
-        if( mons && mons->mounted_player && !mons->has_flag( MF_MECH_DEFENSIVE ) ) {
-            // TODO: Return value
-            hit_with_aoe( *mons->mounted_player, source, di );
-        }
-    }
-
-    return dealt_damage;
-}
-
 } // namespace ranged
 
 namespace
