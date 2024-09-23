@@ -702,15 +702,22 @@
     "id": "t_sand_underground",
     "name": "sand",
     "//": "for caverns and other natural underground formations.",
-    "description": "A large area of fine sand that could be useful in a number of ways, if it was extracted properly.",
+    "description": "A large area of fine sand that could be useful in a number of ways, if it was extracted properly.  Dig a shallow pit here to harvest the sand.",
     "symbol": ".",
     "color": "yellow",
     "looks_like": "t_sand",
-    "move_cost": 3,
+    "move_cost": 2,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE", "SOURCE_SAND" ],
-    "digging_result": "digging_sand_50L",
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "DIGGABLE" ],
+    "digging_result": "digging_sand_200L",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "material_sand", "charges": [ 250, 500 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -745,33 +752,41 @@
     "id": "t_clay_underground",
     "name": "clay",
     "//": "for caverns and other natural underground formations.",
-    "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.",
+    "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.  Dig a shallow pit here to harvest the clay.",
     "symbol": ".",
     "color": "light_red",
     "move_cost": 2,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS", "SOURCE_CLAY" ],
-    "digging_result": "digging_clay_50L",
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "SUPPORTS_ROOF", "INDOORS" ],
+    "digging_result": "digging_clay_200L",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "clay_lump", "count": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "terrain",
     "id": "t_claymound_underground",
     "name": "mound of clay",
     "description": "A mound of clay soil.",
-    "//": "for caverns and other natural underground formations.",
+    "//": "for caverns and other natural underground formations.  Dig a shallow pit here to harvest the clay.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "BURROWABLE", "SUPPORTS_ROOF", "INDOORS", "SOURCE_CLAY" ],
+    "flags": [ "TRANSPARENT", "BURROWABLE", "DIGGABLE", "SUPPORTS_ROOF", "INDOORS" ],
+    "digging_result": "digging_clay_mound_200L",
     "bash": {
       "sound": "thump",
       "sound_fail": "thump!",
-      "str_min": 20,
-      "str_max": 40,
+      "str_min": 50,
+      "str_max": 100,
       "ter_set": "t_dirt_underground",
-      "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
+      "items": [ { "item": "clay_lump", "count": [ 25, 50 ] } ]
     }
   },
   {
