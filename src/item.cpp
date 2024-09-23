@@ -5572,7 +5572,8 @@ int item::reach_range( const Character &guy ) const
 
 bool item::can_shatter() const
 {
-    return made_of( material_id( "glass" ) ) || has_flag( flag_SHATTERS );
+    static const std::set<material_id> is_glass{ material_id( "glass" ) };
+    return only_made_of( is_glass ) || has_flag( flag_SHATTERS );
 }
 
 void item::unset_flags()

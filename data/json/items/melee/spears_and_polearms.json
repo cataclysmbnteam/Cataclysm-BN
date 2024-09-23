@@ -33,8 +33,9 @@
     "weight": "900 g",
     "bashing": 5,
     "cutting": 11,
+    "thrown_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 9 } ],
     "price_postapoc": "10 cent",
-    "flags": [ "STAB" ],
+    "flags": [ "STAB", "JAVELIN" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ]
   },
@@ -50,7 +51,8 @@
     "weight": "1800 g",
     "bashing": 8,
     "techniques": [ "WBLOCK_1" ],
-    "extend": { "flags": [ "REACH_ATTACK", "SHEATH_SPEAR" ] }
+    "extend": { "flags": [ "REACH_ATTACK", "SHEATH_SPEAR" ] },
+    "delete": { "flags": [ "JAVELIN" ] }
   },
   {
     "id": "spear_wood",

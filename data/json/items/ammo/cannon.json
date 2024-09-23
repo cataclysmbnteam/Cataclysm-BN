@@ -41,5 +41,35 @@
     "recoil": 26250,
     "loudness": 900,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
+  },
+  {
+    "id": "cannon_canister_shot",
+    "copy-from": "cannon_round_ball",
+    "type": "AMMO",
+    "name": { "str": "cannon canister shot" },
+    "description": "A bundle of wadding, black gunpowder, and a good five pounds of round lead shot.  Used for hosing down formations of line infantry, and quite capable of absolutely ruining a zombie's day.",
+    "//": "Exact weight of component items.",
+    "weight": "5651 g",
+    "looks_like": "cannon_round_ball",
+    "//2": "balanced as hollowpoint, with buckshot level of armor multiplier.",
+    "damage": { "damage_type": "bullet", "amount": 250, "armor_multiplier": 2 },
+    "range": 0,
+    "shape": [ "cone", { "half_angle": 10, "length": 30 } ],
+    "dispersion": 450,
+    "recoil": 55000,
+    "extend": { "effects": [ "SHOT" ] }
+  },
+  {
+    "id": "cannon_scrap_shot",
+    "copy-from": "cannon_canister_shot",
+    "type": "AMMO",
+    "name": { "str": "cannon scrap shot" },
+    "description": "A bundle of wadding, black gunpowder, and a load of improvised buckshot.  Certainly still quite dangerous to anything downrange.",
+    "weight": "3751 g",
+    "looks_like": "cannon_round_ball",
+    "proportional": { "price": 0.5, "price_postapoc": 0.5, "damage": { "damage_type": "bullet", "amount": 0.8, "armor_multiplier": 1.25 } },
+    "range": 0,
+    "shape": [ "cone", { "half_angle": 10, "length": 25 } ],
+    "dispersion": 500
   }
 ]

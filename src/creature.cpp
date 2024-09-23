@@ -871,15 +871,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     if( proj.has_effect( ammo_effect_INCENDIARY ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit.id() );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
-            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit.id() );
         }
     } else if( proj.has_effect( ammo_effect_IGNITE ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, 6_turns, bp_hit->token );
+            add_effect( effect_onfire, 6_turns, bp_hit.id() );
         } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, 10_turns, bp_hit->token );
+            add_effect( effect_onfire, 10_turns, bp_hit.id() );
         }
     }
 
@@ -983,7 +983,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp->token );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
             }
             break;
 
@@ -1042,11 +1042,9 @@ void Creature::add_effect( const effect &eff, bool force, bool deferred )
                 force, deferred );
 }
 
-
-void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
-                           int intensity, bool force, bool deferred )
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur )
 {
-    add_effect( eff_id, dur, convert_bp( bp ), intensity, force, deferred );
+    add_effect( eff_id, dur, bodypart_str_id::NULL_ID() );
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
@@ -1178,7 +1176,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
     if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
-        add_effect( eff_id, dur, bp, intensity, true );
+        add_effect( eff_id, dur, convert_bp( bp ), intensity, true );
         return true;
     } else {
         return false;
@@ -1275,11 +1273,29 @@ effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
 }
 
+effect &Creature::get_effect( const efftype_id &eff_id )
+{
+    return get_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+const effect &Creature::get_effect( const efftype_id &eff_id ) const
+{
+    return get_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
 const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
+{
+    return get_effect( eff_id, convert_bp( bp ) );
+}
+effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
+{
+    return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
+}
+const effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     auto got_outer = effects->find( eff_id );
     if( got_outer != effects->end() ) {
-        auto got_inner = got_outer->second.find( convert_bp( bp ) );
+        auto got_inner = got_outer->second.find( bp );
         if( got_inner != got_outer->second.end() && !got_inner->second.is_removed() ) {
             return got_inner->second;
         }

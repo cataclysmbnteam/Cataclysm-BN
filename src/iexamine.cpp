@@ -5245,7 +5245,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                     // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
                     const int disinfectant_intensity = 14;
-                    patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
+                    patient.add_effect( effect_disinfected, 1_turns, bp_healed.id() );
                     effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
                     hp_part target_part = player::bp_to_hp( bp_healed->token );

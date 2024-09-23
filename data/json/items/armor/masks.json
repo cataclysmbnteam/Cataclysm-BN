@@ -50,6 +50,7 @@
   {
     "id": "bandana_head",
     "copy-from": "bandana",
+    "repairs_like": "bandana",
     "type": "ARMOR",
     "name": { "str": "head bandana" },
     "description": "A cotton bandana, worn over the head for warmth and to keep the wind out of your hair.  Activate to adjust it to wear over your mouth instead.",
