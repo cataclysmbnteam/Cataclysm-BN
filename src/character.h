@@ -679,7 +679,11 @@ class Character : public Creature, public location_visitable<Character>
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
-                                           const damage_instance &d, item *s_weapon = nullptr, item *s_proj = nullptr ) override;
+                                           const damage_instance &d, item *s_weapon, item *s_proj ) override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &d, item *s_weapon ) override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &d ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
         int reduce_healing_effect( const efftype_id &eff_id, int remove_med, const bodypart_id &hurt );
 

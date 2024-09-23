@@ -2560,10 +2560,6 @@ void npc::die( Creature *nkiller )
     if( Character *ch = dynamic_cast<Character *>( get_killer() ) ) {
         g->events().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
-    /*item *murder_weapon = get_murder_weapon();
-    if( !is_hallucination() && murder_weapon != nullptr ) {
-        murder_weapon->add_npc_kill( get_name() );
-    }*/
 
     if( get_killer() == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
         bool cannibal = g->u.has_trait( trait_CANNIBAL );

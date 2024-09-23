@@ -9149,6 +9149,16 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     on_hurt( source );
     return dealt_dams;
 }
+dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &d, item *source_weapon )
+{
+    return deal_damage( source, bp, d, source_weapon, nullptr );
+}
+dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &d )
+{
+    return deal_damage( source, bp, d, nullptr, nullptr );
+}
 
 int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
                                       const bodypart_id &hurt )
