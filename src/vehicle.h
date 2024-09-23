@@ -1331,6 +1331,9 @@ class vehicle
         turret_data turret_query( const tripoint &pos );
         turret_data turret_query( const tripoint &pos ) const;
 
+        turret_data turret_manual_query( const tripoint &pos );
+        turret_data turret_manual_query( const tripoint &pos ) const;
+
         /** Set targeting mode for specific turrets */
         void turrets_set_targeting();
 

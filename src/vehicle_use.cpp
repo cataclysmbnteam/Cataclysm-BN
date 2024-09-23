@@ -1953,6 +1953,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const bool items_are_sealed = here.has_flag( "SEALED", pos );
 
     auto turret = turret_query( pos );
+    auto turret_manual = turret_manual_query( pos );
 
     const int curtain_part = avail_part_with_feature( interact_part, "CURTAIN", true );
     const bool curtain_closed = ( curtain_part == -1 ) ? false : !parts[curtain_part].open;
@@ -1992,7 +1993,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 
     enum {
         EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
-        RELOAD_TURRET, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_AUTODOC, USE_WASHMACHINE,
+        RELOAD_TURRET, UNLOAD_TURRET_MANUAL, RELOAD_TURRET_MANUAL, USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, USE_AUTOCLAVE, USE_AUTODOC, USE_WASHMACHINE,
         USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, USE_TOWEL, PEEK_CURTAIN,
     };
     uilist selectmenu;
@@ -2037,6 +2038,12 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     if( turret.can_reload() ) {
         selectmenu.addentry( RELOAD_TURRET, true, 'r', _( "Reload %s" ), turret.name() );
+    }
+    if( turret_manual.can_unload() ) {
+        selectmenu.addentry( UNLOAD_TURRET_MANUAL, true, 'u', _( "Unload %s" ), turret_manual.name() );
+    }
+    if( turret_manual.can_reload() ) {
+        selectmenu.addentry( RELOAD_TURRET_MANUAL, true, 'r', _( "Reload %s" ), turret_manual.name() );
     }
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
@@ -2201,6 +2208,19 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             if( opt ) {
                 you.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
                 you.activity->targets.emplace_back( turret.base() );
+                you.activity->targets.emplace_back( opt.ammo );
+            }
+            return;
+        }
+        case UNLOAD_TURRET_MANUAL: {
+            avatar_funcs::unload_item( you, turret_manual.base() );
+            return;
+        }
+        case RELOAD_TURRET_MANUAL: {
+            item_reload_option opt = character_funcs::select_ammo( you,  turret_manual.base(), true );
+            if( opt ) {
+                you.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                you.activity->targets.emplace_back( turret_manual.base() );
                 you.activity->targets.emplace_back( opt.ammo );
             }
             return;

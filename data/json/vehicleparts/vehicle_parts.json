@@ -3262,6 +3262,75 @@
   },
   {
     "type": "vehicle_part",
+    "id": "turret_mount_manual_foldablewood",
+    "copy-from": "turret_mount",
+    "name": { "str": "simple foldable wooden turret mount" },
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 15,
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "folded_volume": "3750 ml",
+    "item": "foldwoodframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+    },
+    "flags": [ "TURRET_MOUNT_MANUAL", "FOLDABLE" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "turret_mount_manual_foldablesteel",
+    "copy-from": "turret_mount",
+    "name": { "str": "simple foldable light turret mount" },
+    "durability": 50,
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "item": "foldframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "TURRET_MOUNT_MANUAL", "FOLDABLE" ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "turret_mount_manual_wood",
+    "copy-from": "turret_mount",
+    "name": { "str": "simple wooden turret mount" },
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 150,
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "item": "frame_wood",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+    },
+    "flags": [ "TURRET_MOUNT_MANUAL" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "turret_mount_manual_steel",
+    "copy-from": "turret_mount",
+    "name": { "str": "simple steel turret mount" },
+    "durability": 400,
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "item": "frame",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "flags": [ "TURRET_MOUNT_MANUAL" ],
+    "breaks_into": "ig_vp_frame"
+  },
+  {
+    "type": "vehicle_part",
     "id": "controls_turret",
     "name": { "str": "turret control unit" },
     "symbol": "$",

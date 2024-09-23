@@ -634,6 +634,10 @@ void vpart_info::check()
         if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
+        if( part.has_flag( "TURRET_MANUAL" ) && !base_item_type.gun ) {
+            debugmsg( "vehicle part %s has the TURRET_MANUAL flag, but is not made from a gun item",
+                      part.id.c_str() );
+        }
         if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
             debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
         }
@@ -738,7 +742,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         json_flag nobelt = json_flag::get( "DOOR" );
         long_descrip += "  " + _( nobelt.info() );
     }
-    if( has_flag( "TURRET" ) ) {
+    if( has_flag( "TURRET" ) || has_flag( "TURRET_MANUAL" ) ) {
         //TODO!: push up
         class::item &base = *item::spawn_temporary( item );
         if( base.ammo_required() && !base.ammo_remaining() ) {
