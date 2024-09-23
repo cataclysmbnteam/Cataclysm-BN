@@ -2018,6 +2018,88 @@
   },
   {
     "type": "furniture",
+    "abstract": "f_minifridge_base",
+    "copy-from": "f_fridge_base",
+    "name": "abstract minifridge",
+    "looks_like": "minifridge",
+    "symbol": "H",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
+    "color": "light_cyan",
+    "coverage": 30,
+    "deconstruct": { "items": [ { "item": "minifridge", "count": 1 } ] },
+    "max_volume": "75 L",
+    "extend": { "flags": [ "TRANSPARENT" ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 1, 3 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "motor_tiny", "prob": 25 }
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifridge_off",
+    "copy-from": "f_minifridge_base",
+    "name": "grid minifridge (off)",
+    "symbol": "H",
+    "description": "Refrigerate your food with the amazing science of electricity!  It is switched off.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifridge",
+    "prompt": "Switch on the minifridge.",
+    "message": "You switch on the minifridge.",
+    "color": "light_blue"
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifridge",
+    "name": "grid minifridge",
+    "copy-from": "f_minifridge_base",
+    "symbol": "H",
+    "description": "Refrigerate your food with the amazing science of electricity!  It has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifridge_off",
+    "prompt": "Switch off the minifridge.",
+    "message": "You switch off the minifridge.",
+    "active": [ "charge_watcher", { "min_power": 26, "transform": { "id": "f_minifridge_on", "msg": "The minifridge starts up." } } ],
+    "color": "light_blue"
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifridge_on",
+    "name": "grid minifridge (on)",
+    "copy-from": "f_minifridge_base",
+    "symbol": "H",
+    "description": "Refrigerate your food with the amazing science of electricity!  It is switched on.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifridge_off",
+    "prompt": "Switch off the minifridge.",
+    "message": "You switch off the minifridge.",
+    "color": "light_blue",
+    "extend": { "flags": [ "FRIDGE" ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
+    "active": [
+      "steady_consumer",
+      {
+        "power": 18,
+        "consume_every": "600 s",
+        "transform": { "id": "f_minifridge", "msg": "The minifridge shuts down." }
+      }
+    ]
+  },
+  {
+    "type": "furniture",
     "abstract": "f_minifreezer_base",
     "name": "abstract minifreezer",
     "looks_like": "minifreezer",
@@ -2027,7 +2109,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "minifreezer", "count": 1 } ] },
     "max_volume": "75 L",
     "bash": {
@@ -2092,7 +2174,7 @@
     "active": [
       "steady_consumer",
       {
-        "power": 45,
+        "power": 27,
         "consume_every": "600 s",
         "transform": { "id": "f_minifreezer", "msg": "The minifreezer shuts down." }
       }

@@ -996,6 +996,11 @@
   },
   {
     "type": "construction_group",
+    "id": "install_minifridge",
+    "name": "Install Minifridge"
+  },
+  {
+    "type": "construction_group",
     "id": "install_minifreezer",
     "name": "Install Minifreezer"
   },
