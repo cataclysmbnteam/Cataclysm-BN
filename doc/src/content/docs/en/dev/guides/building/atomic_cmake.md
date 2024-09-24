@@ -7,8 +7,6 @@ the desired solution rather than layering the dependencies onto your base instal
 
 # Example: Fedora Atomic-based (Bazzite)
 
-Note: This section is based off of the process taken to help another contributor build on Bazzite
-
 :::caution
 
 As of writing this, Bazzite's default container image is fedora-toolbox:38, which results in having
@@ -75,7 +73,30 @@ worry about creating the build folder yourself, cmake will automatically generat
 present already) For Bazzite, this looks like:
 
 ```sh
-cmake     -B build     -G Ninja     -DCATA_CCACHE=ON     -DCMAKE_C_COMPILER=clang     -DCMAKE_CXX_COMPILER=clang++     -DCMAKE_INSTALL_PREFIX=$HOME/.local/share     -DJSON_FORMAT=ON     -DCMAKE_BUILD_TYPE=RelWithDebInfo     -DCURSES=OFF     -DTILES=ON     -DSOUND=ON     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON     -DCATA_CLANG_TIDY_PLUGIN=OFF     -DLUA=ON     -DBACKTRACE=ON     -DLINKER=mold     -DUSE_XDG_DIR=ON     -DUSE_HOME_DIR=OFF     -DUSE_PREFIX_DATA_DIR=OFF     -DUSE_TRACY=ON     -DTRACY_VERSION=master     -DTRACY_ON_DEMAND=ON     -DTRACY_ONLY_IPV4=ON
+cmake \
+  -B build \
+  -G Ninja \
+  -DCATA_CCACHE=ON \
+  -DCMAKE_C_COMPILER=clang \
+  -DCMAKE_CXX_COMPILER=clang++ \
+  -DCMAKE_INSTALL_PREFIX=$HOME/.local/share \
+  -DJSON_FORMAT=ON \
+  -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+  -DCURSES=OFF \
+  -DTILES=ON \
+  -DSOUND=ON \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+  -DCATA_CLANG_TIDY_PLUGIN=OFF \
+  -DLUA=ON \
+  -DBACKTRACE=ON \
+  -DLINKER=mold \
+  -DUSE_XDG_DIR=ON \
+  -DUSE_HOME_DIR=OFF \
+  -DUSE_PREFIX_DATA_DIR=OFF \
+  -DUSE_TRACY=ON \
+  -DTRACY_VERSION=master \
+  -DTRACY_ON_DEMAND=ON \
+  -DTRACY_ONLY_IPV4=ON
 ```
 
 Assuming all goes well, you should now have your CMake files generated! Now, all you need to do is
