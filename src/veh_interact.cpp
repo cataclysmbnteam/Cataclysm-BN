@@ -735,7 +735,7 @@ bool veh_interact::update_part_requirements()
         }
     }
 
-    if( sel_vpart_info->has_flag( "TURRET" ) || sel_vpart_info->has_flag( "TURRET_MANUAL" ) ) {
+    if( sel_vpart_info->has_flag( "TURRET" ) ) {
         if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
         return veh->part( e ).is_turret();
         } ) ) {
@@ -981,7 +981,7 @@ void veh_interact::do_install()
     tab_filters[1] = [&]( const vpart_info * p ) {
         auto &part = *p;
         return part.has_flag( VPFLAG_CARGO ) && // Cargo
-               !part.has_flag( "TURRET" ) && !part.has_flag( "TURRET_MANUAL" );
+               !part.has_flag( "TURRET" );
     };
     tab_filters[2] = [&]( const vpart_info * p ) {
         auto &part = *p;

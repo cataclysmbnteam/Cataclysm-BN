@@ -38,15 +38,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_huge_crossbow_manual",
-    "//": "In general, only allow this with weapons that don't require a UPS cost and don't draw from vehicle tanks.",
-    "copy-from": "mounted_huge_crossbow",
-    "type": "vehicle_part",
-    "name": { "str": "huge crossbow (manual)" },
-    "looks_like": "mounted_huge_crossbow",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_rep_crossbow",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -57,14 +48,6 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "splinter", "count": [ 4, 8 ] }, { "item": "string_6", "count": [ 1, 2 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "smg", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_rep_crossbow_manual",
-    "copy-from": "mounted_rep_crossbow",
-    "type": "vehicle_part",
-    "name": { "str": "repeating crossbow (manual)" },
-    "looks_like": "rep_crossbow",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "mounted_emp_gun",
@@ -218,14 +201,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "m249_manual",
-    "copy-from": "m249",
-    "type": "vehicle_part",
-    "name": { "str": "M249 (manual)" },
-    "looks_like": "m249",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_bigun",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -249,14 +224,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_helsing_manual",
-    "copy-from": "mounted_helsing",
-    "type": "vehicle_part",
-    "name": { "str": "pneumatic bolt driver (manual)" },
-    "looks_like": "mounted_helsing",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_tihar",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -267,14 +234,6 @@
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "scrap", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 2, 4 ] } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_tihar_manual",
-    "copy-from": "mounted_tihar",
-    "type": "vehicle_part",
-    "name": { "str": "pneumatic assault rifle (manual)" },
-    "looks_like": "mounted_tihar",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "mounted_browning",
@@ -288,14 +247,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "mounted_browning_manual",
-    "copy-from": "mounted_browning",
-    "type": "vehicle_part",
-    "name": { "str": "M2 Browning (manual)" },
-    "looks_like": "mounted_browning",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_m2browning_sawn",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -306,14 +257,6 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "scrap", "count": 40 }, { "item": "steel_chunk", "count": 24 }, { "item": "steel_lump", "count": 9 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_m2browning_sawn_manual",
-    "copy-from": "mounted_m2browning_sawn",
-    "type": "vehicle_part",
-    "name": { "str": ".50 caliber rifle (manual)" },
-    "looks_like": "mounted_m2browning_sawn",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "mounted_m134",
@@ -338,14 +281,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "mounted_m1918_manual",
-    "copy-from": "mounted_m1918",
-    "type": "vehicle_part",
-    "name": { "str": "Browning Automatic Rifle (manual)" },
-    "looks_like": "mounted_m1918",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_m240",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -355,14 +290,6 @@
     "broken_color": "cyan",
     "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 12 }, { "item": "steel_lump", "count": 7 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_m240_manual",
-    "copy-from": "mounted_m240",
-    "type": "vehicle_part",
-    "name": { "str": "M240 (manual)" },
-    "looks_like": "mounted_m240",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "mounted_m60",
@@ -376,14 +303,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
-    "id": "mounted_m60_manual",
-    "copy-from": "mounted_m60",
-    "type": "vehicle_part",
-    "name": { "str": "M60 (manual)" },
-    "looks_like": "mounted_m60",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_mk19",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -393,14 +312,6 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "scrap", "count": 80 }, { "item": "steel_chunk", "count": 41 }, { "item": "steel_lump", "count": 17 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
-    "id": "mounted_mk19_manual",
-    "copy-from": "mounted_mk19",
-    "type": "vehicle_part",
-    "name": { "str": "Mark 19 grenade launcher (manual)" },
-    "looks_like": "mounted_mk19",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "tow_launcher",
@@ -415,14 +326,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "tow_launcher_manual",
-    "copy-from": "tow_launcher",
-    "type": "vehicle_part",
-    "name": { "str": "BGM-71F TOW (manual)" },
-    "looks_like": "tow_launcher",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_m202_flash",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -433,14 +336,6 @@
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "scrap", "count": 16 }, { "item": "steel_chunk", "count": 2 }, { "item": "steel_lump", "count": 2 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "launcher", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
-  },
-  {
-    "id": "mounted_m202_flash_manual",
-    "copy-from": "mounted_m202_flash",
-    "type": "vehicle_part",
-    "name": { "str": "M202A1 FLASH (manual)" },
-    "looks_like": "mounted_m202_flash",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "mounted_surv_rocket_launcher",
@@ -455,14 +350,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
-    "id": "mounted_surv_rocket_launcher_manual",
-    "copy-from": "mounted_surv_rocket_launcher",
-    "type": "vehicle_part",
-    "name": { "str": "crude rocket launcher (manual)" },
-    "looks_like": "mounted_surv_rocket_launcher",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_rm298",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -474,14 +361,6 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
   },
   {
-    "id": "mounted_rm298_manual",
-    "copy-from": "mounted_rm298",
-    "type": "vehicle_part",
-    "name": { "str": "RM298 HMG (manual)" },
-    "looks_like": "mounted_rm298",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_rm614",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -491,14 +370,6 @@
     "broken_color": "white",
     "breaks_into": [ { "item": "scrap", "count": 11 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
-    "id": "mounted_rm614_manual",
-    "copy-from": "mounted_rm614",
-    "type": "vehicle_part",
-    "name": { "str": "RM614 LMG (manual)" },
-    "looks_like": "mounted_rm614",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "plasma_gun",
@@ -538,14 +409,6 @@
     "broken_color": "light_gray",
     "breaks_into": [ { "item": "scrap", "count": 8 }, { "item": "steel_chunk", "count": 3 }, { "item": "steel_lump", "count": 1 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_paintballgun_manual",
-    "copy-from": "mounted_paintballgun",
-    "type": "vehicle_part",
-    "name": { "str": "Paintball gun (manual)" },
-    "looks_like": "mounted_paintballgun",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "mounted_heavy_rail_rifle",
@@ -588,14 +451,6 @@
     "description": "A light (by artillery standards) rifled cannon widely used in the American Civil War, noted for its reliability."
   },
   {
-    "id": "mounted_3in_ordnance_rifle_manual",
-    "copy-from": "mounted_3in_ordnance_rifle",
-    "type": "vehicle_part",
-    "name": { "str": "3-inch ordnance rifle (manual)" },
-    "looks_like": "mounted_3in_ordnance_rifle",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_makeshift_cannon",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -614,14 +469,6 @@
     "description": "A muzzleloading cannon improvised from logs reinforced with iron bands, less effective than a proper artillery piece."
   },
   {
-    "id": "mounted_makeshift_cannon_manual",
-    "copy-from": "mounted_makeshift_cannon",
-    "type": "vehicle_part",
-    "name": { "str": "makeshift 3-inch cannon (manual)" },
-    "looks_like": "mounted_makeshift_cannon",
-    "flags": [ "TURRET_MANUAL" ]
-  },
-  {
     "id": "mounted_m1874_gatling",
     "copy-from": "turret",
     "type": "vehicle_part",
@@ -632,14 +479,6 @@
     "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 20 }, { "item": "steel_lump", "count": 12 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } },
     "description": "A rotary firearm from the 19th Century driving multiple barrels with a hand crank for sustained fire."
-  },
-  {
-    "id": "mounted_m1874_gatling_manual",
-    "copy-from": "mounted_m1874_gatling",
-    "type": "vehicle_part",
-    "name": { "str": "M1874 Gatling gun (manual)" },
-    "looks_like": "mounted_m1874_gatling",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "mounted_slingshot_cannon",
@@ -657,14 +496,6 @@
       { "item": "hose", "count": [ 0, 2 ] }
     ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
-  },
-  {
-    "id": "mounted_slingshot_cannon_manual",
-    "copy-from": "mounted_slingshot_cannon",
-    "type": "vehicle_part",
-    "name": { "str": "slingshot cannon (manual)" },
-    "looks_like": "mounted_slingshot_cannon",
-    "flags": [ "TURRET_MANUAL" ]
   },
   {
     "id": "mounted_coilgun",
@@ -690,13 +521,5 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
-  },
-  {
-    "id": "mounted_mininuke_launcher_manual",
-    "copy-from": "mounted_mininuke_launcher",
-    "type": "vehicle_part",
-    "name": { "str": "mininuke launcher (manual)" },
-    "looks_like": "mounted_mininuke_launcher",
-    "flags": [ "TURRET_MANUAL" ]
   }
 ]

@@ -3268,8 +3268,7 @@
     "color": "brown",
     "broken_color": "brown",
     "durability": 15,
-    "//": "PSA to modders: the 'can't use UPS/fueltank weapons' thing is just a balance consideraton, not a hardcoded restriction.",
-    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls, and weapons drawing from vehicle battery or fuel tanks can't be mounted on it.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "folded_volume": "3750 ml",
     "item": "foldwoodframe",
     "requirements": {
@@ -3277,7 +3276,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
-    "flags": [ "TURRET_MOUNT_MANUAL", "FOLDABLE" ],
+    "extend": { "flags": [ "MANUAL" ] },
     "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -3287,13 +3286,13 @@
     "copy-from": "turret_mount",
     "name": { "str": "simple foldable light turret mount" },
     "durability": 50,
-    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls, and weapons drawing from vehicle battery or fuel tanks can't be mounted on it.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "item": "foldframe",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
-    "flags": [ "TURRET_MOUNT_MANUAL", "FOLDABLE" ],
+    "extend": { "flags": [ "MANUAL" ] },
     "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 8 }
   },
@@ -3305,14 +3304,15 @@
     "color": "brown",
     "broken_color": "brown",
     "durability": 150,
-    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls, and weapons drawing from vehicle battery or fuel tanks can't be mounted on it.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "item": "frame_wood",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
-    "flags": [ "TURRET_MOUNT_MANUAL" ],
+    "extend": { "flags": [ "MANUAL" ] },
+    "delete": { "flags": [ "FOLDABLE" ] },
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
   },
   {
@@ -3321,13 +3321,14 @@
     "copy-from": "turret_mount",
     "name": { "str": "simple steel turret mount" },
     "durability": 400,
-    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls, and weapons drawing from vehicle battery or fuel tanks can't be mounted on it.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
     "item": "frame",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
     },
-    "flags": [ "TURRET_MOUNT_MANUAL" ],
+    "extend": { "flags": [ "MANUAL" ] },
+    "delete": { "flags": [ "FOLDABLE" ] },
     "breaks_into": "ig_vp_frame"
   },
   {

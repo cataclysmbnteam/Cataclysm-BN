@@ -159,11 +159,9 @@
     "requires_flag": "TURRET_MOUNT"
   },
   {
-    "id": "TURRET_MANUAL",
+    "id": "MANUAL",
     "type": "json_flag",
-    "context": [ "vehicle_part" ],
-    "info": "A heavy weapon mounted on a vehicle.  It can only be fired from the tile it's mounted on, and cannot accept turret controls.",
-    "requires_flag": "TURRET_MOUNT_MANUAL"
+    "context": [ "vehicle_part" ]
   },
   {
     "id": "TURRET_CONTROLS",

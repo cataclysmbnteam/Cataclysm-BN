@@ -1345,10 +1345,6 @@ static void fire()
             avatar_action::fire_turret_manual( u, here, turret );
             return;
         }
-        if( vp && ( turret = vp->vehicle().turret_manual_query( u.pos() ) ) ) {
-            avatar_action::fire_turret_manual( u, here, turret );
-            return;
-        }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
             if( vp->vehicle().turrets_aim_and_fire_mult( u, turret_filter_types::MANUAL, true ) ) {

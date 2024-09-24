@@ -1322,26 +1322,15 @@ void avatar_action::reload_weapon( bool try_everything )
     // If we make it here and haven't found anything to reload, start looking elsewhere.
     vehicle *veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
     turret_data turret;
-    if( veh && turret.can_reload() ) {
-        if( ( turret = veh->turret_query( u.pos() ) ) ) {
-            item_reload_option opt = character_funcs::select_ammo( u, turret.base(), true );
-            if( opt ) {
-                u.assign_activity( std::make_unique<player_activity>( activity_id( "ACT_RELOAD" ), opt.moves(),
-                                   opt.qty() ) );
-                u.activity->targets.emplace_back( turret.base() );
-                u.activity->targets.emplace_back( opt.ammo );
-            }
-            return;
-        } else if( ( turret = veh->turret_manual_query( u.pos() ) ) ) {
-            item_reload_option opt = character_funcs::select_ammo( u, turret.base(), true );
-            if( opt ) {
-                u.assign_activity( std::make_unique<player_activity>( activity_id( "ACT_RELOAD" ), opt.moves(),
-                                   opt.qty() ) );
-                u.activity->targets.emplace_back( turret.base() );
-                u.activity->targets.emplace_back( opt.ammo );
-            }
-            return;
+    if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
+        item_reload_option opt = character_funcs::select_ammo( u, turret.base(), true );
+        if( opt ) {
+            u.assign_activity( std::make_unique<player_activity>( activity_id( "ACT_RELOAD" ), opt.moves(),
+                               opt.qty() ) );
+            u.activity->targets.emplace_back( turret.base() );
+            u.activity->targets.emplace_back( opt.ammo );
         }
+        return;
     }
 
     reload_item();
