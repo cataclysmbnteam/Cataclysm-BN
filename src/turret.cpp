@@ -78,14 +78,11 @@ turret_data vehicle::turret_query( const tripoint &pos ) const
     return const_cast<vehicle *>( this )->turret_query( pos );
 }
 
-bool vehicle::is_manual_turret( vehicle_part &pt )
+bool vehicle::is_manual_turret(const vehicle_part &pt)
 {
-    for( const int elem : parts_at_relative( pt.mount, false ) ) {
-        if( part_info( elem ).has_flag( "MANUAL" ) ) {
-            return true;
-        }
-    }
-    return false;
+    const auto &parts = parts_at_relative(pt.mount, false);
+    return std::any_of(parts.begin(), parts.end(), 
+        [this](int elem) { return part_info(elem).has_flag("MANUAL"); });
 }
 
 bool vehicle::is_manual_turret( const vehicle_part &pt ) const
