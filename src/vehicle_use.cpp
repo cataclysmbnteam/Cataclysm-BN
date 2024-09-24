@@ -833,35 +833,35 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     if( has_part( "TURRET" ) ) {
-    std::vector<vehicle_part *> turrets;
-    for( auto &p : parts ) {
-        if( p.is_turret() && !is_manual_turret( p ) ) {
-            turrets.push_back( &p );
+        std::vector<vehicle_part *> turrets;
+        for( auto &p : parts ) {
+            if( p.is_turret() && !is_manual_turret( p ) ) {
+                turrets.push_back( &p );
+            }
         }
-    }
 
-    if( !turrets.empty() ) {
-        options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
-        actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
+        if( !turrets.empty() ) {
+            options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
+            actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
 
-        options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
-        actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
+            options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
+            actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
 
-        // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        options.emplace_back( _( "Aim manual turrets" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::MANUAL, true ); refresh(); } );
+            // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
+            options.emplace_back( _( "Aim manual turrets" ), keybind( "TURRET_MANUAL_AIM" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::MANUAL, true ); refresh(); } );
 
-        // This lets us manually override and set the target for the automatic turrets instead.
-        options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::AUTOMATIC, true ); refresh(); } );
+            // This lets us manually override and set the target for the automatic turrets instead.
+            options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::AUTOMATIC, true ); refresh(); } );
 
-        // This lets us manually override and set the target for all turrets.
-        options.emplace_back( _( "Aim all turrets" ), keybind( "TURRET_ALL_OVERRIDE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::BOTH, true ); refresh(); } );
+            // This lets us manually override and set the target for all turrets.
+            options.emplace_back( _( "Aim all turrets" ), keybind( "TURRET_ALL_OVERRIDE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::BOTH, true ); refresh(); } );
 
-        options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_single( you ); refresh(); } );
-    }
+            options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_single( you ); refresh(); } );
+        }
 
 
 
