@@ -227,7 +227,7 @@
     "id": "mounted_tihar",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "pneumatic assault rifle" },
+    "name": { "str": "mounted pneumatic assault rifle" },
     "item": "tihar",
     "looks_like": "mounted_m1918",
     "color": "dark_gray",
