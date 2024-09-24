@@ -133,15 +133,55 @@
     }
   },
   {
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": "s_petstore_1",
     "object": {
       "fill_ter": "t_floor",
-      "place_item": [
-        { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 9 },
-        { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 10 },
-        { "item": "pet_carrier", "repeat": 1, "x": 8, "y": 14 },
-        { "item": "bathroom_scale", "x": 21, "y": 19 }
+      "rows": [
+        "sssssssssssssssssssssss'",
+        "ssssssssssssssssssssssss",
+        " ||||www||ss||wwww||||| ",
+        " |CCW...^|ss|^.....-ff| ",
+        " |CC+....|++|......#..| ",
+        " |---..............#A.| ",
+        " |CCW..............#..| ",
+        " |CC+...{..........-D-| ",
+        " |---...{.............| ",
+        " |CCW...{.............| ",
+        " |CCW...{.............| ",
+        " |CC+...{.............| ",
+        " |---...{......{{{{{{{| ",
+        " |CCW...{.....--------| ",
+        " |CCW.................| ",
+        " |CC+.................| ",
+        " |||||||||||||b||-...-| ",
+        "   cddddddd4|T.&|l....| ",
+        "   cdddddddd|||||l...&| ",
+        "   cdddddddddcdd|.....| ",
+        "   cdddddddddaddb....&| ",
+        "   cdddddddddcdd|.....| ",
+        "   ccccccccccccc||||||| ",
+        "                        "
       ],
+      "terrain": {
+        "+": "t_door_glass_c",
+        "-": "t_wall_w",
+        ".": "t_floor",
+        "C": "t_thconc_floor",
+        "D": "t_door_c",
+        "W": "t_wall_glass",
+        " ": "t_region_groundcover_urban",
+        "'": "t_sidewalk",
+        "a": "t_chaingate_c",
+        "b": "t_door_locked",
+        "c": "t_chainfence",
+        "d": "t_region_soil",
+        "s": "t_sidewalk",
+        "w": "t_wall_glass_alarm",
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout"
+      },
       "furniture": {
         "'": "f_street_light",
         "#": "f_counter",
@@ -153,6 +193,12 @@
         "l": "f_locker"
       },
       "toilets": { "T": {  } },
+      "place_item": [
+        { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 9 },
+        { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 10 },
+        { "item": "pet_carrier", "repeat": 1, "x": 8, "y": 14 },
+        { "item": "bathroom_scale", "x": 21, "y": 19 }
+      ],
       "place_items": [
         { "chance": 15, "item": "vet_softdrug", "x": 21, "y": 6 },
         { "chance": 30, "item": "vet_utility", "x": [ 20, 21 ], "y": 3 }
@@ -166,55 +212,8 @@
         { "monster": "mon_dog", "x": 2, "y": 13 },
         { "monster": "mon_dog", "x": 2, "y": 15 },
         { "monster": "mon_dog_zombie_rot", "x": 10, "y": 19 }
-      ],
-      "rows": [
-        "sssssssssssssssssssssss'",
-        "ssssssssssssssssssssssss",
-        "_||||www||ss||wwww|||||_",
-        "_|CCW...^|ss|^.....-ff|_",
-        "_|CC+....|++|......#..|_",
-        "_|---..............#A.|_",
-        "_|CCW..............#..|_",
-        "_|CC+...{..........-D-|_",
-        "_|---...{.............|_",
-        "_|CCW...{.............|_",
-        "_|CCW...{.............|_",
-        "_|CC+...{.............|_",
-        "_|---...{......{{{{{{{|_",
-        "_|CCW...{.....--------|_",
-        "_|CCW.................|_",
-        "_|CC+.................|_",
-        "_|||||||||||||b||-...-|_",
-        "___c_______4|T.&|l....|_",
-        "___c___d___d|||||l...&|_",
-        "___c_ddddddddcdd|.....|_",
-        "___c__d__d_d_addb....&|_",
-        "___c_________cdd|.....|_",
-        "___ccccccccccccc|||||||_",
-        "________________________"
-      ],
-      "terrain": {
-        "+": "t_door_glass_c",
-        "-": "t_wall_w",
-        ".": "t_floor",
-        "C": "t_thconc_floor",
-        "D": "t_door_c",
-        "W": "t_wall_glass",
-        "_": "t_grass",
-        "'": "t_sidewalk",
-        "a": "t_chaingate_c",
-        "b": "t_door_locked",
-        "c": "t_chainfence",
-        "d": "t_dirt",
-        "s": "t_sidewalk",
-        "w": "t_wall_glass_alarm",
-        "|": "t_brick_wall",
-        "4": "t_gutter_downspout"
-      }
-    },
-    "om_terrain": "s_petstore_1",
-    "type": "mapgen",
-    "weight": 100
+      ]
+    }
   },
   {
     "type": "mapgen",
