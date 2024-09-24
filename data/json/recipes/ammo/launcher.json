@@ -443,7 +443,6 @@
     "autolearn": true,
     "charges": 1,
     "reversible": true,
-    "using": [ [ "ammo_bullet", 800 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
