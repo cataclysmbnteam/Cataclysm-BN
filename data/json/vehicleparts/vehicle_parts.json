@@ -3248,7 +3248,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 320,
-    "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A rotating, universal mount for a weapon.  Weapons installed on it can be fired from the vehicle controls.  If your hands are empty, you can also stand on the same tile as a mounted gun and 'f'ire the weapon.",
     "folded_volume": "2500 ml",
     "item": "turret_mount",
     "requirements": {
@@ -3268,7 +3268,7 @@
     "color": "brown",
     "broken_color": "brown",
     "durability": 15,
-    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A simple hardpoint for mounting a weapon.  Can only be fired manually, and can't accept turret controls.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
     "folded_volume": "3750 ml",
     "item": "foldwoodframe",
     "requirements": {
@@ -3286,7 +3286,7 @@
     "copy-from": "turret_mount",
     "name": { "str": "simple foldable light turret mount" },
     "durability": 50,
-    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
     "item": "foldframe",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -3304,7 +3304,7 @@
     "color": "brown",
     "broken_color": "brown",
     "durability": 150,
-    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
     "item": "frame_wood",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
@@ -3321,7 +3321,7 @@
     "copy-from": "turret_mount",
     "name": { "str": "simple steel turret mount" },
     "durability": 400,
-    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
     "item": "frame",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
