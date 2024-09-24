@@ -65,7 +65,7 @@
           { "id": "vp_sail", "fg": 53 },
           { "id": "cannon_3in_makeshift", "fg": 54 },
           { "id": "overlay_wielded_cannon_3in_makeshift", "fg": 55 },
-          { "id": "vp_mounted_makeshift_cannon", "fg": 56 },
+          { "id": "vp_mounted_makeshift_cannon", "fg": 56, "rotates": true },
           { "id": [ "cannonball_explosive", "overlay_wielded_cannonball_explosive" ], "fg": 57 },
           { "id": [ "cannon_scrap_shot", "overlay_wielded_cannon_scrap_shot" ], "fg": 58 },
           { "id": [ "cannon_canister_shot", "overlay_wielded_cannon_canister_shot" ], "fg": 59 },
