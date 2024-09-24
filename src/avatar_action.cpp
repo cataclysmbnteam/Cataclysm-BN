@@ -1332,7 +1332,7 @@ void avatar_action::reload_weapon( bool try_everything )
                 u.activity->targets.emplace_back( opt.ammo );
             }
             return;
-        } else if( ( turret = veh->turret_query( u.pos() ) ) ) {
+        } else if( ( turret = veh->turret_manual_query( u.pos() ) ) ) {
             item_reload_option opt = character_funcs::select_ammo( u, turret.base(), true );
             if( opt ) {
                 u.assign_activity( std::make_unique<player_activity>( activity_id( "ACT_RELOAD" ), opt.moves(),
