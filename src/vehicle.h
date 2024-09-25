@@ -1332,7 +1332,6 @@ class vehicle
         turret_data turret_query( const tripoint &pos ) const;
 
         /** Returns true if any part on the tile the turret is installed on has the MANUAL flag. */
-        bool is_manual_turret( vehicle_part &pt ) const;
         bool is_manual_turret( const vehicle_part &pt ) const;
 
         /** Set targeting mode for specific turrets */
