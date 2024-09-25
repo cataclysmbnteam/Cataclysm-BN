@@ -891,7 +891,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                                && proj.has_effect( ammo_effect_BLINDS_EYES ) ? total_damage - env_resist : 0;
     if( blind_strength > 0 ) {
         // TODO: Change this to require bp_eyes
-        add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
+        add_env_effect( effect_blind, body_part_eyes, 5, rng( 3_turns, 10_turns ) );
     }
 
     const int sap_strength = proj.has_effect( ammo_effect_APPLY_SAP ) ? total_damage - env_resist : 0;
@@ -1166,17 +1166,24 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
         }
     }
 }
-bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                               const time_duration &dur, body_part bp, int intensity, bool force )
+
+bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_str_id &vector,
+                               int strength, const time_duration &dur )
+{
+    return add_env_effect( eff_id, vector, strength, dur, bodypart_str_id::NULL_ID() );
+}
+
+bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_str_id &vector,
+                               int strength, const time_duration &dur, const bodypart_str_id &bp, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
     }
 
-    if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
+    if( dice( strength, 3 ) > dice( get_env_resist( vector.id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
-        add_effect( eff_id, dur, convert_bp( bp ), intensity, true );
+        add_effect( eff_id, dur, bp, intensity, true );
         return true;
     } else {
         return false;

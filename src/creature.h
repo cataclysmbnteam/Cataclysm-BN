@@ -465,10 +465,12 @@ class Creature
                                  const bodypart_str_id &bp, int intensity = 0, bool force = false, bool deferred = false );
         void add_effect( const efftype_id &eff_id, const time_duration &dur );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+        bool add_env_effect( const efftype_id &eff_id, const bodypart_str_id &vector, int strength,
                              const time_duration &dur,
-                             body_part bp = num_bp, int intensity = 1,
+                             const bodypart_str_id &bp, int intensity = 1,
                              bool force = false );
+        bool add_env_effect( const efftype_id &eff_id, const bodypart_str_id &vector, int strength,
+                             const time_duration &dur );
 
         // Deleted variant of add_env_effect, to make sure calls to it don't get re-introduced during porting
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,

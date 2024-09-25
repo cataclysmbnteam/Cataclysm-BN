@@ -1558,7 +1558,7 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
                        g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            g->u.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+            g->u.add_env_effect( effect_blind, body_part_eyes, ( 12 - flash_mod - dist ) / 2,
                                  time_duration::from_turns( 10 - dist ) );
         }
     }
