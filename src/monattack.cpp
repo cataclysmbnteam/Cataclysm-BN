@@ -669,9 +669,9 @@ bool mattack::acid_barf( monster *z )
         return true;
     }
 
-    body_part hit = target->get_random_body_part()->token;
+    bodypart_str_id hit = target->get_random_body_part().id();
     int dam = rng( 5, 12 );
-    dam = target->deal_damage( z, convert_bp( hit ).id(), damage_instance( DT_ACID,
+    dam = target->deal_damage( z, hit.id(), damage_instance( DT_ACID,
                                dam ) ).total_damage();
     target->add_env_effect( effect_corroding, hit, 5, time_duration::from_turns( dam / 2 + 5 ), hit );
 
@@ -686,8 +686,8 @@ bool mattack::acid_barf( monster *z )
                                        body_part_name_accusative( hit ),
                                        dam );
 
-        if( hit == bp_eyes ) {
-            target->add_env_effect( effect_blind, bp_eyes, 3, 1_minutes );
+        if( hit == body_part_eyes ) {
+            target->add_env_effect( effect_blind, body_part_eyes, 3, 1_minutes );
         }
     } else {
         target->add_msg_player_or_npc(
@@ -697,7 +697,7 @@ bool mattack::acid_barf( monster *z )
             body_part_name_accusative( hit ) );
     }
 
-    target->on_hit( z, convert_bp( hit ).id() );
+    target->on_hit( z, hit );
 
     return true;
 }
@@ -895,7 +895,7 @@ bool mattack::boomer( monster *z )
     if( !target->uncanny_dodge() ) {
         ///\EFFECT_DODGE increases chance to avoid boomer effect
         if( rng( 0, 10 ) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect( effect_boomered, bp_eyes, 3, 12_turns );
+            target->add_env_effect( effect_boomered, body_part_eyes, 3, 12_turns );
         } else if( u_see ) {
             target->add_msg_player_or_npc( _( "You dodge it!" ),
                                            _( "<npcname> dodges it!" ) );
@@ -950,11 +950,11 @@ bool mattack::boomer_glow( monster *z )
     if( !target->uncanny_dodge() ) {
         ///\EFFECT_DODGE increases chance to avoid glowing boomer effect
         if( rng( 0, 10 ) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
+            target->add_env_effect( effect_boomered, body_part_eyes, 5, 25_turns );
             target->on_dodge( z, 5 );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 bodypart_str_id bp = random_body_part();
-                target->add_env_effect( effect_glowing, bp->token, 4, 4_minutes );
+                target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( target->has_effect( effect_glowing ) ) {
                     break;
                 }
