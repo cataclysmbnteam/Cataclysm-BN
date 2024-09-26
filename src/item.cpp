@@ -9914,7 +9914,6 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     // It technically gives an extra turn of action, but before the rework items functioned at 0 charges for a bit anyway.
     self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
 
-    // if insufficient available charges shutdown the tool
     if( revert_destroy ) {
         // If no revert is defined, destroy it (candles and the like).
         if( self->is_active() && self->revert( carrier ) ) {
