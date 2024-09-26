@@ -9835,6 +9835,8 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     }
 
     int energy = 0;
+    const bool uses_UPS = self->has_flag( flag_USE_UPS );
+    bool revert_destroy = false;
     if( self->type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % self->type->tool->turns_per_charge == 0 ) {
         energy = std::max( self->ammo_required(), 1 );
@@ -9845,62 +9847,75 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         // energy_bat remainder results in chance at additional charge/discharge
         energy += x_in_y( self->type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
-    energy -= self->ammo_consume( energy, pos );
 
-    // for power armor pieces, try to use power armor interface first.
-    if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
-        if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
-            energy = 0;
+    // If energy is 0 we just skip over this and go to tick processing.
+    if( energy ) {
+        energy -= self->ammo_consume( energy, pos );
+
+        // for power armor pieces, try to use power armor interface first.
+        if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
+            if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
+                energy = 0;
+            }
+        }
+
+        // for items in player possession if insufficient charges within tool try UPS
+        if( carrier && uses_UPS ) {
+            if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
+                energy = 0;
+            }
+        }
+
+        // HACK: this means that UPS items will last one more check longer than they should since they don't trigger when
+        // their ammo_remaining is 0, since that doesn't check the UPS "stock" available (which is an expensive check)
+        // It's done like this cause grenades must be destroyed when charge reaches 0, or it will linger an extra turn.
+        if( ( self->ammo_remaining() == 0 && !uses_UPS ) || energy > 0 ) {
+            revert_destroy = true;
+            if( carrier ) {
+                if( self->is_power_armor() ) {
+                    if( uses_UPS ) {
+                        carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
+                                                    self->tname() );
+                    } else {
+
+                    }
+                } else if( uses_UPS ) {
+                    carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), self->tname() );
+                }
+            }
+            if( carrier && self->type->can_use( "set_transform" ) ) {
+                const set_transform_iuse *actor = dynamic_cast<const set_transform_iuse *>
+                                                  ( self->get_use( "set_transform" )->get_actor_ptr() );
+                if( actor == nullptr ) {
+                    debugmsg( "iuse_actor type descriptor and actual type mismatch." );
+                    return std::move( self );
+                }
+                flag_id transformed_flag( actor->flag );
+                for( auto &elem : carrier->worn ) {
+                    if( elem->is_active() && elem->has_flag( transformed_flag ) ) {
+                        if( !elem->type->can_use( "set_transformed" ) ) {
+                            debugmsg( "Expected set_transformed function" );
+                            return std::move( self );
+                        }
+                        const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                                            ( elem->get_use( "set_transformed" )->get_actor_ptr() );
+                        if( actor == nullptr ) {
+                            debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+                            return std::move( self );
+                        }
+                        actor->bypass( *carrier, *elem, false, pos );
+                    }
+                }
+            }
         }
     }
 
-    // for items in player possession if insufficient charges within tool try UPS
-    if( carrier && ( self->has_flag( flag_USE_UPS ) ) ) {
-        if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
-            energy = 0;
-        }
-    }
+    // Process tick even if it's to be destroyed/reverted later, more for grenades
+    // It technically gives an extra turn of action, but before the rework items functioned at 0 charges for a bit anyway.
+    self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
 
     // if insufficient available charges shutdown the tool
-    if( energy > 0 ) {
-        if( carrier ) {
-            if( self->is_power_armor() ) {
-                if( self->has_flag( flag_USE_UPS ) ) {
-                    carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
-                                                self->tname() );
-                } else {
-                    carrier->add_msg_if_player( m_info, _( "You need a Bionic Power Interface to run the %s!" ),
-                                                self->tname() );
-                }
-            } else if( self->has_flag( flag_USE_UPS ) ) {
-                carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), self->tname() );
-            }
-        }
-        if( carrier && self->type->can_use( "set_transform" ) ) {
-            const set_transform_iuse *actor = dynamic_cast<const set_transform_iuse *>
-                                              ( self->get_use( "set_transform" )->get_actor_ptr() );
-            if( actor == nullptr ) {
-                debugmsg( "iuse_actor type descriptor and actual type mismatch." );
-                return std::move( self );
-            }
-            flag_id transformed_flag( actor->flag );
-            for( auto &elem : carrier->worn ) {
-                if( elem->is_active() && elem->has_flag( transformed_flag ) ) {
-                    if( !elem->type->can_use( "set_transformed" ) ) {
-                        debugmsg( "Expected set_transformed function" );
-                        return std::move( self );
-                    }
-                    const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                                        ( elem->get_use( "set_transformed" )->get_actor_ptr() );
-                    if( actor == nullptr ) {
-                        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-                        return std::move( self );
-                    }
-                    actor->bypass( *carrier, *elem, false, pos );
-                }
-            }
-        }
-
+    if( revert_destroy ) {
         // If no revert is defined, destroy it (candles and the like).
         if( self->is_active() && self->revert( carrier ) ) {
             self->deactivate();
@@ -9910,7 +9925,6 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         }
     }
 
-    self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
     return std::move( self );
 }
 

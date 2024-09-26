@@ -565,7 +565,6 @@ void explosion_iuse::load( const JsonObject &obj )
 
 int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
-    it.charges = 0;
     if( t ) {
         if( sound_volume >= 0 ) {
             sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
@@ -584,7 +583,6 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
     if( it.charges == 0 ) {
         trigger_explosion( pos, it.activated_by );
-        it.detach();
     }
     return 1;
 }
