@@ -1,0 +1,19 @@
+[
+  {
+    "id": "brass_metal",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str_sp": "brass" },
+    "description": "An alloy of 70% copper and 30% zinc, useful for creating bullet casings.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": "copper",
+    "weight": "45 g",
+    "volume": "25 ml",
+    "bashing": 1,
+    "to_hit": -2,
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true,
+    "symbol": "="
+  }
+]

@@ -336,7 +336,8 @@
       [ "cowboy_hat", 20 ],
       [ "tophat", 25 ],
       [ "hat_sombrero", 25 ],
-      [ "apron_leather", 20 ]
+      [ "apron_leather", 20 ],
+      [ "bandolier_knife", 15 ]
     ]
   },
   {

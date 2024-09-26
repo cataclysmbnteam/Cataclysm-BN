@@ -98,7 +98,8 @@
     "to_hit": -1,
     "bashing": 10,
     "cutting": 17,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ],
+    "flags": [ "SHEATH_AXE", "BELT_CLIP" ]
   },
   {
     "type": "GENERIC",
@@ -115,7 +116,8 @@
     "weight": "268 g",
     "bashing": 1,
     "cutting": 10,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
+    "flags": [ "SHEATH_KNIFE" ]
   },
   {
     "id": "throwing_stick",

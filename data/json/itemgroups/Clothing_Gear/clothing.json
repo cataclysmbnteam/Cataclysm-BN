@@ -3588,9 +3588,10 @@
           { "item": "bandolier_rifle", "prob": 20 },
           { "item": "bandolier_shotgun", "prob": 10 },
           { "item": "bandolier_wrist", "prob": 5 },
-          { "item": "quiver", "prob": 30 },
+          { "item": "quiver", "prob": 25 },
           { "item": "quiver_large", "prob": 20 },
-          { "item": "torso_bandolier_shotgun", "prob": 5 }
+          { "item": "torso_bandolier_shotgun", "prob": 5 },
+          { "item": "bandolier_knife", "prob": 5 }
         ],
         "prob": 25
       },

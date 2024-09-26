@@ -4981,16 +4981,14 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "fancy_sunglasses",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife",
-          "throwing_knife"
-        ],
-        "entries": [ { "item": "knife_combat", "container-item": "bootsheath" } ]
+        "items": [ "fancy_sunglasses" ],
+        "entries": [
+          {
+            "item": "bandolier_knife",
+            "contents-item": [ "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife", "throwing_knife" ]
+          },
+          { "item": "knife_combat", "container-item": "bootsheath" }
+        ]
       },
       "male": [
         "boxer_briefs",

@@ -869,5 +869,48 @@
     "time": "45 m",
     "book_learn": [ [ "recipe_bows", 4 ], [ "textbook_weapwest", 5 ], [ "textbook_armschina", 5 ] ],
     "using": [ [ "blacksmithing_advanced", 5 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mod_air_pump",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "accelerator_gunmod",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "electronics",
+    "skills_required": [ [ "computer", 3 ] ],
+    "difficulty": 5,
+    "time": "20 m",
+    "book_learn": [ [ "manual_electronics", 5 ], [ "advanced_electronics", 4 ], [ "textbook_electronics", 5 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "tools": [ [ [ "electrolysis_kit", 750 ] ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "components": [
+      [ [ "amplifier", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "cable", 100 ] ],
+      [ [ "steel_lump", 1 ] ],
+      [ [ "RAM", 1 ] ]
+    ]
   }
 ]

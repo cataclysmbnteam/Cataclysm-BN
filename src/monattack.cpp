@@ -94,6 +94,7 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_boomered( "boomered" );
+static const efftype_id effect_command_buff( "command_buff" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_countdown( "countdown" );
 static const efftype_id effect_darkness( "darkness" );
@@ -4175,6 +4176,43 @@ bool mattack::upgrade( monster *z )
             add_msg( m_warning, _( "The %s vanishes!" ), old_name );
         } else if( can_see ) {
             add_msg( m_warning, _( "A %s appears!" ), target->name() );
+        }
+    }
+
+    return true;
+}
+
+bool mattack::command_buff( monster *z )
+{
+    size_t aggroed = 0;
+    const Creature *enemy = z->attack_target();
+    bool will_aggro = enemy != nullptr && rl_dist_fast( enemy->pos(), z->pos() ) <= 10;
+    for( monster &ally : g->all_monsters() ) {
+        if( rl_dist_fast( ally.pos(), z->pos() ) <= 10 &&
+            ally.attitude_to( *z ) == Attitude::A_FRIENDLY ) {
+            time_duration buff_dur = ally.get_effect_dur( effect_command_buff );
+            time_duration half_max_dur = effect_command_buff->get_max_duration() / 2;
+            if( buff_dur < half_max_dur ) {
+                ally.add_effect( effect_command_buff, half_max_dur - buff_dur );
+            }
+
+            if( will_aggro && ally.move_target() != enemy->pos() &&
+                ally.attitude_to( *enemy ) == Attitude::A_HOSTILE ) {
+                ally.set_dest( enemy->pos() );
+                aggroed++;
+            }
+        }
+    }
+
+    if( aggroed > 0 && enemy->is_avatar() ) {
+        if( enemy->sees( *z ) ) {
+            add_msg( m_warning, _( "%s points in your direction." ),  z->disp_name( false, true ) );
+        }
+
+        if( aggroed > 25 ) {
+            add_msg( m_bad, _( "You feel intensely hated for a moment." ) );
+        } else if( aggroed > 5 )        {
+            add_msg( m_warning, _( "You feel an angry presence." ) );
         }
     }
 
