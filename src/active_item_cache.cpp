@@ -92,7 +92,7 @@ std::vector<item *> active_item_cache::get_for_processing()
         }
 
         // Rely on iteration logic to make sure the number is sane.
-        int num_to_process = kv.second.second.size() / kv.first;
+        int num_to_process = std::max( 1, static_cast<int>( kv.second.second.size() / kv.first ) );
         std::vector<cache_reference<item>>::iterator it = kv.second.second.begin();
 
 
