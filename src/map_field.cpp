@@ -1121,9 +1121,10 @@ void map::process_fields_in_submap( submap *const current_submap,
                         cur.set_field_intensity( 0 );
                     } else {
                         // Bees chase the player if in range, wander randomly otherwise.
+                        const int swarm_intensity = cur.get_field_intensity() * 3;
                         if( !g->u.is_underwater() &&
-                            rl_dist( p, g->u.pos() ) < 10 &&
-                            clear_path( p, g->u.pos(), 10, 1, 100 ) ) {
+                            rl_dist( p, g->u.pos() ) <= swarm_intensity &&
+                            clear_path( p, g->u.pos(), swarm_intensity, 1, 100 ) ) {
 
                             std::vector<point> candidate_positions =
                                 squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );

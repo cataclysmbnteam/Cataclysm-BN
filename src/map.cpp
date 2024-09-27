@@ -7499,14 +7499,20 @@ void map::grow_plant( const tripoint &p )
 void map::restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     const auto &ter = this->ter( p ).obj();
-    if( !ter.has_flag( TFLAG_HARVESTED ) ) {
+    const auto &furn = this->furn( p ).obj();
+    if( !ter.has_flag( TFLAG_HARVESTED ) && !furn.has_flag( TFLAG_HARVESTED ) ) {
         return; // Already harvestable. Do nothing.
     }
     // Make it harvestable again if the last actualization was during a different season or year.
     const time_point last_touched = calendar::turn - time_since_last_actualize;
     if( season_of_year( calendar::turn ) != season_of_year( last_touched ) ||
         time_since_last_actualize >= calendar::season_length() ) {
-        ter_set( p, ter.transforms_into );
+        if( ter.has_flag( TFLAG_HARVESTED ) ) {
+            ter_set( p, ter.transforms_into );
+        }
+        if( furn.has_flag( TFLAG_HARVESTED ) ) {
+            furn_set( p, furn.transforms_into );
+        }
     }
 }
 
