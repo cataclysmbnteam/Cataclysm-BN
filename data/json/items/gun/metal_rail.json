@@ -44,7 +44,6 @@
     "durability": 6,
     "clip_size": 12,
     "ups_charges": 40,
-    "reload": 100,
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
@@ -68,7 +67,6 @@
     "durability": 6,
     "clip_size": 20,
     "ups_charges": 20,
-    "reload": 100,
     "ammo_effects": [ "INCENDIARY", "TRAIL" ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   }
