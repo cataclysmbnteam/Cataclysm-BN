@@ -170,5 +170,17 @@
     "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
     "using": [ [ "3d_printing_standard", 1 ], [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "components": [ [ [ "carbon_fiber_filament", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "12mm",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "book_learn": [ [ "recipe_caseless" ] ],
+    "tools": [ [ "3d_printer_advanced", 20 ] ],
+    "using": [ [ "steel_tiny", 1 ] ]
   }
 ]
