@@ -42,8 +42,7 @@
         "U": "t_sidewalk",
         "j": "t_console_broken",
         "<": "t_stairs_up",
-        "4": "t_gutter_downspout",
-        "o": "t_shrub"
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "'": "f_street_light",
