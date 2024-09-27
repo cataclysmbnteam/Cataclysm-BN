@@ -2032,6 +2032,7 @@ void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
     if( harvest_common( p, examp, true, true, auto_forage ) ) {
+        map &here = get_map();
         get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
     }
 }
@@ -2041,6 +2042,7 @@ void iexamine::harvest_furn( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
     if( harvest_common( p, examp, true, false, auto_forage ) ) {
+        map &here = get_map();
         get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
     }
 }
