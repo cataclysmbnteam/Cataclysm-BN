@@ -9,9 +9,9 @@ the desired solution rather than layering the dependencies onto your base instal
 
 :::caution
 
-As of writing this, Bazzite's default container image is fedora-toolbox:38, which results in having
+As of writing this, Bazzite's default container image is fedora-toolbox:38, which *may* result in having
 to edit the dependencies installation script. On distros that grab a more modern version of Fedora
-as their image (or by manually grabbing one yourself), you can instead just use the standard Fedora
+as their image (or by manually grabbing one yourself), you can be more certain in just using the standard Fedora
 script
 
 :::
