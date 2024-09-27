@@ -42,7 +42,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "dispersion": 180,
     "durability": 5,
-    "ups_charges": 15,
+    "ups_charges": 20,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
