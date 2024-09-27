@@ -4,7 +4,6 @@
     "id": "84x246mm_he",
     "price": "700 USD",
     "price_postapoc": "120 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "//": "Milspec ammo such as grenades and rockets: not available to the general public, so Expensive.",
     "name": { "str": "84x246mm HE rocket" },
     "symbol": "=",

@@ -119,16 +119,3 @@ Food that has less calories, goes bad quickly, and is junk food, might be 50.
 
 For items that have a stack size, you need to **divide** the price by stack size find the price per
 unit of the item.
-
-#### IRREPLACEABLE_CONSUMABLE Flag
-
-Pre cataclysm consumables that can not be replaced can be given the flag:
-
-```
-"flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-```
-
-This is used for things such as unreloaded ammo, medicine, and luxury consumables such as coffee and
-tea.
-
-In the future we can implement a feature that will allow this items to increase in price over time.

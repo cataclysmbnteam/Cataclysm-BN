@@ -452,7 +452,6 @@
     "price_postapoc": "10 USD",
     "material": "foodplace_foodstuff",
     "volume": "500 ml",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "addiction_potential": 1,
     "charges": 4,
     "fun": 2
@@ -491,7 +490,7 @@
     "price_postapoc": "5 USD",
     "material": "powder",
     "volume": "250 ml",
-    "flags": [ "RAW", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "RAW" ],
     "calories": 23,
     "charges": 20,
     "fun": -5

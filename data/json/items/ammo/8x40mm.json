@@ -7,7 +7,7 @@
     "description": "Handmade duplicates of Rivtech 8x40mm JHP rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "8mm_caseless_reloaded",
@@ -17,7 +17,7 @@
     "description": "Handmade duplicates of Rivtech 8x40mm caseless rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "8mm_hvp_reloaded",
@@ -27,7 +27,7 @@
     "description": "Handmade duplicates of Rivtech 8x40mm HVP rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "8mm_inc_reloaded",
@@ -37,7 +37,7 @@
     "description": "Handmade duplicates of Rivtech 8x40mm tracer rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "8mm_caseless",
@@ -49,7 +49,6 @@
     "volume": "250 ml",
     "price": "225 cent",
     "price_postapoc": "80 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "pink",

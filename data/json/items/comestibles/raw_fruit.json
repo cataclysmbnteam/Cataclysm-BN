@@ -61,7 +61,7 @@
     "//": "cacao is actually a fruit.",
     "volume": "500 ml",
     "cooks_like": "beans_cooked",
-    "flags": [ "RAW", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "RAW" ],
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 106 ], [ "iron", 4 ], [ "iron", 4 ] ],
     "fun": 4
   },
