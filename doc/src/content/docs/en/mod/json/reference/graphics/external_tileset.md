@@ -48,6 +48,7 @@ Links to relevant pull requests, for content covered below:
 - Pirate Flag: [#5375](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5375)
 - Makeshift cannons and canister shot:
   [#5398](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5398)
+- Harvested cattails: [#5445](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5445)
 
 ## Undead People
 
@@ -94,6 +95,7 @@ Ultica are planned for the future.
 - Jolly Roger, item and worn sprite. Item specific to BN.
 - Makeshift cannon, item and vehiclepart sprite. Item specific to BN.
 - Explosive cannonshells and sprites for readied cannon ammo. Items specific to BN.
+- Harvested state for cattails, including winter variation. Furniture specific to BN.
 
 ### External_Tileset_DP_Tall.png
 

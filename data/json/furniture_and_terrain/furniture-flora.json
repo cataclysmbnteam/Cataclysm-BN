@@ -104,7 +104,7 @@
   {
     "type": "furniture",
     "id": "f_cattails",
-    "name": "cattails",
+    "name": "harvested cattails",
     "description": "This useful plant is available all year round.  Many parts of the plant are edible.",
     "symbol": "i",
     "color": "brown",
