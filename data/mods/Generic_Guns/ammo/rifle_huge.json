@@ -23,7 +23,7 @@
     "type": "AMMO",
     "name": { "str_sp": "12.7mm, FMJ (black powder)" },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] },
     "description": "Huge rifle ammunition like this bridges the gap between light cannons and big game rifles.  It's suitable for taking on light vehicles and other materiel, or hunting extremely large game.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
     "proportional": {
       "price": 0.3,

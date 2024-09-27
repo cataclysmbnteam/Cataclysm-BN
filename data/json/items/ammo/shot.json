@@ -107,7 +107,6 @@
     "price": "5 USD",
     "price_postapoc": "2 USD",
     "//": "currently can't be crafted",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "damage": { "damage_type": "bash", "amount": 5 },
     "proportional": { "recoil": 0.4, "loudness": 0.6 },
@@ -163,7 +162,6 @@
     "price": "30 USD",
     "price_postapoc": "16 USD",
     "//2": "currently can't be crafted",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 5,
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 0 },
     "extend": { "effects": [ "EXPLOSIVE" ] }
