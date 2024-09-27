@@ -1083,29 +1083,6 @@
   },
   {
     "type": "recipe",
-    "result": "rebar_xbow",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",
-    "skills_required": [ "mechanics", 2 ],
-    "difficulty": 4,
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "book_learn": [ [ "recipe_lab_elec", 3 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "using": [ [ "welding_standard", 30 ] ],
-    "components": [
-      [ [ "cable", 80 ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ] ],
-      [ [ "cordage_superior", 1, "LIST" ] ],
-      [ [ "power_supply", 2 ] ],
-      [ [ "steel_chunk", 3 ], [ "scrap", 18 ] ],
-      [ [ "rebar", 1 ], [ "pipe", 1 ] ],
-      [ [ "e_scrap", 20 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "heavy_rail_rifle",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

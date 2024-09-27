@@ -27,6 +27,7 @@
       { "item": "plasma_gun", "prob": 35 },
       { "item": "hk_g80", "prob": 35 },
       { "item": "hk_g80mag", "prob": 35 },
+      { "item": "rebar_railgun", "prob": 35 },
       { "item": "emp_gun", "prob": 20 },
       { "item": "id_military", "prob": 30 },
       { "item": "id_industrial", "prob": 30 },
