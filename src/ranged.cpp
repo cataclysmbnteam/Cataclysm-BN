@@ -1177,8 +1177,8 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     who.mod_moves( -move_cost );
 
     const int throwing_skill = who.get_skill_level( skill_throw );
-    units::volume volume = thrown.volume();
-    units::mass weight = thrown.weight();
+    const units::volume volume = thrown.volume();
+    const units::mass weight = thrown.weight();
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
@@ -1208,29 +1208,24 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     if( who.has_effect( effect_downed ) ) {
         skill_level = std::max( 0, skill_level - 5 );
     }
+
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+    const bool do_railgun = who.has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
+                            !throw_assist;
+    const int effective_strength =
+        throw_assist ? throw_assist_str : do_railgun ? who.get_str() * 2 : who.get_str();
+
     // We'll be constructing a projectile
     projectile proj;
     proj.impact = thrown.base_damage_thrown();
-    proj.speed = 10 + skill_level;
+    proj.speed = std::log2( std::max( 1, skill_level ) )
+                 + std::log2( std::max( 1, effective_strength ) );
     auto &impact = proj.impact;
 
-    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
-
-    bool do_railgun = who.has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
-                      !throw_assist;
-
-    // The damage dealt due to item's weight, player's strength, and skill level
-    // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
-    // Railgun doubles the effective strength
-    ///\EFFECT_STR increases throwing damage
-    double stats_mod = do_railgun ? who.get_str() : ( who.get_str() / 2.0 );
-    stats_mod = throw_assist ? throw_assist_str / 2.0 : stats_mod;
-    // modify strength impact based on skill level, clamped to [0.15 - 1]
-    // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
-    stats_mod *= ( std::min( MAX_SKILL,
-                             who.get_skill_level( skill_throw ) ) /
-                   static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
-    impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
+    // calculate extra damage, proportional to 1/2mv^2
+    // @see https://www.desmos.com/calculator/ibo2jh9cqa
+    const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( proj.speed, 2 );
+    impact.add_damage( DT_BASH, static_cast<int>( damage ) );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
