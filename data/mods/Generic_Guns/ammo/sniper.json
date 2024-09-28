@@ -23,7 +23,7 @@
     "type": "AMMO",
     "name": { "str_sp": "7.62mm, FMJ (black powder)" },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] },
     "description": "Modern sniper ammunition.  It has a high range and is perfect for disabling targets from afar.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
     "proportional": {
       "price": 0.3,

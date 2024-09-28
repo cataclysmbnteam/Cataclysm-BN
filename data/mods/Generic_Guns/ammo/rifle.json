@@ -23,7 +23,7 @@
     "type": "AMMO",
     "name": { "str_sp": "5.56mm, FMJ (black powder)" },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] },
     "description": "Modern rifle ammunition, ubiquitous and affordable.  It's suitable for international conflicts, hunting small to large game, home defense, and these days, zombies.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
     "proportional": {
       "price": 0.3,

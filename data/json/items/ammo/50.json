@@ -41,8 +41,7 @@
     "count": 10,
     "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -4 } },
     "dispersion": 100,
-    "//": "currently can't be crafted",
-    "extend": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "//": "currently can't be crafted"
   },
   {
     "id": "50ss",
@@ -62,7 +61,6 @@
     "name": { "str": ".50 BMG Raufoss Mk 211" },
     "price": "600 USD",
     "price_postapoc": "75 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "description": "This variant of the .50 BMG round makes the most of the caliber's potential payload delivery: the tip is loaded with an incendiary mix, which ignites on impact, detonating the RDX or PETN charge.  This also ignites a secondary zirconium powder incendiary charge that surrounds a tungsten carbide penetrator, both encased by a mild steel cup.  Fragments from the cup and burning metallic powder follow the penetrator through armored targets, increasing lethality.  These rare, complicated, and expensive rounds are not likely to be manufactured again; use them wisely.",
     "effects": [ "INCENDIARY", "EXPLOSIVE_BIG" ],
     "//": "mk 211 is estimated to be as effective as 20mm, which would have 65kJ energy, or 255 damage. ~181 damage is fair.",

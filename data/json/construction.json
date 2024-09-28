@@ -125,6 +125,26 @@
   },
   {
     "type": "construction",
+    "id": "constr_niter_bed",
+    "group": "build_niter_bed",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 4 ], [ "cooking", 4 ] ],
+    "time": "10 m",
+    "components": [
+      [ [ "material_soil", 20 ] ],
+      [ [ "straw_pile", 20 ], [ "withered", 20 ], [ "pine_bough", 20 ] ],
+      [ [ "material_soil", 20 ] ],
+      [ [ "material_sand", 200 ], [ "pebble", 40 ] ],
+      [ [ "water", 20 ], [ "water_clean", 20 ] ],
+      [ [ "fertilizer_liquid", 20 ], [ "fertilizer_commercial", 4 ] ]
+    ],
+    "pre_note": "Will be harvestable after one season.",
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_niter_bed_fresh",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
     "id": "constr_improvised_shelter",
     "group": "build_improvised_shelter",
     "category": "CONSTRUCT",

@@ -846,6 +846,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_niter_bed",
+    "name": "Build Niter Bed"
+  },
+  {
+    "type": "construction_group",
     "id": "clean_broken_window",
     "name": "Clean Broken Window"
   },

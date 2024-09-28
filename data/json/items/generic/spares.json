@@ -115,8 +115,7 @@
     "weight": "2800 g",
     "volume": "1250 ml",
     "price": "289 USD",
-    "price_postapoc": "750 cent",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
+    "price_postapoc": "750 cent"
   },
   {
     "id": "well_pump",

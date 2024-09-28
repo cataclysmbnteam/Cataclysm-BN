@@ -574,8 +574,8 @@
     "material": "steel",
     "symbol": "*",
     "color": "dark_gray",
-    "initial_charges": 3,
-    "max_charges": 3,
+    "initial_charges": 10,
+    "max_charges": 10,
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
     "use_action": {

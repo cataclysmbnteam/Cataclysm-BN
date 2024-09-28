@@ -2044,11 +2044,6 @@
     "context": [ "TOOL_ARMOR" ]
   },
   {
-    "id": "IRREPLACEABLE_CONSUMABLE",
-    "type": "json_flag",
-    "context": [ "AMMO", "CONSUMABLE" ]
-  },
-  {
     "id": "ACT_IN_FIRE",
     "type": "json_flag",
     "context": [  ]
