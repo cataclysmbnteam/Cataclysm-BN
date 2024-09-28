@@ -49,6 +49,8 @@ Links to relevant pull requests, for content covered below:
 - Makeshift cannons and canister shot:
   [#5398](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5398)
 
+- Niter beds: [#5446](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5446)
+
 ## Undead People
 
 The following is a current list of sprites this folder adds to the UDP tileset, in which files and
