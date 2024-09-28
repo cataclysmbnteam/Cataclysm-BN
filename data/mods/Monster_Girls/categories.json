@@ -82,5 +82,14 @@
     "iv_message": "This stuff takes you back.  Downright primordial!",
     "memorial_message": "Gave up on rigid human norms.",
     "junkie_message": "Maybe if you drank enough, you'd become mutagen..."
+  },
+  {
+    "type": "mutation_category",
+    "id": "ELF",
+    "name": "Fey",
+    "threshold_mut": "THRESH_ELF",
+    "mutagen_message": "You feel the woods calling to you.",
+    "iv_message": "You feel like you could live forever, just like the trees!",
+    "memorial_message": "Spoke with the trees."
   }
 ]

@@ -32,12 +32,12 @@
   {
     "id": "mutagen_elfa",
     "type": "MIGRATION",
-    "replace": "mutagen"
+    "replace": "mutagen_elf"
   },
   {
     "id": "iv_mutagen_elfa",
     "type": "MIGRATION",
-    "replace": "iv_mutagen"
+    "replace": "iv_mutagen_elf"
   },
   {
     "id": "mutagen_medical",

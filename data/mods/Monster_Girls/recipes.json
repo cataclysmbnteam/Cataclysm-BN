@@ -110,5 +110,17 @@
     "result": "mutagen_slimegirl",
     "copy-from": "mutagen_slime",
     "components": [ [ [ "mutagen", 1 ] ], [ [ "sewage", 3 ], [ "slime_scrap", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_elf",
+    "copy-from": "iv_mutagen_elfa",
+    "components": [ [ [ "mutagen_elf", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_elf",
+    "copy-from": "mutagen_elfa",
+    "components": [ [ [ "mutagen_slime", 2 ], [ "iv_mutagen_slime", 1 ] ], [ [ "mutagen_plant", 1 ] ], [ [ "mutagen_bird", 1 ] ] ]
   }
 ]
