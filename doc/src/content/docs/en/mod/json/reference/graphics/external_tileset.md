@@ -49,6 +49,8 @@ Links to relevant pull requests, for content covered below:
 - Makeshift cannons and canister shot:
   [#5398](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5398)
 
+- Niter beds: [#5446](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5446)
+
 ## Undead People
 
 The following is a current list of sprites this folder adds to the UDP tileset, in which files and
@@ -94,6 +96,11 @@ Ultica are planned for the future.
 - Jolly Roger, item and worn sprite. Item specific to BN.
 - Makeshift cannon, item and vehiclepart sprite. Item specific to BN.
 - Explosive cannonshells and sprites for readied cannon ammo. Items specific to BN.
+
+### External_Tileset_DP_terrain_normal.png
+
+- Rice paddies. Terrain specific to BN.
+- Niter beds. Terrain specific to BN.
 
 ### External_Tileset_DP_Tall.png
 
