@@ -562,7 +562,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
             if( allow_special ) {
                 perform_special_attacks( t, dealt_special_dam );
             }
-            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
+            t.deal_melee_hit( this, &cur_weapon, hit_spread, critical_hit, d, dealt_dam );
             if( dealt_special_dam.type_damage( DT_CUT ) > 0 ||
                 dealt_special_dam.type_damage( DT_STAB ) > 0 ||
                 ( cur_weapon.is_null() && ( dealt_dam.type_damage( DT_CUT ) > 0 ||

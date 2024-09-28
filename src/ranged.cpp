@@ -924,7 +924,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
             projectile.add_effect( ammo_effect_NO_CRIT );
         }
         if( !shape ) {
-            auto shot = projectile_attack( projectile, who.pos(), aim, dispersion, &who, in_veh );
+            auto shot = projectile_attack( projectile, who.pos(), aim, dispersion, &who, &gun, in_veh );
             if( shot.missed_by <= .1 ) {
                 // TODO: check head existence for headshot
                 g->events().send<event_type::character_gets_headshot>( who.getID() );
@@ -944,7 +944,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
             double length = trig_dist( who.pos(), aim );
             rl_vec3d vec_pos( who.pos() );
             rl_vec3d new_aim = vec_pos + rl_vec3d( length, 0, 0 ).rotated( new_angle );
-            ranged::execute_shaped_attack( *shape->create( vec_pos, new_aim ), projectile, who );
+            ranged::execute_shaped_attack( *shape->create( vec_pos, new_aim ), projectile, who, &gun );
         }
         curshot++;
 

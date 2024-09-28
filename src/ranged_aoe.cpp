@@ -43,7 +43,8 @@ struct aoe_flood_node {
 namespace ranged
 {
 
-void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker )
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
+                            item *source_weapon )
 {
     map &here = get_map();
     const auto sigdist_to_coverage = []( const double sigdist ) {
@@ -128,7 +129,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
             atk.hit_critter = critter;
             atk.proj = proj;
             atk.missed_by = rng_float( 0.15, 0.45 );
-            critter->deal_projectile_attack( &attacker, atk );
+            critter->deal_projectile_attack( &attacker, source_weapon, atk );
         }
     }
 }

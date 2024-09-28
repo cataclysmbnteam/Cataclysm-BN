@@ -671,9 +671,18 @@ class Character : public Creature, public location_visitable<Character>
         void did_hit( Creature &target );
 
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
+        void apply_damage( Creature *source, item *source_weapon, item *source_projectile, bodypart_id hurt,
+                           int dam,
+                           bool bypass_med = false ) override;
+        void apply_damage( Creature *source, item *source_weapon, bodypart_id hurt, int dam,
+                           bool bypass_med = false ) override;
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &d, item *source_weapon, item *source_projectile ) override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &d, item *source_weapon ) override;
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */

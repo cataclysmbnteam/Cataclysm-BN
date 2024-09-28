@@ -93,6 +93,7 @@
 #include "ret_val.h"
 #include "rot.h"
 #include "rng.h"
+#include "scores_ui.h"
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -10714,4 +10715,44 @@ const location_vector<item> &item::get_components() const
 location_vector<item> &item::get_components()
 {
     return components;
+}
+
+bool item::init_kill_tracker()
+{
+    if( kills ) {
+        return true;
+    } else if( get_option<bool>( "ENABLE_EVENTS" ) ) {
+        kills = std::make_unique<kill_tracker>( false );
+        return true;
+    } else {
+        return false;
+    }
+}
+void item::add_monster_kill( mtype_id mon )
+{
+    if( init_kill_tracker() ) {
+        kills->add_monster( mon );
+    }
+}
+void item::add_npc_kill( std::string npc )
+{
+    if( init_kill_tracker() ) {
+        kills->add_npc( npc );
+    }
+}
+void item::show_kill_list()
+{
+    if( !kills ) {
+        debugmsg( "Tried to display empty kill list" );
+        return;
+    }
+    show_kills( *kills );
+}
+int item::kill_count()
+{
+    if( !kills ) {
+        return 0;
+    } else {
+        return kills->monster_kill_count() + kills->npc_kill_count();
+    }
 }

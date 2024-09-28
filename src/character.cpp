@@ -8917,7 +8917,9 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
  */
-void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
+void Character::apply_damage( Creature *source, item *source_weapon, item *source_projectile,
+                              bodypart_id hurt,
+                              int dam,
                               const bool bypass_med )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) ) {
@@ -8959,6 +8961,12 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
                     get_name() );
         }
         set_killer( source );
+        if( source_weapon ) {
+            source_weapon->add_npc_kill( get_name() );
+        }
+        if( source_projectile ) {
+            source_projectile->add_npc_kill( get_name() );
+        }
     }
 
     if( !bypass_med ) {
@@ -8972,9 +8980,21 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         }
     }
 }
+void Character::apply_damage( Creature *source, item *source_weapon, bodypart_id hurt,
+                              int dam,
+                              const bool bypass_med )
+{
+    apply_damage( source, source_weapon, nullptr, hurt, dam, bypass_med );
+}
+void Character::apply_damage( Creature *source, bodypart_id hurt,
+                              int dam,
+                              const bool bypass_med )
+{
+    apply_damage( source, nullptr, nullptr, hurt, dam, bypass_med );
+}
 
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &d )
+        const damage_instance &d, item *source_weapon, item *source_projectile )
 {
     if( has_trait( trait_DEBUG_NODMG ) ) {
         return dealt_damage_instance();
@@ -8987,7 +9007,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     }
 
     //damage applied here
-    dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d );
+    dealt_damage_instance dealt_dams = Creature::deal_damage( source, bp, d, source_weapon,
+                                       source_projectile );
     //block reduction should be by applied this point
     int dam = dealt_dams.total_damage();
 
@@ -9127,6 +9148,16 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
     on_hurt( source );
     return dealt_dams;
+}
+dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &d, item *source_weapon )
+{
+    return deal_damage( source, bp, d, source_weapon, nullptr );
+}
+dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &d )
+{
+    return deal_damage( source, bp, d, nullptr, nullptr );
 }
 
 int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,

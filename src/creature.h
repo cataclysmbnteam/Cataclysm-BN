@@ -356,11 +356,16 @@ class Creature
 
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
+        virtual void deal_melee_hit( Creature *source, item *source_weapon, int hit_spread,
+                                     bool critical_hit,
+                                     const damage_instance &dam, dealt_damage_instance &dealt_dam );
         virtual void deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                      const damage_instance &dam, dealt_damage_instance &dealt_dam );
 
         // Makes a ranged projectile attack against the creature
         // Sets relevant values in `attack`.
+        virtual void deal_projectile_attack( Creature *source, item *source_weapon,
+                                             dealt_projectile_attack &attack );
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack );
 
         /**
@@ -374,15 +379,28 @@ class Creature
          * @param source The attacking creature, can be null.
          * @param bp The attacked body part
          * @param dam The damage dealt
+         * @param source_weapon The weapon used in the attack, optional
+         * @param source_projectile The projectile fired in the attack, optional
          */
         virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                const damage_instance &dam, item *source_weapon, item *source_projectile );
+        virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                const damage_instance &dam, item *source_weapon );
+        virtual dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                 const damage_instance &dam );
+
         // for each damage type, how much gets through and how much pain do we
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const damage_unit &du,
                                               bodypart_id bp, int &damage, int &pain );
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
+        virtual void apply_damage( Creature *source, item *source_weapon, item *source_projectile,
+                                   bodypart_id bp,
+                                   int amount,
+                                   bool bypass_med = false ) = 0;
+        virtual void apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int amount,
+                                   bool bypass_med = false ) = 0;
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
                                    bool bypass_med = false ) = 0;
 

@@ -165,3 +165,56 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
         }
     }
 }
+
+void show_kills( kill_tracker &kills )
+{
+    catacurses::window w;
+
+    input_context ctxt( "SCORES" );
+    ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    catacurses::window w_view;
+    scrolling_text_view view( w_view );
+
+    ui_adaptor ui;
+    const auto &init_windows = [&]( ui_adaptor & ui ) {
+        w = new_centered_win( TERMY - 2, FULL_SCREEN_WIDTH );
+        w_view = catacurses::newwin( getmaxy( w ) - 4, getmaxx( w ) - 1,
+                                     point( getbegx( w ), getbegy( w ) + 3 ) );
+        ui.position_from_window( w );
+    };
+    ui.on_screen_resize( init_windows );
+    // initialize explicitly here since w_view is used before first redraw
+    init_windows( ui );
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w );
+        draw_border( w );
+        wnoutrefresh( w );
+
+        view.set_text( kills.get_kills_text() );
+        view.draw( c_white );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+        if( action == "DOWN" ) {
+            view.scroll_down();
+        } else if( action == "UP" ) {
+            view.scroll_up();
+        } else if( action == "PAGE_DOWN" ) {
+            view.page_down();
+        } else if( action == "PAGE_UP" ) {
+            view.page_up();
+        } else if( action == "CONFIRM" || action == "QUIT" ) {
+            break;
+        }
+    }
+}

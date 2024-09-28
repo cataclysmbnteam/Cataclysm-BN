@@ -107,7 +107,8 @@ float str_draw_range_modifier( const item &it, const Character &p );
 std::optional<shape_factory> get_shape_factory( const item &gun );
 
 /** AoE attack, with area given by shape */
-void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
+                            item *source_weapon );
 
 std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, int bash_power );
 

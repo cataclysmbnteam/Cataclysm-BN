@@ -23,6 +23,7 @@
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_contents.h"
+#include "kill_tracker.h"
 #include "location_vector.h"
 #include "pimpl.h"
 #include "safe_reference.h"
@@ -2425,6 +2426,23 @@ class item : public location_visitable<item>, public game_object<item>
          * Ideally, this would be stored outside item class.
          */
         pimpl<item_drop_token> drop_token;
+
+    private:
+        /** Kill tracker */
+        std::unique_ptr<kill_tracker> kills;
+        /**
+         * Check if there's a kill_tracker
+         * Make one if there isn't and if ENABLE_EVENTS option is toggled on
+         * @returns true if a kill_tracker exists, or if one was created
+         *          false if there is no kill_tracker, and one wasn't created
+         */
+        bool init_kill_tracker();
+
+    public:
+        void add_monster_kill( mtype_id );
+        void add_npc_kill( std::string );
+        void show_kill_list();
+        int kill_count();
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

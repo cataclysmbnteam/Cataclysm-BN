@@ -24,7 +24,11 @@ class kill_tracker : public event_subscriber
          */
         friend class diary;
     public:
-        kill_tracker() = default;
+        /**
+         * @param xp_allowed can be set to false to disable Stats Through Kills regardless of game options.
+         *                   Intended to be used when creating multiple kill_trackers, so they don't all grant XP.
+         */
+        kill_tracker( bool xp_allowed = true );
         void reset( const std::map<mtype_id, int> &kills,
                     const std::vector<std::string> &npc_kills );
         /** returns the number of kills of the given mon_id by the player. */
@@ -41,10 +45,16 @@ class kill_tracker : public event_subscriber
         void clear();
 
         void notify( const cata::event & ) override;
+        /** directly adds a monster kill to the tracker, bypassing the event bus. */
+        void add_monster( mtype_id );
+        /** directly adds an NPC kill to the tracker, bypassing the event bus. */
+        void add_npc( std::string );
 
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
     private:
+        bool xp_allowed;
+        bool option_xp() const;
         std::map<mtype_id, int> kills;         // player's kill count
         std::vector<std::string> npc_kills;    // names of NPCs the player killed
 };
