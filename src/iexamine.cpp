@@ -1980,7 +1980,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     const auto hid = here.get_harvest( examp );
     if( hid.is_null() || hid->empty() ) {
         if( !auto_forage ) {
-            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
+            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this currently." ) );
         }
         if( p.manual_examine ) {
             iexamine::none( p, examp );
@@ -2032,7 +2032,8 @@ void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
     if( harvest_common( p, examp, true, true, auto_forage ) ) {
-        get_map().furn_set( examp, f_null );
+        map &here = get_map();
+        get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
     }
 }
 
@@ -2041,7 +2042,8 @@ void iexamine::harvest_furn( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
     if( harvest_common( p, examp, true, false, auto_forage ) ) {
-        get_map().furn_set( examp, f_null );
+        map &here = get_map();
+        get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
     }
 }
 
@@ -2073,7 +2075,7 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
  */
 void iexamine::harvested_plant( player &p, const tripoint &examp )
 {
-    p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+    p.add_msg_if_player( m_info, _( "Nothing can be harvested from this currently." ) );
     iexamine::none( p, examp );
 }
 

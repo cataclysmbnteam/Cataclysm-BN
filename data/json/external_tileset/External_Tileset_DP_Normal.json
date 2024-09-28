@@ -70,7 +70,9 @@
           { "id": [ "cannon_scrap_shot", "overlay_wielded_cannon_scrap_shot" ], "fg": 58 },
           { "id": [ "cannon_canister_shot", "overlay_wielded_cannon_canister_shot" ], "fg": 59 },
           { "id": [ "cannon_round_ball", "overlay_wielded_cannon_round_ball" ], "fg": 60 },
-          { "id": [ "cannon_explosive_shell", "overlay_wielded_cannon_explosive_shell" ], "fg": 61 }
+          { "id": [ "cannon_explosive_shell", "overlay_wielded_cannon_explosive_shell" ], "fg": 61 },
+          { "id": "f_cattails_harvested", "fg": 62 },
+          { "id": "f_cattails_harvested_season_winter", "fg": 63 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
