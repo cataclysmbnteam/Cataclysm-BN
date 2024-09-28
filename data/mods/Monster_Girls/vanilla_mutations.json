@@ -23,13 +23,14 @@
     "id": "GOODHEARING",
     "copy-from": "GOODHEARING",
     "delete": { "category": [ "ALPHA", "MOUSE", "ELFA" ] },
-    "extend": { "category": [ "MOUSEGIRL" ] }
+    "extend": { "category": [ "MOUSEGIRL", "ELF" ] }
   },
   {
     "type": "mutation",
     "id": "FEYHEARING",
     "copy-from": "FEYHEARING",
-    "delete": { "category": [ "ELFA" ] }
+    "delete": { "category": [ "ELFA" ] },
+    "extend": { "category": [ "ELF" ], "threshreq": [ "THRESH_ELF" ] }
   },
   {
     "type": "mutation",
@@ -137,13 +138,15 @@
     "type": "mutation",
     "id": "ANIMALEMPATH",
     "copy-from": "ANIMALEMPATH",
-    "delete": { "category": [ "BEAST", "ELFA" ] }
+    "delete": { "category": [ "BEAST", "ELFA" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
     "id": "ANIMALEMPATH2",
     "copy-from": "ANIMALEMPATH2",
-    "delete": { "category": [ "ELFA" ] }
+    "delete": { "category": [ "ELFA" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -161,7 +164,8 @@
     "type": "mutation",
     "id": "WAKEFUL",
     "copy-from": "WAKEFUL",
-    "delete": { "category": [ "ALPHA", "ELFA" ] }
+    "delete": { "category": [ "ALPHA", "ELFA" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -174,7 +178,7 @@
     "id": "LIGHTSTEP",
     "copy-from": "LIGHTSTEP",
     "delete": { "category": [ "BIRD", "ELFA", "FELINE" ] },
-    "extend": { "category": [ "NEKO", "HARPY" ] }
+    "extend": { "category": [ "NEKO", "HARPY", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -228,7 +232,7 @@
     "id": "BADBACK",
     "copy-from": "BADBACK",
     "delete": { "category": [ "BIRD", "ELFA" ] },
-    "extend": { "category": [ "HARPY" ] }
+    "extend": { "category": [ "HARPY", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -254,7 +258,8 @@
     "type": "mutation",
     "id": "ANTIJUNK",
     "copy-from": "ANTIJUNK",
-    "delete": { "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA" ] }
+    "delete": { "category": [ "BEAST", "RAPTOR", "ALPHA", "ELFA" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -360,7 +365,7 @@
     "id": "FLIMSY",
     "copy-from": "FLIMSY",
     "delete": { "category": [ "MOUSE", "ELFA" ] },
-    "extend": { "category": [ "MOUSEGIRL" ] }
+    "extend": { "category": [ "MOUSEGIRL", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -387,7 +392,7 @@
     "id": "NIGHTVISION3",
     "copy-from": "NIGHTVISION3",
     "delete": { "category": [ "FISH", "TROGLOBITE", "SPIDER", "INSECT", "ELFA", "CEPHALOPOD" ] },
-    "extend": { "category": [ "SPIDERGIRL" ], "threshreq": [ "THRESH_SPIDERGIRL" ] }
+    "extend": { "category": [ "SPIDERGIRL", "ELF" ], "threshreq": [ "THRESH_SPIDERGIRL", "THRESH_ELF" ] }
   },
   {
     "type": "mutation",
@@ -399,7 +404,8 @@
     "type": "mutation",
     "id": "ELFAEYES",
     "copy-from": "ELFAEYES",
-    "delete": { "category": [ "ELFA" ] }
+    "delete": { "category": [ "ELFA" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -458,13 +464,15 @@
     "type": "mutation",
     "id": "WAKEFUL2",
     "copy-from": "WAKEFUL2",
-    "delete": { "category": [ "ALPHA", "ELFA" ] }
+    "delete": { "category": [ "ALPHA", "ELFA" ] },
+    "extend": { "category": [ "ELF" ], "threshreq": [ "THRESH_ELF" ] }
   },
   {
     "type": "mutation",
     "id": "WAKEFUL3",
     "copy-from": "WAKEFUL3",
-    "delete": { "category": [ "ELFA" ] }
+    "delete": { "category": [ "ELFA" ] },
+    "extend": { "category": [ "ELF" ], "threshreq": [ "THRESH_ELF" ] }
   },
   {
     "type": "mutation",
@@ -648,7 +656,7 @@
     "id": "PLANTSKIN",
     "copy-from": "PLANTSKIN",
     "delete": { "category": [ "PLANT", "ELFA" ] },
-    "extend": { "category": [ "DRYAD" ] }
+    "extend": { "category": [ "DRYAD", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -669,7 +677,7 @@
     "id": "LEAVES",
     "copy-from": "LEAVES",
     "delete": { "category": [ "PLANT", "ELFA" ] },
-    "extend": { "category": [ "DRYAD" ] }
+    "extend": { "category": [ "DRYAD", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -697,14 +705,14 @@
     "id": "FLOWERS",
     "copy-from": "FLOWERS",
     "delete": { "category": [ "PLANT", "ELFA" ] },
-    "extend": { "category": [ "DRYAD" ], "threshreq": [ "THRESH_DRYAD" ] }
+    "extend": { "category": [ "DRYAD", "ELF" ], "threshreq": [ "THRESH_DRYAD", "THRESH_ELF" ] }
   },
   {
     "type": "mutation",
     "id": "ROSEBUDS",
     "copy-from": "ROSEBUDS",
     "delete": { "category": [ "PLANT", "ELFA" ] },
-    "extend": { "category": [ "DRYAD" ], "threshreq": [ "THRESH_DRYAD" ] }
+    "extend": { "category": [ "DRYAD", "ELF" ], "threshreq": [ "THRESH_DRYAD", "THRESH_ELF" ] }
   },
   {
     "type": "mutation",
@@ -848,7 +856,7 @@
     "id": "PARAIMMUNE",
     "copy-from": "PARAIMMUNE",
     "delete": { "category": [ "ELFA", "CHIMERA", "MEDICAL", "SLIME" ] },
-    "extend": { "category": [ "SLIMEGIRL" ] }
+    "extend": { "category": [ "SLIMEGIRL", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -876,7 +884,7 @@
     "id": "BENDY1",
     "copy-from": "BENDY1",
     "delete": { "category": [ "SLIME", "ELFA" ] },
-    "extend": { "category": [ "SLIMEGIRL" ], "threshreq": [ "THRESH_SLIMEGIRL" ] }
+    "extend": { "category": [ "SLIMEGIRL", "ELF" ], "threshreq": [ "THRESH_SLIMEGIRL", "THRESH_ELF" ] }
   },
   {
     "type": "mutation",
@@ -1232,7 +1240,8 @@
     "type": "mutation",
     "id": "ELFA_EARS",
     "copy-from": "ELFA_EARS",
-    "delete": { "category": [ "ELFA" ] }
+    "delete": { "category": [ "ELFA" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1332,7 +1341,8 @@
     "type": "mutation",
     "id": "STR_UP",
     "copy-from": "STR_UP",
-    "delete": { "category": [ "INSECT", "ELFA", "RAPTOR" ] }
+    "delete": { "category": [ "INSECT", "ELFA", "RAPTOR" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1380,7 +1390,7 @@
     "id": "DEX_UP_3",
     "copy-from": "DEX_UP_3",
     "delete": { "category": [ "BIRD", "ELFA", "FELINE" ] },
-    "extend": { "category": [ "NEKO", "HARPY" ] }
+    "extend": { "category": [ "NEKO", "HARPY", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1405,7 +1415,8 @@
     "type": "mutation",
     "id": "INT_UP_3",
     "copy-from": "INT_UP_3",
-    "delete": { "category": [ "ELFA" ] }
+    "delete": { "category": [ "ELFA" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1436,7 +1447,8 @@
     "type": "mutation",
     "id": "PER_UP_3",
     "copy-from": "PER_UP_3",
-    "delete": { "category": [ "ELFA", "RAPTOR" ] }
+    "delete": { "category": [ "ELFA", "RAPTOR" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1565,7 +1577,8 @@
     "type": "mutation",
     "id": "BEAUTIFUL3",
     "copy-from": "BEAUTIFUL3",
-    "delete": { "category": [ "ELFA" ] }
+    "delete": { "category": [ "ELFA" ] },
+    "extend": { "category": [ "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1614,7 +1627,7 @@
     "id": "HOLLOW_BONES",
     "copy-from": "HOLLOW_BONES",
     "delete": { "category": [ "BIRD", "SLIME", "ELFA" ] },
-    "extend": { "category": [ "SLIMEGIRL", "HARPY" ] }
+    "extend": { "category": [ "SLIMEGIRL", "HARPY", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1647,7 +1660,7 @@
     "id": "HUNGER",
     "copy-from": "HUNGER",
     "delete": { "category": [ "RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE" ] },
-    "extend": { "category": [ "MOUSEGIRL", "SLIMEGIRL" ] }
+    "extend": { "category": [ "MOUSEGIRL", "SLIMEGIRL", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1674,7 +1687,7 @@
     "id": "THIRST",
     "copy-from": "THIRST",
     "delete": { "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA" ] },
-    "extend": { "category": [ "SLIMEGIRL" ] }
+    "extend": { "category": [ "SLIMEGIRL", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1908,7 +1921,7 @@
     "id": "HAIRROOTS",
     "copy-from": "HAIRROOTS",
     "delete": { "category": [ "PLANT", "ELFA" ] },
-    "extend": { "category": [ "DRYAD" ] }
+    "extend": { "category": [ "DRYAD", "ELF" ] }
   },
   {
     "type": "mutation",
@@ -1943,7 +1956,7 @@
     "id": "TREE_COMMUNION",
     "copy-from": "TREE_COMMUNION",
     "delete": { "category": [ "PLANT", "ELFA" ] },
-    "extend": { "category": [ "DRYAD" ], "threshreq": [ "THRESH_DRYAD" ] }
+    "extend": { "category": [ "DRYAD", "ELF" ], "threshreq": [ "THRESH_DRYAD", "THRESH_ELF" ] }
   },
   {
     "type": "mutation",
