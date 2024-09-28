@@ -6726,7 +6726,7 @@ int Character::throw_range( const item &it ) const
     const int divisor = tmp.weight() >= 150_gram
                         ? tmp.weight() / 100_gram
                         : 10 - static_cast<int>( tmp.weight() / 15_gram );
-    int ret = ( static_cast<long>( str_override ) * 20 ) / divisor;
+    int ret = ( str_override * 20 ) / divisor;
     ret -= tmp.volume() / 1_liter;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bio_railgun ) && tmp.made_of_any( affected_materials ) ) {
