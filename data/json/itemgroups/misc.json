@@ -154,6 +154,13 @@
     ]
   },
   {
+    "id": "digging_niter_bed",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Results of standard digging, plus niter.",
+    "items": [ { "group": "digging_soil_loam_200L" }, { "item": "material_niter" } ]
+  },
+  {
     "id": "office_paper",
     "type": "item_group",
     "subtype": "collection",

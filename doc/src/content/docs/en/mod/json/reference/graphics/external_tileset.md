@@ -95,6 +95,11 @@ Ultica are planned for the future.
 - Makeshift cannon, item and vehiclepart sprite. Item specific to BN.
 - Explosive cannonshells and sprites for readied cannon ammo. Items specific to BN.
 
+### External_Tileset_DP_terrain_normal.png
+
+- Rice paddies. Terrain specific to BN.
+- Niter beds. Terrain specific to BN.
+
 ### External_Tileset_DP_Tall.png
 
 - Off state for utility light. Ability to switch on and off specific to BN.
