@@ -49,7 +49,6 @@ Links to relevant pull requests, for content covered below:
 - Makeshift cannons and canister shot:
   [#5398](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5398)
 - Harvested cattails: [#5445](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5445)
-
 - Niter beds: [#5446](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5446)
 
 ## Undead People
