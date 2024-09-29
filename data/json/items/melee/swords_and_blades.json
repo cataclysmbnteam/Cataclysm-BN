@@ -1882,6 +1882,6 @@
     "name": { "str": "bone machete" },
     "description": "This shortsword is carved from a single massive bone, and is capable of slicing foes in with swiftness and efficiency.",
     "material": [ "bone" ],
-    "proportional": { "weight": 0.75, "damage": { "damage_type": "cutting", "amount": 0.9 } }
+    "proportional": { "weight": 0.80, "damage": { "damage_type": "cutting", "amount": 0.9 } }
   }
 ]
