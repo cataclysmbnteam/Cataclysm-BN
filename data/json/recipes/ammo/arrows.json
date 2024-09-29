@@ -156,7 +156,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "bee_sting", 1 ], [ "wasp_sting" ] ],
+      [ [ "bee_sting", 1 ], [ "wasp_sting", 1 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ],
@@ -278,7 +278,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "bee_sting", 1 ], [ "wasp_sting" ] ],
+      [ [ "bee_sting", 1 ], [ "wasp_sting", 1 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ],

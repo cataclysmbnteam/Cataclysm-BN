@@ -1009,7 +1009,7 @@
     "type": "ARMOR",
     "name": { "str": "scaleskin gauntlets" },
     "description": "Gauntlets armor made from the hardened scales of large reptiles.",
-    "copy-from": "gauntlets_acidchitin",
+    "copy-from": "gauntlets_chitin",
     "material": [ "scute" ]
   }
 ]

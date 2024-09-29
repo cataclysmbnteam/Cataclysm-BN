@@ -187,7 +187,7 @@
     "bashing": 6,
     "cutting": 2,
     "ammo_type": "arrow",
-    "flags": [ "PARALYZEPOISON" ],
+    "effects": [ "PARALYZEPOISON" ],
     "dispersion": 150,
     "loudness": 0,
     "count": 10,

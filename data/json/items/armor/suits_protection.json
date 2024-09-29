@@ -845,7 +845,7 @@
     "type": "ARMOR",
     "name": { "str": "scaleskin armor" },
     "description": "Leg and body armor made from the hardened scales of large reptiles.",
-    "copy-from": "armor_acidchitin",
+    "copy-from": "armor_chitin",
     "material": [ "scute" ]
   }
 ]
