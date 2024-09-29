@@ -49,7 +49,8 @@
       "min_volume": "100 ml",
       "max_weight": "1 kg",
       "draw_cost": 150,
-      "skills": [ "pistol" ]
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
     }
   },
   {
@@ -70,7 +71,14 @@
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "min_volume": "15 ml", "max_volume": "250 ml", "draw_cost": 50, "skills": [ "pistol" ] },
+    "use_action": {
+      "type": "holster",
+      "min_volume": "15 ml",
+      "max_volume": "250 ml",
+      "draw_cost": 50,
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
@@ -110,7 +118,13 @@
     "coverage": 2,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "max_volume": "1 L", "min_volume": "250 ml", "skills": [ "pistol", "smg", "shotgun", "rifle" ] },
+    "use_action": {
+      "type": "holster",
+      "max_volume": "1 L",
+      "min_volume": "250 ml",
+      "skills": [ "pistol", "smg", "shotgun", "rifle" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    },
     "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
   },
   {
@@ -121,7 +135,14 @@
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": "5 USD",
     "encumbrance": 1,
-    "use_action": { "type": "holster", "max_volume": "500 ml", "min_volume": "100 ml", "draw_cost": 80, "skills": [ "pistol" ] }
+    "use_action": {
+      "type": "holster",
+      "max_volume": "500 ml",
+      "min_volume": "100 ml",
+      "draw_cost": 80,
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    }
   },
   {
     "id": "bholster",
@@ -142,7 +163,8 @@
       "min_volume": "100 ml",
       "max_weight": "1 kg",
       "draw_cost": 210,
-      "skills": [ "pistol" ]
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
     },
     "valid_mods": [ "resized_large" ],
     "flags": [ "SKINTIGHT", "COMPACT", "WATER_FRIENDLY" ]
@@ -200,7 +222,14 @@
     "encumbrance": 1,
     "max_encumbrance": 6,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "max_volume": "500 ml", "min_volume": "100 ml", "multi": 6, "skills": [ "pistol" ] },
+    "use_action": {
+      "type": "holster",
+      "max_volume": "500 ml",
+      "min_volume": "100 ml",
+      "multi": 6,
+      "skills": [ "pistol" ],
+      "flags": [ "HOLSTER_PISTOL" ]
+    },
     "flags": [ "BELTED", "COMPACT" ]
   },
   {
@@ -224,7 +253,8 @@
       "type": "holster",
       "min_volume": "750 ml",
       "max_volume": "1500 ml",
-      "skills": [ "pistol", "smg", "shotgun", "rifle" ]
+      "skills": [ "pistol", "smg", "shotgun", "rifle" ],
+      "flags": [ "HOLSTER_PISTOL" ]
     },
     "flags": [ "WAIST", "COMPACT", "OVERSIZE" ]
   }

@@ -351,6 +351,12 @@
     "info": "This gear <good>completely protects</good> you from <info>any gas</info>."
   },
   {
+    "id": "HOLSTER_PISTOL",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item can be carried in a <info>holster</info> of the appropriate size."
+  },
+  {
     "id": "HOOD",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
