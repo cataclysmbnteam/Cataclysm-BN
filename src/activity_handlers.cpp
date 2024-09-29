@@ -1061,6 +1061,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
                 roll *= roll_drops();
+                // cap dropped weight at monster weight * mass ratio of drop
+                roll = std::min<float>( roll, to_gram( mt.weight ) * entry.mass_ratio );
                 roll = std::ceil( static_cast<double>( roll ) /
                                   to_gram( drop->weight ) );
             }
