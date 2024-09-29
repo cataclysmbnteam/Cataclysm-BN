@@ -149,7 +149,6 @@ const flag_id flag_HELMET_COMPAT( "HELMET_COMPAT" );
 const flag_id flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 const flag_id flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 const flag_id flag_HIDDEN_POISON( "HIDDEN_POISON" );
-const flag_id flag_HOLSTER_PISTOL( "HOLSTER_PISTOL" );
 const flag_id flag_HOOD( "HOOD" );
 const flag_id flag_HOT( "HOT" );
 const flag_id flag_HURT_WHEN_WIELDED( "HURT_WHEN_WIELDED" );
