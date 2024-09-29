@@ -146,7 +146,7 @@
     "type": "AMMO",
     "id": "bolt_stinger",
     "price": "4 USD",
-    "name": { "str": "poisoned bolt" },
+    "name": { "str": "stinger bolt" },
     "symbol": "=",
     "color": "green",
     "looks_like": "bolt_makeshift",

@@ -175,7 +175,7 @@
     "type": "AMMO",
     "id": "arrow_stinger",
     "price": "4 USD",
-    "name": { "str": "poisoned arrow" },
+    "name": { "str": "stinger arrow" },
     "symbol": "=",
     "color": "green",
     "looks_like": "arrow_fire_hardened_fletched",
