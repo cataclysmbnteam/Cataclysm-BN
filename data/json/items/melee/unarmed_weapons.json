@@ -225,10 +225,10 @@
     "id": "cestus_tooth",
     "type": "GENERIC",
     "copy-from": "cestus",
-    "name": { "str": "sharktooth cestus" },
+    "name": { "str": "sharktooth cestus", "str_pl": "sharktooth cestuses" },
     "description": "This weapon is a series of leather wrappings with a bone plate that has a series of razor-sharp teeth attached to it.  For when your punches need more bite.",
     "material": [ "bone", "leather" ],
-    "cutting": 12,
-    "proportional": { "weight": 1.25 }
+    "cutting": 8,
+    "bashing": 6
   }
 ]
