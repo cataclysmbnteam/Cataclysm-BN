@@ -5109,9 +5109,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             } );
             if( iter != stack.end() ) {
 
-                ( *iter )->attempt_detach( [&filter, &type, &quantity, &ret, &p]( detached_ptr<item> &&it ) {
+                ( *iter )->attempt_detach( [&filter, &ammo, &quantity, &ret, &p]( detached_ptr<item> &&it ) {
                     if( filter( *it ) ) {
-                        return item::use_charges( std::move( it ), type, quantity, ret, p );
+                        return item::use_charges( std::move( it ), ammo, quantity, ret, p );
                     }
                     return std::move( it );
                 } );
