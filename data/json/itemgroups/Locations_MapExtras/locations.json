@@ -1338,7 +1338,7 @@
   {
     "type": "item_group",
     "id": "hive_center",
-    "items": [ [ "honeycomb", 10 ], [ "royal_jelly", 8 ] ]
+    "items": [ [ "honeycomb", 8 ], [ "royal_jelly", 8 ], [ "beehive_empty", 2 ] ]
   },
   {
     "type": "item_group",

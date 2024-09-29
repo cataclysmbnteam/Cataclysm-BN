@@ -1263,6 +1263,41 @@
   },
   {
     "type": "recipe",
+    "result": "cordage_6_leather",
+    "result_mult": 3,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ], [ "fur", 1 ], [ "cured_hide", 1 ], [ "cured_pelt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_36_leather",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 2 ], [ "fur", 2 ], [ "cured_hide", 2 ], [ "cured_pelt", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_36_leather",
+    "id_suffix": "weaving",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "cordage_6_leather", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "leather",
     "id_suffix": "shaving",
     "category": "CC_OTHER",
@@ -1478,7 +1513,6 @@
     "type": "recipe",
     "result": "carbon_fiber_filament",
     "//": "Requires advanced printer specifically, makes half its mass in product",
-    "//2": "TODO: If pitch is ever mainlined from MST Extra, or rosin has its mass sanity-checked, allow that as an alternative",
     "result_mult": 5,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1489,6 +1523,6 @@
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "textbook_computer", 5 ], [ "advanced_electronics", 5 ], [ "adv_chemistry", 4 ], [ "reference_fabrication1", 4 ] ],
     "tools": [ [ [ "3d_printer_advanced", 5 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ], [ "pitch_wood", 2 ] ] ]
   }
 ]

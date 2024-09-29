@@ -337,9 +337,9 @@
     "entries": [
       { "item": "honeycomb", "prob": 10 },
       { "item": "honey_scraper", "prob": 2 },
+      { "item": "beekeeping_gloves", "prob": 3 },
       { "item": "beekeeping_hood", "prob": 5 },
-      { "item": "beekeeping_suit", "prob": 5 },
-      { "item": "beekeeping_gloves", "prob": 5 }
+      { "item": "beekeeping_suit", "prob": 5 }
     ]
   },
   {

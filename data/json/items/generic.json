@@ -296,6 +296,23 @@
     "stackable": true
   },
   {
+    "type": "AMMO",
+    "//": "Ammo instead of generic as it sees use in makeshift repair kit.",
+    "id": "pitch_wood",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "brown",
+    "looks_like": "bone_glue",
+    "name": { "str_sp": "pitch" },
+    "description": "Sticky resin made from pine or birch tar.  Can be used for waterproofing or holding together small items, or for improvised repairs with the right tools.  When dried further it's known as rosin, often used as flux for solder.",
+    "price": "9 USD",
+    "material": [ "oil" ],
+    "weight": "29 g",
+    "volume": "25 ml",
+    "ammo_type": "pitch_wood",
+    "flags": [ "UNRECOVERABLE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "fertilizer",
     "symbol": "*",
@@ -3171,5 +3188,17 @@
     "color": "green",
     "flags": [ "NO_SALVAGE" ],
     "stackable": true
+  },
+  {
+    "id": "beehive_empty",
+    "type": "GENERIC",
+    "name": { "str": "empty beehive" },
+    "description": "A large, enclosed wooden box with multiple sliding frames in it.  With something to attract bees, it can be used to grow a hive.",
+    "weight": "10000 g",
+    "volume": "20 L",
+    "price": "92 USD",
+    "material": [ "wood" ],
+    "symbol": "-",
+    "color": "brown"
   }
 ]
