@@ -3,8 +3,9 @@ name: "Push translation template"
 concurrency: push_transifex
 
 on:
+  workflow_dispatch:
   workflow_run:
-    workflows: ["Experimental Release"]
+    workflows: ["Nightly Release"]
     types:
       - completed
 
