@@ -290,7 +290,7 @@ void Item_factory::finalize_pre( itype &obj )
         if( obj.ammo->loudness < 0 ) {
             obj.ammo->loudness = obj.ammo->range * 2;
             for( const damage_unit &du : obj.ammo->damage ) {
-                obj.ammo->loudness += ( du.amount + du.res_pen ) * 2;
+                obj.ammo->loudness += ( du.amount * 2 ) + du.res_pen;
             }
         }
 
