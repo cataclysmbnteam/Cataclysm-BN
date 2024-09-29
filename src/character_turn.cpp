@@ -651,7 +651,7 @@ void Character::reset_stats()
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type );
         }
     };
     // Painkiller
@@ -1044,7 +1044,7 @@ void do_pause( Character &who )
         time_duration total_left = 0_turns;
         bool on_ground = who.has_effect( effect_downed );
         for( const body_part bp : all_body_parts ) {
-            effect &eff = who.get_effect( effect_onfire, bp );
+            effect &eff = who.get_effect( effect_onfire, convert_bp( bp ) );
             if( eff.is_null() ) {
                 continue;
             }

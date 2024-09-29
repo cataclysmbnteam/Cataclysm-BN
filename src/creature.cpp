@@ -600,7 +600,7 @@ void Creature::deal_melee_hit( Creature *source, item *source_weapon, int hit_sp
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    bodypart_id bp_hit = select_body_part( source, hit_spread ).id();
     const body_part bp_token = bp_hit->token;
     block_hit( source, bp_hit, d );
 
@@ -1222,9 +1222,9 @@ void Creature::clear_effects()
         }
     }
 }
-bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
+bool Creature::remove_effect( const efftype_id &eff_id )
 {
-    return remove_effect( eff_id, convert_bp( bp ) );
+    return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
 {
@@ -1254,7 +1254,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
             }
         }
     } else {
-        effect &e = get_effect( eff_id, bp->token );
+        effect &e = get_effect( eff_id, bp );
         on_effect_int_change( e.get_id(), 0, e.get_bp() );
         e.set_removed();
     }
@@ -1265,9 +1265,9 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
     }
     return true;
 }
-bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
+bool Creature::has_effect( const efftype_id &eff_id ) const
 {
-    return has_effect( eff_id, convert_bp( bp ) );
+    return has_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
@@ -1287,22 +1287,21 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
     }
 }
 
-bool Creature::has_effect_with_flag( const flag_id &flag, body_part bp ) const
+bool Creature::has_effect_with_flag( const flag_id &flag ) const
 {
-    const auto &tmp = convert_bp( bp ).id();
+    return has_effect_with_flag( flag, bodypart_str_id::NULL_ID() );
+}
+
+bool Creature::has_effect_with_flag( const flag_id &flag, const bodypart_str_id &bp ) const
+{
     for( const auto &elem : *effects ) {
         for( const auto &_it : elem.second ) {
-            if( tmp == _it.first && !_it.second.is_removed() && _it.second.has_flag( flag ) ) {
+            if( bp == _it.first && !_it.second.is_removed() && _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
     }
     return false;
-}
-
-effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
-{
-    return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
 }
 
 effect &Creature::get_effect( const efftype_id &eff_id )
@@ -1315,10 +1314,6 @@ const effect &Creature::get_effect( const efftype_id &eff_id ) const
     return get_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 
-const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
-{
-    return get_effect( eff_id, convert_bp( bp ) );
-}
 effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
@@ -1359,7 +1354,13 @@ std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id 
     }
     return ret;
 }
-time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
+
+time_duration Creature::get_effect_dur( const efftype_id &eff_id ) const
+{
+    return get_effect_dur( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+time_duration Creature::get_effect_dur( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -1368,7 +1369,12 @@ time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp )
 
     return 0_turns;
 }
-int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
+int Creature::get_effect_int( const efftype_id &eff_id ) const
+{
+    return get_effect_int( eff_id,  bodypart_str_id::NULL_ID() );
+}
+
+int Creature::get_effect_int( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -2010,7 +2016,7 @@ bool Creature::is_symbol_highlighted() const
     return false;
 }
 
-body_part Creature::select_body_part( Creature *source, int hit_roll ) const
+const bodypart_str_id &Creature::select_body_part( Creature *source, int hit_roll ) const
 {
     int szdif = source->get_size() - get_size();
 
@@ -2019,7 +2025,7 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );
 
-    return human_anatomy->select_body_part( szdif, hit_roll )->token;
+    return human_anatomy->select_body_part( szdif, hit_roll ).id();
 }
 
 void Creature::check_dead_state()

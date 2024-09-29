@@ -4318,9 +4318,9 @@ bool mattack::stretch_bite( monster *z )
                                        body_part_name_accusative( hit_token ) );
 
         if( one_in( 16 - dam ) ) {
-            if( target->has_effect( effect_bite, hit_token ) ) {
+            if( target->has_effect( effect_bite, hit.id() ) ) {
                 target->add_effect( effect_bite, 40_minutes, hit.id() );
-            } else if( target->has_effect( effect_infected, hit_token ) ) {
+            } else if( target->has_effect( effect_infected, hit.id() ) ) {
                 target->add_effect( effect_infected, 25_minutes, hit.id() );
             } else {
                 target->add_effect( effect_bite, 1_turns, hit.id() );

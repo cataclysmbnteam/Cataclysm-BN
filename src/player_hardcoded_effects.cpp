@@ -535,7 +535,7 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
             g->events().send<event_type::dermatik_eggs_hatch>( getID() );
-            remove_effect( effect_formication, bp );
+            remove_effect( effect_formication, convert_bp( bp ) );
             moves -= 600;
             triggered = true;
         }

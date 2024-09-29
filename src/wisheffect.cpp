@@ -343,7 +343,7 @@ class effect_edit_callback : public uilist_callback
                      uilist & ) {
             on_creature_changed();
             foreach_effect( c, meta[entnum], [&]( const effect & eff ) {
-                bool removed = c.remove_effect( eff.get_id(), eff.get_bp()->token );
+                bool removed = c.remove_effect( eff.get_id(), eff.get_bp() );
                 if( !removed ) {
                     debugmsg( "Couldn't remove %s from %s",
                               eff.get_id().str(),
@@ -379,7 +379,7 @@ class effect_edit_callback : public uilist_callback
             if( new_intensity ) {
                 on_creature_changed();
                 foreach_effect( c, meta[entnum], [&]( const effect & eff ) {
-                    effect &e = c.get_effect( eff.get_id(), eff.get_bp()->token );
+                    effect &e = c.get_effect( eff.get_id(), eff.get_bp() );
                     if( !e.is_null() ) {
                         e.set_intensity( *new_intensity );
                     }
@@ -392,7 +392,7 @@ class effect_edit_callback : public uilist_callback
             if( dur ) {
                 on_creature_changed();
                 foreach_effect( c, meta[entnum], [&]( const effect & eff ) {
-                    effect &e = c.get_effect( eff.get_id(), eff.get_bp()->token );
+                    effect &e = c.get_effect( eff.get_id(), eff.get_bp() );
                     if( !e.is_null() ) {
                         e.set_duration( *dur );
                     }

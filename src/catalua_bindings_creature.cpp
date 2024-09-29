@@ -123,19 +123,19 @@ void cata::detail::reg_creature( sol::state &lua )
 
         luna::set_fx( ut, "has_effect_with_flag", []( const Creature & cr,
         const flag_id & flag, sol::optional<const bodypart_str_id &> bpid ) -> bool {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            const bodypart_str_id &bp = bpid ? *bpid : bodypart_str_id::NULL_ID();
             return cr.has_effect_with_flag( flag, bp );
         } );
 
         luna::set_fx( ut, "get_effect_dur", []( const Creature & cr, const efftype_id & eff,
         sol::optional<const bodypart_str_id &> bpid ) -> time_duration {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            const bodypart_str_id &bp = bpid ? *bpid : bodypart_str_id::NULL_ID();
             return cr.get_effect_dur( eff, bp );
         } );
 
         luna::set_fx( ut, "get_effect_int", []( const Creature & cr, const efftype_id & eff,
         sol::optional<const bodypart_str_id &> bpid ) -> int {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            const bodypart_str_id &bp = bpid ? *bpid : bodypart_str_id::NULL_ID();
             return cr.get_effect_int( eff, bp );
         } );
 
@@ -153,7 +153,7 @@ void cata::detail::reg_creature( sol::state &lua )
 
         luna::set_fx( ut, "remove_effect", []( Creature & cr, const efftype_id & eff,
         sol::optional<const bodypart_str_id &> bpid ) -> bool {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            const bodypart_str_id &bp = bpid ? *bpid : bodypart_str_id::NULL_ID();
             return cr.remove_effect( eff, bp );
         } );
 
