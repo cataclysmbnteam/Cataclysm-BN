@@ -816,5 +816,19 @@
     "book_learn": [ [ "textbook_computer", 4 ], [ "advanced_electronics", 4 ], [ "reference_fabrication1", 4 ] ],
     "using": [ [ "3d_printing_standard", 5 ], [ "steel_tiny", 6 ], [ "blacksmithing_standard", 6 ] ],
     "components": [ [ [ "carbon_fiber_filament", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tooth_leiomano",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ [ "survival", 2 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "adhesive_proper", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "teeth_serrated", 5 ] ], [ [ "wood_structural_small", 1, "LIST" ] ] ]
   }
 ]

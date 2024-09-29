@@ -915,5 +915,27 @@
     "time": "15 m",
     "using": [ [ "3d_printing_standard", 5 ], [ "steel_standard", 2 ], [ "blacksmithing_standard", 8 ] ],
     "components": [ [ [ "carbon_fiber_filament", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "knife_stinger",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 2 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [
+        [ "fabric_standard", 1, "LIST" ],
+        [ "felt_patch", 1 ],
+        [ "duct_tape", 50 ],
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ]
+      ],
+      [ [ "bee_sting", 1 ], [ "wasp_sting", 1 ] ]
+    ]
   }
 ]

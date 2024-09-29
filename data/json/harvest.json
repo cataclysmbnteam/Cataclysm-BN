@@ -786,6 +786,34 @@
     ]
   },
   {
+    "id": "zombie_tooth_fur",
+    "//": "any zombie that might drop leather and teeth. mostly animals.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "teeth_serrated", "type": "bone", "mass_ratio": 0.02 },
+      { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.04 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_tooth_leather",
+    "//": "any zombie that might drop leather and teeth. mostly animals.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "teeth_serrated", "type": "bone", "mass_ratio": 0.02 },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.04 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
     "id": "zombie_meatslug",
     "//": "no bones or organs",
     "type": "harvest",
@@ -805,6 +833,31 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_tooth",
+    "//": "your bog standard zombie",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "teeth_serrated", "type": "bone", "mass_ratio": 0.02 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_heavy",
+    "//": "zombies that will have heavy bones",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_heavy", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "pheromone", "type": "bionic", "max": 1 }
     ]
   },

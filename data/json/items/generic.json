@@ -3199,5 +3199,19 @@
     "price_postapoc": "10 cent",
     "material": "bone_heavy",
     "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "teeth_serrated",
+    "category": "spare_parts",
+    "name": { "str": "sharp teeth" },
+    "weight": "450 g",
+    "color": "white",
+    "symbol": "%",
+    "description": "Teeth harvested from a carnivore such as a shark, or from certain types of mutant animals.  They are extremely dense and durable for their size, and can very easily cause jagged wounds.",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "bone_heavy",
+    "volume": "250 ml"
   }
 ]

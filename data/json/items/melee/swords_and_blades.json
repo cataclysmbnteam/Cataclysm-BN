@@ -1854,5 +1854,25 @@
     "description": "A custom 3D-printed two-handed sword made out of carbon fiber.  It is more lightweight than a normal sword thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "knife_stinger",
+    "type": "GENERIC",
+    "copy-from": "dagger_medieval",
+    "name": { "str": "stinger dagger" },
+    "description": "A 'bone' dagger made from a sharpened mutant insect stinger.  It's only natural that the Cataclysm would advent new, creative forms of old weapons.",
+    "extend": { "flags": [ "PARALYZEPOISON" ] },
+    "material": [ "bone" ]
+  },
+  {
+    "id": "tooth_leiomano",
+    "copy-from": "glass_macuahuitl",
+    "type": "GENERIC",
+    "name": { "str": "sharktooth leiomano" },
+    "description": "A flat wooden club with razor-sharp teeth set into the edges.  This was a weapon of the various Polynesian peoples, and was used to great effect.",
+    "weight": "850 g",
+    "price_postapoc": "3 USD",
+    "material": [ "wood", "bone" ],
+    "cutting": 21
   }
 ]
