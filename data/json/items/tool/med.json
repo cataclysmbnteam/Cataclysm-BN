@@ -75,7 +75,8 @@
     "initial_charges": 2,
     "max_charges": 2,
     "charges_per_use": 1,
-    "use_action": "JET_INJECTOR"
+    "use_action": "JET_INJECTOR",
+    "flags": [ "HOLSTER_PISTOL" ]
   },
   {
     "id": "scalpel",
