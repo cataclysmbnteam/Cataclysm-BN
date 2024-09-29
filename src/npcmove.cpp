@@ -2081,7 +2081,8 @@ auto item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode
 
     int move_cost = ranged::time_to_attack( who, *this, nullptr );
     if( ammo_remaining() == 0 ) {
-        int reload_cost = get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
+        int reload_cost = get_reload_time() + who.encumb( body_part_hand_l ) + who.encumb(
+                              body_part_hand_r );
         // HACK: Doesn't check how much ammo they'll actually get from the reload. Because we don't know.
         // DPS is less impacted the larger the magazine being swapped.
         reload_cost /= magazine_integral() ? 1 : ammo_capacity() / burst_size;
