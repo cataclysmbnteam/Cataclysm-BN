@@ -310,7 +310,7 @@
     "type": "ARMOR",
     "name": { "str": "scaleskin armguards" },
     "description": "Arm guards made from the hardened scales of large reptiles.",
-    "copy-from": "armguard_chitin",
+    "copy-from": "armguard_acidchitin",
     "material": [ "scute" ]
   }
 ]
