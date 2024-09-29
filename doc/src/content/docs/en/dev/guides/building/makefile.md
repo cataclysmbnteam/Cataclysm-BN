@@ -12,7 +12,7 @@ You have three major choices here: GCC, Clang and MXE.
 
 - GCC is almost always the default on Linux systems so it's likely you already have it
 - Clang is usually faster than GCC, so it's worth installing if you plan to keep up with the latest
-  experimentals
+  nightlies.
 - MXE is a cross-compiler, so of any importance only if you plan to compile for Windows on your
   Linux machine
 
@@ -47,8 +47,8 @@ you go (if any).
 
 Besides the essentials you will need `git`.
 
-If you plan on keeping up with experimentals you should also install `ccache`, which will
-considerably speed-up partial builds.
+If you plan on keeping up with nightlies you should also install `ccache`, which will considerably
+speed-up partial builds.
 
 ## Dependencies
 
