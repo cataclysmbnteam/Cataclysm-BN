@@ -229,6 +229,7 @@
     "description": "This weapon is a series of leather wrappings with a bone plate that has a series of razor-sharp teeth attached to it.  For when your punches need more bite.",
     "material": [ "bone", "leather" ],
     "cutting": 8,
-    "bashing": 6
+    "bashing": 6,
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "STAB", "BELT_CLIP" ]
   }
 ]
