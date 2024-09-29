@@ -774,7 +774,7 @@
     "id": "helmet_scute",
     "type": "ARMOR",
     "name": { "str": "scaleskin helmet" },
-    "description": "Leg and body armor made from the hardened scales of large reptiles.",
+    "description": "A helmet made from the hardened scales of large reptiles.",
     "copy-from": "helmet_acidchitin",
     "material": [ "scute" ]
   }
