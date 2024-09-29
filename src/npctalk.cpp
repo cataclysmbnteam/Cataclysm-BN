@@ -1984,9 +1984,9 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->add_effect( new_effect, duration, bodypart_str_id::NULL_ID() );
+        actor->add_effect( new_effect, duration );
         if( permanent ) {
-            actor->get_effect( new_effect, num_bp ).set_permanent();
+            actor->get_effect( new_effect ).set_permanent();
         }
     };
 }
@@ -2000,7 +2000,7 @@ void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::stri
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->remove_effect( efftype_id( old_effect ), num_bp );
+        actor->remove_effect( efftype_id( old_effect ) );
     };
 }
 

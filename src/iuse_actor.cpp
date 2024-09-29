@@ -842,7 +842,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
         p.add_effect( eff.id, dur, convert_bp( eff.bp ) );
         if( eff.permanent ) {
-            p.get_effect( eff.id, eff.bp ).set_permanent();
+            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
     }
     for( const auto &stat_adjustment : stat_adjustments ) {
@@ -1933,9 +1933,9 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         } else {
             p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
         }
-        const body_part bp = player::hp_to_bp( hpart );
+        const bodypart_str_id bp = convert_bp( player::hp_to_bp( hpart ) );
         if( p.has_effect( effect_bite, bp ) ) {
-            p.add_effect( effect_bite, 260_minutes, convert_bp( bp ) );
+            p.add_effect( effect_bite, 260_minutes,  bp );
         }
 
         p.moves = 0;
@@ -3734,7 +3734,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
-    const body_part bp_healed = player::hp_to_bp( healed );
+    const bodypart_str_id bp_healed = convert_bp( player::hp_to_bp( healed ) );
 
     Character &player_character = get_player_character();
     const bool u_see = healer.is_player() || patient.is_player() ||
@@ -3795,7 +3795,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     for( const auto &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
         if( eff.permanent ) {
-            patient.get_effect( eff.id, eff.bp ).set_permanent();
+            patient.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
     }
 
@@ -3817,7 +3817,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     // apply healing over time effects
     if( bandages_power > 0 ) {
         int bandages_intensity = get_bandaged_level( healer );
-        patient.add_effect( effect_bandaged, 1_turns, convert_bp( bp_healed ) );
+        patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.damage_bandaged[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
@@ -3825,7 +3825,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     }
     if( disinfectant_power > 0 ) {
         int disinfectant_intensity = get_disinfected_level( healer );
-        patient.add_effect( effect_disinfected, 1_turns, convert_bp( bp_healed ) );
+        patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.damage_disinfected[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
@@ -3861,10 +3861,10 @@ static hp_part pick_part_to_heal(
             return num_hp_parts;
         }
 
-        const bodypart_id &bp = convert_bp( player::hp_to_bp( healed_part ) ).id();
-        if( ( infect && patient.has_effect( effect_infected, bp->token ) ) ||
-            ( bite && patient.has_effect( effect_bite, bp->token ) ) ||
-            ( bleed && patient.has_effect( effect_bleed, bp->token ) ) ) {
+        const bodypart_str_id &bp = convert_bp( player::hp_to_bp( healed_part ) );
+        if( ( infect && patient.has_effect( effect_infected, bp ) ) ||
+            ( bite && patient.has_effect( effect_bite, bp ) ) ||
+            ( bleed && patient.has_effect( effect_bleed, bp ) ) ) {
             return healed_part;
         }
 
@@ -3895,13 +3895,13 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         for( const std::pair<const bodypart_str_id, bodypart> &elem : patient.get_body() ) {
             const bodypart &part = elem.second;
             int damage = 0;
-            if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||
-                ( !patient.has_effect( effect_disinfected, elem.first->token ) && disinfectant_power > 0 ) ) {
+            if( ( !patient.has_effect( effect_bandaged, elem.first ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, elem.first ) && disinfectant_power > 0 ) ) {
                 damage += part.get_hp_max() - part.get_hp_cur();
                 damage += damage > 0 ? part.get_id()->essential * essential_value : 0;
-                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
-                damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;
-                damage += infect * patient.get_effect_dur( effect_infected, elem.first->token ) / 10_minutes;
+                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first ) / 5_minutes;
+                damage += bite * patient.get_effect_dur( effect_bite, elem.first ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, elem.first ) / 10_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
@@ -5035,7 +5035,7 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     for( const auto &eff : effects ) {
         p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
         if( eff.permanent ) {
-            p.get_effect( eff.id, eff.bp ).set_permanent();
+            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
     }
     return charges_to_use;

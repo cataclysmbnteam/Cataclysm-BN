@@ -2457,7 +2457,7 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
 {
     std::set<bodypart_id> bp_hurt;
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( has_effect( effect_under_op, bp->token ) ) {
+        if( has_effect( effect_under_op, bp.id() ) ) {
             if( bp_hurt.count( bp->main_part ) > 0 ) {
                 continue;
             }
