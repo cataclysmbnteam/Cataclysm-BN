@@ -1000,6 +1000,6 @@
     "name": { "str": "bone mace" },
     "description": "This mace is carved from a series of sturdy bones, capable of bashing faces in with swiftness and efficiency.",
     "material": [ "bone" ],
-    "proportional": { "weight": 0.80, "damage": { "damage_type": "bashing", "amount": 0.9 } }
+    "proportional": { "weight": 0.8, "damage": { "damage_type": "bashing", "amount": 0.9 } }
   }
 ]

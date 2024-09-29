@@ -90,7 +90,10 @@
     "time": "15 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ], [ "bone_heavy", 7 ] ], [ [ "leather_armor_small_quadruped", 1 ] ] ]
+    "components": [
+      [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ], [ "bone_heavy", 7 ] ],
+      [ [ "leather_armor_small_quadruped", 1 ] ]
+    ]
   },
   {
     "result": "leatherbone_armor_small_quadruped",

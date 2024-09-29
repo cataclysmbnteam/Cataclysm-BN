@@ -391,7 +391,6 @@
     "count": 5,
     "effects": [ "IGNITE" ]
   },
-
   {
     "id": "selfbow",
     "copy-from": "bow_base",

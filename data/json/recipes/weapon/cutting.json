@@ -843,16 +843,19 @@
     "autolearn": true,
     "using": [ [ "adhesive_proper", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "bone_heavy", 10 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ],
-    [
-      [ "cordage_short", 2, "LIST" ],
-      [ "filament", 100, "LIST" ],
-      [ "rag", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ],
-      [ "faux_fur", 1 ],
-      [ "felt_patch", 1 ]
-    ] ]
+    "components": [
+      [ [ "bone_heavy", 10 ] ],
+      [ [ "2x4", 1 ], [ "stick", 2 ] ],
+      [
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ],
+        [ "rag", 1 ],
+        [ "leather", 1 ],
+        [ "fur", 1 ],
+        [ "faux_fur", 1 ],
+        [ "felt_patch", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -866,15 +869,18 @@
     "autolearn": true,
     "using": [ [ "adhesive_proper", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sword_bone", 1 ] ], [ [ "stick_long", 1 ] ], 
-    [
-      [ "cordage_short", 2, "LIST" ],
-      [ "filament", 100, "LIST" ],
-      [ "rag", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ],
-      [ "faux_fur", 1 ],
-      [ "felt_patch", 1 ]
-    ] ]
+    "components": [
+      [ [ "sword_bone", 1 ] ],
+      [ [ "stick_long", 1 ] ],
+      [
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ],
+        [ "rag", 1 ],
+        [ "leather", 1 ],
+        [ "fur", 1 ],
+        [ "faux_fur", 1 ],
+        [ "felt_patch", 1 ]
+      ]
+    ]
   }
 ]
