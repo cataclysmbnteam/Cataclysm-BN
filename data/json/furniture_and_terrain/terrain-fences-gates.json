@@ -631,7 +631,7 @@
     "id": "t_splitrail_fence",
     "alias": [ "t_splitrail_fence_h", "t_splitrail_fence_v" ],
     "name": "split rail fence",
-    "description": "A rather stout fence made of 2x4s and fence posts, suitable for containing livestock like horses, cows and pigs.",
+    "description": "A rather stout fence made of split logs with notches, held together by gravity and suitable for containing livestock like horses, cows and pigs.",
     "symbol": "LINE_OXOX",
     "color": "brown",
     "looks_like": "t_fence",
@@ -649,14 +649,14 @@
       "BURROWABLE"
     ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 20 } ] },
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "log", "count": 2 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
       "sound": "whump!",
       "sound_fail": "whack!",
-      "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 1, 2 ] } ],
+      "ter_set": "t_dirt",
+      "items": [ { "item": "log", "count": [ 1, 2 ] } ],
       "ranged": { "reduction": [ 3, 5 ], "destroy_threshold": 12, "block_unaimed_chance": "50%" }
     }
   },
