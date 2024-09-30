@@ -2266,8 +2266,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( skill.ident() == skill_throw && curammo != nullptr ) {
         item &tmp = *item::spawn_temporary( item( curammo ) );
-        ammo_du.amount += static_cast<int>( get_avatar().throw_damage( tmp, get_avatar().get_skill_level( skill_throw ),
-                                              get_avatar().get_str() ) );
+        ammo_du.amount += static_cast<int>( get_avatar().throw_damage( tmp,
+                                            get_avatar().get_skill_level( skill_throw ),
+                                            get_avatar().get_str() ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {

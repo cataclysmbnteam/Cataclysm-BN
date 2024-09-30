@@ -923,7 +923,8 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         if( gun.gun_skill() == skill_throw && !who.is_fake() && gun.ammo_data() ) {
             item &tmp = *item::spawn_temporary( item( gun.ammo_data() ) );
             auto &impact = projectile.impact;
-            impact.add_damage( DT_BASH, static_cast<int>( who.throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) ) );
+            impact.add_damage( DT_BASH, static_cast<int>( who.throw_damage( tmp,
+                               who.get_skill_level( skill_throw ), who.get_str() ) ) );
         }
 
         if( who.has_trait( trait_NORANGEDCRIT ) ) {
@@ -1227,7 +1228,8 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     proj.speed = std::log2( std::max( 1, skill_level ) )
                  + std::log2( std::max( 1, effective_strength ) );
     auto &impact = proj.impact;
-    impact.add_damage( DT_BASH, static_cast<int>( who.throw_damage( thrown, skill_level, effective_strength ) ) );
+    impact.add_damage( DT_BASH, static_cast<int>( who.throw_damage( thrown, skill_level,
+                       effective_strength ) ) );
 
     add_msg( m_info, "Expected throwing damage: %s", impact.total_damage() );
 
