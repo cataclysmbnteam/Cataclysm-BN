@@ -2261,8 +2261,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     gun_du.damage_multiplier *= ranged::str_draw_damage_modifier( *mod, viewer );
 
     damage_unit &ammo_du = curammo != nullptr
-                                 ? curammo->ammo->damage.damage_units.front()
-                                 : damage_unit( DT_STAB, 0 );
+                           ? curammo->ammo->damage.damage_units.front()
+                           : damage_unit( DT_STAB, 0 );
 
     if( skill.ident() == skill_throw && curammo != nullptr ) {
         ammo_du.amount += sling_bonus_damage( *loaded_mod, get_avatar() );
@@ -2505,7 +2505,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     if( skill.ident() == skill_throw ) {
-        info.emplace_back( "GUN", _( "Damage/range will vary with <info>throwing skill and ammo.</info>" ) );
+        info.emplace_back( "GUN",
+                           _( "Damage/range will vary with <info>throwing skill and ammo.</info>" ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
