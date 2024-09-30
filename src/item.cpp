@@ -2265,7 +2265,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            : damage_unit( DT_STAB, 0 );
 
     if( skill.ident() == skill_throw && curammo != nullptr ) {
-        ammo_du.amount += sling_bonus_damage( *loaded_mod, get_avatar().get_skill_level( skill_throw ), get_avatar().get_str() );
+        ammo_du.amount += sling_bonus_damage( *loaded_mod, get_avatar().get_skill_level( skill_throw ),
+                                              get_avatar().get_str() );
     }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
@@ -7638,7 +7639,7 @@ int item::sling_bonus_damage( const item &it, const int &skill, const int &str )
 
     float ret = it.base_damage_thrown().total_damage();
     const float speed = std::log2( std::max( 1, skill ) )
-                 + std::log2( std::max( 1, str ) );
+                        + std::log2( std::max( 1, str ) );
 
     add_msg( m_info, "skill_level is %s", skill );
     add_msg( m_info, "effective_strength is %s", str );
