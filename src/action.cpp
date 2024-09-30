@@ -137,6 +137,8 @@ std::string action_ident( action_id act )
             return "pickup";
         case ACTION_PICKUP_FEET:
             return "pickup_feet";
+        case ACTION_PICKUP_ALL:
+            return "pickup_all";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -852,7 +854,7 @@ action_id handle_action_menu()
             register_actions( {
                 ACTION_EXAMINE, ACTION_SMASH, ACTION_MOVE_DOWN, ACTION_MOVE_UP,
                 ACTION_OPEN, ACTION_CLOSE, ACTION_CHAT, ACTION_PICKUP,
-                ACTION_PICKUP_FEET, ACTION_GRAB, ACTION_HAUL, ACTION_BUTCHER, ACTION_LOOT,
+                ACTION_PICKUP_FEET, ACTION_PICKUP_ALL, ACTION_GRAB, ACTION_HAUL, ACTION_BUTCHER, ACTION_LOOT,
             } );
         } else if( category == _( "Combat" ) ) {
             register_actions( {

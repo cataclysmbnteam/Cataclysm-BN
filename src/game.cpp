@@ -2130,6 +2130,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
     ctxt.register_action( "pickup_feet" );
+    ctxt.register_action( "pickup_all" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
@@ -5662,6 +5663,18 @@ void game::pickup( const tripoint &p )
 void game::pickup_feet()
 {
     pickup::pick_up( u.pos(), 1 );
+}
+
+void game::pickup_all()
+{
+    //Autopickup adjacent
+    direction adjacentDir[8] = {direction::NORTH, direction::NORTHEAST, direction::EAST, direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST, direction::WEST, direction::NORTHWEST};
+    for( auto &elem : adjacentDir ) {
+
+        tripoint apos = tripoint( displace_XY( elem ), 0 );
+        apos += u.pos();
+        pickup::pick_up( apos, 10000 );
+    }
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
