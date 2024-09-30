@@ -1933,7 +1933,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         } else {
             p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
         }
-        const bodypart_str_id bp = convert_bp( player::hp_to_bp( hpart ) );
+        const bodypart_str_id &bp = player::hp_to_bp( hpart );
         if( p.has_effect( effect_bite, bp ) ) {
             p.add_effect( effect_bite, 260_minutes,  bp );
         }
@@ -3725,7 +3725,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
 
-    const bodypart_id bp = convert_bp( Character::hp_to_bp( healed ) ).id();
+    const bodypart_id bp = Character::hp_to_bp( healed ).id();
     const int cur_hp = patient.get_part_hp_cur( bp );
 
     if( ( cur_hp >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
@@ -3734,7 +3734,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
-    const bodypart_str_id bp_healed = convert_bp( player::hp_to_bp( healed ) );
+    const bodypart_str_id bp_healed = player::hp_to_bp( healed );
 
     Character &player_character = get_player_character();
     const bool u_see = healer.is_player() || patient.is_player() ||
@@ -3861,7 +3861,7 @@ static hp_part pick_part_to_heal(
             return num_hp_parts;
         }
 
-        const bodypart_str_id &bp = convert_bp( player::hp_to_bp( healed_part ) );
+        const bodypart_str_id &bp = player::hp_to_bp( healed_part );
         if( ( infect && patient.has_effect( effect_infected, bp ) ) ||
             ( bite && patient.has_effect( effect_bite, bp ) ) ||
             ( bleed && patient.has_effect( effect_bleed, bp ) ) ) {
@@ -3912,11 +3912,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing self - let player select
         if( healer.activity->id() != ACT_FIRSTAID ) {
             const std::string menu_header = _( "Select a body part for: " ) + it.tname();
-            healed = convert_bp( Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
-                                 limb_power, head_bonus, torso_bonus,
-                                 bleed, bite, infect, force,
-                                 get_bandaged_level( healer ),
-                                 get_disinfected_level( healer ) ) ) ).id();
+            healed = Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
+                                          limb_power, head_bonus, torso_bonus,
+                                          bleed, bite, infect, force,
+                                          get_bandaged_level( healer ),
+                                          get_disinfected_level( healer ) ) ).id();
             if( healed == bodypart_id( "num_bp" ) ) {
                 add_msg( m_info, _( "Never mind." ) );
                 return num_hp_parts; // canceled
@@ -3925,11 +3925,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Brick healing if using a first aid kit for the first time.
         if( long_action && healer.activity->id() != ACT_FIRSTAID ) {
             // Cancel and wait for activity completion.
-            return Character::bp_to_hp( healed->token );
+            return Character::bp_to_hp( healed.id() );
         } else if( healer.activity->id() == ACT_FIRSTAID ) {
             // Completed activity, extract body part from it.
-            healed = convert_bp( Character::hp_to_bp( static_cast<hp_part>
-                                 ( healer.activity->values[0] ) ) ).id();
+            healed = Character::hp_to_bp( static_cast<hp_part>
+                                          ( healer.activity->values[0] ) ).id();
         }
     } else {
         // Player healing NPC
@@ -3938,18 +3938,18 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
                                         //~ %1$s: patient name, %2$s: healing item name
                                         "Select a body part of %1$s for %2$s:" ),
                                         patient.disp_name(), it.tname() );
-        healed = convert_bp( Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
-                             limb_power, head_bonus, torso_bonus,
-                             bleed, bite, infect, force,
-                             get_bandaged_level( healer ),
-                             get_disinfected_level( healer ) ) ) ).id();
+        healed = Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
+                                      limb_power, head_bonus, torso_bonus,
+                                      bleed, bite, infect, force,
+                                      get_bandaged_level( healer ),
+                                      get_disinfected_level( healer ) ) ).id();
     }
 
     if( healed != bodypart_id( "num_bp" ) ) {
-        finish_using( healer, patient, it, Character::bp_to_hp( healed->token ) );
+        finish_using( healer, patient, it, Character::bp_to_hp( healed.id() ) );
     }
 
-    return Character::bp_to_hp( healed->token );
+    return Character::bp_to_hp( healed.id() );
 }
 
 void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const

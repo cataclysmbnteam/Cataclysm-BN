@@ -1040,8 +1040,8 @@ int throw_cost( const Character &c, const item &to_throw )
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
-    const int encumbrance_penalty = c.encumb( bp_torso ) +
-                                    ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
+    const int encumbrance_penalty = c.encumb( body_part_torso ) +
+                                    ( c.encumb( body_part_hand_l ) + c.encumb( body_part_hand_r ) ) / 2;
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
@@ -1114,7 +1114,8 @@ int throw_dispersion_per_dodge( const Character &c, bool add_encumbrance )
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
     // Maybe TODO: Only use one hand
-    const int encumbrance = add_encumbrance ? c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) : 0;
+    const int encumbrance = add_encumbrance ? c.encumb( body_part_hand_l ) + c.encumb(
+                                body_part_hand_r ) : 0;
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
     float effective_dex = 2 + c.get_dex() / 4.0f - ( encumbrance ) / 40.0f;
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
@@ -1156,7 +1157,7 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
     }
     // 1 perception per 1 eye encumbrance
     ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
-    dispersion += std::max( 0, ( c.encumb( bp_eyes ) - c.get_per() ) * 10 );
+    dispersion += std::max( 0, ( c.encumb( body_part_eyes ) - c.get_per() ) * 10 );
 
     // If throwing blind, we're assuming they mechanically can't achieve the
     // accuracy of a normal throw.
@@ -1184,8 +1185,8 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for being able to throw farther.
     const int weight_cost = weight / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( who.encumb( bp_arm_l ) + who.encumb(
-                                     bp_arm_r ) ) * 2.0f );
+    const int encumbrance_cost = roll_remainder( ( who.encumb( body_part_arm_l ) + who.encumb(
+                                     body_part_arm_r ) ) * 2.0f );
     const int stamina_cost = ( weight_cost + encumbrance_cost - throwing_skill + 50 ) * -1;
 
     bool throw_assist = false;
@@ -1963,7 +1964,7 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( who.ranged_dex_mod() );
 
-    dispersion.add_range( ( who.encumb( bp_arm_l ) + who.encumb( bp_arm_r ) ) / 5.0 );
+    dispersion.add_range( ( who.encumb( body_part_arm_l ) + who.encumb( body_part_arm_r ) ) / 5.0 );
 
     if( is_driving( who ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -3871,7 +3872,7 @@ int ranged::effective_dispersion( const Character &who, int dispersion )
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += who.ranged_per_mod();
 
-    dispersion += who.encumb( bp_eyes ) / 2;
+    dispersion += who.encumb( body_part_eyes ) / 2;
 
     return std::max( dispersion, 0 );
 }
@@ -3941,7 +3942,7 @@ double ranged::aim_speed_dex_modifier( const Character &who )
 
 double ranged::aim_speed_encumbrance_modifier( const Character &who )
 {
-    return ( who.encumb( bp_hand_l ) + who.encumb( bp_hand_r ) ) / 10.0;
+    return ( who.encumb( body_part_hand_l ) + who.encumb( body_part_hand_r ) ) / 10.0;
 }
 
 double ranged::aim_multiplier_from_volume( const item &gun )

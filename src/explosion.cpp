@@ -611,7 +611,7 @@ void ExplosionProcess::project_shrapnel( const tripoint position )
         // Humans get hit in all body parts
         if( critter->is_player() ) {
             for( bodypart_id bp : bps ) {
-                if( Character::bp_to_hp( bp->token ) == num_hp_parts ) {
+                if( Character::bp_to_hp( bp.id() ) == num_hp_parts ) {
                     continue;
                 }
                 // TODO: Apply projectile effects
@@ -1122,7 +1122,7 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
             if( critter->is_player() ) {
                 for( bodypart_id bp : bps ) {
                     // TODO: This shouldn't be needed, get_bps should do it
-                    if( Character::bp_to_hp( bp->token ) == num_hp_parts ) {
+                    if( Character::bp_to_hp( bp.id() ) == num_hp_parts ) {
                         continue;
                     }
                     // TODO: Apply projectile effects

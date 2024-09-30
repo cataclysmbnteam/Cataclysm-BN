@@ -1497,7 +1497,7 @@ double item::effective_dps( const player &guy, const monster &mon,
     const float mon_dodge = mon.get_dodge();
     // TODO: Handle multiple attacks
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this, attack );
-    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bp_torso ) / 100.0f );
+    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( body_part_torso ) / 100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
     constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),

@@ -1098,10 +1098,10 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
     if( it->has_flag( flag_SPLINT ) ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
-            body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( convert_bp( bp ).id() ) &&
-                !worn_with_flag( flag_SPLINT, convert_bp( bp ).id() ) &&
-                it->covers( convert_bp( bp ).id() ) ) {
+            const bodypart_str_id &bp = player::hp_to_bp( hpp );
+            if( is_limb_broken( bp.id() ) &&
+                !worn_with_flag( flag_SPLINT, bp.id() ) &&
+                it->covers( bp.id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return wear_item( std::move( it ), false );
             }
