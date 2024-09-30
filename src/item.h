@@ -2011,6 +2011,10 @@ class item : public location_visitable<item>, public game_object<item>
         int gun_recoil( bool bipod = false ) const;
 
         /**
+         * Calculates how much damage throwing the ammo would deal, used for slings to offer bonus damage.
+         */
+        int sling_bonus_damage( const item &it, const Character &guy ) const;
+        /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
          * Returns empty instance on non-gun items.
          */

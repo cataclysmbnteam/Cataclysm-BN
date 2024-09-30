@@ -128,6 +128,7 @@ static const item_category_id itemcat_food( "food" );
 static const item_category_id itemcat_maps( "maps" );
 
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
@@ -156,6 +157,7 @@ static const itype_id itype_water_acid( "water_acid" );
 static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_throw( "throw" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
 
@@ -166,6 +168,7 @@ static const species_id ROBOT( "ROBOT" );
 static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_railgun( "bio_railgun" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
@@ -2257,9 +2260,13 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     gun_du.damage_multiplier *= ranged::str_draw_damage_modifier( *mod, viewer );
 
-    const damage_unit &ammo_du = curammo != nullptr
+    damage_unit &ammo_du = curammo != nullptr
                                  ? curammo->ammo->damage.damage_units.front()
                                  : damage_unit( DT_STAB, 0 );
+
+    if( skill.ident() == skill_throw && curammo != nullptr ) {
+        ammo_du.amount += sling_bonus_damage( *loaded_mod, get_avatar() );
+    }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
         insert_separation_line( info );
@@ -2495,6 +2502,10 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                           "Uses <stat>%i</stat> charges of UPS per shot",
                                           mod->get_gun_ups_drain() ),
                                           mod->get_gun_ups_drain() ) );
+    }
+
+    if( skill.ident() == skill_throw ) {
+        info.emplace_back( "GUN", _( "Damage/range will vary with <info>throwing skill and ammo.</info>" ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
@@ -7616,6 +7627,53 @@ int item::sight_dispersion() const
     }
 
     return res;
+}
+
+int item::sling_bonus_damage( const item &it, const Character &guy ) const
+{
+    const units::mass weight = it.weight();
+
+    add_msg( m_info, "weight value is %s", units::to_gram( weight ) );
+
+    bool throw_assist = false;
+    int throw_assist_str = 0;
+    if( guy.is_mounted() ) {
+        monster *mons = guy.mounted_creature.get();
+        if( mons->mech_str_addition() != 0 ) {
+            throw_assist = true;
+            throw_assist_str = mons->mech_str_addition();
+        }
+    }
+
+    int skill_level = std::min( MAX_SKILL, guy.get_skill_level( skill_throw ) );
+    // if you are lying on the floor, you can't really throw that well
+    if( guy.has_effect( effect_downed ) ) {
+        skill_level = std::max( 0, skill_level - 5 );
+    }
+
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+    const bool do_railgun = guy.has_active_bionic( bio_railgun ) && it.made_of_any( ferric ) &&
+                            !throw_assist;
+    const int effective_strength =
+        throw_assist ? throw_assist_str : do_railgun ? guy.get_str() * 2 : guy.get_str();
+
+    projectile proj;
+    proj.impact = it.base_damage_thrown();
+    proj.speed = std::log2( std::max( 1, skill_level ) )
+                 + std::log2( std::max( 1, effective_strength ) );
+    auto &impact = proj.impact;
+
+    add_msg( m_info, "skill_level is %s", skill_level );
+    add_msg( m_info, "effective_strength is %s", effective_strength );
+    add_msg( m_info, "Thrown item speed is %s", proj.speed );
+
+    const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( proj.speed, 2 );
+    add_msg( m_info, "damage is supposed to %s", damage );
+    impact.add_damage( DT_BASH, static_cast<int>( damage ) );
+
+    add_msg( m_info, "Thrown item has base damage of %s", impact.total_damage() );
+
+    return impact.total_damage();
 }
 
 damage_instance item::gun_damage( bool with_ammo ) const
