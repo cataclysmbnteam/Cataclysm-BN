@@ -919,6 +919,12 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
         // Damage reduction from insufficient strength, if using a STR_DRAW weapon.
         projectile.impact.mult_damage( ranged::str_draw_damage_modifier( gun, who ) );
+        // Bonus damage for slings and the like
+        if( gun.gun_skill() == skill_throw && !who.is_fake() && gun.ammo_data() ) {
+            item &tmp = *item::spawn_temporary( item( gun.ammo_data() ) );
+            auto &impact = projectile.impact;
+            impact.add_damage( DT_BASH, static_cast<int>( who.throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) ) );
+        }
 
         if( who.has_trait( trait_NORANGEDCRIT ) ) {
             projectile.add_effect( ammo_effect_NO_CRIT );
@@ -1181,8 +1187,6 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     const units::volume volume = thrown.volume();
     const units::mass weight = thrown.weight();
 
-    add_msg( m_info, "weight value is %s", units::to_gram( weight ) );
-
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for being able to throw farther.
@@ -1220,22 +1224,12 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     // We'll be constructing a projectile
     projectile proj;
-    proj.impact = thrown.base_damage_thrown();
     proj.speed = std::log2( std::max( 1, skill_level ) )
                  + std::log2( std::max( 1, effective_strength ) );
     auto &impact = proj.impact;
+    impact.add_damage( DT_BASH, static_cast<int>( who.throw_damage( thrown, skill_level, effective_strength ) ) );
 
-    add_msg( m_info, "skill_level is %s", skill_level );
-    add_msg( m_info, "effective_strength is %s", effective_strength );
-    add_msg( m_info, "Thrown item speed is %s", proj.speed );
-
-    // calculate extra damage, proportional to 1/2mv^2
-    // @see https://www.desmos.com/calculator/ibo2jh9cqa
-    const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( proj.speed, 2 );
-    add_msg( m_info, "damage is supposed to %s", damage );
-    impact.add_damage( DT_BASH, static_cast<int>( damage ) );
-
-    add_msg( m_info, "Thrown item has base damage of %s", impact.total_damage() );
+    add_msg( m_info, "Expected throwing damage: %s", impact.total_damage() );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );

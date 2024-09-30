@@ -2265,8 +2265,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            : damage_unit( DT_STAB, 0 );
 
     if( skill.ident() == skill_throw && curammo != nullptr ) {
-        ammo_du.amount += sling_bonus_damage( *loaded_mod, get_avatar().get_skill_level( skill_throw ),
-                                              get_avatar().get_str() );
+        item &tmp = *item::spawn_temporary( item( curammo ) );
+        ammo_du.amount += static_cast<int>( get_avatar().throw_damage( tmp, get_avatar().get_skill_level( skill_throw ),
+                                              get_avatar().get_str() ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
@@ -7631,29 +7632,6 @@ int item::sight_dispersion() const
     return res;
 }
 
-int item::sling_bonus_damage( const item &it, const int &skill, const int &str ) const
-{
-    const units::mass weight = it.weight();
-
-    add_msg( m_info, "weight value is %s", units::to_gram( weight ) );
-
-    float ret = it.base_damage_thrown().total_damage();
-    const float speed = std::log2( std::max( 1, skill ) )
-                        + std::log2( std::max( 1, str ) );
-
-    add_msg( m_info, "skill_level is %s", skill );
-    add_msg( m_info, "effective_strength is %s", str );
-    add_msg( m_info, "Thrown item speed is %s", speed );
-
-    const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( speed, 2 );
-    add_msg( m_info, "damage is supposed to %s", damage );
-    ret += static_cast<int>( damage );
-
-    add_msg( m_info, "Thrown item has base damage of %s", ret );
-
-    return ret;
-}
-
 damage_instance item::gun_damage( bool with_ammo ) const
 {
     if( !is_gun() ) {
@@ -7749,6 +7727,11 @@ int item::gun_range( const player *p ) const
 
     // Reduce bow range if player has less than minimum strength.
     ret *= ranged::str_draw_range_modifier( *this, *p );
+    if( gun_skill() == skill_throw && ammo_data() ) {
+        const itype *curammo = ammo_data();
+        item &tmp = *item::spawn_temporary( item( curammo ) );
+        ret += get_avatar().throw_range( tmp );
+    }
 
     return std::max( 0, ret );
 }
