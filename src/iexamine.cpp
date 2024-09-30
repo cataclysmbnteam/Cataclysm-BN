@@ -1113,9 +1113,10 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bp_torso ) ) >= 10 ) && ( ( p.encumb( bp_head ) ) >= 10 ) &&
-        ( p.encumb( bp_foot_l ) >= 10 ||
-          p.encumb( bp_foot_r ) >= 10 ) ) { // Most likely places for rigid gear that would catch on the bars.
+    if( ( ( p.encumb( body_part_torso ) ) >= 10 ) && ( ( p.encumb( body_part_head ) ) >= 10 ) &&
+        ( p.encumb( body_part_foot_l ) >= 10 ||
+          p.encumb( body_part_foot_r ) >=
+          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg( m_info,
                  _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
                  here.tername( examp ) );
@@ -5156,7 +5157,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+                const bodypart_id &part = player::hp_to_bp( static_cast<hp_part>( i ) ).id();
                 const bool broken = patient.is_limb_broken( part );
                 if( !broken ) {
                     continue;
@@ -5229,7 +5230,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_str_id &bp_healed = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) );
+                const bodypart_str_id &bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
                 if( patient.has_effect( effect_bleed, bp_healed ) ) {
                     patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
@@ -5250,7 +5251,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_disinfected, 1_turns, bp_healed );
                     effect &e = patient.get_effect( effect_disinfected, bp_healed );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-                    hp_part target_part = player::bp_to_hp( bp_healed->token );
+                    hp_part target_part = player::bp_to_hp( bp_healed );
                     patient.damage_disinfected[target_part] =
                         patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed );
 

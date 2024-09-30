@@ -1190,9 +1190,9 @@ int Character::swim_speed() const
         ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
     }
     /** @EFFECT_SWIMMING increases swim speed */
-    ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
-                bp_leg_r ) ) / 10 );
-    ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bp_torso ) / 10 );
+    ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( body_part_leg_l ) + encumb(
+                body_part_leg_r ) ) / 10 );
+    ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( body_part_torso ) / 10 );
     if( get_skill_level( skill_swimming ) < 10 ) {
         for( auto &i : worn ) {
             ret += i->volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
@@ -2043,7 +2043,7 @@ void Character::recalc_sight_limits()
 
     // +1 because of the ugly -1 in _from_per
     nv_range = 1 + vision::nv_range_from_per( get_per() ) +
-               vision::nv_range_from_eye_encumbrance( encumb( bp_eyes ) );
+               vision::nv_range_from_eye_encumbrance( encumb( body_part_eyes ) );
     nv_range += best_bonus_nv;
     if( vision_mode_cache[BIRD_EYE] ) {
         nv_range++;
@@ -2516,7 +2516,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
         moves -= item_wear_cost( to_wear );
 
         for( const body_part bp : all_body_parts ) {
-            if( to_wear.covers( convert_bp( bp ) ) && encumb( bp ) >= 40 ) {
+            if( to_wear.covers( convert_bp( bp ) ) && encumb( convert_bp( bp ) ) >= 40 ) {
                 add_msg_if_player( m_warning,
                                    bp == bp_eyes ?
                                    _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),
@@ -4516,9 +4516,9 @@ void Character::item_encumb( char_encumbrance_data &vals, const item &new_item )
     }
 }
 
-int Character::encumb( body_part bp ) const
+int Character::encumb( const bodypart_str_id &bp ) const
 {
-    return encumbrance_cache->elems[bp].encumbrance;
+    return encumbrance_cache->elems[bp->token].encumbrance;
 }
 
 static void apply_mut_encumbrance( char_encumbrance_data &vals,
@@ -5095,7 +5095,7 @@ void Character::regen( int rate_multiplier )
 
     // include healing effects
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id &bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+        const bodypart_id &bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
 
         const bool is_broken = is_limb_broken( bp ) &&
@@ -5835,11 +5835,11 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         bonus_clothing_map[body_part_hand_r].clear();
     }
     // If player's head is encumbered, hood can't be put up
-    if( encumb( body_part_head->token ) >= 10 ) {
+    if( encumb( body_part_head ) >= 10 ) {
         bonus_clothing_map[body_part_head].clear();
     }
     // Similar for mouth
-    if( encumb( body_part_mouth->token ) >= 10 ) {
+    if( encumb( body_part_mouth ) >= 10 ) {
         bonus_clothing_map[body_part_mouth].clear();
     }
 
@@ -6957,9 +6957,9 @@ float Character::rest_quality() const
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
-hp_part Character::bp_to_hp( const body_part bp )
+hp_part Character::bp_to_hp( const bodypart_str_id &bp )
 {
-    switch( bp ) {
+    switch( bp->token ) {
         case bp_head:
         case bp_eyes:
         case bp_mouth:
@@ -6983,23 +6983,23 @@ hp_part Character::bp_to_hp( const body_part bp )
     }
 }
 
-body_part Character::hp_to_bp( const hp_part hpart )
+const bodypart_str_id &Character::hp_to_bp( const hp_part hpart )
 {
     switch( hpart ) {
         case hp_head:
-            return bp_head;
+            return body_part_head;
         case hp_torso:
-            return bp_torso;
+            return body_part_torso;
         case hp_arm_l:
-            return bp_arm_l;
+            return body_part_arm_l;
         case hp_arm_r:
-            return bp_arm_r;
+            return body_part_arm_r;
         case hp_leg_l:
-            return bp_leg_l;
+            return body_part_leg_l;
         case hp_leg_r:
-            return bp_leg_r;
+            return body_part_leg_r;
         default:
-            return num_bp;
+            return bodypart_str_id::NULL_ID();
     }
 }
 
@@ -7687,7 +7687,7 @@ void Character::update_stamina( int turns )
                                bonus_from_enchantments( 1.0, enchant_vals::mod::STAMINA_REGEN );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
+                        base_regen_rate - ( encumb( body_part_mouth ) / 5.0f ) );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
 
@@ -7997,9 +7997,9 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
 
     // For single handed items use the least encumbered hand
     if( it.is_two_handed( *this ) ) {
-        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
+        mv += encumb( body_part_hand_l ) + encumb( body_part_hand_r );
     } else {
-        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
+        mv += std::min( encumb( body_part_hand_l ), encumb( body_part_hand_r ) );
     }
 
     return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
@@ -8124,7 +8124,7 @@ int Character::get_shout_volume() const
     // Balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
-    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    const int penalty = encumb( body_part_mouth ) * 3 / 2;
     int noise = base + str_cur * shout_multiplier - penalty;
 
     // Minimum noise volume possible after all reductions.
@@ -8192,7 +8192,7 @@ void Character::shout( std::string msg, bool order )
         }
     }
 
-    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    const int penalty = encumb( body_part_mouth ) * 3 / 2;
     // TODO: indistinct noise descriptions should be handled in the sounds code
     if( noise <= minimum_noise ) {
         add_msg_if_player( m_warning,
@@ -9227,7 +9227,7 @@ int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
     for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+        const bodypart_id bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
         auto damage = damage_instance::physical( ddam, cut, 0 );
@@ -10703,8 +10703,8 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         movecost +=
-            ( ( encumb( bp_foot_l ) + encumb( bp_foot_r ) ) * 2.5 +
-              ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) * 1.5 ) / 10;
+            ( ( encumb( body_part_foot_l ) + encumb( body_part_foot_r ) ) * 2.5 +
+              ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) * 1.5 ) / 10;
 
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -11422,8 +11422,8 @@ float Character::fall_damage_mod() const
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
-    const float average_leg_encumb = ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2.0;
-    dex_dodge -= ( average_leg_encumb + encumb( bp_torso ) ) / 10;
+    const float average_leg_encumb = ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) / 2.0;
+    dex_dodge -= ( average_leg_encumb + encumb( body_part_torso ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
@@ -11538,7 +11538,7 @@ int Character::impact( const int force, const tripoint &p )
     int total_dealt = 0;
     if( mod * effective_force >= 5 ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
-            const bodypart_id bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+            const bodypart_id bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
             di.add_damage( DT_BASH, bash, 0, armor_eff, mod );

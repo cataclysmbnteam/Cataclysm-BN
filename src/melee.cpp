@@ -347,7 +347,7 @@ float Character::get_melee_hit( const item &weapon, const attack_statblock &atta
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
+    hit *= std::max( 0.25f, 1.0f - encumb( body_part_torso ) / 100.0f );
 
     return hit;
 }
@@ -375,7 +375,7 @@ std::string Character::get_miss_reason()
     // in one turn
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
-        roll_remainder( encumb( bp_torso ) / 10.0 ) );
+        roll_remainder( encumb( body_part_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) );
@@ -635,7 +635,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     const int weight_cost = cur_weapon.weight() / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
+    const int encumbrance_cost = roll_remainder( ( encumb( body_part_arm_l ) + encumb(
+                                     body_part_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     const float strbonus = 1 / ( 2 + ( str_cur * 0.25f ) );
@@ -2292,8 +2293,8 @@ int Character::attack_cost( const item &weap ) const
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur;
-    const int encumbrance_penalty = encumb( bp_torso ) +
-                                    ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
+    const int encumbrance_penalty = encumb( body_part_torso ) +
+                                    ( encumb( body_part_hand_l ) + encumb( body_part_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );
