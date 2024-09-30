@@ -5363,5 +5363,21 @@
     "name": { "str_sp": "morel mushroom spores" },
     "description": "Some morel mushroom spores.",
     "seed_data": { "plant_name": "morel mushroom", "fruit": "mushroom_morel", "grow": "14 days" }
+  },
+  {
+    "id": "rosin",
+    "type": "AMMO",
+    "category": "chems",
+    "name": { "str": "rosin" },
+    "description": "This is a chunk of yellowish rosin, usable as a flux for soldering.",
+    "weight": "1 g",
+    "volume": "10 ml",
+    "count": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "wood",
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
   }
 ]

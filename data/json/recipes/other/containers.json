@@ -14,6 +14,19 @@
   },
   {
     "type": "recipe",
+    "result": "waterskin",
+    "id_suffix": "sealed_stomach",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "tailor",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [ [ [ "stomach_sealed", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "waterskin2",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -24,6 +37,19 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "leather", 14 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "waterskin2",
+    "id_suffix": "sealed_stomach",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "tailor",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [ [ [ "large_stomach_sealed", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
