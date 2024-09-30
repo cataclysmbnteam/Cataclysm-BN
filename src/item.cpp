@@ -2265,7 +2265,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            : damage_unit( DT_STAB, 0 );
 
     if( skill.ident() == skill_throw && curammo != nullptr ) {
-        ammo_du.amount += sling_bonus_damage( *loaded_mod, get_avatar() );
+        ammo_du.amount += sling_bonus_damage( *loaded_mod, get_avatar().get_skill_level( skill_throw ), get_avatar().get_str() );
     }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
@@ -7630,51 +7630,27 @@ int item::sight_dispersion() const
     return res;
 }
 
-int item::sling_bonus_damage( const item &it, const Character &guy ) const
+int item::sling_bonus_damage( const item &it, const int &skill, const int &str ) const
 {
     const units::mass weight = it.weight();
 
     add_msg( m_info, "weight value is %s", units::to_gram( weight ) );
 
-    bool throw_assist = false;
-    int throw_assist_str = 0;
-    if( guy.is_mounted() ) {
-        monster *mons = guy.mounted_creature.get();
-        if( mons->mech_str_addition() != 0 ) {
-            throw_assist = true;
-            throw_assist_str = mons->mech_str_addition();
-        }
-    }
+    float ret = it.base_damage_thrown().total_damage();
+    const float speed = std::log2( std::max( 1, skill ) )
+                 + std::log2( std::max( 1, str ) );
 
-    int skill_level = std::min( MAX_SKILL, guy.get_skill_level( skill_throw ) );
-    // if you are lying on the floor, you can't really throw that well
-    if( guy.has_effect( effect_downed ) ) {
-        skill_level = std::max( 0, skill_level - 5 );
-    }
+    add_msg( m_info, "skill_level is %s", skill );
+    add_msg( m_info, "effective_strength is %s", str );
+    add_msg( m_info, "Thrown item speed is %s", speed );
 
-    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
-    const bool do_railgun = guy.has_active_bionic( bio_railgun ) && it.made_of_any( ferric ) &&
-                            !throw_assist;
-    const int effective_strength =
-        throw_assist ? throw_assist_str : do_railgun ? guy.get_str() * 2 : guy.get_str();
-
-    projectile proj;
-    proj.impact = it.base_damage_thrown();
-    proj.speed = std::log2( std::max( 1, skill_level ) )
-                 + std::log2( std::max( 1, effective_strength ) );
-    auto &impact = proj.impact;
-
-    add_msg( m_info, "skill_level is %s", skill_level );
-    add_msg( m_info, "effective_strength is %s", effective_strength );
-    add_msg( m_info, "Thrown item speed is %s", proj.speed );
-
-    const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( proj.speed, 2 );
+    const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( speed, 2 );
     add_msg( m_info, "damage is supposed to %s", damage );
-    impact.add_damage( DT_BASH, static_cast<int>( damage ) );
+    ret += static_cast<int>( damage );
 
-    add_msg( m_info, "Thrown item has base damage of %s", impact.total_damage() );
+    add_msg( m_info, "Thrown item has base damage of %s", ret );
 
-    return impact.total_damage();
+    return ret;
 }
 
 damage_instance item::gun_damage( bool with_ammo ) const
