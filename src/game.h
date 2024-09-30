@@ -787,6 +787,7 @@ class game
         void pickup(); // Pickup nearby items 'g', min 0
         void pickup( const tripoint &p );
         void pickup_feet(); // Pick items at player position ',', min 1
+        void pickup_all(); // pickup items from all adjacent positions
 
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
