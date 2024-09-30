@@ -11,7 +11,7 @@
   "test": { "include": ["scripts"] },
   "lint": { "include": ["scripts"] },
   "fmt": {
-    "exclude": ["doc/dist", "doc/.astro", "pnpm-lock.yaml"],
+    "exclude": ["doc/dist", "doc/.astro", "doc/pnpm-lock.yaml"],
     "include": ["scripts", "doc", "*.md"],
     "semiColons": false,
     "lineWidth": 100
