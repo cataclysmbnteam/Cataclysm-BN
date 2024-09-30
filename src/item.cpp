@@ -2261,8 +2261,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     gun_du.damage_multiplier *= ranged::str_draw_damage_modifier( *mod, viewer );
 
     damage_unit ammo_du = curammo != nullptr
-                           ? curammo->ammo->damage.damage_units.front()
-                           : damage_unit( DT_STAB, 0 );
+                          ? curammo->ammo->damage.damage_units.front()
+                          : damage_unit( DT_STAB, 0 );
 
     if( skill.ident() == skill_throw && curammo != nullptr ) {
         item &tmp = *item::spawn_temporary( item( curammo ) );
