@@ -46,9 +46,7 @@ const changelogImage =
 
 const isoDate = (date: Date | string) => new Date(date).toISOString().split("T")[0]
 
-const template = async (
-  { since = "last monday 1 weeks ago", until = "today" }: { since?: string; until?: string } = {},
-) => {
+const template = async ({ since, until }: { since: string; until: string }) => {
   const commits = await readCommits({ since, until })
   const begin = minBy(commits, (x) => x.date)!.date
   const end = maxBy(commits, (x) => x.date)!.date
@@ -105,10 +103,14 @@ https://docs.cataclysmbn.org/en/contribute/contributing/
 }
 
 const main = new Command()
-  .option("-s, --since <date>", "Since date, same as git log --since")
-  .option("-u, --until <date>", "Until date, same as git log --until")
-  .option("-o, --output <file>", "Output file")
-  .description("Generate a reddit changelog template from git commits.")
+  .option("-s, --since <date>", "same as git log --since, e.g 2024-09-22", {
+    default: "last monday 1 week ago",
+  })
+  .option("-u, --until <date>", "same as git log --until, e.g 2024-10-01", {
+    default: "today",
+  })
+  .option("-o, --output <file>", "Output file to save template to")
+  .description(`Generate a reddit changelog template from git commits.`)
   .action(async ({ since, until, output }) => {
     const changelog = await template({ since, until })
 
