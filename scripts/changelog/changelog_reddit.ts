@@ -6,6 +6,7 @@ import { titleCase } from "https://deno.land/x/case@2.1.1/mod.ts"
 
 import { fmtLink } from "./fmt_commit.ts"
 import { type Commit, readCommits } from "./read_commits.ts"
+import { paragraph } from "./paragraph.ts"
 
 const asSections = (group: Record<string, string>): string =>
   Object.entries(group)
@@ -110,7 +111,11 @@ const main = new Command()
     default: "today",
   })
   .option("-o, --output <file>", "Output file to save template to")
-  .description(`Generate a reddit changelog template from git commits.`)
+  .description(paragraph`
+      Generate a reddit changelog template from git commits.
+
+      usage: deno task changelog --since 2024-09-22 --until 2024-09-30
+    `)
   .action(async ({ since, until, output }) => {
     const changelog = await template({ since, until })
 
