@@ -5102,6 +5102,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             }
         } else if( itt.tool && !itt.tool->ammo_id.empty() ) {
             const itype_id ammo = ammotype( *itt.tool->ammo_id.begin() )->default_ammotype();
+            if( itt.tool->subtype!=type && type!=ammo && itt.get_id()!=type ){
+                continue;
+            }
             auto stack = m->i_at( p );
             auto iter = std::find_if( stack.begin(), stack.end(),
             [ammo]( const item * const & i ) {
