@@ -25,7 +25,7 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "luminance": 0,
-    "harvest": "zombie_leather",
+    "harvest": "zombie_tooth_leather",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "SWIMS", "AQUATIC", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -180,7 +180,7 @@
     "melee_cut": 4,
     "dodge": 2,
     "vision_night": 5,
-    "harvest": "zombie_fur",
+    "harvest": "zombie_tooth_fur",
     "special_attacks": [ [ "HOWL", 10 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],

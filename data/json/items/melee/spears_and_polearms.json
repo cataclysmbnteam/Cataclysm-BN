@@ -597,5 +597,14 @@
     "description": "A custom 3D-printed spear made out of carbon fiber.  It is more lightweight than a normal spear thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "glaive_bone",
+    "type": "GENERIC",
+    "copy-from": "glaive",
+    "name": { "str": "bone glaive" },
+    "description": "This glaive's blade is carved from a single massive bone, and is capable of slicing foes in with swiftness and efficiency.",
+    "material": [ "bone", "wood" ],
+    "proportional": { "weight": 0.8, "cutting": 0.9 }
   }
 ]

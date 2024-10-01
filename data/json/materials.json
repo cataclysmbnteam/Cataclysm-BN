@@ -1871,5 +1871,61 @@
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "id": "scute",
+    "name": "Scute",
+    "density": 15,
+    "specific_heat_liquid": 4.186,
+    "specific_heat_solid": 2.108,
+    "latent_heat": 333,
+    "reinforces": true,
+    "bash_resist": 3,
+    "cut_resist": 3,
+    "bullet_resist": 3,
+    "acid_resist": 13,
+    "fire_resist": 2,
+    "elec_resist": 2,
+    "chip_resist": 10,
+    "repaired_with": "scute_piece",
+    "salvaged_into": "scute_piece",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 1 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "bone_heavy",
+    "name": "Heavy Bone",
+    "density": 7,
+    "specific_heat_liquid": 1.2,
+    "specific_heat_solid": 1.2,
+    "latent_heat": 200,
+    "edible": true,
+    "rotting": true,
+    "reinforces": true,
+    "bash_resist": 4,
+    "cut_resist": 6,
+    "bullet_resist": 4,
+    "acid_resist": 7,
+    "fire_resist": 1,
+    "elec_resist": 2,
+    "chip_resist": 8,
+    "wind_resist": 90,
+    "repaired_with": "bone_heavy",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250 ml" },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
+    ]
   }
 ]

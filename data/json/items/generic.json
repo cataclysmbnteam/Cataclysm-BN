@@ -3190,6 +3190,48 @@
     "stackable": true
   },
   {
+    "type": "GENERIC",
+    "id": "scute_piece",
+    "category": "spare_parts",
+    "name": { "str": "scute" },
+    "weight": "225 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "A bony and scaled protrusion harvested from a large reptile.  Such things were used to make handbags before the Cataclysm, but the material is sturdy and protective.",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "scute",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "bone_heavy",
+    "category": "spare_parts",
+    "name": { "str": "heavy bone" },
+    "weight": "450 g",
+    "color": "white",
+    "symbol": "%",
+    "description": "A bone harvested from a large animal such as an elephant, or from certain types of zombies.  It is extremely dense and durable for its size, and largely inedible.",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "bone_heavy",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "teeth_serrated",
+    "category": "spare_parts",
+    "name": { "str": "sharp teeth" },
+    "weight": "450 g",
+    "color": "white",
+    "symbol": "%",
+    "description": "Teeth harvested from a carnivore such as a shark, or from certain types of mutant animals.  They are extremely dense and durable for their size, and can very easily cause jagged wounds.",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "bone_heavy",
+    "volume": "250 ml"
+  },
+  {
     "id": "beehive_empty",
     "type": "GENERIC",
     "name": { "str": "empty beehive" },

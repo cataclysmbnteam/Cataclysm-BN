@@ -77,7 +77,7 @@
     "difficulty": 2,
     "time": "30 m",
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "vest_leather", 1 ] ] ]
+    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ], [ "bone_heavy", 7 ] ], [ [ "vest_leather", 1 ] ] ]
   },
   {
     "result": "leatherbone_armor_small_quadruped",
@@ -90,7 +90,10 @@
     "time": "15 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather_armor_small_quadruped", 1 ] ] ]
+    "components": [
+      [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ], [ "bone_heavy", 7 ] ],
+      [ [ "leather_armor_small_quadruped", 1 ] ]
+    ]
   },
   {
     "result": "leatherbone_armor_small_quadruped",
@@ -104,7 +107,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather", 6 ] ] ]
+    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ], [ "bone_heavy", 7 ] ], [ [ "leather", 6 ] ] ]
   },
   {
     "result": "rubber_armor_small_quadruped",

@@ -481,5 +481,27 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "steel_tiny", 2 ] ],
     "components": [ [ [ "log", 1 ], [ "shillelagh", 1 ], [ "bat", 1 ] ], [ [ "spike", 4 ], [ "steel_chunk", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mace_bone",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 2 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [
+        [ "fabric_standard", 1, "LIST" ],
+        [ "felt_patch", 1 ],
+        [ "duct_tape", 50 ],
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ]
+      ],
+      [ [ "bone_heavy", 10 ] ]
+    ]
   }
 ]

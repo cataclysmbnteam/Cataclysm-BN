@@ -980,5 +980,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 52 ] ],
     "components": [ [ [ "leather", 30 ] ] ]
+  },
+  {
+    "result": "armor_scute",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "1 h 40 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "scute_piece", 36 ] ], [ [ "leather", 36 ] ] ]
   }
 ]
