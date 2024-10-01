@@ -313,6 +313,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "enchantments", enchantments, strict );
     assign_map_from_array( jsobj, "learned_spells", learned_spells, strict );
     assign( jsobj, "included_bionics", included_bionics, strict );
+    assign( jsobj, "required_bionic", required_bionic, strict );
     assign( jsobj, "upgraded_bionic", upgraded_bionic, strict );
     assign( jsobj, "available_upgrades", available_upgrades, strict );
     assign( jsobj, "flags", flags, strict );
@@ -410,6 +411,14 @@ void bionic_data::check() const
             rep.warn( "upgrades undefined bionic \"%s\"", upgraded_bionic.str() );
         }
     }
+    if( required_bionic ) {
+        if(required_bionic == id ) {
+            rep.warn( "The CBM %s requires itself as a prerequisite for installation", required_bionic.str());
+        } else if( !required_bionic.is_valid() ) {
+            rep.warn("The CBM %s requires undefined bionic %s", id.str(), required_bionic.str());
+        }
+    }
+
     for( const bionic_id &it : available_upgrades ) {
         if( !it.is_valid() ) {
             rep.warn( "specifies unknown upgrade \"%s\"", it.str() );
@@ -2036,6 +2045,13 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
+    for (const bionic_id &bid : get_bionics()) {
+        if (bid->required_bionic && bid->required_bionic == b_id) {
+            popup(_("%s cannot be removed because installed bionic %s requires it."),
+                b_id->name, bid->name);
+        }
+    }
+
     if( b_id == bio_eye_optic ) {
         popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
                disp_name( true ), disp_name() );
@@ -2278,6 +2294,11 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
                          skill_level );
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
+
+    if (bioid->required_bionic && !has_bionic(bioid->required_bionic)) {
+        popup(_("CBM requires prior installation of %s."), bioid->required_bionic.obj().name );
+        return false;
+    }
 
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
