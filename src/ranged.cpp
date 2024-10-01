@@ -1225,13 +1225,12 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     // We'll be constructing a projectile
     projectile proj;
+    proj.impact = thrown.base_damage_thrown();
     proj.speed = std::log2( std::max( 1, skill_level ) )
                  + std::log2( std::max( 1, effective_strength ) );
     auto &impact = proj.impact;
     impact.add_damage( DT_BASH, static_cast<int>( who.throw_damage( thrown, skill_level,
                        effective_strength ) ) );
-
-    add_msg( m_info, "Expected throwing damage: %s", impact.total_damage() );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );

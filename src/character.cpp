@@ -6704,15 +6704,13 @@ float Character::throw_damage( const item &it, const int &skill, const int &str 
 {
     const units::mass weight = it.weight();
 
-    float ret = it.base_damage_thrown().total_damage();
+    float ret;
     const float speed = std::log2( std::max( 1, skill ) )
                         + std::log2( std::max( 1, str ) );
-
     // calculate extra damage, proportional to 1/2mv^2
     // @see https://www.desmos.com/calculator/ibo2jh9cqa
     const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( speed, 2 );
     ret += damage;
-
     return ret;
 }
 
