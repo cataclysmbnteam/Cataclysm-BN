@@ -2306,6 +2306,7 @@ void item::io( Archive &archive )
             debugmsg( "Item %s was loaded with charges, but can not have any!", type->get_id() );
         }
         charges = 0;
+        curammo = nullptr;
     }
 
     // Relic check. Kinda late, but that's how relics have to be
