@@ -2049,6 +2049,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         if( bid->required_bionic == b_id) {
             popup( _( "%s cannot be removed because installed bionic %s requires it." ),
                    b_id->name, bid->name );
+            return false;
         }
     }
 
