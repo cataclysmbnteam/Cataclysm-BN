@@ -114,7 +114,9 @@ const main = new Command()
   .description(paragraph`
       Generate a reddit changelog template from git commits.
 
-      usage: deno task changelog --since 2024-09-22 --until 2024-09-30
+      usage (at project root): deno task changelog --since 2024-09-22 --until 2024-09-30
+
+      in order to apply proper formatting, switch to Markdown Editor when pasting the output into Reddit.
     `)
   .action(async ({ since, until, output, quiet = false }) => {
     const log = quiet ? () => {} : console.log
