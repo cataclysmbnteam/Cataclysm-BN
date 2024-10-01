@@ -9923,7 +9923,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     }
 
     // If ammo_required is 0 we just skip over this and go to tick processing.
-    if( self->ammo_required() > 0 ) {
+    if( energy || self->ammo_required() > 0 ) {
         // No need to look for charges if energy is 0
         if( energy ) {
             energy -= self->ammo_consume( energy, pos );
