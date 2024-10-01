@@ -20,6 +20,7 @@
       "type": "holster",
       "holster_prompt": "Sheath axe",
       "holster_msg": "You sheath your %s",
+      "min_volume": "1 L",
       "max_volume": "3250 ml",
       "flags": [ "SHEATH_AXE" ]
     },

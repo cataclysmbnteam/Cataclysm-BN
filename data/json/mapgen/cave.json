@@ -40,14 +40,7 @@
         ";": "t_dirt",
         "<": "t_slope_down"
       },
-      "furniture": {  },
-      "items": {
-        "O": { "item": "gym", "chance": 30 },
-        "c": { "item": "gym", "chance": 10 },
-        "f": { "item": "vending_drink_items", "chance": 30, "repeat": [ 2, 4 ] },
-        "r": { "item": "snacks", "chance": 20, "repeat": [ 2, 4 ] }
-      },
-      "nested": { "U": { "chunks": [ [ "roof_6x6_garden_1", 50 ], [ "roof_6x6_garden_2", 50 ] ] } }
+      "items": { ",": [ { "item": "cave_minerals", "chance": 5 } ] }
     }
   },
   {
@@ -91,7 +84,8 @@
         ",": "t_rock_roof",
         "<": "t_slope_down"
       },
-      "furniture": {  }
+      "furniture": {  },
+      "items": { ",": [ { "item": "cave_minerals", "chance": 5 } ] }
     }
   },
   {
@@ -138,7 +132,8 @@
       },
       "furniture": {  },
       "fields": { "W": { "field": "fd_web", "intensity": 2, "age": 10 } },
-      "monsters": { "W": { "monster": "GROUP_SPIDER", "chance": 2, "density": 0.01 } }
+      "monsters": { "W": { "monster": "GROUP_SPIDER", "chance": 2, "density": 0.01 } },
+      "items": { ",": [ { "item": "cave_minerals", "chance": 5 } ] }
     }
   },
   {
@@ -184,7 +179,8 @@
         "<": "t_slope_down"
       },
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
-      "furniture": {  }
+      "furniture": {  },
+      "items": { ",": [ { "item": "cave_minerals", "chance": 5 } ] }
     }
   },
   {
@@ -230,7 +226,8 @@
         "<": "t_slope_down"
       },
       "furniture": {  },
-      "monster": { "B": { "monster": "mon_bat" } }
+      "monster": { "B": { "monster": "mon_bat" } },
+      "items": { ",": [ { "item": "cave_minerals", "chance": 5 } ] }
     }
   },
   {
@@ -278,7 +275,8 @@
       },
       "furniture": {  },
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
-      "monster": { "B": { "monster": "mon_bear" } }
+      "monster": { "B": { "monster": "mon_bear" } },
+      "items": { ",": [ { "item": "cave_minerals", "chance": 5 } ] }
     }
   },
   {
@@ -325,7 +323,8 @@
         "<": "t_slope_down"
       },
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
-      "furniture": {  }
+      "furniture": {  },
+      "items": { ",": [ { "item": "cave_minerals", "chance": 5 } ] }
     }
   },
   {
@@ -373,7 +372,8 @@
       },
       "furniture": {  },
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
-      "monster": { "B": { "monster": "mon_cougar" } }
+      "monster": { "B": { "monster": "mon_cougar" } },
+      "items": { ",": [ { "item": "cave_minerals", "chance": 5 } ] }
     }
   },
   {

@@ -41,6 +41,15 @@ Links to relevant pull requests, for content covered below:
 - New monster: [#4182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4182)
 - Furniture form of utility light:
   [#4780](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4780)
+- Knocked-down version of steel target:
+  [#5361](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5361)
+- Flagpoles: [#5363](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5363)
+- Vehicle-mounted Flags: [#5372](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5372)
+- Pirate Flag: [#5375](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5375)
+- Makeshift cannons and canister shot:
+  [#5398](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5398)
+- Harvested cattails: [#5445](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5445)
+- Niter beds: [#5446](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5446)
 
 ## Undead People
 
@@ -82,6 +91,17 @@ Ultica are planned for the future.
 - Override for sign sprite. Removes lettering on the front specific to DDA.
 - Makeshift perimeter alarm. Trap specific to BN.
 - Lepidopterid. New monster specific to BN.
+- Furniture version of utility light. Furniture specific to BN.
+- Knocked-down steel target. Furniture specific to BN.
+- Jolly Roger, item and worn sprite. Item specific to BN.
+- Makeshift cannon, item and vehiclepart sprite. Item specific to BN.
+- Explosive cannonshells and sprites for readied cannon ammo. Items specific to BN.
+- Harvested state for cattails, including winter variation. Furniture specific to BN.
+
+### External_Tileset_DP_terrain_normal.png
+
+- Rice paddies. Terrain specific to BN.
+- Niter beds. Terrain specific to BN.
 
 ### External_Tileset_DP_Tall.png
 
@@ -95,6 +115,9 @@ Ultica are planned for the future.
 - Cocoa tree. Terrain specific to BN.
 - Coca plant. Terrain specific to BN.
 - Grid floodlights, furniture based off now-deconstructabble utility lights, furniture added to BN.
+- Metal and wooden flagpoles (including with flag raised), furniture added to BN.
+- American flag displayed as a vehiclepart, specific to BN.
+- Flagpole furniture and vehiclepart for Jolly Roger, content specific to BN.
 
 ### alternative_mutation_tileset.png
 

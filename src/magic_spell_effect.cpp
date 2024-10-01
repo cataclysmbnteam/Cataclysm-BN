@@ -131,7 +131,9 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
 static void swap_pos( Creature &caster, const tripoint &target )
 {
     Creature *const critter = g->critter_at<Creature>( target );
-    critter->setpos( caster.pos() );
+    if( critter != nullptr ) {
+        critter->setpos( caster.pos() );
+    }
     caster.setpos( target );
     //update map in case a monster swapped positions with the player
     g->update_map( get_avatar() );
@@ -467,13 +469,13 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     if( guy ) {
         for( const body_part bp : all_body_parts ) {
             if( sp.bp_is_affected( bp ) ) {
-                guy->add_effect( spell_effect, dur_td, bp );
+                guy->add_effect( spell_effect, dur_td, convert_bp( bp ) );
                 bodypart_effected = true;
             }
         }
     }
     if( !bodypart_effected ) {
-        critter->add_effect( spell_effect, dur_td, num_bp );
+        critter->add_effect( spell_effect, dur_td, bodypart_str_id::NULL_ID() );
     }
 }
 

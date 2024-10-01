@@ -5,6 +5,7 @@
 #include "map_iterator.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "rng.h"
 #include "shape.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
@@ -42,7 +43,8 @@ struct aoe_flood_node {
 namespace ranged
 {
 
-void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker )
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
+                            item *source_weapon )
 {
     map &here = get_map();
     const auto sigdist_to_coverage = []( const double sigdist ) {
@@ -122,7 +124,12 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     for( const std::pair<const tripoint, double> &pr : final_coverage ) {
         Creature *critter = g->critter_at( pr.first );
         if( critter != nullptr ) {
-            ranged::hit_with_aoe( *critter, &attacker, proj.impact );
+            dealt_projectile_attack atk;
+            atk.end_point = pr.first;
+            atk.hit_critter = critter;
+            atk.proj = proj;
+            atk.missed_by = rng_float( 0.15, 0.45 );
+            critter->deal_projectile_attack( &attacker, source_weapon, atk );
         }
     }
 }

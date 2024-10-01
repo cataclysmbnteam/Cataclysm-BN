@@ -1508,7 +1508,7 @@ void Character::heat_emission( bionic &bio, int fuel_energy )
         here.emit_field( pos(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, int> &bp : bio.info().occupied_bodyparts ) {
-        add_effect( effect_heating_bionic, 2_seconds, bp.first->token, heat_prod );
+        add_effect( effect_heating_bionic, 2_seconds, bp.first, heat_prod );
     }
 }
 
@@ -2138,7 +2138,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
         activity->str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, int> &elem : b_id->occupied_bodyparts ) {
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, difficulty );
     }
 
     return true;
@@ -2410,7 +2410,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
         activity->str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, int> &elem : bioid->occupied_bodyparts ) {
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, difficulty );
     }
 
     return true;
@@ -2457,7 +2457,7 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
 {
     std::set<bodypart_id> bp_hurt;
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( has_effect( effect_under_op, bp->token ) ) {
+        if( has_effect( effect_under_op, bp.id() ) ) {
             if( bp_hurt.count( bp->main_part ) > 0 ) {
                 continue;
             }
@@ -2475,7 +2475,7 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
         int damage = rng( min_damage, max_damage );
         int hp = get_hp( bp );
         if( damage >= hp && ( bp == bodypart_str_id( "head" ) || bp == bodypart_str_id( "torso" ) ) ) {
-            add_effect( effect_infected, 1_hours, bp->token );
+            add_effect( effect_infected, 1_hours, bp.id() );
             add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
                                    body_part_name_accusative( bp ) );
             damage = hp * 0.8f;

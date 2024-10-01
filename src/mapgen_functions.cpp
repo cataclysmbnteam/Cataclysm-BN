@@ -154,6 +154,9 @@ ter_id grass_or_dirt()
 ter_id clay_or_sand()
 {
     if( one_in( 16 ) ) {
+        return t_alluvial_deposit;
+    }
+    if( one_in( 16 ) ) {
         return t_sand;
     }
     return t_clay;
@@ -1625,7 +1628,7 @@ void mapgen_river_curved_not( mapgendata &dat )
             int circle_edge = ( ( SEEX * 2 - x ) * ( SEEX * 2 - x ) ) + ( y * y );
             if( circle_edge <= 8 ) {
                 m->ter_set( point( x, y ), grass_or_dirt() );
-            } else if( circle_edge == 9 && one_in( 25 ) ) {
+            } else if( circle_edge == 9 && one_in( 20 ) ) {
                 m->ter_set( point( x, y ), clay_or_sand() );
             } else if( circle_edge <= 36 ) {
                 m->ter_set( point( x, y ), t_water_moving_sh );
@@ -1653,7 +1656,7 @@ void mapgen_river_straight( mapgendata &dat )
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
-        if( one_in( 25 ) ) {
+        if( one_in( 20 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
         line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
@@ -1679,7 +1682,7 @@ void mapgen_river_curved( mapgendata &dat )
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
-        if( one_in( 25 ) ) {
+        if( one_in( 20 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
         line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
@@ -1688,7 +1691,7 @@ void mapgen_river_curved( mapgendata &dat )
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
         line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ) );
-        if( one_in( 25 ) ) {
+        if( one_in( 20 ) ) {
             m->ter_set( point( --ground_edge, y ), clay_or_sand() );
         }
         line( m, t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
@@ -1726,7 +1729,7 @@ void mapgen_river_shore( mapgendata &dat )
                 int ground_edge = rng( 1, 3 );
                 int shallow_edge = rng( 4, 6 );
                 line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
-                if( one_in( 25 ) ) {
+                if( one_in( 20 ) ) {
                     m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
                 }
                 line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
@@ -1746,7 +1749,7 @@ void mapgen_river_shore( mapgendata &dat )
                     int circle_edge = ( ( SEEX * 2 - x ) * ( SEEX * 2 - x ) ) + ( y * y );
                     if( circle_edge <= 8 ) {
                         m->ter_set( point( x, y ), grass_or_dirt() );
-                    } else if( circle_edge == 9 && one_in( 25 ) ) {
+                    } else if( circle_edge == 9 && one_in( 20 ) ) {
                         m->ter_set( point( x, y ), clay_or_sand() );
                     } else if( circle_edge <= 36 ) {
                         m->ter_set( point( x, y ), t_water_moving_sh );

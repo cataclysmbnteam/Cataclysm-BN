@@ -631,7 +631,7 @@
       [ " H" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "turret_mount", "mounted_3in_ordnance_rifle" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "turret_mount_manual_wood", "mounted_3in_ordnance_rifle" ] },
       { "x": 0, "y": -1, "parts": [ "frame_wood_horizontal", "wheel_wood_b" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood_horizontal", "wheel_wood_b" ] },
       { "x": -1, "y": 0, "parts": [ "frame_wood_handle" ] }
@@ -647,7 +647,7 @@
       [ " H" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "turret_mount", "mounted_m1874_gatling" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "turret_mount_manual_wood", "mounted_m1874_gatling" ] },
       { "x": 0, "y": -1, "parts": [ "frame_wood_horizontal", "wheel_wood_b" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood_horizontal", "wheel_wood_b" ] },
       { "x": -1, "y": 0, "parts": [ "frame_wood_handle" ] }
@@ -693,7 +693,7 @@
       },
       { "x": 1, "y": 1, "parts": [ "frame_vertical", "reinforced_windshield_horizontal_front" ] },
       { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "seat" ] },
-      { "x": -1, "y": 1, "parts": [ "frame_vertical", "trunk", "turret_mount" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical", "trunk", "turret_mount_manual_steel" ] },
       { "x": -2, "y": 1, "parts": [ "frame_vertical", "hdhalfboard_horizontal" ] },
       { "x": -3, "y": 1, "parts": [ "mounted_spare_tire" ] },
       { "x": 3, "y": 2, "parts": [ "hdframe_horizontal" ] },
@@ -754,7 +754,7 @@
       },
       { "x": 1, "y": 1, "parts": [ "frame_vertical", "reinforced_windshield_horizontal_front" ] },
       { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "seat" ] },
-      { "x": -1, "y": 1, "parts": [ "frame_vertical", "trunk", "turret_mount", "mounted_browning" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical", "trunk", "turret_mount_manual_steel", "mounted_browning" ] },
       { "x": -2, "y": 1, "parts": [ "frame_vertical", "hdhalfboard_horizontal" ] },
       { "x": -3, "y": 1, "parts": [ "mounted_spare_tire" ] },
       { "x": 3, "y": 2, "parts": [ "hdframe_horizontal" ] },

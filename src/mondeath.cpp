@@ -285,7 +285,7 @@ void mdeath::boomer( monster &z )
     }
 
     if( rl_dist( z.pos(), g->u.pos() ) == 1 ) {
-        g->u.add_env_effect( effect_boomered, bp_eyes, 2, 24_turns );
+        g->u.add_env_effect( effect_boomered, body_part_eyes, 2, 24_turns );
     }
 
     g->m.propagate_field( z.pos(), fd_bile, 15, 1 );
@@ -303,9 +303,9 @@ void mdeath::boomer_glow( monster &z )
             target->moves -= 250;
         }
         if( Creature *const critter = g->critter_at( dest ) ) {
-            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
+            critter->add_env_effect( effect_boomered, body_part_eyes, 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = random_body_part();
+                const bodypart_str_id &bp = random_body_part();
                 critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( critter->has_effect( effect_glowing ) ) {
                     break;

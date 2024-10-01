@@ -4,7 +4,6 @@
     "id": "atgm_heat",
     "price": "700 USD",
     "price_postapoc": "50 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "name": { "str": "152mm ATGM HEAT" },
     "symbol": "=",
     "color": "dark_gray",

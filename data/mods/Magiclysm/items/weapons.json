@@ -42,6 +42,8 @@
   },
   {
     "id": "lizardfolk_javelin_gun",
+    "//": "For sound messages",
+    "weapon_category": [ "ELASTIC" ],
     "type": "GUN",
     "copy-from": "fake_item",
     "name": { "str": "barbed javelin" },

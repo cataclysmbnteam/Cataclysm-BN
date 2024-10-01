@@ -313,6 +313,7 @@
   },
   {
     "id": "m203",
+    "weapon_category": [ "GRENADE_LAUNCHERS" ],
     "type": "GUNMOD",
     "name": { "str_sp": "M203" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
@@ -348,6 +349,7 @@
   },
   {
     "id": "m320_mod",
+    "weapon_category": [ "GRENADE_LAUNCHERS" ],
     "type": "GUNMOD",
     "name": { "str_sp": "M320 GLM" },
     "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for standalone use.",
@@ -457,6 +459,7 @@
   },
   {
     "id": "pipe_launcher40mm",
+    "weapon_category": [ "GRENADE_LAUNCHERS" ],
     "type": "GUNMOD",
     "name": { "str": "40mm pipe launcher" },
     "description": "This is a home built launcher tube that can be attached to almost any weapon except handguns.  It allows a single 40mm grenade to be loaded and fired.",

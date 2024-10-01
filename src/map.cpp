@@ -3794,7 +3794,7 @@ void map::crush( const tripoint &p )
                                          dam * .05 ) );
 
             // Pin whoever got hit
-            crushed_player->add_effect( effect_crushed, 1_turns, num_bp );
+            crushed_player->add_effect( effect_crushed, 1_turns, bodypart_str_id::NULL_ID() );
             crushed_player->check_dead_state();
         }
     }
@@ -3804,7 +3804,7 @@ void map::crush( const tripoint &p )
         monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( DT_BASH, rng( 0, 25 ) ) );
 
         // Pin whoever got hit
-        monhit->add_effect( effect_crushed, 1_turns, num_bp );
+        monhit->add_effect( effect_crushed, 1_turns, bodypart_str_id::NULL_ID() );
         monhit->check_dead_state();
     }
 
@@ -5109,9 +5109,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
             } );
             if( iter != stack.end() ) {
 
-                ( *iter )->attempt_detach( [&filter, &type, &quantity, &ret, &p]( detached_ptr<item> &&it ) {
+                ( *iter )->attempt_detach( [&filter, &ammo, &quantity, &ret, &p]( detached_ptr<item> &&it ) {
                     if( filter( *it ) ) {
-                        return item::use_charges( std::move( it ), type, quantity, ret, p );
+                        return item::use_charges( std::move( it ), ammo, quantity, ret, p );
                     }
                     return std::move( it );
                 } );
@@ -7499,14 +7499,20 @@ void map::grow_plant( const tripoint &p )
 void map::restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     const auto &ter = this->ter( p ).obj();
-    if( !ter.has_flag( TFLAG_HARVESTED ) ) {
+    const auto &furn = this->furn( p ).obj();
+    if( !ter.has_flag( TFLAG_HARVESTED ) && !furn.has_flag( TFLAG_HARVESTED ) ) {
         return; // Already harvestable. Do nothing.
     }
     // Make it harvestable again if the last actualization was during a different season or year.
     const time_point last_touched = calendar::turn - time_since_last_actualize;
     if( season_of_year( calendar::turn ) != season_of_year( last_touched ) ||
         time_since_last_actualize >= calendar::season_length() ) {
-        ter_set( p, ter.transforms_into );
+        if( ter.has_flag( TFLAG_HARVESTED ) ) {
+            ter_set( p, ter.transforms_into );
+        }
+        if( furn.has_flag( TFLAG_HARVESTED ) ) {
+            furn_set( p, furn.transforms_into );
+        }
     }
 }
 

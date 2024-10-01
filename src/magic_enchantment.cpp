@@ -454,7 +454,7 @@ void enchantment::activate_passive( Character &guy ) const
         get_map().emit_field( guy.pos(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
-        guy.add_effect( eff.first, 1_seconds, num_bp, eff.second );
+        guy.add_effect( eff.first, 1_seconds, bodypart_str_id::NULL_ID(), eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {

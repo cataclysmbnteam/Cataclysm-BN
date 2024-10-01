@@ -93,6 +93,7 @@
 #include "ret_val.h"
 #include "rot.h"
 #include "rng.h"
+#include "scores_ui.h"
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -1490,10 +1491,16 @@ static const double hits_by_accuracy[41] = {
 
 double item::effective_dps( const player &guy, const monster &mon ) const
 {
+    return effective_dps( guy, mon, melee::default_attack( *this ) );
+}
+
+double item::effective_dps( const player &guy, const monster &mon,
+                            const attack_statblock &attack ) const
+{
     const float mon_dodge = mon.get_dodge();
     // TODO: Handle multiple attacks
-    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this, melee::default_attack( *this ) );
-    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bp_torso ) / 100.0f );
+    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this, attack );
+    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( body_part_torso ) / 100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
     constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
@@ -1509,8 +1516,8 @@ double item::effective_dps( const player &guy, const monster &mon ) const
     const int rng_high_mean = std::max( std::min( static_cast<int>( base_hit - 1.5 * mon_dodge ),
                                         20 ), -20 ) + 20;
     double num_high_hits = hits_by_accuracy[ rng_high_mean ] * num_all_hits / hit_trials;
-    double double_crit_chance = guy.crit_chance( 4, 0, *this );
-    double crit_chance = guy.crit_chance( 0, 0, *this );
+    double double_crit_chance = guy.crit_chance( 4, 0, *this, attack );
+    double crit_chance = guy.crit_chance( 0, 0, *this, attack );
     double num_low_hits = std::max( 0.0, num_all_hits - num_high_hits );
 
     double moves_per_attack = guy.attack_cost( *this );
@@ -1595,7 +1602,7 @@ static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monster
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
-        const player &guy ) const
+        const player &guy, const attack_statblock &attack ) const
 {
     std::map<std::string, double> results;
     for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
@@ -1604,19 +1611,20 @@ std::map<std::string, double> item::dps( const bool for_display, const bool for_
             continue;
         }
         monster test_mon = monster( comp_mon.second.mon_id );
-        results[ comp_mon.first.translated() ] = effective_dps( guy, test_mon );
+        results[ comp_mon.first.translated() ] = effective_dps( guy, test_mon, attack );
     }
     return results;
 }
 
-std::map<std::string, double> item::dps( const bool for_display, const bool for_calc ) const
+std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
+        const attack_statblock &attack ) const
 {
-    return dps( for_display, for_calc, get_avatar() );
+    return dps( for_display, for_calc, get_avatar(), attack );
 }
 
-double item::average_dps( const player &guy ) const
+double item::average_dps( const player &guy, const attack_statblock &attack ) const
 {
-    const auto &dps_data = dps( false, true, guy );
+    const auto &dps_data = dps( false, true, guy, attack );
     const double sum = std::transform_reduce( dps_data.begin(), dps_data.end(),
                        0.0, std::plus{},
                        []( const auto & entry ) -> double { return entry.second; } );
@@ -3467,47 +3475,104 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 {
     const std::string space = "  ";
 
-    int dmg_bash = damage_melee( DT_BASH );
-    int dmg_cut  = damage_melee( DT_CUT );
-    int dmg_stab = damage_melee( DT_STAB );
-    if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
-        insert_separation_line( info );
-        std::string sep;
-        if( dmg_bash || dmg_cut || dmg_stab ) {
-            info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
-        }
-        if( dmg_bash ) {
-            info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
-            sep = space;
-        }
-        if( dmg_cut ) {
-            info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
-            sep = space;
-        }
-        if( dmg_stab ) {
-            info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
-        }
-    }
+    bool print_attacks = false;
 
-    if( dmg_bash || dmg_cut || dmg_stab ) {
-        if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
-            info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
-                               iteminfo::show_plus, type->m_to_hit );
+    // Old behavior - default to it for now
+    if( type->attacks.size() == 1 ) {
+        const auto &attack = melee::default_attack( *this );
+        int dmg_bash = damage_melee( DT_BASH );
+        int dmg_cut  = damage_melee( DT_CUT );
+        int dmg_stab = damage_melee( DT_STAB );
+        if( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) {
+            print_attacks = true;
         }
 
-        if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
-            info.emplace_back( "BASE", _( "Moves per attack: " ), "",
-                               iteminfo::lower_is_better, attack_cost() );
-            info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
-            const std::map<std::string, double> &dps_data = dps( true, false );
+        if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
+            insert_separation_line( info );
             std::string sep;
-            for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
-                info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
-                                   iteminfo::no_newline | iteminfo::is_decimal,
-                                   dps_entry.second );
+            if( dmg_bash || dmg_cut || dmg_stab ) {
+                info.emplace_back( "BASE", _( "<bold>Melee damage</bold>: " ), "", iteminfo::no_newline );
+            }
+            if( dmg_bash ) {
+                info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
                 sep = space;
             }
-            info.emplace_back( "BASE", "" );
+            if( dmg_cut ) {
+                info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
+                sep = space;
+            }
+            if( dmg_stab ) {
+                info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
+            }
+        }
+
+        if( dmg_bash || dmg_cut || dmg_stab ) {
+            if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
+                info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
+                                   iteminfo::show_plus, type->m_to_hit );
+            }
+
+            if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
+                info.emplace_back( "BASE", _( "Moves per attack: " ), "",
+                                   iteminfo::lower_is_better, attack_cost() );
+                info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
+                const std::map<std::string, double> &dps_data = dps( true, false, attack );
+                std::string sep;
+                for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
+                    info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
+                                       iteminfo::no_newline | iteminfo::is_decimal,
+                                       dps_entry.second );
+                    sep = space;
+                }
+                info.emplace_back( "BASE", "" );
+            }
+        }
+    } else {
+        print_attacks = true;
+
+        for( const auto &attack_pr : type->attacks ) {
+            const auto &attack = attack_pr.second;
+
+            int dmg_bash = damage_melee( attack, DT_BASH );
+            int dmg_cut  = damage_melee( attack, DT_CUT );
+            int dmg_stab = damage_melee( attack, DT_STAB );
+            // @todo Other types
+
+            if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
+                insert_separation_line( info );
+                std::string sep;
+                if( dmg_bash ) {
+                    info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
+                    sep = space;
+                }
+                if( dmg_cut ) {
+                    info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
+                    sep = space;
+                }
+                if( dmg_stab ) {
+                    info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
+                }
+            }
+
+            if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
+                info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
+                                   iteminfo::show_plus, attack.to_hit );
+            }
+
+            if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
+                info.emplace_back( "BASE", _( "Moves per attack: " ), "",
+                                   iteminfo::lower_is_better, attack_cost() );
+                info.emplace_back( "BASE", _( "Typical damage per second:" ), "" );
+                const std::map<std::string, double> &dps_data = dps( true, false, attack );
+                std::string sep;
+                for( const std::pair<const std::string, double> &dps_entry : dps_data ) {
+                    info.emplace_back( "BASE", sep + dps_entry.first + ": ", "",
+                                       iteminfo::no_newline | iteminfo::is_decimal,
+                                       dps_entry.second );
+                    sep = space;
+                }
+                info.emplace_back( "BASE", "" );
+            }
         }
     }
 
@@ -3552,7 +3617,8 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    if( ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) || debug_mode ) {
+    if( print_attacks || debug_mode ) {
+        // @todo Handle multiple attacks
         const attack_statblock &default_attack = melee::default_attack( *this );
         damage_instance non_crit;
         melee::roll_all_damage( you, false, non_crit, true, *this, default_attack );
@@ -3565,11 +3631,12 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         // Chance of critical hit
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CRIT ) ) {
+            const auto &attack = melee::default_attack( *this );
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "Critical hit chance <neutral>%d%% - %d%%</neutral>" ),
-                                              static_cast<int>( you.crit_chance( 0, 100, *this ) *
+                                              static_cast<int>( you.crit_chance( 0, 100, *this, attack ) *
                                                       100 ),
-                                              static_cast<int>( you.crit_chance( 100, 0, *this ) *
+                                              static_cast<int>( you.crit_chance( 100, 0, *this, attack ) *
                                                       100 ) ) );
         }
         // Bash damage
@@ -3606,6 +3673,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         insert_separation_line( info );
     }
+
 }
 
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -5508,7 +5576,8 @@ int item::reach_range( const Character &guy ) const
 
 bool item::can_shatter() const
 {
-    return made_of( material_id( "glass" ) ) || has_flag( flag_SHATTERS );
+    static const std::set<material_id> is_glass{ material_id( "glass" ) };
+    return only_made_of( is_glass ) || has_flag( flag_SHATTERS );
 }
 
 void item::unset_flags()
@@ -9852,73 +9921,86 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         // energy_bat remainder results in chance at additional charge/discharge
         energy += x_in_y( self->type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
-    energy -= self->ammo_consume( energy, pos );
 
-    // for power armor pieces, try to use power armor interface first.
-    if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
-        if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
-            energy = 0;
-        }
-    }
+    // If ammo_required is 0 we just skip over this and go to tick processing.
+    if( self->ammo_required() > 0 ) {
+        // No need to look for charges if energy is 0
+        if( energy ) {
+            energy -= self->ammo_consume( energy, pos );
 
-    // for items in player possession if insufficient charges within tool try UPS
-    if( carrier && ( self->has_flag( flag_USE_UPS ) ) ) {
-        if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
-            energy = 0;
-        }
-    }
-
-    // if insufficient available charges shutdown the tool
-    if( energy > 0 ) {
-        if( carrier ) {
-            if( self->is_power_armor() ) {
-                if( self->has_flag( flag_USE_UPS ) ) {
-                    carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
-                                                self->tname() );
-                } else {
-                    carrier->add_msg_if_player( m_info, _( "You need a Bionic Power Interface to run the %s!" ),
-                                                self->tname() );
+            // for power armor pieces, try to use power armor interface first.
+            if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
+                if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
+                    energy = 0;
                 }
-            } else if( self->has_flag( flag_USE_UPS ) ) {
-                carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), self->tname() );
             }
-        }
-        if( carrier && self->type->can_use( "set_transform" ) ) {
-            const set_transform_iuse *actor = dynamic_cast<const set_transform_iuse *>
-                                              ( self->get_use( "set_transform" )->get_actor_ptr() );
-            if( actor == nullptr ) {
-                debugmsg( "iuse_actor type descriptor and actual type mismatch." );
-                return std::move( self );
-            }
-            flag_id transformed_flag( actor->flag );
-            for( auto &elem : carrier->worn ) {
-                if( elem->is_active() && elem->has_flag( transformed_flag ) ) {
-                    if( !elem->type->can_use( "set_transformed" ) ) {
-                        debugmsg( "Expected set_transformed function" );
-                        return std::move( self );
-                    }
-                    const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                                        ( elem->get_use( "set_transformed" )->get_actor_ptr() );
-                    if( actor == nullptr ) {
-                        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-                        return std::move( self );
-                    }
-                    actor->bypass( *carrier, *elem, false, pos );
+
+            // for items in player possession if insufficient charges within tool try UPS
+            if( carrier && uses_UPS ) {
+                if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
+                    energy = 0;
                 }
             }
         }
 
-        // If no revert is defined, invoke the item (for use in grenades)
+        // HACK: this means that UPS items will last one more check longer than they should since they don't trigger when
+        // their ammo_remaining is 0, since that doesn't check the UPS "stock" available (which is an expensive check)
+        // It's done like this cause grenades must be destroyed when charge reaches 0, or it will linger an extra turn.
+        if( ( self->ammo_remaining() == 0 && !uses_UPS ) || energy > 0 ) {
+            revert_destroy = true;
+            if( carrier ) {
+                if( self->is_power_armor() ) {
+                    if( uses_UPS ) {
+                        carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
+                                                    self->tname() );
+                    } else {
+
+                    }
+                } else if( uses_UPS ) {
+                    carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), self->tname() );
+                }
+            }
+            if( carrier && self->type->can_use( "set_transform" ) ) {
+                const set_transform_iuse *actor = dynamic_cast<const set_transform_iuse *>
+                                                  ( self->get_use( "set_transform" )->get_actor_ptr() );
+                if( actor == nullptr ) {
+                    debugmsg( "iuse_actor type descriptor and actual type mismatch." );
+                    return std::move( self );
+                }
+                flag_id transformed_flag( actor->flag );
+                for( auto &elem : carrier->worn ) {
+                    if( elem->is_active() && elem->has_flag( transformed_flag ) ) {
+                        if( !elem->type->can_use( "set_transformed" ) ) {
+                            debugmsg( "Expected set_transformed function" );
+                            return std::move( self );
+                        }
+                        const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
+                                                            ( elem->get_use( "set_transformed" )->get_actor_ptr() );
+                        if( actor == nullptr ) {
+                            debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+                            return std::move( self );
+                        }
+                        actor->bypass( *carrier, *elem, false, pos );
+                    }
+                }
+            }
+        }
+    }
+
+    // Process tick even if it's to be destroyed/reverted later, more for grenades
+    // It technically gives an extra turn of action, but before the rework items functioned at 0 charges for a bit anyway.
+    self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
+
+    if( revert_destroy ) {
+        // If no revert is defined, destroy it (candles and the like).
         if( self->is_active() && self->revert( carrier ) ) {
             self->deactivate();
             return std::move( self );
         } else {
-            self->type->invoke( carrier != nullptr ? *carrier : you, *self, pos );
             return detached_ptr<item>();
         }
     }
 
-    self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
     return std::move( self );
 }
 
@@ -10641,4 +10723,44 @@ const location_vector<item> &item::get_components() const
 location_vector<item> &item::get_components()
 {
     return components;
+}
+
+bool item::init_kill_tracker()
+{
+    if( kills ) {
+        return true;
+    } else if( get_option<bool>( "ENABLE_EVENTS" ) ) {
+        kills = std::make_unique<kill_tracker>( false );
+        return true;
+    } else {
+        return false;
+    }
+}
+void item::add_monster_kill( mtype_id mon )
+{
+    if( init_kill_tracker() ) {
+        kills->add_monster( mon );
+    }
+}
+void item::add_npc_kill( std::string npc )
+{
+    if( init_kill_tracker() ) {
+        kills->add_npc( npc );
+    }
+}
+void item::show_kill_list()
+{
+    if( !kills ) {
+        debugmsg( "Tried to display empty kill list" );
+        return;
+    }
+    show_kills( *kills );
+}
+int item::kill_count()
+{
+    if( !kills ) {
+        return 0;
+    } else {
+        return kills->monster_kill_count() + kills->npc_kill_count();
+    }
 }

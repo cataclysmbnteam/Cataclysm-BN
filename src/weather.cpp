@@ -102,7 +102,7 @@ void glare( const weather_type_id &w )
         if( g->u.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        g->u.add_env_effect( *effect, bp_eyes, 2, dur );
+        g->u.add_env_effect( *effect, body_part_eyes, 2, dur );
     }
 }
 

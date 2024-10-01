@@ -189,13 +189,13 @@
     "type": "weapon_category",
     "id": "M_XBOWS",
     "name": "Crossbows",
-    "//": "Elastic launching device mounted on a frame to be triggered."
+    "//": "Elastic launching device mounted on a frame to be triggered.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "S_XBOWS",
     "name": "Hand Crossbows",
-    "//": "One-handed crossbows."
+    "//": "One-handed crossbows.  Changes firing sound."
   },
   {
     "type": "weapon_category",
@@ -255,31 +255,31 @@
     "type": "weapon_category",
     "id": "GRENADE_LAUNCHERS",
     "name": "Grenade Launchers",
-    "//": "Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc)"
+    "//": "Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc).  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "ROCKET_LAUNCHERS",
     "name": "Rocket Launchers",
-    "//": "Firearm that propels unguided, rocket-propelled projectile."
+    "//": "Firearm that propels unguided, rocket-propelled projectile.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "FLAMETHROWERS",
     "name": "Flamethrowers",
-    "//": "Ranged incendiary device designed to propel a controllable jet of fire."
+    "//": "Ranged incendiary device designed to propel a controllable jet of fire.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "WATER_CANNONS",
     "name": "Water Cannons",
-    "//": "It fires water at your enemies."
+    "//": "It fires water at your enemies.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "SPRAY_GUNS",
     "name": "Spray Guns",
-    "//": "It spews chemicals at your enemies."
+    "//": "It spews chemicals at your enemies.  Changes firing sound."
   },
   {
     "type": "weapon_category",
@@ -303,24 +303,24 @@
     "type": "weapon_category",
     "id": "ENERGY_WEAPONS",
     "name": "Energy Weapons",
-    "//": "Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc). Both Ranged/Melee."
+    "//": "Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc).  Both Ranged/Melee.  Changes firing sound (for guns)."
   },
   {
     "type": "weapon_category",
     "id": "MAGNETIC",
     "name": "Magnetic Weapons",
-    "//": "Weapon that propels payload via electromagnetism."
+    "//": "Weapon that propels payload via electromagnetism.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "PNEUMATIC",
     "name": "Pneumatic Weapons",
-    "//": "Ranged weapon that propels payload via compressed air."
+    "//": "Ranged weapon that propels payload via compressed air.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "ELASTIC",
     "name": "Elastic",
-    "//": "Ranged weapon that propels payload via elastic band."
+    "//": "Ranged weapon that propels payload via elastic band.  Changes firing sound."
   }
 ]

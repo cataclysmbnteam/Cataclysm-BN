@@ -578,7 +578,8 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     return hit_spread;
 }
 
-void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+void Creature::deal_melee_hit( Creature *source, item *source_weapon, int hit_spread,
+                               bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
@@ -592,19 +593,25 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+                mons->mounted_player->deal_melee_hit( source, source_weapon, hit_spread, critical_hit, dam,
+                                                      dealt_dam );
                 return;
             }
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-    bodypart_id bp_hit = convert_bp( select_body_part( source, hit_spread ) ).id();
+    bodypart_id bp_hit = select_body_part( source, hit_spread ).id();
     const body_part bp_token = bp_hit->token;
     block_hit( source, bp_hit, d );
 
     on_hit( source, bp_hit ); // trigger on-gethit events
-    dealt_dam = deal_damage( source, bp_hit, d );
+    dealt_dam = deal_damage( source, bp_hit, d, source_weapon );
     dealt_dam.bp_hit = bp_token;
+}
+void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
+                               const damage_instance &dam, dealt_damage_instance &dealt_dam )
+{
+    deal_melee_hit( source, nullptr, hit_spread, critical_hit, dam, dealt_dam );
 }
 
 namespace ranged
@@ -677,53 +684,6 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
     }
 }
 
-dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
-{
-    auto &all_body_parts = target.get_body();
-    float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
-    []( float acc, const std::pair<const bodypart_str_id, bodypart> &pr ) {
-        return acc + pr.first->hit_size;
-    } );
-    dealt_damage_instance dealt_damage;
-    // This should be set to only body part that was damaged, or null, if not exactly one was damaged
-    bodypart_str_id bp_hit = bodypart_str_id::NULL_ID();
-    bool hit_multiple_bps = false;
-    for( std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
-        bool hit_this_bp = false;
-        damage_instance impact = di;
-        impact.mult_damage( pr.first->hit_size / hit_size_sum );
-        dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );
-        for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
-            dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
-            hit_this_bp |= bp_damage.dealt_dams[i] > 0;
-        }
-
-        if( !hit_multiple_bps && hit_this_bp ) {
-            if( !bp_hit ) {
-                bp_hit = pr.first;
-            } else {
-                bp_hit = bodypart_str_id::NULL_ID();
-                hit_multiple_bps = true;
-            }
-        }
-    }
-
-    dealt_damage.bp_hit = bp_hit->token;
-    if( get_player_character().sees( target ) ) {
-        ranged::print_dmg_msg( target, source, dealt_damage );
-    }
-
-    if( target.has_effect( effect_ridden ) ) {
-        monster *mons = dynamic_cast<monster *>( &target );
-        if( mons && mons->mounted_player && !mons->has_flag( MF_MECH_DEFENSIVE ) ) {
-            // TODO: Return value
-            hit_with_aoe( *mons->mounted_player, source, di );
-        }
-    }
-
-    return dealt_damage;
-}
-
 } // namespace ranged
 
 namespace
@@ -755,10 +715,12 @@ auto get_stun_srength( const projectile &proj, creature_size size ) -> int
  * Attempts to harm a creature with a projectile.
  *
  * @param source Pointer to the creature who shot the projectile.
+ * @param source_weapon Pointer to the weapon used to fire the projectile.
  * @param attack A structure describing the attack and its results.
  * @param print_messages enables message printing by default.
  */
-void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
+                                       dealt_projectile_attack &attack )
 {
     const bool magic = attack.proj.has_effect( ammo_effect_magic );
     const bool targetted_crit_allowed = !attack.proj.has_effect( ammo_effect_NO_CRIT );
@@ -773,7 +735,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
-                mons->mounted_player->deal_projectile_attack( source, attack );
+                mons->mounted_player->deal_projectile_attack( source, source_weapon, attack );
                 return;
             }
         }
@@ -891,7 +853,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // If we have a shield, it might passively block ranged impacts
     block_ranged_hit( source, bp_hit, impact );
-    dealt_dam = deal_damage( source, bp_hit, impact );
+    // If the projectile survives, both it and the launcher get credit for the kill.
+    dealt_dam = deal_damage( source, bp_hit, impact, source_weapon, attack.proj.get_drop() );
     dealt_dam.bp_hit = bp_hit->token;
 
     // Apply ammo effects to target.
@@ -918,15 +881,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     if( proj.has_effect( ammo_effect_INCENDIARY ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit.id() );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
-            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit.id() );
         }
     } else if( proj.has_effect( ammo_effect_IGNITE ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, 6_turns, bp_hit->token );
+            add_effect( effect_onfire, 6_turns, bp_hit.id() );
         } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, 10_turns, bp_hit->token );
+            add_effect( effect_onfire, 10_turns, bp_hit.id() );
         }
     }
 
@@ -938,7 +901,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                                && proj.has_effect( ammo_effect_BLINDS_EYES ) ? total_damage - env_resist : 0;
     if( blind_strength > 0 ) {
         // TODO: Change this to require bp_eyes
-        add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
+        add_env_effect( effect_blind, body_part_eyes, 5, rng( 3_turns, 10_turns ) );
     }
 
     const int sap_strength = proj.has_effect( ammo_effect_APPLY_SAP ) ? total_damage - env_resist : 0;
@@ -973,8 +936,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     attack.missed_by = goodhit;
 }
 
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
+{
+    deal_projectile_attack( source, nullptr, attack );
+}
+
 dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
-        const damage_instance &dam )
+        const damage_instance &dam, item *source_weapon, item *source_projectile )
 {
     if( is_dead_state() ) {
         return dealt_damage_instance();
@@ -998,8 +966,18 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     mod_pain( total_pain );
 
-    apply_damage( source, bp, total_damage );
+    apply_damage( source, source_weapon, source_projectile, bp, total_damage );
     return dealt_dams;
+}
+dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam, item *source_weapon )
+{
+    return deal_damage( source, bp, dam, source_weapon, nullptr );
+}
+dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
+        const damage_instance &dam )
+{
+    return deal_damage( source, bp, dam, nullptr, nullptr );
 }
 void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                         int &pain )
@@ -1030,7 +1008,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp->token );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp.id() );
             }
             break;
 
@@ -1089,11 +1067,9 @@ void Creature::add_effect( const effect &eff, bool force, bool deferred )
                 force, deferred );
 }
 
-
-void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
-                           int intensity, bool force, bool deferred )
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur )
 {
-    add_effect( eff_id, dur, convert_bp( bp ), intensity, force, deferred );
+    add_effect( eff_id, dur, bodypart_str_id::NULL_ID() );
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
@@ -1215,14 +1191,21 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur,
         }
     }
 }
-bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                               const time_duration &dur, body_part bp, int intensity, bool force )
+
+bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_str_id &vector,
+                               int strength, const time_duration &dur )
+{
+    return add_env_effect( eff_id, vector, strength, dur, bodypart_str_id::NULL_ID() );
+}
+
+bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_str_id &vector,
+                               int strength, const time_duration &dur, const bodypart_str_id &bp, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
     }
 
-    if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
+    if( dice( strength, 3 ) > dice( get_env_resist( vector.id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
         add_effect( eff_id, dur, bp, intensity, true );
@@ -1239,9 +1222,9 @@ void Creature::clear_effects()
         }
     }
 }
-bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
+bool Creature::remove_effect( const efftype_id &eff_id )
 {
-    return remove_effect( eff_id, convert_bp( bp ) );
+    return remove_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
 {
@@ -1271,7 +1254,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
             }
         }
     } else {
-        effect &e = get_effect( eff_id, bp->token );
+        effect &e = get_effect( eff_id, bp );
         on_effect_int_change( e.get_id(), 0, e.get_bp() );
         e.set_removed();
     }
@@ -1282,9 +1265,9 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
     }
     return true;
 }
-bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
+bool Creature::has_effect( const efftype_id &eff_id ) const
 {
-    return has_effect( eff_id, convert_bp( bp ) );
+    return has_effect( eff_id, bodypart_str_id::NULL_ID() );
 }
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
@@ -1304,12 +1287,16 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
     }
 }
 
-bool Creature::has_effect_with_flag( const flag_id &flag, body_part bp ) const
+bool Creature::has_effect_with_flag( const flag_id &flag ) const
 {
-    const auto &tmp = convert_bp( bp ).id();
+    return has_effect_with_flag( flag, bodypart_str_id::NULL_ID() );
+}
+
+bool Creature::has_effect_with_flag( const flag_id &flag, const bodypart_str_id &bp ) const
+{
     for( const auto &elem : *effects ) {
         for( const auto &_it : elem.second ) {
-            if( tmp == _it.first && !_it.second.is_removed() && _it.second.has_flag( flag ) ) {
+            if( bp == _it.first && !_it.second.is_removed() && _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
@@ -1317,16 +1304,25 @@ bool Creature::has_effect_with_flag( const flag_id &flag, body_part bp ) const
     return false;
 }
 
-effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
+effect &Creature::get_effect( const efftype_id &eff_id )
+{
+    return get_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+const effect &Creature::get_effect( const efftype_id &eff_id ) const
+{
+    return get_effect( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
 }
-
-const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
+const effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     auto got_outer = effects->find( eff_id );
     if( got_outer != effects->end() ) {
-        auto got_inner = got_outer->second.find( convert_bp( bp ) );
+        auto got_inner = got_outer->second.find( bp );
         if( got_inner != got_outer->second.end() && !got_inner->second.is_removed() ) {
             return got_inner->second;
         }
@@ -1358,7 +1354,13 @@ std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id 
     }
     return ret;
 }
-time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
+
+time_duration Creature::get_effect_dur( const efftype_id &eff_id ) const
+{
+    return get_effect_dur( eff_id, bodypart_str_id::NULL_ID() );
+}
+
+time_duration Creature::get_effect_dur( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -1367,7 +1369,12 @@ time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp )
 
     return 0_turns;
 }
-int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
+int Creature::get_effect_int( const efftype_id &eff_id ) const
+{
+    return get_effect_int( eff_id,  bodypart_str_id::NULL_ID() );
+}
+
+int Creature::get_effect_int( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -2009,7 +2016,7 @@ bool Creature::is_symbol_highlighted() const
     return false;
 }
 
-body_part Creature::select_body_part( Creature *source, int hit_roll ) const
+const bodypart_str_id &Creature::select_body_part( Creature *source, int hit_roll ) const
 {
     int szdif = source->get_size() - get_size();
 
@@ -2018,7 +2025,7 @@ body_part Creature::select_body_part( Creature *source, int hit_roll ) const
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );
 
-    return human_anatomy->select_body_part( szdif, hit_roll )->token;
+    return human_anatomy->select_body_part( szdif, hit_roll ).id();
 }
 
 void Creature::check_dead_state()

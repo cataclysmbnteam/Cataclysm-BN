@@ -1,7 +1,7 @@
 [
   {
     "id": "m3_carlgustav",
-    "copy-from": "launcher_base",
+    "copy-from": "rocket_base",
     "type": "GUN",
     "color": "green",
     "name": { "str": "M3 recoilless rifle" },

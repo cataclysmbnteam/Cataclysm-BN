@@ -752,7 +752,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         }
     };
 
-    const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
+    const bodypart_id bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ).id();
     const int hp_cur = u.get_part_hp_cur( bp );
     const int hp_max = u.get_part_hp_max( bp );
 

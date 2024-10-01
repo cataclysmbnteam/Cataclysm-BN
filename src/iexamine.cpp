@@ -1113,9 +1113,10 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bp_torso ) ) >= 10 ) && ( ( p.encumb( bp_head ) ) >= 10 ) &&
-        ( p.encumb( bp_foot_l ) >= 10 ||
-          p.encumb( bp_foot_r ) >= 10 ) ) { // Most likely places for rigid gear that would catch on the bars.
+    if( ( ( p.encumb( body_part_torso ) ) >= 10 ) && ( ( p.encumb( body_part_head ) ) >= 10 ) &&
+        ( p.encumb( body_part_foot_l ) >= 10 ||
+          p.encumb( body_part_foot_r ) >=
+          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg( m_info,
                  _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
                  here.tername( examp ) );
@@ -1980,7 +1981,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
     const auto hid = here.get_harvest( examp );
     if( hid.is_null() || hid->empty() ) {
         if( !auto_forage ) {
-            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season." ) );
+            p.add_msg_if_player( m_info, _( "Nothing can be harvested from this currently." ) );
         }
         if( p.manual_examine ) {
             iexamine::none( p, examp );
@@ -2032,7 +2033,8 @@ void iexamine::harvest_furn_nectar( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
     if( harvest_common( p, examp, true, true, auto_forage ) ) {
-        get_map().furn_set( examp, f_null );
+        map &here = get_map();
+        get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
     }
 }
 
@@ -2041,7 +2043,8 @@ void iexamine::harvest_furn( player &p, const tripoint &examp )
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
                        get_option<std::string>( "AUTO_FORAGING" ) == "both";
     if( harvest_common( p, examp, true, false, auto_forage ) ) {
-        get_map().furn_set( examp, f_null );
+        map &here = get_map();
+        get_map().furn_set( examp, here.get_furn_transforms_into( examp ) );
     }
 }
 
@@ -2073,7 +2076,7 @@ void iexamine::harvest_ter( player &p, const tripoint &examp )
  */
 void iexamine::harvested_plant( player &p, const tripoint &examp )
 {
-    p.add_msg_if_player( m_info, _( "Nothing can be harvested from this plant in current season" ) );
+    p.add_msg_if_player( m_info, _( "Nothing can be harvested from this currently." ) );
     iexamine::none( p, examp );
 }
 
@@ -5154,7 +5157,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+                const bodypart_id &part = player::hp_to_bp( static_cast<hp_part>( i ) ).id();
                 const bool broken = patient.is_limb_broken( part );
                 if( !broken ) {
                     continue;
@@ -5227,17 +5230,17 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &bp_healed = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
-                if( patient.has_effect( effect_bleed, bp_healed.id() ) ) {
-                    patient.remove_effect( effect_bleed, bp_healed->token );
+                const bodypart_str_id &bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+                if( patient.has_effect( effect_bleed, bp_healed ) ) {
+                    patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
                                                    _( "The autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
                                                    body_part_name( bp_healed ) );
                 }
 
-                if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
-                    patient.remove_effect( effect_bite, bp_healed->token );
+                if( patient.has_effect( effect_bite, bp_healed ) ) {
+                    patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
                                                    _( "The autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
@@ -5245,10 +5248,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                     // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
                     const int disinfectant_intensity = 14;
-                    patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
-                    effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
+                    patient.add_effect( effect_disinfected, 1_turns, bp_healed );
+                    effect &e = patient.get_effect( effect_disinfected, bp_healed );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-                    hp_part target_part = player::bp_to_hp( bp_healed->token );
+                    hp_part target_part = player::bp_to_hp( bp_healed );
                     patient.damage_disinfected[target_part] =
                         patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed );
 

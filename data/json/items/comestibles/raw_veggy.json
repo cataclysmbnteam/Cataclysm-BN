@@ -732,7 +732,7 @@
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "flags": [ "RAW", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "RAW" ],
     "charges": 20,
     "fun": -6
   },
@@ -757,7 +757,7 @@
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "flags": [ "UNSAFE_CONSUME", "RAW", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": [ "UNSAFE_CONSUME", "RAW" ],
     "charges": 20,
     "fun": 6
   },

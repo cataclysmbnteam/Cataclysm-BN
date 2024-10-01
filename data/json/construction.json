@@ -125,6 +125,26 @@
   },
   {
     "type": "construction",
+    "id": "constr_niter_bed",
+    "group": "build_niter_bed",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 4 ], [ "cooking", 4 ] ],
+    "time": "10 m",
+    "components": [
+      [ [ "material_soil", 20 ] ],
+      [ [ "straw_pile", 20 ], [ "withered", 20 ], [ "pine_bough", 20 ] ],
+      [ [ "material_soil", 20 ] ],
+      [ [ "material_sand", 200 ], [ "pebble", 40 ] ],
+      [ [ "water", 20 ], [ "water_clean", 20 ] ],
+      [ [ "fertilizer_liquid", 20 ], [ "fertilizer_commercial", 4 ] ]
+    ],
+    "pre_note": "Will be harvestable after one season.",
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_niter_bed_fresh",
+    "dark_craftable": true
+  },
+  {
+    "type": "construction",
     "id": "constr_improvised_shelter",
     "group": "build_improvised_shelter",
     "category": "CONSTRUCT",
@@ -189,19 +209,20 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 24 ] ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail_glue", 24, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_door_frame"
   },
   {
     "type": "construction",
-    "id": "constr_door_frame_glue",
+    "id": "constr_door_frame_from_window",
     "group": "build_door_frame",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "90 m",
-    "components": [ [ [ "2x4", 12 ] ], [ [ "superglue", 3 ], [ "bone_glue", 3 ] ] ],
-    "pre_special": "check_empty",
+    "time": "45 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "nail_glue", 12, "LIST" ] ] ],
+    "pre_terrain": "t_window_empty",
     "post_terrain": "t_door_frame"
   },
   {
@@ -2382,6 +2403,71 @@
   },
   {
     "type": "construction",
+    "id": "constr_flagpole",
+    "group": "build_flagpole",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_special": "check_empty",
+    "post_furniture": "f_flagpole_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_us_flag_metal",
+    "//": "Metal flagpole",
+    "group": "hoist_us_flag",
+    "category": "DECORATE",
+    "required_skills": [  ],
+    "time": "1 m",
+    "components": [ [ [ "american_flag", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_furniture": "f_flagpole_metal",
+    "post_furniture": "f_us_flag_metal"
+  },
+  {
+    "type": "construction",
+    "id": "constr_us_flag_wood",
+    "//": "Wooden flagpole",
+    "group": "hoist_us_flag",
+    "category": "DECORATE",
+    "required_skills": [  ],
+    "time": "1 m",
+    "components": [ [ [ "american_flag", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_furniture": "f_flagpole_wood",
+    "post_furniture": "f_us_flag_wood"
+  },
+  {
+    "type": "construction",
+    "id": "constr_pirate_flag_metal",
+    "//": "Metal flagpole",
+    "group": "hoist_pirate_flag",
+    "category": "DECORATE",
+    "required_skills": [  ],
+    "time": "1 m",
+    "components": [ [ [ "pirate_flag", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_furniture": "f_flagpole_metal",
+    "post_furniture": "f_pirate_flag_metal"
+  },
+  {
+    "type": "construction",
+    "id": "constr_pirate_flag_wood",
+    "//": "Wooden flagpole",
+    "group": "hoist_pirate_flag",
+    "category": "DECORATE",
+    "required_skills": [  ],
+    "time": "1 m",
+    "components": [ [ [ "pirate_flag", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_furniture": "f_flagpole_wood",
+    "post_furniture": "f_pirate_flag_wood"
+  },
+  {
+    "type": "construction",
     "id": "constr_grass_white",
     "group": "paint_grass_white",
     "category": "DECORATE",
@@ -3167,44 +3253,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_extract_sand",
-    "group": "extract_sand",
-    "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
-    "pre_flags": "SOURCE_SAND",
-    "dark_craftable": true,
-    "post_special": "done_extract_maybe_revert_to_dirt"
-  },
-  {
-    "type": "construction",
-    "id": "constr_extract_clay",
-    "group": "extract_clay",
-    "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
-    "pre_flags": "SOURCE_CLAY",
-    "dark_craftable": true,
-    "post_special": "done_extract_maybe_revert_to_dirt"
-  },
-  {
-    "type": "construction",
-    "id": "constr_extract_bog_iron",
-    "group": "extract_bog_iron",
-    "category": "OTHER",
-    "required_skills": [ [ "fabrication", 0 ], [ "survival", 2 ] ],
-    "time": "45 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "iron_ore", "count": [ 1, 4 ] } ],
-    "pre_flags": "SOURCE_IRON",
-    "post_special": "done_extract_maybe_revert_to_dirt"
-  },
-  {
-    "type": "construction",
     "id": "constr_remove_gravel",
     "group": "remove_gravel_and_replace_with_dirt",
     "category": "OTHER",
@@ -3604,10 +3652,10 @@
     "id": "constr_splitrail_fence",
     "group": "build_split_rail_fence",
     "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "CHISEL", "level": 1 } ] ],
+    "components": [ [ [ "log", 2 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_splitrail_fence"
   },
@@ -3941,6 +3989,41 @@
     "components": [ [ [ "stick", 4 ], [ "log", 1 ] ], [ [ "nail", 20 ] ], [ [ "pine_bough", 8 ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_decorative_tree"
+  },
+  {
+    "type": "construction",
+    "id": "constr_steel_target",
+    "group": "build_steel_target",
+    "category": "FURN",
+    "pre_note": "Firing will automatically target the first practice target found in gun range, if no enemies are around.",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "steel_plate", 1 ] ], [ [ "pipe", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_furniture": "f_target"
+  },
+  {
+    "type": "construction",
+    "id": "constr_beehive",
+    "group": "build_beehive",
+    "//": "Hive lure includes classic of sweet water, or a few other substitutes.  Bee balm tea however is because we don't have lemongrass.",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "5 m",
+    "components": [
+      [ [ "beehive_empty", 1 ] ],
+      [
+        [ "sweet_water", 1 ],
+        [ "bee_balm_tea", 1 ],
+        [ "honey_bottled", 3 ],
+        [ "honey_glassed", 3 ],
+        [ "syrup", 3 ],
+        [ "beet_syrup", 5 ]
+      ]
+    ],
+    "pre_special": "check_empty",
+    "post_furniture": "f_hive_young"
   },
   {
     "type": "construction",
@@ -4643,6 +4726,19 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_glass_fridge"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridminifridge",
+    "group": "install_minifridge",
+    "category": "WORKSHOP",
+    "required_skills": [  ],
+    "time": "10 m",
+    "qualities": [  ],
+    "components": [ [ [ "minifridge", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_minifridge"
   },
   {
     "type": "construction",

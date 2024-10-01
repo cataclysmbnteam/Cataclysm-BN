@@ -50,5 +50,56 @@
         "sprite_offset_y": 0
       }
     ]
+  },
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "Pride_tall.png",
+        "tiles": [
+          { "id": "f_trans_flag_metal", "fg": 0 },
+          { "id": "f_trans_flag_wood", "fg": 1 },
+          { "id": "f_rainbow_flag_metal", "fg": 2 },
+          { "id": "f_rainbow_flag_wood", "fg": 3 },
+          { "id": "f_aromantic_flag_metal", "fg": 4 },
+          { "id": "f_aromantic_flag_wood", "fg": 5 },
+          { "id": "f_asexual_flag_metal", "fg": 6 },
+          { "id": "f_asexual_flag_wood", "fg": 7 },
+          { "id": "f_bisexual_flag_metal", "fg": 8 },
+          { "id": "f_bisexual_flag_wood", "fg": 9 },
+          { "id": "f_intersex_flag_metal", "fg": 10 },
+          { "id": "f_intersex_flag_wood", "fg": 11 },
+          { "id": "f_lesbian_flag_metal", "fg": 12 },
+          { "id": "f_lesbian_flag_wood", "fg": 13 },
+          { "id": "f_enby_flag_metal", "fg": 14 },
+          { "id": "f_enby_flag_wood", "fg": 15 },
+          { "id": "f_pansexual_flag_metal", "fg": 16 },
+          { "id": "f_pansexual_flag_wood", "fg": 17 },
+          { "id": "f_gay_flag_metal", "fg": 18 },
+          { "id": "f_gay_flag_wood", "fg": 19 },
+          { "id": "f_genderfluid_flag_metal", "fg": 20 },
+          { "id": "f_genderfluid_flag_wood", "fg": 21 },
+          { "id": "f_autism_flag_metal", "fg": 22 },
+          { "id": "f_autism_flag_wood", "fg": 23 },
+          { "id": "vp_mounted_trans_flag", "fg": 24 },
+          { "id": "vp_mounted_rainbow_flag", "fg": 25 },
+          { "id": "vp_mounted_aromantic_flag", "fg": 26 },
+          { "id": "vp_mounted_asexual_flag", "fg": 27 },
+          { "id": "vp_mounted_bisexual_flag", "fg": 28 },
+          { "id": "vp_mounted_intersex_flag", "fg": 29 },
+          { "id": "vp_mounted_lesbian_flag", "fg": 30 },
+          { "id": "vp_mounted_enby_flag", "fg": 31 },
+          { "id": "vp_mounted_pansexual_flag", "fg": 32 },
+          { "id": "vp_mounted_gay_flag", "fg": 33 },
+          { "id": "vp_mounted_genderfluid_flag", "fg": 34 },
+          { "id": "vp_mounted_autism_flag", "fg": 35 }
+        ],
+        "sprite_width": 64,
+        "sprite_height": 80,
+        "sprite_offset_x": -16,
+        "sprite_offset_y": -48
+      }
+    ]
   }
 ]

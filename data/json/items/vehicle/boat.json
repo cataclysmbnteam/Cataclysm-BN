@@ -66,7 +66,7 @@
     "type": "GENERIC",
     "id": "sail",
     "name": { "str": "sail" },
-    "description": "Sails for a boat.",
+    "description": "A small sail and makeshift rigging for a raft.",
     "weight": "7904 g",
     "to_hit": -1,
     "color": "light_gray",
@@ -77,6 +77,20 @@
     "category": "veh_parts",
     "price": "90 USD",
     "price_postapoc": "1250 cent"
+  },
+  {
+    "type": "GENERIC",
+    "id": "sail_large_item",
+    "copy-from": "sail",
+    "name": { "str": "large sail" },
+    "description": "A wooden mast with sails fit for a yacht or sloop, and about as much rigging as a single sailor can handle.",
+    "//": "About half the weight and volume of the wooden beam, assumes a good amount is lost in the recipe",
+    "weight": "18 kg",
+    "to_hit": -4,
+    "volume": "30 L",
+    "bashing": 12,
+    "price": "300 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "type": "GENERIC",

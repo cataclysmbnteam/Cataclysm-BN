@@ -85,5 +85,10 @@
     "type": "overmap_terrain",
     "id": "microlab_generic_surface_roof",
     "copy-from": "microlab_generic_surface"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_under_connector",
+    "copy-from": "empty_rock"
   }
 ]

@@ -16,11 +16,10 @@
       [ "book_icef", 5 ],
       [ "reference_cooking", 5 ]
     ],
-    "charges": 10,
+    "//": "Roughly consistent by weight, about 70 grams of material.",
+    "charges": 35,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "//": "Roughly consistent by weight, saltpeter is in smaller stack sizes than most chems, so much less is used.",
-    "//2": "Charcoal is in excess of the amount required however, due to even smaller stack size.",
-    "components": [ [ [ "chem_saltpetre", 2 ] ], [ [ "chem_sulphur", 5 ] ], [ [ "charcoal", 1 ], [ "coal_lump", 1 ] ] ]
+    "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 20 ] ], [ [ "charcoal", 1 ], [ "coal_lump", 1 ] ] ]
   },
   {
     "type": "recipe",

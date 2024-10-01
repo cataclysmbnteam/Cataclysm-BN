@@ -158,7 +158,7 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
             add_msg( m_warning, _( "Your %s is caught by a beartrap!" ), c->get_name() );
         }
         // Actual effects
-        c->add_effect( effect_beartrap, 1_turns, hit->token );
+        c->add_effect( effect_beartrap, 1_turns, hit.id() );
         damage_instance d;
         d.add_damage( DT_BASH, 12 );
         d.add_damage( DT_CUT, 18 );
@@ -526,7 +526,7 @@ bool trapfunc::snare_light( const tripoint &p, Creature *c, item * )
                               _( "A snare closes on <npcname>s leg." ) );
 
     // Actual effects
-    c->add_effect( effect_lightsnare, 1_turns, hit->token );
+    c->add_effect( effect_lightsnare, 1_turns, hit.id() );
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr && z->type->size == creature_size::tiny ) {
         z->deal_damage( nullptr, hit, damage_instance( DT_BASH, 10 ) );
@@ -553,7 +553,7 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
                               _( "A snare closes on <npcname>s %s." ), body_part_name_accusative( hit->token ) );
 
     // Actual effects
-    c->add_effect( effect_heavysnare, 1_turns, hit->token );
+    c->add_effect( effect_heavysnare, 1_turns, hit.id() );
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
@@ -651,10 +651,11 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
-        n->add_env_effect( effect_slimed, bp_foot_l, 6, 2_minutes );
-        n->add_env_effect( effect_slimed, bp_foot_r, 6, 2_minutes );
+        n->add_env_effect( effect_slimed, body_part_foot_l, 6, 2_minutes );
+        n->add_env_effect( effect_slimed, body_part_foot_r, 6, 2_minutes );
         if( one_in( 3 ) ) {
             n->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
+            // @todo: Acid damage?
             n->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 5 ) );
             n->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, 5 ) );
             n->check_dead_state();
@@ -753,7 +754,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     }
     const float eff = pit_effectiveness( p );
     c->add_msg_player_or_npc( m_bad, _( "You fall in a pit!" ), _( "<npcname> falls in a pit!" ) );
-    c->add_effect( effect_in_pit, 1_turns, num_bp );
+    c->add_effect( effect_in_pit, 1_turns, bodypart_str_id::NULL_ID() );
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
@@ -804,7 +805,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     }
     c->add_msg_player_or_npc( m_bad, _( "You fall in a spiked pit!" ),
                               _( "<npcname> falls in a spiked pit!" ) );
-    c->add_effect( effect_in_pit, 1_turns, num_bp );
+    c->add_effect( effect_in_pit, 1_turns, bodypart_str_id::NULL_ID() );
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
@@ -885,7 +886,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     }
     c->add_msg_player_or_npc( m_bad, _( "You fall in a pit filled with glass shards!" ),
                               _( "<npcname> falls in pit filled with glass shards!" ) );
-    c->add_effect( effect_in_pit, 1_turns, num_bp );
+    c->add_effect( effect_in_pit, 1_turns, bodypart_str_id::NULL_ID() );
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {

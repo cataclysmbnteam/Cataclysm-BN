@@ -50,5 +50,109 @@
       "sound_fail": "thump.",
       "items": [ { "item": "splinter", "count": [ 25, 50 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hive_young",
+    "name": "empty beehive",
+    "description": "A traditional beehive, baited to attract bees.  It will take a while before any bees decide to make use of it.",
+    "symbol": "^",
+    "color": "brown",
+    "looks_like": "f_rack_wood",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": 8,
+    "transforms_into": "f_hive_growing",
+    "deconstruct": { "items": [ { "item": "beehive_empty", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "HARVESTED" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": [ 2, 6 ] }
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hive_growing",
+    "copy-from": "f_hive_young",
+    "name": "growing beehive",
+    "description": "A traditional beehive, buzzing with slight activity.  Some bees have started work on this hive, but it won't be ready just yet.",
+    "symbol": "^",
+    "color": "brown",
+    "transforms_into": "f_hive_ready",
+    "deconstruct": { "items": [ { "item": "beehive_empty", "count": 1 }, { "item": "wax", "count": [ 1, 3 ] } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wax", "count": [ 0, 1 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": [ 2, 6 ] }
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hive_ready",
+    "copy-from": "f_hive_young",
+    "name": "mature beehive",
+    "description": "A traditional beehive, buzzing with activity.  The colony is doing well enough that you could harvest a good amount without the hive dying off, except during the winter.",
+    "symbol": "^",
+    "color": "yellow",
+    "transforms_into": "f_hive_recovering",
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "honeycomb", "base_num": [ 2, 4 ] } ] } ],
+    "deconstruct": { "items": [ { "item": "beehive_empty", "count": 1 }, { "item": "honeycomb", "count": [ 3, 6 ] } ] },
+    "delete": { "flags": [ "HARVESTED" ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wax", "count": [ 1, 4 ] },
+        { "item": "honeycomb", "count": [ 0, 3 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": [ 2, 6 ] }
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hive_recovering",
+    "copy-from": "f_hive_young",
+    "name": "recovering beehive",
+    "description": "A traditional beehive, buzzing with activity.  The colony is still recovering from last harvest.",
+    "symbol": "^",
+    "color": "brown",
+    "transforms_into": "f_hive_regrowing",
+    "deconstruct": { "items": [ { "item": "beehive_empty", "count": 1 }, { "item": "honeycomb", "count": [ 1, 2 ] } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wax", "count": [ 1, 4 ] },
+        { "item": "honeycomb", "count": [ 0, 1 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": [ 2, 6 ] }
+      ],
+      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+    }
   }
 ]

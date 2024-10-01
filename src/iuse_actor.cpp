@@ -570,9 +570,7 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
             sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
                            sound_msg.empty() ? _( "Tick." ) : _( sound_msg ), true, "misc", "bomb_ticking" );
         }
-        return 0;
-    }
-    if( it.charges > 0 ) {
+    } else if( it.charges > 0 ) {
         if( p.has_item( it ) ) {
             if( no_deactivate_msg.empty() ) {
                 p.add_msg_if_player( m_warning,
@@ -583,7 +581,9 @@ int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) cons
         }
         return 0;
     }
-    trigger_explosion( pos, it.activated_by );
+    if( it.charges == 0 ) {
+        trigger_explosion( pos, it.activated_by );
+    }
     return 1;
 }
 
@@ -848,9 +848,9 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
         } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
             dur *= 1.2;
         }
-        p.add_effect( eff.id, dur, eff.bp );
+        p.add_effect( eff.id, dur, convert_bp( eff.bp ) );
         if( eff.permanent ) {
-            p.get_effect( eff.id, eff.bp ).set_permanent();
+            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
     }
     for( const auto &stat_adjustment : stat_adjustments ) {
@@ -1941,9 +1941,9 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
         } else {
             p.add_msg_if_player( m_neutral, _( "It itches a little." ) );
         }
-        const body_part bp = player::hp_to_bp( hpart );
+        const bodypart_str_id &bp = player::hp_to_bp( hpart );
         if( p.has_effect( effect_bite, bp ) ) {
-            p.add_effect( effect_bite, 260_minutes, bp );
+            p.add_effect( effect_bite, 260_minutes,  bp );
         }
 
         p.moves = 0;
@@ -2412,7 +2412,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2_turns, num_bp, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, bodypart_str_id::NULL_ID(), speed_penalty );
     }
 
     std::string desc = "music";
@@ -3733,7 +3733,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
 
-    const bodypart_id bp = convert_bp( Character::hp_to_bp( healed ) ).id();
+    const bodypart_id bp = Character::hp_to_bp( healed ).id();
     const int cur_hp = patient.get_part_hp_cur( bp );
 
     if( ( cur_hp >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
@@ -3742,7 +3742,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
-    const body_part bp_healed = player::hp_to_bp( healed );
+    const bodypart_str_id bp_healed = player::hp_to_bp( healed );
 
     Character &player_character = get_player_character();
     const bool u_see = healer.is_player() || patient.is_player() ||
@@ -3801,9 +3801,9 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     }
 
     for( const auto &eff : effects ) {
-        patient.add_effect( eff.id, eff.duration, eff.bp );
+        patient.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
         if( eff.permanent ) {
-            patient.get_effect( eff.id, eff.bp ).set_permanent();
+            patient.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
     }
 
@@ -3869,10 +3869,10 @@ static hp_part pick_part_to_heal(
             return num_hp_parts;
         }
 
-        const bodypart_id &bp = convert_bp( player::hp_to_bp( healed_part ) ).id();
-        if( ( infect && patient.has_effect( effect_infected, bp->token ) ) ||
-            ( bite && patient.has_effect( effect_bite, bp->token ) ) ||
-            ( bleed && patient.has_effect( effect_bleed, bp->token ) ) ) {
+        const bodypart_str_id &bp = player::hp_to_bp( healed_part );
+        if( ( infect && patient.has_effect( effect_infected, bp ) ) ||
+            ( bite && patient.has_effect( effect_bite, bp ) ) ||
+            ( bleed && patient.has_effect( effect_bleed, bp ) ) ) {
             return healed_part;
         }
 
@@ -3903,13 +3903,13 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         for( const std::pair<const bodypart_str_id, bodypart> &elem : patient.get_body() ) {
             const bodypart &part = elem.second;
             int damage = 0;
-            if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||
-                ( !patient.has_effect( effect_disinfected, elem.first->token ) && disinfectant_power > 0 ) ) {
+            if( ( !patient.has_effect( effect_bandaged, elem.first ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, elem.first ) && disinfectant_power > 0 ) ) {
                 damage += part.get_hp_max() - part.get_hp_cur();
                 damage += damage > 0 ? part.get_id()->essential * essential_value : 0;
-                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
-                damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;
-                damage += infect * patient.get_effect_dur( effect_infected, elem.first->token ) / 10_minutes;
+                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first ) / 5_minutes;
+                damage += bite * patient.get_effect_dur( effect_bite, elem.first ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, elem.first ) / 10_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
@@ -3920,11 +3920,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Player healing self - let player select
         if( healer.activity->id() != ACT_FIRSTAID ) {
             const std::string menu_header = _( "Select a body part for: " ) + it.tname();
-            healed = convert_bp( Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
-                                 limb_power, head_bonus, torso_bonus,
-                                 bleed, bite, infect, force,
-                                 get_bandaged_level( healer ),
-                                 get_disinfected_level( healer ) ) ) ).id();
+            healed = Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
+                                          limb_power, head_bonus, torso_bonus,
+                                          bleed, bite, infect, force,
+                                          get_bandaged_level( healer ),
+                                          get_disinfected_level( healer ) ) ).id();
             if( healed == bodypart_id( "num_bp" ) ) {
                 add_msg( m_info, _( "Never mind." ) );
                 return num_hp_parts; // canceled
@@ -3933,11 +3933,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Brick healing if using a first aid kit for the first time.
         if( long_action && healer.activity->id() != ACT_FIRSTAID ) {
             // Cancel and wait for activity completion.
-            return Character::bp_to_hp( healed->token );
+            return Character::bp_to_hp( healed.id() );
         } else if( healer.activity->id() == ACT_FIRSTAID ) {
             // Completed activity, extract body part from it.
-            healed = convert_bp( Character::hp_to_bp( static_cast<hp_part>
-                                 ( healer.activity->values[0] ) ) ).id();
+            healed = Character::hp_to_bp( static_cast<hp_part>
+                                          ( healer.activity->values[0] ) ).id();
         }
     } else {
         // Player healing NPC
@@ -3946,18 +3946,18 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
                                         //~ %1$s: patient name, %2$s: healing item name
                                         "Select a body part of %1$s for %2$s:" ),
                                         patient.disp_name(), it.tname() );
-        healed = convert_bp( Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
-                             limb_power, head_bonus, torso_bonus,
-                             bleed, bite, infect, force,
-                             get_bandaged_level( healer ),
-                             get_disinfected_level( healer ) ) ) ).id();
+        healed = Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
+                                      limb_power, head_bonus, torso_bonus,
+                                      bleed, bite, infect, force,
+                                      get_bandaged_level( healer ),
+                                      get_disinfected_level( healer ) ) ).id();
     }
 
     if( healed != bodypart_id( "num_bp" ) ) {
-        finish_using( healer, patient, it, Character::bp_to_hp( healed->token ) );
+        finish_using( healer, patient, it, Character::bp_to_hp( healed.id() ) );
     }
 
-    return Character::bp_to_hp( healed->token );
+    return Character::bp_to_hp( healed.id() );
 }
 
 void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -4512,7 +4512,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     if( balanced && no_category ) {
         for( int i = ( is_strong ? 1 : 0 ) + ( is_weak ? 0 : 1 ); i > 0; i-- ) {
-            p.add_effect( effect_accumulated_mutagen, 2_days, num_bp );
+            p.add_effect( effect_accumulated_mutagen, 2_days, bodypart_str_id::NULL_ID() );
         }
     }
     const mutation_category_trait &m_category = mutation_category_trait::get_category(
@@ -4529,7 +4529,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );
-        p.add_effect( effect_downed, 20_turns, num_bp, 0 );
+        p.add_effect( effect_downed, 20_turns, bodypart_str_id::NULL_ID(), 0 );
     }
 
     int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
@@ -5034,16 +5034,16 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, num_bp, scent_mod );
+    p.add_effect( efftype_id( "masked_scent" ), duration, bodypart_str_id::NULL_ID(), scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
 
     // Apply the various effects.
     for( const auto &eff : effects ) {
-        p.add_effect( eff.id, eff.duration, eff.bp );
+        p.add_effect( eff.id, eff.duration, convert_bp( eff.bp ) );
         if( eff.permanent ) {
-            p.get_effect( eff.id, eff.bp ).set_permanent();
+            p.get_effect( eff.id, convert_bp( eff.bp ) ).set_permanent();
         }
     }
     return charges_to_use;

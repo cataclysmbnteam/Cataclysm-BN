@@ -45,7 +45,7 @@
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "proportional": { "recoil": 0.334 },
-    "extend": { "effects": [ "SHOT", "NOGIB" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
   {
     "id": "bp_22_cphp",

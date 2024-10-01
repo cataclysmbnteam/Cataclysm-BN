@@ -30,8 +30,7 @@
     "weight": "21 g",
     "range": 40,
     "damage": { "damage_type": "bullet", "amount": 26 },
-    "recoil": 1700,
-    "extend": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "recoil": 1700
   },
   {
     "id": "bp_300blk",

@@ -16,7 +16,6 @@
     "ammo": "anesthetic",
     "initial_charges": 3000,
     "max_charges": 3000,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "qualities": [ [ "ANESTHESIA", 1 ] ]
   },
   {
@@ -57,7 +56,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "use_action": "INHALER"
   },
   {
@@ -77,7 +75,8 @@
     "initial_charges": 2,
     "max_charges": 2,
     "charges_per_use": 1,
-    "use_action": "JET_INJECTOR"
+    "use_action": "JET_INJECTOR",
+    "flags": [ "HOLSTER_PISTOL" ]
   },
   {
     "id": "scalpel",

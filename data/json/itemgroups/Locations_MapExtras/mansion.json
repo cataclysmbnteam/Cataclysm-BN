@@ -1614,7 +1614,8 @@
       [ "straw_basket", 30 ],
       [ "trimmer_off", 20 ],
       [ "knee_pads", 10 ],
-      [ "fertilizer_liquid", 1 ]
+      [ "fertilizer_liquid", 1 ],
+      [ "beehive_empty", 5 ]
     ]
   },
   {

@@ -1495,5 +1495,45 @@
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_niter_bed_fresh",
+    "name": "unfinished niter bed",
+    "description": "A wet heap of fertilizer and plant matter covered in soil for traditional saltpeter production.  In about a season, enough potassium nitrate will leach through and crystallize to be harvestable.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_claymound",
+    "move_cost": 5,
+    "transforms_into": "t_niter_bed_ready",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "HARVESTED" ],
+    "bash": {
+      "sound": "thump!",
+      "sound_fail": "thump!",
+      "str_min": 50,
+      "str_max": 100,
+      "ter_set": "t_dirt",
+      "items": [ { "item": "material_soil", "count": [ 5, 15 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_niter_bed_ready",
+    "name": "mature niter bed",
+    "description": "This heap of nitrated compost has leached out and crystallized a bunch of niter.  Dig here to extract it.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_claymound",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "digging_result": "digging_niter_bed",
+    "bash": {
+      "sound": "thump!",
+      "sound_fail": "thump!",
+      "str_min": 50,
+      "str_max": 100,
+      "ter_set": "t_dirt",
+      "items": [ { "item": "material_soil", "count": [ 5, 15 ] }, { "item": "material_niter", "count": [ 0, 1 ] } ]
+    }
   }
 ]

@@ -2922,6 +2922,7 @@
     "overmaps": [
       { "point": [ 2, 1, 1 ], "overmap": "microlab_generic_surface_roof_north" },
       { "point": [ 2, 1, 0 ], "overmap": "microlab_generic_surface_north" },
+      { "point": [ 2, 1, -1 ], "overmap": "microlab_under_connector" },
       { "point": [ 2, -1, -2 ], "overmap": "microlab_sub_station_north" },
       { "point": [ 0, -1, -2 ], "overmap": "microlab_rock_border" },
       { "point": [ 1, -1, -2 ], "overmap": "microlab_rock_border" },
@@ -5613,6 +5614,7 @@
       { "point": [ 5, 10, 1 ], "overmap": "mil_base_6k1_north" },
       { "point": [ 6, 10, 1 ], "overmap": "mil_base_7k1_north" },
       { "point": [ 7, 10, 1 ], "overmap": "mil_base_8k1_north" },
+      { "point": [ 2, 6, 2 ], "overmap": "mil_base_3g2_north" },
       { "point": [ 2, 8, 2 ], "overmap": "mil_base_3i2_north" },
       { "point": [ 2, 8, 3 ], "overmap": "mil_base_3i3_north" },
       { "point": [ 2, 8, 4 ], "overmap": "mil_base_3i4_north" }

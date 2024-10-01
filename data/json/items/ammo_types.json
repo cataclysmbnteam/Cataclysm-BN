@@ -665,5 +665,11 @@
     "id": "mininuke_mod",
     "name": "modified mininuke",
     "default": "mininuke_mod"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "pitch_wood",
+    "name": "pitch",
+    "default": "pitch_wood"
   }
 ]

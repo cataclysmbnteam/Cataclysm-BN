@@ -3,6 +3,7 @@
 #define CATA_SRC_BALLISTICS_H
 
 class Creature;
+class item;
 class dispersion_sources;
 class vehicle;
 struct dealt_projectile_attack;
@@ -32,7 +33,7 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
  */
 dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
         const tripoint &target_arg, const dispersion_sources &dispersion,
-        Creature *origin = nullptr, const vehicle *in_veh = nullptr );
+        Creature *origin = nullptr, item *source_weapon = nullptr, const vehicle *in_veh = nullptr );
 
 namespace ranged
 {

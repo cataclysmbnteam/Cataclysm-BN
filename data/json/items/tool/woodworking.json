@@ -310,6 +310,7 @@
     "looks_like": "hatchet",
     "bashing": 5,
     "cutting": 12,
+    "thrown_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "cut", "amount": 11 } ],
     "to_hit": 1,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ]
@@ -332,6 +333,7 @@
     "looks_like": "hatchet",
     "bashing": 5,
     "cutting": 17,
+    "thrown_damage": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "cut", "amount": 16 } ],
     "to_hit": 1,
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE", "NONCONDUCTIVE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ]

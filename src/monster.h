@@ -335,7 +335,13 @@ class monster : public Creature, public location_visitable<monster>
         void melee_attack( Creature &target );
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
+        using Creature::deal_projectile_attack;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
+        void apply_damage( Creature *source, item *source_weapon, item *source_projectile, bodypart_id bp,
+                           int dam,
+                           bool bypass_med = false ) override;
+        void apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
+                           bool bypass_med = false ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.

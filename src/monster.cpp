@@ -1826,9 +1826,9 @@ void monster::melee_attack( Creature &target, float accuracy )
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
-            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), convert_bp( affected_bp ) );
             if( eff.permanent ) {
-                target.get_effect( eff.id, affected_bp ).set_permanent();
+                target.get_effect( eff.id, convert_bp( affected_bp ) ).set_permanent();
             }
         }
     }
@@ -1853,7 +1853,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        target.add_effect( effect_bleed, 6_minutes, convert_bp( bp_hit ) );
     }
 }
 
@@ -1905,7 +1905,9 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
+void monster::apply_damage( Creature *source, item *source_weapon, item *source_projectile,
+                            bodypart_id /*bp*/,
+                            int dam,
                             const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
@@ -1914,9 +1916,25 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
+        if( source_weapon ) {
+            source_weapon->add_monster_kill( type->id );
+        }
+        if( source_projectile ) {
+            source_projectile->add_monster_kill( type->id );
+        }
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
     }
+}
+void monster::apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
+                            const bool bypass_med )
+{
+    return apply_damage( source, source_weapon, nullptr, bp, dam, bypass_med );
+}
+void monster::apply_damage( Creature *source, bodypart_id bp, int dam,
+                            const bool bypass_med )
+{
+    return apply_damage( source, nullptr, nullptr, bp, dam, bypass_med );
 }
 
 void monster::die_in_explosion( Creature *source )

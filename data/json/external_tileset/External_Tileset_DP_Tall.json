@@ -36,7 +36,16 @@
           { "id": "t_tree_coca_harvested_season_summer", "fg": 17, "bg": 14, "rotates": false },
           { "id": "t_tree_coca_harvested_season_winter", "fg": 17, "bg": 15, "rotates": false },
           { "id": [ "f_grid_floodlight_off", "f_grid_floodlight" ], "fg": 18 },
-          { "id": "f_grid_floodlight_on", "fg": 19 }
+          { "id": "f_grid_floodlight_on", "fg": 19 },
+          { "id": "f_flagpole_metal", "fg": 20 },
+          { "id": "f_flagpole_wood", "fg": 21 },
+          { "id": "f_us_flag_metal", "fg": 22 },
+          { "id": "f_us_flag_wood", "fg": 23 },
+          { "id": "vp_mounted_american_flag", "fg": 24 },
+          { "id": "f_pirate_flag_metal", "fg": 25 },
+          { "id": "f_pirate_flag_wood", "fg": 26 },
+          { "id": "vp_mounted_pirate_flag", "fg": 27 },
+          { "id": "vp_sail_large", "fg": 28 }
         ],
         "sprite_width": 64,
         "sprite_height": 80,
