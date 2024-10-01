@@ -412,10 +412,10 @@ void bionic_data::check() const
         }
     }
     if( required_bionic ) {
-        if(required_bionic == id ) {
-            rep.warn( "The CBM %s requires itself as a prerequisite for installation", required_bionic.str());
+        if( required_bionic == id ) {
+            rep.warn( "The CBM %s requires itself as a prerequisite for installation", required_bionic.str() );
         } else if( !required_bionic.is_valid() ) {
-            rep.warn("The CBM %s requires undefined bionic %s", id.str(), required_bionic.str());
+            rep.warn( "The CBM %s requires undefined bionic %s", id.str(), required_bionic.str() );
         }
     }
 
@@ -2045,10 +2045,10 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    for (const bionic_id &bid : get_bionics()) {
-        if (bid->required_bionic && bid->required_bionic == b_id) {
-            popup(_("%s cannot be removed because installed bionic %s requires it."),
-                b_id->name, bid->name);
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->required_bionic && bid->required_bionic == b_id ) {
+            popup( _( "%s cannot be removed because installed bionic %s requires it." ),
+                   b_id->name, bid->name );
         }
     }
 
@@ -2295,8 +2295,8 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
 
-    if (bioid->required_bionic && !has_bionic(bioid->required_bionic)) {
-        popup(_("CBM requires prior installation of %s."), bioid->required_bionic.obj().name );
+    if( bioid->required_bionic && !has_bionic( bioid->required_bionic ) ) {
+        popup( _( "CBM requires prior installation of %s." ), bioid->required_bionic.obj().name );
         return false;
     }
 
