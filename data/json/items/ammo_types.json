@@ -67,12 +67,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "rag",
-    "name": "rags",
-    "default": "rag"
-  },
-  {
-    "type": "ammunition_type",
     "id": "shot",
     "name": "shot",
     "default": "shot_00"

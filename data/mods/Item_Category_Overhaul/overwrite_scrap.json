@@ -218,7 +218,7 @@
   },
   {
     "id": "rag",
-    "type": "AMMO",
+    "type": "GENERIC",
     "name": { "str": "rag" },
     "copy-from": "rag",
     "category": "scrap_fabric"
