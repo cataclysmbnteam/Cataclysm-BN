@@ -414,7 +414,7 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( blood_loss, int( const bodypart_id & bp ) const );
 
-        SET_FX_N_T( encumb, "get_part_encumbrance", int( body_part bp ) const );
+        SET_FX_N_T( encumb, "get_part_encumbrance", int( const bodypart_str_id & bp ) const );
 
         SET_FX_T( is_wearing_power_armor, bool( bool * ) const );
 

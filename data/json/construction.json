@@ -209,19 +209,20 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 24 ] ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail_glue", 24, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_door_frame"
   },
   {
     "type": "construction",
-    "id": "constr_door_frame_glue",
+    "id": "constr_door_frame_from_window",
     "group": "build_door_frame",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "90 m",
-    "components": [ [ [ "2x4", 12 ] ], [ [ "superglue", 3 ], [ "bone_glue", 3 ] ] ],
-    "pre_special": "check_empty",
+    "time": "45 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "nail_glue", 12, "LIST" ] ] ],
+    "pre_terrain": "t_window_empty",
     "post_terrain": "t_door_frame"
   },
   {
@@ -4001,6 +4002,28 @@
     "components": [ [ [ "steel_plate", 1 ] ], [ [ "pipe", 4 ] ] ],
     "pre_special": "check_empty",
     "post_furniture": "f_target"
+  },
+  {
+    "type": "construction",
+    "id": "constr_beehive",
+    "group": "build_beehive",
+    "//": "Hive lure includes classic of sweet water, or a few other substitutes.  Bee balm tea however is because we don't have lemongrass.",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 2 ] ],
+    "time": "5 m",
+    "components": [
+      [ [ "beehive_empty", 1 ] ],
+      [
+        [ "sweet_water", 1 ],
+        [ "bee_balm_tea", 1 ],
+        [ "honey_bottled", 3 ],
+        [ "honey_glassed", 3 ],
+        [ "syrup", 3 ],
+        [ "beet_syrup", 5 ]
+      ]
+    ],
+    "pre_special": "check_empty",
+    "post_furniture": "f_hive_young"
   },
   {
     "type": "construction",

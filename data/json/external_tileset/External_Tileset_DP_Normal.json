@@ -5,6 +5,7 @@
     "tiles-new": [
       {
         "file": "external_tileset/External_Tileset_DP_Normal.png",
+        "//": "Note: spaces 22 and 23 are currently available for future use.",
         "tiles": [
           { "id": "f_steam_turbine", "fg": 0 },
           { "id": "animation_bullet_normal_0deg", "fg": 1, "rotates": true },
@@ -26,10 +27,8 @@
           { "id": [ "overlay_worn_shield_leather_large", "overlay_wielded_shield_leather_large" ], "fg": 17 },
           { "id": "shield_banded_large", "fg": 18 },
           { "id": [ "overlay_worn_shield_banded_large", "overlay_wielded_shield_banded_large" ], "fg": 19 },
-          { "id": "t_shrub_blueberry_season_spring", "fg": 20 },
-          { "id": "t_shrub_blueberry_season_summer", "fg": 21 },
-          { "id": "t_shrub_strawberry_season_spring", "fg": 22 },
-          { "id": "t_shrub_strawberry_season_summer", "fg": 23 },
+          { "id": [ "f_hive_young", "f_hive_growing", "f_hive_recovering" ], "fg": 20 },
+          { "id": "f_hive_ready", "fg": 21 },
           { "id": "overlay_worn_woodgreatbow", "fg": 24 },
           { "id": "compgreatbow", "fg": 25 },
           { "id": "overlay_wielded_compgreatbow", "fg": 26 },

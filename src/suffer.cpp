@@ -1071,7 +1071,7 @@ void Character::suffer_from_other_mutations()
             if( bp == bp_head ) {
                 continue;
             }
-            int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );
+            int sores_pain = 5 + 0.4 * std::abs( encumb( convert_bp( bp ) ) );
             if( get_pain() < sores_pain ) {
                 set_pain( sores_pain );
             }

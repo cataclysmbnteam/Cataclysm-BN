@@ -230,7 +230,7 @@ static int get_encumbrance( const Character &p, body_part bp, bool combine )
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
     const bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
-    return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
+    return p.encumb( convert_bp( bp ) ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
 static std::string get_encumbrance_description( const Character &p, body_part bp, bool combine )

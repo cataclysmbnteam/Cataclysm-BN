@@ -2308,7 +2308,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
     item &vibrator_item = *act->targets.front();
 
-    if( p->encumb( bp_mouth ) >= 30 ) {
+    if( p->encumb( body_part_mouth ) >= 30 ) {
         act->moves_left = 0;
         add_msg( m_bad, _( "You have trouble breathing, and stop." ) );
     }

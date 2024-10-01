@@ -487,7 +487,7 @@ class Character : public Creature, public location_visitable<Character>
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */
-        int encumb( body_part bp ) const;
+        int encumb( const bodypart_str_id &bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
@@ -580,7 +580,7 @@ class Character : public Creature, public location_visitable<Character>
          */
         void check_item_encumbrance_flag();
 
-        /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
+        /** Returns true if the character is wearing something on the entered bodypart_id, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
 
         int blocks_left = 0;
@@ -740,10 +740,10 @@ class Character : public Creature, public location_visitable<Character>
         /** Removes the appropriate costs (NOTE: will reapply mods & recalc sightlines in case of newly activated mutation). */
         void mutation_spend_resources( const trait_id &mut );
 
-        /** Converts a body_part to an hp_part */
-        static hp_part bp_to_hp( body_part bp );
-        /** Converts an hp_part to a body_part */
-        static body_part hp_to_bp( hp_part hpart );
+        /** Converts a bodypart_str_id to an hp_part */
+        static hp_part bp_to_hp( const bodypart_str_id &bp );
+        /** Converts an hp_part to a bodypart_str_id */
+        static const bodypart_str_id &hp_to_bp( hp_part hpart );
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
@@ -772,7 +772,7 @@ class Character : public Creature, public location_visitable<Character>
         int hitall( int dam, int vary, Creature *source );
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
-        /** Heals a body_part for dam */
+        /** Heals a bodypart_id for dam */
         void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
@@ -1776,11 +1776,11 @@ class Character : public Creature, public location_visitable<Character>
         // returns total weight of installed bionics
         units::mass bionics_weight() const;
 
-        /** Returns overall bashing resistance for the body_part */
+        /** Returns overall bashing resistance for the bodypart_id */
         int get_armor_bash( bodypart_id bp ) const override;
-        /** Returns overall cutting resistance for the body_part */
+        /** Returns overall cutting resistance for the bodypart_id */
         int get_armor_cut( bodypart_id bp ) const override;
-        /** Returns overall bullet resistance for the body_part */
+        /** Returns overall bullet resistance for the bodypart_id */
         int get_armor_bullet( bodypart_id bp ) const override;
         /** Returns bashing resistance from the creature and armor only */
         int get_armor_bash_base( bodypart_id bp ) const override;
@@ -1788,7 +1788,7 @@ class Character : public Creature, public location_visitable<Character>
         int get_armor_cut_base( bodypart_id bp ) const override;
         /** Returns cutting resistance from the creature and armor only */
         int get_armor_bullet_base( bodypart_id bp ) const override;
-        /** Returns overall env_resist on a body_part */
+        /** Returns overall env_resist on a bodypart_id */
         int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall acid resistance for the body part */
         int get_armor_acid( bodypart_id bp ) const;

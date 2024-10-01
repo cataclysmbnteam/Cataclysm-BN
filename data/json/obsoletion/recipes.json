@@ -6,11 +6,6 @@
   },
   {
     "type": "recipe",
-    "result": "spear_stone",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "cooked_burrito",
     "obsolete": true
   },
@@ -3408,6 +3403,17 @@
     "type": "recipe",
     "result": "cranberry_juice",
     "id_suffix": "jarred_3l",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rosin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "torch",
+    "id_suffix": "pine",
     "obsolete": true
   }
 ]
