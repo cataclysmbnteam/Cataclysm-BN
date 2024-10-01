@@ -11,10 +11,10 @@ type RangeOption =
 
 const readLog = (option: RangeOption) => (format: string) => {
   const range = Object.entries(option)
-    .map(([k, v]) => `--${k}=${typeof v === "string" ? v : v.toISOString()}`)
+    .map(([k, v]) => `--${k}=${JSON.stringify(typeof v === "string" ? v : v.toISOString())}`)
     .join(" ")
 
-  return $`git log ${range} --oneline --pretty=format:${format}`.lines()
+  return $.raw`git log ${range} --oneline --pretty=format:${format}`.lines()
 }
 
 export type Commit = {
