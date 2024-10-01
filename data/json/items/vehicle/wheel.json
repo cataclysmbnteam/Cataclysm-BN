@@ -382,5 +382,22 @@
     "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
     "copy-from": "wheel_mount_light",
     "material": [ "wood" ]
+  },
+  {
+    "id": "makeshift_sled_runners_item",
+    "category": "veh_parts",
+    "type": "WHEEL",
+    "name": { "str_sp": "sled runners" },
+    "description": "Simple wooden runners for a hand-pulled sled.  They make it easier to drag a cart across rough terrain, but that's about all they do.",
+    "weight": "2500 g",
+    "volume": "2500 ml",
+    "price": "5 USD",
+    "bashing": 6,
+    "to_hit": -1,
+    "material": [ "wood" ],
+    "symbol": "]",
+    "color": "brown",
+    "diameter": 1,
+    "width": 1
   }
 ]
