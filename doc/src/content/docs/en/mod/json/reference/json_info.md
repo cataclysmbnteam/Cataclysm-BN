@@ -200,7 +200,6 @@ the appropriate JSON file.
 | time            | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)                                                                          |
 | upgraded_bionic | (_optional_) Bionic that can be upgraded by installing this one.                                                                                                                |
 | required_bionic | (_optional_) Bionic which is required to install this bionic, and which cannot be uninstalled if this bionic is installed                                                       |
-
 | available_upgrades | (_optional_) Upgrades available for this bionic, i.e. the list of bionics
 having this one referenced by `upgraded_bionic`. | | encumbrance | (_optional_) A list of body parts
 and how much this bionic encumber them. | | weight_capacity_bonus | (_optional_) Bonus to weight
