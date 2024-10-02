@@ -1724,7 +1724,7 @@
       "active": true,
       "target": "combatsaw_on",
       "msg": "You turn on the combat chainsaw.",
-      "moves": 80,
+      "moves": 60,
       "transform_charges": 5,
       "need_dry": true
     },
@@ -1771,7 +1771,7 @@
       "active": true,
       "target": "e_combatsaw_on",
       "msg": "You turn on the combat chainsaw.",
-      "moves": 80,
+      "moves": 60,
       "transform_charges": 5,
       "need_dry": true
     },
