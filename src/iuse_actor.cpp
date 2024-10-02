@@ -606,6 +606,14 @@ void explosion_iuse::trigger_explosion( const tripoint &pos, Creature *source ) 
             const int field_intensity = rng( fields_min_intensity, fields_max_intensity );
             here.add_field( gas_source, fields_type, field_intensity, 1_turns );
         }
+        if( source == &get_player_character() && source->has_trait( trait_PYROMANIA ) ) {
+            if( fields_type == fd_fire || fd_incendiary ) {
+                Character &p = get_player_character();
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                p.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                p.add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+            }
+        }
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint &dest : here.points_in_radius( pos, scrambler_blast_radius ) ) {

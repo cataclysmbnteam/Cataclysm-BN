@@ -254,7 +254,6 @@ static const itype_id itype_joint( "joint" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
-static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_mobile_memory_card( "mobile_memory_card" );
 static const itype_id itype_mobile_memory_card_used( "mobile_memory_card_used" );
 static const itype_id itype_mp3( "mp3" );
@@ -3751,6 +3750,12 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
     } else if( !t ) {
+        if( p->has_item( *it ) ) {
+            if( !query_yn( "Really smash it on yourself?" ) ) {
+                p->add_msg_if_player( m_info, _( "You should probably throw it instead." ) );
+                return 0;
+            }
+        }
         for( const tripoint &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             g->m.add_field( pt, fd_fire, intensity );
@@ -3760,18 +3765,12 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
             p->rem_morale( MORALE_PYROMANIA_NOFIRE );
             p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
-        return 1;
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                              it->tname() );
-        return 0;
-    } else if( p->has_item( *it ) && it->charges == 0 ) {
-        it->charges += 1;
-        if( one_in( 5 ) ) {
-            p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
-            it->convert( itype_molotov );
-            it->deactivate();
+        // If you exploded it on yourself through activation.
+        if( it->has_position() ) {
+            it->detach();
         }
+        return 1;
+    } else if( p->has_item( *it ) && it->charges == 0 ) {
         return 0;
     }
     return 0;
@@ -7737,7 +7736,7 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
     }
 
     time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
-                          it->type->tool->turns_per_charge );
+                          it->type->tool->turns_per_charge - it->type->tool->turns_active );
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
                           to_string( shift ) );
