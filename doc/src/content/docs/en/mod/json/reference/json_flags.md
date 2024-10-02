@@ -298,12 +298,6 @@ to find which flags work elsewhere.
 - `CAN_GOO` Release a little blob buddy.
 - `CAPTURE_MONSTER_ACT` Capture and encapsulate a monster. The associated action is also used for
   releasing it.
-- `CARVER_OFF` Turn the carver on.
-- `CARVER_ON` Turn the carver off.
-- `CHAINSAW_OFF` Turn the chainsaw on.
-- `CHAINSAW_ON` Turn the chainsaw off.
-- `COMBATSAW_OFF` Turn the combat-saw on.
-- `COMBATSAW_ON` Turn the combat-saw off
 - `CROWBAR` Pry open doors, windows, man-hole covers and many other things that need prying.
 - `DIG` Clear rubble.
 - `DIRECTIONAL_ANTENNA` Find the source of a signal with your radio.
