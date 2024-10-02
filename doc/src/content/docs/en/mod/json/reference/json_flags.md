@@ -1495,6 +1495,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - `NAT_UPS` Silences the (UPS) suffix from USE_UPS.
 - `WATER_EXTINGUISH` Is extinguishable in water or under precipitation. Converts items (requires
   "reverts_to" or use_action "transform" to be set).
+- `WATER_DISABLE` Will revert and deactivate item if it is submerged in water.
 - `WET` Item is wet and will slowly dry off (e.g. towel).
 - `WIND_EXTINGUISH` This item will be extinguished by the wind.
 - `WRITE_MESSAGE` This item could be used to write messages on signs.

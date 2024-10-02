@@ -2238,6 +2238,8 @@ more structured function.
     "need_charges": 1,                      // Number of charges the item needs to transform. Just a check, nothing is consumed.
     "need_charges_msg": "The lamp is empty.", // Message to display if there aren't enough charges.
     "need_worn": true;                        // Whether the item needs to be worn to be transformed, is false by default.
+    "need_wielding": false,             // Whether the item needs to be wielded to be transformed, false by default.
+    "need_dry": false,                  // Whether the item cannot transform while submerged in water, false by default.
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges: [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
     "container" : "jar",  // Container holding the target item.

@@ -342,6 +342,7 @@ const flag_id flag_WATERPROOF( "WATERPROOF" );
 const flag_id flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 const flag_id flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 const flag_id flag_WATER_FRIENDLY( "WATER_FRIENDLY" );
+const flag_id flag_WATER_DISABLE( "WATER_DISABLE" );
 const flag_id flag_WET( "WET" );
 const flag_id flag_WHIP( "WHIP" );
 const flag_id flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
