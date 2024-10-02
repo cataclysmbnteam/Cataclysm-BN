@@ -574,15 +574,7 @@
     "material_thickness": 6,
     "environmental_protection": 3,
     "max_power": "500 kJ",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "STRENGTH", "add": 2 } ]
-        }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] },
     "use_action": {
       "type": "transform",
       "msg": "The %s engages.",
