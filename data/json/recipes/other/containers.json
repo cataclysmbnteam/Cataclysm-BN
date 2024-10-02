@@ -743,12 +743,13 @@
     "result_mult": 10,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
     "difficulty": 3,
     "time": "15 m",
     "autolearn": true,
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
-  }
+  },
   {
     "result": "bag_plastic",
     "type": "recipe",

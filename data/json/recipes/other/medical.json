@@ -327,5 +327,25 @@
     "charges": 8,
     "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "cotton_ball", 8 ] ], [ [ "disinfectant", 1 ], [ "chem_hydrogen_peroxide", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pouch_autoclave",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "skills_required": [ [ "fabrication", 5 ] ],
+    "difficulty": 5,
+    "time": "30 m",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [
+      [ "textbook_fabrication", 6 ],
+      [ "recipe_augs", 5 ],
+      [ "recipe_mil_augs", 5 ],
+      [ "recipe_lab_elec", 4 ],
+      [ "reference_firstaid1", 6 ]
+    ],
+    "tools": [ [ [ "vac_sealer", 15 ], [ "makeshift_sealer", 30 ] ] ],
+    "components": [ [ [ "bag_plastic", 1 ] ], [ [ "paper", 2 ] ] ]
   }
 ]
