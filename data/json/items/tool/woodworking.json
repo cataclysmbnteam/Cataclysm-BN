@@ -177,7 +177,15 @@
     "charges_per_use": 125,
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 4 ] ],
-    "use_action": { "type": "transform", "active": true, "target": "elec_chainsaw_on", "msg": "You turn on the electric chainsaw.", "moves": 80, "transform_charges": 5, "need_dry": true },
+    "use_action": {
+      "type": "transform",
+      "active": true,
+      "target": "elec_chainsaw_on",
+      "msg": "You turn on the electric chainsaw.",
+      "moves": 80,
+      "transform_charges": 5,
+      "need_dry": true
+    },
     "flags": [ "NONCONDUCTIVE", "POWERED" ],
     "magazines": [
       [
