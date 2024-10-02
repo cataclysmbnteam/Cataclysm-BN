@@ -2353,6 +2353,7 @@
       "bio_tools",
       "bio_sunglasses",
       "bio_flashlight",
+      "bio_weight",
       "bio_hydraulics",
       "bio_cable",
       "bio_power_storage_mkII",
@@ -2381,7 +2382,7 @@
     "name": "Bionic Athlete",
     "description": "It's a shame the apocalypse happened; you'll never get a shot at the Cyberolympics.  Now the only thing between you and death by zombie is your freakish cyborg strength.",
     "points": 5,
-    "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_str_enhancer", "bio_weight", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
     "items": {
       "both": [
         "socks_ankle",
@@ -5407,6 +5408,7 @@
       "bio_power_storage_mkII",
       "bio_claws",
       "bio_digestion",
+      "bio_weight",
       "bio_hydraulics"
     ],
     "skills": [
