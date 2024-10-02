@@ -3024,5 +3024,19 @@
       { "id": "SCREW_FINE", "level": 1 }
     ],
     "components": [ [ [ "steel_tiny", 1, "LIST" ] ], [ [ "clockworks", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "beehive_empty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "survival", 3 ],
+    "time": "10 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "atomic_survival", 3 ], [ "survival_book", 3 ] ],
+    "using": [ [ "wood_structural", 8 ], [ "nail_glue", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ]
   }
 ]
