@@ -1130,6 +1130,19 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
   },
   {
+    "id": "bio_fuel_cell_hydrogen",
+    "type": "bionic",
+    "name": { "str": "Hydrogen Fuel Cell CBM" },
+    "description": "A small hydrogen fuel cell fixed to your scapula.  Fairly efficient and produces minimal heat, though the low density of even compressed hydrogen is a hindrance.  A network of compressors and fuel tanks has been distributed throughout your body to store fuel.",
+    "occupied_bodyparts": [ [ "torso", 12 ] ],
+    "fuel_options": [ "c_hydrogen" ],
+    "fuel_capacity": 500,
+    "fuel_efficiency": 0.5,
+    "exothermic_power_gen": true,
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
+  },
+  {
     "id": "bio_reactor",
     "type": "bionic",
     "name": { "str": "Micro Reactor" },
