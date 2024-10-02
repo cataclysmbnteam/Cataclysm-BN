@@ -1135,7 +1135,7 @@
     "type": "bionic",
     "name": { "str": "Hydrogen Fuel Cell CBM" },
     "description": "A small hydrogen fuel cell fixed to your scapula.  Fairly efficient and produces minimal heat, though the low density of even compressed hydrogen is a hindrance.  A network of compressors and fuel tanks has been distributed throughout your body to store fuel.",
-    "occupied_bodyparts": [ [ "torso", 12 ] ],
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
     "fuel_options": [ "c_hydrogen_gas" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.5,
