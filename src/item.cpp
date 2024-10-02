@@ -10062,39 +10062,38 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         }
     }
 
-    int energy = 0;
+    int charges_to_use = 0;
+    units::energy energy_to_use = self->energy_required();
+
     const bool uses_UPS = self->has_flag( flag_USE_UPS );
     bool revert_destroy = false;
     if( self->type->tool->turns_per_charge > 0 ) {
         if( self->type->tool->turns_active >= self->type->tool->turns_per_charge ) {
-            energy = std::max( self->ammo_required(), 1 );
+            charges_to_use = std::max( self->ammo_required(), 1 );
             self->type->tool->turns_active = 0;
         }
         self->type->tool->turns_active += 1;
-    } else if( self->type->tool->power_draw > 0 ) {
-        // power_draw in mW / 1000000 to give kJ (battery unit) per second
-        energy = self->type->tool->power_draw / 1000000;
-        // energy_bat remainder results in chance at additional charge/discharge
-        energy += x_in_y( self->type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
 
     // If ammo_required is 0 we just skip over this and go to tick processing.
-    if( energy || self->ammo_required() > 0 ) {
+    // We check self->ammo_required to trigger revert/consumption code for items with turns_per_charge > 1
+    if( charges_to_use || energy_to_use > 0_J || self->ammo_required() > 0 ) {
         // No need to look for charges if energy is 0
-        if( energy ) {
-            energy -= self->ammo_consume( energy, pos );
-
+        if( charges_to_use ) {
+            charges_to_use -= self->ammo_consume( charges_to_use, pos );
+        }
+        if( energy_to_use > 0_J ) {
             // for power armor pieces, try to use power armor interface first.
             if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
-                if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
-                    energy = 0;
+                if( carrier->use_energy_if_avail( itype_bio_armor, energy_to_use ) ) {
+                    energy_to_use = 0_J;
                 }
             }
 
             // for items in player possession if insufficient charges within tool try UPS
             if( carrier && uses_UPS ) {
-                if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
-                    energy = 0;
+                if( carrier->use_energy_if_avail( itype_UPS, energy_to_use ) ) {
+                    energy_to_use = 0_J;
                 }
             }
         }
@@ -10102,7 +10101,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         // HACK: this means that UPS items will last one more check longer than they should since they don't trigger when
         // their ammo_remaining is 0, since that doesn't check the UPS "stock" available (which is an expensive check)
         // It's done like this cause grenades must be destroyed when charge reaches 0, or it will linger an extra turn.
-        if( ( self->ammo_remaining() == 0 && !uses_UPS ) || energy > 0 ) {
+        if( ( self->ammo_remaining() == 0 && !uses_UPS ) || energy_to_use > 0_J || charges_to_use > 0 ) {
             revert_destroy = true;
             if( carrier ) {
                 if( self->is_power_armor() ) {
