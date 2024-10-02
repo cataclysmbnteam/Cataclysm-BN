@@ -313,6 +313,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "enchantments", enchantments, strict );
     assign_map_from_array( jsobj, "learned_spells", learned_spells, strict );
     assign( jsobj, "included_bionics", included_bionics, strict );
+    assign( jsobj, "required_bionic", required_bionic, strict );
     assign( jsobj, "upgraded_bionic", upgraded_bionic, strict );
     assign( jsobj, "available_upgrades", available_upgrades, strict );
     assign( jsobj, "flags", flags, strict );
@@ -410,6 +411,14 @@ void bionic_data::check() const
             rep.warn( "upgrades undefined bionic \"%s\"", upgraded_bionic.str() );
         }
     }
+    if( required_bionic ) {
+        if( required_bionic == id ) {
+            rep.warn( "The CBM %s requires itself as a prerequisite for installation", required_bionic.str() );
+        } else if( !required_bionic.is_valid() ) {
+            rep.warn( "The CBM %s requires undefined bionic %s", id.str(), required_bionic.str() );
+        }
+    }
+
     for( const bionic_id &it : available_upgrades ) {
         if( !it.is_valid() ) {
             rep.warn( "specifies unknown upgrade \"%s\"", it.str() );
@@ -1506,7 +1515,7 @@ void Character::heat_emission( bionic &bio, int fuel_energy )
         here.emit_field( pos(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, int> &bp : bio.info().occupied_bodyparts ) {
-        add_effect( effect_heating_bionic, 2_seconds, bp.first->token, heat_prod );
+        add_effect( effect_heating_bionic, 2_seconds, bp.first, heat_prod );
     }
 }
 
@@ -2034,6 +2043,14 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->required_bionic == b_id ) {
+            popup( _( "%s cannot be removed because installed bionic %s requires it." ),
+                   b_id->name, bid->name );
+            return false;
+        }
+    }
+
     if( b_id == bio_eye_optic ) {
         popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
                disp_name( true ), disp_name() );
@@ -2136,7 +2153,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
         activity->str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, int> &elem : b_id->occupied_bodyparts ) {
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, difficulty );
     }
 
     return true;
@@ -2277,6 +2294,11 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
 
+    if( bioid->required_bionic && !has_bionic( bioid->required_bionic ) ) {
+        popup( _( "CBM requires prior installation of %s." ), bioid->required_bionic.obj().name );
+        return false;
+    }
+
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
         if( has_trait( mid ) ) {
@@ -2408,7 +2430,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
         activity->str_values.emplace_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, int> &elem : bioid->occupied_bodyparts ) {
-        add_effect( effect_under_op, difficulty * 20_minutes, elem.first->token, difficulty );
+        add_effect( effect_under_op, difficulty * 20_minutes, elem.first, difficulty );
     }
 
     return true;
@@ -2455,7 +2477,7 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
 {
     std::set<bodypart_id> bp_hurt;
     for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( has_effect( effect_under_op, bp->token ) ) {
+        if( has_effect( effect_under_op, bp.id() ) ) {
             if( bp_hurt.count( bp->main_part ) > 0 ) {
                 continue;
             }
@@ -2473,7 +2495,7 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
         int damage = rng( min_damage, max_damage );
         int hp = get_hp( bp );
         if( damage >= hp && ( bp == bodypart_str_id( "head" ) || bp == bodypart_str_id( "torso" ) ) ) {
-            add_effect( effect_infected, 1_hours, bp->token );
+            add_effect( effect_infected, 1_hours, bp.id() );
             add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
                                    body_part_name_accusative( bp ) );
             damage = hp * 0.8f;

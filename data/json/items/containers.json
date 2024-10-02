@@ -732,7 +732,8 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "test_tube",
@@ -752,7 +753,8 @@
     "contains": "10ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "beaker",

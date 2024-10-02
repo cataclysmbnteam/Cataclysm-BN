@@ -155,8 +155,13 @@
     "id": "TURRET",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "A heavy weapon mounted in a turret.  It can be fired from the vehicle controls.",
+    "info": "A heavy weapon mounted in a turret.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
     "requires_flag": "TURRET_MOUNT"
+  },
+  {
+    "id": "MANUAL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ]
   },
   {
     "id": "TURRET_CONTROLS",

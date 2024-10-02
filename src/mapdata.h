@@ -467,7 +467,7 @@ struct map_data_common_t {
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
         // What itemgroup spawns when digging a shallow pit in this terrain, defaults to standard soil yield
-        std::string digging_result = "digging_soil_loam_50L";
+        std::string digging_result = "digging_soil_loam_200L";
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
@@ -655,7 +655,7 @@ t_basalt
 */
 extern ter_id t_null,
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
+       t_dirt, t_sand, t_clay, t_alluvial_deposit, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,

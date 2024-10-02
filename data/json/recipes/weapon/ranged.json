@@ -606,6 +606,17 @@
   },
   {
     "type": "recipe",
+    "result": "shuriken",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_intermediate", 3 ], [ "steel_tiny", 1 ] ]
+  },
+  {
+    "type": "recipe",
     "result": "lawn_dart",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -1065,11 +1076,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "electronics",
-    "skills_required": [ "mechanics", 6 ],
-    "difficulty": 8,
-    "time": "4 h 30 m",
+    "skills_required": [ "mechanics", 4 ],
+    "difficulty": 6,
+    "time": "1 h 30 m",
     "autolearn": true,
-    "book_learn": [ [ "recipe_lab_elec", 7 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 30 ] ],
     "components": [
@@ -1096,7 +1107,7 @@
       [ "steel_standard", 3 ]
     ],
     "difficulty": 10,
-    "time": "6 h",
+    "time": "4 h",
     "autolearn": true,
     "book_learn": [ [ "recipe_lab_elec", 9 ] ],
     "qualities": [
@@ -1233,6 +1244,20 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 6 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cannon_3in_makeshift",
+    "byproducts": [ [ "splinter", 10 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_intermediate", 40 ], [ "steel_standard", 10 ], [ "wood_structural", 5 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "log", 2 ] ] ]
   },
   {
     "result": "carbon_pistol",

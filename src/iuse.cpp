@@ -254,7 +254,6 @@ static const itype_id itype_joint( "joint" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
-static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_mobile_memory_card( "mobile_memory_card" );
 static const itype_id itype_mobile_memory_card_used( "mobile_memory_card_used" );
 static const itype_id itype_mp3( "mp3" );
@@ -871,7 +870,7 @@ int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good,
                           _( "You no longer need to worry about asthma attacks, at least for a while." ) );
-    p->add_effect( effect_took_antiasthmatic, 1_days, num_bp );
+    p->add_effect( effect_took_antiasthmatic, 1_days, bodypart_str_id::NULL_ID() );
     return it->type->charges_to_use();
 }
 
@@ -2592,7 +2591,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
         result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
     }
 
-    return { moves, static_cast<int>( dig_minutes / 15 ), g->m.ter( pos )->digging_result, result_terrain };
+    return { moves, static_cast<int>( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -3532,7 +3531,9 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                               it->tname() );
         return 0;
-    } else { // When that timer runs down...
+    }
+
+    if( it->charges == 0 ) { // When that timer runs down...
         int explosion_radius = 3;
         int effect_roll = rng( 1, 5 );
         auto buff_stat = [&]( int &current_stat, int modify_by ) {
@@ -3697,13 +3698,17 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    if( t ) { // Simple timer effects
+
+    if( t ) {
+        // Simple timer effects
         // Vol 0 = only heard if you hold it
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
         return 0;
-    } else {  // blow up
+    }
+
+    if( it->charges == 0 ) { // blow up
         int num_flames = rng( 3, 5 );
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
@@ -3722,6 +3727,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
             p->rem_morale( MORALE_PYROMANIA_NOFIRE );
             p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
+        return 0;
     }
     return 0;
 }
@@ -3754,6 +3760,12 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
     } else if( !t ) {
+        if( p->has_item( *it ) ) {
+            if( !query_yn( "Really smash it on yourself?" ) ) {
+                p->add_msg_if_player( m_info, _( "You should probably throw it instead." ) );
+                return 0;
+            }
+        }
         for( const tripoint &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             g->m.add_field( pt, fd_fire, intensity );
@@ -3763,18 +3775,12 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
             p->rem_morale( MORALE_PYROMANIA_NOFIRE );
             p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
-        return 1;
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                              it->tname() );
-        return 0;
-    } else if( p->has_item( *it ) && it->charges == 0 ) {
-        it->charges += 1;
-        if( one_in( 5 ) ) {
-            p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
-            it->convert( itype_molotov );
-            it->deactivate();
+        // If you exploded it on yourself through activation.
+        if( it->has_position() ) {
+            it->detach();
         }
+        return 1;
+    } else if( p->has_item( *it ) && it->charges == 0 ) {
         return 0;
     }
     return 0;
@@ -3843,13 +3849,16 @@ int iuse::firecracker_act( player *p, item *it, bool t, const tripoint &pos )
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
     }
+
     if( t ) { // Simple timer effects
-        sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
+        sounds::sound( pos, 0, sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
         return 0;
-    } else { // When that timer runs down...
+    }
+
+    if( it->charges == 0 ) { // When that timer runs down...
         sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), true, "explosion", "small" );
     }
     return 0;
@@ -5545,7 +5554,7 @@ int iuse::jet_injector( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the jet injector." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_jetinjector, 20_minutes, num_bp, 2 );
+        p->add_effect( effect_jetinjector, 20_minutes, bodypart_str_id::NULL_ID(), 2 );
         p->mod_painkiller( 20 );
         p->mod_stim( 10 );
         p->healall( 20 );
@@ -5573,7 +5582,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the stimulants." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_stimpack, 25_minutes, num_bp, 2 );
+        p->add_effect( effect_stimpack, 25_minutes, bodypart_str_id::NULL_ID(), 2 );
         p->mod_painkiller( 2 );
         p->mod_stim( 20 );
         p->mod_fatigue( -100 );
@@ -7737,7 +7746,7 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
     }
 
     time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
-                          it->type->tool->turns_per_charge );
+                          it->type->tool->turns_per_charge - it->type->tool->turns_active );
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
                           to_string( shift ) );
@@ -9715,6 +9724,42 @@ int iuse::modify_grid_connections( player *p, item *it, bool, const tripoint &po
     }
 
     return 0;
+}
+
+int iuse::amputate( player *, item *it, bool, const tripoint &pos )
+{
+    if( !it->ammo_sufficient() ) {
+        return 0;
+    }
+
+    Creature *patient = g->critter_at<Character>( pos );
+    if( !patient ) {
+        add_msg( m_info, _( "Nevermind." ) );
+        return 0;
+    }
+
+    auto &body = patient->get_body();
+
+    uilist bp_menu;
+    bp_menu.text = _( "Select body part to amputate:" );
+    bp_menu.allow_cancel = true;
+
+    for( const auto &pr : body ) {
+        bp_menu.addentry( pr.first->name_as_heading.translated() );
+    }
+
+    bp_menu.query();
+    if( bp_menu.ret < 0 ) {
+        add_msg( m_info, _( "Nevermind." ) );
+        return 0;
+    }
+
+    auto bp_iter = std::next( body.begin(), bp_menu.ret );
+    // Prepare for bugs!
+    add_msg( m_bad, _( "Body part removed: %s" ), bp_iter->first->name_as_heading.translated() );
+    body.erase( bp_iter );
+
+    return it->type->charges_to_use();
 }
 
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const

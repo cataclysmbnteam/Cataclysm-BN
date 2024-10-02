@@ -25,13 +25,24 @@
   },
   {
     "type": "recipe",
+    "result": "mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "cotton_ball", 100 ] ], [ [ "spring", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "down_mattress",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "240 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
@@ -250,6 +261,28 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "leather", 12 ], [ "fur", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tarp",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [
+        [ "folding_poncho", 1 ],
+        [ "folding_poncho_on", 1 ],
+        [ "emer_blanket", 1 ],
+        [ "emer_blanket_on", 1 ],
+        [ "plastic_sheet", 1 ]
+      ],
+      [ [ "duct_tape", 20 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -576,7 +609,6 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "240 m",
-    "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "felt_patch", 60 ] ], [ [ "yarn", 650 ] ] ]
@@ -592,5 +624,17 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "felt_patch", 4 ] ], [ [ "yarn", 130 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_rock",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "time": "1 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock", 1 ] ] ]
   }
 ]

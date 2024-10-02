@@ -584,7 +584,12 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_juniper_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "juniper", "base_num": [ 12, 24 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn", "winter" ],
+        "entries": [ { "drop": "juniper", "base_num": [ 12, 24 ], "scale_num": [ 0, 0.5 ] } ]
+      }
+    ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -1843,7 +1848,12 @@
     "transforms_into": "t_shrub_rose_harvested",
     "examine_action": "harvest_ter_nectar",
     "looks_like": "t_shrub_strawberry",
-    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn", "winter" ],
+        "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+      }
+    ],
     "//": "Insert rose (flower) harvest in summer once flowers have a use (same for other generic flowers).",
     "bash": {
       "str_min": 4,

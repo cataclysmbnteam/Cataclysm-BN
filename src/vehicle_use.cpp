@@ -833,26 +833,38 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     if( has_part( "TURRET" ) ) {
-        options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
-        actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
+        std::vector<vehicle_part *> turrets;
+        for( auto &p : parts ) {
+            if( p.is_turret() && !is_manual_turret( p ) ) {
+                turrets.push_back( &p );
+            }
+        }
 
-        options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
-        actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
+        if( !turrets.empty() ) {
+            options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
+            actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
 
-        // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        options.emplace_back( _( "Aim manual turrets" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::MANUAL, true ); refresh(); } );
+            options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
+            actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
 
-        // This lets us manually override and set the target for the automatic turrets instead.
-        options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::AUTOMATIC, true ); refresh(); } );
+            // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
+            options.emplace_back( _( "Aim manual turrets" ), keybind( "TURRET_MANUAL_AIM" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::MANUAL, true ); refresh(); } );
 
-        // This lets us manually override and set the target for all turrets.
-        options.emplace_back( _( "Aim all turrets" ), keybind( "TURRET_ALL_OVERRIDE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::BOTH, true ); refresh(); } );
+            // This lets us manually override and set the target for the automatic turrets instead.
+            options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::AUTOMATIC, true ); refresh(); } );
 
-        options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_single( you ); refresh(); } );
+            // This lets us manually override and set the target for all turrets.
+            options.emplace_back( _( "Aim all turrets" ), keybind( "TURRET_ALL_OVERRIDE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::BOTH, true ); refresh(); } );
+
+            options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_single( you ); refresh(); } );
+        }
+
+
+
     }
 
     uilist menu;
@@ -1834,7 +1846,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
 
-    m.add_effect( effect_harnessed, 1_turns, num_bp );
+    m.add_effect( effect_harnessed, 1_turns, bodypart_str_id::NULL_ID() );
     m.setpos( pos );
     //~ %1$s: monster name, %2$s: vehicle name
     add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );

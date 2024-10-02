@@ -96,7 +96,6 @@
         ]
       },
       "palettes": [ "FEMA_camp" ],
-      "place_loot": [ { "item": "american_flag", "x": 40, "y": 15, "chance": 75 } ],
       "nested": {
         "1": { "chunks": [ [ "fema_lodging", 80 ], [ "fema_corpse_pit", 20 ] ] },
         "2": { "chunks": [ "fema_sanitary" ] },

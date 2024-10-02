@@ -45,13 +45,18 @@
     "name": { "str": "chunk of sulfur", "str_pl": "chunks of sulfur" },
     "symbol": "*",
     "color": "yellow",
-    "description": "A chunk of pure sulfur.  Break it up to use it.",
+    "description": "A chunk of pure sulfur.  Break it up to use it.  Slinging it at someone might give their eyes some nasty burns.",
     "material": "powder",
     "volume": "250 ml",
     "weight": "500 g",
     "//": "density is around 2g/cm3",
     "bashing": 1,
-    "ammo_type": "components"
+    "ammo_type": "rock",
+    "damage": { "damage_type": "bash", "amount": 5 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -79,13 +84,18 @@
     "name": { "str_sp": "limestone" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "A handful of small chunks of limestone.  Useful for experiments at science fairs, but pretty useless as ammo.  Maybe something could be crafted from this stuff…",
+    "description": "A handful of small chunks of limestone.  Useful for experiments at science fairs, or fired out of a slingshot.  Maybe something could be crafted from this stuff…",
     "material": "stone",
     "volume": "250 ml",
     "weight": "14 g",
     "bashing": 1,
-    "ammo_type": "components",
-    "count": 50
+    "ammo_type": "pebble",
+    "count": 50,
+    "damage": { "damage_type": "stab", "amount": 2 },
+    "range": 10,
+    "loudness": 0,
+    "dispersion": 14,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -432,7 +442,8 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -45,
-    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true },
+    "//": "No scale_qty for this since can get this acid from butchering acidic monsters, player would be forced to dump any excess at their feet.",
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ] },
     "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "ACID_TRAIL" ] }
   },
   {
@@ -1338,22 +1349,6 @@
     "price_postapoc": "10 cent",
     "container": "bottle_plastic_small",
     "material": "flesh",
-    "symbol": "=",
-    "color": "yellow",
-    "ammo_type": "components"
-  },
-  {
-    "id": "rosin",
-    "type": "AMMO",
-    "category": "chems",
-    "name": { "str": "rosin" },
-    "description": "This is a chunk of yellowish rosin, usable as a flux for soldering.",
-    "weight": "1 g",
-    "volume": "10 ml",
-    "count": 10,
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": "wood",
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "components"

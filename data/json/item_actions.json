@@ -642,7 +642,7 @@
   {
     "type": "item_action",
     "id": "MOLOTOV_LIT",
-    "name": { "str": "Light up" }
+    "name": { "str": "Detonate" }
   },
   {
     "type": "item_action",
@@ -1103,5 +1103,10 @@
     "type": "item_action",
     "id": "NOTE_BIONICS",
     "name": { "str": "Turn off" }
+  },
+  {
+    "type": "item_action",
+    "id": "AMPUTATE",
+    "name": { "str": "(Debug) Amputate body part" }
   }
 ]

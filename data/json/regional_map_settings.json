@@ -9,7 +9,7 @@
         "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
-        "t_region_groundcover_swamp": { "t_grass_long": 60, "t_grass_tall": 20, "t_moss": 40, "t_dirt": 40, "t_bog_iron": 1 },
+        "t_region_groundcover_swamp": { "t_grass_long": 90, "t_grass_tall": 30, "t_moss": 60, "t_dirt": 60, "t_bog_iron": 1 },
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
@@ -154,7 +154,7 @@
           "f_sunflower": 1,
           "f_mustard": 1
         },
-        "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
+        "f_region_water_plant": { "f_cattails": 6, "f_lilypad": 3, "f_lotus": 3 }
       }
     },
     "river_scale": 1,

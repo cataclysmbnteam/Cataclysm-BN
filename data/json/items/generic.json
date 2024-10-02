@@ -296,6 +296,23 @@
     "stackable": true
   },
   {
+    "type": "AMMO",
+    "//": "Ammo instead of generic as it sees use in makeshift repair kit.",
+    "id": "pitch_wood",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "brown",
+    "looks_like": "bone_glue",
+    "name": { "str_sp": "pitch" },
+    "description": "Sticky resin made from pine or birch tar.  Can be used for waterproofing or holding together small items, or for improvised repairs with the right tools.  When dried further it's known as rosin, often used as flux for solder.",
+    "price": "9 USD",
+    "material": [ "oil" ],
+    "weight": "29 g",
+    "volume": "25 ml",
+    "ammo_type": "pitch_wood",
+    "flags": [ "UNRECOVERABLE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "fertilizer",
     "symbol": "*",
@@ -1757,14 +1774,15 @@
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "clock" },
-    "description": "A small mechanical clock, it's stopped at 10:10.",
+    "description": "A small mechanical clock.  Tells the time and has an alarm clock feature.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": [ "plastic", "steel" ],
     "weight": "725 g",
     "volume": "250 ml",
     "bashing": 4,
-    "to_hit": -3
+    "to_hit": -3,
+    "flags": [ "WATCH", "ALARMCLOCK" ]
   },
   {
     "type": "GENERIC",
@@ -3130,5 +3148,59 @@
     "color": "green",
     "flags": [ "NO_SALVAGE" ],
     "stackable": true
+  },
+  {
+    "type": "GENERIC",
+    "id": "scute_piece",
+    "category": "spare_parts",
+    "name": { "str": "scute" },
+    "weight": "225 g",
+    "color": "green",
+    "symbol": "%",
+    "description": "A bony and scaled protrusion harvested from a large reptile.  Such things were used to make handbags before the Cataclysm, but the material is sturdy and protective.",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "scute",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "bone_heavy",
+    "category": "spare_parts",
+    "name": { "str": "heavy bone" },
+    "weight": "450 g",
+    "color": "white",
+    "symbol": "%",
+    "description": "A bone harvested from a large animal such as an elephant, or from certain types of zombies.  It is extremely dense and durable for its size, and largely inedible.",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "bone_heavy",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "teeth_serrated",
+    "category": "spare_parts",
+    "name": { "str": "sharp teeth" },
+    "weight": "450 g",
+    "color": "white",
+    "symbol": "%",
+    "description": "Teeth harvested from a carnivore such as a shark, or from certain types of mutant animals.  They are extremely dense and durable for their size, and can very easily cause jagged wounds.",
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "material": "bone_heavy",
+    "volume": "250 ml"
+  },
+  {
+    "id": "beehive_empty",
+    "type": "GENERIC",
+    "name": { "str": "empty beehive" },
+    "description": "A large, enclosed wooden box with multiple sliding frames in it.  With something to attract bees, it can be used to grow a hive.",
+    "weight": "10000 g",
+    "volume": "20 L",
+    "price": "92 USD",
+    "material": [ "wood" ],
+    "symbol": "-",
+    "color": "brown"
   }
 ]

@@ -21,6 +21,7 @@
       [ "knife_rm42", 2 ],
       [ "throwing_knife", 7 ],
       [ "throwing_axe", 6 ],
+      { "item": "shuriken", "prob": 4, "count": [ 1, 4 ] },
       [ "punch_dagger", 6 ],
       [ "pipe", 40 ],
       [ "bat", 80 ],

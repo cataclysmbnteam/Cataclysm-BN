@@ -285,7 +285,8 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 
     SECTION( "you cannot read in darkness" ) {
-        dummy.add_env_effect( efftype_id( "darkness" ), bp_eyes, 3, 1_hours );
+        // @todo Why is it an env effect? It only makes it resistable
+        dummy.add_env_effect( efftype_id( "darkness" ), body_part_eyes, 3, 1_hours );
         REQUIRE( !character_funcs::can_see_fine_details( dummy ) );
 
         CHECK( dummy.get_book_reader( child, reasons ) == nullptr );

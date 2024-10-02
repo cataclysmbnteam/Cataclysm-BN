@@ -282,5 +282,35 @@
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 12, "ammo": [ "40x46mm", "40x53mm" ], "draw_cost": 20 },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+  },
+  {
+    "id": "bandolier_knife",
+    "type": "ARMOR",
+    "name": { "str": "throwing knife bandolier" },
+    "description": "A bandolier worn across the chest with small leather sheathes sewn on.  Able to hold up to ten small knives, whether throwing knives or other small blades.  Activate to sheath or draw a knife.",
+    "weight": "140 g",
+    "volume": "250 ml",
+    "price": "19 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "bandolier_rifle",
+    "color": "brown",
+    "covers": [ "torso" ],
+    "coverage": 10,
+    "encumbrance": 1,
+    "max_encumbrance": 3,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Sheath knife",
+      "holster_msg": "You sheath your %s",
+      "multi": 10,
+      "min_volume": "15 ml",
+      "max_volume": "250 ml",
+      "draw_cost": 50,
+      "flags": [ "SHEATH_KNIFE" ]
+    },
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
   }
 ]

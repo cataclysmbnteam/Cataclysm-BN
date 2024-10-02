@@ -1984,9 +1984,9 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->add_effect( new_effect, duration, num_bp );
+        actor->add_effect( new_effect, duration );
         if( permanent ) {
-            actor->get_effect( new_effect, num_bp ).set_permanent();
+            actor->get_effect( new_effect ).set_permanent();
         }
     };
 }
@@ -2000,7 +2000,7 @@ void talk_effect_fun_t::set_remove_effect( const JsonObject &jo, const std::stri
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->remove_effect( efftype_id( old_effect ), num_bp );
+        actor->remove_effect( efftype_id( old_effect ) );
     };
 }
 
@@ -2472,10 +2472,10 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
             monster &tmp = *mon_ptr;
             // Our monster is always a pet.
             tmp.friendly = -1;
-            tmp.add_effect( effect_pet, 1_turns, num_bp );
+            tmp.add_effect( effect_pet, 1_turns, bodypart_str_id::NULL_ID() );
 
             if( pacified ) {
-                tmp.add_effect( effect_pacified, 1_turns, num_bp );
+                tmp.add_effect( effect_pacified, 1_turns, bodypart_str_id::NULL_ID() );
             }
 
             if( !name.empty() ) {

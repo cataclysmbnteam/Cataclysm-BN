@@ -124,7 +124,7 @@ static void eff_fun_spores( player &u, effect &it )
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_M_IMMUNE ) ) && ( one_in( 100 ) &&
             x_in_y( intense, 900 + u.get_healthy() * 0.6 ) ) ) {
-        u.add_effect( effect_fungus, 1_turns, num_bp );
+        u.add_effect( effect_fungus, 1_turns, bodypart_str_id::NULL_ID() );
     }
 }
 static void eff_fun_fungus( player &u, effect &it )
@@ -512,7 +512,7 @@ void Character::hardcoded_effects( effect &it )
             formication_chance += 14400 - to_turns<int>( dur );
         }
         if( one_in( formication_chance ) ) {
-            add_effect( effect_formication, 60_minutes, bp );
+            add_effect( effect_formication, 60_minutes, convert_bp( bp ) );
         }
         if( dur < 1_days && one_in( 14400 ) ) {
             vomit();
@@ -535,7 +535,7 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
             g->events().send<event_type::dermatik_eggs_hatch>( getID() );
-            remove_effect( effect_formication, bp );
+            remove_effect( effect_formication, convert_bp( bp ) );
             moves -= 600;
             triggered = true;
         }
@@ -598,10 +598,10 @@ void Character::hardcoded_effects( effect &it )
                                    _( "You feel something reaching out to you, before reality around you frays!" ) );
                 if( has_psy_protection( *this, 10 ) ) {
                     // Transfers half of remaining duration of nether attention, tinfoil only sometimes helps
-                    add_effect( effect_teleglow, ( dur / 2 ), num_bp, ( intense / 2 ) );
+                    add_effect( effect_teleglow, ( dur / 2 ), bodypart_str_id::NULL_ID(), ( intense / 2 ) );
                 } else {
                     // Transfers all remaining duration of nether attention to dimensional instability
-                    add_effect( effect_teleglow, dur, num_bp, intense );
+                    add_effect( effect_teleglow, dur, bodypart_str_id::NULL_ID(), intense );
                 }
                 it.set_duration( 0_turns );
             }
@@ -756,7 +756,7 @@ void Character::hardcoded_effects( effect &it )
         if( intense > 2 ) {
             if( one_in( 10000 ) ) {
                 if( !has_trait( trait_M_IMMUNE ) ) {
-                    add_effect( effect_fungus, 1_turns, num_bp );
+                    add_effect( effect_fungus, 1_turns, bodypart_str_id::NULL_ID() );
                     add_msg_if_player( m_bad, _( "You smell mold, and your skin itches." ) );
                 } else {
                     add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
@@ -860,7 +860,7 @@ void Character::hardcoded_effects( effect &it )
                 add_msg_if_player( m_bad,
                                    _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
                 add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
-                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, 0, true );
+                add_effect( effect_downed, rng( 1_turns, 4_turns ), bodypart_str_id::NULL_ID(), 0, true );
                 if( one_in( 8 ) || x_in_y( character_effects::vomit_mod( *this ), 10 ) ) {
                     vomit();
                 }
@@ -919,7 +919,7 @@ void Character::hardcoded_effects( effect &it )
         }
         if( zed_number > 0 ) {
             //If intensity isn't pass the cap, average it with # of zeds
-            add_effect( effect_grabbed, 2_turns, bp_torso, ( intense + zed_number ) / 2 );
+            add_effect( effect_grabbed, 2_turns, body_part_torso, ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;
@@ -978,7 +978,7 @@ void Character::hardcoded_effects( effect &it )
             // Move up to infection
             // Infection resistance can keep us in bite phase arbitrarily long
             if( dur > 6_hours && !has_trait( trait_INFRESIST ) ) {
-                add_effect( effect_infected, 1_turns, bp );
+                add_effect( effect_infected, 1_turns, convert_bp( bp ) );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
             } else if( has_effect( effect_strong_antibiotic ) ) {
@@ -1270,7 +1270,7 @@ void Character::hardcoded_effects( effect &it )
             } else {
                 if( asleep && dur == 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
-                        add_effect( effect_slept_through_alarm, 1_turns, num_bp );
+                        add_effect( effect_slept_through_alarm, 1_turns, bodypart_str_id::NULL_ID() );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 10_minutes );

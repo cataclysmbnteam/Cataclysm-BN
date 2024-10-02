@@ -239,8 +239,13 @@ void Character::process_turn()
             }
         }
 
-        //mask from scent altering items;
+        // Mask from scent altering items;
         norm_scent += mask_intensity;
+
+        // Now that all the additions are done, multiply norm_scent by any scent modifiers.
+        for( const trait_id &mut : get_mutations() ) {
+            norm_scent *= mut.obj().scent_modifier;
+        }
 
         // Scent increases fast at first, and slows down as it approaches normal levels.
         // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
@@ -252,10 +257,6 @@ void Character::process_turn()
         // Unusually high scent decreases steadily until it reaches normal levels.
         if( scent > norm_scent ) {
             scent--;
-        }
-
-        for( const trait_id &mut : get_mutations() ) {
-            scent *= mut.obj().scent_modifier;
         }
     }
 
@@ -646,11 +647,11 @@ void Character::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp );
+            add_effect( type, dur, bodypart_str_id::NULL_ID() );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type );
         }
     };
     // Painkiller
@@ -710,7 +711,8 @@ void Character::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
+                     ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) / 20.0f - encumb(
+                         body_part_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1.5 );
@@ -1029,7 +1031,7 @@ void do_pause( Character &who )
         time_duration total_left = 0_turns;
         bool on_ground = who.has_effect( effect_downed );
         for( const body_part bp : all_body_parts ) {
-            effect &eff = who.get_effect( effect_onfire, bp );
+            effect &eff = who.get_effect( effect_onfire, convert_bp( bp ) );
             if( eff.is_null() ) {
                 continue;
             }
@@ -1044,7 +1046,7 @@ void do_pause( Character &who )
 
         // Don't drop on the ground when the ground is on fire
         if( total_left > 3_turns && !who.is_dangerous_fields( here.field_at( who.pos() ) ) ) {
-            who.add_effect( effect_downed, 2_turns, num_bp, 0, true );
+            who.add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0, true );
             who.add_msg_player_or_npc( m_warning,
                                        _( "You roll on the ground, trying to smother the fire!" ),
                                        _( "<npcname> rolls on the ground!" ) );

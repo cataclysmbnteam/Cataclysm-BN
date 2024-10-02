@@ -190,6 +190,13 @@ bool run(
         return true;
     } );
 
+    if( itm.kill_count() > 0 ) {
+        add_entry( "SHOW_KILL_LIST", hint_rating::good, [&]() {
+            itm.show_kill_list();
+            return true;
+        } );
+    }
+
     if( !itm.is_favorite ) {
         add_entry( "FAVORITE_ADD",
         hint_rating::good, [&]() {

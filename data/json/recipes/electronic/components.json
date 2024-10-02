@@ -24,16 +24,43 @@
     "skills_required": [ "electronics", 2 ],
     "difficulty": 5,
     "time": "3 m",
+    "batch_time_factors": [ 70, 5 ],
     "autolearn": true,
     "charges": 1,
-    "qualities": [
-      { "id": "ANVIL", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 3 },
-      { "id": "CUT", "level": 1 }
-    ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
+    "using": [ [ "surface_heat", 1 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "copper", 1 ] ],
+      [ [ "duct_tape", 1 ], [ "medical_tape", 1 ], [ "paper", 2 ], [ "filament", 10, "LIST" ], [ "pitch_wood", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "cable",
+    "id_suffix": "bulk",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 5,
+    "time": "30 m",
+    "batch_time_factors": [ 70, 5 ],
+    "autolearn": true,
+    "charges": 10,
+    "using": [ [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "copper", 10 ] ],
+      [
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 10 ],
+        [ "paper", 20 ],
+        [ "cordage_short", 2, "LIST" ],
+        [ "waterproofing", 1, "LIST" ]
+      ]
+    ]
   },
   {
     "type": "recipe",

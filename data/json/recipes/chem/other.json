@@ -113,7 +113,34 @@
     "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ], [ "reference_firstaid2", 2 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ] ]
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "bone", 10 ],
+        [ "bone_human", 10 ],
+        [ "bone_tainted", 20 ],
+        [ "teeth_serrated", 10 ],
+        [ "bone_heavy", 5 ],
+        [ "scute_piece", 5 ]
+      ]
+    ]
+  },
+  {
+    "result": "pitch_wood",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "skills_required": [ "cooking", 2 ],
+    "time": "15 m",
+    "batch_time_factors": [ 83, 5 ],
+    "autolearn": true,
+    "charges": 10,
+    "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "pine_bough", 5 ], [ "birchbark", 5 ] ] ]
   },
   {
     "result": "superglue",
@@ -136,27 +163,17 @@
         [ "bone", 20 ],
         [ "bone_human", 20 ],
         [ "bone_tainted", 40 ],
+        [ "teeth_serrated", 20 ],
+        [ "bone_heavy", 10 ],
+        [ "scute_piece", 10 ],
         [ "cured_hide", 2 ],
         [ "pine_bough", 10 ],
+        [ "birchbark", 10 ],
         [ "raw_dandelion", 20 ],
         [ "biollante_bud", 1 ],
         [ "ant_egg", 1 ],
         [ "slime_scrap", 1 ]
       ]
     ]
-  },
-  {
-    "result": "rosin",
-    "type": "recipe",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_OTHER",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "time": "60 m",
-    "batch_time_factors": [ 83, 5 ],
-    "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "DISTILL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "pine_bough", 1 ] ] ]
   }
 ]

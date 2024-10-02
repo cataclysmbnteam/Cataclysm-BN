@@ -183,8 +183,7 @@
         { "group": "tools_construction", "x": 75, "y": [ 90, 91 ], "chance": 60, "repeat": 4 },
         { "group": "tools_earthworking", "x": 75, "y": 92, "chance": 80, "repeat": 2 },
         { "group": "office_breakroom", "x": 73, "y": [ 78, 79 ], "chance": 40, "repeat": 3 },
-        { "item": "microwave", "x": 76, "y": 79, "chance": 80 },
-        { "item": "american_flag", "x": 90, "y": 91, "chance": 25 }
+        { "item": "microwave", "x": 76, "y": 79, "chance": 80 }
       ],
       "place_monsters": [
         { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 3, 21 ], "y": [ 3, 23 ], "density": 1 },

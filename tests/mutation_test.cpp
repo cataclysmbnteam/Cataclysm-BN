@@ -182,7 +182,7 @@ TEST_CASE( "Mutating with full mutagen accumulation results in multiple mutation
     REQUIRE( get_option<bool>( "BALANCED_MUTATIONS" ) );
     GIVEN( "Player with maximum intensity accumulated mutagen" ) {
         npc dummy;
-        dummy.add_effect( effect_accumulated_mutagen, 30_days, num_bp );
+        dummy.add_effect( effect_accumulated_mutagen, 30_days, bodypart_str_id::NULL_ID() );
         AND_GIVEN( "The player mutates" ) {
             dummy.mutate();
             THEN( "The player has >3 mutations" ) {

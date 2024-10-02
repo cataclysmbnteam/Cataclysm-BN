@@ -1098,10 +1098,10 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
     if( it->has_flag( flag_SPLINT ) ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
-            body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( convert_bp( bp ).id() ) &&
-                !worn_with_flag( flag_SPLINT, convert_bp( bp ).id() ) &&
-                it->covers( convert_bp( bp ).id() ) ) {
+            const bodypart_str_id &bp = player::hp_to_bp( hpp );
+            if( is_limb_broken( bp.id() ) &&
+                !worn_with_flag( flag_SPLINT, bp.id() ) &&
+                it->covers( bp.id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return wear_item( std::move( it ), false );
             }
@@ -2510,7 +2510,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = std::make_unique<player_activity>();
     clear_destination();
-    add_effect( effect_npc_suspend, 24_hours, num_bp, 1 );
+    add_effect( effect_npc_suspend, 24_hours, bodypart_str_id::NULL_ID(), 1 );
 }
 
 void npc::die( Creature *nkiller )
@@ -2796,7 +2796,7 @@ void npc::on_load()
 
     // for spawned npcs
     if( g->m.has_flag( "UNSTABLE", pos() ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp );
+        add_effect( effect_bouldering, 1_turns, bodypart_str_id::NULL_ID() );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -3270,7 +3270,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         new_attitude = NPCATT_FLEE_TEMP;
     }
     if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
-        add_effect( effect_npc_flee_player, 24_hours, num_bp );
+        add_effect( effect_npc_flee_player, 24_hours, bodypart_str_id::NULL_ID() );
     }
 
     add_msg( m_debug, "%s changes attitude from %s to %s",
@@ -3433,4 +3433,3 @@ void npc_follower_rules::clear_overrides()
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
 }
-

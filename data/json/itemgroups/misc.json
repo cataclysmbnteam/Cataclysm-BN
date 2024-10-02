@@ -56,12 +56,84 @@
     ]
   },
   {
-    "id": "digging_soil_loam_50L",
+    "id": "digging_soil_loam_200L",
     "type": "item_group",
     "subtype": "collection",
-    "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
+    "//": "~200L of loamy soil, sand, clay, and rocks from digging in generic dirt",
+    "items": [ { "item": "material_soil", "count": [ 36, 44 ] }, { "group": "digging_soil_extras", "count": 4 } ]
+  },
+  {
+    "id": "digging_clay_200L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~200L, 10% volume clay, for digging in clay terrain",
     "items": [
-      { "item": "material_soil", "count": [ 8, 12 ] },
+      { "item": "material_soil", "count": [ 32, 40 ] },
+      { "group": "digging_soil_extras", "count": 4 },
+      { "item": "clay_lump", "count": [ 72, 88 ] }
+    ]
+  },
+  {
+    "id": "digging_clay_mound_200L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~200L, 20% volume clay, for digging in clay mounds",
+    "items": [
+      { "item": "material_soil", "count": [ 28, 36 ] },
+      { "group": "digging_soil_extras", "count": 4 },
+      { "item": "clay_lump", "count": [ 144, 176 ] }
+    ]
+  },
+  {
+    "id": "digging_sand_200L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~200L, 10% volume sand, for digging in sand terrain",
+    "items": [
+      { "item": "material_soil", "count": [ 32, 40 ] },
+      { "group": "digging_soil_extras", "count": 4 },
+      { "item": "material_sand", "charges": [ 3600, 4400 ] }
+    ]
+  },
+  {
+    "id": "digging_sand_mound_200L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~200L, 20% volume sand, for digging in sand mounds",
+    "items": [
+      { "item": "material_soil", "count": [ 28, 36 ] },
+      { "group": "digging_soil_extras", "count": 4, "prob": 100 },
+      { "item": "material_sand", "charges": [ 7200, 8800 ] }
+    ]
+  },
+  {
+    "id": "digging_iron_200L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~200L, 10% volume iron ore, for digging in bog iron",
+    "items": [
+      { "item": "material_soil", "count": [ 32, 40 ] },
+      { "group": "digging_soil_extras", "count": 4 },
+      { "item": "iron_ore", "count": [ 14, 16 ] }
+    ]
+  },
+  {
+    "id": "digging_alluvial_200L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~200L of random soil clay and sand, variable amount of random metals, sometimes trash washed ashore.  For alluvial deposits.",
+    "items": [
+      { "distribution": [ { "group": "digging_clay_200L", "prob": 75 }, { "group": "digging_sand_200L", "prob": 25 } ] },
+      { "group": "trash_forest", "prob": 50, "count": [ 1, 4 ] },
+      { "group": "digging_alluvial_extras" }
+    ]
+  },
+  {
+    "id": "digging_soil_extras",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Random extras per 50 liters of soil dug up.",
+    "items": [
       { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
@@ -69,30 +141,24 @@
     ]
   },
   {
-    "id": "digging_clay_50L",
     "type": "item_group",
-    "subtype": "collection",
-    "//": "~50L, 10% volume clay, for digging in clay terrain",
-    "items": [
-      { "item": "material_soil", "count": [ 7, 11 ] },
-      { "item": "clay_lump", "count": [ 10, 30 ] },
-      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
-      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
-      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    "id": "digging_alluvial_extras",
+    "//": "Randomly picks a metal, with varying yield: 1-4 liters for copper, 200-800 ml for lead/tin, 100-400 ml for silver/gold.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "copper", "charges": [ 800, 3200 ], "prob": 70 },
+      { "item": "lead", "charges": [ 800, 3200 ], "prob": 10 },
+      { "item": "tin", "charges": [ 800, 3200 ], "prob": 10 },
+      { "item": "silver", "count": [ 400, 1600 ], "prob": 5 },
+      { "item": "gold_small", "count": [ 400, 1600 ], "prob": 5 }
     ]
   },
   {
-    "id": "digging_sand_50L",
+    "id": "digging_niter_bed",
     "type": "item_group",
     "subtype": "collection",
-    "//": "~50L, 10% volume sand, for digging in sand terrain",
-    "items": [
-      { "item": "material_soil", "count": [ 7, 11 ] },
-      { "item": "material_sand", "charges": [ 500, 1500 ] },
-      { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
-      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
-      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
-    ]
+    "//": "Results of standard digging, plus niter.",
+    "items": [ { "group": "digging_soil_loam_200L" }, { "item": "material_niter" } ]
   },
   {
     "id": "office_paper",

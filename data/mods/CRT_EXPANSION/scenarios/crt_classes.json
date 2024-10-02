@@ -39,7 +39,7 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [ "bandana", "crt_iduster", "army_top", "crt_canteen", "crt_pants", "socks", "crt_la_boots" ],
+        "items": [ "bandana_head", "crt_iduster", "army_top", "crt_canteen", "crt_pants", "socks", "crt_la_boots" ],
         "entries": [
           { "item": "knife_crt", "container-item": "crt_belt" },
           { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },

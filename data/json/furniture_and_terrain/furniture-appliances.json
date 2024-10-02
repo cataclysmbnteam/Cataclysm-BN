@@ -238,11 +238,12 @@
     "prompt": "Switch off the floor lamp.",
     "message": "You switch off the floor lamp.",
     "light_emitted": 160,
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "100 s",
+        "power": 3,
+        "consume_every": "300 s",
         "transform": { "id": "f_floor_lamp", "msg": "The lamp flickers and dies." }
       }
     ]
@@ -321,11 +322,12 @@
     "message": "You switch off the floodlight.",
     "//": "Increased brightness and power draw over utility lights which don't draw grid power, but far less than vehicle ones",
     "light_emitted": 400,
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "40 s",
+        "power": 7,
+        "consume_every": "300 s",
         "transform": { "id": "f_grid_floodlight", "msg": "The utility light flickers and dies." }
       }
     ]
@@ -405,11 +407,12 @@
     "prompt": "Switch off the street light.",
     "message": "You switch off the street light.",
     "light_emitted": 320,
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "50 s",
+        "power": 6,
+        "consume_every": "300 s",
         "transform": { "id": "f_street_light_rewired", "msg": "The street light flickers and dies." }
       }
     ]
@@ -909,6 +912,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "//": "10 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -3, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -946,6 +950,7 @@
     "coverage": 30,
     "required_str": -1,
     "//": "30 watts",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -9, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -985,6 +990,7 @@
     "coverage": 30,
     "required_str": -1,
     "//": "80 watts",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -24, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
@@ -1022,6 +1028,7 @@
     "color": "yellow",
     "coverage": 60,
     "//": "30 watts",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -54, "consume_every": "300 s" } ],
     "deconstruct": {
       "items": [
@@ -1954,6 +1961,7 @@
     "message": "You switch off the fridge.",
     "color": "light_cyan",
     "extend": { "flags": [ "FRIDGE" ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       { "power": 20, "consume_every": "600 s", "transform": { "id": "f_fridge", "msg": "The fridge shuts down." } }
@@ -2002,9 +2010,92 @@
     "color": "blue",
     "extend": { "flags": [ "FREEZER" ] },
     "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       { "power": 25, "consume_every": "600 s", "transform": { "id": "f_freezer", "msg": "The freezer shuts down." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "abstract": "f_minifridge_base",
+    "copy-from": "f_fridge_base",
+    "name": "abstract minifridge",
+    "looks_like": "minifridge",
+    "symbol": "H",
+    "description": "Abstract furniture.  If you see this, something went wrong.",
+    "color": "light_cyan",
+    "coverage": 30,
+    "deconstruct": { "items": [ { "item": "minifridge", "count": 1 } ] },
+    "max_volume": "75 L",
+    "extend": { "flags": [ "TRANSPARENT" ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 6, 10 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 1, 6 ] },
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "cu_pipe", "count": [ 1, 3 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "motor_tiny", "prob": 25 }
+      ],
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifridge_off",
+    "copy-from": "f_minifridge_base",
+    "name": "grid minifridge (off)",
+    "symbol": "H",
+    "description": "Refrigerate your food with the amazing science of electricity!  It is switched off.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifridge",
+    "prompt": "Switch on the minifridge.",
+    "message": "You switch on the minifridge.",
+    "color": "light_blue"
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifridge",
+    "name": "grid minifridge",
+    "copy-from": "f_minifridge_base",
+    "symbol": "H",
+    "description": "Refrigerate your food with the amazing science of electricity!  It has no power.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifridge_off",
+    "prompt": "Switch off the minifridge.",
+    "message": "You switch off the minifridge.",
+    "active": [ "charge_watcher", { "min_power": 26, "transform": { "id": "f_minifridge_on", "msg": "The minifridge starts up." } } ],
+    "color": "light_blue"
+  },
+  {
+    "type": "furniture",
+    "id": "f_minifridge_on",
+    "name": "grid minifridge (on)",
+    "copy-from": "f_minifridge_base",
+    "symbol": "H",
+    "description": "Refrigerate your food with the amazing science of electricity!  It is switched on.",
+    "examine_action": "transform",
+    "transforms_into": "f_minifridge_off",
+    "prompt": "Switch off the minifridge.",
+    "message": "You switch off the minifridge.",
+    "color": "light_blue",
+    "extend": { "flags": [ "FRIDGE" ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
+    "active": [
+      "steady_consumer",
+      {
+        "power": 18,
+        "consume_every": "600 s",
+        "transform": { "id": "f_minifridge", "msg": "The minifridge shuts down." }
+      }
     ]
   },
   {
@@ -2018,7 +2109,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
     "deconstruct": { "items": [ { "item": "minifreezer", "count": 1 } ] },
     "max_volume": "75 L",
     "bash": {
@@ -2079,10 +2170,11 @@
     "message": "You switch off the minifreezer.",
     "color": "blue",
     "extend": { "flags": [ "FREEZER" ] },
+    "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
       {
-        "power": 45,
+        "power": 27,
         "consume_every": "600 s",
         "transform": { "id": "f_minifreezer", "msg": "The minifreezer shuts down." }
       }
@@ -2207,11 +2299,12 @@
     "transforms_into": "f_grid_air_conditioner_off",
     "prompt": "Switch off AC unit",
     "message": "You turn the AC off.",
+    "//": "Exception on steady_consumer for some furniture.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "2 s",
+        "power": 30,
+        "consume_every": "60 s",
         "transform": { "id": "f_grid_air_conditioner", "msg": "The AC runs out of power and cools off." }
       }
     ],
@@ -2292,11 +2385,12 @@
     "transforms_into": "f_space_heater_off",
     "message": "You turn the heater off.",
     "light_emitted": 2,
+    "//": "Exception on steady_consumer for some furniture.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "2 s",
+        "power": 30,
+        "consume_every": "60 s",
         "transform": { "id": "f_space_heater", "msg": "The heater runs out of power and cools off." }
       }
     ],
@@ -2360,11 +2454,12 @@
     "transforms_into": "f_space_heater_large_off",
     "message": "You turn the heater off.",
     "light_emitted": 2,
+    "//": "Exception on steady_consumer for some furniture.",
     "active": [
       "steady_consumer",
       {
-        "power": 1,
-        "consume_every": "1 s",
+        "power": 60,
+        "consume_every": "60 s",
         "transform": { "id": "f_space_heater_large", "msg": "The heater runs out of power and cools off." }
       }
     ],
@@ -2413,7 +2508,8 @@
         { "item": "power_supply", "count": 3 }
       ]
     },
-    "active": [ "steady_consumer", { "power": -1, "consume_every": "3 s" } ]
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
+    "active": [ "steady_consumer", { "power": -100, "consume_every": "300 s" } ]
   },
   {
     "type": "furniture",

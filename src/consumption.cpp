@@ -928,7 +928,7 @@ bool Character::eat( item &food, bool force )
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !has_trait( trait_M_IMMUNE ) ) {
-        add_effect( effect_fungus, 1_turns, num_bp );
+        add_effect( effect_fungus, 1_turns, bodypart_str_id::NULL_ID() );
     }
 
     // Chance to become parasitised
@@ -937,18 +937,18 @@ bool Character::eat( item &food, bool force )
             one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
-                    add_effect( effect_tapeworm, 1_turns, num_bp );
+                    add_effect( effect_tapeworm, 1_turns, bodypart_str_id::NULL_ID() );
                     break;
                 case 1:
                     if( !has_trait( trait_ACIDBLOOD ) ) {
-                        add_effect( effect_bloodworms, 1_turns, num_bp );
+                        add_effect( effect_bloodworms, 1_turns, bodypart_str_id::NULL_ID() );
                     }
                     break;
                 case 2:
-                    add_effect( effect_brainworms, 1_turns, num_bp );
+                    add_effect( effect_brainworms, 1_turns, bodypart_str_id::NULL_ID() );
                     break;
                 case 3:
-                    add_effect( effect_paincysts, 1_turns, num_bp );
+                    add_effect( effect_paincysts, 1_turns, bodypart_str_id::NULL_ID() );
             }
         }
     }

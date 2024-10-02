@@ -42,5 +42,31 @@
     "damage_modifier": { "damage_type": "stab", "amount": 500 },
     "dispersion_modifier": 500,
     "ups_charges_multiplier": 50
+  },
+  {
+    "id": "accelerator_gunmod",
+    "type": "GUNMOD",
+    "name": { "str": "makeshift firearm accelerator" },
+    "description": "Advents in power transfer technology has resulted in railguns becoming much more viable.  Makeshift railgun conversions like this one were a rare but known sight in the riots before the Cataclysm, and it may help you survive it.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "integral_volume": "150 ml",
+    "price": "900 USD",
+    "price_postapoc": "90 USD",
+    "material": [ "steel" ],
+    "looks_like": "high_density_capacitor",
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "barrel",
+    "blacklist_mod": "emitter",
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "MACHINE_GUNS" ], [ "PISTOLS" ], [ "REVOLVERS" ] ],
+    "install_time": "15 m",
+    "handling_modifier": -5,
+    "range_modifier": 5,
+    "dispersion_modifier": 25,
+    "loudness_modifier": 15,
+    "damage_modifier": { "damage_type": "bullet", "amount": 15 },
+    "ups_charges_modifier": 30,
+    "min_skills": [ [ "electronics", 4 ] ]
   }
 ]

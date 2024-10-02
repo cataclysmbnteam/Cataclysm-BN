@@ -198,7 +198,7 @@
     "explosion": {
       "damage": 70,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 10 }
     },
     "use_action": {
       "target": "dynamite_bomb_act",
@@ -232,7 +232,7 @@
     "explosion": {
       "damage": 70,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 10 }
     },
     "use_action": {
       "type": "explosion",
@@ -242,7 +242,7 @@
       "explosion": {
         "damage": 70,
         "radius": 6,
-        "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 10 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 10 }
       }
     },
     "flags": [ "TRADER_AVOID", "BOMB", "ALLOWS_REMOTE_USE" ]
@@ -574,8 +574,8 @@
     "material": "steel",
     "symbol": "*",
     "color": "dark_gray",
-    "initial_charges": 3,
-    "max_charges": 3,
+    "initial_charges": 10,
+    "max_charges": 10,
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
     "use_action": {
@@ -641,7 +641,7 @@
       "explosion": {
         "damage": 40,
         "radius": 3,
-        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 6 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2 }, "range": 6 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
@@ -988,8 +988,6 @@
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "target": "molotov_lit",
       "msg": "You light the Molotov cocktail!",
@@ -1007,7 +1005,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Molotov cocktail" },
-    "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
+    "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  You can also activate it to smash it on yourself, but why would you want to do that?",
     "weight": "742 g",
     "volume": "750 ml",
     "price": "0 cent",
@@ -1019,8 +1017,10 @@
     "color": "light_gray",
     "initial_charges": 1,
     "max_charges": 1,
-    "turns_per_charge": 1,
+    "turns_per_charge": 5,
     "use_action": "MOLOTOV_LIT",
+    "revert_to": "molotov",
+    "revert_msg": "Your lit molotov goes out.",
     "flags": [ "LIGHT_20", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "ACT_ON_RANGED_HIT" ]
   },
   {
@@ -1187,9 +1187,9 @@
     "color": "red",
     "explode_in_fire": true,
     "explosion": {
-      "power": 25000,
-      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
-      "shrapnel": 12600
+      "damage": 250,
+      "radius": 12,
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_anfo_charge_act",
@@ -1224,7 +1224,7 @@
     "explosion": {
       "damage": 250,
       "radius": 12,
-      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1232,9 +1232,10 @@
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
       "explosion": {
-        "power": 48900,
         "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
-        "shrapnel": 12600
+        "damage": 250,
+        "radius": 12,
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.5 }, "range": 20 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -1257,7 +1258,7 @@
     "explosion": {
       "damage": 50,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_small_improvised_fragmentation_device_act",
@@ -1290,7 +1291,7 @@
     "explosion": {
       "damage": 50,
       "radius": 6,
-      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1300,7 +1301,7 @@
       "explosion": {
         "damage": 50,
         "radius": 6,
-        "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 3 }, "range": 20 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 150, "armor_multiplier": 2.5 }, "range": 20 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -1325,7 +1326,7 @@
     "explosion": {
       "damage": 200,
       "radius": 15,
-      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "target": "tool_improvised_barrel_bomb_act",
@@ -1361,7 +1362,7 @@
     "explosion": {
       "damage": 200,
       "radius": 15,
-      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+      "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.5 }, "range": 20 }
     },
     "use_action": {
       "type": "explosion",
@@ -1371,7 +1372,7 @@
       "explosion": {
         "damage": 200,
         "radius": 15,
-        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 3 }, "range": 20 }
+        "fragment": { "impact": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.5 }, "range": 20 }
       }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]

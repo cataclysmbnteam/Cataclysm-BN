@@ -266,17 +266,22 @@
     "durability": 95,
     "description": "A small but comfortable bed.",
     "size": "50 L",
-    "item": "seat",
+    "item": "mattress",
     "comfort": 4,
-    "floor_bedding_warmth": 300,
+    "floor_bedding_warmth": 800,
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
     "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE" ],
-    "breaks_into": "ig_vp_seat",
+    "breaks_into": [
+      { "item": "rag", "count": [ 1, 20 ] },
+      { "item": "cotton_ball", "count": [ 5, 25 ] },
+      { "item": "spring", "count": [ 0, 3 ] },
+      { "item": "scrap", "count": [ 4, 6 ] }
+    ],
     "damage_reduction": { "all": 3 }
   },
   {
@@ -323,7 +328,7 @@
     "item": "frame_wood",
     "location": "structure",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -412,10 +417,10 @@
     "broken_color": "brown",
     "durability": 200,
     "description": "An aisle.",
-    "item": "frame_wood",
+    "item": "wood_plate",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -434,10 +439,10 @@
     "broken_color": "brown",
     "durability": 200,
     "description": "An aisle.",
-    "item": "frame_wood",
+    "item": "wood_plate",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -1049,7 +1054,7 @@
     "item": "frame_wood",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 15 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -1073,7 +1078,7 @@
     "item": "foldwoodframe",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -1124,7 +1129,7 @@
     "item": "w_table",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -1182,7 +1187,7 @@
     "item": "boat_board",
     "location": "under",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 15 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -1311,7 +1316,8 @@
   {
     "type": "vehicle_part",
     "id": "sail",
-    "name": { "str": "sail" },
+    "name": { "str": "small sail" },
+    "description": "A sail for a raft, small enough to be foldable.",
     "symbol": "M",
     "color": "light_gray",
     "broken_symbol": "#",
@@ -1324,12 +1330,12 @@
     "m2c": 90,
     "exclusions": [ "wind" ],
     "item": "sail",
-    "location": "engine_block",
+    "location": "on_roof",
     "folded_volume": "500 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
     "flags": [
       "ENGINE",
@@ -1343,6 +1349,28 @@
       "UNMOUNT_ON_DAMAGE"
     ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "rag", "count": [ 5, 10 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "sail_large",
+    "copy-from": "sail",
+    "name": { "str": "large sail" },
+    "description": "Sails and rigging fit for a yacht or sloop, about as large as a single person can reasonably crew.",
+    "durability": 150,
+    "power": 4000,
+    "item": "sail_large_item",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 30 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_nail_removal", 2 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+    },
+    "breaks_into": [
+      { "item": "log", "count": [ 1, 2 ] },
+      { "item": "splinter", "count": [ 10, 20 ] },
+      { "item": "sheet", "count": [ 0, 1 ] },
+      { "item": "rag", "count": [ 25, 50 ] }
+    ],
+    "delete": { "flags": [ "UNMOUNT_ON_DAMAGE" ] }
   },
   {
     "type": "vehicle_part",
@@ -1387,7 +1415,7 @@
     "item": "reins_tackle",
     "folded_volume": "250 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ], [ "vehicle_repair_small_wood", 4 ] ] }
     },
@@ -1997,7 +2025,7 @@
     "item": "wood_plate",
     "location": "armor",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -2574,7 +2602,7 @@
     "item": "frame_wood",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 15 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -2597,7 +2625,7 @@
     "folded_volume": "1250 ml",
     "location": "structure",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_wood", 2 ] ] }
     },
@@ -2619,7 +2647,7 @@
     "item": "frame_wood",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -2642,7 +2670,7 @@
     "item": "frame_wood",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -2660,10 +2688,10 @@
     "broken_color": "dark_gray",
     "durability": 130,
     "description": "A wooden roof.",
-    "item": "frame_wood",
+    "item": "wood_plate",
     "location": "roof",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
     },
@@ -2848,7 +2876,7 @@
     "description": "A clock, so you know what time it is.",
     "epower": 0,
     "folded_volume": "250 ml",
-    "item": "wristwatch",
+    "item": "clock",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -2878,7 +2906,7 @@
     "location": "on_roof",
     "folded_volume": "250 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ], [ "fabric_hides_proper", 1 ] ] }
     },
@@ -2902,7 +2930,7 @@
     "location": "on_roof",
     "folded_volume": "250 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ], [ "vehicle_repair_small_wood", 1 ] ] }
     },
@@ -2926,7 +2954,7 @@
     "location": "on_roof",
     "folded_volume": "250 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ], [ "plastics", 1 ] ] }
     },
@@ -2999,7 +3027,7 @@
     "item": "tarp_raincatcher",
     "location": "on_roof",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "6 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ], [ "vehicle_repair_small_wood", 4 ] ] }
     },
@@ -3220,7 +3248,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 80,
     "durability": 320,
-    "description": "A rotating, universal mount for a weapon.  If your hands are empty, you can stand on the same tile as a turret mount and 'f'ire the weapon.",
+    "description": "A rotating, universal mount for a weapon.  Weapons installed on it can be fired from the vehicle controls.  If your hands are empty, you can also stand on the same tile as a mounted gun and 'f'ire the weapon.",
     "folded_volume": "2500 ml",
     "item": "turret_mount",
     "requirements": {
@@ -3231,6 +3259,79 @@
     "flags": [ "TURRET_MOUNT", "FOLDABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "turret_mount_manual_foldablewood",
+    "copy-from": "turret_mount",
+    "name": { "str": "simple foldable wooden turret mount" },
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 15,
+    "description": "A simple hardpoint for mounting a weapon.  Can only be fired manually, and can't accept turret controls.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
+    "folded_volume": "3750 ml",
+    "item": "foldwoodframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+    },
+    "extend": { "flags": [ "MANUAL" ] },
+    "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "turret_mount_manual_foldablesteel",
+    "copy-from": "turret_mount",
+    "name": { "str": "simple foldable light turret mount" },
+    "durability": 50,
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
+    "item": "foldframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "extend": { "flags": [ "MANUAL" ] },
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "turret_mount_manual_wood",
+    "copy-from": "turret_mount",
+    "name": { "str": "simple wooden turret mount" },
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 150,
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
+    "item": "frame_wood",
+    "folded_volume": "0 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_install", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+    },
+    "extend": { "flags": [ "MANUAL" ] },
+    "delete": { "flags": [ "FOLDABLE" ] },
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "turret_mount_manual_steel",
+    "copy-from": "turret_mount",
+    "name": { "str": "simple steel turret mount" },
+    "durability": 400,
+    "description": "A simple hardpoint for mounting a weapon.  Lacks the necessary electronics to support firing remotely or installing turret controls.  If your hands are empty, you can stand on the same tile as a mounted gun and 'f'ire the weapon.",
+    "item": "frame",
+    "folded_volume": "0 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] }
+    },
+    "extend": { "flags": [ "MANUAL" ] },
+    "delete": { "flags": [ "FOLDABLE" ] },
+    "breaks_into": "ig_vp_frame"
   },
   {
     "type": "vehicle_part",
@@ -3289,5 +3390,38 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_american_flag",
+    "name": { "str": "mounted American flag" },
+    "description": "An American flag, fluttering in the breeze atop a vehicle.",
+    "symbol": "F",
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "looks_like": "vp_sail",
+    "damage_modifier": 1,
+    "durability": 200,
+    "item": "american_flag",
+    "location": "on_roof",
+    "folded_volume": "500 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "cordage", 1 ], [ "wood_structural_small", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [  ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "fabric_standard", 1 ] ] }
+    },
+    "flags": [ "FOLDABLE", "PROTRUSION", "OVER", "UNMOUNT_ON_DAMAGE" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 1, 5 ] }, { "item": "american_flag", "count": 1 } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "mounted_pirate_flag",
+    "copy-from": "mounted_american_flag",
+    "name": { "str": "mounted Jolly Roger" },
+    "description": "A black pirate flag, fluttering in the breeze atop a vehicle.",
+    "color": "dark_gray",
+    "item": "pirate_flag",
+    "breaks_into": [ { "item": "splinter", "count": [ 1, 5 ] }, { "item": "pirate_flag", "count": 1 } ]
   }
 ]

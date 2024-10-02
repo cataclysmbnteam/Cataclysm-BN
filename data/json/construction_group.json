@@ -846,6 +846,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_niter_bed",
+    "name": "Build Niter Bed"
+  },
+  {
+    "type": "construction_group",
     "id": "clean_broken_window",
     "name": "Clean Broken Window"
   },
@@ -893,21 +898,6 @@
     "type": "construction_group",
     "id": "dig_shallow_grave",
     "name": "Fill Shallow Grave"
-  },
-  {
-    "type": "construction_group",
-    "id": "extract_clay",
-    "name": "Extract Clay"
-  },
-  {
-    "type": "construction_group",
-    "id": "extract_sand",
-    "name": "Extract Sand"
-  },
-  {
-    "type": "construction_group",
-    "id": "extract_bog_iron",
-    "name": "Extract Bog Iron"
   },
   {
     "type": "construction_group",
@@ -993,6 +983,11 @@
     "type": "construction_group",
     "id": "install_glass_freezer",
     "name": "Install Glass Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_minifridge",
+    "name": "Install Minifridge"
   },
   {
     "type": "construction_group",
@@ -1126,6 +1121,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_steel_target",
+    "name": "Build steel target"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_beehive",
+    "name": "Build Beehive"
+  },
+  {
+    "type": "construction_group",
     "id": "mine_downstair",
     "name": "Mine Downstair"
   },
@@ -1133,6 +1138,21 @@
     "type": "construction_group",
     "id": "mine_upstair",
     "name": "Mine Upstair"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build Wooden Flagpole"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_us_flag",
+    "name": "Hoist American Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_pirate_flag",
+    "name": "Hoist Jolly Roger"
   },
   {
     "type": "construction_group",

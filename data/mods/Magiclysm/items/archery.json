@@ -3,6 +3,7 @@
     "id": "ichaival",
     "type": "GUN",
     "looks_like": "compositebow",
+    "weapon_category": [ "BOWS", "ELASTIC" ],
     "symbol": "(",
     "color": "white",
     "name": { "str": "Ichaival" },

@@ -2183,6 +2183,9 @@ void item::io( Archive &archive )
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
+    if( is_tool() ) {
+        archive.io( "turns_active", type->tool->turns_active, 0 );
+    }
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "rot", rot, 0_turns );
@@ -2303,6 +2306,7 @@ void item::io( Archive &archive )
             debugmsg( "Item %s was loaded with charges, but can not have any!", type->get_id() );
         }
         charges = 0;
+        curammo = nullptr;
     }
 
     // Relic check. Kinda late, but that's how relics have to be
@@ -2329,6 +2333,10 @@ void item::deserialize( JsonIn &jsin )
         }
     } else {
         data.read( "contents", contents );
+    }
+    if( data.has_member( "item_kill_tracker" ) ) {
+        kills = std::make_unique<kill_tracker>( false );
+        data.read( "item_kill_tracker", kills );
     }
 
     if( data.has_member( "id" ) ) {
@@ -2357,6 +2365,10 @@ void item::serialize( JsonOut &json ) const
     const_cast<item *>( this )->io( archive );
     if( !contents.empty() ) {
         json.member( "contents", contents );
+    }
+    if( kills ) {
+        json.member( "item_kill_tracker" );
+        kills->serialize( json );
     }
 
     safe_reference<item>::id_type id = safe_reference<item>::lookup_id( this );

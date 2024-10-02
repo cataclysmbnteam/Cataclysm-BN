@@ -1,0 +1,578 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_trans_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Trans pride flag",
+    "looks_like": "trans_flag",
+    "description": "An old metal flagpole, now flying the blue, pink, and white of a transgender pride flag.  The blue represents transmascs, the pink represents transfemmes, and the white represents non-binary individuals.",
+    "symbol": "i",
+    "color": "light_blue",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "trans_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "trans_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_trans_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Trans pride flag",
+    "looks_like": "trans_flag",
+    "description": "This makeshift flagpole is currently flying the blue, pink, and white of a transgender pride flag.  The blue represents transmascs, the pink represents transfemmes, and the white represents non-binary individuals.",
+    "symbol": "i",
+    "color": "light_blue",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "trans_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "trans_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rainbow_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with LGBTQ+ pride flag",
+    "looks_like": "rainbow_flag",
+    "description": "An old metal flagpole, now flying the classic rainbow hues of an LGBTQ+ pride flag.  The rainbow of colors represents the rainbow of individuals throughout the community.",
+    "symbol": "i",
+    "color": "red",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "rainbow_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "rainbow_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rainbow_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with LGBTQ+ pride flag",
+    "looks_like": "rainbow_flag",
+    "description": "This makeshift flagpole is currently flying the classic rainbow hues of an LGBTQ+ pride flag.  The rainbow of colors represents the rainbow of individuals throughout the community.",
+    "symbol": "i",
+    "color": "red",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "rainbow_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "rainbow_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_aromantic_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Aromantic pride flag",
+    "looks_like": "aromantic_flag",
+    "description": "An old metal flagpole, now flying an aromantic pride flag displaying greens, white, black and grey.  The greens represent aromanticism and the aro-spectrum as a whole, the white represents the importance of non-romantic relationships, and the black and grey represent the sexuality spectrum that ranges from aro-ace to aro-allosexual.",
+    "symbol": "i",
+    "color": "light_green",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "aromantic_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "aromantic_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_aromantic_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Aromantic pride flag",
+    "looks_like": "aromantic_flag",
+    "description": "This makeshift flagpole is currently flying an aromantic pride flag displaying greens, white, black and grey.  The greens represent aromanticism and the aro-spectrum as a whole, the white represents the importance of non-romantic relationships, and the black and grey represent the sexuality spectrum that ranges from aro-ace to aro-allosexual.",
+    "symbol": "i",
+    "color": "light_green",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "aromantic_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "aromantic_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_asexual_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Asexual pride flag",
+    "looks_like": "asexual_flag",
+    "description": "An old metal flagpole, now flying the black, grey, white and purple tones of an asexual pride flag.  The black represents total asexuality, the grey represents demisexuals and grey-asexuals, the white represents allies, and the purple represents community.",
+    "symbol": "i",
+    "color": "light_gray",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "asexual_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "asexual_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_asexual_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Asexual pride flag",
+    "looks_like": "asexual_flag",
+    "description": "This makeshift flagpole is currently flying the black, grey, white and purple tones of an asexual pride flag.  The black represents total asexuality, the grey represents demisexuals and grey-asexuals, the white represents allies, and the purple represents community.",
+    "symbol": "i",
+    "color": "light_gray",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "asexual_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "asexual_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bisexual_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Bisexual pride flag",
+    "looks_like": "bisexual_flag",
+    "description": "An old metal flagpole, now flying a bisexual pride flag, showing blue and pink with purple in-between.  The pink represents attraction to the same sex, the blue represents attraction to the opposite sex, and the purple overlap represents the combination of both.",
+    "symbol": "i",
+    "color": "magenta",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "bisexual_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "bisexual_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bisexual_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Bisexual pride flag",
+    "looks_like": "bisexual_flag",
+    "description": "This makeshift flagpole is currently flying a bisexual pride flag, showing blue and pink with purple in-between.  The pink represents attraction to the same sex, the blue represents attraction to the opposite sex, and the purple overlap represents the combination of both.",
+    "symbol": "i",
+    "color": "magenta",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "bisexual_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "bisexual_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_intersex_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Intersex pride flag",
+    "looks_like": "intersex_flag",
+    "description": "An old metal flagpole, now flying the intersex pride flag, a yellow field with a purple ring.  The center circle symbolizes wholeness and completeness.",
+    "symbol": "i",
+    "color": "yellow",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "intersex_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "intersex_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_intersex_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Intersex pride flag",
+    "looks_like": "intersex_flag",
+    "description": "This makeshift flagpole is currently flying an intersex pride flag, a yellow field with a purple ring.  The center circle symbolizes wholeness and completeness.",
+    "symbol": "i",
+    "color": "yellow",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "intersex_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "intersex_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lesbian_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Lesbian pride flag",
+    "looks_like": "lesbian_flag",
+    "description": "An old metal flagpole, now flying the oranges, rosen shades, and white of a lesbian pride flag.  The dark orange represents gender non-conformity, the orange represents independence, the white represents unique relationships to womanhood, pink represents serenity and peace, and the dark rose represents feminimity.",
+    "symbol": "i",
+    "color": "light_red",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "lesbian_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "lesbian_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lesbian_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Lesbian pride flag",
+    "looks_like": "lesbian_flag",
+    "description": "This makeshift flagpole is currently flying the oranges, rosen shades, and white of a lesbian pride flag.  The dark orange represents gender non-conformity, the orange represents independence, the white represents unique relationships to womanhood, pink represents serenity and peace, and the dark rose represents feminimity.",
+    "symbol": "i",
+    "color": "light_red",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "lesbian_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "lesbian_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_enby_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Non-binary pride flag",
+    "looks_like": "enby_flag",
+    "description": "An old metal flagpole, now flying a non-binary pride flag; yellow upon white, then purple, then black.  Yellow represents those who identify outside of the gender binary, white represents those with multiple genders, purple for those with a mix of both male and female, and black for agender individuals.",
+    "symbol": "i",
+    "color": "white",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "enby_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "enby_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_enby_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Non-binary pride flag",
+    "looks_like": "enby_flag",
+    "description": "This makeshift flagpole is currently flying a non-binary pride flag; yellow upon white, then purple, then black.  Yellow represents those who identify outside of the gender binary, white represents those with multiple genders, purple for those with a mix of both male and female, and black for agender individuals.",
+    "symbol": "i",
+    "color": "white",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "enby_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "enby_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pansexual_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Pansexual pride flag",
+    "looks_like": "pansexual_flag",
+    "description": "An old metal flagpole, now flying the pink, blue, and yellow of a pansexual pride flag.  Pink represents being attracted to women, blue being attracted to men, and yellow being attracted to everyone else.",
+    "symbol": "i",
+    "color": "pink",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "pansexual_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "pansexual_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pansexual_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Pansexual pride flag",
+    "looks_like": "pansexual_flag",
+    "description": "This makeshift flagpole is currently flying the pink, blue, and yellow of a pansexual pride flag.  Pink represents being attracted to women, blue being attracted to men, and yellow being attracted to everyone else.",
+    "symbol": "i",
+    "color": "pink",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "pansexual_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "pansexual_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gay_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Gay pride flag",
+    "looks_like": "gay_flag",
+    "description": "An old metal flagpole, now flying a men's gay pride flag, with white in between shades of green and blue.  The greens represent healing and joy; the white stripe includes people who are transgender, nonbinary, intersex, or otherwise likely to be traditionally left out; the blues represent pure love, strength, and diversity.",
+    "symbol": "i",
+    "color": "green",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "gay_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "gay_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gay_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Gay pride flag",
+    "looks_like": "gay_flag",
+    "description": "This makeshift flagpole is currently flying a men's gay pride flag, with white in between shades of green and blue.  The greens represent healing and joy; the white stripe includes people who are transgender, nonbinary, intersex, or otherwise likely to be traditionally left out; the blues represent pure love, strength, and diversity.",
+    "symbol": "i",
+    "color": "green",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "gay_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "gay_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_genderfluid_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Genderfluid pride flag",
+    "looks_like": "genderfluid_flag",
+    "description": "An old metal flagpole, now flying the pink, white, purple, black and blue genderfluid pride flag.  The pink represents feminimity, the white represents lack of gender, the purple represents androgyny, the black represents all other genders, and the blue represents masculinity.",
+    "symbol": "i",
+    "color": "blue",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "genderfluid_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "genderfluid_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_genderfluid_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Genderfluid pride flag",
+    "looks_like": "genderfluid_flag",
+    "description": "This makeshift flagpole is currently flying the pink, white, purple, black and blue genderfluid pride flag.  The pink represents feminimity, the white represents lack of gender, the purple represents androgyny, the black represents all other genders, and the blue represents masculinity.",
+    "symbol": "i",
+    "color": "blue",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "genderfluid_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "genderfluid_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autism_flag_metal",
+    "copy-from": "f_us_flag_metal",
+    "name": "flagpole with Autism pride flag",
+    "looks_like": "autism_flag",
+    "description": "An old metal flagpole, now flying the infinity symbol upon an autism pride flag.  Gold middle band refers to the elemental symbol of gold (AU) which is used in the autistic community.  The gradient refers to the Pride Movement.  Red originated as a protest to the `light it up blue` campaign, which was denounced by the autistic community.  The infinity sign is a symbol long used in the wider autistic and wider neurodiverse community.",
+    "symbol": "i",
+    "color": "white",
+    "deconstruct": { "furn_set": "f_flagpole_metal", "items": [ { "item": "autism_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "rope_6", "count": [ 1, 3 ] },
+        { "item": "autism_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_autism_flag_wood",
+    "copy-from": "f_flagpole_wood",
+    "name": "wooden flagpole with Autism pride flag",
+    "looks_like": "autism_flag",
+    "description": "This makeshift flagpole is currently flying the infinity symbol upon an autism pride flag.  Gold middle band refers to the elemental symbol of gold (AU) which is used in the autistic community.  The gradient refers to the Pride Movement.  Red originated as a protest to the `light it up blue` campaign, which was denounced by the autistic community.  The infinity sign is a symbol long used in the wider autistic and wider neurodiverse community.",
+    "symbol": "i",
+    "color": "white",
+    "deconstruct": { "furn_set": "f_flagpole_wood", "items": [ { "item": "autism_flag", "count": 1 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 100,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "log", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 10, 20 ] },
+        { "item": "rope_makeshift_6", "count": [ 1, 3 ] },
+        { "item": "autism_flag", "count": 1 }
+      ],
+      "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
+  }
+]

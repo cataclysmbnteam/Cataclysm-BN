@@ -608,7 +608,32 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "sheet", 2 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ] ]
+    "components": [
+      [ [ "sheet", 2 ] ],
+      [ [ "wood_structural", 2, "LIST" ] ],
+      [ [ "rope_natural_short", 1, "LIST" ] ],
+      [ [ "nail_glue", 20, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "sail_large_item",
+    "byproducts": [ [ "splinter", 15 ] ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "50 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
+    "using": [ [ "sewing_standard", 250 ] ],
+    "components": [
+      [ [ "sheet", 8 ] ],
+      [ [ "wood_beam", 1 ] ],
+      [ [ "wood_structural", 2, "LIST" ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "nail_glue", 50, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -941,8 +966,7 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "rope_natural_short", 2 ] ],
-    "components": [ [ [ "2x4", 6 ] ] ]
+    "components": [ [ [ "2x4", 6 ] ], [ [ "rope_natural_short", 1, "LIST" ], [ "nail", 5 ], [ "adhesive", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1321,7 +1345,7 @@
     "time": "40 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ] ]
+    "components": [ [ [ "chitin_piece", 20 ] ], [ [ "rope_natural_short", 1, "LIST" ], [ "nail", 5 ], [ "adhesive", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1333,7 +1357,7 @@
     "time": "55 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "acidchitin_piece", 25 ] ], [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ] ]
+    "components": [ [ [ "acidchitin_piece", 25 ] ], [ [ "rope_natural_short", 1, "LIST" ], [ "nail", 5 ], [ "adhesive", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1346,8 +1370,8 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "bone", 25 ], [ "bone_human", 25 ], [ "bone_tainted", 50 ] ],
-      [ [ "rope_natural_short", 4, "LIST" ], [ "adhesive", 4, "LIST" ] ]
+      [ [ "bone", 25 ], [ "bone_human", 25 ], [ "bone_tainted", 50 ], [ "bone_heavy", 13 ] ],
+      [ [ "rope_natural_short", 1, "LIST" ], [ "nail", 5 ], [ "adhesive", 2, "LIST" ] ]
     ]
   },
   {

@@ -3269,6 +3269,13 @@
     "bindings": [ { "input_method": "keyboard", "key": "D" } ]
   },
   {
+    "id": "SHOW_KILL_LIST",
+    "type": "keybinding",
+    "category": "INVENTORY_ITEM",
+    "name": "Kills",
+    "bindings": [ { "input_method": "keyboard", "key": "K" } ]
+  },
+  {
     "id": "FAVORITE_ADD",
     "type": "keybinding",
     "category": "INVENTORY_ITEM",

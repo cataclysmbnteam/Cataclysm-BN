@@ -134,6 +134,11 @@ struct bionic_data {
      * Upgrades available for this bionic (opposite to @ref upgraded_bionic).
      */
     std::set<bionic_id> available_upgrades;
+    /**
+     * Id of another bionic which this bionic needs to have installed to be installed.
+     * Also prevents that bionic from being removed while this bionic is installed.
+     */
+    bionic_id required_bionic;
 
     std::set<flag_id> flags;
     bool has_flag( const flag_id &flag ) const;

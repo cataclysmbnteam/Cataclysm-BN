@@ -124,5 +124,19 @@
     "copy-from": "mutagen_slime",
     "name": "Slime mutagen",
     "use_action": { "type": "mutagen", "mutation_category": "SLIMEGIRL" }
+  },
+  {
+    "id": "mutagen_elf",
+    "type": "COMESTIBLE",
+    "copy-from": "mutagen_elfa",
+    "name": "Fey mutagen",
+    "use_action": { "type": "mutagen", "mutation_category": "ELF" }
+  },
+  {
+    "id": "iv_mutagen_elf",
+    "type": "COMESTIBLE",
+    "copy-from": "iv_mutagen_elfa",
+    "name": "Fey serum",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "ELF" }
   }
 ]

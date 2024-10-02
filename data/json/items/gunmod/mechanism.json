@@ -139,5 +139,24 @@
     "damage_modifier": [ { "damage_type": "stab", "amount": 5 }, { "damage_type": "bash", "amount": 5 } ],
     "range_modifier": 5,
     "reload_modifier": 15
+  },
+  {
+    "id": "mod_air_pump",
+    "type": "GUNMOD",
+    "name": { "str": "powered air pump" },
+    "description": "A motor that attaches to a pneumatic weapon's hand pump, converting it into an electric compressor.  It makes reloading significantly faster, at the cost of requiring UPS power to function.",
+    "looks_like": "hand_pump",
+    "weight": "700 g",
+    "volume": "250 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "mechanism",
+    "mod_target_category": [ [ "PNEUMATIC" ] ],
+    "install_time": "5 m",
+    "reload_modifier": -80,
+    "ups_charges_modifier": 40
   }
 ]

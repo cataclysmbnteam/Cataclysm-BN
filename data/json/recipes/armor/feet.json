@@ -621,5 +621,18 @@
     "book_learn": [ [ "textbook_computer", 2 ], [ "advanced_electronics", 2 ], [ "reference_fabrication1", 2 ] ],
     "using": [ [ "3d_printing_standard", 17 ] ],
     "components": [ [ [ "carbon_fiber_filament", 170 ] ] ]
+  },
+  {
+    "result": "boots_scute",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "1 h 20 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "using": [ [ "sewing_standard", 64 ] ],
+    "components": [ [ [ "scute_piece", 16 ] ], [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   }
 ]

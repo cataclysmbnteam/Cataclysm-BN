@@ -13,7 +13,7 @@
         "____,____,____,____,____",
         "____,____,____,____,____",
         "sssssssssss55sssssssssss",
-        "ssssussssssb3sssssusssss",
+        "ssssFssssssb3sssssDsssss",
         "s51|---+-|s55s|-+---|15s",
         "s11|.c..P-ssss-P..c.|11s",
         "s4||TC..B||<<||n..CT||4s",
@@ -84,8 +84,7 @@
         "q": "f_crate_c",
         "E": "f_mannequin",
         "U": "f_dumpster",
-        "5": "f_flower_tulip",
-        "u": "f_vending_reinforced"
+        "5": "f_flower_tulip"
       },
       "items": { "U": { "item": "trash_dumpster", "chance": 80 } },
       "toilets": { "t": {  } },
@@ -115,6 +114,7 @@
         { "item": "trash", "x": [ 4, 5 ], "y": [ 21, 21 ], "chance": 50, "repeat": [ 2, 10 ] },
         { "item": "trash", "x": [ 11, 11 ], "y": [ 21, 23 ], "chance": 70, "repeat": [ 2, 10 ] }
       ],
+      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ]
     }
   },

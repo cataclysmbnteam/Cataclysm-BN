@@ -369,7 +369,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_2g1", "mil_base_2g", "mil_base_3g1", "mil_base_3g" ],
+    "id": [ "mil_base_2g1", "mil_base_2g", "mil_base_3g1", "mil_base_3g", "mil_base_3g2" ],
     "copy-from": "generic_military_base",
     "name": "military base - warehouse"
   },

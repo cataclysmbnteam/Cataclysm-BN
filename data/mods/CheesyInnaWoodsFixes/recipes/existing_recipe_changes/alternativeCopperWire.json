@@ -1,0 +1,15 @@
+[
+  {
+    "type": "recipe",
+    "//": "No longer needed since alternative insulation options got mainlined.",
+    "result": "cable",
+    "id_suffix": "from_waterproofing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cable",
+    "id_suffix": "from_thread",
+    "obsolete": true
+  }
+]
