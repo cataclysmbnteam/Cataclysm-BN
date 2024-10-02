@@ -769,5 +769,13 @@
     "copy-from": "helmet_survivor",
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "helmet_scute",
+    "type": "ARMOR",
+    "name": { "str": "scaleskin helmet" },
+    "description": "A helmet made from the hardened scales of large reptiles.",
+    "copy-from": "helmet_acidchitin",
+    "material": [ "scute" ]
   }
 ]

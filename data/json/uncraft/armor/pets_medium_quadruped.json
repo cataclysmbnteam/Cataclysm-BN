@@ -42,7 +42,7 @@
     "difficulty": 1,
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 52 ] ], [ [ "bone", 19 ] ] ]
+    "components": [ [ [ "leather", 52 ] ], [ [ "bone", 19 ], [ "bone_heavy", 9 ] ] ]
   },
   {
     "result": "kevlar_armor_medium_quadruped",

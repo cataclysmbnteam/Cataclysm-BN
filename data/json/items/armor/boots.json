@@ -1475,5 +1475,13 @@
     "encumbrance": 22,
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "boots_scute",
+    "type": "ARMOR",
+    "name": { "str": "scaleskin boots" },
+    "description": "Boots made from the hardened scales of large reptiles.  It doesn't look quite like normal alligator skin boots due to the armored design.",
+    "copy-from": "boots_acidchitin",
+    "material": [ "scute" ]
   }
 ]

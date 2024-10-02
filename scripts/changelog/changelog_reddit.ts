@@ -47,8 +47,7 @@ const changelogImage =
 
 const isoDate = (date: Date | string) => new Date(date).toISOString().split("T")[0]
 
-const template = async ({ since, until }: { since: string; until: string }) => {
-  const commits = await readCommits({ since, until })
+const template = (commits: Commit[]) => {
   const begin = minBy(commits, (x) => x.date)!.date
   const end = maxBy(commits, (x) => x.date)!.date
 
@@ -104,25 +103,31 @@ https://docs.cataclysmbn.org/en/contribute/contributing/
 }
 
 const main = new Command()
-  .option("-s, --since <date>", "same as git log --since, e.g 2024-09-22", {
+  .option("-s, --since <date>", "Same as git log --since, e.g 2024-09-22", {
     default: "last monday 1 week ago",
   })
-  .option("-u, --until <date>", "same as git log --until, e.g 2024-10-01", {
+  .option("-u, --until <date>", "Same as git log --until, e.g 2024-10-01", {
     default: "today",
   })
   .option("-o, --output <file>", "Output file to save template to")
+  .option("-q, --quiet", "Do not print the changelog to stdout")
   .description(paragraph`
       Generate a reddit changelog template from git commits.
 
-      usage: deno task changelog --since 2024-09-22 --until 2024-09-30
-    `)
-  .action(async ({ since, until, output }) => {
-    const changelog = await template({ since, until })
+      usage (at project root): deno task changelog --since 2024-09-22 --until 2024-09-30
 
-    console.log(changelog)
-    if (output) {
-      await Deno.writeTextFile(output, changelog)
-    }
+      in order to apply proper formatting, switch to Markdown Editor when pasting the output into Reddit.
+    `)
+  .action(async ({ since, until, output, quiet = false }) => {
+    const log = quiet ? () => {} : console.log
+
+    const commits = await readCommits({ since, until })
+    log(`${commits.length} commits found`)
+
+    const changelog = template(commits)
+
+    log(changelog)
+    if (output) await Deno.writeTextFile(output, changelog)
   })
 
 if (import.meta.main) {

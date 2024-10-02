@@ -839,5 +839,13 @@
     "copy-from": "armor_lightplate",
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "armor_scute",
+    "type": "ARMOR",
+    "name": { "str": "scaleskin armor" },
+    "description": "Leg and body armor made from the hardened scales of large reptiles.",
+    "copy-from": "armor_acidchitin",
+    "material": [ "scute" ]
   }
 ]
