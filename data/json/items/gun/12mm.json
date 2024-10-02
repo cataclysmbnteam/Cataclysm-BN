@@ -14,6 +14,7 @@
     "range": 60,
     "dispersion": 45,
     "ups_charges": 5,
+    "loudness": 50,
     "magazines": [ [ "12mm", [ "hk_g80mag" ] ] ]
   }
 ]
