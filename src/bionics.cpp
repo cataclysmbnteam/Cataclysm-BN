@@ -411,7 +411,7 @@ void bionic_data::check() const
             rep.warn( "upgrades undefined bionic \"%s\"", upgraded_bionic.str() );
         }
     }
-    if( required_bionics.size() > 0 ) {
+    if( !required_bionics.empty() ) {
         for( const bionic_id &it : required_bionics ) {
             if( it == id ) {
                 rep.warn( "The CBM %s requires itself as a prerequisite for installation", it.str() );
@@ -2058,7 +2058,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
     if( !dependent_bionics.empty() ) {
-        std::string concatenated_list_of_dependent_bionics = "";
+        std::string concatenated_list_of_dependent_bionics;
         for( const std::string &req_bionic : dependent_bionics ) {
             concatenated_list_of_dependent_bionics += " " + req_bionic;
             if( req_bionic != dependent_bionics.back() ) {
@@ -2314,7 +2314,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
 
     if( !bioid->required_bionics.empty() ) {
-        std::string list_of_missing_required_bionics = "";
+        std::string list_of_missing_required_bionics;
         for( const bionic_id &req_bid : bioid->required_bionics ) {
             if( !has_bionic( req_bid ) ) {
                 list_of_missing_required_bionics += " " + req_bid->name;
@@ -2323,7 +2323,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
                 }
             }
         }
-        if( list_of_missing_required_bionics != "" ) {
+        if( !list_of_missing_required_bionics.empty() ) {
             popup( _( "CBM requires prior installation of%s." ), list_of_missing_required_bionics );
             return false;
         }
