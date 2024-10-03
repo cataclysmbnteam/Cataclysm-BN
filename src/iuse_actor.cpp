@@ -326,7 +326,7 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
     if( need_dry && p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "This item cannot be used while wet." ) );
+        return ret_val<bool>::make_failure( _( "This item cannot be used while underwater." ) );
     }
     if( qualities_needed.empty() ) {
         return ret_val<bool>::make_success();
