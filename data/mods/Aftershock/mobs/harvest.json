@@ -31,5 +31,5 @@
       { "drop": "bone_heavy", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "pheromone", "type": "bionic", "max": 1 }
     ]
-  },
+  }
 ]
