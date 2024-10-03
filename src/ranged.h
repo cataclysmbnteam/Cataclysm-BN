@@ -193,7 +193,7 @@ int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
               item *ammo );
 
 /** Expected thrown damage with a given item, given the thrower's effective strength and skill. */
-auto throw_damage( const item &it, const int skill, const int str ) -> float;
+auto throw_damage( const item &it, const int skill, const int str ) -> int;
 
 /**
  * Execute a throw.

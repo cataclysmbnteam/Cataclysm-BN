@@ -923,8 +923,8 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         if( gun.gun_skill() == skill_throw && !who.is_fake() && gun.ammo_data() ) {
             item &tmp = *item::spawn_temporary( item( gun.ammo_data() ) );
             auto &impact = projectile.impact;
-            impact.add_damage( DT_BASH, static_cast<int>(
-                                   ranged::throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) ) );
+            impact.add_damage( DT_BASH,
+                               throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) );
         }
 
         if( who.has_trait( trait_NORANGEDCRIT ) ) {
@@ -1175,7 +1175,7 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
     return std::max( 0, dispersion );
 }
 
-auto throw_damage( const item &it, const int skill, const int str ) -> float
+auto throw_damage( const item &it, const int skill, const int str ) -> int
 {
     add_msg( m_info, "skill_level is %s", skill );
     add_msg( m_info, "effective_strength is %s", str );
@@ -1188,7 +1188,7 @@ auto throw_damage( const item &it, const int skill, const int str ) -> float
     // @see https://www.desmos.com/calculator/ibo2jh9cqa
     const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( speed, 2 );
     add_msg( m_info, "Calculated damage is %s", damage );
-    return damage;
+    return static_cast<int>( damage );
 }
 
 dealt_projectile_attack throw_item( Character &who, const tripoint &target,
@@ -1244,8 +1244,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
     proj.impact = thrown.base_damage_thrown();
     proj.speed = std::log2( std::max( 1, skill_level ) * std::max( 1, effective_strength ) );
     auto &impact = proj.impact;
-    impact.add_damage( DT_BASH, static_cast<int>(
-                           ranged::throw_damage( thrown, skill_level, effective_strength ) ) );
+    impact.add_damage( DT_BASH, throw_damage( thrown, skill_level, effective_strength ) );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
