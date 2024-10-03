@@ -14,6 +14,11 @@ jobs:
           curl -sL https://github.com/transifex/cli/releases/download/v1.6.7/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
       - name: "Checkout"
         uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout: |
+            .tx
+            lang
       - name: "Get current date"
         uses: nanzm/get-time-action@v1.1
         id: get-timestamp
