@@ -6,7 +6,8 @@
     "migrate-unit": "deno run -A scripts/migrate_legacy_unit.ts --path data/json; deno run -A scripts/migrate_legacy_unit.ts --path data/mods; make style-all-json-parallel",
     "dprint": "deno run -A npm:dprint",
     // creates a weekly reddit changelog template
-    "changelog": "deno run -A scripts/changelog/changelog_reddit.ts"
+    "changelog": "deno run -A scripts/changelog/changelog_reddit.ts",
+    "affected-files": "deno run -RWEN --allow-run scripts/affected_files.ts"
   },
   "test": { "include": ["scripts"] },
   "lint": { "include": ["scripts"] },
