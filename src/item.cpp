@@ -10155,6 +10155,12 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
             return std::move( self );
         }
     }
+    if( self->has_flag( flag_WATER_DISABLE ) && carrier->is_underwater() ) {
+        carrier->add_msg_if_player( "Your %s gurgles and splutters.", self->tname() );
+        self->revert( carrier );
+        self->deactivate();
+        return std::move( self );
+    }
     if( self->has_flag( flag_CABLE_SPOOL ) ) {
         // DO NOT process this as a tool! It really isn't!
         return process_cable( std::move( self ), carrier, pos );
