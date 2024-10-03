@@ -1338,8 +1338,6 @@ class Character : public Creature, public location_visitable<Character>
         detached_ptr<item> remove_primary_weapon();
         bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
-        /** Expected thrown damage with a given item, given the thrower's effective strength and skill. */
-        float throw_damage( const item &it, const int &skill, const int &str ) const;
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
 

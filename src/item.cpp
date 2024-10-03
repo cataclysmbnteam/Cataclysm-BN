@@ -2272,7 +2272,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
         ammo_du.amount += tmp.base_damage_thrown().total_damage();
 
-        ammo_du.amount += static_cast<int>( get_avatar().throw_damage( tmp,
+        ammo_du.amount += static_cast<int>( ranged::throw_damage( tmp,
                                             get_avatar().get_skill_level( skill_throw ),
                                             get_avatar().get_str() ) );
     }
