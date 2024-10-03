@@ -176,7 +176,7 @@ version of the Cataclysm build rather than the `Makefile` build. Add the followi
 where `$extra_dir` is the location of your `clang-tools-extra` checkout.
 
 To run `clang-tidy` with this plugin enabled add the
-`'-plugins=$build_dir/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so'` option to your `clang-tidy`
+`'--load=$build_dir/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so'` option to your `clang-tidy`
 command line.
 
 If you wish to run the tests for the custom clang-tidy plugin you will also need `lit`. This will be
