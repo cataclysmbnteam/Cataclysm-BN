@@ -527,7 +527,7 @@
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "time": 1,
-    "required_bionic": "bio_weight"
+    "required_bionics": [ "bio_weight" ]
   },
   {
     "id": "bio_infolink",
