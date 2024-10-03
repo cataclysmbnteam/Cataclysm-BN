@@ -22,11 +22,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "Get current date"
-        uses: nanzm/get-time-action@v1.1
         id: get-timestamp
-        with:
-          timeZone: 0
-          format: "YYYY-MM-DD"
+        run: echo "time=$(date -u "+%F")" >> $GITHUB_OUTPUT
 
       - name: "Pull translations"
         run: tx pull --force
