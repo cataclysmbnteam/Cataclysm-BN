@@ -8,7 +8,10 @@ on:
 jobs:
   pull-translations:
     if: github.repository == 'cataclysmbnteam/Cataclysm-BN'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       - name: "Install Transifex CLI"
@@ -35,16 +38,16 @@ jobs:
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3.10.0
+      - name: Show Changes
+        run: |
+          git status
+          git diff --numstat
+
+      - name: Create Commit
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit-message: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
-          committer: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
-          author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
-          token: ${{ secrets.TX_PR_CREATOR }}
-          branch: i18n
-          delete-branch: true
-          base: main
-          title: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
-          body: ""
-          labels: Translation
+          branch: main
+          commit_message: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
