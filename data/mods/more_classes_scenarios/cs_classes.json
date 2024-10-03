@@ -260,7 +260,7 @@
     "name": "Bionic Cyclist",
     "description": "Your training and augmentation for the Cyber-Olympics cycling competition gave you an edge on escaping the start of the Cataclysm.  Can you keep on running from it forever?",
     "points": 6,
-    "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_speed", "bio_metabolics", "bio_power_storage_mkII" ],
     "skills": [ { "level": 3, "name": "driving" }, { "level": 2, "name": "dodge" } ],
     "items": {
       "both": [
