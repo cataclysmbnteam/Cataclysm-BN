@@ -598,10 +598,9 @@ void use_item( avatar &you, item &used )
     } else if( !used.is_container_empty() && is_pet_food( used.get_contained() ) ) {
         unload_item( you, used );
 
-    } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
-                                     ( used.is_food() ||
-                                       used.get_contained().is_food() ||
-                                       used.get_contained().is_medication() ) ) ) ) {
+    } else if( !used.is_craft() && ( used.is_medication() || used.is_food() ||
+                                     used.get_contained().is_food() ||
+                                     used.get_contained().is_medication() ) ) {
         you.consume( used );
 
     } else if( used.is_book() ) {
