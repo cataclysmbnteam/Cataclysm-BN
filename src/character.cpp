@@ -6702,7 +6702,12 @@ bool Character::is_rad_immune() const
 
 float Character::throw_damage( const item &it, const int &skill, const int &str ) const
 {
+    add_msg( m_info, "skill_level is %s", skill );
+    add_msg( m_info, "effective_strength is %s", str );
+
+
     const units::mass weight = it.weight();
+    add_msg( m_info, "Thrown item weight is %s grams", weight );
 
     float ret;
     const float speed = std::log2( std::max( 1, skill ) )
@@ -6711,6 +6716,7 @@ float Character::throw_damage( const item &it, const int &skill, const int &str 
     // @see https://www.desmos.com/calculator/ibo2jh9cqa
     const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( speed, 2 );
     ret += damage;
+    add_msg( m_info, "Calculated damage is %s", ret );
     return ret;
 }
 
