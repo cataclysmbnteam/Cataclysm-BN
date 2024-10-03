@@ -429,7 +429,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "bone_heavy", 1 ] ] ]
   },
   {
     "type": "recipe",
