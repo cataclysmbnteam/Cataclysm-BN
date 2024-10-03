@@ -20,11 +20,6 @@ jobs:
 
       - name: "Checkout"
         uses: actions/checkout@v4
-        with:
-          filter: blob:none
-          sparse-checkout: |
-            .tx
-            lang
 
       - name: "Get current date"
         uses: nanzm/get-time-action@v1.1
