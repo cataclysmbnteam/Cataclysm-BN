@@ -1003,5 +1003,13 @@
     "material": [ "carbon_fiber" ],
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] },
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "gauntlets_scute",
+    "type": "ARMOR",
+    "name": { "str": "scaleskin gauntlets" },
+    "description": "Gauntlets made from the hardened scales of large reptiles.",
+    "copy-from": "gauntlets_acidchitin",
+    "material": [ "scute" ]
   }
 ]

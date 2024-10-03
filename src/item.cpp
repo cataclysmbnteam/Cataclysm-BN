@@ -554,6 +554,9 @@ void item::deactivate()
     }
 
     active = false;
+    if( is_tool() ) {
+        type->tool->turns_active = 0;
+    }
 
     // Is not placed in the world, so either a template of some kind or a temporary item.
     if( !has_position() ) {
@@ -3396,6 +3399,13 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         info.emplace_back( "CBM", _( "<bold>Power Capacity</bold>:" ), _( " <num> J" ),
                            iteminfo::no_newline,
                            units::to_joule( bid->capacity ) );
+    }
+
+    insert_separation_line( info );
+
+    if( bid->required_bionic ) {
+        info.emplace_back( "CBM", string_format( "* This CBM requires another CBM to also be installed: %s",
+                           bid->required_bionic->name ) );
     }
 
     insert_separation_line( info );
@@ -9929,10 +9939,12 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     int energy = 0;
     const bool uses_UPS = self->has_flag( flag_USE_UPS );
     bool revert_destroy = false;
-    if( self->type->tool->turns_per_charge > 0 &&
-        to_turn<int>( calendar::turn ) % self->type->tool->turns_per_charge == 0 ) {
-        energy = std::max( self->ammo_required(), 1 );
-
+    if( self->type->tool->turns_per_charge > 0 ) {
+        if( self->type->tool->turns_active >= self->type->tool->turns_per_charge ) {
+            energy = std::max( self->ammo_required(), 1 );
+            self->type->tool->turns_active = 0;
+        }
+        self->type->tool->turns_active += 1;
     } else if( self->type->tool->power_draw > 0 ) {
         // power_draw in mW / 1000000 to give kJ (battery unit) per second
         energy = self->type->tool->power_draw / 1000000;
@@ -9940,21 +9952,24 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         energy += x_in_y( self->type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
 
-    // If energy is 0 we just skip over this and go to tick processing.
-    if( energy ) {
-        energy -= self->ammo_consume( energy, pos );
+    // If ammo_required is 0 we just skip over this and go to tick processing.
+    if( energy || self->ammo_required() > 0 ) {
+        // No need to look for charges if energy is 0
+        if( energy ) {
+            energy -= self->ammo_consume( energy, pos );
 
-        // for power armor pieces, try to use power armor interface first.
-        if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
-            if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
-                energy = 0;
+            // for power armor pieces, try to use power armor interface first.
+            if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
+                if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
+                    energy = 0;
+                }
             }
-        }
 
-        // for items in player possession if insufficient charges within tool try UPS
-        if( carrier && uses_UPS ) {
-            if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
-                energy = 0;
+            // for items in player possession if insufficient charges within tool try UPS
+            if( carrier && uses_UPS ) {
+                if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
+                    energy = 0;
+                }
             }
         }
 

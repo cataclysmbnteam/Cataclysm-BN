@@ -1575,5 +1575,17 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "leather", 16 ] ] ]
+  },
+  {
+    "result": "helmet_scute",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "scute_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   }
 ]

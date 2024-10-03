@@ -992,5 +992,14 @@
     "to_hit": 1,
     "price": "500 USD",
     "price_postapoc": "15 USD"
+  },
+  {
+    "id": "mace_bone",
+    "type": "GENERIC",
+    "copy-from": "mace",
+    "name": { "str": "bone mace" },
+    "description": "This mace is carved from a series of sturdy bones, capable of bashing faces in with swiftness and efficiency.",
+    "material": [ "bone" ],
+    "proportional": { "weight": 0.8, "bashing": 0.9 }
   }
 ]

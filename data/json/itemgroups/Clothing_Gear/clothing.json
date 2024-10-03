@@ -2316,6 +2316,7 @@
       [ "aep_suit", 4 ],
       [ "armor_scrapsuit", 12 ],
       [ "armor_chitin", 2 ],
+      [ "armor_scute", 2 ],
       [ "armor_acidchitin", 1 ],
       [ "armor_lightplate", 1 ],
       [ "exosuit_survivor", 1 ],
