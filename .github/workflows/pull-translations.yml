@@ -8,10 +8,12 @@ jobs:
   pull-translations:
     if: github.repository == 'cataclysmbnteam/Cataclysm-BN'
     runs-on: ubuntu-20.04
+
     steps:
       - name: "Install Transifex CLI"
         run: |
           curl -sL https://github.com/transifex/cli/releases/download/v1.6.7/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
+
       - name: "Checkout"
         uses: actions/checkout@v4
         with:
@@ -19,16 +21,19 @@ jobs:
           sparse-checkout: |
             .tx
             lang
+
       - name: "Get current date"
         uses: nanzm/get-time-action@v1.1
         id: get-timestamp
         with:
           timeZone: 0
           format: "YYYY-MM-DD"
+
       - name: "Pull translations"
+        run: tx pull --force
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: tx pull --force
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3.10.0
         with:
