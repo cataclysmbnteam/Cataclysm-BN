@@ -10,6 +10,7 @@
     "type": "harvest",
     "//": "separate harvest entry for future special alchemical items",
     "entries": [
+      { "drop": "tainted_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },

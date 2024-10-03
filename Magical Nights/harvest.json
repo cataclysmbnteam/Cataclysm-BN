@@ -153,7 +153,7 @@
       { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
       { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "bone_heavy", "type": "bone", "mass_ratio": 0.15 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
@@ -229,8 +229,8 @@
       { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
       { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "bone_heavy", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 },
       { "drop": "adrenal_gland_large", "type": "bionic", "max": 2 }
     ]
@@ -247,74 +247,11 @@
     ]
   },
   {
-    "id": "zombie",
-    "//": "your bog standard zombie",
-    "type": "harvest",
-    "entries": [
-      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
-    ]
-  },
-  {
-    "id": "zombie_leather",
-    "//": "any zombie that might drop leather.  mostly animals.",
-    "type": "harvest",
-    "entries": [
-      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
-    ]
-  },
-  {
-    "id": "zombie_fur",
-    "//": "any zombie that might drop leather.  mostly animals.",
-    "type": "harvest",
-    "entries": [
-      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
-    ]
-  },
-  {
-    "id": "zombie_meatslug",
-    "//": "no bones or organs",
-    "type": "harvest",
-    "entries": [
-      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.2 },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.4 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "fat_tainted", "type": "offal", "mass_ratio": 0.1 }
-    ]
-  },
-  {
-    "id": "human",
-    "//": "a monstrous horror, probably the most destructive entity you will ever see",
-    "type": "harvest",
-    "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
-      { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
-      { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "bone_human", "type": "bone", "mass_ratio": 0.12 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
-      { "drop": "raw_hleather", "type": "skin", "mass_ratio": 0.01 }
-    ]
-  },
-  {
     "id": "stirge",
     "//": "mainly arachnid drops with leather and proboscis",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
@@ -346,7 +283,7 @@
     "id": "lizardfolk",
     "type": "harvest",
     "entries": [
-      { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
