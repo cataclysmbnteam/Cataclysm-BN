@@ -1175,20 +1175,33 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
     return std::max( 0, dispersion );
 }
 
+namespace
+{
+auto throw_damage_projectile( const item &it, const int skill, const int str ) -> projectile
+{
+    const units::mass weight = it.weight();
+
+    projectile proj;
+    proj.impact = it.base_damage_thrown();
+    proj.speed = std::log2( std::max( 1, skill ) * std::max( 1, str ) );
+
+    const int damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( proj.speed, 2 );
+
+    proj.impact.add_damage( DT_BASH, damage );
+
+    // add_msg( m_info, "skill_level is %s", skill );
+    // add_msg( m_info, "effective_strength is %s", str );
+    // add_msg( m_info, "Thrown item weight is %s grams", to_gram( weight ) );
+
+    // add_msg( m_info, "Calculated damage is %s", damage );
+
+    return proj;
+}
+} // namespace
+
 auto throw_damage( const item &it, const int skill, const int str ) -> int
 {
-    add_msg( m_info, "skill_level is %s", skill );
-    add_msg( m_info, "effective_strength is %s", str );
-
-    const units::mass weight = it.weight();
-    add_msg( m_info, "Thrown item weight is %s grams", to_gram( weight ) );
-
-    const float speed = std::log2( std::max( 1, skill ) * std::max( 1, str ) );
-    // calculate extra damage, proportional to 1/2mv^2
-    // @see https://www.desmos.com/calculator/ibo2jh9cqa
-    const float damage = 0.5 * ( weight / 1_gram / 1000.0 ) * std::pow( speed, 2 );
-    add_msg( m_info, "Calculated damage is %s", damage );
-    return static_cast<int>( damage );
+    return throw_damage_projectile( it, skill, str ).impact.total_damage();
 }
 
 dealt_projectile_attack throw_item( Character &who, const tripoint &target,
@@ -1240,11 +1253,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
         throw_assist ? throw_assist_str : do_railgun ? who.get_str() * 2 : who.get_str();
 
     // We'll be constructing a projectile
-    projectile proj;
-    proj.impact = thrown.base_damage_thrown();
-    proj.speed = std::log2( std::max( 1, skill_level ) * std::max( 1, effective_strength ) );
-    auto &impact = proj.impact;
-    impact.add_damage( DT_BASH, throw_damage( thrown, skill_level, effective_strength ) );
+    projectile proj = throw_damage_projectile( thrown, skill_level, effective_strength );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
@@ -1284,7 +1293,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
+        proj.impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
         proj.add_effect( ammo_effect_SHATTER_SELF );
     }
 
@@ -1295,7 +1304,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     // Some minor (skill/2) armor piercing for skillful throws
     // Not as much as in melee, though
-    for( damage_unit &du : impact.damage_units ) {
+    for( damage_unit &du : proj.impact.damage_units ) {
         du.res_pen += skill_level / 2.0f;
     }
     // handling for tangling thrown items
