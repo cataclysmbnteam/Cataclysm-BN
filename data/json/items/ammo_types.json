@@ -374,6 +374,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "c_hydrogen",
+    "name": "hydrogen gas",
+    "default": "c_hydrogen_gas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "flammable",
     "name": "flammable liquid",
     "default": "napalm"
