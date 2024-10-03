@@ -1,4 +1,4 @@
-name: Clang-tidy (clang-12, tiles)
+name: Clang-tidy (tiles)
 
 on:
   push:
@@ -16,7 +16,7 @@ concurrency:
 jobs:
   skip-duplicates:
     continue-on-error: true
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     # Map a step output to a job output
     outputs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
@@ -30,28 +30,49 @@ jobs:
     needs: skip-duplicates
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       CMAKE: 1
-      CLANG: clang++-12
-      COMPILER: clang++-12
+      CLANG: /usr/bin/clang++-18
+      COMPILER: /usr/bin/clang++-18
       CATA_CLANG_TIDY: plugin
       TILES: 1
       SOUND: 1
+      BUILD_PATH: "build"
+      AFFECTED_FILES: "affected_files.txt"
 
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+
       - name: install dependencies
         run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
-            libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
-            libflac-dev gettext
+          sudo apt-get install \
+            cmake gettext ninja-build mold ccache jq \
+            clang-18 libclang-18-dev llvm-18 llvm-18-dev clang-tidy-18 \
+            libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev libflac-dev
+
+      - name: ensure clang 18 is installed
+        run: |
+          if [ -z "$(command -v clang++-18)" ]; then
+            echo "clang 18 not found"
+            exit 1
+          fi
+          ls -al /usr/lib/llvm-18/lib
+          if [ ! -d /usr/lib/llvm-18/lib ]; then
+            echo "llvm-18 not found"
+            exit 1
+          fi
+
+          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-18 100
+          sudo update-alternatives --install /usr/bin/FileCheck FileCheck /usr/bin/FileCheck-18 100
+
+      - name: Setup ccache
+        uses: Chocobo1/setup-ccache-action@v1
+        with:
+          install_ccache: false
+          update_packager_index: false
 
       - name: add problem matcher
         run: |
@@ -60,8 +81,18 @@ jobs:
           echo "::add-matcher::build-scripts/problem-matchers/catch2.json"
           echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
 
+      - uses: ammaraskar/gcc-problem-matcher@master
+
       - name: prepare
         run: bash ./build-scripts/requirements.sh
-      - uses: ammaraskar/gcc-problem-matcher@master
+
+      - name: build clang-tidy plugin
+        run: bash ./build-scripts/build-clang-tidy-plugin.sh
+
+      # - name: test clang-tidy plugin
+      #   run: |
+      #     lit -v $BUILD_PATH/tools/clang-tidy-plugin/test
+      #     clang-tidy --version
+
       - name: run clang-tidy
         run: bash ./build-scripts/build.sh
