@@ -1125,7 +1125,7 @@ class vehicle
          * lift of repulsors in newton
          */
         double lift_thrust_of_repulsors( bool fuelled, bool safe = false ) const;
-        /** 
+        /**
          * total lift of all lifters
          */
         double total_lift( bool fuelled, bool safe = false ) const;

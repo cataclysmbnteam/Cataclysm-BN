@@ -4390,14 +4390,14 @@ double vehicle::lift_thrust_of_repulsors( const bool fuelled, const bool safe ) 
     const int engine_power = total_power_w( fuelled, safe );
 
     // If the engines are weaker than the repulsors, partially power repulsors
-    const double lift_thrust = std::min((double)engine_power, total_rep);
+    const double lift_thrust = std::min( ( double )engine_power, total_rep );
     add_msg( m_debug, "lift thrust(N) of %s: %f, engine power (w): %i",
              name, lift_thrust, engine_power );
     return lift_thrust;
 }
 
 // get sum of lift from all lifting parts
-double vehicle::total_lift( const bool fuelled, const bool safe ) const 
+double vehicle::total_lift( const bool fuelled, const bool safe ) const
 {
     return lift_thrust_of_rotorcraft( fuelled, safe ) + lift_thrust_of_repulsors( fuelled, safe );
 }
@@ -4415,7 +4415,8 @@ bool vehicle::has_sufficient_lift() const
 // requires vehicle to have sufficient rotor lift
 bool vehicle::is_aircraft() const
 {
-    return ( has_part( "ROTOR" ) || has_part( "REPULSOR" ) ) && has_sufficient_lift() && player_in_control( g->u );
+    return ( has_part( "ROTOR" ) || has_part( "REPULSOR" ) ) && has_sufficient_lift() &&
+           player_in_control( g->u );
 }
 
 int vehicle::get_z_change() const
