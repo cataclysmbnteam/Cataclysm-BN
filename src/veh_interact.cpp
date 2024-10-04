@@ -2475,12 +2475,12 @@ void veh_interact::display_stats() const
     if( is_aircraft ) {
         print_stat(
             _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
-            vel_to_int( veh->safe_rotor_velocity( false ) ),
-            vel_to_int( veh->max_rotor_velocity( false ) ),
+            vel_to_int( veh->safe_aircraft_velocity( false ) ),
+            vel_to_int( veh->max_air_velocity( false ) ),
             velocity_units( VU_VEHICLE ) );
         print_stat(
             _( "Air Acceleration: <color_light_blue>%3d</color> %s/s" ),
-            vel_to_int( veh->rotor_acceleration( false ) ),
+            vel_to_int( veh->aircraft_acceleration( false ) ),
             velocity_units( VU_VEHICLE ) );
     } else {
         if( is_ground ) {

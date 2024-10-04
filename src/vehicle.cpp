@@ -4390,7 +4390,7 @@ double vehicle::lift_thrust_of_repulsors( const bool fuelled, const bool safe ) 
     const int engine_power = total_power_w( fuelled, safe );
 
     // If the engines are weaker than the repulsors, partially power repulsors
-    const double lift_thrust = std::min( ( double )engine_power, total_rep );
+    const double lift_thrust = std::min( static_cast<double>( engine_power ), total_rep );
     add_msg( m_debug, "lift thrust(N) of %s: %f, engine power (w): %i",
              name, lift_thrust, engine_power );
     return lift_thrust;
