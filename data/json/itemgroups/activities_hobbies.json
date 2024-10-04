@@ -329,7 +329,8 @@
       [ "bottle_folding", 10 ],
       [ "mess_tin", 10 ],
       [ "survival_kit", 30 ],
-      [ "premium_survival_kit", 3 ]
+      [ "premium_survival_kit", 3 ],
+      [ "wire_saw", 10 ]
     ]
   },
   {

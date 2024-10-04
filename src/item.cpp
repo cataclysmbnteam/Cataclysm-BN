@@ -3421,9 +3421,11 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     insert_separation_line( info );
 
-    if( bid->required_bionic ) {
-        info.emplace_back( "CBM", string_format( "* This CBM requires another CBM to also be installed: %s",
-                           bid->required_bionic->name ) );
+    if( !bid->required_bionics.empty() ) {
+        for( const bionic_id &req_bid : bid->required_bionics ) {
+            info.emplace_back( "CBM", string_format( "* This CBM requires another CBM to also be installed: %s",
+                               req_bid->name ) );
+        }
     }
 
     insert_separation_line( info );
@@ -10302,6 +10304,12 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
         if( !self ) {
             return std::move( self );
         }
+    }
+    if( self->has_flag( flag_WATER_DISABLE ) && carrier->is_underwater() ) {
+        carrier->add_msg_if_player( "Your %s gurgles and splutters.", self->tname() );
+        self->revert( carrier );
+        self->deactivate();
+        return std::move( self );
     }
     if( self->has_flag( flag_CABLE_SPOOL ) ) {
         // DO NOT process this as a tool! It really isn't!

@@ -339,6 +339,30 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
+    "id": "wire_saw",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "wire saw" },
+    "description": "This is a flexible saw made from thin wire, with simple handles on either end.  It should suffice for light metal and wood sawing, or for cutting chain-link fences.",
+    "weight": "200 g",
+    "volume": "100 ml",
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
+    "material": "iron",
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "chain",
+    "qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ],
+    "use_action": [
+      {
+        "type": "salvage",
+        "moves_per_part": 2000,
+        "material_whitelist": [ "steel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+      },
+      "HACKSAW"
+    ]
+  },
+  {
     "id": "hammer",
     "type": "GENERIC",
     "category": "tools",

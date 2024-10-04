@@ -233,8 +233,6 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
-static const itype_id itype_chainsaw_off( "chainsaw_off" );
-static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );

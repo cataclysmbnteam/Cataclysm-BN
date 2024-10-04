@@ -2332,7 +2332,8 @@
       [ "bottle_folding", 6 ],
       [ "mess_tin", 8 ],
       [ "metal_file", 5 ],
-      [ "pin_reamer", 3 ]
+      [ "pin_reamer", 3 ],
+      [ "wire_saw", 10 ]
     ]
   },
   {

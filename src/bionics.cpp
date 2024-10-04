@@ -313,7 +313,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "enchantments", enchantments, strict );
     assign_map_from_array( jsobj, "learned_spells", learned_spells, strict );
     assign( jsobj, "included_bionics", included_bionics, strict );
-    assign( jsobj, "required_bionic", required_bionic, strict );
+    assign( jsobj, "required_bionics", required_bionics, strict );
     assign( jsobj, "upgraded_bionic", upgraded_bionic, strict );
     assign( jsobj, "available_upgrades", available_upgrades, strict );
     assign( jsobj, "flags", flags, strict );
@@ -411,11 +411,13 @@ void bionic_data::check() const
             rep.warn( "upgrades undefined bionic \"%s\"", upgraded_bionic.str() );
         }
     }
-    if( required_bionic ) {
-        if( required_bionic == id ) {
-            rep.warn( "The CBM %s requires itself as a prerequisite for installation", required_bionic.str() );
-        } else if( !required_bionic.is_valid() ) {
-            rep.warn( "The CBM %s requires undefined bionic %s", id.str(), required_bionic.str() );
+    if( !required_bionics.empty() ) {
+        for( const bionic_id &it : required_bionics ) {
+            if( it == id ) {
+                rep.warn( "The CBM %s requires itself as a prerequisite for installation", it.str() );
+            } else if( !it.is_valid() ) {
+                rep.warn( "The CBM %s requires undefined bionic %s", id.str(), it.str() );
+            }
         }
     }
 
@@ -2043,12 +2045,27 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
+    // make sure the bionic you are removing is not required by other installed bionics
+    std::vector<std::string> dependent_bionics;
     for( const bionic_id &bid : get_bionics() ) {
-        if( bid->required_bionic == b_id ) {
-            popup( _( "%s cannot be removed because installed bionic %s requires it." ),
-                   b_id->name, bid->name );
-            return false;
+        // look at required bionics for every installed bionic
+        for( const bionic_id &req_bid : bid->required_bionics ) {
+            if( req_bid == b_id ) {
+                dependent_bionics.push_back( "" + bid->name );
+            }
         }
+    }
+    if( !dependent_bionics.empty() ) {
+        std::string concatenated_list_of_dependent_bionics;
+        for( const std::string &req_bionic : dependent_bionics ) {
+            concatenated_list_of_dependent_bionics += " " + req_bionic;
+            if( req_bionic != dependent_bionics.back() ) {
+                concatenated_list_of_dependent_bionics += ",";
+            }
+        }
+        popup( _( "%s cannot be removed because it is required by the following bionics:%s." ),
+               b_id->name, concatenated_list_of_dependent_bionics );
+        return false;
     }
 
     if( b_id == bio_eye_optic ) {
@@ -2294,9 +2311,20 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
 
-    if( bioid->required_bionic && !has_bionic( bioid->required_bionic ) ) {
-        popup( _( "CBM requires prior installation of %s." ), bioid->required_bionic.obj().name );
-        return false;
+    if( !bioid->required_bionics.empty() ) {
+        std::string list_of_missing_required_bionics;
+        for( const bionic_id &req_bid : bioid->required_bionics ) {
+            if( !has_bionic( req_bid ) ) {
+                list_of_missing_required_bionics += " " + req_bid->name;
+                if( req_bid != bioid->required_bionics.back() ) {
+                    list_of_missing_required_bionics += ",";
+                }
+            }
+        }
+        if( !list_of_missing_required_bionics.empty() ) {
+            popup( _( "CBM requires prior installation of%s." ), list_of_missing_required_bionics );
+            return false;
+        }
     }
 
     std::vector<std::string> conflicting_muts;
