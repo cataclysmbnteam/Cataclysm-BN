@@ -2,7 +2,7 @@
   {
     "abstract": "repulsor",
     "type": "vehicle_part",
-    "location": "center",
+    "location": "on_roof",
     "symbol": "*",
     "color": "light_blue",
     "broken_symbol": "O",
