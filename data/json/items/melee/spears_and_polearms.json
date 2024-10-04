@@ -604,7 +604,7 @@
     "copy-from": "glaive",
     "name": { "str": "bone glaive" },
     "description": "This glaive's blade is carved from a single massive bone, and is capable of slicing foes in with swiftness and efficiency.",
-    "material": [ "bone", "wood" ],
+    "material": [ "bone_heavy", "wood" ],
     "proportional": { "weight": 0.8, "cutting": 0.9 }
   }
 ]

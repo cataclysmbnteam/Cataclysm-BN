@@ -1896,8 +1896,8 @@
     "type": "GENERIC",
     "copy-from": "dagger_medieval",
     "name": { "str": "stinger dagger" },
-    "description": "A 'bone' dagger made from a sharpened mutant insect stinger.  It's only natural that the Cataclysm would advent new, creative forms of old weapons.",
-    "material": [ "bone" ],
+    "description": "A dagger made from a sharpened mutant insect stinger.  It's only natural that the Cataclysm would advent new, creative forms of old weapons.",
+    "material": [ "chitin" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -1923,7 +1923,7 @@
     "description": "A flat wooden club with razor-sharp teeth set into the edges.  This was a weapon of various Polynesian peoples, and was used to great effect.",
     "weight": "850 g",
     "price_postapoc": "3 USD",
-    "material": [ "wood", "bone" ],
+    "material": [ "wood", "bone_heavy" ],
     "cutting": 21
   },
   {
@@ -1932,7 +1932,7 @@
     "copy-from": "machete",
     "name": { "str": "bone machete" },
     "description": "This shortsword is carved from a single massive bone, and is capable of slicing foes in with swiftness and efficiency.",
-    "material": [ "bone" ],
+    "material": [ "bone_heavy" ],
     "proportional": { "weight": 0.8, "cutting": 0.9 }
   }
 ]
