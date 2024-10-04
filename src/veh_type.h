@@ -108,6 +108,10 @@ struct vpslot_rotor {
     int rotor_diameter = 1;
 };
 
+struct vpslot_repulsor {
+    int repulsion = 1;
+};
+
 struct vpslot_workbench {
     // Base multiplier applied for crafting here
     float multiplier = 1.0f;
@@ -135,6 +139,7 @@ class vpart_info
         std::optional<vpslot_engine> engine_info;
         std::optional<vpslot_wheel> wheel_info;
         std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_repulsor> repulsor_info;
         std::optional<vpslot_workbench> workbench_info;
 
     public:
@@ -299,9 +304,10 @@ class vpart_info
         int wheel_area() const;
         std::vector<std::pair<std::string, int>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
-        /** @name rotor specific functions
+        /** @name flight specific functions
         */
         int rotor_diameter() const;
+        float repulsion() const;
         /**
          * Getter for optional workbench info
          */
@@ -343,6 +349,7 @@ class vpart_info
         static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
         static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
         static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_repulsor( std::optional<vpslot_repulsor> &rpptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

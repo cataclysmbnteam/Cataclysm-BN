@@ -1,0 +1,17 @@
+[
+  {
+    "id": "makeshift_repulsor",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": { "str": "makeshift repulsor", "str_pl": "makeshift repulsors" },
+    "description": "A chrome sphere, sprouting wires at all angles. How does this even work?",
+    "price": "50000 USD",
+    "price_postapoc": "250 USD",
+    "weight": "25000 g",
+    "volume": "40000 ml",
+    "looks_like": "broken_eyebot",
+    "material": "steel",
+    "symbol": "X",
+    "color": "blue"
+  }
+]

@@ -246,6 +246,17 @@ void vpart_info::load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObjec
     assert( roptr );
 }
 
+void vpart_info::load_repulsor( std::optional<vpslot_repulsor> &rpptr, const JsonObject &jo )
+{
+    vpslot_repulsor repulsor_info{};
+    if( rpptr ) {
+        repulsor_info = *rpptr;
+    }
+    assign( jo, "repulsion", repulsor_info.repulsion );
+    rpptr = repulsor_info;
+    assert( rpptr );
+}
+
 void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
@@ -433,6 +444,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( def.has_flag( "ROTOR" ) ) {
         load_rotor( def.rotor_info, jo );
+    }
+
+    if( def.has_flag( "REPULSOR" ) ) {
+        load_repulsor( def.repulsor_info, jo );
     }
 
     if( def.has_flag( "WORKBENCH" ) ) {
