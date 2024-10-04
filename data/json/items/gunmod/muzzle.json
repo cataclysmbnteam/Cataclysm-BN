@@ -187,7 +187,7 @@
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 40,
     "handling_modifier": 4,
-    "loudness_modifier": -30,
+    "loudness_modifier": -45,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
   },
   {
