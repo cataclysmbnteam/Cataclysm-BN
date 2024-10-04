@@ -3197,11 +3197,13 @@
     "weight": "225 g",
     "color": "green",
     "symbol": "%",
+    "looks_like": "raw_leather",
     "description": "A bony and scaled protrusion harvested from a large reptile.  Such things were used to make handbags before the Cataclysm, but the material is sturdy and protective.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": "scute",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -3211,11 +3213,13 @@
     "weight": "450 g",
     "color": "white",
     "symbol": "%",
+    "looks_like": "bone",
     "description": "A bone harvested from a large animal such as an elephant, or from certain types of zombies.  It is extremely dense and durable for its size, and largely inedible.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": "bone_heavy",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -3225,11 +3229,13 @@
     "weight": "450 g",
     "color": "white",
     "symbol": "%",
+    "looks_like": "spike",
     "description": "Teeth harvested from a carnivore such as a shark, or from certain types of mutant animals.  They are extremely dense and durable for their size, and can very easily cause jagged wounds.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": "bone_heavy",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "stackable": true
   },
   {
     "id": "beehive_empty",

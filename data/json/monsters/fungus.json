@@ -436,7 +436,7 @@
     "armor_bullet": 36,
     "vision_day": 5,
     "vision_night": 5,
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "FUNGUS" ],

@@ -79,7 +79,7 @@
     "type": "MONSTER",
     "name": { "str": "scaled bear" },
     "copy-from": "mon_bear",
-    "description": "This bear is covered by large, black, scales.  It seems to have slight problems turning around, but its twitchy, \"spidery\", movement is no slower than that of normal bears.",
+    "description": "This bear is covered by large, black, scales.  It seems to have slight problems turning around, but its sinuous movement is no slower than that of normal bears.",
     "proportional": { "hp": 2 },
     "relative": { "morale": 40, "melee_skill": 1, "melee_dice_sides": 2, "melee_cut": 4, "dodge": -2 },
     "armor_bash": 8,
@@ -87,7 +87,7 @@
     "armor_bullet": 11,
     "armor_stab": 30,
     "armor_acid": 8,
-    "harvest": "mammal_large_chitin",
+    "harvest": "mutant_mammal_toothy_large_scute",
     "delete": { "fear_triggers": [ "SOUND" ] },
     "//": "Doesn't zombify because it shouldn't regain the fur.",
     "zombify_into": "mon_null"
@@ -131,7 +131,7 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mutant_mammal_large_fur",
+    "harvest": "mutant_mammal_large_toothy_fur",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "STUMBLES", "KEENNOSE" ]
   },
   {
@@ -226,7 +226,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 10 } ]
       }
     ],
-    "harvest": "mutant_mammal_fur",
+    "harvest": "mutant_mammal_toothy_fur",
     "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
@@ -265,7 +265,7 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "harvest": "mutant_mammal_fur",
+    "harvest": "mutant_mammal_toothy_fur",
     "flags": [
       "SEES",
       "HEARS",
@@ -307,7 +307,7 @@
     "armor_cut": 10,
     "vision_day": 50,
     "vision_night": 5,
-    "harvest": "mutant_mammal_large_fur",
+    "harvest": "mutant_mammal_large_toothy_fur",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [
       {
@@ -346,7 +346,7 @@
     "melee_cut": 0,
     "dodge": 4,
     "vision_night": 15,
-    "harvest": "mutant_mammal_large_leather",
+    "harvest": "mutant_mammal_leather",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],

@@ -159,7 +159,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "bone_sturdy", 3, "LIST" ] ],
+      [ [ "bone_sturdy", 3, "LIST" ], [ "bone_heavy", 2 ] ],
       [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
@@ -178,7 +178,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "stick_long", 1 ], [ "2x4", 3 ] ],
-      [ [ "bone_sturdy", 4, "LIST" ] ],
+      [ [ "bone_sturdy", 4, "LIST" ], [ "bone_heavy", 2 ] ],
       [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
@@ -339,7 +339,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "components": [
       [ [ "stick", 5 ], [ "2x4", 3 ] ],
-      [ [ "bone_sturdy", 3, "LIST" ] ],
+      [ [ "bone_sturdy", 3, "LIST" ], [ "bone_heavy", 2 ] ],
       [ [ "adhesive_proper", 5, "LIST" ] ],
       [ [ "cordage_superior", 1, "LIST" ] ]
     ]
