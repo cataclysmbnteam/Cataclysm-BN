@@ -3562,6 +3562,7 @@
     "time": "6 s",
     "components": [
       [ [ "knife_folding", 1 ] ],
+      [ [ "wire_saw", 1 ] ],
       [ [ "flint_steel", 1 ] ],
       [ [ "whistle_multitool", 1 ] ],
       [ [ "bottle_folding", 1 ] ],

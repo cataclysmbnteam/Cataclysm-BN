@@ -28,6 +28,7 @@
     "weight": "68 g",
     "damage": { "damage_type": "bash", "amount": 20 },
     "casing": "40x46mm_m212_casing",
+    "loudness": 80,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
   {
@@ -39,6 +40,7 @@
     "weight": "230 g",
     "damage": { "damage_type": "bullet", "amount": 125, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
+    "loudness": 80,
     "extend": { "effects": [ "FRAG" ] }
   },
   {
@@ -64,6 +66,7 @@
     "damage": { "damage_type": "bullet", "amount": 15 },
     "drop": "gasbomb_act",
     "casing": "40x46mm_m195_casing",
+    "loudness": 60,
     "extend": { "effects": [ "NO_EMBED" ] }
   },
   {

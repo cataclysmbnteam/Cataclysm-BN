@@ -1755,6 +1755,11 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "AIM_AUTORESET_FILTER", interface,
+         translate_marker( "Advanced Inventory Manager Filter Resets" ),
+         translate_marker( "If true, Advanced Inventory Manager filters will be reset when leaving the menu" ),
+         false );
+
     add_empty_line();
 
     add( "MOVE_VIEW_OFFSET", interface, translate_marker( "Move view offset" ),

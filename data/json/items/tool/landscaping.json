@@ -173,7 +173,15 @@
     "ammo": "gasoline",
     "max_charges": 600,
     "charges_per_use": 5,
-    "use_action": "TRIMMER_OFF",
+    "use_action": {
+      "type": "transform",
+      "active": true,
+      "target": "trimmer_on",
+      "msg": "You turn on the hedge trimmer.",
+      "moves": 80,
+      "transform_charges": 1,
+      "need_dry": true
+    },
     "flags": [ "NONCONDUCTIVE" ]
   },
   {
@@ -186,8 +194,9 @@
     "power_draw": 500000,
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
-    "use_action": "TRIMMER_ON",
+    "revert_msg": "Your hedge trimmer goes quiet",
+    "use_action": { "type": "transform", "target": "trimmer_off", "msg": "You turn off the hedge trimmer." },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE" ]
   }
 ]

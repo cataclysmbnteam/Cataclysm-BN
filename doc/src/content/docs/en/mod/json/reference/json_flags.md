@@ -298,12 +298,6 @@ to find which flags work elsewhere.
 - `CAN_GOO` Release a little blob buddy.
 - `CAPTURE_MONSTER_ACT` Capture and encapsulate a monster. The associated action is also used for
   releasing it.
-- `CARVER_OFF` Turn the carver on.
-- `CARVER_ON` Turn the carver off.
-- `CHAINSAW_OFF` Turn the chainsaw on.
-- `CHAINSAW_ON` Turn the chainsaw off.
-- `COMBATSAW_OFF` Turn the combat-saw on.
-- `COMBATSAW_ON` Turn the combat-saw off
 - `CROWBAR` Pry open doors, windows, man-hole covers and many other things that need prying.
 - `DIG` Clear rubble.
 - `DIRECTIONAL_ANTENNA` Find the source of a signal with your radio.
@@ -1495,6 +1489,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - `NAT_UPS` Silences the (UPS) suffix from USE_UPS.
 - `WATER_EXTINGUISH` Is extinguishable in water or under precipitation. Converts items (requires
   "reverts_to" or use_action "transform" to be set).
+- `WATER_DISABLE` Will revert and deactivate item if it is submerged in water.
 - `WET` Item is wet and will slowly dry off (e.g. towel).
 - `WIND_EXTINGUISH` This item will be extinguished by the wind.
 - `WRITE_MESSAGE` This item could be used to write messages on signs.

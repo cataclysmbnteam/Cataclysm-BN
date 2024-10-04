@@ -573,10 +573,7 @@ void toolmod_add( avatar &you, item &tool, item &mod )
 
 static bool is_pet_food( const item &itm )
 {
-    return itm.type->can_use( "DOGFOOD" ) ||
-           itm.type->can_use( "CATFOOD" ) ||
-           itm.type->can_use( "BIRDFOOD" ) ||
-           itm.type->can_use( "CATTLEFODDER" );
+    return itm.type->can_use( "PETFOOD" );
 }
 
 void use_item( avatar &you, item &used )

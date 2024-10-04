@@ -112,7 +112,8 @@
     "ammo": "fishspear",
     "weight": "840 g",
     "volume": "1 L",
-    "clip_size": 1
+    "clip_size": 1,
+    "loudness": 5
   },
   {
     "id": "speargun",
@@ -129,7 +130,8 @@
     "volume": "1750 ml",
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
     "range": 4,
-    "clip_size": 1
+    "clip_size": 1,
+    "loudness": 5
   },
   {
     "id": "doublespeargun",
@@ -148,6 +150,7 @@
     "range": 4,
     "dispersion": 120,
     "durability": 7,
-    "clip_size": 2
+    "clip_size": 2,
+    "loudness": 5
   }
 ]

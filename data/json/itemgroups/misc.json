@@ -248,6 +248,7 @@
       { "item": "lifestraw" },
       { "item": "pocket_survival" },
       { "item": "solarpack" },
+      { "item": "wire_saw" },
       { "item": "handflare", "count": 4 }
     ]
   },

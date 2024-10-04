@@ -2024,6 +2024,12 @@
     "context": [  ]
   },
   {
+    "id": "WATER_DISABLE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <bad>stops working</bad> when <info>submerged in water</info>."
+  },
+  {
     "id": "WHIP",
     "type": "json_flag",
     "context": [  ]
