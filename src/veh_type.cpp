@@ -927,6 +927,11 @@ int vpart_info::rotor_diameter() const
     return has_flag( VPFLAG_ROTOR ) ? rotor_info->rotor_diameter : 0;
 }
 
+float vpart_info::repulsion() const
+{
+    return has_flag( "REPULSOR" ) ? repulsor_info->repulsion : 0;
+}
+
 const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
