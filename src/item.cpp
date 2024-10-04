@@ -128,7 +128,6 @@ static const item_category_id itemcat_food( "food" );
 static const item_category_id itemcat_maps( "maps" );
 
 static const efftype_id effect_cig( "cig" );
-static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
@@ -168,7 +167,6 @@ static const species_id ROBOT( "ROBOT" );
 static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_railgun( "bio_railgun" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
