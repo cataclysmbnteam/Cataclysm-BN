@@ -109,7 +109,7 @@ struct vpslot_rotor {
 };
 
 struct vpslot_repulsor {
-    int repulsion = 1;
+    float repulsion = 1;
 };
 
 struct vpslot_workbench {
