@@ -1012,6 +1012,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "TOGGLE_VEH" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "TOGGLE_FILTER_AUTORESET" );
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
@@ -1059,6 +1060,13 @@ void advanced_inventory::redraw_sidebar()
         right_print( head, 0, +3, c_white, string_format(
                          _( "< [<color_yellow>%s</color>] keybindings >" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+        if( get_option<bool>( "AIM_AUTORESET_FILTER" ) ) {
+            right_print( head, head_height - 1, +3, c_white,
+                         _( "Reset Filter On Close [<color_light_green>ON</color>|<color_dark_gray>OFF</color>]" ) );
+        } else {
+            right_print( head, head_height - 1, +3, c_white,
+                         _( "Reset Filter On Close [<color_dark_gray>ON</color>|<color_light_green>OFF</color>]" ) );
+        }
         if( g->u.has_watch() ) {
             const std::string time = to_string_time_of_day( calendar::turn );
             mvwprintz( head, point( 2, 0 ), c_white, time );
@@ -1495,6 +1503,9 @@ void advanced_inventory::display()
             spopup = nullptr;
         } else if( action == "RESET_FILTER" ) {
             spane.set_filter( "" );
+        } else if( action == "TOGGLE_FILTER_AUTORESET" ) {
+            get_options().get_option( "AIM_AUTORESET_FILTER" ).setNext();
+            get_options().save();
         } else if( action == "TOGGLE_AUTO_PICKUP" ) {
             if( sitem == nullptr || !sitem->is_item_entry() ) {
                 continue;
@@ -1514,6 +1525,11 @@ void advanced_inventory::display()
             action_examine( sitem, spane );
         } else if( action == "QUIT" ) {
             exit = true;
+            if( get_option<bool>( "AIM_AUTORESET_FILTER" ) ) {
+                // reset both filters
+                spane.set_filter( "" );
+                dpane.set_filter( "" );
+            }
         } else if( action == "PAGE_DOWN" ) {
             spane.scroll_by( +itemsPerPage );
         } else if( action == "PAGE_UP" ) {
