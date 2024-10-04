@@ -4407,11 +4407,6 @@ bool vehicle::has_sufficient_lift() const
     return total_lift( true ) > to_newton( total_mass() );
 }
 
-// bool vehicle::is_rotorcraft() const
-// {
-//     return has_part( "ROTOR" ) && has_sufficient_lift() && player_in_control( g->u );
-// }
-
 // requires vehicle to have sufficient rotor lift
 bool vehicle::is_aircraft() const
 {

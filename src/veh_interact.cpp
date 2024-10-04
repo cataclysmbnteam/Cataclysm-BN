@@ -2447,7 +2447,7 @@ void veh_interact::display_stats() const
 
     bool is_boat = !veh->floating.empty();
     bool is_ground = !veh->wheelcache.empty() || !is_boat;
-    bool is_aircraft = veh->is_rotorcraft() && veh->is_flying_in_air();
+    bool is_aircraft = veh->is_aircraft() && veh->is_flying_in_air();
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
