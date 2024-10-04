@@ -261,6 +261,10 @@
     "type": "COMESTIBLE",
     "id": "cracklins",
     "name": { "str_sp": "cracklins" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "long pork rinds" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "cursed %s" } }
+    ],
     "weight": "42 g",
     "color": "brown",
     "container": "bag_plastic",
