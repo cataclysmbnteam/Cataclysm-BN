@@ -13,6 +13,7 @@
     "material": [ "steel", "plastic" ],
     "dispersion": 300,
     "durability": 6,
+    "loudness": 1,
     "magazines": [ [ "chemical_spray", [ "pressurized_tank_chem" ] ] ]
   }
 ]

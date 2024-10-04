@@ -21,6 +21,7 @@
     "durability": 7,
     "clip_size": 150,
     "reload": 500,
+    "loudness": 9,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

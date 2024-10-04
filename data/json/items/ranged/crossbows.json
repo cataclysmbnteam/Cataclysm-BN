@@ -361,6 +361,7 @@
     "weight": "900 g",
     "volume": "500 ml",
     "bashing": 4,
+    "loudness": 2,
     "ranged_damage": { "damage_type": "stab", "amount": 40 }
   },
   {
@@ -453,6 +454,7 @@
     "to_hit": -1,
     "ranged_damage": { "damage_type": "stab", "amount": 75 },
     "range": 44,
+    "loudness": 15,
     "dispersion": 300,
     "recoil": 30,
     "durability": 6,
@@ -476,6 +478,7 @@
     "to_hit": -1,
     "ranged_damage": { "damage_type": "stab", "amount": 40 },
     "range": 15,
+    "loudness": 5,
     "dispersion": 500,
     "recoil": 30,
     "durability": 6,

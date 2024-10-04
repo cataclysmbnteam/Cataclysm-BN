@@ -30,6 +30,7 @@
     "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 3 },
     "dispersion": 120,
     "dont_recover_one_in": 800,
+    "loudness": 0,
     "effects": [ "NON_FOULING" ],
     "flags": [ "NO_SALVAGE" ]
   }

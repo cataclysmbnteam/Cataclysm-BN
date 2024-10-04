@@ -384,7 +384,7 @@
     "dispersion": 100,
     "count": 500,
     "stack_size": 200,
-    "loudness": 9,
+    "loudness": 0,
     "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -459,6 +459,7 @@
     "damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 8 },
     "range": 12,
     "count": 25,
+    "loudness": 60,
     "effects": [ "INCENDIARY" ],
     "flags": [ "UNRECOVERABLE" ],
     "fuel": {
@@ -917,6 +918,7 @@
     "range": 18,
     "dispersion": 180,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL" ]
   },
   {
@@ -936,6 +938,7 @@
     "range": 23,
     "dispersion": 170,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL", "EXPLOSIVE" ]
   },
   {
@@ -955,6 +958,7 @@
     "range": 13,
     "dispersion": 200,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL", "NAPALM" ]
   },
   {

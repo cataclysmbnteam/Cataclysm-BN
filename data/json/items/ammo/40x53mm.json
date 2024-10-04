@@ -42,6 +42,7 @@
     "weight": "340 g",
     "damage": { "damage_type": "bullet", "amount": 145, "armor_penetration": 45 },
     "casing": "40x53mm_m169_casing",
+    "loudness": 100,
     "extend": { "effects": [ "FRAG" ] }
   },
   {

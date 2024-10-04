@@ -6908,7 +6908,8 @@ int item::get_reload_time() const
 
 bool item::is_silent() const
 {
-    return gun_noise().volume < 5;
+    // Most guns with a suppressor installed will be under this value, also see item::gun_noise in ranged.cpp
+    return gun_noise().volume < 50;
 }
 
 bool item::is_gunmod() const

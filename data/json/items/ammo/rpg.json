@@ -17,6 +17,7 @@
     "range": 60,
     "dispersion": 75,
     "recoil": 450,
+    "loudness": 90,
     "effects": [ "COOKOFF", "EXPLOSIVE_BIG", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
@@ -36,6 +37,7 @@
     "range": 60,
     "dispersion": 75,
     "recoil": 450,
+    "loudness": 90,
     "effects": [ "COOKOFF", "EXPLOSIVE_PLUS_FRAG", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
@@ -56,6 +58,7 @@
     "range": 60,
     "dispersion": 50,
     "recoil": 450,
+    "loudness": 90,
     "effects": [ "COOKOFF", "EXPLOSIVE", "TRAIL", "NEVER_MISFIRES", "PYROPHORIC" ]
   },
   {
@@ -75,6 +78,7 @@
     "range": 60,
     "dispersion": 50,
     "recoil": 350,
+    "loudness": 90,
     "effects": [ "COOKOFF", "NEVER_MISFIRES", "FRAG_BIG" ]
   }
 ]
