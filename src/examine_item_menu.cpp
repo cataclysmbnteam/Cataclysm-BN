@@ -110,6 +110,9 @@ bool run(
             case hint_rating::good:
                 list_entry.text_color = c_light_green;
                 break;
+            case hint_rating::blood:
+                list_entry.text_color = c_red;
+                break;
         }
     };
 
@@ -191,7 +194,7 @@ bool run(
     } );
 
     if( itm.kill_count() > 0 ) {
-        add_entry( "SHOW_KILL_LIST", hint_rating::good, [&]() {
+        add_entry( "SHOW_KILL_LIST", hint_rating::blood, [&]() {
             itm.show_kill_list();
             return true;
         } );
