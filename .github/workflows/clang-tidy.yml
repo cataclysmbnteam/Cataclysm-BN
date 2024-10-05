@@ -35,7 +35,6 @@ jobs:
       CMAKE: 1
       CLANG: /usr/bin/clang++-18
       COMPILER: /usr/bin/clang++-18
-      CATA_CLANG_TIDY: plugin
       TILES: 1
       SOUND: 1
       BUILD_PATH: "build"
@@ -87,11 +86,10 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: prepare
-        run: bash ./build-scripts/requirements.sh
-
       - name: build clang-tidy plugin
-        run: bash ./build-scripts/build-clang-tidy-plugin.sh
+        run: |
+          pip install --break-system-packages lit
+          bash ./build-scripts/build-clang-tidy-plugin.sh
 
       # - name: test clang-tidy plugin
       #   run: |
