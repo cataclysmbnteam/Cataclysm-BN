@@ -11,11 +11,11 @@
     "description": "A chrome sphere, sprouting wires at all angles. How does this even work?"
   },
   {
-    "id": "makeshift_repulsor",
+    "id": "test_repulsor",
     "copy-from": "repulsor",
     "type": "vehicle_part",
-    "name": "makeshift repulsor",
-    "item": "makeshift_repulsor",
+    "name": "test repulsor",
+    "item": "test_repulsor",
     "//": "repulsion is in kilonewtons",
     "repulsion": 5,
     "requirements": {
@@ -24,7 +24,7 @@
       "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 2 ] ] }
     },
     "durability": 450,
-    "description": "A chrome sphere, sprouting wires at all angles. How does this even work?",
+    "description": "This should never be seen outside of testing.",
     "damage_modifier": 80,
     "breaks_into": [ { "item": "scrap", "count": [ 15, 30 ] }, { "item": "steel_chunk", "count": [ 8, 16 ] } ],
     "damage_reduction": { "all": 66 }
