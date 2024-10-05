@@ -944,7 +944,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
             double length = trig_dist( who.pos(), aim );
             rl_vec3d vec_pos( who.pos() );
             rl_vec3d new_aim = vec_pos + rl_vec3d( length, 0, 0 ).rotated( new_angle );
-            ranged::execute_shaped_attack( *shape->create( vec_pos, new_aim ), projectile, who, &gun );
+            ranged::execute_shaped_attack( *shape->create( vec_pos, new_aim ), projectile, who, &gun, in_veh );
         }
         curshot++;
 
