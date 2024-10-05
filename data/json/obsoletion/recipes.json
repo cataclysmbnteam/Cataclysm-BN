@@ -3415,5 +3415,11 @@
     "result": "torch",
     "id_suffix": "pine",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fertilizer_liquid",
+    "id_suffix": "simple",
+    "obsolete": true
   }
 ]
