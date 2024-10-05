@@ -1111,7 +1111,7 @@ class vehicle
         bool is_aircraft() const;
         /**
          * does the vehicle have lift-generating parts?
-        */
+         */
         bool has_lift() const;
         /**
          * total area of every rotors in m^2
