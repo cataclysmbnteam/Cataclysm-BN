@@ -29,7 +29,9 @@ enum class hint_rating : int {
     /** Item should display as red (action impossible at the moment) */
     iffy,
     /** Item should display as green (action possible at the moment) */
-    good
+    good,
+    /** Item should display as bright red (kill list) */
+    blood
 };
 
 hint_rating rate_action_use( const avatar &you, const item &it );
