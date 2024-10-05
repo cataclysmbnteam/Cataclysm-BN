@@ -416,6 +416,10 @@ hint_rating rate_action_reload( const avatar &you, const item &it )
             case hint_rating::good:
                 return hint_rating::good;
 
+            case hint_rating::blood:
+                // This doesn't happen, but if it did, just pass the color hint along
+                return hint_rating::blood;
+
             case hint_rating::cant:
                 continue;
 
