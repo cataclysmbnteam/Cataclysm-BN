@@ -282,7 +282,7 @@
     "required_str": 3,
     "deployed_item": "chair_folding",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT" ],
     "max_volume": "750 L",
     "deconstruct": { "items": [ { "item": "chair_folding", "count": 1 } ] },
     "bash": {
