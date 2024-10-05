@@ -4402,9 +4402,10 @@ double vehicle::total_lift( const bool fuelled, const bool safe ) const
     return lift_thrust_of_rotorcraft( fuelled, safe ) + lift_thrust_of_repulsors( fuelled, safe );
 }
 
+// For some reason, just checking total lift > 0 doesn't seem to work if the vehicle hasn't been piloted before, which was impacting the design view. This fixes it, and can be used to check if the vehicle HAS lift, but not enough to fly by doing has_lift && !has_sufficient_lift
 bool vehicle::has_lift() const
 {
-    return total_lift( true ) > 0;
+    return has_part( "ROTOR" ) || has_part( "REPULSOR" );
 }
 
 bool vehicle::has_sufficient_lift() const
@@ -5914,6 +5915,7 @@ void vehicle::refresh()
     wheelcache.clear();
     rail_wheelcache.clear();
     rotors.clear();
+    repulsors.clear();
     steering.clear();
     speciality.clear();
     floating.clear();
