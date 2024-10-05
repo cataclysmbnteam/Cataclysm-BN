@@ -341,7 +341,7 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
 
     if( new_item->is_tool() || new_item->is_gun() || new_item->is_magazine() ) {
         bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item->ammo_remaining() == 0 && ch == -1 &&
-                          ( !new_item->is_tool() || new_item->type->tool->rand_charges.empty() );
+                          !new_item->is_tool();
         bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item->magazine_integral() &&
                           !new_item->magazine_current();
 

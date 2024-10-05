@@ -8940,11 +8940,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( CMM_WALK ) ) {
-            crit->use_mech_power( -2 );
+            crit->use_mech_power( -2_kJ );
         } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-            crit->use_mech_power( -1 );
+            crit->use_mech_power( -1_kJ );
         } else if( u.movement_mode_is( CMM_RUN ) ) {
-            crit->use_mech_power( -3 );
+            crit->use_mech_power( -3_kJ );
         }
     } else {
         u.moves -= u.run_cost( mcost, diag );
@@ -10327,13 +10327,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( u.is_mounted() ) {
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-            crit->use_mech_power( -1 );
+            crit->use_mech_power( -1_kJ );
             if( u.movement_mode_is( CMM_WALK ) ) {
-                crit->use_mech_power( -2 );
+                crit->use_mech_power( -2_kJ );
             } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-                crit->use_mech_power( -1 );
+                crit->use_mech_power( -1_kJ );
             } else if( u.movement_mode_is( CMM_RUN ) ) {
-                crit->use_mech_power( -3 );
+                crit->use_mech_power( -3_kJ );
             }
         }
     } else {

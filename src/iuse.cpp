@@ -449,10 +449,11 @@ static bool check_litcig( player &u )
  * Regardless, returning 0 indicates the item has not been used up,
  * though it may have been successfully activated.
  */
-int iuse::sewage( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::sewage( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !p->query_yn( _( "Are you sure you want to drink… this?" ) ) ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     g->events().send<event_type::eats_sewage>();
@@ -460,20 +461,22 @@ int iuse::sewage( player *p, item *it, bool, const tripoint & )
     if( one_in( 4 ) ) {
         p->mutate();
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::honeycomb( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::honeycomb( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     g->m.spawn_item( p->pos(), itype_wax, 2 );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::xanax( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::xanax( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_effect( effect_took_xanax, 90_minutes );
-    return it->type->charges_to_use();
+    return res;
 }
 
 static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
@@ -505,19 +508,19 @@ static int alcohol( player &p, const item &it, const int strength )
     return it.type->charges_to_use();
 }
 
-int iuse::alcohol_weak( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::alcohol_weak( player *p, item *it, bool, const tripoint & )
 {
-    return alcohol( *p, *it, 0 );
+    return std::make_pair( alcohol( *p, *it, 0 ), 0_J );
 }
 
-int iuse::alcohol_medium( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::alcohol_medium( player *p, item *it, bool, const tripoint & )
 {
-    return alcohol( *p, *it, 1 );
+    return std::make_pair( alcohol( *p, *it, 1 ), 0_J );
 }
 
-int iuse::alcohol_strong( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::alcohol_strong( player *p, item *it, bool, const tripoint & )
 {
-    return alcohol( *p, *it, 2 );
+    return std::make_pair( alcohol( *p, *it, 2 ), 0_J );
 }
 
 /**
@@ -528,18 +531,19 @@ int iuse::alcohol_strong( player *p, item *it, bool, const tripoint & )
  * @param it the item to be smoked.
  * @return Charges used in item smoked
  */
-int iuse::smoking( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::smoking( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     bool hasFire = ( p->has_charges( itype_fire, 1 ) );
 
     // make sure we're not already smoking something
     if( !check_litcig( *p ) ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     if( !hasFire ) {
         p->add_msg_if_player( m_info, _( "You don't have anything to light it with!" ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     detached_ptr<item> cig;
@@ -572,7 +576,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad,
                               _( "Please let the devs know you should be able to smoke a %s but the smoking code does not know how." ),
                               it->tname() );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     // If we're here, we better have a cig to light.
     p->use_charges_if_avail( itype_fire, 1 );
@@ -592,11 +596,12 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad, _( "Ugh, too much smoke… you feel nasty." ) );
     }
 
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::ecig( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::ecig( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( it->typeId() == itype_ecig ) {
         p->add_msg_if_player( m_neutral, _( "You take a puff from your electronic cigarette." ) );
     } else if( it->typeId() == itype_advanced_ecig ) {
@@ -608,7 +613,7 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
             p->consume_effects( *dummy_ecig );
         } else {
             p->add_msg_if_player( m_info, _( "You don't have any nicotine liquid!" ) );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
     }
 
@@ -619,11 +624,12 @@ int iuse::ecig( player *p, item *it, bool, const tripoint & )
                 add_type::CIG ) + 1 ) ) {
         p->add_msg_if_player( m_bad, _( "Ugh, too much nicotine… you feel nasty." ) );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::antibiotic( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some antibiotics." ),
                               _( "<npcname> takes some antibiotics." ) );
@@ -632,18 +638,19 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
                               _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
     }
     p->add_effect( effect_antibiotic, 12_hours );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::eyedrops( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::eyedrops( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _( "You're out of %s." ), it->tname() );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     p->add_msg_if_player( _( "You use your %s." ), it->tname() );
     p->moves -= to_moves<int>( 10_seconds );
@@ -651,21 +658,22 @@ int iuse::eyedrops( player *p, item *it, bool, const tripoint & )
         p->remove_effect( effect_boomered );
         p->add_msg_if_player( m_good, _( "You wash the slime from your eyes." ) );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::fungicide( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::fungicide( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     const bool has_fungus = p->has_effect( effect_fungus );
     const bool has_spores = p->has_effect( effect_spores );
 
     if( p->is_npc() && !has_fungus && !has_spores ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     p->add_msg_player_or_npc( _( "You use your fungicide." ), _( "<npcname> uses some fungicide" ) );
@@ -706,14 +714,15 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
             }
         }
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::antifungal( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::antifungal( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     p->add_msg_if_player( _( "You take some antifungal medication." ) );
     if( p->has_effect( effect_fungus ) ) {
@@ -726,14 +735,15 @@ int iuse::antifungal( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_warning, _( "Your skin grows warm for a moment." ) );
         }
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     p->add_msg_if_player( _( "You take some antiparasitic medication." ) );
     if( p->has_effect( effect_dermatik ) ) {
@@ -771,11 +781,12 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_good, _( "The pain in your joints goes away." ) );
         }
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_msg_if_player( _( "You take some anticonvulsant medication." ) );
     /** @EFFECT_STR reduces duration of anticonvulsant medication */
     time_duration duration = 8_hours - p->str_cur * rng( 0_turns, 10_minutes );
@@ -790,11 +801,12 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
         p->remove_effect( effect_shakes );
         p->add_msg_if_player( m_good, _( "You stop shaking." ) );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::weed_cake( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_msg_if_player(
         _( "You start scarfing down the delicious cake.  It tastes a little funny though…" ) );
     time_duration duration = 12_minutes;
@@ -814,11 +826,12 @@ int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
     if( one_in( 5 ) ) {
         weed_msg( *p );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::meth( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::meth( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     /** @EFFECT_STR reduces duration of meth */
     time_duration duration = 1_minutes * ( 60 - p->str_cur );
     if( p->has_amount( itype_apparatus, 1 ) && p->use_charges_if_avail( itype_fire, 1 ) ) {
@@ -851,31 +864,34 @@ int iuse::meth( player *p, item *it, bool, const tripoint & )
         }
         p->add_effect( effect_meth, duration );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::vaccine( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::vaccine( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     p->add_msg_if_player( m_good, _( "You feel tough." ) );
     p->mod_healthy_mod( 200, 200 );
     p->mod_pain( 3 );
     p->i_add( item::spawn( "syringe", it->birthday() ) );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_msg_if_player( m_good,
                           _( "You no longer need to worry about asthma attacks, at least for a while." ) );
     p->add_effect( effect_took_antiasthmatic, 1_days, bodypart_str_id::NULL_ID() );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::poison( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::poison( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( ( p->has_trait( trait_EATDEAD ) ) ) {
-        return it->type->charges_to_use();
+        return res;
     }
 
     // NPCs have a magical sense of what is inedible
@@ -883,24 +899,25 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
     if( !it->has_flag( flag_HIDDEN_POISON ) &&
         ( p->is_npc() ||
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( !p->has_trait( trait_POISRESIST ) ) {
         p->add_effect( effect_poison, 1_hours );
     }
 
     p->add_effect( effect_foodpoison, 3_hours );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::meditate( player *p, item *it, bool t, const tripoint & )
+std::pair<int, units::energy> iuse::meditate( player *p, item *it, bool t, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !p || t ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( p->has_trait( trait_SPIRITUAL ) ) {
         const int moves = to_moves<int>( 20_minutes );
@@ -909,11 +926,12 @@ int iuse::meditate( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "This %s probably meant a lot to someone at one time." ),
                               it->tname() );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::thorazine( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::thorazine( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->has_effect( effect_took_thorazine ) ) {
         p->remove_effect( effect_took_thorazine );
         p->mod_fatigue( 15 );
@@ -931,11 +949,12 @@ int iuse::thorazine( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::prozac( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::prozac( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 12_hours );
     } else {
@@ -945,19 +964,21 @@ int iuse::prozac( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_warning, _( "You suddenly feel hollow inside." ) );
         p->add_effect( effect_took_prozac_bad, p->get_effect_dur( effect_took_prozac ) );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::sleep( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::sleep( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_msg_if_player( m_warning, _( "You feel sleepy…" ) );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::datura( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::datura( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->is_npc() ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     p->add_effect( effect_datura, rng( 3_hours, 13_hours ) );
@@ -965,26 +986,29 @@ int iuse::datura( player *p, item *it, bool, const tripoint & )
     if( p->has_trait( trait_SPIRITUAL ) ) {
         p->add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false, it->type );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::flumed( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::flumed( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_effect( effect_took_flumed, 10_hours );
     p->add_msg_if_player( _( "You take some %s" ), it->tname() );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::flusleep( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::flusleep( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_effect( effect_took_flumed, 12_hours );
     p->add_msg_if_player( _( "You take some %s" ), it->tname() );
     p->add_msg_if_player( m_warning, _( "You feel sleepy…" ) );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::inhaler( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::inhaler( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
                               _( "<npcname> takes a puff from their inhaler." ) );
     if( !p->remove_effect( effect_asthma ) ) {
@@ -995,11 +1019,12 @@ int iuse::inhaler( player *p, item *it, bool, const tripoint & )
     }
     p->add_effect( effect_took_antiasthmatic, rng( 1_hours, 2_hours ) );
     p->remove_effect( effect_smoke );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     p->moves -= to_moves<int>( 10_seconds );
     p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s" ),
                               it->tname() ),
@@ -1016,19 +1041,20 @@ int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
         p->mod_painkiller( 2 );
     }
     p->mod_painkiller( 2 );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::blech( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::blech( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     // TODO: Add more effects?
     if( it->made_of( LIQUID ) ) {
         if( !p->query_yn( _( "This looks unhealthy, sure you want to drink it?" ) ) ) {
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
     } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
         if( !p->query_yn( _( "This looks unhealthy, sure you want to eat it?" ) ) ) {
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
     }
 
@@ -1050,27 +1076,30 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->apply_damage( nullptr, bodypart_id( "torso" ), rng( 4, 12 ) );
         p->vomit();
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::blech_because_unclean( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::blech_because_unclean( player *p, item *it, bool,
+        const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !p->is_npc() ) {
         if( it->made_of( LIQUID ) ) {
             if( !p->query_yn( _( "This looks unclean, sure you want to drink it?" ) ) ) {
-                return 0;
+                return std::make_pair( 0, 0_J );
             }
         } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
             if( !p->query_yn( _( "This looks unclean, sure you want to eat it?" ) ) ) {
-                return 0;
+                return std::make_pair( 0, 0_J );
             }
         }
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
+std::pair<int, units::energy> iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->has_trait( trait_THRESH_PLANT ) ) {
         double multiplier = -1;
         if( p->has_trait( trait_CHLOROMORPH ) ) {
@@ -1086,17 +1115,18 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
-        return it->type->charges_to_use();
+        return res;
     } else {
         return blech( p, it, true, pos );
     }
 }
 
-int iuse::chew( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::chew( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     // TODO: Add more effects?
     p->add_msg_if_player( _( "You chew your %s." ), it->tname() );
-    return it->type->charges_to_use();
+    return res;
 }
 
 // Helper to handle the logic of removing some random mutations.
@@ -1125,24 +1155,26 @@ static void do_purify( player &p )
     }
 }
 
-int iuse::purifier( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::purifier( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     mutagen_attempt checks =
         mutagen_common_checks( *p, *it, false, mutagen_technique::consumed_purifier );
     if( !checks.allowed ) {
-        return checks.charges_used;
+        return std::make_pair( checks.charges_used, 0_J );
     }
 
     do_purify( *p );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::purify_iv( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     mutagen_attempt checks =
         mutagen_common_checks( *p, *it, false, mutagen_technique::injected_purifier );
     if( !checks.allowed ) {
-        return checks.charges_used;
+        return std::make_pair( checks.charges_used, 0_J );
     }
 
     std::vector<trait_id> valid; // Which flags the player has
@@ -1154,7 +1186,7 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     }
     if( valid.empty() ) {
         p->add_msg_if_player( _( "You feel cleansed." ) );
-        return it->type->charges_to_use();
+        return res;
     }
     int num_cured = rng( 4,
                          valid.size() ); //Essentially a double-strength purifier, but guaranteed at least 4.  Double-edged and all
@@ -1176,15 +1208,16 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
         p->mod_thirst( 2 * num_cured );
         p->mod_fatigue( 2 * num_cured );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::purify_smart( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     mutagen_attempt checks =
         mutagen_common_checks( *p, *it, false, mutagen_technique::injected_smart_purifier );
     if( !checks.allowed ) {
-        return checks.charges_used;
+        return std::make_pair( checks.charges_used, 0_J );
     }
 
     std::vector<trait_id> valid; // Which flags the player has
@@ -1200,12 +1233,12 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     }
     if( valid.empty() ) {
         p->add_msg_if_player( _( "You don't have any mutations to purify." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     int mutation_index = uilist( _( "Choose a mutation to purify" ), valid_names );
     if( mutation_index < 0 ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     p->add_msg_if_player(
@@ -1225,7 +1258,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     p->mod_pain( 3 );
 
     p->i_add( item::spawn( "syringe", it->birthday() ) );
-    return it->type->charges_to_use();
+    return res;
 }
 
 static void spawn_spores( const player &p )
@@ -1387,16 +1420,17 @@ static bool marloss_prevented( const player &p )
     return false;
 }
 
-int iuse::marloss( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::marloss( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( marloss_prevented( *p ) ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS );
-    return it->type->charges_to_use();
+    return res;
 }
 
 int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
@@ -2235,6 +2269,8 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 // Ugly and uses variables that shouldn't be public
 int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
+    const bool possess = p->has_item( *it );
+
     if( !t ) {
         it->revert( p, true );
         it->deactivate();
@@ -2266,6 +2302,14 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 if( maybe_cbm->is_bionic() ) {
                     cbms.push_back( maybe_cbm );
                 }
+            }
+
+            units::energy power_needed = units::from_kilojoule( static_cast<int>( cbms.size() ) );
+            power_needed -= it->energy_consume( power_needed, pos );
+            if( power_needed > 0_J ) {
+                it->revert( p, true );
+                it->deactivate();
+                return 0;
             }
 
             corpse->set_var( "bionics_scanned_by", p->getID().get_value() );
@@ -5433,7 +5477,7 @@ int iuse::contacts( player *p, item *it, bool, const tripoint & )
 
 int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->units_sufficient( *p ) || !it->energy_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     }
@@ -8037,7 +8081,7 @@ int iuse::autoclave( player *p, item *, bool, const tripoint &pos )
 int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
-    static const int charges_to_start = 50;
+    static const units::energy charges_to_start = 50_kJ;
     if( t ) {
         if( !it->units_sufficient( *p ) ) {
             it->deactivate();
@@ -8113,7 +8157,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining() < charges_to_start ) {
+                if( it->energy_remaining() < charges_to_start ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8219,18 +8263,18 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time;
+                    mealtime = meal->time / 100;
                 } else {
-                    mealtime = meal->time * 2;
+                    mealtime = meal->time * 2 / 100;
                 }
 
-                const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
+                const units::energy all_charges = charges_to_start + it->energy_required() * mealtime;
 
-                if( it->ammo_remaining() < all_charges ) {
+                if( it->energy_remaining() < all_charges ) {
 
                     p->add_msg_if_player( m_warning,
-                                          _( "The multi-cooker needs %d charges to cook this dish." ),
-                                          all_charges );
+                                          _( "The multi-cooker needs %s to cook this dish." ),
+                                          units::display( all_charges ) );
 
                     return 0;
                 }
@@ -8255,7 +8299,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
                 it->convert( itype_multi_cooker_filled );
                 it->activate();
-                it->ammo_consume( charges_to_start, pos );
+                it->energy_consume( charges_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 
@@ -9562,7 +9606,8 @@ ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t
     return actor->can_use( p, it, t, pos );
 }
 
-int use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
+std::pair<int, units::energy> use_function::call( player &p, item &it, bool active,
+        const tripoint &pos ) const
 {
     return actor->use( p, it, active, pos );
 }

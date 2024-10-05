@@ -13,14 +13,12 @@
     "symbol": "0",
     "color": "yellow",
     "looks_like": "pumpkin",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "ammo": [ "battery" ],
+    "max_power": "100 kJ",
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
       "msg": "You light the candle in the jack o'lantern.",
       "active": true,
-      "transform_charges": 1,
+      "cost": 1,
       "menu_text": "Light",
       "type": "transform"
     }
@@ -39,8 +37,7 @@
     "symbol": "0",
     "looks_like": "pumpkin",
     "color": "yellow",
-    "initial_charges": 100,
-    "max_charges": 100,
+    "max_power": "100 kJ",
     "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": {

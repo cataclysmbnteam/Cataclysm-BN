@@ -18,8 +18,7 @@
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "saline", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "saline", calendar::start_of_cataclysm );
     item &eyedrops = *det;
     dummy.i_add( std::move( det ) );
     int charges_before = eyedrops.charges;
@@ -58,8 +57,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 TEST_CASE( "antifungal", "[iuse][antifungal]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "antifungal", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "antifungal", calendar::start_of_cataclysm );
     item &antifungal = *det;
     dummy.i_add( std::move( det ) );
     int charges_before = antifungal.charges;
@@ -103,8 +101,7 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
 TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "antiparasitic", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "antiparasitic", calendar::start_of_cataclysm );
     item &antiparasitic = *det;
     dummy.i_add( std::move( det ) );
 
@@ -162,8 +159,7 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "diazepam", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "diazepam", calendar::start_of_cataclysm );
     item &anticonvulsant = *det;
     dummy.i_add( std::move( det ) );
 
@@ -196,8 +192,7 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 TEST_CASE( "oxygen tank", "[iuse][oxygen_bottle]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "oxygen_tank", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "oxygen_tank", calendar::start_of_cataclysm );
     item &oxygen = *det;
     dummy.i_add( std::move( det ) );
 
@@ -315,8 +310,7 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 
     SECTION( "coffee reduces fatigue" ) {
 
-        detached_ptr<item> det = item::spawn( "coffee", calendar::start_of_cataclysm,
-                                              item::default_charges_tag{} );
+        detached_ptr<item> det = item::spawn( "coffee", calendar::start_of_cataclysm );
         item &coffee = *det;
         dummy.i_add( std::move( det ) );
         dummy.consume_item( item::spawn( coffee ) );
@@ -325,8 +319,7 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
 
     SECTION( "atomic caffeine greatly reduces fatigue" ) {
 
-        detached_ptr<item> det = item::spawn( "atomic_coffee", calendar::start_of_cataclysm,
-                                              item::default_charges_tag{} );
+        detached_ptr<item> det = item::spawn( "atomic_coffee", calendar::start_of_cataclysm );
         item &atomic_coffee = *det;
         dummy.i_add( std::move( det ) );
         dummy.consume_item( item::spawn( atomic_coffee ) );
@@ -339,8 +332,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
     dummy.set_body();
-    detached_ptr<item> det = item::spawn( "towel", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "towel", calendar::start_of_cataclysm );
     item &towel = *det;
     dummy.i_add( std::move( det ) );
 
@@ -464,8 +456,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 {
     avatar dummy;
     dummy.set_fatigue( 0 );
-    detached_ptr<item> det = item::spawn( "thorazine", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "thorazine", calendar::start_of_cataclysm );
     item &thorazine = *det;
     dummy.i_add( std::move( det ) );
     int charges_before = thorazine.charges;
@@ -511,8 +502,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 TEST_CASE( "prozac", "[iuse][prozac]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "prozac", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "prozac", calendar::start_of_cataclysm );
     item &prozac = *det;
     dummy.i_add( std::move( det ) );
 
@@ -536,8 +526,7 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "inhaler", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "inhaler", calendar::start_of_cataclysm );
     item &inhaler = *det;
     dummy.i_add( std::move( det ) );
 

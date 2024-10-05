@@ -1091,11 +1091,11 @@ std::vector<item *> get_ammo_items( const Character &who, const ammotype &at )
 template <typename T, typename Output>
 void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nested )
 {
-    if( obj.is_watertight_container() ) {
+    if( obj.is_container() ) {
         if( !obj.is_container_empty() ) {
             auto contents_id = obj.contents.front().typeId();
 
-            // Look for containers with the same type of liquid as that already in our container
+            // Look for containers with the same type of content as that already in our container
             src.visit_items( [&nested, &out, &contents_id, &obj]( item * node ) {
                 if( node == &obj ) {
                     // This stops containers and magazines counting *themselves* as ammo sources.
@@ -1109,13 +1109,24 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
             } );
         } else {
-            // Look for containers with any liquid
-            src.visit_items( [&nested, &out]( item * node ) {
-                if( node->is_container() && node->contents_made_of( LIQUID ) ) {
-                    out = node;
-                }
-                return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
-            } );
+            if( obj.is_watertight_container() ) {
+                // Look for containers with any liquid
+                src.visit_items( [&nested, &out]( item * node ) {
+                    if( node->is_container() && node->contents_made_of( LIQUID ) ) {
+                        out = node;
+                    }
+                    return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+                } );
+            } else {
+                // Look for non-liquid count by charges items and containers with such items
+                src.visit_items( [&nested, &out]( item * node ) {
+                    if( ( node->is_container() && !node->contents_made_of( LIQUID ) ) || ( node->count_by_charges() &&
+                            !node->made_of( LIQUID ) ) ) {
+                        out = node;
+                    }
+                    return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
+                } );
+            }
         }
     }
     if( obj.magazine_integral() ) {
@@ -1154,17 +1165,19 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
-    } else {
-        // find compatible magazines excluding those already loaded in tools/guns
-        const auto mags = obj.magazine_compatible();
+    }
+    if( !obj.magazine_compatible().empty() || !obj.type->batteries.empty() ) {
         const std::set<ammotype> &ammo = obj.ammo_types();
+        const itype_id cur_battery = obj.battery_current() ? obj.battery_current()->typeId() :
+                                     itype_id::NULL_ID();
+        const std::set<itype_id> mags = obj.magazine_compatible();
+        const std::vector<itype_id> bats = obj.type->batteries;
 
-        src.visit_items( [&nested, &out, mags, empty, &ammo]( item * node ) {
+        src.visit_items( [&nested, &out, mags, bats, empty, &ammo, &cur_battery]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
             if( node->is_magazine() ) {
-
                 if( !node->contents.empty() ) {
                     for( const ammotype &at : ammo ) {
                         if( node->contents.front().ammo_type() != at ) {
@@ -1174,6 +1187,15 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
 
                 if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                    out = node;
+                }
+                return VisitResponse::SKIP;
+            } else if( node->is_battery() ) {
+                if( cur_battery == node->typeId() ) {
+                    VisitResponse::SKIP;
+                }
+                if( std::count( bats.begin(), bats.end(), node->typeId() ) && ( node->energy_remaining() > 0_J ||
+                        empty ) ) {
                     out = node;
                 }
                 return VisitResponse::SKIP;
@@ -1208,13 +1230,18 @@ std::vector<item *> find_reloadables( Character &who )
 
     who.visit_items( [&]( item * node ) {
         bool reloadable = false;
-        if( node->is_gun() && !node->magazine_compatible().empty() ) {
-            reloadable = node->magazine_current() == nullptr ||
-                         node->ammo_remaining() < node->ammo_capacity();
-        } else {
-            reloadable = ( node->is_magazine() || node->is_bandolier() ||
-                           ( node->is_gun() && node->magazine_integral() ) ) &&
-                         node->ammo_remaining() < node->ammo_capacity();
+        if( node->is_gun() ) {
+            if( !node->magazine_compatible().empty() || !node->type->batteries.empty() ) {
+                reloadable = true;
+            }
+            if( ( node->ammo_remaining() < node->ammo_capacity() ||
+                  node->energy_remaining() < node->energy_capacity() ) ) {
+                if( node->magazine_integral() ) {
+                    reloadable = true;
+                }
+            }
+        } else if( node->is_magazine() || node->is_bandolier() ) {
+            reloadable |= node->ammo_remaining() < node->ammo_capacity();
         }
         if( node->is_holster() ) {
             const holster_actor *ptr = dynamic_cast<const holster_actor *>

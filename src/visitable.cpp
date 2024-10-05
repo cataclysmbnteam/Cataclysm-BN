@@ -949,6 +949,126 @@ void location_visitable<monster>::remove_items_with( const
 }
 
 template <typename T, typename M>
+static units::energy energy_of_internal( const T &self, const M &main, const itype_id &id,
+        units::energy limit,
+        const std::function<bool( const item & )> &filter,
+        std::function<void( units::energy )> visitor )
+{
+    units::energy power_found = 0_J;
+
+    bool found_tool_with_UPS = false;
+    self.visit_items( [&]( const item * e ) {
+        if( ( e->typeId() == id || id == itype_id( "any" ) ) && filter( *e ) ) {
+            power_found = sum_no_wrap( power_found, e->energy_remaining() );
+            if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
+                found_tool_with_UPS = true;
+            }
+            return power_found < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+        }
+        // recurse through any nested containers
+        return power_found < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+    } );
+
+    if( power_found < limit && found_tool_with_UPS ) {
+        power_found += main.energy_of( itype_UPS, limit - power_found );
+        if( visitor ) {
+            visitor( power_found );
+        }
+    }
+
+    return std::min( power_found, limit );
+}
+
+/** @relates visitable */
+template <typename T>
+units::energy visitable<T>::energy_of( const itype_id &what, units::energy limit,
+                                       const std::function<bool( const item & )> &filter,
+                                       std::function<void( units::energy )> visitor ) const
+{
+    return energy_of_internal( *this, *this, what, limit, filter, visitor );
+}
+
+/** @relates visitable */
+template <>
+units::energy visitable<inventory>::energy_of( const itype_id &what, units::energy limit,
+        const std::function<bool( const item & )> &filter,
+        std::function<void( units::energy )> visitor ) const
+{
+    const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
+    const auto iter = binned.find( what );
+    if( iter == binned.end() && what != itype_id( "any" ) ) {
+        return 0_J;
+    }
+
+    units::energy res = 0_J;
+    if( what == itype_id( "any" ) ) {
+        for( const auto &kv : binned ) {
+            for( const item *it : kv.second ) {
+                res = sum_no_wrap( res, energy_of_internal( *it, *this, what, limit, filter, visitor ) );
+                if( res >= limit ) {
+                    break;
+                }
+            }
+        }
+    } else {
+        for( const item *it : iter->second ) {
+            res = sum_no_wrap( res, energy_of_internal( *it, *this, what, limit, filter, visitor ) );
+            if( res >= limit ) {
+                break;
+            }
+        }
+    }
+    return std::min( limit, res );
+}
+
+template <>
+units::energy visitable<location_inventory>::energy_of( const itype_id &what, units::energy limit,
+        const std::function<bool( const item & )> &filter,
+        std::function<void( units::energy )> visitor ) const
+{
+
+    auto inv = static_cast<const location_inventory *>( this );
+    return inv->inv.energy_of( what, limit, filter, std::move( visitor ) );
+}
+
+/** @relates visitable */
+template <>
+units::energy visitable<Character>::energy_of( const itype_id &what, units::energy limit,
+        const std::function<bool( const item & )> &filter,
+        std::function<void( units::energy )> visitor ) const
+{
+    auto self = static_cast<const Character *>( this );
+    auto p = dynamic_cast<const player *>( self );
+
+    if( what == itype_toolset ) {
+        if( p && p->has_active_bionic( bio_tools ) ) {
+            return std::min( p->get_power_level(), limit );
+        } else {
+            return 0_J;
+        }
+    }
+
+    if( what == itype_bio_armor ) {
+        float efficiency = 1;
+        units::energy power_charges = 0_J;
+
+        for( const bionic &bio : *self->my_bionics ) {
+            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
+                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
+            }
+        }
+        if( efficiency == 1 ) {
+            debugmsg( "Character lacks a bionic armor interface with fuel efficiency field." );
+        }
+        power_charges = self->as_player()->get_power_level() * efficiency;
+
+        return std::min( power_charges, limit );
+    }
+
+    return energy_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
+}
+
+template <typename T, typename M>
 static int charges_of_internal( const T &self, const M &main, const itype_id &id, int limit,
                                 const std::function<bool( const item & )> &filter,
                                 std::function<void( int )> visitor )
@@ -1046,6 +1166,22 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
+    if( what == itype_UPS ) {
+        int qty = 0;
+        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
+        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
+        if( p && p->has_active_bionic( bio_ups ) ) {
+            qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
+        }
+        if( p && p->is_mounted() ) {
+            auto mons = p->mounted_creature.get();
+            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
+                qty = sum_no_wrap( qty, mons->get_battery_item()->ammo_remaining() );
+            }
+        }
+        return std::min( qty, limit );
+    }
+
     if( what == itype_toolset ) {
         if( p && p->has_active_bionic( bio_tools ) ) {
             return std::min( units::to_kilojoule( p->get_power_level() ), limit );
@@ -1069,22 +1205,6 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         power_charges = units::to_kilojoule( self->as_player()->get_power_level() ) * efficiency;
 
         return std::min( power_charges, limit );
-    }
-
-    if( what == itype_UPS ) {
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
-        if( p && p->has_active_bionic( bio_ups ) ) {
-            qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
-        }
-        if( p && p->is_mounted() ) {
-            auto mons = p->mounted_creature.get();
-            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
-                qty = sum_no_wrap( qty, mons->get_battery_item()->ammo_remaining() );
-            }
-        }
-        return std::min( qty, limit );
     }
 
     return charges_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
