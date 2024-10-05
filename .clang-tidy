@@ -100,8 +100,12 @@ Checks: >
   -misc-use-anonymous-namespace,
   -clang-diagnostic-unused-macros,
   -clang-analyzer-optin.*,
+  -performance-enum-size,
+  -cert-dcl58-cpp,
 # https://github.com/llvm/llvm-project/issues/59572
 # https://github.com/llvm/llvm-project/issues/111003
+# performance-enum-size: no automatic fix available
+# cert-dcl58-cpp: too many issues with LUNA
 
 # Turn back on when all the fixes are applied
 # WarningsAsErrors: '*'
