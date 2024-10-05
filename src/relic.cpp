@@ -82,8 +82,7 @@ void relic_recharge::load( const JsonObject &jo )
 {
     try {
         src_loc = jo.get_source_location();
-    } catch( const std::exception & ) {
-        // Savefiles don't specify source, so ignore error
+    } catch( const std::exception & ) { // NOLINT: Savefiles don't specify source, so ignore error
     }
 
     jo.read( "type", type );
