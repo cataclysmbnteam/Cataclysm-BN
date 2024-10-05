@@ -4402,7 +4402,7 @@ double vehicle::total_lift( const bool fuelled, const bool safe ) const
     return lift_thrust_of_rotorcraft( fuelled, safe ) + lift_thrust_of_repulsors( fuelled, safe );
 }
 
-bool vehicle::has_lift() const 
+bool vehicle::has_lift() const
 {
     return total_lift( true ) > 0;
 }

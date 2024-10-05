@@ -1109,7 +1109,7 @@ class vehicle
          * is the vehicle flying? is it an aircraft?
          */
         bool is_aircraft() const;
-        /** 
+        /**
          * does the vehicle have lift-generating parts?
         */
         bool has_lift() const;
