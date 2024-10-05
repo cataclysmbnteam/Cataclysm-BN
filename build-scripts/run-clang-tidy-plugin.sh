@@ -20,5 +20,6 @@ else
   echo "Analyzing $(wc -l < "$AFFECTED_FILES") files"
   # shellcheck disable=SC2002
   # cat "$AFFECTED_FILES" | parallel  -j"$NUM_JOBS" --no-notice -a ./build-scripts/clang-tidy-wrapper.sh {}
+  set +e # so we can run all the checks
   < "$AFFECTED_FILES" xargs -n1 -P"$NUM_JOBS" ./build-scripts/clang-tidy-wrapper.sh -quiet
 fi
