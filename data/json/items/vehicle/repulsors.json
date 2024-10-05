@@ -1,10 +1,10 @@
 [
   {
-    "id": "makeshift_repulsor",
+    "id": "test_repulsor",
     "type": "GENERIC",
     "category": "veh_parts",
-    "name": { "str": "makeshift repulsor" },
-    "description": "A chrome sphere, sprouting wires at all angles.  How does this even work?",
+    "name": { "str": "test repulsor" },
+    "description": "This should never be visible in normal play.",
     "price": "50000 USD",
     "price_postapoc": "250 USD",
     "weight": "25000 g",
