@@ -498,7 +498,7 @@
     "terrain": [ "Bastion_Fort_1_SW" ],
     "flags": [ "ALLOW_OUTSIDE" ]
   },
-    {
+  {
     "type": "start_location",
     "id": "sloc_convention_center_rooftop",
     "name": "Convention Center Rooftop",
