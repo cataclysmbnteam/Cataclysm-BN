@@ -444,7 +444,7 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
             itm.ammo_set( itm.ammo_default(), clamp( itm.ammo_remaining() + rech.rate, 0,
                           itm.ammo_capacity() ) );
         } else {
-            itm.charges = clamp( itm.charges + rech.rate, 0, itm.charges );
+            itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
         }
     }
     if( rech.message ) {

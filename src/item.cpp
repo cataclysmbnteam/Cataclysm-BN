@@ -8028,7 +8028,7 @@ bool item::magazine_integral() const
         // We have an integral magazine if we're a gun with an ammo capacity (clip)
         return type->gun->clip;
     } else if( is_tool() ) {
-        // Or we are a tool with max_charges defined
+        // Or we are a tool with max_charges
         return type->tool->max_charges;
     }
 
