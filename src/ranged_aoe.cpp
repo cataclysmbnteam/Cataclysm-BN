@@ -44,7 +44,7 @@ namespace ranged
 {
 
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
-                            item *source_weapon )
+                            item *source_weapon, const vehicle *in_veh )
 {
     map &here = get_map();
     const auto sigdist_to_coverage = []( const double sigdist ) {
@@ -84,14 +84,22 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
         }
 
         double current_coverage = parent_coverage;
-        if( aoe_permeable( p ) ) {
+        bool firing_over_veh = false;
+        if( in_veh != nullptr ) {
+            const optional_vpart_position other = here.veh_at( p );
+            if( in_veh == veh_pointer_or_null( other ) ) {
+                // Don't blast a vehicle with its own turret
+                firing_over_veh = true;
+            }
+        }
+        if( aoe_permeable( p ) || firing_over_veh ) {
             // noop
         } else {
             projectile proj_copy = proj;
             // Origin and target are same point so AoE can bypass cover mechanics
             here.shoot( p, p, proj_copy, false );
             // There should be a nicer way than rechecking after shoot
-            if( !aoe_permeable( p ) ) {
+            if( !aoe_permeable( p ) && !firing_over_veh ) {
                 continue;
             }
 
