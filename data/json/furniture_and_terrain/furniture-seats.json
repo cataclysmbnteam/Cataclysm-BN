@@ -292,5 +292,5 @@
       "sound_fail": "whump.",
       "items": [ { "item": "plastic_chunk", "count": [ 3, 12 ] }, { "item": "scrap", "charges": [ 5, 25 ] } ]
     }
-  } 
+  }
 ]

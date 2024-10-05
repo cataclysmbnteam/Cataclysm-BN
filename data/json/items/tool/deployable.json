@@ -333,10 +333,10 @@
     "price_postapoc": "1 USD",
     "to_hit": -4,
     "bashing": 10,
-    "material": [ "steel", "plastic"],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_chair_folding" },
     "flags": [ "FRAGILE_MELEE" ]
-  }  
+  }
 ]

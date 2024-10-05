@@ -84,10 +84,7 @@
         "________________________________________________________________________________________________________________________"
       ],
       "palettes": [ "convention_palette" ],
-      "place_loot": [
-        { "item": "microwave", "x": 19, "y": 24, "chance": 75 },
-        { "item": "coffeemaker", "x": 19, "y": 24, "chance": 75 }
-      ]
+      "place_loot": [ { "item": "microwave", "x": 19, "y": 24, "chance": 75 }, { "item": "coffeemaker", "x": 19, "y": 24, "chance": 75 } ]
     }
   },
   {
@@ -262,7 +259,7 @@
         "                                                                                                                        ",
         "                                                                                                                        "
       ],
-	  "terrain": {"v": "t_ladder_down"},
+      "terrain": { "v": "t_ladder_down" },
       "palettes": [ "roof_palette" ]
     }
   }

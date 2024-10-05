@@ -26,7 +26,6 @@
         "        XX         ",
         "        XX         "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -57,7 +56,6 @@
         "                 *n",
         "                 *n"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -93,7 +91,6 @@
         "│││││nn**               ",
         "│││││**nn               "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -129,7 +126,6 @@
         "             h     │││││",
         "                   │││││"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -160,7 +156,6 @@
         "  *n*n*n*n         ",
         "  *n*n*n*n         "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -191,7 +186,6 @@
         "     h hhhh hh     ",
         "  X  hhhh h        "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -222,7 +216,6 @@
         "     n h * h n     ",
         "     n   *   n     "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -253,7 +246,6 @@
         "                   ",
         "                   "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -289,7 +281,6 @@
         "│││││     n   * h n     ",
         "│││││     **  *  **     "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -325,7 +316,6 @@
         " nnnnnn      n h   │││││",
         "             ***   │││││"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -356,7 +346,6 @@
         "                   ",
         "                   "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -387,7 +376,6 @@
         "                   ",
         "               X XX"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -418,7 +406,6 @@
         "    hhh hhhhhhhh   ",
         "                   "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -449,7 +436,6 @@
         "  hhh hhhhhhhhh    ",
         "                   "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -485,7 +471,6 @@
         "│││││    hhhhhhhhhhhhh  ",
         "│││││                   "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -521,7 +506,6 @@
         "  hhhhhhhhhhhhh    │││││",
         "                   │││││"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -552,7 +536,6 @@
         "                   ",
         "                   "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -583,7 +566,6 @@
         "                   ",
         "                   "
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -606,7 +588,6 @@
         "        hh ",
         "    h h   a"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -629,7 +610,6 @@
         "     hhhhh ",
         "nn        a"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -652,7 +632,6 @@
         "           ",
         " hhh      a"
       ],
-      
       "palettes": [ "convention_nested_palette" ],
       "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ]
     }
@@ -679,7 +658,6 @@
         " hhhhhh       ",
         "hhhhhh    ** y"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -705,7 +683,6 @@
         " hhh hhhh     ",
         "             y"
       ],
-      
       "palettes": [ "convention_nested_palette" ]
     }
   },
@@ -731,7 +708,6 @@
         "*             ",
         "* **         y"
       ],
-      
       "palettes": [ "convention_nested_palette" ],
       "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ]
     }
