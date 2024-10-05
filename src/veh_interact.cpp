@@ -2517,10 +2517,10 @@ void veh_interact::display_stats() const
     print_stat(
         _( "Mass: <color_light_blue>%5.0f</color> %s" ),
         convert_weight( veh->total_mass() ), weight_units() );
-    if( veh->has_part( "ROTOR" ) ) {
+    if( veh->has_lift() ) {
         // convert newton to kg.
         units::mass lift_as_mass = units::from_newton(
-                                       veh->lift_thrust_of_rotorcraft( true ) );
+                                       veh->total_lift( true ) );
         print_stat(
             _( "Maximum Lift: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( lift_as_mass ),

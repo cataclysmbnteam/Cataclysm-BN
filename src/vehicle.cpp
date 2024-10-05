@@ -4097,7 +4097,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     vehicle_noise = static_cast<unsigned char>( noise );
     // TODO: other noises for non-rotor aircraft?
     sounds::sound( global_pos3(), noise, sounds::sound_t::movement,
-                   _( is_aircraft() ? heli_noise : sounds[lvl].first ), true );
+                   _( has_part( "ROTOR" ) ? heli_noise : sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -4400,6 +4400,11 @@ double vehicle::lift_thrust_of_repulsors( const bool fuelled, const bool safe ) 
 double vehicle::total_lift( const bool fuelled, const bool safe ) const
 {
     return lift_thrust_of_rotorcraft( fuelled, safe ) + lift_thrust_of_repulsors( fuelled, safe );
+}
+
+bool vehicle::has_lift() const 
+{
+    return total_lift( true ) > 0;
 }
 
 bool vehicle::has_sufficient_lift() const
