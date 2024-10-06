@@ -181,7 +181,7 @@ TEST_CASE( "memorials" )
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
 
     check_memorial<event_type::gains_skill_level>(
-        m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
+        m, b, "Reached skill level 8 in Driving.", ch, skill_id( "driving" ), 8 );
 
     check_memorial<event_type::game_over>(
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
