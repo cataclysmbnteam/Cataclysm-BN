@@ -33,6 +33,7 @@ static void filesystem_test_group( int serial, const std::string &s1, const std:
     // Make sure there's no interference from e.g. uncleaned old runs
     std::string base = g->get_world_base_save_path() + "/fs_test_" +
                        get_pid_string() + "_" + std::to_string( serial ) + "/";
+    CAPTURE( base );
     REQUIRE( !dir_exist( base ) );
     REQUIRE( assure_dir_exist( base ) );
     REQUIRE( can_write_to_dir( base ) );
@@ -42,6 +43,12 @@ static void filesystem_test_group( int serial, const std::string &s1, const std:
     std::string file1_2 = dir1 + s3 + ".json";
     std::string dir2 = dir1 + s3 + "/";
     std::string file2_1 = dir2 + s2 + ".json";
+
+    CAPTURE( dir1 );
+    CAPTURE( file1_1 );
+    CAPTURE( file1_2 );
+    CAPTURE( dir2 );
+    CAPTURE( file2_1 );
 
     std::string writebuf = s3;
     std::string writebuf2 = s2;
