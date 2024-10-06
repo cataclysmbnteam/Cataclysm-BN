@@ -111,4 +111,6 @@ CheckOptions:
     value: "L;UL;LL;ULL"
   - key: cata-text-style.EscapeUnicode
     value: 0
+  - key: readability-simplify-boolean-expr.SimplifyDeMorgan
+    value: false
 # vim:tw=0
