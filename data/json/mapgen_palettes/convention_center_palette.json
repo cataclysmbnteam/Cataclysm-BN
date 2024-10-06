@@ -42,7 +42,7 @@
       ",": "t_floor",
       "(": "t_floor",
       ")": "t_floor",
-      "!": "t_grate",
+      "!": "t_grate_indoors",
       "'": "t_metal_railing",
       "/": "t_glass_railing",
       "E": "t_elevator",
