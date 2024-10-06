@@ -288,6 +288,7 @@ extern const flag_id flag_SAFECRACK;
 extern const flag_id flag_SEMITANGIBLE;
 extern const flag_id flag_SHATTERS;
 extern const flag_id flag_SHOCKING;
+extern const flag_id flag_ACIDIC;
 extern const flag_id flag_SILENT;
 extern const flag_id flag_SKINNED;
 extern const flag_id flag_SKINTIGHT;
