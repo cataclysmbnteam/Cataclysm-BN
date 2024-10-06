@@ -1433,39 +1433,42 @@ std::pair<int, units::energy> iuse::marloss( player *p, item *it, bool, const tr
     return res;
 }
 
-int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !query_yn( _( "Sure you want to eat the %s?  You could plant it in a mound of dirt." ),
                    colorize( it->tname(), it->color_in_inventory() ) ) ) {
-        return 0; // Save the seed for later!
+        return std::make_pair( 0, 0_J ); // Save the seed for later!
     }
 
     if( marloss_prevented( *p ) ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS_BLUE );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::marloss_gel( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::marloss_gel( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( marloss_prevented( *p ) ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS_YELLOW );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
+std::pair<int, units::energy> iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->is_npc() ) {
-        return it->type->charges_to_use();
+        return res;
     }
     // Welcome our guide.  Welcome.  To. The Mycus.
     if( p->has_trait( trait_THRESH_MARLOSS ) ) {
@@ -1551,21 +1554,22 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->vomit(); // no hunger/quench benefit for you
         p->mod_healthy_mod( -8, -50 );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::petfood( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::petfood( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !it->is_comestible() ) {
         p->add_msg_if_player( _( "You doubt someone would want to eat % 1$s." ), it->tname() );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     const std::optional<tripoint> pnt_ = choose_adjacent( string_format(
             _( "Tame which animal with the %s?" ),
             it->tname() ) );
     if( !pnt_ ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const tripoint pnt = *pnt_;
     p->moves -= to_moves<int>( 1_seconds );
@@ -1581,16 +1585,16 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
                     person.say(
                         _( "Okay, but please, don't give me this again.  I don't want to eat pet food in the cataclysm all day." ) );
                     p->consume_charges( *it, 1 );
-                    return 0;
+                    return std::make_pair( 0, 0_J );
                 } else {
                     p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
                     p->consume_charges( *it, 1 );
-                    return 0;
+                    return std::make_pair( 0, 0_J );
                 }
             } else {
                 p->add_msg_if_player( _( "Never mind." ) );
-                return 0;
+                return std::make_pair( 0, 0_J );
             }
         }
 
@@ -1602,7 +1606,7 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
                                   mon.type->nname(), it->tname() );
             mon.die( nullptr );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
 
         // Feral survivors don't get to tame normal critters.
@@ -1611,7 +1615,7 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
             // can't tame them, and for flavor possibly only allow taming with meat-based items.
             p->add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
                                   mon.type->nname() );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
 
         //check to see if the item has a petfood data entry deterimine if the item can be fed to a bet
@@ -1631,7 +1635,7 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         if( !can_feed ) {
             p->add_msg_if_player( _( "The %s doesn't want that kind of food." ),
                                   mon.type->nname() );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
 
         if( mon.type->id == mon_dog_thing ) {
@@ -1640,9 +1644,8 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
             if( one_in( 5 ) ) {
                 p->add_msg_if_player(
                     _( "Apparently it's more interested in your flesh than the pet food in your hand!" ) );
-                p->consume_charges( *it, 1 );
-                return 0;
             }
+            return res;
         }
 
         p->add_msg_if_player( _( "You feed your %1$s to the %2$s." ), it->tname(), mon.get_name() );
@@ -1654,20 +1657,19 @@ int iuse::petfood( player *p, item *it, bool, const tripoint & )
         }
 
         mon.make_pet();
-        p->consume_charges( *it, 1 );
-        return 0;
+        return res;
     }
 
     p->add_msg_if_player( _( "There is nothing to be fed here." ) );
-    return 0;
+    return std::make_pair( 0, 0_J );
 
 }
 
-int iuse::radio_mod( player *p, item *, bool, const tripoint & )
+std::pair<int, units::energy> iuse::radio_mod( player *p, item *, bool, const tripoint & )
 {
     if( p->is_npc() ) {
         // Now THAT would be kinda cruel
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     auto filter = []( const item & itm ) {
@@ -1680,7 +1682,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
 
     if( !loc ) {
         p->add_msg_if_player( _( "You do not have that item!" ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     item &modded = *loc;
 
@@ -1704,12 +1706,12 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
             colorname = _( "\"Green\"" );
             break;
         default:
-            return 0;
+            return std::make_pair( 0, 0_J );
     }
 
     if( modded.has_flag( flag_RADIO_MOD ) && modded.has_flag( newtag ) ) {
         p->add_msg_if_player( _( "This item has been modified this way already." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     remove_radio_mod( modded, *p );
@@ -1721,13 +1723,13 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     modded.set_flag( flag_RADIOCARITEM );
     modded.set_flag( flag_RADIO_MOD );
     modded.set_flag( newtag );
-    return 1;
+    return std::make_pair( 1, 0_J );
 }
 
-int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
+std::pair<int, units::energy> iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
 {
     if( !p ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     item *loc = g->inv_map_splice( []( const item & e ) {
@@ -1743,7 +1745,7 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     if( !loc->ammo_remaining() || avatar_funcs::unload_item( *p->as_avatar(), *loc ) ) {
@@ -1760,7 +1762,7 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
 
         remove_radio_mod( *loc, *p );
     }
-    return 0;
+    return std::make_pair( 0, 0_J );
 }
 
 static bool good_fishing_spot( tripoint pos )
@@ -1781,15 +1783,15 @@ static bool good_fishing_spot( tripoint pos )
     return true;
 }
 
-int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
         // Long actions - NPCs don't like those yet.
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     std::optional<tripoint> found;
     for( const tripoint &pnt : g->m.points_in_radius( p->pos(), 1 ) ) {
@@ -1800,54 +1802,54 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
     }
     if( !found ) {
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity->targets.emplace_back( it );
     p->activity->coord_set = g->get_fishable_locations( 60, *found );
-    return 0;
+    return std::make_pair( 0, 0_J );
 }
 
-int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
+std::pair<int, units::energy> iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
 {
     if( !t ) {
         // Handle deploying fish trap.
         if( it->is_active() ) {
             it->deactivate();
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
 
         if( it->charges < 0 ) {
             it->charges = 0;
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
         if( p->is_mounted() ) {
             p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
         if( p->is_underwater() ) {
             p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
 
         if( it->charges == 0 ) {
             p->add_msg_if_player( _( "Fish are not foolish enough to go in here without bait." ) );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
 
         const std::optional<tripoint> pnt_ = choose_adjacent( _( "Put fish trap where?" ) );
         if( !pnt_ ) {
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
         const tripoint pnt = *pnt_;
 
         if( !g->m.has_flag( "FISHABLE", pnt ) ) {
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
         if( !good_fishing_spot( pnt ) ) {
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
         it->activate();
         it->set_age( 0_turns );
@@ -1855,19 +1857,19 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_info,
                               _( "You place the fish trap, in three hours or so you may catch some fish." ) );
 
-        return 0;
+        return std::make_pair( 0, 0_J );
 
     } else {
         // Handle processing fish trap over time.
         if( it->charges == 0 ) {
             it->deactivate();
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
         if( it->age() > 3_hours ) {
             it->deactivate();
 
             if( !g->m.has_flag( "FISHABLE", pos ) ) {
-                return 0;
+                return std::make_pair( 0, 0_J );
             }
 
             int success = -50;
@@ -1899,7 +1901,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                 it->charges = 0;
                 p->practice( skill_survival, rng( 5, 15 ) );
 
-                return 0;
+                return std::make_pair( 0, 0_J );
             }
 
             //get the fishables around the trap's spot
@@ -1938,20 +1940,21 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                 }
             }
         }
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 }
 
-int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::extinguisher( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !it->ammo_sufficient() ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     // If anyone other than the player wants to use one of these,
     // they're going to need to figure out how to aim it.
     const std::optional<tripoint> dest_ = choose_adjacent( _( "Spray where?" ) );
     if( !dest_ ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     tripoint dest = *dest_;
 
@@ -1999,37 +2002,37 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         g->m.mod_field_intensity( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::unpack_item( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     std::string oname = it->typeId().str() + "_on";
     p->moves -= to_moves<int>( 10_seconds );
     p->add_msg_if_player( _( "You unpack your %s for use." ), it->tname() );
     it->convert( itype_id( oname ) );
     it->deactivate();
-    return 0;
+    return std::make_pair( 0, 0_J );
 }
 
-int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 {
     item *bionic = g->inv_map_splice( []( const item & e ) {
         return e.is_bionic() && e.has_flag( flag_NO_PACKED );
     }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
 
     if( !bionic ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( !bionic->faults.empty() ) {
         if( p->query_yn( _( "This CBM is faulty.  You should mend it first.  Do you want to try?" ) ) ) {
             avatar_funcs::mend_item( *p->as_avatar(), *bionic );
         }
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
@@ -2044,44 +2047,46 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     comps.emplace_back( it->typeId(), 1 );
     p->consume_items( comps, 1, is_crafting_component );
 
-    return 0;
+    return std::make_pair( 0, 0_J );
 }
 
-int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
+std::pair<int, units::energy> iuse::pack_item( player *p, item *it, bool t, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( t ) { // Normal use
         // Numbers below -1 are reserved for worn items
     } else if( p->get_item_position( it ) < -1 ) {
         p->add_msg_if_player( m_info, _( "You can't pack your %s until you take it off." ),
                               it->tname() );
-        return 0;
+        return std::make_pair( 0, 0_J );
     } else { // Turning it off
         std::string oname = it->typeId().str();
         if( string_ends_with( oname, "_on" ) ) {
             oname.erase( oname.length() - 3, 3 );
         } else {
             debugmsg( "no item type to turn it into (%s)!", oname );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
         p->moves -= to_moves<int>( 10_seconds );
         p->add_msg_if_player( _( "You pack your %s for storage." ), it->tname() );
         it->convert( itype_id( oname ) );
         it->deactivate();
     }
-    return 0;
+    return std::make_pair( 0, 0_J );
 }
 
-int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
+    auto [chrg, enrg] = res;
     constexpr auto purification_efficiency = 8; // one tablet purifies 250ml x 8 = 2L
 
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     auto obj = g->inv_map_splice( []( const item & e ) {
         return !e.contents.empty() && e.contents.front().typeId() == itype_water;
@@ -2089,25 +2094,28 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 
     if( !obj ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     item &liquid = obj->contents.front();
-    const auto used_charges = std::max( liquid.charges / purification_efficiency, 1 );
-    if( !it->units_sufficient( *p, used_charges ) ) {
+    const auto use_multiplier = std::max( liquid.charges / purification_efficiency, 1 );
+    enrg *= use_multiplier;
+    chrg *= use_multiplier;
+    if( !( it->units_sufficient( *p, chrg ) && it->energy_sufficient( *p, enrg ) ) ) {
         p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     p->moves -= to_moves<int>( 2_seconds );
 
     liquid.convert( itype_water_clean );
     liquid.poison = 0;
-    return used_charges;
+    return res;
 }
 
-int iuse::radio_off( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::radio_off( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
@@ -2115,11 +2123,13 @@ int iuse::radio_off( player *p, item *it, bool, const tripoint & )
         it->convert( itype_radio_on );
         it->activate();
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::directional_antenna( player *p, item *it, bool,
+        const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     // Find out if we have an active radio
     auto radios = p->items_with( []( const item & it ) {
         return it.typeId() == itype_radio_on;
@@ -2135,25 +2145,26 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
     }
     if( radios.empty() ) {
         add_msg( m_info, _( "Must have an active radio to check for signal direction." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const item &radio = *radios.front();
     // Find the radio station its tuned to (if any)
     const auto tref = overmap_buffer.find_radio_station( radio.frequency );
     if( !tref ) {
         p->add_msg_if_player( m_info, _( "You can't find the direction if your radio isn't tuned." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     // Report direction.
     // TODO: fix point types
     const tripoint_abs_sm player_pos( p->global_sm_location() );
     direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
     add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
+std::pair<int, units::energy> iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( t ) {
         // Normal use
         std::string message = _( "Radio: Kssssssssssssh." );
@@ -2237,11 +2248,12 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
                 break;
         }
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::noise_emitter_off( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::noise_emitter_off( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
@@ -2249,11 +2261,13 @@ int iuse::noise_emitter_off( player *p, item *it, bool, const tripoint & )
         it->convert( itype_noise_emitter_on );
         it->activate();
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
+std::pair<int, units::energy> iuse::noise_emitter_on( player *p, item *it, bool t,
+        const tripoint &pos )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( t ) { // Normal use
         //~ the sound of a noise emitter when turned on
         sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
@@ -2263,29 +2277,29 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
         it->convert( itype_noise_emitter );
         it->deactivate();
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
 // Ugly and uses variables that shouldn't be public
-int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
+std::pair<int, units::energy> iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
     const bool possess = p->has_item( *it );
 
     if( !t ) {
         it->revert( p, true );
         it->deactivate();
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( !p->is_avatar() ) {
         // Not supported at the moment
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     map &here = get_map();
 
     if( !p->has_enough_charges( *it, false ) ) {
         it->revert( p, true );
         it->deactivate();
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     for( const tripoint &pt : here.points_in_radius( pos, PICKUP_RANGE ) ) {
         if( !here.has_items( pt ) || !p->sees( pt ) ) {
@@ -2309,7 +2323,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
             if( power_needed > 0_J ) {
                 it->revert( p, true );
                 it->deactivate();
-                return 0;
+                return std::make_pair( 0, 0_J );
             }
 
             corpse->set_var( "bionics_scanned_by", p->getID().get_value() );
@@ -2330,30 +2344,32 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
         }
     }
 
-    return 0;
+    return std::make_pair( 0, 0_J );
 }
 
-int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::ma_manual( player *p, item *it, bool, const tripoint & )
 {
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
 
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     const matype_id style_to_learn = martial_art_learned_from( *it->type );
 
     if( !style_to_learn.is_valid() ) {
         debugmsg( "ERROR: Invalid martial art" );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     p->martial_arts_data->learn_style( style_to_learn, p->is_avatar() );
 
-    return 1;
+    return res;
 }
 
-int iuse::hammer( player *p, item *it, bool, const tripoint & )
+std::pair<int, units::energy> iuse::hammer( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const std::set<ter_id> allowed_ter_id {
         t_fence,
@@ -2382,7 +2398,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Pry where?" ), _( "There is nothing to pry nearby." ), f, false );
     if( !pnt_ ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const tripoint &pnt = *pnt_;
     const ter_id type = g->m.ter( pnt );
@@ -2393,7 +2409,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         } else {
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         }
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
@@ -2407,17 +2423,18 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
                                                -1 );
         act->placement = pnt;
         p->assign_activity( std::move( act ) );
-        return it->type->charges_to_use();
+        return res;
     } else {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 }
 
-int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
+std::pair<int, units::energy> iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const pry_result *pry = nullptr;
     bool pry_furn;
@@ -2436,7 +2453,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const std::optional<tripoint> pnt_ = ( pos != p->pos() ) ? pos : choose_adjacent_highlight(
             _( "Pry where?" ), _( "There is nothing to pry nearby." ), can_pry, false );
     if( !pnt_ ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const tripoint &pnt = *pnt_;
     const ter_id ter = g->m.ter( pnt );
@@ -2453,7 +2470,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         }
 
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     if( furn->pry.pry_quality != -1 ) {
@@ -2475,7 +2492,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
                               it->tname() );
         p->mod_moves( 10 ); // spend a few moves trying it.
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     // For every level of PRY over the requirement, remove n from the difficulty.
@@ -2536,43 +2553,44 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
                                              p->global_sm_location() );
                     }
                 }
-                return it->type->charges_to_use();
+                return res;
             }
         }
         p->add_msg_if_player( pry->fail_message );
     }
-    return it->type->charges_to_use();
+    return res;
 }
 
-int iuse::makemound( player *p, item *it, bool t, const tripoint & )
+std::pair<int, units::energy> iuse::makemound( player *p, item *it, bool t, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !p || t ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const std::optional<tripoint> pnt_ = choose_adjacent( _( "Till soil where?" ) );
     if( !pnt_ ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const tripoint pnt = *pnt_;
 
     if( pnt == p->pos() ) {
         p->add_msg_if_player( m_info,
                               _( "You think about jumping on a shovel, but then change up your mind." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     if( g->m.has_flag( flag_PLOWABLE, pnt ) && !g->m.has_flag( flag_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( ACT_CHURN, 18000, -1, p->get_item_position( it ) );
         p->activity->placement = g->m.getabs( pnt );
-        return it->type->charges_to_use();
+        return res;
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 }
 
@@ -2626,14 +2644,15 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     return { moves, static_cast<int>( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
 }
 
-int iuse::dig( player *p, item *it, bool t, const tripoint & )
+std::pair<int, units::energy> iuse::dig( player *p, item *it, bool t, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
     if( !p || t ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const tripoint dig_point = p->pos();
 
@@ -2646,7 +2665,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     if( !can_dig_here ) {
         p->add_msg_if_player(
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const bool can_deepen = g->m.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
     const bool grave = g->m.ter( dig_point ) == t_grave;
@@ -2654,10 +2673,10 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
         if( can_deepen ) {
             p->add_msg_if_player( _( "You can't deepen this pit without a proper shovel." ) );
-            return 0;
+            return std::make_pair( 0, 0_J );
         } else if( grave ) {
             p->add_msg_if_player( _( "You can't exhume a grave without a proper shovel." ) );
-            return 0;
+            return std::make_pair( 0, 0_J );
         }
     }
 
@@ -2669,14 +2688,14 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
             _( "Deposit excavated materials where?" ),
             _( "There is nowhere to deposit the excavated materials." ), f, false );
     if( !pnt_ ) {
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
     const tripoint deposit_point = *pnt_;
 
     if( !f( deposit_point ) ) {
         p->add_msg_if_player(
             _( "You can't deposit the excavated materials onto an impassable location." ) );
-        return 0;
+        return std::make_pair( 0, 0_J );
     }
 
     if( grave ) {
@@ -2719,7 +2738,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
                             moves_and_byproducts.byproducts_item_group
                         ) ) );
 
-    return it->type->charges_to_use();
+    return res;
 }
 
 int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
