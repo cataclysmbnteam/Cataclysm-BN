@@ -492,7 +492,7 @@
     "skills_required": [ [ "survival", 2 ] ],
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [
         [ "fabric_standard", 1, "LIST" ],
@@ -501,7 +501,7 @@
         [ "cordage_short", 2, "LIST" ],
         [ "filament", 100, "LIST" ]
       ],
-      [ [ "bone_heavy", 10 ] ]
+      [ [ "bone_heavy", 4 ] ]
     ]
   }
 ]

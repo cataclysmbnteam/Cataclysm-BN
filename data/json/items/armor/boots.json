@@ -116,7 +116,7 @@
     "price_postapoc": "1750 cent",
     "material": [ "acidchitin", "leather" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 2, "material_thickness": 1 }
+    "relative": { "bashing": 2, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
     "id": "boots_combat",
@@ -1481,7 +1481,9 @@
     "type": "ARMOR",
     "name": { "str": "scaleskin boots" },
     "description": "Boots made from the hardened scales of large reptiles.  It doesn't look quite like normal alligator skin boots due to the armored design.",
-    "copy-from": "boots_acidchitin",
-    "material": [ "scute" ]
+    "copy-from": "boots_larmor",
+    "material": [ "scute" ],
+    "material_thickness": 5,
+    "environmental_protection": 4
   }
 ]
