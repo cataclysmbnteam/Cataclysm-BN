@@ -265,5 +265,32 @@
       "ranged": { "reduction": [ 7, 15 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     },
     "deconstruct": { "items": [ { "item": "scrap", "count": 3 }, { "item": "sheet_metal", "count": 1 }, { "item": "pipe", "count": 4 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair_folding",
+    "name": "folding chair",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "A black foldable plastic chair on a steel frame.  Not particularly comfortable, but at least you have something to sit on.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 3,
+    "deployed_item": "chair_folding",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT" ],
+    "max_volume": "750 L",
+    "deconstruct": { "items": [ { "item": "chair_folding", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 15,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "plastic_chunk", "count": [ 3, 12 ] }, { "item": "scrap", "charges": [ 5, 25 ] } ]
+    }
   }
 ]
