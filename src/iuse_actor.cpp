@@ -4667,7 +4667,7 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
         if( const Creature *const c = g->critter_at( dest ) ) {
-            add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
+            add_msg( m_info, _( "%s is in the way." ), c->disp_name( false, true ) );
             return 0;
         }
         if( here.impassable( dest ) || !here.has_flag( "FLAT", dest ) ) {

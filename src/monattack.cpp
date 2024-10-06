@@ -1146,9 +1146,9 @@ bool mattack::smash( monster *z )
         return true;
     }
 
-    target->add_msg_player_or_npc( _( "A blow from the %1$s sends %2$s flying!" ),
-                                   _( "A blow from the %s sends <npcname> flying!" ),
-                                   z->name(), target->disp_name() );
+    target->add_msg_player_or_npc( _( "A blow from %1$s sends %2$s flying!" ),
+                                   _( "A blow from %s sends <npcname> flying!" ),
+                                   z->disp_name(), target->disp_name() );
     // TODO: Make this parabolic
     g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
@@ -1327,8 +1327,8 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             // if the player can see it
             if( g->u.sees( *z ) ) {
                 // TODO: mutate() doesn't like non-players right now
-                add_msg( m_bad, _( "The %1$s fires a shimmering beam towards %2$s!" ),
-                         z->name(), target->disp_name() );
+                add_msg( m_bad, _( "%1$s fires a shimmering beam towards %2$s!" ),
+                         z->disp_name( false, true ), target->disp_name() );
             }
 
             // (1) Give the target a chance at an uncanny_dodge.
@@ -1930,8 +1930,8 @@ bool mattack::fungus_bristle( monster *z )
 
     auto msg_type = target == &g->u ? m_warning : m_neutral;
 
-    add_msg( msg_type, _( "The %1$s swipes at %2$s with a barbed tendril!" ), z->name(),
-             target->disp_name() );
+    add_msg( msg_type, _( "%1$s swipes at %2$s with a barbed tendril!" ),
+             z->disp_name( false, true ), target->disp_name() );
     z->moves -= 150;
 
     if( target->uncanny_dodge() ) {
@@ -2354,7 +2354,7 @@ static bool blobify( monster &blob, monster &target )
 {
     if( g->u.sees( target ) ) {
         add_msg( m_warning, _( "%s is engulfed by %s!" ),
-                 target.disp_name(), blob.disp_name() );
+                 target.disp_name( false, true ), blob.disp_name() );
     }
 
     switch( target.get_size() ) {
@@ -2751,8 +2751,8 @@ bool mattack::ranged_pull( monster *z )
     here.creature_on_trap( *target );
     if( seen ) {
         if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
-            add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
-                     target->disp_name() );
+            add_msg( _( "%1$s's arms fly out and pull and grab %2$s!" ),
+                     z->disp_name( false, true ), target->disp_name() );
 
             // Stop player from hauling when grabbed and pulled
             if( z->is_player() && z->as_character()->is_hauling() ) {
@@ -2760,8 +2760,8 @@ bool mattack::ranged_pull( monster *z )
             }
 
         } else {
-            add_msg( _( "The %1$s reaches out and pulls %2$s!" ), z->name(),
-                     target->disp_name() );
+            add_msg( _( "%1$s reaches out and pulls %2$s!" ),
+                     z->disp_name( false, true ), target->disp_name() );
         }
     }
 
@@ -4386,8 +4386,8 @@ bool mattack::flesh_golem( monster *z )
         return false;
     }
     if( g->u.sees( *z ) ) {
-        add_msg( _( "The %1$s swings a massive claw at %2$s!" ), z->name(),
-                 target->disp_name() );
+        add_msg( _( "%1$s swings a massive claw at %2$s!" ),
+                 z->disp_name( false, true ), target->disp_name() );
     }
     z->moves -= 100;
 
@@ -4496,7 +4496,7 @@ bool mattack::lunge( monster *z )
             }
             z->moves += 200;
             if( seen ) {
-                add_msg( _( "The %1$s lunges for %2$s!" ), z->name(), target->disp_name() );
+                add_msg( _( "%1$s lunges for %2$s!" ), z->disp_name( false, true ), target->disp_name() );
             }
             return true;
         }
@@ -5354,8 +5354,8 @@ bool mattack::bio_op_takedown( monster *z )
     bool seen = g->u.sees( *z );
     player *foe = dynamic_cast< player * >( target );
     if( seen ) {
-        add_msg( _( "The %1$s mechanically grabs at %2$s!" ), z->name(),
-                 target->disp_name() );
+        add_msg( _( "%1$s mechanically grabs at %2$s!" ),
+                 z->disp_name( false, true ), target->disp_name() );
     }
     z->moves -= 100;
 
@@ -5380,7 +5380,7 @@ bool mattack::bio_op_takedown( monster *z )
         target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
         target->add_effect( effect_downed, 3_turns );
         if( seen ) {
-            add_msg( _( "%1$s slams %2$s to the ground!" ), z->name(), target->disp_name() );
+            add_msg( _( "%1$s slams %2$s to the ground!" ), z->disp_name( false, true ), target->disp_name() );
         }
         target->check_dead_state();
         return true;
@@ -5448,8 +5448,8 @@ bool mattack::bio_op_impale( monster *z )
     const bool seen = g->u.sees( *z );
     player *foe = dynamic_cast< player * >( target );
     if( seen ) {
-        add_msg( _( "The %1$s mechanically lunges at %2$s!" ), z->name(),
-                 target->disp_name() );
+        add_msg( _( "%1$s mechanically lunges at %2$s!" ),
+                 z->disp_name( false, true ), target->disp_name() );
     }
     z->moves -= 100;
 
@@ -5482,7 +5482,7 @@ bool mattack::bio_op_impale( monster *z )
             target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), body_part_torso );
         }
         if( seen ) {
-            add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
+            add_msg( _( "%1$s impales %2$s!" ), z->disp_name( false, true ), target->disp_name() );
         }
         target->check_dead_state();
         return true;
@@ -5535,8 +5535,8 @@ bool mattack::bio_op_disarm( monster *z )
     }
 
     if( seen ) {
-        add_msg( _( "The %1$s mechanically reaches for %2$s!" ), z->name(),
-                 target->disp_name() );
+        add_msg( _( "%1$s mechanically reaches for %2$s!" ),
+                 z->disp_name( false, true ), target->disp_name() );
     }
     z->moves -= 100;
 

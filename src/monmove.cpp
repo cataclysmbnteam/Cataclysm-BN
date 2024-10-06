@@ -1918,8 +1918,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     critter->add_effect( effect_stunned, rng( 0_turns, 2_turns ) );
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
-        add_msg( m_warning, _( "The %1$s tramples %2$s" ),
-                 name(), critter->disp_name() );
+        add_msg( m_warning, _( "%1$s tramples %2$s" ),
+                 disp_name( false, true ), critter->disp_name() );
     }
 
     moves -= movecost_attacker;
@@ -2176,8 +2176,8 @@ void monster::shove_vehicle( const tripoint &remote_destination,
             if( shove_velocity > 0 ) {
                 if( g->u.sees( this->pos() ) ) {
                     //~ %1$s - monster name, %2$s - vehicle name
-                    g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
-                                            veh.disp_name() );
+                    g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ),
+                                            this->disp_name( false, true ), veh.disp_name() );
                 }
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
