@@ -267,10 +267,10 @@ that use a negative 'recover' effect to cause pain or stamina damage. For exampl
 ### Learning Spells
 
 There are three ways of granting spells that are implemented: Mutating can grant a spell with the
-"spells_learned" field which also lets you specify the level granted. Certain spells can also
-teach you spells once they reach an appropriate level via the "learn_spells" variable. Finally,
-You can learn a spell from an item through a use_action, which is also the only way to train a
-spell other than using it. Examples of all three are shown below:
+"spells_learned" field which also lets you specify the level granted. Certain spells can also teach
+you spells once they reach an appropriate level via the "learn_spells" variable. Finally, You can
+learn a spell from an item through a use_action, which is also the only way to train a spell other
+than using it. Examples of all three are shown below:
 
 ```json
 {
@@ -289,7 +289,8 @@ spell other than using it. Examples of all three are shown below:
 },
 ```
 
-For the below example you will learn the spell Greater Acid Resistance once Acid Resistance reaches level 15
+For the below example you will learn the spell Greater Acid Resistance once Acid Resistance reaches
+level 15
 
 ```json
 {
