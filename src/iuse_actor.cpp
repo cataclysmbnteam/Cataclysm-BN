@@ -2576,7 +2576,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( study_spell->moves_total == 10100 ) {
         study_spell->str_values[0] = "gain_level";
         study_spell->values[0] = 0; // reserved for xp
-        study_spell->values[1] = p.magic->get_spell( spell_id( spells[action] ) ).get_level() + 1;
+        study_spell->values[1] = 0; // reserved for levels
     }
     study_spell->name = spells[action];
     p.assign_activity( std::move( study_spell ), false );

@@ -175,8 +175,6 @@ void show_kills( kill_tracker &kills )
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     catacurses::window w_view;
@@ -188,6 +186,7 @@ void show_kills( kill_tracker &kills )
         w_view = catacurses::newwin( getmaxy( w ) - 4, getmaxx( w ) - 1,
                                      point( getbegx( w ), getbegy( w ) + 3 ) );
         ui.position_from_window( w );
+        view.set_text( kills.get_kills_text() );
     };
     ui.on_screen_resize( init_windows );
     // initialize explicitly here since w_view is used before first redraw
@@ -197,8 +196,6 @@ void show_kills( kill_tracker &kills )
         werase( w );
         draw_border( w );
         wnoutrefresh( w );
-
-        view.set_text( kills.get_kills_text() );
         view.draw( c_white );
     } );
 

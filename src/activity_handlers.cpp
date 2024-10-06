@@ -4672,16 +4672,23 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
     }
     if( act->get_str_value( 1 ) == "study" ) {
         spell &studying = p->magic->get_spell( spell_id( act->name ) );
-        if( act->get_str_value( 0 ) == "gain_level" ) {
-            if( studying.get_level() < act->get_value( 1 ) ) {
-                act->moves_left = 1000000;
-            } else {
-                act->moves_left = 0;
-            }
-        }
+        const int old_level = studying.get_level();
         const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
+
         act->values[0] += xp;
         studying.gain_exp( xp );
+        // Every time we use get_level the level is recalculated, this is suboptimal, so we remember it here.
+        const int new_level = studying.get_level();
+
+        if( new_level > old_level ) {
+            act->values[1] += new_level - old_level;
+            g->events().send<event_type::player_levels_spell>( studying.id(), new_level );
+            if( act->get_str_value( 0 ) == "gain_level" ) {
+                act->moves_left = 0;
+            }
+        } else if( act->get_str_value( 0 ) == "gain_level" ) {
+            act->moves_left = 1000000;
+        }
     }
 }
 
@@ -4689,10 +4696,16 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int total_exp_gained = act->get_value( 0 );
+    const int total_levels_gained = act->get_value( 1 );
 
     if( act->get_str_value( 1 ) == "study" ) {
-        p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
-                              total_exp_gained );
+        std::string level_string;
+        if( total_levels_gained > 0 ) {
+            level_string = string_format( vgettext( " and %d level", " and %d levels", total_levels_gained ),
+                                          total_levels_gained );
+        }
+        p->add_msg_if_player( m_good, _( "You gained %i experience%s from your study session." ),
+                              total_exp_gained, level_string );
         const spell &sp = p->magic->get_spell( spell_id( act->name ) );
         p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
