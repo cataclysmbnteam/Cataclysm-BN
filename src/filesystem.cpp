@@ -134,7 +134,8 @@ bool remove_directory( const std::string &path )
 bool remove_tree( const std::string &path )
 {
     try {
-        std::filesystem::remove_all( path );
+        // C++20 - path constructor can take the string as is but it fails on windows
+        std::filesystem::remove_all( std::filesystem::path( path ) );
     } catch( std::filesystem::filesystem_error &e ) {
         dbg( DL::Error ) << "remove_tree [" << path << "] failed with \"" << e.what() << "\".";
         return false;
