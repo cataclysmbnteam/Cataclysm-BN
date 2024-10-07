@@ -8,7 +8,7 @@
     "weight": "18 kg",
     "volume": "40 L",
     "price": "200 USD",
-    "price_postapoc": "150 cent",
+    "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "{",
     "color": "light_cyan"
@@ -22,7 +22,7 @@
     "weight": "80 kg",
     "volume": "210000 ml",
     "price": "500 USD",
-    "price_postapoc": "150 cent",
+    "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "{",
     "color": "light_cyan"
@@ -36,7 +36,7 @@
     "weight": "80 kg",
     "volume": "210000 ml",
     "price": "1000 USD",
-    "price_postapoc": "150 cent",
+    "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "{",
     "color": "blue"
@@ -51,7 +51,7 @@
     "weight": "77 kg",
     "volume": "260000 ml",
     "price": "750 USD",
-    "price_postapoc": "150 cent",
+    "price_postapoc": "5 USD",
     "material": [ "steel", "glass" ],
     "symbol": "{",
     "color": "light_cyan"
@@ -65,7 +65,7 @@
     "weight": "77 kg",
     "volume": "260000 ml",
     "price": "1250 USD",
-    "price_postapoc": "150 cent",
+    "price_postapoc": "5 USD",
     "material": [ "steel", "glass" ],
     "symbol": "{",
     "color": "blue"
@@ -93,7 +93,7 @@
     "weight": "150 kg",
     "volume": "75 L",
     "price": "50000 USD",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "100 USD",
     "material": "steel",
     "symbol": "0",
     "color": "light_green"
