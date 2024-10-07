@@ -2584,7 +2584,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_wall",
+    "id": "constr_wall_domestic_half",
     "group": "constr_wall_standard",
     "//": "Step 1: frame wall in an empty space",
     "category": "CONSTRUCT",
