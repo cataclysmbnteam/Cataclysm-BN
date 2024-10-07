@@ -829,7 +829,7 @@
     "autolearn": true,
     "using": [ [ "adhesive_proper", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "teeth_serrated", 10 ] ], [ [ "wood_structural_small", 1, "LIST" ] ] ]
+    "components": [ [ [ "teeth_serrated", 5 ] ], [ [ "wood_structural_small", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -844,8 +844,8 @@
     "using": [ [ "adhesive_proper", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "bone_heavy", 10 ] ],
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
+      [ [ "bone_heavy", 2 ] ],
+      [ [ "wood_structural_small", 1, "LIST" ] ],
       [
         [ "cordage_short", 2, "LIST" ],
         [ "filament", 100, "LIST" ],

@@ -1665,7 +1665,8 @@
     "volume": "2250 ml",
     "bashing": 7,
     "cutting": 14,
-    "price": "59 USD"
+    "price": "59 USD",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ]
   },
   {
     "id": "razor_macuahuitl",
@@ -1676,7 +1677,8 @@
     "weight": "900 g",
     "price_postapoc": "3 USD",
     "material": [ "wood", "steel" ],
-    "cutting": 21
+    "cutting": 21,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ]
   },
   {
     "type": "GENERIC",
@@ -1895,6 +1897,7 @@
     "id": "knife_stinger",
     "type": "GENERIC",
     "copy-from": "dagger_medieval",
+    "looks_like": "bone_knife",
     "name": { "str": "stinger dagger" },
     "description": "A dagger made from a sharpened mutant insect stinger.  It's only natural that the Cataclysm would advent new, creative forms of old weapons.",
     "material": [ "chitin" ],
@@ -1924,14 +1927,16 @@
     "weight": "850 g",
     "price_postapoc": "3 USD",
     "material": [ "wood", "bone_heavy" ],
-    "cutting": 21
+    "cutting": 21,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ]
   },
   {
     "id": "sword_bone",
     "type": "GENERIC",
     "copy-from": "machete",
-    "name": { "str": "bone machete" },
-    "description": "This shortsword is carved from a single massive bone, and is capable of slicing foes in with swiftness and efficiency.",
+    "looks_like": "makeshift_machete",
+    "name": { "str": "bone cleaver" },
+    "description": "This shortsword is carved from a large chunk of bone set in a wooden haft, and is capable of slicing foes in with swiftness and efficiency.",
     "material": [ "bone_heavy" ],
     "proportional": { "weight": 0.8, "cutting": 0.9 }
   }

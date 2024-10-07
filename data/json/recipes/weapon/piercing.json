@@ -944,7 +944,7 @@
     "skills_required": [ [ "survival", 2 ] ],
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [
         [ "fabric_standard", 1, "LIST" ],
@@ -968,7 +968,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 1 ], [ "textbook_weapeast", 7 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 4 ] ], [ [ "bone_heavy", 1 ] ], [ [ "teeth_serrated", 4 ] ] ]
   }
 ]
