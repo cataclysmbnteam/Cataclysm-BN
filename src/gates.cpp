@@ -264,7 +264,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
         } else if( mon->is_monster() ) {
             // TODO: Houseflies, mosquitoes, etc shouldn't count
-            who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
+            who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name( false, true ) );
         } else {
             who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
         }

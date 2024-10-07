@@ -511,7 +511,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
             if( get_avatar().sees( cr->pos() ) ) {
-                add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
+                add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true, true ) );
             }
         }
     }
