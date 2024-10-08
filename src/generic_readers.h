@@ -32,12 +32,18 @@ struct supports_relative<bool> : std::false_type {};
 template<>
 struct supports_relative<std::string> : std::false_type {};
 
+template<typename T> concept SupportsRelative = supports_relative<T>::value;
+
 namespace reader_detail
 {
 template<typename T>
 struct handler {
     static constexpr bool is_container = false;
 };
+
+template<typename T> concept Container = handler<T>::is_container;
+
+template<typename T> concept RelativeContainer = Container<T> &&SupportsRelative<T>;
 
 template<typename T>
 struct handler<std::set<T>> {
@@ -237,10 +243,7 @@ class generic_typed_reader
          * whereas these are reading values of the same type.
          */
         // Type does not support relative
-        template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
-                   int >::type = 0,
-                   std::enable_if_t < !supports_relative<C>::value > * = nullptr
-                   >
+        template<typename C> requires( !reader_detail::Container<C> || !SupportsRelative<C> )
         bool do_relative( const JsonObject &jo, const std::string &name, C & ) const {
             if( jo.has_object( "relative" ) ) {
                 JsonObject relative = jo.get_object( "relative" );
@@ -254,8 +257,7 @@ class generic_typed_reader
         }
 
         // Type supports relative
-        template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
-                   int >::type = 0, std::enable_if_t<supports_relative<C>::value> * = nullptr >
+        template<reader_detail::RelativeContainer C>
         bool do_relative( const JsonObject &jo, const std::string &name, C &member ) const {
             if( jo.has_object( "relative" ) ) {
                 JsonObject relative = jo.get_object( "relative" );
@@ -287,8 +289,7 @@ class generic_typed_reader
          */
         // was_loaded is ignored here, if the value is not found in JSON, report to
         // the caller, which will take action on their own.
-        template < typename C, typename std::enable_if < !reader_detail::handler<C>::is_container,
-                   int >::type = 0 >
+        template<typename C> requires( !reader_detail::Container<C> )
         bool operator()( const JsonObject &jo, const std::string &member_name,
                          C &member, bool /*was_loaded*/ ) const {
             return read_normal( jo, member_name, member ) ||
