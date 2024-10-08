@@ -137,7 +137,7 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
                               name );
     options.emplace_back( -1, allow, key, msg );
 
-    actions.emplace_back( [ = ] {
+    actions.emplace_back( [ =, this ] {
         for( const vpart_reference &vp : found )
         {
             vehicle_part &e = vp.part();

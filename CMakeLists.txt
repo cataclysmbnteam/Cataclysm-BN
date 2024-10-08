@@ -236,7 +236,7 @@ if (NOT MSVC)
        -Wpedantic \
        -Wsuggest-override \
        -Wunused-macros \
-       -Wzero-as-null-pointer-constant \
+       -Wno-zero-as-null-pointer-constant \
        -Wno-unknown-warning-option \
        -Wno-dangling-reference \
        -Wno-range-loop-analysis")
@@ -255,7 +255,7 @@ if (NOT MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "-Og -g2")
 endif ()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 

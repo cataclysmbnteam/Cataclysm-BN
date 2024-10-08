@@ -363,8 +363,30 @@ static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 
-struct extended_photo_def;
+
 struct object_names_collection;
+
+struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
+    int quality;
+    std::string name;
+    std::string description;
+
+    extended_photo_def() = default;
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject obj = jsin.get_object();
+        quality = obj.get_int( "quality" );
+        name = obj.get_string( "name" );
+        description = obj.get_string( "description" );
+    }
+
+    void serialize( JsonOut &jsout ) const override {
+        jsout.start_object();
+        jsout.member( "quality", quality );
+        jsout.member( "name", name );
+        jsout.member( "description", description );
+        jsout.end_object();
+    }
+};
 
 static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
                                 int photo_quality );
@@ -6344,27 +6366,6 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
-    int quality;
-    std::string name;
-    std::string description;
-
-    extended_photo_def() = default;
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
-        quality = obj.get_int( "quality" );
-        name = obj.get_string( "name" );
-        description = obj.get_string( "description" );
-    }
-
-    void serialize( JsonOut &jsout ) const override {
-        jsout.start_object();
-        jsout.member( "quality", quality );
-        jsout.member( "name", name );
-        jsout.member( "description", description );
-        jsout.end_object();
-    }
-};
 
 static std::string colorized_trap_name_at( const tripoint &point )
 {

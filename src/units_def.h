@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_UNITS_DEF_H
 #define CATA_SRC_UNITS_DEF_H
 
-#include <cmath>
+#include <compare>
+#include <type_traits>
+#include "concepts_utility.h"
 
 class JsonIn;
 class JsonOut;
@@ -10,7 +12,7 @@ class JsonOut;
 namespace units
 {
 
-template<typename V, typename U>
+template<Arithmetic V, typename U>
 class quantity
 {
     public:
@@ -28,13 +30,13 @@ class quantity
          * Construct from value. This is supposed to be wrapped into a static
          * function (e.g. `from_liter(int)` ) to provide context.
          */
-        constexpr quantity( const value_type &v, unit_type ) : value_( v ) {
+        constexpr quantity( value_type v, unit_type ) : value_( v ) {
         }
         /**
          * Conversion from other value type, e.g. from `quantity<int, foo>` to
          * `quantity<float, foo>`. The unit type stays the same!
          */
-        template<typename other_value_type>
+        template<Arithmetic other_value_type>
         constexpr quantity( const quantity<other_value_type, unit_type> &other ) : value_( other.value() ) {
         }
 
@@ -46,26 +48,19 @@ class quantity
         }
 
         /**
-         * The usual comparators, they compare the base value only.
+         * The spaceship comparators, they compare the base value only.
          */
         /**@{*/
-        constexpr bool operator==( const this_type &rhs ) const {
-            return value_ == rhs.value_;
+        template<Arithmetic other_value_type>
+        constexpr friend bool operator==( const quantity<value_type, unit_type> &lhs,
+                                          const quantity<other_value_type, unit_type> &rhs ) {
+            return ( lhs <=> rhs ) == 0; // *NOPAD*
         }
-        constexpr bool operator!=( const this_type &rhs ) const {
-            return !operator==( rhs );
-        }
-        constexpr bool operator<( const this_type &rhs ) const {
-            return value_ < rhs.value_;
-        }
-        constexpr bool operator>=( const this_type &rhs ) const {
-            return !operator<( rhs );
-        }
-        constexpr bool operator>( const this_type &rhs ) const {
-            return value_ > rhs.value_;
-        }
-        constexpr bool operator<=( const this_type &rhs ) const {
-            return !operator>( rhs );
+
+        template<Arithmetic other_value_type>
+        constexpr friend auto operator<=> ( const quantity<value_type, unit_type> &lhs, // *NOPAD*
+                                            const quantity<other_value_type, unit_type> &rhs ) {
+            return lhs.value() <=> rhs.value();  // *NOPAD*
         }
         /**@}*/
 
@@ -91,33 +86,43 @@ class quantity
          * \endcode
          */
         /**@{*/
-        template<typename other_value_type>
-        constexpr quantity < decltype( std::declval<value_type>() + std::declval<other_value_type>() ),
-                  unit_type >
-        operator+( const quantity<other_value_type, unit_type> &rhs ) const {
+        template<Arithmetic other_value_type>
+        constexpr auto operator+( const quantity<other_value_type, unit_type> &rhs ) const
+        -> quantity<std::common_type_t<value_type, other_value_type>, unit_type> {
             return { value_ + rhs.value(), unit_type{} };
         }
-        template<typename other_value_type>
-        constexpr quantity < decltype( std::declval<value_type>() + std::declval<other_value_type>() ),
-                  unit_type >
-        operator-( const quantity<other_value_type, unit_type> &rhs ) const {
+
+        template<Arithmetic other_value_type>
+        constexpr auto operator-( const quantity<other_value_type, unit_type> &rhs ) const
+        -> quantity<std::common_type_t<value_type, other_value_type>, unit_type>  {
             return { value_ - rhs.value(), unit_type{} };
         }
 
-        template<typename other_value_type>
-        this_type &operator+=( const quantity<other_value_type, unit_type> &rhs ) {
+        template<Arithmetic other_value_type>
+        auto operator+=( const quantity<other_value_type, unit_type> &rhs ) -> this_type & { // *NOPAD*
             value_ += rhs.value();
             return *this;
         }
-        template<typename other_value_type>
-        this_type &operator-=( const quantity<other_value_type, unit_type> &rhs ) {
+
+        template<Arithmetic other_value_type>
+        auto operator-=( const quantity<other_value_type, unit_type> &rhs ) -> this_type & { // *NOPAD*
             value_ -= rhs.value();
             return *this;
         }
         /**@}*/
 
-        constexpr this_type operator-() const {
+        constexpr auto operator-() const -> this_type {
             return this_type( -value_, unit_type{} );
+        }
+
+        constexpr auto operator==( const this_type &rhs ) const -> bool {
+            return value_ == rhs.value_;
+        }
+        constexpr auto operator<( const this_type &rhs ) const -> bool {
+            return value_ < rhs.value_;
+        }
+        constexpr auto operator<=( const this_type &rhs ) const -> bool {
+            return value_ <= rhs.value_;
         }
 
         void serialize( JsonOut &jsout ) const;
@@ -132,14 +137,14 @@ struct quantity_details {
     using common_zero_point = std::true_type;
 };
 
-template<typename V, typename U>
-inline quantity<V, U> fabs( quantity<V, U> q )
+template<Arithmetic V, typename U>
+inline constexpr auto fabs( quantity<V, U> q ) -> quantity<V, U>
 {
     return quantity<V, U>( std::fabs( q.value() ), U{} );
 }
 
-template<typename V, typename U>
-inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
+template<Arithmetic V, typename U>
+inline constexpr auto fmod( quantity<V, U> num, quantity<V, U> den ) -> quantity<V, U>
 {
     return quantity<V, U>( std::fmod( num.value(), den.value() ), U{} );
 }
@@ -186,48 +191,43 @@ inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
 // "quantity / scalar" or "quantity / other_quanity" is meant.
 
 // scalar * quantity<foo, unit> == quantity<decltype(foo * scalar), unit>
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
-operator*( const st &factor, const quantity<lvt, ut> &rhs )
+template<Arithmetic lvt, typename ut, Arithmetic st>
+inline constexpr auto operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
     static_assert( quantity_details<ut>::common_zero_point::value,
                    "Units with multiple scales with different zero should not be multiplied/divided/etc.  directly." );
-    return { factor * rhs.value(), ut{} };
+    return quantity{ factor * rhs.value(), ut{} };
 }
 
 // same as above only with inverse order of operands: quantity * scalar
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
-operator*( const quantity<lvt, ut> &lhs, const st &factor )
+template<Arithmetic lvt, typename ut, Arithmetic st>
+inline constexpr auto operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
     static_assert( quantity_details<ut>::common_zero_point::value,
                    "Units with multiple scales with different zero should not be multiplied/divided/etc.  directly." );
-    return { lhs.value() *factor, ut{} };
+    return quantity{ lhs.value() *factor, ut{} };
 }
 
 // Explicit "yes, I know what I'm doing" multiplication
-template<typename lvt, typename ut, typename st>
-inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
-multiply_any_unit( const quantity<lvt, ut> &lhs, const st &factor )
+template<Arithmetic lvt, typename ut, Arithmetic st>
+inline constexpr auto multiply_any_unit( const quantity<lvt, ut> &lhs, const st &factor )
 {
-    return { lhs.value() *factor, ut{} };
+    return quantity{ lhs.value() *factor, ut{} };
 }
 
-template<typename t, typename st>
-inline constexpr decltype( std::declval<st>() * std::declval<t>() )
-multiply_any_unit( const t &lhs, const st &factor )
+template<typename t, Arithmetic st>
+inline constexpr auto multiply_any_unit( const t &lhs, const st &factor )
 {
     return lhs * factor;
 }
 
 // quantity<foo, unit> * quantity<bar, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
+template<Arithmetic lvt, typename ut, Arithmetic rvt>
 inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
 
 // operator *=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator*=( quantity<lvt, ut> &lhs, const st &factor )
+template<Arithmetic lvt, typename ut, Arithmetic st>
+inline auto operator*=( quantity<lvt, ut> &lhs, const st &factor ) -> quantity<lvt, ut> &
 {
     lhs = lhs * factor;
     return lhs;
@@ -235,29 +235,26 @@ operator*=( quantity<lvt, ut> &lhs, const st &factor )
 
 // and the revers of the multiplication above:
 // quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
-operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
+template<Arithmetic lvt, typename ut, Arithmetic rvt>
+inline constexpr auto operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
-    return { lhs.value() / divisor, ut{} };
+    return quantity{ lhs.value() / divisor, ut{} };
 }
 
 // scalar / quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
+template<Arithmetic lvt, typename ut, Arithmetic rvt>
 inline void operator/( lvt, quantity<rvt, ut> ) = delete;
 
 // quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
-template<typename lvt, typename ut, typename rvt>
-inline constexpr decltype( std::declval<lvt>() / std::declval<rvt>() )
-operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+template<Arithmetic lvt, typename ut, Arithmetic rvt>
+inline constexpr auto operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return lhs.value() / rhs.value();
 }
 
 // operator /=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator/=( quantity<lvt, ut> &lhs, const st &divisor )
+template<Arithmetic lvt, typename ut, Arithmetic st>
+inline auto operator/=( quantity<lvt, ut> &lhs, const st &divisor ) -> quantity<lvt, ut> &
 {
     lhs = lhs / divisor;
     return lhs;
@@ -265,36 +262,34 @@ operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 
 // remainder:
 // quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
-inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
-operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
+template<Arithmetic lvt, typename ut, Arithmetic rvt>
+inline constexpr auto operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
-    return { lhs.value() % divisor, ut{} };
+    return quantity{ lhs.value() % divisor, ut{} };
 }
 
 // scalar % quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
+template<Arithmetic lvt, typename ut, Arithmetic rvt>
 inline void operator%( lvt, quantity<rvt, ut> ) = delete;
 
 // quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
-template<typename lvt, typename ut, typename rvt>
-inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
-operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+template<Arithmetic lvt, typename ut, Arithmetic rvt>
+inline constexpr auto operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
-    return { lhs.value() % rhs.value(), ut{} };
+    return quantity{ lhs.value() % rhs.value(), ut{} };
 }
 
 // operator %=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator%=( quantity<lvt, ut> &lhs, const st &divisor )
+template<Arithmetic lvt, typename ut, Arithmetic st>
+inline auto operator%=( quantity<lvt, ut> &lhs, const st &divisor ) ->  quantity<lvt, ut> &
 {
     lhs = lhs % divisor;
     return lhs;
 }
-template<typename lvt, typename ut, typename rvt>
-inline quantity<lvt, ut> &
-operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+
+template<Arithmetic lvt, typename ut, Arithmetic rvt>
+inline auto operator%=( quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+-> quantity<lvt, ut> &
 {
     lhs = lhs % rhs;
     return lhs;

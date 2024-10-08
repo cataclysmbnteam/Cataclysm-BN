@@ -4,6 +4,8 @@ include(ExternalProject)
 find_package(LLVM REQUIRED CONFIG)
 find_package(Clang REQUIRED CONFIG)
 
+set(CMAKE_CXX_STANDARD 20)
+
 set(CataAnalyzerSrc
     CataTidyModule.cpp
     CombineLocalsIntoPointCheck.cpp

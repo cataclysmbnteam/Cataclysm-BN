@@ -84,11 +84,11 @@ bool file_exist( const std::string &path )
 
 std::string as_norm_dir( const std::string &path )
 {
-    std::filesystem::path dir = std::filesystem::u8path( path ) / std::filesystem::path{};
+    std::filesystem::path dir = std::filesystem::path( path ) / std::filesystem::path{};
     std::filesystem::path norm = dir.lexically_normal();
-    std::string ret = norm.generic_u8string();
-    if( "." == ret ) {
-        ret = "./"; // TODO Change the many places that use strings instead of paths
+    const std::string ret = norm.generic_string();
+    if( ret == "." ) {
+        return "./"; // TODO Change the many places that use strings instead of paths
     }
     return ret;
 }
@@ -134,9 +134,8 @@ bool remove_directory( const std::string &path )
 bool remove_tree( const std::string &path )
 {
     try {
-        // TODO: C++20 - path constructor should be able to take the string as is
-        auto fs_path = std::filesystem::u8path( path );
-        std::filesystem::remove_all( fs_path );
+        // C++20 - path constructor can take the string as is but it fails on windows
+        std::filesystem::remove_all( std::filesystem::path( path ) );
     } catch( std::filesystem::filesystem_error &e ) {
         dbg( DL::Error ) << "remove_tree [" << path << "] failed with \"" << e.what() << "\".";
         return false;
