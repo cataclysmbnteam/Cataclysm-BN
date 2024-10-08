@@ -804,8 +804,8 @@ words: `MemberType foo( ReaderType(...) );` does not work. This is what `is_cons
 If the 5. parameter can be used to construct a `MemberType`, it is assumed to be the default value,
 otherwise it is assumed to be the reader.
 */
-template<typename MemberType, typename DefaultType = MemberType,
-         typename = typename std::enable_if<std::is_constructible<MemberType, const DefaultType &>::value>::type>
+template<typename MemberType, typename DefaultType = MemberType>
+requires( std::is_constructible_v<MemberType, const DefaultType &> )
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member, const DefaultType &default_value )
 {
@@ -816,9 +816,9 @@ inline void optional( const JsonObject &jo, const bool was_loaded, const std::st
         }
     }
 }
-template < typename MemberType, typename ReaderType, typename DefaultType = MemberType,
-           typename = typename std::enable_if <
-               !std::is_constructible<MemberType, const ReaderType &>::value >::type >
+
+template<typename MemberType, typename ReaderType, typename DefaultType = MemberType>
+requires( !std::is_constructible_v<MemberType, const ReaderType &> )
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member, const ReaderType &reader )
 {
@@ -828,6 +828,7 @@ inline void optional( const JsonObject &jo, const bool was_loaded, const std::st
         }
     }
 }
+
 template<typename MemberType, typename ReaderType, typename DefaultType = MemberType>
 inline void optional( const JsonObject &jo, const bool was_loaded, const std::string &name,
                       MemberType &member, const ReaderType &reader, const DefaultType &default_value )
