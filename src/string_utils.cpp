@@ -77,12 +77,6 @@ bool match_include_exclude( const std::string &text, std::string filter )
     return found;
 }
 
-bool string_ends_with( const std::string &s1, const std::string &s2 )
-{
-    return s1.size() >= s2.size() &&
-           s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
-}
-
 std::string join( const std::vector<std::string> &strings, const std::string &joiner )
 {
     std::ostringstream buffer;

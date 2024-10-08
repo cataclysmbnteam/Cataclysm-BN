@@ -315,7 +315,7 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     };
     bool has_season_suffix = false;
     for( int i = 0; i < 4; i++ ) {
-        if( string_ends_with( id, season_suffix[i] ) ) {
+        if( id.ends_with( season_suffix[i] ) ) {
             has_season_suffix = true;
             // key is id without _season suffix
             season_tile_value &value = tile_ids_by_season[i][id.substr( 0,

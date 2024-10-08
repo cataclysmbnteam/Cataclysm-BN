@@ -6306,7 +6306,7 @@ om_direction::type oter_get_rotation_dir( const oter_id &oter )
 {
     for( const om_direction::type &rot : om_direction::all ) {
         const std::string &rot_s = om_direction::get_suffix( rot );
-        if( string_ends_with( oter.id().str(), rot_s ) ) {
+        if( oter.id().str().ends_with( rot_s ) ) {
             return rot;
         }
     }
