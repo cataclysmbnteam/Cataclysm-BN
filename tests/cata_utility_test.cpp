@@ -6,17 +6,6 @@
 #include "units_utility.h"
 #include "units.h"
 
-// tests both variants of string_starts_with
-template <std::size_t N>
-bool test_string_starts_with( const std::string &s1, const char( &s2 )[N] )
-{
-    CAPTURE( s1, s2, N );
-    bool r1 =  string_starts_with( s1, s2 );
-    bool r2 =  string_starts_with( s1, std::string( s2 ) );
-    CHECK( r1 == r2 );
-    return r1;
-}
-
 // tests both variants of string_ends_with
 template <std::size_t N>
 bool test_string_ends_with( const std::string &s1, const char( &s2 )[N] )
@@ -26,16 +15,6 @@ bool test_string_ends_with( const std::string &s1, const char( &s2 )[N] )
     bool r2 =  string_ends_with( s1, std::string( s2 ) );
     CHECK( r1 == r2 );
     return r1;
-}
-
-TEST_CASE( "string_starts_with", "[utility]" )
-{
-    CHECK( test_string_starts_with( "", "" ) );
-    CHECK( test_string_starts_with( "a", "" ) );
-    CHECK_FALSE( test_string_starts_with( "", "a" ) );
-    CHECK( test_string_starts_with( "ab", "a" ) );
-    CHECK_FALSE( test_string_starts_with( "ab", "b" ) );
-    CHECK_FALSE( test_string_starts_with( "a", "ab" ) );
 }
 
 TEST_CASE( "string_ends_with", "[utility]" )

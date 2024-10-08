@@ -276,7 +276,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     // remove LIGHT_[X] flags
     erase_if( obj.item_tags, []( const flag_id & f ) {
-        return string_starts_with( f.str(), "LIGHT_" );
+        return f.str().starts_with( "LIGHT_" );
     } );
 
     // Set max volume for containers to prevent integer overflow
@@ -589,7 +589,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
-        string_starts_with( obj.get_id().str(), "manual_" ) ) {
+        obj.get_id().str().starts_with( "manual_" ) ) {
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );

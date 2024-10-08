@@ -118,7 +118,7 @@ void JsonObject::report_unvisited() const
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
-            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
+            if( !visited_members.count( name ) && !name.starts_with( "//" ) ) {
                 try {
                     throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
                 } catch( const JsonError &e ) {

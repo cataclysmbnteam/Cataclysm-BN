@@ -228,7 +228,7 @@ CachedTTFFont::CachedTTFFont(
 #endif
 
     for( const std::string &kp : known_prefixes ) {
-        if( string_starts_with( typeface, kp ) ) {
+        if( typeface.starts_with( kp ) ) {
             add_prefix = false;
             break;
         }

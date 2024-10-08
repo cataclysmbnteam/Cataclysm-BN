@@ -204,12 +204,12 @@ void check_consistency()
     for( const construction &c_it : all_constructions.get_all() ) {
         construction &c = const_cast<construction &>( c_it );
         bool did_migrate = false;
-        if( string_starts_with( c.pre_terrain.str(), "f_" ) ) {
+        if( c.pre_terrain.str().starts_with( "f_" ) ) {
             c.pre_furniture = furn_str_id( c.pre_terrain.str() );
             c.pre_terrain = ter_str_id();
             did_migrate = true;
         }
-        if( string_starts_with( c.post_terrain.str(), "f_" ) ) {
+        if( c.post_terrain.str().starts_with( "f_" ) ) {
             c.post_furniture = furn_str_id( c.post_terrain.str() );
             c.post_terrain = ter_str_id();
             did_migrate = true;
