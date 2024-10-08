@@ -753,7 +753,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
 {
     detached_ptr<item> granted = item::spawn( sp.effect_data(), calendar::turn );
     item &as_item = *granted;
-    if( !granted->is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
+    if( !granted->is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) ) ) {
         granted->set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted->set_flag( flag_id( "ETHEREAL_ITEM" ) );
     }
