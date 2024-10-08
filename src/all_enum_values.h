@@ -2,6 +2,9 @@
 #ifndef CATA_SRC_ALL_ENUM_VALUES_H
 #define CATA_SRC_ALL_ENUM_VALUES_H
 
+#include <cstddef>
+#include <utility>
+
 #include "enum_traits.h"
 
 template<typename E>

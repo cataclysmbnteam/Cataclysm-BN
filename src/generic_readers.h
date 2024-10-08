@@ -208,9 +208,9 @@ class generic_typed_reader
          * The `enable_if` is here to prevent the compiler from considering it
          * when called on a simple data member, the other `operator()` will be used.
          */
-        template<typename C, typename std::enable_if<reader_detail::handler<C>::is_container, int>::type = 0>
+        template<typename C>
         bool operator()( const JsonObject &jo, const std::string &member_name,
-                         C &container, bool was_loaded ) const {
+                         C &container, bool was_loaded ) const requires reader_detail::handler<C>::is_container {
             const Derived &derived = static_cast<const Derived &>( *this );
             // If you get an error about "incomplete type 'struct reader_detail::handler...",
             // you have to implement a specialization of your container type, so above for
