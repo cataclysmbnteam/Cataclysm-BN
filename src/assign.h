@@ -18,6 +18,7 @@
 #include "json.h"
 #include "units.h"
 #include "units_serde.h"
+#include "concepts_utility.h"
 
 namespace detail
 {
@@ -43,7 +44,7 @@ bool is_strict_enabled( const std::string &src );
 void report_strict_violation( const JsonObject &jo, const std::string &message,
                               const std::string &name );
 
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
+template <Arithmetic T>
 bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false,
              T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
@@ -95,7 +96,7 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
 // and also to avoid potentially nonsensical interactions between relative and proportional.
 bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict = false );
 
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
+template <Arithmetic T>
 bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val,
              bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
