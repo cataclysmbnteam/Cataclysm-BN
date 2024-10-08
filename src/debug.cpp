@@ -853,7 +853,7 @@ static std::optional<uintptr_t> debug_compute_load_offset(
             while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
-            if( string_ends_with( line, string_sought ) ) {
+            if( line.ends_with( string_sought ) ) {
                 std::istringstream line_is( line );
                 uintptr_t symbol_address;
                 line_is >> std::hex >> symbol_address;

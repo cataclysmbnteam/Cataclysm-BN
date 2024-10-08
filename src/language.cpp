@@ -106,7 +106,7 @@ static std::string getSystemUILang()
     std::replace( lang_code.begin(), lang_code.end(), '-', '_' );
 
     for( const language_info &info : lang_options ) {
-        if( !info.osx.empty() && string_starts_with( lang_code, info.osx ) ) {
+        if( !info.osx.empty() && lang_code.starts_with( info.osx ) ) {
             return info.id;
         }
     }
@@ -121,7 +121,7 @@ std::string to_valid_language( const std::string &lang )
         return lang;
     }
     for( const language_info &info : lang_options ) {
-        if( string_starts_with( lang, info.id ) ) {
+        if( lang.starts_with( info.id ) ) {
             return info.id;
         }
     }
@@ -129,7 +129,7 @@ std::string to_valid_language( const std::string &lang )
     if( p != std::string::npos ) {
         std::string lang2 = lang.substr( 0, p );
         for( const language_info &info : lang_options ) {
-            if( string_starts_with( lang2, info.id ) ) {
+            if( lang2.starts_with( info.id ) ) {
                 return info.id;
             }
         }
@@ -170,7 +170,7 @@ static std::string getSystemUILang()
         }
     }
 
-    if( ret == "C" || string_starts_with( ret, "C." ) ) {
+    if( ret == "C" || ret.starts_with( "C." ) ) {
         ret = "en";
     }
 

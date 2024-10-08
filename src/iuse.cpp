@@ -2049,7 +2049,7 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
         return 0;
     } else { // Turning it off
         std::string oname = it->typeId().str();
-        if( string_ends_with( oname, "_on" ) ) {
+        if( oname.ends_with( "_on" ) ) {
             oname.erase( oname.length() - 3, 3 );
         } else {
             debugmsg( "no item type to turn it into (%s)!", oname );

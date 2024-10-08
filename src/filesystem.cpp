@@ -331,7 +331,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
     std::deque<std::string>  directories;
     if( root_path.empty() ) {
         directories.emplace_back( "./" );
-    } else if( string_ends_with( root_path, "/" ) ) {
+    } else if( root_path.ends_with( "/" ) ) {
         directories.emplace_back( root_path );
     } else {
         directories.emplace_back( root_path + "/" );
@@ -496,7 +496,7 @@ const char *CBN = "Q2F0YWNseXNtQnJpZ2h0TmlnaHRz";
 bool can_write_to_dir( const std::string &dir_path )
 {
     std::string dummy_file;
-    if( string_ends_with( dir_path, "/" ) ) {
+    if( dir_path.ends_with( "/" ) ) {
         dummy_file = dir_path + CBN;
     } else {
         dummy_file = dir_path + "/" + CBN;

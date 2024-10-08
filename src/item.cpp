@@ -4937,7 +4937,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
     } else if( is_active() && !is_food() && !is_corpse() &&
-               !string_ends_with( typeId().str(), "_on" ) ) {
+               ! typeId().str().ends_with( "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
