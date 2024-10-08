@@ -1,5 +1,4 @@
 #pragma once
-//NOLINT(modernize-type-traits)
 /*
  Formatting library for C++
 

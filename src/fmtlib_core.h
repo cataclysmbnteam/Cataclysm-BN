@@ -2185,7 +2185,7 @@ struct wformat_args : basic_format_args<wformat_context> {
 namespace detail
 {
 
-template < typename Char, FMT_ENABLE_IF( !std::is_same<Char, char>::value ) >
+template < typename Char, FMT_ENABLE_IF( !std::is_same_v<Char, char> ) >
 std::basic_string<Char> vformat(
     basic_string_view<Char> format_str,
     basic_format_args<buffer_context<type_identity_t<Char>>> args );
@@ -2199,7 +2199,7 @@ void vformat_to(
     detail::locale_ref loc = {} );
 
 template < typename Char, typename Args,
-           FMT_ENABLE_IF( !std::is_same<Char, char>::value ) >
+           FMT_ENABLE_IF( !std::is_same_v<Char, char> ) >
 inline void vprint_mojibake( std::FILE *, basic_string_view<Char>, const Args & ) {}
 
 FMT_API void vprint_mojibake( std::FILE *, string_view, format_args );
