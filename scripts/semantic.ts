@@ -7,12 +7,12 @@
  * 4. write to `doc/src/assets/semantic.json` file
  */
 
-import { walk } from "$std/fs/walk.ts"
+import { walk } from "@std/fs"
 import { asynciter } from "$asynciter/mod.ts"
 import { SafeParseSuccess, z } from "$zod/mod.ts"
-import * as YAML from "$std/yaml/stringify.ts"
+import * as YAML from "@std/yaml"
 import { outdent } from "$outdent/mod.ts"
-import { resolve } from "$std/path/resolve.ts"
+import { resolve } from "@std/path"
 
 type Config = {
   enabled: boolean
