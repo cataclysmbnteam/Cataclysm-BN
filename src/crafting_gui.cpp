@@ -83,7 +83,7 @@ void load_recipe_category( const JsonObject &jsobj )
     const std::string category = jsobj.get_string( "id" );
     const bool is_hidden = jsobj.get_bool( "is_hidden", false );
 
-    if( category.find( "CC_" ) != 0 ) {
+    if( !category.starts_with( "CC_" ) ) {
         jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
@@ -94,7 +94,7 @@ void load_recipe_category( const JsonObject &jsobj )
         const std::string cat_name = get_cat_unprefixed( category );
 
         for( const std::string subcat_id : jsobj.get_array( "recipe_subcategories" ) ) {
-            if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
+            if( !subcat_id.starts_with( "CSC_" + cat_name + "_" ) && subcat_id != "CSC_ALL" ) {
                 jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
             }
             if( std::find( craft_subcat_list[category].begin(), craft_subcat_list[category].end(),
@@ -109,7 +109,7 @@ static std::string get_subcat_unprefixed( const std::string &cat, const std::str
 {
     std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
 
-    if( prefixed_name.find( prefix ) == 0 ) {
+    if( prefixed_name.starts_with( prefix ) ) {
         return prefixed_name.substr( prefix.size(), prefixed_name.size() - prefix.size() );
     }
 
@@ -717,7 +717,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 available.reserve( current.size() );
                 // cache recipe availability on first display
                 for( const recipe *e : current ) {
-                    if( availability_cache.count( e ) == 0 ) {
+                    if( !availability_cache.contains( e ) ) {
                         availability_cache.emplace( e, availability( e, 1,
                                                     !show_unavailable || available_recipes.contains( *e ) ) );
                     }

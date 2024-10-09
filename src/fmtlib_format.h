@@ -380,7 +380,7 @@ template <typename T> using sentinel_t = decltype( std::end( std::declval<T &>()
 // A workaround for std::string not having mutable data() until C++17.
 template <typename Char> inline Char *get_data( std::basic_string<Char> &s )
 {
-    return &s[0];
+    return s.data();
 }
 template <typename Container>
 inline typename Container::value_type *get_data( Container &c )
@@ -1297,16 +1297,16 @@ class utf8_to_utf16
     public:
         FMT_API explicit utf8_to_utf16( string_view s );
         operator wstring_view() const {
-            return {&buffer_[0], size()};
+            return {buffer_.data(), size()};
         }
         size_t size() const {
             return buffer_.size() - 1;
         }
         const wchar_t *c_str() const {
-            return &buffer_[0];
+            return buffer_.data();
         }
         std::wstring str() const {
-            return {&buffer_[0], size()};
+            return {buffer_.data(), size()};
         }
 };
 
@@ -2582,7 +2582,7 @@ class arg_formatter_base
 
         iterator operator()( Char value ) {
             handle_char_specs( specs_,
-                               char_spec_handler( *this, static_cast<Char>( value ) ) );
+                               char_spec_handler( *this, value ) );
             return out_;
         }
 

@@ -249,7 +249,7 @@ void distribution_grid_tracker::on_changed( const tripoint_abs_ms &p )
 {
     tripoint_abs_sm sm_pos = project_to<coords::sm>( p );
     // TODO: If not in bounds, just drop the grid, rebuild lazily
-    if( parent_distribution_grids.count( sm_pos ) > 0 ||
+    if( parent_distribution_grids.contains( sm_pos ) ||
         bounds.contains( sm_pos.xy() ) ) {
         // TODO: Don't rebuild, update
         make_distribution_grid_at( sm_pos );

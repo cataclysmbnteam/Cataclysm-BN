@@ -77,7 +77,9 @@ static const species_id ZOMBIE( "ZOMBIE" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_LIQUID( "LIQUID" );
 
-#define MONSTER_FOLLOW_DIST 8
+enum {
+    MONSTER_FOLLOW_DIST = 8
+};
 
 bool monster::wander()
 {
@@ -108,7 +110,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( ft.has_elec ) {
         return has_flag( MF_ELECTRIC );
     }
-    if( ft.immune_mtypes.count( type->id ) > 0 ) {
+    if( ft.immune_mtypes.contains( type->id ) ) {
         return true;
     }
     // No specific immunity was found, so fall upwards
@@ -583,7 +585,7 @@ void monster::plan()
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                anger += 10 - static_cast<int>( hp_per / 10 );
+                anger += 10 - ( hp_per / 10 );
             }
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
@@ -767,7 +769,7 @@ void monster::move()
 
             // `special_attacks` might have changed at this point. Sadly `reset_special`
             // doesn't check the attack name, so we need to do it here.
-            if( special_attacks.count( special_name ) == 0 ) {
+            if( !special_attacks.contains( special_name ) ) {
                 continue;
             }
             reset_special( special_name );

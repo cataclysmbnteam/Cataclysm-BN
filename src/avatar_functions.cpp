@@ -179,7 +179,7 @@ void mend_item( avatar &you, item &obj, bool interactive )
         menu.text = _( "Toggle which fault?" );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto &f : obj.faults_potential() ) {
-            opts.emplace_back( f, !!obj.faults.count( f ) );
+            opts.emplace_back( f, !!obj.faults.contains( f ) );
             menu.addentry( -1, true, -1, string_format(
                                opts.back().second ? pgettext( "fault", "Mend: %s" ) : pgettext( "fault", "Set: %s" ),
                                f.obj().name() ) );

@@ -76,7 +76,7 @@ const temperature temperature_max = units::temperature(
                                         units::temperature::unit_type{} );
 
 template<typename value_type>
-inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag>
+constexpr quantity<value_type, temperature_in_millidegree_celsius_tag>
 from_millidegree_celsius(
     const value_type v )
 {
@@ -85,7 +85,7 @@ from_millidegree_celsius(
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> from_celsius(
+constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> from_celsius(
     const value_type v )
 {
     const value_type max_temperature_celsius = std::numeric_limits<value_type>::max() / 1000;
@@ -94,7 +94,7 @@ inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> fr
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> from_fahrenheit(
+constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> from_fahrenheit(
     const value_type v )
 {
     // Explicit casts to silence warnings about lossy conversions
@@ -107,53 +107,53 @@ inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> fr
 }
 
 template<typename value_type>
-inline constexpr value_type to_millidegree_celsius( const
+constexpr value_type to_millidegree_celsius( const
         quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
 {
     return v / from_millidegree_celsius<value_type>( 1 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_celsius( const
-                                        quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
+constexpr value_type to_celsius( const
+                                 quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
 {
     return to_millidegree_celsius( v ) / 1000.0;
 }
 
 template<typename value_type>
-inline constexpr value_type to_fahrenheit( const
-        quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
+constexpr value_type to_fahrenheit( const
+                                    quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
 {
     return celsius_to_fahrenheit( to_millidegree_celsius( v ) / 1000.0 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_kelvins( const
-                                        quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
+constexpr value_type to_kelvins( const
+                                 quantity<value_type, temperature_in_millidegree_celsius_tag> &v )
 {
     return celsius_to_kelvin( to_millidegree_celsius( v ) / 1000.0 );
 }
 
 } // namespace units
 
-inline constexpr units::temperature operator"" _mc( const unsigned long long v )
+constexpr units::temperature operator"" _mc( const unsigned long long v )
 {
     // Cast to int because fahrenheit conversion needs it
     // Rest gets it for consistency
     return units::from_millidegree_celsius<int>( v );
 }
 
-inline constexpr units::temperature operator"" _c( const unsigned long long v )
+constexpr units::temperature operator"" _c( const unsigned long long v )
 {
     return units::from_celsius<int>( v );
 }
 
-inline constexpr units::temperature operator"" _c( const long double v )
+constexpr units::temperature operator"" _c( const long double v )
 {
     return units::from_celsius<double>( static_cast<double>( v ) );
 }
 
-inline constexpr units::temperature operator"" _f( const unsigned long long v )
+constexpr units::temperature operator"" _f( const unsigned long long v )
 {
     return units::from_fahrenheit<int>( v );
 }

@@ -251,7 +251,7 @@ static void debug_error_prompt(
     std::string msg_key( filename );
     msg_key += line;
 
-    if( !force && ignored_messages.count( msg_key ) > 0 ) {
+    if( !force && ignored_messages.contains( msg_key ) ) {
         return;
     }
 

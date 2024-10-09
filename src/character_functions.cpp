@@ -369,9 +369,9 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
     }
 
     if( who.get_fatigue() < fatigue_levels::tired + 1 ) {
-        sleepy -= static_cast<int>( ( fatigue_levels::tired + 1 - who.get_fatigue() ) / 4 );
+        sleepy -= ( ( fatigue_levels::tired + 1 - who.get_fatigue() ) / 4 );
     } else {
-        sleepy += static_cast<int>( ( who.get_fatigue() - fatigue_levels::tired + 1 ) / 16 );
+        sleepy += ( ( who.get_fatigue() - fatigue_levels::tired + 1 ) / 16 );
     }
 
     if( current_stim > 0 || !who.has_trait( trait_INSOMNIA ) ) {
@@ -805,7 +805,7 @@ item_reload_option select_ammo( const Character &who, item &base,
     std::back_inserter( names ), [&]( const item_reload_option & e ) {
         const auto ammo_color = [&]( const std::string & name ) {
             return base.is_gun() && e.ammo->ammo_data() &&
-                   !base.ammo_types().count( e.ammo->ammo_data()->ammo->type ) ?
+                   !base.ammo_types().contains( e.ammo->ammo_data()->ammo->type ) ?
                    colorize( name, c_dark_gray ) : name;
         };
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
@@ -1148,7 +1148,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 }
             }
             if( node->is_magazine() && node->has_flag( flag_SPEEDLOADER ) ) {
-                if( mags.count( node->typeId() ) && node->ammo_remaining() ) {
+                if( mags.contains( node->typeId() ) && node->ammo_remaining() ) {
                     out = node;
                 }
             }
@@ -1173,7 +1173,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     }
                 }
 
-                if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                if( mags.contains( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
                     out = node;
                 }
                 return VisitResponse::SKIP;

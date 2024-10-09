@@ -278,7 +278,7 @@ void npc_template::check_consistency()
 template<>
 bool string_id<npc_template>::is_valid() const
 {
-    return npc_templates.count( *this ) > 0;
+    return npc_templates.contains( *this );
 }
 
 template<>
@@ -1046,7 +1046,7 @@ void npc::start_read( item &it, player *pl )
     act->targets.emplace_back( it );
     act->str_values.push_back( std::to_string( penalty ) );
     // push an identifier of martial art book to the action handling
-    if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
+    if( chosen.type->use_methods.contains( "MA_MANUAL" ) ) {
         act->str_values.clear();
         act->str_values.emplace_back( "martial_art" );
     }
@@ -1854,14 +1854,14 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         const ammotype &at = it.ammo_type();
-        if( primary_weapon().is_gun() && primary_weapon().ammo_types().count( at ) ) {
+        if( primary_weapon().is_gun() && primary_weapon().ammo_types().contains( at ) ) {
             // TODO: magazines - don't count ammo as usable if the weapon isn't.
             ret += 14;
         }
 
         bool has_gun_for_ammo = has_item_with( [at]( const item & itm ) {
             // item::ammo_type considers the active gunmod.
-            return itm.is_gun() && itm.ammo_types().count( at );
+            return itm.is_gun() && itm.ammo_types().contains( at );
         } );
 
         if( has_gun_for_ammo ) {

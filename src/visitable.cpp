@@ -152,7 +152,7 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
 
     self.visit_items( [&qual, level, &limit, &qty]( const item * e ) {
         if( e->get_quality( qual ) >= level ) {
-            qty = sum_no_wrap( qty, static_cast<int>( e->count() ) );
+            qty = sum_no_wrap( qty, e->count() );
             if( qty >= limit ) {
                 // found sufficient items
                 return VisitResponse::ABORT;

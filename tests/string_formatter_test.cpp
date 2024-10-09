@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <limits>
+#include <numbers>
 #include <string>
 #include <utility>
 
@@ -197,8 +198,8 @@ TEST_CASE( "string_formatter" )
     /* 58: anti-test */
     // importet_test( 59, "%(foo", "%(foo" ); // format is invalid
     importet_test( 60, " foo", "%*s", 4, "foo" );
-    importet_test( 61, "      3.14", "%*.*f", 10, 2, 3.14159265 );
-    importet_test( 63, "3.14      ", "%-*.*f", 10, 2, 3.14159265 );
+    importet_test( 61, "      3.14", "%*.*f", 10, 2, std::numbers::pi );
+    importet_test( 63, "3.14      ", "%-*.*f", 10, 2, std::numbers::pi );
     /* 64: anti-test */
     /* 65: anti-test */
     importet_test( 66, "+hello+", "+%s+", "hello" );

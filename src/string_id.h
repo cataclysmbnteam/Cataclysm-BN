@@ -137,11 +137,11 @@ class string_identity_static
 #endif
         {}
 
-        inline const std::string &str() const {
+        const std::string &str() const {
             return get_interned_string( _id );
         }
 
-        inline bool is_empty() const {
+        bool is_empty() const {
             return _id == empty_interned_string();
         }
 
@@ -179,11 +179,11 @@ class string_identity_dynamic
         template<typename S> requires std::is_convertible_v<S, std::string>
         explicit string_identity_dynamic( S &&id ) : _id( std::forward<S>( id ) )  {}
 
-        inline const std::string &str() const {
+        const std::string &str() const {
             return _id;
         }
 
-        inline bool is_empty() const {
+        bool is_empty() const {
             return _id.empty();
         }
 
@@ -356,7 +356,7 @@ class string_id
         // structure that captures the actual "identity" of this string_id
         Identity _id;
 
-        inline void set_cid_version( int cid, int64_t version ) const {
+        void set_cid_version( int cid, int64_t version ) const {
             _cid = cid;
             _version = version;
         }

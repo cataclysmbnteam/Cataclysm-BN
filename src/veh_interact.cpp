@@ -563,7 +563,7 @@ task_reason veh_interact::cant_do( char mode )
         case 'i':
             // install mode
             enough_morale = you.has_morale_to_craft();
-            valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
+            valid_target = !can_mount.empty() && !veh->tags.contains( "convertible" );
             //tool checks processed later
             enough_light = character_funcs::can_see_fine_details( you );
             has_tools = true;
@@ -605,7 +605,7 @@ task_reason veh_interact::cant_do( char mode )
         case 'o':
             // remove mode
             enough_morale = you.has_morale_to_craft();
-            valid_target = cpart >= 0 && 0 == veh->tags.count( "convertible" );
+            valid_target = cpart >= 0 && !veh->tags.contains( "convertible" );
             part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
             //tool and skill checks processed later
             has_tools = true;
@@ -784,7 +784,7 @@ bool veh_interact::update_part_requirements()
             }
         }
 
-        if( !axles.empty() && axles.count( -dd.x ) == 0 ) {
+        if( !axles.empty() && !axles.contains( -dd.x ) ) {
             // Installing more than one steerable axle is hard
             // (but adding a wheel to an existing axle isn't)
             // As with engines, cap at the actual maximum skill.

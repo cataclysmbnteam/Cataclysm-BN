@@ -26,7 +26,6 @@
 #include "name.h"
 #include "options.h"
 #include "path_info.h"
-#include "path_info.h"
 #include "string_utils.h"
 #include "translations.h"
 #include "ui.h"

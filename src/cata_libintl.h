@@ -105,20 +105,20 @@ class trans_catalogue
 
         explicit trans_catalogue( std::string buffer );
 
-        inline void set_buffer( std::string buffer ) {
+        void set_buffer( std::string buffer ) {
             this->buffer = std::move( buffer );
         }
-        inline u32 buf_size() const {
+        u32 buf_size() const {
             return static_cast<u32>( buffer.size() );
         }
 
         u8 get_u8( u32 offs ) const;
-        inline u8 get_u8_unsafe( u32 offs ) const {
+        u8 get_u8_unsafe( u32 offs ) const {
             return static_cast<u8>( buffer[offs] );
         }
 
         u32 get_u32( u32 offs ) const;
-        inline u32 get_u32_unsafe( u32 offs ) const {
+        u32 get_u32_unsafe( u32 offs ) const {
             if( is_little_endian ) {
                 return get_u8_unsafe( offs ) |
                        get_u8_unsafe( offs + 1 ) << 8 |
@@ -135,7 +135,7 @@ class trans_catalogue
         string_descr get_string_descr( u32 offs ) const;
         string_descr get_string_descr_unsafe( u32 offs ) const;
 
-        inline const char *offs_to_cstr( u32 offs ) const {
+        const char *offs_to_cstr( u32 offs ) const {
             return &buffer[offs];
         }
 
@@ -159,7 +159,7 @@ class trans_catalogue
         static trans_catalogue load_from_memory( std::string mo_file );
 
         /** Number of entries in the catalogue. */
-        inline u32 get_num_strings() const {
+        u32 get_num_strings() const {
             return number_of_strings;
         }
         /** Get singular translated string of given entry. */

@@ -33,7 +33,7 @@ void ammunition_type::load_ammunition_type( const JsonObject &jsobj )
 template<>
 bool string_id<ammunition_type>::is_valid() const
 {
-    return all_ammunition_types().count( *this ) > 0;
+    return all_ammunition_types().contains( *this );
 }
 
 /** @relates string_id */

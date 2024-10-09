@@ -522,7 +522,7 @@ void uilist::setup()
         while( next_free_hotkey < hotkeys.size() ) {
             const int setkey = hotkeys[next_free_hotkey];
             next_free_hotkey++;
-            if( keymap.count( setkey ) == 0 ) {
+            if( !keymap.contains( setkey ) ) {
                 entries[*it].hotkey = setkey;
                 keymap[setkey] = *it;
                 break;
@@ -614,12 +614,12 @@ void uilist::setup()
     }
 
     if( !w_x_setup.fun ) {
-        w_x = static_cast<int>( ( TERMX - w_width ) / 2 );
+        w_x = ( ( TERMX - w_width ) / 2 );
     } else {
         w_x = w_x_setup.fun( w_width );
     }
     if( !w_y_setup.fun ) {
-        w_y = static_cast<int>( ( TERMY - w_height ) / 2 );
+        w_y = ( ( TERMY - w_height ) / 2 );
     } else {
         w_y  = w_y_setup.fun( w_height );
     }

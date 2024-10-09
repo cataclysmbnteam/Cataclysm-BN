@@ -61,7 +61,7 @@ const effect_type &string_id<effect_type>::obj() const
 template<>
 bool string_id<effect_type>::is_valid() const
 {
-    return effect_types.count( *this ) > 0;
+    return effect_types.contains( *this );
 }
 
 std::vector<efftype_id> find_all_effect_types()
@@ -419,7 +419,7 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
 
 bool effect_type::has_flag( const flag_id &flag ) const
 {
-    return flags.count( flag );
+    return flags.contains( flag );
 }
 
 effect_rating effect_type::get_rating() const
@@ -948,7 +948,7 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
     }
     if( static_cast<int>( max ) != 0 ) {
         // Return a random value between [min, max]
-        return static_cast<int>( rng( min, max ) );
+        return rng( min, max );
     } else {
         // Else return the minimum value
         return min;
@@ -1381,7 +1381,7 @@ void load_effect_type( const JsonObject &jo )
     new_etype.load_mod_data( jo, "base_mods" );
     new_etype.load_mod_data( jo, "scaling_mods" );
 
-    new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
+    new_etype.impairs_movement = hardcoded_movement_impairing.contains( new_etype.id );
 
     new_etype.flags = jo.get_tags<flag_id>( "flags" );
 

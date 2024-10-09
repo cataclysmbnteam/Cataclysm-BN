@@ -331,7 +331,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
 
 static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
 {
-    if( spell_effects.count( sp ) ) {
+    if( spell_effects.contains( sp ) ) {
         return true;
     }
     spell_effects.emplace( sp );
@@ -916,7 +916,7 @@ bool spell::is_valid() const
 
 bool spell::bp_is_affected( body_part bp ) const
 {
-    return type->affected_bps.count( convert_bp( bp ) );
+    return type->affected_bps.contains( convert_bp( bp ) );
 }
 
 void spell::create_field( const tripoint &at ) const
@@ -1824,7 +1824,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
 bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
 {
-    if( used_invlets.count( invlet ) > 0 ) {
+    if( used_invlets.contains( invlet ) ) {
         return false;
     }
     invlets[sp] = invlet;
@@ -1846,19 +1846,19 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
         used_invlets.emplace( invlet_pair.second );
     }
     for( int i = 'a'; i <= 'z'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
+        if( !used_invlets.contains( i ) ) {
             used_invlets.emplace( i );
             return i;
         }
     }
     for( int i = 'A'; i <= 'Z'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
+        if( !used_invlets.contains( i ) ) {
             used_invlets.emplace( i );
             return i;
         }
     }
     for( int i = '!'; i <= '-'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
+        if( !used_invlets.contains( i ) ) {
             used_invlets.emplace( i );
             return i;
         }

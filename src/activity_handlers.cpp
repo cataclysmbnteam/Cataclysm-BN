@@ -1772,11 +1772,11 @@ void activity_handlers::hotwire_finish( player_activity *act, player *p )
                                            p->posz() ) ) ) ) {
         vehicle *const veh = &vp->vehicle();
         const int mech_skill = act->values[2];
-        if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
+        if( mech_skill > rng( 1, 6 ) ) {
             //success
             veh->is_locked = false;
             add_msg( _( "This wire will start the engine." ) );
-        } else if( mech_skill > static_cast<int>( rng( 0, 4 ) ) ) {
+        } else if( mech_skill > rng( 0, 4 ) ) {
             //soft fail
             veh->is_locked = false;
             veh->is_alarm_on = veh->has_security_working();

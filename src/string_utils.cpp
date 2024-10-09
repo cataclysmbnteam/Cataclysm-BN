@@ -17,8 +17,8 @@ bool lcmatch( const std::string &str, const std::string &qry )
         std::wstring wneedle = utf8_to_wstr( qry );
         std::wstring whaystack = utf8_to_wstr( str );
 
-        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
-        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
+        f.tolower( whaystack.data(), whaystack.data() + whaystack.size() );
+        f.tolower( wneedle.data(), wneedle.data() + wneedle.size() );
 
         return whaystack.find( wneedle ) != std::wstring::npos;
     }
@@ -219,7 +219,7 @@ std::string to_upper_case( const std::string &s )
     if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+        f.toupper( wstr.data(), wstr.data() + wstr.size() );
         return wstr_to_utf8( wstr );
     }
     std::string res;
@@ -235,7 +235,7 @@ std::string to_lower_case( const std::string &s )
     if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
-        f.tolower( &wstr[0], &wstr[0] + wstr.size() );
+        f.tolower( wstr.data(), wstr.data() + wstr.size() );
         return wstr_to_utf8( wstr );
     }
     std::string res;

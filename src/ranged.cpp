@@ -598,7 +598,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
     int dirt = it.get_var( "dirt", 0 );
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
-    if( it.faults.count( fault_gun_chamber_spent ) ) {
+    if( it.faults.contains( fault_gun_chamber_spent ) ) {
         return false;
     }
 
@@ -647,7 +647,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
         // Here we check for a chance for the weapon to suffer a misfire due to
         // using player-made 'RECYCLED' bullets. Note that not all forms of
         // player-made ammunition have this effect.
-    } else if( curammo_effects.count( ammo_effect_RECYCLED ) && one_in( 256 ) ) {
+    } else if( curammo_effects.contains( ammo_effect_RECYCLED ) && one_in( 256 ) ) {
         shooter.add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                        _( "<npcname>'s %s misfires with a muffled click!" ),
                                        it.tname() );
@@ -657,8 +657,8 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
         // Can be toned down with 'consume_divisor.'
 
-    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.count( ammo_effect_LASER ) &&
-               !curammo_effects.count( ammo_effect_PLASMA ) && !curammo_effects.count( ammo_effect_EMP ) ) {
+    } else if( it.has_flag( flag_CONSUMABLE ) && !curammo_effects.contains( ammo_effect_LASER ) &&
+               !curammo_effects.contains( ammo_effect_PLASMA ) && !curammo_effects.contains( ammo_effect_EMP ) ) {
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
         uncork = std::pow( uncork, 3 ) * 6.5;
@@ -697,14 +697,15 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
                                        it.tname() );
         it.inc_damage();
     }
-    if( ( ( !curammo_effects.count( ammo_effect_NON_FOULING ) && !it.has_flag( flag_NON_FOULING ) ) ||
+    if( ( ( !curammo_effects.contains( ammo_effect_NON_FOULING ) &&
+            !it.has_flag( flag_NON_FOULING ) ) ||
           ( it.has_fault( fault_gun_unlubricated ) ) ) &&
         !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
-        if( curammo_effects.count( ammo_effect_BLACKPOWDER ) ||
+        if( curammo_effects.contains( ammo_effect_BLACKPOWDER ) ||
             it.has_fault( fault_gun_unlubricated ) ) {
             if( ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
                   ( it.has_fault( fault_gun_unlubricated ) && one_in( 16 ) ) ) &&
-                it.faults_potential().count( fault_gun_chamber_spent ) ) {
+                it.faults_potential().contains( fault_gun_chamber_spent ) ) {
                 shooter.add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                                _( "<npcname>'s %s fails to cycle!" ),
                                                it.tname() );
@@ -713,7 +714,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
             }
         }
         // These are the dirtying/fouling mechanics
-        if( !curammo_effects.count( ammo_effect_NON_FOULING ) && !it.has_flag( flag_NON_FOULING ) ) {
+        if( !curammo_effects.contains( ammo_effect_NON_FOULING ) && !it.has_flag( flag_NON_FOULING ) ) {
             if( dirt < static_cast<int>( dirt_max_dbl ) ) {
                 dirtadder = curammo_effects.count( ammo_effect_BLACKPOWDER ) * ( 200 -
                             ( firing.blackpowder_tolerance *
@@ -723,17 +724,17 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
                     dirtadder = 0;
                 }
                 // in addition to increasing dirt level faster, regular gunpowder fouling is also capped at 7,150, not 10,000. So firing with regular gunpowder can never make the gun quite as bad as firing it with black gunpowder. At 7,150 the chance to jam is significantly lower (though still significant) than it is at 10,000, the absolute cap.
-                if( curammo_effects.count( ammo_effect_BLACKPOWDER ) ||
+                if( curammo_effects.contains( ammo_effect_BLACKPOWDER ) ||
                     dirt < 7150 ) {
                     it.set_var( "dirt", std::min( static_cast<int>( dirt_max_dbl ), dirt + dirtadder + 1 ) );
                 }
             }
             dirt = it.get_var( "dirt", 0 );
             dirt_dbl = static_cast<double>( dirt );
-            if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+            if( dirt > 0 && !it.faults.contains( fault_gun_blackpowder ) ) {
                 it.faults.insert( fault_gun_dirt );
             }
-            if( dirt > 0 && curammo_effects.count( ammo_effect_BLACKPOWDER ) ) {
+            if( dirt > 0 && curammo_effects.contains( ammo_effect_BLACKPOWDER ) ) {
                 it.faults.erase( fault_gun_dirt );
                 it.faults.insert( fault_gun_blackpowder );
             }
@@ -876,8 +877,8 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
     // cap our maximum burst size by the amount of UPS power left
     if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
-        shots = std::min( shots, static_cast<int>( who.charges_of( itype_UPS ) /
-                          gun.get_gun_ups_drain() ) );
+        shots = std::min( shots, ( who.charges_of( itype_UPS ) /
+                                   gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -901,7 +902,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         if( !!ammo && !gun.ammo_remaining() ) {
             gun.reload( get_avatar(), *ammo, 1 );
         }
-        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
+        if( gun.faults.contains( fault_gun_chamber_spent ) && curshot == 0 ) {
             who.moves -= 50;
             gun.faults.erase( fault_gun_chamber_spent );
             who.add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
@@ -1037,7 +1038,7 @@ int throw_cost( const Character &c, const item &to_throw )
     const int base_move_cost = to_throw.attack_cost() / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
     ///\EFFECT_THROW increases throwing speed
-    const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
+    const int skill_cost = ( base_move_cost * ( 20 - throw_skill ) / 20 );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
     const int encumbrance_penalty = c.encumb( body_part_torso ) +
@@ -1699,7 +1700,7 @@ std::vector<ranged::aim_type> ranged::get_aim_types( const Character &who, const
     std::vector<int> thresholds = {
         static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 10.0 ) + sight_dispersion ),
         static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 20.0 ) + sight_dispersion ),
-        static_cast<int>( sight_dispersion )
+        sight_dispersion
     };
     // Remove duplicate thresholds.
     std::vector<int>::iterator thresholds_it = std::adjacent_find( thresholds.begin(),
@@ -1862,10 +1863,10 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     int noise = calc_gun_volume( *this );
 
-    if( type->weapon_category.count( weapon_cat_WATER_CANNONS ) ) {
+    if( type->weapon_category.contains( weapon_cat_WATER_CANNONS ) ) {
         return { noise, _( "Splash!" ) };
 
-    } else if( type->weapon_category.count( weapon_cat_MAGNETIC ) ) {
+    } else if( type->weapon_category.contains( weapon_cat_MAGNETIC ) ) {
         if( noise < 20 ) {
             return { noise, burst ? _( "tz-tz-tzk!" ) : _( "tzk!" ) };
         } else if( noise < 80 ) {
@@ -1876,7 +1877,7 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, burst ? _( "tzz-BOOOM!" ) : _( "tzk-BLAM!" ) };
         }
 
-    } else if( type->weapon_category.count( weapon_cat_PNEUMATIC ) ) {
+    } else if( type->weapon_category.contains( weapon_cat_PNEUMATIC ) ) {
         if( noise < 10 ) {
             return { noise, burst ? _( "P-p-p-pft!" ) : _( "pft!" ) };
         } else if( noise < 20 ) {
@@ -1887,21 +1888,21 @@ item::sound_data item::gun_noise( const bool burst ) const
             return { noise, burst ? _( "Chuk-chunk!" ) : _( "Chunk!" ) };
         }
 
-    } else if( type->weapon_category.count( weapon_cat_ROCKET_LAUNCHERS ) ) {
+    } else if( type->weapon_category.contains( weapon_cat_ROCKET_LAUNCHERS ) ) {
         return { noise, _( "Fwsss!" ) };
-    } else if( type->weapon_category.count( weapon_cat_GRENADE_LAUNCHERS ) ) {
+    } else if( type->weapon_category.contains( weapon_cat_GRENADE_LAUNCHERS ) ) {
         return { noise, _( "Thump!" ) };
-    } else if( type->weapon_category.count( weapon_cat_FLAMETHROWERS ) ||
-               type->weapon_category.count( weapon_cat_SPRAY_GUNS ) ) {
+    } else if( type->weapon_category.contains( weapon_cat_FLAMETHROWERS ) ||
+               type->weapon_category.contains( weapon_cat_SPRAY_GUNS ) ) {
         return { noise, _( "Fwoosh!" ) };
-    } else if( type->weapon_category.count( weapon_cat_S_XBOWS ) ||
-               type->weapon_category.count( weapon_cat_M_XBOWS ) ) {
+    } else if( type->weapon_category.contains( weapon_cat_S_XBOWS ) ||
+               type->weapon_category.contains( weapon_cat_M_XBOWS ) ) {
         return { noise, _( "thonk!" ) };
-    } else if( type->weapon_category.count( weapon_cat_ELASTIC ) ) {
+    } else if( type->weapon_category.contains( weapon_cat_ELASTIC ) ) {
         return { noise, _( "whizz!" ) };
     }
 
-    if( type->weapon_category.count( weapon_cat_ENERGY_WEAPONS ) ) {
+    if( type->weapon_category.contains( weapon_cat_ENERGY_WEAPONS ) ) {
         // Lasers and plasma
         if( noise < 20 ) {
             return { noise, _( "Fzzt!" ) };
@@ -2040,7 +2041,7 @@ auto npc_ai::best_mode_for_range(
 
     erase_if( modes, [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
         const auto &m = e.second;
-        return m.melee() || !who.can_use( *m.target ) || m.flags.count( "NPC_AVOID" ) || shots < m.qty ||
+        return m.melee() || !who.can_use( *m.target ) || m.flags.contains( "NPC_AVOID" ) || shots < m.qty ||
                ( dist > 0 && static_cast<const npc *>( &who )->confident_gun_mode_range( m, min_recoil ) < dist );
     } );
 

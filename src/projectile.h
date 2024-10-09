@@ -53,7 +53,7 @@ struct projectile {
         void load( JsonObject &jo );
 
         bool has_effect( const ammo_effect_str_id &id ) const {
-            return proj_effects.count( id ) > 0;
+            return proj_effects.contains( id );
         }
         void add_effect( const ammo_effect_str_id &id ) {
             proj_effects.insert( id );

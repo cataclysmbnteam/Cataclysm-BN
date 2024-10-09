@@ -25,4 +25,4 @@ void open_url( const std::string &url );
  */
 std::string encode_url( const std::string &text );
 
-#endif
+#endif // CATA_SRC_URL_UTILITY_H

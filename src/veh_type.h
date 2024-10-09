@@ -334,7 +334,7 @@ class vpart_info
             return flags;
         }
         bool has_flag( const std::string &flag ) const {
-            return flags.count( flag ) != 0;
+            return flags.contains( flag );
         }
         bool has_flag( const vpart_bitflags flag ) const {
             return bitflags.test( flag );

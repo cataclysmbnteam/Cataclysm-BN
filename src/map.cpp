@@ -3332,7 +3332,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
             int down_bash_tries = 10;
             do {
                 const ter_id &ter_now = ter( p );
-                if( encountered_types.count( ter_now ) != 0 ) {
+                if( encountered_types.contains( ter_now ) ) {
                     // We have encountered this type before and destroyed it (didn't block us)
                     ter_set( p, t_open_air );
                     bash_params params_below = params;
@@ -3421,13 +3421,13 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
 
         // Find the center of the tent
         // First check if we're not currently bashing the center
-        if( centers.count( furn( p ) ) > 0 ) {
+        if( centers.contains( furn( p ) ) ) {
             tentp.emplace( p, furn( p ) );
         } else {
             for( const tripoint &pt : points_in_radius( p, bash.collapse_radius ) ) {
                 const furn_id &f_at = furn( pt );
                 // Check if we found the center of the current tent
-                if( centers.count( f_at ) > 0 ) {
+                if( centers.contains( f_at ) ) {
                     tentp.emplace( pt, f_at );
                     break;
                 }
@@ -3449,7 +3449,7 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
                 const map_bash_info &recur_bash = frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
                 for( const auto &cur_id : recur_bash.tent_centers ) {
-                    if( centers.count( cur_id.id() ) > 0 ) {
+                    if( centers.contains( cur_id.id() ) ) {
                         // Found same center, wreck current tile
                         spawn_items( p, item_group::items_from( recur_bash.drop_group, calendar::turn ) );
                         furn_set( pt, recur_bash.furn_set );
@@ -4755,7 +4755,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
                 tripoint p( x, y, z );
                 submap *s = get_submap_at_grid( p );
                 bool has_active_items = !s->active_items.get().empty();
-                bool map_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() );
+                bool map_has_active_items = submaps_with_active_items.contains( p + abs_sub.xy() );
                 if( has_active_items != map_has_active_items ) {
                     result.push_back( p + abs_sub.xy() );
                 }
@@ -9268,11 +9268,11 @@ bool map::is_cornerfloor( const tripoint &p ) const
         //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
         std::set< tripoint> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
         for( const tripoint &impassable_diagonal : diagonals ) {
-            if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
+            if( impassable_adjacent.contains( impassable_diagonal ) ) {
                 //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
                 int f = 0;
                 for( const tripoint &l : points_in_radius( impassable_diagonal, 1 ) ) {
-                    if( impassable_adjacent.count( l ) != 0 ) {
+                    if( impassable_adjacent.contains( l ) ) {
                         f++;
                     }
                     if( f > 2 ) {

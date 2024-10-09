@@ -699,7 +699,7 @@ int character_display::display_empty_handed_base_damage( const Character &you )
             per_hand += 9;
         }
         for( const trait_id &mut : you.get_mutations() ) {
-            if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+            if( mut->flags.contains( trait_flag_NEED_ACTIVE_TO_MELEE ) &&
                 !you.has_active_mutation( mut ) ) {
                 continue;
             }
@@ -712,7 +712,7 @@ int character_display::display_empty_handed_base_damage( const Character &you )
             per_hand += rand_bash.first + rand_cut.first;
 
             // Extra skill bonus is also fairly simple, but each type of fixed bonus can trigger it separately
-            if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 ) {
+            if( mut->flags.contains( trait_flag_UNARMED_BONUS ) ) {
                 if( mut->bash_dmg_bonus > 0 ) {
                     per_hand += std::min( you.get_skill_level( skill_unarmed ) / 2, 4 );
                 }

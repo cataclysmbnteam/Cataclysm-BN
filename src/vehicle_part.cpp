@@ -487,7 +487,7 @@ std::set<fault_id> vehicle_part::faults_potential() const
 
 bool vehicle_part::fault_set( const fault_id &f )
 {
-    if( !faults_potential().count( f ) ) {
+    if( !faults_potential().contains( f ) ) {
         return false;
     }
     base->faults.insert( f );
@@ -579,7 +579,7 @@ bool vehicle_part::is_tank() const
 
 bool vehicle_part::is_battery() const
 {
-    return base->is_magazine() && base->ammo_types().count( ammotype( "battery" ) );
+    return base->is_magazine() && base->ammo_types().contains( ammotype( "battery" ) );
 }
 
 bool vehicle_part::is_reactor() const
