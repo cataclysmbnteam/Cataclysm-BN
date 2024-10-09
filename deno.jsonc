@@ -17,5 +17,11 @@
     "semiColons": false,
     "lineWidth": 100
   },
-  "importMap": "import_map.json"
+  "imports": {
+    "$std/": "https://deno.land/std@0.208.0/",
+    "$asynciter/": "https://deno.land/x/asynciter@0.0.18/",
+    "$zod/": "https://deno.land/x/zod@v3.22.4/",
+    "$catjazz/": "https://deno.land/x/catjazz@v0.0.5/",
+    "$outdent/": "https://deno.land/x/outdent@v0.8.0/"
+  }
 }
