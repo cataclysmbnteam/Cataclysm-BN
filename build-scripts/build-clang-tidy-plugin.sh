@@ -25,6 +25,7 @@ cmake \
   -DSOUND="$SOUND" \
   -DLIBBACKTRACE="${LIBBACKTRACE:-0}" \
   -DLINKER=mold \
+  -DLUA=ON \
   -DCATA_CLANG_TIDY_PLUGIN=ON
 
 ninja -C "$BUILD_PATH" -j"$NUM_JOBS" CataAnalyzerPlugin
