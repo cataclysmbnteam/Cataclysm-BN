@@ -176,7 +176,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( g->u.inv_assigned_invlet().count( get_invlet() ) ) {
+    } else if( g->u.inv_assigned_invlet().contains( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -238,8 +238,8 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
-    const bool left_fav  = g->u.inv_assigned_invlet().count( lhs.any_item()->invlet );
-    const bool right_fav = g->u.inv_assigned_invlet().count( rhs.any_item()->invlet );
+    const bool left_fav  = g->u.inv_assigned_invlet().contains( lhs.any_item()->invlet );
+    const bool right_fav = g->u.inv_assigned_invlet().contains( rhs.any_item()->invlet );
     if( left_fav == right_fav ) {
         return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
     } else if( left_fav ) {
@@ -779,7 +779,7 @@ void inventory_column::prepare_paging( const std::string &filter )
             to->update_cache();
             std::advance( to, 1 );
         }
-        if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
+        if( !ordered_categories.contains( from->get_category_ptr()->get_id().c_str() ) ) {
             std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
                 if( lhs.is_selectable() != rhs.is_selectable() ) {
                     return lhs.is_selectable(); // Disabled items always go last

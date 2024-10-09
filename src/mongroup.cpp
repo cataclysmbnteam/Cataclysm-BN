@@ -243,7 +243,7 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_
 
 bool MonsterGroupManager::isValidMonsterGroup( const mongroup_id &group )
 {
-    return monsterGroupMap.count( group ) > 0;
+    return monsterGroupMap.contains( group );
 }
 
 const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &group )
@@ -279,21 +279,21 @@ void MonsterGroupManager::LoadMonsterWhitelist( const JsonObject &jo )
 
 bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
 {
-    if( monster_whitelist.count( m.str() ) > 0 ) {
+    if( monster_whitelist.contains( m.str() ) ) {
         return false;
     }
     const mtype &mt = m.obj();
     for( const auto &elem : monster_categories_whitelist ) {
-        if( mt.categories.count( elem ) > 0 ) {
+        if( mt.categories.contains( elem ) ) {
             return false;
         }
     }
     for( const auto &elem : monster_categories_blacklist ) {
-        if( mt.categories.count( elem ) > 0 ) {
+        if( mt.categories.contains( elem ) ) {
             return true;
         }
     }
-    if( monster_blacklist.count( m.str() ) > 0 ) {
+    if( monster_blacklist.contains( m.str() ) ) {
         return true;
     }
     // Return true if the whitelist mode is exclusive and either whitelist is populated.
@@ -338,7 +338,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     g.name = mongroup_id( jo.get_string( "name" ) );
     bool extending = false;  //If already a group with that name, add to it instead of overwriting it
     bool allow_override = jo.get_bool( "override", false );
-    if( monsterGroupMap.count( g.name ) != 0 && !allow_override ) {
+    if( monsterGroupMap.contains( g.name ) && !allow_override ) {
         g = monsterGroupMap[g.name];
         extending = true;
     }

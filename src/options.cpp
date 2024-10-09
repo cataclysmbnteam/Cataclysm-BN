@@ -859,7 +859,7 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
 std::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
     const int iSearch ) const
 {
-    int i = static_cast<int>( getIntPos( iSearch ) );
+    int i = getIntPos( iSearch );
     if( i == -1 ) {
         return std::nullopt;
     }
@@ -922,7 +922,7 @@ void options_manager::cOpt::setNext()
 void options_manager::cOpt::setPrev()
 {
     if( sType == "string_select" ) {
-        int iPrev = static_cast<int>( getItemPos( sSet ) ) - 1;
+        int iPrev = getItemPos( sSet ) - 1;
         if( iPrev < 0 ) {
             iPrev = vItems.size() - 1;
         }
@@ -942,7 +942,7 @@ void options_manager::cOpt::setPrev()
         }
 
     } else if( sType == "int_map" ) {
-        int iPrev = static_cast<int>( getIntPos( iSet ) ) - 1;
+        int iPrev = getIntPos( iSet ) - 1;
         if( iPrev < 0 ) {
             iPrev = mIntValues.size() - 1;
         }
@@ -1067,7 +1067,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
             }
             resource_names.emplace_back( resource_name,
                                          view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
-            if( resource_option.count( resource_name ) != 0 ) {
+            if( resource_option.contains( resource_name ) ) {
                 debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
                           operation_name, resource_name );
             } else {
@@ -2793,7 +2793,7 @@ static void draw_borders_external(
 static void draw_borders_internal( const catacurses::window &w, std::set<int> &vert_lines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
-        if( vert_lines.count( i ) != 0 ) {
+        if( vert_lines.contains( i ) ) {
             // intersection
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXXX );
         } else {
@@ -3502,12 +3502,12 @@ void options_manager::cache_balance_options()
 
 bool options_manager::has_option( const std::string &name ) const
 {
-    return options.count( name );
+    return options.contains( name );
 }
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
-    if( options.count( name ) == 0 ) {
+    if( !options.contains( name ) ) {
         debugmsg( "requested non-existing option %s", name );
     }
     if( !world_options.has_value() ) {
@@ -3515,7 +3515,7 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
         return options[name];
     }
     auto &wopts = *world_options.value();
-    if( wopts.count( name ) == 0 ) {
+    if( !wopts.contains( name ) ) {
         auto &opt = options[name];
         if( opt.getPage() != world_default ) {
             // Requested a non-world option, deliver it.

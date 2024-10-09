@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_ARENA_H
-#define CATA_SRC_ARENA_H
+#ifndef CATA_SRC_CATA_ARENA_H
+#define CATA_SRC_CATA_ARENA_H
 
 #include <unordered_map>
 #include <set>
@@ -61,4 +61,4 @@ class cata_arena
 
 void cleanup_arenas();
 
-#endif
+#endif // CATA_SRC_CATA_ARENA_H

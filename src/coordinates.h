@@ -178,19 +178,19 @@ class coord_point
             return *this;
         }
 
-        friend inline coord_point operator+( const coord_point &l, point r ) {
+        friend coord_point operator+( const coord_point &l, point r ) {
             return coord_point( l.raw() + r );
         }
 
-        friend inline coord_point operator+( const coord_point &l, const tripoint &r ) {
+        friend coord_point operator+( const coord_point &l, const tripoint &r ) {
             return coord_point( l.raw() + r );
         }
 
-        friend inline coord_point operator-( const coord_point &l, point r ) {
+        friend coord_point operator-( const coord_point &l, point r ) {
             return coord_point( l.raw() - r );
         }
 
-        friend inline coord_point operator-( const coord_point &l, const tripoint &r ) {
+        friend coord_point operator-( const coord_point &l, const tripoint &r ) {
             return coord_point( l.raw() - r );
         }
     private:
@@ -198,28 +198,28 @@ class coord_point
 };
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator==( const coord_point<Point, Origin, Scale> &l,
-                                  const coord_point<Point, Origin, Scale> &r )
+constexpr bool operator==( const coord_point<Point, Origin, Scale> &l,
+                           const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() == r.raw();
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator!=( const coord_point<Point, Origin, Scale> &l,
-                                  const coord_point<Point, Origin, Scale> &r )
+constexpr bool operator!=( const coord_point<Point, Origin, Scale> &l,
+                           const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() != r.raw();
 }
 
 template<typename Point, origin Origin, scale Scale>
-constexpr inline bool operator<( const coord_point<Point, Origin, Scale> &l,
-                                 const coord_point<Point, Origin, Scale> &r )
+constexpr bool operator<( const coord_point<Point, Origin, Scale> &l,
+                          const coord_point<Point, Origin, Scale> &r )
 {
     return l.raw() < r.raw();
 }
 
 template<typename PointL, typename PointR, origin OriginL, scale Scale>
-constexpr inline auto operator+(
+constexpr auto operator+(
     const coord_point<PointL, OriginL, Scale> &l,
     const coord_point<PointR, origin::relative, Scale> &r )
 {
@@ -228,7 +228,7 @@ constexpr inline auto operator+(
 }
 
 template < typename PointL, typename PointR, origin OriginR, scale Scale>
-constexpr inline auto operator+(
+constexpr auto operator+(
     const coord_point<PointL, origin::relative, Scale> &l,
     const coord_point<PointR, OriginR, Scale> &r )
 requires( OriginR != origin::relative )
@@ -238,7 +238,7 @@ requires( OriginR != origin::relative )
 }
 
 template<typename PointL, typename PointR, origin OriginL, scale Scale>
-constexpr inline auto operator-(
+constexpr auto operator-(
     const coord_point<PointL, OriginL, Scale> &l,
     const coord_point<PointR, origin::relative, Scale> &r )
 {
@@ -247,7 +247,7 @@ constexpr inline auto operator-(
 }
 
 template < typename PointL, typename PointR, origin Origin, scale Scale>
-constexpr inline auto operator-(
+constexpr auto operator-(
     const coord_point<PointL, Origin, Scale> &l,
     const coord_point<PointR, Origin, Scale> &r )
 requires( Origin != origin::relative )
@@ -258,14 +258,14 @@ requires( Origin != origin::relative )
 
 // Only relative points can be multiplied by a constant
 template<typename Point, scale Scale>
-constexpr inline coord_point<Point, origin::relative, Scale> operator*(
+constexpr coord_point<Point, origin::relative, Scale> operator*(
     int l, const coord_point<Point, origin::relative, Scale> &r )
 {
     return coord_point<Point, origin::relative, Scale>( l * r.raw() );
 }
 
 template<typename Point, scale Scale>
-constexpr inline coord_point<Point, origin::relative, Scale> operator*(
+constexpr coord_point<Point, origin::relative, Scale> operator*(
     const coord_point<Point, origin::relative, Scale> &r, int l )
 {
     return coord_point<Point, origin::relative, Scale>( r.raw() * l );

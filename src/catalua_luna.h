@@ -491,7 +491,7 @@ struct userenum {
     sol::table t;
     bool finalized = false;
 
-    inline ~userenum() {
+    ~userenum() {
         if( !finalized ) {
             debugmsg( "Userenum<%s> has not been finalized!", detail::luna_traits<E>::name );
             std::abort();
@@ -553,7 +553,7 @@ struct userlib {
     sol::table dt;
     bool finalized = false;
 
-    inline ~userlib() {
+    ~userlib() {
         if( !finalized ) {
             debugmsg( "Userlib has not been finalized!" );
             std::abort();

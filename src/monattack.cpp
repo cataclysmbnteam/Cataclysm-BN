@@ -2836,7 +2836,7 @@ bool mattack::grab( monster *z )
     // A hit to use up our moves
     z->melee_attack( *target );
     // Set up a bite on the next turn
-    if( z->type->special_attacks.count( "BITE" ) != 0 ) {
+    if( z->type->special_attacks.contains( "BITE" ) ) {
         z->set_special( "BITE", 1 );
     }
 
@@ -5669,7 +5669,7 @@ bool mattack::kamikaze( monster *z )
     }
     // Extra check here to avoid sqrt if not needed
     if( exp_actor->explosion ) {
-        int tmp = static_cast<int>( exp_actor->explosion.safe_range() / 2 );
+        int tmp = ( exp_actor->explosion.safe_range() / 2 );
         if( tmp > radius ) {
             radius = tmp;
         }

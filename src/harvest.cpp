@@ -35,7 +35,7 @@ const harvest_list &string_id<harvest_list>::obj() const
 template<>
 bool string_id<harvest_list>::is_valid() const
 {
-    return harvest_all.count( *this ) > 0;
+    return harvest_all.contains( *this );
 }
 
 harvest_list::harvest_list() : id_( harvest_id::NULL_ID() ) {}

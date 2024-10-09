@@ -432,7 +432,7 @@ template<typename ...Args>
 inline std::string string_format( std::string_view format, Args &&...args )
 {
     try {
-        cata::string_formatter formatter( std::move( format ) );
+        cata::string_formatter formatter( format );
         formatter.parse( std::forward<Args>( args )... );
         return formatter.get_output();
     } catch( ... ) {

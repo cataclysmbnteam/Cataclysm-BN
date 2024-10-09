@@ -112,7 +112,6 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "flag.h"
 
 struct mutation_branch;
 
@@ -1483,7 +1482,7 @@ void npc::load( const JsonObject &data )
                 NPC_MISSION_LEGACY_3
             }
         };
-        if( legacy_missions.count( mission ) > 0 ) {
+        if( legacy_missions.contains( mission ) ) {
             mission = NPC_MISSION_NULL;
         }
     }
@@ -1494,7 +1493,7 @@ void npc::load( const JsonObject &data )
                 NPC_MISSION_LEGACY_3
             }
         };
-        if( legacy_missions.count( mission ) > 0 ) {
+        if( legacy_missions.contains( mission ) ) {
             previous_mission = NPC_MISSION_NULL;
         }
     }
@@ -1516,7 +1515,7 @@ void npc::load( const JsonObject &data )
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
             }
         };
-        if( legacy_attitudes.count( attitude ) > 0 ) {
+        if( legacy_attitudes.contains( attitude ) ) {
             attitude = NPCATT_NULL;
         }
     }
@@ -1527,7 +1526,7 @@ void npc::load( const JsonObject &data )
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
             }
         };
-        if( legacy_attitudes.count( attitude ) > 0 ) {
+        if( legacy_attitudes.contains( attitude ) ) {
             previous_attitude = NPCATT_NULL;
         }
     }
@@ -2104,7 +2103,7 @@ static bool migration_required( const item &i )
     if( !i.count_by_charges() ) {
         return false;
     }
-    return the_list.count( i.typeId() ) > 0;
+    return the_list.contains( i.typeId() );
 }
 
 /**
@@ -2178,8 +2177,8 @@ void item::io( Archive &archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
-    archive.io( "owner", owner, owner.NULL_ID() );
-    archive.io( "old_owner", old_owner, old_owner.NULL_ID() );
+    archive.io( "owner", owner, faction_id::NULL_ID() );
+    archive.io( "old_owner", old_owner, faction_id::NULL_ID() );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
@@ -2302,7 +2301,7 @@ void item::io( Archive &archive )
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
-        if( charge_removal_blacklist::get().count( type->get_id() ) == 0 ) {
+        if( !charge_removal_blacklist::get().contains( type->get_id() ) ) {
             debugmsg( "Item %s was loaded with charges, but can not have any!", type->get_id() );
         }
         charges = 0;

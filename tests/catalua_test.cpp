@@ -106,7 +106,7 @@ TEST_CASE( "lua_called_from_cpp", "[lua]" )
     REQUIRE( out_data["s"].valid() );
 
     CHECK( out_data["i"] == 0 );
-    CHECK( out_data.get<std::string>( "s" ) == "" );
+    CHECK( out_data.get<std::string>( "s" ).empty() );
 
     // Execute function
     ret = lua_func( 4, "Bright " );

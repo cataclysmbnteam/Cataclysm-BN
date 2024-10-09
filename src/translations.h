@@ -253,7 +253,7 @@ class translation
         /**
          * Get raw untranslated string for debug purposes.
          */
-        inline std::string_view debug_get_raw() const {
+        std::string_view debug_get_raw() const {
             return raw;
         }
 

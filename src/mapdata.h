@@ -85,7 +85,7 @@ struct map_bash_info {
     // sound  made on fail
     translation sound_fail = to_translation( "thump!" );
     // message upon successfully bashing a field
-    translation field_bash_msg_success = translation();
+    translation field_bash_msg_success;
     // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set = ter_str_id::NULL_ID();
     // terrain to set if bashed from above (defaults to ter_set)
@@ -488,7 +488,7 @@ struct map_data_common_t {
         }
 
         bool has_flag( const std::string &flag ) const {
-            return flags.count( flag ) > 0;
+            return flags.contains( flag );
         }
 
         bool has_flag( const ter_bitflags flag ) const {

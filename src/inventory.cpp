@@ -266,7 +266,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
     // Some of our preferred letters might already be used.
     for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
-        if( assigned_invlet.count( invlet ) ) {
+        if( assigned_invlet.contains( invlet ) ) {
             continue;
         }
         // Check if anything is using this invlet.
@@ -1196,7 +1196,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         std::vector<char> binds = selector.all_bound_keys();
 
         for( const auto &inv_char : inv_chars ) {
-            if( assigned_invlet.count( inv_char ) ) {
+            if( assigned_invlet.contains( inv_char ) ) {
                 // don't overwrite assigned keys
                 continue;
             }

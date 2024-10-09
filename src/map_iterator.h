@@ -37,7 +37,7 @@ class tripoint_range
 
                 // Increment x, then if it goes outside range, "wrap around" and increment y
                 // Same for y and z
-                inline point_generator &operator++() {
+                point_generator &operator++() {
                     traits::x( p )++;
                     if( traits::x( p ) <= traits::x( range.maxp ) ) {
                         return *this;
@@ -54,11 +54,11 @@ class tripoint_range
                     return *this;
                 }
 
-                inline const Tripoint &operator*() const {
+                const Tripoint &operator*() const {
                     return p;
                 }
 
-                inline bool operator!=( const point_generator &other ) const {
+                bool operator!=( const point_generator &other ) const {
                     // Reverse coordinates order, because it will usually only be compared with endpoint
                     // which will always differ in Z, except for the very last comparison
                     // TODO: In C++17 this range should use a sentinel to
@@ -67,7 +67,7 @@ class tripoint_range
                     return traits::z( p ) != traits::z( pt ) || p.xy() != pt.xy();
                 }
 
-                inline bool operator==( const point_generator &other ) const {
+                bool operator==( const point_generator &other ) const {
                     return !( *this != other );
                 }
         };

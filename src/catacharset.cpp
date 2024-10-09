@@ -391,7 +391,7 @@ std::wstring utf8_to_wstr( const std::string &str )
 #else
     std::size_t sz = std::mbstowcs( nullptr, str.c_str(), 0 ) + 1;
     std::wstring wstr( sz, '\0' );
-    std::mbstowcs( &wstr[0], str.c_str(), sz );
+    std::mbstowcs( wstr.data(), str.c_str(), sz );
     strip_trailing_nulls( wstr );
     return wstr;
 #endif
@@ -408,7 +408,7 @@ std::string wstr_to_utf8( const std::wstring &wstr )
 #else
     std::size_t sz = std::wcstombs( nullptr, wstr.c_str(), 0 ) + 1;
     std::string str( sz, '\0' );
-    std::wcstombs( &str[0], wstr.c_str(), sz );
+    std::wcstombs( str.data(), wstr.c_str(), sz );
     strip_trailing_nulls( str );
     return str;
 #endif

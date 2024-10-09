@@ -355,7 +355,7 @@ class mapgen_factory
             const std::set<std::string> usages = get_usages();
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.check_consistency( omw.first );
-                if( usages.count( omw.first ) == 0 ) {
+                if( !usages.contains( omw.first ) ) {
                     debugmsg( "Mapgen %s is not used by anything!", omw.first );
                 }
             }
@@ -366,7 +366,7 @@ class mapgen_factory
          * (could all have been removed via @ref erase).
          */
         bool has( const std::string &key ) const {
-            return mapgens_.count( key ) != 0;
+            return mapgens_.contains( key );
         }
         /// @see mapgen_basic_container::add
         int add( const std::string &key, const std::shared_ptr<mapgen_function> &ptr ) {
@@ -1199,7 +1199,7 @@ class mapgen_value
                 }
                 std::vector<std::string> possible_values = on->all_possible_results( params );
                 for( const std::string &value : possible_values ) {
-                    if( !cases.count( value ) ) {
+                    if( !cases.contains( value ) ) {
                         debugmsg( "mapgen '%s' has switch whcih does not account for potential "
                                   "case '%s' of the switched-on value", context, value );
                     }
@@ -1833,7 +1833,7 @@ class jmapgen_gaspump : public jmapgen_piece
             };
             for( const itype_id &possible_fuel : fuel.all_possible_results( parameters ) ) {
                 // may want to not force this, if we want to support other fuels for some reason
-                if( !valid_fuels.count( possible_fuel ) ) {
+                if( !valid_fuels.contains( possible_fuel ) ) {
                     debugmsg( "invalid fuel %s in %s", possible_fuel.str(), oter_name );
                 }
             }
@@ -3743,7 +3743,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
                 for( auto &i : line ) {
-                    m.set_radiation( i, static_cast<int>( val.get() ) );
+                    m.set_radiation( i, val.get() );
                 }
             }
             break;
@@ -3775,7 +3775,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 const int cy2 = y2_get();
                 for( int tx = cx; tx <= cx2; tx++ ) {
                     for( int ty = cy; ty <= cy2; ty++ ) {
-                        m.set_radiation( point( tx, ty ), static_cast<int>( val.get() ) );
+                        m.set_radiation( point( tx, ty ), val.get() );
                     }
                 }
             }
@@ -6638,44 +6638,32 @@ bool connects_to( const oter_id &there, int dir )
     switch( dir ) {
         // South
         case 2:
-            if( there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
-                there == "sewer_nes"  || there == "sewer_nsw" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ns" || there == "ants_es" ||
-                there == "ants_sw"    || there == "ants_nes" ||  there == "ants_nsw" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
-                return true;
-            }
-            return false;
+            return there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
+                   there == "sewer_nes"  || there == "sewer_nsw" || there == "sewer_esw" ||
+                   there == "sewer_nesw" || there == "ants_ns" || there == "ants_es" ||
+                   there == "ants_sw"    || there == "ants_nes" ||  there == "ants_nsw" ||
+                   there == "ants_esw"   || there == "ants_nesw";
         // West
         case 3:
-            if( there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
-                there == "sewer_new"  || there == "sewer_nsw" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ew" || there == "ants_sw" ||
-                there == "ants_wn"    || there == "ants_new" || there == "ants_nsw" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
-                return true;
-            }
-            return false;
+            return there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
+                   there == "sewer_new"  || there == "sewer_nsw" || there == "sewer_esw" ||
+                   there == "sewer_nesw" || there == "ants_ew" || there == "ants_sw" ||
+                   there == "ants_wn"    || there == "ants_new" || there == "ants_nsw" ||
+                   there == "ants_esw"   || there == "ants_nesw";
         // North
         case 0:
-            if( there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
-                there == "sewer_nes"  || there == "sewer_new" || there == "sewer_nsw" ||
-                there == "sewer_nesw" || there == "ants_ns" || there == "ants_ne" ||
-                there == "ants_wn"    || there == "ants_nes" || there == "ants_new" ||
-                there == "ants_nsw"   || there == "ants_nesw" ) {
-                return true;
-            }
-            return false;
+            return there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
+                   there == "sewer_nes"  || there == "sewer_new" || there == "sewer_nsw" ||
+                   there == "sewer_nesw" || there == "ants_ns" || there == "ants_ne" ||
+                   there == "ants_wn"    || there == "ants_nes" || there == "ants_new" ||
+                   there == "ants_nsw"   || there == "ants_nesw";
         // East
         case 1:
-            if( there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
-                there == "sewer_nes"  || there == "sewer_new" || there == "sewer_esw" ||
-                there == "sewer_nesw" || there == "ants_ew" || there == "ants_ne" ||
-                there == "ants_es"    || there == "ants_nes" || there == "ants_new" ||
-                there == "ants_esw"   || there == "ants_nesw" ) {
-                return true;
-            }
-            return false;
+            return there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
+                   there == "sewer_nes"  || there == "sewer_new" || there == "sewer_esw" ||
+                   there == "sewer_nesw" || there == "ants_ew" || there == "ants_ne" ||
+                   there == "ants_es"    || there == "ants_nes" || there == "ants_new" ||
+                   there == "ants_esw"   || there == "ants_nesw";
         default:
             debugmsg( "Connects_to with dir of %d", dir );
             return false;
@@ -6735,12 +6723,12 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             break;
         case room_lobby:
             if( rotate % 2 == 0 ) { // Vertical
-                int desk = p1.y + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
-                                       static_cast<int>( height / 2 ) + 1 );
-                for( int x = p1.x + static_cast<int>( width / 4 ); x < p2.x - static_cast<int>( width / 4 ); x++ ) {
+                int desk = p1.y + rng( ( height / 2 ) - ( height / 4 ),
+                                       ( height / 2 ) + 1 );
+                for( int x = p1.x + ( width / 4 ); x < p2.x - ( width / 4 ); x++ ) {
                     m->furn_set( point( x, desk ), f_counter );
                 }
-                computer *tmpcomp = m->add_computer( tripoint( p2.x - static_cast<int>( width / 4 ), desk, z ),
+                computer *tmpcomp = m->add_computer( tripoint( p2.x - ( width / 4 ), desk, z ),
                                                      _( "Log Console" ), 3 );
                 tmpcomp->add_option( _( "View Research Logs" ), COMPACT_RESEARCH, 0 );
                 tmpcomp->add_option( _( "Download Map Data" ), COMPACT_MAPS, 0 );
@@ -6748,15 +6736,15 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
                 m->place_spawns( GROUP_TURRET, 1,
-                                 point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ),
-                                 point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ), 1, true );
+                                 point( ( ( p1.x + p2.x ) / 2 ), desk ),
+                                 point( ( ( p1.x + p2.x ) / 2 ), desk ), 1, true );
             } else {
-                int desk = p1.x + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
-                                       static_cast<int>( height / 2 ) + 1 );
-                for( int y = p1.y + static_cast<int>( width / 4 ); y < p2.y - static_cast<int>( width / 4 ); y++ ) {
+                int desk = p1.x + rng( ( height / 2 ) - ( height / 4 ),
+                                       ( height / 2 ) + 1 );
+                for( int y = p1.y + ( width / 4 ); y < p2.y - ( width / 4 ); y++ ) {
                     m->furn_set( point( desk, y ), f_counter );
                 }
-                computer *tmpcomp = m->add_computer( tripoint( desk, p2.y - static_cast<int>( width / 4 ), z ),
+                computer *tmpcomp = m->add_computer( tripoint( desk, p2.y - ( width / 4 ), z ),
                                                      _( "Log Console" ), 3 );
                 tmpcomp->add_option( _( "View Research Logs" ), COMPACT_RESEARCH, 0 );
                 tmpcomp->add_option( _( "Download Map Data" ), COMPACT_MAPS, 0 );
@@ -6764,8 +6752,8 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
                 m->place_spawns( GROUP_TURRET, 1,
-                                 point( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
-                                 point( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), 1, true );
+                                 point( desk, ( ( p1.y + p2.y ) / 2 ) ),
+                                 point( desk, ( ( p1.y + p2.y ) / 2 ) ), 1, true );
             }
             break;
         case room_chemistry:
@@ -6802,19 +6790,19 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             }
             break;
         case room_teleport:
-            m->furn_set( point( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), f_counter );
-            m->furn_set( point( static_cast<int>( ( p1.x + p2.x ) / 2 ) + 1,
-                                static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
+            m->furn_set( point( ( p1.x + p2.x ) / 2, ( ( p1.y + p2.y ) / 2 ) ), f_counter );
+            m->furn_set( point( ( ( p1.x + p2.x ) / 2 ) + 1,
+                                ( ( p1.y + p2.y ) / 2 ) ),
                          f_counter );
-            m->furn_set( point( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) + 1 ),
+            m->furn_set( point( ( p1.x + p2.x ) / 2, ( ( p1.y + p2.y ) / 2 ) + 1 ),
                          f_counter );
-            m->furn_set( point( static_cast<int>( ( p1.x + p2.x ) / 2 ) + 1,
-                                static_cast<int>( ( p1.y + p2.y ) / 2 ) + 1 ),
+            m->furn_set( point( ( ( p1.x + p2.x ) / 2 ) + 1,
+                                ( ( p1.y + p2.y ) / 2 ) + 1 ),
                          f_counter );
             mtrap_set( m, trap, tr_telepad );
             m->place_items( item_group_id( "teleport" ), 70, point( ( p1.x + p2.x ) / 2,
-                            static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
-                            point( static_cast<int>( ( p1.x + p2.x ) / 2 ) + 1, static_cast<int>( ( p1.y + p2.y ) / 2 ) + 1 ),
+                            ( ( p1.y + p2.y ) / 2 ) ),
+                            point( ( ( p1.x + p2.x ) / 2 ) + 1, ( ( p1.y + p2.y ) / 2 ) + 1 ),
                             false,
                             calendar::start_of_cataclysm );
             break;
@@ -6883,19 +6871,19 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 m->place_items( item_group_id( "dissection" ), 80, point( p2.x - 1, p1.y ), p2 + point_west, false,
                                 calendar::start_of_cataclysm );
             }
-            mtrap_set( m, point( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
+            mtrap_set( m, point( ( p1.x + p2.x ) / 2, ( ( p1.y + p2.y ) / 2 ) ),
                        tr_dissector );
             m->place_spawns( GROUP_LAB_CYBORG, 10,
-                             point( static_cast<int>( ( ( p1.x + p2.x ) / 2 ) + 1 ),
-                                    static_cast<int>( ( ( p1.y + p2.y ) / 2 ) + 1 ) ),
-                             point( static_cast<int>( ( ( p1.x + p2.x ) / 2 ) + 1 ),
-                                    static_cast<int>( ( ( p1.y + p2.y ) / 2 ) + 1 ) ), 1, true );
+                             point( ( ( ( p1.x + p2.x ) / 2 ) + 1 ),
+                                    ( ( ( p1.y + p2.y ) / 2 ) + 1 ) ),
+                             point( ( ( ( p1.x + p2.x ) / 2 ) + 1 ),
+                                    ( ( ( p1.y + p2.y ) / 2 ) + 1 ) ), 1, true );
             break;
 
         case room_bionics:
             if( rotate % 2 == 0 ) {
                 int biox = p1.x + 2;
-                int bioy = static_cast<int>( ( p1.y + p2.y ) / 2 );
+                int bioy = ( ( p1.y + p2.y ) / 2 );
                 mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
                                             "---\n"
                                             "|c|\n"
@@ -6936,7 +6924,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
             } else {
                 int bioy = p1.y + 2;
-                int biox = static_cast<int>( ( p1.x + p2.x ) / 2 );
+                int biox = ( ( p1.x + p2.x ) / 2 );
                 mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
                                             "|-|\n"
                                             "|c=\n"
@@ -7025,19 +7013,19 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             break;
         case room_split:
             if( rotate % 2 == 0 ) {
-                int w1 = static_cast<int>( ( p1.x + p2.x ) / 2 ) - 2;
-                int w2 = static_cast<int>( ( p1.x + p2.x ) / 2 ) + 2;
+                int w1 = ( ( p1.x + p2.x ) / 2 ) - 2;
+                int w2 = ( ( p1.x + p2.x ) / 2 ) + 2;
                 for( int y = p1.y; y <= p2.y; y++ ) {
                     m->ter_set( point( w1, y ), t_concrete_wall );
                     m->ter_set( point( w2, y ), t_concrete_wall );
                 }
-                m->ter_set( point( w1, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), t_door_glass_frosted_c );
-                m->ter_set( point( w2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), t_door_glass_frosted_c );
+                m->ter_set( point( w1, ( ( p1.y + p2.y ) / 2 ) ), t_door_glass_frosted_c );
+                m->ter_set( point( w2, ( ( p1.y + p2.y ) / 2 ) ), t_door_glass_frosted_c );
                 science_room( m, p1, point( w1 - 1, p2.y ), z, 1 );
                 science_room( m, point( w2 + 1, p1.y ), p2, z, 3 );
             } else {
-                int w1 = static_cast<int>( ( p1.y + p2.y ) / 2 ) - 2;
-                int w2 = static_cast<int>( ( p1.y + p2.y ) / 2 ) + 2;
+                int w1 = ( ( p1.y + p2.y ) / 2 ) - 2;
+                int w2 = ( ( p1.y + p2.y ) / 2 ) + 2;
                 for( int x = p1.x; x <= p2.x; x++ ) {
                     m->ter_set( point( x, w1 ), t_concrete_wall );
                     m->ter_set( point( x, w2 ), t_concrete_wall );

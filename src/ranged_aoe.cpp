@@ -74,7 +74,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     while( !queue.empty() ) {
         tripoint p = queue.top().p;
         queue.pop();
-        if( closed.count( p ) != 0 || !here.inbounds( p ) ) {
+        if( closed.contains( p ) || !here.inbounds( p ) ) {
             continue;
         }
         closed.insert( p );
@@ -114,8 +114,8 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
             for( const tripoint &child : here.points_in_radius( p, 1 ) ) {
                 double coverage = sigdist_to_coverage( sh.distance_at( child ) );
                 if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( p, child ) &&
-                    closed.count( child ) == 0 &&
-                    ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
+                    !closed.contains( child ) &&
+                    ( !open.contains( child ) || open.at( child ).parent_coverage < current_coverage ) ) {
                     open[child] = aoe_flood_node( p, current_coverage );
                     queue.emplace( child, trig_dist_squared( origin, child ) );
                 }
@@ -167,7 +167,7 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
     while( !queue.empty() ) {
         tripoint p = queue.top().p;
         queue.pop();
-        if( closed.count( p ) != 0 ) {
+        if( closed.contains( p ) ) {
             continue;
         }
         closed.insert( p );
@@ -202,8 +202,8 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
             for( const tripoint &child : here.points_in_radius( p, 1 ) ) {
                 double coverage = sigdist_to_coverage( sh.distance_at( child ) );
                 if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( p, child ) &&
-                    closed.count( child ) == 0 &&
-                    ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
+                    !closed.contains( child ) &&
+                    ( !open.contains( child ) || open.at( child ).parent_coverage < current_coverage ) ) {
                     open[child] = aoe_flood_node( p, current_coverage );
                     queue.emplace( child, trig_dist_squared( origin, child ) );
                 }

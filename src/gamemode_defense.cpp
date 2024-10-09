@@ -206,7 +206,7 @@ void defense_game::init_mtypes()
     for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
-        t->difficulty += static_cast<int>( t->difficulty / 5 );
+        t->difficulty += ( t->difficulty / 5 );
         t->set_flag( MF_BASHES );
         t->set_flag( MF_SMELLS );
         t->set_flag( MF_HEARS );
@@ -1045,7 +1045,7 @@ void defense_game::caravan()
                                              "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),
-                                   format_money( static_cast<int>( g->u.cash ) - static_cast<int>( total_price ) ) ) ) ) {
+                                   format_money( g->u.cash - total_price ) ) ) ) {
                 done = true;
             }
         } // "switch" on (action)
@@ -1224,7 +1224,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     mvwprintz( w, point( 1, 1 ), c_white, _( "Your Cash: %s" ), format_money( cash ) );
     wprintz( w, c_light_gray, " -> " );
     wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
-             format_money( static_cast<int>( cash ) - static_cast<int>( total_price ) ) );
+             format_money( cash - total_price ) );
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, point( 1, i + 3 ), ( i == category_selected ? h_white : c_white ),

@@ -118,7 +118,7 @@ void npc_class::finalize_all()
         apply_all_to_unassigned( cl.bonus_skills );
 
         for( const auto &pr : cl.bonus_skills ) {
-            if( cl.skills.count( pr.first ) == 0 ) {
+            if( !cl.skills.contains( pr.first ) ) {
                 cl.skills[ pr.first ] = pr.second;
             } else {
                 cl.skills[ pr.first ] = cl.skills[ pr.first ] + pr.second;

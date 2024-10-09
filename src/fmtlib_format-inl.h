@@ -2961,7 +2961,7 @@ FMT_FUNC void format_system_error( detail::buffer<char> &out, int error_code,
         buf.resize( inline_buffer_size );
         for( ;; )
         {
-            char *system_message = &buf[0];
+            char *system_message = buf.data();
             int result =
             detail::safe_strerror( error_code, system_message, buf.size() );
             if( result == 0 ) {

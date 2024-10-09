@@ -138,13 +138,13 @@ struct quantity_details {
 };
 
 template<Arithmetic V, typename U>
-inline constexpr auto fabs( quantity<V, U> q ) -> quantity<V, U>
+constexpr auto fabs( quantity<V, U> q ) -> quantity<V, U>
 {
     return quantity<V, U>( std::fabs( q.value() ), U{} );
 }
 
 template<Arithmetic V, typename U>
-inline constexpr auto fmod( quantity<V, U> num, quantity<V, U> den ) -> quantity<V, U>
+constexpr auto fmod( quantity<V, U> num, quantity<V, U> den ) -> quantity<V, U>
 {
     return quantity<V, U>( std::fmod( num.value(), den.value() ), U{} );
 }
@@ -192,7 +192,7 @@ inline constexpr auto fmod( quantity<V, U> num, quantity<V, U> den ) -> quantity
 
 // scalar * quantity<foo, unit> == quantity<decltype(foo * scalar), unit>
 template<Arithmetic lvt, typename ut, Arithmetic st>
-inline constexpr auto operator*( const st &factor, const quantity<lvt, ut> &rhs )
+constexpr auto operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
     static_assert( quantity_details<ut>::common_zero_point::value,
                    "Units with multiple scales with different zero should not be multiplied/divided/etc.  directly." );
@@ -201,7 +201,7 @@ inline constexpr auto operator*( const st &factor, const quantity<lvt, ut> &rhs 
 
 // same as above only with inverse order of operands: quantity * scalar
 template<Arithmetic lvt, typename ut, Arithmetic st>
-inline constexpr auto operator*( const quantity<lvt, ut> &lhs, const st &factor )
+constexpr auto operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
     static_assert( quantity_details<ut>::common_zero_point::value,
                    "Units with multiple scales with different zero should not be multiplied/divided/etc.  directly." );
@@ -210,20 +210,20 @@ inline constexpr auto operator*( const quantity<lvt, ut> &lhs, const st &factor 
 
 // Explicit "yes, I know what I'm doing" multiplication
 template<Arithmetic lvt, typename ut, Arithmetic st>
-inline constexpr auto multiply_any_unit( const quantity<lvt, ut> &lhs, const st &factor )
+constexpr auto multiply_any_unit( const quantity<lvt, ut> &lhs, const st &factor )
 {
     return quantity{ lhs.value() *factor, ut{} };
 }
 
 template<typename t, Arithmetic st>
-inline constexpr auto multiply_any_unit( const t &lhs, const st &factor )
+constexpr auto multiply_any_unit( const t &lhs, const st &factor )
 {
     return lhs * factor;
 }
 
 // quantity<foo, unit> * quantity<bar, unit> is not supported
 template<Arithmetic lvt, typename ut, Arithmetic rvt>
-inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
+void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
 
 // operator *=
 template<Arithmetic lvt, typename ut, Arithmetic st>
@@ -236,18 +236,18 @@ inline auto operator*=( quantity<lvt, ut> &lhs, const st &factor ) -> quantity<l
 // and the revers of the multiplication above:
 // quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
 template<Arithmetic lvt, typename ut, Arithmetic rvt>
-inline constexpr auto operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
+constexpr auto operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
     return quantity{ lhs.value() / divisor, ut{} };
 }
 
 // scalar / quantity<foo, unit> is not supported
 template<Arithmetic lvt, typename ut, Arithmetic rvt>
-inline void operator/( lvt, quantity<rvt, ut> ) = delete;
+void operator/( lvt, quantity<rvt, ut> ) = delete;
 
 // quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
 template<Arithmetic lvt, typename ut, Arithmetic rvt>
-inline constexpr auto operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+constexpr auto operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return lhs.value() / rhs.value();
 }
@@ -263,18 +263,18 @@ inline auto operator/=( quantity<lvt, ut> &lhs, const st &divisor ) -> quantity<
 // remainder:
 // quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
 template<Arithmetic lvt, typename ut, Arithmetic rvt>
-inline constexpr auto operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
+constexpr auto operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
     return quantity{ lhs.value() % divisor, ut{} };
 }
 
 // scalar % quantity<foo, unit> is not supported
 template<Arithmetic lvt, typename ut, Arithmetic rvt>
-inline void operator%( lvt, quantity<rvt, ut> ) = delete;
+void operator%( lvt, quantity<rvt, ut> ) = delete;
 
 // quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
 template<Arithmetic lvt, typename ut, Arithmetic rvt>
-inline constexpr auto operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+constexpr auto operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return quantity{ lhs.value() % rhs.value(), ut{} };
 }

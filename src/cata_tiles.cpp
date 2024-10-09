@@ -213,7 +213,7 @@ void idle_animation_manager::prepare_for_redraw()
 }
 
 struct tile_render_info {
-    tripoint pos{};
+    tripoint pos;
     // accumulator for 3d tallness of sprites rendered here so far;
     int height_3d = 0;
     lit_level ll;
@@ -946,7 +946,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
             dbg( DL::Warn ) << "tile " << it->first << " has no (valid) foreground nor background";
             // remove the id from seasonal variations!
             for( auto &container : ts.tile_ids_by_season ) {
-                if( container.count( it->first ) != 0 ) {
+                if( container.contains( it->first ) ) {
                     container.erase( it->first );
                 }
             }
@@ -3710,7 +3710,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
         for( int j = 0; j < 2; ++j ) {
             std::string sText = iter->getText( ( j == 0 ) ? "first" : "second" );
             int FG = msgtype_to_tilecolor( iter->getMsgType( ( j == 0 ) ? "first" : "second" ),
-                                           iter->getStep() >= SCT.iMaxSteps / 2 );
+                                           iter->getStep() >= scrollingcombattext::iMaxSteps / 2 );
 
             if( use_font ) {
                 const auto direction = iter->getDirecton();

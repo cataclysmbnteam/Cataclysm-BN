@@ -22,25 +22,25 @@ const volume volume_max = units::volume( std::numeric_limits<units::volume::valu
                           units::volume::unit_type{} );
 
 template<typename value_type>
-inline constexpr quantity<value_type, volume_in_milliliter_tag> from_milliliter(
+constexpr quantity<value_type, volume_in_milliliter_tag> from_milliliter(
     const value_type v )
 {
     return quantity<value_type, volume_in_milliliter_tag>( v, volume_in_milliliter_tag{} );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, volume_in_milliliter_tag> from_liter( const value_type v )
+constexpr quantity<value_type, volume_in_milliliter_tag> from_liter( const value_type v )
 {
     return from_milliliter<value_type>( v * 1000 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_milliliter( const quantity<value_type, volume_in_milliliter_tag> &v )
+constexpr value_type to_milliliter( const quantity<value_type, volume_in_milliliter_tag> &v )
 {
     return v / from_milliliter<value_type>( 1 );
 }
 
-inline constexpr double to_liter( const volume &v )
+constexpr double to_liter( const volume &v )
 {
     return v.value() / 1000.0;
 }
@@ -52,24 +52,24 @@ static constexpr volume legacy_volume_factor = from_milliliter( 250 );
 } // namespace units
 
 // Implicitly converted to volume, which has int as value_type!
-inline constexpr units::volume operator"" _ml( const unsigned long long v )
+constexpr units::volume operator"" _ml( const unsigned long long v )
 {
     return units::from_milliliter( v );
 }
 
-inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _ml(
+constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _ml(
     const long double v )
 {
     return units::from_milliliter( v );
 }
 
 // Implicitly converted to volume, which has int as value_type!
-inline constexpr units::volume operator"" _liter( const unsigned long long v )
+constexpr units::volume operator"" _liter( const unsigned long long v )
 {
     return units::from_milliliter( v * 1000 );
 }
 
-inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _liter(
+constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _liter(
     const long double v )
 {
     return units::from_milliliter( v * 1000 );

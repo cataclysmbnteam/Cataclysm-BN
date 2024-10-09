@@ -579,7 +579,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
         const_invslice old_inv = p.inv_const_slice();
         for( size_t i = 0; i < old_inv.size() && excessive_volume > 0_ml; i++ ) {
             // TODO: Reimplement random dropping?
-            if( inv_indices.count( i ) != 0 ) {
+            if( inv_indices.contains( i ) ) {
                 continue;
             }
             const std::vector<item *> &inv_stack = *old_inv[i];
@@ -1149,7 +1149,7 @@ static activity_reason_info find_base_construction(
         pq.pop();
 
         auto con = cur.id;
-        if( used.count( con ) != 0 ) {
+        if( used.contains( con ) ) {
             continue;    // already evaluated this one
         }
         if( strict && con->group != id->group ) {
@@ -1157,7 +1157,7 @@ static activity_reason_info find_base_construction(
         }
         used.insert( con );
 
-        auto con_build = con.obj();
+        const auto &con_build = con.obj();
         if(
             ( !con_build.post_terrain.is_empty() && con_build.post_terrain.id() == ter ) ||
             ( !con_build.post_furniture.is_empty() && con_build.post_furniture.id() == furn )

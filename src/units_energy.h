@@ -22,14 +22,14 @@ const energy energy_max = units::energy( std::numeric_limits<units::energy::valu
                           units::energy::unit_type{} );
 
 template<typename value_type>
-inline constexpr quantity<value_type, energy_in_joule_tag> from_joule(
+constexpr quantity<value_type, energy_in_joule_tag> from_joule(
     const value_type v )
 {
     return quantity<value_type, energy_in_joule_tag>( v, energy_in_joule_tag{} );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, energy_in_joule_tag> from_kilojoule( const value_type v )
+constexpr quantity<value_type, energy_in_joule_tag> from_kilojoule( const value_type v )
 {
     const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
     value_type energy = v * 1000 > max_energy_joules ? max_energy_joules : v * 1000;
@@ -37,36 +37,36 @@ inline constexpr quantity<value_type, energy_in_joule_tag> from_kilojoule( const
 }
 
 template<typename value_type>
-inline constexpr value_type to_joule( const quantity<value_type, energy_in_joule_tag> &v )
+constexpr value_type to_joule( const quantity<value_type, energy_in_joule_tag> &v )
 {
     return v / from_joule<value_type>( 1 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_joule_tag> &v )
+constexpr value_type to_kilojoule( const quantity<value_type, energy_in_joule_tag> &v )
 {
     return to_joule( v ) / 1000.0;
 }
 
 } // namespace units
 
-inline constexpr units::energy operator"" _J( const unsigned long long v )
+constexpr units::energy operator"" _J( const unsigned long long v )
 {
     return units::from_joule( v );
 }
 
-inline constexpr units::quantity<double, units::energy_in_joule_tag> operator"" _J(
+constexpr units::quantity<double, units::energy_in_joule_tag> operator"" _J(
     const long double v )
 {
     return units::from_joule( v );
 }
 
-inline constexpr units::energy operator"" _kJ( const unsigned long long v )
+constexpr units::energy operator"" _kJ( const unsigned long long v )
 {
     return units::from_kilojoule( v );
 }
 
-inline constexpr units::quantity<double, units::energy_in_joule_tag> operator"" _kJ(
+constexpr units::quantity<double, units::energy_in_joule_tag> operator"" _kJ(
     const long double v )
 {
     return units::from_kilojoule( v );

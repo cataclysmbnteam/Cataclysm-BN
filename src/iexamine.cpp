@@ -45,7 +45,6 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
-#include "flag.h"
 #include "field_type.h"
 #include "flat_set.h"
 #include "fungal_effects.h"

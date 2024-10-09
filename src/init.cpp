@@ -951,7 +951,7 @@ void init::load_world_modfiles( loading_ui &ui, const std::string &artifacts_fil
     // remove any duplicates whilst preserving order (fixes #19385)
     std::set<mod_id> found;
     mods.erase( std::remove_if( mods.begin(), mods.end(), [&found]( const mod_id & e ) {
-        if( found.count( e ) ) {
+        if( found.contains( e ) ) {
             return true;
         } else {
             found.insert( e );

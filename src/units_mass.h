@@ -31,53 +31,53 @@ constexpr mass mass_max = units::mass( std::numeric_limits<units::mass::value_ty
 
 
 template<typename value_type>
-inline constexpr quantity<value_type, mass_in_milligram_tag> from_milligram(
+constexpr quantity<value_type, mass_in_milligram_tag> from_milligram(
     const value_type v )
 {
     return quantity<value_type, mass_in_milligram_tag>( v, mass_in_milligram_tag{} );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, mass_in_milligram_tag> from_gram(
+constexpr quantity<value_type, mass_in_milligram_tag> from_gram(
     const value_type v )
 {
     return from_milligram( v * 1000 );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, mass_in_milligram_tag> from_kilogram(
+constexpr quantity<value_type, mass_in_milligram_tag> from_kilogram(
     const value_type v )
 {
     return from_gram( v * 1000 );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, mass_in_milligram_tag> from_newton(
+constexpr quantity<value_type, mass_in_milligram_tag> from_newton(
     const value_type v )
 {
     return from_kilogram( v / GRAVITY_OF_EARTH );
 }
 
 template<typename value_type>
-inline constexpr value_type to_milligram( const quantity<value_type, mass_in_milligram_tag> &v )
+constexpr value_type to_milligram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return v.value();
 }
 
 template<typename value_type>
-inline constexpr value_type to_gram( const quantity<value_type, mass_in_milligram_tag> &v )
+constexpr value_type to_gram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return v.value() / 1000.0;
 }
 
 template<typename value_type>
-inline constexpr value_type to_kilogram( const quantity<value_type, mass_in_milligram_tag> &v )
+constexpr value_type to_kilogram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return v.value() / 1000000.0;
 }
 
 template<typename value_type>
-inline constexpr value_type to_newton( const quantity<value_type, mass_in_milligram_tag> &v )
+constexpr value_type to_newton( const quantity<value_type, mass_in_milligram_tag> &v )
 {
     return to_kilogram( v ) * GRAVITY_OF_EARTH;
 }
@@ -85,45 +85,45 @@ inline constexpr value_type to_newton( const quantity<value_type, mass_in_millig
 } // namespace units
 
 // Implicitly converted to mass, which has int as value_type!
-inline constexpr units::mass operator"" _milligram( const unsigned long long v )
+constexpr units::mass operator"" _milligram( const unsigned long long v )
 {
     return units::from_milligram( v );
 }
 
-inline constexpr units::mass operator"" _gram( const unsigned long long v )
+constexpr units::mass operator"" _gram( const unsigned long long v )
 {
     return units::from_gram( v );
 }
 
-inline constexpr units::mass operator"" _kilogram( const unsigned long long v )
+constexpr units::mass operator"" _kilogram( const unsigned long long v )
 {
     return units::from_kilogram( v );
 }
 
-inline constexpr units::mass operator"" _newton( const unsigned long long v )
+constexpr units::mass operator"" _newton( const unsigned long long v )
 {
     return units::from_newton( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _milligram(
+constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _milligram(
     const long double v )
 {
     return units::from_milligram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _gram(
+constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _gram(
     const long double v )
 {
     return units::from_gram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _kilogram(
+constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _kilogram(
     const long double v )
 {
     return units::from_kilogram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _newton(
+constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _newton(
     const long double v )
 {
     return units::from_newton( v );

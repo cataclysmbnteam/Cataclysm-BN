@@ -28,7 +28,7 @@ class game_object
         friend location_vector<T>;
         friend location_visitable<location_inventory>;
         template<typename U>
-        friend void ::std::swap( location_vector<U> &, location_vector<U> & );
+        friend void ::std::swap( location_vector<U> &, location_vector<U> & ) noexcept ;
     protected:
         location<T> *saved_loc = nullptr;
         location<T> *loc = nullptr;

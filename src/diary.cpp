@@ -328,7 +328,7 @@ void diary::kill_changes()
                 std::string symbol = m.sym;
                 std::string nname = m.nname( elem.second );
                 int kills = elem.second;
-                if( prev_page->kills.count( elem.first ) > 0 ) {
+                if( prev_page->kills.contains( elem.first ) ) {
                     const int prev_kills = prev_page->kills[elem.first];
                     if( kills > prev_kills ) {
                         if( flag ) {

@@ -874,10 +874,10 @@ bool martialart::has_technique( const Character &u, const matec_id &tec_id ) con
 
 bool martialart::has_weapon( const itype_id &itt ) const
 {
-    return weapons.count( itt ) > 0 ||
+    return weapons.contains( itt ) ||
            std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
     [&]( const weapon_category_id & weap ) {
-        return weapon_category.count( weap ) > 0;
+        return weapon_category.contains( weap );
     } );
 }
 

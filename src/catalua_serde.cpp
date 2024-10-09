@@ -11,7 +11,6 @@
 #include <utility>
 #include <vector>
 #include <stdexcept>
-#include <utility>
 
 namespace cata
 {

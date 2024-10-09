@@ -810,25 +810,25 @@ class Character : public Creature, public location_visitable<Character>
             WT_GOOD,
             NUM_WATER_TOLERANCE
         };
-        inline int posx() const override {
+        int posx() const override {
             return position.x;
         }
-        inline int posy() const override {
+        int posy() const override {
             return position.y;
         }
-        inline int posz() const override {
+        int posz() const override {
             return position.z;
         }
-        inline void setx( int x ) {
+        void setx( int x ) {
             setpos( tripoint( x, position.y, position.z ) );
         }
-        inline void sety( int y ) {
+        void sety( int y ) {
             setpos( tripoint( position.x, y, position.z ) );
         }
-        inline void setz( int z ) {
+        void setz( int z ) {
             setpos( tripoint( position.xy(), z ) );
         }
-        inline void setpos( const tripoint &p ) override {
+        void setpos( const tripoint &p ) override {
             position = p;
         }
 

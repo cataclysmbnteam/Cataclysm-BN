@@ -1369,7 +1369,7 @@ void advanced_inventory::display()
 
             w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
             w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
-                      static_cast<int>( TERMX );
+                      TERMX;
 
             //(TERMY>w_height)?(TERMY-w_height)/2:0;
             headstart = 0;

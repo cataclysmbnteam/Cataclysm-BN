@@ -237,7 +237,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
 
         for( auto &comp : shield.get_components() ) {
-            if( blacklist.count( comp->typeId() ) <= 0 ) {
+            if( !blacklist.contains( comp->typeId() ) ) {
                 if( weak_chip > comp->chip_resistance() ) {
                     weak_chip = comp->chip_resistance();
                     weak_comp = comp->typeId();
@@ -640,7 +640,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     const float strbonus = 1 / ( 2 + ( str_cur * 0.25f ) );
-    const float skill_cost = std::max( 0.667f, static_cast<float>( ( 30.0f - melee ) / 30.0f ) );
+    const float skill_cost = std::max( 0.667f, ( ( 30.0f - melee ) / 30.0f ) );
     /** @EFFECT_MELEE and @EFFECT_STR reduce stamina cost of melee attacks */
     const int mod_sta = -( weight_cost + encumbrance_cost - deft_bonus + 50 ) * skill_cost *
                         ( 0.75f + strbonus );
@@ -953,13 +953,13 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const trait_id &mut : c.get_mutations() ) {
-                if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                if( mut->flags.contains( trait_flag_NEED_ACTIVE_TO_MELEE ) &&
                     !c.has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
-                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
+                if( mut->flags.contains( trait_flag_UNARMED_BONUS ) && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( c.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += bash_bonus + unarmed_bonus;
@@ -1047,13 +1047,13 @@ void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di,
             }
 
             for( const trait_id &mut : c.get_mutations() ) {
-                if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                if( mut->flags.contains( trait_flag_NEED_ACTIVE_TO_MELEE ) &&
                     !c.has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
-                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.contains( trait_flag_UNARMED_BONUS ) && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( c.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += cut_bonus + unarmed_bonus;
@@ -1120,7 +1120,7 @@ void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di
             for( const trait_id &mut : c.get_mutations() ) {
                 int stab_bonus = mut->pierce_dmg_bonus;
                 int unarmed_bonus = 0;
-                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && stab_bonus > 0 ) {
+                if( mut->flags.contains( trait_flag_UNARMED_BONUS ) && stab_bonus > 0 ) {
                     unarmed_bonus = std::min( unarmed_skill / 2, 4 );
                 }
 
@@ -2300,7 +2300,7 @@ int Character::attack_cost( const item &weap ) const
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
-    const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
+    const int skill_cost = ( base_move_cost * ( 15 - melee_skill ) / 15 );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur;
     const int encumbrance_penalty = encumb( body_part_torso ) +
