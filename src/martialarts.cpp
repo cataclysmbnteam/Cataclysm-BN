@@ -25,6 +25,7 @@
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "messages.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player.h"
@@ -520,6 +521,18 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
+    if( !weapon_categories_allowed.empty() && is_armed ) {
+        bool valid_weap_cat = false;
+        for( const weapon_category_id &w_cat : weapon_categories_allowed ) {
+            if( u.used_weapon().typeId()->weapon_category.count( w_cat ) > 0 ) {
+                valid_weap_cat = true;
+            }
+        }
+        if( !valid_weap_cat ) {
+            return false;
+        }
+    }
+
     return true;
 }
 
@@ -532,11 +545,6 @@ bool ma_requirements::is_valid_weapon( const item &i ) const
     }
     for( const auto &pr : min_damage ) {
         if( i.damage_melee( pr.first ) < pr.second ) {
-            return false;
-        }
-    }
-    for( const weapon_category_id &weap : weapon_categories_allowed ) {
-        if( !i.type.weapon_category.count( weap ) ) {
             return false;
         }
     }
