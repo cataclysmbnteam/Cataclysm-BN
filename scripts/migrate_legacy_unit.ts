@@ -6,7 +6,7 @@ import {
   fromLegacyWeight,
 } from "$catjazz/units/mod.ts"
 import { z } from "$catjazz/deps/zod.ts"
-import { Command } from "$catjazz/deps/cliffy.ts"
+import { Command } from "@cliffy/command"
 import { timeit } from "$catjazz/utils/timeit.ts"
 import { applyRecursively } from "$catjazz/utils/transform.ts"
 import { fmtJsonRecursively } from "$catjazz/utils/json_fmt.ts"

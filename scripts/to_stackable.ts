@@ -1,5 +1,5 @@
 import { z } from "https://deno.land/x/catjazz@v0.0.2/mod.ts"
-import { Command } from "https://deno.land/x/catjazz@v0.0.2/deps/cliffy.ts"
+import { Command } from "@cliffy/command"
 import { cliOptions } from "https://deno.land/x/catjazz@v0.0.2/utils/cli.ts"
 import { timeit } from "https://deno.land/x/catjazz@v0.0.2/utils/timeit.ts"
 import {

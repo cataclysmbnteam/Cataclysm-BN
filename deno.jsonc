@@ -18,10 +18,11 @@
     "lineWidth": 100
   },
   "imports": {
-    "$std/": "https://deno.land/std@0.208.0/",
     "$asynciter/": "https://deno.land/x/asynciter@0.0.18/",
-    "$zod/": "https://deno.land/x/zod@v3.22.4/",
     "$catjazz/": "https://deno.land/x/catjazz@v0.0.5/",
-    "$outdent/": "https://deno.land/x/outdent@v0.8.0/"
+    "$outdent/": "https://deno.land/x/outdent@v0.8.0/",
+    "$std/": "https://deno.land/std@0.208.0/",
+    "$zod/": "https://deno.land/x/zod@v3.22.4/",
+    "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7"
   }
 }
