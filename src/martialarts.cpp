@@ -177,7 +177,8 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
-    optional( jo, was_loaded, "weapon_categories_allowed", weapon_categories_allowed, auto_flags_reader<weapon_category_id> {} );
+    optional( jo, was_loaded, "weapon_categories_allowed", weapon_categories_allowed,
+              auto_flags_reader<weapon_category_id> {} );
 }
 
 void ma_technique::load( const JsonObject &jo, const std::string &src )
@@ -588,7 +589,7 @@ std::string ma_requirements::get_description( bool buff ) const
 
     if( !weapon_categories_allowed.empty() ) {
         dump += vgettext( "<bold>Weapon category required: </bold>",
-                           "<bold>Weapon categories required: </bold>", weapon_categories_allowed.size() );
+                          "<bold>Weapon categories required: </bold>", weapon_categories_allowed.size() );
         dump += enumerate_as_string( weapon_categories_allowed.begin(),
         weapon_categories_allowed.end(), []( const weapon_category_id & w_cat ) {
             if( !w_cat.is_valid() ) {
