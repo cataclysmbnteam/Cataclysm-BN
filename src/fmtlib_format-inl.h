@@ -2647,7 +2647,7 @@ void fallback_format( Double d, int num_digits, bool binary32, buffer<char> &buf
 template <typename T>
 int format_float( T value, int precision, float_specs specs, buffer<char> &buf )
 {
-    static_assert( !std::is_same<T, float>::value, "" );
+    static_assert( !std::is_same_v<T, float>, "" );
     FMT_ASSERT( value >= 0, "value is negative" );
 
     const bool fixed = specs.format == float_format::fixed;
@@ -2718,7 +2718,7 @@ int snprintf_float( T value, int precision, float_specs specs,
 {
     // Buffer capacity must be non-zero, otherwise MSVC's vsnprintf_s will fail.
     FMT_ASSERT( buf.capacity() > buf.size(), "empty buffer" );
-    static_assert( !std::is_same<T, float>::value, "" );
+    static_assert( !std::is_same_v<T, float>, "" );
 
     // Subtract 1 to account for the difference in precision since we use %e for
     // both general and exponent format.

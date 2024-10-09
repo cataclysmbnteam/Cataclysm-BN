@@ -79,9 +79,10 @@ directed_path<point> greedy_path( point source, point dest, point max,
  * @param max Max permissible coordinates for a point on the path
  * @param scorer function of (node &current, node *previous) that returns node_score.
  */
-template<typename Point, typename = std::enable_if_t<Point::dimension == 2>>
+template<typename Point>
 directed_path<Point> greedy_path( const Point &source, const Point &dest, const Point &max,
                                   two_node_scoring_fn<Point> scorer )
+requires( Point::dimension == 2 )
 {
     directed_path<Point> res;
     const two_node_scoring_fn<point> point_scorer

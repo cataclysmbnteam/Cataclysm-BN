@@ -227,13 +227,11 @@ constexpr inline auto operator+(
     return coord_point<PointResult, OriginL, Scale>( l.raw() + r.raw() );
 }
 
-template < typename PointL, typename PointR, origin OriginR, scale Scale,
-           // enable_if to prevent ambiguity with above when both args are
-           // relative
-           typename = std::enable_if_t < OriginR != origin::relative >>
+template < typename PointL, typename PointR, origin OriginR, scale Scale>
 constexpr inline auto operator+(
     const coord_point<PointL, origin::relative, Scale> &l,
     const coord_point<PointR, OriginR, Scale> &r )
+requires( OriginR != origin::relative )
 {
     using PointResult = decltype( PointL() + PointR() );
     return coord_point<PointResult, OriginR, Scale>( l.raw() + r.raw() );
@@ -248,13 +246,11 @@ constexpr inline auto operator-(
     return coord_point<PointResult, OriginL, Scale>( l.raw() - r.raw() );
 }
 
-template < typename PointL, typename PointR, origin Origin, scale Scale,
-           // enable_if to prevent ambiguity with above when both args are
-           // relative
-           typename = std::enable_if_t < Origin != origin::relative >>
+template < typename PointL, typename PointR, origin Origin, scale Scale>
 constexpr inline auto operator-(
     const coord_point<PointL, Origin, Scale> &l,
     const coord_point<PointR, Origin, Scale> &r )
+requires( Origin != origin::relative )
 {
     using PointResult = decltype( PointL() + PointR() );
     return coord_point<PointResult, origin::relative, Scale>( l.raw() - r.raw() );

@@ -71,7 +71,7 @@ struct key_from_json_string<string_id<T>, void> {
 };
 
 template<typename Enum>
-struct key_from_json_string<Enum, std::enable_if_t<std::is_enum<Enum>::value>> {
+struct key_from_json_string<Enum, std::enable_if_t<std::is_enum_v<Enum>>> {
     Enum operator()( const std::string &s ) {
         return io::string_to_enum<Enum>( s );
     }
@@ -231,8 +231,8 @@ class JsonIn
         JsonObject get_object();
         JsonArray get_array();
 
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value() {
+        template<typename E>
+        E get_enum_value() requires std::is_enum_v<E> {
             const auto old_offset = tell();
             try {
                 return io::string_to_enum<E>( get_string() );
@@ -334,8 +334,8 @@ class JsonIn
             }
         }
 
-        template<typename T, std::enable_if_t<std::is_enum<T>::value, int> = 0>
-        bool read( T &val, bool throw_on_error = false ) {
+        template<typename T>
+        bool read( T &val, bool throw_on_error = false ) requires std::is_enum_v<T> {
             int i;
             if( read( i, false ) ) {
                 val = static_cast<T>( i );
@@ -422,10 +422,9 @@ class JsonIn
         }
 
         // array ~> vector, deque, list
-        template < typename T, typename std::enable_if <
-                       !std::is_same<void, typename T::value_type>::value >::type * = nullptr
-                   >
-        auto read( T &v, bool throw_on_error = false ) -> decltype( v.front(), true ) {
+        template < typename T>
+        auto read( T &v, bool throw_on_error = false ) -> decltype( v.front(),
+                true ) requires( !std::is_same_v<void, typename T::value_type> ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
             }
@@ -510,10 +509,9 @@ class JsonIn
 
         // object ~> containers with matching key_type and value_type
         // set, unordered_set ~> object
-        template <typename T, typename std::enable_if<
-                      std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
-                  >
-        bool read( T &v, bool throw_on_error = false ) {
+        template <typename T>
+        bool read( T &v, bool throw_on_error = false ) requires
+        std::is_same_v<typename T::key_type, typename T::value_type> {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
             }
@@ -540,10 +538,9 @@ class JsonIn
 
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
-        template < typename T, typename std::enable_if <
-                       !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
-                   >
-        bool read( T &m, bool throw_on_error = true ) {
+        template < typename T>
+        bool read( T &m, bool throw_on_error = true ) requires(
+            !std::is_same_v<typename T::key_type, typename T::value_type> ) {
             if( !test_object() ) {
                 return error_or_false( throw_on_error, "Expected json object" );
             }
@@ -665,8 +662,8 @@ class JsonOut
         // write data to the output stream as JSON
         void write_null();
 
-        template <typename T, typename std::enable_if<std::is_fundamental<T>::value, int>::type = 0>
-        void write( T val ) {
+        template <typename T>
+        void write( T val ) requires std::is_fundamental_v<T> {
             if( need_separator ) {
                 write_separator();
             }
@@ -715,9 +712,9 @@ class JsonOut
         }
 
 
-        template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
-        void write( T val ) {
-            write( static_cast<typename std::underlying_type<T>::type>( val ) );
+        template <typename T>
+        void write( T val ) requires std::is_enum_v<T> {
+            write( static_cast<std::underlying_type_t<T>>( val ) );
         }
 
         // strings need escaping and quoting
@@ -753,8 +750,8 @@ class JsonOut
         }
 
         // enum ~> string
-        template <typename E, typename std::enable_if<std::is_enum<E>::value>::type * = nullptr>
-        void write_as_string( const E value ) {
+        template <typename E>
+        void write_as_string( const E value ) requires std::is_enum_v<E> {
             write( io::enum_to_string<E>( value ) );
         }
 
@@ -786,19 +783,17 @@ class JsonOut
 
         // containers with front() ~> array
         // vector, deque, forward_list, list
-        template < typename T, typename std::enable_if <
-                       !std::is_same<void, typename T::value_type>::value >::type * = nullptr
-                   >
-        auto write( const T &container ) -> decltype( container.front(), ( void )0 ) {
+        template < typename T>
+        auto write( const T &container ) -> decltype( container.front(),
+                ( void )0 ) requires( !std::is_same_v<void, typename T::value_type> ) {
             write_as_array( container );
         }
 
         // containers with matching key_type and value_type ~> array
         // set, unordered_set
-        template <typename T, typename std::enable_if<
-                      std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
-                  >
-        void write( const T &container ) {
+        template <typename T>
+        void write( const T &container ) requires
+        std::is_same_v<typename T::key_type, typename T::value_type> {
             write_as_array( container );
         }
 
@@ -810,10 +805,9 @@ class JsonOut
 
         // containers with unmatching key_type and value_type ~> object
         // map, unordered_map ~> object
-        template < typename T, typename std::enable_if <
-                       !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
-                   >
-        void write( const T &map ) {
+        template < typename T>
+        void write( const T &map ) requires(
+            !std::is_same_v<typename T::key_type, typename T::value_type> ) {
             start_object();
             for( const auto &it : map ) {
                 write_as_string( it.first );
@@ -976,8 +970,9 @@ class JsonObject
         std::string get_string( const std::string &name ) const;
         std::string get_string( const std::string &name, const std::string &fallback ) const;
 
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value( const std::string &name, const E fallback ) const {
+        template<typename E>
+        E get_enum_value( const std::string &name,
+                          const E fallback ) const requires std::is_enum_v<E> {
             if( !has_member( name ) ) {
                 return fallback;
             }
@@ -985,8 +980,8 @@ class JsonObject
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value( const std::string &name ) const {
+        template<typename E>
+        E get_enum_value( const std::string &name ) const requires std::is_enum_v<E> {
             mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();

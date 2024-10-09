@@ -87,7 +87,7 @@ struct luna_traits {
 extern std::string_view current_comment;
 
 template<typename T>
-using remove_cv_ref_t = typename std::remove_cv<typename std::remove_reference<T>::type>::type;
+using remove_cv_ref_t = std::remove_cv_t<std::remove_reference_t<T>>;
 
 template<typename Signature>
 using fx_traits = sol::meta::meta_detail::fx_traits<Signature>;
@@ -107,7 +107,7 @@ std::string doc_value_impl()
     if constexpr( luna_traits<Val>::impl ) {
         return std::string( luna_traits<Val>::name );
     } else {
-        using ValNoPtr = typename std::remove_pointer<Val>::type;
+        using ValNoPtr = std::remove_pointer_t<Val>;
         using ValBare = remove_cv_ref_t<ValNoPtr>;
         if constexpr( luna_traits<ValBare>::impl ) {
             return std::string( luna_traits<ValBare>::name );
