@@ -7,6 +7,7 @@
         "distribution": [
           [ "convention_nested_vacant", 2 ],
           [ "convention_nested_fandom", 5 ],
+          [ "convention_nested_gunshow", 7 ],
           [ "convention_nested_lecture_small", 2 ],
           [ "convention_nested_lecture_big", 3 ]
         ]
@@ -119,6 +120,22 @@
       "8": { "chunks": [ [ "null", 1 ], [ "convention_up_right_vacant", 1 ] ] },
       "9": { "chunks": [ [ "null", 1 ], [ "convention_down_left_vacant", 1 ] ] },
       "0": { "chunks": [ [ "null", 1 ], [ "convention_down_right_vacant", 1 ] ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "convention_nested_gunshow",
+    "nested": {
+      "1": { "chunks": [ "convention_up_left_gunshow" ] },
+      "2": { "chunks": [ "convention_up_right_gunshow" ] },
+      "3": { "chunks": [ "convention_mid_left_gunshow" ] },
+      "4": { "chunks": [ "convention_mid_right_gunshow" ] },
+      "5": { "chunks": [ "convention_down_left_gunshow" ] },
+      "6": { "chunks": [ "convention_down_right_gunshow" ] },
+      "7": { "chunks": [ "convention_up_left_gunshow" ] },
+      "8": { "chunks": [ "convention_up_right_gunshow" ] },
+      "9": { "chunks": [ "convention_down_left_gunshow" ] },
+      "0": { "chunks": [ "convention_down_right_gunshow" ] }
     }
   },
   {

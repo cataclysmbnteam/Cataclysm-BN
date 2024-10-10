@@ -2,6 +2,232 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "convention_up_left_gunshow",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "         h   n     ",
+        "     n h     n     ",
+        "     n    h  n     ",
+        "     n       n     ",
+        "     nnnnnnnnn     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "     **  *  **     ",
+        "     n  h*   n     ",
+        "     n   *  hn     ",
+        "     n  X*   n│    ",
+        "     **  *X **     ",
+        "     n   *X  n     ",
+        "     n h * h n     ",
+        "     n  X*   n     "
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 19 ], "y": [ 0, 19 ], "density": 0.1 } ],
+      "furniture": { "X": "f_crate_c" },
+      "items": {
+        "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
+        "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
+      },
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_up_right_gunshow",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "         X   n     ",
+        "     n     h n     ",
+        "     n h     n     ",
+        "     n   h   n     ",
+        "     nnnnnnnnn     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        " nnnnnn            ",
+        " n  h n            ",
+        "      n            ",
+        " n                 ",
+        " n h  n            ",
+        " nnnnnn            ",
+        "                   ",
+        "                   "
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 19 ], "y": [ 0, 19 ], "density": 0.1 } ],
+      "furniture": { "X": "f_crate_c" },
+      "items": {
+        "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
+        "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
+      },
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_mid_left_gunshow",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "│││││     **  *  **     ",
+        "│││││     n   *  hn     ",
+        "│││││     n   *   n     ",
+        "│││││     nh X*   n     ",
+        "│││││     **  *  **     ",
+        "│││││     n   *   n     ",
+        "│││││     n   * h n     ",
+        "│││││     n  h*   n     ",
+        "│││││     **  *  **     ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││                   ",
+        "│││││     **  *  **     ",
+        "│││││     n   *h  n     ",
+        "│││││     nh  *   n     ",
+        "│││││     n   *   n     ",
+        "│││││     **  *  **     ",
+        "│││││     n  X*   n     ",
+        "│││││     nh  *   n     ",
+        "│││││     n   * h n     ",
+        "│││││     **  *  **     "
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 } ],
+      "furniture": { "X": "f_crate_c" },
+      "items": {
+        "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
+        "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
+      },
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_mid_right_gunshow",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                   │││││",
+        "                   │││││",
+        "                   │││││",
+        "             ***   │││││",
+        "             n     │││││",
+        "             nh   X│││││",
+        "             n     │││││",
+        "             **    │││││",
+        "             n     │││││",
+        "             n  ││││││││",
+        "             nh ││││││││",
+        "             ** ││││││││",
+        "             n  ││││││││",
+        "             n  ││││││││",
+        "             n h││││││││",
+        "             **  XX│││││",
+        "             nh    │││││",
+        " nnnnnn      n     │││││",
+        " n    n      n    X│││││",
+        "    h n      **    │││││",
+        " nh          n     │││││",
+        " n    n      n     │││││",
+        " nnnnnn      n h   │││││",
+        "             ***   │││││"
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 } ],
+      "furniture": { "X": "f_crate_c" },
+      "items": {
+        "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
+        "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
+      },
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_down_left_gunshow",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "     n   * h n     ",
+        "     nh  *   n     ",
+        "     n   *X  n     ",
+        "     **  *X **     ",
+        "     n   *   n     ",
+        "     n h *   n     ",
+        "     n   *  hn     ",
+        "     **  *X **     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   "
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 19 ], "y": [ 0, 19 ], "density": 0.1 } ],
+      "furniture": { "X": "f_crate_c" },
+      "items": {
+        "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
+        "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
+      },
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "convention_down_right_gunshow",
+    "object": {
+      "mapgensize": [ 19, 19 ],
+      "rows": [
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        " *nnn*nnn*nnn*     ",
+        " *  h*   *   *     ",
+        "           h       ",
+        "     X  h          ",
+        " *************     ",
+        "     XX            ",
+        "  h                ",
+        " *   *h  * h *     ",
+        " *nnn*nnn*nnn*     ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "                   ",
+        "               X XX"
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 19 ], "y": [ 0, 19 ], "density": 0.1 } ],
+      "furniture": { "X": "f_crate_c" },
+      "items": {
+        "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
+        "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
+      },
+      "palettes": [ "convention_nested_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "convention_up_left_vacant",
     "object": {
       "mapgensize": [ 19, 19 ],
