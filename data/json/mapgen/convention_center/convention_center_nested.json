@@ -26,7 +26,8 @@
         "     n h * h n     ",
         "     n  X*   n     "
       ],
-	  "furniture": {"X": "f_crate_c"},
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 19 ], "y": [ 0, 19 ], "density": 0.1 } ],
+      "furniture": { "X": "f_crate_c" },
       "items": {
         "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
         "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
@@ -61,7 +62,8 @@
         "                   ",
         "                   "
       ],
-	  "furniture": {"X": "f_crate_c"},
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 19 ], "y": [ 0, 19 ], "density": 0.1 } ],
+      "furniture": { "X": "f_crate_c" },
       "items": {
         "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
         "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
@@ -101,7 +103,8 @@
         "│││││     n   * h n     ",
         "│││││     **  *  **     "
       ],
-	  "furniture": {"X": "f_crate_c"},
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 } ],
+      "furniture": { "X": "f_crate_c" },
       "items": {
         "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
         "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
@@ -141,7 +144,8 @@
         " nnnnnn      n h   │││││",
         "             ***   │││││"
       ],
-	  "furniture": {"X": "f_crate_c"},
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.2 } ],
+      "furniture": { "X": "f_crate_c" },
       "items": {
         "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
         "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
@@ -176,7 +180,8 @@
         "                   ",
         "                   "
       ],
-	  "furniture": {"X": "f_crate_c"},
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 19 ], "y": [ 0, 19 ], "density": 0.1 } ],
+      "furniture": { "X": "f_crate_c" },
       "items": {
         "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
         "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
@@ -211,7 +216,8 @@
         "                   ",
         "               X XX"
       ],
-	  "furniture": {"X": "f_crate_c"},
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_GUNSTORE", "x": [ 0, 19 ], "y": [ 0, 19 ], "density": 0.1 } ],
+      "furniture": { "X": "f_crate_c" },
       "items": {
         "n": [ { "item": "guns_common", "chance": 20 }, { "item": "gunmod_common", "chance": 20 } ],
         "X": [ { "item": "guns_common", "chance": 70 }, { "item": "guns_rare", "chance": 40 } ]
@@ -855,7 +861,7 @@
       "palettes": [ "convention_nested_palette" ],
       "place_loot": [ { "item": "coffeemaker", "x": [ 5, 6 ], "y": 0 } ]
     }
-  }, 
+  },
   {
     "type": "mapgen",
     "method": "json",
