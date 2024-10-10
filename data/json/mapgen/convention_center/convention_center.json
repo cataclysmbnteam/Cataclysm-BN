@@ -258,7 +258,7 @@
         "                                                                                                                        ",
         "                                                                                                                        ",
         "                                                                                                                        "
-      ],	  
+      ],
       "terrain": { "v": "t_ladder_down" },
       "palettes": [ "roof_palette" ]
     }
