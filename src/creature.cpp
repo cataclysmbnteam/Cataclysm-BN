@@ -1704,13 +1704,15 @@ const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 void Creature::set_body()
 {
     body.clear();
-    // TODO: Probably shouldn't be needed, but it's called from game::game()
+    // This check is needed for game::game
     if( get_anatomy().is_valid() ) {
         for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
             body.emplace( std::piecewise_construct, std::forward_as_tuple( bp.id() ),
                           std::forward_as_tuple( bp.id(),
                                                  new wield_item_location( this ) ) );
         }
+    } else if( g != nullptr ) {
+        debugmsg( "Invalid anatomy %s on %s", get_anatomy().c_str(), disp_name().c_str() );
     }
 }
 

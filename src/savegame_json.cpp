@@ -485,16 +485,6 @@ void Character::load( const JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
-    // status
-    temp_cur.fill( 5000 );
-    data.read( "temp_cur", temp_cur );
-
-    temp_conv.fill( 5000 );
-    data.read( "temp_conv", temp_conv );
-
-    frostbite_timer.fill( 0 );
-    data.read( "frostbite_timer", frostbite_timer );
-
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
 
@@ -692,9 +682,6 @@ void Character::store( JsonOut &json ) const
     json.member( "healed_24h", healed_total );
 
     // status
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
-    json.member( "frostbite_timer", frostbite_timer );
     json.member( "body_wetness", body_wetness );
 
     // needs
