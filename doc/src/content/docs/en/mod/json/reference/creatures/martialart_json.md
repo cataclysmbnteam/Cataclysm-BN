@@ -42,6 +42,7 @@ title: Martial arts & techniques
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
 "unarmed_weapons_allowed" : true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
+"weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed. Empty hands are always allowed if unarmed_allowed is true.
 "melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons
 "skill_requirements": [ { "name": "melee", "level": 3 } ],     // Skills and their minimum levels required to use this technique. Can be any skill.
 "weapon_damage_requirements": [ { "type": "bash", "min": 5 } ],     // Minimum weapon damage required to use this technique. Can be any damage type.
@@ -82,7 +83,8 @@ title: Martial arts & techniques
 "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
 "buff_duration": 2,                 // Duration in turns that this buff lasts
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
-"unarmed_allowed" : false,          // Can this buff be applied to an armed character
+"melee_allowed" : false,          // Can this buff be applied to an armed character
+"weapon_categories_allowed" : [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed. Empty hands are always allowed if unarmed_allowed is true.
 "unarmed_weapons_allowed" : true,          // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
 "bonus_blocks": 1       // Extra blocks per turn

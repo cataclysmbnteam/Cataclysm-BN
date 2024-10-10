@@ -687,6 +687,7 @@
     "melee_allowed": true,
     "crit_tec": true,
     "weapon_damage_requirements": [ { "type": "bash", "min": 8 } ],
+    "weapon_categories_allowed": [ "STILETTOS", "KNIVES", "SHORT_SWORDS", "BATONS", "TONFAS" ],
     "stun_dur": 1,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.6 },
@@ -1310,6 +1311,7 @@
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
+    "weapon_categories_allowed": [ "STILETTOS", "KNIVES", "1H_HOOKED", "SHORT_SWORDS", "1H_SWORDS", "JAPANESE_SWORDS", "BIONIC_WEAPONRY" ],
     "crit_tec": true,
     "stun_dur": 1,
     "mult_bonuses": [
