@@ -313,6 +313,7 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case COMPACT_MISS_DISARM: return "miss_disarm";
         case COMPACT_OPEN: return "open";
         case COMPACT_OPEN_DISARM: return "open_disarm";
+        case COMPACT_OPEN_LOCKER: return "open_locker";
         case COMPACT_PORTAL: return "portal";
         case COMPACT_RADIO_ARCHIVE: return "radio_archive";
         case COMPACT_RELEASE: return "release";
