@@ -2925,24 +2925,34 @@ int map::collapse_check( const tripoint &p )
     // if there's support below, things are less likely to collapse
     if( p.z > -OVERMAP_DEPTH ) {
         const tripoint &pbelow = tripoint( p.xy(), p.z - 1 );
-        for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
+        if( has_flag( TFLAG_SINGLE_SUPPORT, p ) ) {
             if( has_flag( TFLAG_SUPPORTS_ROOF, pbelow ) ) {
-                num_supports += 1;
-                if( has_flag( TFLAG_WALL, pbelow ) ) {
-                    num_supports += 2;
-                }
-                if( tbelow == pbelow ) {
-                    num_supports += 2;
+                num_supports = 3;
+            } else {
+                num_supports = 0;
+            }
+        } else {
+            for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
+                if( has_flag( TFLAG_SUPPORTS_ROOF, pbelow ) ) {
+                    num_supports += 1;
+                    if( has_flag( TFLAG_WALL, pbelow ) ) {
+                        num_supports += 2;
+                    }
+                    if( tbelow == pbelow ) {
+                        num_supports += 2;
+                    }
                 }
             }
         }
     }
 
     for( const tripoint &t : points_in_radius( p, 1 ) ) {
+        if( has_flag( TFLAG_SINGLE_SUPPORT, p ) ) {
+            break;
+        }
         if( p == t ) {
             continue;
         }
-
         if( collapses ) {
             if( has_flag( TFLAG_COLLAPSES, t ) ) {
                 num_supports++;
@@ -2997,13 +3007,14 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             if( p != t && ( has_flag( TFLAG_SUPPORTS_ROOF, t ) && has_flag( TFLAG_COLLAPSES, t ) ) ) {
                 collapse_at( t, silent );
             }
-            // this tile used to support a roof, now it doesn't, which means there is only
-            // open air above us
-            if( zlevels ) {
-                ter_set( tz, t_open_air );
-                furn_set( tz, f_null );
-                propagate_suspension_check( tz );
-            }
+        }
+        // this tile used to support a roof, now it doesn't, which means there is only
+        // open air above us
+        if( zlevels ) {
+            const tripoint tabove( p.xy(), p.z + 1 );
+            ter_set( tabove, t_open_air );
+            furn_set( tabove, f_null );
+            propagate_suspension_check( tabove );
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
