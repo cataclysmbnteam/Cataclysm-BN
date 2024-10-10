@@ -82,9 +82,7 @@ jobs:
 
       - uses: ammaraskar/gcc-problem-matcher@master
 
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
+      - uses: denoland/setup-deno@v2
 
       - name: build clang-tidy plugin
         run: |
