@@ -2787,10 +2787,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
 
             if( to_proc > 0 ) {
                 cur_submap->field_count = cur_submap->field_count - to_proc;
-                dbg( DL::Error ) << "map::decay_fields_and_scent: submap at "
-                                 << abs_sub + tripoint( smx, smy, 0 )
-                                 << "has " << cur_submap->field_count - to_proc << "fields, but "
-                                 << cur_submap->field_count << " field_count";
+                dbg( DL::Warn ) << "map::decay_fields_and_scent: submap at "
+                                << abs_sub + tripoint( smx, smy, 0 )
+                                << "has " << cur_submap->field_count - to_proc << "fields, but "
+                                << cur_submap->field_count << " field_count";
             }
         }
     }
