@@ -1,0 +1,16 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/External_Tileset_DP_maptiles.png",
+        "tiles": [
+          { "id": "unknown", "fg": 0 }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]
