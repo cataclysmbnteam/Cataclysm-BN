@@ -122,7 +122,7 @@
       { "group": "games", "prob": 10 },
       [ "balloon", 10 ],
       [ "milkshake_fastfood", 3 ],
-      ["shark_plush", 1]
+      [ "shark_plush", 1 ]
     ]
   },
   {
