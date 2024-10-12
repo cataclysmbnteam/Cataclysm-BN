@@ -1151,7 +1151,8 @@ bool item::merge_charges( detached_ptr<item> &&rhs, bool force )
 
 void item::put_in( detached_ptr<item> &&payload )
 {
-    if( !payload ) {
+    if( !payload || payload->typeId() == itype_id::NULL_ID() ) {
+        debugmsg( "Tried to insert non-item into %s", debug_name() );
         return;
     }
     if( &*payload == this ) {
