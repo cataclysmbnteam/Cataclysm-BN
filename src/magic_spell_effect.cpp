@@ -661,12 +661,12 @@ void area_expander::sort_descending()
 static void move_items( map &here, const tripoint &from, const tripoint &to )
 {
     auto src_items = here.i_at( from );
-        auto dst_items = here.i_at( to );
+    auto dst_items = here.i_at( to );
 
-        for( detached_ptr<item> &it : src_items.clear() ) {
-            dst_items.insert( std::move( it ) );
-        }
-        src_items.clear();
+    for( detached_ptr<item> &it : src_items.clear() ) {
+        dst_items.insert( std::move( it ) );
+    }
+    src_items.clear();
 }
 
 static void move_field( map &here, const tripoint &from, const tripoint &to )
