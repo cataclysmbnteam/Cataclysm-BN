@@ -5,10 +5,10 @@
     "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
     "description": "A magical flexible stonelike substance for protection and attack.",
-    "weight": "1 g",
+    "weight": "600 g",
     "volume": "250 ml",
     "price": "1 cent",
-    "to_hit": 2,
+    "to_hit": 1,
     "bashing": 20,
     "material": [ "superalloy" ],
     "symbol": "[",
@@ -28,16 +28,10 @@
     "price": 0,
     "symbol": ",",
     "color": "yellow",
-    "use_action": [ 
-      { 
-        "type": "firestarter", "moves": 20 
-      },
-      {
-        "type": "transform",
-        "msg": "You dim the flame.",
-        "target": "finger_firelighter_off"
-      } 
-  ],
+    "use_action": [
+      { "type": "firestarter", "moves": 20 },
+      { "type": "transform", "msg": "You dim the flame.", "target": "finger_firelighter_off" }
+    ],
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
@@ -46,16 +40,10 @@
     "type": "TOOL",
     "name": "finger firelighter (dimmed)",
     "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire, though it is currently dimmed.",
-    "use_action": [ 
-      { 
-        "type": "firestarter", "moves": 20 
-      },
-      {
-        "type": "transform",
-        "msg": "You brighten the flame.",
-        "target": "finger_firelighter"
-      } 
-  ],
+    "use_action": [
+      { "type": "firestarter", "moves": 20 },
+      { "type": "transform", "msg": "You brighten the flame.", "target": "finger_firelighter" }
+    ],
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {

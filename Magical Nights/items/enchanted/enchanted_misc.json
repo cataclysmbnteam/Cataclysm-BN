@@ -185,5 +185,40 @@
     "initial_charges": 500,
     "max_charges": 1000,
     "artifact_data": { "charge_type": "ARTC_TIME" }
+  },
+  {
+    "id": "glow_light_off",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "magical reading light (covered)", "str_pl": "magical reading lights (covered)" },
+    "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  The cover is closed.  Use it to open the cover and show the light.",
+    "weight": "270 g",
+    "volume": "250 ml",
+    "price": "1250 USD",
+    "material": "glass",
+    "symbol": ",",
+    "color": "light_blue",
+    "use_action": { "target": "glow_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "glow_light",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "magical reading light",
+    "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  Use it to close the cover and hide the light.",
+    "weight": "270 g",
+    "volume": "250 ml",
+    "price": "1250 USD",
+    "material": "glass",
+    "symbol": ",",
+    "color": "light_blue",
+    "use_action": {
+      "target": "glow_light_off",
+      "msg": "You close the nightlight's cover.",
+      "menu_text": "Close cover",
+      "type": "transform"
+    },
+    "flags": [ "LIGHT_5", "ALLOWS_REMOTE_USE" ]
   }
 ]

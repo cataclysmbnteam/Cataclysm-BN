@@ -8,7 +8,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "create_rune_magus", 1 ] ]
+    "spells_learned": [ [ "create_rune_magus", 1 ] ],
+    "mana_modifier": 500,
+    "mana_regen_multiplier": 1.2
   },
   {
     "type": "mutation",
@@ -19,7 +21,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "create_rune_animist", 1 ] ]
+    "spells_learned": [ [ "create_rune_animist", 1 ] ],
+    "mana_modifier": 500,
+    "mana_regen_multiplier": 1.2
   },
   {
     "type": "mutation",
@@ -30,7 +34,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "create_rune_kelvinist", 1 ] ]
+    "spells_learned": [ [ "create_rune_kelvinist", 1 ] ],
+    "mana_modifier": 500,
+    "mana_regen_multiplier": 1.2
   },
   {
     "type": "mutation",
@@ -41,7 +47,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "create_rune_stormshaper", 1 ] ]
+    "spells_learned": [ [ "create_rune_stormshaper", 1 ] ],
+    "mana_modifier": 500,
+    "mana_regen_multiplier": 1.2
   },
   {
     "type": "mutation",
@@ -52,7 +60,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "create_rune_technomancer", 1 ] ]
+    "spells_learned": [ [ "create_rune_technomancer", 1 ] ],
+    "mana_modifier": 500,
+    "mana_regen_multiplier": 1.2
   },
   {
     "type": "mutation",
@@ -63,7 +73,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "create_rune_earthshaper", 1 ] ]
+    "spells_learned": [ [ "create_rune_earthshaper", 1 ] ],
+    "mana_modifier": 500,
+    "mana_regen_multiplier": 1.2
   },
   {
     "type": "mutation",
@@ -74,7 +86,9 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "create_rune_biomancer", 1 ] ]
+    "spells_learned": [ [ "create_rune_biomancer", 1 ] ],
+    "mana_modifier": 500,
+    "mana_regen_multiplier": 1.2
   },
   {
     "type": "mutation",
@@ -85,6 +99,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "create_rune_druid", 1 ] ]
+    "spells_learned": [ [ "create_rune_druid", 1 ] ],
+    "mana_modifier": 500,
+    "mana_regen_multiplier": 1.2
   }
 ]

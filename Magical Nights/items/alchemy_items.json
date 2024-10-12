@@ -33,43 +33,6 @@
     "//": "Potion recipes that require a full owlbear egg could also instead require larger amounts of stone shell.  Since 1 egg gives 3 shells, you could perhaps have 1 egg be equivalent to 5 or more shells when making potions."
   },
   {
-    "id": "copper_infuser",
-    "copy-from": "copper_bracelet",
-    "type": "ARMOR",
-    "qualities": [ [ "MANA_INFUSE", 1 ] ],
-    "name": { "str": "copper infusion bracelet" },
-    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
-  },
-  {
-    "id": "silver_infuser",
-    "copy-from": "silver_bracelet",
-    "type": "ARMOR",
-    "qualities": [ [ "MANA_INFUSE", 2 ] ],
-    "name": { "str": "silver infusion bracelet" },
-    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
-  },
-  {
-    "id": "copper_circlet",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "copper circlet" },
-    "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
-    "weight": "700 g",
-    "volume": "600ml",
-    "price": "15 USD",
-    "price_postapoc": "1 USD",
-    "material": [ "copper", "wood" ],
-    "symbol": "[",
-    "color": "brown",
-    "covers": [ "head" ],
-    "coverage": 5,
-    "encumbrance": 1,
-    "warmth": 0,
-    "material_thickness": 1,
-    "flags": [ "SKINTIGHT", "ONLY_ONE", "COMPACT", "POWERARMOR_COMPATIBLE" ],
-    "qualities": [ [ "MANA_FOCUS", 1 ] ]
-  },
-  {
     "id": "potion_starter",
     "copy-from": "mixed_alcohol_strong",
     "type": "COMESTIBLE",
@@ -102,52 +65,6 @@
     "material": "powder",
     "weight": "5 g",
     "volume": "250 ml"
-  },
-  {
-    "id": "glow_light",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": "magical reading light",
-    "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  Use it to close the cover and hide the light.",
-    "weight": "270 g",
-    "volume": "250 ml",
-    "price": "1250 USD",
-    "material": "glass",
-    "symbol": ",",
-    "color": "light_blue",
-    "use_action": {
-      "target": "glow_light_off",
-      "msg": "You close the nightlight's cover.",
-      "menu_text": "Close cover",
-      "type": "transform"
-    },
-    "flags": [ "LIGHT_5", "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "glow_light_off",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "magical reading light (covered)", "str_pl": "magical reading lights (covered)" },
-    "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  The cover is closed.  Use it to open the cover and show the light.",
-    "weight": "270 g",
-    "volume": "250 ml",
-    "price": "1250 USD",
-    "material": "glass",
-    "symbol": ",",
-    "color": "light_blue",
-    "use_action": { "target": "glow_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "bulette_plate",
-    "type": "GENERIC",
-    "symbol": ")",
-    "color": "light_gray",
-    "name": "bulette plate",
-    "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
-    "material": "arcane_skin",
-    "weight": "30 kg",
-    "volume": "3 L"
   },
   {
     "id": "bulette_pearl",
@@ -188,37 +105,6 @@
     "material": [ "flesh" ],
     "cutting": 7,
     "flags": [ "STAB", "SHEATH_KNIFE" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "demon_chitin_piece",
-    "category": "spare_parts",
-    "symbol": ",",
-    "color": "red",
-    "name": { "str": "chunk of demon chitin", "str_pl": "chunks of demon chitin" },
-    "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
-    "price": "0 cent",
-    "material": "demon_chitin",
-    "weight": "89 g",
-    "volume": "250 ml",
-    "bashing": 1,
-    "flags": [ "TRADER_AVOID" ],
-    "to_hit": -2
-  },
-  {
-    "type": "GENERIC",
-    "id": "demon_chitin_plate",
-    "category": "spare_parts",
-    "symbol": "/",
-    "color": "red",
-    "name": "demon chitin plate",
-    "price": "15225 cent",
-    "material": "demon_chitin",
-    "weight": "10 kg",
-    "volume": "4 L",
-    "bashing": 12,
-    "to_hit": -4,
-    "description": "A large piece of demon spider exoskeleton, painstakingly cut from the corpse of an adult demon spider.  A plate of this size can be used to create armor plating."
   },
   {
     "type": "GENERIC",

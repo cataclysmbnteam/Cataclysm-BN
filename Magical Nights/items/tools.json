@@ -54,6 +54,43 @@
     "bashing": 4
   },
   {
+    "id": "copper_infuser",
+    "copy-from": "copper_bracelet",
+    "type": "ARMOR",
+    "qualities": [ [ "MANA_INFUSE", 1 ] ],
+    "name": { "str": "copper infusion bracelet" },
+    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
+  },
+  {
+    "id": "silver_infuser",
+    "copy-from": "silver_bracelet",
+    "type": "ARMOR",
+    "qualities": [ [ "MANA_INFUSE", 2 ] ],
+    "name": { "str": "silver infusion bracelet" },
+    "description": "This bracelet has runes engraved on it.  You sense a faint air of mysticism when you look at it.  It would be useful for imbuing mana into material."
+  },
+  {
+    "id": "copper_circlet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "copper circlet" },
+    "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
+    "weight": "700 g",
+    "volume": "600ml",
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "copper", "wood" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "head" ],
+    "coverage": 5,
+    "encumbrance": 1,
+    "warmth": 0,
+    "material_thickness": 1,
+    "flags": [ "SKINTIGHT", "ONLY_ONE", "COMPACT", "POWERARMOR_COMPATIBLE" ],
+    "qualities": [ [ "MANA_FOCUS", 1 ] ]
+  },
+  {
     "id": "sewing_kit",
     "name": "sewing kit",
     "copy-from": "sewing_kit",
@@ -125,7 +162,16 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled", "owlbear_furred", "demonchitin_padded", "blackdragon_coated" ]
+        "clothing_mods": [
+          "leather_padded",
+          "steel_padded",
+          "kevlar_padded",
+          "furred",
+          "wooled",
+          "owlbear_furred",
+          "demonchitin_padded",
+          "blackdragon_coated"
+        ]
       }
     ]
   }

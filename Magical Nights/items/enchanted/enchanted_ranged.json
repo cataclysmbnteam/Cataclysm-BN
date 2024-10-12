@@ -1,31 +1,5 @@
 [
   {
-    "id": "rune_druid_weapon",
-    "copy-from": "compositebow",
-    "type": "GUN",
-    "color": "yellow",
-    "name": { "str": "Druid composite bow" },
-    "//": "Equivalent to composite bow for dispersion/reload/weight/range/encumb/bash, with two mod slots added equivalent to other weapons getting techniques",
-    "description": "A bow made of multiple materials to maximize energy efficiency.  There are two Druid runes embedded at the tips.",
-    "price": "320 USD",
-    "material": [ "wood", "bone" ],
-    "flags": [
-      "FIRE_TWOHAND",
-      "STR_DRAW",
-      "RELOAD_AND_SHOOT",
-      "PRIMITIVE_RANGED_WEAPON",
-      "BELTED",
-      "COMPACT",
-      "TRADER_AVOID",
-      "MAGIC_FOCUS",
-      "DURABLE_MELEE",
-      "WATER_FRIENDLY"
-    ],
-    "min_strength": 10,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 13 },
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 1 ], [ "dampening", 1 ] ]
-  },
-  {
     "id": "m47a1",
     "copy-from": "pistol_revolver",
     "type": "GUN",

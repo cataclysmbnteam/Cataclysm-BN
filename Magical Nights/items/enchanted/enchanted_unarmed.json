@@ -95,23 +95,5 @@
     "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "rune_earthshaper_weapon",
-    "weapon_category": [ "FIST_WEAPONS" ],
-    "symbol": "3",
-    "color": "light_gray",
-    "name": { "str": "Earthshaper cestus", "str_pl": "Earthshaper cesti" },
-    "//": "Equivalent to cestus +1 with BRUTAL and WBLOCK1",
-    "description": "A stone battle glove with carved runes encasing the hand, protecting it while increasing striking power.  There is an Earthshaper rune embedded in the palm.",
-    "material": [ "stone", "leather", "steel" ],
-    "volume": "500 ml",
-    "weight": "873 g",
-    "bashing": 13,
-    "to_hit": 1,
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS" ]
   }
 ]
