@@ -1097,7 +1097,8 @@ bool vehicle::start_engine( const int e )
     }
 
     // Damaged non-electric engines have a chance of failing to start
-    if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
+    if( !( is_engine_type( e, fuel_type_battery ) || is_engine_type( e, fuel_type_muscle ) ) &&
+        x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, noise, sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
