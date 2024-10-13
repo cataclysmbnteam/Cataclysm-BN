@@ -251,7 +251,7 @@
   {
     "type": "furniture",
     "id": "f_grid_floodlight_off",
-    "symbol": ".",
+    "symbol": "T",
     "color": "white",
     "copy-from": "f_floor_lamp_base",
     "looks_like": "t_utility_light_off",
@@ -295,7 +295,7 @@
   {
     "type": "furniture",
     "id": "f_grid_floodlight",
-    "symbol": ".",
+    "symbol": "T",
     "color": "white",
     "copy-from": "f_grid_floodlight_off",
     "name": "grid floodlight (no power)",
@@ -311,8 +311,8 @@
   {
     "type": "furniture",
     "id": "f_grid_floodlight_on",
-    "symbol": ".",
-    "color": "white",
+    "symbol": "T",
+    "color": "yellow",
     "copy-from": "f_grid_floodlight_off",
     "looks_like": "t_utility_light",
     "name": "grid floodlight (on)",
