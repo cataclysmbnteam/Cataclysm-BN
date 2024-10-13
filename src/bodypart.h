@@ -184,8 +184,9 @@ class bodypart
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
-        int temp_cur = 0;
-        int temp_conv = 0;
+        // @todo BODYTEMP_NORM
+        int temp_cur = 5000;
+        int temp_conv = 5000;
         int frostbite_timer = 0;
 
     public:
