@@ -128,11 +128,6 @@ static int get_temp_cur( const Character &c, const bodypart_str_id &bp )
     return iter->second.get_temp_cur();
 }
 
-static int get_temp_cur( const Character &c, body_part bp_token )
-{
-    return get_temp_cur( c, convert_bp( bp_token ) );
-}
-
 // Run update_bodytemp() until core body temperature settles.
 static std::vector<int> converge_temperature( player &p, size_t iters,
         int start_temperature = BODYTEMP_NORM )
@@ -173,7 +168,7 @@ static std::vector<int> converge_temperature( player &p, size_t iters,
     }
 
     std::vector<int> result;
-    std::transform( p.get_body().begin(), p.get_body().end(), result.end(),
+    std::transform( p.get_body().begin(), p.get_body().end(), std::back_insert_iterator( result ),
     []( const auto & pr ) {
         return pr.second.get_temp_cur();
     } );
