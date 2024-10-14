@@ -237,6 +237,11 @@ class Character : public Creature, public location_visitable<Character>
         Character &operator=( Character && ) noexcept;
         ~Character() override;
 
+        // Move ctor and move operator= common stuff
+        // Avoids huge copypaste, without having to use operator= in ctor
+        // (operator= in ctor is different behavior from copypaste)
+        void move_operator_common( Character && ) noexcept;
+
         Character *as_character() override {
             return this;
         }

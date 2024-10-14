@@ -480,15 +480,7 @@ Character::Character() :
 }
 // *INDENT-ON*
 
-Character::Character( Character &&source )  noexcept : Creature( std::move( source ) ),
-    worn( new worn_item_location( this ) ),
-    inv( new character_item_location( this ) )
-{
-    *this = std::move( source );
-}
-
-Character &Character::operator=( Character &&source )
-noexcept
+void Character::move_operator_common( Character &&source ) noexcept
 {
 
     death_drops = source.death_drops ;
@@ -639,6 +631,20 @@ noexcept
 
     next_climate_control_check = source.next_climate_control_check ;
     last_climate_control_ret = source.last_climate_control_ret ;
+
+}
+
+Character::Character( Character &&source )  noexcept : Creature( std::move( source ) ),
+    worn( new worn_item_location( this ) ),
+    inv( new character_item_location( this ) )
+{
+    move_operator_common( std::move( source ) );
+}
+
+Character &Character::operator=( Character &&source )
+noexcept
+{
+    move_operator_common( std::move( source ) );
 
     Creature::operator=( std::move( source ) );
     return *this;

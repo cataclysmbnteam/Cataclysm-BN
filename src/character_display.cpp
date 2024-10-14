@@ -60,6 +60,8 @@ static int get_temp_conv( const Character &c, const bodypart_str_id &bp )
         debugmsg( "Couldn't find bp %s on character %s", bp, c.disp_name() );
         return BODYTEMP_FREEZING;
     }
+
+    return iter->second.get_temp_conv();
 }
 
 static int get_temp_conv( const Character &c, body_part bp )

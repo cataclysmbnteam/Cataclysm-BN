@@ -22,8 +22,7 @@ namespace behavior
 // approaches time to freeze.
 status_t character_oracle_t::needs_warmth_badly() const
 {
-    const player *p = dynamic_cast<const player *>( subject );
-    // Use player::temp_conv to predict whether the Character is "in trouble".
+    // Use bodypart::temp_conv to predict whether the Character is "in trouble".
     for( const auto &pr : subject->get_body() ) {
         if( pr.second.get_temp_conv() <= BODYTEMP_VERY_COLD ) {
             return running;

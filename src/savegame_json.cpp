@@ -487,6 +487,22 @@ void Character::load( const JsonObject &data )
 
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
+    // @todo Remove after stable
+    {
+        std::array<int, num_bp> temp_cur_old, temp_conv_old, frostbite_timer_old;
+        if( data.read( "temp_cur", temp_cur_old ) &&
+            data.read( "temp_conv", temp_conv_old ) &&
+            data.read( "frostbite_timer", frostbite_timer_old ) ) {
+            // We can assume exactly num_bp body parts, since it's an old save
+            for( size_t bp_iter = 0; bp_iter < num_bp; bp_iter++ ) {
+                body_part bp_token = static_cast<body_part>( bp_iter );
+                auto &part = get_part( convert_bp( bp_token ) );
+                part.set_temp_cur( temp_cur_old[bp_iter] );
+                part.set_temp_conv( temp_conv_old[bp_iter] );
+                part.set_frostbite_timer( frostbite_timer_old[bp_iter] );
+            }
+        }
+    }
 
     //energy
     data.read( "stim", stim );
