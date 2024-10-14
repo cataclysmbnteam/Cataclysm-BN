@@ -534,6 +534,7 @@ void line_attack( const spell &sp, Creature &caster,
 
 void area_pull( const spell &sp, Creature &caster, const tripoint &center );
 void area_push( const spell &sp, Creature &caster, const tripoint &center );
+void directed_push( const spell &sp, Creature &caster, const tripoint &target );
 
 std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
                                        int aoe_radius, bool ignore_walls );
