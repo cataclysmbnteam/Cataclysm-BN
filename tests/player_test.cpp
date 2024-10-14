@@ -154,7 +154,7 @@ static std::vector<int> converge_temperature( player &p, size_t iters,
         for( const auto &pr : parts ) {
             current_iter_temperature.emplace_back( pr.first, get_temp_cur( p, pr.first ) );
         }
-        if( history.count( current_iter_temperature ) != 0 ) {
+        if( history.contains( current_iter_temperature ) ) {
             converged = true;
             break;
         }

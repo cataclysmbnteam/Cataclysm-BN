@@ -100,14 +100,14 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 bool Character::has_trait( const trait_id &b ) const
 {
-    return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
+    return my_mutations.count( b ) || enchantment_cache->get_mutations().contains( b );
 }
 
 bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 {
     return std::any_of( cached_mutations.cbegin(), cached_mutations.cend(),
     [&b]( const mutation_branch * mut ) -> bool {
-        return mut->flags.count( b );
+        return mut->flags.contains( b );
     } );
 }
 
@@ -376,7 +376,7 @@ bool Character::is_category_allowed( const std::vector<mutation_category_id> &ca
             restricted = true;
         }
         for( const mutation_category_id &Mu_cat : category ) {
-            if( mut.obj().allowed_category.count( Mu_cat ) ) {
+            if( mut.obj().allowed_category.contains( Mu_cat ) ) {
                 allowed = true;
                 break;
             }
@@ -429,7 +429,7 @@ bool Character::can_use_heal_item( const item &med ) const
         if( !mut.obj().can_only_heal_with.empty() ) {
             got_restriction = true;
         }
-        if( mut.obj().can_only_heal_with.count( heal_id ) ) {
+        if( mut.obj().can_only_heal_with.contains( heal_id ) ) {
             can_use = true;
             break;
         }
@@ -440,7 +440,7 @@ bool Character::can_use_heal_item( const item &med ) const
 
     if( !can_use ) {
         for( const trait_id &mut : get_mutations() ) {
-            if( mut.obj().can_heal_with.count( heal_id ) ) {
+            if( mut.obj().can_heal_with.contains( heal_id ) ) {
                 can_use = true;
                 break;
             }
@@ -455,7 +455,7 @@ bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) con
     bool can_install = true;
     for( const trait_id &mut : get_mutations() ) {
         for( const bodypart_id &bp : bps ) {
-            if( mut.obj().no_cbm_on_bp.count( bp.id() ) ) {
+            if( mut.obj().no_cbm_on_bp.contains( bp.id() ) ) {
                 can_install = false;
                 break;
             }

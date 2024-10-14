@@ -124,12 +124,12 @@ bool mtype::in_species( const species_id &spec ) const
     if( spec == species_id( "ALL" ) ) {
         return true;
     }
-    return species.count( spec ) > 0;
+    return species.contains( spec );
 }
 
 bool mtype::in_species( const species_type &spec ) const
 {
-    return species_ptrs.count( &spec ) > 0;
+    return species_ptrs.contains( &spec );
 }
 std::vector<std::string> mtype::species_descriptions() const
 {

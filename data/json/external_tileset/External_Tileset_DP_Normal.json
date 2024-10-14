@@ -5,7 +5,6 @@
     "tiles-new": [
       {
         "file": "external_tileset/External_Tileset_DP_Normal.png",
-        "//": "Note: spaces 22 and 23 are currently available for future use.",
         "tiles": [
           { "id": "f_steam_turbine", "fg": 0 },
           { "id": "animation_bullet_normal_0deg", "fg": 1, "rotates": true },
@@ -29,6 +28,8 @@
           { "id": [ "overlay_worn_shield_banded_large", "overlay_wielded_shield_banded_large" ], "fg": 19 },
           { "id": [ "f_hive_young", "f_hive_growing", "f_hive_recovering" ], "fg": 20 },
           { "id": "f_hive_ready", "fg": 21 },
+          { "id": "razor_macuahuitl", "fg": 22 },
+          { "id": "overlay_wielded_razor_macuahuitl", "fg": 23 },
           { "id": "overlay_worn_woodgreatbow", "fg": 24 },
           { "id": "compgreatbow", "fg": 25 },
           { "id": "overlay_wielded_compgreatbow", "fg": 26 },
@@ -71,7 +72,23 @@
           { "id": [ "cannon_round_ball", "overlay_wielded_cannon_round_ball" ], "fg": 60 },
           { "id": [ "cannon_explosive_shell", "overlay_wielded_cannon_explosive_shell" ], "fg": 61 },
           { "id": "f_cattails_harvested", "fg": 62 },
-          { "id": "f_cattails_harvested_season_winter", "fg": 63 }
+          { "id": "f_cattails_harvested_season_winter", "fg": 63 },
+          { "id": "knife_stinger", "fg": 64 },
+          { "id": "overlay_wielded_knife_stinger", "fg": 65 },
+          { "id": "sword_bone", "fg": 66 },
+          { "id": "overlay_wielded_sword_bone", "fg": 67 },
+          { "id": "mace_bone", "fg": 68 },
+          { "id": "overlay_wielded_mace_bone", "fg": 69 },
+          { "id": "glaive_bone", "fg": 70 },
+          { "id": "overlay_wielded_glaive_bone", "fg": 71 },
+          { "id": "tooth_leiomano", "fg": 72 },
+          { "id": "overlay_wielded_tooth_leiomano", "fg": 73 },
+          { "id": [ "armor_scute", "overlay_wielded_armor_scute" ], "fg": 74 },
+          { "id": "overlay_worn_armor_scute", "fg": 75 },
+          { "id": [ "helmet_scute", "overlay_wielded_helmet_scute" ], "fg": 76 },
+          { "id": "overlay_worn_helmet_scute", "fg": 77 },
+          { "id": [ "armguard_scute", "overlay_wielded_armguard_scute" ], "fg": 78 },
+          { "id": "overlay_worn_armguard_scute", "fg": 79 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

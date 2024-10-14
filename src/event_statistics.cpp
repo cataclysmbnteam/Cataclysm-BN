@@ -487,7 +487,7 @@ struct event_transformation_impl : public event_transformation::impl {
         const cata::event::fields_type input_fields = source_->fields();
 
         for( const std::pair<std::string, new_field> &p : new_fields_ ) {
-            if( input_fields.count( p.first ) ) {
+            if( input_fields.contains( p.first ) ) {
                 debugmsg( "event_transformation %s tries to add field with name %s but a field "
                           "with that name already exists", name, p.first );
             }

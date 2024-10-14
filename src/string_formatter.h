@@ -54,44 +54,44 @@ std::string handle_string_format_error();
 /**@{*/
 // Test for arithmetic type, *excluding* bool. printf can not handle bool, so can't we.
 template<typename T>
-using is_numeric = typename std::conditional <
-                   std::is_arithmetic<typename std::decay<T>::type>::value &&
-                   !std::is_same<typename std::decay<T>::type, bool>::value, std::true_type, std::false_type >::type;
+using is_numeric = std::conditional_t <
+                   std::is_arithmetic_v<std::decay_t<T>> &&
+                   !std::is_same_v<std::decay_t<T>, bool>, std::true_type, std::false_type >;
 // Test for integer type (not floating point, not bool).
 template<typename T>
-using is_integer = typename std::conditional < is_numeric<T>::value &&
-                   !std::is_floating_point<typename std::decay<T>::type>::value, std::true_type,
-                   std::false_type >::type;
+using is_integer = std::conditional_t < is_numeric<T>::value &&
+                   !std::is_floating_point_v<std::decay_t<T>>, std::true_type,
+                   std::false_type >;
 template<typename T>
-using is_char = typename
-                std::conditional<std::is_same<typename std::decay<T>::type, char>::value, std::true_type, std::false_type>::type;
+using is_char =
+    std::conditional_t<std::is_same_v<std::decay_t<T>, char>, std::true_type, std::false_type>;
 // Test for std::string type.
 template<typename T>
-using is_string = typename
-                  std::conditional<std::is_same<typename std::decay<T>::type, std::string>::value, std::true_type, std::false_type>::type;
+using is_string =
+    std::conditional_t<std::is_same_v<std::decay_t<T>, std::string>, std::true_type, std::false_type>;
 // Test for std::string_view type.
 template<typename T>
-using is_string_view = typename
-                       std::conditional<std::is_same<typename std::decay<T>::type, std::string_view>::value, std::true_type, std::false_type>::type;
+using is_string_view =
+    std::conditional_t<std::is_same_v<std::decay_t<T>, std::string_view>, std::true_type, std::false_type>;
 // Test for c-string type.
 template<typename T>
-using is_cstring = typename std::conditional <
-                   std::is_same<typename std::decay<T>::type, const char *>::value ||
-                   std::is_same<typename std::decay<T>::type, char *>::value, std::true_type, std::false_type >::type;
+using is_cstring = std::conditional_t <
+                   std::is_same_v<std::decay_t<T>, const char *> ||
+                   std::is_same_v<std::decay_t<T>, char *>, std::true_type, std::false_type >;
 // Test for class translation
 template<typename T>
-using is_translation = typename std::conditional <
-                       std::is_same<typename std::decay<T>::type, translation>::value, std::true_type,
-                       std::false_type >::type;
+using is_translation = std::conditional_t <
+                       std::is_same_v<std::decay_t<T>, translation>, std::true_type,
+                       std::false_type >;
 // Test for string_id<T>
 template <typename, template <typename> class>
 struct is_instance_of : std::false_type {};
 template <typename T, template <typename> class TMPL>
 struct is_instance_of<TMPL<T>, TMPL> : std::true_type {};
 template<typename T>
-using is_string_id = typename std::conditional <
-                     is_instance_of<typename std::decay<T>::type, string_id>::value, std::true_type,
-                     std::false_type >::type;
+using is_string_id = std::conditional_t <
+                     is_instance_of<std::decay_t<T>, string_id>::value, std::true_type,
+                     std::false_type >;
 
 template<typename RT, typename T>
 inline typename std::enable_if < is_integer<RT>::value &&is_integer<T>::value,
@@ -117,7 +117,7 @@ inline typename std::enable_if < std::is_same<RT, void *>::value
 &&std::is_pointer<typename std::decay<T>::type>::value, void * >::type convert( RT *,
         const string_formatter &, T &&value, int )
 {
-    return const_cast<typename std::remove_const<typename std::remove_pointer<typename std::decay<T>::type>::type>::type *>
+    return const_cast<std::remove_const_t<std::remove_pointer_t<std::decay_t<T>>> *>
            ( value );
 }
 template<typename RT, typename T>
@@ -127,9 +127,10 @@ inline typename std::enable_if < std::is_same<RT, std::string_view>::value &&is_
     return value;
 }
 template<typename RT, typename T>
-inline typename std::enable_if < std::is_same<RT, std::string_view >::value
-&&is_string_view<T>::value, std::string_view >::type
+inline std::string_view
 convert( RT *, const string_formatter &, T &&value, int )
+requires( std::is_same_v<RT, std::string_view >
+          &&is_string_view<T>::value )
 {
     return value;
 }
@@ -174,12 +175,12 @@ template<typename RT, typename T>
 // NOLINTNEXTLINE(cert-dcl50-cpp)
 inline RT convert( RT *, const string_formatter &sf, T &&, ... )
 {
-    static_assert( std::is_pointer<typename std::decay<T>::type>::value ||
+    static_assert( std::is_pointer_v<std::decay_t<T>> ||
                    is_numeric<T>::value ||
                    is_string<T>::value ||
                    is_string_view<T>::value ||
                    is_char<T>::value ||
-                   std::is_enum<typename std::decay<T>::type>::value ||
+                   std::is_enum_v<std::decay_t<T>> ||
                    is_cstring<T>::value ||
                    is_translation<T>::value ||
                    is_string_id<T>::value,
@@ -431,7 +432,7 @@ template<typename ...Args>
 inline std::string string_format( std::string_view format, Args &&...args )
 {
     try {
-        cata::string_formatter formatter( std::move( format ) );
+        cata::string_formatter formatter( format );
         formatter.parse( std::forward<Args>( args )... );
         return formatter.get_output();
     } catch( ... ) {
@@ -439,9 +440,9 @@ inline std::string string_format( std::string_view format, Args &&...args )
     }
 }
 template<typename T, typename ...Args>
-inline typename std::enable_if<cata::is_translation<T>::value, std::string>::type
+inline std::string
 string_format( T &&format, Args &&...args )
-{
+requires cata::is_translation<T>::value {
     return string_format( format.translated(), std::forward<Args>( args )... );
 }
 /**@}*/

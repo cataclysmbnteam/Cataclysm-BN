@@ -212,20 +212,20 @@ skill_id Skill::random_skill()
 bool Skill::is_combat_skill() const
 {
     static const std::string combat_skill( "combat_skill" );
-    return _tags.count( combat_skill ) > 0;
+    return _tags.contains( combat_skill );
 }
 
 bool Skill::is_contextual_skill() const
 {
     static const std::string contextual_skill( "contextual_skill" );
-    return _tags.count( contextual_skill ) > 0;
+    return _tags.contains( contextual_skill );
 }
 
 // used to check NPC weapon skills for determining starting weapon
 bool Skill::is_weapon_skill() const
 {
     static const std::string weapon_skill( "weapon_skill" );
-    return _tags.count( weapon_skill ) > 0;
+    return _tags.contains( weapon_skill );
 }
 
 void SkillLevel::train( int amount, bool skip_scaling )

@@ -153,7 +153,7 @@
     "armor_bullet": 20,
     "armor_acid": 4,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_tooth",
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 10 } ] },
       { "type": "leap", "cooldown": 3, "max_range": 5 },

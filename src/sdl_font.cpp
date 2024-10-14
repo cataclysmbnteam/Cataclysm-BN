@@ -40,7 +40,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
                                        const palette_array &palette,
                                        const bool fontblending )
 {
-    if( string_ends_with( typeface, ".bmp" ) || string_ends_with( typeface, ".png" ) ) {
+    if( typeface.ends_with( ".bmp" ) || typeface.ends_with( ".png" ) ) {
         // Seems to be an image file, not a font.
         // Try to load as bitmap font from user font dir, then from font dir.
         try {
@@ -185,7 +185,7 @@ CachedTTFFont::CachedTTFFont(
     std::vector<std::string> known_suffixes = { ".ttf", ".otf", ".ttc", ".fon" };
     bool add_suffix = true;
     for( const std::string &ks : known_suffixes ) {
-        if( string_ends_with( typeface, ks ) ) {
+        if( typeface.ends_with( ks ) ) {
             add_suffix = false;
             break;
         }
@@ -228,7 +228,7 @@ CachedTTFFont::CachedTTFFont(
 #endif
 
     for( const std::string &kp : known_prefixes ) {
-        if( string_starts_with( typeface, kp ) ) {
+        if( typeface.starts_with( kp ) ) {
             add_prefix = false;
             break;
         }

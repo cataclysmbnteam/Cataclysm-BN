@@ -22,12 +22,7 @@ struct armor_portion_type {
     int max_encumber;
     int coverage;
 
-    // TODO: use default constructor when we can use C++20
-    auto operator==( const armor_portion_type &other ) -> bool {
-        return encumber == other.encumber
-               && max_encumber == other.max_encumber
-               && coverage == other.coverage;
-    };
+    auto operator==( const armor_portion_type &other ) const -> bool  = default;
 };
 
 struct body_part_display_info {

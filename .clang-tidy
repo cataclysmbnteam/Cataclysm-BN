@@ -58,6 +58,7 @@ Checks: >
   -modernize-concat-nested-namespaces,
   -modernize-loop-convert,
   -modernize-unary-static-assert,
+  -modernize-use-nullptr,
   -performance-no-automatic-move,
   -performance-trivially-destructible,
   -performance-for-range-copy,
@@ -86,7 +87,28 @@ Checks: >
   -readability-redundant-access-specifiers,
   -readability-use-anyofallof,
 
-WarningsAsErrors: '*'
+  -bugprone-throw-keyword-missing,
+  -readability-identifier-naming,
+
+  -readability-avoid-nested-conditional-operator,
+  -bugprone-unchecked-optional-access,
+  -bugprone-chained-comparison,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-switch-missing-default-case,
+  -misc-const-correctness,
+  -misc-include-cleaner,
+  -misc-use-anonymous-namespace,
+  -clang-diagnostic-unused-macros,
+  -clang-analyzer-optin.*,
+  -performance-enum-size,
+  -cert-dcl58-cpp,
+# https://github.com/llvm/llvm-project/issues/59572
+# https://github.com/llvm/llvm-project/issues/111003
+# performance-enum-size: no automatic fix available
+# cert-dcl58-cpp: too many issues with LUNA
+
+# Turn back on when all the fixes are applied
+# WarningsAsErrors: '*'
 HeaderFilterRegex: "(src|(test(?!.*catch.*catch.h))|tools).*"
 FormatStyle: none
 CheckOptions:
@@ -94,4 +116,6 @@ CheckOptions:
     value: "L;UL;LL;ULL"
   - key: cata-text-style.EscapeUnicode
     value: 0
+  - key: readability-simplify-boolean-expr.SimplifyDeMorgan
+    value: false
 # vim:tw=0

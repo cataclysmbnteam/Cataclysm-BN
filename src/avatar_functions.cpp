@@ -179,7 +179,7 @@ void mend_item( avatar &you, item &obj, bool interactive )
         menu.text = _( "Toggle which fault?" );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto &f : obj.faults_potential() ) {
-            opts.emplace_back( f, !!obj.faults.count( f ) );
+            opts.emplace_back( f, !!obj.faults.contains( f ) );
             menu.addentry( -1, true, -1, string_format(
                                opts.back().second ? pgettext( "fault", "Mend: %s" ) : pgettext( "fault", "Set: %s" ),
                                f.obj().name() ) );
@@ -573,10 +573,7 @@ void toolmod_add( avatar &you, item &tool, item &mod )
 
 static bool is_pet_food( const item &itm )
 {
-    return itm.type->can_use( "DOGFOOD" ) ||
-           itm.type->can_use( "CATFOOD" ) ||
-           itm.type->can_use( "BIRDFOOD" ) ||
-           itm.type->can_use( "CATTLEFODDER" );
+    return itm.type->can_use( "PETFOOD" );
 }
 
 void use_item( avatar &you, item &used )

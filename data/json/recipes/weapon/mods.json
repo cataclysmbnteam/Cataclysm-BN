@@ -82,6 +82,20 @@
   },
   {
     "type": "recipe",
+    "result": "shot_crafted_suppressor",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "pipe", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -92,6 +106,21 @@
     "autolearn": true,
     "tools": [ [ [ "large_repairkit", 250 ] ] ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shot_suppressor",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 9,
+    "time": "90 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_shotgun", 8 ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "tools": [ [ [ "large_repairkit", 300 ] ] ],
+    "components": [ [ [ "steel_tiny", 1, "LIST" ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "pipe", 2 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "type": "recipe",

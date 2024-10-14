@@ -206,6 +206,7 @@ void iuse_transform::load( const JsonObject &obj )
 
     obj.read( "need_worn", need_worn );
     obj.read( "need_wielding", need_wielding );
+    obj.read( "need_dry", need_dry );
 
     obj.read( "qualities_needed", qualities_needed );
 
@@ -324,6 +325,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
+    if( need_dry && p.is_underwater() ) {
+        return ret_val<bool>::make_failure( _( "This item cannot be used while underwater." ) );
+    }
     if( qualities_needed.empty() ) {
         return ret_val<bool>::make_success();
     }
@@ -606,6 +610,14 @@ void explosion_iuse::trigger_explosion( const tripoint &pos, Creature *source ) 
             const int field_intensity = rng( fields_min_intensity, fields_max_intensity );
             here.add_field( gas_source, fields_type, field_intensity, 1_turns );
         }
+        if( source == &get_player_character() && source->has_trait( trait_PYROMANIA ) ) {
+            if( fields_type == fd_fire || fd_incendiary ) {
+                Character &p = get_player_character();
+                p.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                p.rem_morale( MORALE_PYROMANIA_NOFIRE );
+                p.add_msg_if_player( m_good, _( "Fire…  Good…" ) );
+            }
+        }
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint &dest : here.points_in_radius( pos, scrambler_blast_radius ) ) {
@@ -799,7 +811,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits );
     }
 
-    if( tools_needed.count( itype_syringe ) ) {
+    if( tools_needed.contains( itype_syringe ) ) {
         dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug." ) );
     }
 }
@@ -807,7 +819,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     auto need_these = tools_needed;
-    if( need_these.count( itype_syringe ) && p.has_bionic( bio_syringe ) ) {
+    if( need_these.contains( itype_syringe ) && p.has_bionic( bio_syringe ) ) {
         need_these.erase( itype_syringe ); // no need for a syringe with bionics like these!
     }
     // Check prerequisites first.
@@ -852,7 +864,7 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     for( const auto &field : fields_produced ) {
         const field_type_id fid = field_type_id( field.first );
         for( int i = 0; i < 3; i++ ) {
-            here.add_field( {p.posx() + static_cast<int>( rng( -2, 2 ) ), p.posy() + static_cast<int>( rng( -2, 2 ) ), p.posz()},
+            here.add_field( {p.posx() + rng( -2, 2 ), p.posy() + rng( -2, 2 ), p.posz()},
                             fid,
                             field.second );
         }
@@ -1199,7 +1211,7 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
-    if( pseudo_list.count( itype_char_smoker ) > 0 ) {
+    if( pseudo_list.contains( itype_char_smoker ) ) {
         can_function_as.emplace_back( _( "a place to <info>smoke or dry food</info> for preservation" ) );
     }
 
@@ -2564,7 +2576,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( study_spell->moves_total == 10100 ) {
         study_spell->str_values[0] = "gain_level";
         study_spell->values[0] = 0; // reserved for xp
-        study_spell->values[1] = p.magic->get_spell( spell_id( spells[action] ) ).get_level() + 1;
+        study_spell->values[1] = 0; // reserved for levels
     }
     study_spell->name = spells[action];
     p.assign_activity( std::move( study_spell ), false );
@@ -2861,7 +2873,7 @@ bool bandolier_actor::is_valid_ammo_type( const itype &t ) const
     if( !t.ammo ) {
         return false;
     }
-    return ammo.count( t.ammo->type );
+    return ammo.contains( t.ammo->type );
 }
 
 bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
@@ -4655,7 +4667,7 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
         if( const Creature *const c = g->critter_at( dest ) ) {
-            add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
+            add_msg( m_info, _( "%s is in the way." ), c->disp_name( false, true ) );
             return 0;
         }
         if( here.impassable( dest ) || !here.has_flag( "FLAT", dest ) ) {

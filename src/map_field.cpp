@@ -421,7 +421,7 @@ void map::process_fields_in_submap( submap *const current_submap,
         for( locy = 0; locy < SEEY; locy++ ) {
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
-            field &curfield = current_submap->get_field( { static_cast<int>( locx ), static_cast<int>( locy ) } );
+            field &curfield = current_submap->get_field( { locx, locy } );
 
             // when displayed_field_type == fd_null it means that `curfield` has no fields inside
             // avoids instantiating (relatively) expensive map iterator
@@ -1952,7 +1952,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     const bool not_gas = type.obj().phase != GAS;
 
     while( amount > 0 && !open.empty() ) {
-        if( closed.count( open.top().second ) ) {
+        if( closed.contains( open.top().second ) ) {
             open.pop();
             continue;
         }
@@ -1963,7 +1963,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
         const int cur_intensity = get_field_intensity( open.top().second, type );
         open.pop();
         while( !open.empty() && get_field_intensity( open.top().second, type ) == cur_intensity ) {
-            if( closed.count( open.top().second ) == 0 ) {
+            if( !closed.contains( open.top().second ) ) {
                 gas_front.push_back( open.top() );
             }
 
@@ -1992,7 +1992,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
             static const std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
             for( size_t i = 0; i < 8; i++ ) {
                 tripoint pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
-                if( closed.count( pt ) > 0 ) {
+                if( closed.contains( pt ) ) {
                     continue;
                 }
 

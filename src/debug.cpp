@@ -251,7 +251,7 @@ static void debug_error_prompt(
     std::string msg_key( filename );
     msg_key += line;
 
-    if( !force && ignored_messages.count( msg_key ) > 0 ) {
+    if( !force && ignored_messages.contains( msg_key ) ) {
         return;
     }
 
@@ -853,7 +853,7 @@ static std::optional<uintptr_t> debug_compute_load_offset(
             while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
-            if( string_ends_with( line, string_sought ) ) {
+            if( line.ends_with( string_sought ) ) {
                 std::istringstream line_is( line );
                 uintptr_t symbol_address;
                 line_is >> std::hex >> symbol_address;

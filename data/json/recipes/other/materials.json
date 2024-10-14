@@ -441,7 +441,9 @@
         [ "bone", 40 ],
         [ "bone_human", 40 ],
         [ "bone_tainted", 40 ],
+        [ "bone_heavy", 20 ],
         [ "pine_bough", 20 ],
+        [ "birchbark", 40 ],
         [ "log", 1 ]
       ],
       [ [ "char_kiln", 1 ] ]
@@ -985,6 +987,44 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "result": "charcoal",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_survival", 1 ], [ "manual_survival", 1 ], [ "pocket_survival", 1 ], [ "textbook_survival", 1 ] ],
+    "charges": 10,
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [
+        [ "char_kiln", -1 ],
+        [ "tinderbox", -1 ],
+        [ "metal_tank_little", -1 ],
+        [ "can_food_big_unsealed", -1 ],
+        [ "can_medium_unsealed", -1 ],
+        [ "can_food_unsealed", -1 ],
+        [ "can_drink_unsealed", -1 ],
+        [ "canister_empty", -1 ],
+        [ "clay_canister", -1 ],
+        [ "survival_kit_box", -1 ]
+      ]
+    ],
+    "components": [
+      [
+        [ "splinter", 2 ],
+        [ "bone", 2 ],
+        [ "bone_human", 2 ],
+        [ "bone_tainted", 2 ],
+        [ "bone_heavy", 1 ],
+        [ "pine_bough", 1 ],
+        [ "birchbark", 2 ]
+      ]
+    ]
   },
   {
     "type": "recipe",

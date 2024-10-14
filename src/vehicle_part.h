@@ -339,4 +339,4 @@ struct vehicle_part {
         std::vector<detached_ptr<item>> pieces_for_broken_part() const;
 };
 
-#endif
+#endif // CATA_SRC_VEHICLE_PART_H

@@ -6,14 +6,14 @@ import {
   fromLegacyWeight,
 } from "$catjazz/units/mod.ts"
 import { z } from "$catjazz/deps/zod.ts"
-import { Command } from "$catjazz/deps/cliffy.ts"
+import { Command } from "@cliffy/command"
 import { timeit } from "$catjazz/utils/timeit.ts"
 import { applyRecursively } from "$catjazz/utils/transform.ts"
 import { fmtJsonRecursively } from "$catjazz/utils/json_fmt.ts"
 import { CataEntry, Entry, parseCataJson, readJSONsRec } from "$catjazz/utils/parse.ts"
 import { match, P } from "$catjazz/deps/ts_pattern.ts"
 import { id } from "$catjazz/utils/id.ts"
-import { deepMerge } from "$catjazz/deps/std/collection.ts"
+import { deepMerge } from "@std/collections"
 
 const desc = "Migrates Legacy units into new literal format."
 

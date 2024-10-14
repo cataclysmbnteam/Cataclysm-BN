@@ -16,7 +16,7 @@
     "dispersion": 100,
     "count": 100,
     "stack_size": 100,
-    "loudness": 9,
+    "loudness": 0,
     "effects": [ "NOGIB", "NEVER_MISFIRES" ]
   }
 ]

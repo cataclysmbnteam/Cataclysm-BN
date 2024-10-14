@@ -1,4 +1,4 @@
-import { assertEquals } from "$std/assert/assert_equals.ts"
+import { assertEquals } from "@std/assert"
 import { consumeFirstHeading, toFrontmatter } from "./front_matter.ts"
 
 const input = /*md*/ `

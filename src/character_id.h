@@ -32,19 +32,19 @@ class character_id
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
 
-        friend inline bool operator==( character_id l, character_id r ) {
+        friend bool operator==( character_id l, character_id r ) {
             return l.get_value() == r.get_value();
         }
 
-        friend inline bool operator!=( character_id l, character_id r ) {
+        friend bool operator!=( character_id l, character_id r ) {
             return l.get_value() != r.get_value();
         }
 
-        friend inline bool operator<( character_id l, character_id r ) {
+        friend bool operator<( character_id l, character_id r ) {
             return l.get_value() < r.get_value();
         }
 
-        friend inline std::ostream &operator<<( std::ostream &o, character_id id ) {
+        friend std::ostream &operator<<( std::ostream &o, character_id id ) {
             return o << id.get_value();
         }
     private:

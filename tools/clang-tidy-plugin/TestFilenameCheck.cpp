@@ -1,6 +1,6 @@
 #include "TestFilenameCheck.h"
 
-#include <ClangTidyDiagnosticConsumer.h>
+#include <clang-tidy/ClangTidyDiagnosticConsumer.h>
 #include <clang/Basic/IdentifierTable.h>
 #include <clang/Basic/SourceLocation.h>
 #include <clang/Basic/SourceManager.h>
@@ -40,7 +40,7 @@ class TestFilenameCallbacks : public PPCallbacks
 
             if( MacroName == "TEST_CASE" ) {
                 StringRef Filename = SM->getBufferName( Range.getBegin() );
-                bool IsTestFilename = Filename.endswith( "_test.cpp" );
+                bool IsTestFilename = Filename.ends_with( "_test.cpp" );
 
                 if( !IsTestFilename ) {
                     Check->diag( Range.getBegin(),

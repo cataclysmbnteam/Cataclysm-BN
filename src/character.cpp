@@ -883,7 +883,7 @@ int Character::overmap_sight_range( int light_level ) const
 
     sight = 6;
     // The higher your perception, the farther you can see.
-    sight += static_cast<int>( get_per() / 2 );
+    sight += ( get_per() / 2 );
     // The higher up you are, the farther you can see.
     sight += std::max( 0, posz() ) * 2;
     // Mutations like Scout and Topographagnosia affect how far you can see.
@@ -1981,7 +1981,7 @@ float Character::get_vision_threshold( float light_level ) const
 
     // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) -
+    const float dimming_from_light = 1.0 + ( ( light_level -
                                      LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
@@ -2915,7 +2915,7 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
     // Worn items
     units::mass ret = 0_gram;
     for( auto &i : worn ) {
-        if( !without.count( i ) ) {
+        if( !without.contains( i ) ) {
             ret += i->weight();
         }
     }
@@ -3031,7 +3031,7 @@ units::volume Character::volume_capacity_reduced_by(
 
     units::volume ret = -mod;
     for( const auto &i : worn ) {
-        if( !without.count( i ) ) {
+        if( !without.contains( i ) ) {
             ret += i->get_storage();
         }
     }
@@ -6703,7 +6703,7 @@ float Character::active_light() const
     for( const std::pair<const trait_id, char_trait_data> &mut : my_mutations ) {
         if( mut.second.powered ) {
             float curr_lum = 0.0f;
-            for( const auto elem : mut.first->lumination ) {
+            for( const auto &elem : mut.first->lumination ) {
                 int coverage = 0;
                 for( const item * const &i : worn ) {
                     if( i->covers( convert_bp( elem.first ).id() ) && !i->has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
@@ -8192,7 +8192,7 @@ void Character::set_highest_cat_level()
         // Then use the map to set the category levels
         for( const std::pair<const trait_id, int> &i : dependency_map ) {
             const mutation_branch &mdata = i.first.obj();
-            if( !mdata.flags.count( flag_NON_THRESH ) ) {
+            if( !mdata.flags.contains( flag_NON_THRESH ) ) {
                 for( const mutation_category_id &cat : mdata.category ) {
                     // Decay category strength based on how far it is from the current mutation
                     mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
@@ -8977,12 +8977,12 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
             if( has_grab_break_tec() && ( rng( 0, get_dex() )  > rng( 0, 10 ) ) ) {
                 if( has_effect( effect_grabbed ) ) {
-                    add_msg_if_player( m_warning, _( "The %s tries to grab you as well, but you bat it away!" ),
-                                       source->disp_name() );
+                    add_msg_if_player( m_warning, _( "%s tries to grab you as well, but you bat it away!" ),
+                                       source->disp_name( false, true ) );
                 } else {
-                    add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
-                                           _( "The %s tries to grab <npcname>, but they break its grab!" ),
-                                           source->disp_name() );
+                    add_msg_player_or_npc( m_info, _( "%s tries to grab you, but you break its grab!" ),
+                                           _( "%s tries to grab <npcname>, but they break its grab!" ),
+                                           source->disp_name( false, true ) );
                 }
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
@@ -10727,7 +10727,7 @@ std::vector<Creature *> Character::get_hostile_creatures( int range ) const
 bool Character::knows_trap( const tripoint &pos ) const
 {
     const tripoint p = get_map().getabs( pos );
-    return known_traps.count( p ) > 0;
+    return known_traps.contains( p );
 }
 
 void Character::add_known_trap( const tripoint &pos, const trap &t )

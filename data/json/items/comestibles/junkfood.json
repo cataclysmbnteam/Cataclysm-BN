@@ -381,7 +381,7 @@
       { "type": "COMPONENT_ID", "condition": "plums", "name": "plum %s" },
       { "type": "COMPONENT_ID", "condition": "pomegranate", "name": "pomegranate %s" },
       { "type": "COMPONENT_ID", "condition": "raspberries", "name": "raspberry %s" },
-      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": "rose_hip %s" },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": "rose hip %s" },
       { "type": "COMPONENT_ID", "condition": "strawberries", "name": "strawberry %s" },
       { "type": "COMPONENT_ID", "condition": "huckleberries", "name": "huckleberry %s" },
       { "type": "COMPONENT_ID", "condition": "mulberries", "name": "mulberry %s" },

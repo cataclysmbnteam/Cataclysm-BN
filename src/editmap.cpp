@@ -1309,7 +1309,7 @@ void editmap::edit_fld()
                     fsel_intensity = femenu.ret;
                 }
             } else if( fmenu.ret_act == "RIGHT" &&
-                       field_intensity < static_cast<int>( ftype.get_max_intensity() ) ) {
+                       field_intensity < ftype.get_max_intensity() ) {
                 fsel_intensity++;
             } else if( fmenu.ret_act == "LEFT" && field_intensity > 0 ) {
                 fsel_intensity--;
@@ -1443,7 +1443,7 @@ void editmap::edit_itm()
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
                             "damage: %d" ), it.damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
-                            "burnt: %d" ), static_cast<int>( it.burnt ) );
+                            "burnt: %d" ), it.burnt );
             imenu.addentry( imenu_sep, false, 0, pgettext( "item manipulation debug menu entry",
                             "-[ light emission ]-" ) );
             imenu.addentry( imenu_savetest, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1468,7 +1468,7 @@ void editmap::edit_itm()
                             intval = it.damage();
                             break;
                         case imenu_burnt:
-                            intval = static_cast<int>( it.burnt );
+                            intval = it.burnt;
                             break;
                     }
                     string_input_popup popup;

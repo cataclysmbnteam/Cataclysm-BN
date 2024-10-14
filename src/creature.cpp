@@ -384,7 +384,7 @@ static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint
 {
     for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
-        if( veh_area.count( tmp ) > 0 ) {
+        if( veh_area.contains( tmp ) ) {
             return true;
         }
     }
@@ -841,7 +841,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     impact.mult_damage( damage_mult );
 
     if( proj.has_effect( ammo_effect_NOGIB ) ) {
-        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( bp_hit );
+        float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }

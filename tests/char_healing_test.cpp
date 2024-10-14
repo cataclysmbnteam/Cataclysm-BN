@@ -5,7 +5,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "int_id.h"
 #include "options.h"

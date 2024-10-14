@@ -81,7 +81,7 @@
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 40,
     "handling_modifier": 3,
-    "loudness_modifier": -30,
+    "loudness_modifier": -45,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
   },
   {
@@ -125,7 +125,7 @@
     "consume_divisor": 1,
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 125,
-    "loudness_modifier": -10,
+    "loudness_modifier": -15,
     "flags": [ "DISABLE_SIGHTS", "TRADER_AVOID", "CONSUMABLE" ]
   },
   {
@@ -163,7 +163,32 @@
     "mod_target_category": [ [ "SHOTGUNS" ] ],
     "damage_modifier": { "damage_type": "bullet", "amount": -4 },
     "handling_modifier": 6,
-    "loudness_modifier": -30
+    "loudness_modifier": -75
+  },
+  {
+    "id": "shot_crafted_suppressor",
+    "type": "GUNMOD",
+    "name": { "str": "homemade shotgun suppressor" },
+    "description": "A large homemade suppressor designed for shotguns.  More complex than normal makeshift suppressors, its improvised baffles will deteriorate with use.  When attached, it will interfere with your ability to aim down the base sights of the gun.",
+    "weight": "1700 g",
+    "volume": "1250 ml",
+    "price": "9 USD",
+    "price_postapoc": "350 cent",
+    "install_time": "30 s",
+    "to_hit": 1,
+    "bashing": 3,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "muzzle",
+    "mod_target_category": [ [ "SHOTGUNS" ] ],
+    "consume_chance": 20,
+    "consume_divisor": 110,
+    "damage_modifier": { "damage_type": "bullet", "amount": -5 },
+    "dispersion_modifier": 40,
+    "handling_modifier": 4,
+    "loudness_modifier": -45,
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
   },
   {
     "id": "suppressor",
@@ -184,7 +209,7 @@
     "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "install_time": "0 m",
     "handling_modifier": 4,
-    "loudness_modifier": -50
+    "loudness_modifier": -75
   },
   {
     "id": "mp5sd_suppressor",
@@ -197,7 +222,7 @@
     "integral_volume": "0 ml",
     "//": "weight is accounted for in gun item",
     "integral_weight": "0 g",
-    "loudness_modifier": -32,
+    "loudness_modifier": -50,
     "range_modifier": -1,
     "dispersion_modifier": 0,
     "location": "barrel",
@@ -220,6 +245,6 @@
     "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ] ],
     "install_time": "0 m",
     "handling_modifier": 3,
-    "loudness_modifier": -30
+    "loudness_modifier": -50
   }
 ]

@@ -26,7 +26,7 @@
     "armor_bullet": 2,
     "vision_day": 15,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_tooth",
     "special_attacks": [
       {
         "type": "bite",
@@ -133,7 +133,7 @@
     "armor_cut": 6,
     "armor_bullet": 5,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_heavy",
     "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -184,7 +184,7 @@
     "armor_bullet": 11,
     "armor_stab": 8,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_heavy",
     "special_attacks": [ [ "SMASH", 30 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -233,7 +233,7 @@
     "armor_bullet": 4,
     "vision_day": 5,
     "vision_night": 40,
-    "harvest": "zombie",
+    "harvest": "zombie_heavy",
     "special_attacks": [ [ "SMASH", 40 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
@@ -457,7 +457,7 @@
     "armor_bullet": 10,
     "vision_day": 50,
     "vision_night": 4,
-    "harvest": "zombie",
+    "harvest": "zombie_heavy",
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "NORMAL" ],
@@ -502,7 +502,7 @@
     "melee_cut": 2,
     "dodge": 3,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_tooth",
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
       { "type": "leap", "cooldown": 5, "max_range": 5 },
@@ -579,7 +579,7 @@
     "armor_bullet": 8,
     "vision_day": 25,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_tooth",
     "special_attacks": [
       {
         "type": "bite",
@@ -783,7 +783,7 @@
     "armor_bullet": 4,
     "vision_day": 45,
     "vision_night": 15,
-    "harvest": "zombie",
+    "harvest": "zombie_tooth",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
       { "type": "leap", "cooldown": 10, "max_range": 8, "min_consider_range": 3, "max_consider_range": 7 },

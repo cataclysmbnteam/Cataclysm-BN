@@ -5,7 +5,7 @@
     "looks_like": "84x246mm_he",
     "name": { "str": "40x53mm grenade" },
     "price": "100 USD",
-    "price_postapoc": "60 USD",
+    "price_postapoc": "5 USD",
     "volume": "260 ml",
     "material": [ "steel", "powder" ],
     "symbol": "=",
@@ -42,6 +42,7 @@
     "weight": "340 g",
     "damage": { "damage_type": "bullet", "amount": 145, "armor_penetration": 45 },
     "casing": "40x53mm_m169_casing",
+    "loudness": 100,
     "extend": { "effects": [ "FRAG" ] }
   },
   {

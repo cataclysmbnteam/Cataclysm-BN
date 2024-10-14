@@ -237,7 +237,7 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 
 bool bionic_data::has_flag( const flag_id &flag ) const
 {
-    return flags.count( flag ) > 0;
+    return flags.contains( flag );
 }
 
 itype_id bionic_data::itype() const
@@ -313,6 +313,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "enchantments", enchantments, strict );
     assign_map_from_array( jsobj, "learned_spells", learned_spells, strict );
     assign( jsobj, "included_bionics", included_bionics, strict );
+    assign( jsobj, "required_bionics", required_bionics, strict );
     assign( jsobj, "upgraded_bionic", upgraded_bionic, strict );
     assign( jsobj, "available_upgrades", available_upgrades, strict );
     assign( jsobj, "flags", flags, strict );
@@ -410,6 +411,16 @@ void bionic_data::check() const
             rep.warn( "upgrades undefined bionic \"%s\"", upgraded_bionic.str() );
         }
     }
+    if( !required_bionics.empty() ) {
+        for( const bionic_id &it : required_bionics ) {
+            if( it == id ) {
+                rep.warn( "The CBM %s requires itself as a prerequisite for installation", it.str() );
+            } else if( !it.is_valid() ) {
+                rep.warn( "The CBM %s requires undefined bionic %s", id.str(), it.str() );
+            }
+        }
+    }
+
     for( const bionic_id &it : available_upgrades ) {
         if( !it.is_valid() ) {
             rep.warn( "specifies unknown upgrade \"%s\"", it.str() );
@@ -862,7 +873,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                         if( water && water->charges < avail ) {
                             add_msg_activate();
                             extracted = true;
-                            it->set_var( "remaining_water", static_cast<int>( water->charges ) );
+                            it->set_var( "remaining_water", water->charges );
                         }
                         break;
                     }
@@ -2036,6 +2047,29 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
+    // make sure the bionic you are removing is not required by other installed bionics
+    std::vector<std::string> dependent_bionics;
+    for( const bionic_id &bid : get_bionics() ) {
+        // look at required bionics for every installed bionic
+        for( const bionic_id &req_bid : bid->required_bionics ) {
+            if( req_bid == b_id ) {
+                dependent_bionics.push_back( "" + bid->name );
+            }
+        }
+    }
+    if( !dependent_bionics.empty() ) {
+        std::string concatenated_list_of_dependent_bionics;
+        for( const std::string &req_bionic : dependent_bionics ) {
+            concatenated_list_of_dependent_bionics += " " + req_bionic;
+            if( req_bionic != dependent_bionics.back() ) {
+                concatenated_list_of_dependent_bionics += ",";
+            }
+        }
+        popup( _( "%s cannot be removed because it is required by the following bionics:%s." ),
+               b_id->name, concatenated_list_of_dependent_bionics );
+        return false;
+    }
+
     if( b_id == bio_eye_optic ) {
         popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
                disp_name( true ), disp_name() );
@@ -2066,7 +2100,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
-                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
+                ( 100 - chance_of_success ) ) ) {
             return false;
         }
     }
@@ -2279,6 +2313,22 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
     }
     int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
 
+    if( !bioid->required_bionics.empty() ) {
+        std::string list_of_missing_required_bionics;
+        for( const bionic_id &req_bid : bioid->required_bionics ) {
+            if( !has_bionic( req_bid ) ) {
+                list_of_missing_required_bionics += " " + req_bid->name;
+                if( req_bid != bioid->required_bionics.back() ) {
+                    list_of_missing_required_bionics += ",";
+                }
+            }
+        }
+        if( !list_of_missing_required_bionics.empty() ) {
+            popup( _( "CBM requires prior installation of%s." ), list_of_missing_required_bionics );
+            return false;
+        }
+    }
+
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
         if( has_trait( mid ) ) {
@@ -2458,7 +2508,7 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
     std::set<bodypart_id> bp_hurt;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         if( has_effect( effect_under_op, bp.id() ) ) {
-            if( bp_hurt.count( bp->main_part ) > 0 ) {
+            if( bp_hurt.contains( bp->main_part ) ) {
                 continue;
             }
             bp_hurt.emplace( bp->main_part );
@@ -2703,7 +2753,7 @@ void Character::remove_bionic( const bionic_id &b )
 
     // any spells you learn from installing a bionic you forget.
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
-        if( cbm_spells.count( spell_pair.first ) == 0 ) {
+        if( !cbm_spells.contains( spell_pair.first ) ) {
             magic->forget_spell( spell_pair.first );
         }
     }

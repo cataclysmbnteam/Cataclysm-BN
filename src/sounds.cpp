@@ -1533,7 +1533,7 @@ void sfx::do_footstep()
 
         auto veh_displayed_part = g->m.veh_at( g->u.pos() ).part_displayed();
 
-        if( !veh_displayed_part && ( water.count( terrain ) > 0 ) ) {
+        if( !veh_displayed_part && ( water.contains( terrain ) ) ) {
             play_plmove_sound_variant( "walk_water" );
             return;
         }
@@ -1556,19 +1556,19 @@ void sfx::do_footstep()
             play_plmove_sound_variant( terrain.str() );
             return;
         }
-        if( grass.count( terrain ) > 0 ) {
+        if( grass.contains( terrain ) ) {
             play_plmove_sound_variant( "walk_grass" );
             return;
         }
-        if( dirt.count( terrain ) > 0 ) {
+        if( dirt.contains( terrain ) ) {
             play_plmove_sound_variant( "walk_dirt" );
             return;
         }
-        if( metal.count( terrain ) > 0 ) {
+        if( metal.contains( terrain ) ) {
             play_plmove_sound_variant( "walk_metal" );
             return;
         }
-        if( chain_fence.count( terrain ) > 0 ) {
+        if( chain_fence.contains( terrain ) ) {
             play_plmove_sound_variant( "clear_obstacle" );
             return;
         }
@@ -1597,7 +1597,7 @@ void sfx::do_obstacle( const std::string &obst )
     };
     if( sfx::has_variant_sound( "plmove", obst ) ) {
         play_variant_sound( "plmove", obst, heard_volume, 0_degrees, 0.8, 1.2 );
-    } else if( water.count( obst ) > 0 ) {
+    } else if( water.contains( obst ) ) {
         play_variant_sound( "plmove", "walk_water", heard_volume, 0_degrees, 0.8, 1.2 );
     } else {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0_degrees, 0.8, 1.2 );

@@ -27,7 +27,7 @@ enum class recipe_filter_flags : int {
     no_rotten = 1,
 };
 
-inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
+constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
 {
     return static_cast<recipe_filter_flags>(
                static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );

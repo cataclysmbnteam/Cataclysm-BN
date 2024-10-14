@@ -33,8 +33,7 @@
       { "id": "bio_heat_absorb", "chance": 20 },
       { "id": "bio_eye_enhancer", "chance": 20 },
       { "id": "bio_pokedeye", "chance": 10 },
-      { "id": "bio_hydraulics", "chance": 10 },
-      { "id": "bio_painkiller", "chance": 15 },
+      { "id": "bio_painkiller", "chance": 30 },
       { "id": "bio_shock", "chance": 10 },
       { "id": "bio_speed", "chance": 10 },
       { "id": "bio_str_enhancer", "chance": 15 },
@@ -74,12 +73,11 @@
       { "id": "bio_claws", "chance": 30 },
       { "id": "bio_dex_enhancer", "chance": 30 },
       { "id": "bio_eye_enhancer", "chance": 20 },
-      { "id": "bio_hydraulics", "chance": 10 },
       { "id": "bio_painkiller", "chance": 45 },
       { "id": "bio_shock", "chance": 10 },
       { "id": "bio_speed", "chance": 10 },
       { "id": "bio_str_enhancer", "chance": 15 },
-      { "id": "bio_razors", "chance": 35 },
+      { "id": "bio_razors", "chance": 50 },
       { "id": "bio_power_storage", "chance": 100 },
       { "id": "bio_metabolics", "chance": 100 }
     ]

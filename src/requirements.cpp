@@ -58,7 +58,7 @@ static std::map<requirement_id, requirement_data> requirements_all;
 template<>
 bool string_id<requirement_data>::is_valid() const
 {
-    return requirements_all.count( *this );
+    return requirements_all.contains( *this );
 }
 
 /** @relates string_id */
@@ -519,7 +519,7 @@ void inline_requirements( std::vector<std::vector<T>> &list,
             }
             // stack just holds the current path of inlining for debug purposes
             stack.push_back( r );
-            if( already_nested.count( r ) ) {
+            if( already_nested.contains( r ) ) {
                 // print debug msg and skip just this one requirement
                 debugmsg( "Tried to inline requirement %s which forms a cycle", r.c_str() );
                 stack.pop_back();
@@ -1480,7 +1480,7 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
         auto first_duplicated = std::stable_partition(
                                     this_requirement.begin(), this_requirement.end(),
         [&]( const item_comp & c ) {
-            return !later_itypes.count( c.type );
+            return !later_itypes.contains( c.type );
         }
                                 );
 

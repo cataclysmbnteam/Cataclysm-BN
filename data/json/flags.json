@@ -1872,6 +1872,11 @@
     "context": [  ]
   },
   {
+    "id": "ACIDIC",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "SLEEP_IGNORE",
     "type": "json_flag",
     "context": [  ]
@@ -2022,6 +2027,12 @@
     "id": "WATER_EXTINGUISH",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "WATER_DISABLE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <bad>stops working</bad> when <info>submerged in water</info>."
   },
   {
     "id": "WHIP",

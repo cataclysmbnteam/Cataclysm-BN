@@ -18,7 +18,6 @@
     "durability": 5,
     "clip_size": 1,
     "reload": 800,
-    "loudness": 200,
     "valid_mod_locations": [ [ "sling", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -47,6 +46,7 @@
     "modes": [ [ "DEFAULT", "burst", 4 ] ],
     "clip_size": 100,
     "reload": 0,
+    "loudness": 5,
     "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]
