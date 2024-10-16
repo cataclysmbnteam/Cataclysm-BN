@@ -2041,7 +2041,7 @@
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2051,7 +2051,7 @@
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
       ],
-      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 250 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2067,13 +2067,13 @@
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "open": "t_secretdoor_metal_o",
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ],
-      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 250 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2104,7 +2104,7 @@
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE" ],
     "open": "t_door_metal_lab_o",
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2114,7 +2114,7 @@
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
       ],
-      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 250 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2130,7 +2130,7 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_door_metal_c",
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2155,7 +2155,7 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_door_metal_lab_c",
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2182,7 +2182,7 @@
     "open": "t_door_metal_o_peep",
     "examine_action": "door_peephole",
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2193,7 +2193,7 @@
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
       ],
-      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 250 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2209,7 +2209,7 @@
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "close": "t_door_metal_c_peep",
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2241,7 +2241,7 @@
     },
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2251,7 +2251,7 @@
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
       ],
-      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 250 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2266,7 +2266,7 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF", "ROAD", "INDOORS", "BURROWABLE" ],
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2328,7 +2328,7 @@
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
-      "str_min": 80,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -2338,7 +2338,7 @@
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
       ],
-      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 250 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
     },
     "pry": {
       "success_message": "You pry open the door.",
@@ -2620,13 +2620,13 @@
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_door_metal_bulkhead_o",
     "bash": {
-      "str_min": 100,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ],
-      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 250 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
     }
   },
   {
@@ -2643,7 +2643,7 @@
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "close": "t_door_metal_bulkhead_c",
     "bash": {
-      "str_min": 100,
+      "str_min": 90,
       "str_max": 250,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
