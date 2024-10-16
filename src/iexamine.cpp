@@ -6416,7 +6416,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
 void iexamine::practice_survival_while_foraging( player *p )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
-    const int max_forage_skill = p->int_cur / 3 + 1;
+    const int max_forage_skill = p->int_cur / 2 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
