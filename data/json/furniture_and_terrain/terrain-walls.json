@@ -1702,7 +1702,7 @@
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ],
       "//": "reduction and destroy_threshold equal to completed version",
-      "ranged": { "reduction": [ 100, 60 ], "destroy_threshold": 100, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "50%" }
     }
   },
   {
