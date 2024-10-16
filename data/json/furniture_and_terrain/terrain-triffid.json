@@ -17,7 +17,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_bark_wall_chipped",
       "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
-      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -38,7 +38,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_bark_wall_broken",
       "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 160 }
+      "ranged": { "reduction": [ 40, 40 ], "destroy_threshold": 160 }
     }
   },
   {
@@ -57,7 +57,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_barkfloor",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -78,7 +78,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_barkfloor",
       "items": [ { "item": "splinter", "count": [ 20, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 160 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 160 }
     }
   },
   {
@@ -170,6 +170,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "splinter", "count": [ 2, 5 ] } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 150 }
     }
   },

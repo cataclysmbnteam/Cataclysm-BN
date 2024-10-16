@@ -38,7 +38,7 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ],
-      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
     }
   },
@@ -68,7 +68,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "rag", "count": [ 20, 30 ] }
       ],
-      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 10, "block_unaimed_chance": "25%" }
     }
   },
@@ -109,6 +109,7 @@
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
@@ -155,6 +156,7 @@
         { "item": "scrap_copper", "count": [ 1, 2 ] },
         { "item": "motor_tiny", "prob": 25 }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 80 }
     }
   },
@@ -195,6 +197,7 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "cu_pipe", "count": 1 }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 18, 35 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     },
     "examine_action": "workbench",
@@ -245,6 +248,7 @@
         { "item": "glass_shard", "count": [ 3, 6 ] },
         { "item": "cable", "charges": [ 1, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
@@ -285,6 +289,7 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
@@ -389,6 +394,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
@@ -435,6 +441,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 11, 22 ], "destroy_threshold": 70, "block_unaimed_chance": "25%" }
     }
   },
@@ -477,6 +484,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 12, 24 ], "destroy_threshold": 70, "block_unaimed_chance": "25%" }
     }
   },
@@ -518,6 +526,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 19, 38 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
     }
   },
@@ -559,6 +568,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 18, 35 ], "destroy_threshold": 70, "block_unaimed_chance": "75%" }
     }
   },
@@ -601,6 +611,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
@@ -643,6 +654,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
@@ -679,6 +691,7 @@
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 5, 10 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
@@ -726,6 +739,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
@@ -771,6 +785,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
@@ -816,6 +831,7 @@
         { "item": "e_scrap", "count": [ 5, 10 ] },
         { "item": "plastic_chunk", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
@@ -921,7 +937,7 @@
         { "item": "sheet_metal", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
       ],
-      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 12, "block_unaimed_chance": "25%" }
     }
   }
