@@ -658,6 +658,33 @@ void area_expander::sort_descending()
     } );
 }
 
+static void move_items( map &here, const tripoint &from, const tripoint &to )
+{
+    auto src_items = here.i_at( from );
+    auto dst_items = here.i_at( to );
+
+    for( detached_ptr<item> &it : src_items.clear() ) {
+        dst_items.insert( std::move( it ) );
+    }
+    src_items.clear();
+}
+
+static void move_field( map &here, const tripoint &from, const tripoint &to )
+{
+    field &src_field = here.field_at( from );
+    std::map<field_type_id, int> moving_fields;
+    for( const std::pair<const field_type_id, field_entry> &fd : src_field ) {
+        if( fd.first.is_valid() && !fd.first.id().is_null() ) {
+            const int intensity = fd.second.get_field_intensity();
+            moving_fields.emplace( fd.first, intensity );
+        }
+    }
+    for( const std::pair<const field_type_id, int> &fd : moving_fields ) {
+        here.remove_field( from, fd.first );
+        here.set_field_intensity( to, fd.first, fd.second );
+    }
+}
+
 // Moving all objects from one point to another by the power of magic.
 static void spell_move( const spell &sp, const Creature &caster,
                         const tripoint &from, const tripoint &to )
@@ -695,22 +722,8 @@ static void spell_move( const spell &sp, const Creature &caster,
         src_items.clear();
     }
 
-    // Helper function to move particular field type if corresponding target flag is enabled.
-    auto move_field = [&sp, &here, from, to]( valid_target target, field_type_id fid ) {
-        if( !sp.is_valid_effect_target( target ) ) {
-            return;
-        }
-        auto &src_field = here.field_at( from );
-        if( field_entry *entry = src_field.find_field( fid ) ) {
-            int intensity = entry->get_field_intensity();
-            here.remove_field( from, fid );
-            here.set_field_intensity( to, fid, intensity );
-        }
-    };
-    // Moving fields.
-    move_field( target_fd_fire, fd_fire );
-    move_field( target_fd_blood, fd_blood );
-    move_field( target_fd_blood, fd_gibs_flesh );
+    // Helper function to move fields
+    move_field( get_map(), from, to );
 }
 
 void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint &center )
@@ -748,6 +761,119 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint 
     }
     sp.make_sound( caster.pos() );
 }
+
+static void character_push_effects( Creature *caster, Character &guy, tripoint &push_dest,
+                                    const int push_distance, const std::vector<tripoint> &push_vec )
+{
+    int dist_left = std::abs( push_distance );
+    for( const tripoint &pushed_point : push_vec ) {
+        if( get_map().impassable( pushed_point ) ) {
+            guy.hurtall( dist_left * 4, caster );
+            push_dest = pushed_point;
+            break;
+        } else {
+            dist_left--;
+        }
+    }
+    guy.setpos( push_dest );
+}
+
+void spell_effect::directed_push( const spell &sp, Creature &caster, const tripoint &target )
+{
+    std::set<tripoint> area = spell_effect_area( sp, target, spell_effect_blast, caster );
+    // this group of variables is for deferring movement of the avatar
+    int pushed_distance;
+    tripoint push_to;
+    std::vector<tripoint> pushed_vec;
+    bool player_pushed = false;
+
+    ::map &here = get_map();
+
+    // whether it's push or pull, so how the multimap is sorted
+    // -1 is push and 1 is pull
+    const int sign = sp.damage() > 0 ? -1 : 1;
+
+    std::multimap<int, tripoint> targets_ordered_by_range;
+    for( const tripoint &pt : area ) {
+        targets_ordered_by_range.emplace( sign * rl_dist( pt, caster.pos() ), pt );
+    }
+
+    for( const std::pair<int, tripoint> &pair : targets_ordered_by_range ) {
+        const tripoint &push_point = pair.second;
+        const  units::angle start_angle = coord_to_angle( caster.pos(), target );
+        // positive is push, negative is pull
+        int push_distance = sp.damage();
+        const int prev_distance = rl_dist( caster.pos(), target );
+        if( push_distance < 0 ) {
+            push_distance = std::max( -std::abs( push_distance ), -std::abs( prev_distance ) );
+        }
+        if( push_distance == 0 ) {
+            continue;
+        }
+
+        tripoint push_dest;
+        calc_ray_end( start_angle, push_distance, push_point, push_dest );
+        const std::vector<tripoint> push_vec = line_to( push_point, push_dest );
+
+        const Creature *critter = g->critter_at<Creature>( push_point );
+        if( critter != nullptr ) {
+            const Attitude attitude_to_target =
+                caster.attitude_to( *g->critter_at<Creature>( push_point ) );
+
+            monster *mon = g->critter_at<monster>( push_point );
+            Character *guy = g->critter_at<Character>( push_point );
+
+            if( ( sp.is_valid_target( target_self ) && push_point == caster.pos() ) ||
+                ( attitude_to_target == Attitude::A_FRIENDLY &&
+                  sp.is_valid_target( target_ally ) ) ||
+                ( ( attitude_to_target == Attitude::A_HOSTILE ||
+                    attitude_to_target == Attitude::A_NEUTRAL ) &&
+                  sp.is_valid_target( target_hostile ) ) ) {
+                if( g->critter_at<avatar>( push_point ) ) {
+                    // defer this because this absolutely must be done last in order not to mess up our calculations
+                    player_pushed = true;
+                    pushed_distance = push_distance;
+                    push_to = push_dest;
+                    pushed_vec = push_vec;
+                } else if( mon ) {
+                    int dist_left = std::abs( push_distance );
+                    for( const tripoint &pushed_push_point : push_vec ) {
+                        if( get_map().impassable( pushed_push_point ) ) {
+                            mon->apply_damage( &caster, bodypart_id(), dist_left * 10 );
+                            push_dest = pushed_push_point;
+                            break;
+                        } else {
+                            dist_left--;
+                        }
+                    }
+                    mon->setpos( push_dest );
+                } else if( guy ) {
+                    character_push_effects( &caster, *guy, push_dest, push_distance, push_vec );
+                }
+            }
+        }
+
+        if( sp.is_valid_target( target_item ) && here.has_items( push_point ) ) {
+            move_items( here, push_point, push_dest );
+        }
+
+
+        if( sp.is_valid_target( target_fd_blood ) ) {
+            move_field( here, push_point, push_dest );
+        }
+
+        if( sp.is_valid_target( target_fd_fire ) ) {
+            move_field( here, push_point, push_dest );
+        }
+    }
+
+    // deferred avatar pushing
+    if( player_pushed ) {
+        character_push_effects( &caster, get_avatar(), push_to, pushed_distance, pushed_vec );
+    }
+}
+
+
 
 void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const tripoint & )
 {

@@ -187,7 +187,7 @@
   {
     "type": "GENERIC",
     "id": "stormglove",
-    "weapon_category": "FIST_WEAPONS",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "Stormfist" },
