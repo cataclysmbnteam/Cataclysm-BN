@@ -40,6 +40,7 @@
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar_small",
       "items": [ { "item": "fetid_goop", "count": [ 3, 7 ], "prob": 100 } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 7, 13 ], "destroy_threshold": 26, "block_unaimed_chance": "25%" }
     }
   },
@@ -63,6 +64,7 @@
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar_small",
       "items": [ { "item": "fetid_goop", "count": [ 15, 25 ], "prob": 100 } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
@@ -144,6 +146,7 @@
       "sound": "splorch!",
       "sound_fail": "whump.",
       "items": [ { "item": "fetid_goop", "count": [ 5, 10 ], "prob": 100 }, { "group": "migo_pod_storage", "prob": 50 } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
@@ -166,6 +169,7 @@
       "sound": "splorch!",
       "sound_fail": "whump.",
       "items": [ { "group": "migo_pod_samples", "prob": 75, "count": [ 1, 2 ] } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
@@ -187,6 +191,7 @@
       "sound": "splorch!",
       "sound_fail": "whump.",
       "items": [ { "item": "alien_pod_resin", "count": [ 1, 2 ] } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
@@ -208,6 +213,7 @@
       "sound": "splorch!",
       "sound_fail": "whump.",
       "furn_set": "f_alien_scar",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 23, 45 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
@@ -233,7 +239,7 @@
       "sound_fail": "whump!",
       "furn_set": "f_alien_scar",
       "items": [ { "item": "fetid_goop", "count": [ 3, 5 ], "prob": 100 } ],
-      "//": "destroy_threshold equal to str_min instead of str_max due to delicate wetware, and a pissed-off alien bug installed inside",
+      "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate wetware, and a pissed-off alien bug installed inside",
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 8, "block_unaimed_chance": "75%" }
     }
   }

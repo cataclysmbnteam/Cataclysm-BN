@@ -18,6 +18,7 @@
 #include "json.h"
 #include "units.h"
 #include "units_serde.h"
+#include "concepts_utility.h"
 
 namespace detail
 {
@@ -31,7 +32,7 @@ class is_optional_helper<std::optional<T>> : public std::true_type
 };
 } // namespace detail
 template<typename T>
-class is_optional : public detail::is_optional_helper<typename std::decay<T>::type>
+class is_optional : public detail::is_optional_helper<std::decay_t<T>>
 {
 };
 
@@ -43,7 +44,7 @@ bool is_strict_enabled( const std::string &src );
 void report_strict_violation( const JsonObject &jo, const std::string &message,
                               const std::string &name );
 
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
+template <Arithmetic T>
 bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false,
              T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
@@ -95,7 +96,7 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
 // and also to avoid potentially nonsensical interactions between relative and proportional.
 bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict = false );
 
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
+template <Arithmetic T>
 bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val,
              bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
@@ -133,9 +134,9 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
 
 // Note: is_optional excludes any types based on std::optional, which is
 // handled below in a separate function.
-template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
-           int >::type = 0 >
+template < typename T>
 bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false )
+requires( std::is_class_v<T> && !is_optional<T>::value ) //*NOPAD*
 {
     T out;
     if( !jo.read( name, out ) ) {
@@ -362,18 +363,17 @@ bool assign( const JsonObject &jo,
 
 // Kinda hacky way to avoid allowing multiplying temperature
 // For example, in 10 * 0 Fahrenheit, 10 * 0 Celsius - what's the expected result of those?
-template < typename lvt, typename ut, typename s,
-           typename std::enable_if_t<units::quantity_details<ut>::common_zero_point::value>* = nullptr>
+template < typename lvt, typename ut, typename s>
 inline units::quantity<lvt, ut> mult_unit( const JsonObject &, const std::string &,
         const units::quantity<lvt, ut> &val, const s scalar )
-{
+requires units::quantity_details<ut>::common_zero_point::value {
     return val * scalar;
 }
 
-template < typename lvt, typename ut, typename s,
-           typename std::enable_if_t < !units::quantity_details<ut>::common_zero_point::value > * = nullptr >
+template < typename lvt, typename ut, typename s>
 inline units::quantity<lvt, ut> mult_unit( const JsonObject &err, const std::string &name,
         const units::quantity<lvt, ut> &, const s )
+requires( !units::quantity_details<ut>::common_zero_point::value )
 {
     err.throw_error( "Multiplying units with multiple scales with different zero points is not well defined",
                      name );
@@ -453,16 +453,17 @@ bool assign( const JsonObject &jo,
 class time_duration;
 
 template<typename T>
-inline typename
-std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
+inline bool
 read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T &factor )
-{
+requires std::is_same_v<std::decay_t<T>, time_duration> {
     int tmp;
-    if( jo.read( name, tmp, false ) ) {
+    if( jo.read( name, tmp, false ) )
+    {
         // JSON contained a raw number -> apply factor
         val = tmp * factor;
         return true;
-    } else if( jo.has_string( name ) ) {
+    } else if( jo.has_string( name ) )
+    {
         // JSON contained a time duration string -> no factor
         val = read_from_json_string<time_duration>( *jo.get_raw( name ), time_duration::units );
         return true;

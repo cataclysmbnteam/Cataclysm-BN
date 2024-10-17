@@ -18,7 +18,7 @@
       "sound_fail": "thump.",
       "items": [ { "item": "rock", "count": [ 2, 7 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 40, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -40,7 +40,7 @@
       "sound_fail": "thump!",
       "items": [ { "item": "rock", "count": [ 2, 4 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 50, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -62,7 +62,7 @@
       "sound_fail": "thump!",
       "items": [ { "item": "rock", "count": [ 8, 14 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 60, 120 ], "destroy_threshold": 120, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 120, 120 ], "destroy_threshold": 120, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -83,7 +83,7 @@
       "sound_fail": "thump!",
       "items": [ { "item": "rock", "count": [ 5, 10 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -104,7 +104,7 @@
       "sound_fail": "thunk!",
       "items": [ { "item": "rock", "count": [ 18, 30 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 80, 160 ], "destroy_threshold": 160 }
+      "ranged": { "reduction": [ 160, 160 ], "destroy_threshold": 160 }
     }
   }
 ]

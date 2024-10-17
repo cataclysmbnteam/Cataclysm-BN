@@ -7,7 +7,7 @@
 template<typename T> struct enum_traits;
 
 template<typename T>
-constexpr inline int sgn( const T x )
+constexpr int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }

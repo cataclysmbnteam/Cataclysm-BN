@@ -128,10 +128,10 @@ class relic
         void add_active_effect( const fake_spell &sp );
         void add_recharge_scheme( const relic_recharge &r );
 
-        inline const std::vector<enchantment> &get_enchantments() const {
+        const std::vector<enchantment> &get_enchantments() const {
             return passive_effects;
         }
-        inline const std::vector<relic_recharge> &get_recharge_scheme() const {
+        const std::vector<relic_recharge> &get_recharge_scheme() const {
             return recharge_scheme;
         }
 

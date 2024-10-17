@@ -321,7 +321,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
-        if( !out.count( base ) ) {
+        if( !out.contains( base ) ) {
             deferred.emplace_back( jo.get_source_location(), src );
             jo.allow_omitted_members();
             return null_recipe;
@@ -356,7 +356,7 @@ std::map<recipe_id, recipe>::const_iterator recipe_dictionary::end() const
 
 bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
 {
-    return items_on_loops.count( i );
+    return items_on_loops.contains( i );
 }
 
 void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
@@ -455,7 +455,7 @@ void recipe_dictionary::finalize()
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
-        if( r.is_reversible() && !recipe_dict.uncraft.count( recipe_id( r.result().str() ) ) ) {
+        if( r.is_reversible() && !recipe_dict.uncraft.contains( recipe_id( r.result().str() ) ) ) {
             recipe_dict.uncraft[ recipe_id( r.result().str() ) ] = r;
         }
     }
@@ -466,7 +466,7 @@ void recipe_dictionary::finalize()
         const recipe_id rid = recipe_id( id.str() );
 
         // books that don't already have an uncrafting recipe
-        if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
+        if( e->book && !recipe_dict.uncraft.contains( rid ) && e->volume > 0_ml ) {
             int pages = std::max( 1, static_cast<int>( e->volume / 12.5_ml ) );
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
@@ -513,7 +513,7 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
         custom_difficulty = r->difficulty;
     }
     // We always prefer lower difficulty for the subset, but we save it only if it's not default
-    if( recipes.count( r ) > 0 ) {
+    if( recipes.contains( r ) ) {
         const auto iter = difficulties.find( r );
         // See if we need to lower the difficulty of the existing recipe
         if( iter != difficulties.end() && custom_difficulty < iter->second ) {

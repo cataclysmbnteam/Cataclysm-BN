@@ -54,7 +54,7 @@ bool string_id<mutation_branch>::is_valid() const
 template<>
 bool string_id<Trait_group>::is_valid() const
 {
-    return trait_groups.count( *this );
+    return trait_groups.contains( *this );
 }
 
 static void extract_mod(
@@ -694,7 +694,7 @@ void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
 
 bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
 {
-    return trait_blacklist.count( tid );
+    return trait_blacklist.contains( tid );
 }
 
 void mutation_branch::finalize()
@@ -881,11 +881,11 @@ const mutation_category_trait &string_id<mutation_category_trait>::obj() const
 
 bool mutation_category_is_valid( const mutation_category_id &cat )
 {
-    return mutation_category_traits.count( cat );
+    return mutation_category_traits.contains( cat );
 }
 
 template<>
 bool string_id<mutation_category_trait>::is_valid() const
 {
-    return mutation_category_traits.count( *this );
+    return mutation_category_traits.contains( *this );
 }

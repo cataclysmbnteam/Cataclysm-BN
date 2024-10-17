@@ -527,7 +527,7 @@
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "time": 1,
-    "required_bionic": "bio_weight"
+    "required_bionics": [ "bio_weight" ]
   },
   {
     "id": "bio_infolink",
@@ -1126,6 +1126,19 @@
     "fuel_options": [ "gasoline" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.25,
+    "exothermic_power_gen": true,
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_fuel_cell_hydrogen",
+    "type": "bionic",
+    "name": { "str": "Hydrogen Fuel Cell CBM" },
+    "description": "A small hydrogen fuel cell fixed to your scapula.  Fairly efficient and produces minimal heat, though the low density of even compressed hydrogen is a hindrance.  A network of compressors and fuel tanks has been distributed throughout your body to store fuel.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "fuel_options": [ "c_hydrogen_gas" ],
+    "fuel_capacity": 500,
+    "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,
     "time": 1,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]

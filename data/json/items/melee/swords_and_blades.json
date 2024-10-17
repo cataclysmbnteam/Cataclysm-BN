@@ -127,7 +127,7 @@
       "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "M_XBOWS" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
@@ -339,7 +339,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
@@ -867,7 +867,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ]
   },
@@ -1021,7 +1021,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "RAPID",
+    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
@@ -1614,7 +1614,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": "WBLOCK_2",
+    "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
@@ -1665,7 +1665,8 @@
     "volume": "2250 ml",
     "bashing": 7,
     "cutting": 14,
-    "price": "59 USD"
+    "price": "59 USD",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ]
   },
   {
     "id": "razor_macuahuitl",
@@ -1676,7 +1677,8 @@
     "weight": "900 g",
     "price_postapoc": "3 USD",
     "material": [ "wood", "steel" ],
-    "cutting": 21
+    "cutting": 21,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ]
   },
   {
     "type": "GENERIC",
@@ -1895,9 +1897,10 @@
     "id": "knife_stinger",
     "type": "GENERIC",
     "copy-from": "dagger_medieval",
+    "looks_like": "bone_knife",
     "name": { "str": "stinger dagger" },
-    "description": "A 'bone' dagger made from a sharpened mutant insect stinger.  It's only natural that the Cataclysm would advent new, creative forms of old weapons.",
-    "material": [ "bone" ],
+    "description": "A dagger made from a sharpened mutant insect stinger.  It's only natural that the Cataclysm would advent new, creative forms of old weapons.",
+    "material": [ "chitin" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -1923,16 +1926,18 @@
     "description": "A flat wooden club with razor-sharp teeth set into the edges.  This was a weapon of various Polynesian peoples, and was used to great effect.",
     "weight": "850 g",
     "price_postapoc": "3 USD",
-    "material": [ "wood", "bone" ],
-    "cutting": 21
+    "material": [ "wood", "bone_heavy" ],
+    "cutting": 21,
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ]
   },
   {
     "id": "sword_bone",
     "type": "GENERIC",
     "copy-from": "machete",
-    "name": { "str": "bone machete" },
-    "description": "This shortsword is carved from a single massive bone, and is capable of slicing foes in with swiftness and efficiency.",
-    "material": [ "bone" ],
+    "looks_like": "makeshift_machete",
+    "name": { "str": "bone cleaver" },
+    "description": "This shortsword is carved from a large chunk of bone set in a wooden haft, and is capable of slicing foes in with swiftness and efficiency.",
+    "material": [ "bone_heavy" ],
     "proportional": { "weight": 0.8, "cutting": 0.9 }
   }
 ]

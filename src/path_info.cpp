@@ -53,7 +53,8 @@ void PATH_INFO::init_user_dir( std::string dir )
         user_dir = getenv( "HOME" );
         dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm-BN/";
 #elif defined(USE_XDG_DIR)
-        if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) ) {
+        user_dir = getenv( "XDG_DATA_HOME" );
+        if( user_dir ) {
             dir = std::string( user_dir ) + "/cataclysm-bn/";
         } else {
             user_dir = getenv( "HOME" );

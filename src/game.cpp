@@ -2848,7 +2848,7 @@ void game::display_faction_epilogues()
 }
 
 struct npc_dist_to_player {
-    const tripoint_abs_omt ppos{};
+    const tripoint_abs_omt ppos;
     npc_dist_to_player() : ppos( get_player_character().global_omt_location() ) { }
     // Operator overload required to leverage sort API.
     bool operator()( const shared_ptr_fast<npc> &a,
@@ -4961,7 +4961,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
     if( !g->u.query_yn(
             _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
-            100 - static_cast<int>( chance_of_success ) ) ) {
+            100 - chance_of_success ) ) {
         return;
     }
 
@@ -10151,7 +10151,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         tmp_map_ptr = std::make_unique<map>();
     }
 
-    map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr.get() );
+    map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr );
     if( m.has_zlevels() ) {
         // We no longer need to shift the map here! What joy
     } else {

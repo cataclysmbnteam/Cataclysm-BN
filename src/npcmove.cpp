@@ -4533,7 +4533,7 @@ void npc::do_reload( item &it )
 
     // Note: we may be reloading the magazine inside, not the gun itself
     // Maybe TODO: allow reload functions to understand such reloads instead of const casts
-    item &target = const_cast<item &>( *reload_opt.target );
+    item &target = ( *reload_opt.target );
     item *usable_ammo = reload_opt.ammo;
 
     // If in danger, don't spend multiple turns reloading a weapon to full one by one.

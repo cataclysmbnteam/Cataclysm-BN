@@ -1740,8 +1740,8 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
             } else if( get_player_character().sees( part_pos ) ) {
-                add_msg( m_bad, _( "The %s is hurled from %s's by the power of the impact!" ),
-                         pet->disp_name(), veh.name );
+                add_msg( m_bad, _( "%s is hurled from %s's by the power of the impact!" ),
+                         pet->disp_name( false, true ), veh.name );
             }
             ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
             g->fling_creature( rider, direction + rng_float( -30_degrees, 30_degrees ),

@@ -632,7 +632,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "sewing_standard", 64 ] ],
-    "components": [ [ [ "scute_piece", 16 ] ], [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 24 ] ],
+    "components": [ [ [ "scute_piece", 9 ] ], [ [ "fabric_hides_proper", 9, "LIST" ] ] ]
   }
 ]

@@ -349,7 +349,7 @@ void worldfactory::init()
 
 bool worldfactory::has_world( const std::string &name ) const
 {
-    return all_worlds.count( name ) > 0;
+    return all_worlds.contains( name );
 }
 
 std::vector<std::string> worldfactory::all_worldnames() const

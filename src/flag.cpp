@@ -284,6 +284,7 @@ const flag_id flag_SAFECRACK( "SAFECRACK" );
 const flag_id flag_SEMITANGIBLE( "SEMITANGIBLE" );
 const flag_id flag_SHATTERS( "SHATTERS" );
 const flag_id flag_SHOCKING( "SHOCKING" );
+const flag_id flag_ACIDIC( "ACIDIC" );
 const flag_id flag_SILENT( "SILENT" );
 const flag_id flag_SKINNED( "SKINNED" );
 const flag_id flag_SKINTIGHT( "SKINTIGHT" );

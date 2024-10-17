@@ -17,7 +17,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
       "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ],
-      "ranged": { "reduction": [ 125, 250 ], "destroy_threshold": 700 }
+      "ranged": { "reduction": [ 250, 250 ], "destroy_threshold": 700 }
     }
   },
   {
@@ -38,7 +38,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_floor_resin",
       "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ],
-      "ranged": { "reduction": [ 35, 70 ], "destroy_threshold": 300, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 70, 70 ], "destroy_threshold": 300, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -111,7 +111,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
       "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ],
-      "ranged": { "reduction": [ 45, 90 ], "destroy_threshold": 120 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 120 }
     }
   },
   {

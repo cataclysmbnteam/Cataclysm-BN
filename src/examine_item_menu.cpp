@@ -86,7 +86,16 @@ bool run(
     std::vector<action_entry> actions;
     uilist action_list;
 
-    const auto add_entry = [&]( const char *act, hint_rating hint, std::function<bool()> &&on_select ) {
+    /**
+    Add a menu entry
+    @param act the action name, corresponding to an action in data/raw/keybindings.json
+    @param hint determines what color the text will be
+    @param on_select lambda function for what the menu entry actually does
+    @param number will be printed after the menu entry in parentheses, optional
+                  INT_MIN is treated as a null value
+    */
+    const auto add_entry = [&]( const char *act, hint_rating hint, std::function<bool()> &&on_select,
+    int number = INT_MIN ) {
         action_entry ae;
         ae.action = act;
         ae.on_select = std::move( on_select );
@@ -97,7 +106,12 @@ bool run(
         std::string bound_key = ctxt.key_bound_to( act );
         int bound_key_i = bound_key.size() == 1 ? bound_key[0] : '?';
         std::string act_name = ctxt.get_action_name( act );
-        action_list.addentry( actions.size(), true, bound_key_i, act_name );
+        if( number == INT_MIN ) {
+            action_list.addentry( actions.size(), true, bound_key_i, act_name );
+        } else {
+            action_list.addentry( actions.size(), true, bound_key_i,
+                                  act_name + " (" + std::to_string( number ) + ")" );
+        }
 
         auto &list_entry = action_list.entries.back();
         switch( hint ) {
@@ -109,6 +123,9 @@ bool run(
                 break;
             case hint_rating::good:
                 list_entry.text_color = c_light_green;
+                break;
+            case hint_rating::blood:
+                list_entry.text_color = c_red;
                 break;
         }
     };
@@ -191,10 +208,10 @@ bool run(
     } );
 
     if( itm.kill_count() > 0 ) {
-        add_entry( "SHOW_KILL_LIST", hint_rating::good, [&]() {
+        add_entry( "SHOW_KILL_LIST", hint_rating::blood, [&]() {
             itm.show_kill_list();
             return true;
-        } );
+        }, itm.kill_count() );
     }
 
     if( !itm.is_favorite ) {
@@ -398,6 +415,10 @@ hint_rating rate_action_reload( const avatar &you, const item &it )
         switch( rate_action_reload( you, *mod ) ) {
             case hint_rating::good:
                 return hint_rating::good;
+
+            case hint_rating::blood:
+                // This doesn't happen, but if it did, just pass the color hint along
+                return hint_rating::blood;
 
             case hint_rating::cant:
                 continue;

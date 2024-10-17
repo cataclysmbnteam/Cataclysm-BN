@@ -501,7 +501,7 @@
     "armor_cut": 1,
     "armor_bullet": 1,
     "vision_night": 3,
-    "harvest": "zombie_heavy",
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],

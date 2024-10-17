@@ -627,7 +627,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
         test_info_equals(
             "test_compbow", q,
             "--\n"
-            "Skill used: <color_c_cyan>archery</color>\n" );
+            "Skill used: <color_c_cyan>Archery</color>\n" );
     }
 
     SECTION( "ammo capacity of weapon" ) {

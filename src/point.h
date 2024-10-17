@@ -75,7 +75,7 @@ struct point {
     }
 
 #ifndef CATA_NO_STL
-    inline point abs() const {
+    point abs() const {
         return point( std::abs( x ), std::abs( y ) );
     }
 #endif
@@ -93,13 +93,13 @@ struct point {
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 
-    friend inline constexpr bool operator<( point a, point b ) {
+    friend constexpr bool operator<( point a, point b ) {
         return a.x < b.x || ( a.x == b.x && a.y < b.y );
     }
-    friend inline constexpr bool operator==( point a, point b ) {
+    friend constexpr bool operator==( point a, point b ) {
         return a.x == b.x && a.y == b.y;
     }
-    friend inline constexpr bool operator!=( point a, point b ) {
+    friend constexpr bool operator!=( point a, point b ) {
         return !( a == b );
     }
 
@@ -198,7 +198,7 @@ struct tripoint {
     }
 
 #ifndef CATA_NO_STL
-    inline tripoint abs() const {
+    tripoint abs() const {
         return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
     }
 #endif
@@ -222,7 +222,7 @@ struct tripoint {
      * the dimensions specified by @param dim.
      * By default rotates around the origin (0, 0).
      * NOLINTNEXTLINE(cata-use-named-point-constants) */
-    inline tripoint rotate_2d( int turns, point dim = { 1, 1 } ) const {
+    tripoint rotate_2d( int turns, point dim = { 1, 1 } ) const {
         return tripoint( xy().rotate( turns, dim ), z );
     }
 
@@ -231,13 +231,13 @@ struct tripoint {
 
     friend std::ostream &operator<<( std::ostream &, const tripoint & );
 
-    friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
+    friend constexpr bool operator==( const tripoint &a, const tripoint &b ) {
         return a.x == b.x && a.y == b.y && a.z == b.z;
     }
-    friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
+    friend constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
         return !( a == b );
     }
-    friend inline bool operator<( const tripoint &a, const tripoint &b ) {
+    friend bool operator<( const tripoint &a, const tripoint &b ) {
         if( a.x != b.x ) {
             return a.x < b.x;
         }

@@ -747,19 +747,20 @@ void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_
 //      { tab_mode::second_tab, _( "SECOND_TAB" ) },
 // };
 // draw_tabs( w, tabs, current_tab );
-template<typename TabList, typename CurrentTab, typename = std::enable_if_t<
-             std::is_same<CurrentTab,
-                          std::remove_const_t<typename TabList::value_type::first_type>>::value>>
+template<typename TabList, typename CurrentTab>
 void draw_tabs( const catacurses::window &w, const TabList &tab_list,
                 const CurrentTab &current_tab )
-{
+requires std::is_same_v<CurrentTab,
+std::remove_const_t<typename TabList::value_type::first_type>> {
     std::vector<std::string> tab_text;
     std::transform( tab_list.begin(), tab_list.end(), std::back_inserter( tab_text ),
-    []( const typename TabList::value_type & pair ) {
+                    []( const typename TabList::value_type & pair )
+    {
         return pair.second;
     } );
     auto current_tab_it = std::find_if( tab_list.begin(), tab_list.end(),
-    [&current_tab]( const typename TabList::value_type & pair ) {
+                                        [&current_tab]( const typename TabList::value_type & pair )
+    {
         return pair.first == current_tab;
     } );
     assert( current_tab_it != tab_list.end() );
@@ -768,14 +769,14 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list,
 
 // Similar to the above, but where the order of tabs is specified separately
 // TabList is expected to be a map type.
-template<typename TabList, typename TabKeys, typename CurrentTab, typename = std::enable_if_t<
-             std::is_same<CurrentTab,
-                          std::remove_const_t<typename TabList::value_type::first_type>>::value>>
+template<typename TabList, typename TabKeys, typename CurrentTab>
 void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabKeys &keys,
                 const CurrentTab &current_tab )
-{
+requires std::is_same_v<CurrentTab,
+std::remove_const_t<typename TabList::value_type::first_type>> {
     std::vector<typename TabList::value_type> ordered_tab_list;
-    for( const auto &key : keys ) {
+    for( const auto &key : keys )
+    {
         auto it = tab_list.find( key );
         assert( it != tab_list.end() );
         ordered_tab_list.push_back( *it );

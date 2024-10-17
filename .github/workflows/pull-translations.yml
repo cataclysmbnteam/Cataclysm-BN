@@ -21,17 +21,12 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
         with:
-          filter: blob:none
-          sparse-checkout: |
-            .tx
-            lang
+          # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#push-to-protected-branches
+          token: ${{ secrets.AUTO_COMMIT_PAT }}
 
       - name: "Get current date"
-        uses: nanzm/get-time-action@v1.1
         id: get-timestamp
-        with:
-          timeZone: 0
-          format: "YYYY-MM-DD"
+        run: echo "time=$(date -u "+%F")" >> $GITHUB_OUTPUT
 
       - name: "Pull translations"
         run: tx pull --force

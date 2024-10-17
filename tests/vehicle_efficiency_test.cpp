@@ -110,7 +110,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     // We re-add battery because we want it accounted for, just not in the section above
     actually_used.insert( itype_id( "battery" ) );
     for( auto iter = ret.begin(); iter != ret.end(); ) {
-        if( iter->second <= 0 || actually_used.count( iter->first ) == 0 ) {
+        if( iter->second <= 0 || !actually_used.contains( iter->first ) ) {
             iter = ret.erase( iter );
         } else {
             ++iter;

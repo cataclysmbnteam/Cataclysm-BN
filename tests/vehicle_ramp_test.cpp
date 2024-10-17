@@ -29,7 +29,6 @@
 #include "item.h"
 #include "line.h"
 #include "mapdata.h"
-#include "map_helpers.h"
 #include "monster.h"
 #include "mtype.h"
 #include "units.h"
@@ -37,7 +36,6 @@
 #include "point.h"
 #include "vpart_position.h"
 #include "player_helpers.h"
-#include "map_helpers.h"
 #include "state_helpers.h"
 
 static void set_ramp( const int transit_x, bool use_ramp, bool up )

@@ -39,7 +39,7 @@ struct regional_settings;
 namespace om_direction
 {
 enum class type;
-}
+} // namespace om_direction
 
 struct overmap_path_params {
     int road_cost = -1;

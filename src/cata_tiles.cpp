@@ -213,7 +213,7 @@ void idle_animation_manager::prepare_for_redraw()
 }
 
 struct tile_render_info {
-    tripoint pos{};
+    tripoint pos;
     // accumulator for 3d tallness of sprites rendered here so far;
     int height_3d = 0;
     lit_level ll;
@@ -315,7 +315,7 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
     };
     bool has_season_suffix = false;
     for( int i = 0; i < 4; i++ ) {
-        if( string_ends_with( id, season_suffix[i] ) ) {
+        if( id.ends_with( season_suffix[i] ) ) {
             has_season_suffix = true;
             // key is id without _season suffix
             season_tile_value &value = tile_ids_by_season[i][id.substr( 0,
@@ -715,7 +715,7 @@ std::optional<tile_search_result> cata_tiles::tile_type_search(
         } else if( category == C_ITEM ) {
             //TODO!: push this up, it's a bad one
             item *tmp;
-            if( string_starts_with( found_id, "corpse_" ) ) {
+            if( found_id.starts_with( "corpse_" ) ) {
                 tmp = item::spawn_temporary( itype_corpse, calendar::start_of_cataclysm );
             } else {
                 tmp = item::spawn_temporary( found_id, calendar::start_of_cataclysm );
@@ -946,7 +946,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
             dbg( DL::Warn ) << "tile " << it->first << " has no (valid) foreground nor background";
             // remove the id from seasonal variations!
             for( auto &container : ts.tile_ids_by_season ) {
-                if( container.count( it->first ) != 0 ) {
+                if( container.contains( it->first ) ) {
                     container.erase( it->first );
                 }
             }
@@ -2090,7 +2090,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
         case C_ITEM: {
             itype_id iid = itype_id( id );
             if( !iid.is_valid() ) {
-                if( string_starts_with( id, "corpse_" ) ) {
+                if( id.starts_with( "corpse_" ) ) {
                     return find_tile_looks_like(
                                itype_corpse.str(), category, looks_like_jumps_limit - 1
                            );
@@ -2113,10 +2113,10 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
     std::string looks_like;
     std::string over_type;
 
-    if( string_starts_with( overlay, "worn_" ) ) {
+    if( overlay.starts_with( "worn_" ) ) {
         looks_like = overlay.substr( 5 );
         over_type = "worn_";
-    } else if( string_starts_with( overlay, "wielded_" ) ) {
+    } else if( overlay.starts_with( "wielded_" ) ) {
         looks_like = overlay.substr( 8 );
         over_type = "wielded_";
     } else {
@@ -2134,7 +2134,7 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
             exists = true;
             break;
         }
-        if( string_starts_with( looks_like, "mutation_active_" ) ) {
+        if( looks_like.starts_with( "mutation_active_" ) ) {
             looks_like = "mutation_" + looks_like.substr( 16 );
             continue;
         }
@@ -2280,12 +2280,12 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             break;
         default:
             // player
-            if( string_starts_with( found_id, "player_" ) ) {
+            if( found_id.starts_with( "player_" ) ) {
                 seed = g->u.name[0];
                 break;
             }
             // NPC
-            if( string_starts_with( found_id, "npc_" ) ) {
+            if( found_id.starts_with( "npc_" ) ) {
                 if( npc *const guy = g->critter_at<npc>( pos ) ) {
                     seed = guy->getID().get_value();
                     break;
@@ -2673,7 +2673,7 @@ bool cata_tiles::has_terrain_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "t_" ) ) {
+        if( t.tile.starts_with( "t_" ) ) {
             return true;
         }
     }
@@ -2684,7 +2684,7 @@ bool cata_tiles::has_furniture_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "f_" ) ) {
+        if( t.tile.starts_with( "f_" ) ) {
             return true;
         }
     }
@@ -2695,7 +2695,7 @@ bool cata_tiles::has_trap_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "tr_" ) ) {
+        if( t.tile.starts_with( "tr_" ) ) {
             return true;
         }
     }
@@ -2706,7 +2706,7 @@ bool cata_tiles::has_vpart_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "vp_" ) ) {
+        if( t.tile.starts_with( "vp_" ) ) {
             return true;
         }
     }
@@ -2717,7 +2717,7 @@ memorized_terrain_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) co
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "t_" ) ) {
+        if( t.tile.starts_with( "t_" ) ) {
             return t;
         }
     }
@@ -2728,7 +2728,7 @@ memorized_terrain_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) 
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "f_" ) ) {
+        if( t.tile.starts_with( "f_" ) ) {
             return t;
         }
     }
@@ -2739,7 +2739,7 @@ memorized_terrain_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "tr_" ) ) {
+        if( t.tile.starts_with( "tr_" ) ) {
             return t;
         }
     }
@@ -2750,7 +2750,7 @@ memorized_terrain_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) cons
 {
     if( g->u.should_show_map_memory() ) {
         const memorized_terrain_tile t = g->u.get_memorized_tile( get_map().getabs( p ) );
-        if( string_starts_with( t.tile, "vp_" ) ) {
+        if( t.tile.starts_with( "vp_" ) ) {
             return t;
         }
     }
@@ -3710,7 +3710,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
         for( int j = 0; j < 2; ++j ) {
             std::string sText = iter->getText( ( j == 0 ) ? "first" : "second" );
             int FG = msgtype_to_tilecolor( iter->getMsgType( ( j == 0 ) ? "first" : "second" ),
-                                           iter->getStep() >= SCT.iMaxSteps / 2 );
+                                           iter->getStep() >= scrollingcombattext::iMaxSteps / 2 );
 
             if( use_font ) {
                 const auto direction = iter->getDirecton();

@@ -19,11 +19,11 @@
 template<typename T>
 class ret_val
 {
-        static_assert( !std::is_convertible<T, std::string>::value, "string values aren't allowed" );
+        static_assert( !std::is_convertible_v<T, std::string>, "string values aren't allowed" );
 
         template<typename S>
-        using is_convertible_to_string = typename
-                                         std::enable_if< std::is_convertible<S, std::string>::value>::type;
+        using is_convertible_to_string =
+            std::enable_if_t< std::is_convertible_v<S, std::string>>;
 
     public:
         /**

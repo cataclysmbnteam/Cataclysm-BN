@@ -49,7 +49,7 @@ void mapbuffer::clear()
 
 bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
 {
-    if( submaps.count( p ) ) {
+    if( submaps.contains( p ) ) {
         return false;
     }
 
@@ -129,7 +129,7 @@ void mapbuffer::save( bool delete_after_save )
         // Submaps are generated in quads, so we know if we have one member of a quad,
         // we have the rest of it, if that assumption is broken we have REAL problems.
         const tripoint om_addr = sm_to_omt_copy( elem.first );
-        if( saved_submaps.count( om_addr ) != 0 ) {
+        if( saved_submaps.contains( om_addr ) ) {
             // Already handled this one.
             continue;
         }
@@ -185,7 +185,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         // Nothing to save - this quad will be regenerated faster than it would be re-read
         if( delete_after_save ) {
             for( auto &submap_addr : submap_addrs ) {
-                if( submaps.count( submap_addr ) > 0 && submaps[submap_addr] != nullptr ) {
+                if( submaps.contains( submap_addr ) && submaps[submap_addr] != nullptr ) {
                     submaps_to_delete.push_back( submap_addr );
                 }
             }
@@ -204,7 +204,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         JsonOut jsout( fout );
         jsout.start_array();
         for( auto &submap_addr : submap_addrs ) {
-            if( submaps.count( submap_addr ) == 0 ) {
+            if( !submaps.contains( submap_addr ) ) {
                 continue;
             }
 
@@ -264,7 +264,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
         // If it doesn't exist, trigger generating it.
         return nullptr;
     }
-    if( submaps.count( p ) == 0 ) {
+    if( !submaps.contains( p ) ) {
         debugmsg( "file %s did not contain the expected submap %d,%d,%d",
                   quad_path, p.x, p.y, p.z );
         return nullptr;

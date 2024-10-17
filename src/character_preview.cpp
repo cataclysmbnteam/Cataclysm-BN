@@ -121,7 +121,6 @@ class char_preview_adapter : public cata_tiles
 void character_preview_window::init( Character *character )
 {
     this->character = character;
-    toggle_clothes();
 }
 
 

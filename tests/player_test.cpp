@@ -7,7 +7,6 @@
 
 #include "avatar.h"
 #include "avatar_action.h"
-#include "catch/catch.hpp"
 #include "player.h"
 #include "units_temperature.h"
 #include "weather.h"
@@ -17,7 +16,6 @@
 #include "player_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "weather.h"
 #include "game.h"
 #include "units.h"
 #include "hash_utils.h"
@@ -144,7 +142,7 @@ static decltype( player::temp_cur ) converge_temperature( player &p, size_t iter
         for( const auto &pr : parts ) {
             current_iter_temperature.emplace_back( pr.first, p.temp_cur[pr.first->token] );
         }
-        if( history.count( current_iter_temperature ) != 0 ) {
+        if( history.contains( current_iter_temperature ) ) {
             converged = true;
             break;
         }

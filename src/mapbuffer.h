@@ -62,15 +62,15 @@ class mapbuffer
         using submap_map_t = std::map<tripoint, std::unique_ptr<submap>>;
 
     public:
-        inline submap_map_t::iterator begin() {
+        submap_map_t::iterator begin() {
             return submaps.begin();
         }
-        inline submap_map_t::iterator end() {
+        submap_map_t::iterator end() {
             return submaps.end();
         }
 
         bool is_submap_loaded( const tripoint &p ) const {
-            return submaps.count( p ) > 0;
+            return submaps.contains( p );
         }
 
     private:

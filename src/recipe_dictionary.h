@@ -104,7 +104,7 @@ class recipe_subset
 
         /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe &r ) const {
-            return ids.count( r.ident() ) != 0;
+            return ids.contains( r.ident() );
         }
 
         /**

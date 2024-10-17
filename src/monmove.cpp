@@ -77,7 +77,9 @@ static const species_id ZOMBIE( "ZOMBIE" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_LIQUID( "LIQUID" );
 
-#define MONSTER_FOLLOW_DIST 8
+enum {
+    MONSTER_FOLLOW_DIST = 8
+};
 
 bool monster::wander()
 {
@@ -108,7 +110,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( ft.has_elec ) {
         return has_flag( MF_ELECTRIC );
     }
-    if( ft.immune_mtypes.count( type->id ) > 0 ) {
+    if( ft.immune_mtypes.contains( type->id ) ) {
         return true;
     }
     // No specific immunity was found, so fall upwards
@@ -583,7 +585,7 @@ void monster::plan()
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                anger += 10 - static_cast<int>( hp_per / 10 );
+                anger += 10 - ( hp_per / 10 );
             }
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
@@ -767,7 +769,7 @@ void monster::move()
 
             // `special_attacks` might have changed at this point. Sadly `reset_special`
             // doesn't check the attack name, so we need to do it here.
-            if( special_attacks.count( special_name ) == 0 ) {
+            if( !special_attacks.contains( special_name ) ) {
                 continue;
             }
             reset_special( special_name );
@@ -1918,8 +1920,8 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     critter->add_effect( effect_stunned, rng( 0_turns, 2_turns ) );
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
-        add_msg( m_warning, _( "The %1$s tramples %2$s" ),
-                 name(), critter->disp_name() );
+        add_msg( m_warning, _( "%1$s tramples %2$s" ),
+                 disp_name( false, true ), critter->disp_name() );
     }
 
     moves -= movecost_attacker;
@@ -2176,8 +2178,8 @@ void monster::shove_vehicle( const tripoint &remote_destination,
             if( shove_velocity > 0 ) {
                 if( g->u.sees( this->pos() ) ) {
                     //~ %1$s - monster name, %2$s - vehicle name
-                    g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
-                                            veh.disp_name() );
+                    g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ),
+                                            this->disp_name( false, true ), veh.disp_name() );
                 }
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );

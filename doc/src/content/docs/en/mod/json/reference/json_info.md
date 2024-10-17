@@ -199,7 +199,7 @@ the appropriate JSON file.
 | react_cost                                                                                           | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time". Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`) |
 | time                                                                                                 | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)                                                                          |
 | upgraded_bionic                                                                                      | (_optional_) Bionic that can be upgraded by installing this one.                                                                                                                |
-| required_bionic                                                                                      | (_optional_) Bionic which is required to install this bionic, and which cannot be uninstalled if this bionic is installed                                                       |
+| required_bionics                                                                                     | (_optional_) Bionics which are required to install this bionic, and which cannot be uninstalled if this bionic is installed                                                     |
 | available_upgrades                                                                                   | (_optional_) Upgrades available for this bionic, i.e. the list of bionics                                                                                                       |
 | having this one referenced by `upgraded_bionic`.                                                     |                                                                                                                                                                                 |
 | and how much this bionic encumber them.                                                              |                                                                                                                                                                                 |
@@ -2016,7 +2016,7 @@ gunmod_data:
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
 "price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
 "material": "wood",   // Material types.  See materials.json for possible options
-"techniques": "FLAMING", // Combat techniques used by this tool
+"techniques": [ "FLAMING" ], // Combat techniques used by this tool
 "flags": "FIRE",      // Indicates special effects
 "weight": 831,        // Weight, measured in grams
 "volume": "1500 ml",  // Volume, volume in ml and L can be used - "50 ml" or "2 L"

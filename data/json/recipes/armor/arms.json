@@ -248,12 +248,12 @@
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_ARMS",
-    "skill_used": "fabrication",
+    "skill_used": "tailor",
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 16 ] ],
-    "components": [ [ [ "scute_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+    "components": [ [ [ "scute_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   }
 ]

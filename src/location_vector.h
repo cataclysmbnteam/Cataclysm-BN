@@ -22,8 +22,8 @@ class location_vector;
 namespace std
 {
 template<typename T>
-void swap( location_vector<T> &lhs, location_vector<T> &rhs );
-}
+void swap( location_vector<T> &lhs, location_vector<T> &rhs ) noexcept ;
+} // namespace std
 
 template<typename T>
 class location_vector
@@ -34,7 +34,7 @@ class location_vector
         bool destroyed = false;
 
         template<typename U>
-        friend void std::swap( location_vector<U> &lhs, location_vector<U> &rhs );
+        friend void std::swap( location_vector<U> &lhs, location_vector<U> &rhs ) noexcept ;
 
     public:
         struct const_iterator;
@@ -273,4 +273,4 @@ class location_vector
         void on_destroy();
 };
 
-#endif
+#endif // CATA_SRC_LOCATION_VECTOR_H

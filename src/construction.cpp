@@ -204,12 +204,12 @@ void check_consistency()
     for( const construction &c_it : all_constructions.get_all() ) {
         construction &c = const_cast<construction &>( c_it );
         bool did_migrate = false;
-        if( string_starts_with( c.pre_terrain.str(), "f_" ) ) {
+        if( c.pre_terrain.str().starts_with( "f_" ) ) {
             c.pre_furniture = furn_str_id( c.pre_terrain.str() );
             c.pre_terrain = ter_str_id();
             did_migrate = true;
         }
-        if( string_starts_with( c.post_terrain.str(), "f_" ) ) {
+        if( c.post_terrain.str().starts_with( "f_" ) ) {
             c.post_furniture = furn_str_id( c.post_terrain.str() );
             c.post_terrain = ter_str_id();
             did_migrate = true;
@@ -377,7 +377,7 @@ static nc_color construction_color( const construction_group_str_id &group, bool
 
 static bool is_favorite( const construction_group_str_id &c )
 {
-    return uistate.favorite_construct_recipes.count( c ) > 0;
+    return uistate.favorite_construct_recipes.contains( c );
 }
 
 static void favorite_add( const construction_group_str_id &c )
@@ -1136,7 +1136,7 @@ void complete_construction( Character &ch )
     }
     here.partial_con_remove( terp );
     // Some constructions are allowed to have items left on the tile.
-    if( built.post_flags.count( "keep_items" ) == 0 ) {
+    if( !built.post_flags.contains( "keep_items" ) ) {
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
         for( const tripoint &pt : here.points_in_radius( terp, 1 ) ) {
@@ -1547,7 +1547,7 @@ void construct::done_mine_upstair( const tripoint &p )
         }
     };
 
-    if( liquids.count( tmpmap.ter( local_tmp ) ) > 0 ) {
+    if( liquids.contains( tmpmap.ter( local_tmp ) ) ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );

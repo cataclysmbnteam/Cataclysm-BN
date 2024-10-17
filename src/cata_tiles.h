@@ -69,10 +69,10 @@ class tile_lookup_res
         tile_type *_tile;
     public:
         tile_lookup_res( const std::string &id, tile_type &tile ): _id( &id ), _tile( &tile ) {}
-        inline const std::string &id() {
+        const std::string &id() {
             return *_id;
         }
-        inline tile_type &tile() {
+        tile_type &tile() {
             return *_tile;
         }
 };
@@ -308,7 +308,7 @@ class idle_animation_manager
 
     public:
         /** Set whether idle animations are enabled. */
-        inline void set_enabled( bool enabled ) {
+        void set_enabled( bool enabled ) {
             enabled_ = enabled;
         }
 
@@ -316,22 +316,22 @@ class idle_animation_manager
         void prepare_for_redraw();
 
         /** Whether idle animations are enabled */
-        inline bool enabled() const {
+        bool enabled() const {
             return enabled_;
         }
 
         /** Current animation frame (increments by approx. 60 per second) */
-        inline int current_frame() const {
+        int current_frame() const {
             return frame;
         }
 
         /** Mark presence of an idle animation on screen */
-        inline void mark_present() {
+        void mark_present() {
             present_ = true;
         }
 
         /** Whether there are idle animations on screen */
-        inline bool present() const {
+        bool present() const {
             return present_;
         }
 };
