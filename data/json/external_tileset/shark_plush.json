@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/shark_plush.png",
+        "tiles": [ { "id": "shark_plush", "fg": 1 }, { "id": "overlay_wielded_shark_plush", "fg": 1 } ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]

@@ -102,7 +102,7 @@ static void hflesh_to_flesh( itype &item_template );
 
 bool item_is_blacklisted( const itype_id &id )
 {
-    return item_blacklist.count( id );
+    return item_blacklist.contains( id );
 }
 
 static void assign( const JsonObject &jo, const std::string &name,
@@ -198,7 +198,7 @@ void Item_factory::finalize_pre( itype &obj )
 
     // We want to recalculate DEFAULT attack, because it defaults to 0
     // But if it doesn't exist, we want to keep it that way
-    if( obj.attacks.empty() || obj.attacks.count( "DEFAULT" ) ) {
+    if( obj.attacks.empty() || obj.attacks.contains( "DEFAULT" ) ) {
         attack_statblock att;
         att.to_hit = obj.m_to_hit;
         for( size_t i = 0; i < NUM_DT; i++ ) {
@@ -276,7 +276,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     // remove LIGHT_[X] flags
     erase_if( obj.item_tags, []( const flag_id & f ) {
-        return string_starts_with( f.str(), "LIGHT_" );
+        return f.str().starts_with( "LIGHT_" );
     } );
 
     // Set max volume for containers to prevent integer overflow
@@ -298,15 +298,15 @@ void Item_factory::finalize_pre( itype &obj )
         if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
             std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
-            obj.ammo->cookoff = ammo_effects.count( ammo_effect_INCENDIARY ) > 0 ||
-                                ammo_effects.count( ammo_effect_COOKOFF ) > 0;
+            obj.ammo->cookoff = ammo_effects.contains( ammo_effect_INCENDIARY ) ||
+                                ammo_effects.contains( ammo_effect_COOKOFF );
             static const std::set<ammo_effect_str_id> special_cookoff_tags = {{
                     ammo_effect_EXPLOSIVE, ammo_effect_EXPLOSIVE_BIG, ammo_effect_EXPLOSIVE_HUGE, ammo_effect_EXPLOSIVE_SMALL, ammo_effect_FLASHBANG, ammo_effect_FRAG, ammo_effect_NAPALM, ammo_effect_NAPALM_BIG, ammo_effect_SMOKE, ammo_effect_SMOKE_BIG, ammo_effect_TOXICGAS,
                 }
             };
             obj.ammo->special_cookoff = std::any_of( ammo_effects.begin(), ammo_effects.end(),
             []( const ammo_effect_str_id & ae_id ) {
-                return special_cookoff_tags.count( ae_id ) > 0;
+                return special_cookoff_tags.contains( ae_id );
             } );
         } else {
             obj.ammo->cookoff = false;
@@ -482,7 +482,7 @@ void Item_factory::finalize_pre( itype &obj )
         if( obj.gun->handling < 0 ) {
             bool burst_only = std::all_of( obj.gun->modes.begin(), obj.gun->modes.end(),
             []( const std::pair<gun_mode_id, gun_modifier_data> &pr ) {
-                return pr.second.qty() > 1 || pr.second.flags().count( "MELEE" ) > 0;
+                return pr.second.qty() > 1 || pr.second.flags().contains( "MELEE" );
             } );
             // TODO: specify in JSON via classes
             if( obj.gun->skill_used == skill_id( "shotgun" ) ) {
@@ -522,7 +522,7 @@ void Item_factory::finalize_pre( itype &obj )
 
             // For comestibles composed of multiple edible materials we calculate the average.
             for( const auto &v : vitamin::all() ) {
-                if( !vitamins.count( v.first ) ) {
+                if( !vitamins.contains( v.first ) ) {
                     for( const auto &m : mat ) {
                         double amount = m->vitamin( v.first ) * healthy / mat.size();
                         vitamins[v.first] += std::ceil( amount );
@@ -541,7 +541,7 @@ void Item_factory::finalize_pre( itype &obj )
     // Legacy food heating stuff
     {
         // Needs to be split into 2 functions + flag
-        if( obj.use_methods.count( "HOTPLATE" ) != 0 ) {
+        if( obj.use_methods.contains( "HOTPLATE" ) ) {
             obj.use_methods.erase( "HOTPLATE" );
             obj.use_methods["TOGGLE_HEATS_FOOD"] =
                 use_function( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
@@ -551,12 +551,12 @@ void Item_factory::finalize_pre( itype &obj )
             obj.item_tags.insert( flag_HEATS_FOOD_USING_CHARGES );
         }
 
-        if( obj.use_methods.count( "HEAT_FOOD" ) != 0 ) {
+        if( obj.use_methods.contains( "HEAT_FOOD" ) ) {
             obj.use_methods.erase( "HEAT_FOOD" );
             obj.item_tags.insert( flag_HEATS_FOOD_USING_FIRE );
         }
 
-        if( obj.use_methods.count( "HEATPACK" ) != 0 ) {
+        if( obj.use_methods.contains( "HEATPACK" ) ) {
             obj.use_methods.erase( "HEATPACK" );
             obj.use_methods["TOGGLE_HEATS_FOOD"] =
                 use_function( "TOGGLE_HEATS_FOOD", &iuse::toggle_heats_food );
@@ -589,7 +589,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
-        string_starts_with( obj.get_id().str(), "manual_" ) ) {
+        obj.get_id().str().starts_with( "manual_" ) ) {
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
@@ -625,7 +625,7 @@ void Item_factory::register_cached_uses( const itype &obj )
 {
     for( auto &e : obj.use_methods ) {
         // can this item function as a repair tool?
-        if( repair_actions.count( e.first ) ) {
+        if( repair_actions.contains( e.first ) ) {
             repair_tools.insert( obj.id );
         }
 
@@ -666,7 +666,7 @@ void Item_factory::finalize_post( itype &obj )
             // tool has a possible repair action, check if the materials are compatible
             const auto &opts = dynamic_cast<const repair_item_actor *>( func->get_actor_ptr() )->materials;
             if( std::any_of( obj.materials.begin(), obj.materials.end(), [&opts]( const material_id & m ) {
-            return opts.count( m ) > 0;
+            return opts.contains( m );
             } ) ) {
                 obj.repair.insert( tool );
             }
@@ -889,7 +889,7 @@ void Item_factory::add_actor( std::unique_ptr<iuse_actor> ptr )
 
 void Item_factory::add_item_type( const itype &def )
 {
-    if( m_runtimes.count( def.id ) > 0 ) {
+    if( m_runtimes.contains( def.id ) ) {
         // Do NOT allow overwriting it, it's undefined behavior
         debugmsg( "Tried to add runtime type %s, but it exists already", def.id.c_str() );
         return;
@@ -1352,7 +1352,7 @@ void Item_factory::check_definitions() const
                     msg += "RELOAD_AND_SHOOT cannot be used with magazines\n";
                 }
                 for( const ammotype &at : type->gun->ammo ) {
-                    if( !type->gun->clip && !type->magazines.empty() && !type->magazine_default.count( at ) ) {
+                    if( !type->gun->clip && !type->magazines.empty() && !type->magazine_default.contains( at ) ) {
                         msg += string_format( "specified magazine but none provided for ammo type %s\n", at.str() );
                     }
                 }
@@ -1391,7 +1391,7 @@ void Item_factory::check_definitions() const
                 }
 
                 const itype *target = &*t;
-                if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
+                if( !target->gun->valid_mod_locations.contains( type->gunmod->location ) ) {
                     msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
                                           t.c_str(), type->gunmod->location.str() );
                 }
@@ -1416,7 +1416,7 @@ void Item_factory::check_definitions() const
                 if( !t.is_valid() ) {
                     msg += string_format( "gunmod excludes for invalid item %s\n", t.c_str() );
                 }
-                if( type->gunmod->usable.count( t ) ) {
+                if( type->gunmod->usable.contains( t ) ) {
                     msg += string_format( "gunmod includes and excludes same item %s\n", t.c_str() );
                 }
             }
@@ -1460,7 +1460,7 @@ void Item_factory::check_definitions() const
                 }
                 for( const itype_id &opt : e.second ) {
                     const itype *mag = find_template( opt );
-                    if( !mag->magazine || !mag->magazine->type.count( e.first ) ) {
+                    if( !mag->magazine || !mag->magazine->type.contains( e.first ) ) {
                         msg += string_format( "invalid magazine %s in magazine adapter\n", opt.str() );
                     }
                 }
@@ -1480,7 +1480,7 @@ void Item_factory::check_definitions() const
                 msg += string_format( "invalid count %i\n", type->magazine->count );
             }
             const itype *da = find_template( type->magazine->default_ammo );
-            if( !( da->ammo && type->magazine->type.count( da->ammo->type ) ) ) {
+            if( !( da->ammo && type->magazine->type.contains( da->ammo->type ) ) ) {
                 msg += string_format( "invalid default_ammo %s\n", type->magazine->default_ammo.str() );
             }
             if( type->magazine->reliability < 0 || type->magazine->reliability > 100 ) {
@@ -1509,7 +1509,7 @@ void Item_factory::check_definitions() const
                     msg += string_format(
                                "magazine \"%s\" specified for \"%s\" is not a magazine\n", magazine.str(),
                                ammo_variety.first.str() );
-                } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
+                } else if( !mag_ptr->magazine->type.contains( ammo_variety.first ) ) {
                     msg += string_format( "magazine \"%s\" does not take compatible ammo\n", magazine );
                 } else if( mag_ptr->has_flag( flag_SPEEDLOADER ) &&
                            mag_ptr->magazine->capacity > type->gun->clip ) {
@@ -1581,11 +1581,11 @@ void Item_factory::check_definitions() const
         debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg );
     }
     for( const auto &e : migrations ) {
-        if( !m_templates.count( e.second.replace ) ) {
+        if( !m_templates.contains( e.second.replace ) ) {
             debugmsg( "Invalid migration target: %s", e.second.replace.c_str() );
         }
         for( const auto &c : e.second.contents ) {
-            if( !m_templates.count( c ) ) {
+            if( !m_templates.contains( c ) ) {
                 debugmsg( "Invalid migration contents: %s", c.c_str() );
             }
         }
@@ -2556,7 +2556,7 @@ void hflesh_to_flesh( itype &item_template )
 
 void Item_factory::npc_implied_flags( itype &item_template )
 {
-    if( item_template.use_methods.count( "explosion" ) ) {
+    if( item_template.use_methods.contains( "explosion" ) ) {
         item_template.item_tags.insert( flag_DANGEROUS );
     }
 
@@ -2719,7 +2719,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
                     ammotype ammo( arr.get_string( 0 ) );
                     JsonArray compat = arr.get_array( 1 );
 
-                    if( def.magazine_default.count( ammo ) == 0 ) {
+                    if( !def.magazine_default.contains( ammo ) ) {
                         def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
                     }
                 }
@@ -2929,7 +2929,7 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
         for( JsonArray curr : jo.get_array( member ) ) {
             const auto quali = std::pair<quality_id, int>( quality_id( curr.get_string( 0 ) ),
                                curr.get_int( 1 ) );
-            if( def.qualities.count( quali.first ) > 0 ) {
+            if( def.qualities.contains( quali.first ) ) {
                 curr.throw_error( "Duplicated quality", 0 );
             }
             def.qualities.insert( quali );
@@ -2964,7 +2964,7 @@ void Item_factory::set_properties_from_json( const JsonObject &jo, const std::st
     if( jo.has_array( member ) ) {
         for( JsonArray curr : jo.get_array( member ) ) {
             const auto prop = std::pair<std::string, std::string>( curr.get_string( 0 ), curr.get_string( 1 ) );
-            if( def.properties.count( prop.first ) > 0 ) {
+            if( def.properties.contains( prop.first ) ) {
                 curr.throw_error( "Duplicated property", 0 );
             }
             def.properties.insert( prop );
@@ -3496,7 +3496,7 @@ void item_group::debug_spawn()
 
 bool Item_factory::has_template( const itype_id &id ) const
 {
-    return m_templates.count( id ) || m_runtimes.count( id );
+    return m_templates.contains( id ) || m_runtimes.contains( id );
 }
 
 std::vector<const itype *> Item_factory::all() const

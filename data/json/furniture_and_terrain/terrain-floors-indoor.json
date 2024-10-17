@@ -402,7 +402,7 @@
         { "item": "sheet_metal_small", "count": [ 10, 20 ] },
         { "item": "pipe", "count": [ 0, 2 ] }
       ],
-      "//2": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "//2": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 20, "block_unaimed_chance": "25%" }
     },
     "examine_action": "transform",

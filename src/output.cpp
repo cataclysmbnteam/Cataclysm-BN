@@ -1926,7 +1926,7 @@ void scrollingcombattext::advanceAllSteps()
     std::vector<cSCT>::iterator iter = vSCT.begin();
 
     while( iter != vSCT.end() ) {
-        if( iter->advanceStep() > this->iMaxSteps ) {
+        if( iter->advanceStep() > scrollingcombattext::iMaxSteps ) {
             iter = vSCT.erase( iter );
         } else {
             ++iter;

@@ -326,7 +326,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
             dummy.set_skill_level( skill_id( "cooking" ), 7 );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
-            expect_reasons = { "cooking 8 needed to understand.  You have 7" };
+            expect_reasons = { "Cooking 8 needed to understand.  You have 7" };
             CHECK( reasons == expect_reasons );
         }
 

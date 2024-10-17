@@ -203,13 +203,13 @@ void traverse( StartPoint &start,
                VehFunc veh_action, GridFunc grid_action );
 
 /* Useful if we want to act only in one type. */
-inline constexpr traverse_visitor_result noop_visitor_grid( const distribution_grid & )
+constexpr traverse_visitor_result noop_visitor_grid( const distribution_grid & )
 {
     return traverse_visitor_result::continue_further;
 }
 
 /* Useful if we want to act only in one type. */
-inline constexpr traverse_visitor_result noop_visitor_veh( const vehicle & )
+constexpr traverse_visitor_result noop_visitor_veh( const vehicle & )
 {
     return traverse_visitor_result::continue_further;
 }

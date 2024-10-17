@@ -16303,6 +16303,9 @@
         { "id": "footstep_below", "fg": 9260, "rotates": false },
         { "id": "graffiti", "fg": 9261, "rotates": false },
         { "id": "highlight", "fg": 9262, "rotates": false },
+        { "id": "overmap_path", "fg": 9262 },
+        { "id": "overmap_path_above", "fg": 9238 },
+        { "id": "overmap_path_below", "fg": 9238 },
         { "id": "highlight_item", "fg": 9263, "rotates": false },
         { "id": "hit_vehicle", "fg": 9264 },
         {

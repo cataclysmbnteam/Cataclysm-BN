@@ -20,7 +20,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -43,7 +43,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -69,7 +69,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -91,7 +91,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -115,7 +115,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -138,7 +138,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -162,7 +162,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -185,7 +185,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -209,7 +209,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -232,7 +232,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -256,7 +256,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -279,7 +279,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -301,7 +301,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -322,7 +322,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -343,7 +343,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 35, 70 ], "destroy_threshold": 140 }
+      "ranged": { "reduction": [ 70, 70 ], "destroy_threshold": 140 }
     }
   },
   {
@@ -388,7 +388,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -412,7 +412,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -437,7 +437,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -461,7 +461,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -494,7 +494,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -518,7 +518,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -543,7 +543,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -567,7 +567,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -597,7 +597,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -621,7 +621,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -646,7 +646,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -670,7 +670,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -695,7 +695,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -719,7 +719,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -744,7 +744,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -768,7 +768,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -801,7 +801,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -825,7 +825,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -858,7 +858,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -882,7 +882,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -911,7 +911,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -945,7 +945,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 120 }
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 120 }
     }
   },
   {
@@ -972,7 +972,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -993,7 +993,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1020,7 +1020,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1041,7 +1041,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1063,7 +1063,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1085,7 +1085,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1112,7 +1112,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1136,7 +1136,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1161,7 +1161,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1184,7 +1184,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1209,7 +1209,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1232,7 +1232,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1257,7 +1257,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1280,7 +1280,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1302,7 +1302,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -1993,7 +1993,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -2014,7 +2014,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "splinter", "count": [ 5, 15 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -2191,7 +2191,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -2214,7 +2214,7 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 180 }
     }
   },
   {

@@ -80,9 +80,9 @@ template <typename T, typename Char> class is_streamable
 {
     private:
         template <typename U>
-        static bool_constant < !std::is_same < decltype( std::declval<test_stream<Char>&>()
+        static bool_constant < !std::is_same_v < decltype( std::declval<test_stream<Char>&>()
                 << std::declval<U>() ),
-                void_t< >>::value >
+                void_t< >> >
                 test( int );
 
         template <typename> static std::false_type test( ... );
@@ -98,7 +98,7 @@ template <typename Char>
 void write_buffer( std::basic_ostream<Char> &os, buffer<Char> &buf )
 {
     const Char *buf_data = buf.data();
-    using unsigned_streamsize = std::make_unsigned<std::streamsize>::type;
+    using unsigned_streamsize = std::make_unsigned_t<std::streamsize>;
     unsigned_streamsize size = buf.size();
     unsigned_streamsize max_size = to_unsigned( max_value<std::streamsize>() );
     do {

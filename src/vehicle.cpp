@@ -396,7 +396,7 @@ bool vehicle::player_in_control( const Character &p ) const
 {
     // Debug switch to prevent vehicles from skidding
     // without having to place the player in them.
-    if( tags.count( "IN_CONTROL_OVERRIDE" ) ) {
+    if( tags.contains( "IN_CONTROL_OVERRIDE" ) ) {
         return true;
     }
 
@@ -438,7 +438,7 @@ void vehicle::add_missing_frames()
     //No need to check the same spot more than once
     std::set<point> locations_checked;
     for( auto &i : parts ) {
-        if( locations_checked.count( i.mount ) != 0 ) {
+        if( locations_checked.contains( i.mount ) ) {
             continue;
         }
         locations_checked.insert( i.mount );
@@ -1241,7 +1241,7 @@ bool vehicle::is_alternator_on( const int a ) const
         const auto &eng = parts [ idx ];
         //fuel_left checks that the engine can produce power to be absorbed
         return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) &&
-               eng.mount == alt.mount && !eng.faults().count( fault_belt );
+               eng.mount == alt.mount && !eng.faults().contains( fault_belt );
     } );
 }
 
@@ -2880,16 +2880,16 @@ vehicle_part_with_feature_range<std::string> vehicle::get_avail_parts( std::stri
 {
     return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
             std::move( feature ),
-            static_cast<part_status_flag>( part_status_flag::working |
-                                           part_status_flag::available ) );
+            ( part_status_flag::working |
+              part_status_flag::available ) );
 }
 
 vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_avail_parts(
     const vpart_bitflags feature ) const
 {
     return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
-            static_cast<part_status_flag>( part_status_flag::working |
-                                           part_status_flag::available ) );
+            ( part_status_flag::working |
+              part_status_flag::available ) );
 }
 
 vehicle_part_with_feature_range<std::string> vehicle::get_parts_including_carried(
@@ -2923,18 +2923,18 @@ vehicle_part_with_feature_range<std::string> vehicle::get_enabled_parts( std::st
 {
     return vehicle_part_with_feature_range<std::string>( const_cast<vehicle &>( *this ),
             std::move( feature ),
-            static_cast<part_status_flag>( part_status_flag::enabled |
-                                           part_status_flag::working |
-                                           part_status_flag::available ) );
+            ( part_status_flag::enabled |
+              part_status_flag::working |
+              part_status_flag::available ) );
 }
 
 vehicle_part_with_feature_range<vpart_bitflags> vehicle::get_enabled_parts(
     const vpart_bitflags feature ) const
 {
     return vehicle_part_with_feature_range<vpart_bitflags>( const_cast<vehicle &>( *this ), feature,
-            static_cast<part_status_flag>( part_status_flag::enabled |
-                                           part_status_flag::working |
-                                           part_status_flag::available ) );
+            ( part_status_flag::enabled |
+              part_status_flag::working |
+              part_status_flag::available ) );
 }
 
 /**
@@ -3652,7 +3652,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 
             } else if( !is_perpetual_type( e ) ) {
                 fcon += part_vpower_w( engines[e] );
-                if( parts[ e ].faults().count( fault_filter_air ) ) {
+                if( parts[ e ].faults().contains( fault_filter_air ) ) {
                     fcon *= 2;
                 }
             }
@@ -3685,7 +3685,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
         int p = engines[e];
         if( is_engine_on( e ) && ( !fueled || engine_fuel_left( e ) ) ) {
             int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
-            if( parts[ engines[e] ].faults().count( fault_filter_fuel ) ) {
+            if( parts[ engines[e] ].faults().contains( fault_filter_fuel ) ) {
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
@@ -4049,7 +4049,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
                 combustion = true;
                 double health = parts[p].health_percent();
-                if( parts[ p ].base->faults.count( fault_filter_fuel ) ) {
+                if( parts[ p ].base->faults.contains( fault_filter_fuel ) ) {
                     health = 0.0;
                 }
                 if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
@@ -4057,7 +4057,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                 }
                 double j = cur_stress * to_turns<int>( time ) * muffle * 1000;
 
-                if( parts[ p ].base->faults.count( fault_filter_air ) ) {
+                if( parts[ p ].base->faults.contains( fault_filter_air ) ) {
                     bad_filter = true;
                     j *= j;
                 }
@@ -4087,7 +4087,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     // Cap engine noise to avoid deafening.
     noise = std::min( noise, 100.0 );
     // Even a vehicle with engines off will make noise traveling at high speeds
-    noise = std::max( noise, static_cast<double>( std::fabs( velocity / 500.0 ) ) );
+    noise = std::max( noise, std::fabs( velocity / 500.0 ) );
     int lvl = 0;
     if( one_in( 4 ) && rng( 0, 30 ) < noise ) {
         while( noise > sounds[lvl].second ) {
@@ -4349,7 +4349,7 @@ bool vehicle::can_float() const
 
 double vehicle::total_rotor_area() const
 {
-    return std::accumulate( rotors.begin(), rotors.end(), double{0.0},
+    return std::accumulate( rotors.begin(), rotors.end(), 0.0,
     [&]( double acc, int rotor ) {
         const double radius{ parts[ rotor ].info().rotor_diameter() / 2.0 };
         return acc + M_PI * std::pow( radius, 2 );
@@ -4724,7 +4724,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
 
         if( !is_perpetual_type( i ) ) {
             int usage = info.energy_consumption;
-            if( parts[ e ].faults().count( fault_filter_air ) ) {
+            if( parts[ e ].faults().contains( fault_filter_air ) ) {
                 usage *= 2;
             }
 
@@ -5595,7 +5595,7 @@ detached_ptr<item> vehicle::add_item( int part, detached_ptr<item> &&itm )
     }
 
     if( p.base->is_gun() ) {
-        if( !itm->is_ammo() || !p.base->ammo_types().count( itm->ammo_type() ) ) {
+        if( !itm->is_ammo() || !p.base->ammo_types().contains( itm->ammo_type() ) ) {
             return std::move( itm );
         }
     }
@@ -5884,7 +5884,7 @@ void vehicle::refresh()
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
-        inline bool operator()( const int p1, const int p2 ) {
+        bool operator()( const int p1, const int p2 ) {
             return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
         }
     } svpv = { this };

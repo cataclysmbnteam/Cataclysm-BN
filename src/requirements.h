@@ -176,7 +176,7 @@ enum class requirement_display_flags {
     no_unavailable = 1,
 };
 
-inline constexpr requirement_display_flags operator&( requirement_display_flags l,
+constexpr requirement_display_flags operator&( requirement_display_flags l,
         requirement_display_flags r )
 {
     return static_cast<requirement_display_flags>(

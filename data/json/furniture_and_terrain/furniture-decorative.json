@@ -19,7 +19,7 @@
       "furn_set": "f_bigmirror_b",
       "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ],
       "//": "destroy_threshold equal to str_min as fragile glass breaks into standing mirror frame, reduction matches that of broken mirror",
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 5 }
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 5 }
     }
   },
   {
@@ -39,7 +39,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "scrap", "count": [ 2, 4 ] } ],
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 30 }
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -58,7 +58,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "steel_chunk", "count": [ 5, 10 ] } ],
-      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 50, 50 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     },
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT" ]
   },
@@ -79,7 +79,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] } ],
-      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 50, 50 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     },
     "flags": [ "TRANSPARENT", "SHORT" ]
   },
@@ -119,7 +119,7 @@
       "sound_fail": "thump.",
       "items": [ { "item": "rock", "count": [ 1, 6 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 16, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 32, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -139,7 +139,7 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "splinter", "count": [ 9, 12 ] } ],
-      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 6, 6 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -160,7 +160,7 @@
       "sound_fail": "thump.",
       "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "rebar", "count": [ 1, 2 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 16, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 32, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -219,6 +219,7 @@
         { "item": "nail", "charges": [ 5, 14 ] },
         { "item": "stick", "count": [ 1, 3 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 40, "block_unaimed_chance": "25%" }
     }
   }

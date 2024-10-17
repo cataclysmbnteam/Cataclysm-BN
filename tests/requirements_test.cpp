@@ -16,7 +16,7 @@ TEST_CASE( "No book grant a recipe at skill levels above autolearn", "[recipe]" 
         // Booklearning requires only one skill - the primary one
         // If autolearn requires any other skill, booklearn is not 100% useless
         if( rec->autolearn_requirements.size() > 1 ||
-            rec->autolearn_requirements.count( rec->skill_used ) < 1 ) {
+            !rec->autolearn_requirements.contains( rec->skill_used ) ) {
             continue;
         }
         for( const auto &p : rec->booksets ) {

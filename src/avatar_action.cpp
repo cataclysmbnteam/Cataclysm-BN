@@ -270,7 +270,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         monster &critter = *mon_ptr;
         // Additional checking to make sure we won't take a swing at friendly monsters.
         Character &u = get_player_character();
-        monster_attitude att = critter.attitude( const_cast<Character *>( &u ) );
+        monster_attitude att = critter.attitude( ( &u ) );
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) && att != MATT_FRIEND ) {
             if( you.is_auto_moving() ) {
@@ -768,7 +768,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
     } else if( !weapon.is_gun() ) {
         return;
     } else if( weapon.ammo_data() && weapon.type->gun &&
-               !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+               !weapon.ammo_types().contains( weapon.ammo_data()->ammo->type ) ) {
         std::string ammoname = weapon.ammo_current()->nname( 1 );
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), ammoname );
@@ -1294,8 +1294,8 @@ void avatar_action::reload_weapon( bool try_everything )
             return true;
         }
         // Second sort by affiliation with wielded gun
-        const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
-        const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
+        const bool mag_ap = compatible_magazines.contains( ap->typeId() );
+        const bool mag_bp = compatible_magazines.contains( bp->typeId() );
         if( mag_ap != mag_bp ) {
             return mag_ap;
         }

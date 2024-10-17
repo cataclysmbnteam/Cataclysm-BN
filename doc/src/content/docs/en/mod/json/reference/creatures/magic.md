@@ -66,6 +66,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "sound_ambient": true, // whether or not this is treated as an ambient sound or not
   "sound_id": "misc", // the sound id
   "sound_variant": "shockwave" // the sound variant
+  "learn_spells": { "acid_resistance_greater": 15 } // You learn the specified spell once your level in this spell is greater than or equal to the number shown.
 }
 ```
 
@@ -209,6 +210,10 @@ experience you need to get to a level is below:
 
 - `dash` - moves the player to the target tile, can leave behind fields.
 
+- `area_push` - pushes things outwards from a single point
+
+- `directed_push` pushes things in a single direction away from you.
+
 - `WONDER` - Unlike the above, this is not an "effect" but a "flag". This alters the behavior of the
   parent spell drastically: The spell itself doesn't cast, but its damage and range information is
   used in order to cast the extra_effects. N of the extra_effects will be chosen at random to be
@@ -265,10 +270,11 @@ that use a negative 'recover' effect to cause pain or stamina damage. For exampl
 
 ### Learning Spells
 
-There are two ways of granting spells that is implemented: Mutating can grant a spell with the
-"spells_learned" field which also lets you specify the level granted. Otherwise you can learn a
-spell from an item through a use_action, which is also the only way to train a spell other than
-using it. Examples of both are shown below:
+There are three ways of granting spells that are implemented: Mutating can grant a spell with the
+"spells_learned" field which also lets you specify the level granted. Certain spells can also teach
+you spells once they reach an appropriate level via the "learn_spells" variable. Finally, You can
+learn a spell from an item through a use_action, which is also the only way to train a spell other
+than using it. Examples of all three are shown below:
 
 ```json
 {
@@ -285,6 +291,20 @@ using it. Examples of both are shown below:
     "spells": [ "debug_hp", "debug_stamina", "example_template", "debug_bionic", "pain_split", "fireball" ] // this is a list of spells you can learn from the item
   }
 },
+```
+
+For the below example you will learn the spell Greater Acid Resistance once Acid Resistance reaches
+level 15
+
+```json
+{
+    "id": "acid_resistance",
+    "type": "SPELL",
+    "name": { "str": "Acid Resistance" },
+    "description": "Protects the user from acid.",
+    ...
+    "learn_spells": { "acid_resistance_greater": 15 }
+}
 ```
 
 You can study this spellbook for a rate of ~1 experience per turn depending on intelligence,

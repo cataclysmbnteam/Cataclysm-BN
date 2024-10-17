@@ -997,8 +997,9 @@
     "id": "mace_bone",
     "type": "GENERIC",
     "copy-from": "mace",
-    "name": { "str": "bone mace" },
-    "description": "This mace is carved from a series of sturdy bones, capable of bashing faces in with swiftness and efficiency.",
+    "looks_like": "homewrecker",
+    "name": { "str": "bone club" },
+    "description": "This hefty bludgeon is carved from sturdy bones mounted on a wooden haft, capable of bashing faces in with swiftness and efficiency.",
     "material": [ "bone_heavy" ],
     "proportional": { "weight": 0.8, "bashing": 0.9 }
   }

@@ -274,7 +274,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
             for( int i = scroll_position; static_cast<size_t>( i ) < passive.size(); i++ ) {
                 const mutation_branch &md = passive[i].obj();
                 const char_trait_data &td = who.my_mutations[passive[i]];
-                const bool is_highlighted = cursor == static_cast<int>( i );
+                const bool is_highlighted = cursor == i;
                 if( i - scroll_position == list_height ) {
                     break;
                 }
@@ -294,7 +294,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
             for( int i = scroll_position; static_cast<size_t>( i ) < active.size(); i++ ) {
                 const mutation_branch &md = active[i].obj();
                 const char_trait_data &td = who.my_mutations[active[i]];
-                const bool is_highlighted = cursor == static_cast<int>( i );
+                const bool is_highlighted = cursor == i;
                 if( i - scroll_position == list_height ) {
                     break;
                 }

@@ -3,7 +3,7 @@
 /**
  * Generates markdown documentation for the game executable.
  */
-import { chunk } from "$std/collections/chunk.ts"
+import { chunk } from "@std/collections"
 
 export type Flag = { option: string; desc: string }
 export type Section = { title: string; flags: Flag[] }

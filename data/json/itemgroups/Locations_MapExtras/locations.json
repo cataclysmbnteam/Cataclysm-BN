@@ -968,7 +968,9 @@
       [ "bone_flute", 10 ],
       [ "wood_flute", 10 ],
       [ "spear_stone", 50 ],
-      [ "hand_axe", 50 ]
+      [ "tomahawk_primitive", 10 ],
+      [ "glass_macuahuitl", 10 ],
+      [ "tooth_leiomano", 10 ]
     ]
   },
   {

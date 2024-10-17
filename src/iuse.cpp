@@ -363,8 +363,30 @@ static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 
-struct extended_photo_def;
+
 struct object_names_collection;
+
+struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
+    int quality;
+    std::string name;
+    std::string description;
+
+    extended_photo_def() = default;
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject obj = jsin.get_object();
+        quality = obj.get_int( "quality" );
+        name = obj.get_string( "name" );
+        description = obj.get_string( "description" );
+    }
+
+    void serialize( JsonOut &jsout ) const override {
+        jsout.start_object();
+        jsout.member( "quality", quality );
+        jsout.member( "name", name );
+        jsout.member( "description", description );
+        jsout.end_object();
+    }
+};
 
 static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
                                 int photo_quality );
@@ -832,7 +854,7 @@ int iuse::meth( player *p, item *it, bool, const tripoint & )
         }
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            g->m.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
+            g->m.add_field( {p->posx() + rng( -2, 2 ), p->posy() + rng( -2, 2 ), p->posz()},
                             fd_methsmoke, 2 );
         }
     } else {
@@ -2027,7 +2049,7 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
         return 0;
     } else { // Turning it off
         std::string oname = it->typeId().str();
-        if( string_ends_with( oname, "_on" ) ) {
+        if( oname.ends_with( "_on" ) ) {
             oname.erase( oname.length() - 3, 3 );
         } else {
             debugmsg( "no item type to turn it into (%s)!", oname );
@@ -2579,7 +2601,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
         result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
     }
 
-    return { moves, static_cast<int>( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
+    return { moves, ( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -5963,7 +5985,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
                 const std::string mtype = s;
                 getline( f, s, ',' );
-                char *chq = &s[0];
+                char *chq = s.data();
                 const int quality = atoi( chq );
 
                 const size_t eink_strpos = photos.find( "," + mtype + "," );
@@ -5977,7 +5999,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
                     const int old_quality = atoi( chq );
 
                     if( quality > old_quality ) {
-                        chq = &string_format( "%d", quality )[0];
+                        chq = string_format( "%d", quality ).data();
                         photos[strqpos] = *chq;
                     }
                 }
@@ -6107,7 +6129,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         if( ei_photo == choice ) {
 
             const int photos = it->get_var( "EIPC_PHOTOS", 0 );
-            const int viewed = std::min( photos, static_cast<int>( rng( 10, 30 ) ) );
+            const int viewed = std::min( photos, rng( 10, 30 ) );
             const int count = photos - viewed;
             if( count == 0 ) {
                 it->erase_var( "EIPC_PHOTOS" );
@@ -6229,7 +6251,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 const monster dummy( monster_photos.back() );
                 menu_str = dummy.name();
                 getline( f, s, ',' );
-                char *chq = &s[0];
+                char *chq = s.data();
                 const int quality = atoi( chq );
                 menu_str += " [" + photo_quality_name( quality ) + "]";
                 pmenu.addentry( k++, true, -1, menu_str.c_str() );
@@ -6344,27 +6366,6 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
-    int quality;
-    std::string name;
-    std::string description;
-
-    extended_photo_def() = default;
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
-        quality = obj.get_int( "quality" );
-        name = obj.get_string( "name" );
-        description = obj.get_string( "description" );
-    }
-
-    void serialize( JsonOut &jsout ) const override {
-        jsout.start_object();
-        jsout.member( "quality", quality );
-        jsout.member( "name", name );
-        jsout.member( "description", description );
-        jsout.end_object();
-    }
-};
 
 static std::string colorized_trap_name_at( const tripoint &point )
 {
@@ -7342,7 +7343,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             descriptions.push_back( dummy.type->get_description() );
 
             getline( f_mon, s, ',' );
-            char *chq = &s[0];
+            char *chq = s.data();
             const int quality = atoi( chq );
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
@@ -8200,7 +8201,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             int counter = 0;
 
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
-                if( multicooked_subcats.count( r->subcategory ) > 0 ) {
+                if( multicooked_subcats.contains( r->subcategory ) ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
@@ -8957,7 +8958,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
         const std::string capacity = it->get_property_string( "creature_size_capacity" );
-        if( Creature::size_map.count( capacity ) == 0 ) {
+        if( !Creature::size_map.contains( capacity ) ) {
             debugmsg( "%s has invalid creature_size_capacity %s.",
                       it->tname(), capacity.c_str() );
             return 0;

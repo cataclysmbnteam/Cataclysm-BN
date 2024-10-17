@@ -896,6 +896,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   cannot use the damage object used by ammo to specify the damage type of melee weapon.
 - `UNARMED_WEAPON` Wielding this item still counts as unarmed combat.
 - `WHIP` Has a chance of disarming the opponent.
+- `FLAMING` Deals a random amount of fire damage on hit
+- `SHOCKING` Deals a random amount of electric damage on hit
+- `ACIDIC` Deals a random amount of acid damage on hit
 
 ## Monster Groups
 

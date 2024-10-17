@@ -87,7 +87,7 @@ JsonObject::JsonObject( JsonIn &j )
     while( !jsin->end_object() ) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
-        if( positions.count( n ) > 0 ) {
+        if( positions.contains( n ) ) {
             j.error( "duplicate entry in json object" );
         }
         positions[n] = p;
@@ -118,7 +118,7 @@ void JsonObject::report_unvisited() const
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
-            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
+            if( !visited_members.contains( name ) && !name.starts_with( "//" ) ) {
                 try {
                     throw_error( string_format( "Invalid or misplaced field name \"%s\" in JSON data", name ), name );
                 } catch( const JsonError &e ) {
@@ -181,7 +181,7 @@ int JsonObject::verify_position( const std::string &name,
 
 bool JsonObject::has_member( const std::string &name ) const
 {
-    return positions.count( name ) > 0;
+    return positions.contains( name );
 }
 
 std::string JsonObject::line_number() const
@@ -2065,7 +2065,7 @@ std::string JsonIn::substr( size_t pos, size_t len )
     }
     ret.resize( len );
     stream->seekg( pos );
-    stream->read( &ret[0], len );
+    stream->read( ret.data(), len );
     return ret;
 }
 

@@ -133,7 +133,6 @@
     "components": [
       [ [ "material_soil", 20 ] ],
       [ [ "straw_pile", 20 ], [ "withered", 20 ], [ "pine_bough", 20 ] ],
-      [ [ "material_soil", 20 ] ],
       [ [ "material_sand", 200 ], [ "pebble", 40 ] ],
       [ [ "water", 20 ], [ "water_clean", 20 ] ],
       [ [ "fertilizer_liquid", 20 ], [ "fertilizer_commercial", 4 ] ]
@@ -2585,7 +2584,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_wall",
+    "id": "constr_wall_domestic_half",
     "group": "constr_wall_standard",
     "//": "Step 1: frame wall in an empty space",
     "category": "CONSTRUCT",

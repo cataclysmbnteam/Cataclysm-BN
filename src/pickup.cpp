@@ -1063,7 +1063,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                           !selected_stack.pick ) );
                 if( action != "RIGHT" && action != "LEFT" ) {
                     selected = idx;
-                    start = static_cast<int>( idx / maxitems ) * maxitems;
+                    start = ( idx / maxitems ) * maxitems;
                 }
 
                 if( !selected_stack.pick ) {

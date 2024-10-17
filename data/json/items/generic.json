@@ -3248,5 +3248,20 @@
     "material": [ "wood" ],
     "symbol": "-",
     "color": "brown"
+  },
+  {
+    "type": "GENERIC",
+    "id": "shark_plush",
+    "category": "other",
+    "symbol": "S",
+    "color": "cyan",
+    "name": { "str": "shark plush" },
+    "description": "A slightly large shark plushie, perfect for cuddles.",
+    "price": "22 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton" ],
+    "weight": "660 g",
+    "volume": "1230 ml",
+    "flags": [ "SLEEP_AID" ]
   }
 ]
