@@ -53,6 +53,47 @@ static const trait_flag_str_id trait_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
 
+static int get_temp_conv( const Character &c, const bodypart_str_id &bp )
+{
+    auto iter = c.get_body().find( bp );
+    if( iter == c.get_body().end() ) {
+        debugmsg( "Couldn't find bp %s on character %s", bp, c.disp_name() );
+        return BODYTEMP_FREEZING;
+    }
+
+    return iter->second.get_temp_conv();
+}
+
+static int get_temp_conv( const Character &c, body_part bp )
+{
+    return get_temp_conv( c, convert_bp( bp ) );
+}
+
+nc_color warmth::bodytemp_color( const Character &c, const bodypart_str_id &bp )
+{
+    if( bp == body_part_eyes ) {
+        return c_light_gray;    // Eyes don't count towards warmth
+    }
+
+    int temp_conv = get_temp_conv( c, bp );
+    if( temp_conv > BODYTEMP_SCORCHING ) {
+        return c_red;
+    } else if( temp_conv > BODYTEMP_VERY_HOT ) {
+        return c_light_red;
+    } else if( temp_conv > BODYTEMP_HOT ) {
+        return c_yellow;
+    } else if( temp_conv > BODYTEMP_COLD ) {
+        return c_green;
+    } else if( temp_conv > BODYTEMP_VERY_COLD ) {
+        return c_light_blue;
+    } else if( temp_conv > BODYTEMP_FREEZING ) {
+        return c_cyan;
+    } else if( temp_conv <= BODYTEMP_FREEZING ) {
+        return c_blue;
+    }
+    return c_light_gray;
+}
+
 // Rescale temperature value to one that the player sees
 static int temperature_print_rescaling( int temp )
 {
@@ -72,7 +113,8 @@ static bool should_combine_bps( const Character &ch, body_part l, body_part r,
            l == other_part( r ) && r == other_part( l ) && // are complementary parts
            // same encumberance & temperature
            enc_data.elems[l] == enc_data.elems[r] &&
-           temperature_print_rescaling( ch.temp_conv[l] ) == temperature_print_rescaling( ch.temp_conv[r] ) &&
+           temperature_print_rescaling( get_temp_conv( ch,
+                                        l ) ) == temperature_print_rescaling( get_temp_conv( ch, r ) ) &&
            // selected_clothing covers both or neither parts
            ( !selected_clothing ||
              ( selected_clothing->covers( convert_bp( l ).id() ) == selected_clothing->covers( convert_bp(
@@ -178,8 +220,9 @@ void character_display::print_encumbrance( ui_adaptor &ui, const catacurses::win
         // take into account the new encumbrance system for layers
         mvwprintz( win, point( 12, y_pos ), encumb_color( e.encumbrance ), "%-3d", e.layer_penalty );
         // print warmth, tethered to right hand side of the window
-        mvwprintz( win, point( width - 6, y_pos ), ch.bodytemp_color( bp ), "(% 3d)",
-                   temperature_print_rescaling( ch.temp_conv[bp] ) );
+
+        mvwprintz( win, point( width - 6, y_pos ), warmth::bodytemp_color( ch, convert_bp( bp ) ), "(% 3d)",
+                   temperature_print_rescaling( get_temp_conv( ch, bp ) ) );
     }
 
     if( do_draw_scrollbar ) {

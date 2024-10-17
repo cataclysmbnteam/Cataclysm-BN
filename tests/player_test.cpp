@@ -7,6 +7,8 @@
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
+#include "catch/catch.hpp"
 #include "player.h"
 #include "units_temperature.h"
 #include "weather.h"
@@ -16,6 +18,7 @@
 #include "player_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "weather.h"
 #include "game.h"
 #include "units.h"
 #include "hash_utils.h"
@@ -87,11 +90,11 @@ std::ostream &operator<<( std::ostream &os, const std::vector<body_part_temp> &b
     return os << "]\n";
 }
 
-class temperatures_wrapper : public decltype( player::temp_cur )
+class temperatures_wrapper : public std::vector<int>
 {
-        using base_type = decltype( player::temp_cur );
+        using base_type = std::vector<int>;
     public:
-        temperatures_wrapper( const base_type & base )
+        temperatures_wrapper( const base_type &base )
             : base_type( base )
         {}
 };
@@ -114,19 +117,28 @@ std::ostream &operator<<( std::ostream &os, const temperatures_wrapper &arr )
     return os;
 }
 
+static int get_temp_cur( const Character &c, const bodypart_str_id &bp )
+{
+    auto iter = c.get_body().find( bp );
+    if( iter == c.get_body().end() ) {
+        debugmsg( "%s has no %s", c.disp_name().c_str(), bp.c_str() );
+        return 0;
+    }
+
+    return iter->second.get_temp_cur();
+}
+
 // Run update_bodytemp() until core body temperature settles.
-static decltype( player::temp_cur ) converge_temperature( player &p, size_t iters,
+static std::vector<int> converge_temperature( player &p, size_t iters,
         int start_temperature = BODYTEMP_NORM )
 {
     constexpr size_t n_history = 10;
     REQUIRE( get_weather().weather_id == WEATHER_CLOUDY );
     REQUIRE( get_weather().windspeed == 0 );
 
-    for( int i = 0 ; i < num_bp; i++ ) {
-        p.temp_cur[i] = start_temperature;
-    }
-    for( int i = 0 ; i < num_bp; i++ ) {
-        p.temp_conv[i] = start_temperature;
+    for( auto &pr : p.get_body() ) {
+        pr.second.set_temp_cur( start_temperature );
+        pr.second.set_temp_conv( start_temperature );
     }
 
     bool converged = false;
@@ -140,7 +152,7 @@ static decltype( player::temp_cur ) converge_temperature( player &p, size_t iter
         std::vector<body_part_temp> current_iter_temperature;
         current_iter_temperature.reserve( parts.size() );
         for( const auto &pr : parts ) {
-            current_iter_temperature.emplace_back( pr.first, p.temp_cur[pr.first->token] );
+            current_iter_temperature.emplace_back( pr.first, get_temp_cur( p, pr.first ) );
         }
         if( history.contains( current_iter_temperature ) ) {
             converged = true;
@@ -155,12 +167,18 @@ static decltype( player::temp_cur ) converge_temperature( player &p, size_t iter
         p.update_bodytemp( get_map(), get_weather() );
     }
 
+    std::vector<int> result;
+    std::transform( p.get_body().begin(), p.get_body().end(), std::back_insert_iterator( result ),
+    []( const auto & pr ) {
+        return pr.second.get_temp_cur();
+    } );
+
     CAPTURE( iters );
-    CAPTURE( p.temp_cur );
+    CAPTURE( result );
     CAPTURE( last_n_history );
     // If it doesn't converge, it's usually very close to it anyway, so don't fail
     CHECK( converged );
-    return p.temp_cur;
+    return result;
 }
 
 static void equip_clothing( player &p, const std::vector<std::string> &clothing )
@@ -489,14 +507,14 @@ static void hypothermia_check( player &p, int water_temperature, time_duration e
     int actual_time;
     for( actual_time = 0; actual_time < upper_bound * 2; actual_time++ ) {
         p.update_bodytemp( get_map(), get_weather() );
-        if( p.temp_cur[0] <= expected_temperature ) {
+        if( get_temp_cur( p, body_part_head ) <= expected_temperature ) {
             break;
         }
     }
 
     CHECK( actual_time >= lower_bound );
     CHECK( actual_time <= upper_bound );
-    CHECK( p.temp_cur[0] <= expected_temperature );
+    CHECK( get_temp_cur( p, body_part_head ) <= expected_temperature );
 }
 
 TEST_CASE( "Water hypothermia check.", "[.][bodytemp]" )

@@ -589,6 +589,9 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
+    json.member( "frostbite_timer", frostbite_timer );
     json.end_object();
 }
 
@@ -600,6 +603,9 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "hp_max", hp_max, true );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
+    jo.read( "temp_cur", temp_cur, true );
+    jo.read( "temp_conv", temp_conv, false );
+    jo.read( "frostbite_timer", frostbite_timer, true );
 }
 
 void bodypart::set_location( location<item> *loc )

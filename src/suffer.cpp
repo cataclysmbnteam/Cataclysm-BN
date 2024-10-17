@@ -362,6 +362,19 @@ void Character::suffer_while_awake( const int current_stim )
     }
 }
 
+static void set_bodytemp( Character &who, int bodytemp )
+{
+    for( auto &pr : who.get_body() ) {
+        if( pr.first == body_part_eyes ) {
+            pr.second.set_temp_cur( BODYTEMP_NORM );
+            pr.second.set_temp_conv( BODYTEMP_NORM );
+        } else {
+            pr.second.set_temp_cur( bodytemp );
+            pr.second.set_temp_conv( bodytemp );
+        }
+    }
+}
+
 void Character::suffer_from_chemimbalance()
 {
     if( one_turn_in( 6_hours ) && !has_trait( trait_NOPAIN ) ) {
@@ -408,22 +421,20 @@ void Character::suffer_from_chemimbalance()
     if( one_turn_in( 6_hours ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "You suddenly feel very cold." ) );
-            temp_cur.fill( BODYTEMP_VERY_COLD );
+            set_bodytemp( *this, BODYTEMP_VERY_COLD );
         } else {
             add_msg_if_player( m_bad, _( "You suddenly feel cold." ) );
-            temp_cur.fill( BODYTEMP_COLD );
+            set_bodytemp( *this, BODYTEMP_COLD );
         }
-        temp_cur[bp_eyes] = BODYTEMP_NORM;
     }
     if( one_turn_in( 6_hours ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "You suddenly feel very hot." ) );
-            temp_cur.fill( BODYTEMP_VERY_HOT );
+            set_bodytemp( *this, BODYTEMP_VERY_HOT );
         } else {
             add_msg_if_player( m_bad, _( "You suddenly feel hot." ) );
-            temp_cur.fill( BODYTEMP_HOT );
+            set_bodytemp( *this, BODYTEMP_HOT );
         }
-        temp_cur[bp_eyes] = BODYTEMP_NORM;
     }
 }
 
@@ -1812,9 +1823,15 @@ void Character::apply_wetness_morale( const units::temperature &temperature )
             bp_morale = part_good + part_neutral - effective_drench;
         }
 
+        auto iter = get_body().find( bp.id() );
+        if( iter == get_body().end() ) {
+            debugmsg( "%s has no body part %s", disp_name().c_str(), bp.id().c_str() );
+            continue;
+        }
+        int temp_cur = iter->second.get_temp_cur();
         // Clamp to [COLD,HOT] and cast to double
         const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp->token] ) );
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur ) );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = ( part_temperature - BODYTEMP_COLD ) /
                                 ( BODYTEMP_HOT - BODYTEMP_COLD );

@@ -398,7 +398,13 @@ static void eff_fun_hot( player &u, effect &it )
     }
     // Hothead effects are a special snowflake
     if( bp == bp_head && intense >= 2 ) {
-        if( one_in( std::max( 25, std::min( 89500, 90000 - u.temp_cur[bp_head] ) ) ) ) {
+        auto iter = u.get_body().find( body_part_head );
+        if( iter == u.get_body().end() ) {
+            debugmsg( "%s has no head(?!)", u.disp_name() );
+            return;
+        }
+        int temp_cur = iter->second.get_temp_cur();
+        if( one_in( std::max( 25, std::min( 89500, 90000 - temp_cur ) ) ) ) {
             u.vomit();
         }
         if( !u.has_effect( effect_sleep ) && one_in( 2400 ) ) {
@@ -1191,25 +1197,26 @@ void Character::hardcoded_effects( effect &it )
         if( !woke_up && !has_effect( effect_narcosis ) ) {
             // Cold or heat may wake you up.
             // Player will sleep through cold or heat if fatigued enough
-            for( const body_part bp : all_body_parts ) {
-                if( temp_cur[bp] < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
+            for( const auto &pr : get_body() ) {
+                int temp_cur = pr.second.get_temp_cur();
+                if( temp_cur < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
                     if( one_in( 30000 ) ) {
                         add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                     }
-                    if( temp_cur[bp] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
-                        one_in( temp_cur[bp] * 6 + 30000 ) ) {
+                    if( temp_cur < BODYTEMP_FREEZING - get_fatigue() / 2 ||
+                        one_in( temp_cur * 6 + 30000 ) ) {
                         add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
                         woke_up = true;
                         break;
                     }
-                } else if( temp_cur[bp] > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
+                } else if( temp_cur > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
                     if( one_in( 30000 ) ) {
                         add_msg_if_player( _( "You toss and turn in the heat." ) );
                     }
-                    if( temp_cur[bp] > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
-                        one_in( 90000 - temp_cur[bp] ) ) {
+                    if( temp_cur > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
+                        one_in( 90000 - temp_cur ) ) {
                         add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );

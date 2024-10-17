@@ -971,6 +971,15 @@ void update_body_wetness( Character &who, const w_point &weather )
     // To make drying uniform, make just one roll and reuse it
     const int drying_roll = rng( 1, 80 );
 
+    const auto get_temp_conv = [&]( body_part bp ) {
+        auto iter = who.get_body().find( convert_bp( bp ) );
+        if( iter == who.get_body().end() ) {
+            return BODYTEMP_NORM;
+        }
+
+        return iter->second.get_temp_conv();
+    };
+
     for( const body_part bp : all_body_parts ) {
         if( who.body_wetness[bp] == 0 ) {
             continue;
@@ -979,13 +988,14 @@ void update_body_wetness( Character &who, const w_point &weather )
         int drying_chance = who.drench_capacity[bp];
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        if( who.temp_conv[bp] >= BODYTEMP_SCORCHING ) {
+        int temp_conv = get_temp_conv( bp );
+        if( temp_conv >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
-        } else if( who.temp_conv[bp] >= BODYTEMP_VERY_HOT ) {
+        } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
             drying_chance = drying_chance * 3 / 2;
-        } else if( who.temp_conv[bp] >= BODYTEMP_HOT ) {
+        } else if( temp_conv >= BODYTEMP_HOT ) {
             drying_chance = drying_chance * 4 / 3;
-        } else if( who.temp_conv[bp] > BODYTEMP_COLD ) {
+        } else if( temp_conv > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp

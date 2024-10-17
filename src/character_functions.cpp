@@ -519,8 +519,11 @@ void normalize( Character &who )
     who.set_body();
     who.recalc_hp();
 
-    who.temp_cur.fill( BODYTEMP_NORM );
-    who.temp_conv.fill( BODYTEMP_NORM );
+    for( auto &pr : who.get_body() ) {
+        pr.second.set_temp_cur( BODYTEMP_NORM );
+        pr.second.set_temp_conv( BODYTEMP_NORM );
+    }
+
     who.set_stamina( who.get_stamina_max() );
 }
 
