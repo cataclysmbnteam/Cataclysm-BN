@@ -93,7 +93,6 @@
     "default": "mon_dog_skeleton",
     "monsters": [ { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 2 } ]
   },
-
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_CRAWLER_UPGRADE",
@@ -126,7 +125,6 @@
       { "monster": "mon_zombie_pupa_shady", "freq": 250, "cost_multiplier": 10 }
     ]
   },
-  
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_SWAT_UPGRADE",
