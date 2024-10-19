@@ -1704,7 +1704,8 @@ const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 void Creature::set_body()
 {
     body.clear();
-    // TODO: Probably shouldn't be needed, but it's called from game::game()
+    // This check is needed for game::game
+    // @todo Add debugmsg for the other case
     if( get_anatomy().is_valid() ) {
         for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
             body.emplace( std::piecewise_construct, std::forward_as_tuple( bp.id() ),

@@ -69,6 +69,7 @@ static bool try_set_traits( Character &ch, const std::vector<trait_id> &traits )
 static avatar get_sanitized_player()
 {
     // You'd think that this hp stuff would be in the c'tor...
+    // But the ctor is called by game::game, before we load anatomies
     avatar ret = avatar();
     ret.set_body();
     ret.recalc_hp();
@@ -134,6 +135,7 @@ TEST_CASE( "starting_items", "[slow]" )
     avatar &ch = get_avatar();
 
     ch = get_sanitized_player();
+
     // Avoid false positives from ingredients like salt and cornmeal.
     const avatar control = get_sanitized_player();
 
