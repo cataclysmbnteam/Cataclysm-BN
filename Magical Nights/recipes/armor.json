@@ -15,6 +15,7 @@
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 7,
     "time": "4 h",
+    "autolearn": true,
     "book_learn": [ [ "magic_armormaking", 6 ] ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 1 ] ] ]
   },
@@ -34,6 +35,7 @@
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 6,
     "time": "2 h",
+    "autolearn": true,
     "book_learn": [ [ "magic_armormaking", 5 ] ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 2 ] ] ]
   },
@@ -52,6 +54,7 @@
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 8,
     "time": "4 h",
+    "autolearn": true,
     "book_learn": [ [ "magic_armormaking", 7 ] ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 4 ] ], [ [ "demon_chitin_piece", 6 ] ] ]
   },
@@ -70,6 +73,7 @@
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 5,
     "time": "2 h 40 m",
+    "autolearn": true,
     "book_learn": [ [ "magic_armormaking", 4 ] ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 2 ] ] ]
   },
@@ -88,6 +92,7 @@
     "skills_required": [ [ "spellcraft", 6 ] ],
     "difficulty": 5,
     "time": "2 h",
+    "autolearn": true,
     "book_learn": [ [ "magic_armormaking", 4 ] ],
     "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 10 ] ] ]
   },
