@@ -136,7 +136,7 @@
     "initial_charges": 500,
     "max_charges": 1000,
     "charges_per_use": 1,
-    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "1 h", "rate": 1 } ] },
     "sub": "sewing_kit",
     "use_action": [
       {
@@ -184,7 +184,7 @@
     "ammo": "thread",
     "initial_charges": 500,
     "max_charges": 1000,
-    "artifact_data": { "charge_type": "ARTC_TIME" }
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "1 h", "rate": 1 } ] }
   },
   {
     "id": "glow_light_off",
