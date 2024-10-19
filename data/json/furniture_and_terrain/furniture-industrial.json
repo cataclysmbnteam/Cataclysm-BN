@@ -255,16 +255,28 @@
       "sound": "metal screeching!",
       "sound_fail": "crash!",
       "items": [
-        { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 100, 800 ] },
-        { "item": "pipe", "count": [ 0, 4 ] },
-        { "item": "circuit", "count": [ 0, 5 ] },
-        { "item": "e_scrap", "count": [ 2, 8 ] },
-        { "item": "amplifier", "count": [ 0, 4 ] },
-        { "item": "power_supply", "count": [ 0, 2 ] },
-        { "item": "metal_tank_little", "count": [ 0, 6 ] }
+        { "item": "scrap", "count": [ 1, 20 ] },
+        { "item": "cable", "charges": [ 50, 400 ] },
+        { "item": "pipe", "count": [ 0, 2 ] },
+        { "item": "circuit", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 1, 10 ] },
+        { "item": "amplifier", "count": [ 0, 2 ] },
+        { "item": "power_supply", "count": [ 0, 1 ] },
+        { "item": "metal_tank_little", "count": [ 0, 3 ] },
+        { "item": "supercapacitor", "count": [ 0, 4 ] }
       ]
-    }
+    },
+    "deconstruct": { "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 300, 600 ] },
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "circuit", "count": [ 2, 5 ] },
+        { "item": "e_scrap", "count": [ 2, 8 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "metal_tank_little", "count": [ 4, 6 ] },
+        { "item": "supercapacitor", "count": [ 6, 10 ] }
+      ] }
   },
   {
     "type": "furniture",
