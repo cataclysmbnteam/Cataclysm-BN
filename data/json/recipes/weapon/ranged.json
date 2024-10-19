@@ -1239,7 +1239,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "electronics",
-    "skills_required": [ [ "fabrication", 4 ] ],
+    "skills_required": [ [ "mechanics", 5 ], [ "fabrication", 4 ] ],
     "difficulty": 5,
     "time": "1 h",
     "reversible": true,
