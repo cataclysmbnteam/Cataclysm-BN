@@ -7764,6 +7764,12 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         used->detach();
         return true;
+    } else if( used->count_by_charges() ) {
+        used->charges -= charges_used;
+        if( used->charges <= 0 ) {
+            used->detach();
+        }
+        return true;
     }
 
     return false;
