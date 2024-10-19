@@ -574,8 +574,8 @@
     "material": "steel",
     "symbol": "*",
     "color": "dark_gray",
-    "initial_charges": 3,
-    "max_charges": 3,
+    "initial_charges": 10,
+    "max_charges": 10,
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
     "use_action": {
@@ -988,8 +988,6 @@
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "target": "molotov_lit",
       "msg": "You light the Molotov cocktail!",
@@ -1007,7 +1005,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Molotov cocktail" },
-    "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
+    "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  You can also activate it to smash it on yourself, but why would you want to do that?",
     "weight": "742 g",
     "volume": "750 ml",
     "price": "0 cent",
@@ -1019,8 +1017,10 @@
     "color": "light_gray",
     "initial_charges": 1,
     "max_charges": 1,
-    "turns_per_charge": 1,
+    "turns_per_charge": 5,
     "use_action": "MOLOTOV_LIT",
+    "revert_to": "molotov",
+    "revert_msg": "Your lit molotov goes out.",
     "flags": [ "LIGHT_20", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "ACT_ON_RANGED_HIT" ]
   },
   {

@@ -486,7 +486,7 @@ static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int ro
             if( p.is_npc() ) {
                 drop_on_map( p, item_drop_reason::deliberate, { std::move( it ) }, p.pos() );
             } else {
-                liquid_handler::handle_all_liquid( std::move( it ), 1 );
+                liquid_handler::handle_all_liquid( std::move( it ), PICKUP_RANGE );
             }
         } else {
             get_map().add_item( p.pos(), std::move( it ) );
@@ -1061,6 +1061,8 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
                 roll *= roll_drops();
+                // cap dropped weight at monster weight * mass ratio of drop
+                roll = std::min<float>( roll, to_gram( mt.weight ) * entry.mass_ratio );
                 roll = std::ceil( static_cast<double>( roll ) /
                                   to_gram( drop->weight ) );
             }
@@ -1087,7 +1089,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( p.is_npc() || action != butcher_type::BLEED ) {
                     drop_on_map( p, item_drop_reason::deliberate, std::move( it ), p.pos() );
                 } else {
-                    liquid_handler::handle_all_liquid( std::move( it ), 1 );
+                    liquid_handler::handle_all_liquid( std::move( it ), PICKUP_RANGE );
                 }
             } else if( drop->count_by_charges() ) {
                 detached_ptr<item> it = item::spawn( drop, calendar::turn, roll );
@@ -1770,11 +1772,11 @@ void activity_handlers::hotwire_finish( player_activity *act, player *p )
                                            p->posz() ) ) ) ) {
         vehicle *const veh = &vp->vehicle();
         const int mech_skill = act->values[2];
-        if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
+        if( mech_skill > rng( 1, 6 ) ) {
             //success
             veh->is_locked = false;
             add_msg( _( "This wire will start the engine." ) );
-        } else if( mech_skill > static_cast<int>( rng( 0, 4 ) ) ) {
+        } else if( mech_skill > rng( 0, 4 ) ) {
             //soft fail
             veh->is_locked = false;
             veh->is_alarm_on = veh->has_security_working();
@@ -2306,7 +2308,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
     item &vibrator_item = *act->targets.front();
 
-    if( p->encumb( bp_mouth ) >= 30 ) {
+    if( p->encumb( body_part_mouth ) >= 30 ) {
         act->moves_left = 0;
         add_msg( m_bad, _( "You have trouble breathing, and stop." ) );
     }
@@ -3425,7 +3427,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
             if( !bps.empty() ) {
                 for( const bodypart_id &bp : bps ) {
-                    p->add_effect( effect_bleed, 1_hours, bp->token, difficulty );
+                    p->add_effect( effect_bleed, 1_hours, bp.id(), difficulty );
                     p->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
@@ -3434,11 +3436,11 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
 
                     if( bp == bodypart_id( "eyes" ) ) {
-                        p->add_effect( effect_blind, 1_hours, num_bp );
+                        p->add_effect( effect_blind, 1_hours, bodypart_str_id::NULL_ID() );
                     }
                 }
             } else {
-                p->add_effect( effect_bleed, 1_hours, num_bp, difficulty );
+                p->add_effect( effect_bleed, 1_hours, bodypart_str_id::NULL_ID(), difficulty );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
@@ -4670,16 +4672,23 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
     }
     if( act->get_str_value( 1 ) == "study" ) {
         spell &studying = p->magic->get_spell( spell_id( act->name ) );
-        if( act->get_str_value( 0 ) == "gain_level" ) {
-            if( studying.get_level() < act->get_value( 1 ) ) {
-                act->moves_left = 1000000;
-            } else {
-                act->moves_left = 0;
-            }
-        }
+        const int old_level = studying.get_level();
         const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
+
         act->values[0] += xp;
         studying.gain_exp( xp );
+        // Every time we use get_level the level is recalculated, this is suboptimal, so we remember it here.
+        const int new_level = studying.get_level();
+
+        if( new_level > old_level ) {
+            act->values[1] += new_level - old_level;
+            g->events().send<event_type::player_levels_spell>( studying.id(), new_level );
+            if( act->get_str_value( 0 ) == "gain_level" ) {
+                act->moves_left = 0;
+            }
+        } else if( act->get_str_value( 0 ) == "gain_level" ) {
+            act->moves_left = 1000000;
+        }
     }
 }
 
@@ -4687,10 +4696,16 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     const int total_exp_gained = act->get_value( 0 );
+    const int total_levels_gained = act->get_value( 1 );
 
     if( act->get_str_value( 1 ) == "study" ) {
-        p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
-                              total_exp_gained );
+        std::string level_string;
+        if( total_levels_gained > 0 ) {
+            level_string = string_format( vgettext( " and %d level", " and %d levels", total_levels_gained ),
+                                          total_levels_gained );
+        }
+        p->add_msg_if_player( m_good, _( "You gained %i experience%s from your study session." ),
+                              total_exp_gained, level_string );
         const spell &sp = p->magic->get_spell( spell_id( act->name ) );
         p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {

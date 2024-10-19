@@ -1,6 +1,7 @@
 [
   {
     "id": "laser_rifle_dino2",
+    "weapon_category": [ "RIFLES", "ENERGY_WEAPONS" ],
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",

@@ -1324,7 +1324,8 @@
       [ "haori", 2 ],
       [ "hakama", 4 ],
       [ "eclipse_glasses", 1 ],
-      [ "thermos", 20 ]
+      [ "thermos", 20 ],
+      [ "pirate_flag", 1 ]
     ]
   },
   {
@@ -1576,7 +1577,8 @@
       [ "kippah", 30 ],
       [ "eboshi", 30 ],
       [ "balclava", 20 ],
-      [ "porkpie", 30 ]
+      [ "porkpie", 30 ],
+      [ "bandana_head", 10 ]
     ]
   },
   {
@@ -2314,6 +2316,7 @@
       [ "aep_suit", 4 ],
       [ "armor_scrapsuit", 12 ],
       [ "armor_chitin", 2 ],
+      [ "armor_scute", 2 ],
       [ "armor_acidchitin", 1 ],
       [ "armor_lightplate", 1 ],
       [ "exosuit_survivor", 1 ],
@@ -2735,7 +2738,8 @@
     "id": "dollar_clothes",
     "type": "item_group",
     "items": [
-      [ "bandana", 25 ],
+      [ "bandana", 20 ],
+      [ "bandana_head", 5 ],
       [ "boxer_shorts", 25 ],
       [ "boxer_briefs", 25 ],
       [ "boy_shorts", 25 ],
@@ -2819,7 +2823,8 @@
       },
       { "item": "hat_knit", "prob": 30 },
       { "item": "hat_cotton", "prob": 40 },
-      { "item": "hat_ball", "prob": 50 }
+      { "item": "hat_ball", "prob": 50 },
+      { "item": "bandana_head", "prob": 25 }
     ]
   },
   {
@@ -3588,9 +3593,10 @@
           { "item": "bandolier_rifle", "prob": 20 },
           { "item": "bandolier_shotgun", "prob": 10 },
           { "item": "bandolier_wrist", "prob": 5 },
-          { "item": "quiver", "prob": 30 },
+          { "item": "quiver", "prob": 25 },
           { "item": "quiver_large", "prob": 20 },
-          { "item": "torso_bandolier_shotgun", "prob": 5 }
+          { "item": "torso_bandolier_shotgun", "prob": 5 },
+          { "item": "bandolier_knife", "prob": 5 }
         ],
         "prob": 25
       },

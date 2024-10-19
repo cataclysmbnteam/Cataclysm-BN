@@ -39,7 +39,7 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 [![Source Code][source-badge]][source] [![Zip Archive][clone-badge]][clone]
 
 [stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/latest "Download stable executable"
-[stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable "Download experimental executable"
+[stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable
 [all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true
 [all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
 [source]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "The source can be downloaded as a .zip archive"
@@ -49,11 +49,11 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 ## Building
 
+- [with cmake](doc/src/content/docs/en/dev/guides/building/cmake.md)
 - [with makefile](doc/src/content/docs/en/dev/guides/building/makefile.md): supports Linux, macOS,
   and BSD.
 - [with MSYS2](doc/src/content/docs/en/dev/guides/building/msys.md)
 - [with vcpkg](doc/src/content/docs/en/dev/guides/building/vs_vcpkg.md)
-- [with cmake](doc/src/content/docs/en/dev/guides/building/cmake.md)
 - [which compilers we support](doc/src/content/docs/en/dev/reference/compiler_support.md)
 
 Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for

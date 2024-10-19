@@ -143,7 +143,7 @@ static DynamicDataLoader::deferred_json deferred;
 template<>
 bool string_id<vpart_info>::is_valid() const
 {
-    return vpart_info_all.count( *this );
+    return vpart_info_all.contains( *this );
 }
 
 /** @relates string_id */
@@ -940,7 +940,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
 template<>
 bool string_id<vehicle_prototype>::is_valid() const
 {
-    return vtypes.count( *this ) > 0;
+    return vtypes.contains( *this );
 }
 
 vehicle_prototype::vehicle_prototype() = default;
@@ -1109,7 +1109,7 @@ void vehicle_prototype::finalize()
 
             } else {
                 for( const itype_id &e : pt.ammo_types ) {
-                    if( !e->ammo && base->gun->ammo.count( e->ammo->type ) ) {
+                    if( !e->ammo && base->gun->ammo.contains( e->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
@@ -1138,7 +1138,7 @@ void vehicle_prototype::finalize()
         blueprint.enable_refresh();
 
         for( auto &i : proto.item_spawns ) {
-            if( cargo_spots.count( i.pos ) == 0 ) {
+            if( !cargo_spots.contains( i.pos ) ) {
                 debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                           proto.name, i.pos.x, i.pos.y, i.chance );
             }

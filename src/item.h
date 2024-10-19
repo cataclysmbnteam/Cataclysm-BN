@@ -23,6 +23,7 @@
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_contents.h"
+#include "kill_tracker.h"
 #include "location_vector.h"
 #include "pimpl.h"
 #include "safe_reference.h"
@@ -169,7 +170,7 @@ struct iteminfo {
 
 inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
 {
-    using I = std::underlying_type<iteminfo::flags>::type;
+    using I = std::underlying_type_t<iteminfo::flags>;
     return static_cast<iteminfo::flags>( static_cast<I>( l ) | r );
 }
 
@@ -649,10 +650,13 @@ class item : public location_visitable<item>, public game_object<item>
         damage_instance base_damage_thrown() const;
 
         /**
-        * Calculate the item's effective damage per second past armor when wielded by a
+         * Calculate the item's effective damage per second past armor when wielded by a
          * character against a monster.
          */
+        /*@{*/
         double effective_dps( const player &guy, const monster &mon ) const;
+        double effective_dps( const player &guy, const monster &mon, const attack_statblock &attack ) const;
+        /*@}*/
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
@@ -660,10 +664,12 @@ class item : public location_visitable<item>, public game_object<item>
          * for_calc - include monsters intended for evaluation purposes
          * for_display and for_calc are inclusive
                */
-        std::map<std::string, double> dps( bool for_display, bool for_calc, const player &guy ) const;
-        std::map<std::string, double> dps( bool for_display, bool for_calc ) const;
+        std::map<std::string, double> dps( bool for_display, bool for_calc, const player &guy,
+                                           const attack_statblock &attack ) const;
+        std::map<std::string, double> dps( bool for_display, bool for_calc,
+                                           const attack_statblock &attack ) const;
         /** return the average dps of the weapon against evaluation monsters */
-        double average_dps( const player &guy ) const;
+        double average_dps( const player &guy, const attack_statblock &attack ) const;
 
         double ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode ) const;
 
@@ -2420,6 +2426,23 @@ class item : public location_visitable<item>, public game_object<item>
          * Ideally, this would be stored outside item class.
          */
         pimpl<item_drop_token> drop_token;
+
+    private:
+        /** Kill tracker */
+        std::unique_ptr<kill_tracker> kills;
+        /**
+         * Check if there's a kill_tracker
+         * Make one if there isn't and if ENABLE_EVENTS option is toggled on
+         * @returns true if a kill_tracker exists, or if one was created
+         *          false if there is no kill_tracker, and one wasn't created
+         */
+        bool init_kill_tracker();
+
+    public:
+        void add_monster_kill( mtype_id );
+        void add_npc_kill( std::string );
+        void show_kill_list();
+        int kill_count();
 };
 
 bool item_compare_by_charges( const item &left, const item &right );

@@ -233,8 +233,6 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
-static const itype_id itype_chainsaw_off( "chainsaw_off" );
-static const itype_id itype_chainsaw_on( "chainsaw_on" );
 static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
@@ -254,7 +252,6 @@ static const itype_id itype_joint( "joint" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mask_h20survivor_on( "mask_h20survivor_on" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
-static const itype_id itype_molotov( "molotov" );
 static const itype_id itype_mobile_memory_card( "mobile_memory_card" );
 static const itype_id itype_mobile_memory_card_used( "mobile_memory_card_used" );
 static const itype_id itype_mp3( "mp3" );
@@ -366,8 +363,30 @@ static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 
-struct extended_photo_def;
+
 struct object_names_collection;
+
+struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
+    int quality;
+    std::string name;
+    std::string description;
+
+    extended_photo_def() = default;
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject obj = jsin.get_object();
+        quality = obj.get_int( "quality" );
+        name = obj.get_string( "name" );
+        description = obj.get_string( "description" );
+    }
+
+    void serialize( JsonOut &jsout ) const override {
+        jsout.start_object();
+        jsout.member( "quality", quality );
+        jsout.member( "name", name );
+        jsout.member( "description", description );
+        jsout.end_object();
+    }
+};
 
 static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
                                 int photo_quality );
@@ -835,7 +854,7 @@ int iuse::meth( player *p, item *it, bool, const tripoint & )
         }
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            g->m.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
+            g->m.add_field( {p->posx() + rng( -2, 2 ), p->posy() + rng( -2, 2 ), p->posz()},
                             fd_methsmoke, 2 );
         }
     } else {
@@ -871,7 +890,7 @@ int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good,
                           _( "You no longer need to worry about asthma attacks, at least for a while." ) );
-    p->add_effect( effect_took_antiasthmatic, 1_days, num_bp );
+    p->add_effect( effect_took_antiasthmatic, 1_days, bodypart_str_id::NULL_ID() );
     return it->type->charges_to_use();
 }
 
@@ -2030,7 +2049,7 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
         return 0;
     } else { // Turning it off
         std::string oname = it->typeId().str();
-        if( string_ends_with( oname, "_on" ) ) {
+        if( oname.ends_with( "_on" ) ) {
             oname.erase( oname.length() - 3, 3 );
         } else {
             debugmsg( "no item type to turn it into (%s)!", oname );
@@ -2582,7 +2601,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
         result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
     }
 
-    return { moves, static_cast<int>( dig_minutes / 15 ), g->m.ter( pos )->digging_result, result_terrain };
+    return { moves, ( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -2906,212 +2925,6 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
     }
     act_vehicle_siphon( v );
     return it->type->charges_to_use();
-}
-
-static int toolweapon_off( player &p, item &it, const bool fast_startup,
-                           const bool condition, const int volume,
-                           const std::string &msg_success, const std::string &msg_failure )
-{
-    p.moves -= fast_startup ? 60 : 80;
-    if( condition && it.units_sufficient( p ) ) {
-        if( it.typeId() == itype_chainsaw_off ) {
-            sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::play_ambient_variant_sound( "chainsaw_idle", "chainsaw_on", sfx::get_heard_volume( p.pos() ),
-                                             sfx::channel::idle_chainsaw, 1000 );
-            sfx::play_ambient_variant_sound( "weapon_theme", "chainsaw", sfx::get_heard_volume( p.pos() ),
-                                             sfx::channel::chainsaw_theme,
-                                             3000 );
-        }
-
-        sounds::sound( p.pos(), volume, sounds::sound_t::combat, msg_success );
-        p.add_msg_if_player( msg_success );
-        // 4 is the length of "_off".
-        it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ) );
-        it.activate();
-        return it.type->charges_to_use();
-    } else {
-        if( it.typeId() == itype_chainsaw_off ) {
-            sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-        }
-        p.add_msg_if_player( msg_failure );
-        return 0; // No charges consumed on failure.
-    }
-}
-
-int iuse::combatsaw_off( player *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           true,
-                           !p->is_underwater(),
-                           30, _( "With a snarl, the combat chainsaw screams to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
-int iuse::e_combatsaw_off( player *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           true,
-                           !p->is_underwater(),
-                           30, _( "With a snarl, the electric combat chainsaw screams to life!" ),
-                           _( "You pull the trigger, but nothing happens." ) );
-}
-
-int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
-                           20, _( "With a roar, the chainsaw leaps to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
-int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           !p->is_underwater(),
-                           20, _( "With a roar, the electric chainsaw leaps to life!" ),
-                           _( "You pull the trigger, but nothing happens." ) );
-}
-
-int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a roar, the chainsaws leap to life!" ),
-                           _( "You yank the cords, but nothing happens." ) );
-}
-
-int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           !p->is_underwater(),
-                           40, _( "With a buzz, the chainsaws leap to life!" ),
-                           _( "You pull the trigger, but nothing happens." ) );
-}
-
-int iuse::carver_off( player *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           true,
-                           20, _( "The electric carver's serrated blades start buzzing!" ),
-                           _( "You pull the trigger, but nothing happens." ) );
-}
-
-int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
-{
-    return toolweapon_off( *p, *it,
-                           false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 3,
-                           15, _( "With a roar, the hedge trimmer leaps to life!" ),
-                           _( "You yank the cord, but nothing happens." ) );
-}
-
-static int toolweapon_on( player &p, item &it, const bool t,
-                          const std::string &tname, const bool works_underwater,
-                          const int sound_chance, const int volume,
-                          const std::string &sound, const bool double_charge_cost = false )
-{
-    std::string off_type =
-        it.typeId().str().substr( 0, it.typeId().str().size() - 3 ) +
-        // 3 is the length of "_on".
-        "_off";
-    if( t ) { // Effects while simply on
-        if( double_charge_cost && it.units_sufficient( p ) ) {
-            it.ammo_consume( 1, p.pos() );
-        }
-        if( !works_underwater && p.is_underwater() ) {
-            p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), tname );
-            it.convert( itype_id( off_type ) );
-            it.deactivate();
-        } else if( one_in( sound_chance ) ) {
-            sounds::ambient_sound( p.pos(), volume, sounds::sound_t::activity, sound );
-        }
-    } else { // Toggling
-        if( it.typeId() == itype_chainsaw_on ) {
-            sfx::play_variant_sound( "chainsaw_stop", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
-            sfx::fade_audio_channel( sfx::channel::idle_chainsaw, 100 );
-            sfx::fade_audio_channel( sfx::channel::chainsaw_theme, 3000 );
-        }
-        p.add_msg_if_player( _( "Your %s goes quiet." ), tname );
-        it.convert( itype_id( off_type ) );
-        it.deactivate();
-        return 0; // Don't consume charges when turning off.
-    }
-    return it.type->charges_to_use();
-}
-
-int iuse::combatsaw_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "combat chainsaw" ),
-                          false,
-                          12, 18, _( "Your combat chainsaw growls." ) );
-}
-
-int iuse::e_combatsaw_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric combat chainsaw" ),
-                          false,
-                          12, 18, _( "Your electric combat chainsaw growls." ) );
-}
-
-int iuse::chainsaw_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "chainsaw" ),
-                          false,
-                          15, 12, _( "Your chainsaw rumbles." ) );
-}
-
-int iuse::elec_chainsaw_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric chainsaw" ),
-                          false,
-                          15, 12, _( "Your electric chainsaw rumbles." ) );
-}
-
-int iuse::cs_lajatang_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws rumble." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
-}
-
-int iuse::ecs_lajatang_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric chainsaw lajatang" ),
-                          false,
-                          15, 12, _( "Your chainsaws buzz." ),
-                          true );
-    // The chainsaw lajatang drains 2 charges per turn, since
-    // there are two chainsaws.
-}
-
-int iuse::carver_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "electric carver" ),
-                          true,
-                          10, 8, _( "Your electric carver buzzes." ) );
-}
-
-int iuse::trimmer_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "hedge trimmer" ),
-                          true,
-                          15, 10, _( "Your hedge trimmer rumbles." ) );
-}
-
-int iuse::circsaw_on( player *p, item *it, bool t, const tripoint & )
-{
-    return toolweapon_on( *p, *it, t, _( "circular saw" ),
-                          true,
-                          15, 7, _( "Your circular saw buzzes." ) );
 }
 
 int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
@@ -3522,7 +3335,9 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                               it->tname() );
         return 0;
-    } else { // When that timer runs down...
+    }
+
+    if( it->charges == 0 ) { // When that timer runs down...
         int explosion_radius = 3;
         int effect_roll = rng( 1, 5 );
         auto buff_stat = [&]( int &current_stat, int modify_by ) {
@@ -3687,13 +3502,17 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    if( t ) { // Simple timer effects
+
+    if( t ) {
+        // Simple timer effects
         // Vol 0 = only heard if you hold it
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
         return 0;
-    } else {  // blow up
+    }
+
+    if( it->charges == 0 ) { // blow up
         int num_flames = rng( 3, 5 );
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
@@ -3712,6 +3531,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
             p->rem_morale( MORALE_PYROMANIA_NOFIRE );
             p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
+        return 0;
     }
     return 0;
 }
@@ -3744,6 +3564,12 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
     } else if( !t ) {
+        if( p->has_item( *it ) ) {
+            if( !query_yn( "Really smash it on yourself?" ) ) {
+                p->add_msg_if_player( m_info, _( "You should probably throw it instead." ) );
+                return 0;
+            }
+        }
         for( const tripoint &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             g->m.add_field( pt, fd_fire, intensity );
@@ -3753,18 +3579,12 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
             p->rem_morale( MORALE_PYROMANIA_NOFIRE );
             p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
-        return 1;
-    } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
-                              it->tname() );
-        return 0;
-    } else if( p->has_item( *it ) && it->charges == 0 ) {
-        it->charges += 1;
-        if( one_in( 5 ) ) {
-            p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
-            it->convert( itype_molotov );
-            it->deactivate();
+        // If you exploded it on yourself through activation.
+        if( it->has_position() ) {
+            it->detach();
         }
+        return 1;
+    } else if( p->has_item( *it ) && it->charges == 0 ) {
         return 0;
     }
     return 0;
@@ -3833,13 +3653,16 @@ int iuse::firecracker_act( player *p, item *it, bool t, const tripoint &pos )
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
     }
+
     if( t ) { // Simple timer effects
-        sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
+        sounds::sound( pos, 0, sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
         return 0;
-    } else { // When that timer runs down...
+    }
+
+    if( it->charges == 0 ) { // When that timer runs down...
         sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), true, "explosion", "small" );
     }
     return 0;
@@ -5535,7 +5358,7 @@ int iuse::jet_injector( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the jet injector." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_jetinjector, 20_minutes, num_bp, 2 );
+        p->add_effect( effect_jetinjector, 20_minutes, bodypart_str_id::NULL_ID(), 2 );
         p->mod_painkiller( 20 );
         p->mod_stim( 10 );
         p->healall( 20 );
@@ -5563,7 +5386,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the stimulants." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_stimpack, 25_minutes, num_bp, 2 );
+        p->add_effect( effect_stimpack, 25_minutes, bodypart_str_id::NULL_ID(), 2 );
         p->mod_painkiller( 2 );
         p->mod_stim( 20 );
         p->mod_fatigue( -100 );
@@ -6162,7 +5985,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
                 const std::string mtype = s;
                 getline( f, s, ',' );
-                char *chq = &s[0];
+                char *chq = s.data();
                 const int quality = atoi( chq );
 
                 const size_t eink_strpos = photos.find( "," + mtype + "," );
@@ -6176,7 +5999,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
                     const int old_quality = atoi( chq );
 
                     if( quality > old_quality ) {
-                        chq = &string_format( "%d", quality )[0];
+                        chq = string_format( "%d", quality ).data();
                         photos[strqpos] = *chq;
                     }
                 }
@@ -6306,7 +6129,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         if( ei_photo == choice ) {
 
             const int photos = it->get_var( "EIPC_PHOTOS", 0 );
-            const int viewed = std::min( photos, static_cast<int>( rng( 10, 30 ) ) );
+            const int viewed = std::min( photos, rng( 10, 30 ) );
             const int count = photos - viewed;
             if( count == 0 ) {
                 it->erase_var( "EIPC_PHOTOS" );
@@ -6428,7 +6251,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 const monster dummy( monster_photos.back() );
                 menu_str = dummy.name();
                 getline( f, s, ',' );
-                char *chq = &s[0];
+                char *chq = s.data();
                 const int quality = atoi( chq );
                 menu_str += " [" + photo_quality_name( quality ) + "]";
                 pmenu.addentry( k++, true, -1, menu_str.c_str() );
@@ -6543,27 +6366,6 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
-    int quality;
-    std::string name;
-    std::string description;
-
-    extended_photo_def() = default;
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
-        quality = obj.get_int( "quality" );
-        name = obj.get_string( "name" );
-        description = obj.get_string( "description" );
-    }
-
-    void serialize( JsonOut &jsout ) const override {
-        jsout.start_object();
-        jsout.member( "quality", quality );
-        jsout.member( "name", name );
-        jsout.member( "description", description );
-        jsout.end_object();
-    }
-};
 
 static std::string colorized_trap_name_at( const tripoint &point )
 {
@@ -7541,7 +7343,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             descriptions.push_back( dummy.type->get_description() );
 
             getline( f_mon, s, ',' );
-            char *chq = &s[0];
+            char *chq = s.data();
             const int quality = atoi( chq );
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
@@ -7727,7 +7529,7 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
     }
 
     time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
-                          it->type->tool->turns_per_charge );
+                          it->type->tool->turns_per_charge - it->type->tool->turns_active );
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
                           to_string( shift ) );
@@ -8399,7 +8201,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             int counter = 0;
 
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
-                if( multicooked_subcats.count( r->subcategory ) > 0 ) {
+                if( multicooked_subcats.contains( r->subcategory ) ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
@@ -9156,7 +8958,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
         const std::string capacity = it->get_property_string( "creature_size_capacity" );
-        if( Creature::size_map.count( capacity ) == 0 ) {
+        if( !Creature::size_map.contains( capacity ) ) {
             debugmsg( "%s has invalid creature_size_capacity %s.",
                       it->tname(), capacity.c_str() );
             return 0;
@@ -9705,6 +9507,42 @@ int iuse::modify_grid_connections( player *p, item *it, bool, const tripoint &po
     }
 
     return 0;
+}
+
+int iuse::amputate( player *, item *it, bool, const tripoint &pos )
+{
+    if( !it->ammo_sufficient() ) {
+        return 0;
+    }
+
+    Creature *patient = g->critter_at<Character>( pos );
+    if( !patient ) {
+        add_msg( m_info, _( "Nevermind." ) );
+        return 0;
+    }
+
+    auto &body = patient->get_body();
+
+    uilist bp_menu;
+    bp_menu.text = _( "Select body part to amputate:" );
+    bp_menu.allow_cancel = true;
+
+    for( const auto &pr : body ) {
+        bp_menu.addentry( pr.first->name_as_heading.translated() );
+    }
+
+    bp_menu.query();
+    if( bp_menu.ret < 0 ) {
+        add_msg( m_info, _( "Nevermind." ) );
+        return 0;
+    }
+
+    auto bp_iter = std::next( body.begin(), bp_menu.ret );
+    // Prepare for bugs!
+    add_msg( m_bad, _( "Body part removed: %s" ), bp_iter->first->name_as_heading.translated() );
+    body.erase( bp_iter );
+
+    return it->type->charges_to_use();
 }
 
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const

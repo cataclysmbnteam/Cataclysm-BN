@@ -209,6 +209,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
+        { "directed_push", spell_effect::directed_push },
         { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
         { "noise", spell_effect::noise },
@@ -331,7 +332,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
 
 static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
 {
-    if( spell_effects.count( sp ) ) {
+    if( spell_effects.contains( sp ) ) {
         return true;
     }
     spell_effects.emplace( sp );
@@ -629,7 +630,8 @@ int spell::energy_cost( const Character &guy ) const
     }
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
-        const int hands_encumb = std::max( 0, guy.encumb( bp_hand_l ) + guy.encumb( bp_hand_r ) - 10 );
+        const int hands_encumb = std::max( 0,
+                                           guy.encumb( body_part_hand_l ) + guy.encumb( body_part_hand_r ) - 10 );
         switch( type->energy_source ) {
             default:
                 cost += 10 * hands_encumb;
@@ -725,12 +727,14 @@ int spell::casting_time( const Character &guy ) const
     }
     if( !has_flag( spell_flag::NO_LEGS ) ) {
         // the first 20 points of encumbrance combined is ignored
-        const int legs_encumb = std::max( 0, guy.encumb( bp_leg_l ) + guy.encumb( bp_leg_r ) - 20 );
+        const int legs_encumb = std::max( 0,
+                                          guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - 20 );
         casting_time += legs_encumb * 3;
     }
     if( has_flag( spell_flag::SOMATIC ) ) {
         // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
+        const int arms_encumb = std::max( 0,
+                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - 20 );
         casting_time += arms_encumb * 2;
     }
     return casting_time;
@@ -781,13 +785,14 @@ float spell::spell_fail( const Character &guy ) const
     if( has_flag( spell_flag::SOMATIC ) &&
         !guy.has_trait_flag( trait_flag_SUBTLE_SPELL ) ) {
         // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
+        const int arms_encumb = std::max( 0,
+                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
     if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( trait_flag_SILENT_SPELL ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0, guy.encumb( bp_mouth ) - 5 );
+        const int mouth_encumb = std::max( 0, guy.encumb( body_part_mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
     }
     // concentration spells work better than you'd expect with a higher focus pool
@@ -912,7 +917,7 @@ bool spell::is_valid() const
 
 bool spell::bp_is_affected( body_part bp ) const
 {
-    return type->affected_bps.count( convert_bp( bp ) );
+    return type->affected_bps.contains( convert_bp( bp ) );
 }
 
 void spell::create_field( const tripoint &at ) const
@@ -1611,11 +1616,11 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( bp_leg_l ) + guy.encumb( bp_leg_r ) - 20 );
+        encumb += std::max( 0, guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - 20 );
     }
     if( sp.has_flag( spell_flag::SOMATIC ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
+        encumb += std::max( 0, guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - 20 );
     }
     return encumb > 0;
 }
@@ -1623,7 +1628,7 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
 static bool energy_cost_encumbered( const spell &sp, const Character &guy )
 {
     if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
-        return std::max( 0, guy.encumb( bp_hand_l ) + guy.encumb( bp_hand_r ) - 10 ) > 0;
+        return std::max( 0, guy.encumb( body_part_hand_l ) + guy.encumb( body_part_hand_r ) - 10 ) > 0;
     }
     return false;
 }
@@ -1820,7 +1825,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
 bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
 {
-    if( used_invlets.count( invlet ) > 0 ) {
+    if( used_invlets.contains( invlet ) ) {
         return false;
     }
     invlets[sp] = invlet;
@@ -1842,19 +1847,19 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
         used_invlets.emplace( invlet_pair.second );
     }
     for( int i = 'a'; i <= 'z'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
+        if( !used_invlets.contains( i ) ) {
             used_invlets.emplace( i );
             return i;
         }
     }
     for( int i = 'A'; i <= 'Z'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
+        if( !used_invlets.contains( i ) ) {
             used_invlets.emplace( i );
             return i;
         }
     }
     for( int i = '!'; i <= '-'; i++ ) {
-        if( used_invlets.count( i ) == 0 ) {
+        if( !used_invlets.contains( i ) ) {
             used_invlets.emplace( i );
             return i;
         }
@@ -2155,13 +2160,12 @@ void spell_events::notify( const cata::event &e )
                  it != spell_cast.learn_spells.end(); ++it ) {
                 std::string learn_spell_id = it->first;
                 int learn_at_level = it->second;
-                if( learn_at_level == slvl ) {
+                if( slvl >= learn_at_level && !g->u.magic->knows_spell( learn_spell_id ) ) {
                     g->u.magic->learn_spell( learn_spell_id, g->u );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),
-                        spell_cast.name,
-                        spell_learned.name );
+                        spell_cast.name, spell_learned.name );
                 }
             }
             break;

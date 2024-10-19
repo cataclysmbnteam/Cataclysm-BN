@@ -237,7 +237,7 @@ std::vector<const score *> stats_tracker::valid_scores() const
 {
     std::vector<const score *> result;
     for( const score &scr : score::get_all() ) {
-        if( initial_scores.count( scr.id ) ) {
+        if( initial_scores.contains( scr.id ) ) {
             result.push_back( &scr );
         }
     }

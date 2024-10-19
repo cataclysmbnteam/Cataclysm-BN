@@ -317,13 +317,13 @@ bool melee_actor::call( monster &z ) const
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
-    body_part bp_hit = body_parts.empty() ?
-                       target->select_body_part( &z, hitspread ) :
-                       *body_parts.pick();
+    const bodypart_str_id &bp_hit = body_parts.empty() ?
+                                    target->select_body_part( &z, hitspread ) :
+                                    convert_bp( *body_parts.pick() );
 
-    target->on_hit( &z, convert_bp( bp_hit ).id() );
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, convert_bp( bp_hit ).id(), damage );
-    dealt_damage.bp_hit = bp_hit;
+    target->on_hit( &z, bp_hit.id() );
+    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit.id(), damage );
+    dealt_damage.bp_hit = bp_hit->token;
 
     int damage_total = dealt_damage.total_damage();
     add_msg( m_debug, "%s's melee_attack did %d damage", z.name(), damage_total );
@@ -355,7 +355,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
 
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp : eff.bp;
+            const bodypart_str_id &affected_bp = convert_bp( eff.affect_hit_bp ? bp : eff.bp );
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
             if( eff.permanent ) {
                 target.get_effect( eff.id, affected_bp ).set_permanent();
@@ -381,7 +381,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
-        const body_part hit = dealt.bp_hit;
+        const bodypart_str_id hit = convert_bp( dealt.bp_hit );
         if( target.has_effect( effect_bite, hit ) ) {
             target.add_effect( effect_bite, 40_minutes, hit );
         } else if( target.has_effect( effect_infected, hit ) ) {

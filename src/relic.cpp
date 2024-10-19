@@ -82,8 +82,8 @@ void relic_recharge::load( const JsonObject &jo )
 {
     try {
         src_loc = jo.get_source_location();
+        // NOLINTNEXTLINE(bugprone-empty-catch): Savefiles don't specify source, so ignore error
     } catch( const std::exception & ) {
-        // Savefiles don't specify source, so ignore error
     }
 
     jo.read( "type", type );
@@ -444,7 +444,7 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
             itm.ammo_set( itm.ammo_default(), clamp( itm.ammo_remaining() + rech.rate, 0,
                           itm.ammo_capacity() ) );
         } else {
-            itm.charges = clamp( itm.charges + rech.rate, 0, itm.charges );
+            itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
         }
     }
     if( rech.message ) {

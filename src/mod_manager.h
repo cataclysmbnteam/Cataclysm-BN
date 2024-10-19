@@ -49,7 +49,7 @@ struct MOD_INFORMATION {
         std::string name() const;
         std::string description() const;
 
-        inline void set_translatable_info( translatable_mod_info &&tmi ) {
+        void set_translatable_info( translatable_mod_info &&tmi ) {
             translatable_info = std::move( tmi );
         }
 

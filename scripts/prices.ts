@@ -4,9 +4,9 @@
  * Extracts all item prices from given path recursively.
  */
 
-import { z } from "https://deno.land/x/catjazz@v0.0.5/deps/zod.ts"
-import { queryCli } from "https://deno.land/x/catjazz@v0.0.5/mod.ts"
-import { type Currency, toCents } from "https://deno.land/x/catjazz@v0.0.5/units/mod.ts"
+import { z } from "$catjazz/deps/zod.ts"
+import { queryCli } from "$catjazz/mod.ts"
+import { type Currency, toCents } from "$catjazz/units/mod.ts"
 import { type Column, stringify } from "https://deno.land/std@0.217.0/csv/stringify.ts"
 
 const parseCurrency = z.string().transform((c) => toCents(c as Currency))

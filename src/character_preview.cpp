@@ -11,6 +11,9 @@
 #include "cata_tiles.h"
 #include "cursesport.h"
 #include "game.h"
+#include "avatar.h"
+#include "overlay_ordering.h"
+#include "effect.h"
 
 auto termx_to_pixel_value() -> int
 {
@@ -22,31 +25,102 @@ auto termy_to_pixel_value() -> int
     return projected_window_height() / TERMY;
 }
 
+// @brief adapter to get access to protected functions of cata_tiles
+// exclusively for use by character_preview ui
+class char_preview_adapter : public cata_tiles
+{
+    public:
+        static char_preview_adapter *convert( cata_tiles *ct ) {
+            return static_cast<char_preview_adapter *>( ct );
+        }
+
+        // This will need to stay in sync with cata_tiles::draw_entity_with_overlays
+        void display_avatar_preview_with_overlays( const avatar &ch, const point &p, bool with_clothing ) {
+            // ch is never an npc so we can set ent_name directly
+            std::string ent_name = ch.male ? "player_male" : "player_female";
+
+            int height_3d = 0;
+            int prev_height_3d = 0;
+            // depending on the toggle flip sprite left or right
+            if( ch.facing == FD_RIGHT ) {
+                draw_from_id_string( ent_name, C_NONE, "", tripoint( p, 0 ), corner, 0, lit_level::BRIGHT, false,
+                                     height_3d, 0, true );
+            } else if( ch.facing == FD_LEFT ) {
+                draw_from_id_string( ent_name, C_NONE, "", tripoint( p, 0 ), corner, 4, lit_level::BRIGHT, false,
+                                     height_3d, 0, true );
+            }
+
+            // next up, draw all the overlays, need to construct them locally
+            std::vector<std::string> overlays = get_overlay_ids( ch, with_clothing );
+            for( const std::string &overlay : overlays ) {
+                std::string draw_id = overlay;
+                if( find_overlay_looks_like( ch.male, overlay, draw_id ) ) {
+                    int overlay_height_3d = prev_height_3d;
+                    if( ch.facing == FD_RIGHT ) {
+                        draw_from_id_string( draw_id, C_NONE, "", tripoint( p, 0 ), corner, /*rota*/ 0, lit_level::BRIGHT,
+                                             false, overlay_height_3d, 0,
+                                             true );
+                    } else if( ch.facing == FD_LEFT ) {
+                        draw_from_id_string( draw_id, C_NONE, "", tripoint( p, 0 ), corner, /*rota*/ 4, lit_level::BRIGHT,
+                                             false, overlay_height_3d, 0,
+                                             true );
+                    }
+                    // the tallest height-having overlay is the one that counts
+                    height_3d = std::max( height_3d, overlay_height_3d );
+                }
+            }
+        }
+    private:
+        // @brief This is basically a copy of Character::get_overlay_ids but builds up ids we care about
+        std::vector<std::string> get_overlay_ids( const avatar &av, bool with_clothing ) {
+            std::vector<std::string> rval;
+            std::multimap<int, std::string> mutation_sorting;
+
+            // first get effects
+            for( const auto &eff : av.get_all_effects() ) { // only returns non-removed effects
+                rval.emplace_back( "effect_" + eff.first.str() );
+            }
+            // then get mutations
+            for( const auto &mut : av.my_mutations ) {
+                std::string overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+                int order = get_overlay_order_of_mutation( overlay_id );
+                mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+            }
+
+            // add any profession bionics
+            // we'll use a temporary character for this and clothing so we aren't modifying the base character
+            avatar t_av;
+            for( const bionic_id &bio : av.prof->CBMs() ) {
+                t_av.add_bionic( bio );
+            }
+            for( const bionic &bio : *t_av.my_bionics ) {
+                std::string overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
+                int order = get_overlay_order_of_mutation( overlay_id );
+                mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+            }
+
+            for( auto &mutorder : mutation_sorting ) {
+                rval.push_back( "mutation_" + mutorder.second );
+            }
+
+            // now that we have bionics applied we can see what clothing we can wear
+            if( with_clothing ) {
+                for( const auto &it : av.prof->items( av.male, av.get_mutations() ) ) {
+                    if( it->is_armor() && av.can_wear( *it ).success() ) {
+                        t_av.wear_item( item::spawn( *std::move( it ) ), false );
+                    }
+                }
+                for( const item * const &worn_item : t_av.worn ) {
+                    rval.push_back( "worn_" + worn_item->typeId().str() );
+                }
+            }
+            return rval;
+        }
+};
+
 void character_preview_window::init( Character *character )
 {
     this->character = character;
-
-    // Setting bionics
-    for( const bionic_id &bio : character->prof->CBMs() ) {
-        character->add_bionic( bio );
-        // Saving possible spells to cancell them later
-        for( const std::pair<const spell_id, int> &spell_pair : bio->learned_spells ) {
-            const spell_id learned_spell = spell_pair.first;
-            if( learned_spell->spell_class != trait_id( "NONE" ) ) {
-                spells.push_back( learned_spell->spell_class );
-            }
-        }
-    }
-
-    // Collecting profession clothes
-    std::vector<detached_ptr<item>> prof_items = character->prof->items( character->male,
-                                 character->get_mutations() );
-    for( detached_ptr<item> &it : prof_items ) {
-        if( it->is_armor() ) {
-            clothes.push_back( std::move( it ) );
-        }
-    }
-    toggle_clothes();
 }
 
 
@@ -129,13 +203,6 @@ void character_preview_window::zoom_out()
 
 void character_preview_window::toggle_clothes()
 {
-    if( !show_clothes ) {
-        character->worn.clear();
-    } else {
-        for( detached_ptr<item> &it : clothes ) {
-            character->wear_item( item::spawn( *std::move( it ) ), false );
-        }
-    }
     show_clothes = !show_clothes;
 }
 
@@ -153,22 +220,13 @@ void character_preview_window::display() const
 
     // Drawing character itself
     const point pos = calc_character_pos();
-    tilecontext->display_character( *character, pos );
+    // tilecontext->display_character( *character, pos );
+    char_preview_adapter::convert( &*tilecontext )->display_avatar_preview_with_overlays( *
+            ( character->as_avatar() ), pos, show_clothes );
 }
 
 void character_preview_window::clear() const
 {
-    character->worn.clear();
-    character->clear_bionics();
-    character->set_max_power_level( 0_kJ );
-    character->set_power_level( character->get_max_power_level() );
-    character->magic = pimpl<known_magic>();
-    for( const trait_id &spell : spells ) {
-        if( character->has_trait( spell ) ) {
-            character->remove_mutation( spell );
-        }
-    }
-    character->clear_morale();
     Messages::clear_messages();
     tilecontext->set_draw_scale( DEFAULT_TILESET_ZOOM );
 }

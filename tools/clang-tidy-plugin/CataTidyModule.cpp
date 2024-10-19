@@ -1,8 +1,8 @@
 #include <clang/Basic/Version.h>
 #include <llvm/ADT/StringRef.h>
 
-#include "ClangTidyModule.h"
-#include "ClangTidyModuleRegistry.h"
+#include <clang-tidy/ClangTidyModule.h>
+#include <clang-tidy/ClangTidyModuleRegistry.h>
 #include "CombineLocalsIntoPointCheck.h"
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"

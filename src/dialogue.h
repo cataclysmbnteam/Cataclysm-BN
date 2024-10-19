@@ -36,8 +36,8 @@ enum dialogue_consequence : unsigned char {
     action
 };
 
-using talkfunction_ptr = std::add_pointer<void ( npc & )>::type;
-using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
+using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
+using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
 
@@ -208,7 +208,7 @@ struct talk_response {
     mission *mission_selected = nullptr;
     skill_id skill = skill_id::NULL_ID();
     matype_id style = matype_id::NULL_ID();
-    spell_id dialogue_spell = spell_id();
+    spell_id dialogue_spell;
 
     talk_effect_t success;
     talk_effect_t failure;

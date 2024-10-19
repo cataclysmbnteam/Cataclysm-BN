@@ -328,7 +328,8 @@
       { "item": "gloves_fingerless", "prob": 10 },
       { "item": "gloves_light_fingerless", "prob": 10 },
       { "item": "gloves_work", "prob": 2 },
-      { "item": "bandana", "prob": 35 },
+      { "item": "bandana", "prob": 25 },
+      { "item": "bandana_head", "prob": 10 },
       { "item": "scarf", "prob": 45 },
       { "item": "knit_scarf", "prob": 35 },
       { "item": "long_knit_scarf", "prob": 5 },
@@ -952,6 +953,7 @@
       { "item": "pet_carrier", "prob": 3 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
+      { "item": "shark_plush", "prob": 2 },
       { "item": "reading_light", "prob": 8 },
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
       { "group": "ammo_common", "prob": 20 },
@@ -1047,8 +1049,9 @@
       [ "talking_doll", 40 ],
       [ "bondage_mask", 20 ],
       [ "knife_hunting", 25 ],
-      [ "throwing_knife", 25 ],
-      [ "throwing_axe", 25 ],
+      [ "throwing_knife", 20 ],
+      [ "throwing_axe", 20 ],
+      { "item": "shuriken", "prob": 10, "count": [ 1, 4 ] },
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
       [ "compcrossbow", 20 ],
@@ -1079,7 +1082,8 @@
       [ "fencing_foil", 20 ],
       [ "fencing_sabre", 20 ],
       [ "fencing_epee", 20 ],
-      [ "fencing_mask", 20 ]
+      [ "fencing_mask", 20 ],
+      [ "pirate_flag", 5 ]
     ]
   },
   {

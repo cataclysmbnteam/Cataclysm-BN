@@ -1,39 +1,48 @@
 name: "Pull translations from Transifex"
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "42 1 * * 6"
 
 jobs:
   pull-translations:
     if: github.repository == 'cataclysmbnteam/Cataclysm-BN'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
     steps:
       - name: "Install Transifex CLI"
         run: |
           curl -sL https://github.com/transifex/cli/releases/download/v1.6.7/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
+
       - name: "Checkout"
         uses: actions/checkout@v4
-      - name: "Get current date"
-        uses: nanzm/get-time-action@v1.1
-        id: get-timestamp
         with:
-          timeZone: 0
-          format: "YYYY-MM-DD"
+          # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#push-to-protected-branches
+          token: ${{ secrets.AUTO_COMMIT_PAT }}
+
+      - name: "Get current date"
+        id: get-timestamp
+        run: echo "time=$(date -u "+%F")" >> $GITHUB_OUTPUT
+
       - name: "Pull translations"
+        run: tx pull --force
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
-        run: tx pull --force
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3.10.0
+
+      - name: Show Changes
+        run: |
+          git status
+          git diff --numstat
+
+      - name: Create Commit
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit-message: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
-          committer: Coolthulhu (BOT) <Coolthulhu@gmail.com>
-          author: Coolthulhu (BOT) <Coolthulhu@gmail.com>
-          token: ${{ secrets.TX_PR_CREATOR }}
-          branch: i18n
-          delete-branch: true
-          base: main
-          title: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
-          body: ""
-          labels: Translation
+          branch: main
+          commit_message: "feat(i18n): routine i18n updates on ${{ steps.get-timestamp.outputs.time }}"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"

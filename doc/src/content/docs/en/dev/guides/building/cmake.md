@@ -48,7 +48,7 @@ Obtain packages specified above with your system package manager.
 - For Ubuntu-based distros (24.04 onwards):
 
 ```sh
-$ sudo apt install git cmake ninja-build mold clang-17 ccache \ 
+$ sudo apt install git cmake ninja-build mold clang ccache \ 
   libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev \ 
   freetype glibc bzip2 zlib libvorbis ncurses gettext libflac++-dev
 ```
@@ -56,7 +56,7 @@ $ sudo apt install git cmake ninja-build mold clang-17 ccache \
 - For Fedora-based distros:
 
 ```sh
-$ sudo dnf install git cmake ninja-build mold clang17 ccache \
+$ sudo dnf install git cmake ninja-build mold clang ccache \
   SDL2-devel SDL2_image-devel SDL2_ttf-devel SDL2_mixer-devel \
   freetype glibc bzip2 zlib-ng libvorbis ncurses gettext flac-devel
 ```
@@ -153,8 +153,8 @@ cmake \
   -B build \
   -G Ninja \
   -DCATA_CCACHE=ON \
-  -DCMAKE_C_COMPILER=clang-17 \
-  -DCMAKE_CXX_COMPILER=clang++-17 \
+  -DCMAKE_C_COMPILER=clang \
+  -DCMAKE_CXX_COMPILER=clang++ \
   -DCMAKE_INSTALL_PREFIX=$HOME/.local/share \
   -DJSON_FORMAT=ON \
   -DCMAKE_BUILD_TYPE=RelWithDebInfo \

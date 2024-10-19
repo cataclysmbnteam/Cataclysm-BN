@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-translator-comments %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-translator-comments %t -- --load=%cata_plugin --
 
 // check_clang_tidy uses -nostdinc++, so we add dummy declaration of std::string here
 namespace std

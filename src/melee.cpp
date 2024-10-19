@@ -237,7 +237,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
 
         for( auto &comp : shield.get_components() ) {
-            if( blacklist.count( comp->typeId() ) <= 0 ) {
+            if( !blacklist.contains( comp->typeId() ) ) {
                 if( weak_chip > comp->chip_resistance() ) {
                     weak_chip = comp->chip_resistance();
                     weak_comp = comp->typeId();
@@ -347,7 +347,7 @@ float Character::get_melee_hit( const item &weapon, const attack_statblock &atta
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
+    hit *= std::max( 0.25f, 1.0f - encumb( body_part_torso ) / 100.0f );
 
     return hit;
 }
@@ -375,7 +375,7 @@ std::string Character::get_miss_reason()
     // in one turn
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
-        roll_remainder( encumb( bp_torso ) / 10.0 ) );
+        roll_remainder( encumb( body_part_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) );
@@ -562,7 +562,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
             if( allow_special ) {
                 perform_special_attacks( t, dealt_special_dam );
             }
-            t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
+            t.deal_melee_hit( this, &cur_weapon, hit_spread, critical_hit, d, dealt_dam );
             if( dealt_special_dam.type_damage( DT_CUT ) > 0 ||
                 dealt_special_dam.type_damage( DT_STAB ) > 0 ||
                 ( cur_weapon.is_null() && ( dealt_dam.type_damage( DT_CUT ) > 0 ||
@@ -635,11 +635,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     const int weight_cost = cur_weapon.weight() / ( 16_gram );
-    const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
+    const int encumbrance_cost = roll_remainder( ( encumb( body_part_arm_l ) + encumb(
+                                     body_part_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
     const float strbonus = 1 / ( 2 + ( str_cur * 0.25f ) );
-    const float skill_cost = std::max( 0.667f, static_cast<float>( ( 30.0f - melee ) / 30.0f ) );
+    const float skill_cost = std::max( 0.667f, ( ( 30.0f - melee ) / 30.0f ) );
     /** @EFFECT_MELEE and @EFFECT_STR reduce stamina cost of melee attacks */
     const int mod_sta = -( weight_cost + encumbrance_cost - deft_bonus + 50 ) * skill_cost *
                         ( 0.75f + strbonus );
@@ -767,7 +768,7 @@ int stumble( Character &u, const item &weap )
 bool Character::scored_crit( float target_dodge, const item &weap,
                              const attack_statblock &attack ) const
 {
-    return rng_float( 0, 1.0 ) < crit_chance( hit_roll( weap, attack ), target_dodge, weap );
+    return rng_float( 0, 1.0 ) < crit_chance( hit_roll( weap, attack ), target_dodge, weap, attack );
 }
 
 /**
@@ -778,7 +779,8 @@ inline double limit_probability( double unbounded_probability )
     return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
 }
 
-double Character::crit_chance( float roll_hit, float target_dodge, const item &weap ) const
+double Character::crit_chance( float roll_hit, float target_dodge, const item &weap,
+                               const attack_statblock &attack ) const
 {
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
@@ -788,10 +790,10 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
         weapon_crit_chance = 0.5 + 0.05 * get_skill_level( skill_unarmed );
     }
 
-    if( weap.type->m_to_hit > 0 ) {
-        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * weap.type->m_to_hit );
-    } else if( weap.type->m_to_hit < 0 ) {
-        weapon_crit_chance += 0.1 * weap.type->m_to_hit;
+    if( attack.to_hit > 0 ) {
+        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * attack.to_hit );
+    } else if( attack.to_hit < 0 ) {
+        weapon_crit_chance += 0.1 * attack.to_hit;
     }
     weapon_crit_chance = limit_probability( weapon_crit_chance );
 
@@ -951,13 +953,13 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const trait_id &mut : c.get_mutations() ) {
-                if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                if( mut->flags.contains( trait_flag_NEED_ACTIVE_TO_MELEE ) &&
                     !c.has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
-                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
+                if( mut->flags.contains( trait_flag_UNARMED_BONUS ) && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( c.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += bash_bonus + unarmed_bonus;
@@ -1045,13 +1047,13 @@ void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di,
             }
 
             for( const trait_id &mut : c.get_mutations() ) {
-                if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                if( mut->flags.contains( trait_flag_NEED_ACTIVE_TO_MELEE ) &&
                     !c.has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
-                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.contains( trait_flag_UNARMED_BONUS ) && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( c.get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += cut_bonus + unarmed_bonus;
@@ -1118,7 +1120,7 @@ void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di
             for( const trait_id &mut : c.get_mutations() ) {
                 int stab_bonus = mut->pierce_dmg_bonus;
                 int unarmed_bonus = 0;
-                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && stab_bonus > 0 ) {
+                if( mut->flags.contains( trait_flag_UNARMED_BONUS ) && stab_bonus > 0 ) {
                     unarmed_bonus = std::min( unarmed_skill / 2, 4 );
                 }
 
@@ -1918,6 +1920,16 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
+    if( primary_weapon().has_flag( flag_ACIDIC ) ) {
+        d.add_damage( DT_ACID, rng( 1, 8 ) );
+
+        if( is_player() ) {
+            dump += string_format( _( "You chemically burn %s." ), target ) + "\n";
+        } else {
+            add_msg_player_or_npc( _( "<npcname> chemically burns %s." ), target );
+        }
+    }
+
     //Hurting the wielder from poorly-chosen weapons
     if( weap.has_flag( flag_HURT_WHEN_WIELDED ) && x_in_y( 2, 3 ) ) {
         add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );
@@ -2288,11 +2300,11 @@ int Character::attack_cost( const item &weap ) const
     const int melee_skill = has_active_bionic( bionic_id( bio_cqb ) ) ? BIO_CQB_LEVEL : get_skill_level(
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
-    const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
+    const int skill_cost = ( base_move_cost * ( 15 - melee_skill ) / 15 );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur;
-    const int encumbrance_penalty = encumb( bp_torso ) +
-                                    ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
+    const int encumbrance_penalty = encumb( body_part_torso ) +
+                                    ( encumb( body_part_hand_l ) + encumb( body_part_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );
@@ -2355,7 +2367,7 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 double npc_ai::melee_value( const Character &who, const item &weap )
 {
     // start with average effective dps against a range of enemies
-    double my_value = weap.average_dps( *who.as_player() );
+    double my_value = weap.average_dps( *who.as_player(), melee::default_attack( weap ) );
 
     float reach = weap.reach_range( who );
     // value reach weapons more
@@ -2548,9 +2560,9 @@ double melee::expected_damage( const Character &c, const item &weapon,
         return acc + std::max( 0.0f, du.amount - resists.get_effective_resist( du ) );
     } );
 
-    return chance * reduced_damage_sum;
+    float capped_near_hp = std::min( 2.0f + 1.1f * target.get_hp(), reduced_damage_sum );
 
-
+    return chance * capped_near_hp;
 }
 
 const attack_statblock &melee::default_attack( const item &it )

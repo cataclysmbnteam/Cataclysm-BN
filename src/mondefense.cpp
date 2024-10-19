@@ -85,8 +85,8 @@ void mdefense::zapback( monster &m, Creature *const source,
 
     if( get_avatar().sees( source->pos() ) ) {
         const auto msg_type = source == &get_avatar() ? m_bad : m_info;
-        add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
-                 m.name(), source->disp_name() );
+        add_msg( msg_type, _( "Striking %1$s shocks %2$s!" ),
+                 m.disp_name(), source->disp_name() );
     }
 
     const damage_instance shock {
@@ -208,7 +208,7 @@ void mdefense::revenge_aggro( monster &m, Creature *source, const dealt_projecti
 
     size_t aggroed = 0;
     for( monster &ally : g->all_monsters() ) {
-        if( rl_dist_fast( ally.pos(), m.pos() ) <= 20 &&
+        if( rl_dist_fast( ally.pos(), m.pos() ) <= 40 &&
             ally.attitude_to( m ) == Attitude::A_FRIENDLY ) {
             ally.anger = std::max( ally.anger, 100 );
             ally.morale = std::max( ally.morale, 100 );

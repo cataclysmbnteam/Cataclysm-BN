@@ -4,7 +4,6 @@
     "id": "84x246mm_he",
     "price": "700 USD",
     "price_postapoc": "120 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "//": "Milspec ammo such as grenades and rockets: not available to the general public, so Expensive.",
     "name": { "str": "84x246mm HE rocket" },
     "symbol": "=",
@@ -20,7 +19,8 @@
     "recoil": 45,
     "count": 4,
     "stack_size": 1,
-    "effects": [ "COOKOFF", "EXPLOSIVE_BIG", "FRAG", "NEVER_MISFIRES" ]
+    "loudness": 90,
+    "effects": [ "COOKOFF", "EXPLOSIVE_BIG_PLUS_FRAG", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -52,6 +52,6 @@
     "range": 140,
     "dispersion": 30,
     "extend": { "effects": [ "SMOKE_BIG" ] },
-    "delete": { "effects": [ "EXPLOSIVE_BIG", "FRAG" ] }
+    "delete": { "effects": [ "EXPLOSIVE_BIG_PLUS_FRAG" ] }
   }
 ]

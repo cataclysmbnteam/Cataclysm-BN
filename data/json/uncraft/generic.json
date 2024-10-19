@@ -76,9 +76,27 @@
     "type": "uncraft",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": "22 s",
+    "time": "15 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 20 ] ] ]
+    "components": [ [ [ "rag", 60 ] ], [ [ "cotton_ball", 100 ] ], [ [ "spring", 5 ] ] ]
+  },
+  {
+    "result": "down_mattress",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+  },
+  {
+    "result": "wool_mattress",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "felt_patch", 60 ] ], [ [ "yarn", 650 ] ] ]
   },
   {
     "result": "character_sheet",
@@ -3570,6 +3588,7 @@
     "time": "6 s",
     "components": [
       [ [ "knife_folding", 1 ] ],
+      [ [ "wire_saw", 1 ] ],
       [ [ "flint_steel", 1 ] ],
       [ [ "whistle_multitool", 1 ] ],
       [ [ "bottle_folding", 1 ] ],

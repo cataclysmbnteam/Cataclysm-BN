@@ -300,9 +300,9 @@ void Character::suffer_while_awake( const int current_stim )
     if( !has_trait( trait_DEBUG_STORAGE ) &&
         ( weight_carried() > 4 * weight_capacity() ) ) {
         if( has_effect( effect_downed ) ) {
-            add_effect( effect_downed, 1_turns, num_bp, 0 );
+            add_effect( effect_downed, 1_turns, bodypart_str_id::NULL_ID(), 0 );
         } else {
-            add_effect( effect_downed, 2_turns, num_bp, 0 );
+            add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0 );
         }
     }
     if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -362,6 +362,19 @@ void Character::suffer_while_awake( const int current_stim )
     }
 }
 
+static void set_bodytemp( Character &who, int bodytemp )
+{
+    for( auto &pr : who.get_body() ) {
+        if( pr.first == body_part_eyes ) {
+            pr.second.set_temp_cur( BODYTEMP_NORM );
+            pr.second.set_temp_conv( BODYTEMP_NORM );
+        } else {
+            pr.second.set_temp_cur( bodytemp );
+            pr.second.set_temp_conv( bodytemp );
+        }
+    }
+}
+
 void Character::suffer_from_chemimbalance()
 {
     if( one_turn_in( 6_hours ) && !has_trait( trait_NOPAIN ) ) {
@@ -408,22 +421,20 @@ void Character::suffer_from_chemimbalance()
     if( one_turn_in( 6_hours ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "You suddenly feel very cold." ) );
-            temp_cur.fill( BODYTEMP_VERY_COLD );
+            set_bodytemp( *this, BODYTEMP_VERY_COLD );
         } else {
             add_msg_if_player( m_bad, _( "You suddenly feel cold." ) );
-            temp_cur.fill( BODYTEMP_COLD );
+            set_bodytemp( *this, BODYTEMP_COLD );
         }
-        temp_cur[bp_eyes] = BODYTEMP_NORM;
     }
     if( one_turn_in( 6_hours ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "You suddenly feel very hot." ) );
-            temp_cur.fill( BODYTEMP_VERY_HOT );
+            set_bodytemp( *this, BODYTEMP_VERY_HOT );
         } else {
             add_msg_if_player( m_bad, _( "You suddenly feel hot." ) );
-            temp_cur.fill( BODYTEMP_HOT );
+            set_bodytemp( *this, BODYTEMP_HOT );
         }
-        temp_cur[bp_eyes] = BODYTEMP_NORM;
     }
 }
 
@@ -456,8 +467,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 6_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_formication" ).value_or(
                                      translation() );
-        body_part bp = random_body_part( true );
-        add_effect( effect_formication, 45_minutes, bp );
+        add_effect( effect_formication, 45_minutes, random_body_part( true ) );
         add_msg_if_player( m_bad, "%s", snip );
         return;
     }
@@ -738,7 +748,7 @@ void Character::suffer_feral_kill_withdrawl()
                     vomit();
                     if( one_in( 3 ) ) {
                         add_msg_if_player( m_bad, _( "Blood starts leaking from your eyes and nose." ) );
-                        add_effect( effect_bleed, 10_minutes, bp_head );
+                        add_effect( effect_bleed, 10_minutes, body_part_head );
                         add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
                     }
                 } else {
@@ -746,7 +756,7 @@ void Character::suffer_feral_kill_withdrawl()
                     if( one_in( 3 ) ) {
                         add_msg_if_player( m_bad, _( "You wake up bloody for some reason." ) );
                         wake_up();
-                        add_effect( effect_bleed, 10_minutes, bp_head );
+                        add_effect( effect_bleed, 10_minutes, body_part_head );
                         add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
                     }
                 }
@@ -783,7 +793,8 @@ void Character::suffer_feral_kill_withdrawl()
                 break;
             case 4:
                 // The others are displeased with your lack of bloodshed, can sleep through the mental contact itself.
-                add_effect( effect_attention, rng( 3_hours, 6_hours ), num_bp, rng( 1, 4 ), false, true );
+                add_effect( effect_attention, rng( 3_hours, 6_hours ), bodypart_str_id::NULL_ID(), rng( 1, 4 ),
+                            false, true );
                 if( !in_sleep_state() ) {
                     add_msg_if_player( m_bad,
                                        _( "You feel like something is judging you from afar, leaving your head spinning." ) );
@@ -1071,7 +1082,7 @@ void Character::suffer_from_other_mutations()
             if( bp == bp_head ) {
                 continue;
             }
-            int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );
+            int sores_pain = 5 + 0.4 * std::abs( encumb( convert_bp( bp ) ) );
             if( get_pain() < sores_pain ) {
                 set_pain( sores_pain );
             }
@@ -1344,7 +1355,7 @@ void Character::suffer_from_bad_bionics()
                                _( "<npcname> spasms and falls to the floor!" ) );
         mod_pain( 1 );
         add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 10_turns, num_bp, 0 );
+        add_effect( effect_downed, 10_turns, bodypart_str_id::NULL_ID(), 0 );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if( has_bionic( bio_shakes ) && get_power_level() > bio_shakes->power_trigger &&
@@ -1363,8 +1374,7 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
-        body_part bp = random_body_part( true );
-        add_effect( effect_formication, 10_minutes, bp );
+        add_effect( effect_formication, 10_minutes, random_body_part( true ) );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
         get_power_level() > bio_glowy->power_trigger ) {
@@ -1531,7 +1541,7 @@ void Character::suffer()
     // TODO: Remove this section and encapsulate hp_cur
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
-            add_effect( effect_disabled, 1_turns, elem.first->token );
+            add_effect( effect_disabled, 1_turns, elem.first );
         }
     }
 
@@ -1588,7 +1598,7 @@ void Character::suffer()
     enchantment_cache->activate_passive( *this );
 
     if( calendar::once_every( 1_hours ) ) {
-        add_effect( effect_accumulated_mutagen, 1_hours, num_bp );
+        add_effect( effect_accumulated_mutagen, 1_hours, bodypart_str_id::NULL_ID() );
     }
 }
 
@@ -1813,9 +1823,15 @@ void Character::apply_wetness_morale( const units::temperature &temperature )
             bp_morale = part_good + part_neutral - effective_drench;
         }
 
+        auto iter = get_body().find( bp.id() );
+        if( iter == get_body().end() ) {
+            debugmsg( "%s has no body part %s", disp_name().c_str(), bp.id().c_str() );
+            continue;
+        }
+        int temp_cur = iter->second.get_temp_cur();
         // Clamp to [COLD,HOT] and cast to double
         const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp->token] ) );
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur ) );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = ( part_temperature - BODYTEMP_COLD ) /
                                 ( BODYTEMP_HOT - BODYTEMP_COLD );

@@ -184,6 +184,11 @@ class bodypart
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
+        // @todo BODYTEMP_NORM
+        int temp_cur = 5000;
+        int temp_conv = 5000;
+        int frostbite_timer = 0;
+
     public:
         // TODO: private
         wield_status wielding;
@@ -222,6 +227,27 @@ class bodypart
         void mod_healed_total( int mod );
         void mod_damage_bandaged( int mod );
         void mod_damage_disinfected( int mod );
+
+        int get_temp_cur() const {
+            return temp_cur;
+        }
+        void set_temp_cur( int set ) {
+            temp_cur = set;
+        }
+
+        int get_temp_conv() const {
+            return temp_conv;
+        }
+        void set_temp_conv( int set ) {
+            temp_conv = set;
+        }
+
+        int get_frostbite_timer() const {
+            return frostbite_timer;
+        }
+        void set_frostbite_timer( int set ) {
+            frostbite_timer = set;
+        }
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -328,7 +354,7 @@ std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 std::string encumb_text( body_part bp );
 
 /** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
-body_part random_body_part( bool main_parts_only = false );
+bodypart_str_id random_body_part( bool main_parts_only = false );
 
 /** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
 body_part mutate_to_main_part( body_part bp );

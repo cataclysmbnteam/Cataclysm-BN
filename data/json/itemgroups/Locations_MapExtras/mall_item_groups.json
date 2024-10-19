@@ -118,7 +118,8 @@
       [ "clownshoes", 5 ],
       [ "radio_car_box", 10 ],
       [ "RPG_die", 5 ],
-      [ "metal_RPG_die", 1 ]
+      [ "metal_RPG_die", 1 ],
+      [ "shark_plush", 5 ]
     ]
   },
   {
@@ -148,6 +149,7 @@
       [ "knife_combat", 35 ],
       [ "knife_carbon", 35 ],
       [ "throwing_knife", 10 ],
+      { "item": "shuriken", "prob": 5, "count": [ 1, 4 ] },
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],
       [ "knife_trench", 7 ],
@@ -336,7 +338,10 @@
       [ "cowboy_hat", 20 ],
       [ "tophat", 25 ],
       [ "hat_sombrero", 25 ],
-      [ "apron_leather", 20 ]
+      [ "apron_leather", 20 ],
+      [ "bandolier_knife", 15 ],
+      [ "baldric_holster", 10 ],
+      [ "pirate_flag", 15 ]
     ]
   },
   {
@@ -383,7 +388,8 @@
       [ "cavalry_sabre_fake", 4 ],
       [ "wakizashi_fake", 4 ],
       [ "wakizashi_inferior", 8 ],
-      [ "kris_fake", 8 ]
+      [ "kris_fake", 8 ],
+      { "item": "shuriken", "prob": 1, "count": [ 1, 4 ] }
     ]
   }
 ]

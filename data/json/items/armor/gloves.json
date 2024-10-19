@@ -121,7 +121,7 @@
     "material": [ "acidchitin", "leather" ],
     "price_postapoc": "1750 cent",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1 }
+    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
     "id": "gauntlet_fencing",
@@ -1003,5 +1003,15 @@
     "material": [ "carbon_fiber" ],
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] },
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "gauntlets_scute",
+    "type": "ARMOR",
+    "name": { "str": "scaleskin gauntlets" },
+    "description": "Gauntlets made from the hardened scales of large reptiles.",
+    "copy-from": "gauntlets_larmor",
+    "material": [ "scute" ],
+    "material_thickness": 5,
+    "environmental_protection": 4
   }
 ]

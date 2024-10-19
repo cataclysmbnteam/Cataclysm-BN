@@ -108,9 +108,13 @@ static const trait_id trait_XXXL( "XXXL" );
 #define COL_HEADER          c_white   // Captions, like "Profession items"
 #define COL_NOTE_MINOR      c_light_gray  // Just regular note
 
-#define HIGH_STAT 14 // The point after which stats cost double
+enum {
+    HIGH_STAT = 14 // The point after which stats cost double
+};
 
-#define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
+enum {
+    NEWCHAR_TAB_MAX = 6 // The ID of the rightmost tab
+};
 
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
@@ -1744,7 +1748,7 @@ tab_direction set_profession( avatar &u, points_left &points,
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             cur_id++;
-            if( cur_id > static_cast<int>( profs_length ) - 1 ) {
+            if( cur_id > profs_length - 1 ) {
                 cur_id = 0;
             }
             desc_offset = 0;
@@ -1911,7 +1915,7 @@ tab_direction set_skills( avatar &u, points_left &points )
             auto req_skill = r.required_skills.find( currentSkill->ident() );
             int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
             bool would_autolearn_recipe =
-                recipe_dict.all_autolearn().count( &r ) &&
+                recipe_dict.all_autolearn().contains( &r ) &&
                 with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
 
             if( !would_autolearn_recipe && !r.never_learn &&
@@ -2629,7 +2633,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 mvwprintz( w_skills, point( 2, line ), c_light_gray,
                            elem->name() + ":" );
                 mvwprintz( w_skills, point( 25, line ), c_light_gray, "%-2d",
-                           static_cast<int>( level ) );
+                           level );
                 line++;
                 has_skills = true;
             }

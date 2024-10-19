@@ -12,18 +12,18 @@ You have three major choices here: GCC, Clang and MXE.
 
 - GCC is almost always the default on Linux systems so it's likely you already have it
 - Clang is usually faster than GCC, so it's worth installing if you plan to keep up with the latest
-  experimentals
+  nightlies.
 - MXE is a cross-compiler, so of any importance only if you plan to compile for Windows on your
   Linux machine
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for
 C++ you'll need to install `g++`.)
 
-Cataclysm is targeting C++17 standard and that means you'll need a compiler that supports it. You
-can easily check if your version of `g++` supports C++17 by running:
+Cataclysm is targeting C++20 standard and that means you'll need a compiler that supports it. You
+can easily check if your version of `g++` supports C++20 by running:
 
 ```sh
-$ g++ --std=c++17
+$ g++ --std=c++20
 g++: fatal error: no input files
 compilation terminated.
 ```
@@ -31,7 +31,7 @@ compilation terminated.
 If you get a line like:
 
 ```sh
-g++: error: unrecognized command line option ‘--std=c++17’
+g++: error: unrecognized command line option ‘--std=c++20’
 ```
 
 This means you'll need a newer version of GCC (`g++`).
@@ -47,8 +47,8 @@ you go (if any).
 
 Besides the essentials you will need `git`.
 
-If you plan on keeping up with experimentals you should also install `ccache`, which will
-considerably speed-up partial builds.
+If you plan on keeping up with nightlies you should also install `ccache`, which will considerably
+speed-up partial builds.
 
 ## Dependencies
 
@@ -377,7 +377,7 @@ builds the SDL version with all features enabled, including tiles, sound and loc
 
 ### Dependencies
 
-- Java JDK 8
+- Java JDK 11
 - SDL2 (tested with 2.0.8, though a custom fork is recommended with project-specific bugfixes)
 - SDL2_ttf (tested with 2.0.14)
 - SDL2_mixer (tested with 2.0.2)

@@ -79,7 +79,9 @@ class map_extra;
 
 #define dbg(x) DebugLogFL((x),DC::MapGen)
 
-#define BUILDINGCHANCE 4
+enum {
+    BUILDINGCHANCE = 4
+};
 
 ////////////////
 oter_id  ot_null,
@@ -289,7 +291,7 @@ city::city( const point_om_omt &P, int const S )
 
 int city::get_distance_from( const tripoint_om_omt &p ) const
 {
-    return std::max( static_cast<int>( trig_dist( p, tripoint_om_omt{ pos, 0 } ) ) - size, 0 );
+    return std::max( trig_dist( p, tripoint_om_omt{ pos, 0 } ) - size, 0 );
 }
 
 std::map<enum radio_type, std::string> radio_type_names =
@@ -1170,7 +1172,7 @@ struct fixed_overmap_special_data : overmap_special_data {
             const oter_str_id &oter = elem.terrain;
 
             if( !oter.is_valid() ) {
-                if( !invalid_terrains.count( oter ) ) {
+                if( !invalid_terrains.contains( oter ) ) {
                     // Not a huge fan of the the direct id manipulation here, but I don't know
                     // how else to do this
                     oter_str_id invalid( oter.str() + "_north" );
@@ -1186,7 +1188,7 @@ struct fixed_overmap_special_data : overmap_special_data {
 
             const auto &pos = elem.p;
 
-            if( points.count( pos ) > 0 ) {
+            if( points.contains( pos ) ) {
                 debugmsg( "In %s, point %s is duplicated.", context, pos.to_string() );
             } else {
                 points.insert( pos );
@@ -1856,7 +1858,7 @@ class joins_tracker
 
                 if( const join *other_side_join = resolved.find( other_side ) ) {
                     erase_unresolved( this_side );
-                    if( !avoid.count( this_side ) ) {
+                    if( !avoid.contains( this_side ) ) {
                         used.emplace_back( other_side, other_side_join->join->id );
                         // Because of the existence of alternative joins, we don't
                         // simply add this_side_join here, we add the opposite of
@@ -1947,7 +1949,7 @@ class joins_tracker
             }
 
             bool count( const om_pos_dir &p ) const {
-                return position_index.count( p );
+                return position_index.contains( p );
             }
 
             const join *find( const om_pos_dir &p ) const {
@@ -2392,7 +2394,7 @@ struct mutable_overmap_special_data : overmap_special_data {
             const mutable_overmap_terrain &ter = p.second;
             ter.check( string_format( "overmap %s in %s", p.first, context ) );
         }
-        if( !overmaps.count( root ) ) {
+        if( !overmaps.contains( root ) ) {
             debugmsg( "root %s is not amongst the defined overmaps for %s", root, context );
         }
         for( const mutable_overmap_phase &phase : phases ) {
@@ -2831,7 +2833,7 @@ void overmap_special::check() const
     std::unordered_set<overmap_special_id> parents ) -> std::optional<overmap_special_id> {
         for( const auto &nested : special->get_nested_specials() )
         {
-            if( parents.count( nested.second ) > 0 ) {
+            if( parents.contains( nested.second ) ) {
                 return nested.second;
             } else {
                 std::unordered_set<overmap_special_id> copy = parents;
@@ -3448,7 +3450,7 @@ static void elevate_bridges(
     }
     // Put bridge points
     for( const point_om_omt &bp : bridge_points ) {
-        if( flatten_points.count( bp ) != 0 ) {
+        if( flatten_points.contains( bp ) ) {
             continue;
         }
         tripoint_om_omt p( bp, 0 );
@@ -3615,7 +3617,7 @@ void overmap::reset_oter_id_migrations()
 
 bool overmap::is_oter_id_obsolete( const std::string &oterid )
 {
-    return oter_id_migrations.count( oterid ) > 0;
+    return oter_id_migrations.contains( oterid );
 }
 
 void overmap::migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points )
@@ -3759,7 +3761,7 @@ void overmap::move_hordes()
             // Check if the monster is a zombie.
             auto &type = *( this_monster.type );
             if(
-                !type.species.count( ZOMBIE ) || // Only add zombies to hordes.
+                !type.species.contains( ZOMBIE ) || // Only add zombies to hordes.
                 type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 this_monster.has_flag( MF_IMMOBILE ) || // Also exempt anything stationary.
@@ -5737,7 +5739,7 @@ int overmap::place_special_attempt( const overmap_special &special, const int ma
 
         // City check is the fastest => it goes first.
         if( need_city ) {
-            if( valid_city.count( &nearest_city ) < 1 ||
+            if( !valid_city.contains( &nearest_city ) ||
                 valid_city[&nearest_city] >= max_per_city ||
                 !special.can_belong_to_city( *p, nearest_city ) ) {
                 p++;
@@ -6306,7 +6308,7 @@ om_direction::type oter_get_rotation_dir( const oter_id &oter )
 {
     for( const om_direction::type &rot : om_direction::all ) {
         const std::string &rot_s = om_direction::get_suffix( rot );
-        if( string_ends_with( oter.id().str(), rot_s ) ) {
+        if( oter.id().str().ends_with( rot_s ) ) {
             return rot;
         }
     }

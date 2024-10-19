@@ -220,5 +220,16 @@
     "description": "A custom 3D-printed katar made out of carbon fiber.  It is more lightweight than a normal weapon thanks to its method of manufacturing, but it can only be repaired using a 3D printer.",
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
+  },
+  {
+    "id": "cestus_tooth",
+    "type": "GENERIC",
+    "copy-from": "cestus",
+    "name": { "str": "sharktooth cestus", "str_pl": "sharktooth cestuses" },
+    "description": "This weapon is a series of leather wrappings with a bone plate that has a series of razor-sharp teeth attached to it.  For when your punches need more bite.",
+    "material": [ "bone_heavy", "leather" ],
+    "cutting": 8,
+    "bashing": 6,
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "STAB", "BELT_CLIP" ]
   }
 ]

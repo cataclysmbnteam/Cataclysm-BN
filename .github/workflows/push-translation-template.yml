@@ -3,14 +3,15 @@ name: "Push translation template"
 concurrency: push_transifex
 
 on:
+  workflow_dispatch:
   workflow_run:
-    workflows: ["Experimental Release"]
+    workflows: ["Nightly Release"]
     types:
       - completed
 
 jobs:
   push-template:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: >
       ${{ github.event.workflow_run.event == 'push' &&
       github.event.workflow_run.conclusion == 'success' &&
@@ -25,7 +26,7 @@ jobs:
       - name: "Install Python3"
         run: |
           sudo apt install python3-pip
-          sudo pip3 install polib luaparser
+          sudo pip3 install --break-system-packages polib luaparser
       - name: "Checkout"
         uses: actions/checkout@v4
       - name: "Generate translation template"

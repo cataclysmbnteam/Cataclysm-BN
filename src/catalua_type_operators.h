@@ -24,10 +24,10 @@
  */
 #define LUA_TYPE_OPS( T, id_getter )                    \
     inline bool operator==( const T &rhs ) const {      \
-        return id_getter == rhs.id_getter;              \
+        return (id_getter) == rhs.id_getter;              \
     };                                                  \
     inline bool operator<( const T &rhs ) const {       \
-        return id_getter < rhs.id_getter;               \
+        return (id_getter) < rhs.id_getter;               \
     }
 
 #endif // CATA_SRC_CATALUA_TYPE_OPERATORS_H

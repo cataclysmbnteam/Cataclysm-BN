@@ -612,8 +612,8 @@
     "damage_modifier": 50,
     "breaks_into": [ { "item": "2x4", "count": [ 0, 4 ] }, { "item": "nail", "charges": [ 5, 15 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "qualities": [ { "id": "SAW_W", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "50 s", "using": [ [ "adhesive", 1 ], [ "wood_structural_small", 1 ] ] }
     },
     "rolling_resistance": 2.15,
@@ -647,7 +647,7 @@
     "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
     "item": "wheel_mount_light_wood",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "SAW_W", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ] ] }
     },
@@ -660,5 +660,29 @@
     "type": "vehicle_part",
     "name": { "str": "light wheel mount (steerable)" },
     "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
+    "id": "makeshift_sled_runner_part",
+    "looks_like": "wheel_wood",
+    "type": "vehicle_part",
+    "name": "sled runners",
+    "item": "makeshift_sled_runners_item",
+    "location": "under",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "color": "brown",
+    "durability": 25,
+    "damage_modifier": 50,
+    "folded_volume": "2500 ml",
+    "flags": [ "WHEEL", "STABLE", "FOLDABLE" ],
+    "wheel_type": "rigid",
+    "contact_area": 50,
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 6 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "survival", 0 ] ], "time": "15 m", "using": [ [ "nail_glue", 1 ] ] },
+      "removal": { "skills": [ [ "survival", 0 ] ], "time": "10 m" },
+      "repair": { "skills": [ [ "survival", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_wood", 2 ] ] }
+    },
+    "damage_reduction": { "all": 8 }
   }
 ]

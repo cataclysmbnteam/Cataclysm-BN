@@ -441,7 +441,9 @@
         [ "bone", 40 ],
         [ "bone_human", 40 ],
         [ "bone_tainted", 40 ],
+        [ "bone_heavy", 20 ],
         [ "pine_bough", 20 ],
+        [ "birchbark", 40 ],
         [ "log", 1 ]
       ],
       [ [ "char_kiln", 1 ] ]
@@ -987,6 +989,44 @@
     "components": [ [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
+    "result": "charcoal",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_survival", 1 ], [ "manual_survival", 1 ], [ "pocket_survival", 1 ], [ "textbook_survival", 1 ] ],
+    "charges": 10,
+    "tools": [
+      [ [ "surface_heat", 10, "LIST" ] ],
+      [
+        [ "char_kiln", -1 ],
+        [ "tinderbox", -1 ],
+        [ "metal_tank_little", -1 ],
+        [ "can_food_big_unsealed", -1 ],
+        [ "can_medium_unsealed", -1 ],
+        [ "can_food_unsealed", -1 ],
+        [ "can_drink_unsealed", -1 ],
+        [ "canister_empty", -1 ],
+        [ "clay_canister", -1 ],
+        [ "survival_kit_box", -1 ]
+      ]
+    ],
+    "components": [
+      [
+        [ "splinter", 2 ],
+        [ "bone", 2 ],
+        [ "bone_human", 2 ],
+        [ "bone_tainted", 2 ],
+        [ "bone_heavy", 1 ],
+        [ "pine_bough", 1 ],
+        [ "birchbark", 2 ]
+      ]
+    ]
+  },
+  {
     "type": "recipe",
     "result": "chain_link",
     "id_suffix": "fabrication",
@@ -1263,6 +1303,41 @@
   },
   {
     "type": "recipe",
+    "result": "cordage_6_leather",
+    "result_mult": 3,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 1 ], [ "fur", 1 ], [ "cured_hide", 1 ], [ "cured_pelt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_36_leather",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "leather", 2 ], [ "fur", 2 ], [ "cured_hide", 2 ], [ "cured_pelt", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cordage_36_leather",
+    "id_suffix": "weaving",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "cordage_6_leather", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "leather",
     "id_suffix": "shaving",
     "category": "CC_OTHER",
@@ -1478,7 +1553,6 @@
     "type": "recipe",
     "result": "carbon_fiber_filament",
     "//": "Requires advanced printer specifically, makes half its mass in product",
-    "//2": "TODO: If pitch is ever mainlined from MST Extra, or rosin has its mass sanity-checked, allow that as an alternative",
     "result_mult": 5,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1489,6 +1563,6 @@
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "textbook_computer", 5 ], [ "advanced_electronics", 5 ], [ "adv_chemistry", 4 ], [ "reference_fabrication1", 4 ] ],
     "tools": [ [ [ "3d_printer_advanced", 5 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ], [ "pitch_wood", 2 ] ] ]
   }
 ]

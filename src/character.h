@@ -237,6 +237,11 @@ class Character : public Creature, public location_visitable<Character>
         Character &operator=( Character && ) noexcept;
         ~Character() override;
 
+        // Move ctor and move operator= common stuff
+        // Avoids huge copypaste, without having to use operator= in ctor
+        // (operator= in ctor is different behavior from copypaste)
+        void move_operator_common( Character && ) noexcept;
+
         Character *as_character() override {
             return this;
         }
@@ -469,9 +474,6 @@ class Character : public Creature, public location_visitable<Character>
         /** Maintains body temperature */
         void update_bodytemp( const map &m, const weather_manager &weather );
 
-        /** Equalizes heat between body parts */
-        void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
-
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
 
@@ -487,7 +489,7 @@ class Character : public Creature, public location_visitable<Character>
         /** Recalculates encumbrance cache. */
         void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */
-        int encumb( body_part bp ) const;
+        int encumb( const bodypart_str_id &bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
@@ -580,7 +582,7 @@ class Character : public Creature, public location_visitable<Character>
          */
         void check_item_encumbrance_flag();
 
-        /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
+        /** Returns true if the character is wearing something on the entered bodypart_id, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
 
         int blocks_left = 0;
@@ -650,7 +652,8 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll( const item &weapon, const attack_statblock &attack ) const;
         /** Returns the chance to critical given a hit roll and target's dodge roll */
-        double crit_chance( float roll_hit, float target_dodge, const item &weap ) const;
+        double crit_chance( float roll_hit, float target_dodge, const item &weap,
+                            const attack_statblock &attack ) const;
         /** Returns true if the player scores a critical hit */
         bool scored_crit( float target_dodge, const item &weap, const attack_statblock &attack ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
@@ -670,9 +673,18 @@ class Character : public Creature, public location_visitable<Character>
         void did_hit( Creature &target );
 
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
+        void apply_damage( Creature *source, item *source_weapon, item *source_projectile, bodypart_id hurt,
+                           int dam,
+                           bool bypass_med = false ) override;
+        void apply_damage( Creature *source, item *source_weapon, bodypart_id hurt, int dam,
+                           bool bypass_med = false ) override;
         void apply_damage( Creature *source, bodypart_id hurt, int dam,
                            bool bypass_med = false ) override;
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &d, item *source_weapon, item *source_projectile ) override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &d, item *source_weapon ) override;
         dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
                                            const damage_instance &d ) override;
         /** Reduce healing effect intensity, return initial intensity of the effect */
@@ -730,10 +742,10 @@ class Character : public Creature, public location_visitable<Character>
         /** Removes the appropriate costs (NOTE: will reapply mods & recalc sightlines in case of newly activated mutation). */
         void mutation_spend_resources( const trait_id &mut );
 
-        /** Converts a body_part to an hp_part */
-        static hp_part bp_to_hp( body_part bp );
-        /** Converts an hp_part to a body_part */
-        static body_part hp_to_bp( hp_part hpart );
+        /** Converts a bodypart_str_id to an hp_part */
+        static hp_part bp_to_hp( const bodypart_str_id &bp );
+        /** Converts an hp_part to a bodypart_str_id */
+        static const bodypart_str_id &hp_to_bp( hp_part hpart );
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
@@ -762,7 +774,7 @@ class Character : public Creature, public location_visitable<Character>
         int hitall( int dam, int vary, Creature *source );
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
-        /** Heals a body_part for dam */
+        /** Heals a bodypart_id for dam */
         void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
@@ -800,25 +812,25 @@ class Character : public Creature, public location_visitable<Character>
             WT_GOOD,
             NUM_WATER_TOLERANCE
         };
-        inline int posx() const override {
+        int posx() const override {
             return position.x;
         }
-        inline int posy() const override {
+        int posy() const override {
             return position.y;
         }
-        inline int posz() const override {
+        int posz() const override {
             return position.z;
         }
-        inline void setx( int x ) {
+        void setx( int x ) {
             setpos( tripoint( x, position.y, position.z ) );
         }
-        inline void sety( int y ) {
+        void sety( int y ) {
             setpos( tripoint( position.x, y, position.z ) );
         }
-        inline void setz( int z ) {
+        void setz( int z ) {
             setpos( tripoint( position.xy(), z ) );
         }
-        inline void setpos( const tripoint &p ) override {
+        void setpos( const tripoint &p ) override {
             position = p;
         }
 
@@ -1766,11 +1778,11 @@ class Character : public Creature, public location_visitable<Character>
         // returns total weight of installed bionics
         units::mass bionics_weight() const;
 
-        /** Returns overall bashing resistance for the body_part */
+        /** Returns overall bashing resistance for the bodypart_id */
         int get_armor_bash( bodypart_id bp ) const override;
-        /** Returns overall cutting resistance for the body_part */
+        /** Returns overall cutting resistance for the bodypart_id */
         int get_armor_cut( bodypart_id bp ) const override;
-        /** Returns overall bullet resistance for the body_part */
+        /** Returns overall bullet resistance for the bodypart_id */
         int get_armor_bullet( bodypart_id bp ) const override;
         /** Returns bashing resistance from the creature and armor only */
         int get_armor_bash_base( bodypart_id bp ) const override;
@@ -1778,7 +1790,7 @@ class Character : public Creature, public location_visitable<Character>
         int get_armor_cut_base( bodypart_id bp ) const override;
         /** Returns cutting resistance from the creature and armor only */
         int get_armor_bullet_base( bodypart_id bp ) const override;
-        /** Returns overall env_resist on a body_part */
+        /** Returns overall env_resist on a bodypart_id */
         int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall acid resistance for the body part */
         int get_armor_acid( bodypart_id bp ) const;
@@ -2147,9 +2159,6 @@ class Character : public Creature, public location_visitable<Character>
         /** Called when character triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
-        /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( int bp ) const;
-
         // see Creature::sees
         bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
@@ -2348,7 +2357,6 @@ class Character : public Creature, public location_visitable<Character>
 
     public:
         // TODO: make these private
-        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         std::array<int, num_bp> body_wetness;
         std::array<int, num_bp> drench_capacity;
 
@@ -2390,6 +2398,9 @@ std::map<bodypart_id, int> from_effects( const Character &c );
 /** Returns wind resistance provided by armor, etc **/
 std::map<bodypart_id, int> wind_resistance_from_clothing(
     const std::map<bodypart_id, std::vector<const item *>> &clothing_map );
+
+/** Define color for displaying the body temperature */
+nc_color bodytemp_color( const Character &c, const bodypart_str_id &bp );
 } // namespace warmth
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */

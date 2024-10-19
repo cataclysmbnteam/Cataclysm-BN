@@ -137,7 +137,7 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
                               name );
     options.emplace_back( -1, allow, key, msg );
 
-    actions.emplace_back( [ = ] {
+    actions.emplace_back( [ =, this ] {
         for( const vpart_reference &vp : found )
         {
             vehicle_part &e = vp.part();
@@ -395,7 +395,7 @@ void vehicle::control_engines()
 {
     int e_toggle = 0;
     //count active engines
-    const int fuel_count = std::accumulate( engines.begin(), engines.end(), int{0},
+    const int fuel_count = std::accumulate( engines.begin(), engines.end(), 0,
     [&]( int acc, int e ) {
         return acc + static_cast<int>( part_info( e ).engine_fuel_opts().size() );
     } );
@@ -807,7 +807,7 @@ void vehicle::use_controls( const tripoint &pos )
                           keybind( "TOGGLE_TRACKING" ) );
     actions.emplace_back( [&] { toggle_tracking(); } );
 
-    if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
+    if( ( is_foldable() || tags.contains( "convertible" ) ) && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
         actions.emplace_back( [&] { fold_up(); } );
     }
@@ -833,26 +833,38 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     if( has_part( "TURRET" ) ) {
-        options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
-        actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
+        std::vector<vehicle_part *> turrets;
+        for( auto &p : parts ) {
+            if( p.is_turret() && !is_manual_turret( p ) ) {
+                turrets.push_back( &p );
+            }
+        }
 
-        options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
-        actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
+        if( !turrets.empty() ) {
+            options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
+            actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
 
-        // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        options.emplace_back( _( "Aim manual turrets" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::MANUAL, true ); refresh(); } );
+            options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
+            actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
 
-        // This lets us manually override and set the target for the automatic turrets instead.
-        options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::AUTOMATIC, true ); refresh(); } );
+            // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
+            options.emplace_back( _( "Aim manual turrets" ), keybind( "TURRET_MANUAL_AIM" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::MANUAL, true ); refresh(); } );
 
-        // This lets us manually override and set the target for all turrets.
-        options.emplace_back( _( "Aim all turrets" ), keybind( "TURRET_ALL_OVERRIDE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::BOTH, true ); refresh(); } );
+            // This lets us manually override and set the target for the automatic turrets instead.
+            options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::AUTOMATIC, true ); refresh(); } );
 
-        options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
-        actions.emplace_back( [&] { turrets_aim_and_fire_single( you ); refresh(); } );
+            // This lets us manually override and set the target for all turrets.
+            options.emplace_back( _( "Aim all turrets" ), keybind( "TURRET_ALL_OVERRIDE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_mult( you, turret_filter_types::BOTH, true ); refresh(); } );
+
+            options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
+            actions.emplace_back( [&] { turrets_aim_and_fire_single( you ); refresh(); } );
+        }
+
+
+
     }
 
     uilist menu;
@@ -875,7 +887,7 @@ void vehicle::use_controls( const tripoint &pos )
 bool vehicle::fold_up()
 {
     const bool can_be_folded = is_foldable();
-    const bool is_convertible = ( tags.count( "convertible" ) > 0 );
+    const bool is_convertible = ( tags.contains( "convertible" ) );
     if( !( can_be_folded || is_convertible ) ) {
         debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
         return false;
@@ -962,7 +974,7 @@ double vehicle::engine_cold_factor( const int e ) const
     }
 
     int eff_temp = units::to_fahrenheit( get_weather().get_temperature( g->u.pos() ) );
-    if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
+    if( !parts[ engines[ e ] ].faults().contains( fault_glowplug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
 
@@ -1049,7 +1061,7 @@ bool vehicle::start_engine( const int e )
     }
 
     // Immobilizers need removing before the vehicle can be started
-    if( eng.faults().count( fault_immobiliser ) ) {
+    if( eng.faults().contains( fault_immobiliser ) ) {
         sounds::sound( pos, 5, sounds::sound_t::alarm,
                        string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
                        "fault_immobiliser_beep" );
@@ -1057,8 +1069,8 @@ bool vehicle::start_engine( const int e )
     }
 
     // Engine with starter motors can fail on both battery and starter motor
-    if( eng.faults_potential().count( fault_starter ) ) {
-        if( eng.faults().count( fault_starter ) ) {
+    if( eng.faults_potential().contains( fault_starter ) ) {
+        if( eng.faults().contains( fault_starter ) ) {
             sounds::sound( pos, noise, sounds::sound_t::alarm,
                            string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
                            "engine_single_click_fail" );
@@ -1077,7 +1089,7 @@ bool vehicle::start_engine( const int e )
     }
 
     // Engines always fail to start with faulty fuel pumps
-    if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
+    if( eng.faults().contains( fault_pump ) || eng.faults().contains( fault_diesel ) ) {
         sounds::sound( pos, noise, sounds::sound_t::movement,
                        string_format( _( "the %s quickly stuttering out." ), eng.name() ), true, "vehicle",
                        "engine_stutter_fail" );
@@ -1085,7 +1097,8 @@ bool vehicle::start_engine( const int e )
     }
 
     // Damaged non-electric engines have a chance of failing to start
-    if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
+    if( !( is_engine_type( e, fuel_type_battery ) || is_engine_type( e, fuel_type_muscle ) ) &&
+        x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, noise, sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
@@ -1525,7 +1538,7 @@ void vehicle::alarm()
                     _( "WHOOP WHOOP" ), _( "NEEeu NEEeu NEEeu" ), _( "BLEEEEEEP" ), _( "WREEP" )
                 }
             };
-            sounds::sound( global_pos3(), static_cast<int>( rng( 45, 80 ) ),
+            sounds::sound( global_pos3(), rng( 45, 80 ),
                            sounds::sound_t::alarm,  random_entry_ref( sound_msgs ), false, "vehicle", "car_alarm" );
             if( one_in( 1000 ) ) {
                 is_alarm_on = false;
@@ -1581,9 +1594,9 @@ bool vehicle::can_close( int part_index, Character &who )
                     who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
                 } else if( mon->is_monster() ) {
                     // TODO: Houseflies, mosquitoes, etc shouldn't count
-                    who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
+                    who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name( false, true ) );
                 } else {
-                    who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
+                    who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name( false, true ) );
                 }
                 return false;
             }
@@ -1834,7 +1847,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
 
-    m.add_effect( effect_harnessed, 1_turns, num_bp );
+    m.add_effect( effect_harnessed, 1_turns, bodypart_str_id::NULL_ID() );
     m.setpos( pos );
     //~ %1$s: monster name, %2$s: vehicle name
     add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );
@@ -1967,7 +1980,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const int cargo_part = part_with_feature( interact_part, "CARGO", false );
     const bool from_vehicle = cargo_part >= 0 && !get_items( cargo_part ).empty();
     const bool can_be_folded = is_foldable();
-    const bool is_convertible = tags.count( "convertible" ) > 0;
+    const bool is_convertible = tags.contains( "convertible" );
     const int autoclave_part = avail_part_with_feature( interact_part, "AUTOCLAVE", true );
     const bool has_autoclave = autoclave_part >= 0;
     const int autodoc_part = avail_part_with_feature( interact_part, "AUTODOC", true );

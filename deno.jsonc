@@ -4,15 +4,31 @@
     "doc:cli": "deno run --allow-run=./cataclysm-bn-tiles --allow-write=doc/src/content/docs ./scripts/gen_cli_docs.ts",
     "doc:lua": "./cataclysm-bn-tiles --lua-doc && cp config/lua_doc.md doc/src/content/docs/en/mod/lua/reference/lua.md",
     "migrate-unit": "deno run -A scripts/migrate_legacy_unit.ts --path data/json; deno run -A scripts/migrate_legacy_unit.ts --path data/mods; make style-all-json-parallel",
-    "dprint": "deno run -A npm:dprint"
+    "dprint": "deno run -A npm:dprint",
+    // creates a weekly reddit changelog template
+    "changelog": "deno run -A scripts/changelog/changelog_reddit.ts",
+    "affected-files": "deno run -RWEN --allow-run scripts/affected_files.ts"
   },
   "test": { "include": ["scripts"] },
   "lint": { "include": ["scripts"] },
   "fmt": {
-    "exclude": ["doc/dist", "doc/.astro"],
+    "exclude": ["doc/dist", "doc/.astro", "doc/pnpm-lock.yaml"],
     "include": ["scripts", "doc", "*.md"],
     "semiColons": false,
     "lineWidth": 100
   },
-  "importMap": "import_map.json"
+  "imports": {
+    "$asynciter/": "https://deno.land/x/asynciter@0.0.18/",
+    "$catjazz/": "https://deno.land/x/catjazz@v0.0.6/",
+    "$outdent/": "https://deno.land/x/outdent@v0.8.0/",
+    "$zod/": "https://deno.land/x/zod@v3.22.4/",
+    "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7",
+    "@cliffy/flags": "jsr:@cliffy/flags@^1.0.0-rc.7",
+    "@std/assert": "jsr:@std/assert@^1.0.6",
+    "@std/collections": "jsr:@std/collections@^1.0.7",
+    "@std/front-matter": "jsr:@std/front-matter@^1.0.5",
+    "@std/fs": "jsr:@std/fs@^1.0.4",
+    "@std/path": "jsr:@std/path@^1.0.6",
+    "@std/yaml": "jsr:@std/yaml@^1.0.5"
+  }
 }

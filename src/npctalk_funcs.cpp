@@ -198,7 +198,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
 {
     if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
         mon_ptr->friendly = -1;
-        mon_ptr->add_effect( effect_pet, 1_turns, num_bp );
+        mon_ptr->add_effect( effect_pet, 1_turns, bodypart_str_id::NULL_ID() );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
@@ -304,11 +304,11 @@ void talk_function::goto_location( npc &p )
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
-    if( index < 0 || index > static_cast<int>( 2 ) ||
-        index == static_cast<int>( 1 ) ) {
+    if( index < 0 || index > 2 ||
+        index == 1 ) {
         return;
     }
-    if( index == static_cast<int>( 1 ) ) {
+    if( index == 1 ) {
         destination = g->u.global_omt_location();
     }
     p.goal = destination;

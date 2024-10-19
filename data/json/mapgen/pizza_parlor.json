@@ -184,23 +184,9 @@
         "|...|                   "
       ],
       "terrain": {
-        " ": [
-          "t_dirt",
-          "t_dirt",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_dirt",
-          "t_grass",
-          "t_grass",
-          "t_dirt",
-          "t_grass",
-          "t_grass",
-          "t_shrub"
-        ],
+        " ": "t_region_groundcover_urban",
         "S": "t_sidewalk",
-        "*": "t_shrub",
+        "*": "t_region_shrub_decorative",
         "#": "t_linoleum_white",
         "D": "t_door_locked",
         "+": "t_door_c",
@@ -211,7 +197,7 @@
         "G": "t_door_glass_c",
         "L": "t_linoleum_white",
         "O": "t_linoleum_white",
-        "R": "t_railing_v",
+        "R": "t_railing",
         "c": "t_concrete",
         "f": "t_fencegate_c",
         "m": "t_sandbox",
@@ -246,7 +232,7 @@
         "W": "f_water_heater",
         "{": "f_rack"
       },
-      "mapping": { "Y": { "terrain": [ "t_dirt", "t_grass" ], "furniture": "f_street_light" } },
+      "mapping": { "Y": { "terrain": [ "t_region_groundcover_urban" ], "furniture": "f_street_light" } },
       "items": {
         "C": { "item": "pizza_trash", "chance": 50, "repeat": [ 7, 9 ] },
         "F": { "item": "pizza_fridge", "chance": 80, "repeat": [ 9, 10 ] },

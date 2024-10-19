@@ -8,11 +8,11 @@ permissions:
   contents: read
 
 env:
-  DENO_DIR: '~/.cache/deno'
+  DENO_DIR: /home/runner/.cache/deno
 
 jobs:
   autofix:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
 
@@ -21,12 +21,10 @@ jobs:
 
       - run: sudo apt-get install astyle
 
-      - uses: denoland/setup-deno@v1
-        with:
-          deno-version: v1.x
+      - uses: denoland/setup-deno@v2
 
       - name: cache deno dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.DENO_DIR }}
           key: deno-${{ hashFiles('deno.lock') }}

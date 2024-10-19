@@ -170,7 +170,7 @@
         "4": "t_tree_pine",
         "7": "t_tree_dead",
         "D": "t_door_o",
-        "I": "t_column",
+        "I": "t_sidewalk",
         "S": "t_shrub_strawberry",
         "_": "t_grass",
         "a": "t_floor",
@@ -181,7 +181,7 @@
         "s": "t_sidewalk",
         "|": "t_chainfence_v"
       },
-      "furniture": { "a": "f_desk", "c": "f_chair" },
+      "furniture": { "a": "f_desk", "c": "f_chair", "I": [ "f_us_flag_metal", [ "f_flagpole_metal", 3 ] ] },
       "place_items": [
         { "item": "magazines", "x": 11, "y": 3, "chance": 30 },
         { "item": "pizza_trash", "x": 8, "y": 20, "chance": 30 },
@@ -189,7 +189,6 @@
         { "item": "pizza_trash", "x": 3, "y": 6, "chance": 30 },
         { "item": "pizza_trash", "x": 16, "y": 2, "chance": 30 }
       ],
-      "place_loot": [ { "item": "american_flag", "x": 11, "y": 6, "chance": 25 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 12, "chance": 4 } ]
     }
   },

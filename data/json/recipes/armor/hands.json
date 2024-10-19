@@ -619,5 +619,18 @@
     "book_learn": [ [ "textbook_computer", 4 ], [ "advanced_electronics", 4 ], [ "reference_fabrication1", 4 ] ],
     "using": [ [ "3d_printing_standard", 12 ] ],
     "components": [ [ [ "carbon_fiber_filament", 120 ] ] ]
+  },
+  {
+    "result": "gauntlets_scute",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "1 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "scute_piece", 3 ] ], [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   }
 ]

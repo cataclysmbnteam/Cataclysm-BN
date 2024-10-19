@@ -1,7 +1,7 @@
 [
   {
     "id": "m3_carlgustav",
-    "copy-from": "launcher_base",
+    "copy-from": "rocket_base",
     "type": "GUN",
     "color": "green",
     "name": { "str": "M3 recoilless rifle" },
@@ -18,7 +18,6 @@
     "dispersion": 300,
     "clip_size": 1,
     "reload": 300,
-    "loudness": 200,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

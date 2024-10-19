@@ -83,7 +83,15 @@
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "use_action": "CARVER_OFF",
+    "use_action": {
+      "type": "transform",
+      "active": true,
+      "target": "carver_on",
+      "msg": "You turn on the electric carver.",
+      "moves": 80,
+      "transform_charges": 1,
+      "need_dry": true
+    },
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "magazines": [
       [
@@ -105,8 +113,9 @@
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "use_action": "CARVER_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "revert_msg": "Your electric carver goes quiet",
+    "use_action": { "type": "transform", "target": "carver_off", "msg": "You turn off the electric carver." },
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE" ],
     "magazine_well": "500 ml"
   },
   {
@@ -296,7 +305,8 @@
       "type": "delayed_transform",
       "transform_age": 33600,
       "not_ready_msg": "The eggs are not done yet."
-    }
+    },
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "esbit_stove",
@@ -345,7 +355,7 @@
       "not_ready_msg": "The yeast isn't done culturing yet.",
       "//": "12 hours"
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "SHATTERS" ]
   },
   {
     "id": "jar_yeast",
@@ -560,7 +570,8 @@
       "target_charges": 6,
       "menu_text": "Open jar",
       "type": "transform"
-    }
+    },
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "jar_pickles_pickled",
@@ -583,7 +594,8 @@
       "target_charges": 2,
       "menu_text": "Open jar",
       "type": "transform"
-    }
+    },
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "jar_sauerkraut_pickled",
@@ -606,7 +618,8 @@
       "target_charges": 2,
       "menu_text": "Open jar",
       "type": "transform"
-    }
+    },
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "makeshift_sealer",
@@ -817,7 +830,8 @@
       "transform_age": 33600,
       "not_ready_msg": "The pickles are not done fermenting yet.",
       "//": "2 1/3 days, from the suggested recipie of 1 rl week"
-    }
+    },
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "popcan_stove",
@@ -900,7 +914,8 @@
       "transform_age": 33600,
       "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
       "//": "2 1/3 days, from the suggested recipie of 1 rl week"
-    }
+    },
+    "flags": [ "SHATTERS" ]
   },
   {
     "id": "still",

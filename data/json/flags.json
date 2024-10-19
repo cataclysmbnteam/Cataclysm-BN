@@ -351,6 +351,12 @@
     "info": "This gear <good>completely protects</good> you from <info>any gas</info>."
   },
   {
+    "id": "HOLSTER_PISTOL",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item can be carried in a <info>holster</info> of the appropriate size."
+  },
+  {
     "id": "HOOD",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -1866,6 +1872,11 @@
     "context": [  ]
   },
   {
+    "id": "ACIDIC",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "SLEEP_IGNORE",
     "type": "json_flag",
     "context": [  ]
@@ -2018,6 +2029,12 @@
     "context": [  ]
   },
   {
+    "id": "WATER_DISABLE",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "info": "This item <bad>stops working</bad> when <info>submerged in water</info>."
+  },
+  {
     "id": "WHIP",
     "type": "json_flag",
     "context": [  ]
@@ -2042,11 +2059,6 @@
     "id": "NOT_FOOTWEAR",
     "type": "json_flag",
     "context": [ "TOOL_ARMOR" ]
-  },
-  {
-    "id": "IRREPLACEABLE_CONSUMABLE",
-    "type": "json_flag",
-    "context": [ "AMMO", "CONSUMABLE" ]
   },
   {
     "id": "ACT_IN_FIRE",

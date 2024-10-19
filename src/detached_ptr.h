@@ -50,4 +50,4 @@ class detached_ptr
         explicit detached_ptr( T *obj );
         T *release();
 };
-#endif
+#endif // CATA_SRC_DETACHED_PTR_H

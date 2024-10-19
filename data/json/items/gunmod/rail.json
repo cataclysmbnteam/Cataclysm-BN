@@ -1,6 +1,7 @@
 [
   {
     "id": "gun_crossbow",
+    "weapon_category": [ "S_XBOWS" ],
     "type": "GUNMOD",
     "name": { "str": "rail-mounted crossbow" },
     "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.",
@@ -20,6 +21,7 @@
       "ranged_damage": { "damage_type": "stab", "amount": 28 },
       "dispersion": 387,
       "durability": 10,
+      "loudness": 10,
       "clip_size": 1
     },
     "dispersion_modifier": 60,

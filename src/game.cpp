@@ -677,7 +677,7 @@ bool game::start_game()
     u.set_highest_cat_level();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
-    u.add_effect( effect_accumulated_mutagen, 27_days, num_bp );
+    u.add_effect( effect_accumulated_mutagen, 27_days, bodypart_str_id::NULL_ID() );
     if( scen->has_flag( "FIRE_START" ) ) {
         start_loc.burn( omtstart, 3, 3 );
     }
@@ -1930,7 +1930,7 @@ void game::validate_mounted_npcs()
             }
             mounted_pl->mounted_creature = shared_from( m );
             mounted_pl->setpos( m.pos() );
-            mounted_pl->add_effect( effect_riding, 1_turns, num_bp );
+            mounted_pl->add_effect( effect_riding, 1_turns, bodypart_str_id::NULL_ID() );
             m.mounted_player = mounted_pl;
         }
     }
@@ -2848,7 +2848,7 @@ void game::display_faction_epilogues()
 }
 
 struct npc_dist_to_player {
-    const tripoint_abs_omt ppos{};
+    const tripoint_abs_omt ppos;
     npc_dist_to_player() : ppos( get_player_character().global_omt_location() ) { }
     // Operator overload required to leverage sort API.
     bool operator()( const shared_ptr_fast<npc> &a,
@@ -4961,7 +4961,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
 
     if( !g->u.query_yn(
             _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
-            100 - static_cast<int>( chance_of_success ) ) ) {
+            100 - chance_of_success ) ) {
         return;
     }
 
@@ -4977,7 +4977,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         tmp->spawn_at_precise( { get_levx(), get_levy() }, couch_pos );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
-        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, 0, true );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), bodypart_str_id::NULL_ID(), 0, true );
         load_npcs();
 
     } else {
@@ -9150,12 +9150,12 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
     if( m.has_flag( "UNSTABLE", dest_loc ) && !u.is_mounted() ) {
-        u.add_effect( effect_bouldering, 1_turns, num_bp );
+        u.add_effect( effect_bouldering, 1_turns, bodypart_str_id::NULL_ID() );
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
     if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
-        u.add_effect( effect_no_sight, 1_turns, num_bp );
+        u.add_effect( effect_no_sight, 1_turns, bodypart_str_id::NULL_ID() );
     } else if( u.has_effect( effect_no_sight ) ) {
         u.remove_effect( effect_no_sight );
     }
@@ -10151,7 +10151,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         tmp_map_ptr = std::make_unique<map>();
     }
 
-    map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr.get() );
+    map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr );
     if( m.has_zlevels() ) {
         // We no longer need to shift the map here! What joy
     } else {

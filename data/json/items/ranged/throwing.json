@@ -98,7 +98,8 @@
     "to_hit": -1,
     "bashing": 10,
     "cutting": 17,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ],
+    "flags": [ "SHEATH_AXE", "BELT_CLIP" ]
   },
   {
     "type": "GENERIC",
@@ -115,7 +116,26 @@
     "weight": "268 g",
     "bashing": 1,
     "cutting": 10,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
+    "flags": [ "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "shuriken",
+    "category": "weapons",
+    "name": { "str": "shuriken" },
+    "description": "A small throwing star.  Easy to store and quite light, but not very useful for anything but throwing.",
+    "price": "24 USD",
+    "price_postapoc": "1 USD",
+    "symbol": ";",
+    "color": "light_gray",
+    "looks_like": "throwing_knife",
+    "material": "steel",
+    "volume": "100 ml",
+    "weight": "125 g",
+    "cutting": 5,
+    "thrown_damage": [ { "damage_type": "stab", "amount": 10 } ],
+    "flags": [ "HURT_WHEN_WIELDED" ]
   },
   {
     "id": "throwing_stick",

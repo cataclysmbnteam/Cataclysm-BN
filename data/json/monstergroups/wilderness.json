@@ -1734,7 +1734,13 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_nakedmolerat_giant", "freq": 1, "cost_multiplier": 3, "conditions": [ "DUSK", "NIGHT" ] },
-      { "monster": "mon_mutant_experimental", "freq": 3, "cost_multiplier": 0, "conditions": [ "DUSK", "NIGHT" ] }
+      { "monster": "mon_mutant_experimental", "freq": 3, "cost_multiplier": 0, "conditions": [ "DUSK", "NIGHT" ] },
+      { "monster": "mon_chicken", "freq": 2, "cost_multiplier": 2, "starts": 336 },
+      { "monster": "mon_cow", "freq": 2, "cost_multiplier": 3, "starts": 504 },
+      { "monster": "mon_horse", "freq": 2, "cost_multiplier": 2, "starts": 168 },
+      { "monster": "mon_pig", "freq": 2, "cost_multiplier": 2, "starts": 336 },
+      { "monster": "mon_zombie_pig", "freq": 2, "cost_multiplier": 2, "starts": 168 },
+      { "monster": "mon_sheep", "freq": 2, "cost_multiplier": 3, "starts": 504 }
     ]
   },
   {

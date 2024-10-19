@@ -59,7 +59,7 @@ class fault
         }
 
         bool has_flag( const std::string &flag ) const {
-            return flags.count( flag );
+            return flags.contains( flag );
         }
 
         /** Load fault from JSON definition */

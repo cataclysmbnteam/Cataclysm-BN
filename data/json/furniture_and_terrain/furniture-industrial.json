@@ -27,6 +27,7 @@
         { "item": "plastic_chunk", "count": [ 10, 12 ] },
         { "item": "scrap", "count": [ 6, 8 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     },
     "deconstruct": {
@@ -68,6 +69,7 @@
         { "item": "jerrycan", "count": [ 0, 2 ] },
         { "item": "metal_tank", "count": [ 0, 2 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "25%" }
     },
     "deconstruct": {
@@ -123,6 +125,7 @@
         { "item": "scrap", "count": [ 2, 5 ] },
         { "item": "motor", "prob": 30 }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 45, "block_unaimed_chance": "25%" }
     }
   },
@@ -156,6 +159,7 @@
         { "item": "steel_chunk", "count": [ 120, 240 ] },
         { "item": "scrap", "count": [ 120, 240 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 10, 20 ], "destroy_threshold": 150, "block_unaimed_chance": "75%" }
     }
   },
@@ -208,6 +212,7 @@
         { "item": "plastic_chunk", "count": [ 2, 8 ] },
         { "item": "scrap", "count": [ 3, 8 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
@@ -220,6 +225,7 @@
     "symbol": "|",
     "color": "light_gray",
     "move_cost_mod": 1,
+    "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
     "bash": {
@@ -232,9 +238,10 @@
         { "item": "scrap_copper", "count": [ 10, 20 ] },
         { "item": "cable", "charges": [ 20, 100 ] },
         { "item": "pipe", "count": [ 1, 2 ] }
-      ]
-    },
-    "deconstruct": { "items": [ { "item": "cable", "charges": [ 200, 800 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] }
+      ],
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
+    }
   },
   {
     "type": "furniture",
@@ -264,9 +271,12 @@
         { "item": "power_supply", "count": [ 0, 1 ] },
         { "item": "metal_tank_little", "count": [ 0, 3 ] },
         { "item": "supercapacitor", "count": [ 0, 4 ] }
-      ]
+      ],
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
     },
-    "deconstruct": { "items": [
+    "deconstruct": {
+      "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 300, 600 ] },
         { "item": "pipe", "count": [ 2, 4 ] },
@@ -276,7 +286,8 @@
         { "item": "power_supply", "count": [ 1, 2 ] },
         { "item": "metal_tank_little", "count": [ 4, 6 ] },
         { "item": "supercapacitor", "count": [ 6, 10 ] }
-      ] }
+      ]
+    }
   },
   {
     "type": "furniture",
@@ -316,10 +327,11 @@
         { "item": "cable", "charges": [ 10, 15 ] },
         { "item": "pipe", "count": [ 0, 3 ] }
       ],
-      "//": "destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 16, 32 ], "destroy_threshold": 32, "block_unaimed_chance": "50%" }
     },
     "//": "Matches the power output across 5 minutes that the capacitors and conduits provided on first implementation",
+    "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [ "steady_consumer", { "power": -49, "consume_every": "300 s" } ]
   }
 ]

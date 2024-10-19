@@ -64,7 +64,7 @@
     "armor_acid": 1,
     "vision_day": 35,
     "vision_night": 3,
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "special_attacks": [
       [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -137,7 +137,7 @@
     "armor_bullet": 36,
     "vision_day": 50,
     "vision_night": 4,
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "special_attacks": [
       [ "SMASH", 20 ],
       [ "STRETCH_ATTACK", 20 ],

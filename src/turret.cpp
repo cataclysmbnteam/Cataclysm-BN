@@ -78,6 +78,15 @@ turret_data vehicle::turret_query( const tripoint &pos ) const
     return const_cast<vehicle *>( this )->turret_query( pos );
 }
 
+bool vehicle::is_manual_turret( const vehicle_part &pt ) const
+{
+    const auto &parts = parts_at_relative( pt.mount, false );
+    return std::any_of( parts.begin(), parts.end(),
+    [this]( int elem ) {
+        return part_info( elem ).has_flag( "MANUAL" );
+    } );
+}
+
 std::string turret_data::name() const
 {
     return part->name();
@@ -126,13 +135,13 @@ const itype *turret_data::ammo_data() const
 itype_id turret_data::ammo_current() const
 {
     auto opts = ammo_options();
-    if( opts.count( part->ammo_pref ) ) {
+    if( opts.contains( part->ammo_pref ) ) {
         return part->ammo_pref;
     }
-    if( opts.count( part->info().default_ammo ) ) {
+    if( opts.contains( part->info().default_ammo ) ) {
         return part->info().default_ammo;
     }
-    if( opts.count( part->base->ammo_default() ) ) {
+    if( opts.contains( part->base->ammo_default() ) ) {
         return part->base->ammo_default();
     }
     return opts.empty() ? itype_id::NULL_ID() : *opts.begin();
@@ -154,7 +163,7 @@ std::set<itype_id> turret_data::ammo_options() const
     } else {
         for( const auto &e : veh->fuels_left() ) {
             const itype *fuel = &*e.first;
-            if( fuel->ammo && part->base->ammo_types().count( fuel->ammo->type ) &&
+            if( fuel->ammo && part->base->ammo_types().contains( fuel->ammo->type ) &&
                 e.second >= part->base->ammo_required() ) {
 
                 opts.insert( fuel->get_id() );
@@ -167,7 +176,7 @@ std::set<itype_id> turret_data::ammo_options() const
 
 bool turret_data::ammo_select( const itype_id &ammo )
 {
-    if( !ammo_options().count( ammo ) ) {
+    if( !ammo_options().contains( ammo ) ) {
         return false;
     }
 
@@ -317,7 +326,7 @@ void vehicle::turrets_aim_and_fire_single( avatar &you )
     // Find all turrets that are ready to fire
     for( auto &t : turrets() ) {
         turret_data data = turret_query( *t );
-        if( data.query() == turret_data::status::ready ) {
+        if( data.query() == turret_data::status::ready && !is_manual_turret( *t ) ) {
             option_names.push_back( t->name() );
             options.push_back( t );
         }
@@ -421,8 +430,9 @@ std::vector<vehicle_part *> vehicle::find_all_ready_turrets( turret_filter_types
 {
     std::vector<vehicle_part *> res;
     for( vehicle_part *t : turrets() ) {
-        if( ( t->enabled && filter != turret_filter_types::MANUAL ) || ( !t->enabled &&
-                filter != turret_filter_types::AUTOMATIC ) ) {
+        if( ( t->enabled && filter != turret_filter_types::MANUAL &&
+              !is_manual_turret( *t ) ) || ( !t->enabled &&
+                                             filter != turret_filter_types::AUTOMATIC && !is_manual_turret( *t ) ) ) {
             if( turret_query( *t ).query() == turret_data::status::ready ) {
                 res.push_back( t );
             }
@@ -437,7 +447,7 @@ void vehicle::turrets_set_targeting()
     std::vector<tripoint> locations;
 
     for( auto &p : parts ) {
-        if( p.is_turret() ) {
+        if( p.is_turret() && !is_manual_turret( p ) ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
         }
@@ -493,7 +503,7 @@ void vehicle::turrets_set_mode()
     std::vector<tripoint> locations;
 
     for( auto &p : parts ) {
-        if( p.base->is_gun() ) {
+        if( p.base->is_gun() && !is_manual_turret( p ) ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
         }

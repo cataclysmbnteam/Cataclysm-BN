@@ -526,7 +526,8 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
-    "time": 1
+    "time": 1,
+    "required_bionics": [ "bio_weight" ]
   },
   {
     "id": "bio_infolink",
@@ -819,7 +820,7 @@
     "id": "bio_railgun",
     "type": "bionic",
     "name": { "str": "Railgun" },
-    "description": "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
+    "description": "EM field generators in your arms double the range and increase damage of thrown iron and steel objects at a cost of 1kJ per throw, causing them to leave a trail of electricity that can cause additional damage.",
     "occupied_bodyparts": [ [ "arm_l", 5 ], [ "arm_r", 5 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "1 kJ",
@@ -1125,6 +1126,19 @@
     "fuel_options": [ "gasoline" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.25,
+    "exothermic_power_gen": true,
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
+  },
+  {
+    "id": "bio_fuel_cell_hydrogen",
+    "type": "bionic",
+    "name": { "str": "Hydrogen Fuel Cell CBM" },
+    "description": "A small hydrogen fuel cell fixed to your scapula.  Fairly efficient and produces minimal heat, though the low density of even compressed hydrogen is a hindrance.  A network of compressors and fuel tanks has been distributed throughout your body to store fuel.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "fuel_options": [ "c_hydrogen_gas" ],
+    "fuel_capacity": 500,
+    "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,
     "time": 1,
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]

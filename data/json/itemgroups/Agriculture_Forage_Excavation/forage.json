@@ -64,7 +64,13 @@
     "id": "forage_winter",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "withered", "prob": 90, "count": [ 4, 6 ] }, { "item": "straw_pile", "prob": 10, "count": [ 4, 6 ] } ]
+    "entries": [
+      { "item": "withered", "prob": 25, "count": [ 4, 6 ] },
+      { "item": "straw_pile", "prob": 5, "count": [ 4, 6 ] },
+      { "group": "forage_garlic", "prob": 5 },
+      { "group": "forage_carrot_wild", "prob": 5 },
+      { "group": "forage_salsify_raw", "prob": 5 }
+    ]
   },
   {
     "id": "forage_veggy_wild",

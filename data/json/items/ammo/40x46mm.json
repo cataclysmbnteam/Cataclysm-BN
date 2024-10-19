@@ -6,8 +6,7 @@
     "name": { "str": "40x46mm grenade" },
     "volume": "250 ml",
     "price": "100 USD",
-    "price_postapoc": "60 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price_postapoc": "5 USD",
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -26,9 +25,11 @@
     "type": "AMMO",
     "name": { "str": "40x46mm M1006 stun" },
     "description": "A low velocity less-lethal 40x46mm round with a foam and plastic projectile intended to cause pain and disorientation to the target.  May still injure or kill.",
+    "price_postapoc": "1 USD",
     "weight": "68 g",
     "damage": { "damage_type": "bash", "amount": 20 },
     "casing": "40x46mm_m212_casing",
+    "loudness": 80,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
   {
@@ -40,6 +41,7 @@
     "weight": "230 g",
     "damage": { "damage_type": "bullet", "amount": 125, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
+    "loudness": 80,
     "extend": { "effects": [ "FRAG" ] }
   },
   {
@@ -53,8 +55,7 @@
     "damage": { "damage_type": "bullet", "amount": 120 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
-    "extend": { "effects": [ "SHOT" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "SHOT" ] }
   },
   {
     "id": "40x46mm_m651",
@@ -66,6 +67,7 @@
     "damage": { "damage_type": "bullet", "amount": 15 },
     "drop": "gasbomb_act",
     "casing": "40x46mm_m195_casing",
+    "loudness": 60,
     "extend": { "effects": [ "NO_EMBED" ] }
   },
   {
@@ -79,8 +81,7 @@
     "damage": { "damage_type": "bullet", "amount": 120 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "SHOT" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "SHOT" ] }
   },
   {
     "id": "40x46mm_slug_m118",
@@ -93,8 +94,7 @@
     "//": "Balanced as FMJ.",
     "damage": { "damage_type": "bullet", "amount": 96, "armor_penetration": 42 },
     "recoil": 1000,
-    "casing": "40x46mm_m118_casing",
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "casing": "40x46mm_m118_casing"
   },
   {
     "id": "40x46mm_slug_m199",
@@ -107,8 +107,7 @@
     "//": "Balanced as FMJ.",
     "damage": { "damage_type": "bullet", "amount": 96, "armor_penetration": 42 },
     "recoil": 1000,
-    "casing": "40x46mm_m199_casing",
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "casing": "40x46mm_m199_casing"
   },
   {
     "id": "40x46mm_flechette_m118",
@@ -122,8 +121,7 @@
     "damage": { "damage_type": "bullet", "amount": 84, "armor_penetration": 72 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "SHOT" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "SHOT" ] }
   },
   {
     "id": "40x46mm_flechette_m199",
@@ -137,7 +135,6 @@
     "damage": { "damage_type": "bullet", "amount": 84, "armor_penetration": 72 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
-    "extend": { "effects": [ "SHOT" ] },
-    "delete": { "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "SHOT" ] }
   }
 ]

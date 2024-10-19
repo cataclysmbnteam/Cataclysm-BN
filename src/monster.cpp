@@ -136,7 +136,9 @@ struct pathfinding_settings;
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
 // The rough formula is 2^(-x), e.g. for x = 5 it's 0.03125 (~ 3%).
-#define UPGRADE_MAX_ITERS 5
+enum {
+    UPGRADE_MAX_ITERS = 5
+};
 
 static const std::map<creature_size, translation> size_names {
     { creature_size::tiny, to_translation( "size adj", "tiny" ) },
@@ -1734,10 +1736,10 @@ void monster::melee_attack( Creature &target, float accuracy )
                 add_msg( _( "You dodge %s." ), disp_name() );
             } else if( target.is_npc() ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name(), name() );
+                         target.disp_name(), disp_name( true ) );
             } else {
-                add_msg( _( "The %1$s misses %2$s!" ),
-                         name(), target.disp_name() );
+                add_msg( _( "%1$s misses %2$s!" ),
+                         disp_name( false, true ), target.disp_name() );
             }
         } else if( target.is_player() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
@@ -1750,7 +1752,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
-                add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
+                add_msg( m_bad, _( "%1$s hits your %2$s." ), disp_name( false, true ),
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
@@ -1759,7 +1761,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                              total_dealt );
                 } else {
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
-                    add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                    add_msg( _( "%1$s hits %2$s %3$s." ), disp_name( false, true ),
                              target.disp_name( true ),
                              body_part_name_accusative( bp_hit ) );
                 }
@@ -1770,7 +1772,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                              total_dealt );
                 } else {
                     //~ %1$s: attacker name, %2$s: target creature name
-                    add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                    add_msg( _( "%1$s hits %2$s!" ), disp_name( false, true ), target.disp_name() );
                 }
             }
         } else if( target.is_player() ) {
@@ -1783,13 +1785,13 @@ void monster::melee_attack( Creature &target, float accuracy )
         if( u_see_me ) {
             if( target.is_player() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name(),
+                add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ), disp_name( false, true ),
                          body_part_name_accusative( bp_hit ), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
-                add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name(),
+                add_msg( _( "%1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), disp_name( false, true ),
                          target.disp_name( true ),
                          body_part_name_accusative( bp_hit ),
                          target.disp_name( true ),
@@ -1797,8 +1799,8 @@ void monster::melee_attack( Creature &target, float accuracy )
             } else {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
-                add_msg( _( "The %1$s hits %2$s but is stopped by its %3$s." ),
-                         name(),
+                add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
+                         disp_name( false, true ),
                          target.disp_name(),
                          target.skin_name() );
             }
@@ -1826,9 +1828,9 @@ void monster::melee_attack( Creature &target, float accuracy )
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
-            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), convert_bp( affected_bp ) );
             if( eff.permanent ) {
-                target.get_effect( eff.id, affected_bp ).set_permanent();
+                target.get_effect( eff.id, convert_bp( affected_bp ) ).set_permanent();
             }
         }
     }
@@ -1853,7 +1855,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        target.add_effect( effect_bleed, 6_minutes, convert_bp( bp_hit ) );
     }
 }
 
@@ -1905,7 +1907,9 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
+void monster::apply_damage( Creature *source, item *source_weapon, item *source_projectile,
+                            bodypart_id /*bp*/,
+                            int dam,
                             const bool /*bypass_med*/ )
 {
     if( is_dead_state() ) {
@@ -1914,9 +1918,25 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     hp -= dam;
     if( hp < 1 ) {
         set_killer( source );
+        if( source_weapon ) {
+            source_weapon->add_monster_kill( type->id );
+        }
+        if( source_projectile ) {
+            source_projectile->add_monster_kill( type->id );
+        }
     } else if( dam > 0 ) {
-        process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
+        process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ) );
     }
+}
+void monster::apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
+                            const bool bypass_med )
+{
+    return apply_damage( source, source_weapon, nullptr, bp, dam, bypass_med );
+}
+void monster::apply_damage( Creature *source, bodypart_id bp, int dam,
+                            const bool bypass_med )
+{
+    return apply_damage( source, nullptr, nullptr, bp, dam, bypass_med );
 }
 
 void monster::die_in_explosion( Creature *source )
@@ -2340,7 +2360,7 @@ void monster::set_special( const std::string &special_name, int time )
     if( iter != special_attacks.end() ) {
         iter->second.cooldown = time;
     } else {
-        debugmsg( "%s has no special attack %s", disp_name().c_str(), special_name.c_str() );
+        debugmsg( "%s has no special attack %s", disp_name(), special_name );
     }
 }
 
@@ -2350,7 +2370,7 @@ void monster::disable_special( const std::string &special_name )
     if( iter != special_attacks.end() ) {
         iter->second.enabled = false;
     } else {
-        debugmsg( "%s has no special attack %s", disp_name().c_str(), special_name.c_str() );
+        debugmsg( "%s has no special attack %s", disp_name(), special_name );
     }
 }
 
@@ -3164,9 +3184,9 @@ void monster::on_damage_of_type( int amt, damage_type dt, const bodypart_id &bp 
         x_in_y( amt * 10, full_hp ) ) {
         remove_effect( effect_grabbing );
         for( player *p : find_targets_to_ungrab( pos() ) ) {
-            p->add_msg_player_or_npc( m_good, _( "The %s flinches, letting you go!" ),
-                                      _( "The %s flinches, letting <npcname> go!" ),
-                                      disp_name().c_str() );
+            p->add_msg_player_or_npc( m_good, _( "%s flinches, letting you go!" ),
+                                      _( "%s flinches, letting <npcname> go!" ),
+                                      disp_name( false, true ) );
             p->remove_effect( effect_grabbed );
         }
     }

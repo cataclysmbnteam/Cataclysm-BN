@@ -374,6 +374,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "c_hydrogen",
+    "name": "hydrogen gas",
+    "default": "c_hydrogen_gas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "flammable",
     "name": "flammable liquid",
     "default": "napalm"
@@ -659,5 +665,11 @@
     "id": "mininuke_mod",
     "name": "modified mininuke",
     "default": "mininuke_mod"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "pitch_wood",
+    "name": "pitch",
+    "default": "pitch_wood"
   }
 ]

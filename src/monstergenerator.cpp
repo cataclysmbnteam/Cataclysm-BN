@@ -1053,7 +1053,7 @@ void MonsterGenerator::add_attack( std::unique_ptr<mattack_actor> ptr )
 
 void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
 {
-    if( attack_map.count( wrapper->id ) > 0 ) {
+    if( attack_map.contains( wrapper->id ) ) {
         if( test_mode ) {
             debugmsg( "Overwriting monster attack with id %s", wrapper->id.c_str() );
         }
@@ -1132,7 +1132,7 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
 {
     mtype_special_attack new_attack = MonsterGenerator::generator().create_actor( obj, src );
 
-    if( special_attacks.count( new_attack->id ) > 0 ) {
+    if( special_attacks.contains( new_attack->id ) ) {
         special_attacks.erase( new_attack->id );
         const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(),
                                      new_attack->id );
@@ -1158,7 +1158,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
         inner.throw_error( "Invalid special_attacks" );
     }
 
-    if( special_attacks.count( name ) > 0 ) {
+    if( special_attacks.contains( name ) ) {
         special_attacks.erase( name );
         const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), name );
         if( iter != special_attacks_names.end() ) {
@@ -1213,7 +1213,7 @@ void mtype::add_regeneration_modifier( const JsonObject &inner, const std::strin
     //TODO: if invalid effect, throw error
     //  inner.throw_error( "Invalid regeneration_modifiers" );
 
-    if( regeneration_modifiers.count( effect ) > 0 ) {
+    if( regeneration_modifiers.contains( effect ) ) {
         regeneration_modifiers.erase( effect );
         debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
                   id.c_str(), effect_name );

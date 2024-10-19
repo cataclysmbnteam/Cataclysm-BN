@@ -97,5 +97,16 @@
     "purifiable": false,
     "threshold": true,
     "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_ELF",
+    "name": { "str": "Fey" },
+    "points": 1,
+    "description": "You've found yourself with an incredible craving for lembas, as well as a strong desire to nock an arrow to a bow.  The trees speak to you, and you speak back.  In the darkest hour of mankind, the fae shall bring the light!",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
   }
 ]

@@ -104,7 +104,7 @@ class optional_vpart_position : public std::optional<vpart_position>
 {
     public:
         optional_vpart_position( std::optional<vpart_position> p ) : std::optional<vpart_position>
-            ( std::move( p ) ) { }
+            ( p ) { }
 
         std::optional<std::string> get_label() const {
             return has_value() ? value().get_label() : std::nullopt;

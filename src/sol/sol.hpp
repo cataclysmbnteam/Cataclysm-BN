@@ -38,7 +38,7 @@ static_assert(false, "sol.hpp must be included via catalua_sol.h");
 
 // beginning of sol/version.hpp
 
-#include <sol/config.hpp>
+#include "./config.hpp"
 
 #define SOL_VERSION_MAJOR 3
 #define SOL_VERSION_MINOR 2
@@ -857,7 +857,7 @@ static_assert(false, "sol.hpp must be included via catalua_sol.h");
 		#define _MOVE(...) static_cast<__typeof( __VA_ARGS__ )&&>( __VA_ARGS__ )
 	#else
 		#include <type_traits>
-		
+
 		#define _MOVE(...) static_cast<::std::remove_reference_t<( __VA_ARGS__ )>&&>( __VA_OPT__(,) )
 	#endif
 #endif
@@ -1009,7 +1009,7 @@ static_assert(false, "sol.hpp must be included via catalua_sol.h");
 #if defined(SOL_FUNC_DECL)
 	#define SOL_FUNC_DECL_I_ SOL_FUNC_DECL
 #elif SOL_IS_ON(SOL_HEADER_ONLY)
-	#define SOL_FUNC_DECL_I_ 
+	#define SOL_FUNC_DECL_I_
 #elif SOL_IS_ON(SOL_DLL)
 	#if SOL_IS_ON(SOL_COMPILER_VCXX)
 		#if SOL_IS_ON(SOL_BUILD)
@@ -1045,7 +1045,7 @@ static_assert(false, "sol.hpp must be included via catalua_sol.h");
 #if defined(SOL_HIDDEN_FUNC_DECL)
 	#define SOL_HIDDEN_FUNC_DECL_I_ SOL_HIDDEN_FUNC_DECL
 #elif SOL_IS_ON(SOL_HEADER_ONLY)
-	#define SOL_HIDDEN_FUNC_DECL_I_ 
+	#define SOL_HIDDEN_FUNC_DECL_I_
 #elif SOL_IS_ON(SOL_DLL)
 	#if SOL_IS_ON(SOL_COMPILER_VCXX)
 		#if SOL_IS_ON(SOL_BUILD)
@@ -1067,9 +1067,9 @@ static_assert(false, "sol.hpp must be included via catalua_sol.h");
 #elif SOL_IS_ON(SOL_DLL)
 	#if SOL_IS_ON(SOL_COMPILER_VCXX)
 		#if SOL_IS_ON(SOL_BUILD)
-			#define SOL_HIDDEN_FUNC_DEFN_I_ 
+			#define SOL_HIDDEN_FUNC_DEFN_I_
 		#else
-			#define SOL_HIDDEN_FUNC_DEFN_I_ 
+			#define SOL_HIDDEN_FUNC_DEFN_I_
 		#endif
 	#elif SOL_IS_ON(SOL_COMPILER_GCC) || SOL_IS_ON(SOL_COMPILER_CLANG)
 		#define SOL_HIDDEN_FUNC_DEFN_I_ __attribute__((visibility("hidden")))
@@ -3174,9 +3174,9 @@ extern "C" {
 #ifndef COMPAT53_API
 #  if defined(COMPAT53_INCLUDE_SOURCE) && COMPAT53_INCLUDE_SOURCE
 #    if defined(__GNUC__) || defined(__clang__)
-#      define COMPAT53_API __attribute__((__unused__)) static inline 
+#      define COMPAT53_API __attribute__((__unused__)) static inline
 #    else
-#      define COMPAT53_API static inline 
+#      define COMPAT53_API static inline
 #    endif /* Clang/GCC */
 #  else /* COMPAT53_INCLUDE_SOURCE */
 /* we are not including source, so everything is extern */
@@ -19420,7 +19420,13 @@ namespace sol { namespace function_detail {
 		}
 
 		template <bool is_yielding, bool no_trampoline>
-		static int call(lua_State* L) noexcept(std::is_nothrow_copy_assignable_v<T>) {
+		static int call(lua_State* L)
+#if SOL_IS_ON(SOL_COMPILER_CLANG)
+		// apparent regression in clang 18 - llvm/llvm-project#91362
+#else
+			noexcept(std::is_nothrow_copy_assignable_v<T>)
+#endif
+		{
 			int nr;
 			if constexpr (no_trampoline) {
 				nr = real_call(L);
@@ -19460,7 +19466,13 @@ namespace sol { namespace function_detail {
 		}
 
 		template <bool is_yielding, bool no_trampoline>
-		static int call(lua_State* L) noexcept(std::is_nothrow_copy_assignable_v<T>) {
+		static int call(lua_State* L)
+#if SOL_IS_ON(SOL_COMPILER_CLANG)
+		// apparent regression in clang 18 - llvm/llvm-project#91362
+#else
+			noexcept(std::is_nothrow_copy_assignable_v<T>)
+#endif
+		{
 			int nr;
 			if constexpr (no_trampoline) {
 				nr = real_call(L);
@@ -23162,7 +23174,7 @@ namespace sol {
 						{ "erase", &meta_usertype_container::erase_call },
 						std::is_pointer<T>::value ? luaL_Reg{ nullptr, nullptr } : luaL_Reg{ "__gc", &detail::usertype_alloc_destroy<T> },
 						{ nullptr, nullptr }
-						// clang-format on 
+						// clang-format on
 					} };
 
 					if (luaL_newmetatable(L, metakey) == 1) {

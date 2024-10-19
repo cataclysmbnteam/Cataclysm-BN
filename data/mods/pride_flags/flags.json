@@ -28,7 +28,7 @@
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Asexual pride flag" },
-    "description": "An asexual pride flag.  The black represents total asexuality, the grey represents demisexuals and grey-asexuals, the white represents allies, and the purple represents community ",
+    "description": "An asexual pride flag.  The black represents total asexuality, the grey represents demisexuals and grey-asexuals, the white represents allies, and the purple represents community.",
     "color": "light_gray"
   },
   {
@@ -92,7 +92,7 @@
     "type": "ARMOR",
     "copy-from": "american_flag",
     "name": { "str": "Autism pride flag" },
-    "description": "The autistic pride flag.  Gold middle band refers to the elemental symbol of gold (AU) which is used in the autistic community.  The gradient refers to the Pride Movement.  Red originated as a protest to the `light it up blue` campaign, which was denounced by the autistic community.  In color theory, green is the complimentary color to red.  The infinity sign is a symbol long used in the wider autistic and wider neurodiverse community.",
+    "description": "The autistic pride flag.  Gold middle band refers to the elemental symbol of gold (AU) which is used in the autistic community.  The gradient refers to the Pride Movement.  Red originated as a protest to the `light it up blue` campaign, which was denounced by the autistic community.  The infinity sign is a symbol long used in the wider autistic and wider neurodiverse community.",
     "color": "white"
   }
 ]

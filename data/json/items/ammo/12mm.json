@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "60 USD",
     "price_postapoc": "80 USD",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "steel" ],
     "symbol": "=",
     "color": "blue",
@@ -17,6 +16,7 @@
     "ammo_type": "12mm",
     "damage": { "damage_type": "bullet", "amount": 50, "armor_penetration": 40 },
     "dispersion": 45,
+    "loudness": 0,
     "recoil": 100
   }
 ]

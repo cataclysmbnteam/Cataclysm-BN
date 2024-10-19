@@ -43,7 +43,7 @@ Your bug report may include:
 
 Bonus points for:
 
-- Checking if the bug exists under latest experimental build
+- Checking if the bug exists under latest nightly build
 - Checking if it is OS specific
 
 The OS and BN version are very important - with the pace of changes here it is possible the bug you

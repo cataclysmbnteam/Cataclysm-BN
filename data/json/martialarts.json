@@ -438,8 +438,7 @@
       }
     ],
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
-    "weapon_category": [ "BATONS", "DUELING_SWORDS" ],
-    "weapons": [ "broadsword", "broadsword_inferior", "broadsword_fake", "cavalry_sabre", "cavalry_sabre_fake" ]
+    "weapon_category": [ "BATONS", "DUELING_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -718,8 +717,7 @@
       "tec_swordsmanship_unterhau",
       "tec_swordsmanship_mordhau"
     ],
-    "weapon_category": [ "MEDIEVAL_SWORDS" ],
-    "weapons": [ "glass_macuahuitl" ]
+    "weapon_category": [ "1H_SWORDS", "MEDIEVAL_SWORDS" ]
   },
   {
     "type": "martial_art",
@@ -829,8 +827,17 @@
       }
     ],
     "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
-    "weapon_category": [ "STILETTOS", "KNIVES", "SHORT_SWORDS", "1H_SWORDS", "JAPANESE_SWORDS", "BATONS", "QUARTERSTAVES", "BIONIC_WEAPONRY" ],
-    "weapons": [ "sickle" ]
+    "weapon_category": [
+      "STILETTOS",
+      "KNIVES",
+      "1H_HOOKED",
+      "SHORT_SWORDS",
+      "1H_SWORDS",
+      "JAPANESE_SWORDS",
+      "BATONS",
+      "QUARTERSTAVES",
+      "BIONIC_WEAPONRY"
+    ]
   },
   {
     "type": "martial_art",
@@ -957,7 +964,7 @@
     "type": "martial_art",
     "id": "style_silat",
     "name": { "str": "Silat" },
-    "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
+    "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades, bludgeons, and various staff weapons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
     "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "learn_difficulty": 7,
     "primary_skill": "cutting",
@@ -995,8 +1002,7 @@
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
-    "weapon_category": [ "KNIVES", "BATONS", "TONFAS", "QUARTERSTAVES", "SPEARS", "GLAIVES" ],
-    "weapons": [ "machete", "makeshift_machete", "survivor_machete", "sickle", "scythe", "hockey_stick", "golf_club" ]
+    "weapon_category": [ "KNIVES", "SHORT_SWORDS", "1H_HOOKED", "BATONS", "TONFAS", "QUARTERSTAVES", "SPEARS", "GLAIVES", "HOOKED_POLES" ]
   },
   {
     "type": "martial_art",

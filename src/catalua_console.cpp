@@ -112,7 +112,7 @@ void show_lua_console_impl()
 
     const auto create_string_editor = [&]() {
         // Offset by one for the scrollbar
-        return catacurses::newwin( prompt_size.y, prompt_size.x + 1, prompt_pos - point( 1, 0 ) );
+        return catacurses::newwin( prompt_size.y, prompt_size.x + 1, prompt_pos - point_east );
     };
 
     catacurses::window w_console;
@@ -129,8 +129,8 @@ void show_lua_console_impl()
         win_pos = point( ( TERMX - win_size.x ) / 2, ( TERMY - win_size.y ) / 2 );
         prompt_size = point( win_size.x - 3, input_area_size );
         prompt_pos = win_pos + point( 2, win_size.y - input_area_size - 1 );
-        log_pos = win_pos + point( 1, 1 );
-        log_size = point( win_size.x - 2, win_size.y - input_area_size - 7 );
+        log_pos = win_pos + point_south_east;
+        log_size = win_size + point( -2, -7 - input_area_size );
         w_console = catacurses::newwin( win_size.y, win_size.x, win_pos );
         w_log = catacurses::newwin( log_size.y, log_size.x, log_pos );
         w_prompt = catacurses::newwin( prompt_size.y, prompt_size.x, prompt_pos );

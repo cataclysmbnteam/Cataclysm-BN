@@ -14,7 +14,6 @@
     "volume": "3 L",
     "blackpowder_tolerance": 56,
     "clip_size": 1,
-    "loudness": 25,
     "barrel_length": "500 ml",
     "built_in_mods": [ "combination_gun_shotgun" ],
     "valid_mod_locations": [

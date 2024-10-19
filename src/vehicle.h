@@ -488,11 +488,11 @@ class vehicle
         void suspend_refresh();
         void enable_refresh();
 
-        inline void attach() {
+        void attach() {
             attached = true;
         }
 
-        inline void detach() {
+        void detach() {
             attached = false;
         }
 
@@ -1193,7 +1193,7 @@ class vehicle
         // turn vehicle left (negative) or right (positive), degrees
         void turn( units::angle deg );
 
-        inline void set_facing( units::angle deg, bool refresh = true ) {
+        void set_facing( units::angle deg, bool refresh = true ) {
             turn_dir = deg;
             face.init( deg );
             pivot_rotation[0] = deg;
@@ -1202,7 +1202,7 @@ class vehicle
             }
         }
 
-        inline void set_pivot( point pivot, bool refresh = true ) {
+        void set_pivot( point pivot, bool refresh = true ) {
             pivot_cache = pivot;
             pivot_anchor[0] = pivot;
             if( refresh ) {
@@ -1210,7 +1210,7 @@ class vehicle
             }
         }
 
-        inline void set_facing_and_pivot( units::angle deg, point pivot, bool refresh = true ) {
+        void set_facing_and_pivot( units::angle deg, point pivot, bool refresh = true ) {
             set_facing( deg, false );
             set_pivot( pivot, refresh );
         }
@@ -1330,6 +1330,9 @@ class vehicle
 
         turret_data turret_query( const tripoint &pos );
         turret_data turret_query( const tripoint &pos ) const;
+
+        /** Returns true if any part on the tile the turret is installed on has the MANUAL flag. */
+        bool is_manual_turret( const vehicle_part &pt ) const;
 
         /** Set targeting mode for specific turrets */
         void turrets_set_targeting();

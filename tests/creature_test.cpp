@@ -81,7 +81,7 @@ void calculate_bodypart_distribution( const enum creature_size attacker_size,
 
     for( int i = 0; i < num_tests; ++i ) {
         const auto bp = defender.select_body_part( &attacker, hit_roll );
-        selected_part_histogram.at( bp )++;
+        selected_part_histogram.at( bp->token )++;
     }
 
     const double total_weight = std::accumulate( expected.begin(), expected.end(), 0.0,

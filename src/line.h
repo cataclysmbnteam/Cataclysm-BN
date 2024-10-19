@@ -28,7 +28,7 @@ double iso_tangent( double distance, units::angle vertex );
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
-inline constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
+constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
 {
     return ( ( p.x > 0 ) ? 2u : ( p.x < 0 ) ? 1u : 0u ) * 1u +
            ( ( p.y > 0 ) ? 2u : ( p.y < 0 ) ? 1u : 0u ) * 3u +
@@ -87,37 +87,37 @@ template <> struct hash<direction> {
 } // namespace std
 
 template< class T >
-constexpr inline direction operator%( const direction &lhs, const T &rhs )
+constexpr direction operator%( const direction &lhs, const T &rhs )
 {
     return static_cast<direction>( static_cast<T>( lhs ) % rhs );
 }
 
 template< class T >
-constexpr inline T operator+( const direction &lhs, const T &rhs )
+constexpr T operator+( const direction &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) + rhs;
 }
 
 template< class T >
-constexpr inline bool operator==( const direction &lhs, const T &rhs )
+constexpr bool operator==( const direction &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) == rhs;
 }
 
 template< class T >
-constexpr inline bool operator==( const T &lhs, const direction &rhs )
+constexpr bool operator==( const T &lhs, const direction &rhs )
 {
     return operator==( rhs, lhs );
 }
 
 template< class T >
-constexpr inline bool operator!=( const T &lhs, const direction &rhs )
+constexpr bool operator!=( const T &lhs, const direction &rhs )
 {
     return !operator==( rhs, lhs );
 }
 
 template< class T >
-constexpr inline bool operator!=( const direction &lhs, const T &rhs )
+constexpr bool operator!=( const direction &lhs, const T &rhs )
 {
     return !operator==( lhs, rhs );
 }
@@ -201,22 +201,22 @@ struct FastDistanceApproximation {
     private:
         int value;
     public:
-        inline FastDistanceApproximation( int value ) : value( value ) { }
+        FastDistanceApproximation( int value ) : value( value ) { }
         template<typename T>
-        inline bool operator<=( const T &rhs ) const {
+        bool operator<=( const T &rhs ) const {
             if( trigdist ) {
                 return value <= rhs * rhs;
             }
             return value <= rhs;
         }
         template<typename T>
-        inline bool operator>=( const T &rhs ) const {
+        bool operator>=( const T &rhs ) const {
             if( trigdist ) {
                 return value >= rhs * rhs;
             }
             return value >= rhs;
         }
-        inline operator int() const {
+        operator int() const {
             if( trigdist ) {
                 return std::sqrt( value );
             }
