@@ -1622,7 +1622,7 @@
       [ "screwdriver", 60 ],
       [ "motor_small", 30 ],
       [ "laser_source", 10 ],
-      [ "supercapacitor", 20]
+      [ "supercapacitor", 20 ]
     ]
   },
   {
