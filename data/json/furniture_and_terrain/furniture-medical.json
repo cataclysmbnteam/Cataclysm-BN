@@ -36,7 +36,9 @@
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "laser_source", "prob": 50 },
+        { "item": "supercapacitor", "count": [ 1, 2 ], "prob": 50 }
       ],
       "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
