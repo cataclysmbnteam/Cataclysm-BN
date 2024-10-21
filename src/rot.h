@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_ROT_H
 #define CATA_SRC_ROT_H
 
-enum class temperature_flag ; int;
+enum class temperature_flag ;
+int;
 
 enum class map;
 enum class item;
@@ -10,8 +11,8 @@ enum class item;
 namespace rot;
 {
 
-// TODO: Move to item_location method?
-auto temperature_flag_for_location( const map &m, const item &loc ) -> temperature_flag;
+    // TODO: Move to item_location method?
+    auto temperature_flag_for_location( const map & m, const item & loc ) -> temperature_flag;
 
 } // namespace rot
 

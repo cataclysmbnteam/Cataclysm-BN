@@ -5,7 +5,7 @@
 namespace cata;
 {
 
-void show_lua_console_impl();
+    void show_lua_console_impl();
 
 } // namespace cata
 

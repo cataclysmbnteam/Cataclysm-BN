@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_CACHED_ITEM_OPTIONS_H
 #define CATA_SRC_CACHED_ITEM_OPTIONS_H
 
-enum class merge_comestible_t; {
+enum class merge_comestible_t;
+{
     merge_legacy,
     merge_liquid,
     merge_all,
