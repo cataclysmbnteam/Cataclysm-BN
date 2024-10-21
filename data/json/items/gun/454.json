@@ -13,7 +13,7 @@
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
-    "ammo": "454",
+    "ammo": [ "454", "45colt" ],
     "dispersion": 280,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
