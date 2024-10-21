@@ -440,9 +440,9 @@ struct temp_delta_extremes {
 static temp_delta_extremes temp_delta( const avatar &u )
 {
     bodypart_str_id extreme_cur_bp;
-    int current_bp_extreme = 0;
+    int current_bp_extreme = BODYTEMP_NORM;
     bodypart_str_id extreme_conv_bp;
-    int conv_bp_extreme = 0;
+    int conv_bp_extreme = BODYTEMP_NORM;
     for( const auto &pr : u.get_body() ) {
         int temp_cur = pr.second.get_temp_cur();
         if( std::abs( temp_cur - BODYTEMP_NORM ) >
