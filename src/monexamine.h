@@ -4,7 +4,7 @@
 
 class monster;
 
-namespace monexamine
+namespace monexamine;
 {
 bool pet_menu( monster &z );
 bool mech_hack( monster &z );

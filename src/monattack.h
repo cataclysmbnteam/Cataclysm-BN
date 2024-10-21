@@ -5,7 +5,7 @@
 class monster;
 class Creature;
 
-namespace mattack
+namespace mattack;
 {
 bool none( monster *z );
 bool eat_crop( monster *z );

@@ -13,17 +13,17 @@ struct attack_statblock;
  * statistics data for melee attacks, used for test purposes
  */
 struct melee_statistic_data {
-    int attack_count = 0;
-    int hit_count = 0;
-    int double_crit_count = 0;
-    int crit_count = 0;
-    int actual_crit_count = 0;
-    double double_crit_chance = 0.0;
-    double crit_chance = 0.0;
-    int damage_amount = 0;
+    int attack_count; = 0;
+    int hit_count; = 0;
+    int double_crit_count; = 0;
+    int crit_count; = 0;
+    int actual_crit_count; = 0;
+    double double_crit_chance; = 0.0;
+    double crit_chance; = 0.0;
+    int damage_amount; = 0;
 };
 
-namespace melee
+namespace melee;
 {
 
 constexpr double accuracy_roll_stddev = 5.0;

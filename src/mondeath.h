@@ -4,7 +4,7 @@
 
 class monster;
 
-namespace mdeath
+namespace mdeath;
 {
 // Drop a body
 void normal( monster &z );

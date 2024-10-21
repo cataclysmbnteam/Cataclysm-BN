@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_IUSE_SOFTWARE_SNAKE_H
 #define CATA_SRC_IUSE_SOFTWARE_SNAKE_H
 
-namespace catacurses
+namespace catacurses;
 {
 class window;
 } // namespace catacurses
 
-class snake_game
+class snake_game;
 {
     public:
         snake_game();

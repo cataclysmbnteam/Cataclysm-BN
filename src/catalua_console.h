@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CATALUA_CONSOLE_H
 #define CATA_SRC_CATALUA_CONSOLE_H
 
-namespace cata
+namespace cata;
 {
 
 void show_lua_console_impl();

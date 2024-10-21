@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_ROT_H
 #define CATA_SRC_ROT_H
 
-enum class temperature_flag : int;
+enum class temperature_flag ; int;
 
-class map;
-class item;
+enum class map;
+enum class item;
 
-namespace rot
+namespace rot;
 {
 
 // TODO: Move to item_location method?

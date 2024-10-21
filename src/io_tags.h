@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_IO_TAGS_H
 #define CATA_SRC_IO_TAGS_H
 
-namespace io
+namespace io;
 {
 
 class JsonArrayInputArchive;

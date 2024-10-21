@@ -3971,7 +3971,7 @@ struct formatter < T, Char,
     struct formatter<Type, Char> : formatter<Base, Char> {                      \
         template <typename FormatContext>                                         \
         auto format(Type const& val, FormatContext& ctx) -> decltype(ctx.out()) { \
-            return formatter<Base, Char>::format(val, ctx);                         \
+            return formatter<(Base), Char>::format(val, ctx);                         \
         }                                                                         \
     }
 

@@ -7,7 +7,7 @@ class map;
 class game;
 class Creature;
 
-class fungal_effects
+class fungal_effects;
 {
     private:
         // Dependency injection to try to be less global

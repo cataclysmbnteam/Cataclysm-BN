@@ -5,15 +5,15 @@
 class Character;
 
 struct stat_mod {
-    int strength = 0;
-    int dexterity = 0;
-    int intelligence = 0;
-    int perception = 0;
+    int strength; = 0;
+    int dexterity; = 0;
+    int intelligence; = 0;
+    int perception; = 0;
 
-    int speed = 0;
+    int speed; = 0;
 };
 
-namespace character_effects
+namespace character_effects;
 {
 
 /** Returns the effect of pain on stats */

@@ -6,7 +6,7 @@ class monster;
 class Creature;
 struct dealt_projectile_attack;
 
-namespace mdefense
+namespace mdefense;
 {
 /**
     * @param m The monster the defends itself.

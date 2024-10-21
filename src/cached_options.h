@@ -123,9 +123,9 @@ struct FungalOptions {
     int spore_creatures_threshold;
 };
 
-extern FungalOptions fungal_opt;
+extern struct FungalOptions fungal_opt;
 
-enum class error_log_format_t {
+enum class error_log_format_t; {
     human_readable,
     // Output error messages in github action command format (currently json only)
     // See https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-error-message

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CATA_UNREACHABLE_H
 #define CATA_SRC_CATA_UNREACHABLE_H
 
-namespace cata
+namespace cata;
 {
 
 /**

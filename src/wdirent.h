@@ -347,12 +347,10 @@ static WIN32_FIND_DATAW *dirent_first( _WDIR *dirp );
 static WIN32_FIND_DATAW *dirent_next( _WDIR *dirp );
 
 static int dirent_mbstowcs_s(
-    size_t *pReturnValue, wchar_t *wcstr, size_t sizeInWords,
-    const char *mbstr, size_t count );
+    size_t *pReturnValue, wchar_t *wcstr, const char *mbstr, size_t count );
 
 static int dirent_wcstombs_s(
-    size_t *pReturnValue, char *mbstr, size_t sizeInBytes,
-    const wchar_t *wcstr, size_t count );
+    size_t *pReturnValue, char *mbstr, const wchar_t *wcstr, size_t count );
 
 #if !defined(_MSC_VER) || _MSC_VER < 1400
 static void dirent_set_errno( int error );
@@ -710,7 +708,7 @@ exit_failure:
 /* Convert multi-byte string to wide character string */
 static int dirent_mbstowcs_s(
     size_t *pReturnValue, wchar_t *wcstr,
-    size_t sizeInWords, const char *mbstr, size_t /*count*/ )
+    const char *mbstr, size_t /*count*/ )
 {
     const int required_size = MultiByteToWideChar( CP_UTF8, 0, mbstr, -1, NULL, 0 ) + 1;
     if( required_size > static_cast<int>( sizeInWords ) ) {
@@ -730,7 +728,7 @@ static int dirent_mbstowcs_s(
 /* Convert wide-character string to multi-byte string */
 static int dirent_wcstombs_s(
     size_t *pReturnValue, char *mbstr,
-    size_t sizeInBytes, const wchar_t *wcstr, size_t /*count*/ )
+    const wchar_t *wcstr, size_t /*count*/ )
 {
     const int required_size = WideCharToMultiByte( CP_UTF8, 0, wcstr, -1, NULL, 0, NULL, 0 ) + 1;
     if( required_size > static_cast<int>( sizeInBytes ) ) {

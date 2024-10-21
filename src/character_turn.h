@@ -5,7 +5,7 @@
 class Character;
 struct w_point;
 
-namespace character_funcs
+namespace character_funcs;
 {
 
 /** Maintains body wetness and handles the rate at which the player dries */

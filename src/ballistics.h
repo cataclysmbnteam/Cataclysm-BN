@@ -23,7 +23,7 @@ struct projectile_attack_aim {
 /**
  * Evaluates dispersion sources, range, and target to determine attack trajectory.
  **/
-projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersion, double range,
+struct projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersion, double range,
         double target_size );
 
 /**
@@ -31,11 +31,11 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
  *  dispersion.
  *  Returns the rolled dispersion of the shot and the actually hit point.
  */
-dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tripoint &source,
+struct dealt_projectile_attack projectile_attack( const struct projectile &proj_arg, const tripoint &source,
         const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin = nullptr, item *source_weapon = nullptr, const vehicle *in_veh = nullptr );
 
-namespace ranged
+namespace ranged;
 {
 
 /**
