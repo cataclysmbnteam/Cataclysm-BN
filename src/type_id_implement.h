@@ -17,7 +17,7 @@
     }                                                           \
     /** @relates string_id */                                   \
     template<>                                                  \
-    const T& string_id<T>::obj() const                          \
+    const T& string_id<(T)>::obj() const                          \
     {                                                           \
         return (factory).obj(*this);                              \
     }
@@ -30,7 +30,7 @@
         return (factory).is_valid(*this);                         \
     }                                                           \
     template<>                                                  \
-    const T& int_id<T>::obj() const                             \
+    const T& int_id<(T)>::obj() const                             \
     {                                                           \
         return (factory).obj(*this);                              \
     }
@@ -41,15 +41,15 @@
     template<>                                                  \
     int_id<T> string_id<T>::id() const                          \
     {                                                           \
-        return (factory).convert(*this, int_id<T>(-1));           \
+        return (factory).convert(*this, int_id<(T)>(-1));           \
     }                                                           \
     template<>                                                  \
-    int_id<T>::int_id(const string_id<T>& id)                   \
+    int_id<(T)>::int_id(const string_id<(T)>& id)                   \
     {                                                           \
         *this = id.id();                                        \
     }                                                           \
     template<>                                                  \
-    const string_id<T>& int_id<T>::id() const                   \
+    const string_id<(T)>& int_id<(T)>::id() const                   \
     {                                                           \
         return (factory).convert(*this);                          \
     }

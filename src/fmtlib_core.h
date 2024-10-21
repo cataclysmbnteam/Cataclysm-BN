@@ -1758,7 +1758,7 @@ using wformat_context = buffer_context<wchar_t>;
 
 // Workaround an alias issue: https://stackoverflow.com/q/62767544/471164.
 #define FMT_BUFFER_CONTEXT(Char) \
-    basic_format_context<detail::buffer_appender<Char>, Char>
+    basic_format_context<detail::buffer_appender<(Char)>, (Char)>
 
 /**
   \rst

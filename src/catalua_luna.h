@@ -19,7 +19,7 @@
 #define LUNA_VAL( Class, Name )                         \
     namespace luna::detail {                            \
     template<>                                          \
-    struct luna_traits<Class> {                         \
+    struct luna_traits<(Class)> {                         \
         constexpr static bool impl = true;              \
         constexpr static std::string_view name = Name;  \
     };                                                  \
@@ -29,8 +29,8 @@
 
 #define LUNA_ID( Class, Name )                  \
     LUNA_DOC( Class, Name "Raw" )               \
-    LUNA_VAL( string_id<Class>, Name "Id" )     \
-    LUNA_VAL( int_id<Class>, Name "IntId" )
+    LUNA_VAL( string_id<(Class)>, Name "Id" )     \
+    LUNA_VAL( int_id<(Class)>, Name "IntId" )
 
 #define LUNA_ENUM( Class, Name ) LUNA_VAL( Class, Name )
 

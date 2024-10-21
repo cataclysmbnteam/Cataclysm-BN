@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_GAME_UI_H
 #define CATA_SRC_GAME_UI_H
 
-namespace game_ui
+namespace game_ui;
 {
-void init_ui();
+    void init_ui();
 } // namespace game_ui
 
 // defined in sdltiles.cpp
