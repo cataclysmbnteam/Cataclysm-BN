@@ -116,6 +116,16 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
+    "id": "bio_monowire",
+    "type": "bionic",
+    "name": { "str": "Monofilament Whip" },
+    "description": "Your left hand conceals three meters of monomolecular filament on an artificial diamond spool, extending behind a small counterweight in your thumbtip.  It requires a small amount of bionic power to activate, and prevents you from holding anything else while extended.",
+    "occupied_bodyparts": [ [ "hand_l", 5 ] ],
+    "act_cost": "50 J",
+    "fake_item": "bio_wire_weapon",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+  },
+  {
     "id": "bio_shotgun",
     "type": "bionic",
     "name": { "str": "Shotgun Arm" },

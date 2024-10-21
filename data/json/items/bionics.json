@@ -146,6 +146,17 @@
     "difficulty": 8
   },
   {
+    "id": "bio_monowire",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Monofilament Whip CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A razor-sharp thread of advanced material that is installed inside the hand, capable of being extended at the cost of a small amount of power.  Though exceptionally sharp, it will prevent the user from holding anything else while extended.",
+    "price": "2000 USD",
+    "weight": "250 g",
+    "difficulty": 8
+  },
+  {
     "id": "bio_shotgun",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
