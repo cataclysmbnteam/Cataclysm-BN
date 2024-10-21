@@ -135,13 +135,13 @@ const itype *turret_data::ammo_data() const
 itype_id turret_data::ammo_current() const
 {
     auto opts = ammo_options();
-    if( opts.count( part->ammo_pref ) ) {
+    if( opts.contains( part->ammo_pref ) ) {
         return part->ammo_pref;
     }
-    if( opts.count( part->info().default_ammo ) ) {
+    if( opts.contains( part->info().default_ammo ) ) {
         return part->info().default_ammo;
     }
-    if( opts.count( part->base->ammo_default() ) ) {
+    if( opts.contains( part->base->ammo_default() ) ) {
         return part->base->ammo_default();
     }
     return opts.empty() ? itype_id::NULL_ID() : *opts.begin();
@@ -163,7 +163,7 @@ std::set<itype_id> turret_data::ammo_options() const
     } else {
         for( const auto &e : veh->fuels_left() ) {
             const itype *fuel = &*e.first;
-            if( fuel->ammo && part->base->ammo_types().count( fuel->ammo->type ) &&
+            if( fuel->ammo && part->base->ammo_types().contains( fuel->ammo->type ) &&
                 e.second >= part->base->ammo_required() ) {
 
                 opts.insert( fuel->get_id() );
@@ -176,7 +176,7 @@ std::set<itype_id> turret_data::ammo_options() const
 
 bool turret_data::ammo_select( const itype_id &ammo )
 {
-    if( !ammo_options().count( ammo ) ) {
+    if( !ammo_options().contains( ammo ) ) {
         return false;
     }
 

@@ -247,8 +247,10 @@ bool load_world_lua_state( const std::string &path )
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 {
+    auto state = new lua_state{};
+    state->lua = make_lua_state();
     std::unique_ptr<lua_state, lua_state_deleter> ret(
-        new lua_state{ make_lua_state() },
+        state,
         lua_state_deleter{}
     );
 

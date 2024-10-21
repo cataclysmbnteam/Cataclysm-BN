@@ -1,4 +1,4 @@
-import { Command } from "jsr:@cliffy/command@1.0.0-rc.7"
+import { Command } from "@cliffy/command"
 import { mapValues, maxBy, minBy } from "jsr:@std/collections"
 
 import { parse } from "https://deno.land/x/commit@0.1.5/mod.ts"

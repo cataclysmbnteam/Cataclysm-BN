@@ -135,7 +135,7 @@ class is_std_array_helper<std::array<T, N>> : public std::true_type
 {
 };
 template<typename T>
-class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
+class is_std_array : public is_std_array_helper<std::decay_t<T>>
 {
 };
 

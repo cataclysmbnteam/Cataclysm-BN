@@ -794,6 +794,7 @@
         "botanical_garden": 100,
         "zoo": 25,
         "stadium": 25,
+        "convention_center": 25,
         "cemetery_city": 50,
         "public_pond_city": 50,
         "cemetery_religious_city": 25,

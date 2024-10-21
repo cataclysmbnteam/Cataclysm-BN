@@ -170,7 +170,7 @@ struct iteminfo {
 
 inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
 {
-    using I = std::underlying_type<iteminfo::flags>::type;
+    using I = std::underlying_type_t<iteminfo::flags>;
     return static_cast<iteminfo::flags>( static_cast<I>( l ) | r );
 }
 

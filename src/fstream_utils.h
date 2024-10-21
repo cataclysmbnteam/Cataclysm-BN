@@ -38,7 +38,7 @@ struct cata_ofstream {
         cata_ofstream &operator=( const cata_ofstream & ) = delete;
         cata_ofstream &operator=( cata_ofstream && ) noexcept;
 
-        inline cata_ofstream &mode( cata_ios_mode m ) {
+        cata_ofstream &mode( cata_ios_mode m ) {
             _mode = m;
             return *this;
         }
@@ -76,7 +76,7 @@ struct cata_ifstream {
         cata_ifstream &operator=( const cata_ifstream & ) = delete;
         cata_ifstream &operator=( cata_ifstream && ) noexcept;
 
-        inline cata_ifstream &mode( cata_ios_mode m ) {
+        cata_ifstream &mode( cata_ios_mode m ) {
             _mode = m;
             return *this;
         }

@@ -35,7 +35,7 @@ class lua_log_handler
 
         void clear();
 
-        inline const std::deque<lua_log_msg> &get_entries() const {
+        const std::deque<lua_log_msg> &get_entries() const {
             return entries;
         }
 

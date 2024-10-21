@@ -257,16 +257,16 @@ FMT_BEGIN_NAMESPACE
 
 // Implementations of enable_if_t and other metafunctions for older systems.
 template <bool B, class T = void>
-using enable_if_t = typename std::enable_if<B, T>::type;
+using enable_if_t = std::enable_if_t<B, T>;
 template <bool B, class T, class F>
-using conditional_t = typename std::conditional<B, T, F>::type;
+using conditional_t = std::conditional_t<B, T, F>;
 template <bool B> using bool_constant = std::integral_constant<bool, B>;
 template <typename T>
-using remove_reference_t = typename std::remove_reference<T>::type;
+using remove_reference_t = std::remove_reference_t<T>;
 template <typename T>
-using remove_const_t = typename std::remove_const<T>::type;
+using remove_const_t = std::remove_const_t<T>;
 template <typename T>
-using remove_cvref_t = typename std::remove_cv<remove_reference_t<T>>::type;
+using remove_cvref_t = std::remove_cv_t<remove_reference_t<T>>;
 template <typename T> struct type_identity {
     using type = T;
 };
@@ -329,10 +329,10 @@ struct uint128_t {};
 
 // Casts a nonnegative integer to unsigned.
 template <typename Int>
-FMT_CONSTEXPR typename std::make_unsigned<Int>::type to_unsigned( Int value )
+FMT_CONSTEXPR std::make_unsigned_t<Int>to_unsigned( Int value )
 {
     FMT_ASSERT( value >= 0, "negative value" );
-    return static_cast<typename std::make_unsigned<Int>::type>( value );
+    return static_cast<std::make_unsigned_t<Int>>( value );
 }
 
 FMT_SUPPRESS_MSC_WARNING( 4566 ) constexpr unsigned char micro[] = "\u00B5";
@@ -1376,8 +1376,8 @@ template <typename Context> struct arg_mapper {
                               !has_fallback_formatter<T, Context>::value ) >
     FMT_CONSTEXPR auto map( const T &val )
     -> decltype( std::declval<arg_mapper>().map(
-                     static_cast<typename std::underlying_type<T>::type>( val ) ) ) {
-        return map( static_cast<typename std::underlying_type<T>::type>( val ) );
+                     static_cast<std::underlying_type_t<T>>( val ) ) ) {
+        return map( static_cast<std::underlying_type_t<T>>( val ) );
     }
     template < typename T,
                FMT_ENABLE_IF( !is_string<T>::value
@@ -1839,8 +1839,8 @@ inline auto make_args_checked( const S &format_str,
 {
     static_assert(
         detail::count < (
-            std::is_base_of<detail::view, remove_reference_t<Args>>::value &&
-            std::is_reference<Args>::value )... > () == 0,
+            std::is_base_of_v<detail::view, remove_reference_t<Args>> &&
+            std::is_reference_v<Args> )... > () == 0,
         "passing views as lvalues is disallowed" );
     detail::check_format_string<Args...>( format_str );
     return {args...};
@@ -1889,8 +1889,8 @@ class dynamic_format_arg_store
 
             enum {
                 value = !( detail::is_reference_wrapper<T>::value ||
-                           std::is_same<T, basic_string_view<char_type>>::value ||
-                           std::is_same<T, detail::std_string_view<char_type>>::value ||
+                           std::is_same_v<T, basic_string_view<char_type>> ||
+                           std::is_same_v<T, detail::std_string_view<char_type>> ||
                            ( mapped_type != detail::type::cstring_type &&
                              mapped_type != detail::type::string_type &&
                              mapped_type != detail::type::custom_type ) )
@@ -1993,7 +1993,7 @@ class dynamic_format_arg_store
         */
         template <typename T> void push_back( std::reference_wrapper<T> arg ) {
             static_assert(
-                detail::is_named_arg<typename std::remove_cv<T>::type>::value ||
+                detail::is_named_arg<std::remove_cv_t<T>>::value ||
                 need_copy<T>::value,
                 "objects of built-in types and string views are always copied" );
             emplace_arg( arg.get() );
@@ -2185,7 +2185,7 @@ struct wformat_args : basic_format_args<wformat_context> {
 namespace detail
 {
 
-template < typename Char, FMT_ENABLE_IF( !std::is_same<Char, char>::value ) >
+template < typename Char, FMT_ENABLE_IF( !std::is_same_v<Char, char> ) >
 std::basic_string<Char> vformat(
     basic_string_view<Char> format_str,
     basic_format_args<buffer_context<type_identity_t<Char>>> args );
@@ -2199,7 +2199,7 @@ void vformat_to(
     detail::locale_ref loc = {} );
 
 template < typename Char, typename Args,
-           FMT_ENABLE_IF( !std::is_same<Char, char>::value ) >
+           FMT_ENABLE_IF( !std::is_same_v<Char, char> ) >
 inline void vprint_mojibake( std::FILE *, basic_string_view<Char>, const Args & ) {}
 
 FMT_API void vprint_mojibake( std::FILE *, string_view, format_args );
@@ -2215,7 +2215,8 @@ template <typename OutputIt, typename S, typename Char = char_t<S>,
           bool enable = detail::is_output_iterator<OutputIt, Char>::value>
 auto vformat_to( OutputIt out, const S &format_str,
                  basic_format_args<buffer_context<type_identity_t<Char>>> args )
--> typename std::enable_if<enable, OutputIt>::type
+-> OutputIt
+    requires( enable )
 {
     decltype( detail::get_buffer<Char>( out ) ) buf( detail::get_buffer_init( out ) );
     detail::vformat_to( buf, to_string_view( format_str ), args );
@@ -2237,7 +2238,8 @@ auto vformat_to( OutputIt out, const S &format_str,
 template <typename OutputIt, typename S, typename... Args,
           bool enable = detail::is_output_iterator<OutputIt, char_t<S>>::value>
 inline auto format_to( OutputIt out, const S &format_str, Args && ... args ) ->
-typename std::enable_if<enable, OutputIt>::type
+OutputIt
+requires( enable )
 {
     const auto &vargs = fmt::make_args_checked<Args...>( format_str, args... );
     return vformat_to( out, to_string_view( format_str ), vargs );
@@ -2273,7 +2275,8 @@ template <typename OutputIt, typename S, typename... Args,
           bool enable = detail::is_output_iterator<OutputIt, char_t<S>>::value>
 inline auto format_to_n( OutputIt out, size_t n, const S &format_str,
                          const Args &... args ) ->
-typename std::enable_if<enable, format_to_n_result<OutputIt>>::type
+format_to_n_result<OutputIt>
+requires( enable )
 {
     const auto &vargs = fmt::make_args_checked<Args...>( format_str, args... );
     return vformat_to_n( out, n, to_string_view( format_str ), vargs );

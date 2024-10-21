@@ -5,7 +5,7 @@
     "looks_like": "84x246mm_he",
     "name": { "str": "40x53mm grenade" },
     "price": "100 USD",
-    "price_postapoc": "60 USD",
+    "price_postapoc": "5 USD",
     "volume": "260 ml",
     "material": [ "steel", "powder" ],
     "symbol": "=",

@@ -184,6 +184,11 @@ class bodypart
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
+        // @todo BODYTEMP_NORM
+        int temp_cur = 5000;
+        int temp_conv = 5000;
+        int frostbite_timer = 0;
+
     public:
         // TODO: private
         wield_status wielding;
@@ -222,6 +227,27 @@ class bodypart
         void mod_healed_total( int mod );
         void mod_damage_bandaged( int mod );
         void mod_damage_disinfected( int mod );
+
+        int get_temp_cur() const {
+            return temp_cur;
+        }
+        void set_temp_cur( int set ) {
+            temp_cur = set;
+        }
+
+        int get_temp_conv() const {
+            return temp_conv;
+        }
+        void set_temp_conv( int set ) {
+            temp_conv = set;
+        }
+
+        int get_frostbite_timer() const {
+            return frostbite_timer;
+        }
+        void set_frostbite_timer( int set ) {
+            frostbite_timer = set;
+        }
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

@@ -384,7 +384,7 @@ static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint
 {
     for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
-        if( veh_area.count( tmp ) > 0 ) {
+        if( veh_area.contains( tmp ) ) {
             return true;
         }
     }
@@ -841,7 +841,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     impact.mult_damage( damage_mult );
 
     if( proj.has_effect( ammo_effect_NOGIB ) ) {
-        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( bp_hit );
+        float dmg_ratio = impact.total_damage() / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -1704,7 +1704,8 @@ const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 void Creature::set_body()
 {
     body.clear();
-    // TODO: Probably shouldn't be needed, but it's called from game::game()
+    // This check is needed for game::game
+    // @todo Add debugmsg for the other case
     if( get_anatomy().is_valid() ) {
         for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
             body.emplace( std::piecewise_construct, std::forward_as_tuple( bp.id() ),

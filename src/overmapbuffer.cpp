@@ -262,7 +262,7 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
     if( it != overmaps.end() ) {
         return last_requested_overmap = it->second.get();
     }
-    if( known_non_existing.count( p ) > 0 ) {
+    if( known_non_existing.contains( p ) ) {
         // This overmap does not exist on disk (this has already been
         // checked in a previous call of this function).
         return nullptr;
@@ -618,7 +618,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     }
     int id = om_loc.om->vehicles.size() + 1;
     // this *should* be unique but just in case
-    while( om_loc.om->vehicles.count( id ) > 0 ) {
+    while( om_loc.om->vehicles.contains( id ) ) {
         id++;
     }
     om_vehicle &tracked_veh = om_loc.om->vehicles[id];
@@ -1621,7 +1621,7 @@ std::set<tripoint_abs_omt> overmapbuffer::electric_grid_at( const tripoint_abs_o
         for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
             if( connections_bitset.test( i ) ) {
                 tripoint_abs_omt other = elem + six_cardinal_directions[i];
-                if( result.count( other ) == 0 ) {
+                if( !result.contains( other ) ) {
                     open.emplace( other );
                 }
             }

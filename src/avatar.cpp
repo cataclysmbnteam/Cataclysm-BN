@@ -546,7 +546,7 @@ bool avatar::read( item *loc, const bool continuous )
             }
             act.index = menu.ret;
         }
-        if( it.type->use_methods.count( "MA_MANUAL" ) ) {
+        if( it.type->use_methods.contains( "MA_MANUAL" ) ) {
 
             if( martial_arts_data->has_martialart( martial_art_learned_from( *it.type ) ) ) {
                 add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
@@ -636,7 +636,7 @@ bool avatar::read( item *loc, const bool continuous )
     }
 
     // push an indentifier of martial art book to the action handling
-    if( it.type->use_methods.count( "MA_MANUAL" ) ) {
+    if( it.type->use_methods.contains( "MA_MANUAL" ) ) {
 
         if( get_stamina() < get_stamina_max() / 10 ) {
             add_msg( m_info, _( "You are too exhausted to train martial arts." ) );
@@ -706,7 +706,7 @@ static void skim_book_msg( const item &book, avatar &u )
                  character_funcs::get_book_fun_for( u, book ) );
     }
 
-    if( book.type->use_methods.count( "MA_MANUAL" ) ) {
+    if( book.type->use_methods.contains( "MA_MANUAL" ) ) {
         const matype_id style_to_learn = martial_art_learned_from( *book.type );
         add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
         add_msg( m_info, _( "This fighting style is %s to learn." ),
@@ -958,7 +958,7 @@ void avatar::do_read( item *loc )
 
 bool avatar::has_identified( const itype_id &item_id ) const
 {
-    return items_identified.count( item_id ) > 0;
+    return items_identified.contains( item_id );
 }
 
 void avatar::wake_up()

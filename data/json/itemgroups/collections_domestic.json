@@ -953,6 +953,7 @@
       { "item": "pet_carrier", "prob": 3 },
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "bodypillow", "prob": 2 },
+      { "item": "shark_plush", "prob": 2 },
       { "item": "reading_light", "prob": 8 },
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
       { "group": "ammo_common", "prob": 20 },

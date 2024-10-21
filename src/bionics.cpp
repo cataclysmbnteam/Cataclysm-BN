@@ -237,7 +237,7 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
 
 bool bionic_data::has_flag( const flag_id &flag ) const
 {
-    return flags.count( flag ) > 0;
+    return flags.contains( flag );
 }
 
 itype_id bionic_data::itype() const
@@ -873,7 +873,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                         if( water && water->charges < avail ) {
                             add_msg_activate();
                             extracted = true;
-                            it->set_var( "remaining_water", static_cast<int>( water->charges ) );
+                            it->set_var( "remaining_water", water->charges );
                         }
                         break;
                     }
@@ -2100,7 +2100,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
     } else {
         if( !g->u.query_yn(
                 _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
-                ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
+                ( 100 - chance_of_success ) ) ) {
             return false;
         }
     }
@@ -2508,7 +2508,7 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
     std::set<bodypart_id> bp_hurt;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         if( has_effect( effect_under_op, bp.id() ) ) {
-            if( bp_hurt.count( bp->main_part ) > 0 ) {
+            if( bp_hurt.contains( bp->main_part ) ) {
                 continue;
             }
             bp_hurt.emplace( bp->main_part );
@@ -2753,7 +2753,7 @@ void Character::remove_bionic( const bionic_id &b )
 
     // any spells you learn from installing a bionic you forget.
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
-        if( cbm_spells.count( spell_pair.first ) == 0 ) {
+        if( !cbm_spells.contains( spell_pair.first ) ) {
             magic->forget_spell( spell_pair.first );
         }
     }

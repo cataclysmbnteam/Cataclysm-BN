@@ -104,7 +104,7 @@ class Skill
         bool is_weapon_skill() const;
 
         // Required for LUA
-        inline bool operator<( const Skill &rhs ) const {
+        bool operator<( const Skill &rhs ) const {
             return _ident < rhs._ident;
         }
 };

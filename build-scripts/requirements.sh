@@ -20,11 +20,6 @@ if [[ $(bc <<< "$(lsb_release -rs) > 22.04") -eq 1 ]]; then
   PIP_FLAGS="--break-system-packages"
 fi
 
-if [ -n "$CATA_CLANG_TIDY" ]; then
-  pip install --user wheel --upgrade $PIP_FLAGS
-  pip install --user 'lit==0.11.1' 'click==7.1.2' $PIP_FLAGS
-fi
-
 if [ -n "$LANGUAGES" ]; then
   pip install --user polib luaparser $PIP_FLAGS
 fi

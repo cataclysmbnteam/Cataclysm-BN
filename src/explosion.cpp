@@ -379,7 +379,7 @@ class ExplosionProcess
             return a.first < b.first;
         };
 
-        inline void update_timings() {
+        void update_timings() {
             if( !is_animated() ) {
                 // Arbitrary large number since for null delays
                 //   we just want to scroll thru events as fast as possible
@@ -401,11 +401,11 @@ class ExplosionProcess
         void init_event_queue();
         inline float generate_fling_angle( const tripoint from, const tripoint to );
         inline bool is_occluded( const tripoint from, const tripoint to );
-        inline void add_event( const float delay, const ExplosionEvent &event ) {
+        void add_event( const float delay, const ExplosionEvent &event ) {
             assert( delay >= 0 );
             event_queue.emplace( cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event );
         }
-        inline bool is_animated() {
+        bool is_animated() {
             return !test_mode && get_option<int>( "ANIMATION_DELAY" ) > 0;
         }
 
@@ -419,7 +419,7 @@ class ExplosionProcess
                           bool is_mob );
 
         // How long should it take for an entity to travel 1 unit of distance at `velocity`?
-        inline float one_tile_at_vel( float velocity ) {
+        float one_tile_at_vel( float velocity ) {
             assert( velocity > 0 );
             return ExplosionConstants::FLING_SLOWDOWN / velocity;
         };
@@ -681,7 +681,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         {
             Creature *critter = g->critter_at( position );
 
-            if( critter != nullptr && !mobs_blasted.count( critter ) ) {
+            if( critter != nullptr && !mobs_blasted.contains( critter ) ) {
                 const int blast_damage = blast_power * critter_blast_percentage( critter, blast_radius,
                                          rl_distance );
                 const auto shockwave_dmg = damage_instance::physical( blast_damage, 0, 0, 0.4f );
@@ -731,7 +731,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         {
             Creature *critter = g->critter_at( position );
 
-            if( critter != nullptr && !flung_set.count( critter ) ) {
+            if( critter != nullptr && !flung_set.contains( critter ) ) {
                 const int push_strength = ( blast_radius - rl_distance ) * blast_power;
                 const float move_power = ExplosionConstants::MOB_FLING_FACTOR * push_strength;
 
@@ -1279,7 +1279,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
         const tripoint pt = open.top().second;
         open.pop();
 
-        if( closed.count( pt ) != 0 ) {
+        if( closed.contains( pt ) ) {
             continue;
         }
 
@@ -1298,7 +1298,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
             tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
-            if( closed.count( dest ) != 0 || !here.inbounds( dest ) ||
+            if( closed.contains( dest ) || !here.inbounds( dest ) ||
                 here.obstructed_by_vehicle_rotation( pt, dest ) ) {
                 continue;
             }
@@ -1325,7 +1325,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
                 next_dist += zlev_dist;
             }
 
-            if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
+            if( !dist_map.contains( dest ) || dist_map[dest] > next_dist ) {
                 open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }

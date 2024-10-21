@@ -247,5 +247,41 @@
     "base_energy_cost": 350,
     "max_level": 1,
     "energy_source": "MANA"
+  },
+  {
+    "type": "SPELL",
+    "id": "debug_push_basic",
+    "name": "debug push no aoe",
+    "description": "pushes all types of objects with an aoe of 0",
+    "valid_targets": [ "ally", "self", "hostile", "ground", "item" ],
+    "effect": "directed_push",
+    "min_damage": 0,
+    "max_damage": 10,
+    "damage_increment": 1,
+    "min_range": 20,
+    "max_range": 20,
+    "max_level": 10,
+    "base_casting_time": 100,
+    "energy_source": "MANA",
+    "base_energy_cost": 100
+  },
+  {
+    "type": "SPELL",
+    "id": "debug_push_blast",
+    "name": "debug push blast",
+    "description": "pushes all types of objects with an aoe of 3 in a blast pattern",
+    "valid_targets": [ "ally", "self", "hostile", "ground", "item" ],
+    "effect": "directed_push",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "min_damage": 0,
+    "max_damage": 10,
+    "damage_increment": 1,
+    "min_range": 20,
+    "max_range": 20,
+    "max_level": 10,
+    "base_casting_time": 100,
+    "energy_source": "MANA",
+    "base_energy_cost": 100
   }
 ]

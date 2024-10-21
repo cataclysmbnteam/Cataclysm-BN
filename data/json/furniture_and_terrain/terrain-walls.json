@@ -44,6 +44,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
     }
   },
@@ -70,7 +71,8 @@
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 70, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -95,7 +97,7 @@
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 3, 6 ] }
       ],
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 50, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -130,7 +132,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 20, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 20, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -162,6 +164,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
     }
   },
@@ -194,6 +197,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
     }
   },
@@ -226,6 +230,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
     }
   },
@@ -258,6 +263,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
     }
   },
@@ -290,6 +296,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
     }
   },
@@ -321,6 +328,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
     }
   },
@@ -353,6 +361,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
     }
   },
@@ -373,8 +382,8 @@
       "sound_fail": "bash!",
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 5, 8 ] }, { "item": "brick", "count": [ 1, 3 ] } ],
-      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 60, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 120, 120 ], "destroy_threshold": 120, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -397,7 +406,7 @@
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 8, 15 ] }, { "item": "brick", "count": [ 2, 6 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 60, 120 ], "destroy_threshold": 120 }
+      "ranged": { "reduction": [ 120, 120 ], "destroy_threshold": 120 }
     }
   },
   {
@@ -420,7 +429,7 @@
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 8, 18 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 80, 160 ], "destroy_threshold": 160 }
+      "ranged": { "reduction": [ 160, 160 ], "destroy_threshold": 160 }
     }
   },
   {
@@ -441,8 +450,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 3, 8 ] } ],
-      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 160, 160 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -471,7 +480,7 @@
         { "item": "material_rocksalt", "prob": 10 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 120, 240 ], "destroy_threshold": 240 }
+      "ranged": { "reduction": [ 240, 240 ], "destroy_threshold": 240 }
     }
   },
   {
@@ -492,8 +501,8 @@
       "sound_fail": "bash!",
       "ter_set": "t_null",
       "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 1, 3 ] } ],
-      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 90, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -509,14 +518,14 @@
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
-      "str_min": 40,
+      "str_min": 45,
       "str_max": 120,
       "sound": "crash!",
       "sound_fail": "bash!",
       "ter_set": "t_null",
       "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 90 }
     }
   },
   {
@@ -539,7 +548,7 @@
       "ter_set": "t_reb_cage",
       "items": [ { "item": "rock", "count": [ 10, 22 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 70, 140 ], "destroy_threshold": 140 }
+      "ranged": { "reduction": [ 140, 140 ], "destroy_threshold": 140 }
     }
   },
   {
@@ -570,7 +579,7 @@
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ],
-      "ranged": { "reduction": [ 100, 200 ], "destroy_threshold": 600 }
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 600 }
     }
   },
   {
@@ -596,7 +605,7 @@
         { "item": "steel_chunk", "count": [ 3, 12 ] },
         { "item": "scrap", "count": [ 9, 36 ] }
       ],
-      "ranged": { "reduction": [ 100, 200 ], "destroy_threshold": 600 }
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 600 }
     }
   },
   {
@@ -619,7 +628,7 @@
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "rock", "count": [ 10, 22 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 90, 180 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 180, 180 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -640,8 +649,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "rock", "count": [ 5, 11 ] } ],
-      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 180, 180 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -664,7 +673,7 @@
       "ter_set": "t_reb_cage",
       "items": [ { "item": "rock", "count": [ 10, 22 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 120, 240 ], "destroy_threshold": 240 }
+      "ranged": { "reduction": [ 240, 240 ], "destroy_threshold": 240 }
     }
   },
   {
@@ -685,8 +694,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_reb_cage",
       "items": [ { "item": "rock", "count": [ 5, 11 ] } ],
-      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 240, 240 ], "destroy_threshold": 240, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -738,7 +747,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "steel_chunk", "count": [ 10, 22 ] } ],
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -758,7 +767,8 @@
       "sound_fail": "clang!",
       "ter_set": "t_pit_shallow",
       "items": [ { "item": "steel_chunk", "count": [ 5, 11 ] } ],
-      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 130, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 200, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -785,7 +795,7 @@
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
       ],
-      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 150 }
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 150 }
     }
   },
   {
@@ -811,7 +821,7 @@
         { "item": "nail", "charges": [ 1, 3 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
       ],
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 150 }
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150 }
     }
   },
   {
@@ -836,7 +846,7 @@
         { "item": "nail", "charges": [ 4, 10 ] },
         { "item": "splinter", "count": [ 1, 5 ] }
       ],
-      "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 110, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 4, 4 ], "destroy_threshold": 110, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -857,7 +867,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 120, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 180, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -879,7 +890,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_wall_log_chipped",
       "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
-      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -900,7 +911,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_wall_log_broken",
       "items": [ { "item": "splinter", "count": [ 5, 10 ] } ],
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 160 }
+      "ranged": { "reduction": [ 40, 40 ], "destroy_threshold": 160 }
     }
   },
   {
@@ -919,7 +930,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ],
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -939,7 +950,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "splinter", "count": [ 10, 30 ] } ],
-      "ranged": { "reduction": [ 18, 35 ], "destroy_threshold": 150 }
+      "ranged": { "reduction": [ 35, 35 ], "destroy_threshold": 150 }
     }
   },
   {
@@ -959,6 +970,7 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 0, 6 ] } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 140 }
     },
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
@@ -978,6 +990,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 2, 4 ], "destroy_threshold": 110, "block_unaimed_chance": "50%" }
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ]
@@ -998,7 +1011,8 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "splinter", "count": [ 6, 6 ] } ],
-      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 75, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 140, "block_unaimed_chance": "50%" }
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ]
   },
@@ -1020,7 +1034,9 @@
       "sound": "heavy rumbling!",
       "sound_fail": "thump",
       "ter_set": "t_mud_underground",
-      "items": [ { "item": "material_soil", "count": [ 50, 100 ] } ]
+      "items": [ { "item": "material_soil", "count": [ 50, 100 ] } ],
+      "//": "reduction equal to str_max as with sandbags",
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -1047,7 +1063,7 @@
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "steel_chunk", "count": [ 1, 30 ] }
       ],
-      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 60, 60 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -1091,7 +1107,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_floor",
       "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 40 ] } ],
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 30, 30 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -1315,7 +1331,9 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
-      "ter_set": "t_floor_paper"
+      "ter_set": "t_floor_paper",
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -1332,7 +1350,9 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
-      "ter_set": "t_floor_paper_noroof"
+      "ter_set": "t_floor_paper_noroof",
+      "//": "Go straight through without taking any damage.",
+      "ranged": { "block_unaimed_chance": "0%" }
     }
   },
   {
@@ -1352,7 +1372,9 @@
       "sound_fail": "slap!",
       "sound_vol": 20,
       "sound_fail_vol": 10,
-      "ter_set": "t_floor_paper_hard"
+      "ter_set": "t_floor_paper_hard",
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 150 }
     }
   },
   {
@@ -1373,7 +1395,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "splinter", "count": [ 2, 5 ] } ],
-      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 150 }
+      "//": "Variable reduction, maximum strength comparable to dirt walls",
+      "ranged": { "reduction": [ 100, 200 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -1394,6 +1417,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_floor_wax",
       "items": [ { "item": "wax", "count": [ 3, 5 ] } ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 150 }
     }
   },
@@ -1422,7 +1446,7 @@
         { "group": "rock_mining_extra", "prob": 25 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 100, 200 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -1448,7 +1472,7 @@
         { "item": "material_rocksalt", "prob": 10 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 100, 200 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -1474,7 +1498,7 @@
         { "item": "material_rocksalt", "prob": 10 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 100, 200 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -1500,7 +1524,7 @@
         { "item": "material_rocksalt", "prob": 10 }
       ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 100, 200 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 200, 200 ], "destroy_threshold": 200 }
     }
   },
   {
@@ -1522,7 +1546,7 @@
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 1, 3 ] }, { "item": "rebar", "count": [ 0, 2 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 40, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "75%" }
+      "ranged": { "reduction": [ 80, 80 ], "destroy_threshold": 80, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -1543,8 +1567,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_reb_cage",
       "items": [ { "item": "rock", "count": [ 5, 11 ] } ],
-      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 60, 120 ], "destroy_threshold": 120, "block_unaimed_chance": "75%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 240, 240 ], "destroy_threshold": 240, "block_unaimed_chance": "75%" }
     }
   },
   {
@@ -1565,7 +1589,7 @@
       "ter_set": "t_reb_cage",
       "items": [ { "item": "rock", "count": [ 10, 22 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 120, 240 ], "destroy_threshold": 240 }
+      "ranged": { "reduction": [ 240, 240 ], "destroy_threshold": 240 }
     }
   },
   {
@@ -1590,7 +1614,7 @@
         { "item": "steel_chunk", "count": [ 2, 6 ] },
         { "item": "scrap", "count": [ 5, 18 ] }
       ],
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 40, 40 ], "destroy_threshold": 200 }
     },
     "deconstruct": {
       "ter_set": "t_concrete",
@@ -1624,7 +1648,7 @@
         { "item": "steel_chunk", "count": [ 1, 3 ] },
         { "item": "scrap", "count": [ 2, 9 ] }
       ],
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 200 }
+      "ranged": { "reduction": [ 20, 20 ], "destroy_threshold": 200 }
     },
     "deconstruct": {
       "ter_set": "t_concrete",
@@ -1656,7 +1680,7 @@
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 8, 18 ] }, { "item": "pebble", "count": [ 20, 38 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 50, 100 ], "destroy_threshold": 100 }
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 100 }
     }
   },
   {
@@ -1677,8 +1701,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ],
-      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 30, 60 ], "destroy_threshold": 60, "block_unaimed_chance": "50%" }
+      "//": "reduction and destroy_threshold equal to completed version",
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -1700,7 +1724,7 @@
       "ter_set": "t_reb_cage",
       "items": [ { "item": "rock", "count": [ 10, 22 ] } ],
       "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
-      "ranged": { "reduction": [ 120, 240 ], "destroy_threshold": 240 }
+      "ranged": { "reduction": [ 240, 240 ], "destroy_threshold": 240 }
     }
   },
   {

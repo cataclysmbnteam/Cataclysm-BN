@@ -188,7 +188,7 @@ class effect_select_callback : public uilist_callback
             const int width = menu->w_width - start.x;
             std::stringstream ss;
             ss << string_format( "ID: %s\n", all_effects[selected].str() );
-            const auto eff_type = all_effects[static_cast<size_t>( selected )];
+            const auto eff_type = all_effects[ selected];
             ss << string_format( "[%s] <bold>Body part</bold>: %s\n",
                                  ctxt.get_desc( "CHANGE_BODY_PART" ),
                                  last_val.bodypart

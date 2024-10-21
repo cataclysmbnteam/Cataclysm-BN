@@ -1,20 +1,12 @@
-import { z } from "https://deno.land/x/catjazz@v0.0.2/mod.ts"
-import { Command } from "https://deno.land/x/catjazz@v0.0.2/deps/cliffy.ts"
-import { cliOptions } from "https://deno.land/x/catjazz@v0.0.2/utils/cli.ts"
-import { timeit } from "https://deno.land/x/catjazz@v0.0.2/utils/timeit.ts"
-import {
-  applyRecursively,
-  schemaTransformer,
-} from "https://deno.land/x/catjazz@v0.0.2/utils/transform.ts"
-import {
-  type CataEntry,
-  Entry,
-  parseCataJson,
-  readRecursively,
-} from "https://deno.land/x/catjazz@v0.0.2/utils/parse.ts"
-import { fmtJsonRecursively } from "https://deno.land/x/catjazz@v0.0.2/utils/json_fmt.ts"
-import { match, P } from "https://deno.land/x/catjazz@v0.0.2/deps/ts_pattern.ts"
-import { id } from "https://deno.land/x/catjazz@v0.0.2/utils/id.ts"
+import { Command } from "@cliffy/command"
+import { cliOptions } from "$catjazz/utils/cli.ts"
+import { timeit } from "$catjazz/utils/timeit.ts"
+import { applyRecursively, schemaTransformer } from "$catjazz/utils/transform.ts"
+import { type CataEntry, Entry, parseCataJson, readJSONsRec } from "$catjazz/utils/parse.ts"
+import { fmtJsonRecursively } from "$catjazz/utils/json_fmt.ts"
+import { match, P } from "$catjazz/deps/ts_pattern.ts"
+import { id } from "$catjazz/utils/id.ts"
+import { z } from "$catjazz/deps/zod.ts"
 
 // FIXME: include in library
 const unpack = (xs: string[] | Entry[]) =>
@@ -24,12 +16,12 @@ const unpack = (xs: string[] | Entry[]) =>
 
 const main = new Command()
   // TODO: allow multiple paths
-  .option(...cliOptions.path)
+  .option(...cliOptions.paths)
   .option(...cliOptions.format)
   .option(...cliOptions.quiet)
   .arguments("<...ids>")
   .description("Converts given id to stackable.")
-  .action(async ({ path, quiet = false, format }, ...ids) => {
+  .action(async ({ paths, quiet = false, format }, ...ids) => {
     const timeIt = timeit(quiet)
 
     const schema = z.object({
@@ -55,7 +47,7 @@ const main = new Command()
 
     const recursiveTransformer = applyRecursively(mapgenIgnoringTransformer)
 
-    const entries = await timeIt({ name: "reading JSON", val: readRecursively(path) })
+    const entries = await timeIt({ name: "reading JSON", val: readJSONsRec(paths) })
 
     await timeIt({ name: "Transforming", val: recursiveTransformer(entries) })
 

@@ -147,7 +147,7 @@
     "id": "ny_hook",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": "HOOKED_POLES",
+    "weapon_category": [ "HOOKED_POLES" ],
     "symbol": "/",
     "color": "yellow",
     "looks_like": "iceaxe",

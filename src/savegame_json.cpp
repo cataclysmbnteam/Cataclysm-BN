@@ -112,7 +112,6 @@
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
-#include "flag.h"
 
 struct mutation_branch;
 
@@ -485,18 +484,24 @@ void Character::load( const JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
-    // status
-    temp_cur.fill( 5000 );
-    data.read( "temp_cur", temp_cur );
-
-    temp_conv.fill( 5000 );
-    data.read( "temp_conv", temp_conv );
-
-    frostbite_timer.fill( 0 );
-    data.read( "frostbite_timer", frostbite_timer );
-
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
+    // @todo Remove after stable
+    {
+        std::array<int, num_bp> temp_cur_old, temp_conv_old, frostbite_timer_old;
+        if( data.read( "temp_cur", temp_cur_old ) &&
+            data.read( "temp_conv", temp_conv_old ) &&
+            data.read( "frostbite_timer", frostbite_timer_old ) ) {
+            // We can assume exactly num_bp body parts, since it's an old save
+            for( size_t bp_iter = 0; bp_iter < num_bp; bp_iter++ ) {
+                body_part bp_token = static_cast<body_part>( bp_iter );
+                auto &part = get_part( convert_bp( bp_token ) );
+                part.set_temp_cur( temp_cur_old[bp_iter] );
+                part.set_temp_conv( temp_conv_old[bp_iter] );
+                part.set_frostbite_timer( frostbite_timer_old[bp_iter] );
+            }
+        }
+    }
 
     //energy
     data.read( "stim", stim );
@@ -692,9 +697,6 @@ void Character::store( JsonOut &json ) const
     json.member( "healed_24h", healed_total );
 
     // status
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
-    json.member( "frostbite_timer", frostbite_timer );
     json.member( "body_wetness", body_wetness );
 
     // needs
@@ -1483,7 +1485,7 @@ void npc::load( const JsonObject &data )
                 NPC_MISSION_LEGACY_3
             }
         };
-        if( legacy_missions.count( mission ) > 0 ) {
+        if( legacy_missions.contains( mission ) ) {
             mission = NPC_MISSION_NULL;
         }
     }
@@ -1494,7 +1496,7 @@ void npc::load( const JsonObject &data )
                 NPC_MISSION_LEGACY_3
             }
         };
-        if( legacy_missions.count( mission ) > 0 ) {
+        if( legacy_missions.contains( mission ) ) {
             previous_mission = NPC_MISSION_NULL;
         }
     }
@@ -1516,7 +1518,7 @@ void npc::load( const JsonObject &data )
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
             }
         };
-        if( legacy_attitudes.count( attitude ) > 0 ) {
+        if( legacy_attitudes.contains( attitude ) ) {
             attitude = NPCATT_NULL;
         }
     }
@@ -1527,7 +1529,7 @@ void npc::load( const JsonObject &data )
                 NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
             }
         };
-        if( legacy_attitudes.count( attitude ) > 0 ) {
+        if( legacy_attitudes.contains( attitude ) ) {
             previous_attitude = NPCATT_NULL;
         }
     }
@@ -2104,7 +2106,7 @@ static bool migration_required( const item &i )
     if( !i.count_by_charges() ) {
         return false;
     }
-    return the_list.count( i.typeId() ) > 0;
+    return the_list.contains( i.typeId() );
 }
 
 /**
@@ -2178,8 +2180,8 @@ void item::io( Archive &archive )
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     // TODO: change default to empty string
     archive.io( "name", corpse_name, std::string() );
-    archive.io( "owner", owner, owner.NULL_ID() );
-    archive.io( "old_owner", old_owner, old_owner.NULL_ID() );
+    archive.io( "owner", owner, faction_id::NULL_ID() );
+    archive.io( "old_owner", old_owner, faction_id::NULL_ID() );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
@@ -2302,7 +2304,7 @@ void item::io( Archive &archive )
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
-        if( charge_removal_blacklist::get().count( type->get_id() ) == 0 ) {
+        if( !charge_removal_blacklist::get().contains( type->get_id() ) ) {
             debugmsg( "Item %s was loaded with charges, but can not have any!", type->get_id() );
         }
         charges = 0;

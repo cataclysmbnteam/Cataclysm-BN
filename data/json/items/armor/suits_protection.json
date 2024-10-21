@@ -98,7 +98,7 @@
     "material": [ "acidchitin", "leather" ],
     "price_postapoc": "35 USD",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1 }
+    "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
     "id": "armor_farmor",
@@ -845,7 +845,9 @@
     "type": "ARMOR",
     "name": { "str": "scaleskin armor" },
     "description": "Leg and body armor made from the hardened scales of large reptiles.",
-    "copy-from": "armor_acidchitin",
-    "material": [ "scute" ]
+    "copy-from": "armor_larmor",
+    "material": [ "scute" ],
+    "material_thickness": 5,
+    "environmental_protection": 4
   }
 ]

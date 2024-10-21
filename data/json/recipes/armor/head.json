@@ -1604,6 +1604,7 @@
     "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "scute_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 18 ] ],
+    "components": [ [ [ "scute_piece", 8 ] ], [ [ "fabric_hides_proper", 8, "LIST" ] ] ]
   }
 ]

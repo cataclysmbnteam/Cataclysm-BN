@@ -54,7 +54,7 @@
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "material": [ "acidchitin", "leather" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "material_thickness": 1 }
+    "relative": { "material_thickness": 1, "environmental_protection": 1 }
   },
   {
     "id": "armguard_hard",
@@ -310,7 +310,9 @@
     "type": "ARMOR",
     "name": { "str": "scaleskin armguards" },
     "description": "Arm guards made from the hardened scales of large reptiles.",
-    "copy-from": "armguard_acidchitin",
-    "material": [ "scute" ]
+    "copy-from": "armguard_larmor",
+    "material": [ "scute" ],
+    "material_thickness": 5,
+    "environmental_protection": 4
   }
 ]

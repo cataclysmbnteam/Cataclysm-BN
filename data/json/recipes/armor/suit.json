@@ -991,7 +991,7 @@
     "time": "1 h 40 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "scute_piece", 36 ] ], [ [ "leather", 36 ] ] ]
+    "using": [ [ "sewing_standard", 52 ] ],
+    "components": [ [ [ "scute_piece", 15 ] ], [ [ "fabric_hides_proper", 15, "LIST" ] ] ]
   }
 ]
