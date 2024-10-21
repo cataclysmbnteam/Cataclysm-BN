@@ -41,7 +41,8 @@
       "s": "f_sink",
       "t": "f_table",
       "f": "f_filing_cabinet",
-      "^": "f_indoor_plant"
+      "^": "f_indoor_plant",
+      "à": "f_surgical_laser"
     },
     "toilets": { "&": {  } }
   }
