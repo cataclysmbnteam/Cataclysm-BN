@@ -916,6 +916,7 @@ float Character::bonus_damage( bool random ) const
 void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di, bool average,
                               const item &weap, const attack_statblock &attack )
 {
+    damage_instance old_damage = attack.damage;
     float bash_dam = 0.0f;
 
     const bool unarmed = weap.is_unarmed_weapon();
@@ -1010,14 +1011,15 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
     bash_dam += weap_dam;
     bash_mul *= c.mabuff_damage_mult( DT_BASH );
 
-    float armor_mult = 1.0f;
-    int arpen = c.mabuff_arpen_bonus( DT_BASH );
+    float armor_mult = old_damage.get_armor_mult( DT_BASH );
+    int arpen = old_damage.get_armor_pen( DT_BASH );
+    arpen += c.mabuff_arpen_bonus( DT_BASH );
 
     // Finally, extra critical effects
     if( crit ) {
         bash_mul *= 1.5f;
         // 50% armor penetration
-        armor_mult = 0.5f;
+        armor_mult *= 0.5f;
     }
 
     di.add_damage( DT_BASH, bash_dam, arpen, armor_mult, bash_mul );
@@ -1026,6 +1028,7 @@ void melee::roll_bash_damage( const Character &c, bool crit, damage_instance &di
 void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di, bool average,
                              const item &weap, const attack_statblock &attack )
 {
+    damage_instance old_damage = attack.damage;
     float cut_dam = c.mabuff_damage_bonus( DT_CUT ) + weap.damage_melee( attack, DT_CUT );
     float cut_mul = 1.0f;
 
@@ -1075,8 +1078,8 @@ void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di,
         return; // No negative damage!
     }
 
-    int arpen = 0;
-    float armor_mult = 1.0f;
+    int arpen = old_damage.get_armor_pen( DT_CUT );
+    float armor_mult = old_damage.get_armor_mult( DT_CUT );
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     /** @EFFECT_CUTTING increases cutting damage multiplier */
@@ -1101,6 +1104,7 @@ void melee::roll_cut_damage( const Character &c, bool crit, damage_instance &di,
 void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di, bool /*average*/,
                               const item &weap, const attack_statblock &attack )
 {
+    damage_instance old_damage = attack.damage;
     float stab_dam = c.mabuff_damage_bonus( DT_STAB ) + weap.damage_melee( attack, DT_STAB );
 
     int unarmed_skill = c.get_skill_level( skill_unarmed );
@@ -1151,15 +1155,17 @@ void melee::roll_stab_damage( const Character &c, bool crit, damage_instance &di
     } else {
         stab_mul = 0.86 + 0.06 * stabbing_skill;
     }
-    int arpen = c.mabuff_arpen_bonus( DT_STAB );
     stab_mul *= c.mabuff_damage_mult( DT_STAB );
-    float armor_mult = 1.0f;
+
+    float armor_mult = old_damage.get_armor_mult( DT_STAB );
+    int arpen = old_damage.get_armor_pen( DT_STAB );
+    arpen += c.mabuff_arpen_bonus( DT_STAB );
 
     if( crit ) {
         // Critical damage bonus for stabbing scales with skill
         stab_mul *= 1.0 + ( stabbing_skill / 10.0 );
         // Stab criticals have extra %arpen
-        armor_mult = 0.66f;
+        armor_mult *= 0.66f;
     }
 
     di.add_damage( DT_STAB, stab_dam, arpen, armor_mult, stab_mul );

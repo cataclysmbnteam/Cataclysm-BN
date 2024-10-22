@@ -119,6 +119,28 @@ void damage_instance::add( const damage_unit &new_du )
     }
 }
 
+const float damage_instance::get_armor_pen( damage_type dt )
+{
+    float ret = 0;
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret = elem.res_pen;
+        }
+    }
+    return ret;
+}
+
+const float damage_instance::get_armor_mult( damage_type dt )
+{
+    float ret = 1;
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret = elem.res_mult;
+        }
+    }
+    return ret;
+}
+
 std::vector<damage_unit>::iterator damage_instance::begin()
 {
     return damage_units.begin();
