@@ -2650,13 +2650,13 @@
     "color": "light_gray",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT"],
-     "deconstruct": {
-        "items": [
-          { "item": "cable", "charges": 2 },
-          { "item": "power_supply", "count": 1 },
-          { "item": "light_bulb", "count": 1 },
-          { "item": "steel_lump", "count": 1 }
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": 2 },
+        { "item": "power_supply", "count": 1 },
+        { "item": "light_bulb", "count": 1 },
+        { "item": "steel_lump", "count": 1 }
       ]
     },
     "bash": {
@@ -2665,7 +2665,7 @@
       "sound": "glass breaking!",
       "sound_fail": "clink!",
       "items": [
-        { "item": "glass_shard", "count": [ 1, 2] },
+        { "item": "glass_shard", "count": [ 1, 2 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "scrap", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "charges": [ 0, 1 ] }
@@ -2674,9 +2674,9 @@
   },
   {
     "type": "furniture",
-    "id":  "f_olight_off",
+    "id": "f_olight_off",
     "symbol": ".",
-    "color":  "light_gray",
+    "color": "light_gray",
     "copy-from": "f_olight_base",
     "name": "overhead light (off)",
     "description": "A working overhead light installed on the ceiling, this one is turned off.",
@@ -2687,9 +2687,9 @@
   },
   {
     "type": "furniture",
-    "id":  "f_olight_on",
+    "id": "f_olight_on",
     "symbol": ".",
-    "color":  "white",
+    "color": "white",
     "copy-from": "f_olight_base",
     "name": "overhead light (on)",
     "description": "A working overhead light installed on the ceiling, this one is turned on.",
@@ -2709,9 +2709,9 @@
   },
   {
     "type": "furniture",
-    "id":  "f_olight_nopower",
+    "id": "f_olight_nopower",
     "symbol": ".",
-    "color":  "light_gray",
+    "color": "light_gray",
     "copy-from": "f_olight_base",
     "name": "overhead light (no power)",
     "description": "A working overhead light installed on the ceiling, this one is turned on but it has no power.",

@@ -5273,15 +5273,15 @@
   },
   {
     "type": "construction",
-    "id":  "constr_f_olight",
+    "id": "constr_f_olight",
     "group": "build_furniture_olight",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 1] , [ "electronics", 0]],
+    "required_skills": [ [ "fabrication", 1 ], [ "electronics", 0 ] ],
     "time": "5 m",
     "tools": [ [ [ "stepladder", -1 ] ] ],
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ] ], 
-    "pre_flags": [ "INDOORS"],
+    "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ] ],
+    "pre_flags": [ "INDOORS" ],
     "post_furniture": "f_olight_off"
   }
 ]
