@@ -5281,7 +5281,7 @@
     "tools": [ [ [ "stepladder", -1 ] ] ],
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ] ], 
-    "pre_terrain":  "t_floor",
+    "pre_flags": [ "INDOORS"],
     "post_furniture": "f_olight_off"
   }
 ]

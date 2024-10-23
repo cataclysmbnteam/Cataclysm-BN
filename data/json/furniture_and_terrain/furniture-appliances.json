@@ -2681,7 +2681,7 @@
     "name": "overhead light (off)",
     "description": "A working overhead light installed on the ceiling, this one is turned off.",
     "examine_action": "transform",
-    "transforms_into": "f_olight_on",
+    "transforms_into": "f_olight_nopower",
     "prompt": "Turn on the overhead ligth.",
     "message": "You turned on the overhead ligth."
   },
