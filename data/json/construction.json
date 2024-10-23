@@ -5278,9 +5278,10 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1] , [ "electronics", 0]],
     "time": "5 m",
+    "tools": [ [ [ "stepladder", -1 ] ] ],
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ] ], 
     "pre_terrain":  "t_floor",
-    "post_furniture": "f_olight"
+    "post_furniture": "f_olight_base"
   }
 ]
