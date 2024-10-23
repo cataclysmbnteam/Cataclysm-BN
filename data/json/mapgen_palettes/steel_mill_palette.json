@@ -71,7 +71,8 @@
       "f": "f_fridge",
       "D": "f_vending_c",
       "V": "f_vending_c",
-      "7": "f_filing_cabinet"
+      "7": "f_filing_cabinet",
+      "L": "f_laser_cutter"
     },
     "items": {
       "~": { "item": "steel_mill_storage", "chance": 50 },

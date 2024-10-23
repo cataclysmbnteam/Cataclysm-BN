@@ -437,8 +437,9 @@
     "symbol": "7",
     "visibility": 2,
     "avoidance": 20,
-    "difficulty": 99,
+    "difficulty": 2,
     "action": "dissector",
+    "drops": [ "broken_dissector" ],
     "vehicle_data": { "damage": 500, "sound_volume": 10, "sound": "BRZZZAP!", "sound_type": "trap", "sound_variant": "dissector" }
   },
   {

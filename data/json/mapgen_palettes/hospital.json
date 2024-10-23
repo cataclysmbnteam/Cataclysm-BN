@@ -46,7 +46,8 @@
       "8": "t_floor",
       "9": "t_floor",
       "A": "t_floor",
-      "?": "t_floor"
+      "?": "t_floor",
+      "à": "t_floor"
     },
     "furniture": {
       "[": "f_street_light",
@@ -73,7 +74,8 @@
       "9": "f_table",
       "&": "f_toilet",
       "A": "f_autodoc",
-      "?": "f_autodoc_couch"
+      "?": "f_autodoc_couch",
+      "à": "f_surgical_laser"
     },
     "toilets": { "&": {  } }
   }
