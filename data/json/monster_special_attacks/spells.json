@@ -221,7 +221,7 @@
     "id": "small_raptor_spawn",
     "name": { "str": "Spawn Raptors" },
     "description": "Summons several zombiespawn raptors.",
-    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT" ],
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_VFX", "SILENT" ],
     "valid_targets": [ "ground", "hostile" ],
     "min_damage": 3,
     "max_damage": 4,
