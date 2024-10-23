@@ -44,7 +44,9 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "HIT_AND_RUN",
+      "FLIES"
     ],
     "//": "In the future, it would be nice if these guys could be resistant to fall damage."
   },
@@ -98,7 +100,9 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "HIT_AND_RUN",
+      "FLIES"
     ]
   },
   {
