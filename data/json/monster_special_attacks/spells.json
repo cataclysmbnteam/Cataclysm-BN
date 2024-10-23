@@ -273,7 +273,7 @@
     "id": "spawning_zombie_die",
     "name": { "str": "Spawning Zombie Die" },
     "description": "For zombies that are spawning something and die in the process.",
-    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
+    "flags": [ "NO_EXPLOSION_VFX", "SILENT" ],
     "min_damage": 250,
     "max_damage": 250,
     "damage_type": "cut",
