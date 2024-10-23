@@ -826,10 +826,10 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "raging_bull", "ammo-group": "on_hand_454_mixed", "charges": [ 0, 5 ] },
-      { "item": "454_speedloader5", "ammo-group": "on_hand_454_mixed", "prob": 50 },
-      { "item": "454_speedloader5", "ammo-group": "on_hand_454_mixed", "prob": 25 },
-      { "group": "on_hand_454_mixed" }
+      { "item": "raging_bull", "ammo-group": "on_hand_454_or_45colt", "charges": [ 0, 5 ] },
+      { "item": "454_speedloader5", "ammo-group": "on_hand_454_or_45colt", "prob": 50 },
+      { "item": "454_speedloader5", "ammo-group": "on_hand_454_or_45colt", "prob": 25 },
+      { "group": "on_hand_454_or_45colt" }
     ]
   },
   {

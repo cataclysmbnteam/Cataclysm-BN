@@ -379,6 +379,27 @@ std::string enum_to_string<character_movemode>( character_movemode data )
 
 } // namespace io
 
+static void temp_equalizer( Character &c, const bodypart_str_id &bp1_id,
+                            const bodypart_str_id &bp2_id )
+{
+    auto iter_lhs = c.get_body().find( bp1_id );
+    if( iter_lhs == c.get_body().end() ) {
+        // @todo Rewrite this to handle exotic body types
+        return;
+    }
+    auto iter_rhs = c.get_body().find( bp2_id );
+    if( iter_rhs == c.get_body().end() ) {
+        return;
+    }
+    // Body heat is moved around.
+    // If bp1 is warmer, it will lose heat
+    bodypart &bp1 = iter_lhs->second;
+    bodypart &bp2 = iter_rhs->second;
+    int diff = static_cast<int>( ( bp2.get_temp_cur() - bp1.get_temp_cur() ) * 0.001 );
+    bp1.set_temp_cur( bp1.get_temp_cur() + diff );
+    bp2.set_temp_cur( bp2.get_temp_cur() - diff );
+}
+
 Character &get_player_character()
 {
     return g->u;
@@ -435,9 +456,11 @@ Character::Character() :
 
     move_mode = CMM_WALK;
     next_expected_position = std::nullopt;
-    temp_cur.fill( BODYTEMP_NORM );
-    frostbite_timer.fill( 0 );
-    temp_conv.fill( BODYTEMP_NORM );
+    for(auto &pr : get_body()) {
+        pr.second.set_temp_cur(BODYTEMP_NORM);
+        pr.second.set_temp_conv(BODYTEMP_NORM);
+        pr.second.set_frostbite_timer(0);
+    }
 
     body_wetness.fill( 0 );
 
@@ -457,9 +480,7 @@ Character::Character() :
 }
 // *INDENT-ON*
 
-Character::Character( Character &&source )  noexcept : Creature( std::move( source ) ),
-    worn( new worn_item_location( this ) ),
-    inv( new character_item_location( this ) )
+void Character::move_operator_common( Character &&source ) noexcept
 {
 
     death_drops = source.death_drops ;
@@ -476,6 +497,7 @@ Character::Character( Character &&source )  noexcept : Creature( std::move( sour
     per_cur = source.per_cur ;
     blocks_left = source.blocks_left ;
     dodges_left = source.dodges_left ;
+
     recoil = source.recoil ;
 
     prof = source.prof ;
@@ -604,7 +626,6 @@ Character::Character( Character &&source )  noexcept : Creature( std::move( sour
 
     overmap_time = std::move( source.overmap_time );
 
-    temp_conv = source.temp_conv ;
     body_wetness = source.body_wetness ;
     drench_capacity = source.drench_capacity ;
 
@@ -613,159 +634,17 @@ Character::Character( Character &&source )  noexcept : Creature( std::move( sour
 
 }
 
+Character::Character( Character &&source )  noexcept : Creature( std::move( source ) ),
+    worn( new worn_item_location( this ) ),
+    inv( new character_item_location( this ) )
+{
+    move_operator_common( std::move( source ) );
+}
+
 Character &Character::operator=( Character &&source )
 noexcept
 {
-
-    death_drops = source.death_drops ;
-    controlling_vehicle = source.controlling_vehicle ;
-
-    str_max = source.str_max ;
-    dex_max = source.dex_max ;
-    int_max = source.int_max ;
-    per_max = source.per_max ;
-
-    str_cur = source.str_cur ;
-    dex_cur = source.dex_cur ;
-    int_cur = source.int_cur ;
-    per_cur = source.per_cur ;
-    blocks_left = source.blocks_left ;
-    dodges_left = source.dodges_left ;
-
-    recoil = source.recoil ;
-
-    prof = source.prof ;
-    custom_profession = std::move( source.custom_profession );
-
-    reach_attacking = source.reach_attacking ;
-
-    mut_drench = source.mut_drench ;
-    magic = std::move( source.magic );
-
-    name = std::move( source.name );
-    male = source.male ;
-
-    worn = std::move( source.worn );
-    damage_disinfected = source.damage_disinfected ;
-    in_vehicle = source.in_vehicle ;
-    hauling = source.hauling ;
-
-    stashed_outbounds_activity = std::move( source.stashed_outbounds_activity );
-    stashed_outbounds_backlog = std::move( source.stashed_outbounds_backlog );
-    activity = std::move( source.activity );
-    backlog = std::move( source.backlog );
-    destination_point = source.destination_point ;
-    last_item = source.last_item ;
-
-    scent = source.scent ;
-    my_bionics = std::move( source.my_bionics );
-    martial_arts_data = std::move( source.martial_arts_data );
-
-    stomach = std::move( source.stomach );
-    consumption_history = std::move( source.consumption_history );
-
-    oxygen = source.oxygen ;
-    tank_plut = source.tank_plut ;
-    reactor_plut = source.reactor_plut ;
-    slow_rad = source.slow_rad ;
-
-    focus_pool = source.focus_pool ;
-    cash = source.cash ;
-    follower_ids = std::move( source.follower_ids );
-    ammo_location = std::move( source.ammo_location );
-    cached_time = source.cached_time ;
-
-    addictions = std::move( source.addictions );
-
-    mounted_creature = std::move( source.mounted_creature );
-    mounted_creature_id = source.mounted_creature_id ;
-    activity_vehicle_part_index = source.activity_vehicle_part_index ;
-    inv = std::move( source.inv );
-    omt_path = std::move( source.omt_path );
-
-    position = source.position ;
-
-    str_bonus = source.str_bonus ;
-    dex_bonus = source.dex_bonus ;
-    per_bonus = source.per_bonus ;
-    int_bonus = source.int_bonus ;
-
-    healthy = source.healthy ;
-    healthy_mod = source.healthy_mod ;
-
-    init_age = source.init_age ;
-    init_height = source.init_height ;
-    size_class = source.size_class ;
-
-    known_traps = std::move( source.known_traps );
-    encumbrance_cache = std::move( source.encumbrance_cache );
-    my_mutations = std::move( source.my_mutations );
-    last_sleep_check = source.last_sleep_check ;
-    bio_soporific_powered_at_last_sleep_check = source.bio_soporific_powered_at_last_sleep_check ;
-    my_traits = std::move( source.my_traits );
-    cached_mutations = std::move( source.cached_mutations );
-    _skills = std::move( source._skills );
-    autolearn_skills_stamp = std::move( source.autolearn_skills_stamp );
-    learned_recipes = std::move( source.learned_recipes );
-
-    vision_mode_cache = source.vision_mode_cache ;
-    nv_range = source.nv_range ;
-    sight_max = source.sight_max ;
-
-    time_died = source.time_died ;
-    path_settings = std::move( source.path_settings );
-
-    faction_api_version = source.faction_api_version ;
-    fac_id = source.fac_id ;
-    my_fac = source.my_fac ;
-
-    move_mode = source.move_mode ;
-    vitamin_levels = std::move( source.vitamin_levels );
-
-    morale = std::move( source.morale );
-
-    destination_activity = std::move( source.destination_activity );
-    id = source.id ;
-
-    power_level = source.power_level ;
-    max_power_level = source.max_power_level ;
-    stored_calories = source.stored_calories ;
-
-    thirst = source.thirst ;
-    stamina = source.stamina ;
-
-    fatigue = source.fatigue ;
-    sleep_deprivation = source.sleep_deprivation ;
-    check_encumbrance = source.check_encumbrance ;
-
-    stim = source.stim ;
-    pkill = source.pkill ;
-
-    radiation = source.radiation ;
-
-    auto_move_route = std::move( source.auto_move_route );
-    next_expected_position = source.next_expected_position ;
-    type_of_scent = source.type_of_scent ;
-
-    melee_miss_reasons = std::move( source.melee_miss_reasons );
-
-    cached_moves = source.cached_moves ;
-    cached_position = source.cached_position ;
-    cached_crafting_inventory = std::move( source.cached_crafting_inventory );
-
-    npc_ai_info_cache = source.npc_ai_info_cache ;
-
-
-    enchantment_cache = std::move( source.enchantment_cache );
-
-    overmap_time = std::move( source.overmap_time );
-
-    temp_conv = source.temp_conv ;
-    body_wetness = source.body_wetness ;
-    drench_capacity = source.drench_capacity ;
-
-    next_climate_control_check = source.next_climate_control_check ;
-    last_climate_control_ret = source.last_climate_control_ret ;
+    move_operator_common( std::move( source ) );
 
     Creature::operator=( std::move( source ) );
     return *this;
@@ -5722,8 +5601,10 @@ HURRICANE : 185 mph (880 hPa) [Ref: Hurricane Wilma]
 void Character::update_bodytemp( const map &m, const weather_manager &weather )
 {
     if( has_trait( trait_DEBUG_NOTEMP ) ) {
-        temp_cur.fill( BODYTEMP_NORM );
-        temp_conv.fill( BODYTEMP_NORM );
+        for( auto &pr : get_body() ) {
+            pr.second.set_temp_cur( BODYTEMP_NORM );
+            pr.second.set_temp_conv( BODYTEMP_NORM );
+        }
         return;
     }
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
@@ -5785,29 +5666,31 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
 
     std::map<bodypart_id, std::vector<const item *>> clothing_map;
     std::map<bodypart_id, std::vector<const item *>> bonus_clothing_map;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        clothing_map.emplace( bp, std::vector<const item *>() );
-        bonus_clothing_map.emplace( bp, std::vector<const item *>() );
+    for( auto &pr : get_body() ) {
+        const bodypart_id &bp_id = pr.first;
+        clothing_map.emplace( bp_id, std::vector<const item *>() );
+        bonus_clothing_map.emplace( bp_id, std::vector<const item *>() );
         // HACK: we're using temp_conv here to temporarily save
         //       temperature values from before equalization.
-        temp_conv[bp->token] = temp_cur[bp->token];
+        bodypart &bp = pr.second;
+        bp.set_temp_conv( bp.get_temp_cur() );
     }
 
     // EQUALIZATION
     // We run it outside the loop because we can and so we should
     // Also, it makes bonus heat application more stable
     // TODO: Affect future convection temperature instead (might require adding back to loop)
-    temp_equalizer( body_part_torso, body_part_arm_l );
-    temp_equalizer( body_part_torso, body_part_arm_r );
-    temp_equalizer( body_part_torso, body_part_leg_l );
-    temp_equalizer( body_part_torso, body_part_leg_r );
-    temp_equalizer( body_part_torso, body_part_head );
+    temp_equalizer( *this, body_part_torso, body_part_arm_l );
+    temp_equalizer( *this, body_part_torso, body_part_arm_r );
+    temp_equalizer( *this, body_part_torso, body_part_leg_l );
+    temp_equalizer( *this, body_part_torso, body_part_leg_r );
+    temp_equalizer( *this, body_part_torso, body_part_head );
 
-    temp_equalizer( body_part_arm_l, body_part_hand_l );
-    temp_equalizer( body_part_arm_r, body_part_hand_r );
+    temp_equalizer( *this, body_part_arm_l, body_part_hand_l );
+    temp_equalizer( *this, body_part_arm_r, body_part_hand_r );
 
-    temp_equalizer( body_part_leg_l, body_part_foot_l );
-    temp_equalizer( body_part_leg_r, body_part_foot_r );
+    temp_equalizer( *this, body_part_leg_l, body_part_foot_l );
+    temp_equalizer( *this, body_part_leg_r, body_part_foot_r );
 
     for( const item * const &it : worn ) {
         // TODO: Port body part set id changes
@@ -5868,11 +5751,14 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     std::map<bodypart_id, int> fire_armor_per_bp;
 
     // Current temperature and converging temperature calculations
-    for( const bodypart_id &bp : get_all_body_parts() ) {
+    for( auto &pr : get_body() ) {
+        const bodypart_id &bp = pr.first;
         // Skip eyes
         if( bp == bodypart_id( "eyes" ) ) {
             continue;
         }
+
+        bodypart &bp_stats = pr.second;
 
         const bool submerged_bp = submerged ||
                                   ( submerged_low &&
@@ -5887,7 +5773,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
 
         // Represents the fact that the body generates heat when it is cold.
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
-                                    temp_cur[bp->token] );
+                                    bp_stats.get_temp_cur() );
         // Produces a smooth curve between 30.0 and 60.0.
         double homeostasis_adjustment = 30.0 * ( 1.0 + scaled_temperature );
         int clothing_warmth_adjustment = static_cast<int>( homeostasis_adjustment * warmth_per_bp[bp] );
@@ -5914,8 +5800,8 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         // If the counter is high, your skin starts to burn
         int blister_count = ( has_bark ? -5 : 0 );
 
-        if( frostbite_timer[bp->token] > 0 ) {
-            frostbite_timer[bp->token] -= std::min( 5, h_radiation );
+        if( bp_stats.get_frostbite_timer() > 0 ) {
+            bp_stats.set_frostbite_timer( bp_stats.get_frostbite_timer() - std::min( 5, h_radiation ) );
         }
         blister_count += h_radiation - 111 > 0 ?
                          std::max( static_cast<int>( std::sqrt( h_radiation - 111 ) ), 0 ) : 0;
@@ -5954,7 +5840,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         if( bonus_warmth > 0 ) {
             // Approximate bp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
-            int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[bp->token];
+            int desired = 501 * BODYTEMP_NORM - 499 * bp_stats.get_temp_cur();
             if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
             } else if( desired > BODYTEMP_HOT ) {
@@ -5979,7 +5865,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
                 ( 1_minutes * bp->token ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold ) == 0 &&
                 get_effect_int( effect_hot ) == 0 &&
-                temp_cur[bp->token] > BODYTEMP_COLD && temp_cur[bp->token] <= BODYTEMP_NORM ) {
+                bp_stats.get_temp_cur() > BODYTEMP_COLD && bp_stats.get_temp_cur() <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
             }
         }
@@ -5991,7 +5877,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         }
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.
-        int temp_before = temp_cur[bp->token];
+        int temp_before = bp_stats.get_temp_cur();
         int temp_difference = temp_before - bp_conv; // Negative if the player is warming up.
         int rounding_error = 0;
         // If temp_diff is small, the player cannot warm up due to rounding errors. This fixes that.
@@ -6003,38 +5889,38 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         static const double change_mult_air = std::exp( -0.002 );
         static const double change_mult_water = std::exp( -0.008 );
         const double change_mult = submerged_bp ? change_mult_water : change_mult_air;
-        if( temp_cur[bp->token] != bp_conv ) {
-            temp_cur[bp->token] = static_cast<int>( temp_difference * change_mult )
-                                  + bp_conv + rounding_error;
+        if( bp_stats.get_temp_cur() != bp_conv ) {
+            bp_stats.set_temp_cur( static_cast<int>( temp_difference * change_mult )
+                                   + bp_conv + rounding_error );
         }
-        int temp_after = temp_cur[bp->token];
+        int temp_after = bp_stats.get_temp_cur();
         // PENALTIES
-        if( temp_cur[bp->token] < BODYTEMP_FREEZING ) {
+        if( bp_stats.get_temp_cur() < BODYTEMP_FREEZING ) {
             add_effect( effect_cold, 1_turns, bp.id(), 3 );
-        } else if( temp_cur[bp->token] < BODYTEMP_VERY_COLD ) {
+        } else if( bp_stats.get_temp_cur() < BODYTEMP_VERY_COLD ) {
             add_effect( effect_cold, 1_turns, bp.id(), 2 );
-        } else if( temp_cur[bp->token] < BODYTEMP_COLD ) {
+        } else if( bp_stats.get_temp_cur() < BODYTEMP_COLD ) {
             add_effect( effect_cold, 1_turns, bp.id(), 1 );
-        } else if( temp_cur[bp->token] > BODYTEMP_SCORCHING ) {
+        } else if( bp_stats.get_temp_cur() > BODYTEMP_SCORCHING ) {
             add_effect( effect_hot, 1_turns, bp.id(), 3 );
             if( bp->main_part.id() == bp ) {
                 add_effect( effect_hot_speed, 1_turns, bp.id(), 3 );
             }
-        } else if( temp_cur[bp->token] > BODYTEMP_VERY_HOT ) {
+        } else if( bp_stats.get_temp_cur() > BODYTEMP_VERY_HOT ) {
             add_effect( effect_hot, 1_turns, bp.id(), 2 );
             if( bp->main_part.id() == bp ) {
                 add_effect( effect_hot_speed, 1_turns, bp.id(), 2 );
             }
-        } else if( temp_cur[bp->token] > BODYTEMP_HOT ) {
+        } else if( bp_stats.get_temp_cur() > BODYTEMP_HOT ) {
             add_effect( effect_hot, 1_turns, bp.id(), 1 );
             if( bp->main_part.id() == bp ) {
                 add_effect( effect_hot_speed, 1_turns, bp.id(), 1 );
             }
         } else {
-            if( temp_cur[bp->token] >= BODYTEMP_COLD ) {
+            if( bp_stats.get_temp_cur() >= BODYTEMP_COLD ) {
                 remove_effect( effect_cold, bp.id() );
             }
-            if( temp_cur[bp->token] <= BODYTEMP_HOT ) {
+            if( bp_stats.get_temp_cur() <= BODYTEMP_HOT ) {
                 remove_effect( effect_hot, bp.id() );
                 remove_effect( effect_hot_speed, bp.id() );
             }
@@ -6085,64 +5971,64 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
 
             // This has been broken down into 8 zones
             // Low risk zones (stops at frostnip)
-            if( temp_cur[bp->token] < BODYTEMP_COLD &&
+            if( bp_stats.get_temp_cur() < BODYTEMP_COLD &&
                 ( ( Ftemperature < 30 && Ftemperature >= 10 ) ||
                   ( Ftemperature < 10 && Ftemperature >= -5 &&
                     FBwindPower < 20 && -4 * Ftemperature + 3 * FBwindPower - 20 >= 0 ) ) ) {
-                if( frostbite_timer[bp->token] < 2000 ) {
-                    frostbite_timer[bp->token] += 3;
+                if( bp_stats.get_frostbite_timer() < 2000 ) {
+                    bp_stats.set_frostbite_timer( bp_stats.get_frostbite_timer() + 3 );
                 }
                 if( one_in( 100 ) && !has_effect( effect_frostbite, bp.id() ) ) {
                     add_msg( m_warning, _( "Your %s will be frostnipped in the next few hours." ),
                              body_part_name( bp->token ) );
                 }
                 // Medium risk zones
-            } else if( temp_cur[bp->token] < BODYTEMP_COLD &&
+            } else if( bp_stats.get_temp_cur() < BODYTEMP_COLD &&
                        ( ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
                            -4 * Ftemperature + 3 * FBwindPower - 20 < 0 ) ||
                          ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20 ) ||
                          ( Ftemperature < -5 && FBwindPower < 10 ) ||
                          ( Ftemperature < -5 && FBwindPower >= 10 &&
                            -4 * Ftemperature + 3 * FBwindPower - 170 >= 0 ) ) ) {
-                frostbite_timer[bp->token] += 8;
+                bp_stats.set_frostbite_timer( bp_stats.get_frostbite_timer() + 8 );
                 if( one_in( 100 ) && intense < 2 ) {
                     add_msg( m_warning, _( "Your %s will be frostbitten within the hour!" ),
                              body_part_name( bp->token ) );
                 }
                 // High risk zones
-            } else if( temp_cur[bp->token] < BODYTEMP_COLD &&
+            } else if( bp_stats.get_temp_cur() < BODYTEMP_COLD &&
                        ( ( Ftemperature < -5 && FBwindPower >= 10 &&
                            -4 * Ftemperature + 3 * FBwindPower - 170 < 0 ) ||
                          ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
-                frostbite_timer[bp->token] += 72;
+                bp_stats.set_frostbite_timer( bp_stats.get_frostbite_timer() + 72 );
                 if( one_in( 100 ) && intense < 2 ) {
                     add_msg( m_warning, _( "Your %s will be frostbitten any minute now!" ),
                              body_part_name( bp->token ) );
                 }
                 // Risk free, so reduce frostbite timer
             } else {
-                frostbite_timer[bp->token] -= 3;
+                bp_stats.set_frostbite_timer( bp_stats.get_frostbite_timer() - 3 );
             }
 
             // Handle the bestowing of frostbite
-            if( frostbite_timer[bp->token] < 0 ) {
-                frostbite_timer[bp->token] = 0;
-            } else if( frostbite_timer[bp->token] > 4200 ) {
+            if( bp_stats.get_frostbite_timer() < 0 ) {
+                bp_stats.set_frostbite_timer( 0 );
+            } else if( bp_stats.get_frostbite_timer() > 4200 ) {
                 // This ensures that the player will recover in at most 3 hours.
-                frostbite_timer[bp->token] = 4200;
+                bp_stats.set_frostbite_timer( 4200 );
             }
             // Frostbite, no recovery possible
-            if( frostbite_timer[bp->token] >= 3600 ) {
+            if( bp_stats.get_frostbite_timer() >= 3600 ) {
                 add_effect( effect_frostbite, 1_turns, bp.id(), 2 );
                 remove_effect( effect_frostbite_recovery, bp.id() );
                 // Else frostnip, add recovery if we were frostbitten
-            } else if( frostbite_timer[bp->token] >= 1800 ) {
+            } else if( bp_stats.get_frostbite_timer() >= 1800 ) {
                 if( intense == 2 ) {
                     add_effect( effect_frostbite_recovery, 1_turns, bp.id() );
                 }
                 add_effect( effect_frostbite, 1_turns, bp.id(), 1 );
                 // Else fully recovered
-            } else if( frostbite_timer[bp->token] == 0 ) {
+            } else if( bp_stats.get_frostbite_timer() == 0 ) {
                 remove_effect( effect_frostbite, bp.id() );
                 remove_effect( effect_frostbite_recovery, bp.id() );
             }
@@ -6150,7 +6036,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         // Warn the player if condition worsens
         // HACK: we want overall temperature change, including equalization, and temp_conv
         //       at this moment contains temperature values from before the equalization.
-        temp_before = temp_conv[bp->token];
+        temp_before = bp_stats.get_temp_conv();
         if( temp_before > BODYTEMP_FREEZING && temp_after <= BODYTEMP_FREEZING ) {
             //~ %s is bodypart
             add_msg( m_warning, _( "You feel your %s beginning to go numb from the cold!" ),
@@ -6183,7 +6069,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() ) {
-            int curr_temperature = temp_cur[bp->token];
+            int curr_temperature = bp_stats.get_temp_cur();
             if( bp == body_part_torso && curr_temperature <= BODYTEMP_COLD ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
@@ -6210,17 +6096,8 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
 
         // Set temp_conv just once per bp for readability
         // TODO: Remove temp_conv, it's only really for display, so should not be in Character
-        temp_conv[bp->token] = bp_conv;
+        bp_stats.set_temp_conv( bp_conv );
     }
-}
-
-void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
-{
-    // Body heat is moved around.
-    // If bp1 is warmer, it will lose heat
-    int diff = static_cast<int>( ( temp_cur[bp2->token] - temp_cur[bp1->token] ) * 0.001 );
-    temp_cur[bp1->token] += diff;
-    temp_cur[bp2->token] -= diff;
 }
 
 int Character::blood_loss( const bodypart_id &bp ) const
@@ -7763,6 +7640,12 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return consume_charges( *actually_used, charges_used );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         used->detach();
+        return true;
+    } else if( used->count_by_charges() ) {
+        used->charges -= charges_used;
+        if( used->charges <= 0 ) {
+            used->detach();
+        }
         return true;
     }
 
@@ -11060,29 +10943,6 @@ bool Character::sees( const Creature &critter ) const
     }
 
     return Creature::sees( critter );
-}
-
-nc_color Character::bodytemp_color( int bp ) const
-{
-    nc_color color = c_light_gray; // default
-    if( bp == bp_eyes ) {
-        color = c_light_gray;    // Eyes don't count towards warmth
-    } else if( temp_conv[bp]  > BODYTEMP_SCORCHING ) {
-        color = c_red;
-    } else if( temp_conv[bp]  > BODYTEMP_VERY_HOT ) {
-        color = c_light_red;
-    } else if( temp_conv[bp]  > BODYTEMP_HOT ) {
-        color = c_yellow;
-    } else if( temp_conv[bp]  > BODYTEMP_COLD ) {
-        color = c_green;
-    } else if( temp_conv[bp]  > BODYTEMP_VERY_COLD ) {
-        color = c_light_blue;
-    } else if( temp_conv[bp]  > BODYTEMP_FREEZING ) {
-        color = c_cyan;
-    } else if( temp_conv[bp] <= BODYTEMP_FREEZING ) {
-        color = c_blue;
-    }
-    return color;
 }
 
 void Character::set_destination( const std::vector<tripoint> &route )

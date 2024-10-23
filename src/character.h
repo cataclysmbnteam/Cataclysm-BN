@@ -237,6 +237,11 @@ class Character : public Creature, public location_visitable<Character>
         Character &operator=( Character && ) noexcept;
         ~Character() override;
 
+        // Move ctor and move operator= common stuff
+        // Avoids huge copypaste, without having to use operator= in ctor
+        // (operator= in ctor is different behavior from copypaste)
+        void move_operator_common( Character && ) noexcept;
+
         Character *as_character() override {
             return this;
         }
@@ -468,9 +473,6 @@ class Character : public Creature, public location_visitable<Character>
         bool is_hibernating() const;
         /** Maintains body temperature */
         void update_bodytemp( const map &m, const weather_manager &weather );
-
-        /** Equalizes heat between body parts */
-        void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
 
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
@@ -2157,9 +2159,6 @@ class Character : public Creature, public location_visitable<Character>
         /** Called when character triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
-        /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( int bp ) const;
-
         // see Creature::sees
         bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
@@ -2358,7 +2357,6 @@ class Character : public Creature, public location_visitable<Character>
 
     public:
         // TODO: make these private
-        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         std::array<int, num_bp> body_wetness;
         std::array<int, num_bp> drench_capacity;
 
@@ -2400,6 +2398,9 @@ std::map<bodypart_id, int> from_effects( const Character &c );
 /** Returns wind resistance provided by armor, etc **/
 std::map<bodypart_id, int> wind_resistance_from_clothing(
     const std::map<bodypart_id, std::vector<const item *>> &clothing_map );
+
+/** Define color for displaying the body temperature */
+nc_color bodytemp_color( const Character &c, const bodypart_str_id &bp );
 } // namespace warmth
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
