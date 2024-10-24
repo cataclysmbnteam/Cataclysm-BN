@@ -774,7 +774,7 @@
     "calories": 43,
     "description": "Blood that's obviously unhealthy.  You could drink it, but it will poison you.",
     "price": "0 cent",
-    "material": "hflesh",
+    "material": "flesh",
     "volume": "250 ml",
     "phase": "liquid",
     "fun": -50,
