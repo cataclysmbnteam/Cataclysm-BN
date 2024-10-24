@@ -119,6 +119,48 @@ void damage_instance::add( const damage_unit &new_du )
     }
 }
 
+float damage_instance::get_armor_pen( damage_type dt ) const
+{
+    float ret = 0;
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret = elem.res_pen;
+        }
+    }
+    return ret;
+}
+
+float damage_instance::get_armor_mult( damage_type dt ) const
+{
+    float ret = 1;
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret = elem.res_mult;
+        }
+    }
+    return ret;
+}
+
+damage_unit damage_instance::get_damage_unit( damage_type dt ) const
+{
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            return elem;
+        }
+    }
+    return damage_unit( dt, 0 );
+}
+
+bool damage_instance::has_armor_piercing() const
+{
+    for( const auto &elem : damage_units ) {
+        if( elem.res_pen != 0.0 || elem.res_mult != 1.0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 std::vector<damage_unit>::iterator damage_instance::begin()
 {
     return damage_units.begin();
