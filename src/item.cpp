@@ -3484,6 +3484,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         bool /*debug*/ ) const
 {
     const std::string space = "  ";
+    const std::string newline = "\n";
 
     bool print_attacks = false;
 
@@ -3543,29 +3544,52 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         for( const auto &attack_pr : type->attacks ) {
             const auto &attack = attack_pr.second;
 
-            int dmg_bash = damage_melee( attack, DT_BASH );
-            int dmg_cut  = damage_melee( attack, DT_CUT );
-            int dmg_stab = damage_melee( attack, DT_STAB );
+            // get the whole damage_unit for armour penetration values
+            const damage_unit dmg_bash = attack.damage.get_damage_unit( DT_BASH );
+            const damage_unit dmg_cut = attack.damage.get_damage_unit( DT_CUT );
+            const damage_unit dmg_stab = attack.damage.get_damage_unit( DT_STAB );
             // @todo Other types
 
             if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
                 insert_separation_line( info );
                 std::string sep;
-                if( dmg_bash ) {
-                    info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash );
-                    sep = space;
+                // if we have any armour penetration numbers, just put every damage type on its own line
+                bool line_by_line = attack.damage.has_armor_piercing();
+
+                if( dmg_bash.amount != 0.0 ) {
+                    info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash.amount );
+                    if( dmg_bash.res_pen != 0.0 || dmg_bash.res_mult != 1.0 ) {
+                        info.emplace_back( "BASE", _( " ( AP: " ), "", iteminfo::no_newline, dmg_bash.res_pen );
+                        info.emplace_back( "BASE", _( "  A%: " ), "",
+                                           iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, dmg_bash.res_mult );
+                        info.emplace_back( "BASE", _( " )" ), "", iteminfo::no_newline );
+                    }
+                    sep = line_by_line ? newline : space;
                 }
-                if( dmg_cut ) {
-                    info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut );
-                    sep = space;
+                if( dmg_cut.amount != 0.0 ) {
+                    info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut.amount );
+                    if( dmg_cut.res_pen != 0.0 || dmg_cut.res_mult != 1.0 ) {
+                        info.emplace_back( "BASE", _( " ( AP: " ), "", iteminfo::no_newline, dmg_cut.res_pen );
+                        info.emplace_back( "BASE", _( "  A%: " ), "",
+                                           iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, dmg_cut.res_mult );
+                        info.emplace_back( "BASE", _( " )" ), "", iteminfo::no_newline );
+                    }
+                    sep = line_by_line ? newline : space;
                 }
-                if( dmg_stab ) {
-                    info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab );
+                if( dmg_stab.amount != 0.0 ) {
+                    info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab.amount );
+                    if( dmg_stab.res_pen != 0.0 || dmg_stab.res_mult != 1.0 ) {
+                        info.emplace_back( "BASE", _( " ( AP: " ), "", iteminfo::no_newline, dmg_stab.res_pen );
+                        info.emplace_back( "BASE", _( "  A%: " ), "",
+                                           iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, dmg_stab.res_mult );
+                        info.emplace_back( "BASE", _( " )" ), "", iteminfo::no_newline );
+                    }
                 }
+                info.emplace_back( "BASE", sep, "", iteminfo::no_newline );
             }
 
             if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
-                info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
+                info.emplace_back( "BASE", _( "To-hit bonus: " ), "",
                                    iteminfo::show_plus, attack.to_hit );
             }
 
