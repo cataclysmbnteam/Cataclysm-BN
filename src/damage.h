@@ -89,12 +89,21 @@ struct damage_instance {
      * Return the armour penetration value for a particular damage type
      * If the damage_instance has no such damage, return default value of 0
      */
-    const float get_armor_pen( damage_type dt );
+    float get_armor_pen( damage_type dt ) const;
     /**
      * Return the armour multiplier value for a particular damage type
      * If the damage_instance has no such damage, return default value of 1
      */
-    const float get_armor_mult( damage_type dt );
+    float get_armor_mult( damage_type dt ) const;
+    /**
+     * Return the damage_unit of a given damage_type
+     * If there isn't one, return a new damage_unit with zero damage
+     */
+    damage_unit get_damage_unit( damage_type dt ) const;
+    /**
+     * @return true if at least one damage_unit in this damage_instance has armour penetration or multiplier different from the default
+     */
+    bool has_armor_piercing() const;
 
     void deserialize( JsonIn & );
 };
