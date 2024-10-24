@@ -3493,7 +3493,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         int dmg_bash = damage_melee( DT_BASH );
         int dmg_cut  = damage_melee( DT_CUT );
         int dmg_stab = damage_melee( DT_STAB );
-        if( dmg_bash || dmg_cut || dmg_stab || attack.to_hit > 0 ) {
+        if( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) {
             print_attacks = true;
         }
 
@@ -3519,7 +3519,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( dmg_bash || dmg_cut || dmg_stab ) {
             if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
                 info.emplace_back( "BASE", space + _( "To-hit bonus: " ), "",
-                                   iteminfo::show_plus, attack.to_hit );
+                                   iteminfo::show_plus, type->m_to_hit );
             }
 
             if( parts->test( iteminfo_parts::BASE_MOVES ) ) {
