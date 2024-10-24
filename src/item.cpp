@@ -3488,7 +3488,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     bool print_attacks = false;
 
     // Old behavior - default to it for now
-    if( type->attacks.size() == 1 ) {
+    if( type->attacks.contains( "DEFAULT" ) ) {
         const auto &attack = melee::default_attack( *this );
         int dmg_bash = damage_melee( DT_BASH );
         int dmg_cut  = damage_melee( DT_CUT );
