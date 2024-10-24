@@ -79,20 +79,20 @@
     "entries": [
       { "item": "seed_veggy_wild", "prob": 10, "charges": [ 1, 2 ] },
       { "item": "withered", "prob": 25, "count": [ 4, 6 ] },
-      { "item": "veggy_wild", "count": [ 1, 2 ] }
+      { "item": "veggy_wild", "count": [ 1, 4 ] }
     ]
   },
   {
     "id": "forage_mushroom",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "mushroom_culture", "prob": 10 }, { "item": "mushroom", "charges": [ 1, 3 ] } ]
+    "entries": [ { "item": "mushroom_culture", "prob": 10 }, { "item": "mushroom", "charges": [ 1, 5 ] } ]
   },
   {
     "id": "forage_mushroom_morel",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "mushroom_morel_culture", "prob": 10 }, { "item": "mushroom_morel", "charges": [ 1, 3 ] } ]
+    "entries": [ { "item": "mushroom_morel_culture", "prob": 10 }, { "item": "mushroom_morel", "charges": [ 1, 5 ] } ]
   },
   {
     "id": "forage_rhubarb",
