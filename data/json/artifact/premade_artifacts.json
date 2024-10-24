@@ -27,7 +27,7 @@
       {
         "id": "STAB",
         "to_hit": 1,
-        "damage": { "values": [ { "damage_type": "bash", "amount": 2 }, { "damage_type": "stab", "amount": 10 } ] }
+        "damage": { "values": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 8 } ] }
       }
     ],
     "material": "gemstone",
@@ -58,7 +58,7 @@
         "to_hit": 1,
         "damage": {
           "values": [
-            { "damage_type": "bash", "amount": 2 },
+            { "damage_type": "bash", "amount": 1 },
             { "damage_type": "stab", "amount": 10, "armor_penetration": 1, "armor_multiplier": 0.2 }
           ]
         }
