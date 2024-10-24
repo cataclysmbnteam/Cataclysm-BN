@@ -2678,12 +2678,12 @@
     "symbol": ".",
     "color": "light_gray",
     "copy-from": "f_olight_base",
-    "name": "overhead light (off)",
-    "description": "A working overhead light installed on the ceiling, this one is turned off.",
+    "name": "ceiling lamp (off)",
+    "description": "A working lamp installed on the ceiling, this one is turned off.",
     "examine_action": "transform",
     "transforms_into": "f_olight_nopower",
-    "prompt": "Turn on the overhead ligth.",
-    "message": "You turned on the overhead ligth."
+    "prompt": "Switch on the ceiling lamp.",
+    "message": "You switched on the ceiling lamp."
   },
   {
     "type": "furniture",
@@ -2691,19 +2691,19 @@
     "symbol": ".",
     "color": "white",
     "copy-from": "f_olight_base",
-    "name": "overhead light (on)",
-    "description": "A working overhead light installed on the ceiling, this one is turned on.",
+    "name": "ceiling lamp (on)",
+    "description": "A working lamp installed on the ceiling, this one is turned on.",
     "examine_action": "transform",
     "transforms_into": "f_olight_off",
-    "prompt": "Turn off the overhead ligth.",
-    "message": "You turned off the overhead ligth.",
+    "prompt": "Switch off the ceiling lamp.",
+    "message": "You switched off the ceiling lamp.",
     "light_emitted": 120,
     "active": [
       "steady_consumer",
       {
         "power": 3,
         "consume_every": "300 s",
-        "transform": { "id": "f_olight_nopower", "msg": "The overhead light flickers and dies." }
+        "transform": { "id": "f_olight_nopower", "msg": "The ceiling lamp flickers and dies." }
       }
     ]
   },
@@ -2713,12 +2713,12 @@
     "symbol": ".",
     "color": "light_gray",
     "copy-from": "f_olight_base",
-    "name": "overhead light (no power)",
-    "description": "A working overhead light installed on the ceiling, this one is turned on but it has no power.",
+    "name": "ceiling lamp (no power)",
+    "description": "A working lamp installed on the ceiling, this one is turned on but it has no power.",
     "examine_action": "transform",
     "transforms_into": "f_olight_off",
-    "prompt": "Turn off the overhead ligth.",
-    "message": "You turned off the overhead ligth.",
-    "active": [ "charge_watcher", { "min_power": 5, "transform": { "id": "f_olight_on", "msg": "The overhead light turns on." } } ]
+    "prompt": "Switch off the ceiling lamp.",
+    "message": "You switched off the ceiling lamp.",
+    "active": [ "charge_watcher", { "min_power": 5, "transform": { "id": "f_olight_on", "msg": "The ceiling lamp turns on." } } ]
   }
 ]
