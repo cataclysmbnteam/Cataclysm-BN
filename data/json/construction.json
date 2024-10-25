@@ -5284,5 +5284,18 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_flags": [ "INDOORS" ],
     "post_furniture": "f_olight_off"
+  },
+  {
+    "type": "construction",
+    "id": "constr_f_ligth_switch",
+    "group": "build_ligth_switch",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ], [ "electronics", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "cable", 2 ] ], [ [ "plastic_chunk", 5 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_flags": [ "WALL" ],
+    "post_furniture": "f_light_switch"
   }
 ]

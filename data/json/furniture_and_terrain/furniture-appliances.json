@@ -2720,5 +2720,17 @@
     "prompt": "Switch off the ceiling lamp.",
     "message": "You switched off the ceiling lamp.",
     "active": [ "charge_watcher", { "min_power": 5, "transform": { "id": "f_olight_on", "msg": "The ceiling lamp turns on." } } ]
+  },
+  {
+    "type": "furniture",
+    "id":  "f_light_switch",
+    "name":  "ligth switch",
+    "//":  "Needs to change the texture",
+    "looks_like":  "t_gates_control_metal",
+    "symbol": "/",
+    "color":  "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "description":  "A light switch connected to your electrical grid."
   }
 ]
