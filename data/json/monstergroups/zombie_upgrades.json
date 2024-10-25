@@ -96,7 +96,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_CRAWLER_UPGRADE",
-    "default": "mon_zombie_crawler",
+    "default": "mon_zombie_crawler_pupa",
     "//": "crawling zombie upgrades",
     "monsters": [
       { "monster": "mon_zombie_crawler_pupa", "freq": 500, "cost_multiplier": 2 },
@@ -106,7 +106,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_RAPTOR_UPGRADES",
-    "default": "mon_spawn_raptor",
+    "default": "mon_spawn_raptor_unstable",
     "//": "Raptor upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_spawn_raptor_shady", "freq": 330, "cost_multiplier": 10 },
@@ -117,7 +117,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_SHADY_UPGRADES",
-    "default": "mon_zombie_shady",
+    "default": "mon_zombie_brute_ninja",
     "//": "Shady upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_zombie_brute_ninja", "freq": 500, "cost_multiplier": 10 },
