@@ -364,6 +364,8 @@
     "default": "mon_zombie_gasbag",
     "monsters": [
       { "monster": "mon_zombie_gasbag", "freq": 20, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_pupa_decoy", "freq": 60, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_pupa", "freq": 120, "cost_multiplier": 0 },
       { "monster": "mon_boomer", "freq": 480, "cost_multiplier": 2 }
     ]
   },
