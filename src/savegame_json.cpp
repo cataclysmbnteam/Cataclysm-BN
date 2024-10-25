@@ -484,8 +484,6 @@ void Character::load( const JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
-    body_wetness.fill( 0 );
-    data.read( "body_wetness", body_wetness );
     // @todo Remove after stable
     {
         std::array<int, num_bp> temp_cur_old, temp_conv_old, frostbite_timer_old;
@@ -695,9 +693,6 @@ void Character::store( JsonOut &json ) const
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
     json.member( "healed_24h", healed_total );
-
-    // status
-    json.member( "body_wetness", body_wetness );
 
     // needs
     json.member( "thirst", thirst );
