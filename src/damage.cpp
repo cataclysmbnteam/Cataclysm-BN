@@ -25,6 +25,36 @@ bool damage_unit::operator==( const damage_unit &other ) const
            damage_multiplier == other.damage_multiplier;
 }
 
+const std::string damage_unit::get_name() const
+{
+    switch( type ) {
+        case DT_NULL:
+            return "Null";
+        case DT_TRUE:
+            return "True";
+        case DT_BIOLOGICAL:
+            return "Biological";
+        case DT_BASH:
+            return "Bash";
+        case DT_CUT:
+            return "Cut";
+        case DT_ACID:
+            return "Acid";
+        case DT_STAB:
+            return "Pierce";
+        case DT_HEAT:
+            return "Heat";
+        case DT_COLD:
+            return "Cold";
+        case DT_ELECTRIC:
+            return "Electric";
+        case DT_BULLET:
+            return "Ballistic";
+        case NUM_DT:
+            return std::to_string( NUM_DT );
+    }
+}
+
 damage_instance::damage_instance() = default;
 damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
 {

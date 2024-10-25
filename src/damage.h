@@ -50,6 +50,9 @@ struct damage_unit {
         type( dt ), amount( amt ), res_pen( arpen ), res_mult( armor_mult ), damage_multiplier( dmg_mult ) { }
 
     bool operator==( const damage_unit &other ) const;
+
+    /** Return damage_type as a human-readable string */
+    const std::string get_name() const;
 };
 
 // a single atomic unit of damage from an attack. Can include multiple types

@@ -3492,7 +3492,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( type->attacks.contains( "DEFAULT" ) ) {
         const auto &attack = melee::default_attack( *this );
         int dmg_bash = damage_melee( DT_BASH );
-        int dmg_cut  = damage_melee( DT_CUT );
+        int dmg_cut = damage_melee( DT_CUT );
         int dmg_stab = damage_melee( DT_STAB );
         if( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) {
             print_attacks = true;
@@ -3544,48 +3544,17 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         for( const auto &attack_pr : type->attacks ) {
             const auto &attack = attack_pr.second;
 
-            // get the whole damage_unit for armour penetration values
-            const damage_unit dmg_bash = attack.damage.get_damage_unit( DT_BASH );
-            const damage_unit dmg_cut = attack.damage.get_damage_unit( DT_CUT );
-            const damage_unit dmg_stab = attack.damage.get_damage_unit( DT_STAB );
-            // @todo Other types
-
             if( parts->test( iteminfo_parts::BASE_DAMAGE ) ) {
                 insert_separation_line( info );
-                std::string sep;
-                // if we have any armour penetration numbers, just put every damage type on its own line
+                info.emplace_back( "BASE", _( "<bold>Melee damage</bold>:" ), "", iteminfo::no_newline );
+                // if we have any armour penetration numbers, put every damage type on its own line
                 bool line_by_line = attack.damage.has_armor_piercing();
-
-                if( dmg_bash.amount != 0.0 ) {
-                    info.emplace_back( "BASE", _( "Bash: " ), "", iteminfo::no_newline, dmg_bash.amount );
-                    if( dmg_bash.res_pen != 0.0 || dmg_bash.res_mult != 1.0 ) {
-                        info.emplace_back( "BASE", _( " ( AP: " ), "", iteminfo::no_newline, dmg_bash.res_pen );
-                        info.emplace_back( "BASE", _( "  A%: " ), "",
-                                           iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, dmg_bash.res_mult );
-                        info.emplace_back( "BASE", _( " )" ), "", iteminfo::no_newline );
-                    }
-                    sep = line_by_line ? newline : space;
+                if( line_by_line ) {
+                    info.emplace_back( "BASE", newline, "", iteminfo::no_newline );
+                } else {
+                    info.emplace_back( "BASE", space, "", iteminfo::no_newline );
                 }
-                if( dmg_cut.amount != 0.0 ) {
-                    info.emplace_back( "BASE", sep + _( "Cut: " ), "", iteminfo::no_newline, dmg_cut.amount );
-                    if( dmg_cut.res_pen != 0.0 || dmg_cut.res_mult != 1.0 ) {
-                        info.emplace_back( "BASE", _( " ( AP: " ), "", iteminfo::no_newline, dmg_cut.res_pen );
-                        info.emplace_back( "BASE", _( "  A%: " ), "",
-                                           iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, dmg_cut.res_mult );
-                        info.emplace_back( "BASE", _( " )" ), "", iteminfo::no_newline );
-                    }
-                    sep = line_by_line ? newline : space;
-                }
-                if( dmg_stab.amount != 0.0 ) {
-                    info.emplace_back( "BASE", sep + _( "Pierce: " ), "", iteminfo::no_newline, dmg_stab.amount );
-                    if( dmg_stab.res_pen != 0.0 || dmg_stab.res_mult != 1.0 ) {
-                        info.emplace_back( "BASE", _( " ( AP: " ), "", iteminfo::no_newline, dmg_stab.res_pen );
-                        info.emplace_back( "BASE", _( "  A%: " ), "",
-                                           iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, dmg_stab.res_mult );
-                        info.emplace_back( "BASE", _( " )" ), "", iteminfo::no_newline );
-                    }
-                }
-                info.emplace_back( "BASE", sep, "", iteminfo::no_newline );
+                damage_statblock_info( info, attack.damage, line_by_line );
             }
 
             if( parts->test( iteminfo_parts::BASE_TOHIT ) ) {
@@ -3707,7 +3676,33 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         insert_separation_line( info );
     }
+}
 
+// TODO: Copy the fancy conditional formatting from ranged damage info and use this function for printing that as well
+void item::damage_statblock_info( std::vector<iteminfo> &info, damage_instance attack,
+                                  bool line_by_line ) const
+{
+    const std::string space = "  ";
+    const std::string newline = "\n";
+    std::string sep;
+
+    /* TODO: All damage types can be defined for an attack, and will be displayed in the item description.
+             However, non-physical types will be ignored by the melee damage roll, so they don't actually do any damage.
+       TODO: damage_instance isn't ordered, so the damage types will be displayed in whatever order they were defined.
+             This will probably be fine, but it might be a good idea to sort the damage_units. */
+    for( const auto damage : attack ) {
+        if( damage.amount != 0.0 ) {
+            info.emplace_back( "BASE", sep + damage.get_name() + _( ": " ), "", iteminfo::no_newline,
+                               damage.amount );
+            if( damage.res_pen != 0.0 || damage.res_mult != 1.0 ) {
+                info.emplace_back( "BASE", _( "  Armor-pierce: " ), "", iteminfo::no_newline, damage.res_pen );
+                info.emplace_back( "BASE", _( "/" ), "",
+                                   iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, damage.res_mult );
+            }
+            sep = line_by_line ? newline : space;
+        }
+    }
+    info.emplace_back( "BASE", sep, "", iteminfo::no_newline );
 }
 
 void item::contents_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
