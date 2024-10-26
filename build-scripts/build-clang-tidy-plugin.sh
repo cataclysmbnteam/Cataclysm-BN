@@ -21,6 +21,7 @@ cmake \
   -DCMAKE_CXX_COMPILER=/usr/bin/clang++ \
   -DLLVM_ROOT=$(llvm-config --prefix) \
   -DLLVM_DIR=$(llvm-config --cmakedir) \
+  -DCMAKE_PREFIX_PATH=$(llvm-config --prefix) \
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
   -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
   -DTILES="$TILES" \
