@@ -171,16 +171,6 @@ float damage_instance::get_armor_mult( damage_type dt ) const
     return ret;
 }
 
-damage_unit damage_instance::get_damage_unit( damage_type dt ) const
-{
-    for( const auto &elem : damage_units ) {
-        if( elem.type == dt ) {
-            return elem;
-        }
-    }
-    return damage_unit( dt, 0 );
-}
-
 bool damage_instance::has_armor_piercing() const
 {
     for( const auto &elem : damage_units ) {
