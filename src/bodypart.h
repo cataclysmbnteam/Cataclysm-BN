@@ -130,6 +130,8 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
+        int drench_capacity = 0;
+
         //Morale parameters
         float hot_morale_mod = 0;
         float cold_morale_mod = 0;
@@ -171,6 +173,13 @@ class wield_status
         location_ptr<item, false> wielded;
 };
 
+enum class water_tolerance : int {
+    WT_IGNORED = 0,
+    WT_NEUTRAL,
+    WT_GOOD,
+    NUM_WATER_TOLERANCE
+};
+
 class bodypart
 {
     private:
@@ -188,6 +197,10 @@ class bodypart
         int temp_cur = 5000;
         int temp_conv = 5000;
         int frostbite_timer = 0;
+
+        int wetness = 0;
+        // Just a cache, don't save/load
+        std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )> mut_drench;
 
     public:
         // TODO: private
@@ -247,6 +260,29 @@ class bodypart
         }
         void set_frostbite_timer( int set ) {
             frostbite_timer = set;
+        }
+
+        int get_wetness() const {
+            return wetness;
+        }
+
+        void set_wetness( int set ) {
+            wetness = set;
+        }
+
+        int get_drench_capacity() const {
+            return id->drench_capacity;
+        }
+
+
+        std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )> get_mut_drench()
+        const {
+            return mut_drench;
+        }
+
+        void set_mut_drench( std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )>
+                             set ) {
+            mut_drench = set;
         }
 
         void serialize( JsonOut &json ) const;

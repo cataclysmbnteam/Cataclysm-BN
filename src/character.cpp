@@ -462,20 +462,6 @@ Character::Character() :
         pr.second.set_frostbite_timer(0);
     }
 
-    body_wetness.fill( 0 );
-
-    drench_capacity[bp_eyes] = 1;
-    drench_capacity[bp_mouth] = 1;
-    drench_capacity[bp_head] = 7;
-    drench_capacity[bp_leg_l] = 11;
-    drench_capacity[bp_leg_r] = 11;
-    drench_capacity[bp_foot_l] = 3;
-    drench_capacity[bp_foot_r] = 3;
-    drench_capacity[bp_arm_l] = 10;
-    drench_capacity[bp_arm_r] = 10;
-    drench_capacity[bp_hand_l] = 3;
-    drench_capacity[bp_hand_r] = 3;
-    drench_capacity[bp_torso] = 40;
     npc_ai_info_cache.fill(-1.0);
 }
 // *INDENT-ON*
@@ -505,7 +491,6 @@ void Character::move_operator_common( Character &&source ) noexcept
 
     reach_attacking = source.reach_attacking ;
 
-    mut_drench = source.mut_drench ;
     magic = std::move( source.magic );
 
     name = std::move( source.name );
@@ -625,9 +610,6 @@ void Character::move_operator_common( Character &&source ) noexcept
     enchantment_cache = std::move( source.enchantment_cache );
 
     overmap_time = std::move( source.overmap_time );
-
-    body_wetness = source.body_wetness ;
-    drench_capacity = source.drench_capacity ;
 
     next_climate_control_check = source.next_climate_control_check ;
     last_climate_control_ret = source.last_climate_control_ret ;
@@ -5957,7 +5939,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
             bp == body_part_foot_l || bp == body_part_hand_r || bp == body_part_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[bp->token] / drench_capacity[bp->token]; // 0 - 100
+            int wetness_percentage = 100 * bp_stats.get_wetness() / bp_stats.get_drench_capacity(); // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             double adjusted_warmth = warmth_per_bp.at( bp ) - wetness_percentage;
@@ -8210,14 +8192,14 @@ void Character::set_highest_cat_level()
 
 void Character::drench_mut_calc()
 {
-    for( const body_part bp : all_body_parts ) {
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int ignored = 0;
         int neutral = 0;
         int good = 0;
 
         for( const trait_id &iter : get_mutations() ) {
             const mutation_branch &mdata = iter.obj();
-            const auto wp_iter = mdata.protection.find( bp );
+            const auto wp_iter = mdata.protection.find( elem.first->token );
             if( wp_iter != mdata.protection.end() ) {
                 ignored += wp_iter->second.x;
                 neutral += wp_iter->second.y;
@@ -8225,9 +8207,11 @@ void Character::drench_mut_calc()
             }
         }
 
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
+        std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )> mut_drench;
+        mut_drench[static_cast<size_t>( water_tolerance::WT_GOOD )] = good;
+        mut_drench[static_cast<size_t>( water_tolerance::WT_NEUTRAL )] = neutral;
+        mut_drench[static_cast<size_t>( water_tolerance::WT_IGNORED )] = ignored;
+        elem.second.set_mut_drench( mut_drench );
     }
 }
 
@@ -9825,8 +9809,11 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
         &clothing_map ) const
 {
     std::map<bodypart_id, int> ret;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        ret.emplace( bp, 0 );
+    std::map<bodypart_id, float> wetness_map;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        ret.emplace( elem.first.id(), 0 );
+        wetness_map.emplace( elem.first.id(),
+                             static_cast<float>( elem.second.get_wetness() ) / elem.second.get_drench_capacity() );
     }
 
     for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
@@ -9839,7 +9826,7 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
             []( float best, const material_id & mat ) {
                 return std::max( best, mat->warmth_when_wet() );
             } );
-            float wet_mult = 1.0f - max_wet_resistance * body_wetness[bp->token] / drench_capacity[bp->token];
+            float wet_mult = 1.0f - max_wet_resistance * wetness_map[bp];
             ret[bp] += warmth * wet_mult;
         }
         ret[bp] += get_effect_int( effect_heating_bionic, bp.id() );

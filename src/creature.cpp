@@ -1815,7 +1815,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
         all_bps.emplace_back( elem.first );
     }
 
-    return  all_bps;
+    return all_bps;
 }
 
 int Creature::get_hp( const bodypart_id &bp ) const

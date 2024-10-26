@@ -805,13 +805,6 @@ class Character : public Creature, public location_visitable<Character>
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        // Drench cache
-        enum water_tolerance {
-            WT_IGNORED = 0,
-            WT_NEUTRAL,
-            WT_GOOD,
-            NUM_WATER_TOLERANCE
-        };
         int posx() const override {
             return position.x;
         }
@@ -874,8 +867,6 @@ class Character : public Creature, public location_visitable<Character>
          * If new_item is not null, then calculate under the asumption that it
          * is added to existing work items. */
         void item_encumb( char_encumbrance_data &vals, const item &new_item ) const;
-
-        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
@@ -2356,10 +2347,6 @@ class Character : public Creature, public location_visitable<Character>
         std::unordered_map<point_abs_omt, time_duration> overmap_time;
 
     public:
-        // TODO: make these private
-        std::array<int, num_bp> body_wetness;
-        std::array<int, num_bp> drench_capacity;
-
         time_point next_climate_control_check;
         bool last_climate_control_ret = false;
 

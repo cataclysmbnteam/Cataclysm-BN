@@ -971,24 +971,15 @@ void update_body_wetness( Character &who, const w_point &weather )
     // To make drying uniform, make just one roll and reuse it
     const int drying_roll = rng( 1, 80 );
 
-    const auto get_temp_conv = [&]( body_part bp ) {
-        auto iter = who.get_body().find( convert_bp( bp ) );
-        if( iter == who.get_body().end() ) {
-            return BODYTEMP_NORM;
-        }
-
-        return iter->second.get_temp_conv();
-    };
-
-    for( const body_part bp : all_body_parts ) {
-        if( who.body_wetness[bp] == 0 ) {
+    for( std::pair<const bodypart_str_id, bodypart> &pr : who.get_body() ) {
+        if( pr.second.get_wetness() == 0 ) {
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = who.drench_capacity[bp];
+        int drying_chance = pr.second.get_drench_capacity();
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        int temp_conv = get_temp_conv( bp );
+        int temp_conv = pr.second.get_temp_conv();
         if( temp_conv >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
         } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
@@ -1008,10 +999,7 @@ void update_body_wetness( Character &who, const w_point &weather )
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            who.body_wetness[bp] -= 1;
-            if( who.body_wetness[bp] < 0 ) {
-                who.body_wetness[bp] = 0;
-            }
+            pr.second.set_wetness( std::max( 0, pr.second.get_wetness() - 1 ) );
         }
     }
     // TODO: Make clothing slow down drying

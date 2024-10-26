@@ -339,9 +339,9 @@ bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Cha
             return get_map().get_radiation( carrier.pos() ) > 0 || carrier.get_rad() > 0;
         }
         case relic_recharge_req::wet: {
-            bool has_wet = std::any_of( carrier.body_wetness.begin(), carrier.body_wetness.end(),
-            []( const int w ) {
-                return w != 0;
+            bool has_wet = std::any_of( carrier.get_body().begin(), carrier.get_body().end(),
+            []( const std::pair<const bodypart_str_id, bodypart> &elem ) {
+                return elem.second.get_wetness() != 0;
             } );
             if( has_wet ) {
                 return true;

@@ -410,10 +410,9 @@ void weather_effect::wet_player( int amount )
         return;
     }
 
-    const auto &wet = g->u.body_wetness;
-    const auto &capacity = g->u.drench_capacity;
+    const bodypart &torso = target.get_part( body_part_torso );
     body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
-    if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
+    if( torso.get_wetness() * 100 >= torso.get_drench_capacity() * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
         drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
     }

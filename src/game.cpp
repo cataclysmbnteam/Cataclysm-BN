@@ -11691,9 +11691,9 @@ bool check_art_charge_req( item &it )
             reqsmet = ( ( here.get_radiation( p.pos() ) > 0 ) || ( p.get_rad() > 0 ) );
             break;
         case( ACR_WET ):
-            reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
-            []( const int w ) {
-                return w != 0;
+            reqsmet = std::any_of( p.get_body().begin(), p.get_body().end(),
+            []( const std::pair<const bodypart_str_id, bodypart> &elem ) {
+                return elem.second.get_wetness() != 0;
             } );
             if( !reqsmet && sum_conditions( calendar::turn - 1_turns, calendar::turn, p.pos() ).rain_amount > 0
                 && !( p.in_vehicle && here.veh_at( p.pos() )->is_inside() ) ) {
