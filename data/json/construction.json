@@ -5270,5 +5270,19 @@
     "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
     "pre_furniture": "f_alien_scar_small",
     "post_furniture": "f_concrete_lump"
+  },
+  {
+    "type": "construction",
+    "id": "constr_f_olight",
+    "group": "build_furniture_olight",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 1 ], [ "electronics", 0 ] ],
+    "time": "5 m",
+    "tools": [ [ [ "stepladder", -1 ] ] ],
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "light_bulb", 1 ] ], [ [ "steel_lump", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_flags": [ "INDOORS" ],
+    "post_furniture": "f_olight_off"
   }
 ]
