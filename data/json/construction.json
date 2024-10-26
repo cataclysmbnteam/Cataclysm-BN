@@ -5275,7 +5275,7 @@
     "type": "construction",
     "id": "constr_f_olight",
     "group": "build_furniture_olight",
-    "category": "FURN",
+    "category": "WORKSHOP",
     "required_skills": [ [ "fabrication", 1 ], [ "electronics", 0 ] ],
     "time": "5 m",
     "tools": [ [ [ "stepladder", -1 ] ] ],
