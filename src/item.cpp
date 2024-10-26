@@ -3678,7 +3678,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 }
 
-// TODO: Copy the fancy conditional formatting from ranged damage info and use this function for printing that as well
+// TODO: Deduplicated with ammo_info()
 void item::damage_statblock_info( std::vector<iteminfo> &info, damage_instance attack,
                                   bool line_by_line ) const
 {
@@ -3694,10 +3694,19 @@ void item::damage_statblock_info( std::vector<iteminfo> &info, damage_instance a
         if( damage.amount != 0.0 ) {
             info.emplace_back( "BASE", sep + damage.get_name() + _( ": " ), "", iteminfo::no_newline,
                                damage.amount );
-            if( damage.res_pen != 0.0 || damage.res_mult != 1.0 ) {
+
+            if( damage.res_pen != 0.0 && damage.res_mult != 1.0 ) {
+                // Both flat AP and an armor multiplier
                 info.emplace_back( "BASE", _( "  Armor-pierce: " ), "", iteminfo::no_newline, damage.res_pen );
                 info.emplace_back( "BASE", _( "/" ), "",
                                    iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, damage.res_mult );
+            } else if( damage.res_mult != 1.0 ) {
+                // Only armor multiplier
+                info.emplace_back( "BASE", _( "  Armor multiplier: " ), "",
+                                   iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, damage.res_mult );
+            } else if( damage.res_pen != 0.0 ) {
+                // Only flat AP
+                info.emplace_back( "BASE", _( "Armor-pierce: " ), "", iteminfo::no_newline, damage.res_pen );
             }
             sep = line_by_line ? newline : space;
         }
