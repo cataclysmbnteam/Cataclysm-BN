@@ -13,5 +13,63 @@
     "relic_data": {
       "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "ench_effects": [ { "effect": "debug_clairvoyance", "intensity": 1 } ] } ]
     }
+  },
+  {
+    "id": "chaos_dagger",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "KNIVES" ],
+    "name": "chaos dagger",
+    "description": "A small but surprisingly heavy knife seemingly made of crystalline bismuth, iridescent rectangular patterns twisting into a fractal towards the blade's edge.",
+    "weight": "1500 g",
+    "volume": "300 ml",
+    "attacks": [
+      {
+        "id": "STAB",
+        "to_hit": 1,
+        "damage": { "values": [ { "damage_type": "bash", "amount": 3 }, { "damage_type": "stab", "amount": 8 } ] }
+      }
+    ],
+    "material": "gemstone",
+    "symbol": ";",
+    "color": "magenta",
+    "techniques": [ "RAPID" ],
+    "qualities": [ [ "BUTCHER", 5 ] ],
+    "use_action": {
+      "target": "chaos_dagger_on",
+      "msg": "The chaos dagger starts shifting, the crystals moving about in a scintillating rainbow.",
+      "menu_text": "Turn on",
+      "type": "transform"
+    },
+    "flags": [ "STAB", "TRADER_AVOID" ]
+  },
+  {
+    "id": "chaos_dagger_on",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "KNIVES" ],
+    "name": { "str": "chaos dagger (shifting)", "str_pl": "chaos daggers (shifting)" },
+    "description": "A small but surprisingly heavy knife seemingly made of crystalline bismuth, iridescent rectangular patterns twisting into a fractal towards the blade's edge.  The crystals are shifting as you look at them, rapidly growing, melding together and reforming.",
+    "weight": "1500 g",
+    "volume": "300 ml",
+    "attacks": [
+      {
+        "id": "STAB",
+        "to_hit": 1,
+        "damage": {
+          "values": [
+            { "damage_type": "bash", "amount": 1 },
+            { "damage_type": "stab", "amount": 10, "armor_penetration": 1, "armor_multiplier": 0.2 }
+          ]
+        }
+      }
+    ],
+    "material": "gemstone",
+    "symbol": ";",
+    "color": "magenta",
+    "techniques": [ "RAPID" ],
+    "qualities": [ [ "BUTCHER", 5 ] ],
+    "use_action": { "target": "chaos_dagger", "msg": "The chaos dagger goes still", "menu_text": "Turn off", "type": "transform" },
+    "flags": [ "STAB", "TRADER_AVOID" ]
   }
 ]

@@ -172,8 +172,8 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 void Character::suffer_water_damage( const mutation_branch &mdata )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        const float wetness_percentage = static_cast<float>( body_wetness[elem.first->token] ) /
-                                         drench_capacity[elem.first->token];
+        const float wetness_percentage = static_cast<float>( elem.second.get_wetness() ) /
+                                         elem.second.get_drench_capacity();
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
             apply_damage( nullptr, elem.first, dmg );
@@ -362,6 +362,19 @@ void Character::suffer_while_awake( const int current_stim )
     }
 }
 
+static void set_bodytemp( Character &who, int bodytemp )
+{
+    for( auto &pr : who.get_body() ) {
+        if( pr.first == body_part_eyes ) {
+            pr.second.set_temp_cur( BODYTEMP_NORM );
+            pr.second.set_temp_conv( BODYTEMP_NORM );
+        } else {
+            pr.second.set_temp_cur( bodytemp );
+            pr.second.set_temp_conv( bodytemp );
+        }
+    }
+}
+
 void Character::suffer_from_chemimbalance()
 {
     if( one_turn_in( 6_hours ) && !has_trait( trait_NOPAIN ) ) {
@@ -408,22 +421,20 @@ void Character::suffer_from_chemimbalance()
     if( one_turn_in( 6_hours ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "You suddenly feel very cold." ) );
-            temp_cur.fill( BODYTEMP_VERY_COLD );
+            set_bodytemp( *this, BODYTEMP_VERY_COLD );
         } else {
             add_msg_if_player( m_bad, _( "You suddenly feel cold." ) );
-            temp_cur.fill( BODYTEMP_COLD );
+            set_bodytemp( *this, BODYTEMP_COLD );
         }
-        temp_cur[bp_eyes] = BODYTEMP_NORM;
     }
     if( one_turn_in( 6_hours ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "You suddenly feel very hot." ) );
-            temp_cur.fill( BODYTEMP_VERY_HOT );
+            set_bodytemp( *this, BODYTEMP_VERY_HOT );
         } else {
             add_msg_if_player( m_bad, _( "You suddenly feel hot." ) );
-            temp_cur.fill( BODYTEMP_HOT );
+            set_bodytemp( *this, BODYTEMP_HOT );
         }
-        temp_cur[bp_eyes] = BODYTEMP_NORM;
     }
 }
 
@@ -1724,11 +1735,11 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 
     // Make the body wet
-    for( const bodypart_id &bp : get_all_body_parts() ) {
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
-        if( flags.test( bp.id() ) ) {
-            bp_wetness_max = drench_capacity[bp->token];
+        if( flags.test( elem.first ) ) {
+            bp_wetness_max = elem.second.get_drench_capacity();
         }
 
         if( bp_wetness_max == 0 ) {
@@ -1739,12 +1750,14 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         int wetness_increment = ignore_waterproof ? 100 : 2;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
-        if( body_wetness[bp->token] < wetness_max ) {
-            body_wetness[bp->token] = std::min( wetness_max, body_wetness[bp->token] + wetness_increment );
+        if( elem.second.get_wetness() < wetness_max ) {
+            elem.second.set_wetness( std::min( wetness_max,
+                                               elem.second.get_drench_capacity() + wetness_increment ) );
         }
     }
 
-    if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2.0 &&
+    const bodypart &torso = get_part( body_part_torso );
+    if( torso.get_wetness() >= torso.get_drench_capacity() / 2.0 &&
         has_effect( effect_masked_scent ) &&
         get_value( "waterproof_scent" ).empty() ) {
         add_msg_if_player( m_info, _( "The water wash away the scent." ) );
@@ -1765,10 +1778,10 @@ void Character::apply_wetness_morale( const units::temperature &temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
-    if( !std::any_of( body_wetness.begin(), body_wetness.end(),
-    []( const int w ) {
-    return w != 0;
-} ) ) {
+    if( !std::any_of( get_body().begin(), get_body().end(),
+    []( const std::pair<const bodypart_str_id, bodypart> &elem ) {
+    return elem.second.get_wetness() != 0;
+    } ) ) {
         return;
     }
 
@@ -1780,24 +1793,24 @@ void Character::apply_wetness_morale( const units::temperature &temperature )
 
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );
-    for( const bodypart_id &bp : get_all_body_parts() ) {
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         // Sum of body wetness can go up to 103
-        const int part_drench = body_wetness[bp->token];
+        const int part_drench = elem.second.get_wetness();
         if( part_drench == 0 ) {
             continue;
         }
 
-        const auto &part_arr = mut_drench[bp->token];
-        const int part_ignored = part_arr[WT_IGNORED];
-        const int part_neutral = part_arr[WT_NEUTRAL];
-        const int part_good    = part_arr[WT_GOOD];
+        const auto &part_arr = elem.second.get_mut_drench();
+        const int part_ignored = part_arr[static_cast<size_t>( water_tolerance::WT_IGNORED )];
+        const int part_neutral = part_arr[static_cast<size_t>( water_tolerance::WT_NEUTRAL )];
+        const int part_good    = part_arr[static_cast<size_t>( water_tolerance::WT_GOOD )];
 
         if( part_ignored >= part_drench ) {
             continue;
         }
 
         int bp_morale = 0;
-        const bool is_friendly = wet_friendliness.test( bp.id() );
+        const bool is_friendly = wet_friendliness.test( elem.first );
         const int effective_drench = part_drench - part_ignored;
         if( is_friendly ) {
             // Using entire bonus from mutations and then some "human" bonus
@@ -1812,9 +1825,15 @@ void Character::apply_wetness_morale( const units::temperature &temperature )
             bp_morale = part_good + part_neutral - effective_drench;
         }
 
+        auto iter = get_body().find( elem.first );
+        if( iter == get_body().end() ) {
+            debugmsg( "%s has no body part %s", disp_name().c_str(), elem.first.c_str() );
+            continue;
+        }
+        int temp_cur = iter->second.get_temp_cur();
         // Clamp to [COLD,HOT] and cast to double
         const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp->token] ) );
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur ) );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = ( part_temperature - BODYTEMP_COLD ) /
                                 ( BODYTEMP_HOT - BODYTEMP_COLD );

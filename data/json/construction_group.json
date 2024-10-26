@@ -1523,5 +1523,10 @@
     "type": "construction_group",
     "id": "build_concrete_lump",
     "name": "Remove Mi-Go gas emitter"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_furniture_olight",
+    "name": "Install a ceiling lamp"
   }
 ]

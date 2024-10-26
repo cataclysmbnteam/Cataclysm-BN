@@ -5240,7 +5240,9 @@ int iuse::towel_common( player *p, item *it, bool t )
         // dry off from being wet
     } else if( p->has_morale( MORALE_WET ) ) {
         p->rem_morale( MORALE_WET );
-        p->body_wetness.fill( 0 );
+        for( auto &pr : p->get_body() ) {
+            pr.second.set_wetness( 0 );
+        }
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
                               name );
 

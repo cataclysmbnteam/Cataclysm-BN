@@ -50,6 +50,9 @@ struct damage_unit {
         type( dt ), amount( amt ), res_pen( arpen ), res_mult( armor_mult ), damage_multiplier( dmg_mult ) { }
 
     bool operator==( const damage_unit &other ) const;
+
+    /** Return damage_type as a human-readable string */
+    const std::string get_name() const;
 };
 
 // a single atomic unit of damage from an attack. Can include multiple types
@@ -84,6 +87,21 @@ struct damage_instance {
     void add( const damage_instance &added_di );
     void add( const damage_unit &new_du );
     /*@}*/
+
+    /**
+     * Return the armour penetration value for a particular damage type
+     * If the damage_instance has no such damage, return default value of 0
+     */
+    float get_armor_pen( damage_type dt ) const;
+    /**
+     * Return the armour multiplier value for a particular damage type
+     * If the damage_instance has no such damage, return default value of 1
+     */
+    float get_armor_mult( damage_type dt ) const;
+    /**
+     * @return true if at least one damage_unit in this damage_instance has armour penetration or multiplier different from the default
+     */
+    bool has_armor_piercing() const;
 
     void deserialize( JsonIn & );
 };
