@@ -25,6 +25,36 @@ bool damage_unit::operator==( const damage_unit &other ) const
            damage_multiplier == other.damage_multiplier;
 }
 
+const std::string damage_unit::get_name() const
+{
+    switch( type ) {
+        case DT_NULL:
+            return "Null";
+        case DT_TRUE:
+            return "True";
+        case DT_BIOLOGICAL:
+            return "Biological";
+        case DT_BASH:
+            return "Bash";
+        case DT_CUT:
+            return "Cut";
+        case DT_ACID:
+            return "Acid";
+        case DT_STAB:
+            return "Pierce";
+        case DT_HEAT:
+            return "Heat";
+        case DT_COLD:
+            return "Cold";
+        case DT_ELECTRIC:
+            return "Electric";
+        case DT_BULLET:
+            return "Ballistic";
+        case NUM_DT:
+            return std::to_string( NUM_DT );
+    }
+}
+
 damage_instance::damage_instance() = default;
 damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
 {
@@ -117,6 +147,38 @@ void damage_instance::add( const damage_unit &new_du )
         du.damage_multiplier *= new_du.damage_multiplier;
         du.res_mult *= new_du.res_mult;
     }
+}
+
+float damage_instance::get_armor_pen( damage_type dt ) const
+{
+    float ret = 0;
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret = elem.res_pen;
+        }
+    }
+    return ret;
+}
+
+float damage_instance::get_armor_mult( damage_type dt ) const
+{
+    float ret = 1;
+    for( const auto &elem : damage_units ) {
+        if( elem.type == dt ) {
+            ret = elem.res_mult;
+        }
+    }
+    return ret;
+}
+
+bool damage_instance::has_armor_piercing() const
+{
+    for( const auto &elem : damage_units ) {
+        if( elem.res_pen != 0.0 || elem.res_mult != 1.0 ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 std::vector<damage_unit>::iterator damage_instance::begin()
