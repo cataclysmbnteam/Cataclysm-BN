@@ -8974,6 +8974,12 @@ std::vector<item *> map::get_active_items_in_radius( const tripoint &center, int
     return result;
 }
 
+std::list<tripoint> map::find_furniture_with_flag_in_omt( const tripoint &p,
+        const std::string &flag )
+{
+
+};
+
 std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center,
         size_t radius,
         const std::string &flag,

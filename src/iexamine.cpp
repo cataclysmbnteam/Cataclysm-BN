@@ -855,6 +855,12 @@ void iexamine::toilet( player &p, const tripoint &examp )
     }
 }
 
+/*;* Toggles the light in a overmap terrain*/
+void iexamine::toggle_lights( player &p, const tripoint &examp )
+{
+
+};
+
 /**
  * Open or close gate.
  */
@@ -6326,6 +6332,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "vending", &iexamine::vending },
             { "toilet", &iexamine::toilet },
             { "elevator", &iexamine::elevator },
+            { "toggle_lights", &iexamine::toggle_lights},
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader", &iexamine::cardreader },
             { "cardreader_robofac", &iexamine::cardreader_robofac },
