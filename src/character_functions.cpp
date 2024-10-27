@@ -21,6 +21,7 @@
 #include "npc.h"
 #include "output.h"
 #include "player.h"
+#include "ranged.h"
 #include "rng.h"
 #include "skill.h"
 #include "submap.h"
@@ -66,6 +67,8 @@ static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
+
+static const skill_id skill_throw( "throw" );
 
 namespace character_funcs
 {
@@ -898,6 +901,12 @@ item_reload_option select_ammo( const Character &who, item &base,
                                           clamp( static_cast<int>( du.damage_multiplier * 100 ), 0, 999 ) );
                 } else {
                     float dam_amt = dam.total_damage();
+    if( base.gun_skill() == skill_throw ) {
+        item &tmp = *item::spawn_temporary( item( ammo ) );
+        dam_amt += ranged::throw_damage( tmp,
+                                                who.get_skill_level( skill_throw ),
+                                                who.get_str() );
+    }
                     row += string_format( "| %-8d ", static_cast<int>( dam_amt ) );
                 }
                 if( du.res_mult != 1.0f ) {
