@@ -16,8 +16,8 @@
     "price_postapoc": "250 cent",
     "to_hit": -2,
     "//": "Gets more damage and range based on throwing skill and strength",
-    "ranged_damage": { "damage_type": "bash", "amount": 3 },
-    "range": 5,
+    "ranged_damage": { "damage_type": "bash", "amount": 6 },
+    "range": 8,
     "dispersion": 150,
     "durability": 6
   },
@@ -40,9 +40,9 @@
     "price_postapoc": "250 cent",
     "to_hit": 1,
     "//": "Gets more damage and range based on throwing skill and strength",
-    "ranged_damage": { "damage_type": "bash", "amount": 7 },
+    "ranged_damage": { "damage_type": "bash", "amount": 10 },
     "bashing": 18,
-    "range": 8,
+    "range": 10,
     "dispersion": 200,
     "durability": 8
   },
@@ -60,8 +60,8 @@
     "volume": "250 ml",
     "price_postapoc": "50 cent",
     "to_hit": -2,
-    "ranged_damage": { "damage_type": "bash", "amount": 5 },
-    "range": 8,
+    "ranged_damage": { "damage_type": "bash", "amount": 3 },
+    "range": 5,
     "dispersion": 75,
     "durability": 6,
     "loudness": 5
