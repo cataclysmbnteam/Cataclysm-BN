@@ -26,6 +26,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "construction.h"
+#include "construction.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -8974,9 +8975,15 @@ std::vector<item *> map::get_active_items_in_radius( const tripoint &center, int
     return result;
 }
 
-std::list<tripoint> map::find_furniture_with_flag_in_omt( const tripoint &p,
+std::list<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
         const std::string &flag )
 {
+    // This trickery will get us to the overmap terrain origin.
+    const point omt_origin = omt_to_ms_copy( ms_to_omt_copy( p.xy() ) );
+
+    // Tripoints for the overmap terrain rectangle
+    const tripoint p1 = tripoint( omt_origin, p.z );
+    const tripoint p2 = tripoint( omt_origin.x + 2 * SEEX, omt_origin.y + 2 * SEEY, p.z );
 
 };
 

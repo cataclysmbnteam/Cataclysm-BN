@@ -2731,6 +2731,7 @@
     "color":  "white",
     "move_cost_mod": 0,
     "required_str": -1,
-    "description":  "A light switch connected to your electrical grid."
+    "description":  "A light switch connected to your electrical grid.",
+    "examine_action": "toggle_lights"
   }
 ]
