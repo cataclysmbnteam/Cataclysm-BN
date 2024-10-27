@@ -901,12 +901,12 @@ item_reload_option select_ammo( const Character &who, item &base,
                                           clamp( static_cast<int>( du.damage_multiplier * 100 ), 0, 999 ) );
                 } else {
                     float dam_amt = dam.total_damage();
-    if( base.gun_skill() == skill_throw ) {
-        item &tmp = *item::spawn_temporary( item( ammo ) );
-        dam_amt += ranged::throw_damage( tmp,
-                                                who.get_skill_level( skill_throw ),
-                                                who.get_str() );
-    }
+                    if( base.gun_skill() == skill_throw ) {
+                        item &tmp = *item::spawn_temporary( item( ammo ) );
+                        dam_amt += ranged::throw_damage( tmp,
+                                                         who.get_skill_level( skill_throw ),
+                                                         who.get_str() );
+                    }
                     row += string_format( "| %-8d ", static_cast<int>( dam_amt ) );
                 }
                 if( du.res_mult != 1.0f ) {
