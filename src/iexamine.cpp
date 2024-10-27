@@ -854,9 +854,8 @@ void iexamine::toilet( player &p, const tripoint &examp )
         liquid_handler::handle_liquid( **water );
     }
 }
-    std::cout << omt2;
 
-/*;* Toggles the light in a overmap terrain*/
+/** Toggle the lights in a overmap terrain*/
 void iexamine::toggle_lights( player &p, const tripoint &examp )
 {
 
