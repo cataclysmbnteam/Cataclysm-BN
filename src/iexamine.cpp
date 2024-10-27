@@ -854,6 +854,7 @@ void iexamine::toilet( player &p, const tripoint &examp )
         liquid_handler::handle_liquid( **water );
     }
 }
+    std::cout << omt2;
 
 /**
  * Open or close gate.
