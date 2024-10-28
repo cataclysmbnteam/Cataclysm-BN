@@ -1256,6 +1256,17 @@ wake up for the first time after 24 hours into the game.
         { "bash" : 1 }        // ...and gives them those resistances instead
     ]
 ],
+"dodge_modifier" : 1, // Bonus granted to your effective change to dodge. Negative values inflict a penalty instead.
+"speed_modifier" : 2.0, // Multiplies your current speed by this amount.  Higher means more speed, with 1.0 being no change.
+"movecost_modifier" : 0.5, // Multiplies the amount of moves it takes to perform most actions, with lower meaning faster actions. 
+"movecost_flatground_modifier" : 0.5, // Multiplies the movecost of terrain/furniture that is easy to move over. Lower means faster movement.
+"movecost_obstacle_modifier" : 0.5, // Multipliers the movecost across rough terrain, lower means faster movement
+"movecost_swim_modifier" : 0.5, // Multiplies the movecost needed to swim. Lower is faster.
+"falling_damage_multiplier" : 0.5, // Multiplier on how much damage you take when falling into pits, falling off ledges, or being tossed by a hulk. Zero grants immunity.
+"attackcost_modifier" : 0.5, // Multiplier on the movecost of attacks. Lower is better.
+"weight_capacity_modifier" : 0.5, // Multiplies how much weight you can carry before being penalized.
+"hearing_modifier" : 0.5, // Multiplier for how good your hearing is, higher values mean detecting sounds from farther away. A value of zero renders you completely deaf.
+"noise_modifier" : 0.5, // Multiplier for how much noise you make while moving, with zero making your footsteps silent.
 "stealth_modifier" : 0, // Percentage to be subtracted from player's visibility range, capped to 60. Negative values work, but are not very effective due to the way vision ranges are capped
 "night_vision_range" : 0.0, // Night range vision. Only the best and the worst value out of all mutations are added. A value of 8 or higher will allow reading in complete darkness as though the player were in dim lighting. (default: 0.0)
 "active" : true, //When set the mutation is an active mutation that the player needs to activate (default: false)
