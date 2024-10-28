@@ -409,7 +409,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "upgrades": { "age_grow": 365, "into": "mon_stegosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_hesperosaurus_juvenile",
@@ -517,7 +517,7 @@
     "hp": 220,
     "color": "yellow",
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "CAN_BE_CULLED", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "SWIMS" ]
   },
   {
     "id": "mon_maiasaura_juvenile",
