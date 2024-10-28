@@ -1059,7 +1059,8 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) && p.mutation_value( "movecost_obstacle_modifier" ) <= 0.5f ) {
+    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) &&
+        p.mutation_value( "movecost_obstacle_modifier" ) <= 0.5f ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
     } else if( here.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
