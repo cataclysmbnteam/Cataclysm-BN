@@ -22848,7 +22848,9 @@
           ]
         },
         { "id": "f_glowingbulb", "fg": 12442, "rotates": false },
-        { "id": "f_midden", "fg": 12443, "rotates": false }
+        { "id": "f_midden", "fg": 12443, "rotates": false },
+        { "id": "f_light_switch_off", "fg": 12444, "rotates": false },
+        { "id": "f_light_switch_on", "fg": 12445, "rotates": false }
       ],
       "//": "range 11025 to 12448"
     },

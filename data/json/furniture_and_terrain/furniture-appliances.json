@@ -2650,7 +2650,7 @@
     "color": "light_gray",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT","T_LIGHT" ],
     "deconstruct": {
       "items": [
         { "item": "cable", "charges": 2 },
@@ -2726,7 +2726,7 @@
     "id":  "f_light_switch",
     "name":  "ligth switch",
     "//":  "Needs to change the texture",
-    "looks_like":  "t_gates_control_metal",
+    "looks_like":  "f_light_switch",
     "symbol": "/",
     "color":  "white",
     "move_cost_mod": 0,

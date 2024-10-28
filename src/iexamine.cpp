@@ -219,6 +219,7 @@ static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_WALL( "WALL" );
+static const std::string flag_T_LIGHT( "T_LIGHT" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -858,8 +859,11 @@ void iexamine::toilet( player &p, const tripoint &examp )
 /** Toggle the lights in a overmap terrain*/
 void iexamine::toggle_lights( player &p, const tripoint &examp )
 {
-
-};
+    map &here = get_map();
+    for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag_T_LIGHT ) ) {
+        g->m.furn_set( light_loc, g->m.get_furn_transforms_into( light_loc ) );
+    };
+}
 
 /**
  * Open or close gate.
@@ -871,6 +875,7 @@ void iexamine::controls_gate( player &p, const tripoint &examp )
         return;
     }
     g->toggle_gate( examp );
+
 }
 
 static bool try_start_hacking( player &p, const tripoint &examp )

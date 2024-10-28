@@ -8984,7 +8984,13 @@ std::list<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
     // Tripoints for the overmap terrain rectangle
     const tripoint p1 = tripoint( omt_origin, p.z );
     const tripoint p2 = tripoint( omt_origin.x + 2 * SEEX, omt_origin.y + 2 * SEEY, p.z );
-
+    std::list<tripoint> furn_locs;
+    for( const auto &furn_loc : points_in_rectangle( p1, p2 ) ) {
+        if( has_flag_furn( flag, furn_loc ) ) {
+            furn_locs.push_back( furn_loc );
+        }
+    }
+    return furn_locs;
 };
 
 std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center,
