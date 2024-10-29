@@ -2728,14 +2728,29 @@
     "id": "f_light_switch",
     "name": "ligth switch (off)",
     "looks_like": "f_light_switch_off",
-    "symbol": "/",
+    "symbol": "{",
     "color": "light_gray",
     "move_cost_mod": 0,
     "required_str": -1,
+    "deconstruct": {
+      "items": [ { "item": "cable", "charges": 2 }, { "item": "plastic_chunk", "count": 5 }, { "item": "scrap", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 1 ] },
+        { "item": "scrap", "charges": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 0, 4 ] }
+      ]
+    },
     "description": "A light switch connected to your electrical grid, this one is turned off.",
-    "flags": [ "L_OFF" ],
+    "flags": [ "EASY_DECONSTRUCT", "L_OFF" ],
     "examine_action": "toggle_lights",
     "transforms_into": "f_light_switch_on",
+    "//": "Unused prompt but just in case",
     "prompt": "Switch on the lights.",
     "message": "You switched on the lights."
   },
@@ -2744,14 +2759,16 @@
     "id": "f_light_switch_on",
     "name": "ligth switch (on)",
     "looks_like": "f_light_switch_on",
-    "symbol": "/",
+    "symbol": "{",
     "color": "yellow",
+    "copy-from": "f_light_switch",
     "move_cost_mod": 0,
     "required_str": -1,
     "description": "A light switch connected to your electrical grid, this one is turned on.",
-    "flags": [ "L_ON" ],
+    "flags": [ "EASY_DECONSTRUCT", "L_ON" ],
     "examine_action": "toggle_lights",
     "transforms_into": "f_light_switch",
+    "//": "Unused prompt but just in case",
     "prompt": "Switch off the lights.",
     "message": "You switched off the lights."
   }
