@@ -8978,14 +8978,17 @@ std::vector<item *> map::get_active_items_in_radius( const tripoint &center, int
 std::list<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
         const std::string &flag )
 {
-    // This trickery will get us to the overmap terrain origin.
-    const point omt_origin = omt_to_ms_copy( ms_to_omt_copy( p.xy() ) );
+    // Some stupid code to get to the corner
+    const point omt_diff = ( ms_to_omt_copy( getabs( point( ( p.x + SEEX ),
+                             ( p.y + SEEY ) ) ) ) ) - ( ms_to_omt_copy( getabs( p.xy() ) ) );
+    const point omt_p = omt_to_ms_copy( ( ms_to_omt_copy( p.xy() ) ) ) ;
+    const tripoint omt_o = tripoint( omt_p.x + ( 1 - omt_diff.x ) * SEEX,
+                                     omt_p.y + ( 1 - omt_diff.y ) * SEEY,
+                                     p.z );
 
-    // Tripoints for the overmap terrain rectangle
-    const tripoint p1 = tripoint( omt_origin, p.z );
-    const tripoint p2 = tripoint( omt_origin.x + 2 * SEEX, omt_origin.y + 2 * SEEY, p.z );
     std::list<tripoint> furn_locs;
-    for( const auto &furn_loc : points_in_rectangle( p1, p2 ) ) {
+    for( const auto &furn_loc : points_in_rectangle( omt_o,
+            tripoint( omt_o.x + 2 * SEEX, omt_o.y + 2 * SEEY, p.z ) ) ) {
         if( has_flag_furn( flag, furn_loc ) ) {
             furn_locs.push_back( furn_loc );
         }

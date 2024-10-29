@@ -219,7 +219,6 @@ static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_WALL( "WALL" );
-static const std::string flag_T_LIGHT( "T_LIGHT" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -860,9 +859,20 @@ void iexamine::toilet( player &p, const tripoint &examp )
 void iexamine::toggle_lights( player &p, const tripoint &examp )
 {
     map &here = get_map();
-    for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag_T_LIGHT ) ) {
+    std:: string flag = "L_OFF";
+    std::string message = g->m.furn( examp ).obj().message;
+    std::string prompt = g->m.furn( examp ).obj().prompt;
+
+    // Checks to turn on or off
+    if( !here.has_flag_furn( flag, examp ) ) {
+        flag = "L_ON";
+    };
+
+
+    for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag ) ) {
         g->m.furn_set( light_loc, g->m.get_furn_transforms_into( light_loc ) );
     };
+    add_msg( _( message ) );
 }
 
 /**
