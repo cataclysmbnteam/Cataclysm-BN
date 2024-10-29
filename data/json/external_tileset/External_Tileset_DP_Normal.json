@@ -96,10 +96,10 @@
             "multitile": true,
             "additional_tiles": [
               { "id": "center", "fg": 81 },
-              { "id": "corner", "fg": [82, 83, 84, 85] },
-              { "id": "t_connection", "fg": [92, 93, 94, 95] },
-              { "id": "edge", "fg": [86, 87] },
-              { "id": "end_piece", "fg": [88, 89, 90, 91] },
+              { "id": "corner", "fg": [ 82, 83, 84, 85 ] },
+              { "id": "t_connection", "fg": [ 92, 93, 94, 95 ] },
+              { "id": "edge", "fg": [ 86, 87 ] },
+              { "id": "end_piece", "fg": [ 88, 89, 90, 91 ] },
               {
                 "id": "unconnected",
                 "fg": [
