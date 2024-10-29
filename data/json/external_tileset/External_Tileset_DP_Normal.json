@@ -88,7 +88,57 @@
           { "id": [ "helmet_scute", "overlay_wielded_helmet_scute" ], "fg": 76 },
           { "id": "overlay_worn_helmet_scute", "fg": 77 },
           { "id": [ "armguard_scute", "overlay_wielded_armguard_scute" ], "fg": 78 },
-          { "id": "overlay_worn_armguard_scute", "fg": 79 }
+          { "id": "overlay_worn_armguard_scute", "fg": 79 },
+          {
+            "id": "fd_blood",
+            "fg": 80,
+            "rotates": false,
+            "multitile": true,
+            "additional_tiles": [
+              { "id": "center", "fg": 81 },
+              { "id": "corner", "fg": [ 82, 83, 84, 85 ] },
+              { "id": "t_connection", "fg": [ 92, 93, 94, 95 ] },
+              { "id": "edge", "fg": [ 86, 87 ] },
+              { "id": "end_piece", "fg": [ 88, 89, 90, 91 ] },
+              {
+                "id": "unconnected",
+                "fg": [
+                  { "weight": 1, "sprite": 96 },
+                  { "weight": 1, "sprite": 97 },
+                  { "weight": 1, "sprite": 98 },
+                  { "weight": 1, "sprite": 99 },
+                  { "weight": 1, "sprite": 100 },
+                  { "weight": 1, "sprite": 101 },
+                  { "weight": 1, "sprite": 102 },
+                  { "weight": 1, "sprite": 103 },
+                  { "weight": 1, "sprite": 104 },
+                  { "weight": 1, "sprite": 105 },
+                  { "weight": 1, "sprite": 106 },
+                  { "weight": 1, "sprite": 107 },
+                  { "weight": 1, "sprite": 108 },
+                  { "weight": 1, "sprite": 109 },
+                  { "weight": 1, "sprite": 110 },
+                  { "weight": 1, "sprite": 111 },
+                  { "weight": 1, "sprite": 112 },
+                  { "weight": 1, "sprite": 113 },
+                  { "weight": 1, "sprite": 114 },
+                  { "weight": 1, "sprite": 115 },
+                  { "weight": 1, "sprite": 116 },
+                  { "weight": 1, "sprite": 117 },
+                  { "weight": 1, "sprite": 118 },
+                  { "weight": 1, "sprite": 119 },
+                  { "weight": 1, "sprite": 120 },
+                  { "weight": 1, "sprite": 121 },
+                  { "weight": 1, "sprite": 122 },
+                  { "weight": 1, "sprite": 123 },
+                  { "weight": 1, "sprite": 124 },
+                  { "weight": 1, "sprite": 125 },
+                  { "weight": 1, "sprite": 126 },
+                  { "weight": 1, "sprite": 127 }
+                ]
+              }
+            ]
+          }
         ],
         "sprite_width": 32,
         "sprite_height": 32
