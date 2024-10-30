@@ -1423,21 +1423,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "supercapacitor",
-    "symbol": ":",
-    "color": "light_gray",
-    "name": { "str": "high-energy capacitor" },
-    "category": "spare_parts",
-    "description": "A rather large electronic component that stores energy and releases it near instantly.  Useful in electronics crafting.",
-    "price": "100 USD",
-    "price_postapoc": "50 cent",
-    "material": [ "plastic", "aluminum" ],
-    "weight": "750 g",
-    "volume": "500 ml",
-    "to_hit": -1
-  },
-  {
-    "type": "GENERIC",
     "id": "processor",
     "symbol": ",",
     "color": "dark_gray",

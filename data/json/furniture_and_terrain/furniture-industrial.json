@@ -269,8 +269,7 @@
         { "item": "e_scrap", "count": [ 1, 10 ] },
         { "item": "amplifier", "count": [ 0, 2 ] },
         { "item": "power_supply", "count": [ 0, 1 ] },
-        { "item": "metal_tank_little", "count": [ 0, 3 ] },
-        { "item": "supercapacitor", "count": [ 0, 4 ] }
+        { "item": "metal_tank_little", "count": [ 0, 3 ] }
       ],
       "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 13, 25 ], "destroy_threshold": 200, "block_unaimed_chance": "25%" }
@@ -284,8 +283,7 @@
         { "item": "e_scrap", "count": [ 2, 8 ] },
         { "item": "amplifier", "count": [ 2, 4 ] },
         { "item": "power_supply", "count": [ 1, 2 ] },
-        { "item": "metal_tank_little", "count": [ 4, 6 ] },
-        { "item": "supercapacitor", "count": [ 6, 10 ] }
+        { "item": "metal_tank_little", "count": [ 4, 6 ] }
       ]
     }
   },

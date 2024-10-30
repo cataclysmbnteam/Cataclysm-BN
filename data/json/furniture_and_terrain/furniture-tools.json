@@ -941,7 +941,6 @@
         { "item": "e_scrap","count": [ 0, 6 ] },
         { "item": "power_supply", "count": [ 0, 2 ] },
         { "item": "laser_source", "prob": 50 },
-        { "item": "supercapacitor", "prob": 50 },
         { "item": "lens", "prob": 25 },
         { "item": "lens_small", "count": 2, "prob": 25 }
       ],
@@ -967,7 +966,6 @@
         { "item": "motor_small", "count": 2 },
         { "item": "motor_micro" },
         { "item": "laser_source" },
-        { "item": "supercapacitor", "count": 3 },
         { "item": "lens" },
         { "item": "lens_small","count": 2 }
       ]

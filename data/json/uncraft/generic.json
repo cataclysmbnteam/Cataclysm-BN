@@ -1441,7 +1441,6 @@
       [ [ "amplifier", 6 ] ],
       [ [ "e_scrap", 4 ] ],
       [ [ "laser_source", 2 ] ],
-      [ [ "supercapacitor", 4 ] ],
       [ [ "lens", 4 ] ],
       [ [ "lens_small", 2 ] ],
       [ [ "gold_small", 10 ] ]
