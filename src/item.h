@@ -1849,8 +1849,12 @@ class item : public location_visitable<item>, public game_object<item>
         /** Amount of power consumed per usage of tool or with each shot of gun */
         units::energy energy_required() const;
 
-        /** Check that item has sufficient energy */
-        bool energy_sufficient( const Character &ch, units::energy p_needed = 0_J ) const;
+        /**
+         * Check that item has sufficient energy
+         * @param ch Character to check (used if ammo is UPS charges)
+         * @param uses number of uses, if unspecified use 1x item default
+        */
+        bool energy_sufficient( const Character &ch, units::energy p_needed = -1_J ) const;
 
         /**
          * Consume power(if available) and return the amount of power that was consumed

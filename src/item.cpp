@@ -7822,8 +7822,11 @@ units::energy item::energy_required() const
     return 0_J;
 }
 
-bool item::energy_sufficient( const Character &ch,  units::energy p_needed ) const
+bool item::energy_sufficient( const Character &ch, units::energy p_needed ) const
 {
+    if( p_needed == -1_J ) {
+        p_needed = energy_required();
+    }
     return energy_remaining() >= p_needed;
 }
 
