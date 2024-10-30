@@ -1084,7 +1084,7 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 30 ] ],
     "components": [
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 140 ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 18 ] ],
@@ -1248,7 +1248,7 @@
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "scrap", 6 ] ],
-      [ [ "cable", 100 ] ],
+      [ [ "cable", 80 ] ],
       [ [ "e_scrap", 10 ] ],
       [ [ "battery_ups", 1 ] ]
     ]
