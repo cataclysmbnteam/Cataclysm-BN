@@ -108,16 +108,12 @@
     "id": "map_extra_drugdeal",
     "entries": [
       { "distribution": [ { "group": "baddrugs", "prob": 75 }, { "group": "meth_ingredients", "prob": 25 } ], "prob": 50 },
-      { "group": "drugdealer", "prob": 75 },
-      { "item": "pants_cargo", "damage-min": 1, "damage-max": 4 },
-      { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
-      { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 50 },
-      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+      { "group": "drugdealer", "prob": 100 },
+      { "group": "default_zombie_clothes" },
       {
         "distribution": [ { "item": "bandana", "damage": [ 1, 4 ], "prob": 50 }, { "item": "bandana_head", "damage": [ 1, 4 ], "prob": 25 } ],
         "prob": 10
       },
-      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
       { "item": "corpse", "damage": 3 }
     ]
   },
