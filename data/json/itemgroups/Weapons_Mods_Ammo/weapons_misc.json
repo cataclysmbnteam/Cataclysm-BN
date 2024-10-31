@@ -4,7 +4,7 @@
     "id": "weapons",
     "items": [
       [ "chain", 20 ],
-      [ "knuckle_brass", 20 ],
+      [ "knuckle_brass", 30 ],
       [ "hammer", 35 ],
       [ "wrench", 30 ],
       [ "hammer_sledge", 4 ],
