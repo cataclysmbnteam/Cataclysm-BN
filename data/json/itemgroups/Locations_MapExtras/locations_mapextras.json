@@ -26,17 +26,17 @@
       { "group": "baddrugs", "prob": 90 },
       {
         "distribution": [
-          { "item": "gunmod_common", "prob": 50 },
-          { "item": "gunmod_rare", "prob": 25 },
-          { "item": "auto_sears", "prob": 25 }
+          { "group": "gunmod_common", "prob": 50 },
+          { "group": "gunmod_rare", "prob": 25 },
+          { "group": "auto_sears", "prob": 25 }
         ], "prob": 25
       },
       {
         "distribution": [
-          { "item": "guns_pistol_common", "prob": 50 },
-          { "item": "guns_rifle_common", "prob": 10 },
-          { "item": "guns_shotgun_common", "prob": 15 },
-          { "item": "guns_smg_common", "prob": 25 }
+          { "group": "guns_pistol_common", "prob": 50 },
+          { "group": "guns_rifle_common", "prob": 10 },
+          { "group": "guns_shotgun_common", "prob": 15 },
+          { "group": "guns_smg_common", "prob": 25 }
         ], "prob": 50
       },
       { "group": "weapons", "prob": 70 }
