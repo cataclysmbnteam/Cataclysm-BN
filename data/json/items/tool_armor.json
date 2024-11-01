@@ -646,7 +646,7 @@
     "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 130000,
     "revert_to": "thermal_cooling",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_super" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_cooling" }
   },
   {
     "id": "binoculars",
