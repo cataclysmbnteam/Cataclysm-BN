@@ -624,7 +624,7 @@
     "copy-from": "thermal_outfit",
     "name": { "str": "thermal electric survival outfit" },
     "description": "This skintight suit covers you from head to toe and is designed to keep you at an ideal temperature using a number of heatsinks and heating coils.  It also includes some handy features such as a built-in thermometer.  Use it to turn it on.",
-    "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID", "ONLY_ONE", "ALARMCLOCK", "THERMOMETER" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID", "ONLY_ONE", "THERMOMETER" ],
     "weight": "1652 g",
     "use_action": {
       "type": "transform",
