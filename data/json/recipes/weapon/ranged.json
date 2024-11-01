@@ -1084,7 +1084,7 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 30 ] ],
     "components": [
-      [ [ "cable", 80 ] ],
+      [ [ "cable", 140 ] ],
       [ [ "2x4", 1 ], [ "stick", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 18 ] ],
@@ -1235,15 +1235,23 @@
     "result": "coilgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 4 ] ],
-    "difficulty": 4,
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 5 ], [ "fabrication", 4 ] ],
+    "difficulty": 5,
     "time": "1 h",
     "reversible": true,
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ], [ "textbook_anarch", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 6 ] ], [ [ "cable", 20 ] ] ]
+    "components": [
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "battery_ups", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
