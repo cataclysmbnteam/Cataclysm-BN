@@ -138,6 +138,20 @@
                 ]
               }
             ]
+          },
+          {
+            "id": "tr_portal",
+            "fg": [
+              { "weight": 10, "sprite": 128 },
+              { "weight": 10, "sprite": 129 },
+              { "weight": 10, "sprite": 130 },
+              { "weight": 10, "sprite": 131 },
+              { "weight": 10, "sprite": 132 },
+              { "weight": 10, "sprite": 133 },
+              { "weight": 10, "sprite": 134 },
+              { "weight": 10, "sprite": 135 }
+            ],
+            "animated": true
           }
         ],
         "sprite_width": 32,
