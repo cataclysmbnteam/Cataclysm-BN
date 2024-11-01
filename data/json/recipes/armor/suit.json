@@ -1008,13 +1008,15 @@
     "using": [ [ "sewing_standard", 30 ], [ "soldering_standard", 60 ] ],
     "components": [
       [ [ "rag", 30 ], [ "union_suit", 1 ] ],
-      [ [ "element", 12 ] ],
+      [ [ "element", 6 ] ],
+      [ [ "hose", 3 ] ],
       [ [ "cable", 20 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "processor", 3 ] ],
       [ [ "amplifier", 3 ] ],
       [ [ "condensor_coil", 1 ] ],
-      [ [ "thermometer", 1 ] ]
+      [ [ "thermometer", 1 ] ],
+      [ [ "water", 6 ], [ "water_clean", 6 ] ]
     ]
   },
   {
@@ -1032,10 +1034,12 @@
     "using": [ [ "sewing_standard", 15 ], [ "soldering_standard", 10 ] ],
     "components": [
       [ [ "thermal_outfit", 1 ] ],
+      [ [ "hose", 3 ] ],
       [ [ "processor", 3 ] ],
       [ [ "amplifier", 3 ] ],
       [ [ "condensor_coil", 1 ] ],
-      [ [ "thermometer", 1 ] ]
+      [ [ "thermometer", 1 ] ],
+      [ [ "water", 6 ], [ "water_clean", 6 ] ]
     ]
   }
 ]
