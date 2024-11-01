@@ -1427,13 +1427,7 @@ def extract_all_from_lua_file(state, lua_file):
     with open(lua_file, encoding="utf-8") as fp:
         luadata_raw = fp.read()
 
-    try:
-        extract_lua(state, luadata_raw)
-    except Exception as E:
-        print(f"---\nFile: '{lua_file}'")
-        print(E)
-        exit(1)
-
+    extract_lua(state, luadata_raw)
 
 def prepare_git_file_list():
     command_str = "git ls-files"
