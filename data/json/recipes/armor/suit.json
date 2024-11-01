@@ -995,7 +995,7 @@
     "components": [ [ [ "scute_piece", 15 ] ], [ [ "fabric_hides_proper", 15, "LIST" ] ] ]
   },
   {
-    "result": "thermal_super",
+    "result": "thermal_cooling",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
@@ -1020,7 +1020,7 @@
     ]
   },
   {
-    "result": "thermal_super",
+    "result": "thermal_cooling",
     "type": "recipe",
     "id_suffix": "thermal_outfit_from_bits",
     "category": "CC_ARMOR",
