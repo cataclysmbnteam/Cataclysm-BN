@@ -640,7 +640,7 @@
   {
     "id": "thermal_cooling_on",
     "type": "TOOL_ARMOR",
-    "copy-from": "thermal_cooling_on",
+    "copy-from": "thermal_cooling",
     "name": { "str": "liquid cooling outfit (on)", "str_pl": "liquid cooling outfits (on)" },
     "description": "This skintight suit covers you from head to toe and is designed to keep you at an ideal temperature using a number of heatsinks and heating coils tied to a liquid coolant system.  It also includes some handy features such as a built-in thermometer.  It is currently on, use it to turn it off.",
     "extend": { "flags": [ "CLIMATE_CONTROL" ] },
