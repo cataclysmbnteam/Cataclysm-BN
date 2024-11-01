@@ -120,11 +120,6 @@
     "items": [ [ "afs_rope_lighter", 10 ] ]
   },
   {
-    "id": "drugdealer",
-    "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 3 ], [ "afs_bio_missiles", 8 ] ]
-  },
-  {
     "id": "kitchen",
     "type": "item_group",
     "items": [ [ "afs_atompot", 1 ], [ "atomic_butterchurn", 1 ] ]
