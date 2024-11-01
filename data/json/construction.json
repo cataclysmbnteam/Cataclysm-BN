@@ -4505,11 +4505,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "DRILL", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "xl_wind_turbine", 1 ] ]
-    ],
+    "components": [ [ [ "steel_chunk", 5 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "xl_wind_turbine", 1 ] ] ],
     "pre_note": "Will only work if constructed on a roof.  Also needs a building that has an electric grid with a mounted battery.",
     "pre_flags": [ "ROOF", "FLAT" ],
     "post_furniture": "f_xl_turbine_unit"
