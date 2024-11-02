@@ -1162,7 +1162,6 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "80 m",
-    "reversible": true,
     "autolearn": true,
     "qualities": [
       { "id": "WRENCH", "level": 1 },
