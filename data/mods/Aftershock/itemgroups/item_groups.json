@@ -67,6 +67,7 @@
   {
     "id": "drugdealer",
     "type": "item_group",
+    "subtype": "collection",
     "items": [ [ "afs_atomic_smartphone", 3 ], [ "afs_bio_missiles", 8 ] ]
   },
   {

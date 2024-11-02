@@ -2,57 +2,46 @@
   {
     "type": "item_group",
     "id": "drugdealer",
+    "subtype": "collection",
     "magazine": 100,
     "ammo": 50,
     "items": [
-      [ "armguard_hard", 20 ],
-      [ "armguard_soft", 40 ],
-      [ "bandages", 50 ],
-      [ "bum_wine", 10 ],
-      [ "caff_gum", 7 ],
-      [ "caffeine", 25 ],
-      [ "chem_ethanol", 12 ],
-      [ "chemistry_set", 2 ],
-      [ "chestguard_hard", 20 ],
-      [ "colamdew", 60 ],
-      { "item": "cotton_ball", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
-      [ "electric_lighter", 2 ],
-      [ "energy_drink_atomic", 8 ],
-      [ "energy_drink", 55 ],
-      [ "gloves_fingerless", 20 ],
-      [ "gloves_light_fingerless", 5 ],
-      [ "gloves_wool_fingerless", 5 ],
-      [ "gum", 60 ],
-      [ "hoodie", 65 ],
-      [ "legguard_hard", 15 ],
-      [ "lighter", 60 ],
-      [ "matches", 60 ],
-      [ "nic_gum", 1 ],
-      [ "pants_cargo", 70 ],
-      [ "purple_drink", 15 ],
-      [ "ref_lighter", 2 ],
-      [ "shorts_cargo", 50 ],
-      [ "sleeveless_duster", 5 ],
-      [ "sleeveless_trenchcoat", 5 ],
-      [ "sports_drink", 35 ],
-      [ "survnote", 3 ],
-      { "group": "accessory_weaponcarry", "prob": 10 },
-      { "group": "auto_sears", "prob": 25 },
-      { "group": "baddrugs", "prob": 100 },
-      { "group": "bags_unisex", "prob": 100 },
+      { "group": "bags_unisex", "prob": 70 },
       { "group": "clothing_watch", "prob": 5 },
       { "group": "dental_grills", "prob": 5 },
-      { "group": "grenades", "prob": 10 },
-      { "group": "gunmod_common", "prob": 30 },
-      { "group": "gunmod_rare", "prob": 15 },
-      { "group": "guns_pistol_common", "prob": 100 },
-      { "group": "guns_rifle_common", "prob": 20 },
-      { "group": "guns_shotgun_common", "prob": 60 },
-      { "group": "guns_smg_common", "prob": 80 },
+      { "group": "accessory_weaponcarry", "prob": 10 },
+      {
+        "distribution": [
+          { "item": "lighter", "prob": 50 },
+          { "item": "matches", "prob": 40 },
+          { "item": "ref_lighter", "prob": 5 },
+          { "item": "electric_lighter", "prob": 5 }
+        ]
+      },
+      { "group": "salty_snacks", "prob": 80 },
       { "group": "liquor_and_spirits", "prob": 16 },
-      { "group": "salty_snacks", "prob": 135 },
-      { "group": "smokedrugs", "prob": 135 },
-      { "group": "weapons", "prob": 60 }
+      { "group": "methlab", "prob": 25 },
+      { "group": "softdrugs", "prob": 50 },
+      { "group": "smokedrugs", "prob": 100 },
+      { "group": "baddrugs", "prob": 90 },
+      {
+        "distribution": [
+          { "group": "gunmod_common", "prob": 50 },
+          { "group": "gunmod_rare", "prob": 25 },
+          { "group": "auto_sears", "prob": 25 }
+        ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          { "group": "guns_pistol_common", "prob": 50 },
+          { "group": "guns_rifle_common", "prob": 10 },
+          { "group": "guns_shotgun_common", "prob": 15 },
+          { "group": "guns_smg_common", "prob": 25 }
+        ],
+        "prob": 50
+      },
+      { "group": "weapons", "prob": 70 }
     ]
   }
 ]

@@ -97,7 +97,8 @@
     "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "material": [ "acidchitin", "leather" ],
     "price_postapoc": "35 USD",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "encumbrance": 15,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
     "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 1 }
   },
   {

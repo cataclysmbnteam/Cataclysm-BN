@@ -274,7 +274,8 @@
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
     "price_postapoc": "1750 cent",
     "material": [ "acidchitin", "leather" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "encumbrance": 15,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
     "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
@@ -373,8 +374,9 @@
     "description": "A thick leather helmet that has been reinforced with strategically-placed metal plates.  Provides excellent protection for the head.",
     "material": [ "leather", "iron" ],
     "looks_like": "helmet_galea",
+    "material_thickness": 8,
     "proportional": { "price": 4, "price_postapoc": 1.2 },
-    "relative": { "weight": "500 g", "encumbrance": 4 }
+    "relative": { "weight": "500 g" }
   },
   {
     "id": "helmet_skull",
@@ -766,7 +768,7 @@
     "type": "ARMOR",
     "name": { "str": "carbon fiber helmet" },
     "description": "A custom helmet of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
-    "copy-from": "helmet_survivor",
+    "copy-from": "helmet_barbute",
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },

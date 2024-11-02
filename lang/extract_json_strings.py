@@ -1289,19 +1289,23 @@ class LuaCallVisitor(ast.ASTVisitor):
             return None
 
     def visit_Call(self, node):
-        found = False
-        if isinstance(node.func, astnodes.Name):
-            func_id = node.func.id
-            func_line = node.func.first_token.line
-            func_args = node.args
-            found = True
-        elif isinstance(node.func, astnodes.Index):
-            if isinstance(node.func.idx, astnodes.Name):
-                func_id = node.func.idx.id
-                func_line = node.func.idx.first_token.line
+        try:
+            found = False
+            if isinstance(node.func, astnodes.Name):
+                func_id = node.func.id
+                func_line = node.func.first_token.line
                 func_args = node.args
                 found = True
-        if not found:
+            elif isinstance(node.func, astnodes.Index):
+                if isinstance(node.func.idx, astnodes.Name):
+                    func_id = node.func.idx.id
+                    func_line = node.func.idx.first_token.line
+                    func_args = node.args
+                    found = True
+            if not found:
+                return
+        except Exception as E:
+            print(f"WARNING: {E}")
             return
         write = False
         msgctxt = None
@@ -1427,13 +1431,7 @@ def extract_all_from_lua_file(state, lua_file):
     with open(lua_file, encoding="utf-8") as fp:
         luadata_raw = fp.read()
 
-    try:
-        extract_lua(state, luadata_raw)
-    except Exception as E:
-        print(f"---\nFile: '{lua_file}'")
-        print(E)
-        exit(1)
-
+    extract_lua(state, luadata_raw)
 
 def prepare_git_file_list():
     command_str = "git ls-files"
