@@ -50,7 +50,9 @@ Links to relevant pull requests, for content covered below:
   [#5398](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5398)
 - Harvested cattails: [#5445](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5445)
 - Niter beds: [#5446](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5446)
-- Extended blood visuals [#5630](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5630)
+- Extended blood visuals: [#5630](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5630)
+- Animated portals: [#5640](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5640)
+- Reimplemented bone armor: [#5646](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5646)
 
 ## Undead People
 
@@ -100,6 +102,8 @@ Ultica are planned for the future.
 - Harvested state for cattails, including winter variation. Furniture specific to BN.
 - Additional blood splat tiles.
 - Animated portal sprites.
+- Sprites for bone cuirass and greaves. Reimplementation of previously-obsoleted bone armor specific
+  to BN.
 
 ### External_Tileset_DP_terrain_normal.png
 

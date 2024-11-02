@@ -76,9 +76,9 @@
     "difficulty": 5,
     "time": "1 h 40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "chitin_piece", 36 ] ], [ [ "leather", 36 ] ] ]
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
+    "using": [ [ "sewing_standard", 72 ] ],
+    "components": [ [ [ "chitin_piece", 36 ] ], [ [ "cordage", 2, "LIST" ] ], [ [ "fabric_hides_proper", 36, "LIST" ] ] ]
   },
   {
     "result": "armor_acidchitin",
@@ -89,9 +89,9 @@
     "difficulty": 6,
     "time": "3 h 20 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "sewing_standard", 150 ] ],
-    "components": [ [ [ "acidchitin_piece", 36 ] ], [ [ "fabric_hides_proper", 36, "LIST" ] ] ]
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
+    "using": [ [ "sewing_standard", 72 ] ],
+    "components": [ [ [ "acidchitin_piece", 36 ] ], [ [ "cordage", 2, "LIST" ] ], [ [ "fabric_hides_proper", 36, "LIST" ] ] ]
   },
   {
     "result": "armor_farmor",

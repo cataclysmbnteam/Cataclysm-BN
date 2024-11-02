@@ -764,6 +764,20 @@
     "flags": [ "OVERSIZE" ]
   },
   {
+    "id": "helmet_bone",
+    "copy-from": "helmet_larmor",
+    "type": "ARMOR",
+    "name": { "str": "bone helmet" },
+    "description": "A helmet made from carved bone, laced together into a pattern resembling a Mycenaean boar's tusk helmet.  Tough but stiff, and a bit brittle.",
+    "material": [ "bone_heavy" ],
+    "color": "white",
+    "encumbrance": 12,
+    "warmth": 12,
+    "environmental_protection": 1,
+    "proportional": { "weight": 1.2 },
+    "delete": { "flags": [ "VARSIZE", "WATER_FRIENDLY" ] }
+  },
+  {
     "id": "carbon_helmet",
     "type": "ARMOR",
     "name": { "str": "carbon fiber helmet" },

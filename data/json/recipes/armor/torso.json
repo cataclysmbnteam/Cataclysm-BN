@@ -1391,5 +1391,22 @@
     "book_learn": [ [ "textbook_tailor", 4 ] ],
     "using": [ [ "sewing_standard", 48 ] ],
     "components": [ [ [ "rag", 20 ] ] ]
+  },
+  {
+    "result": "cuirass_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
+    "using": [ [ "sewing_standard", 18 ] ],
+    "components": [
+      [ [ "bone_heavy", 18 ] ],
+      [ [ "cordage", 4, "LIST" ] ],
+      [ [ "fabric_standard", 9, "LIST" ], [ "fabric_hides_any", 9, "LIST" ] ]
+    ]
   }
 ]
