@@ -1531,7 +1531,7 @@
   },
   {
     "type": "construction_group",
-    "id": "build_ligth_switch",
+    "id": "build_light_switch",
     "name": "Install a light switch"
   }
 ]

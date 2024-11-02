@@ -5282,8 +5282,8 @@
   },
   {
     "type": "construction",
-    "id": "constr_f_ligth_switch",
-    "group": "build_ligth_switch",
+    "id": "constr_f_light_switch",
+    "group": "build_light_switch",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "electronics", 0 ] ],
     "time": "5 m",

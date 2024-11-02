@@ -2727,7 +2727,7 @@
   {
     "type": "furniture",
     "id": "f_light_switch",
-    "name": "ligth switch (off)",
+    "name": "light switch (off)",
     "looks_like": "f_light_switch_off",
     "symbol": "{",
     "color": "light_gray",
@@ -2758,7 +2758,7 @@
   {
     "type": "furniture",
     "id": "f_light_switch_on",
-    "name": "ligth switch (on)",
+    "name": "light switch (on)",
     "looks_like": "f_light_switch_on",
     "symbol": "{",
     "color": "yellow",
