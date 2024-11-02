@@ -2680,7 +2680,7 @@
     "copy-from": "f_olight_base",
     "name": "ceiling lamp (off)",
     "description": "A working lamp installed on the ceiling, this one is turned off.",
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "L_OFF" ],
+    "extend": { "flags": [ "L_OFF" ] },
     "examine_action": "transform",
     "transforms_into": "f_olight_nopower",
     "prompt": "Switch on the ceiling lamp.",
@@ -2694,7 +2694,7 @@
     "copy-from": "f_olight_base",
     "name": "ceiling lamp (on)",
     "description": "A working lamp installed on the ceiling, this one is turned on.",
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "L_ON" ],
+    "extend": { "flags": [ "L_ON" ] },
     "examine_action": "transform",
     "transforms_into": "f_olight_off",
     "prompt": "Switch off the ceiling lamp.",
@@ -2717,7 +2717,7 @@
     "copy-from": "f_olight_base",
     "name": "ceiling lamp (no power)",
     "description": "A working lamp installed on the ceiling, this one is turned on but it has no power.",
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "L_ON" ],
+    "extend": { "flags": [ "L_ON" ] },
     "examine_action": "transform",
     "transforms_into": "f_olight_off",
     "prompt": "Switch off the ceiling lamp.",
@@ -2751,8 +2751,6 @@
     "flags": [ "EASY_DECONSTRUCT", "L_OFF" ],
     "examine_action": "toggle_lights",
     "transforms_into": "f_light_switch_on",
-    "//": "Unused prompt but just in case",
-    "prompt": "Switch on the lights.",
     "message": "You switched on the lights."
   },
   {
@@ -2769,8 +2767,6 @@
     "flags": [ "EASY_DECONSTRUCT", "L_ON" ],
     "examine_action": "toggle_lights",
     "transforms_into": "f_light_switch",
-    "//": "Unused prompt but just in case",
-    "prompt": "Switch off the lights.",
     "message": "You switched off the lights."
   }
 ]

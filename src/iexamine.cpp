@@ -856,7 +856,7 @@ void iexamine::toilet( player &p, const tripoint &examp )
 }
 
 /** Toggle the lights in a overmap terrain*/
-void iexamine::toggle_lights( player &p, const tripoint &examp )
+void iexamine::toggle_lights( player &/*p*/, const tripoint &examp )
 {
     map &here = get_map();
     std:: string flag = "L_OFF";
