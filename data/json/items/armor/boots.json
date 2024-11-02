@@ -115,7 +115,8 @@
     "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "price_postapoc": "1750 cent",
     "material": [ "acidchitin", "leather" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "encumbrance": 15,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
     "relative": { "bashing": 2, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
@@ -300,8 +301,9 @@
     "description": "Thick leather boots that have been reinforced with strategically-placed metal plates.  Strong yet light.",
     "material": [ "leather", "iron" ],
     "looks_like": "boots_plate",
+    "material_thickness": 8,
     "proportional": { "price": 4, "price_postapoc": 1.2 },
-    "relative": { "weight": "500 g", "encumbrance": 4 }
+    "relative": { "weight": "500 g" }
   },
   {
     "id": "boots_lsurvivor",
@@ -460,7 +462,8 @@
     "description": "Stiff leather boots with intricate embroidery and one-inch heels.  They look good, but aren't made for running.  Each boot is large enough to conceal a small holdout pistol.",
     "price_postapoc": "750 cent",
     "coverage": 95,
-    "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
+    "encumbrance": 24,
+    "proportional": { "weight": 1.2, "volume": 1.2, "price": 2 },
     "use_action": {
       "type": "holster",
       "max_volume": "250 ml",
