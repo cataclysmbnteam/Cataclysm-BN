@@ -8082,11 +8082,10 @@ itype_id item::magazine_default( bool conversion ) const
                     }
                 }
             }
-        } else {
-            auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
-            if( mag != type->magazine_default.end() && !mag->second->has_flag( flag_SPEEDLOADER ) ) {
-                return mag->second;
-            }
+        }
+        auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
+        if( mag != type->magazine_default.end() && !mag->second->has_flag( flag_SPEEDLOADER ) ) {
+            return mag->second;
         }
     }
     return itype_id::NULL_ID();
