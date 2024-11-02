@@ -102,7 +102,8 @@ Ultica are planned for the future.
 - Harvested state for cattails, including winter variation. Furniture specific to BN.
 - Additional blood splat tiles.
 - Animated portal sprites.
-- Sprites for bone cuirass and greaves. Reimplementation of previously-obsoleted bone armor specific to BN.
+- Sprites for bone cuirass and greaves. Reimplementation of previously-obsoleted bone armor specific
+  to BN.
 
 ### External_Tileset_DP_terrain_normal.png
 
