@@ -577,7 +577,7 @@
     "price": "550 USD",
     "price_postapoc": "35 USD",
     "to_hit": -3,
-    "material": [ "kevlar", "cotton" ],
+    "material": [ "kevlar" ],
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "white",
@@ -585,7 +585,7 @@
     "coverage": 100,
     "encumbrance": 23,
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "environmental_protection": 7,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
