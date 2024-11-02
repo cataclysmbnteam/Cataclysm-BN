@@ -288,6 +288,18 @@
     "entries": [ { "item": "shot_00", "charges": 18 } ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_monster_hunter_1",
+    "entries": [ { "item": "arrow_tooth", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_monster_hunter_2",
+    "entries": [ { "item": "arrow_stinger", "charges": 20 } ]
+  },
+  {
     "type": "profession_item_substitutions",
     "trait": "WOOLALLERGY",
     "sub": [
@@ -3909,6 +3921,49 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "monster_hunter",
+    "name": "Monster Hunter",
+    "description": "With the fall of civilization, you took to living off the land and grew into a competent hunter.  The abominations that thrive in this new world may not be good eating, but their hides and bones make for quite practical trophies.",
+    "points": 6,
+    "skills": [
+      { "level": 5, "name": "tailor" },
+      { "level": 4, "name": "fabrication" },
+      { "level": 2, "name": "gun" },
+      { "level": 3, "name": "archery" },
+      { "level": 3, "name": "survival" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "cooking" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "armor_scute",
+          "armguard_scute",
+          "backpack_leather",
+          "boots_scute",
+          "gauntlets_scute",
+          "helmet_scute",
+          "clay_pot",
+          "waterskin",
+          "needle_bone",
+          "fire_drill"
+        ],
+        "entries": [
+          { "item": "knife_stinger", "container-item": "sheath" },
+          { "item": "quiver", "contents-group": "quiver_monster_hunter_1" },
+          { "item": "quiver", "contents-group": "quiver_monster_hunter_2" },
+          { "item": "compositebow_short", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
     },
     "flags": [ "SCEN_ONLY" ]
   },
