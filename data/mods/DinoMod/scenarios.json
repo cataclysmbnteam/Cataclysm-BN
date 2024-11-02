@@ -10,7 +10,7 @@
     "flags": [ "LONE_START" ],
     "surround_groups": [ [ "GROUP_DINOSAUR_MEGA_CARNIVORE", 70.0 ] ],
     "add_professions": true,
-    "professions": [ "monster_hunter" ]
+    "professions": [ "monster_hunter", "monster_slayer" ]
   },
   {
     "type": "scenario",
