@@ -464,7 +464,8 @@
     "time": "1 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 24 ] ],
+    "components": [ [ [ "chitin_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
     "result": "helmet_acidchitin",
@@ -475,7 +476,7 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 24 ] ],
     "components": [ [ [ "acidchitin_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
@@ -1606,5 +1607,22 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 18 ] ],
     "components": [ [ [ "scute_piece", 8 ] ], [ [ "fabric_hides_proper", 8, "LIST" ] ] ]
+  },
+  {
+    "result": "helmet_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "using": [ [ "sewing_standard", 4 ] ],
+    "components": [
+      [ [ "bone_heavy", 4 ] ],
+      [ [ "cordage", 1, "LIST" ] ],
+      [ [ "fabric_standard", 2, "LIST" ], [ "fabric_hides_any", 2, "LIST" ] ]
+    ]
   }
 ]

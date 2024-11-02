@@ -432,6 +432,23 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "cuirass_bone",
+    "copy-from": "armor_lamellar",
+    "looks_like": "armor_bone",
+    "type": "ARMOR",
+    "name": { "str": "bone cuirass", "str_pl": "bone cuirasses" },
+    "description": "A cuirass made from large pieces of carved bone, laced together like lamellar armor.  Tough but stiff, and a bit brittle.",
+    "material": [ "bone_heavy" ],
+    "color": "white",
+    "encumbrance": 12,
+    "warmth": 12,
+    "environmental_protection": 1,
+    "valid_mods": [  ],
+    "proportional": { "weight": 1.2 },
+    "extend": { "flags": [ "OUTER" ] },
+    "delete": { "flags": [ "VARSIZE" ] }
+  },
+  {
     "id": "carbon_chestguard",
     "type": "ARMOR",
     "name": { "str": "carbon fiber chestguard" },

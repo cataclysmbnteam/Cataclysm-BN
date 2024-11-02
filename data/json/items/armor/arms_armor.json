@@ -297,6 +297,21 @@
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
   },
   {
+    "id": "armguard_bone",
+    "copy-from": "vambrace_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of bone vambraces", "str_pl": "pairs of bone vambraces" },
+    "description": "Arm protection made from strips of carved bone, laced together as splint armor.  Tough but stiff, and a bit brittle.",
+    "material": [ "bone_heavy" ],
+    "color": "white",
+    "encumbrance": 12,
+    "warmth": 12,
+    "material_thickness": 4,
+    "valid_mods": [  ],
+    "proportional": { "weight": 1.2 },
+    "delete": { "flags": [ "WATER_FRIENDLY" ] }
+  },
+  {
     "id": "carbon_armguard",
     "type": "ARMOR",
     "name": { "str": "carbon fiber arm guards" },

@@ -152,7 +152,10 @@
               { "weight": 10, "sprite": 135 }
             ],
             "animated": true
-          }
+          },
+          { "id": "overlay_worn_cuirass_bone", "fg": 136 },
+          { "id": [ "greaves_bone", "overlay_wielded_greaves_bone" ], "fg": 137 },
+          { "id": "overlay_worn_greaves_bone", "fg": 138 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
