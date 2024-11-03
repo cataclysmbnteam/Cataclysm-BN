@@ -1397,6 +1397,7 @@
     "symbol": "%",
     "calories": 680,
     "material": [ "veggy", "flesh" ],
-    "fun": 10
+    "fun": 10,
+    "looks_like": "rice_cooked"
   }
 ]

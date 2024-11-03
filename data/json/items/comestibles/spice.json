@@ -160,6 +160,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "gochujang" },
     "description": "A spicy and sweet Korean condiment, quite often used throughout Korean cooking.",
-    "color": "red"
+    "color": "red",
+    "looks_like": "chilly-p"
   }
 ]
