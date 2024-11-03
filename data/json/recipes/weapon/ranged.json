@@ -1155,6 +1155,31 @@
     ]
   },
   {
+    "result": "laser_maxim",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "80 m",
+    "autolearn": true,
+    "qualities": [
+      { "id": "WRENCH", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "ANVIL", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "using": [ [ "soldering_standard", 60 ], [ "surface_heat", 200 ] ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "copper_scrap_equivalent", 80, "LIST" ] ],
+      [ [ "cu_pipe", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "laser_rifle_cheap", 1 ] ]
+    ]
+  },
+  {
     "type": "recipe",
     "result": "smg_9mm",
     "category": "CC_WEAPON",

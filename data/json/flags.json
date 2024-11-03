@@ -1686,6 +1686,12 @@
     "context": [  ]
   },
   {
+    "id": "NO_RECOVER_AMMO",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "Ammo fired from this weapon is never recovered"
+  },
+  {
     "id": "NO_RELOAD",
     "type": "json_flag",
     "context": [  ]
