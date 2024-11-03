@@ -8056,21 +8056,17 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
-    for( const item *m : is_gun() ? gunmods() : toolmods() ) {
-        if( !m->type->mod->magazine_adaptor.empty() ) {
-            return false;
-        }
-    }
-    if( is_gun() ) {
+    // If it has a default magazine, it can't have an integral magazine.
+    if( magazine_default() ) {
+        return false;
+    } else if( is_gun() ) {
         // We have an integral magazine if we're a gun with an ammo capacity (clip)
         return type->gun->clip;
     } else if( is_tool() ) {
         // Or we are a tool with max_charges defined
         return type->tool->max_charges;
     }
-
-    // Or we're a non-gun/tool item with no magazines.
-    return ( type->magazines.empty() );
+    return true;
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -8080,14 +8076,15 @@ itype_id item::magazine_default( bool conversion ) const
             for( const item *m : is_gun() ? gunmods() : toolmods() ) {
                 if( !m->type->mod->magazine_adaptor.empty() ) {
                     auto mags = m->type->mod->magazine_adaptor.find( ammotype( *ammo_types( conversion ).begin() ) );
-                    if( mags != m->type->mod->magazine_adaptor.end() ) {
+                    if( mags != m->type->mod->magazine_adaptor.end() &&
+                        !( *mags->second.begin() )->has_flag( flag_SPEEDLOADER ) ) {
                         return *( mags->second.begin() );
                     }
                 }
             }
         }
         auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
-        if( mag != type->magazine_default.end() ) {
+        if( mag != type->magazine_default.end() && !mag->second->has_flag( flag_SPEEDLOADER ) ) {
             return mag->second;
         }
     }
