@@ -26,7 +26,6 @@
 #include "clzones.h"
 #include "color.h"
 #include "construction.h"
-#include "construction.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -8975,7 +8974,7 @@ std::vector<item *> map::get_active_items_in_radius( const tripoint &center, int
     return result;
 }
 
-std::list<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
+std::vector<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
         const std::string &flag )
 {
     // Some stupid code to get to the corner
@@ -8986,9 +8985,9 @@ std::list<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
                                      omt_p.y + ( 1 - omt_diff.y ) * SEEY,
                                      p.z );
 
-    std::list<tripoint> furn_locs;
+    std::vector<tripoint> furn_locs;
     for( const auto &furn_loc : points_in_rectangle( omt_o,
-            tripoint( omt_o.x + 2 * SEEX, omt_o.y + 2 * SEEY, p.z ) ) ) {
+            tripoint( omt_o.x + 2 * SEEX - 1, omt_o.y + 2 * SEEY - 1, p.z ) ) ) {
         if( has_flag_furn( flag, furn_loc ) ) {
             furn_locs.push_back( furn_loc );
         }

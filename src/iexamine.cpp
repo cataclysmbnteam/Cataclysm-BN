@@ -859,20 +859,13 @@ void iexamine::toilet( player &p, const tripoint &examp )
 void iexamine::toggle_lights( player &/*p*/, const tripoint &examp )
 {
     map &here = get_map();
-    std:: string flag = "L_OFF";
-    std::string message = g->m.furn( examp ).obj().message;
-    std::string prompt = g->m.furn( examp ).obj().prompt;
-
-    // Checks to turn on or off
-    if( !here.has_flag_furn( flag, examp ) ) {
-        flag = "L_ON";
-    };
-
+    const auto flag = here.has_flag_furn( "L_OFF", examp ) ? "L_OFF" : "L_ON";
 
     for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag ) ) {
-        g->m.furn_set( light_loc, g->m.get_furn_transforms_into( light_loc ) );
+        here.furn_set( light_loc, here.get_furn_transforms_into( light_loc ) );
     };
-    add_msg( _( message ) );
+
+    add_msg( _( here.furn( examp ).obj().message ) );
 }
 
 /**
@@ -885,7 +878,6 @@ void iexamine::controls_gate( player &p, const tripoint &examp )
         return;
     }
     g->toggle_gate( examp );
-
 }
 
 static bool try_start_hacking( player &p, const tripoint &examp )
