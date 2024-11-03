@@ -104,6 +104,7 @@ Ultica are planned for the future.
 - Animated portal sprites.
 - Sprites for bone cuirass and greaves. Reimplementation of previously-obsoleted bone armor specific
   to BN.
+- New sprites for generated sidewalks. Specific to BN.
 
 ### External_Tileset_DP_terrain_normal.png
 
