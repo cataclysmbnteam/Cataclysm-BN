@@ -1382,5 +1382,22 @@
     "calories": 206,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 100 ], [ "vitB", 0 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "id": "bibimbap",
+    "name": { "str_sp": "bibimbap" },
+    "type": "COMESTIBLE",
+    "description": "A mixed meat and rice dish from Korea, often with eggs and various veggies.",
+    "weight": "250 g",
+    "volume": "300 ml",
+    "//": "Very rough estimation",
+    "color": "white",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 680,
+    "material": [ "veggy", "flesh" ],
+    "fun": 10,
+    "looks_like": "rice_cooked"
   }
 ]
