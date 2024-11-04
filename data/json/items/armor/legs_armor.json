@@ -336,7 +336,7 @@
     "encumbrance": 20,
     "storage": "3500 ml",
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 5,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
