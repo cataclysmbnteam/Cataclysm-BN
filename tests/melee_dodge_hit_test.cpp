@@ -150,13 +150,13 @@ TEST_CASE( "Character::get_dodge_base", "[character][melee][dodge][dex][skill]" 
 
         CHECK( dodge_base_with_dex_and_skill( dummy, 6, 2 ) == 3.5f );
         CHECK( dodge_base_with_dex_and_skill( dummy, 6, 4 ) == 5.5f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 6 ) == 6.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 6 ) == 7.5f );
         CHECK( dodge_base_with_dex_and_skill( dummy, 6, 8 ) == 9.5f );
 
         CHECK( dodge_base_with_dex_and_skill( dummy, 10, 7 ) == 9.5f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 8 ) == 10.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 9 ) == 11.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 10 ) == 12.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 8 ) == 10.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 9 ) == 11.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 10 ) == 12.5f );
     }
 }
 
