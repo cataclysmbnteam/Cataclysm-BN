@@ -3120,7 +3120,7 @@
     "charges": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "meat_red", 1, "LIST" ] ],
+      [ [ "meat_red_cooked", 1, "LIST" ], [ "fish", 1 ] ],
       [ [ "rice_cooked", 4 ] ],
       [ [ "eggs_small", 4, "LIST" ] ],
       [ [ "garlic_clove", 4 ] ],
@@ -3128,6 +3128,7 @@
       [ [ "honey_bottled", 1 ] ],
       [ [ "carrot", 2 ], [ "irradiated_carrot", 2 ], [ "carrot_wild", 2 ] ],
       [ [ "mushroom", 8 ], [ "mushroom_morel", 8 ] ],
+      [ [ "veggy_green", 2, "LIST" ] ],
       [ [ "cooking_oil", 3 ] ],
       [ [ "salt", 1 ] ],
       [ [ "sugar", 20 ] ],
