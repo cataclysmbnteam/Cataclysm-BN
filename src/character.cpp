@@ -6104,7 +6104,7 @@ float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
     /** @EFFECT_DODGE increases dodge_base */
-    return get_dex() / 2.0f + get_skill_level( skill_dodge );
+    return get_dex() / 4.0f + get_skill_level( skill_dodge );
 }
 float Character::get_hit_base() const
 {
