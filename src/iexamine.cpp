@@ -5250,9 +5250,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_disinfected, 1_turns, bp_healed );
                     effect &e = patient.get_effect( effect_disinfected, bp_healed );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-                    hp_part target_part = player::bp_to_hp( bp_healed );
-                    patient.damage_disinfected[target_part] =
-                        patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed );
+                    bodypart_str_id target_part = player::bp_to_hp( bp_healed );
+                    bodypart &part = patient.get_part( target_part );
+                    part.set_damage_disinfected( part.get_hp_max() - part.get_hp_cur() );
 
                 }
             }

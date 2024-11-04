@@ -34,7 +34,6 @@
 #include "value_ptr.h"
 #include "profile.h"
 
-static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
@@ -71,25 +70,6 @@ void player_activity::resolve_active()
         active = false;
     } else {
         delete this;
-    }
-}
-
-
-void player_activity::migrate_item_position( Character &guy )
-{
-    const bool simple_action_replace =
-        type == ACT_FIRSTAID || type == ACT_GAME ||
-        type == ACT_PICKAXE || type == ACT_START_FIRE ||
-        type == ACT_HAND_CRANK || type == ACT_VIBE ||
-        type == ACT_OXYTORCH || type == ACT_FISH ||
-        type == ACT_ATM;
-
-    if( simple_action_replace ) {
-        targets.emplace_back( &guy.i_at( position ) );
-    } else if( type == ACT_GUNMOD_ADD ) {
-        // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.emplace_back( &guy.i_at( position ) );
-        targets.emplace_back( &guy.i_at( values[0] ) );
     }
 }
 

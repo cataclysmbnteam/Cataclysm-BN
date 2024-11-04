@@ -743,7 +743,7 @@ class Character : public Creature, public location_visitable<Character>
         void mutation_spend_resources( const trait_id &mut );
 
         /** Converts a bodypart_str_id to an hp_part */
-        static hp_part bp_to_hp( const bodypart_str_id &bp );
+        static bodypart_str_id bp_to_hp( const bodypart_str_id &bp );
         /** Converts an hp_part to a bodypart_str_id */
         static const bodypart_str_id &hp_to_bp( hp_part hpart );
 
@@ -793,10 +793,10 @@ class Character : public Creature, public location_visitable<Character>
          * bandage_power - quality of bandage
          * disinfectant_power - quality of disinfectant
          */
-        hp_part body_window( const std::string &menu_header,
-                             bool show_all, bool precise,
-                             int normal_bonus, int head_bonus, int torso_bonus,
-                             float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
+        bodypart_str_id body_window( const std::string &menu_header,
+                                     bool show_all, bool precise,
+                                     int normal_bonus, int head_bonus, int torso_bonus,
+                                     float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
@@ -1629,7 +1629,6 @@ class Character : public Creature, public location_visitable<Character>
         bool male = true;
 
         location_vector<item> worn;
-        std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
         bool hauling = false;
