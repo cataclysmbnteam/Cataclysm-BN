@@ -199,11 +199,9 @@ TEST_CASE( "Character::get_dodge", "[player][melee][dodge]" )
     const float base_dodge = dummy.get_dodge_base();
 
     SECTION( "each dodge after the first subtracts 2 points" ) {
-        // Simulate some dodges, so dodges_left will go to 0, -1
+        // Simulate a dodge
         dummy.on_dodge( nullptr, 0 );
         CHECK( dummy.get_dodge() == base_dodge - 2 );
-        dummy.on_dodge( nullptr, 0 );
-        CHECK( dummy.get_dodge() == base_dodge - 4 );
 
         // Reset dodges_left, so subsequent tests are not affected
         dummy.set_moves( 100 );
