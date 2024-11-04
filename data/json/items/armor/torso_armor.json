@@ -331,7 +331,7 @@
     "volume": "6 L",
     "price": "600 USD",
     "price_postapoc": "40 USD",
-    "material": [ "kevlar" ],
+    "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "lsurvivor_suit",
     "color": "green",
