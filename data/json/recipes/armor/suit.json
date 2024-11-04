@@ -278,7 +278,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 18 ] ],
     "components": [
-      [ [ "jacket_army", 1 ], [ "winter_jacket_army", 1 ], [ "jacket_light", 1 ] ],
+      [ [ "jacket_army", 1 ], [ "winter_jacket_army", 1 ], [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ],
       [ [ "vest", 1 ], [ "tacvest", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
       [ [ "fanny", 2 ], [ "dump_pouch", 1 ], [ "legrig", 2 ] ],
       [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
