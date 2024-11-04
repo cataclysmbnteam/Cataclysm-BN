@@ -68,6 +68,34 @@
               { "weight": 5, "sprite": 59 },
               { "weight": 2, "sprite": 60 }
             ]
+          },
+          {
+            "id": "t_adobe_brick_wall",
+            "fg": 61,
+            "rotates": false,
+            "multitile": true,
+            "additional_tiles": [
+              { "id": "center", "fg": 62 },
+              { "id": "corner", "fg": [ 63, 64, 65, 66 ] },
+              { "id": "t_connection", "fg": [ 73, 74, 75, 76 ] },
+              { "id": "edge", "fg": [ 67, 68 ] },
+              { "id": "end_piece", "fg": [ 69, 70, 71, 72 ] },
+              { "id": "unconnected", "fg": 77 }
+            ]
+          },
+          {
+            "id": "t_brick_wall",
+            "fg": 78,
+            "rotates": false,
+            "multitile": true,
+            "additional_tiles": [
+              { "id": "center", "fg": 79 },
+              { "id": "corner", "fg": [ 80, 81, 82, 83 ] },
+              { "id": "t_connection", "fg": [ 90, 91, 92, 93 ] },
+              { "id": "edge", "fg": [ 84, 85 ] },
+              { "id": "end_piece", "fg": [ 86, 87, 88, 89 ] },
+              { "id": "unconnected", "fg": 94 }
+            ]
           }
         ],
         "sprite_width": 32,
