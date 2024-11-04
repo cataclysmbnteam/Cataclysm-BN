@@ -707,7 +707,7 @@
     "id": "noodles_kimchi",
     "type": "COMESTIBLE",
     "name": { "str_sp": "kimchimari guksu" },
-    "description": "Noodles served chilled with kimchi. The cold but spicy flavor brings a unique refreshment.",
+    "description": "Noodles served chilled with kimchi.  The cold but spicy flavor brings a unique refreshment.",
     "material": [ "wheat", "veggy" ],
     "comestible_type": "FOOD",
     "weight": "300 g",

@@ -1085,7 +1085,7 @@
     "id": "kimchi_hydria",
     "name": { "str": "kimchi gimjangdok" },
     "category": "food",
-    "description": "A dok, or clay jar, in which kimchi is stored for the winter. Traditionally, this is buried in the ground, but it doesn't matter if you leave it above ground; just close the lid and wait for it to ferment, and you'll have delicious kimchi.",
+    "description": "A dok, or clay jar, in which kimchi is stored for the winter.  Traditionally, this is buried in the ground, but it doesn't matter if you leave it above ground; just close the lid and wait for it to ferment, and you'll have delicious kimchi.",
     "weight": "13 kg",
     "volume": "15 L",
     "material": [ "clay", "veggy" ],
