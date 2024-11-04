@@ -611,9 +611,6 @@ void ExplosionProcess::project_shrapnel( const tripoint position )
         // Humans get hit in all body parts
         if( critter->is_player() ) {
             for( bodypart_id bp : bps ) {
-                if( Character::bp_to_hp( bp.id() ) == num_hp_parts ) {
-                    continue;
-                }
                 // TODO: Apply projectile effects
                 // TODO: Penalize low coverage armor
                 // Halve damage to be closer to what monsters take
@@ -1121,10 +1118,6 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
             // Humans get hit in all body parts
             if( critter->is_player() ) {
                 for( bodypart_id bp : bps ) {
-                    // TODO: This shouldn't be needed, get_bps should do it
-                    if( Character::bp_to_hp( bp.id() ) == num_hp_parts ) {
-                        continue;
-                    }
                     // TODO: Apply projectile effects
                     // TODO: Penalize low coverage armor
                     // Halve damage to be closer to what monsters take

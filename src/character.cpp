@@ -409,8 +409,6 @@ Character &get_player_character()
 Character::Character() :
     location_visitable<Character>(),
     worn(new worn_item_location(this)),
-    damage_bandaged( {{ 0 }} ),
-    damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
     inv(new character_item_location(this)),
     id( -1 ),
@@ -497,7 +495,6 @@ void Character::move_operator_common( Character &&source ) noexcept
     male = source.male ;
 
     worn = std::move( source.worn );
-    damage_disinfected = source.damage_disinfected ;
     in_vehicle = source.in_vehicle ;
     hauling = source.hauling ;
 
@@ -4966,18 +4963,19 @@ void Character::regen( int rate_multiplier )
         healed_bp( i, healing_apply );
         heal( bp, healing_apply );
 
-        if( damage_bandaged[i] > 0 ) {
-            damage_bandaged[i] -= healing_apply;
-            if( damage_bandaged[i] <= 0 ) {
-                damage_bandaged[i] = 0;
+        bodypart &part = get_part( bp );
+        if( part.get_damage_bandaged() > 0 ) {
+            part.set_damage_bandaged( part.get_damage_bandaged() - healing_apply );
+            if( part.get_damage_bandaged() <= 0 ) {
+                part.set_damage_bandaged( 0 );
                 remove_effect( effect_bandaged, bp.id() );
                 add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
-        if( damage_disinfected[i] > 0 ) {
-            damage_disinfected[i] -= healing_apply;
-            if( damage_disinfected[i] <= 0 ) {
-                damage_disinfected[i] = 0;
+        if( part.get_damage_disinfected() > 0 ) {
+            part.set_damage_disinfected( part.get_damage_disinfected() - healing_apply );
+            if( part.get_damage_disinfected() <= 0 ) {
+                part.set_damage_disinfected( 0 );
                 remove_effect( effect_disinfected, bp.id() );
                 add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
@@ -4985,12 +4983,12 @@ void Character::regen( int rate_multiplier )
 
         // remove effects if the limb was healed by other way
         if( has_effect( effect_bandaged, bp.id() ) && ( get_part( bp ).is_at_max_hp() ) ) {
-            damage_bandaged[i] = 0;
+            part.set_damage_bandaged( 0 );
             remove_effect( effect_bandaged, bp.id() );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
         if( has_effect( effect_disinfected, bp.id() ) && ( get_part( bp ).is_at_max_hp() ) ) {
-            damage_disinfected[i] = 0;
+            part.set_damage_disinfected( 0 );
             remove_effect( effect_disinfected, bp.id() );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }
@@ -6104,7 +6102,7 @@ float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
     /** @EFFECT_DODGE increases dodge_base */
-    return get_dex() / 2.0f + get_skill_level( skill_dodge );
+    return get_dex() / 4.0f + get_skill_level( skill_dodge );
 }
 float Character::get_hit_base() const
 {
@@ -6112,10 +6110,10 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
-hp_part Character::body_window( const std::string &menu_header,
-                                bool show_all, bool precise,
-                                int normal_bonus, int head_bonus, int torso_bonus,
-                                float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
+bodypart_str_id Character::body_window( const std::string &menu_header,
+                                        bool show_all, bool precise,
+                                        int normal_bonus, int head_bonus, int torso_bonus,
+                                        float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -6123,19 +6121,18 @@ hp_part Character::body_window( const std::string &menu_header,
     struct healable_bp {
         mutable bool allowed;
         bodypart_id bp;
-        hp_part hp;
         std::string name; // Translated name as it appears in the menu.
         int bonus;
     };
     /* The array of the menu entries show to the player. The entries are displayed in this order,
      * it may be changed here. */
     std::array<healable_bp, num_hp_parts> parts = { {
-            { false, bodypart_id( "head" ), hp_head, _( "Head" ), head_bonus },
-            { false, bodypart_id( "torso" ), hp_torso, _( "Torso" ), torso_bonus },
-            { false, bodypart_id( "arm_l" ), hp_arm_l, _( "Left Arm" ), normal_bonus },
-            { false, bodypart_id( "arm_r" ), hp_arm_r, _( "Right Arm" ), normal_bonus },
-            { false, bodypart_id( "leg_l" ), hp_leg_l, _( "Left Leg" ), normal_bonus },
-            { false, bodypart_id( "leg_r" ), hp_leg_r, _( "Right Leg" ), normal_bonus },
+            { false, bodypart_id( "head" ), _( "Head" ), head_bonus },
+            { false, bodypart_id( "torso" ), _( "Torso" ), torso_bonus },
+            { false, bodypart_id( "arm_l" ), _( "Left Arm" ), normal_bonus },
+            { false, bodypart_id( "arm_r" ), _( "Right Arm" ), normal_bonus },
+            { false, bodypart_id( "leg_l" ), _( "Left Leg" ), normal_bonus },
+            { false, bodypart_id( "leg_r" ), _( "Right Leg" ), normal_bonus },
         }
     };
 
@@ -6312,9 +6309,9 @@ hp_part Character::body_window( const std::string &menu_header,
     bmenu.query();
     if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() &&
         parts[bmenu.ret].allowed ) {
-        return parts[bmenu.ret].hp;
+        return parts[bmenu.ret].bp.id();
     } else {
-        return num_hp_parts;
+        return bodypart_str_id::NULL_ID();
     }
 }
 
@@ -6815,30 +6812,9 @@ float Character::rest_quality() const
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
-hp_part Character::bp_to_hp( const bodypart_str_id &bp )
+bodypart_str_id Character::bp_to_hp( const bodypart_str_id &bp )
 {
-    switch( bp->token ) {
-        case bp_head:
-        case bp_eyes:
-        case bp_mouth:
-            return hp_head;
-        case bp_torso:
-            return hp_torso;
-        case bp_arm_l:
-        case bp_hand_l:
-            return hp_arm_l;
-        case bp_arm_r:
-        case bp_hand_r:
-            return hp_arm_r;
-        case bp_leg_l:
-        case bp_foot_l:
-            return hp_leg_l;
-        case bp_leg_r:
-        case bp_foot_r:
-            return hp_leg_r;
-        default:
-            return num_hp_parts;
-    }
+    return bp->main_part;
 }
 
 const bodypart_str_id &Character::hp_to_bp( const hp_part hpart )

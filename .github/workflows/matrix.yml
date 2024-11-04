@@ -109,7 +109,7 @@ jobs:
 
           # - title: Clang 14, macOS 12, Tiles, Sound, Localize, Lua
           #   compiler: clang++
-          #   os: macos-12
+          #   os: macos-14
           #   cmake: 0
           #   tiles: 1
           #   sound: 1
