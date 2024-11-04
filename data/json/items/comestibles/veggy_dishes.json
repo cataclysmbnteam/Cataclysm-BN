@@ -977,7 +977,7 @@
     "//": "Yup, kimchi does not have much calories.",
     "looks_like": "fruit_leather",
     "quench": -2,
-    "description": "A spicy pickled veggie made of variable ingredients. Before the Cataclysm, it was traditionally stored in a dedicated refrigerator, but it's actually a preserved food.",
+    "description": "A spicy pickled veggie made of variable ingredients.  Before the Cataclysm, it was traditionally stored in a dedicated refrigerator, but it's actually a preserved food.",
     "price": "2 USD",
     "material": "veggy",
     "charges": 4,
@@ -989,7 +989,7 @@
     "id": "kimchi_raw",
     "name": { "str_sp": "unfermented kimchi" },
     "copy-from": "kimchi",
-    "description": "A spicy, seasoned vegetable that takes on a more complex flavor when fermented. Traditionally, they are fermented in large clay pots.",
+    "description": "A spicy, seasoned vegetable that takes on a more complex flavor when fermented.  Traditionally, they are fermented in large clay pots.",
     "quench": 1,
     "healthy": 1,
     "fun": 1
