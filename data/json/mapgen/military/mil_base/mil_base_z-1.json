@@ -48,6 +48,7 @@
         { "group": "military_standard_pistols", "x": 23, "y": [ 12, 13 ], "chance": 75, "repeat": 10 },
         { "group": "guns_pistol_milspec", "x": 23, "y": [ 12, 13 ], "chance": 75, "repeat": 5 },
         { "group": "military", "x": 10, "y": [ 20, 21 ], "chance": 75, "repeat": 10 },
+        { "group": "rare", "x": 10, "y": [ 20, 21 ], "chance": 20, "repeat": 2 },
         { "group": "pwr_armor", "x": 10, "y": 22, "chance": 75 },
         { "group": "pwr_armor_acc", "x": 10, "y": 22, "chance": 75, "repeat": 3 },
         { "item": "adv_UPS_off", "x": 12, "y": 22, "chance": 75, "repeat": 2 },
