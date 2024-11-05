@@ -114,7 +114,7 @@
     "destroy_prompt": "Remove pockets",
     "mod_value": [
       { "type": "encumbrance", "value": 2, "proportion": [ "coverage" ] },
-      { "type": "storage", "value": 3, "round_up": true, "proportion": [ "thickness" ] }
+      { "type": "storage", "value": 3, "round_up": true, "proportion": [ "thickness", "coverage" ] }
     ]
   }
 ]
