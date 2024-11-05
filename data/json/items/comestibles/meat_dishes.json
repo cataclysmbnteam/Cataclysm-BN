@@ -1391,7 +1391,7 @@
       { "type": "COMPONENT_ID", "condition": "fish", "name": "sashimi %s" }
     ],
     "type": "COMESTIBLE",
-    "description": "A mixed meat and rice dish from Korea, often with eggs and various veggies.",
+    "description": "A mixed meat and rice dish from Korea, often with eggs and various veggies.  This version has gone for a full-house of ingredients, making it extra tasty.",
     "weight": "250 g",
     "volume": "300 ml",
     "//": "Very rough estimation",
@@ -1402,6 +1402,27 @@
     "calories": 680,
     "material": [ "veggy", "flesh" ],
     "fun": 10,
+    "looks_like": "rice_cooked"
+  },
+  {
+    "id": "bibimbap_simple",
+    "name": { "str_sp": "simple bibimbap" },
+    "conditional_names": [
+      { "type": "FLAG", "condition": "CANNIBALISM", "name": "saram %s" },
+      { "type": "COMPONENT_ID", "condition": "fish", "name": "sashimi %s" }
+    ],
+    "type": "COMESTIBLE",
+    "description": "A mixed meat and rice dish from Korea, often with eggs and various veggies.",
+    "weight": "250 g",
+    "volume": "300 ml",
+    "//": "Very rough estimation",
+    "color": "white",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 555,
+    "material": [ "veggy", "flesh" ],
+    "fun": 5,
     "looks_like": "rice_cooked"
   },
   {

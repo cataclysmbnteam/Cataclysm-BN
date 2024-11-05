@@ -3120,7 +3120,7 @@
     "charges": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "meat_red_cooked", 1, "LIST" ], [ "fish", 1 ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ] ],
       [ [ "rice_cooked", 4 ] ],
       [ [ "eggs_small", 4, "LIST" ] ],
       [ [ "garlic_clove", 4 ] ],
@@ -3134,6 +3134,27 @@
       [ [ "sugar", 20 ] ],
       [ [ "gochujang", 24 ] ],
       [ [ "vinegar", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bibimbap_simple",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_sushi", 2 ] ],
+    "time": "10 m",
+    "autolearn": true,
+    "charges": 2,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ] ],
+      [ [ "rice_cooked", 4 ] ],
+      [ [ "eggs_small", 2, "LIST" ] ],
+      [ [ "veggy_green", 2, "LIST" ] ],
+      [ [ "cooking_oil", 3 ] ],
+      [ [ "gochujang", 12 ] ]
     ]
   },
   {
