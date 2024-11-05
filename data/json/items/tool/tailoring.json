@@ -227,7 +227,17 @@
           "kevlar_rigid"
         ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "alloy_padded", "kevlar_padded", "furred", "wooled", "resized_large" ]
+        "clothing_mods": [
+          "leather_padded",
+          "steel_padded",
+          "alloy_padded",
+          "kevlar_padded",
+          "nomex_padded",
+          "furred",
+          "wooled",
+          "resized_large",
+          "pocketed"
+        ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
