@@ -1420,7 +1420,7 @@
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 450,
+    "calories": 555,
     "material": [ "veggy", "flesh" ],
     "fun": 5,
     "looks_like": "rice_cooked"
