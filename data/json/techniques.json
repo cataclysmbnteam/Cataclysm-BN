@@ -140,8 +140,12 @@
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [ "You precisely hit %s", "<npcname> precisely hits %s" ],
-    "stun_dur": 2,
-    "description": "Stun 2 turns, crit only"
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
+    "description": "150% damage, crit only"
   },
   {
     "type": "technique",
