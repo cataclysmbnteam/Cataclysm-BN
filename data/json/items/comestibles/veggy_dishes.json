@@ -1024,6 +1024,7 @@
     "color": "white",
     "symbol": "%",
     "looks_like": "tofu_stirfry",
+    "spoils_in": "1 day",
     "healthy": 2,
     "calories": 180,
     "charges": 2,
