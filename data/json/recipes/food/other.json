@@ -2265,5 +2265,33 @@
       [ [ "garlic_clove", 3 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "deluxe_rice_kimchi",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "rice_cooked", 1 ], [ "dry_rice", 1 ] ],
+      [ [ "kimchi", 2 ], [ "kimchi_raw", 2 ] ],
+      [ [ "veggy_any", 1, "LIST" ] ],
+      [
+        [ "meat_sausage_cooked", 1, "LIST" ],
+        [ "meat_sausage_raw", 1, "LIST" ],
+        [ "fish", 1 ],
+        [ "fishs_cooked", 1, "LIST" ],
+        [ "bacon", 2 ],
+        [ "cracklins", 2 ],
+        [ "eggs_small_dry", 2, "LIST" ]
+      ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ]
+    ]
   }
 ]

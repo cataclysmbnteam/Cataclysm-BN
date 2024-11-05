@@ -702,5 +702,22 @@
     "price_postapoc": "5 USD",
     "fun": 15,
     "use_action": "WEED_CAKE"
+  },
+  {
+    "id": "noodles_kimchi",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "kimchimari guksu" },
+    "description": "Noodles served chilled with kimchi.  The cold but spicy flavor brings a unique refreshment.",
+    "material": [ "wheat", "veggy" ],
+    "comestible_type": "FOOD",
+    "weight": "300 g",
+    "volume": "350 ml",
+    "spoils_in": "18 hours",
+    "symbol": "%",
+    "color": "light_red",
+    "calories": 300,
+    "quench": 4,
+    "fun": 6,
+    "flags": [ "EATEN_COLD" ]
   }
 ]

@@ -3135,5 +3135,44 @@
       [ [ "gochujang", 24 ] ],
       [ [ "vinegar", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "samhap",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "book_learn": [ [ "cookbook_sushi", 4 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "charges": 3,
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 1, "LIST" ] ],
+      [ [ "seasoning_mild", 2, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "fish", 1 ] ],
+      [ [ "vinegar", 1 ], [ "soysauce", 1 ] ],
+      [ [ "kimchi", 3 ], [ "kimchi_raw", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bossam",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "30 m",
+    "charges": 2,
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 1, "LIST" ] ],
+      [ [ "seasoning_mild", 2, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "kimchi", 3 ], [ "kimchi_raw", 3 ] ]
+    ]
   }
 ]
