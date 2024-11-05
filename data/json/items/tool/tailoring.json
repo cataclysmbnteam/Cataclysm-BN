@@ -224,7 +224,8 @@
           "neoprene",
           "gutskin",
           "plastic",
-          "kevlar_rigid"
+          "kevlar_rigid",
+          "scute"
         ],
         "skill": "tailor",
         "clothing_mods": [
