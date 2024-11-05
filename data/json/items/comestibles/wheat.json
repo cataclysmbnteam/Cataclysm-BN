@@ -715,7 +715,7 @@
     "spoils_in": "18 hours",
     "symbol": "%",
     "color": "light_red",
-    "calories": 210,
+    "calories": 300,
     "quench": 4,
     "fun": 6,
     "flags": [ "EATEN_COLD" ]
