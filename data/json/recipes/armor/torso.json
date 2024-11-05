@@ -320,7 +320,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 16 ] ],
+      [ [ "kevlar_plate", 8 ] ],
       [ [ "rag", 19 ] ],
       [
         [ "tacvest", 1 ],
@@ -786,7 +786,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 13 ] ],
+      [ [ "kevlar_plate", 6 ] ],
       [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],
@@ -923,7 +923,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 10 ] ],
+      [ [ "kevlar_plate", 5 ] ],
       [ [ "rag", 11 ] ],
       [
         [ "tacvest", 1 ],
@@ -1106,7 +1106,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
+      [ [ "kevlar_plate", 6 ] ],
       [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],
