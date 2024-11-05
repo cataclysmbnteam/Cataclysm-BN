@@ -1012,5 +1012,22 @@
     "price_postapoc": "5 USD",
     "fun": 12,
     "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "tofu_kimchi",
+    "name": { "str_sp": "tofu kimchi" },
+    "description": "Soft, boiled tofu served with spicy, stir-fried kimchi.  The mild tofu complements the bold flavors of the kimchi for a balanced taste.",
+    "material": "veggy",
+    "weight": "160 g",
+    "volume": "180 ml",
+    "color": "white",
+    "symbol": "%",
+    "looks_like": "tofu_stirfry",
+    "healthy": 2,
+    "calories": 180,
+    "charges": 2,
+    "fun": 6,
+    "comestible_type": "FOOD",
+    "flags": [ "EATEN_HOT" ]
   }
 ]

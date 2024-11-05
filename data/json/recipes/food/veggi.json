@@ -2545,5 +2545,29 @@
       [ [ "fry_oil", 2, "LIST" ] ],
       [ [ "seasoning_mild", 1, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "tofu_kimchi",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 1 ],
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "qualities": [
+      { "id": "COOK", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "BOIL", "level": 2 },
+      { "id": "CONTAIN", "level": 1 }
+    ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "components": [
+      [ [ "kimchi", 3 ], [ "kimchi_raw", 3 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "tofu", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
   }
 ]

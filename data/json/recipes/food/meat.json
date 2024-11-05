@@ -3154,7 +3154,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "fish", 1 ] ],
       [ [ "vinegar", 1 ], [ "soysauce", 1 ] ],
-      [ [ "kimchi", 1 ], [ "kimchi_raw", 1 ] ]
+      [ [ "kimchi", 3 ], [ "kimchi_raw", 3 ] ]
     ]
   },
   {
@@ -3172,7 +3172,7 @@
       [ [ "meat_red", 1, "LIST" ] ],
       [ [ "seasoning_mild", 2, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "kimchi", 1 ], [ "kimchi_raw", 1 ] ]
+      [ [ "kimchi", 3 ], [ "kimchi_raw", 3 ] ]
     ]
   }
 ]
