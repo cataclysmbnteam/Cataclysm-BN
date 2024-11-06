@@ -54,6 +54,7 @@ Links to relevant pull requests, for content covered below:
 - Animated portals: [#5640](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5640)
 - Reimplemented bone armor: [#5646](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5646)
 - Extended sidewalk visuals: [#5657](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5657)
+- New Brick wall sprites: [#5657](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5664)
 
 ## Undead People
 
@@ -107,6 +108,7 @@ Ultica are planned for the future.
   to BN.
 - New sprites for generated sidewalks. Specific to BN.
 - Updated sprites for brick walls.
+- Updated/New sprites for most doors.
 
 ### External_Tileset_DP_terrain_normal.png
 
