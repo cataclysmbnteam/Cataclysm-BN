@@ -78,6 +78,6 @@
     "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "REVOLVERS" ] ],
     "damage_modifier": { "damage_type": "bullet", "amount": 5 },
     "ups_charges_modifier": 10,
-    "handling_modifier": -15
+    "handling_modifier": -5
   }
 ]
