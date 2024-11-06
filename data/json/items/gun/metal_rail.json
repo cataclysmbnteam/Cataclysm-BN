@@ -71,7 +71,7 @@
     "clip_size": 20,
     "ups_charges": 20,
     "loudness": 100,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ] ],
     "ammo_effects": [ "INCENDIARY", "TRAIL" ]
   }
 ]
