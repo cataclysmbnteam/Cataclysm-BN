@@ -21,7 +21,7 @@
     "ups_charges": 80,
     "reload": 200,
     "loudness": 200,
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
+    "ammo_effects": [ "INCENDIARY" ],
     "extend": { "flags": [ "MOUNTED_GUN" ] }
   },
   {
@@ -46,7 +46,7 @@
     "clip_size": 12,
     "ups_charges": 40,
     "loudness": 150,
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
+    "ammo_effects": [ "INCENDIARY" ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
@@ -72,6 +72,6 @@
     "ups_charges": 20,
     "loudness": 100,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ] ],
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
+    "ammo_effects": [ "INCENDIARY" ]
   }
 ]
