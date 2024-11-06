@@ -70,7 +70,7 @@
     "clip_size": 20,
     "ups_charges": 20,
     "loudness": 100,
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
   }
 ]
