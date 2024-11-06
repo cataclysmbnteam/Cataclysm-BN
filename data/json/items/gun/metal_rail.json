@@ -65,6 +65,7 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "metal_rail",
+    "ranged_damage": { "damage_type": "stab", "amount": 30 },
     "dispersion": 50,
     "durability": 6,
     "clip_size": 20,
