@@ -2640,7 +2640,7 @@
     "move_cost": 2,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "INDOORS", "FLAT", "ROAD" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "close": "t_door_metal_bulkhead_c",
     "bash": {
       "str_min": 90,
