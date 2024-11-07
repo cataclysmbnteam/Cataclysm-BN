@@ -444,7 +444,6 @@ Character::Character() :
     pkill = 0;
     stored_calories = max_stored_kcal() - 100;
     initialize_stomach_contents();
-    healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
     name.clear();
     custom_profession.clear();
@@ -4939,7 +4938,7 @@ void Character::regen( int rate_multiplier )
     if( heal_rate > 0.0f ) {
         const int heal = roll_remainder( rate_multiplier * heal_rate );
 
-        for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
             const int actually_healed = heal_adjusted( *this, bp, heal );
             mod_part_healed_total( bp, actually_healed );
         }
@@ -4952,15 +4951,13 @@ void Character::regen( int rate_multiplier )
     }
 
     // include healing effects
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id &bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
 
         const bool is_broken = is_limb_broken( bp ) &&
                                !worn_with_flag( flag_SPLINT, bp );
         const int healing_apply = roll_remainder( is_broken ? healing *broken_regen_mod : healing );
 
-        healed_bp( i, healing_apply );
         heal( bp, healing_apply );
 
         bodypart &part = get_part( bp );
@@ -8094,11 +8091,6 @@ void Character::vomit()
     wake_up();
 }
 
-void Character::healed_bp( int bp, int amount )
-{
-    healed_total[bp] += amount;
-}
-
 void Character::set_fac_id( const std::string &my_fac_id )
 {
     fac_id = faction_id( my_fac_id );
@@ -9068,8 +9060,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
         auto damage = damage_instance::physical( ddam, cut, 0 );
@@ -11359,8 +11350,7 @@ int Character::impact( const int force, const tripoint &p )
 
     int total_dealt = 0;
     if( mod * effective_force >= 5 ) {
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            const bodypart_id bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
+        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
             di.add_damage( DT_BASH, bash, 0, armor_eff, mod );
