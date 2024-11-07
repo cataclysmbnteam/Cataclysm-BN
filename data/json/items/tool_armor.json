@@ -699,7 +699,7 @@
     "id": "thermal_cooling_mask_on",
     "type": "TOOL_ARMOR",
     "copy-from": "thermal_cooling_mask",
-    "name": { "str": "liquid cooling balaclava (on)", "str_pl": "liquid cooling balaclava (on)" },
+    "name": { "str": "liquid cooling balaclava (on)" },
     "description": "This face mask is designed to keep your face and head at an ideal temperature using a number of heatsinks and heating coils tied to a liquid coolant system.  It also includes some handy features such as a built-in thermometer.  It is currently on, use it to turn it off.",
     "extend": { "flags": [ "CLIMATE_CONTROL" ] },
     "power_draw": 7500,
