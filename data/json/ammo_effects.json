@@ -110,7 +110,7 @@
   {
     "id": "EXPLOSIVE_BIG",
     "type": "ammo_effect",
-    "explosion": { "damage": 70, "radius": 5 }
+    "explosion": { "damage": 210, "radius": 5 }
   },
   {
     "id": "EXPLOSIVE",
