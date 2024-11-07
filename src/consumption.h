@@ -28,5 +28,6 @@ struct consumption_history_t {
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
+bool query_consume_ownership( item &target, avatar &you );
 
 #endif // CATA_SRC_CONSUMPTION_H

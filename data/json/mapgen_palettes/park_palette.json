@@ -79,7 +79,7 @@
     "items": {
       "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
       "%": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
-      "{": { "item": "trash", "chance": 100, "repeat": [ 5, 25 ] },
+      "{": { "item": "trash_dumpster", "chance": 80 },
       "b": { "item": "trash", "chance": 2 },
       "L": [ { "item": "dining", "chance": 10, "repeat": [ 1, 2 ] }, { "item": "trash", "chance": 2 } ],
       "T": [ { "item": "dining", "chance": 10, "repeat": [ 1, 2 ] }, { "item": "trash", "chance": 2 } ],

@@ -2,9 +2,8 @@
   {
     "type": "AMMO",
     "id": "atgm_heat",
-    "price": 70000,
-    "price_postapoc": 5000,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price": "700 USD",
+    "price_postapoc": "50 USD",
     "name": { "str": "152mm ATGM HEAT" },
     "symbol": "=",
     "color": "dark_gray",
@@ -15,9 +14,10 @@
     "bashing": 1,
     "ammo_type": "atgm",
     "casing": "atgm_spent",
-    "damage": { "damage_type": "bullet", "amount": 30, "armor_multiplier": 0.1 },
+    "damage": { "damage_type": "bullet", "amount": 450, "armor_multiplier": 0.1 },
     "range": 100,
     "recoil": 6000,
+    "loudness": 100,
     "effects": [ "EXPLOSIVE_HUGE", "NEVER_MISFIRES" ]
   }
 ]

@@ -5,7 +5,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Wind Turbine CBM" },
     "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
-    "price": 350000,
+    "price": "3500 USD",
     "difficulty": 4
   },
   {
@@ -14,8 +14,8 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Cranium Bomb" },
     "description": "A bomb installed where your spine meets your brain stem.  It's on a timer from installation and you don't have the codes to reset the timer.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "difficulty": 8
   },
   {
@@ -24,8 +24,8 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Skullgun CBM" },
     "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
-    "price": 100000,
-    "price_postapoc": 1500,
+    "price": "1 kUSD",
+    "price_postapoc": "15 USD",
     "difficulty": 16
   }
 ]

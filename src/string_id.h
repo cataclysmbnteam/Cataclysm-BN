@@ -2,8 +2,10 @@
 #ifndef CATA_SRC_STRING_ID_H
 #define CATA_SRC_STRING_ID_H
 
+#include <cstdint>
 #include <string>
 #include <type_traits>
+#include <utility>
 
 static constexpr int64_t INVALID_VERSION = -1;
 static constexpr int INVALID_CID = -1;
@@ -127,19 +129,19 @@ class string_identity_static
 #endif
         {}
 
-        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
-        explicit string_identity_static( S && id )
+        template<typename S> requires std::is_convertible_v<S, std::string>
+        explicit string_identity_static( S &&id )
             : _id( string_id_intern( std::forward<S>( id ) ) )
 #ifdef CATA_STRING_ID_DEBUGGING
             , _string_id( str().c_str() )
 #endif
         {}
 
-        inline const std::string &str() const {
+        const std::string &str() const {
             return get_interned_string( _id );
         }
 
-        inline bool is_empty() const {
+        bool is_empty() const {
             return _id == empty_interned_string();
         }
 
@@ -174,14 +176,14 @@ class string_identity_dynamic
 
         string_identity_dynamic() = default;
 
-        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
-        explicit string_identity_dynamic( S && id ) : _id( std::forward<S>( id ) )  {}
+        template<typename S> requires std::is_convertible_v<S, std::string>
+        explicit string_identity_dynamic( S &&id ) : _id( std::forward<S>( id ) )  {}
 
-        inline const std::string &str() const {
+        const std::string &str() const {
             return _id;
         }
 
-        inline bool is_empty() const {
+        bool is_empty() const {
             return _id.empty();
         }
 
@@ -211,14 +213,21 @@ class string_id
          */
         // Beautiful C++11: enable_if makes sure that S is always something that can be used to constructor
         // a std::string, otherwise a "no matching function to call..." error is generated.
-        template<typename S, class = std::enable_if_t<std::is_convertible<S, std::string>::value>>
-        explicit string_id( S && id ) : _id( std::forward<S>( id ) ) {}
+        template<typename S> requires std::is_convertible_v<S, std::string>
+        explicit string_id( S &&id ) : _id( std::forward<S>( id ) ) {}
         /**
          * Default constructor constructs an empty id string.
          * Note that this id class does not enforce empty id strings (or any specific string at all)
          * to be special. Every string (including the empty one) may be a valid id.
          */
         string_id() : _id() {}
+        /**
+         * Constructor for converting from int_id.
+         */
+        explicit string_id( const int_id<T> &iid ) {
+            *this = std::move( iid.id() );
+        }
+
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
          * Guarantees total order, but DOESN'T guarantee the same order after process restart!
@@ -334,6 +343,11 @@ class string_id
             return !is_null();
         }
 
+        friend std::ostream &operator<<( std::ostream &os, const string_id &s ) {
+            os << s.str();
+            return os;
+        }
+
     private:
         // generic_factory version that corresponds to the _cid
         mutable int64_t _version = INVALID_VERSION;
@@ -342,7 +356,7 @@ class string_id
         // structure that captures the actual "identity" of this string_id
         Identity _id;
 
-        inline void set_cid_version( int cid, int64_t version ) const {
+        void set_cid_version( int cid, int64_t version ) const {
             _cid = cid;
             _version = version;
         }

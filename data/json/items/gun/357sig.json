@@ -7,8 +7,8 @@
     "description": "A SIG Sauer P226 chambered for .357 SIG.  The P226 is a DA/SA, short-recoil operated semi-automatic pistol.",
     "weight": "964 g",
     "volume": "549 ml",
-    "price": 50000,
-    "price_postapoc": 2250,
+    "price": "500 USD",
+    "price_postapoc": "2250 cent",
     "material": [ "steel", "aluminum", "plastic" ],
     "color": "dark_gray",
     "ammo": "357sig",
@@ -25,9 +25,9 @@
     "weight": "660 g",
     "ascii_picture": "glock_20",
     "volume": "443 ml",
-    "price_postapoc": 2250,
-    "ammo": [ "357sig" ],
-    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag" ] ] ]
+    "price_postapoc": "2250 cent",
+    "ammo": "357sig",
+    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   },
   {
     "id": "p320_357sig",
@@ -37,8 +37,8 @@
     "description": "The P320 Compact is a semi-automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
     "weight": "731 g",
     "volume": "462 ml",
-    "price": 69000,
-    "price_postapoc": 2250,
+    "price": "690 USD",
+    "price_postapoc": "2250 cent",
     "to_hit": -2,
     "ascii_picture": "sig_p320",
     "material": [ "plastic", "steel" ],
@@ -47,5 +47,27 @@
     "durability": 6,
     "magazine_well": "250 ml",
     "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
+  },
+  {
+    "id": "ar_357sig",
+    "looks_like": "ar15",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": { "str": "Moriarti AR .357sig" },
+    "description": "A semi-automatic rifle using .357 SIG rounds, also known as Moriarti MA-357Sig-16.  It is also compatible with Glock 31 magazines.",
+    "weight": "3000 g",
+    "volume": "2 L",
+    "barrel_length": "250 ml",
+    "price": "1000 USD",
+    "price_postapoc": "40 USD",
+    "material": [ "steel", "plastic" ],
+    "color": "dark_gray",
+    "ammo": "357sig",
+    "range": 20,
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 170,
+    "durability": 10,
+    "min_cycle_recoil": 400,
+    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   }
 ]

@@ -26,6 +26,7 @@
 #include "type_id.h"
 #include "weather.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -103,8 +104,7 @@ static void full_map_test( const std::vector<std::string> &setup,
                 case 'u':
                     origin = player_character.pos() - point( x, y );
                     if( setup[y][x] == 'V' ) {
-                        item headlamp( "wearable_light_on" );
-                        player_character.worn.push_back( headlamp );
+                        player_character.worn.push_back( item::spawn( "wearable_light_on" ) );
                     }
                     break;
             }

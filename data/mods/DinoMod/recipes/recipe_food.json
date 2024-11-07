@@ -26,12 +26,12 @@
     "result_mult": 4,
     "batch_time_factors": [ 50, 4 ],
     "using": [ [ "sewing_standard", 4 ] ],
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
       [ [ "stomach_sauropod", 1 ] ],
-      [ [ "meat_offal", 4, "LIST" ] ],
+      [ [ "offals_raw", 4, "LIST" ] ],
       [ [ "oatmeal", 16 ], [ "buckwheat", 4 ] ]
     ]
   }

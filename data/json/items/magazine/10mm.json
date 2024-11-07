@@ -1,0 +1,42 @@
+[
+  {
+    "id": "glock20mag",
+    "copy-from": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 20 magazine" },
+    "description": "A compact light-weight steel and polymer magazine for use with Glock pistols chambered for 10mm Auto.",
+    "weight": "90 g",
+    "volume": "110 ml",
+    "price": "24 USD",
+    "price_postapoc": "1 USD",
+    "capacity": 15,
+    "ammo_type": "10mm"
+  },
+  {
+    "id": "glock20bigmag",
+    "copy-from": "glockbigmag",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 20 extended magazine" },
+    "description": "An extended 30-round polymer magazine for the Glock 20.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": "47 USD",
+    "price_postapoc": "5 USD",
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "10mm"
+  },
+  {
+    "id": "glock20drum50rd",
+    "copy-from": "glock_drum_50rd",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 20 50-round drum magazine" },
+    "description": "Made to fit the Glock 20.  This drum magazine holds 50 rounds.",
+    "weight": "160 g",
+    "volume": "500 ml",
+    "price": "25 USD",
+    "price_postapoc": "950 cent",
+    "ammo_type": "10mm"
+  }
+]

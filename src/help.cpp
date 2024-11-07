@@ -26,6 +26,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "path_display.h"
 
 help &get_help()
 {
@@ -61,6 +62,8 @@ void help::deserialize( JsonIn &jsin )
             } else if( line == "<HELP_DRAW_DIRECTIONS>" ) {
                 line = replace_all( line, "<HELP_DRAW_DIRECTIONS>", dir_grid );
                 continue;
+            } else if( line == "<GAME_DIRECTORIES>" ) {
+                line = resolved_game_paths();
             }
         }
 
@@ -148,8 +151,8 @@ void help::display_help()
                                             point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
                                                     TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
         w_help = catacurses::newwin( FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2,
-                                     point( 1 + static_cast<int>( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
-                                            1 + static_cast<int>( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
+                                     point( 1 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                                            1 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) ) );
         ui.position_from_window( w_help_border );
     };
     init_windows( ui );

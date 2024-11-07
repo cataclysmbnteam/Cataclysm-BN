@@ -85,9 +85,9 @@
       <DisableSpecificWarnings>4819;4146;26495;26444;26451;4068</DisableSpecificWarnings>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <AdditionalOptions>/bigobj /utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_CONSOLE;SDL_SOUND;TILES;SDL_BUILDING_LIBRARY;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_CONSOLE;SDL_SOUND;TILES;LUA;SDL_BUILDING_LIBRARY;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>..\src;..\src\lua;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -131,6 +131,16 @@
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\lua\*.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles></ForcedIncludeFiles>
+    </ClCompile>
+    <ClInclude Include="..\src\lua\*.h">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles></ForcedIncludeFiles>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\*.h" Exclude ="..src\message.h" />
     <ClInclude Include="stdafx.h" />

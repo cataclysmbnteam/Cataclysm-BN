@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_HASH_UTILS_H
 #define CATA_SRC_HASH_UTILS_H
 
+#include <cstdint>
 #include <functional>
 
 // Support for hashing standard types.
@@ -90,7 +91,8 @@ namespace hash64_detail
 {
 
 template<typename T>
-std::enable_if_t < sizeof( T ) < 8, T > maybe_mix_bits( std::uint64_t val )
+T maybe_mix_bits( std::uint64_t val )
+requires( sizeof( T ) < 8 )
 {
     std::uint32_t hi = val >> 32;
     std::uint32_t lo = val;
@@ -100,7 +102,8 @@ std::enable_if_t < sizeof( T ) < 8, T > maybe_mix_bits( std::uint64_t val )
 }
 
 template<typename T>
-std::enable_if_t < sizeof( T ) >= 8, T > maybe_mix_bits( std::uint64_t val )
+T maybe_mix_bits( std::uint64_t val )
+requires( sizeof( T ) >= 8 )
 {
     return val;
 }

@@ -9,7 +9,6 @@
 #include <optional>
 
 #include "item_handling_util.h"
-#include "item_location.h"
 
 struct tripoint;
 
@@ -18,6 +17,7 @@ class item;
 class player;
 class repair_item_actor;
 class salvage_actor;
+class Character;
 
 using item_filter = std::function<bool( const item & )>;
 
@@ -27,11 +27,11 @@ namespace game_menus
 namespace inv
 {
 // item selector for all items in @you's inventory.
-item_location titled_menu( avatar &you, const std::string &title,
-                           const std::string &none_message = "" );
+item *titled_menu( avatar &you, const std::string &title,
+                   const std::string &none_message = "" );
 // item selector for items in @you's inventory with a filter
-item_location titled_filter_menu( item_filter filter, avatar &you,
-                                  const std::string &title, const std::string &none_message = "" );
+item *titled_filter_menu( const item_filter &filter, avatar &you,
+                          const std::string &title, const std::string &none_message = "" );
 
 /**
 * @name Customized inventory menus
@@ -70,47 +70,47 @@ drop_locations multidrop( player &p );
 iuse_locations multiwash( Character &ch, int water, int cleanser, bool do_soft, bool do_hard );
 
 /** Consuming an item. */
-item_location consume( player &p );
+item *consume( player &p );
 /** Consuming a food item via a custom menu. */
-item_location consume_food( player &p );
+item *consume_food( player &p );
 /** Consuming a drink item via a custom menu. */
-item_location consume_drink( player &p );
+item *consume_drink( player &p );
 /** Consuming a medication item via a custom menu. */
-item_location consume_meds( player &p );
+item *consume_meds( player &p );
 /** Choosing a container for liquid. */
-item_location container_for( avatar &you, const item &liquid, int radius = 0 );
+item *container_for( avatar &you, const item &liquid, int radius = 0 );
 /** Item disassembling menu. */
-item_location disassemble( player &p );
+item *disassemble( player &p );
 /** Gunmod installation menu. */
-item_location gun_to_modify( player &p, const item &gunmod );
+item *gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */
-item_location read( player &pl );
+item *read( player &pl );
 /** Menu for stealing stuff. */
-item_location steal( avatar &you, player &victim );
+item *steal( avatar &you, player &victim );
 /** Item activation menu. */
-item_location use( avatar &you );
+item *use( avatar &you );
 /** Item wielding/unwielding menu. */
-item_location wield( avatar &you );
+item *wield( avatar &you );
 /** Item wielding/unwielding menu. */
-item_location holster( player &p, item &holster );
+item *holster( player &p, item &holster );
 /** Choosing a gun to saw down it's barrel. */
-item_location saw_barrel( player &p, item &tool );
-/** Choosing a gun to saw down its barrel. */
-item_location saw_stock( player &p, item &tool );
+item *saw_barrel( player &p, item &tool );
+/** Choosing a gun to saw down its stock. */
+item *saw_stock( player &p, item &tool );
 /** Choose item to wear. */
-item_location wear( player &p );
+item *wear( player &p );
 /** Choose item to take off. */
-item_location take_off( avatar &you );
+item *take_off( avatar &you );
 /** Item cut up menu. */
-item_location salvage( player &p, const salvage_actor *actor );
+item *salvage( player &p, const salvage_actor *actor );
 /** Repair menu. */
-item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
+item *repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
-item_location install_bionic( player &p, player &patient, bool surgeon = false );
+item *install_bionic( player &p, player &patient, bool surgeon = false );
 /** Bionic uninstall menu. */
-item_location uninstall_bionic( player &p, player &patient );
+item *uninstall_bionic( player &p, player &patient );
 /**Autoclave sterilize menu*/
-item_location sterilize_cbm( player &p );
+item *sterilize_cbm( player &p );
 /*@}*/
 
 } // namespace inv

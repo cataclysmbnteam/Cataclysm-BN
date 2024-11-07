@@ -138,11 +138,12 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "acid", "amount": 5 } ],
     "armor_bash": 10,
     "harvest": "exempt",
     "special_attacks": [ [ "FORMBLOB", 4 ] ],
     "death_function": [ "MELT" ],
+    "anger_triggers": [ "NETHER_ATTENTION" ],
     "flags": [ "SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB" ]
   },
   {
@@ -173,6 +174,6 @@
     "harvest": "exempt",
     "special_attacks": [ [ "SLIMESPRING", 15 ] ],
     "death_function": [ "ACID" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT", "PATH_AVOID_DANGER_2" ]
   }
 ]

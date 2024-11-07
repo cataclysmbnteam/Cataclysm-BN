@@ -6,7 +6,7 @@
     "description": "This strangely shaped rock was once a part of an owlbear's complex digestive system, creating a link between owl throat and bear stomach.  It is possible that it could serve a similar purpose in alchemy, helping to bind together two disparate halves.",
     "weight": "2 kg",
     "volume": "750 ml",
-    "price": 0,
+    "price": "0 cent",
     "bashing": 9,
     "to_hit": -1,
     "material": "stone",
@@ -56,8 +56,8 @@
     "description": "A wooden band with copper trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
     "weight": "700 g",
     "volume": "600ml",
-    "price": 1500,
-    "price_postapoc": 100,
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
     "material": [ "copper", "wood" ],
     "symbol": "[",
     "color": "brown",
@@ -77,7 +77,7 @@
     "description": "This is a short stone chisel.  It can be used to engrave on stone, wood, or soft metals.",
     "weight": "660 g",
     "volume": "250 ml",
-    "price": 1600,
+    "price": "16 USD",
     "to_hit": 2,
     "bashing": 2,
     "cutting": 1,
@@ -108,7 +108,7 @@
     "name": { "str": "large adrenal gland" },
     "description": "An organ located above the kidneys responsible for secretion of adrenaline, cortisol, and aldosterone.  This one is huge, whether by nature or mutation.",
     "delete": { "flags": [ "SMOKABLE" ] },
-    "price": 2000
+    "price": "20 USD"
   },
   {
     "id": "glow_dust",
@@ -119,7 +119,7 @@
     "description": "The powdered remains of a will-o-wisps's phsyical form.  It seems to still possess an otherworldly glow.",
     "material": "powder",
     "weight": "5 g",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "glow_light",
@@ -129,7 +129,7 @@
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  Use it to close the cover and hide the light.",
     "weight": "270 g",
     "volume": "250 ml",
-    "price": 125000,
+    "price": "1250 USD",
     "material": "glass",
     "symbol": ",",
     "color": "light_blue",
@@ -149,7 +149,7 @@
     "description": "Powered by the magic of glow powder and lesser mana potions, this extremely expensive little light will provide just enough light to read by for at least a decade.  The cover is closed.  Use it to open the cover and show the light.",
     "weight": "270 g",
     "volume": "250 ml",
-    "price": 125000,
+    "price": "1250 USD",
     "material": "glass",
     "symbol": ",",
     "color": "light_blue",
@@ -165,7 +165,7 @@
     "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
     "material": "arcane_skin",
     "weight": "30 kg",
-    "volume": 12
+    "volume": "3 L"
   },
   {
     "id": "bulette_pearl",
@@ -176,7 +176,7 @@
     "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
     "material": "stone",
     "weight": "120 g",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "dragon_essence",
@@ -190,8 +190,7 @@
     "flags": [ "TRADER_AVOID", "INEDIBLE" ],
     "container": "flask_glass",
     "charges": 1,
-    "phase": "liquid",
-    "freezing_point": -100
+    "phase": "liquid"
   },
   {
     "id": "stirge_proboscis",
@@ -200,13 +199,13 @@
     "description": "A long sucking apparatus harvested from stirge corpse.  Makes a poor melee weapon.",
     "volume": "100 ml",
     "weight": "100 g",
-    "price": 2000,
+    "price": "20 USD",
     "symbol": ",",
     "color": "red",
     "to_hit": -1,
     "material": [ "flesh" ],
     "cutting": 7,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
     "type": "GENERIC",
@@ -216,7 +215,7 @@
     "color": "red",
     "name": { "str": "chunk of demon chitin", "str_pl": "chunks of demon chitin" },
     "description": "A piece of demon spider exoskeleton.  It is light and very durable, and probably has some magical properties.",
-    "price": 0,
+    "price": "0 cent",
     "material": "demon_chitin",
     "weight": "89 g",
     "volume": "250 ml",
@@ -231,7 +230,7 @@
     "symbol": "/",
     "color": "red",
     "name": "demon chitin plate",
-    "price": 15225,
+    "price": "15225 cent",
     "material": "demon_chitin",
     "weight": "10 kg",
     "volume": "4 L",
@@ -251,14 +250,14 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "cutting": 8,
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ],
-    "price": 1500
+    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "price": "15 USD"
   },
   {
     "type": "AMMO",
     "id": "alumentum",
     "category": "spare_parts",
-    "price": 900,
+    "price": "9 USD",
     "name": { "str_sp": "alumentum" },
     "symbol": "=",
     "color": "light_blue",

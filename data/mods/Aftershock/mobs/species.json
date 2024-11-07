@@ -2,6 +2,7 @@
   {
     "type": "SPECIES",
     "id": "UPLIFT",
+    "name": { "str": "intelligent animal" },
     "description": "an intelligent animal created by man before the Cataclysm",
     "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
   }

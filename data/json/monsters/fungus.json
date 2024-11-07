@@ -436,7 +436,7 @@
     "armor_bullet": 36,
     "vision_day": 5,
     "vision_night": 5,
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "special_attacks": [ [ "SMASH", 20 ] ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": [ "FUNGUS" ],
@@ -491,7 +491,8 @@
     },
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "GUILT", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "FILTHY" ],
+    "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
     "id": "mon_ant_fungus",

@@ -1,12 +1,14 @@
 #include "animation.h"
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "character.h"
-#include "creature.h"
 #include "cursesdef.h"
+#include "enums.h"
 #include "explosion.h"
-#include "game.h"
 #include "game_constants.h"
+#include "game.h"
+#include "line.h"
 #include "map.h"
 #include "monster.h"
 #include "mtype.h"
@@ -43,7 +45,7 @@ class basic_animation
 {
     public:
         explicit basic_animation( const int scale ) :
-            delay( get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L ) {
+            delay( static_cast<size_t>( get_option<int>( "ANIMATION_DELAY" ) ) * scale * 1000000L ) {
         }
 
         void draw() const {
@@ -483,8 +485,8 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 #if defined(TILES)
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
-void game::draw_bullet( const tripoint &t, const int /*i*/,
-                        const std::vector<tripoint> &/*trajectory*/, const char bullet )
+void game::draw_bullet( const tripoint &t, const int i,
+                        const std::vector<tripoint> &trajectory, const char bullet )
 {
     if( !use_tiles ) {
         draw_bullet_curses( m, t, bullet, nullptr );
@@ -496,18 +498,77 @@ void game::draw_bullet( const tripoint &t, const int /*i*/,
     }
 
     static const std::string bullet_unknown  {};
-    static const std::string bullet_normal   {"animation_bullet_normal"};
+    static const std::string bullet_normal_0deg {"animation_bullet_normal_0deg"};
+    static const std::string bullet_normal_45deg {"animation_bullet_normal_45deg"};
     static const std::string bullet_flame    {"animation_bullet_flame"};
     static const std::string bullet_shrapnel {"animation_bullet_shrapnel"};
 
+    // to send to
+    enum rotation_impl : unsigned {
+        UP = 0,
+        DOWN = 2,
+        LEFT = 1,
+        RIGHT = 3,
+    };
+
+    const auto get_bullet_normal_sprite = [&]( direction dir ) {
+        switch( dir ) {
+            case direction::NORTH:
+            case direction::EAST:
+            case direction::SOUTH:
+            case direction::WEST:
+            default:
+                return bullet_normal_0deg;
+            case direction::NORTHEAST:
+            case direction::SOUTHEAST:
+            case direction::SOUTHWEST:
+            case direction::NORTHWEST:
+                return bullet_normal_45deg;
+        }
+    };
+
+    // converts direction into cata_tiles compatible rotation value
+    static const auto get_rotation = []( direction dir ) {
+        switch( dir ) {
+            default:
+            case direction::NORTH:
+            case direction::NORTHEAST:
+                return rotation_impl::UP;
+            case direction::SOUTH:
+            case direction::SOUTHWEST:
+                return rotation_impl::DOWN;
+            case direction::WEST: // for some reason it's counter-clockwise
+            case direction::NORTHWEST:
+                return rotation_impl::LEFT;
+            case direction::EAST:
+            case direction::SOUTHEAST:
+                return rotation_impl::RIGHT;
+        }
+    };
+    const auto get_dir = [&]( ) -> direction {
+        if( i == 0 && trajectory.size() > 1 )
+        {
+            return direction_from( t, trajectory[1] );
+        } else if( i >= 1 )
+        {
+            return direction_from( trajectory[i - 1], t );
+        } else
+        {
+            return direction::NORTH;
+        }
+    };
+
+    const direction dir = get_dir();
+    const rotation_impl rotation = get_rotation( dir );
+
     const std::string &bullet_type =
-        bullet == '*' ? bullet_normal
+        bullet == '*' ? get_bullet_normal_sprite( dir )
         : bullet == '#' ? bullet_flame
         : bullet == '`' ? bullet_shrapnel
         : bullet_unknown;
 
     shared_ptr_fast<draw_callback_t> bullet_cb = make_shared_fast<draw_callback_t>( [&]() {
-        tilecontext->init_draw_bullet( t, bullet_type );
+        tilecontext->init_draw_bullet( t, bullet_type, rotation );
     } );
     add_draw_callback( bullet_cb );
 
@@ -704,6 +765,11 @@ void draw_line_curses( game &g, const std::vector<tripoint> &points )
 void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
     draw_line_curses( *this, points );
+
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
     tilecontext->init_draw_line( p, points, "line_trail", false );
 }
 #else
@@ -731,6 +797,11 @@ void game::draw_cursor( const tripoint &p )
 #if defined(TILES)
 void game::draw_highlight( const tripoint &p )
 {
+    if( test_mode ) {
+        // avoid segfault from null tilecontext in tests
+        return;
+    }
+
     tilecontext->init_draw_highlight( p );
 }
 #else
@@ -781,7 +852,7 @@ void draw_sct_curses( const game &g )
             continue;
         }
 
-        const bool is_old = text.getStep() >= SCT.iMaxSteps / 2;
+        const bool is_old = text.getStep() >= scrollingcombattext::iMaxSteps / 2;
 
         nc_color const col1 = msgtype_to_color( text.getMsgType( "first" ),  is_old );
         nc_color const col2 = msgtype_to_color( text.getMsgType( "second" ), is_old );
@@ -967,7 +1038,7 @@ void game::draw_below_override( const tripoint &, const bool )
 
 #if defined(TILES)
 void game::draw_monster_override( const tripoint &p, const mtype_id &id, const int count,
-                                  const bool more, const Creature::Attitude att )
+                                  const bool more, const Attitude att )
 {
     if( use_tiles ) {
         tilecontext->init_draw_monster_override( p, id, count, more, att );
@@ -975,7 +1046,7 @@ void game::draw_monster_override( const tripoint &p, const mtype_id &id, const i
 }
 #else
 void game::draw_monster_override( const tripoint &, const mtype_id &, const int,
-                                  const bool, const Creature::Attitude )
+                                  const bool, const Attitude )
 {
 }
 #endif

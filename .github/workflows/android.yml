@@ -3,7 +3,7 @@ name: Cataclysm Android build
 on:
   pull_request:
     branches:
-      - upload
+      - main
     paths-ignore:
       - "build-data/osx/**"
       - "doc/**"
@@ -11,11 +11,10 @@ on:
       - "gfx/**"
       - "lang/**"
       - "lgtm/**"
-      - "msvc-object_creator/**"
-      - "object_creator/**"
       - "tools/**"
       - "!tools/format/**"
       - "utilities/**"
+      - 'scripts/**'
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
@@ -25,19 +24,19 @@ concurrency:
 jobs:
   build_catatclysm:
     name: Build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     if: github.event.pull_request.draft == false
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      - name: Set up JDK 8 (android)
-        uses: actions/setup-java@v3
+      - name: Set up JDK 11 (android)
+        uses: actions/setup-java@v4.1.0
         with:
-          java-version: "8"
+          java-version: "11"
           distribution: "adopt"
 
       - name: Setup build and dependencies

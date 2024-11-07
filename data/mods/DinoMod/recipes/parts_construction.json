@@ -9,7 +9,7 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
     "batch_time_factors": [ 75, 4 ],
     "components": [

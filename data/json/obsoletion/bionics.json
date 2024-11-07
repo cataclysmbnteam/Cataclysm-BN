@@ -1,0 +1,22 @@
+[
+  {
+    "id": "bio_emp",
+    "type": "bionic",
+    "name": { "str": "Directional EMP" },
+    "description": "Surgically mounted in the palm of your hand are small parabolic EMP field generators.  You may use power to fire a wide, but short-ranged blast which will disable electronics and robots.",
+    "occupied_bodyparts": [ [ "arm_r", 1 ], [ "hand_r", 2 ] ],
+    "act_cost": "50 kJ"
+  },
+  {
+    "id": "bio_watch",
+    "type": "bionic",
+    "name": { "str": "Obsolete Bionic" },
+    "description": "The effects of this bionic in the code have been replaced with Bionic Infolink.  It can be uninstalled at minimum difficulty."
+  },
+  {
+    "id": "bio_meteorologist",
+    "type": "bionic",
+    "name": { "str": "Obsolete Bionic" },
+    "description": "The effects of this bionic in the code have been replaced with Bionic Infolink.  It can be uninstalled at minimum difficulty."
+  }
+]

@@ -33,8 +33,7 @@ TEST_CASE( "zapback_npc_unarmed", "[mondefense]" )
 TEST_CASE( "zapback_npc_nonconductive_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
-    item rock( "rock" );
-    attacker.wield( rock );
+    attacker.wield( item::spawn( "rock" ) );
     test_zapback( attacker, false );
 }
 
@@ -42,24 +41,21 @@ TEST_CASE( "zapback_npc_nonconductive_unarmed_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
     // AFAICT this is the only nonconductive unarmed weapon.
-    item knuckle_nail( "knuckle_nail" );
-    attacker.wield( knuckle_nail );
+    attacker.wield( item::spawn( "knuckle_nail" ) );
     test_zapback( attacker, false );
 }
 
 TEST_CASE( "zapback_npc_reach_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
-    item pike( "pike" );
-    attacker.wield( pike );
+    attacker.wield( item::spawn( "pike" ) );
     test_zapback( attacker, false );
 }
 
 TEST_CASE( "zapback_npc_ranged_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
-    item gun( "glock_19" );
-    attacker.wield( gun );
+    attacker.wield( item::spawn( "glock_19" ) );
     dealt_projectile_attack attack;
     test_zapback( attacker, false, &attack );
 }
@@ -74,8 +70,7 @@ TEST_CASE( "zapback_npc_thrown_weapon", "[mondefense]" )
 TEST_CASE( "zapback_npc_firing_ranged_reach_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
-    item ranged_reach_weapon( "reach_bow" );
-    attacker.wield( ranged_reach_weapon );
+    attacker.wield( item::spawn( "reach_bow" ) );
     dealt_projectile_attack attack;
     test_zapback( attacker, false, &attack );
 }
@@ -83,9 +78,9 @@ TEST_CASE( "zapback_npc_firing_ranged_reach_weapon", "[mondefense]" )
 TEST_CASE( "zapback_npc_meleeattack_ranged_reach_weapon", "[mondefense]" )
 {
     standard_npc attacker( "Attacker" );
-    item ranged_reach_weapon( "reach_bow" );
-    REQUIRE( ranged_reach_weapon.gun_set_mode( gun_mode_id( "MELEE" ) ) );
-    attacker.wield( ranged_reach_weapon );
+    detached_ptr<item> ranged_reach_weapon = item::spawn( "reach_bow" );
+    REQUIRE( ranged_reach_weapon->gun_set_mode( gun_mode_id( "MELEE" ) ) );
+    attacker.wield( std::move( ranged_reach_weapon ) );
     test_zapback( attacker, true );
 }
 

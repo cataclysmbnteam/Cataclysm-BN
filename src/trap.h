@@ -101,6 +101,7 @@ struct trap {
         // 0 to ??, trap radius
         int trap_radius = 0;
         bool benign = false;
+        bool remove_on_trigger = false;
         bool always_invisible = false;
         // a valid overmap id, for map_regen action traps
         std::string map_regen;
@@ -111,7 +112,9 @@ struct trap {
          */
         units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm = 0;
-        // For disassembly?
+        // Items optionally yielded after the trap goes off
+        std::vector<std::tuple<itype_id, int, int>> trigger_components;
+        // Items optionally yielded after the trap is disarmed
         std::vector<std::tuple<itype_id, int, int>> components;
     public:
         // data required for trapfunc::spell()
@@ -119,6 +122,7 @@ struct trap {
         int comfort = 0;
         int floor_bedding_warmth = 0;
     public:
+        std::string looks_like;
         vehicle_handle_trap_data vehicle_data;
         std::string name() const;
         /**
@@ -159,6 +163,13 @@ struct trap {
         bool is_benign() const {
             return benign;
         }
+        /**
+         * If true, remove this trap during trap::trigger_aftermath when the trap is set off.
+         * Warning: won't affect underlying terrain, so not worth using for things like t_pit.
+         */
+        bool remove_trap_when_triggered() const {
+            return remove_on_trigger;
+        }
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
         bool detect_trap( const tripoint &pos, const Character &p ) const;
@@ -181,6 +192,12 @@ struct trap {
          * If the given item is throw onto the trap, does it trigger the trap?
          */
         bool triggered_by_item( const item &itm ) const;
+        /**
+         * Cleanup after a trap has been triggered, spawns items (if any) and.
+         * if remove_on_trigger is set to true removes the trap via
+         * @ref map::remove_trap.
+         */
+        void trigger_aftermath( map &m, const tripoint &p ) const;
         /**
          * Called when a trap at the given point in the map has been disarmed.
          * It should spawn trap items (if any) and remove the trap from the map via

@@ -22,6 +22,9 @@ class JsonObject;
 class avatar;
 class player;
 
+template<typename T>
+class detached_ptr;
+
 class profession
 {
     public:
@@ -98,7 +101,7 @@ class profession
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
-        std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
+        std::vector<detached_ptr<item>> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         vproto_id vehicle() const;
         std::vector<mtype_id> pets() const;

@@ -29,9 +29,9 @@
         "melee_allowed": true,
         "flat_bonuses": [
           { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
-          { "stat": "armor", "type": "bash", "scale": 1.0 },
-          { "stat": "armor", "type": "cut", "scale": 1.0 },
-          { "stat": "armor", "type": "stab", "scale": 1.0 },
+          { "stat": "armor", "type": "bash", "scale": 1 },
+          { "stat": "armor", "type": "cut", "scale": 1 },
+          { "stat": "armor", "type": "stab", "scale": 1 },
           { "stat": "hit", "scaling-stat": "str", "scale": 0.4 }
         ]
       }
@@ -81,9 +81,9 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 1.0 },
-      { "stat": "damage", "type": "cut", "scale": 1.0 },
-      { "stat": "damage", "type": "stab", "scale": 1.0 }
+      { "stat": "damage", "type": "bash", "scale": 1 },
+      { "stat": "damage", "type": "cut", "scale": 1 },
+      { "stat": "damage", "type": "stab", "scale": 1 }
     ],
     "flat_bonuses": [ { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.15 } ],
     "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
@@ -98,7 +98,7 @@
     "melee_allowed": true,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.9 },
-      { "stat": "damage", "type": "bash", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scale": 1 },
       { "stat": "damage", "type": "cut", "scale": 1.05 },
       { "stat": "damage", "type": "stab", "scale": 1.05 }
     ],
@@ -116,7 +116,7 @@
       { "stat": "movecost", "scale": 1.35 },
       { "stat": "damage", "type": "bash", "scale": 1.15 },
       { "stat": "damage", "type": "cut", "scale": 1.05 },
-      { "stat": "damage", "type": "stab", "scale": 1.0 }
+      { "stat": "damage", "type": "stab", "scale": 1 }
     ],
     "flat_bonuses": [
       { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },

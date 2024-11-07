@@ -12,12 +12,15 @@
 #include "type_id.h"
 
 class item;
+template<typename T>
+class detached_ptr;
 
 enum class VisitResponse {
     ABORT, // Stop processing after this node
     NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
     SKIP   // Skip any child nodes and move directly to the next sibling
 };
+
 
 template <typename T>
 class visitable
@@ -63,6 +66,12 @@ class visitable
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
 
+        /** Returns true if this visitable instance directly contains the item. */
+        bool has_item_directly( const item &it ) const;
+
+        /** Returns true if any item directly within the visitable (so excluding those within a container) matches the filter */
+        bool has_item_with_directly( const std::function<bool( const item & )> &filter ) const;
+
         /** Returns true if instance has amount (or more) items of at least quality level */
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
 
@@ -97,21 +106,56 @@ class visitable
                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns all items (including those within a container) matching the filter */
-        std::vector<item *> items_with( const std::function<bool( const item & )> &filter );
-        std::vector<const item *> items_with( const std::function<bool( const item & )> &filter ) const;
+        std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const;
 
+};
+
+template <typename T>
+class temp_visitable : public visitable<T>
+{
+    public:
         /**
          * Removes items contained by this instance which match the filter
          * @note if this instance itself is an item it will not be considered by the filter
-         * @param filter a UnaryPredicate which should return true if the item is to be removed
+         * @param filter a UnaryPredicate which can optionally std::move the detached pointer. If it does the item will be removed
          * @param count maximum number of items to if unspecified unlimited. A count of zero is a no-op
          * @return any items removed (items counted by charges are not guaranteed to be stacked)
          */
-        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = INT_MAX );
+        std::vector<item *> remove_items_with( const std::function < bool( const item & ) > &filter,
+                                               int count = INT_MAX );
 
         /** Removes and returns the item which must be contained by this instance */
-        item remove_item( item &it );
+        void remove_item( item &it );
+};
+
+template <typename T>
+class location_visitable : public visitable<T>
+{
+    public:
+        /**
+         * Removes items contained by this instance which match the filter
+         * @note if this instance itself is an item it will not be considered by the filter
+         * @param filter a function which can optionally std::move the detached pointer. If it does the item will be removed and the visit response respected
+         */
+        void remove_items_with( const std::function < VisitResponse( detached_ptr<item> && ) > &filter );
+        /**
+         * Removes items contained in the top level of this instance which match the filter
+         * @note if this instance itself is an item it will not be considered by the filter
+         * @param filter a detached_ptr -> detached_ptr filter
+         */
+        void remove_top_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) >
+                                    &filter );
+
+        /**
+         * Removes items contained recursively within this instance which match the filter
+         * @note if this instance itself is an item it will not be considered by the filter
+         * @param filter a detached_ptr -> detached_ptr filter
+         */
+        void remove_all_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) >
+                                    &filter );
+
+        /** Removes and returns the item which must be contained by this instance */
+        detached_ptr<item> remove_item( item &it );
 };
 
 #endif // CATA_SRC_VISITABLE_H

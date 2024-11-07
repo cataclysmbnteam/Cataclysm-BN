@@ -11,10 +11,21 @@ body:
 
         This bug report can be directly generated within the game.
 
-        - `Main menu (ESC)` > `Debug Menu` > `Info` > `Submit a bug report on github`
-        - it fills out necessary information automatically for you
+        ### Open Options (ESC) -> Debug Menu
 
-        please check [README](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/README.md#ive-found-a-bug-what-should-i-do) for more information.
+        ![](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/doc/src/content/docs/en/contribute/img/readme-bug1.png?raw=true)
+
+        ### Open Info (i)
+
+        ![](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/doc/src/content/docs/en/contribute/img/readme-bug2.png?raw=true)
+
+        ### Submit a bug report on github (U)
+
+        ![](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/doc/src/content/docs/en/contribute/img/readme-bug3.png?raw=true)
+
+        ### Fill the form and submit
+
+        ![](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/doc/src/content/docs/en/contribute/img/readme-bug4.png?raw=true)
 
   - type: textarea
     id: describe-bug

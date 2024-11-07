@@ -1,0 +1,29 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [
+      "Chibi_Ultica",
+      "UltimateCataclysm",
+      "MshockXottoplus",
+      "UNDEAD_PEOPLE",
+      "UNDEAD_PEOPLE_BASE",
+      "UNDEAD_PEOPLE_LEGACY",
+      "UlticaShell",
+      "MshockXottoplus12",
+      "MSX++DEAD_PEOPLE",
+      "MXplus12_for_cosmetics",
+      "MSXotto+"
+    ],
+    "tiles-new": [
+      {
+        "file": "MMA_normal.png",
+        "tiles": [ { "id": "manual_mma_panzer", "fg": 1, "rotates": true } ],
+        "//": "range 1 to 16",
+        "sprite_width": 32,
+        "sprite_height": 32,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": 0
+      }
+    ]
+  }
+]

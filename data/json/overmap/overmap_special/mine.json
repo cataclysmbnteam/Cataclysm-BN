@@ -18,6 +18,7 @@
       { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] },
       { "point": [ 1, -1, 0 ], "connection": "local_road", "from": [ 1, 0, 0 ] }
     ],
+    "place_nested": [ { "point": [ 0, 0, -1 ], "special": "mine_tunnel" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
@@ -58,6 +59,7 @@
       { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] },
       { "point": [ 1, -1, 0 ], "connection": "local_road", "from": [ 1, 0, 0 ] }
     ],
+    "place_nested": [ { "point": [ 0, 0, -1 ], "special": "mine_tunnel" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
@@ -92,6 +94,7 @@
       { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] },
       { "point": [ 1, -1, 0 ], "connection": "local_road", "from": [ 1, 0, 0 ] }
     ],
+    "place_nested": [ { "point": [ 0, 0, -1 ], "special": "mine_tunnel" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],
@@ -121,6 +124,7 @@
       { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] },
       { "point": [ 1, -1, 0 ], "connection": "local_road", "from": [ 1, 0, 0 ] }
     ],
+    "place_nested": [ { "point": [ 0, 0, -1 ], "special": "mine_tunnel" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
     "city_sizes": [ 4, -1 ],

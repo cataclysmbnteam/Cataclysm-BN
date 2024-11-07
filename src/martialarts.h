@@ -10,6 +10,7 @@
 
 #include "bonuses.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "input.h"
 #include "translations.h"
 #include "type_id.h"
@@ -60,6 +61,9 @@ struct ma_requirements {
     bool strictly_unarmed; // Ignore force_unarmed?
     bool wall_adjacent; // Does it only work near a wall?
 
+    /** Weapon categories compatible with this requirement. If empty, allow any weapon category. */
+    std::vector<weapon_category_id> weapon_categories_allowed;
+
     /** Minimum amount of given skill to trigger this bonus */
     std::vector<std::pair<skill_id, int>> min_skill;
 
@@ -69,7 +73,7 @@ struct ma_requirements {
     std::vector<std::pair<damage_type, int>> min_damage;
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
-    std::set<std::string> req_flags; // any item flags required for this technique
+    std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
         unarmed_allowed = false;
@@ -222,6 +226,8 @@ class ma_buff
         bool stealthy = false; // do we make less noise when moving?
 
         void load( const JsonObject &jo, const std::string &src );
+
+        LUA_TYPE_OPS( ma_buff, id );
 };
 
 class martialart

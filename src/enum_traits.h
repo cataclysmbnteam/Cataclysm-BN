@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_ENUM_TRAITS_H
 #define CATA_SRC_ENUM_TRAITS_H
 
+#include <type_traits>
+
 template<typename E>
 struct enum_traits;
 
@@ -9,7 +11,7 @@ namespace enum_traits_detail
 {
 
 template<typename E>
-using last_type = typename std::decay<decltype( enum_traits<E>::last )>::type;
+using last_type = std::decay_t<decltype( enum_traits<E>::last )>;
 
 } // namespace enum_traits_detail
 

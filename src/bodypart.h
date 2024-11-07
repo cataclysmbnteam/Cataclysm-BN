@@ -8,15 +8,20 @@
 #include <initializer_list>
 #include <string>
 
+#include "flat_set.h"
 #include "int_id.h"
+#include "catalua_type_operators.h"
 #include "string_id.h"
 #include "translations.h"
+#include "location_ptr.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
+class item;
 struct body_part_type;
 
+template <typename T> class location;
 template <typename E> struct enum_traits;
 
 using bodypart_str_id = string_id<body_part_type>;
@@ -115,6 +120,8 @@ struct body_part_type {
          * Formula is `chance *= pow(hit_roll, hit_difficulty)`
          */
         float hit_difficulty = 0.0f;
+        // Is this part important, as in, can you live without it?
+        bool essential = false;
         // "Parent" of this part - main parts are their own "parents"
         // TODO: Connect head and limbs to torso
         bodypart_str_id main_part;
@@ -123,6 +130,8 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
+        int drench_capacity = 0;
+
         //Morale parameters
         float hot_morale_mod = 0;
         float cold_morale_mod = 0;
@@ -130,6 +139,8 @@ struct body_part_type {
         int squeamish_penalty = 0;
 
         int base_hp = 60;
+
+        LUA_TYPE_OPS( body_part_type, id );
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -151,6 +162,24 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
+class wield_status
+{
+    public:
+        wield_status( const wield_status & ) = delete;
+        wield_status &operator=( const wield_status & ) = delete;
+        wield_status( wield_status && ) noexcept;
+        wield_status &operator=( wield_status && ) noexcept;
+        wield_status( location<item> *loc ) : wielded( loc ) {};
+        location_ptr<item, false> wielded;
+};
+
+enum class water_tolerance : int {
+    WT_IGNORED = 0,
+    WT_NEUTRAL,
+    WT_GOOD,
+    NUM_WATER_TOLERANCE
+};
+
 class bodypart
 {
     private:
@@ -160,15 +189,35 @@ class bodypart
         int hp_max;
 
         int healed_total = 0;
-        /** Not used yet*/
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
+        // @todo BODYTEMP_NORM
+        int temp_cur = 5000;
+        int temp_conv = 5000;
+        int frostbite_timer = 0;
+
+        int wetness = 0;
+        // Just a cache, don't save/load
+        std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )> mut_drench;
+
     public:
-        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp )  {}
+        // TODO: private
+        wield_status wielding;
+
+    public:
+        bodypart( const bodypart & ) = delete;
+        bodypart( bodypart && ) = default;
+        bodypart();
+        bodypart( location<item> *loc ): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ),
+            wielding( loc ) {}
+        bodypart( bodypart_str_id id, location<item> *loc ): id( id ), hp_cur( id->base_hp ),
+            hp_max( id->base_hp ), wielding( loc )  {}
+
+        bodypart &operator=( bodypart && ) = default;
 
         bodypart_id get_id() const;
+        bodypart_str_id get_str_id() const;
 
         void set_hp_to_max();
         bool is_at_max_hp() const;
@@ -191,66 +240,110 @@ class bodypart
         void mod_damage_bandaged( int mod );
         void mod_damage_disinfected( int mod );
 
+        int get_temp_cur() const {
+            return temp_cur;
+        }
+        void set_temp_cur( int set ) {
+            temp_cur = set;
+        }
+
+        int get_temp_conv() const {
+            return temp_conv;
+        }
+        void set_temp_conv( int set ) {
+            temp_conv = set;
+        }
+
+        int get_frostbite_timer() const {
+            return frostbite_timer;
+        }
+        void set_frostbite_timer( int set ) {
+            frostbite_timer = set;
+        }
+
+        int get_wetness() const {
+            return wetness;
+        }
+
+        void set_wetness( int set ) {
+            wetness = set;
+        }
+
+        int get_drench_capacity() const {
+            return id->drench_capacity;
+        }
+
+
+        std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )> get_mut_drench()
+        const {
+            return mut_drench;
+        }
+
+        void set_mut_drench( std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )>
+                             set ) {
+            mut_drench = set;
+        }
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        void set_location( location<item> *loc );
 };
 
 class body_part_set
 {
     private:
-        std::bitset<num_bp> parts;
+        cata::flat_set<bodypart_str_id> parts;
 
-        explicit body_part_set( const std::bitset<num_bp> &other ) : parts( other ) { }
+        explicit body_part_set( const cata::flat_set<bodypart_str_id> &other ) : parts( other ) { }
 
     public:
         body_part_set() = default;
-        body_part_set( std::initializer_list<body_part> bps ) {
-            for( const auto &bp : bps ) {
+        body_part_set( std::initializer_list<bodypart_str_id> bps ) {
+            for( const bodypart_str_id &bp : bps ) {
                 set( bp );
             }
         }
+        /** Adds all elements from provided set to this set. */
+        body_part_set &unify_set( const body_part_set &rhs );
+        /** Removes all elements that are absent from the provided set. */
+        body_part_set &intersect_set( const body_part_set &rhs );
+        /** Removes all elements that are present in the provided set. */
+        body_part_set &substract_set( const body_part_set &rhs );
+        /** Creates new set that is the intersection of this set and provided set. */
+        body_part_set make_intersection( const body_part_set &rhs ) const;
 
-        body_part_set &operator|=( const body_part_set &rhs ) {
-            parts |= rhs.parts;
-            return *this;
-        }
-        body_part_set &operator&=( const body_part_set &rhs ) {
-            parts &= rhs.parts;
-            return *this;
-        }
+        void fill( const std::vector<bodypart_id> &bps );
 
-        body_part_set operator|( const body_part_set &rhs ) const {
-            return body_part_set( parts | rhs.parts );
-        }
-        body_part_set operator&( const body_part_set &rhs ) const {
-            return body_part_set( parts & rhs.parts );
-        }
 
-        body_part_set operator~() const {
-            return body_part_set( ~parts );
+        bool test( const bodypart_str_id &bp ) const {
+            return parts.count( bp ) > 0;
         }
-
-        static body_part_set all() {
-            return ~body_part_set();
+        void set( const bodypart_str_id &bp ) {
+            parts.insert( bp );
         }
-
-        bool test( const body_part &bp ) const {
-            return parts.test( bp );
+        void reset( const bodypart_str_id &bp ) {
+            parts.erase( bp );
         }
-        void set( const body_part &bp ) {
-            parts.set( bp );
-        }
-        void reset( const body_part &bp ) {
-            parts.reset( bp );
+        void reset() {
+            parts.clear();
         }
         bool any() const {
-            return parts.any();
+            return !parts.empty();
         }
         bool none() const {
-            return parts.none();
+            return parts.empty();
         }
         size_t count() const {
-            return parts.count();
+            return parts.size();
+        }
+
+        cata::flat_set<bodypart_str_id>::iterator begin() const {
+            return parts.begin();
+        }
+
+        cata::flat_set<bodypart_str_id>::iterator end() const {
+            return parts.end();
         }
 
         template<typename Stream>
@@ -262,6 +355,9 @@ class body_part_set
             s.read( parts );
         }
 };
+
+// Returns if passed string is legacy bodypart (i.e "TORSO", not "torso")
+bool is_legacy_bodypart_id( const std::string &id );
 
 /** Returns the new id for old token */
 const bodypart_str_id &convert_bp( body_part bp );
@@ -293,7 +389,7 @@ std::string body_part_hp_bar_ui_text( const bodypart_id &bp );
 std::string encumb_text( body_part bp );
 
 /** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
-body_part random_body_part( bool main_parts_only = false );
+bodypart_str_id random_body_part( bool main_parts_only = false );
 
 /** Returns the matching main body_part that corresponds to the input; i.e. returns bp_arm_l from bp_hand_l. */
 body_part mutate_to_main_part( body_part bp );

@@ -30,39 +30,14 @@ using trait_reader = auto_flags_reader<trait_id>;
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
 
-namespace io
-{
-template<>
-std::string enum_to_string<m_size>( m_size data )
-{
-    switch( data ) {
-        case m_size::MS_TINY:
-            return "TINY";
-        case m_size::MS_SMALL:
-            return "SMALL";
-        case m_size::MS_MEDIUM:
-            return "MEDIUM";
-        case m_size::MS_LARGE:
-            return "LARGE";
-        case m_size::MS_HUGE:
-            return "HUGE";
-        case m_size::num_m_size:
-            return "num_m_size";
-            break;
-    }
-    debugmsg( "Invalid body_size value for mutation: %d", static_cast<int>( data ) );
-    abort();
-}
-} // namespace io
-
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
 } // namespace
 
 static std::vector<dream> all_dreams;
-std::map<std::string, std::vector<trait_id> > mutations_category;
-std::map<std::string, mutation_category_trait> mutation_category_traits;
+std::map<mutation_category_id, std::vector<trait_id> > mutations_category;
+std::map<mutation_category_id, mutation_category_trait> mutation_category_traits;
 
 template<>
 const mutation_branch &string_id<mutation_branch>::obj() const
@@ -79,7 +54,7 @@ bool string_id<mutation_branch>::is_valid() const
 template<>
 bool string_id<Trait_group>::is_valid() const
 {
-    return trait_groups.count( *this );
+    return trait_groups.contains( *this );
 }
 
 static void extract_mod(
@@ -113,7 +88,7 @@ static void load_mutation_mods(
 void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
-    new_category.id = jsobj.get_string( "id" );
+    jsobj.read( "id", new_category.id, true );
     new_category.raw_name = jsobj.get_string( "name" );
     new_category.threshold_mut = trait_id( jsobj.get_string( "threshold_mut" ) );
 
@@ -203,13 +178,13 @@ std::string mutation_category_trait::memorial_message_female() const
     return pgettext( "memorial_female", raw_memorial_message.c_str() );
 }
 
-const std::map<std::string, mutation_category_trait> &mutation_category_trait::get_all()
+const std::map<mutation_category_id, mutation_category_trait> &mutation_category_trait::get_all()
 {
     return mutation_category_traits;
 }
 
-const mutation_category_trait &mutation_category_trait::get_category( const std::string
-        &category_id )
+const mutation_category_trait &mutation_category_trait::get_category(
+    const mutation_category_id &category_id )
 {
     return mutation_category_traits.find( category_id )->second;
 }
@@ -377,7 +352,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "pain_recovery", pain_recovery, 0.0f );
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
     optional( jo, was_loaded, "healing_resting", healing_resting, 0.0f );
-    optional( jo, was_loaded, "mending_modifier", mending_modifier, 1.0f );
+    optional( jo, was_loaded, "mending_modifier", mending_modifier, 0.0f );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, 0.0f );
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
@@ -428,6 +403,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
 
+    optional( jo, was_loaded, "mutagen_target_modifier", mutagen_target_modifier, 0 );
+
     if( jo.has_object( "rand_cut_bonus" ) ) {
         JsonObject sm = jo.get_object( "rand_cut_bonus" );
         rand_cut_bonus.first = sm.get_int( "min" );
@@ -455,17 +432,17 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "cancels", cancels, trait_reader{} );
     optional( jo, was_loaded, "changes_to", replacements, trait_reader{} );
     optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
-    optional( jo, was_loaded, "flags", flags, string_reader{} );
+    optional( jo, was_loaded, "flags", flags, auto_flags_reader<trait_flag_str_id> {} );
     optional( jo, was_loaded, "types", types, string_reader{} );
     optional( jo, was_loaded, "enchantments", enchantments );
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
-        no_cbm_on_bp.emplace( bodypart_str_id( s ) );
+        no_cbm_on_bp.emplace( s );
     }
 
     optional( jo, was_loaded, "body_size", body_size );
 
-    optional( jo, was_loaded, "category", category, string_reader{} );
+    optional( jo, was_loaded, "category", category, string_id_reader<mutation_category_trait> {} );
 
     for( JsonArray ja : jo.get_array( "spells_learned" ) ) {
         const spell_id sp( ja.next_string() );
@@ -609,6 +586,11 @@ void mutation_branch::check_consistency()
         for( const enchantment_id &ench : mdata.enchantments ) {
             ench->check();
         }
+        for( const auto &flag : mdata.flags ) {
+            if( !flag.is_valid() ) {
+                debugmsg( "mutation %s refers to undefined mutation flag %s", mid, flag );
+            }
+        }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
@@ -660,7 +642,7 @@ void dreams::load( const JsonObject &jo )
     dream newdream;
 
     jo.read( "strength", newdream.strength );
-    jo.read( "category", newdream.category );
+    jo.read( "category", newdream.category, true );
     jo.read( "messages", newdream.messages );
 
     all_dreams.push_back( newdream );
@@ -671,7 +653,7 @@ void dreams::clear()
     all_dreams.clear();
 }
 
-std::string dreams::get_random_for_category( const std::string &cat, int strength )
+std::string dreams::get_random_for_category( const mutation_category_id &cat, int strength )
 {
     std::vector<const dream *> valid_dreams;
     for( const dream &d : all_dreams ) {
@@ -712,14 +694,14 @@ void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
 
 bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
 {
-    return trait_blacklist.count( tid );
+    return trait_blacklist.contains( tid );
 }
 
 void mutation_branch::finalize()
 {
     for( const mutation_branch &branch : get_all() ) {
-        for( const std::string &cat : branch.category ) {
-            mutations_category[cat].push_back( trait_id( branch.id ) );
+        for( const mutation_category_id &cat : branch.category ) {
+            mutations_category[cat].emplace_back( branch.id );
         }
     }
     finalize_trait_blacklist();
@@ -891,7 +873,19 @@ std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()
     return rval;
 }
 
-bool mutation_category_is_valid( const std::string &cat )
+template<>
+const mutation_category_trait &string_id<mutation_category_trait>::obj() const
 {
-    return mutation_category_traits.count( cat );
+    return mutation_category_traits.find( *this )->second;
+}
+
+bool mutation_category_is_valid( const mutation_category_id &cat )
+{
+    return mutation_category_traits.contains( cat );
+}
+
+template<>
+bool string_id<mutation_category_trait>::is_valid() const
+{
+    return mutation_category_traits.contains( *this );
 }

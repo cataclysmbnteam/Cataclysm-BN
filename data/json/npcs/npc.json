@@ -15,7 +15,7 @@
     "id": "bandit",
     "//": "Generic pistol/rifle focused guard for the Hell's Raiders faction.",
     "name_suffix": "Bandit",
-    "class": "NC_SCAVENGER",
+    "class": "NC_BANDIT",
     "attitude": 0,
     "mission": 8,
     "chat": "TALK_DONE",

@@ -1,6 +1,7 @@
 #include "ui_manager.h"
 
 #include <algorithm>
+#include <cassert>
 #include <iterator>
 #include <memory>
 #include <optional>
@@ -11,6 +12,7 @@
 #include "game_ui.h"
 #include "point.h"
 #include "sdltiles.h"
+#include "profile.h"
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 
@@ -134,12 +136,72 @@ void ui_adaptor::on_screen_resize( const screen_resize_callback_t &fun )
     screen_resized_cb = fun;
 }
 
+void ui_adaptor::set_cursor( const catacurses::window &w, const point &pos )
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getbegx( w ), getbegy( w ) ) + pos;
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+    static_cast<void>( w );
+    static_cast<void>( pos );
+#endif
+}
+
+void ui_adaptor::record_cursor( const catacurses::window &w )
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getbegx( w ) + getcurx( w ), getbegy( w ) + getcury( w ) );
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+    static_cast<void>( w );
+#endif
+}
+
+void ui_adaptor::record_term_cursor()
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+#endif
+}
+
+void ui_adaptor::default_cursor()
+{
+#if !defined( TILES )
+    cursor_type = cursor::last;
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+#endif
+}
+
+void ui_adaptor::disable_cursor()
+{
+    cursor_type = cursor::disabled;
+}
+
+static void restore_cursor( const point &p )
+{
+#if !defined( TILES )
+    wmove( catacurses::newscr, p );
+#else
+    static_cast<void>( p );
+#endif
+}
+
 void ui_adaptor::mark_resize() const
 {
     deferred_resize = true;
 }
 
-static bool contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
+static bool rect_contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return rhs.p_min.x >= lhs.p_min.x && rhs.p_max.x <= lhs.p_max.x &&
            rhs.p_min.y >= lhs.p_min.y && rhs.p_max.y <= lhs.p_max.y;
@@ -182,7 +244,7 @@ void ui_adaptor::invalidation_consistency_and_optimization()
                 ui_upper.invalidated = true;
             }
             if( ui_upper.invalidated && ui_lower.invalidated &&
-                contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
+                rect_contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
                 // fully obscured lower UIs do not need to be redrawn.
                 ui_lower.invalidated = false;
                 // Note: we don't need to re-test ui_lower from earlier iterations
@@ -212,7 +274,7 @@ void ui_adaptor::invalidate_ui() const
     }
     // If an upper UI occludes this UI then nothing gets redrawn
     for( auto it_upper = std::next( it ); it_upper < ui_stack.cend(); ++it_upper ) {
-        if( contains( it_upper->get().dimensions, dimensions ) ) {
+        if( rect_contains( it_upper->get().dimensions, dimensions ) ) {
             return;
         }
     }
@@ -257,10 +319,12 @@ void ui_adaptor::redraw()
         ui_stack.back().get().invalidated = true;
     }
     redraw_invalidated();
+    FrameMark;
 }
 
 void ui_adaptor::redraw_invalidated()
 {
+    ZoneScoped;
     if( test_mode || ui_stack.empty() ) {
         return;
     }
@@ -340,16 +404,28 @@ void ui_adaptor::redraw_invalidated()
                 first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
                 ui_stack_orig = &*ui_stack_copy;
             }
+            std::optional<point> cursor_pos;
             for( auto it = first_enabled; !restart_redrawing && it != ui_stack_orig->end(); ++it ) {
-                const ui_adaptor &ui = *it;
+                ui_adaptor &ui = *it;
                 if( ui.invalidated ) {
                     if( ui.redraw_cb ) {
+                        ui.default_cursor();
                         ui.redraw_cb( ui );
+                        if( ui.cursor_type == cursor::last ) {
+                            ui.record_term_cursor();
+                            assert( ui.cursor_type != cursor::last );
+                        }
+                        if( ui.cursor_type == cursor::custom ) {
+                            cursor_pos = ui.cursor_pos;
+                        }
                     }
                     if( !restart_redrawing ) {
                         ui.invalidated = false;
                     }
                 }
+            }
+            if( !restart_redrawing && cursor_pos.has_value() ) {
+                restore_cursor( cursor_pos.value() );
             }
         }
     } while( restart_redrawing );

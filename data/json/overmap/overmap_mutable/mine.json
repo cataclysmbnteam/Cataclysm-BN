@@ -1,0 +1,32 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "mine_tunnel",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "occurrences": [ 0, 0 ],
+    "flags": [ "RESTRICTED" ],
+    "check_for_locations": [ [ [ 0, 0, 0 ], [ "subterranean_empty" ] ], [ [ 0, 0, -1 ], [ "subterranean_empty" ] ] ],
+    "joins": [ "mine_to_mine", "mine_shaft" ],
+    "overmaps": {
+      "above_entrance": { "overmap": "empty_rock", "below": "mine_shaft" },
+      "straight_tunnel": { "overmap": "mine", "north": "mine_to_mine", "south": "mine_to_mine" },
+      "corner": { "overmap": "mine", "north": "mine_to_mine", "east": "mine_to_mine" },
+      "stairs_down": { "overmap": "mine_down", "north": "mine_to_mine", "below": "mine_shaft" },
+      "stairs_up": { "overmap": "mine", "north": "mine_to_mine", "above": "mine_shaft" },
+      "finale": { "overmap": "mine_finale", "north": "mine_to_mine" },
+      "fallback": { "overmap": "mine", "above": "mine_shaft" }
+    },
+    "root": "above_entrance",
+    "phases": [
+      [
+        { "overmap": "straight_tunnel", "max": { "poisson": 6 } },
+        { "overmap": "corner", "max": { "poisson": 6 } },
+        { "overmap": "stairs_down", "max": { "poisson": 3 } },
+        { "overmap": "stairs_up", "join": "mine_shaft" }
+      ],
+      [ { "overmap": "finale", "max": 1 } ],
+      [ { "overmap": "fallback" } ]
+    ]
+  }
+]

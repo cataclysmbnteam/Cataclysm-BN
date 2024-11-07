@@ -176,7 +176,8 @@
         "e": { "item": "novels", "chance": 70, "repeat": [ 2, 4 ] },
         "o": { "item": "oven", "chance": 70 },
         "q": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
-        "Q": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] }
+        "Q": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
+        "d": { "item": "trash_dumpster", "chance": 80 }
       },
       "place_item": [ { "item": "laptop", "x": 18, "y": 61, "chance": 80 } ],
       "place_loot": [ { "group": "magazines", "x": 18, "y": 58, "chance": 80, "repeat": [ 1, 3 ] } ],

@@ -12,8 +12,8 @@
     "volume": "7500 ml",
     "bashing": 4,
     "category": "veh_parts",
-    "price": 35000,
-    "price_postapoc": 100
+    "price": "350 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -22,8 +22,8 @@
     "name": { "str": "leather seat" },
     "description": "A soft car seat covered with leather.",
     "material": [ "leather", "cotton", "aluminum" ],
-    "price": 60000,
-    "price_postapoc": 250
+    "price": "600 USD",
+    "price_postapoc": "250 cent"
   },
   {
     "type": "GENERIC",
@@ -34,8 +34,8 @@
     "material": [ "plastic", "aluminum" ],
     "volume": "1250 ml",
     "bashing": 2,
-    "price": 2500,
-    "price_postapoc": 250,
+    "price": "25 USD",
+    "price_postapoc": "250 cent",
     "copy-from": "seat"
   }
 ]

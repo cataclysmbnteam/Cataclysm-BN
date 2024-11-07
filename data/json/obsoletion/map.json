@@ -515,5 +515,16 @@
         ]
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bunker_mech_spawn",
+    "weight": 25,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_loot": [ { "group": "mech_power_cell_spawn", "x": [ 0, 2 ], "y": 2 } ],
+      "place_monster": [ { "monster": [ "mon_mech_combat", "mon_mech_lifter", "mon_mech_recon" ], "x": [ 0, 1 ], "y": [ 0, 1 ] } ]
+    }
   }
 ]

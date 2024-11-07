@@ -4,11 +4,11 @@
     "copy-from": "rifle_auto",
     "type": "GUN",
     "name": { "str": "Remington ACR" },
-    "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines.",
+    "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing 5.56x45mm carbines.",
     "weight": "3590 g",
     "volume": "2 L",
-    "price": 234300,
-    "price_postapoc": 6000,
+    "price": "2343 USD",
+    "price_postapoc": "60 USD",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "223",
@@ -34,6 +34,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -49,8 +50,8 @@
     "weight": "3500 g",
     "volume": "2 L",
     "barrel_length": "250 ml",
-    "price": 125000,
-    "price_postapoc": 4000,
+    "price": "1250 USD",
+    "price_postapoc": "40 USD",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "223",
@@ -73,6 +74,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -87,8 +89,8 @@
     "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
     "weight": "2267 g",
     "volume": "1758 ml",
-    "price": 91400,
-    "price_postapoc": 3500,
+    "price": "914 USD",
+    "price_postapoc": "35 USD",
     "to_hit": -2,
     "bashing": 9,
     "material": [ "steel", "aluminum" ],
@@ -99,7 +101,27 @@
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "carbonmag_223",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "famas",
@@ -110,7 +132,7 @@
     "weight": "3800 g",
     "volume": "4162 ml",
     "barrel_length": "250 ml",
-    "price": 2800000,
+    "price": "28 kUSD",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "223",
@@ -123,13 +145,13 @@
       [ "barrel", 1 ],
       [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
+      [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
-      [ "sights mount", 1 ],
+      [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "underbarrel mount", 1 ],
+      [ "underbarrel", 1 ],
       [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "223", [ "famasmag" ] ] ]
@@ -138,14 +160,14 @@
     "id": "h&k416a5",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": { "str": "HK416 A5" },
+    "name": { "str": "H&K416 A5" },
     "//": "*Current* milspec gear is now ridiculously overpriced, as seen with the M2010 IRL.",
     "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable.",
     "weight": "3490 g",
     "volume": "1750 ml",
     "barrel_length": "250 ml",
-    "price": 540000,
-    "price_postapoc": 2250,
+    "price": "5400 USD",
+    "price_postapoc": "2250 cent",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "223",
@@ -169,6 +191,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -179,12 +202,12 @@
     "copy-from": "rifle_auto",
     "type": "GUN",
     "name": { "str": "H&K G36" },
-    "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
+    "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter 5.56x45mm round, allowing for a higher ammo capacity.",
     "weight": "3630 g",
     "volume": "2500 ml",
     "barrel_length": "250 ml",
-    "price": 210000,
-    "price_postapoc": 6000,
+    "price": "2100 USD",
+    "price_postapoc": "60 USD",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "223",
@@ -202,8 +225,8 @@
     "weight": "7330 g",
     "volume": "3 L",
     "barrel_length": "250 ml",
-    "price": 750000,
-    "price_postapoc": 8000,
+    "price": "7500 USD",
+    "price_postapoc": "80 USD",
     "ascii_picture": "m249_saw",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
@@ -243,6 +266,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -273,6 +297,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -288,8 +313,8 @@
     "weight": "3160 g",
     "volume": "1750 ml",
     "barrel_length": "250 ml",
-    "price": 240000,
-    "price_postapoc": 5000,
+    "price": "2400 USD",
+    "price_postapoc": "50 USD",
     "ascii_picture": "m4a1",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
@@ -315,6 +340,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -329,8 +355,8 @@
     "weight": "3510 g",
     "volume": "1750 ml",
     "barrel_length": "250 ml",
-    "price": 240000,
-    "price_postapoc": 5000,
+    "price": "2400 USD",
+    "price_postapoc": "50 USD",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "223",
@@ -354,6 +380,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -374,34 +401,54 @@
     "copy-from": "rifle_semi",
     "looks_like": "skorpion_61",
     "type": "GUN",
-    "name": { "str": "OA-93" },
-    "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
+    "name": { "str": "OA-98" },
+    "description": "An AR-15 derivative carbine manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
     "weight": "2023 g",
-    "volume": "2135 ml",
-    "price": 125000,
-    "price_postapoc": 5500,
+    "volume": "1400 ml",
+    "price": "1250 USD",
+    "price_postapoc": "55 USD",
     "to_hit": -2,
     "bashing": 9,
     "material": [ "steel", "aluminum" ],
     "color": "dark_gray",
     "ammo": "223",
     "range": -6,
-    "ranged_damage": { "damage_type": "bullet", "amount": -11 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -9 },
     "dispersion": 380,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "carbonmag_223",
+          "survivor223mag"
+        ]
+      ]
+    ]
   },
   {
     "id": "rifle_223",
     "copy-from": "rifle_home_made",
     "type": "GUN",
-    "name": { "str": "pipe rifle: .223", "str_pl": "pipe rifles: .223" },
+    "name": { "str": "pipe rifle: 5.56x45mm", "str_pl": "pipe rifles: 5.56x45mm" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "weight": "4080 g",
     "volume": "3 L",
-    "price": 110000,
-    "price_postapoc": 500,
+    "price": "1100 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "223",
@@ -416,8 +463,8 @@
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
     "weight": "3180 g",
     "volume": "2 L",
-    "price": 92100,
-    "price_postapoc": 3750,
+    "price": "921 USD",
+    "price_postapoc": "3750 cent",
     "ascii_picture": "mini-14",
     "material": [ "steel", "wood" ],
     "color": "brown",
@@ -435,10 +482,10 @@
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "223", [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ] ] ]
   },
@@ -447,12 +494,12 @@
     "copy-from": "rifle_auto",
     "type": "GUN",
     "name": { "str": "FN SCAR-L" },
-    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight 5.56x45mm round.",
     "weight": "3300 g",
     "volume": "2250 ml",
     "barrel_length": "250 ml",
-    "price": 280000,
-    "price_postapoc": 6000,
+    "price": "2800 USD",
+    "price_postapoc": "60 USD",
     "ascii_picture": "scar-L",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
@@ -477,6 +524,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -491,8 +539,8 @@
     "weight": "3000 g",
     "volume": "1750 ml",
     "barrel_length": "250 ml",
-    "price": 320000,
-    "price_postapoc": 6000,
+    "price": "3200 USD",
+    "price_postapoc": "60 USD",
     "bashing": 10,
     "material": [ "steel", "plastic" ],
     "ammo": "223",
@@ -517,6 +565,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]
@@ -531,8 +580,8 @@
     "weight": "3500 g",
     "volume": "1500 ml",
     "barrel_length": "250 ml",
-    "price": 490000,
-    "price_postapoc": 6000,
+    "price": "4900 USD",
+    "price_postapoc": "60 USD",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
     "ammo": "223",
@@ -566,8 +615,8 @@
     "weight": "1950 g",
     "volume": "1500 ml",
     "barrel_length": "250 ml",
-    "price": 10000,
-    "price_postapoc": 2750,
+    "price": "100 USD",
+    "price_postapoc": "2750 cent",
     "bashing": 6,
     "material": [ "steel", "wood" ],
     "color": "brown",
@@ -586,15 +635,16 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ]
     ],
     "magazines": [
       [
         "223",
         [
           "survivor223mag",
+          "carbonmag_223",
           "stanag30",
           "stanag5",
           "stanag10",
@@ -607,6 +657,45 @@
           "stanag100",
           "stanag100drum",
           "stanag150"
+        ]
+      ]
+    ]
+  },
+  {
+    "id": "carbon_rifle",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "carbon fiber assault rifle" },
+    "description": "This assault rifle was made using a 3D printer, resulting in a very lightweight weapon.",
+    "weight": "1590 g",
+    "volume": "2 L",
+    "price": "2343 USD",
+    "price_postapoc": "60 USD",
+    "material": [ "carbon_fiber" ],
+    "color": "dark_gray",
+    "ammo": "223",
+    "dispersion": 150,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
+    "magazines": [
+      [
+        "223",
+        [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "carbonmag_223",
+          "survivor223mag"
         ]
       ]
     ]

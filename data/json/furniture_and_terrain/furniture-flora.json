@@ -112,6 +112,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
+    "transforms_into": "f_cattails_harvested",
     "harvest_by_season": [
       { "seasons": [ "winter" ], "entries": [ { "drop": "cattail_rhizome" } ] },
       {
@@ -120,6 +121,19 @@
       }
     ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cattails_harvested",
+    "copy-from": "f_cattails",
+    "name": "harvested cattails",
+    "description": "This useful plant has been stripped of most of its stalks, and the easier-to-reach rhizomes have all been pulled up.",
+    "symbol": "i",
+    "color": "brown",
+    "extend": { "flags": [ "HARVESTED" ] },
+    "examine_action": "harvest_furn",
+    "transforms_into": "f_cattails",
+    "harvest_by_season": [  ]
   },
   {
     "type": "furniture",

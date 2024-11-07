@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "id": "s_restaurant_deserted_test",
     "copy-from": "s_restaurant_deserted_test",
-    "sym": "\u00D3",
+    "sym": "Ó",
     "color": "light_gray"
   }
 ]

@@ -5,6 +5,7 @@
 #include <memory>
 #include <ostream>
 #include <queue>
+#include <utility>
 
 #include "assign.h"
 #include "cata_utility.h"
@@ -37,7 +38,7 @@ const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
 template<>
 bool string_id<MOD_INFORMATION>::is_valid() const
 {
-    return world_generator->get_mod_manager().mod_map.count( *this ) > 0;
+    return world_generator->get_mod_manager().mod_map.contains( *this );
 }
 
 std::string MOD_INFORMATION::name() const
@@ -182,7 +183,7 @@ void mod_manager::remove_mod( const mod_id &ident )
 void mod_manager::remove_invalid_mods( t_mod_list &mods ) const
 {
     mods.erase( std::remove_if( mods.begin(), mods.end(), [this]( const mod_id & mod ) {
-        return mod_map.count( mod ) == 0;
+        return !mod_map.contains( mod );
     } ), mods.end() );
 }
 
@@ -201,7 +202,7 @@ std::vector<MOD_INFORMATION> load_mods_from( const std::string &path )
     std::set<mod_id> has_dupes;
 
     for( const MOD_INFORMATION &it : out ) {
-        if( idents.count( it.ident ) > 0 ) {
+        if( idents.contains( it.ident ) ) {
             has_dupes.emplace( it.ident );
         } else {
             idents.emplace( it.ident );
@@ -280,6 +281,7 @@ std::optional<MOD_INFORMATION> load_modfile( const JsonObject &jo, const std::st
     assign( jo, "authors", modfile.authors );
     assign( jo, "maintainers", modfile.maintainers );
     assign( jo, "version", modfile.version );
+    assign( jo, "lua_api_version", modfile.lua_api_version );
     assign( jo, "dependencies", modfile.dependencies );
     assign( jo, "conflicts", modfile.conflicts );
     assign( jo, "core", modfile.core );
@@ -483,6 +485,7 @@ std::vector<mod_id> mod_manager::get_all_sorted() const
     std::vector<mod_id> ordered_mods;
 
     std::vector<const MOD_INFORMATION *> mods;
+    mods.reserve( mod_map.size() );
     for( const auto &pair : mod_map ) {
         mods.push_back( &pair.second );
     }
@@ -509,7 +512,8 @@ translatable_mod_info::translatable_mod_info()
 
 translatable_mod_info::translatable_mod_info( std::string name,
         std::string description, std::string mod_path ) :
-    mod_path( mod_path ), name_raw( name ), description_raw( description )
+    mod_path( std::move( mod_path ) ), name_raw( std::move( name ) ),
+    description_raw( std::move( description ) )
 {
     language_version = INVALID_LANGUAGE_VERSION;
 }

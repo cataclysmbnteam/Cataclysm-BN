@@ -57,6 +57,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -67,45 +68,27 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
 
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+static const flag_id json_flag_SPLINT( "SPLINT" );
+
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool default_toggle_,
                             std::function<bool()> render_func,  bool force_draw )
 {
-    draw = draw_func;
+    draw = std::move( draw_func );
     name = nm;
     height = ht;
     width = wd;
     toggle = default_toggle_;
     default_toggle = default_toggle_;
     always_draw = force_draw;
-    render = render_func;
+    render = std::move( render_func );
 }
 
 // ====================================
 // panels prettify and helper functions
 // ====================================
-
-static void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
-                            point bottom_right )
-{
-    // corners
-    mvwaddch( w, top_left, LINE_OXXO );
-    mvwaddch( w, point( top_left.x, bottom_right.y ), LINE_XXOO );
-    mvwaddch( w, point( bottom_right.x, top_left.y ), LINE_OOXX );
-    mvwaddch( w, bottom_right, LINE_XOOX );
-
-    for( int i = 1; i < bottom_right.x; i++ ) {
-        mvwaddch( w, point( i, top_left.y ), LINE_OXOX );
-        mvwaddch( w, point( i, bottom_right.y ), LINE_OXOX );
-    }
-
-    for( int i = 1; i < bottom_right.y; i++ ) {
-        mvwaddch( w, point( top_left.x, i ), LINE_XOXO );
-        mvwaddch( w, point( bottom_right.x, i ), LINE_XOXO );
-    }
-}
-
 
 static std::pair<nc_color, std::string> str_string( const avatar &p )
 {
@@ -310,7 +293,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint_abs_omt curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 7, 7 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -332,8 +315,8 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
 static std::string get_temp( const avatar &u )
 {
     std::string temp;
-    if( u.has_item_with_flag( "THERMOMETER" ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
@@ -438,21 +421,44 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
     return std::make_pair( morale_color, morale_int );
 }
 
-static std::pair<int, int> temp_delta( const avatar &u )
+struct temp_delta_extremes {
+    temp_delta_extremes( bodypart_str_id extreme_cur_bp,
+                         int extreme_cur_temp,
+                         bodypart_str_id extreme_conv_bp,
+                         int extreme_conv_temp ) :
+        extreme_cur_bp( extreme_cur_bp ),
+        extreme_cur_temp( extreme_cur_temp ),
+        extreme_conv_bp( extreme_conv_bp ),
+        extreme_conv_temp( extreme_conv_temp )
+    {}
+    bodypart_str_id extreme_cur_bp;
+    int extreme_cur_temp;
+    bodypart_str_id extreme_conv_bp;
+    int extreme_conv_temp;
+};
+
+static temp_delta_extremes temp_delta( const avatar &u )
 {
-    int current_bp_extreme = 0;
-    int conv_bp_extreme = 0;
-    for( int i = 0; i < num_bp; i++ ) {
-        if( std::abs( u.temp_cur[i] - BODYTEMP_NORM ) >
-            std::abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
-            current_bp_extreme = i;
+    bodypart_str_id extreme_cur_bp;
+    int current_bp_extreme = BODYTEMP_NORM;
+    bodypart_str_id extreme_conv_bp;
+    int conv_bp_extreme = BODYTEMP_NORM;
+    for( const auto &pr : u.get_body() ) {
+        int temp_cur = pr.second.get_temp_cur();
+        if( std::abs( temp_cur - BODYTEMP_NORM ) >
+            std::abs( current_bp_extreme - BODYTEMP_NORM ) ) {
+            extreme_cur_bp = pr.first;
+            current_bp_extreme = temp_cur;
         }
-        if( std::abs( u.temp_conv[i] - BODYTEMP_NORM ) >
-            std::abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
-            conv_bp_extreme = i;
+
+        int temp_conv = pr.second.get_temp_conv();
+        if( std::abs( temp_conv - BODYTEMP_NORM ) >
+            std::abs( conv_bp_extreme - BODYTEMP_NORM ) ) {
+            extreme_conv_bp = pr.first;
+            conv_bp_extreme = temp_conv;
         }
     }
-    return std::make_pair( current_bp_extreme, conv_bp_extreme );
+    return temp_delta_extremes( extreme_cur_bp, current_bp_extreme, extreme_conv_bp, conv_bp_extreme );
 }
 
 static int define_temp_level( const int lvl )
@@ -476,10 +482,10 @@ static int define_temp_level( const int lvl )
 static std::string temp_delta_string( const avatar &u )
 {
     std::string temp_message;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    temp_delta_extremes temp_struct = temp_delta( u );
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( temp_struct.extreme_cur_temp );
+    const int conv_zone = define_temp_level( temp_struct.extreme_conv_temp );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
@@ -506,10 +512,10 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
 {
     std::string temp_message;
     nc_color temp_color = c_white;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    temp_delta_extremes temp_struct = temp_delta( u );
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( temp_struct.extreme_cur_temp );
+    const int conv_zone = define_temp_level( temp_struct.extreme_conv_temp );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
@@ -543,43 +549,45 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    int current_bp_extreme = temp_delta( u ).first;
+    temp_delta_extremes temp_struct = temp_delta( u );
+    int extreme_cur_temp = temp_struct.extreme_cur_temp;
 
     // printCur the hottest/coldest bodypart
     std::string temp_string;
     nc_color temp_color = c_yellow;
-    if( u.temp_cur[current_bp_extreme] > BODYTEMP_SCORCHING ) {
+    if( extreme_cur_temp > BODYTEMP_SCORCHING ) {
         temp_color = c_red;
         temp_string = _( "Scorching!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_HOT ) {
+    } else if( extreme_cur_temp > BODYTEMP_VERY_HOT ) {
         temp_color = c_light_red;
         temp_string = _( "Very hot!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_HOT ) {
+    } else if( extreme_cur_temp > BODYTEMP_HOT ) {
         temp_color = c_yellow;
         temp_string = _( "Warm" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_COLD ) {
+    } else if( extreme_cur_temp > BODYTEMP_COLD ) {
         temp_color = c_green;
         temp_string = _( "Comfortable" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_COLD ) {
+    } else if( extreme_cur_temp > BODYTEMP_VERY_COLD ) {
         temp_color = c_light_blue;
         temp_string = _( "Chilly" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_FREEZING ) {
+    } else if( extreme_cur_temp > BODYTEMP_FREEZING ) {
         temp_color = c_cyan;
         temp_string = _( "Very cold!" );
-    } else if( u.temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
+    } else if( extreme_cur_temp <= BODYTEMP_FREEZING ) {
         temp_color = c_blue;
         temp_string = _( "Freezing!" );
     }
     return std::make_pair( temp_color, temp_string );
 }
 
-static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
+static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
 {
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
-        --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
+    for( auto it = u.worn.rbegin(); it != u.worn.rend(); ) {
+        if( ( *it )->covers( bp ) ) {
+            return ( *it )->tname( 1, true, truncate );
         }
+
+        it++;
     }
     return "-";
 }
@@ -767,36 +775,36 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
+
+    const bodypart_id bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ).id();
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
+
+    std::optional<nc_color> color_override;
+
     if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
                                          limb_index <= hp_leg_r ) ) {
         //Limb is broken
-        std::string limb = "~~%~~";
-        nc_color color = c_light_red;
+        const int mend_perc =  100 * hp_cur / hp_max;
+        bool splinted = u.worn_with_flag( json_flag_SPLINT, bp ) ||
+                        ( u.mutation_value( "mending_modifier" ) >= 1.0f );
+        nc_color color = splinted ? c_blue : c_dark_gray;
 
-        if( u.worn_with_flag( "SPLINT",  bp ) ) {
-            static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp->token );
-            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
-
-            if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-                limb = string_format( "=%2d%%=", mend_perc );
-                color = c_blue;
-            } else {
-                const int num = mend_perc / 20;
-                print_symbol_num( w, num, "#", c_blue );
-                print_symbol_num( w, 5 - num, "=", c_blue );
-                return;
-            }
+        if( is_self_aware || u.has_effect( effect_got_checked ) ) {
+            color_override = color;
+        } else {
+            const int num = mend_perc / 20;
+            print_symbol_num( w, num, "#", color );
+            print_symbol_num( w, 5 - num, "=", color );
+            return;
         }
-
-        wprintz( w, color, limb );
-        return;
     }
 
-    const int hp_cur = u.get_part_hp_cur( bp );
-    const int hp_max = u.get_part_hp_max( bp );
+
     std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
+    if( color_override ) {
+        hp.second = *color_override;
+    }
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", hp_cur );
@@ -928,20 +936,20 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
 static void draw_time_graphic( const catacurses::window &w )
 {
     std::vector<std::pair<char, nc_color> > vGlyphs;
-    vGlyphs.push_back( std::make_pair( '_', c_red ) );
-    vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
-    vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-    vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-    vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-    vGlyphs.push_back( std::make_pair( '*', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'C', c_white ) );
-    vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-    vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-    vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-    vGlyphs.push_back( std::make_pair( '_', c_red ) );
-    vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
+    vGlyphs.emplace_back( '_', c_red );
+    vGlyphs.emplace_back( '_', c_cyan );
+    vGlyphs.emplace_back( '.', c_brown );
+    vGlyphs.emplace_back( ',', c_blue );
+    vGlyphs.emplace_back( '+', c_yellow );
+    vGlyphs.emplace_back( 'c', c_light_blue );
+    vGlyphs.emplace_back( '*', c_yellow );
+    vGlyphs.emplace_back( 'C', c_white );
+    vGlyphs.emplace_back( '+', c_yellow );
+    vGlyphs.emplace_back( 'c', c_light_blue );
+    vGlyphs.emplace_back( '.', c_brown );
+    vGlyphs.emplace_back( ',', c_blue );
+    vGlyphs.emplace_back( '_', c_red );
+    vGlyphs.emplace_back( '_', c_cyan );
 
     const int iHour = hour_of_day<int>( calendar::turn );
     wprintz( w, c_white, "[" );
@@ -1526,7 +1534,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
 
-    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         std::string temp = print_temperature( weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -1574,7 +1583,6 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     werase( w );
 
     draw_minimap( u, w );
-    draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
 
     // print limb health
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -1656,16 +1664,16 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 35, 4 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 21, 5 ), c_light_gray, type );
+        mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            nc_color col_vel = strain <= 0 ? c_light_blue :
-                               ( strain <= 0.2 ? c_yellow :
-                                 ( strain <= 0.4 ? c_light_red : c_red ) );
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 21, 5 ), c_light_gray, type );
-            mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
             mvwprintz( w, point( 26 + offset, 5 ), c_light_gray, ">" );
             mvwprintz( w, point( 28 + offset, 5 ), c_light_green, "%d", t_speed );
         }
@@ -1687,11 +1695,16 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
     wnoutrefresh( w );
 }
 
@@ -1707,11 +1720,16 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
+    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
     wnoutrefresh( w );
 }
 
@@ -1770,18 +1788,18 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 19, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            nc_color col_vel = strain <= 0 ? c_light_blue :
-                               ( strain <= 0.2 ? c_yellow :
-                                 ( strain <= 0.4 ? c_light_red : c_red ) );
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
-            mvwprintz( w, point( 19, 0 ), c_light_green, "%d", t_speed );
             mvwprintz( w, point( 20 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 22 + offset, 0 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 22 + offset, 0 ), c_light_green, "%d", t_speed );
         }
     }
 
@@ -1805,15 +1823,15 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 20, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
-            mvwprintz( w, point( 20, 0 ), c_light_green, "%d", t_speed );
             mvwprintz( w, point( 21 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 23 + offset, 0 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 23 + offset, 0 ), c_light_green, "%d", t_speed );
         }
     }
 
@@ -1941,7 +1959,8 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
-    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
@@ -2025,31 +2044,31 @@ static std::vector<window_panel> initialize_default_classic_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_health_classic, translate_marker( "Health" ), 7, 44, true ) );
-    ret.emplace_back( window_panel( draw_location_classic, translate_marker( "Location" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_mana_classic, translate_marker( "Mana" ), 1, 44, true,
-                                    spell_panel ) );
-    ret.emplace_back( window_panel( draw_weather_classic, translate_marker( "Weather" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_lighting_classic, translate_marker( "Lighting" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_weapon_classic, translate_marker( "Weapon" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_weapon_classic_alt, translate_marker( "Weapon_alt" ), 2, 44,
-                                    false ) );
-    ret.emplace_back( window_panel( draw_weightvolume_classic, translate_marker( "Wgt/Vol" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_time_classic, translate_marker( "Time" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_wind, translate_marker( "Wind" ), 1, 44, false ) );
-    ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
+    ret.emplace_back( draw_health_classic, translate_marker( "Health" ), 7, 44, true );
+    ret.emplace_back( draw_location_classic, translate_marker( "Location" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_mana_classic, translate_marker( "Mana" ), 1, 44, true,
+                      spell_panel );
+    ret.emplace_back( draw_weather_classic, translate_marker( "Weather" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_lighting_classic, translate_marker( "Lighting" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_weapon_classic, translate_marker( "Weapon" ), 1, 44, true );
+    ret.emplace_back( draw_weapon_classic_alt, translate_marker( "Weapon_alt" ), 2, 44,
+                      false );
+    ret.emplace_back( draw_weightvolume_classic, translate_marker( "Wgt/Vol" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_time_classic, translate_marker( "Time" ), 1, 44, true );
+    ret.emplace_back( draw_wind, translate_marker( "Wind" ), 1, 44, false );
+    ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 44, false );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
+                      true );
+    ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 44, true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
-                                    default_render, true ) );
+    ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
+                      default_render, true );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
+    ret.emplace_back( draw_ai_goal, "AI Needs", 1, 44, false );
     return ret;
 }
 
@@ -2057,25 +2076,25 @@ static std::vector<window_panel> initialize_default_compact_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_limb2, translate_marker( "Limbs" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_stealth, translate_marker( "Sound" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_stats, translate_marker( "Stats" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_mana_compact, translate_marker( "Mana" ), 1, 32, true,
-                                    spell_panel ) );
-    ret.emplace_back( window_panel( draw_time, translate_marker( "Time" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_needs_compact, translate_marker( "Needs" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_env_compact, translate_marker( "Env" ), 6, 32, true ) );
-    ret.emplace_back( window_panel( draw_veh_compact, translate_marker( "Vehicle" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_weightvolume_compact, translate_marker( "Wgt/Vol" ), 2, 32,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 32, false ) );
-    ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
-    ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
+    ret.emplace_back( draw_limb2, translate_marker( "Limbs" ), 3, 32, true );
+    ret.emplace_back( draw_stealth, translate_marker( "Sound" ), 1, 32, true );
+    ret.emplace_back( draw_stats, translate_marker( "Stats" ), 1, 32, true );
+    ret.emplace_back( draw_mana_compact, translate_marker( "Mana" ), 1, 32, true,
+                      spell_panel );
+    ret.emplace_back( draw_time, translate_marker( "Time" ), 1, 32, true );
+    ret.emplace_back( draw_needs_compact, translate_marker( "Needs" ), 3, 32, true );
+    ret.emplace_back( draw_env_compact, translate_marker( "Env" ), 6, 32, true );
+    ret.emplace_back( draw_veh_compact, translate_marker( "Vehicle" ), 1, 32, true );
+    ret.emplace_back( draw_weightvolume_compact, translate_marker( "Wgt/Vol" ), 2, 32,
+                      true );
+    ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 32, false );
+    ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 32, true );
+    ret.emplace_back( draw_compass, translate_marker( "Compass" ), 8, 32, true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
-                                    default_render, true ) );
+    ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
+                      default_render, true );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
+    ret.emplace_back( draw_ai_goal, "AI Needs", 1, 32, false );
 
     return ret;
 }
@@ -2084,30 +2103,30 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_hint, translate_marker( "Hint" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_limb_narrow, translate_marker( "Limbs" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_char_narrow, translate_marker( "Movement" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_mana_narrow, translate_marker( "Mana" ), 1, 32, true,
-                                    spell_panel ) );
-    ret.emplace_back( window_panel( draw_stat_narrow, translate_marker( "Stats" ), 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_loc_narrow, translate_marker( "Location" ), 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false ) );
-    ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true ) );
-    ret.emplace_back( window_panel( draw_weightvolume_narrow, translate_marker( "Wgt/Vol" ), 2, 32,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_needs_narrow, translate_marker( "Needs" ), 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_sound_narrow, translate_marker( "Sound" ), 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 32, true ) );
-    ret.emplace_back( window_panel( draw_moon_narrow, translate_marker( "Moon" ), 2, 32, false ) );
-    ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
-                                    true ) );
+    ret.emplace_back( draw_hint, translate_marker( "Hint" ), 1, 32, true );
+    ret.emplace_back( draw_limb_narrow, translate_marker( "Limbs" ), 3, 32, true );
+    ret.emplace_back( draw_char_narrow, translate_marker( "Movement" ), 3, 32, true );
+    ret.emplace_back( draw_mana_narrow, translate_marker( "Mana" ), 1, 32, true,
+                      spell_panel );
+    ret.emplace_back( draw_stat_narrow, translate_marker( "Stats" ), 3, 32, true );
+    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true );
+    ret.emplace_back( draw_loc_narrow, translate_marker( "Location" ), 5, 32, true );
+    ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false );
+    ret.emplace_back( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true );
+    ret.emplace_back( draw_weightvolume_narrow, translate_marker( "Wgt/Vol" ), 2, 32,
+                      true );
+    ret.emplace_back( draw_needs_narrow, translate_marker( "Needs" ), 5, 32, true );
+    ret.emplace_back( draw_sound_narrow, translate_marker( "Sound" ), 1, 32, true );
+    ret.emplace_back( draw_messages, translate_marker( "Log" ), -2, 32, true );
+    ret.emplace_back( draw_moon_narrow, translate_marker( "Moon" ), 2, 32, false );
+    ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
+                      true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
-                                    default_render, true ) );
+    ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
+                      default_render, true );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
+    ret.emplace_back( draw_ai_goal, "AI Needs", 1, 32, false );
 
     return ret;
 }
@@ -2116,31 +2135,31 @@ static std::vector<window_panel> initialize_default_label_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_hint, translate_marker( "Hint" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_limb_wide, translate_marker( "Limbs" ), 2, 44, true ) );
-    ret.emplace_back( window_panel( draw_char_wide, translate_marker( "Movement" ), 2, 44, true ) );
-    ret.emplace_back( window_panel( draw_mana_wide, translate_marker( "Mana" ), 1, 44, true,
-                                    spell_panel ) );
-    ret.emplace_back( window_panel( draw_stat_wide, translate_marker( "Stats" ), 2, 44, true ) );
-    ret.emplace_back( window_panel( draw_veh_padding, translate_marker( "Vehicle" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_loc_wide_map, translate_marker( "Location" ), 5, 44, true ) );
-    ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false ) );
-    ret.emplace_back( window_panel( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true ) );
-    ret.emplace_back( window_panel( draw_weightvolume_labels, translate_marker( "Wgt/Vol" ), 1, 44,
-                                    true ) );
-    ret.emplace_back( window_panel( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true ) );
-    ret.emplace_back( window_panel( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 44, true ) );
-    ret.emplace_back( window_panel( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false ) );
-    ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
-                                    true ) );
+    ret.emplace_back( draw_hint, translate_marker( "Hint" ), 1, 44, true );
+    ret.emplace_back( draw_limb_wide, translate_marker( "Limbs" ), 2, 44, true );
+    ret.emplace_back( draw_char_wide, translate_marker( "Movement" ), 2, 44, true );
+    ret.emplace_back( draw_mana_wide, translate_marker( "Mana" ), 1, 44, true,
+                      spell_panel );
+    ret.emplace_back( draw_stat_wide, translate_marker( "Stats" ), 2, 44, true );
+    ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 1, 44, true );
+    ret.emplace_back( draw_loc_wide_map, translate_marker( "Location" ), 5, 44, true );
+    ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false );
+    ret.emplace_back( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false );
+    ret.emplace_back( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true );
+    ret.emplace_back( draw_weightvolume_labels, translate_marker( "Wgt/Vol" ), 1, 44,
+                      true );
+    ret.emplace_back( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true );
+    ret.emplace_back( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true );
+    ret.emplace_back( draw_messages, translate_marker( "Log" ), -2, 44, true );
+    ret.emplace_back( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false );
+    ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
+                      true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
-                                    default_render, true ) );
+    ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
+                      default_render, true );
 #endif // TILES
-    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
+    ret.emplace_back( draw_ai_goal, "AI Needs", 1, 44, false );
 
     return ret;
 }
@@ -2149,11 +2168,11 @@ static std::map<std::string, std::vector<window_panel>> initialize_default_panel
 {
     std::map<std::string, std::vector<window_panel>> ret;
 
-    ret.emplace( std::make_pair( translate_marker( "classic" ), initialize_default_classic_panels() ) );
-    ret.emplace( std::make_pair( translate_marker( "compact" ), initialize_default_compact_panels() ) );
-    ret.emplace( std::make_pair( translate_marker( "labels-narrow" ),
-                                 initialize_default_label_narrow_panels() ) );
-    ret.emplace( std::make_pair( translate_marker( "labels" ), initialize_default_label_panels() ) );
+    ret.emplace( translate_marker( "classic" ), initialize_default_classic_panels() );
+    ret.emplace( translate_marker( "compact" ), initialize_default_compact_panels() );
+    ret.emplace( translate_marker( "labels-narrow" ),
+                 initialize_default_label_narrow_panels() );
+    ret.emplace( translate_marker( "labels" ), initialize_default_label_panels() );
 
     return ret;
 }

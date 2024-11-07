@@ -8,7 +8,6 @@
 
 #include "action.h"
 #include "avatar.h"
-#include "basecamp.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -98,7 +97,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
-    get_weather().temperature = 65;
+    get_weather().update_weather();
     if( !g->u.create( character_type::CUSTOM ) ) {
         return false;
     }
@@ -207,7 +206,7 @@ void defense_game::init_mtypes()
     for( auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
         mtype *const t = const_cast<mtype *>( &type );
         t->difficulty *= 1.5;
-        t->difficulty += static_cast<int>( t->difficulty / 5 );
+        t->difficulty += ( t->difficulty / 5 );
         t->set_flag( MF_BASHES );
         t->set_flag( MF_SMELLS );
         t->set_flag( MF_HEARS );
@@ -977,7 +976,7 @@ void defense_game::caravan()
             if( current_window == 1 && !items[category_selected].empty() ) {
                 item_count[category_selected][item_selected]++;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                int item_price = item( tmp_itm, calendar::start_of_cataclysm ).price( false );
+                int item_price = item::spawn_temporary( tmp_itm, calendar::start_of_cataclysm )->price( false );
                 total_price += caravan_price( g->u, item_price );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
@@ -1006,7 +1005,7 @@ void defense_game::caravan()
                 item_count[category_selected][item_selected] > 0 ) {
                 item_count[category_selected][item_selected]--;
                 itype_id tmp_itm = items[category_selected][item_selected];
-                int item_price = item( tmp_itm, calendar::start_of_cataclysm ).price( false );
+                int item_price = item::spawn_temporary( tmp_itm, calendar::start_of_cataclysm )->price( false );
                 total_price -= caravan_price( g->u, item_price );
                 if( category_selected == CARAVAN_CART ) { // Find the item in its category
                     for( int i = 1; i < NUM_CARAVAN_CATEGORIES; i++ ) {
@@ -1046,7 +1045,7 @@ void defense_game::caravan()
                                              "Buy %d items, leaving you with %s?",
                                              items[0].size() ),
                                    items[0].size(),
-                                   format_money( static_cast<int>( g->u.cash ) - static_cast<int>( total_price ) ) ) ) ) {
+                                   format_money( g->u.cash - total_price ) ) ) ) {
                 done = true;
             }
         } // "switch" on (action)
@@ -1057,21 +1056,20 @@ void defense_game::caravan()
         g->u.cash -= total_price;
         bool dropped_some = false;
         for( size_t i = 0; i < items[0].size(); i++ ) {
-            item tmp( items[0][i] );
-            tmp = tmp.in_its_container();
-
-            // Guns bought from the caravan should always come with an empty
-            // magazine.
-            if( tmp.is_gun() && !tmp.magazine_integral() ) {
-                tmp.put_in( item( tmp.magazine_default() ) );
-            }
-
             for( int j = 0; j < item_count[0][i]; j++ ) {
-                if( g->u.can_pick_volume( tmp ) && g->u.can_pick_weight( tmp ) ) {
-                    g->u.i_add( tmp );
+                detached_ptr<item> tmp = item::in_its_container( item::spawn( items[0][i] ) );
+
+                // Guns bought from the caravan should always come with an empty
+                // magazine.
+                if( tmp->is_gun() && !tmp->magazine_integral() ) {
+                    tmp->put_in( item::spawn( tmp->magazine_default() ) );
+                }
+
+                if( g->u.can_pick_volume( *tmp ) && g->u.can_pick_weight( *tmp ) ) {
+                    g->u.i_add( std::move( tmp ) );
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
-                    get_map().add_item_or_charges( g->u.pos(), tmp );
+                    get_map().add_item_or_charges( g->u.pos(), std::move( tmp ) );
                 }
             }
         }
@@ -1147,14 +1145,14 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             return ret;
     }
 
-    item_group::ItemList item_list = item_group::items_from( item_group_id( group_id ) );
+    std::vector<detached_ptr<item>> item_list = item_group::items_from( item_group_id( group_id ) );
 
     for( auto &it : item_list ) {
-        itype_id item_type = it.typeId();
+        itype_id item_type = it->typeId();
         ret.emplace_back( item_type );
         // Add the default magazine types for each gun.
-        if( it.is_gun() && !it.magazine_integral() ) {
-            ret.emplace_back( it.magazine_default() );
+        if( it->is_gun() && !it->magazine_integral() ) {
+            ret.emplace_back( it->magazine_default() );
         }
     }
     return ret;
@@ -1226,7 +1224,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
     mvwprintz( w, point( 1, 1 ), c_white, _( "Your Cash: %s" ), format_money( cash ) );
     wprintz( w, c_light_gray, " -> " );
     wprintz( w, ( total_price > cash ? c_red : c_green ), "%s",
-             format_money( static_cast<int>( cash ) - static_cast<int>( total_price ) ) );
+             format_money( cash - total_price ) );
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, point( 1, i + 3 ), ( i == category_selected ? h_white : c_white ),
@@ -1247,7 +1245,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     }
     // THEN print it--if item_selected is valid
     if( item_selected < static_cast<int>( items->size() ) ) {
-        item tmp( ( *items )[item_selected], calendar::start_of_cataclysm );
+        item &tmp = *item::spawn_temporary( ( *items )[item_selected], calendar::start_of_cataclysm );
         fold_and_print( w, point( 1, 12 ), 38, c_white, tmp.info_string( iteminfo_query::no_text ) );
     }
     // Next, clear the item list on the right
@@ -1261,7 +1259,8 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
                    item::nname( ( *items )[i], ( *counts )[i] ) );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
-            int item_price = item( ( *items )[i], calendar::start_of_cataclysm ).price( false );
+            int item_price = item::spawn_temporary( ( *items )[i],
+                                                    calendar::start_of_cataclysm )->price( false );
             int price = caravan_price( g->u, item_price * ( *counts )[i] );
             wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }

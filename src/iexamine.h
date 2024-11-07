@@ -55,7 +55,6 @@ void harvest_ter( player &p, const tripoint &examp );
 void harvested_plant( player &p, const tripoint &examp );
 void locked_object( player &p, const tripoint &examp );
 void locked_object_pickable( player &p, const tripoint &examp );
-void bulletin_board( player &p, const tripoint &examp );
 void fault( player &p, const tripoint &examp );
 void notify( player &p, const tripoint &pos );
 void transform( player &p, const tripoint &pos );
@@ -86,6 +85,7 @@ void recycle_compactor( player &p, const tripoint &examp );
 void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
 void clean_water_source( player &, const tripoint &examp );
+void liquid_source( player &p, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
 void kiln_full( player &p, const tripoint &examp );
 void arcfurnace_empty( player &p, const tripoint &examp );
@@ -115,15 +115,15 @@ void dimensional_portal( player &p, const tripoint &examp );
 void check_power( player &p, const tripoint &examp );
 void migo_nerve_cluster( player &p, const tripoint &examp );
 
-bool pour_into_keg( const tripoint &pos, item &liquid );
+detached_ptr<item> pour_into_keg( const tripoint &pos, detached_ptr<item> &&liquid );
 std::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
 bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
 std::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units );
 
 bool has_keg( const tripoint &pos );
 
-std::list<item> get_harvest_items( const itype &type, int plant_count,
-                                   int seed_count, bool byproducts );
+std::vector<detached_ptr<item>> get_harvest_items( const itype &type, int plant_count,
+                             int seed_count, bool byproducts );
 
 // Planting functions
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );

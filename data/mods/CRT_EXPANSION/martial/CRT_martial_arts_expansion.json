@@ -1,86 +1,9 @@
 [
   {
-    "id": "style_aikido",
-    "copy-from": "style_aikido",
-    "type": "martial_art",
-    "name": { "str": "Aikido" },
-    "extend": { "weapons": [ "crt_fire_glove", "crt_knuckledusters" ] }
-  },
-  {
-    "id": "style_judo",
-    "copy-from": "style_judo",
-    "type": "martial_art",
-    "name": { "str": "Judo" },
-    "extend": { "weapons": [ "crt_fire_glove", "crt_knuckledusters" ] }
-  },
-  {
-    "id": "style_barbaran",
-    "copy-from": "style_barbaran",
-    "type": "martial_art",
-    "name": { "str": "Barbaran Montante" },
-    "extend": { "weapons": [ "blade_crt", "sword_crt" ] }
-  },
-  {
-    "id": "style_eskrima",
-    "copy-from": "style_eskrima",
-    "type": "martial_art",
-    "name": { "str": "Eskrima" },
-    "extend": { "weapons": [ "knife_crt", "sword_crt", "crt_nstick", "crt_hatchet", "crt_hatchet_extended" ] }
-  },
-  {
-    "id": "style_krav_maga",
-    "copy-from": "style_krav_maga",
-    "type": "martial_art",
-    "name": { "str": "Krav Maga" },
-    "extend": {
-      "weapons": [
-        "knife_crt",
-        "sword_crt",
-        "crt_nstick",
-        "crt_hatchet",
-        "crt_hatchet_extended",
-        "crt_knuckledusters",
-        "crt_laser_pistol",
-        "crt_laser_gatling",
-        "crt_laser_carbine",
-        "crt_energy_rifle",
-        "crt_cqb_si",
-        "crt_fire_glove",
-        "pelletgun",
-        "ds_plasma_cutter",
-        "ds_rivet_gun",
-        "ds_line_gun",
-        "ds_pulse_rifle",
-        "ds_ripper"
-      ]
-    }
-  },
-  {
     "id": "style_swordsmanship",
     "copy-from": "style_swordsmanship",
     "type": "martial_art",
     "name": { "str": "Medieval Swordsmanship" },
     "extend": { "weapons": [ "blade_crt", "sword_crt" ] }
-  },
-  {
-    "id": "style_ninjutsu",
-    "copy-from": "style_ninjutsu",
-    "type": "martial_art",
-    "name": { "str": "Ninjutsu" },
-    "extend": { "weapons": [ "crt_knuckledusters", "knife_crt", "sword_crt", "crt_nstick", "crt_hatchet", "crt_hatchet_extended" ] }
-  },
-  {
-    "id": "style_niten",
-    "copy-from": "style_niten",
-    "type": "martial_art",
-    "name": { "str": "Niten Ichi-Ryu" },
-    "extend": { "weapons": [ "blade_crt", "sword_crt" ] }
-  },
-  {
-    "id": "style_silat",
-    "copy-from": "style_silat",
-    "type": "martial_art",
-    "name": { "str": "Silat" },
-    "extend": { "weapons": [ "crt_knuckledusters", "knife_crt", "sword_crt", "crt_nstick", "crt_hatchet", "crt_hatchet_extended" ] }
   }
 ]

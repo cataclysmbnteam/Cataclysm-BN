@@ -164,6 +164,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_BLEED",
+    "type": "activity_type",
+    "verb": "bleeding",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_SKIN",
     "type": "activity_type",
     "verb": "skinning",
@@ -482,6 +488,8 @@
     "type": "activity_type",
     "verb": "picking lock",
     "rooted": true,
+    "suspendable": false,
+    "no_resume": true,
     "based_on": "speed"
   },
   {
@@ -558,6 +566,12 @@
     "id": "ACT_HACKSAW",
     "type": "activity_type",
     "verb": "cutting the metal",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_BOLTCUTTING",
+    "type": "activity_type",
+    "verb": "cutting the wire",
     "based_on": "speed"
   },
   {

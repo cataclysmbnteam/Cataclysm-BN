@@ -183,6 +183,7 @@
       [ "remington_700", 5 ],
       [ "ruger_1022", 10 ],
       [ "marlin_9a", 10 ],
+      [ "hipoint_3895", 8 ],
       [ "remington_870", 10 ],
       [ "mossberg_500", 5 ],
       [ "shotgun_d", 5 ],
@@ -220,6 +221,11 @@
     "type": "talk_topic",
     "responses": [
       {
+        "text": "Can I talk to you about that fellow over there in the dinosaur suit?",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission"
+      },
+      {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you offer any help?",
         "condition": {
           "and": [
@@ -252,12 +258,6 @@
       },
       { "text": "Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" },
-      {
-        "text": "I figured you might be looking for some help…",
-        "topic": "TALK_NONE",
-        "effect": { "companion_mission": "REFUGEE_MERCHANT" },
-        "condition": { "u_has_any_trait": [ "NPC_MISSION_LEV_1" ] }
-      },
       {
         "text": "What's with these 'free merchant certified notes'?",
         "topic": "TALK_EVAC_MERCHANT_MERCH",
@@ -503,7 +503,8 @@
       "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
+        "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "x": 10, "y": 10, "target": true } ],
+        "place_monsters": [ { "monster": "GROUP_REFUGEE_CENTER_BACK_ROOM", "x": [ 2, 15 ], "y": [ 4, 20 ], "density": 0.6 } ]
       }
     },
     "end": {
@@ -715,27 +716,27 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
     "name": { "str": "In a Pickle" },
-    "description": "Deliver 100 half-liter glass canning jars to the Free Merchants to kickstart their food storage plans.",
+    "description": "Deliver twenty-five half-liter glass canning jars to the Free Merchants to kickstart their food storage plans.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 400000,
     "item": "jar_glass",
-    "count": 100,
+    "count": 25,
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_buy_item": "FMCNote", "count": 250 },
         { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help…",
-      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth.  Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us around a hundred jars to get us started.",
+      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth.  Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us twenty-five glass jars to get us started.",
       "accepted": "It'll take a load off my shoulders if I can finally stop worrying about this.",
       "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying.  If you reconsider let me know.",
       "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
       "inquire": "How is the search going?",
-      "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
+      "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 250 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
@@ -771,5 +772,93 @@
       "success_lie": "What good does this do us?",
       "failure": "At least you came back with your life…"
     }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission",
+    "dynamic_line": "*looks at you cautiously.  \"He hasn't been bothering you, has he?  Dave's usually pretty harmless.\"",
+    "responses": [
+      {
+        "text": "He wants permission to build himself a little shelter outside of your lobby, somewhere out of the way.  He'd need access to your washrooms and things, but you could clear him out of this space.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission2"
+      },
+      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission2",
+    "dynamic_line": "Sure, sounds great on paper, but *where*?  We aren't swimming in real estate here, the place is seriously overcrowded.  And I won't have him living out of a soggy cardboard box on the doorstep, it's an even worse look than the lobby.",
+    "responses": [
+      {
+        "text": "What about the rooftop?  There's a stair access there, I can see it from outside, and he'd probably be able to do a bit of a lookout job.",
+        "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission3"
+      },
+      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission3",
+    "dynamic_line": "*rubs his chin.  \"It's probably technically a fire hazard, but there's not much to light up there besides what Dave brings.  And a few of the guards are pretty attached to him, so we could maybe send folks up to keep an eye on him and make sure he's doing okay.  That wouldn't interfere with comings and goings, either.\"  He pauses a moment, looking at his ledger as if it contains answers.  \"You know what?  Sure.  If Dave is okay with it, I can talk the others into letting him have rooftop access to build himself a little shelter, as long as he continues to keep it clean up there like he has in here.\"",
+    "speaker_effect": { "effect": { "u_add_var": "Dave_Permission", "type": "mission", "value": "yes" } },
+    "responses": [ { "text": "Thanks.  I'll go let him know.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT",
+    "type": "talk_topic",
+    "responses": [
+      {
+        "text": "Are you interested in buying any processed lumber?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_LUMBER",
+        "condition": { "u_has_mission": "MISSION_LUMBERMILL_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Does this center need any metal?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_SCRAP",
+        "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE" }
+      },
+      {
+        "text": "Are you interested in any chemical supplies?",
+        "topic": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
+        "condition": { "u_has_mission": "MISSION_CABIN_CHEMIST_SET_TRADE_ROUTE" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_SCRAP",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure, we could use some around here for repairs and whatnot.  What are the terms?" ],
+    "responses": [
+      {
+        "text": "Well, how about 250 merch for 50 kilos of…",
+        "effect": { "u_buy_item": "trade_writ_scrap" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_LUMBER",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure, we could use some around here for repairs and whatnot.  What are the terms?" ],
+    "responses": [
+      {
+        "text": "Well, how about 500 merch for a dozen board feet of…",
+        "effect": { "u_buy_item": "trade_writ_lumberyard" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_DEAL_NEGOTIATE_CHEM",
+    "type": "talk_topic",
+    "dynamic_line": [ "Chemicals?  I'm sure we could find some use for them, and we are in need of medical supplies.  What's the offer?" ],
+    "responses": [
+      {
+        "text": "Well, how about 300 merch for 10 liters of…",
+        "effect": { "u_buy_item": "trade_writ_chemist" },
+        "topic": "TALK_DONE"
+      }
+    ]
   }
 ]

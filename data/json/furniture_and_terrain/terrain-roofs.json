@@ -40,83 +40,12 @@
   },
   {
     "type": "terrain",
-    "id": "t_gutter_north",
+    "id": "t_gutter",
+    "alias": [ "t_gutter_north", "t_gutter_south", "t_gutter_east", "t_gutter_west" ],
     "description": "Channels water from the roof towards the ground, it looks flimsy.",
     "name": "rain gutter",
     "symbol": "LINE_OXOX",
     "looks_like": "t_metal_floor",
-    "color": "white",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connects_to": "RAILING",
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "clang!",
-      "sound_fail": "clang.",
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_gutter_south",
-    "description": "Channels water from the roof towards the ground, it looks flimsy.",
-    "name": "rain gutter",
-    "symbol": "LINE_OXOX",
-    "looks_like": "t_gutter_north",
-    "color": "white",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connects_to": "RAILING",
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "clang!",
-      "sound_fail": "clang.",
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_gutter_east",
-    "description": "Channels water from the roof towards the ground, it looks flimsy.",
-    "name": "rain gutter",
-    "symbol": "LINE_OXOX",
-    "looks_like": "t_gutter_north",
-    "color": "white",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connects_to": "RAILING",
-    "deconstruct": {
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 2 }, { "item": "scrap", "count": [ 2, 3 ] } ]
-    },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "clang!",
-      "sound_fail": "clang.",
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "sheet_metal_small", "count": 1, "prob": 20 }, { "item": "scrap", "count": [ 3, 6 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_gutter_west",
-    "description": "Channels water from the roof towards the ground, it looks flimsy.",
-    "name": "rain gutter",
-    "symbol": "LINE_OXOX",
-    "looks_like": "t_gutter_north",
     "color": "white",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
@@ -191,7 +120,7 @@
     "looks_like": "t_concrete",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROOF" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
@@ -215,7 +144,7 @@
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "ROOF" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
@@ -227,7 +156,7 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ROOF" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
@@ -239,7 +168,7 @@
     "symbol": ".",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROOF" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
@@ -251,7 +180,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "FLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "FLAMMABLE", "ROOF" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
@@ -276,7 +205,7 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROOF" ],
     "bash": { "str_min": 100, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   },
   {
@@ -288,7 +217,7 @@
     "looks_like": "t_paper",
     "color": "white",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT" ],
+    "flags": [ "TRANSPARENT", "FLAT", "ROOF" ],
     "bash": {
       "str_min": 1,
       "str_max": 6,
@@ -296,6 +225,28 @@
       "sound_fail": "slap!",
       "sound_vol": 8,
       "sound_fail_vol": 4,
+      "bash_below": true
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_roof_paper_hard",
+    "name": "flat roof",
+    "description": "A flat surface made of hardened pulpy mass, covered in sticky wasp saliva.",
+    "symbol": ".",
+    "looks_like": "t_paper",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROOF" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 150,
+      "str_min_supported": 40,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 15,
+      "sound_fail_vol": 10,
+      "ter_set": "t_null",
       "bash_below": true
     }
   },

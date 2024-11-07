@@ -22,6 +22,7 @@
       [ "torso_bandolier_shotgun", 8 ],
       [ "kevlar", 20 ],
       [ "knife_combat", 10 ],
+      [ "knife_carbon", 10 ],
       [ "legpouch_large", 5 ],
       [ "mask_bal", 10 ],
       [ "mask_gas", 10 ],
@@ -31,7 +32,9 @@
       [ "suppressor_compact", 20 ],
       [ "swat_armor", 20 ],
       [ "tac_fullhelmet", 5 ],
-      [ "tac_helmet", 10 ]
+      [ "tac_helmet", 10 ],
+      [ "shield_riot", 20 ],
+      [ "shield_ballistic", 5 ]
     ]
   },
   {
@@ -85,14 +88,15 @@
       [ "halligan", 50 ],
       [ "1st_aid", 10 ],
       [ "bandages", 5 ],
-      [ "cotton_ball", 2 ],
+      { "item": "cotton_ball", "prob": 2, "container-item": "box_small", "charges-min": 1, "charges-max": 20 },
       [ "crowbar", 15 ],
       [ "entry_suit", 10 ],
       [ "hammer_sledge", 5 ],
       [ "hammer_sledge_short", 4 ],
       [ "hammer_sledge_engineer", 5 ],
       [ "hammer_sledge_heavy", 1 ],
-      [ "shovel", 20 ],
+      [ "shovel", 15 ],
+      [ "shovel_short", 5 ],
       [ "cell_phone", 1 ],
       [ "smart_phone", 20 ],
       [ "airhorn", 5 ],
@@ -120,11 +124,13 @@
       [ "wristwatch", 10 ],
       { "group": "tobacco_products", "prob": 32 },
       [ "ref_lighter", 1 ],
+      [ "electric_lighter", 1 ],
       [ "flask_hip", 1 ],
       [ "textbook_fireman", 10 ],
       [ "knee_pads", 5 ],
       [ "elbow_pads", 5 ],
       [ "legrig", 5 ],
+      [ "exosuit_industrial", 3 ],
       { "group": "charged_UPS", "prob": 10 },
       [ "emer_blanket", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
@@ -155,6 +161,47 @@
       { "group": "charged_UPS", "prob": 5 },
       [ "prussian_blue", 25 ],
       [ "iodine", 50 ]
+    ]
+  },
+  {
+    "id": "SUS_scuba_gear",
+    "type": "item_group",
+    "//": "This group is for an area storing diving equipment.  SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "c_fishspear", "prob": 50 }, { "item": "m_fishspear", "prob": 50 } ], "prob": 65 },
+      {
+        "distribution": [ { "item": "fitness_band", "prob": 50 }, { "item": "diving_watch", "prob": 50 } ],
+        "prob": 100
+      },
+      { "group": "swimmer_head", "prob": 100 },
+      { "group": "swimmer_torso", "prob": 100 },
+      { "group": "swimmer_pants", "prob": 100 },
+      { "group": "swimmer_wetsuit", "prob": 100 },
+      { "item": "dive_bag", "prob": 100 },
+      { "item": "wetsuit_gloves", "prob": 70 },
+      { "item": "wetsuit_booties", "prob": 70 },
+      { "item": "swim_fins", "prob": 100 },
+      {
+        "distribution": [
+          { "item": "airspeargun", "prob": 20 },
+          { "item": "doublespeargun", "prob": 10 },
+          { "item": "minispeargun", "prob": 30 },
+          { "item": "speargun", "prob": 40 }
+        ],
+        "prob": 65
+      },
+      {
+        "collection": [
+          { "item": "small_scuba_tank", "prob": 40, "charges": [ 5, 20 ] },
+          { "item": "scuba_tank", "prob": 60, "charges": [ 10, 60 ] }
+        ],
+        "prob": 85
+      },
+      {
+        "collection": [ { "item": "rebreather_filter", "prob": 50 }, { "item": "rebreather", "prob": 90, "charges": [ 10, 60 ] } ],
+        "prob": 20
+      }
     ]
   }
 ]

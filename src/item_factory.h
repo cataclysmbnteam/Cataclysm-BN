@@ -28,7 +28,7 @@ template <typename T> class value_ptr;
 
 bool item_is_blacklisted( const itype_id &id );
 
-using Item_list = std::vector<item>;
+using Item_list = std::vector<item *>;
 
 class Item_factory;
 class JsonArray;
@@ -360,8 +360,10 @@ class Item_factory
         void add_iuse( const std::string &type, use_function_pointer f );
         void add_iuse( const std::string &type, use_function_pointer f,
                        const std::string &info );
+    public:
         void add_actor( std::unique_ptr<iuse_actor> );
 
+    private:
         std::map<itype_id, migration> migrations;
 
         /**

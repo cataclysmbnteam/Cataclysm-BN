@@ -4,6 +4,7 @@
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
@@ -39,6 +40,7 @@ std::string enum_to_string<condition_type>( condition_type data )
 itype::itype()
 {
     melee.fill( 0 );
+    attacks["DEFAULT"] = attack_statblock();
 }
 
 itype::~itype() = default;
@@ -110,7 +112,7 @@ int itype::charges_default() const
 int itype::charges_to_use() const
 {
     if( tool ) {
-        return static_cast<int>( tool->charges_per_use );
+        return tool->charges_per_use;
     }
     return 1;
 }
@@ -143,14 +145,9 @@ bool itype::has_use() const
     return !use_methods.empty();
 }
 
-bool itype::has_flag( const std::string &flag ) const
+bool itype::has_flag( const flag_id &flag ) const
 {
-    return item_tags.count( flag );
-}
-
-bool itype::has_flag( const flag_str_id &flag ) const
-{
-    return item_tags.count( flag.str() );
+    return item_tags.contains( flag );
 }
 
 const itype::FlagsSetType &itype::get_flags() const
@@ -205,15 +202,11 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
     // then a second time with draw explosion
     // the player responsible of the explosion is the one that activated the object
     if( iuse_name == "transform" ) {
-        it.activated_by = p.get_safe_reference();
+        //TODO!: put this back to a safe reference once players are added
+        it.activated_by = &p;
     }
 
     return use->call( p, it, false, pos );
-}
-
-std::string gun_type_type::name() const
-{
-    return pgettext( "gun_type_type", name_.c_str() );
 }
 
 bool itype::can_have_charges() const
@@ -227,8 +220,13 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( has_flag( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;
+}
+
+bool itype::is_seed() const
+{
+    return !!seed;
 }

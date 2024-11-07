@@ -11,7 +11,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "ssssssss_______sssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssss_______ssssssss`sssssssssssssssssssssss`sssssssssssssssssssssss`",
         "s$;$ $;$_______$;$ $;$ssssssssssssssssssssssssssssssssssssssssssssssssss",
         "sLLLLLLL_______LLLLLLLss                  ss                            ",
         "s_____________________ss                  ss   $;$$$$$;$$$$$$$$;$$$$$;$ ",
@@ -86,7 +86,6 @@
       ],
       "palettes": [ "school_palette" ],
       "place_items": [  ],
-      "place_item": [ { "item": "american_flag", "x": 36, "y": 58, "amount": 1 } ],
       "place_monsters": [
         { "monster": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 1 ], "density": 0.1 },
         { "monster": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 2 ], "density": 0.1 },
@@ -426,9 +425,10 @@
       "_": "t_pavement",
       "f": "t_chainfence_h",
       "s": "t_sidewalk",
+      "`": "t_sidewalk",
       "w": "t_window",
       "|": "t_wall_y",
-      "I": "t_column",
+      "I": "t_sidewalk",
       ",": "t_floor_waxed",
       ":": "t_floor_waxed_y",
       "7": "t_backboard_in",
@@ -454,9 +454,11 @@
       "x": "t_console_broken"
     },
     "furniture": {
+      "`": "f_street_light",
       "%": "f_curtain",
       "@": "f_bed",
       "#": "f_bench",
+      "I": "f_us_flag_metal",
       "b": "f_bench",
       "?": "f_sofa",
       "S": "f_sink",

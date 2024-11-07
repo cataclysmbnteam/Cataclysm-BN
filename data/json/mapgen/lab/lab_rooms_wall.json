@@ -223,21 +223,17 @@
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
-        "....C...",
-        "-LLL-LLL",
-        "|...|...",
-        "|...|...",
-        "|...|...",
-        "|...|...",
-        "|...|...",
-        "|...|..."
+        ".%......",
+        "--LLLLL-",
+        "|%......",
+        "|.......",
+        "|.......",
+        "|.......",
+        "|.......",
+        "|......."
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": "t_gates_control_concrete_lab" },
-      "place_nested": [
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 1, 3 ], "y": [ 2, 7 ], "repeat": 8 },
-        { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 5, 7 ], "y": [ 2, 7 ], "repeat": 8 }
-      ]
+      "place_nested": [ { "chunks": [ "sub_f_crate_utility_room" ], "x": [ 2, 7 ], "y": [ 2, 7 ], "repeat": 16 } ]
     }
   },
   {

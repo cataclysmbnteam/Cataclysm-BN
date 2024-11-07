@@ -9,7 +9,7 @@
     "time": "55 m",
     "autolearn": true,
     "using": [ [ "waterproofing", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],

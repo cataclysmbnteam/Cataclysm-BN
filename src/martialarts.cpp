@@ -25,6 +25,7 @@
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "messages.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player.h"
@@ -44,7 +45,7 @@ static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
-static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
+static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
@@ -172,10 +173,12 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
-    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
+    optional( jo, was_loaded, "weapon_categories_allowed", weapon_categories_allowed,
+              auto_flags_reader<weapon_category_id> {} );
 }
 
 void ma_technique::load( const JsonObject &jo, const std::string &src )
@@ -493,10 +496,10 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
-    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( flag_UNARMED_WEAPON );
+    bool unarmed_weapon = is_armed && u.primary_weapon().has_flag( json_flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
-    bool weapon_ok = is_valid_weapon( u.weapon );
-    bool style_weapon = u.martial_arts_data->selected_has_weapon( u.weapon.typeId() );
+    bool weapon_ok = is_valid_weapon( u.primary_weapon() );
+    bool style_weapon = u.martial_arts_data->selected_has_weapon( u.primary_weapon().typeId() );
     bool all_weapons = u.martial_arts_data->selected_allow_melee();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
@@ -519,12 +522,24 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
+    if( !weapon_categories_allowed.empty() && is_armed ) {
+        bool valid_weap_cat = false;
+        for( const weapon_category_id &w_cat : weapon_categories_allowed ) {
+            if( u.used_weapon().typeId()->weapon_category.count( w_cat ) > 0 ) {
+                valid_weap_cat = true;
+            }
+        }
+        if( !valid_weap_cat ) {
+            return false;
+        }
+    }
+
     return true;
 }
 
 bool ma_requirements::is_valid_weapon( const item &i ) const
 {
-    for( const std::string &flag : req_flags ) {
+    for( const flag_id &flag : req_flags ) {
         if( !i.has_flag( flag ) ) {
             return false;
         }
@@ -570,6 +585,18 @@ std::string ma_requirements::get_description( bool buff ) const
         min_damage.end(), []( const std::pair<damage_type, int>  &pr ) {
             return string_format( _( "%s: <stat>%d</stat>" ), name_by_dt( pr.first ), pr.second );
         }, enumeration_conjunction::none ) + "\n";
+    }
+
+    if( !weapon_categories_allowed.empty() ) {
+        dump += vgettext( "<bold>Weapon category required: </bold>",
+                          "<bold>Weapon categories required: </bold>", weapon_categories_allowed.size() );
+        dump += enumerate_as_string( weapon_categories_allowed.begin(),
+        weapon_categories_allowed.end(), []( const weapon_category_id & w_cat ) {
+            if( !w_cat.is_valid() ) {
+                return w_cat.str();
+            }
+            return w_cat->name().translated();
+        } ) + "\n";
     }
 
     if( !req_buffs.empty() ) {
@@ -874,10 +901,10 @@ bool martialart::has_technique( const Character &u, const matec_id &tec_id ) con
 
 bool martialart::has_weapon( const itype_id &itt ) const
 {
-    return weapons.count( itt ) > 0 ||
+    return weapons.contains( itt ) ||
            std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
     [&]( const weapon_category_id & weap ) {
-        return weapon_category.count( weap ) > 0;
+        return weapon_category.contains( weap );
     } );
 }
 
@@ -895,7 +922,8 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && !strictly_melee && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
+    if( !strictly_unarmed && !strictly_melee && !it.is_null() &&
+        it.has_flag( json_flag_UNARMED_WEAPON ) ) {
         return true;
     }
 
@@ -954,7 +982,7 @@ ma_technique character_martial_arts::get_miss_recovery_tec( const item &weap ) c
 // This one isn't used with a weapon
 bool character_martial_arts::has_grab_break_tec() const
 {
-    for( const matec_id &technique : get_all_techniques( item() ) ) {
+    for( const matec_id &technique : get_all_techniques( null_item_reference() ) ) {
         if( technique->grab_break ) {
             return true;
         }
@@ -1278,15 +1306,15 @@ bool can_autolearn_martial_art( const Character &who, const matype_id &ma_id )
 void character_martial_arts::martialart_use_message( const Character &owner ) const
 {
     martialart ma = style_selected.obj();
-    if( ma.force_unarmed || ma.weapon_valid( owner.weapon ) ) {
+    if( ma.force_unarmed || ma.weapon_valid( owner.primary_weapon() ) ) {
         owner.add_msg_if_player( m_info, _( ma.get_initiate_avatar_message() ) );
     } else if( ma.strictly_melee && !owner.is_armed() ) {
         owner.add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
     } else if( ma.strictly_unarmed && owner.is_armed() ) {
         owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
     } else {
-        owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ), owner.weapon.tname( 1,
-                                 false ), ma.name );
+        owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ), owner.primary_weapon()
+                                 .tname( 1, false ), ma.name );
     }
 }
 
@@ -1540,7 +1568,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             // Iterate over every item in the game.
             for( const itype *itp : item_controller->all() ) {
                 const itype_id &weap_id = itp->get_id();
-                bool wielded = player.weapon.typeId() == weap_id;
+                bool wielded = player.primary_weapon().typeId() == weap_id;
                 bool carried = player.has_item_with( [weap_id]( const item & it ) {
                     return it.typeId() == weap_id;
                 } );
@@ -1579,7 +1607,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 std::vector<std::string> weapons;
                 for( const itype_id &wid : ma.weapons ) {
                     const itype_id &weap_id = wid->get_id();
-                    bool wielded = player.weapon.typeId() == weap_id;
+                    bool wielded = player.primary_weapon().typeId() == weap_id;
                     bool carried = player.has_item_with( [weap_id]( const item & it ) {
                         return it.typeId() == weap_id;
                     } );

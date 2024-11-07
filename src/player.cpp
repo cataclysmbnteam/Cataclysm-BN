@@ -18,6 +18,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_display.h"
 #include "character_functions.h"
 #include "character_effects.h"
 #include "character_martial_arts.h"
@@ -41,7 +42,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "itype.h"
 #include "lightmap.h"
 #include "line.h"
@@ -81,27 +81,12 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
-
-static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_stunned( "stunned" );
-
-static const trait_id trait_CF_HAIR( "CF_HAIR" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_QUILLS( "QUILLS" );
-static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_THORNS( "THORNS" );
-
-static const std::string flag_SPLINT( "SPLINT" );
-
-static const skill_id skill_dodge( "dodge" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -122,6 +107,7 @@ player::player()
     cash = 0;
     scent = 500;
     male = true;
+    remove_primary_weapon();
 
     start_location = start_location_id( "sloc_shelter" );
     moves = 100;
@@ -138,7 +124,6 @@ player::player()
     lastconsumed = itype_id( "null" );
     death_drops = true;
 
-    nv_cached = false;
     volume = 0;
 
     set_value( "THIEF_MODE", "THIEF_ASK" );
@@ -147,45 +132,49 @@ player::player()
         vitamin_levels[ v.first ] = 0;
     }
 
-    if( g != nullptr && json_flag::is_ready() ) {
+    if( g != nullptr && json_flag::is_ready() && get_anatomy().is_valid() ) {
+        // TODO: Remove the set_body here
+        set_body();
         recalc_sight_limits();
         reset_encumbrance();
     }
 }
 
 player::~player() = default;
-player::player( player && ) = default;
-player &player::operator=( player && ) = default;
+player::player( player && )  noexcept = default;
+player &player::operator=( player && )  noexcept = default;
 
-item player::reduce_charges( int position, int quantity )
+detached_ptr<item> player::reduce_charges( int position, int quantity )
 {
     item &it = i_at( position );
     if( it.is_null() ) {
         debugmsg( "invalid item position %d for reduce_charges", position );
-        return item();
+        return detached_ptr<item>();
     }
     if( it.charges <= quantity ) {
         return i_rem( position );
     }
     it.mod_charges( -quantity );
-    item tmp( it );
-    tmp.charges = quantity;
-    return tmp;
+
+    auto taken = item::spawn( it );
+    taken->charges = quantity;
+    return taken;
 }
 
-item player::reduce_charges( item *it, int quantity )
+detached_ptr<item> player::reduce_charges( item *it, int quantity )
 {
     if( !has_item( *it ) ) {
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
-        return item();
+        return detached_ptr<item>();
     }
     if( it->charges <= quantity ) {
-        return i_rem( it );
+        return it->detach();
     }
     it->mod_charges( -quantity );
-    item result( *it );
-    result.charges = quantity;
-    return result;
+
+    auto taken = item::spawn( *it );
+    taken->charges = quantity;
+    return taken;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
@@ -234,8 +223,11 @@ bool character_martial_arts::pick_style( const avatar &you )    // Style selecti
                                    "\n"
                                    "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                    "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
+                                   "Base empty-handed damage: %3d\n"
+                                   "Effective dodge rating: %4.1f\n"
                                    "Press [<color_yellow>%s</color>] for more info.\n" ),
                                 you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
+                                character_display::display_empty_handed_base_damage( you ), you.get_dodge(),
                                 ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
@@ -289,12 +281,12 @@ bool player::studied_all_recipes( const itype &book ) const
 }
 
 recipe_subset player::get_recipes_from_books( const inventory &crafting_inv,
-        recipe_filter filter ) const
+        const recipe_filter &filter ) const
 {
     recipe_subset res;
 
     for( const auto &stack : crafting_inv.const_slice() ) {
-        const item &candidate = stack->front();
+        const item &candidate = *stack->front();
 
         for( std::pair<const recipe *, int> recipe_entry :
              candidate.get_available_recipes( *this ) ) {
@@ -324,7 +316,7 @@ recipe_subset player::get_available_recipes( const inventory &crafting_inv,
     if( helpers != nullptr ) {
         for( npc *np : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( np->inv, filter ) );
+            res.include( get_recipes_from_books( np->inv.as_inventory(), filter ) );
             // Being told what to do
             res.include_if( np->get_learned_recipes(), [ this, &filter ]( const recipe & r ) {
                 if( filter && !filter( r ) ) {

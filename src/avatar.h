@@ -56,10 +56,10 @@ class avatar : public player
     public:
         avatar();
         avatar( const avatar & ) = delete;
-        avatar( avatar && );
+        avatar( avatar && ) noexcept;
         ~avatar() override;
         avatar &operator=( const avatar & ) = delete;
-        avatar &operator=( avatar && );
+        avatar &operator=( avatar && ) noexcept;
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -161,9 +161,9 @@ class avatar : public player
          */
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
-        bool read( item_location loc, bool continuous = false );
+        bool read( item *loc, bool continuous = false );
         /** Completes book reading action. **/
-        void do_read( item_location loc );
+        void do_read( item *loc );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const;
 
@@ -210,6 +210,7 @@ class avatar : public player
         void toggle_crouch_mode();
 
         bool wield( item &target ) override;
+        detached_ptr<item> wield( detached_ptr<item> &&target ) override;
 
         /**
          * Add warning from faction.

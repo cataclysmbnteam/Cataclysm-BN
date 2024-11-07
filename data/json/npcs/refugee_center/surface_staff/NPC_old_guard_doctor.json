@@ -65,6 +65,7 @@
     "type": "mission_definition",
     "name": { "str": "Analyze Zombie Blood" },
     "goal": "MGOAL_FIND_ITEM",
+    "description": "Use a <color_light_blue>blood draw kit</color> to extract <color_red>tainted blood</color> from a zombie, then bring the blood sample to a <color_red>hospital</color> and locate a centrifuge to analyze the blood with.",
     "difficulty": 5,
     "value": 50000,
     "item": "software_blood_data",

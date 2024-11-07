@@ -16,6 +16,7 @@
 #include "state_helpers.h"
 #include "stringmaker.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 static furn_str_id f_battery( "f_battery" );
 static furn_str_id f_cable_connector( "f_cable_connector" );
@@ -88,13 +89,14 @@ static void connect_grid_vehicle( map &m, vehicle &veh, vehicle_connector_tile &
                                   const tripoint_abs_ms &connector_abs_pos )
 {
     const point cable_part_pos;
-    vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos, item( "jumper_cable" ) );
+    vehicle_part source_part( vpart_id( "jumper_cable" ), cable_part_pos,
+                              item::spawn( "jumper_cable" ), &veh );
     source_part.target.first = connector_abs_pos.raw();
     source_part.target.second = connector_abs_pos.raw();
     source_part.set_flag( vehicle_part::targets_grid );
     connector.connected_vehicles.clear();
     connector.connected_vehicles.emplace_back( m.getabs( veh.global_pos3() ) );
-    int part_index = veh.install_part( cable_part_pos, source_part );
+    int part_index = veh.install_part( cable_part_pos, std::move( source_part ) );
 
     REQUIRE( part_index >= 0 );
 }
@@ -269,9 +271,9 @@ static void test_steady_consumer( grid_setup_consumer &setup )
     }
 
     WHEN( "the battery has power for 1 consumer tick" ) {
-        int excess = battery.mod_resource( 1 );
+        int excess = battery.mod_resource( 3 );
         REQUIRE( excess == 0 );
-        REQUIRE( battery.get_resource() == 1 );
+        REQUIRE( battery.get_resource() == 3 );
         REQUIRE( grid.get_resource() == battery.get_resource() );
 
         AND_WHEN( "1 consumer tick passes" ) {
@@ -287,7 +289,7 @@ static void test_steady_consumer( grid_setup_consumer &setup )
             time_point to = calendar::turn + consumer.consume_every - 1_seconds;
             grid.update( to );
             THEN( "no changes" ) {
-                REQUIRE( grid.get_resource() == 1 );
+                REQUIRE( grid.get_resource() == 3 );
                 require_empty_queue( tf_queue );
             }
 

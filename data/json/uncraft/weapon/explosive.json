@@ -24,7 +24,7 @@
     "difficulty": 4,
     "time": "50 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "delay_fuze", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "chem_compositionb", 75 ] ] ]
+    "components": [ [ [ "delay_fuze", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "bearing", 50 ] ], [ [ "chem_compositionb", 600 ] ] ]
   },
   {
     "type": "uncraft",

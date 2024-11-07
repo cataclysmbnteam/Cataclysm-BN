@@ -33,11 +33,6 @@
     "type": "talk_topic",
     "dynamic_line": "Are you interested in the scavenging runs or one of the other tasks that I might have for you?",
     "responses": [
-      {
-        "text": "Tell me more about the scavenging runs.",
-        "topic": "TALK_RANCH_SCAVENGER_1",
-        "effect": { "companion_mission": "SCAVENGER" }
-      },
       { "text": "What kind of tasks do you have for me?", "topic": "TALK_MISSION_LIST" },
       { "text": "No, thanks.", "topic": "TALK_RANCH_SCAVENGER_1" }
     ]

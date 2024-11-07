@@ -8,12 +8,12 @@
     "weight": "1502 g",
     "volume": "565 ml",
     "barrel_length": "50 ml",
-    "price": 64100,
-    "price_postapoc": 2500,
+    "price": "641 USD",
+    "price_postapoc": "25 USD",
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
-    "ammo": [ "454", "410shot", "45colt" ],
+    "ammo": [ "454", "45colt" ],
     "dispersion": 280,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
@@ -24,8 +24,8 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -36,6 +36,7 @@
     "description": "The Taurus Raging Judge Magnum is a 6-shot revolver chambered in .454 Casull.  It can fire .410 shotshells and .45 Colt cartridges as well.",
     "weight": "2070 g",
     "volume": "1175 ml",
+    "ammo": [ "454", "410shot", "45colt" ],
     "clip_size": 6,
     "magazines": [ [ "454", [ "454_speedloader6" ] ] ]
   }

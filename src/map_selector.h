@@ -7,7 +7,7 @@
 #include "point.h"
 #include "visitable.h"
 
-class map_cursor : public visitable<map_cursor>
+class map_cursor : public location_visitable<map_cursor>
 {
     private:
         tripoint pos_;
@@ -17,7 +17,7 @@ class map_cursor : public visitable<map_cursor>
         operator tripoint() const;
 };
 
-class map_selector : public visitable<map_selector>
+class map_selector : public location_visitable<map_selector>
 {
         friend visitable<map_selector>;
 

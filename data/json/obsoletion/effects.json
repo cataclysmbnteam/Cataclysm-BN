@@ -60,5 +60,9 @@
   {
     "type": "effect_type",
     "id": "took_anticonvulsant_visible"
+  },
+  {
+    "type": "effect_type",
+    "id": "mending"
   }
 ]

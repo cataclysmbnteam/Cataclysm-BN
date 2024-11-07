@@ -109,8 +109,7 @@ class advanced_inventory
         /**
          *  a smaller chunk of display()
          */
-        void start_activity( aim_location destarea, aim_location srcarea,
-                             advanced_inv_listitem *sitem, int &amount_to_move,
+        void start_activity( aim_location destarea, advanced_inv_listitem *sitem, int &amount_to_move,
                              bool from_vehicle, bool to_vehicle ) const;
 
         /**

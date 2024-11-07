@@ -3,24 +3,16 @@
     "method": "json",
     "object": {
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
+        "'": "f_street_light",
         "B": "f_brazier",
         "D": "f_dandelion",
-        "T": "f_null",
-        "W": "f_null",
-        "_": "f_null",
         "a": "f_bench",
         "b": "f_bench",
         "c": "f_boulder_small",
-        "d": "f_null",
         "f": "f_dandelion",
         "o": "f_boulder_small",
-        "t": "f_table",
-        "w": "f_null"
+        "t": "f_table"
       },
       "place_items": [
         { "chance": 15, "item": "barbecue", "x": 19, "y": 4 },
@@ -30,7 +22,7 @@
         { "chance": 15, "item": "trash", "x": 12, "y": 1 }
       ],
       "rows": [
-        ".....fd........d........",
+        ".....fd........d.......'",
         "........f...&........d..",
         ".f...........7..........",
         "........bttb..bttb......",
@@ -59,6 +51,7 @@
         "#": "t_underbrush",
         "&": "t_grass",
         ".": "t_grass",
+        "'": "t_dirt",
         "4": "t_tree_pine",
         "7": "t_tree_maple",
         "B": "t_grass",
@@ -88,22 +81,13 @@
     "method": "json",
     "object": {
       "furniture": {
-        "#": "f_null",
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
+        "'": "f_street_light",
         "B": "f_bench",
         "P": "f_sign",
-        "S": "f_null",
-        "_": "f_null",
-        "a": "f_null",
         "b": "f_bench",
         "c": "f_cattails",
-        "d": "f_null",
         "i": "f_cattails",
-        "o": "f_boulder_small",
-        "s": "f_null",
-        "|": "f_null"
+        "o": "f_boulder_small"
       },
       "place_items": [
         { "chance": 5, "item": "stoner", "x": 21, "y": 5 },
@@ -112,7 +96,7 @@
         { "chance": 10, "item": "forest", "x": 20, "y": 20 }
       ],
       "rows": [
-        "......d........d........",
+        "......d........d.......'",
         ".....................d..",
         "....bbb....bbb..........",
         "....d.SSSSS.........b...",
@@ -140,6 +124,7 @@
       "terrain": {
         "#": "t_underbrush",
         ".": "t_grass",
+        "'": "t_dirt",
         "4": "t_tree_pine",
         "7": "t_tree_maple",
         "B": "t_dock",

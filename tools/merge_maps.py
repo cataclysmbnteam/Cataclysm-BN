@@ -25,20 +25,19 @@ MAP_ROTATE = [
 
 
 def x_y_bucket(x, y):
-    return "{}__{}".format(math.floor((x - MIN_X) / STRIDE_X), math.floor((y - MIN_Y) / STRIDE_Y))
+    return f"{math.floor((x - MIN_X) / STRIDE_X)}__{math.floor((y - MIN_Y) / STRIDE_Y)}"
 
 
 def x_y_sub(x, y, is_north):
     if is_north:
-        return "{}__{}".format((x - MIN_X) % STRIDE_X, (y - MIN_Y) % STRIDE_Y)
+        return f"{(x - MIN_X) % STRIDE_X}__{(y - MIN_Y) % STRIDE_Y}"
     else:
-        return "{}__{}".format((x - MIN_X - 1) % STRIDE_X,
-                               (y - MIN_Y - 1) % STRIDE_Y)
+        return f"{(x - MIN_X - 1) % STRIDE_X}__{(y - MIN_Y - 1) % STRIDE_Y}"
 
 
 
 def x_y_simple(x, y):
-    return "{}__{}".format(x, y)
+    return f"{x}__{y}"
 
 
 def get_data(argsDict, resource_name):
@@ -52,9 +51,9 @@ def get_data(argsDict, resource_name):
               with open(resource_filename) as resource_file:
                   resource += json.load(resource_file)
           except FileNotFoundError:
-              exit("Failed: could not find {}".format(resource_filename))
+              exit(f"Failed: could not find {resource_filename}")
        else:
-           print("Invalid filename {}".format(resource_filename))
+           print(f"Invalid filename {resource_filename}")
    return resource
 
 
@@ -151,9 +150,9 @@ args.add_argument("mapgen_sources", action="store", nargs="+",
 args.add_argument("specials_sources", action="store", nargs="+",
                   help="specify json file with overmap special data.")
 args.add_argument("--x", dest="stride_x", action="store",
-                  help="number of horizontal maps in each block.  Defaults to {}.".format(STRIDE_X))
+                  help=f"number of horizontal maps in each block.  Defaults to {STRIDE_X}.")
 args.add_argument("--y", dest="stride_y", action="store",
-                  help="number of vertictal maps in each block.  Defaults to {}.".format(STRIDE_Y))
+                  help=f"number of vertictal maps in each block.  Defaults to {STRIDE_Y}.")
 args.add_argument("--output", dest="output_name", action="store",
                   help="Name of output file.  Defaults to the command line.")
 argsDict = vars(args.parse_args())
@@ -220,7 +219,7 @@ for om_map in mapgen:
 
 # dynamically expand the list of "place_" terms
 for term in KEYED_TERMS:
-    PLACE_TERMS.append("place_" + term)
+    PLACE_TERMS.append(f"place_{term}")
 
 basic_entry = {
     "method": "json",
@@ -318,7 +317,7 @@ for z, zlevel in merge_sets.items():
                     if not col_offset:
                         new_rows.append(old_rows[i])
                     else:
-                        new_rows[i + row_offset] = "".join([new_rows[i + row_offset], old_rows[i]])
+                        new_rows[i + row_offset] = f"{new_rows[i + row_offset]}{old_rows[i]}"
                 if len(maps) == 1:
                     entry["om_terrain"] = om_id
                 else:
@@ -344,4 +343,4 @@ if output_name:
         output_file.write(json.dumps(new_mapgen))
     exit()
 
-print("{}".format(json.dumps(new_mapgen, indent=2)))
+print(f"{json.dumps(new_mapgen, indent=2)}")

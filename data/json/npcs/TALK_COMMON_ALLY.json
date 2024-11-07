@@ -101,14 +101,7 @@
         "topic": "TALK_FRIEND_GUARD",
         "effect": "assign_guard"
       },
-      {
-        "text": "I want to assign you to work at this camp.",
-        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
-        "topic": "TALK_FRIEND_GUARD",
-        "effect": "assign_camp"
-      },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
-      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       {
         "text": "Find a horse and mount up!",
         "condition": { "not": "npc_is_riding" },
@@ -124,7 +117,7 @@
       {
         "text": "Please go to this location.",
         "topic": "TALK_GOTO_LOCATION",
-        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
+        "condition": { "or": [ "is_by_radio" ] },
         "effect": "goto_location"
       },
       {
@@ -784,13 +777,7 @@
     "type": "talk_topic",
     "responses": [
       { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
-      { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
-      {
-        "text": "Show me what needs to be done at the camp.",
-        "topic": "TALK_DONE",
-        "effect": "basecamp_mission",
-        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
-      }
+      { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" }
     ]
   },
   {

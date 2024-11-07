@@ -22,7 +22,7 @@ const probability probability_max = units::probability(
                                         units::probability::unit_type{} );
 
 template<typename value_type>
-inline constexpr quantity<value_type, probability_in_one_in_million_tag>
+constexpr quantity<value_type, probability_in_one_in_million_tag>
 from_one_in_million(
     const value_type v )
 {
@@ -31,7 +31,7 @@ from_one_in_million(
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, probability_in_one_in_million_tag>
+constexpr quantity<value_type, probability_in_one_in_million_tag>
 from_percent(
     const value_type v )
 {
@@ -40,25 +40,25 @@ from_percent(
 }
 
 template<typename value_type>
-inline constexpr value_type to_one_in_million( const
-        quantity<value_type, probability_in_one_in_million_tag> &v )
+constexpr value_type to_one_in_million( const
+                                        quantity<value_type, probability_in_one_in_million_tag> &v )
 {
     return v / from_one_in_million<value_type>( 1 );
 }
 
 } // namespace units
 
-inline constexpr units::probability operator"" _pm( const unsigned long long v )
+constexpr units::probability operator"" _pm( const unsigned long long v )
 {
     return units::from_one_in_million<int>( v );
 }
 
-inline constexpr units::probability operator"" _pct( const unsigned long long v )
+constexpr units::probability operator"" _pct( const unsigned long long v )
 {
     return units::from_one_in_million<int>( v * 10000 );
 }
 
-inline constexpr units::probability operator"" _pct( const long double v )
+constexpr units::probability operator"" _pct( const long double v )
 {
     return units::from_one_in_million<int>( v * 10000 );
 }

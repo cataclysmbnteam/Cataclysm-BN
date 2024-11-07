@@ -1,0 +1,202 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "2StoryModern06_basement",
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor_waxed",
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^||||||||||||||||||||||^",
+        "^|WZ88Q|V +%|,g,,UUUUz|^",
+        "^|____w|V +%|,,,,,,,zz|^",
+        "^|_____+  |||,,,,,,zzz|^",
+        "^|BB8St|    +,,,,,,,,,|^",
+        "^|||||||<|  |q,A,,,,,!|^",
+        "^|&&&&&|||  |q,NN,,,,,|^",
+        "^|&    &&|  |||||||||||^",
+        "^|&      +  RR$sHHHHs$|^",
+        "^|&&&&&&&|     ѦѦѦѦѦѦ |^",
+        "^|||||||||    EѦllllѦE|^",
+        "^|b  0000|     ѦѦѦѦѦѦ |^",
+        "^|       +            |^",
+        "^|c  x  u|RRRR$Txxxx $|^",
+        "^||||||||||||||||||||||^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "terrain": {
+        "_": "t_linoleum_gray",
+        "u": "t_floor_waxed",
+        "Ѧ": "t_carpet_purple",
+        "l": "t_carpet_purple",
+        "c": "t_floor_waxed",
+        ",": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "!": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "g": "t_thconc_floor",
+        "Z": "t_linoleum_gray",
+        "W": "t_linoleum_gray"
+      },
+      "furniture": { "!": "f_home_furnace", "$": "f_speaker_cabinet", "%": "f_clothing_rail", "&": "f_rack_wood", "0": "f_counter" },
+      "items": {
+        "%": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "0": { "item": "book_mag_combat", "chance": 50, "repeat": [ 1, 2 ] },
+        "&": { "item": "wines_worthy", "chance": 50, "repeat": [ 1, 2 ] }
+      },
+      "place_loot": [
+        { "item": "stereo", "x": 5, "y": 20 },
+        { "item": "stereo", "x": 17, "y": 20 },
+        { "item": "television", "x": 18, "y": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "2StoryModern06_1",
+    "method": "json",
+    "object": {
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor_waxed",
+      "rows": [
+        ".........______.........",
+        "...}}}...______.p.}}}...",
+        "...}}}...______...}}}...",
+        ".........______.........",
+        ".%%------______------%%.",
+        ".::::::--______--::::::.",
+        ".:JJJJ:--______--:ƏƏƏy:.",
+        ".#F  5#--______--*    #.",
+        ".#F  O#----------#L!  #.",
+        ".on  1##---XX---##||  o.",
+        ".o6  23##%%%%%%##t/|  o.",
+        ".#6   4|##::::##|S/|  #%",
+        ".#|  |||><    VV||+|  #%",
+        ".#y                   #%",
+        "^#s     |R{{{{{{{{{{{ #^",
+        ".oH ll a|R{[[[][][[[{y#.",
+        ".oH ll  |R{[{hfffh{[{y#.",
+        ".#H       {[{{fff{{[{ o.",
+        ".#HHHHsy  {[{hfffh{[{ o.",
+        ".###oo### {[[[][][[[{ o.",
+        ".,₸KK₸,,¶ {{{{{{{{{{{y#.",
+        ".,,,,,,,:    ????? & y#.",
+        ".,,,,,,,######oo##oo###.",
+        "........................"
+      ],
+      "terrain": {
+        "/": "t_linoleum_gray",
+        "}": "t_shrub_lilac",
+        "[": "t_carpet_yellow",
+        "]": "t_carpet_yellow",
+        "h": "t_carpet_red",
+        "{": "t_carpet_red",
+        "f": "t_carpet_red",
+        ",": "t_floor_noroof",
+        "K": "t_floor_noroof",
+        "₸": "t_floor_noroof"
+      },
+      "furniture": { "!": "f_rack", "&": "f_piano", "?": "f_counter", "]": "f_chair" },
+      "items": { "!": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "2StoryModern06_2",
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor_waxed",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".##oo##..........##oo##.",
+        ".#sE T#..........# rrr#.",
+        ".o ]] o..........o  h o.",
+        ".o ]] o..........o    o.",
+        ".#??  ##........##   ?#.",
+        ".#||+||##......##||T ?#.",
+        ".#ƏƏ  y #oo#oo##ZW||+|#.",
+        ".o      |> |8St___|V yo.",
+        "^#RRRy     |8___BB|V Ə#^",
+        ".#||||+||  ||||+|||V Ə#.",
+        ".#D ~  ||            Ə#.",
+        ".o     |||||+|||||b  yo.",
+        ".od @@ |d DD T| v|||+|#.",
+        ".#d @@¤|d     + =|d  ɸ#.",
+        ".##ooo###     ||||d   o.",
+        "........# @@  |D +   @o.",
+        "........#¤@@¤~|==|  ¤@#.",
+        "........##ooo#####ooo##.",
+        "........................"
+      ],
+      "terrain": { ".": "t_open_air", "_": "t_linoleum_gray", "w": "t_linoleum_gray", "Q": "t_linoleum_gray", "]": "t_carpet_green" },
+      "furniture": { "=": "f_clothing_rail", "~": "f_bigmirror", "?": "f_bookcase" },
+      "items": {
+        "=": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "?": { "item": "homebooks", "chance": 30, "repeat": [ 1, 4 ] }
+      },
+      "place_loot": [ { "item": "laptop", "x": [ 20 ], "y": [ 6 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "2StoryModern06_roof",
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ------          ------ ",
+        " -....-          -....- ",
+        " -....-          -....- ",
+        " -....-          -....- ",
+        " -....--        --....- ",
+        " -..N..--      --.....- ",
+        " -......--------...=..- ",
+        " -....................- ",
+        " 5....................5 ",
+        " -....................- ",
+        " -.....~..............- ",
+        " -....................- ",
+        " -....................- ",
+        " -..............X.....- ",
+        " --------.............- ",
+        "        -.............- ",
+        "        -.............- ",
+        "        --------------- ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "furniture": { "b": "f_solar_unit" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 10, "y": 13 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 17, 19 ], "y": [ 12, 14 ] }
+      ]
+    }
+  }
+]

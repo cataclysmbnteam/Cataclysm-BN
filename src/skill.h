@@ -101,6 +101,12 @@ class Skill
 
         bool is_combat_skill() const;
         bool is_contextual_skill() const;
+        bool is_weapon_skill() const;
+
+        // Required for LUA
+        bool operator<( const Skill &rhs ) const {
+            return _ident < rhs._ident;
+        }
 };
 
 class SkillLevel

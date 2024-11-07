@@ -508,5 +508,164 @@
       ],
       "palettes": [ "microlab" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_edge" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |    |  |    |     ",
+        " ch  2    2  2    2  cc ",
+        " ch  ||||||22||||||  cc ",
+        "     |F                 ",
+        "  ccc|F                 ",
+        "||||||||||((((|||22|||||",
+        " cc |               |FF ",
+        "    2      YY       (   ",
+        " U6 2      YY       (   ",
+        "    |               |   ",
+        "|22||  -----------  ||2|",
+        "   B|  - 54 331 P-  2   ",
+        "   B|  - 5  33  P-  2   ",
+        "|22||  -        P-  ||||",
+        "    |22|(((((|   -    | ",
+        " 66    |S 666|   -    2 ",
+        " 66h   |     2   -    2 ",
+        "       |tttt |   -    | ",
+        "|((|2|||||||||GGG-  |2||",
+        " cc  |       |      (   ",
+        "     2       2      (   ",
+        " FF  ||||||22||22||||   ",
+        "     2  ci|  2   B|6h   ",
+        "     |    |  |    |     "
+      ],
+      "place_nested": [
+        { "chunks": [ [ "null", 4 ], "sub_fd_shock_vent" ], "x": 17, "y": 12 },
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": {
+        "-": "t_chainfence",
+        "1": "t_switchgear_l",
+        "3": "t_current_trans",
+        "5": "t_potential_trans",
+        "4": "t_oil_circ_brkr_l",
+        "G": "t_chaingate_l",
+        "P": "t_generator_broken"
+      },
+      "furniture": { "S": "f_utility_shelf" },
+      "mapping": {
+        "S": { "items": [ { "item": "microlab_storage_electric" }, { "item": "gas_charging_rack", "chance": 50 } ] },
+        "t": {
+          "items": [
+            { "item": "tools_lighting_industrial", "chance": 25, "repeat": 2 },
+            { "item": "supplies_electronics", "chance": 50, "repeat": 3 },
+            { "item": "ammo_atomic_batteries", "chance": 10 }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_edge" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |h   |  |    |     ",
+        " F  c|dd  2  |    |6  c ",
+        " F  c||||||  ||22||6  c ",
+        "      2     c|          ",
+        "      2    cc|ccU       ",
+        "|((|22||||||||||||||22||",
+        "6666  |SSSS    ee|B     ",
+        "  h   |        ee|B Y   ",
+        "      |         W|  Y   ",
+        "      |         W|^     ",
+        "|((|22||44||||||||||22||",
+        "2     -    11 33 -      ",
+        "2     -          -      ",
+        "||||  G    PP  CC-  ||2|",
+        "   |  G    PP   C-  |c  ",
+        " Y 2  G          -  (c  ",
+        " Y |  -        CC-  (U  ",
+        "   |  -CCC     CC-  |U  ",
+        "|2||  ------------  ||2|",
+        "   |       YY       |   ",
+        " i |       YY       |6  ",
+        " c ||||((||  ||||||||c  ",
+        " 6   2 66 2  2 cc 2     ",
+        "     |    |  |    |     "
+      ],
+      "place_nested": [
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": {
+        "-": "t_chainfence",
+        "1": "t_machinery_heavy",
+        "3": "t_machinery_old",
+        "G": "t_chaingate_l",
+        "P": "t_generator_broken"
+      },
+      "furniture": { "C": "f_crate_c", "S": "f_utility_shelf", "W": "f_workbench" },
+      "mapping": {
+        "C": { "items": [ { "item": "supplies_plumbing", "chance": 50, "repeat": 2 }, { "item": "supplies_metal", "chance": 50 } ] },
+        "S": { "items": { "item": "tools_construction", "chance": 50, "repeat": 2 } },
+        "e": { "items": { "item": "acetylene_production", "chance": 40, "repeat": 2 } }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic_edge" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |    |  ||||||     ",
+        " B d |    |  | UUU|     ",
+        " Bhd 2   6(  2    ||22||",
+        " B d |   6(  2          ",
+        "     |    |  | cccF     ",
+        "||22|||22||||||||((((22|",
+        "          |666         |",
+        "         F| h  YY cci  |",
+        "         F|    YY cci  |",
+        " ccccc   F|FFF         |",
+        "|(((((|||||||||||((((22|",
+        "    FF|r   |    |       ",
+        "      |r   4    2       ",
+        "||||  |    4    2  |||||",
+        "   |  |c   |    |  | 66 ",
+        " Y 2  |c   ||22||  2    ",
+        " Y 2  |c  A|    |  2    ",
+        "   |  ||||||b  l|  |    ",
+        "|(2|      B|b  l|||||22|",
+        "   |b     B|b  l|FF|    ",
+        "   ||||22||||||||  |    ",
+        "     (       2     2    ",
+        "     (cci6   2     |    ",
+        "     ||((||22|     |    "
+      ],
+      "place_nested": [
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
+        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } }
+      ],
+      "palettes": [ "microlab" ],
+      "furniture": { "A": "f_autoclave" },
+      "mapping": { "r": { "item": { "item": "pouch_autoclave", "chance": 50 } } }
+    }
   }
 ]

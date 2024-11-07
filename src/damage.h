@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 
+#include "enum_traits.h"
 #include "type_id.h"
 
 class item;
@@ -32,6 +33,11 @@ enum damage_type : int {
     NUM_DT
 };
 
+template<>
+struct enum_traits<damage_type> {
+    static constexpr damage_type last = NUM_DT;
+};
+
 struct damage_unit {
     damage_type type;
     float amount;
@@ -44,6 +50,9 @@ struct damage_unit {
         type( dt ), amount( amt ), res_pen( arpen ), res_mult( armor_mult ), damage_multiplier( dmg_mult ) { }
 
     bool operator==( const damage_unit &other ) const;
+
+    /** Return damage_type as a human-readable string */
+    const std::string get_name() const;
 };
 
 // a single atomic unit of damage from an attack. Can include multiple types
@@ -79,6 +88,21 @@ struct damage_instance {
     void add( const damage_unit &new_du );
     /*@}*/
 
+    /**
+     * Return the armour penetration value for a particular damage type
+     * If the damage_instance has no such damage, return default value of 0
+     */
+    float get_armor_pen( damage_type dt ) const;
+    /**
+     * Return the armour multiplier value for a particular damage type
+     * If the damage_instance has no such damage, return default value of 1
+     */
+    float get_armor_mult( damage_type dt ) const;
+    /**
+     * @return true if at least one damage_unit in this damage_instance has armour penetration or multiplier different from the default
+     */
+    bool has_armor_piercing() const;
+
     void deserialize( JsonIn & );
 };
 
@@ -93,19 +117,18 @@ struct dealt_damage_instance {
 };
 
 struct resistances {
-    std::array<float, NUM_DT> resist_vals;
+    std::map<damage_type, float> flat;
 
     resistances();
 
     // If to_self is true, we want armor's own resistance, not one it provides to wearer
     resistances( const item &armor, bool to_self = false );
-    resistances( monster &monster );
     void set_resist( damage_type dt, float amount );
     float type_resist( damage_type dt ) const;
 
     float get_effective_resist( const damage_unit &du ) const;
 
-    resistances &operator+=( const resistances &other );
+    resistances combined_with( const resistances &other ) const;
 };
 
 const std::map<std::string, damage_type> &get_dt_map();
@@ -125,6 +148,6 @@ resistances load_resistances_instance( const JsonObject &jo );
 
 // Returns damage or resistance data
 // Handles some shorthands
-std::array<float, NUM_DT> load_damage_array( const JsonObject &jo );
+std::map<damage_type, float> load_damage_map( const JsonObject &jo );
 
 #endif // CATA_SRC_DAMAGE_H

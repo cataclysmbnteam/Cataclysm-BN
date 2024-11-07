@@ -29,7 +29,7 @@ with open(compile_db, 'r', encoding="utf-8") as fs:
             else:
                 match_result = starts_with_drive_letter.match(command[i])
                 if match_result:
-                    command[i] = "{}:/{}".format(match_result.group(1), match_result.group(2))
+                    command[i] = f"{match_result.group(1)}:/{match_result.group(2)}"
                 i = i + 1
         data[j]["command"] = " ".join([shlex.quote(s) for s in command])
 

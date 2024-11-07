@@ -1,0 +1,20 @@
+[
+  {
+    "id": "gatlingdrum240",
+    "looks_like": "thompson_drum",
+    "type": "MAGAZINE",
+    "name": { "str": "Gatling 240-round drum magazine" },
+    "description": "A heavy Broadwell drum for .45-70 variants of the Gatling gun, holding a total of 240 rounds.",
+    "weight": "10 kg",
+    "volume": "3500 ml",
+    "price": "600 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "iron", "brass" ],
+    "symbol": "#",
+    "color": "yellow",
+    "ammo_type": "4570",
+    "capacity": 240,
+    "reliability": 6,
+    "flags": [ "MAG_BULKY" ]
+  }
+]

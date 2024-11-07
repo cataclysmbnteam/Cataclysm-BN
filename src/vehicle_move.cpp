@@ -1,4 +1,5 @@
-#include "vehicle.h" // IWYU pragma: associated
+#include "vehicle.h"
+#include "vehicle_part.h" // IWYU pragma: associated
 #include "vehicle_move.h" // IWYU pragma: associated
 
 #include <cassert>
@@ -604,7 +605,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //  because it involves iterating over all cargo
     // Rotors only use rotor mass in calculation.
     const float mass = ( part_info( part ).rotor_diameter() > 0 ) ?
-                       to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
+                       to_kilogram( parts[ part ].base->weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
     const material_id_list &mats = part_info( ret.part ).item->materials;
@@ -1577,6 +1578,12 @@ void vehicle::check_falling_or_floating()
         deep_water_tiles += here.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
         water_tiles += here.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;
     }
+
+    if( is_falling && is_rotorcraft() ) {
+        is_falling = false;
+        is_flying = true;
+    }
+
     // floating if 2/3rds of the vehicle is in deep water
     is_floating = 3 * deep_water_tiles >= 2 * pts.size();
     // in_water if 1/2 of the vehicle is in water at all
@@ -1733,8 +1740,8 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
             } else if( get_player_character().sees( part_pos ) ) {
-                add_msg( m_bad, _( "The %s is hurled from %s's by the power of the impact!" ),
-                         pet->disp_name(), veh.name );
+                add_msg( m_bad, _( "%s is hurled from %s's by the power of the impact!" ),
+                         pet->disp_name( false, true ), veh.name );
             }
             ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
             g->fling_creature( rider, direction + rng_float( -30_degrees, 30_degrees ),

@@ -117,7 +117,7 @@ class enchantment
          * Whether this enchantment will be active if parent item is wielded.
          * Assumes condition is satisfied.
          */
-        inline bool is_active_when_wielded() const {
+        bool is_active_when_wielded() const {
             return has::WIELD == active_conditions.first || has::HELD == active_conditions.first;
         }
 

@@ -36,6 +36,8 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const skill_id skill_melee( "melee" );
 
+static const itype_id itype_fungal_seeds( "fungal_seeds" );
+
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
 
@@ -45,6 +47,9 @@ static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_FLAT( "FLAT" );
+static const std::string flag_INDOORS( "INDOORS" );
+static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLOWER( "FLOWER" );
 static const std::string flag_FUNGUS( "FUNGUS" );
@@ -87,16 +92,23 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         }
         // Spores hit the player--is there any hope?
         bool hit = false;
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_head, 3, 9_minutes, bp_head );
-        hit |= one_in( 2 ) && pl.add_env_effect( effect_spores, bp_torso, 3, 9_minutes, bp_torso );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_arm_l, 3, 9_minutes, bp_arm_l );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_arm_r, 3, 9_minutes, bp_arm_r );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_leg_l, 3, 9_minutes, bp_leg_l );
-        hit |= one_in( 4 ) && pl.add_env_effect( effect_spores, bp_leg_r, 3, 9_minutes, bp_leg_r );
+        hit |= one_in( 4 ) &&
+               pl.add_env_effect( effect_spores, body_part_head, 3, 9_minutes, body_part_head );
+        hit |= one_in( 2 ) &&
+               pl.add_env_effect( effect_spores, body_part_torso, 3, 9_minutes, body_part_torso );
+        hit |= one_in( 4 ) &&
+               pl.add_env_effect( effect_spores, body_part_arm_l, 3, 9_minutes, body_part_arm_l );
+        hit |= one_in( 4 ) &&
+               pl.add_env_effect( effect_spores, body_part_arm_r, 3, 9_minutes, body_part_arm_r );
+        hit |= one_in( 4 ) &&
+               pl.add_env_effect( effect_spores, body_part_leg_l, 3, 9_minutes, body_part_leg_l );
+        hit |= one_in( 4 ) &&
+               pl.add_env_effect( effect_spores, body_part_leg_r, 3, 9_minutes, body_part_leg_r );
         if( hit ) {
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
-    } else if( gm.num_creatures() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
+    } else if( static_cast<int>( gm.num_creatures() ) < fungal_opt.spore_creatures_threshold &&
+               x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
         if( monster *const spore = gm.place_critter_at( mon_spore, p ) ) {
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
@@ -114,7 +126,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
 void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 {
     for( const tripoint &tmp : get_map().points_in_radius( p, 1 ) ) {
-        fungalize( tmp, origin, 0.25 );
+        fungalize( tmp, origin, fungal_opt.spore_chance );
     }
 }
 
@@ -143,6 +155,24 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         if( x_in_y( growth * 10, 100 ) ) {
             m.ter_set( p, t_fungus );
             converted = true;
+        }
+    } else if( fungal_opt.spread_on_flat_tiles_allowed &&
+               m.has_flag( flag_FLAT, p ) ) {
+        if( m.has_flag( flag_INDOORS, p ) ) {
+            if( x_in_y( growth * 10, 500 ) ) {
+                m.ter_set( p, t_fungus_floor_in );
+                converted = true;
+            }
+        } else if( m.has_flag( flag_SUPPORTS_ROOF, p ) ) {
+            if( x_in_y( growth * 10, 1000 ) ) {
+                m.ter_set( p, t_fungus_floor_sup );
+                converted = true;
+            }
+        } else {
+            if( x_in_y( growth * 10, 2500 ) ) {
+                m.ter_set( p, t_fungus_floor_out );
+                converted = true;
+            }
         }
     } else if( m.has_flag( flag_SHRUB, p ) ) {
         if( x_in_y( growth * 10, 200 ) ) {
@@ -209,13 +239,14 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             // Replace the (already existing) seed
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = m.i_at( p );
-            const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.is_seed();
+            const map_stack::iterator seed = std::find_if( items.begin(),
+            items.end(), []( const item * const & it ) {
+                return it->is_seed();
             } );
-            if( seed == items.end() || !seed->is_seed() ) {
+            if( seed == items.end() || !( *seed )->is_seed() ) {
                 dbg( DL::Warn ) << "No seed item in the PLANT terrain at position " << p;
             } else {
-                *seed = item( "fungal_seeds", calendar::turn );
+                ( *seed )->convert( itype_fungal_seeds );
             }
         }
     }

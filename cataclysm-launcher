@@ -37,7 +37,7 @@ cd "$DIR" || {
 if [ ! -f "$BIN" ] || [ "$BIN" = "cataclysm-launcher" ]
 then
     BIN=
-    for bin in cataclysm-tiles cataclysm
+    for bin in cataclysm-bn-tiles cataclysm-bn
     do
     [ -f "$bin" ] && BIN="$bin" && break
     done

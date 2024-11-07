@@ -278,12 +278,25 @@
     "id": "TALK_SHARE_EQUIPMENT",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_effect": "infected",
+      "npc_has_effect": "asked_for_item",
       "yes": "You just asked me for stuff; ask later.",
       "no": "Why should I share my equipment with you?"
     },
     "responses": [
-      { "text": "Okay, fine.", "topic": "TALK_NONE", "switch": true, "condition": { "npc_has_effect": "asked_for_item" } },
+      {
+        "text": "These aren't enough to finish the job, you want me to succeed, don't you…",
+        "switch": true,
+        "condition": { "npc_has_effect": "asked_for_item", "or": [ "has_assigned_mission", "has_many_assigned_missions" ] },
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ] ] },
+        "success": { "topic": "TALK_GIVE_EQUIPMENT", "effect": "give_equipment", "opinion": { "value": -1 } },
+        "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1 } }
+      },
+      {
+        "text": "Okay, fine.",
+        "topic": "TALK_NONE",
+        "switch": true,
+        "condition": { "npc_has_effect": "asked_for_item" }
+      },
       {
         "text": "Because I'm holding a thermal detonator!",
         "topic": "TALK_GIVE_EQUIPMENT",
@@ -315,7 +328,7 @@
           "difficulty": 12,
           "mod": [ [ "TRUST", 1 ], [ "VALUE", 2 ], [ "ALTRUISM", 1 ], [ "MISSIONS", 1 ] ]
         },
-        "success": { "topic": "TALK_GIVE_EQUIPMENT", "effect": "give_equipment" },
+        "success": { "topic": "TALK_GIVE_EQUIPMENT", "effect": "give_equipment", "opinion": { "value": -1 } },
         "failure": { "topic": "TALK_DENY_EQUIPMENT", "opinion": { "value": -1 } }
       },
       {
@@ -420,7 +433,7 @@
   {
     "id": "TALK_DENY_EQUIPMENT",
     "type": "talk_topic",
-    "dynamic_line": [ "<no>, and if you ask again, <ill_kill_you>!", "<no><punc> <fuck_you>!" ],
+    "dynamic_line": "<no>.",
     "responses": [
       { "text": "Okay, okay, sorry.", "topic": "TALK_NONE" },
       { "text": "Seriously, give me more stuff!", "topic": "TALK_SHARE_EQUIPMENT" },

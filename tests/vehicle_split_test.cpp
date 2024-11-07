@@ -7,6 +7,7 @@
 #include "character.h"
 #include "map.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "type_id.h"
 #include "point.h"
 #include "state_helpers.h"
@@ -80,5 +81,6 @@ TEST_CASE( "vehicle_split_section" )
         if( vehs.size() == 1 ) {
             CHECK( vehs[ 0 ].v->part_count() == 38 );
         }
+        break;
     }
 }

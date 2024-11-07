@@ -117,7 +117,6 @@
         "S": "t_floor",
         "t": "t_floor",
         "T": "t_floor",
-        "W": "t_water_dispenser",
         "C": "t_floor",
         "6": "t_floor",
         "=": "t_door_locked",
@@ -144,10 +143,12 @@
         "l": "f_locker",
         "s": "f_sofa",
         "S": "f_sink",
+        "W": "f_water_dispenser",
         "6": "f_shower",
         "b": "f_bookcase",
         "1": "f_speaker_cabinet"
       },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
       "items": {
         "r": { "item": "trash_cart", "chance": 50, "repeat": 2 },
         "l": { "item": "lab_dorm", "chance": 70, "repeat": 2 },
@@ -222,7 +223,6 @@
         "S": "t_floor",
         "t": "t_floor",
         "T": "t_floor",
-        "W": "t_water_dispenser",
         "C": "t_floor",
         "0": "t_reinforced_glass_shutter",
         "^": "t_elevator_control_off",
@@ -414,8 +414,7 @@
         "<": "t_stairs_up",
         "Y": "t_card_military",
         "^": "t_elevator_control_off",
-        "$": "t_elevator",
-        "W": "t_water_dispenser"
+        "$": "t_elevator"
       },
       "furniture": {
         "4": "f_speaker_cabinet",
@@ -429,9 +428,11 @@
         "r": "f_rack",
         "s": "f_shower",
         "S": "f_sink",
-        "t": "f_trashcan"
+        "t": "f_trashcan",
+        "W": "f_water_dispenser"
       },
       "toilets": { "@": {  } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
       "items": {
         "b": { "item": "army_bed", "chance": 60 },
         "t": { "item": "trash_cart", "chance": 60 },

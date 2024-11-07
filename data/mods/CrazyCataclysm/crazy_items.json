@@ -7,7 +7,7 @@
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.",
     "weight": "180 g",
     "volume": "250 ml",
-    "price": 40000,
+    "price": "400 USD",
     "to_hit": -1,
     "bashing": 6,
     "material": [ "steel", "plastic" ],
@@ -23,7 +23,7 @@
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
     "weight": "180 g",
     "volume": "250 ml",
-    "price": 0,
+    "price": "0 cent",
     "to_hit": -1,
     "bashing": 6,
     "material": [ "steel", "plastic" ],
@@ -41,7 +41,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Ionic Overload Generator CBM" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
-    "price": 220000,
+    "price": "2200 USD",
     "difficulty": 8
   },
   {
@@ -50,7 +50,7 @@
     "name": { "str": "Ionic Overload Generator" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
-    "act_cost": 500,
+    "act_cost": "500 kJ",
     "fake_item": "bio_ion_gun",
     "flags": [ "BIONIC_GUN" ]
   },
@@ -61,7 +61,7 @@
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast that goes through various targets.  The energy shot ignites oxygen creating fires as it moves and an explosion on impact.",
     "weight": "2950 g",
     "volume": "3 L",
-    "price": 1600000,
+    "price": "16 kUSD",
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -86,7 +86,7 @@
     "description": "You can YEET all the bullets with this baby.  YEET them right into all of the zombies in your path, all the hulks, the spiders, and those damned mole rats.",
     "weight": "709 g",
     "volume": "539 ml",
-    "price": 7500,
+    "price": "75 USD",
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
@@ -94,7 +94,7 @@
     "ammo": "9mm",
     "dispersion": 480,
     "durability": 7,
-    "magazine_well": 1,
+    "magazine_well": "250 ml",
     "magazines": [ [ "9mm", [ "hptc9mag_8rd", "hptc9mag_10rd", "hptc9mag_15rd" ] ] ]
   },
   {
@@ -106,7 +106,7 @@
     "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
     "weight": "1400 g",
     "volume": "2250 ml",
-    "price": 98000,
+    "price": "980 USD",
     "bashing": 4,
     "cutting": 31,
     "material": "steel",
@@ -159,7 +159,7 @@
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": "3400 g",
     "volume": "3750 ml",
-    "price": 160000,
+    "price": "1600 USD",
     "bashing": 17,
     "cutting": 40,
     "material": "steel",
@@ -218,7 +218,7 @@
     "flags": [ "DURABLE_MELEE" ],
     "volume": "1750 ml",
     "bashing": 19,
-    "price": 18000
+    "price": "180 USD"
   },
   {
     "id": "battletorch",
@@ -229,7 +229,7 @@
     "description": "This is sturdy wood bat, wrapped in gasoline-soaked rags and flame-resistant Nomex fabric.  Light it, and the ball game will REALLY heat up.  You'll need a lighter or matches to light it.",
     "weight": "1485 g",
     "volume": "2 L",
-    "price": 16000,
+    "price": "160 USD",
     "to_hit": 3,
     "bashing": 18,
     "material": [ "wood", "nomex" ],
@@ -237,12 +237,12 @@
     "color": "brown",
     "initial_charges": 25,
     "max_charges": 25,
-    "charges_per_use": 1,
     "techniques": [ "WBLOCK_1" ],
     "use_action": {
       "target": "battletorch_lit",
       "msg": "You light the Louisville Slaughterer.",
       "active": true,
+      "transform_charges": 1,
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"

@@ -3,5 +3,7 @@
   "no_npc_food",
   "novitamins",
   "No_Rail_Stations",
-  "elevated_bridges"
+  "no_reviving_zombies",
+  "limit_fungal_growth",
+  "Item_Category_Overhaul"
 ]

@@ -40,14 +40,5 @@
     "subtype": "collection",
     "id": "army_mags_57",
     "entries": [ { "item": "fn57mag", "ammo-item": "57mm", "charges": 20 }, { "item": "fn57mag", "ammo-item": "57mm", "charges": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "army_mags_m14",
-    "entries": [
-      { "item": "m14mag", "ammo-item": "762_51", "charges": 20 },
-      { "item": "m14mag", "ammo-item": "762_51", "charges": 20 }
-    ]
   }
 ]

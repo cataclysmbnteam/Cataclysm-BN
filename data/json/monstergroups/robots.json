@@ -41,5 +41,21 @@
     "name": "GROUP_TURRET_RIOT",
     "default": "mon_turret_riot",
     "monsters": [ { "monster": "mon_turret_riot", "freq": 100, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOTS_MIL",
+    "//": "75% chance of security and military robots, excluding turrets and hacks",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_haulerbot", "freq": 150, "cost_multiplier": 0 },
+      { "monster": "mon_hazmatbot", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_molebot", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_riotbot", "freq": 150, "cost_multiplier": 0 },
+      { "monster": "mon_secubot", "freq": 150, "cost_multiplier": 0 },
+      { "monster": "mon_talon_m202a1", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_dispatch", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_dispatch_military", "freq": 50, "cost_multiplier": 0 }
+    ]
   }
 ]

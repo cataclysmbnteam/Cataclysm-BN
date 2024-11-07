@@ -13,11 +13,13 @@
 #include "character_functions.h"
 #include "item.h"
 #include "itype.h"
+#include "flag.h"
 #include "map.h"
 #include "map_selector.h"
 #include "map_helpers.h"
 #include "morale_types.h"
 #include "options.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -26,6 +28,7 @@
 #include "type_id.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 
 class player;
@@ -41,15 +44,19 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
     avatar dummy;
 
     GIVEN( "player has some unidentified books" ) {
-        item &book1 = dummy.i_add( item( "novel_western" ) );
-        item &book2 = dummy.i_add( item( "mag_throwing" ) );
+        detached_ptr<item> det = item::spawn( "novel_western" );
+        item &book1 = *det;
+        dummy.i_add( std::move( det ) );
+        det = item::spawn( "mag_throwing" );
+        item &book2 = *det;
+        dummy.i_add( std::move( det ) );
 
         REQUIRE_FALSE( dummy.has_identified( book1.typeId() ) );
         REQUIRE_FALSE( dummy.has_identified( book2.typeId() ) );
 
         WHEN( "they read the books for the first time" ) {
-            dummy.do_read( item_location( dummy, &book1 ) );
-            dummy.do_read( item_location( dummy, &book2 ) );
+            dummy.do_read( &book1 );
+            dummy.do_read( &book2 );
 
             THEN( "the books should be identified" ) {
                 CHECK( dummy.has_identified( book1.typeId() ) );
@@ -65,7 +72,9 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
     avatar dummy;
 
     GIVEN( "a fun book" ) {
-        item &book = dummy.i_add( item( "novel_western" ) );
+        detached_ptr<item> det = item::spawn( "novel_western" );
+        item &book = *det;
+        dummy.i_add( std::move( det ) );
         REQUIRE( book.type->book );
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;
@@ -91,8 +100,10 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
     }
 
     GIVEN( "a fun book that is also inspirational" ) {
-        item &book = dummy.i_add( item( "holybook_pastafarian" ) );
-        REQUIRE( book.has_flag( "INSPIRATIONAL" ) );
+        detached_ptr<item> det = item::spawn( "holybook_pastafarian" );
+        item &book = *det;
+        dummy.i_add( std::move( det ) );
+        REQUIRE( book.has_flag( flag_INSPIRATIONAL ) );
         REQUIRE( book.type->book );
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;
@@ -169,9 +180,17 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     avatar dummy;
 
     // Easy, medium, and hard books
-    item &child = dummy.i_add( item( "child_book" ) );
-    item &western = dummy.i_add( item( "novel_western" ) );
-    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+    detached_ptr<item> det = item::spawn( "child_book" );
+    item &child = *det;
+    dummy.i_add( std::move( det ) );
+
+    det = item::spawn( "novel_western" );
+    item &western = *det;
+    dummy.i_add( std::move( det ) );
+
+    det = item::spawn( "recipe_alpha" );
+    item &alpha = *det;
+    dummy.i_add( std::move( det ) );
 
     // Ensure the books are actually books
     REQUIRE( child.type->book );
@@ -185,15 +204,15 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 
     GIVEN( "some identified books and plenty of light" ) {
         // Identify the books
-        dummy.do_read( item_location( dummy, &child ) );
-        dummy.do_read( item_location( dummy, &western ) );
-        dummy.do_read( item_location( dummy, &alpha ) );
+        dummy.do_read( &child );
+        dummy.do_read( &western );
+        dummy.do_read( &alpha );
         REQUIRE( dummy.has_identified( child.typeId() ) );
         REQUIRE( dummy.has_identified( western.typeId() ) );
         REQUIRE( dummy.has_identified( alpha.typeId() ) );
 
         // Get some light
-        dummy.i_add( item( "atomic_lamp" ) );
+        dummy.i_add( item::spawn( "atomic_lamp" ) );
         REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
 
         WHEN( "player has average intelligence" ) {
@@ -243,12 +262,21 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
 
-    item &child = dummy.i_add( item( "child_book" ) );
-    item &western = dummy.i_add( item( "novel_western" ) );
-    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+    detached_ptr<item> det = item::spawn( "child_book" );
+    item &child = *det;
+    dummy.i_add( std::move( det ) );
+    det = item::spawn( "novel_western" );
+    item &western = *det;
+    dummy.i_add( std::move( det ) );
+    det = item::spawn( "recipe_alpha" );
+    item &alpha = *det;
+    dummy.i_add( std::move( det ) );
 
     SECTION( "you cannot read what is not readable" ) {
-        item &rag = dummy.i_add( item( "rag" ) );
+
+        det = item::spawn( "rag" );
+        item &rag = *det;
+        dummy.i_add( std::move( det ) );
         REQUIRE_FALSE( rag.is_book() );
 
         CHECK( dummy.get_book_reader( rag, reasons ) == nullptr );
@@ -257,7 +285,8 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 
     SECTION( "you cannot read in darkness" ) {
-        dummy.add_env_effect( efftype_id( "darkness" ), bp_eyes, 3, 1_hours );
+        // @todo Why is it an env effect? It only makes it resistable
+        dummy.add_env_effect( efftype_id( "darkness" ), body_part_eyes, 3, 1_hours );
         REQUIRE( !character_funcs::can_see_fine_details( dummy ) );
 
         CHECK( dummy.get_book_reader( child, reasons ) == nullptr );
@@ -267,12 +296,12 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
     GIVEN( "some identified books and plenty of light" ) {
         // Identify the books
-        dummy.do_read( item_location( dummy, &child ) );
-        dummy.do_read( item_location( dummy, &western ) );
-        dummy.do_read( item_location( dummy, &alpha ) );
+        dummy.do_read( &child );
+        dummy.do_read( &western );
+        dummy.do_read( &alpha );
 
         // Get some light
-        dummy.i_add( item( "atomic_lamp" ) );
+        dummy.i_add( item::spawn( "atomic_lamp" ) );
         REQUIRE( character_funcs::fine_detail_vision_mod( dummy ) == character_funcs::FINE_VISION_PERFECT );
 
         THEN( "you cannot read while illiterate" ) {
@@ -297,7 +326,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
             dummy.set_skill_level( skill_id( "cooking" ), 7 );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
-            expect_reasons = { "cooking 8 needed to understand.  You have 7" };
+            expect_reasons = { "Cooking 8 needed to understand.  You have 7" };
             CHECK( reasons == expect_reasons );
         }
 
@@ -330,7 +359,9 @@ TEST_CASE( "Learning recipes from books", "[reading][book][recipe]" )
 {
     clear_all_state();
     avatar dummy;
-    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+    detached_ptr<item> det = item::spawn( "recipe_alpha" );
+    item &alpha = *det;
+    dummy.i_add( std::move( det ) );
     auto mutagen_iter = std::find_if( recipe_dict.begin(),
     recipe_dict.end(), []( const std::pair<recipe_id, recipe> &p ) {
         return p.second.result() == itype_id( "mutagen_alpha" );
@@ -352,12 +383,12 @@ TEST_CASE( "Learning recipes from books", "[reading][book][recipe]" )
     REQUIRE_FALSE( dummy.knows_recipe( rec ) );
     // Just skim
     // TODO: Do without it somehow
-    dummy.do_read( item_location( dummy, &alpha ) );
+    dummy.do_read( &alpha );
 
     SECTION( "You do not have the skills to understand the recipe in the book" ) {
         REQUIRE_FALSE( dummy.has_recipe_requirements( *rec ) );
         AND_WHEN( "You read the book" ) {
-            dummy.do_read( item_location( dummy, &alpha ) );
+            dummy.do_read( &alpha );
             THEN( "You still don't know the recipe" ) {
                 CHECK_FALSE( dummy.knows_recipe( rec ) );
             }
@@ -370,7 +401,7 @@ TEST_CASE( "Learning recipes from books", "[reading][book][recipe]" )
         }
         REQUIRE( dummy.has_recipe_requirements( *rec ) );
         AND_WHEN( "You read the book" ) {
-            dummy.do_read( item_location( dummy, &alpha ) );
+            dummy.do_read( &alpha );
             THEN( "You know the recipe now" ) {
                 CHECK( dummy.knows_recipe( rec ) );
             }
@@ -378,25 +409,25 @@ TEST_CASE( "Learning recipes from books", "[reading][book][recipe]" )
     }
 }
 
-static void destroyed_book_test_helper( avatar &u, item_location loc )
+static void destroyed_book_test_helper( avatar &u, item *loc )
 {
     std::vector<std::string> reasons_cant_read;
     const player *reader = u.get_book_reader( *loc, reasons_cant_read );
     CAPTURE( reasons_cant_read );
     REQUIRE( reader != nullptr );
     WHEN( "You start reading the book" ) {
-        REQUIRE( u.activity.is_null() );
+        REQUIRE( u.activity->is_null() );
         bool did_read = u.read( loc );
         REQUIRE( did_read );
-        REQUIRE( !u.activity.is_null() );
+        REQUIRE( !u.activity->is_null() );
         AND_WHEN( "The book is destroyed" ) {
-            loc.remove_item();
+            loc->detach();
             AND_WHEN( "A turn passes for you" ) {
                 u.process_turn();
-                CHECK( !u.activity.is_null() );
+                CHECK( !u.activity->is_null() );
                 process_activity( u );
                 THEN( "The reading job is cancelled" ) {
-                    CHECK( u.activity.is_null() );
+                    CHECK( u.activity->is_null() );
                 }
             }
         }
@@ -409,16 +440,17 @@ TEST_CASE( "Losing book during reading", "[reading][book]" )
     set_time( calendar::turn_zero + 12_hours );
     avatar &u = get_avatar();
     SECTION( "Book in inventory" ) {
-        item &alpha = u.i_add( item( "novel_western" ) );
-        item_location loc( u, &alpha );
-        destroyed_book_test_helper( u, loc );
+        detached_ptr<item> det = item::spawn( "novel_western" );
+        item &western = *det;
+        u.i_add( std::move( det ) );
+        destroyed_book_test_helper( u, &western );
     }
 
     SECTION( "Book below player" ) {
-        item &alpha = get_map().add_item( u.pos(), item( "novel_western" ) );
-        REQUIRE( !alpha.is_null() );
-        item_location loc( map_cursor( u.pos() ), &alpha );
-        destroyed_book_test_helper( u, loc );
+        detached_ptr<item> det = item::spawn( "novel_western" );
+        item &western = *det;
+        get_map().add_item( u.pos(), std::move( det ) );
+        destroyed_book_test_helper( u, &western );
     }
 
     SECTION( "Book in car" ) {
@@ -426,9 +458,9 @@ TEST_CASE( "Losing book during reading", "[reading][book]" )
         REQUIRE( veh != nullptr );
         int part = veh->part_with_feature( point_zero, "CARGO", true );
         REQUIRE( part >= 0 );
-        auto iter = veh->add_item( part, item( "novel_western" ) );
-        REQUIRE( iter );
-        item_location loc( vehicle_cursor( *veh, part ), &( **iter ) );
-        destroyed_book_test_helper( u, loc );
+        detached_ptr<item> det = item::spawn( "novel_western" );
+        item &western = *det;
+        veh->add_item( part, std::move( det ) );
+        destroyed_book_test_helper( u, &western );
     }
 }

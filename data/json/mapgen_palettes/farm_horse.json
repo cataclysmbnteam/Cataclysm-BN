@@ -53,7 +53,6 @@
       "k": "f_desk",
       "n": "f_table",
       "r": "f_rack",
-      "t": "f_toilet",
       "1": "f_armchair",
       "8": "f_bookcase",
       "7": "f_bench",
@@ -63,7 +62,15 @@
       "i": "f_beaded_door",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "b": "f_rotary_clothesline",
-      "p": [ "f_region_flower", "f_region_weed" ]
-    }
+      "p": [ "f_region_flower", "f_region_weed" ],
+      "ü": "f_gunsafe_ml"
+    },
+    "mapping": {
+      "l": { "terrain": "t_dirtfloor", "furniture": "f_locker" },
+      "u": { "terrain": "t_dirtfloor", "furniture": "f_counter" }
+    },
+    "toilets": { "t": {  } },
+    "items": { "ü": { "item": "guns_hunting_safe", "chance": 100 } },
+    "nested": { "v": { "chunks": [ [ "null", 90 ], [ "house_place_air_conditioner", 10 ] ] } }
   }
 ]

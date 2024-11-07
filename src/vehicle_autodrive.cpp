@@ -1,4 +1,5 @@
-#include "vehicle.h" // IWYU pragma: associated
+#include "vehicle.h"
+#include "vehicle_part.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -27,6 +28,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "options.h"
 #include "point.h"
 #include "tileray.h"
 #include "translations.h"
@@ -136,8 +138,6 @@ static constexpr int NAV_VIEW_SIZE_Y = NAV_MAP_SIZE_Y + 2 * NAV_VIEW_PADDING;
 static constexpr int TURNING_INCREMENT = 15;
 static constexpr int NUM_ORIENTATIONS = 360 / TURNING_INCREMENT;
 // min and max speed in tiles/s
-static constexpr int MIN_SPEED_TPS = 1;
-static constexpr int MAX_SPEED_TPS = 3;
 static constexpr int VMIPH_PER_TPS = static_cast<int>( vehicles::vmiph_per_tile );
 
 /**
@@ -273,6 +273,7 @@ struct auto_navigation_data {
     bool land_ok;
     bool water_ok;
     bool air_ok;
+    // the minimum speed to consider driving at, in tiles/s
     // the maximum speed to consider driving at, in tiles/s
     int max_speed_tps;
     // max acceleration
@@ -717,7 +718,8 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         // terrain with neutral move cost or tagged with NOCOLLIDE will never cause
         // collisions
         return true;
-    } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below ) {
+    } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below &&
+               !terrain_type.has_flag( "VEH_TREAT_AS_BASH_BELOW" ) ) {
         // bashable terrain (but not bashable floors) will cause collisions
         return false;
     } else if( terrain_type.has_flag( TFLAG_LIQUID ) ) {
@@ -797,6 +799,8 @@ void vehicle::autodrive_controller::compute_goal_zone()
 
 void vehicle::autodrive_controller::precompute_data()
 {
+
+    const int MAX_SPEED_TPS = get_option<int>( "MAX_AUTODRIVE_SPEED" );
     const tripoint_abs_omt current_omt = driven_veh.global_omt_location();
     const tripoint_abs_omt next_omt = driver.omt_path.back();
     const tripoint_abs_omt next_next_omt = driver.omt_path.size() >= 2 ?
@@ -851,7 +855,7 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     // TODO: tweak this
     constexpr int cost_mult = 1;
     constexpr int forward_dist_mult = 10;
-    constexpr int side_dist_mult = 8;
+    constexpr int side_dist_mult = 16;
     constexpr int angle_mult = 2;
     constexpr int nearness_penalty = 15;
     scored_address ret{ addr, 0 };
@@ -885,7 +889,7 @@ void vehicle::autodrive_controller::compute_next_nodes( const node_address &addr
         std::vector<std::pair<node_address, navigation_node>> &next_nodes )
 const
 {
-    constexpr int move_cost = 10;
+    constexpr int move_cost = 0;
     constexpr int steering_cost = 1;
     const int sign = target_speed_tps > 0 ? 1 : -1;
     const int target_speed = target_speed_tps * VMIPH_PER_TPS;
@@ -1085,14 +1089,15 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
 
 void vehicle::autodrive_controller::reduce_speed()
 {
+    const int MIN_SPEED_TPS = get_option<int>( "MIN_AUTODRIVE_SPEED" );
     data.max_speed_tps = MIN_SPEED_TPS;
 }
 
 std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
 {
     precompute_data();
+    const int MIN_SPEED_TPS = get_option<int>( "MIN_AUTODRIVE_SPEED" );
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
-    const bool had_cached_path = !data.path.empty();
     while( !data.path.empty() && data.path.back().pos != veh_pos ) {
         data.path.pop_back();
     }
@@ -1100,10 +1105,6 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
         data.path.clear();
     }
     if( data.path.empty() ) {
-        // if we're just starting out or we've gone off-course use the lowest speed
-        if( had_cached_path || driven_veh.velocity == 0 ) {
-            data.max_speed_tps = MIN_SPEED_TPS;
-        }
         auto new_path = compute_path( data.max_speed_tps );
         while( !new_path && data.max_speed_tps > MIN_SPEED_TPS ) {
             // high speed didn't work, try a lower speed

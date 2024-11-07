@@ -13,6 +13,8 @@
 #include "cached_options.h"
 #include "units_angle.h"
 
+template <typename T> struct enum_traits;
+
 /**
  * Calculate base of an isosceles triangle
  * @param distance one of the equal lengths
@@ -26,7 +28,7 @@ double iso_tangent( double distance, units::angle vertex );
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
-inline constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
+constexpr unsigned make_xyz_unit( const tripoint &p ) noexcept
 {
     return ( ( p.x > 0 ) ? 2u : ( p.x < 0 ) ? 1u : 0u ) * 1u +
            ( ( p.y > 0 ) ? 2u : ( p.y < 0 ) ? 1u : 0u ) * 3u +
@@ -66,40 +68,56 @@ enum class direction : unsigned {
     ABOVESOUTHEAST = make_xyz_unit( tripoint_above + tripoint_south_east ),
     SOUTHEAST      = make_xyz_unit( tripoint_south_east ),
     BELOWSOUTHEAST = make_xyz_unit( tripoint_below + tripoint_south_east ),
+
+    last = 27
 };
 
+template<>
+struct enum_traits<direction> {
+    static constexpr direction last = direction::last;
+};
+
+namespace std
+{
+template <> struct hash<direction> {
+    std::size_t operator()( const direction &d ) const {
+        return static_cast<std::size_t>( d );
+    }
+};
+} // namespace std
+
 template< class T >
-constexpr inline direction operator%( const direction &lhs, const T &rhs )
+constexpr direction operator%( const direction &lhs, const T &rhs )
 {
     return static_cast<direction>( static_cast<T>( lhs ) % rhs );
 }
 
 template< class T >
-constexpr inline T operator+( const direction &lhs, const T &rhs )
+constexpr T operator+( const direction &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) + rhs;
 }
 
 template< class T >
-constexpr inline bool operator==( const direction &lhs, const T &rhs )
+constexpr bool operator==( const direction &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) == rhs;
 }
 
 template< class T >
-constexpr inline bool operator==( const T &lhs, const direction &rhs )
+constexpr bool operator==( const T &lhs, const direction &rhs )
 {
     return operator==( rhs, lhs );
 }
 
 template< class T >
-constexpr inline bool operator!=( const T &lhs, const direction &rhs )
+constexpr bool operator!=( const T &lhs, const direction &rhs )
 {
     return !operator==( rhs, lhs );
 }
 
 template< class T >
-constexpr inline bool operator!=( const direction &lhs, const T &rhs )
+constexpr bool operator!=( const direction &lhs, const T &rhs )
 {
     return !operator==( lhs, rhs );
 }
@@ -109,7 +127,8 @@ direction direction_from( const tripoint &p ) noexcept;
 direction direction_from( point p1, point p2 ) noexcept;
 direction direction_from( const tripoint &p, const tripoint &q );
 
-point direction_XY( direction dir );
+tripoint displace( direction dir );
+point displace_XY( direction dir );
 std::string direction_name( direction dir );
 std::string direction_name_short( direction dir );
 
@@ -182,22 +201,22 @@ struct FastDistanceApproximation {
     private:
         int value;
     public:
-        inline FastDistanceApproximation( int value ) : value( value ) { }
+        FastDistanceApproximation( int value ) : value( value ) { }
         template<typename T>
-        inline bool operator<=( const T &rhs ) const {
+        bool operator<=( const T &rhs ) const {
             if( trigdist ) {
                 return value <= rhs * rhs;
             }
             return value <= rhs;
         }
         template<typename T>
-        inline bool operator>=( const T &rhs ) const {
+        bool operator>=( const T &rhs ) const {
             if( trigdist ) {
                 return value >= rhs * rhs;
             }
             return value >= rhs;
         }
-        inline operator int() const {
+        operator int() const {
             if( trigdist ) {
                 return std::sqrt( value );
             }
@@ -245,7 +264,6 @@ float get_normalized_angle( point start, point end );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
 std::vector<point> squares_in_direction( point p1, point p2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
-// Currently limited to the same z-level as @from.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
 /**

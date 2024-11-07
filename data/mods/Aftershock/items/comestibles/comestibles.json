@@ -32,6 +32,6 @@
       "activation_message": "You feel AMAZING!",
       "effects": [ { "id": "panacea", "duration": "1 m" }, { "id": "cureall" } ]
     },
-    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+    "flags": [ "NPC_SAFE" ]
   }
 ]

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "xlboots_combat",
+    "type": "MIGRATION",
+    "replace": "boots_combat",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlgloves_tactical",
+    "type": "MIGRATION",
+    "replace": "gloves_tactical",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlleather_belt",
+    "type": "MIGRATION",
+    "replace": "leather_belt",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xl_jeans",
+    "type": "MIGRATION",
+    "replace": "jeans",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xl_technician_pants_gray",
+    "type": "MIGRATION",
+    "replace": "technician_pants_gray",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xl_technician_shirt_gray",
+    "type": "MIGRATION",
+    "replace": "technician_shirt_gray",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlpolice_belt",
+    "type": "MIGRATION",
+    "replace": "police_belt",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xllegpouch_large",
+    "type": "MIGRATION",
+    "replace": "legpouch_large",
+    "//": "No flag even needed for this one, it's getting OVERSIZE now"
+  },
+  {
+    "id": "afs_fridge",
+    "type": "MIGRATION",
+    "replace": "fridge"
+  },
+  {
+    "id": "afs_freezer",
+    "type": "MIGRATION",
+    "replace": "freezer"
+  }
+]

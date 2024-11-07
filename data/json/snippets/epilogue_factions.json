@@ -67,6 +67,14 @@
       {
         "id": "epilogue_faction_isherwoods_150",
         "text": "    The generational land of the Isherwoods came to flourish following <the_cataclysm>, helping to feed nearby settlements.  Survivors flocked to learn botany, animal handling, and backwoods remedies, eventually forming a small community…"
+      },
+      {
+        "id": "epilogue_faction_lapin_0",
+        "text": "    Mr. Lapin continued his remote life in the wilderness, teaching whoever would visit.  The survivors who came slowly dwindled, until they stopped entirely.  Mr. Lapin was found dead several years later following a heart attack.  His body had decomposed to skeletal remains…"
+      },
+      {
+        "id": "epilogue_faction_lapin_150",
+        "text": "    The knowledge Mr. Lapin taught attracted a slew of individuals, who constructed makeshift housing to study with him.  As more people came, they formed a small community…"
       }
     ]
   }

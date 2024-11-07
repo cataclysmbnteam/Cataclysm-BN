@@ -2,6 +2,15 @@
   {
     "type": "palette",
     "id": "house_w_nest_palette",
+    "parameters": {
+      "house_w_nest_carpet_type": {
+        "type": "ter_str_id",
+        "scope": "nest",
+        "default": {
+          "distribution": [ [ "t_carpet_yellow", 2 ], [ "t_carpet_green", 2 ], [ "t_carpet_purple", 1 ], [ "t_carpet_red", 1 ], [ "t_floor", 2 ] ]
+        }
+      }
+    },
     "furniture": {
       "A": "f_stool",
       "B": "f_chair",
@@ -46,7 +55,6 @@
       "r": "f_wood_keg",
       "s": "f_metal_butcher_rack",
       "u": "f_rotary_clothesline",
-      "v": [ "f_gun_safe_el", "f_safe_l" ],
       "w": "f_rack_wood",
       "x": "f_entertainment_center",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
@@ -66,14 +74,12 @@
       "=": "t_region_groundcover_barren",
       "2": "t_region_groundcover_barren",
       "5": "t_region_groundcover_barren",
-      "6": "t_carpet_red",
-      "7": "t_carpet_green",
-      "8": "t_carpet_purple",
-      "9": "t_carpet_yellow",
+      "6": { "param": "house_w_nest_carpet_type" },
       "?": "t_console_broken"
     },
     "toilets": { "t": {  } },
-    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } }
+    "liquids": { "g": { "liquid": "water", "amount": [ 0, 100 ] } },
+    "nested": { "v": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] } }
   },
   {
     "type": "palette",
@@ -120,6 +126,7 @@
     },
     "terrain": {
       ".": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
+      "s̱": "t_region_soil",
       "-": "t_open_air",
       "G": "t_region_groundcover_urban",
       "p": "t_region_groundcover_urban",
@@ -195,10 +202,11 @@
       "T": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
       "i": { "item": "oven", "chance": 75, "repeat": [ 1, 2 ] },
-      "l": { "item": "fridge", "chance": 90, "repeat": [ 1, 2 ] },
+      "l": { "item": "SUS_fridge", "chance": 90 },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
       "R": { "item": "homebooks", "chance": 70, "repeat": [ 3, 8 ] }
-    }
+    },
+    "nested": { "o": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   },
   {
     "type": "palette",
@@ -232,7 +240,10 @@
       "3": "t_dirtfloor",
       "4": "t_dirtfloor",
       "5": "t_dirtfloor",
-      "6": "t_dirtfloor"
+      "6": "t_dirtfloor",
+      "7": "t_dirtfloor",
+      "8": "t_dirtfloor",
+      "9": "t_dirtfloor"
     },
     "furniture": {
       "a": "f_stool",

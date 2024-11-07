@@ -208,10 +208,10 @@
       "mapgensize": [ 11, 11 ],
       "rows": [
         "--++++--||-",
-        "-_______RR|",
-        "w_______RRw",
-        "w________Rw",
-        "|_________|",
+        "-______?RR|",
+        "w______?RRw",
+        "w_______?Rw",
+        "|________?|",
         "||-_____|||",
         "|_________|",
         "w_________w",
@@ -220,12 +220,13 @@
         "--||||||-||"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "terrain": { "_": "t_dirt" },
-      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
-      "items": {
-        "_": { "item": "wood_workshop", "chance": 1 },
-        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
-      }
+      "terrain": { "?": [ "t_dirtfloor", "t_dirt" ], "R": "t_dirt" },
+      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ], "?": [ [ "f_null", 3 ], "f_rubble", "f_rubble_rock" ] },
+      "place_loot": [
+        { "group": "stash_wood", "x": [ 1, 9 ], "y": [ 1, 9 ], "chance": 50, "repeat": 4 },
+        { "group": "recycle_iron", "x": [ 1, 9 ], "y": [ 1, 9 ], "chance": 50, "repeat": 2 },
+        { "group": "tools_carpentry", "x": [ 1, 9 ], "y": [ 1, 9 ], "chance": 50 }
+      ]
     }
   },
   {
@@ -237,20 +238,21 @@
       "rows": [
         "--w_-||-",
         "-______|",
-        "|______+",
-        "|R_____+",
-        "|RR____|",
-        "|_RRR__w",
-        "-__RRR_w",
+        "|?_____+",
+        "|R?____+",
+        "|RR??__|",
+        "|?RRR?_w",
+        "-_?RRR?w",
         "--w||-||"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "terrain": { "_": "t_dirt" },
-      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
-      "items": {
-        "_": { "item": "wood_workshop", "chance": 1 },
-        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
-      }
+      "terrain": { "?": [ "t_dirtfloor", "t_dirt" ], "R": "t_dirt" },
+      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ], "?": [ [ "f_null", 3 ], "f_rubble", "f_rubble_rock" ] },
+      "place_loot": [
+        { "group": "stash_wood", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 50, "repeat": 4 },
+        { "group": "recycle_iron", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 50, "repeat": 2 },
+        { "group": "tools_carpentry", "x": [ 1, 6 ], "y": [ 1, 6 ], "chance": 50 }
+      ]
     }
   }
 ]

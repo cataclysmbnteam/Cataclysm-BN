@@ -38,14 +38,7 @@ static std::string memorialdir_value;
 
 void PATH_INFO::init_base_path( std::string path )
 {
-    if( !path.empty() ) {
-        const char ch = path.back();
-        if( ch != '/' && ch != '\\' ) {
-            path.push_back( '/' );
-        }
-    }
-
-    base_path_value = path;
+    base_path_value = as_norm_dir( path );
 }
 
 void PATH_INFO::init_user_dir( std::string dir )
@@ -60,7 +53,8 @@ void PATH_INFO::init_user_dir( std::string dir )
         user_dir = getenv( "HOME" );
         dir = std::string( user_dir ) + "/Library/Application Support/Cataclysm-BN/";
 #elif defined(USE_XDG_DIR)
-        if( ( user_dir = getenv( "XDG_DATA_HOME" ) ) ) {
+        user_dir = getenv( "XDG_DATA_HOME" );
+        if( user_dir ) {
             dir = std::string( user_dir ) + "/cataclysm-bn/";
         } else {
             user_dir = getenv( "HOME" );
@@ -72,7 +66,7 @@ void PATH_INFO::init_user_dir( std::string dir )
 #endif
     }
 
-    user_dir_value = dir;
+    user_dir_value = as_norm_dir( dir );
 }
 
 void PATH_INFO::set_standard_filenames()
@@ -302,6 +296,10 @@ std::string PATH_INFO::mods_user_default()
 std::string PATH_INFO::soundpack_conf()
 {
     return "soundpack.txt";
+}
+std::string PATH_INFO::lua_doc_output()
+{
+    return config_dir_value + "lua_doc.md";
 }
 std::string PATH_INFO::gfxdir()
 {

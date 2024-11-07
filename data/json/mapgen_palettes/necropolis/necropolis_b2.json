@@ -35,8 +35,8 @@
       " ": "t_metal_floor",
       "!": "t_bars",
       "#": "t_ladder_up",
+      "%": "t_elevator_control_off",
       "$": "t_machinery_light",
-      "%": "t_machinery_heavy",
       "(": "t_machinery_old",
       "*": "t_door_bar_locked",
       "+": "t_door_metal_c",
@@ -110,6 +110,16 @@
       "|": "t_wall_metal",
       "}": "t_manhole_cover",
       "&": "t_gas_pump"
+    },
+    "toilets": { "t": {  } },
+    "items": {
+      "@": { "item": "bed", "chance": 50 },
+      "D": { "item": "floor_trash", "chance": 75, "repeat": 2 },
+      "O": { "item": "oven", "chance": 50, "repeat": 2 },
+      "d": { "item": "dresser", "chance": 50, "repeat": 2 },
+      "f": { "item": "SUS_fridge", "chance": 50 },
+      "k": [ { "item": "office", "chance": 50, "repeat": 2 }, { "item": "necropolis_visitors", "chance": 1 } ],
+      "o": { "item": "homebooks", "chance": 75 }
     }
   }
 ]

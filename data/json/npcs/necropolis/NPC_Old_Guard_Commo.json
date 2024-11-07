@@ -15,12 +15,16 @@
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_COMMO",
     "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "Marshal, I'm rather surprised to see you here.",
+      "u_has_effect": "has_og_comm_freq",
+      "yes": "Welcome back.",
       "no": {
-        "u_male": true,
-        "yes": "Sir you are not authorized to be here… you should leave.",
-        "no": "Ma'am you are not authorized to be here… you should leave."
+        "u_is_wearing": "badge_marshal",
+        "yes": "Marshal, I'm rather surprised to see you here.",
+        "no": {
+          "u_male": true,
+          "yes": "Sir, I'm not sure you're authorized to be here…",
+          "no": "Ma'am, I'm not sure you're authorized to be here…"
+        }
       }
     },
     "responses": [
@@ -29,7 +33,7 @@
         "topic": "TALK_OLD_GUARD_NEC_COMMO_FREQ",
         "condition": {
           "and": [
-            { "u_is_wearing": "badge_marshal" },
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" },
             { "u_has_mission": "MISSION_OLD_GUARD_NEC_1" },
             { "not": { "u_has_effect": "has_og_comm_freq" } }
           ]
@@ -38,22 +42,37 @@
       {
         "text": "What are you doing here?",
         "topic": "TALK_OLD_GUARD_NEC_COMMO_GOAL",
-        "condition": { "u_is_wearing": "badge_marshal" }
+        "condition": { "u_has_effect": "has_og_comm_freq" }
       },
       {
         "text": "Do you need any help?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "and": [ { "u_has_effect": "has_og_comm_freq" }, { "u_is_wearing": "badge_marshal" } ] }
+        "condition": {
+          "and": [
+            { "u_has_effect": "has_og_comm_freq" },
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+          ]
+        }
       },
       {
         "text": "About the mission…",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "has_assigned_mission", { "u_is_wearing": "badge_marshal" } ] }
+        "condition": {
+          "and": [
+            "has_assigned_mission",
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+          ]
+        }
       },
       {
         "text": "About one of those missions…",
         "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
+        "condition": {
+          "and": [
+            "has_many_assigned_missions",
+            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+          ]
+        }
       },
       { "text": "I should be going", "topic": "TALK_DONE" }
     ]
@@ -67,7 +86,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_COMMO_FREQ",
-    "dynamic_line": "I was expecting the captain to send a runner.  Here is the list you are looking for.  What we can identify from here are simply the frequencies that have traffic on them.  Many of the transmissions are indecipherable without repairing or replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain text messages can get picked up though.",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I was expecting the captain to send a runner.  Here is the list you are looking for.  What we can identify from here are simply the frequencies that have traffic on them.  Many of the transmissions are indecipherable without repairing or replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain text messages can get picked up though.",
+      "no": "I hope that means you're cleared to be here.  Here is the list you are looking for.  What we can identify from here are simply the frequencies that have traffic on them.  Many of the transmissions are indecipherable without repairing or replacing the equipment here.  When the facility was being overrun, standard procedure was to destroy encryption hardware to protect federal secrets and maintain the integrity of the comms network.  We are hoping a few plain text messages can get picked up though."
+    },
     "responses": [
       {
         "text": "Thanks.",

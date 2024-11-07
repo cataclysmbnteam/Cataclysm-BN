@@ -14,6 +14,17 @@ class JsonObject;
 class JsonIn;
 struct overmap_location;
 
+enum class overmap_connection_layout {
+    city,
+    p2p,
+    last
+};
+
+template<>
+struct enum_traits<overmap_connection_layout> {
+    static constexpr overmap_connection_layout last = overmap_connection_layout::last;
+};
+
 class overmap_connection
 {
     public:
@@ -35,7 +46,7 @@ class overmap_connection
                 }
 
                 bool is_orthogonal() const {
-                    return flags.count( flag::orthogonal );
+                    return flags.contains( flag::orthogonal );
                 }
 
                 void load( const JsonObject &jo );
@@ -48,7 +59,12 @@ class overmap_connection
 
     public:
         const subtype *pick_subtype_for( const oter_id &ground ) const;
+        bool can_start_at( const oter_id &ground ) const;
         bool has( const oter_id &oter ) const;
+
+        const overmap_connection_layout &get_layout() const {
+            return layout;
+        }
 
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
@@ -69,6 +85,7 @@ class overmap_connection
             }
         };
 
+        overmap_connection_layout layout;
         std::list<subtype> subtypes;
         mutable std::vector<cache> cached_subtypes;
 };

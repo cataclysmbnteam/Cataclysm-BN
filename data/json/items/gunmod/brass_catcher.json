@@ -6,12 +6,23 @@
     "description": "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.",
     "weight": "114 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 50,
+    "integral_volume": "50 ml",
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "brass catcher",
-    "mod_targets": [ "shotgun", "smg", "rifle", "pistol", "launcher" ]
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ]
   }
 ]

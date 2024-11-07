@@ -2,9 +2,9 @@
 
 # See CPLUSPLUS-SUPPORT.html in the NDK documentation for more information
 APP_STL := c++_shared
-APP_CPPFLAGS += -std=c++17
+APP_CPPFLAGS += -std=c++20
 ifneq ($(OS),Windows_NT)
-    APP_LDFLAGS += -fuse-ld=gold
+    APP_LDFLAGS += -fuse-ld=lld
 endif
 
 # Do not specify APP_OPTIM here, it is done through ndk-build NDK_DEBUG=0/1 setting instead
@@ -13,5 +13,5 @@ endif
 #APP_OPTIM := release
 
 # Min SDK level
-APP_PLATFORM=android-16
+APP_PLATFORM=android-21
 

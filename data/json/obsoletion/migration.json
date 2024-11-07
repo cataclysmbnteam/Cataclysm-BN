@@ -70,9 +70,29 @@
     "replace": "40x46mm_m651"
   },
   {
+    "id": "8mm_bootleg",
+    "type": "MIGRATION",
+    "replace": "8mm_jhp_reloaded"
+  },
+  {
     "id": "8mm_bootleg_jsp",
     "type": "MIGRATION",
-    "replace": "8mm_bootleg"
+    "replace": "8mm_jhp_reloaded"
+  },
+  {
+    "id": "20x66_bootleg_shot",
+    "type": "MIGRATION",
+    "replace": "20x66_shot_reloaded"
+  },
+  {
+    "id": "20x66_bootleg_flechette",
+    "type": "MIGRATION",
+    "replace": "20x66_flechette_reloaded"
+  },
+  {
+    "id": "20x66_bootleg_slug",
+    "type": "MIGRATION",
+    "replace": "20x66_slug_reloaded"
   },
   {
     "id": "adv_UPS_on",
@@ -1210,11 +1230,6 @@
     "replace": "compositebow"
   },
   {
-    "id": "woodgreatbow",
-    "type": "MIGRATION",
-    "replace": "compgreatbow"
-  },
-  {
     "id": "ballistic_vest_empty",
     "type": "MIGRATION",
     "replace": "modularvest"
@@ -1288,6 +1303,24 @@
     "id": "peanut_unshelled",
     "type": "MIGRATION",
     "replace": "peanut"
+  },
+  {
+    "id": "sourdough_young",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "sourdough_young_uncovered" ]
+  },
+  {
+    "id": "sourdough_split",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "sourdough_split_uncovered" ]
+  },
+  {
+    "id": "sourdough_starter",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "sourdough_starter_uncovered" ]
   },
   {
     "id": "1cyl_combustion_small",
@@ -1760,5 +1793,131 @@
     "id": "chem_zinc_powder",
     "type": "MIGRATION",
     "replace": "zinc_metal"
+  },
+  {
+    "id": "betavoltaic",
+    "type": "MIGRATION",
+    "replace": "plut_cell"
+  },
+  {
+    "id": "lycra_patch",
+    "type": "MIGRATION",
+    "replace": "nylon"
+  },
+  {
+    "id": "scrap_lycra",
+    "type": "MIGRATION",
+    "replace": "scrap_nylon"
+  },
+  {
+    "id": "sheet_lycra",
+    "type": "MIGRATION",
+    "replace": "sheet_nylon"
+  },
+  {
+    "id": "sheet_lycra_patchwork",
+    "type": "MIGRATION",
+    "replace": "sheet_nylon_patchwork"
+  },
+  {
+    "id": "mask_fsurvivorxl",
+    "type": "MIGRATION",
+    "replace": "mask_fsurvivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "mask_survivorxl",
+    "type": "MIGRATION",
+    "replace": "mask_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "mask_wsurvivorxl",
+    "type": "MIGRATION",
+    "replace": "mask_wsurvivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "mask_h20survivorxl",
+    "type": "MIGRATION",
+    "replace": "mask_h20survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "mask_h20survivorxl_on",
+    "type": "MIGRATION",
+    "replace": "mask_h20survivor_on",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "boots_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "boots_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "gloves_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "gloves_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "helmet_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "helmet_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "hood_xlsurvivor",
+    "type": "MIGRATION",
+    "replace": "hood_survivor",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "jumpsuit_xl",
+    "type": "MIGRATION",
+    "replace": "jumpsuit",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlsurvivor_suit",
+    "type": "MIGRATION",
+    "replace": "survivor_suit",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlhsurvivor_suit",
+    "type": "MIGRATION",
+    "replace": "hsurvivor_suit",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "xlsasurvivor_suit",
+    "type": "MIGRATION",
+    "replace": "sasurvivor_suit",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "leg_warmers_xl",
+    "type": "MIGRATION",
+    "replace": "leg_warmers",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "welder_crude",
+    "type": "MIGRATION",
+    "replace": "welder",
+    "flags": [ "resized_large" ]
+  },
+  {
+    "id": "survivor_belt",
+    "type": "MIGRATION",
+    "replace": "survivor_belt_notools",
+    "contents": [ "screwdriver_set", "wrench", "saw", "hacksaw", "hammer" ]
+  },
+  {
+    "id": "endochitin",
+    "type": "MIGRATION",
+    "replace": "chitin_piece"
   }
 ]

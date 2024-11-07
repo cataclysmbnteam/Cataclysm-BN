@@ -116,7 +116,7 @@ void auto_note_settings::set_discovered( const string_id<map_extra> &mapExtId )
 
 bool auto_note_settings::was_discovered( const string_id<map_extra> &mapExtId ) const
 {
-    return discovered.count( mapExtId ) != 0;
+    return discovered.contains( mapExtId );
 }
 
 void auto_note_settings::show_gui()
@@ -131,7 +131,7 @@ void auto_note_settings::show_gui()
 
 bool auto_note_settings::has_auto_note_enabled( const string_id<map_extra> &mapExtId ) const
 {
-    return autoNoteEnabled.count( mapExtId ) != 0;
+    return autoNoteEnabled.contains( mapExtId );
 }
 
 void auto_note_settings::set_auto_note_status( const string_id<map_extra> &mapExtId,
@@ -157,8 +157,8 @@ auto_note_manager_gui::auto_note_manager_gui()
 
         bool isAutoNoteEnabled = settings.has_auto_note_enabled( extra.id );
 
-        mapExtraCache.emplace( std::make_pair( extra.id, std::make_pair( extra,
-                                               isAutoNoteEnabled ) ) );
+        mapExtraCache.emplace( extra.id, std::make_pair( extra,
+                               isAutoNoteEnabled ) );
 
         if( settings.was_discovered( extra.id ) ) {
             displayCache.push_back( extra.id );

@@ -17,7 +17,7 @@
     "description": "A crudely constructed carbine, chambered for magnum pistol ammo and standard pistol ammo.  It feeds from commerical magnum pistol magazines, and locks with a rudimentary lever action system.  Its powerful cartridge and relative precision should serve well against zombies and medium game.",
     "weight": "2114 g",
     "volume": "2 L",
-    "price": 10000,
+    "price": "100 USD",
     "bashing": 10,
     "color": "brown",
     "built_in_mods": [  ],
@@ -26,16 +26,16 @@
     "durability": 6,
     "blackpowder_tolerance": 60,
     "loudness": 25,
-    "barrel_length": 1,
+    "barrel_length": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ]
     ],
     "magazines": [
       [ "ammo_pistol", [ "pistol_magnum_mag", "pistol_magnum_mag_hc" ] ],

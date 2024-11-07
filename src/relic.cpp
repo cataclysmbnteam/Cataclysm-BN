@@ -82,8 +82,8 @@ void relic_recharge::load( const JsonObject &jo )
 {
     try {
         src_loc = jo.get_source_location();
+        // NOLINTNEXTLINE(bugprone-empty-catch): Savefiles don't specify source, so ignore error
     } catch( const std::exception & ) {
-        // Savefiles don't specify source, so ignore error
     }
 
     jo.read( "type", type );
@@ -296,13 +296,13 @@ bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Cha
                         continue;
                     }
                     bool this_bp_good = true;
-                    for( const item &wi : carrier.worn ) {
-                        if( wi.get_coverage() == 0 ) {
+                    for( const item *wi : carrier.worn ) {
+                        if( wi->get_coverage( bp ) == 0 ) {
                             continue;
                         }
-                        if( &wi == &itm ) {
+                        if( wi == &itm ) {
                             break;
-                        } else if( wi.covers( bp ) ) {
+                        } else if( wi->covers( bp ) ) {
                             this_bp_good = false;
                             break;
                         }
@@ -318,14 +318,14 @@ bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Cha
                 }
                 bool hand_l_ok = true;
                 bool hand_r_ok = true;
-                for( const item &wi : carrier.worn ) {
-                    if( wi.get_coverage() == 0 ) {
+                for( const item *wi : carrier.worn ) {
+                    if( wi->get_coverage( body_part_hand_l ) == 0 && wi->get_coverage( body_part_hand_r ) == 0 ) {
                         continue;
                     }
-                    if( wi.covers( body_part_hand_l ) ) {
+                    if( wi->covers( body_part_hand_l ) ) {
                         hand_l_ok = false;
                     }
-                    if( wi.covers( body_part_hand_r ) ) {
+                    if( wi->covers( body_part_hand_r ) ) {
                         hand_r_ok = false;
                     }
                 }
@@ -339,9 +339,9 @@ bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Cha
             return get_map().get_radiation( carrier.pos() ) > 0 || carrier.get_rad() > 0;
         }
         case relic_recharge_req::wet: {
-            bool has_wet = std::any_of( carrier.body_wetness.begin(), carrier.body_wetness.end(),
-            []( const int w ) {
-                return w != 0;
+            bool has_wet = std::any_of( carrier.get_body().begin(), carrier.get_body().end(),
+            []( const std::pair<const bodypart_str_id, bodypart> &elem ) {
+                return elem.second.get_wetness() != 0;
             } );
             if( has_wet ) {
                 return true;
@@ -434,11 +434,18 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
             std::abort();
         }
     }
-    // If relic has a valid ammo type, make sure the first charge loaded isn't a "none"
-    bool was_zero = itm.charges == 0;
-    itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
-    if( was_zero && !itm.ammo_types().empty() ) {
-        itm.ammo_set( itm.ammo_default(), itm.charges );
+    // If it already has ammo, increment charges of ammo inside.
+    if( itm.ammo_data() ) {
+        int ammo_charge = clamp( itm.ammo_remaining() + rech.rate, 0, itm.ammo_capacity() );
+        itm.magazine_integral() ? itm.charges = ammo_charge : itm.contents.front().charges = ammo_charge;
+    } else {
+        // If not, either give it default ammo, or increment charges directly.
+        if( !itm.ammo_types().empty() ) {
+            itm.ammo_set( itm.ammo_default(), clamp( itm.ammo_remaining() + rech.rate, 0,
+                          itm.ammo_capacity() ) );
+        } else {
+            itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
+        }
     }
     if( rech.message ) {
         carrier.add_msg_if_player( _( *rech.message ) );
@@ -448,14 +455,14 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
 
 void process_recharge( item &itm, Character &carrier )
 {
-    if( !itm.is_tool() ) {
-        return;
+    if( itm.is_tool() || itm.is_gun() || itm.is_magazine() ) {
+        if( itm.ammo_remaining() >= itm.ammo_capacity() ) {
+            return;
+        }
+        for( const relic_recharge &rech : itm.get_relic_recharge_scheme() ) {
+            process_recharge_entry( itm, rech, carrier );
+        }
     }
-    if( itm.ammo_remaining() >= itm.ammo_capacity() ) {
-        return;
-    }
-    for( const relic_recharge &rech : itm.get_relic_recharge_scheme() ) {
-        process_recharge_entry( itm, rech, carrier );
-    }
+    return;
 }
 } // namespace relic_funcs

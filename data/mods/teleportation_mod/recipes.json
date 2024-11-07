@@ -1,0 +1,81 @@
+[
+  {
+    "result": "teleporter_controller",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 7 ],
+    "difficulty": 7,
+    "time": 10000,
+    "decomp_learn": 3,
+    "reversible": true,
+    "book_learn": [ [ "schematics_teleportation", 7 ] ],
+    "using": [ [ "soldering_standard", 15 ], [ "surface_heat", 10 ] ],
+    "components": [
+      [ [ "teleporter", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "processor", 5 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "e_scrap", 10 ] ]
+    ]
+  },
+  {
+    "result": "teleporter_station_undeployed",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 9 ],
+    "difficulty": 9,
+    "time": 300000,
+    "decomp_learn": 3,
+    "reversible": true,
+    "book_learn": [ [ "schematics_teleportation", 9 ] ],
+    "using": [ [ "soldering_standard", 150 ], [ "welding_standard", 500 ] ],
+    "components": [
+      [ [ "teleporter", 5 ] ],
+      [ [ "solar_panel_v2", 5 ] ],
+      [ [ "plastic_chunk", 12 ] ],
+      [ [ "processor", 50 ] ],
+      [ [ "hdframe", 1 ] ],
+      [ [ "adhesive", 10, "LIST" ] ],
+      [ [ "antenna", 3 ] ],
+      [ [ "receiver", 3 ] ],
+      [ [ "RAM", 10 ] ],
+      [ [ "e_scrap", 30 ] ],
+      [ [ "sheet_metal_small", 5 ] ]
+    ]
+  },
+  {
+    "result": "teleporter_anchor_undeployed",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 8 ],
+    "difficulty": 8,
+    "time": 100000,
+    "decomp_learn": 3,
+    "reversible": true,
+    "book_learn": [ [ "schematics_teleportation", 8 ] ],
+    "using": [ [ "soldering_standard", 150 ], [ "welding_standard", 500 ] ],
+    "components": [
+      [ [ "solar_panel_v2", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "hdframe", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
+      [ [ "antenna", 1 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "e_scrap", 3 ] ]
+    ]
+  }
+]

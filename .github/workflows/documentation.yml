@@ -1,41 +1,45 @@
-name: Generate Documentation
-
-permissions:
-  contents: write
+name: Deploy starlight documentation to GitHub Pages
 
 on:
   push:
-    branches: [upload]
+    branches: [main]
+    paths: [doc/**]
   workflow_dispatch:
 
+
+defaults:
+  run:
+    working-directory: doc
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
-  documentation:
-    runs-on: ubuntu-22.04
-
+  build:
+    runs-on: ubuntu-24.04
+    environment: github-pages
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v3
-
-      - name: cache css
-        id: cache-css
-        uses: actions/cache@v3
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+      - name: Install, build, and upload site
+        uses: withastro/action@v2
         with:
-          key: doxygen-css-cache
-          path: ./doxygen_doc/doxygen-awesome-css
+          path: doc
+          node-version: 20
+          package-manager: pnpm@8.7.x
+        env:
+          CUSTOM_SITE_URL: ${{ vars.CUSTOM_SITE_URL }}
+          CUSTOM_REPO_URL: ${{ vars.CUSTOM_REPO_URL }}
 
-      - if: ${{ steps.cache-css.outputs.cache-hit != 'true' }}
-        name: download css
-        run: |
-          git clone https://github.com/jothepro/doxygen-awesome-css ./doxygen_doc/doxygen-awesome-css
-      - name: run doxygen
-        uses: mattnotmitt/doxygen-action@v1.9.2
-        with:
-          working-directory: .
-          doxyfile-path: ./doxygen_doc/Doxyfile
-          # additional-packages: font-fira-code
-
-      - name: deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doxygen_doc/html/
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -18,15 +18,15 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "blob", "cult", "zombie_aquatic" ],
-    "neutral": [ "small_animal", "insect", "fish" ],
-    "by_mood": "bee"
+    "neutral": [ "nether" ],
+    "by_mood": [ "small_animal", "insect", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "friendly": [ "blob", "cult", "zombie" ],
-    "neutral": [ "small_animal", "insect" ],
-    "by_mood": "bee"
+    "neutral": [ "nether" ],
+    "by_mood": [ "small_animal", "insect", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -36,7 +36,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
-    "friendly": [ "blob", "cult" ]
+    "friendly": [ "blob", "cult" ],
+    "neutral": [ "zombie", "zombie_aquatic", "science" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -75,7 +76,7 @@
     "type": "MONSTER_FACTION",
     "name": "science",
     "base_faction": "zombie",
-    "neutral": [ "bot" ]
+    "neutral": [ "bot", "nether" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -120,7 +121,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "insect",
-    "neutral": [ "military", "defense_bot", "utility_bot", "zombie" ],
+    "neutral": [ "military", "defense_bot", "utility_bot" ],
+    "hate": "zombie",
     "by_mood": "insect"
   },
   {
@@ -143,8 +145,25 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "wasp",
+    "base_faction": "insect",
+    "by_mood": [ "centipede", "spider" ],
+    "hate": [ "bee", "insect", "small_animal", "dragonfly" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "dragonfly",
-    "base_faction": "insect"
+    "base_faction": "insect",
+    "by_mood": [ "centipede", "spider" ],
+    "hate": [ "insect", "small_animal", "bird" ],
+    "neutral": [ "dragonfly" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "centipede",
+    "base_faction": "insect",
+    "neutral": [ "spider", "bee" ],
+    "hate": [ "insect", "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -191,6 +210,12 @@
     "type": "MONSTER_FACTION",
     "name": "spider_cellar",
     "base_faction": "spider"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "aquatic_predator",
+    "neutral": "bot",
+    "hate": "fish"
   },
   {
     "type": "MONSTER_FACTION",

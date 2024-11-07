@@ -7,8 +7,8 @@
     "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
     "weight": "3 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "to_hit": 1,
     "material": "wood",
     "symbol": ";",
@@ -20,7 +20,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the birchbark funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "funnel",
@@ -30,8 +31,8 @@
     "description": "This is a funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "606 g",
     "volume": "500 ml",
-    "price": 500,
-    "price_postapoc": 100,
+    "price": "5 USD",
+    "price_postapoc": "1 USD",
     "to_hit": 1,
     "bashing": 4,
     "material": "plastic",
@@ -44,7 +45,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "leather_funnel",
@@ -54,8 +56,8 @@
     "description": "This is a small, leather funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 100,
+    "price": "0 cent",
+    "price_postapoc": "1 USD",
     "to_hit": 1,
     "material": "leather",
     "symbol": ";",
@@ -67,7 +69,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the leather funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "makeshift_funnel",
@@ -77,8 +80,8 @@
     "description": "This is a small, makeshift funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4 g",
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "to_hit": 1,
     "material": "plastic",
     "symbol": ";",
@@ -90,7 +93,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the makeshift funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_funnel",
@@ -100,8 +104,8 @@
     "description": "This is a large metal funnel used to collect rainwater.  Less portable than plastic funnels, but collects more water.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4017 g",
     "volume": "4 L",
-    "price": 1500,
-    "price_postapoc": 250,
+    "price": "15 USD",
+    "price_postapoc": "250 cent",
     "to_hit": 1,
     "bashing": 4,
     "material": "steel",
@@ -114,7 +118,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You place the metal funnel, waiting to collect rain."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tarp_raincatcher",
@@ -124,8 +129,8 @@
     "description": "Some sticks and string with a tarpaulin to set up an improvised raincatcher.",
     "weight": "3980 g",
     "volume": "4 L",
-    "price": 6000,
-    "price_postapoc": 100,
+    "price": "60 USD",
+    "price_postapoc": "1 USD",
     "material": [ "wood", "plastic" ],
     "symbol": ";",
     "color": "yellow",
@@ -136,6 +141,7 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You set up the raincatcher, waiting to collect water."
-    }
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

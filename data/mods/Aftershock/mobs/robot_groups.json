@@ -132,33 +132,17 @@
   {
     "name": "GROUP_NECROPOLIS_ROBOT",
     "type": "monstergroup",
-    "default": "mon_chickenbot",
-    "monsters": [ { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_MIL_BASE",
     "monsters": [
-      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+      { "monster": "mon_chickenbot", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MAYBE_MIL",
+    "name": "GROUP_ROBOTS_MIL",
     "monsters": [
-      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_MIL_STRONG",
-    "monsters": [
-      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tripod", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
     ]
   }

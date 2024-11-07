@@ -5,8 +5,10 @@
 #include "map_iterator.h"
 #include "projectile.h"
 #include "ranged.h"
+#include "rng.h"
 #include "shape.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 #include "explosion.h"
@@ -41,7 +43,8 @@ struct aoe_flood_node {
 namespace ranged
 {
 
-void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker )
+void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
+                            item *source_weapon, const vehicle *in_veh )
 {
     map &here = get_map();
     const auto sigdist_to_coverage = []( const double sigdist ) {
@@ -71,7 +74,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     while( !queue.empty() ) {
         tripoint p = queue.top().p;
         queue.pop();
-        if( closed.count( p ) != 0 || !here.inbounds( p ) ) {
+        if( closed.contains( p ) || !here.inbounds( p ) ) {
             continue;
         }
         closed.insert( p );
@@ -81,13 +84,22 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
         }
 
         double current_coverage = parent_coverage;
-        if( aoe_permeable( p ) ) {
+        bool firing_over_veh = false;
+        if( in_veh != nullptr ) {
+            const optional_vpart_position other = here.veh_at( p );
+            if( in_veh == veh_pointer_or_null( other ) ) {
+                // Don't blast a vehicle with its own turret
+                firing_over_veh = true;
+            }
+        }
+        if( aoe_permeable( p ) || firing_over_veh ) {
             // noop
         } else {
             projectile proj_copy = proj;
-            here.shoot( p, proj_copy, false );
+            // Origin and target are same point so AoE can bypass cover mechanics
+            here.shoot( p, p, proj_copy, false );
             // There should be a nicer way than rechecking after shoot
-            if( !aoe_permeable( p ) ) {
+            if( !aoe_permeable( p ) && !firing_over_veh ) {
                 continue;
             }
 
@@ -102,8 +114,8 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
             for( const tripoint &child : here.points_in_radius( p, 1 ) ) {
                 double coverage = sigdist_to_coverage( sh.distance_at( child ) );
                 if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( p, child ) &&
-                    closed.count( child ) == 0 &&
-                    ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
+                    !closed.contains( child ) &&
+                    ( !open.contains( child ) || open.at( child ).parent_coverage < current_coverage ) ) {
                     open[child] = aoe_flood_node( p, current_coverage );
                     queue.emplace( child, trig_dist_squared( origin, child ) );
                 }
@@ -120,7 +132,12 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     for( const std::pair<const tripoint, double> &pr : final_coverage ) {
         Creature *critter = g->critter_at( pr.first );
         if( critter != nullptr ) {
-            ranged::hit_with_aoe( *critter, &attacker, proj.impact );
+            dealt_projectile_attack atk;
+            atk.end_point = pr.first;
+            atk.hit_critter = critter;
+            atk.proj = proj;
+            atk.missed_by = rng_float( 0.15, 0.45 );
+            critter->deal_projectile_attack( &attacker, source_weapon, atk );
         }
     }
 }
@@ -150,7 +167,7 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
     while( !queue.empty() ) {
         tripoint p = queue.top().p;
         queue.pop();
-        if( closed.count( p ) != 0 ) {
+        if( closed.contains( p ) ) {
             continue;
         }
         closed.insert( p );
@@ -185,8 +202,8 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
             for( const tripoint &child : here.points_in_radius( p, 1 ) ) {
                 double coverage = sigdist_to_coverage( sh.distance_at( child ) );
                 if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( p, child ) &&
-                    closed.count( child ) == 0 &&
-                    ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
+                    !closed.contains( child ) &&
+                    ( !open.contains( child ) || open.at( child ).parent_coverage < current_coverage ) ) {
                     open[child] = aoe_flood_node( p, current_coverage );
                     queue.emplace( child, trig_dist_squared( origin, child ) );
                 }

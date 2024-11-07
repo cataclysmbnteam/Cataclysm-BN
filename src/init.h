@@ -9,6 +9,7 @@
 #include <vector>
 #include <utility>
 
+#include "catalua.h"
 #include "json.h"
 #include "memory_fast.h"
 #include "type_id.h"
@@ -65,7 +66,9 @@ class DynamicDataLoader
          * JSON data dependent upon as-yet unparsed definitions
          * first: JSON source location, second: source identifier
          */
-        using deferred_json = std::list<std::pair<json_source_location, std::string>>;
+        using deferred_json = std::vector<std::pair<json_source_location, std::string>>;
+
+        std::unique_ptr<cata::lua_state, cata::lua_state_deleter> lua;
 
     private:
         bool finalized = false;
@@ -78,9 +81,9 @@ class DynamicDataLoader
          * functor that loads that kind of object from json.
          */
         t_type_function_map type_function_map;
-        void add( const std::string &type, std::function<void( const JsonObject & )> f );
+        void add( const std::string &type, const std::function<void( const JsonObject & )> &f );
         void add( const std::string &type,
-                  std::function<void( const JsonObject &, const std::string & )> f );
+                  const std::function<void( const JsonObject &, const std::string & )> &f );
         void add( const std::string &type,
                   std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
                   f );
@@ -111,6 +114,8 @@ class DynamicDataLoader
          * Initializes @ref type_function_map
          */
         void initialize();
+
+    public:
         /**
          * Check the consistency of all the loaded data.
          * May print a debugmsg if something seems wrong.
@@ -118,7 +123,6 @@ class DynamicDataLoader
          */
         void check_consistency( loading_ui &ui );
 
-    public:
         /**
          * Returns the single instance of this class.
          */
@@ -176,6 +180,9 @@ class DynamicDataLoader
 
 namespace init
 {
+
+/** Load (or reload) mods' main Lua scripts. */
+void load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs );
 
 /** Returns whether the game data is currently loaded. */
 bool is_data_loaded();

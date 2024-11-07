@@ -25,8 +25,6 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
-      "sloc_golfcourse_mid_course",
-      "sloc_golfcourse_clubhouse",
       "sloc_church",
       "sloc_cemetery"
     ],
@@ -39,9 +37,17 @@
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
-    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital" ],
+    "allowed_locs": [
+      "sloc_mall_loading_area",
+      "sloc_mall_food_court",
+      "sloc_apartments_rooftop",
+      "sloc_hospital",
+      "sloc_bastion_fort",
+      "sloc_convention_center_rooftop"
+    ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -60,8 +66,6 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
-      "sloc_golfcourse_mid_course",
-      "sloc_golfcourse_clubhouse",
       "sloc_church",
       "sloc_cemetery",
       "sloc_fire_station",
@@ -69,7 +73,8 @@
       "sloc_town_hall"
     ],
     "start_name": "In Town",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -85,7 +90,8 @@
       "sloc_lmoe",
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
-      "sloc_cabin_lake"
+      "sloc_cabin_lake",
+      "sloc_freshwater_research_station"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -99,6 +105,7 @@
     "points": -4,
     "start_name": "In Town",
     "allowed_locs": [
+      "sloc_shelter_vandalized",
       "sloc_house",
       "sloc_house_boarded",
       "sloc_school",
@@ -136,10 +143,7 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
-      "sloc_golfcourse_mid_course",
-      "sloc_golfcourse_clubhouse",
-      "sloc_church",
-      "sloc_cemetery"
+      "sloc_church"
     ]
   },
   {
@@ -147,7 +151,7 @@
     "id": "bad_day",
     "name": "Challenge - Really Bad Day",
     "points": -8,
-    "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
+    "description": "You start drunk to the point of incapacitation, depressed, infected, and surrounded by fire.  This day went downhill really fast.",
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
@@ -164,12 +168,21 @@
       "sloc_bookstore",
       "sloc_zoo_giftshop",
       "sloc_zoo_cages",
-      "sloc_golfcourse_mid_course",
-      "sloc_golfcourse_clubhouse",
       "sloc_church",
       "sloc_cemetery"
     ],
-    "professions": [ "svictim", "naked", "tweaker", "crackhead", "convict_ratman", "broken_cyborg" ],
+    "professions": [
+      "svictim",
+      "naked",
+      "tweaker",
+      "crackhead",
+      "homeless",
+      "convict_ratman",
+      "prof_fursuiter",
+      "clown",
+      "broken_cyborg",
+      "true_foodperson"
+    ],
     "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
   },
   {
@@ -187,6 +200,50 @@
   },
   {
     "type": "scenario",
+    "id": "player_feral",
+    "name": "Challenge - The Lost And Damned",
+    "points": -5,
+    "description": "You spent the first few weeks of the Cataclysm in a dull haze.  The riots have died down and the summer sun has drawn out the stench of decay.  You stagger out of your hiding place with a gnawing hunger, unsure if you're the only one left alive, or if this is what living death is like.",
+    "start_name": "In Town?",
+    "allowed_locs": [
+      "sloc_shelter_vandalized",
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_garage",
+      "sloc_pawn_shop",
+      "sloc_bank",
+      "sloc_furniture_store",
+      "sloc_church",
+      "sloc_cemetery",
+      "sloc_apartments_rooftop",
+      "sloc_hospital",
+      "sloc_fire_station",
+      "sloc_police",
+      "sloc_mansion",
+      "sloc_lmoe_empty"
+    ],
+    "professions": [
+      "prof_feral_unemployed",
+      "prof_feral_scientist",
+      "prof_feral_cop",
+      "prof_feral_firefighter",
+      "prof_feral_mechanic",
+      "prof_feral_biker",
+      "prof_feral_survivalist",
+      "prof_feral_soldier",
+      "prof_feral_cyborg",
+      "prof_feral_maid",
+      "prof_feral_socialite",
+      "prof_feral_armored",
+      "prof_feral_lumberjack"
+    ],
+    "traits": [ "RADIOGENIC", "ROT2", "SAPROVORE", "SORES", "UNSTABLE" ],
+    "forced_traits": [ "PSYCHOPATH", "SCHIZOPHRENIC", "CARNIVORE" ],
+    "forbidden_traits": [ "ANIMALEMPATH", "ANIMALDISCORD", "ANTIWHEAT", "ANTIFRUIT", "MEATARIAN", "SQUEAMISH" ],
+    "flags": [ "CHALLENGE", "LONE_START", "SUM_START", "CITY_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "lab_chal",
     "name": "Challenge - Lab Patient",
     "points": -8,
@@ -200,12 +257,14 @@
       "broken_cyborg",
       "faulty_bionic",
       "cykotic",
-      "convict_political"
+      "convict_political",
+      "homeless",
+      "convict_ratman"
     ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "traits": [
       "ELFAEYES",
-      "URSINE_EYE",
+      "NIGHTVISION2",
       "FANGS",
       "GILLS",
       "SPINES",
@@ -216,7 +275,6 @@
       "RAP_TALONS",
       "HOOVES",
       "CANINE_EARS",
-      "BIOLUM1",
       "BIOLUM2",
       "FELINE_EARS",
       "TAIL_FLUFFY",
@@ -243,7 +301,18 @@
       "ALCMET",
       "LIGHT_BONES",
       "CHITIN",
-      "ELECTRORECEPTORS"
+      "ELECTRORECEPTORS",
+      "SCALES",
+      "FEATHERS",
+      "FUR",
+      "PHEROMONE_INSECT",
+      "PHEROMONE_MAMMAL",
+      "ANTLERS",
+      "WINGS_BIRD",
+      "WINGS_INSECT",
+      "WINGS_BAT",
+      "SMALL",
+      "LARGE"
     ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -254,7 +323,7 @@
     "points": -8,
     "description": "You were deemed non-essential and made to stay behind during the lab evacuation.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "labtech", "security", "medic", "bionic_installer", "bio_medic" ],
+    "professions": [ "labtech", "security", "medic", "bionic_installer", "bio_medic", "bionic_mentat", "bionic_spy" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -281,12 +350,25 @@
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",
-      "sloc_campground"
+      "sloc_campground",
+      "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "flags": [ "WIN_START", "LONE_START" ],
     "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "professions": [
+      "sheltered_survivor",
+      "sheltered_militia",
+      "winter_scavenger",
+      "winter_army",
+      "hardened_survivor",
+      "road_warrior",
+      "waste_ranger",
+      "player_bandit",
+      "monster_hunter",
+      "monster_slayer"
+    ]
   },
   {
     "type": "scenario",
@@ -303,12 +385,24 @@
       "sloc_campsite",
       "sloc_campground",
       "sloc_cabin_lake",
-      "sloc_lighthouse_ground"
+      "sloc_lighthouse_ground",
+      "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],
     "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "professions": [
+      "sheltered_survivor",
+      "sheltered_militia",
+      "winter_scavenger",
+      "winter_army",
+      "hardened_survivor",
+      "road_warrior",
+      "waste_ranger",
+      "player_bandit",
+      "monster_hunter",
+      "monster_slayer"
+    ]
   },
   {
     "type": "scenario",
@@ -393,7 +487,7 @@
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
-    "professions": [ "captive", "rescuer" ],
+    "professions": [ "captive", "rescuer", "monster_hunter" ],
     "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
   },
   {
@@ -404,19 +498,10 @@
     "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the Cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_forest", "sloc_field" ],
-    "professions": [
-      "unemployed",
-      "mutant_patient",
-      "mutant_volunteer",
-      "labtech",
-      "broken_cyborg",
-      "faulty_bionic",
-      "cykotic",
-      "convict_political"
-    ],
+    "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "broken_cyborg", "faulty_bionic", "cykotic", "convict_political" ],
     "traits": [
       "ELFAEYES",
-      "URSINE_EYE",
+      "NIGHTVISION2",
       "FANGS",
       "GILLS",
       "SPINES",
@@ -427,6 +512,7 @@
       "RAP_TALONS",
       "HOOVES",
       "CANINE_EARS",
+      "BIOLUM2",
       "FELINE_EARS",
       "TAIL_FLUFFY",
       "TAIL_LONG",
@@ -452,7 +538,18 @@
       "ALCMET",
       "LIGHT_BONES",
       "CHITIN",
-      "ELECTRORECEPTORS"
+      "ELECTRORECEPTORS",
+      "SCALES",
+      "FEATHERS",
+      "FUR",
+      "PHEROMONE_INSECT",
+      "PHEROMONE_MAMMAL",
+      "ANTLERS",
+      "WINGS_BIRD",
+      "WINGS_INSECT",
+      "WINGS_BAT",
+      "SMALL",
+      "LARGE"
     ],
     "flags": [ "LONE_START" ]
   },
@@ -498,9 +595,49 @@
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
-    "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper", "bionic_spy", "national_guard", "politician", "mili_pilot" ],
+    "professions": [
+      "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "prof_combat_engineer",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "bionic_spy",
+      "national_guard",
+      "hitman",
+      "assassin",
+      "politician",
+      "mili_pilot"
+    ],
     "map_extra": "mx_helicopter",
     "flags": [ "HELI_CRASH", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "assassination",
+    "name": "One Last Assassination",
+    "points": 0,
+    "description": "Your mission required you to eliminate a certain high-ranking individual in hiding. Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
+    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
+    "start_name": "Evac Shelter",
+    "professions": [
+      "assassin",
+      "hitman",
+      "scoundrel",
+      "gangster",
+      "prof_ninja",
+      "specops",
+      "bionic_spy",
+      "bionic_hitman",
+      "bio_gangster",
+      "razorgirl",
+      "bio_sniper"
+    ],
+    "flags": [ "CITY_START" ],
+    "missions": [ "MISSION_ASSASSINATION" ]
   },
   {
     "type": "scenario",
@@ -518,12 +655,11 @@
     "id": "last_flight",
     "name": "Last Flight",
     "points": 2,
-    "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  You found no standing safe zones, and when your fuel ran out, were forced to land in an empty field.",
+    "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  With no safe landing zones, knowing fuel will soon be a concern, you made a quick landing to plan your next move.",
     "start_name": "Emergency Landing Site",
-    "allowed_locs": [ "sloc_field" ],
-    "vehicle": "2seater2_scenario",
+    "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
-    "professions": [ "heli_pilot" ],
+    "professions": [ "heli_pilot_scenario", "gyro_pilot", "mili_pilot_blackhawk" ],
     "flags": [ "LONE_START" ]
   },
   {
@@ -556,11 +692,25 @@
     "id": "overrun",
     "name": "Overrun",
     "points": 3,
-    "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
-    "start_name": "Military Base Warehouse",
-    "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic", "mili_pilot" ],
-    "flags": [ "CHALLENGE", "LONE_START" ]
+    "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and didn't make it there in time.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
+    "start_name": "Military Base",
+    "allowed_locs": [ "sloc_military_base_barracks", "sloc_military_base_mess_hall", "sloc_military_base_communications_center" ],
+    "professions": [
+      "unemployed",
+      "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "prof_combat_engineer",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "labtech",
+      "medic",
+      "mili_pilot"
+    ],
+    "flags": [ "CHALLENGE", "LONE_START", "CITY_START" ]
   },
   {
     "type": "scenario",
@@ -584,17 +734,32 @@
       "roadie",
       "bio_gangster"
     ],
-    "flags": [ "CHALLENGE", "LONE_START" ]
+    "flags": [ "CHALLENGE", "LONE_START", "CITY_START" ]
   },
   {
     "type": "scenario",
-    "id": "helicopter",
-    "name": "Ride of the Valkyries",
-    "points": 1,
-    "description": "You managed to get to the chopper just in time.  But are there safe places to land left in this world now?",
-    "start_name": "Wilderness",
-    "allowed_locs": [ "sloc_field", "sloc_forest" ],
-    "professions": [ "mili_pilot_blackhawk" ],
-    "flags": [ "LONE_START" ]
+    "id": "aircraft_carrier_start",
+    "name": "CVN Sailor",
+    "points": 4,
+    "description": "For some reason your mission off the coast of North Korea has ended up stateside, stuck in the middle of a lake.  You have no idea what's happened, but now you have more important things to do.",
+    "start_name": "Aircraft Carrier",
+    "allowed_locs": [ "aircraft_carrier_berth", "aircraft_carrier_bridge" ],
+    "professions": [
+      "unemployed",
+      "electrician",
+      "chef",
+      "soldier",
+      "mil_auto_rifleman",
+      "mil_grenadier",
+      "mil_marksman",
+      "specops",
+      "power_armor_soldier",
+      "bio_soldier",
+      "bio_sniper",
+      "medic",
+      "mili_pilot",
+      "prof_combat_engineer"
+    ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

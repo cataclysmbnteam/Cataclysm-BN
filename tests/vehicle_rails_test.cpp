@@ -16,6 +16,7 @@
 #include "veh_type.h"
 #include "vehicle_move.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -95,7 +96,7 @@ static void clear_game( const ter_id &terrain )
     REQUIRE_FALSE( u.in_vehicle );
     u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    u.add_effect( effect_blind, 365_days, num_bp );
+    u.add_effect( effect_blind, 365_days, bodypart_str_id::NULL_ID() );
 
     build_test_map( terrain );
 }

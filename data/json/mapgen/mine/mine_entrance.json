@@ -66,7 +66,6 @@
         "s": "t_linoleum_white",
         "v": "t_dirt",
         "w": "t_window_alarm",
-        "W": "t_water_dispenser",
         "Й": "t_linoleum_white",
         "Ф": "t_chaingate_l"
       },
@@ -102,11 +101,13 @@
         "T": "f_counter",
         "t": "f_table",
         "v": "f_vent_pipe",
+        "W": "f_water_dispenser",
         "Д": "f_desk",
         "д": "f_desk",
         "Й": "f_rack_coat"
       },
       "toilets": { "&": {  } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
       "items": {
         "2": { "item": "coat_rack", "chance": 60, "repeat": 2 },
         "8": { "item": "mine_materials", "chance": 50, "repeat": 4 },

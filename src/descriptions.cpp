@@ -178,16 +178,16 @@ std::string map_data_common_t::extended_description() const
 {
     std::stringstream ss;
     ss << "<header>" << string_format( _( "That is a %s." ), name() ) << "</header>" << '\n';
-    ss << description << std::endl;
+    ss << description << '\n';
     bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
     []( const harvest_id & hv ) {
         return !hv.obj().empty();
     } );
 
     if( has_any_harvest ) {
-        ss << "--" << std::endl;
+        ss << "--" << '\n';
         int player_skill = get_avatar().get_skill_level( skill_survival );
-        ss << _( "You could harvest the following things from it:" ) << std::endl;
+        ss << _( "You could harvest the following things from it:" ) << '\n';
         // Group them by identical ids to avoid repeating same blocks of data
         // First, invert the mapping: season->id to id->seasons
         std::multimap<harvest_id, season_type> identical_harvest;
@@ -216,27 +216,27 @@ std::string map_data_common_t::extended_description() const
 
                 return "<dark>" + calendar::name_season( pr.second ) + "</dark>";
             } );
-            ss << ":" << std::endl;
+            ss << ":" << '\n';
             // List the drops
             // They actually describe what player can get from it now, so it isn't spoily
             // TODO: Allow spoily listing of everything
-            ss << range.first->first.obj().describe( player_skill ) << std::endl;
+            ss << range.first->first.obj().describe( player_skill ) << '\n';
             // Remove the range from the multimap so that it isn't listed twice
             identical_harvest.erase( range.first, range.second );
         }
 
-        ss << std::endl;
+        ss << '\n';
     }
 
     if( deconstruct.can_do ) {
         const auto items = item_group::every_possible_item_from( deconstruct.drop_group );
         if( !items.empty() ) {
-            ss << std::endl << _( "You could deconstruct it to get some of those items:" ) << std::endl;
+            ss << '\n' << _( "You could deconstruct it to get some of those items:" ) << '\n';
             for( const itype *it : items ) {
-                ss << "<good>" << item::nname( it->get_id() ) << "</good>" << std::endl;
+                ss << "<good>" << item::nname( it->get_id() ) << "</good>" << '\n';
             }
         } else {
-            ss << _( "It can be deconstructed, but won't yield any resources." ) << std::endl;
+            ss << _( "It can be deconstructed, but won't yield any resources." ) << '\n';
         }
     }
 
@@ -252,6 +252,12 @@ std::string map_data_common_t::extended_description() const
             }
             ss << indent << "Block unaimed chance: " << bash.ranged->block_unaimed_chance;
         }
+    }
+
+    if( !flags.empty() ) {
+        ss << _( "Flags: " ) << enumerate_as_string( flags.begin(), flags.end(), []( const auto & it ) {
+            return it;
+        } ) << '\n';
     }
 
     return replace_colors( ss.str() );

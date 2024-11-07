@@ -104,8 +104,7 @@
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
       { "item": "rag", "count": [ 10, 40 ], "prob": 75 },
       { "item": "felt_patch", "count": [ 5, 20 ], "prob": 40 },
-      { "item": "lycra_patch", "count": [ 5, 20 ], "prob": 20 },
-      { "item": "nylon", "count": [ 5, 20 ], "prob": 20 }
+      { "item": "nylon", "count": [ 10, 40 ], "prob": 40 }
     ]
   },
   {

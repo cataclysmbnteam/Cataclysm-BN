@@ -175,7 +175,7 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    return is_active( guy, parent.active );
+    return is_active( guy, parent.is_active() );
 }
 
 bool enchantment::is_active( const Character &guy, const bool active ) const
@@ -450,22 +450,11 @@ int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) cons
 
 void enchantment::activate_passive( Character &guy ) const
 {
-    guy.mod_str_bonus( calc_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base(), true ) );
-    guy.mod_dex_bonus( calc_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base(), true ) );
-    guy.mod_per_bonus( calc_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base(), true ) );
-    guy.mod_int_bonus( calc_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base(), true ) );
-
-    guy.mod_num_dodges_bonus( calc_bonus(
-                                  enchant_vals::mod::BONUS_DODGE,
-                                  guy.get_num_dodges_base(),
-                                  true
-                              ) );
-
     if( emitter ) {
         get_map().emit_field( guy.pos(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
-        guy.add_effect( eff.first, 1_seconds, num_bp, eff.second );
+        guy.add_effect( eff.first, 1_seconds, bodypart_str_id::NULL_ID(), eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {
@@ -547,7 +536,7 @@ bool is_set_value( const trait_id &mut, float val )
 }
 
 template <float mutation_branch::*First, float mutation_branch::* ...Rest,
-          typename std::enable_if<( sizeof...( Rest ) > 0 ), bool>::type NonEmpty = false >
+          std::enable_if_t<( sizeof...( Rest ) > 0 ), bool>NonEmpty = false >
                   bool is_set_value( const trait_id &mut, float val )
 {
     return ( *mut ).*First == val && is_set_value<Rest...>( mut, val );

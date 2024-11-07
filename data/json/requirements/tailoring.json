@@ -4,28 +4,21 @@
     "type": "requirement",
     "//": "Shaping and attaching a biosillicified chitin plate to something, per 112 g of biosillicified chitin.  Time needed is 10 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
-  },
-  {
-    "id": "armor_chainmail_assembling",
-    "type": "requirement",
-    "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "link_sheet", 1 ] ], [ [ "chain_link", 25 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 1 ] ] ]
   },
   {
     "id": "armor_chitin",
     "type": "requirement",
     "//": "Shaping and attaching a chitin plate to something, per 90 g of chitin.  Time needed is 10 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ] ] ]
   },
   {
     "id": "armor_kevlar_plate",
     "type": "requirement",
     "//": "Shaping and attaching a rigid Kevlar plate to something, per 300 g of rigid Kevlar.  Time needed is 10 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "kevlar_plate", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "kevlar_plate", 1 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "id": "armor_steel_plate",

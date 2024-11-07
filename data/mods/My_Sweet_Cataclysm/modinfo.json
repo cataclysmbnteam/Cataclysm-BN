@@ -2,11 +2,12 @@
   {
     "type": "MOD_INFO",
     "id": "my_sweet_cataclysm",
-    "name": "My Sweet Cataclysm",
+    "name": "My Sweet Cataclysm: BN Edition",
     "authors": [ "Fris0uman" ],
+    "maintainers": [ "Tefnut" ],
     "description": "In the wake of the Cataclysm sweets and snacks are coming to life.  You could be one of them and walk through the Cataclysm as a human shaped piece of sugar with your pet necco wafer, or you could just hunt them for some sweet treats.",
     "category": "misc_additions",
     "dependencies": [ "bn" ],
-    "obsolete": true
+    "obsolete": false
   }
 ]

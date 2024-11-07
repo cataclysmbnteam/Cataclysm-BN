@@ -75,19 +75,19 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-bn-tiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-bn-tiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-bn-tiles</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <EmbedManifest>false</EmbedManifest>
-    <TargetName>cataclysm-tiles</TargetName>
+    <TargetName>cataclysm-bn-tiles</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -102,8 +102,8 @@
       <DisableSpecificWarnings>4819;4146;26495;26444;26451;4068</DisableSpecificWarnings>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <AdditionalOptions>/bigobj /utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_WINDOWS;SDL_SOUND;TILES;USE_VCPKG;USE_WINMAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_WINDOWS;SDL_SOUND;TILES;LUA;USE_VCPKG;USE_WINMAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

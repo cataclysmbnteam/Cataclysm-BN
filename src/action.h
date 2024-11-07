@@ -245,6 +245,8 @@ enum action_id : int {
     ACTION_MORALE,
     /** Display messages screen */
     ACTION_MESSAGES,
+    /** Open external Wiki webpage */
+    ACTION_OPEN_WIKI,
     /** Display help screen */
     ACTION_HELP,
     /** Display main menu */
@@ -269,12 +271,21 @@ enum action_id : int {
     ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
+    // Additional UI action
+    /**@{*/
+    ACTION_TOGGLE_CHARACTER_PREVIEW_CLOTHES,
+    /**@}*/
+
     // Debug Functions
     /**@{*/
     /** Toggle full-screen mode */
     ACTION_TOGGLE_FULLSCREEN,
     /** Open debug menu */
     ACTION_DEBUG,
+    /** Open Lua console */
+    ACTION_LUA_CONSOLE,
+    /** Hot-reload Lua code */
+    ACTION_LUA_RELOAD,
     /** Toggle scent map */
     ACTION_DISPLAY_SCENT,
     /** Toggle scent type map */

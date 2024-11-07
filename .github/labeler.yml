@@ -4,7 +4,7 @@ src:
 tests:
   - tests/**/*
 
-data:
+JSON:
   - data/**/*
 
 mods:
@@ -12,3 +12,9 @@ mods:
 
 translation:
   - lang/**/*
+
+docs:
+  - doc/**/*
+
+scripts:
+  - scripts/**/*

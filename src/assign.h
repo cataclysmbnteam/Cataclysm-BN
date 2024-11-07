@@ -14,9 +14,11 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "json.h"
 #include "units.h"
 #include "units_serde.h"
+#include "concepts_utility.h"
 
 namespace detail
 {
@@ -30,7 +32,7 @@ class is_optional_helper<std::optional<T>> : public std::true_type
 };
 } // namespace detail
 template<typename T>
-class is_optional : public detail::is_optional_helper<typename std::decay<T>::type>
+class is_optional : public detail::is_optional_helper<std::decay_t<T>>
 {
 };
 
@@ -42,7 +44,7 @@ bool is_strict_enabled( const std::string &src );
 void report_strict_violation( const JsonObject &jo, const std::string &message,
                               const std::string &name );
 
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
+template <Arithmetic T>
 bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false,
              T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
@@ -94,7 +96,7 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
 // and also to avoid potentially nonsensical interactions between relative and proportional.
 bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict = false );
 
-template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
+template <Arithmetic T>
 bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val,
              bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
@@ -132,9 +134,9 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
 
 // Note: is_optional excludes any types based on std::optional, which is
 // handled below in a separate function.
-template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
-           int >::type = 0 >
+template < typename T>
 bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false )
+requires( std::is_class_v<T> && !is_optional<T>::value ) //*NOPAD*
 {
     T out;
     if( !jo.read( name, out ) ) {
@@ -151,9 +153,11 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     return true;
 }
 
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+namespace details
+{
+
+template <typename T, typename Set>
+bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
 {
     JsonObject add = jo.get_object( "extend" );
     add.allow_omitted_members();
@@ -161,7 +165,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     del.allow_omitted_members();
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags<T>( name );
+        val = jo.get_tags<T, Set>( name );
 
         if( add.has_member( name ) || del.has_member( name ) ) {
             // ill-formed to (re)define a value and then extend/delete within same definition
@@ -182,6 +186,90 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
         for( const auto &e : del.get_tags<T>( name ) ) {
             val.erase( e );
         }
+        res = true;
+    }
+
+    return res;
+}
+} // namespace details
+
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+{
+    return details::assign_set<T, std::set<T>>( jo, name, val );
+}
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, cata::flat_set<T> &val, bool = false )
+{
+    return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
+}
+
+// Map of sets, like in the case of magazines for a gun
+template <typename T1, typename T2>
+typename std::enable_if <
+std::is_constructible<T1, std::string>::value &&
+std::is_constructible<T2, std::string>::value,
+    bool
+    >::type assign(
+        const JsonObject &jo, const std::string &name, std::map<T1, std::set<T2>> &val, bool = false )
+{
+    JsonObject add = jo.get_object( "extend" );
+    add.allow_omitted_members();
+    JsonObject del = jo.get_object( "delete" );
+    del.allow_omitted_members();
+
+    if( jo.has_array( name ) ) {
+        val.clear();
+
+        for( JsonArray jarr : jo.get_array( name ) ) {
+            T1 lhs = T1( jarr.get_string( 0 ) );
+            for( const auto &e : jarr.get_tags( 1 ) ) {
+                val[lhs].insert( T2( e ) );
+            }
+        }
+
+        if( add.has_member( name ) || del.has_member( name ) ) {
+            // ill-formed to (re)define a value and then extend/delete within same definition
+            jo.throw_error( "multiple assignment of value", name );
+        }
+        return true;
+    }
+
+    bool res = false;
+
+    if( add.has_array( name ) ) {
+        JsonArray jarr_out = add.get_array( name );
+        while( jarr_out.has_more() ) {
+            JsonArray jarr = jarr_out.next_array();
+            T1 lhs = T1( jarr.get_string( 0 ) );
+            for( const auto &e : jarr.get_tags( 1 ) ) {
+                val[lhs].insert( T2( e ) );
+            }
+        }
+
+        res = true;
+    }
+
+    if( del.has_array( name ) ) {
+        JsonArray jarr_out = add.get_array( name );
+        while( jarr_out.has_more() ) {
+            JsonArray jarr = jarr_out.next_array();
+            T1 lhs = T1( jarr.get_string( 0 ) );
+            auto iter = val.find( lhs );
+            if( iter != val.end() ) {
+                for( const auto &e : jarr.get_tags<T2>( 1 ) ) {
+                    iter->second.erase( e );
+                }
+            }
+            if( iter->second.empty() ) {
+                val.erase( lhs );
+            }
+        }
+
         res = true;
     }
 
@@ -275,18 +363,17 @@ bool assign( const JsonObject &jo,
 
 // Kinda hacky way to avoid allowing multiplying temperature
 // For example, in 10 * 0 Fahrenheit, 10 * 0 Celsius - what's the expected result of those?
-template < typename lvt, typename ut, typename s,
-           typename std::enable_if_t<units::quantity_details<ut>::common_zero_point::value>* = nullptr>
+template < typename lvt, typename ut, typename s>
 inline units::quantity<lvt, ut> mult_unit( const JsonObject &, const std::string &,
         const units::quantity<lvt, ut> &val, const s scalar )
-{
+requires units::quantity_details<ut>::common_zero_point::value {
     return val * scalar;
 }
 
-template < typename lvt, typename ut, typename s,
-           typename std::enable_if_t < !units::quantity_details<ut>::common_zero_point::value > * = nullptr >
+template < typename lvt, typename ut, typename s>
 inline units::quantity<lvt, ut> mult_unit( const JsonObject &err, const std::string &name,
         const units::quantity<lvt, ut> &, const s )
+requires( !units::quantity_details<ut>::common_zero_point::value )
 {
     err.throw_error( "Multiplying units with multiple scales with different zero points is not well defined",
                      name );
@@ -366,16 +453,17 @@ bool assign( const JsonObject &jo,
 class time_duration;
 
 template<typename T>
-inline typename
-std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value, bool>::type
+inline bool
 read_with_factor( const JsonObject &jo, const std::string &name, T &val, const T &factor )
-{
+requires std::is_same_v<std::decay_t<T>, time_duration> {
     int tmp;
-    if( jo.read( name, tmp, false ) ) {
+    if( jo.read( name, tmp, false ) )
+    {
         // JSON contained a raw number -> apply factor
         val = tmp * factor;
         return true;
-    } else if( jo.has_string( name ) ) {
+    } else if( jo.has_string( name ) )
+    {
         // JSON contained a time duration string -> no factor
         val = read_from_json_string<time_duration>( *jo.get_raw( name ), time_duration::units );
         return true;
@@ -432,6 +520,11 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 
     return true;
 }
+
+bool assign( const JsonObject &jo,
+             const std::string &name,
+             resistances &val,
+             bool strict = false );
 
 template<typename T>
 inline bool assign( const JsonObject &jo, const std::string &name, std::optional<T> &val,

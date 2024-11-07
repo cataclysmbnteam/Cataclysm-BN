@@ -10,7 +10,7 @@
     "type": "requirement",
     "//": "Was previously mre_accessory comestible, merged to reduce clutter",
     "components": [
-      [ [ "pur_tablets", 6 ] ],
+      [ [ "pur_tablets", 1 ] ],
       [ [ "gummy_vitamins", 1 ] ],
       [ [ "coffee_raw", 1 ] ],
       [ [ "lemonade_powder", 1 ] ],

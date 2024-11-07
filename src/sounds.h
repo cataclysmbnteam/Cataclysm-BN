@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include "enum_traits.h"
 #include "units_angle.h"
 
 class Creature;
@@ -164,5 +165,10 @@ void do_fatigue();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx
+
+template<>
+struct enum_traits<sfx::channel> {
+    static constexpr auto last = sfx::channel::MAX_CHANNEL;
+};
 
 #endif // CATA_SRC_SOUNDS_H

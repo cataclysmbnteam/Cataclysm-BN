@@ -33,14 +33,14 @@ class safemode
                 std::string rule;
                 bool active;
                 bool whitelist;
-                Creature::Attitude attitude;
+                Attitude attitude;
                 int proximity;
                 Categories category;
 
-                rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
+                rules_class() : active( false ), whitelist( false ), attitude( Attitude::A_HOSTILE ),
                     proximity( 0 ), category( Categories::HOSTILE_SPOTTED ) {}
                 rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
-                             Creature::Attitude attitude_in, int proximity_in, Categories cat ) : rule( rule_in ),
+                             Attitude attitude_in, int proximity_in, Categories cat ) : rule( rule_in ),
                     active( active_in ), whitelist( whitelist_in ),
                     attitude( attitude_in ), proximity( proximity_in ), category( cat ) {}
         };
@@ -86,12 +86,12 @@ class safemode
     public:
         std::string lastmon_whitelist;
 
-        bool has_rule( const std::string &rule_in, Creature::Attitude attitude_in );
-        void add_rule( const std::string &rule_in, Creature::Attitude attitude_in,
+        bool has_rule( const std::string &rule_in, Attitude attitude_in );
+        void add_rule( const std::string &rule_in, Attitude attitude_in,
                        int proximity_in, rule_state state_in );
-        void remove_rule( const std::string &rule_in, Creature::Attitude attitude_in );
+        void remove_rule( const std::string &rule_in, Attitude attitude_in );
         void clear_character_rules();
-        rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
+        rule_state check_monster( const std::string &creature_name_in, Attitude attitude_in,
                                   int proximity_in ) const;
 
         bool is_sound_safe( const std::string &sound_name_in, int proximity_in ) const;

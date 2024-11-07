@@ -1,0 +1,10 @@
+[
+  {
+    "abstract": "metal_magazine",
+    "type": "uncraft",
+    "//": "Disassemble a primarily metal magazine",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 s"
+  }
+]

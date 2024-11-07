@@ -347,6 +347,7 @@
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -384,9 +385,11 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
@@ -420,12 +423,15 @@
       [ [ "identification_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
-      [ [ "lens", 1 ] ]
+      [ [ "lens", 1 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "sheet_metal_small", 24 ], [ "sheet_metal", 1 ] ]
     ]
   },
   {
@@ -478,9 +484,11 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
@@ -514,6 +522,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
@@ -548,6 +557,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
       [ [ "copbot_chassis", 1 ] ],
@@ -583,6 +593,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -611,6 +622,7 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "spidery_legs_small", 1 ] ],
@@ -649,7 +661,7 @@
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
-      [ [ "medium_storage_battery", 3 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "floodlight", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
@@ -680,6 +692,7 @@
       [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "m203", 6 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 3 ] ],
@@ -713,7 +726,8 @@
       [ [ "identification_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "gun_module", 1 ] ],
-      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "omnicamera", 1 ], [ "sensor_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "robot_controls", 1 ] ],
@@ -746,6 +760,7 @@
       [ [ "targeting_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "m16a4", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -776,6 +791,7 @@
       [ [ "ai_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
       [ [ "gun_module", 1 ] ],
       [ [ "targeting_module", 1 ] ],
       [ [ "m14ebr", 1 ] ],
@@ -815,11 +831,11 @@
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "superglue", 3 ] ],
       [ [ "cable", 5 ] ],
       [ [ "small_lcd_screen", 1 ] ],
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ]
+      [ [ "ai_module_basic", 1 ], [ "ai_module", 1 ], [ "ai_module_advanced", 1 ] ],
+      [ [ "omnicamera", 1 ], [ "sensor_module", 1 ], [ "camera", 1 ], [ "camera_pro", 1 ] ]
     ]
   }
 ]

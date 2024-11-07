@@ -50,7 +50,7 @@ class vitamin
         }
 
         bool has_flag( const std::string &flag ) const {
-            return flags_.count( flag ) > 0;
+            return flags_.contains( flag );
         }
 
         /** Disease effect with increasing intensity proportional to vitamin deficiency */

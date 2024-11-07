@@ -22,6 +22,9 @@ struct tripoint;
 // Remove that forward declaration after repair_activity_actor.
 class vehicle;
 
+template<typename T>
+class detached_ptr;
+
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
@@ -38,6 +41,7 @@ enum butcher_type : int {
     F_DRESS,        // field dressing a corpse
     SKIN,           // skinning a corpse
     QUARTER,        // quarter a corpse
+    BLEED,          // bleed a corpse
     DISMEMBER,      // destroy a corpse
     DISSECT         // dissect a corpse for CBMs
 };
@@ -57,6 +61,8 @@ enum class do_activity_reason : int {
     NEEDS_HARVESTING,       // For farming - tile is harvestable now.
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
+    NEEDS_WARM_WEATHER,     // For farming - need warm weather to plant
+    NEEDS_ABOVE_GROUND,     // For farming - can't plant seeds lacking `CAN_PLANT_UNDERGROUND` flag below z-level 0
     BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
     NEEDS_CHOPPING,         // There is wood there to be chopped
     NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
@@ -124,7 +130,17 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
-bool find_auto_consume( player &p, bool food );
+
+enum class consume_type : bool { FOOD, DRINK };
+
+/**
+ * @brief Find an item to consume automatically
+ *
+ * @param consume_type type of item to consume
+ * @return true player ate food or was nauseous
+ * @return false player did not find anything suitable or is a npc
+ */
+bool find_auto_consume( player &p, const consume_type type );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason {
@@ -134,10 +150,21 @@ enum class item_drop_reason {
     tumbling
 };
 
-void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
-void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               detached_ptr<item> &&it );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               std::vector<detached_ptr<item>> &items );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               std::vector<detached_ptr<item>> &items,
                                const tripoint &where, bool force_ground = false );
-void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               detached_ptr<item> &&it,
+                               const tripoint &where, bool force_ground = false );
+void drop_on_map( Character &c, item_drop_reason reason,
+                  std::vector<detached_ptr<item>> &items,
+                  const tripoint &where );
+void drop_on_map( Character &c, item_drop_reason reason,
+                  detached_ptr<item> &&it,
                   const tripoint &where );
 
 namespace activity_handlers
@@ -159,7 +186,6 @@ void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
 void hand_crank_do_turn( player_activity *act, player *p );
 void multiple_chop_planks_do_turn( player_activity *act, player *p );
-void oxytorch_do_turn( player_activity *act, player *p );
 void wear_do_turn( player_activity *act, player *p );
 void eat_menu_do_turn( player_activity *act, player *p );
 void consume_food_menu_do_turn( player_activity *act, player *p );
@@ -185,7 +211,6 @@ void cracking_do_turn( player_activity *act, player *p );
 void repair_item_do_turn( player_activity *act, player *p );
 void butcher_do_turn( player_activity *act, player *p );
 void pry_nails_do_turn( player_activity *act, player *p );
-void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void find_mount_do_turn( player_activity *act, player *p );
@@ -226,9 +251,7 @@ void vehicle_finish( player_activity *act, player *p );
 void start_engines_finish( player_activity *act, player *p );
 void churn_finish( player_activity *act, player *p );
 void plant_seed_finish( player_activity *act, player *p );
-void oxytorch_finish( player_activity *act, player *p );
 void cracking_finish( player_activity *act, player *p );
-void lockpicking_finish( player_activity *act, player *p );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );
@@ -248,7 +271,6 @@ void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
 void washing_finish( player_activity *act, player *p );
-void hacksaw_finish( player_activity *act, player *p );
 void pry_nails_finish( player_activity *act, player *p );
 void chop_tree_finish( player_activity *act, player *p );
 void chop_logs_finish( player_activity *act, player *p );

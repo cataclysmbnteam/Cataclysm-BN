@@ -459,5 +459,15 @@
     "sym": "#",
     "color": "light_blue",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "goblin_camp",
+    "name": "Goblin Camp",
+    "sym": "G",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
   }
 ]

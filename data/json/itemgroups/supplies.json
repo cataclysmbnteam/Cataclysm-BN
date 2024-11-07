@@ -44,6 +44,22 @@
     ]
   },
   {
+    "id": "supplies_household_cleaning",
+    "//": "General purpose cleaning solvents, detergents, and the like for around the kitchen, bathroom, and the like.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "soap", "prob": 25, "charges-min": 1 },
+      { "item": "detergent", "prob": 25, "charges-min": 1 },
+      { "item": "bleach", "prob": 15, "charges-min": 1 },
+      { "item": "ammonia", "prob": 15, "charges-min": 1 },
+      { "item": "vinegar", "prob": 5, "charges-min": 1 },
+      { "item": "lye", "prob": 5, "charges-min": 1 },
+      { "item": "lye_powder", "prob": 5, "charges-min": 1 },
+      { "item": "oxy_powder", "prob": 5, "charges-min": 1 }
+    ]
+  },
+  {
     "id": "paint",
     "type": "item_group",
     "items": [
@@ -112,7 +128,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
       [ "duct_tape", 200 ],
-      [ "superglue", 100 ],
+      { "item": "superglue", "prob": 100, "charges": [ 5, 10 ] },
       [ "string_6", 100 ],
       [ "string_36", 100 ],
       [ "rope_6", 100 ],
@@ -201,7 +217,7 @@
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       [ "solder_wire", 20 ],
-      [ "superglue", 30 ],
+      { "item": "superglue", "prob": 30, "charges": [ 5, 10 ] },
       [ "chain", 20 ],
       [ "rope_6", 4 ],
       [ "rope_30", 35 ],
@@ -245,7 +261,8 @@
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
-      [ "rigid_plastic_sheet", 30 ]
+      [ "rigid_plastic_sheet", 30 ],
+      [ "trash_can_empty", 25 ]
     ]
   },
   {
@@ -290,11 +307,12 @@
       [ "chem_agar", 10 ],
       [ "oxygen_tank", 6 ],
       [ "nitrogen_tank", 7 ],
-      [ "hydrogen_tank", 8 ],
+      { "item": "c_hydrogen_gas", "prob": 8, "container-item": "metal_tank_little", "charges": [ 1000, 2000 ] },
       [ "salt", 10 ],
       [ "sugar", 10 ],
       [ "chem_ethanol", 10 ],
-      [ "oxygen_cylinder", 8 ]
+      [ "oxygen_cylinder", 8 ],
+      { "item": "carbon_fiber_filament", "prob": 10, "count": [ 25, 50 ] }
     ]
   },
   {
@@ -347,7 +365,7 @@
       { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
       { "item": "copper", "prob": 10, "count": [ 1, 5 ] },
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 10 ] },
       { "item": "scrap_copper", "prob": 5, "count": [ 1, 10 ] },
       { "item": "wire", "prob": 5 },
       { "item": "scrap", "prob": 70, "count": [ 1, 10 ] }
@@ -381,6 +399,8 @@
       [ "wheel_bicycle_or", 5 ],
       [ "wheel_motorbike_or", 5 ],
       [ "wheel_slick", 5 ],
+      { "item": "seatbelt", "prob": 10, "count": [ 3, 10 ] },
+      { "item": "five-point_harness", "prob": 3, "count": [ 2, 4 ] },
       [ "1cyl_combustion", 10 ],
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
@@ -427,6 +447,25 @@
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],
       [ "well_pump", 50 ]
+    ]
+  },
+  {
+    "id": "spares_drivebelts",
+    "type": "item_group",
+    "//": "belts used for the MISSION_GET_DRIVEBELTS quest",
+    "items": [ [ "drivebelt", 200 ], [ "drivebelt_makeshift", 100 ] ]
+  },
+  {
+    "id": "blankets",
+    "type": "item_group",
+    "//": "Blankets used for the MISSION_LUMBERMILL_GET_6_BLANKETS quest",
+    "items": [
+      [ "blanket", 100 ],
+      [ "fur_blanket", 100 ],
+      [ "electric_blanket", 100 ],
+      [ "down_blanket", 100 ],
+      [ "afs_quilt", 100 ],
+      [ "afs_quilt_patchwork", 100 ]
     ]
   },
   {
@@ -549,12 +588,32 @@
     "id": "civilian_helicopter_parts",
     "type": "item_group",
     "//": "Parts for civilian helicopter",
-    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 50 ] ]
+    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 40 ], [ "homebuilt_gyrocopter_rotor", 10 ] ]
   },
   {
     "id": "military_helicopter_parts",
     "type": "item_group",
     "//": "GParts for military helicopter",
     "items": [ [ "medium_turbine_engine", 30 ], [ "large_turbine_engine", 20 ], [ "heavy_duty_military_rotor", 50 ] ]
+  },
+  {
+    "id": "survivor_currency",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "FMCNote", "prob": 80, "count": [ 1, 8 ] }, { "item": "RobofacCoin", "prob": 20, "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "3d_printing_raw_materials",
+    "subtype": "collection",
+    "entries": [
+      { "item": "plastic_chunk", "count": [ 5, 10 ] },
+      { "item": "plastic_scrap", "prob": 50, "count": [ 10, 20 ] },
+      { "item": "carbon_fiber_filament", "prob": 50, "count": [ 50, 100 ] },
+      {
+        "distribution": [ { "item": "rigid_plastic_sheet", "prob": 50 }, { "item": "plastic_sheet", "prob": 50 } ],
+        "prob": 50
+      }
+    ]
   }
 ]

@@ -22,6 +22,8 @@ std::string enum_to_string<precip_class>( precip_class data )
             return "very_light";
         case precip_class::light:
             return "light";
+        case precip_class::medium:
+            return "medium";
         case precip_class::heavy:
             return "heavy";
         case precip_class::last:

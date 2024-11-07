@@ -7,8 +7,8 @@
     "name": { "str": "MRE" },
     "category": "food",
     "description": "A generic MRE box, you shouldn't see this.",
-    "price": 1500,
-    "price_postapoc": 1500,
+    "price": "15 USD",
+    "price_postapoc": "15 USD",
     "weight": "725 g",
     "volume": "750 ml",
     "material": [ "plastic" ],
@@ -24,8 +24,8 @@
     "name": { "str": "MRE small box", "str_pl": "MRE small boxes" },
     "category": "food",
     "description": "A generic small MRE box, you shouldn't see this",
-    "price": 500,
-    "price_postapoc": 100,
+    "price": "5 USD",
+    "price_postapoc": "1 USD",
     "weight": "300 g",
     "volume": "250 ml",
     "material": [ "plastic" ],
@@ -45,8 +45,8 @@
     "healthy": 1,
     "calories": 320,
     "description": "A generic MRE entree, you shouldn't see this.",
-    "price": 1250,
-    "price_postapoc": 300,
+    "price": "1250 cent",
+    "price_postapoc": "3 USD",
     "volume": "250 ml",
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
@@ -247,7 +247,7 @@
     "copy-from": "mre_box",
     "name": { "str": "MRE - Frankfurters & Beans", "str_pl": "MREs - Frankfurters & Beans" },
     "description": "A vintage MRE, still perfectly preserved and edible.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
-    "price": 1000
+    "price": "10 USD"
   },
   {
     "type": "COMESTIBLE",
@@ -467,7 +467,7 @@
     "copy-from": "mre_entree",
     "name": "frankfurters & beans entree",
     "description": "The dreaded four fingers of death.  It seems to be several decades old.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "price": 850,
+    "price": "850 cent",
     "material": [ "flesh", "junk", "bean" ],
     "fun": -6
   }

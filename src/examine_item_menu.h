@@ -4,8 +4,6 @@
 
 #include <functional>
 
-#include "item_location.h"
-
 class avatar;
 class item;
 
@@ -18,7 +16,7 @@ enum class menu_pos_t {
 };
 
 bool run(
-    item_location loc,
+    item &loc,
     const std::function<int()> &func_pos_x,
     const std::function<int()> &func_width,
     menu_pos_t menu_pos
@@ -31,7 +29,9 @@ enum class hint_rating : int {
     /** Item should display as red (action impossible at the moment) */
     iffy,
     /** Item should display as green (action possible at the moment) */
-    good
+    good,
+    /** Item should display as bright red (kill list) */
+    blood
 };
 
 hint_rating rate_action_use( const avatar &you, const item &it );

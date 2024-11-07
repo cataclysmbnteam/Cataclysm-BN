@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -48,7 +49,7 @@ struct MOD_INFORMATION {
         std::string name() const;
         std::string description() const;
 
-        inline void set_translatable_info( translatable_mod_info &&tmi ) {
+        void set_translatable_info( translatable_mod_info &&tmi ) {
             translatable_info = std::move( tmi );
         }
 
@@ -75,6 +76,9 @@ struct MOD_INFORMATION {
          * Recommended use is to set latest mod update date here.
          */
         std::string version;
+
+        /** If mod uses Lua API, specifies version of the API being used. */
+        std::optional<int> lua_api_version;
 
         /** What other mods must be loaded prior to this one? */
         std::vector<mod_id> dependencies;

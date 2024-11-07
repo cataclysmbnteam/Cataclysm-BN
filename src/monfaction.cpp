@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "debug.h"
+#include "enum_conversions.h"
 #include "int_id.h"
 #include "json.h"
 #include "string_id.h"
@@ -59,11 +60,18 @@ const monfaction &string_id<monfaction>::obj() const
     return id().obj();
 }
 
+/** @relates int_id */
+template<>
+bool int_id<monfaction>::is_valid() const
+{
+    return faction_map.contains( this->id() );
+}
+
 /** @relates string_id */
 template<>
 bool string_id<monfaction>::is_valid() const
 {
-    return faction_map.count( *this ) > 0;
+    return faction_map.contains( *this );
 }
 
 /** @relates int_id */
@@ -97,7 +105,7 @@ static void apply_base_faction( mfaction_id base, mfaction_id faction_id )
     for( const auto &pair : base.obj().attitude_map ) {
         // Fill in values set in base faction, but not in derived one
         auto &faction = faction_list[faction_id.to_i()];
-        if( faction.attitude_map.count( pair.first ) == 0 ) {
+        if( !faction.attitude_map.contains( pair.first ) ) {
             faction.attitude_map.insert( pair );
         }
     }
@@ -152,7 +160,7 @@ void monfactions::finalize()
         }
 
         // Set faction as friendly to itself if not explicitly set to anything
-        if( faction.attitude_map.count( faction.loadid ) == 0 ) {
+        if( !faction.attitude_map.contains( faction.loadid ) ) {
             faction.attitude_map[faction.loadid] = MFA_FRIENDLY;
         }
     }
@@ -180,7 +188,7 @@ void monfactions::finalize()
     while( !queue.empty() ) {
         mfaction_id cur = queue.front();
         queue.pop();
-        if( unloaded.count( cur ) != 0 ) {
+        if( unloaded.contains( cur ) ) {
             unloaded.erase( cur );
         } else {
             debugmsg( "Tried to load monster faction %s more than once", cur.obj().id.c_str() );
@@ -227,6 +235,25 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
         const auto &faction = mfaction_str_id( k ).id();
         map[faction] = value;
     }
+}
+
+template<>
+std::string io::enum_to_string<mf_attitude>( mf_attitude att )
+{
+    switch( att ) {
+        case MFA_BY_MOOD:
+            return "ByMood";
+        case MFA_NEUTRAL:
+            return "Neutral";
+        case MFA_FRIENDLY:
+            return "Friendly";
+        case MFA_HATE:
+            return "Hate";
+        case NUM_MFA:
+            break;
+    }
+    debugmsg( "Invalid mf_attitude" );
+    abort();
 }
 
 void monfactions::load_monster_faction( const JsonObject &jo )

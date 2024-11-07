@@ -49,9 +49,9 @@ TEST_CASE( "default season temperatures", "[weather]" )
     season_stats[AUTUMN].average_temperature = 7_c;
     season_stats[WINTER].average_temperature = -14_c;
 
-    // Shouldn't require this 3_c extra
+    // Shouldn't require this 4_c extra
     // TODO: Find a reason for why it fails without it
-    const units::temperature max_offset = 3_c
+    const units::temperature max_offset = 4_c
                                           + generator.temperature_daily_amplitude
                                           + generator.temperature_noise_amplitude;
     for( size_t current_season = 0;

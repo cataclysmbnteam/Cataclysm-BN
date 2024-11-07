@@ -8,9 +8,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ]
   },
   {
     "type": "recipe",
@@ -23,7 +21,11 @@
     "time": "7 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 1 ], [ "chunk_rubber", 1 ], [ "wood_structural_small", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -77,9 +79,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ]
   },
   {
     "result": "blade_scythe",
@@ -90,9 +90,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 6 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 6 ], [ "steel_standard", 1 ] ]
   },
   {
     "result": "hinge",
@@ -101,11 +99,11 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "skills_required": [ "mechanics", 1 ],
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_tiny", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "result": "sheet_metal",
@@ -116,9 +114,8 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 5 ], [ "steel_standard", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 6 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "result": "sheet_metal",
@@ -142,9 +139,8 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_tiny", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -199,7 +195,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 36 ] ] ]
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail_glue", 36, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -222,10 +218,11 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "skills_required": [ "mechanics", 3 ],
     "time": "15 m",
     "reversible": true,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
-    "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
   }
 ]

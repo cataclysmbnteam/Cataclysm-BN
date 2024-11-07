@@ -16,6 +16,7 @@
 #include "enums.h"
 #include "field_type.h"
 #include "flood_fill.h"
+#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "line.h"
@@ -39,8 +40,6 @@ static const itype_id itype_hat_hard( "hat_hard" );
 static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
 
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
-static const mtype_id mon_ant_queen( "mon_ant_queen" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
@@ -113,6 +112,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
+            { "river_shore",      &mapgen_river_shore },
             { "parking_lot",      &mapgen_parking_lot },
             { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
@@ -125,27 +125,16 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 
             { "subway_straight",    &mapgen_subway },
             { "subway_curved",      &mapgen_subway },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
             { "subway_end",         &mapgen_subway },
             { "subway_tee",         &mapgen_subway },
             { "subway_four_way",    &mapgen_subway },
 
-            { "sewer_straight",    &mapgen_sewer_straight },
-            { "sewer_curved",      &mapgen_sewer_curved },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
-            { "sewer_end",         &mapgen_sewer_straight },
-            { "sewer_tee",         &mapgen_sewer_tee },
-            { "sewer_four_way",    &mapgen_sewer_four_way },
+            { "sewer_straight",    &mapgen_sewer },
+            { "sewer_curved",      &mapgen_sewer },
+            { "sewer_end",         &mapgen_sewer },
+            { "sewer_tee",         &mapgen_sewer },
+            { "sewer_four_way",    &mapgen_sewer },
 
-            { "ants_straight",    &mapgen_ants_straight },
-            { "ants_curved",      &mapgen_ants_curved },
-            // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
-            { "ants_end",         &mapgen_ants_straight },
-            { "ants_tee",         &mapgen_ants_tee },
-            { "ants_four_way",    &mapgen_ants_four_way },
-            { "ants_food", &mapgen_ants_food },
-            { "ants_larvae", &mapgen_ants_larvae },
-            { "ants_queen", &mapgen_ants_queen },
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
         }
@@ -165,15 +154,12 @@ ter_id grass_or_dirt()
 ter_id clay_or_sand()
 {
     if( one_in( 16 ) ) {
+        return t_alluvial_deposit;
+    }
+    if( one_in( 16 ) ) {
         return t_sand;
     }
     return t_clay;
-}
-
-void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
-{
-    const auto dir = terrain_type->get_dir();
-    m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +200,7 @@ void mapgen_crater( mapgendata &dat )
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( rng( 0, dat.w_fac ) <= i && rng( 0, dat.e_fac ) <= SEEX * 2 - 1 - i &&
                 rng( 0, dat.n_fac ) <= j && rng( 0, dat.s_fac ) <= SEEX * 2 - 1 - j ) {
-                m->ter_set( point( i, j ), t_dirt );
+                m->ter_set( point( i, j ), t_pit_shallow );
                 m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock );
                 m->set_radiation( point( i, j ), rng( 0, 4 ) * rng( 0, 2 ) );
             } else {
@@ -509,7 +495,7 @@ void mapgen_road( mapgendata &dat )
     int neighbor_sidewalks = 0;
     // N E S W NE SE SW NW
     for( int dir = 0; dir < 8; dir++ ) {
-        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( has_sidewalk );
+        sidewalks_neswx[dir] = dat.t_nesw[dir]->has_flag( oter_flags::has_sidewalk );
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
 
@@ -858,7 +844,7 @@ void mapgen_subway( mapgendata &dat )
 
     // N E S W
     for( int dir = 0; dir < 4; dir++ ) {
-        if( dat.t_nesw[dir]->has_flag( subway_connection ) && !subway_nesw[dir] ) {
+        if( dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) && !subway_nesw[dir] ) {
             num_dirs++;
             subway_nesw[dir] = true;
         }
@@ -873,7 +859,7 @@ void mapgen_subway( mapgendata &dat )
         }
 
         if( dat.t_nesw[dir]->get_type_id().str() != "subway" &&
-            !dat.t_nesw[dir]->has_flag( subway_connection ) ) {
+            !dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) ) {
             continue;
         }
         // n_* contain details about the neighbor being considered
@@ -881,7 +867,7 @@ void mapgen_subway( mapgendata &dat )
         // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
         for( int dir = 0; dir < 4; dir++ ) {
-            if( dat.t_nesw[dir]->has_flag( subway_connection ) && !n_subway_nesw[dir] ) {
+            if( dat.t_nesw[dir]->has_flag( oter_flags::subway_connection ) && !n_subway_nesw[dir] ) {
                 n_num_dirs++;
                 n_subway_nesw[dir] = true;
             }
@@ -1204,99 +1190,46 @@ void mapgen_subway( mapgendata &dat )
     m->rotate( rot );
 }
 
-void mapgen_sewer_straight( mapgendata &dat )
+void mapgen_sewer( mapgendata &dat )
 {
     map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < SEEX - 2 || i > SEEX + 1 ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_ew" ) {
-        m->rotate( 1 );
-    }
-}
 
-void mapgen_sewer_curved( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i > SEEX + 1 && j < SEEY - 2 ) || i < SEEX - 2 || j > SEEY + 1 ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_es" ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == "sewer_sw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "sewer_wn" ) {
-        m->rotate( 3 );
-    }
-}
+    bool sewer_nesw[4] = {};
+    int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), sewer_nesw );
 
-void mapgen_sewer_tee( mapgendata &dat )
-{
-    map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < SEEX - 2 || ( i > SEEX + 1 && ( j < SEEY - 2 || j > SEEY + 1 ) ) ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
+            bool fill = true;
+            if( j >= SEEY - 2 && j <= SEEY + 1 ) {
+                if( i <= SEEX - 2 ) {
+                    if( sewer_nesw[3] ) {
+                        fill = false;
+                    }
+                } else if( i >= SEEX + 1 ) {
+                    if( sewer_nesw[1] ) {
+                        fill = false;
+                    }
+                } else {
+                    // Central area, always empty
+                    fill = false;
+                }
+            } else if( i >= SEEX - 2 && i <= SEEX + 1 ) {
+                if( j <= SEEY - 2 ) {
+                    if( sewer_nesw[0] ) {
+                        fill = false;
+                    }
+                } else {
+                    if( sewer_nesw[2] ) {
+                        fill = false;
+                    }
+                }
             }
-        }
-    }
-    m->place_items( item_group_id( "sewer" ), 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
-    if( dat.terrain_type() == "sewer_esw" ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == "sewer_nsw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "sewer_new" ) {
-        m->rotate( 3 );
-    }
-}
 
-void mapgen_sewer_four_way( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    int rn = rng( 0, 3 );
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( i < SEEX - 2 || i > SEEX + 1 ) && ( j < SEEY - 2 || j > SEEY + 1 ) ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-            if( rn == 0 && ( trig_dist( point( i, j ), point( SEEX - 1, SEEY - 1 ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX - 1, SEEY ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX, SEEY - 1 ) ) <= 6 ||
-                             trig_dist( point( i, j ), point( SEEX, SEEY ) ) <= 6 ) ) {
-                m->ter_set( point( i, j ), t_sewage );
-            }
-            if( rn == 0 && ( i == SEEX - 1 || i == SEEX ) && ( j == SEEY - 1 || j == SEEY ) ) {
-                m->ter_set( point( i, j ), t_grate );
-            }
+            m->ter_set( point( i, j ), fill ? t_rock : t_sewage );
         }
     }
-    m->place_items( item_group_id( "sewer" ), 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                    dat.when() );
+    m->place_items( item_group_id( "sewer" ), 4 + ( num_dirs * 6 ), point_zero,
+                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
 void mapgen_highway( mapgendata &dat )
@@ -1695,8 +1628,7 @@ void mapgen_river_curved_not( mapgendata &dat )
             int circle_edge = ( ( SEEX * 2 - x ) * ( SEEX * 2 - x ) ) + ( y * y );
             if( circle_edge <= 8 ) {
                 m->ter_set( point( x, y ), grass_or_dirt() );
-            }
-            if( circle_edge == 9 && one_in( 25 ) ) {
+            } else if( circle_edge == 9 && one_in( 20 ) ) {
                 m->ter_set( point( x, y ), clay_or_sand() );
             } else if( circle_edge <= 36 ) {
                 m->ter_set( point( x, y ), t_water_moving_sh );
@@ -1724,7 +1656,7 @@ void mapgen_river_straight( mapgendata &dat )
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
-        if( one_in( 25 ) ) {
+        if( one_in( 20 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
         line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
@@ -1750,7 +1682,7 @@ void mapgen_river_curved( mapgendata &dat )
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
         line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
-        if( one_in( 25 ) ) {
+        if( one_in( 20 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
         line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
@@ -1759,7 +1691,7 @@ void mapgen_river_curved( mapgendata &dat )
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
         line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ) );
-        if( one_in( 25 ) ) {
+        if( one_in( 20 ) ) {
             m->ter_set( point( --ground_edge, y ), clay_or_sand() );
         }
         line( m, t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
@@ -1773,6 +1705,59 @@ void mapgen_river_curved( mapgendata &dat )
     }
     if( dat.terrain_type() == "river_nw" ) {
         m->rotate( 3 );
+    }
+}
+
+void mapgen_river_shore( mapgendata &dat )
+{
+    map *const m = &dat.m;
+    fill_background( m, t_water_moving_dp );
+
+    bool ground_neswx[8] = {};
+    // N E S W NE SE SW NW
+    for( int dir = 0; dir < 8; dir++ ) {
+        ground_neswx[dir] = !( dat.t_nesw[dir]->is_river() ||
+                               dat.t_nesw[dir]->is_lake() ||
+                               dat.t_nesw[dir]->is_lake_shore() );
+    }
+
+    // Draw shores on sides
+    for( int dir = 0; dir < 4; dir++ ) {
+        if( ground_neswx[dir] ) {
+            m->rotate( 4 - dir );
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                int ground_edge = rng( 1, 3 );
+                int shallow_edge = rng( 4, 6 );
+                line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
+                if( one_in( 20 ) ) {
+                    m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
+                }
+                line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+            }
+            m->rotate( dir );
+        }
+    }
+
+    // Bite corner, unless there's a shore already
+    for( int dir = 0; dir < 4; dir++ ) {
+        if( ground_neswx[dir + 4] && !ground_neswx[dir] && !ground_neswx[( dir + 1 ) % 4] ) {
+            m->rotate( 4 - dir );
+            int north_edge = rng( 16, 18 );
+            int east_edge = rng( 4, 8 );
+            for( int x = north_edge; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < east_edge; y++ ) {
+                    int circle_edge = ( ( SEEX * 2 - x ) * ( SEEX * 2 - x ) ) + ( y * y );
+                    if( circle_edge <= 8 ) {
+                        m->ter_set( point( x, y ), grass_or_dirt() );
+                    } else if( circle_edge == 9 && one_in( 20 ) ) {
+                        m->ter_set( point( x, y ), clay_or_sand() );
+                    } else if( circle_edge <= 36 ) {
+                        m->ter_set( point( x, y ), t_water_moving_sh );
+                    }
+                }
+            }
+            m->rotate( dir );
+        }
     }
 }
 
@@ -1799,7 +1784,7 @@ void mapgen_parking_lot( mapgendata &dat )
                     dat.when() );
     for( int i = 1; i < 4; i++ ) {
         const std::string &id = dat.t_nesw[i].id().str();
-        if( id.size() > 5 && id.find( "road_" ) == 0 ) {
+        if( id.size() > 5 && id.starts_with( "road_" ) ) {
             m->rotate( i );
         }
     }
@@ -2086,285 +2071,6 @@ void mapgen_hellmouth( mapgendata &dat )
 
 }
 
-void mapgen_ants_curved( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    point p( SEEX, 1 );
-    int rn = 0;
-    // First, set it all to rock
-    fill_background( m, t_rock );
-
-    for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-        m->ter_set( point( i, 0 ), t_rock_floor );
-        m->ter_set( point( i, 1 ), t_rock_floor );
-        m->ter_set( point( i, 2 ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 1, i ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 2, i ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 3, i ), t_rock_floor );
-    }
-    do {
-        for( int i = p.x - 2; i <= p.x + 3; i++ ) {
-            for( int j = p.y - 2; j <= p.y + 3; j++ ) {
-                if( i > 0 && i < SEEX * 2 - 1 && j > 0 && j < SEEY * 2 - 1 ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
-                }
-            }
-        }
-        if( rn < SEEX ) {
-            p.x += rng( -1, 1 );
-            p.y++;
-        } else {
-            p.x++;
-            if( !one_in( p.x - SEEX ) ) {
-                p.y += rng( -1, 1 );
-            } else if( p.y < SEEY ) {
-                p.y++;
-            } else if( p.y > SEEY ) {
-                p.y--;
-            }
-        }
-        rn++;
-    } while( p.x < SEEX * 2 - 1 || p.y != SEEY );
-    for( int i = p.x - 2; i <= p.x + 3; i++ ) {
-        for( int j = p.y - 2; j <= p.y + 3; j++ ) {
-            if( i > 0 && i < SEEX * 2 - 1 && j > 0 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( dat.terrain_type() == "ants_es" ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == "ants_sw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "ants_wn" ) {
-        m->rotate( 3 );
-    }
-
-}
-
-void mapgen_ants_four_way( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    fill_background( m, t_rock );
-    int x = SEEX;
-    for( int j = 0; j < SEEY * 2; j++ ) {
-        for( int i = x - 2; i <= x + 3; i++ ) {
-            if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        x += rng( -1, 1 );
-        while( std::abs( SEEX - x ) > SEEY * 2 - j - 1 ) {
-            if( x < SEEX ) {
-                x++;
-            }
-            if( x > SEEX ) {
-                x--;
-            }
-        }
-    }
-
-    int y = SEEY;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = y - 2; j <= y + 3; j++ ) {
-            if( j >= 1 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        y += rng( -1, 1 );
-        while( std::abs( SEEY - y ) > SEEX * 2 - i - 1 ) {
-            if( y < SEEY ) {
-                y++;
-            }
-            if( y > SEEY ) {
-                y--;
-            }
-        }
-    }
-
-}
-
-void mapgen_ants_straight( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    int x = SEEX;
-    fill_background( m, t_rock );
-    for( int j = 0; j < SEEY * 2; j++ ) {
-        for( int i = x - 2; i <= x + 3; i++ ) {
-            if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        x += rng( -1, 1 );
-        while( std::abs( SEEX - x ) > SEEX * 2 - j - 1 ) {
-            if( x < SEEX ) {
-                x++;
-            }
-            if( x > SEEX ) {
-                x--;
-            }
-        }
-    }
-    if( dat.terrain_type() == "ants_ew" ) {
-        m->rotate( 1 );
-    }
-
-}
-
-void mapgen_ants_tee( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    fill_background( m, t_rock );
-    int x = SEEX;
-    for( int j = 0; j < SEEY * 2; j++ ) {
-        for( int i = x - 2; i <= x + 3; i++ ) {
-            if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        x += rng( -1, 1 );
-        while( std::abs( SEEX - x ) > SEEY * 2 - j - 1 ) {
-            if( x < SEEX ) {
-                x++;
-            }
-            if( x > SEEX ) {
-                x--;
-            }
-        }
-    }
-    int y = SEEY;
-    for( int i = SEEX; i < SEEX * 2; i++ ) {
-        for( int j = y - 2; j <= y + 3; j++ ) {
-            if( j >= 1 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-        y += rng( -1, 1 );
-        while( std::abs( SEEY - y ) > SEEX * 2 - 1 - i ) {
-            if( y < SEEY ) {
-                y++;
-            }
-            if( y > SEEY ) {
-                y--;
-            }
-        }
-    }
-    if( dat.terrain_type() == "ants_new" ) {
-        m->rotate( 3 );
-    }
-    if( dat.terrain_type() == "ants_nsw" ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == "ants_esw" ) {
-        m->rotate( 1 );
-    }
-
-}
-
-static void mapgen_ants_generic( mapgendata &dat )
-{
-    map *const m = &dat.m;
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < SEEX - 4 || i > SEEX + 5 || j < SEEY - 4 || j > SEEY + 5 ) {
-                m->ter_set( point( i, j ), t_rock );
-            } else {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    int rn = rng( 10, 20 );
-    point p;
-    for( int n = 0; n < rn; n++ ) {
-        int cw = rng( 1, 8 );
-        do {
-            p.x = rng( 1 + cw, SEEX * 2 - 2 - cw );
-            p.y = rng( 1 + cw, SEEY * 2 - 2 - cw );
-        } while( m->ter( p ) == t_rock );
-        for( int i = p.x - cw; i <= p.x + cw; i++ ) {
-            for( int j = p.y - cw; j <= p.y + cw; j++ ) {
-                if( trig_dist( p, point( i, j ) ) <= cw ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
-                }
-            }
-        }
-    }
-    if( connects_to( dat.north(), 2 ) ||
-        is_ot_match( "ants_lab", dat.north(), ot_match_type::contains ) ) {
-        for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-            for( int j = 0; j <= SEEY; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.east(), 3 ) ||
-        is_ot_match( "ants_lab", dat.east(), ot_match_type::contains ) ) {
-        for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
-            for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.south(), 0 ) ||
-        is_ot_match( "ants_lab", dat.south(), ot_match_type::contains ) ) {
-        for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-            for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( connects_to( dat.west(), 1 ) ||
-        is_ot_match( "ants_lab", dat.west(), ot_match_type::contains ) ) {
-        for( int i = 0; i <= SEEX; i++ ) {
-            for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
-            }
-        }
-    }
-    if( dat.terrain_type() == "ants_food" ) {
-        m->place_items( item_group_id( "ant_food" ), 92, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                        true, dat.when() );
-    } else {
-        m->place_items( item_group_id( "ant_egg" ),  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                        true, dat.when() );
-    }
-    if( dat.terrain_type() == "ants_queen" ) {
-        m->add_spawn( mon_ant_queen, 1, { SEEX, SEEY, m->get_abs_sub().z } );
-    } else if( dat.terrain_type() == "ants_larvae" ) {
-        m->add_spawn( mon_ant_larva, 10, { SEEX, SEEY, m->get_abs_sub().z } );
-    }
-
-}
-
-void mapgen_ants_food( mapgendata &dat )
-{
-    mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_food" ), 92, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                       true,
-                       dat.when() );
-}
-
-void mapgen_ants_larvae( mapgendata &dat )
-{
-    mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                       true,
-                       dat.when() );
-    dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
-}
-
-void mapgen_ants_queen( mapgendata &dat )
-{
-    mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                       true,
-                       dat.when() );
-    dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
-}
-
 void mapgen_tutorial( mapgendata &dat )
 {
     map *const m = &dat.m;
@@ -2471,6 +2177,7 @@ void mapgen_forest( mapgendata &dat )
             return 0;
         }
         std::vector<int> factors;
+        factors.reserve( dat.region.forest_composition.biomes.size() );
         for( auto &b : dat.region.forest_composition.biomes ) {
             factors.push_back( b.second.sparseness_adjacency_factor );
         }
@@ -2884,269 +2591,268 @@ void mapgen_lake_shore( mapgendata &dat )
     // If we didn't extend an adjacent terrain, then just fill this entire location with the default
     // groundcover for the region.
     if( !did_extend_adjacent_terrain ) {
-        dat.fill_groundcover();
+        if( dat.zlevel() >= 0 ) {
+            dat.fill_groundcover();
+        } else {
+            fill_background( m, t_rock );
+        }
     }
 
     const oter_id river_center( "river_center" );
 
-    auto is_lake = [&]( const oter_id & id ) {
-        // We want to consider river_center as a lake as well, so that the confluence of a
-        // river and a lake is a continuous water body.
-        return id.obj().is_lake() || id == river_center;
+    enum class n_type {
+        lake,
+        shore,
+        river,
+        solid
     };
+    n_type neighbours[8];
 
-    const auto is_shore = [&]( const oter_id & id ) {
-        return id.obj().is_lake_shore();
-    };
+    int lakes = 0;
+    for( int i = 0; i < 8; i++ ) {
+        const oter_id n = dat.t_nesw[i];
 
-    const auto is_river_bank = [&]( const oter_id & id ) {
-        return id != river_center && id.obj().is_river();
-    };
-
-    const bool n_lake  = is_lake( dat.north() );
-    const bool e_lake  = is_lake( dat.east() );
-    const bool s_lake  = is_lake( dat.south() );
-    const bool w_lake  = is_lake( dat.west() );
-    const bool nw_lake = is_lake( dat.nwest() );
-    const bool ne_lake = is_lake( dat.neast() );
-    const bool se_lake = is_lake( dat.seast() );
-    const bool sw_lake = is_lake( dat.swest() );
+        if( n == river_center || n.obj().is_lake() ) {
+            neighbours[i] = n_type::lake;
+            lakes++;
+        } else if( n.obj().is_lake_shore() ) {
+            neighbours[i] = n_type::shore;
+        } else if( n.obj().is_river() ) {
+            neighbours[i] = n_type::river;
+        } else {
+            neighbours[i] = n_type::solid;
+        }
+    }
 
     // If we don't have any adjacent lakes, then we don't need to worry about a shoreline,
     // and are done at this point.
-    const bool no_adjacent_water = !n_lake && !e_lake && !s_lake && !w_lake && !nw_lake && !ne_lake &&
-                                   !se_lake && !sw_lake;
-    if( no_adjacent_water ) {
+    if( lakes == 0 ) {
         return;
     }
 
-    // I'm pretty unhappy with this block of if statements that follows, but got frustrated/sidetracked
-    // in finding a more elegant solution. This is functional, but improvements that maintain the result
-    // are welcome. The basic jist is as follows:
-    //
-    // Given our current location and the 8 adjacent locations, we classify them all as lake, lake shore,
-    // river bank, or something else that we don't care about. We then create a polygon with four points,
-    // one in each corner of our location. Then, based on the permutations of possible adjacent location
-    // types, we manipulate the four points of our polygon to generate the rough outline of our shore. The
-    // area inside the polygon will retain our ground we generated, while the area outside will get turned
-    // into the shoreline with shallow and deep water.
-    //
-    // For example, if we have forests to the west, the lake to the east, and more shore north and south of
-    // us, like this...
-    //
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //
-    // ...then what we want to do with our polygon is push our eastern points to the west. If the north location
-    // were instead a continuation of the lake, with a commensurate shoreline like this...
-    //
-    //     | --- | --- | --- |
-    //     | S   | L   | L   |
-    //     | --- | --- | --- |
-    //     | S   | S   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //
-    // ...then we still need to push our eastern points to the west, but we also need to push our northern
-    // points south, and since we don't want such a blocky shoreline at our corners, we also want to
-    // push the north-eastern point even further south-west.
-    //
-    // Things get even more complicated when we transition into a river bank--they have their own style of
-    // mapgen, and while things don't have to be seamless, I did want the lake shores to fairly smoothly
-    // transition into them, so if we have a river bank adjacent like this...
-    //
-    //     | --- | --- | --- |
-    //     | F   | R   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //
-    // ...then we need to push our adjacent corners in even more for a good transition.
-    //
-    // At the end of all this, we'll have our basic four point polygon that we'll then inspect and use
-    // to create the line-segments that will form our shoreline, but more on in a bit.
+    // Each shore have up to 8 connection points where coast line can be attached. Let's say
+    // we have river_north at the west, it will be attached to slot 2.  Another shore at the
+    // north, with one mutual lake at NE, it will be attached to slot 1. One more shore at east
+    // with two mutual lakes at SE and NE, that'll make it attach to both 6 and 7 slots. That's
+    // what we need to get in the end:
 
-    const bool n_shore = is_shore( dat.north() );
-    const bool e_shore = is_shore( dat.east() );
-    const bool s_shore = is_shore( dat.south() );
-    const bool w_shore = is_shore( dat.west() );
+    //  -1----0-
+    // |....    |      Overmap:
+    // 2........7        FSL
+    // | .......|        R@S
+    // 3  ......6        LLL
+    // |        |
+    //  -4----5-
 
-    const bool n_river_bank = is_river_bank( dat.north() );
-    const bool e_river_bank = is_river_bank( dat.east() );
-    const bool s_river_bank = is_river_bank( dat.south() );
-    const bool w_river_bank = is_river_bank( dat.west() );
+    // So far we have four points(1, 2, 6 and 7) which need to be connected to matching pairs.
+    // To do so first we need to know where the water is relating to our points.  If there's two
+    // points on one side(1+2, 3+4, 5+6, 7+8) it means that's a shore with a ground is between
+    // of those points. If we have only one point on side it means that water is directed toward
+    // middle of side. So, to find a pair for a point we're determining direction, and then
+    // checking other points either clockwise, or counter clockwise. At the end we'll have two
+    // lines 1->7 and 2->6 which will for our shore lines after some jittering.
+
+
+    const bool n_lake  = neighbours[0] == n_type::lake;
+    const bool e_lake  = neighbours[1] == n_type::lake;
+    const bool s_lake  = neighbours[2] == n_type::lake;
+    const bool w_lake  = neighbours[3] == n_type::lake;
+    const bool ne_lake = neighbours[4] == n_type::lake;
+    const bool se_lake = neighbours[5] == n_type::lake;
+    const bool sw_lake = neighbours[6] == n_type::lake;
+    const bool nw_lake = neighbours[7] == n_type::lake;
+
+    const bool n_shore = neighbours[0] == n_type::shore;
+    const bool e_shore = neighbours[1] == n_type::shore;
+    const bool s_shore = neighbours[2] == n_type::shore;
+    const bool w_shore = neighbours[3] == n_type::shore;
+
+    const bool n_river_bank = neighbours[0] == n_type::river;
+    const bool e_river_bank = neighbours[1] == n_type::river;
+    const bool s_river_bank = neighbours[2] == n_type::river;
+    const bool w_river_bank = neighbours[3] == n_type::river;
+
+    const bool n_water  = neighbours[0] != n_type::solid;
+    const bool e_water  = neighbours[1] != n_type::solid;
+    const bool s_water  = neighbours[2] != n_type::solid;
+    const bool w_water  = neighbours[3] != n_type::solid;
+    const bool ne_water = neighbours[4] != n_type::solid;
+    const bool se_water = neighbours[5] != n_type::solid;
+    const bool sw_water = neighbours[6] != n_type::solid;
+    const bool nw_water = neighbours[7] != n_type::solid;
 
     // This is length we end up pushing things about by as a baseline.
+    const int mx = SEEX * 2 - 1;
+    const int my = SEEY * 2 - 1;
     const int sector_length = SEEX * 2 / 3;
 
     // Define the corners of the map. These won't change.
-    static constexpr point nw_corner{};
-    static constexpr point ne_corner( SEEX * 2 - 1, 0 );
-    static constexpr point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
-    static constexpr point sw_corner( 0, SEEY * 2 - 1 );
+    // NOLINTNEXTLINE(cata-point-initialization, cata-use-named-point-constants)
+    static constexpr point nw_corner( 0, 0 );
+    static constexpr point ne_corner( mx, 0 );
+    static constexpr point se_corner( mx, my );
+    static constexpr point sw_corner( 0, my );
 
-    // Define the four points that make up our polygon that we'll later pull line segments from for
-    // the actual shoreline.
-    point nw = nw_corner;
-    point ne = ne_corner;
-    point se = se_corner;
-    point sw = sw_corner;
+    static constexpr point river_beach_x( sector_length / 2, 0 );
+    static constexpr point river_beach_y( 0, sector_length / 2 );
+    static constexpr point lake_beach_x( sector_length * 2, 0 );
+    static constexpr point lake_beach_y( 0, sector_length * 2 );
 
-    std::vector<std::vector<point>> line_segments;
+    std::vector<point> shore_points;
+    std::map<int, point> slots;
 
-    // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual lake.
-    if( n_lake ) {
-        nw.y += sector_length;
-        ne.y += sector_length;
-    }
-
-    if( s_lake ) {
-        sw.y -= sector_length;
-        se.y -= sector_length;
-    }
-
-    if( w_lake ) {
-        nw.x += sector_length;
-        sw.x += sector_length;
-    }
-
-    if( e_lake ) {
-        ne.x -= sector_length;
-        se.x -= sector_length;
-    }
-
-    // This section is about pushing the corners inward when adjacent to a lake that curves into a river bank.
+    // We need to detect whether river bank is touching this map with its side, or corner, and where.
+    // Checking our surrounding can give just enough information for that
     if( n_river_bank ) {
-        if( w_lake && nw_lake ) {
-            nw.x += sector_length;
+        if( nw_water && ( !ne_water || !e_water ) ) {
+            slots[0] = ne_corner - river_beach_x;
         }
-
-        if( e_lake && ne_lake ) {
-            ne.x -= sector_length;
-        }
-    }
-
-    if( e_river_bank ) {
-        if( s_lake && se_lake ) {
-            se.y -= sector_length;
-        }
-
-        if( n_lake && ne_lake ) {
-            ne.y += sector_length;
-        }
-    }
-
-    if( s_river_bank ) {
-        if( w_lake && sw_lake ) {
-            sw.x += sector_length;
-        }
-
-        if( e_lake && se_lake ) {
-            se.x -= sector_length;
+        if( ne_water && ( !nw_water || !w_water ) ) {
+            slots[1] = nw_corner + river_beach_x;
         }
     }
 
     if( w_river_bank ) {
-        if( s_lake && sw_lake ) {
-            sw.y -= sector_length;
+        if( sw_water && ( !nw_water || !n_water ) ) {
+            slots[2] = nw_corner + river_beach_y;
         }
-
-        if( n_lake && nw_lake ) {
-            nw.y += sector_length;
-        }
-    }
-
-    // This section is about pushing the corners inward when we've got a lake in the corner that
-    // either has lake adjacent to it and us, or more shore adjacent to it and us. Note that in the
-    // case of having two shores adjacent, we end up adding a new line segment that isn't part of
-    // our original set--we end up cutting the corner off our polygonal box.
-    if( nw_lake ) {
-        if( n_lake && w_lake ) {
-            nw.x += sector_length / 2;
-            nw.y += sector_length / 2;
-        } else if( n_shore && w_shore ) {
-            point n = nw_corner;
-            point w = nw_corner;
-
-            n.x += sector_length;
-            w.y += sector_length;
-
-            line_segments.push_back( { n, w } );
+        if( nw_water && ( !sw_water || !s_water ) ) {
+            slots[3] = sw_corner - river_beach_y;
         }
     }
 
-    if( ne_lake ) {
-        if( n_lake && e_lake ) {
-            ne.x -= sector_length / 2;
-            ne.y += sector_length / 2;
-        } else if( n_shore && e_shore ) {
-            point n = ne_corner;
-            point e = ne_corner;
-
-            n.x -= sector_length;
-            e.y += sector_length;
-
-            line_segments.push_back( { n, e } );
+    if( s_river_bank ) {
+        if( se_water && ( !sw_water || !w_water ) ) {
+            slots[4] = sw_corner + river_beach_x;
+        }
+        if( sw_water && ( !se_water || !e_water ) ) {
+            slots[5] = se_corner - river_beach_x;
         }
     }
 
-    if( sw_lake ) {
-        if( s_lake && w_lake ) {
-            sw.x += sector_length / 2;
-            sw.y -= sector_length / 2;
-        } else if( s_shore && w_shore ) {
-            point s = sw_corner;
-            point w = sw_corner;
-
-            s.x += sector_length;
-            w.y -= sector_length;
-
-            line_segments.push_back( { s, w } );
+    if( e_river_bank ) {
+        if( ne_water && ( !se_water || !s_water ) ) {
+            slots[6] = se_corner - river_beach_y;
+        }
+        if( se_water && ( !ne_water || !n_water ) ) {
+            slots[7] = ne_corner + river_beach_y;
         }
     }
 
-    if( se_lake ) {
-        if( s_lake && e_lake ) {
-            se.x -= sector_length / 2;
-            se.y -= sector_length / 2;
-        } else if( s_shore && e_shore ) {
-            point s = se_corner;
-            point e = se_corner;
-
-            s.x -= sector_length;
-            e.y -= sector_length;
-
-            line_segments.push_back( { s, e } );
+    // Shores are weird beings, they can be found not only on coast, but also in open ground,
+    // and in middle of lake. We need to connect to those ones which neighbouring same lake surface
+    if( n_shore ) {
+        if( nw_lake || w_lake ) {
+            slots[0] = ne_corner - lake_beach_x;
+        }
+        if( ne_lake || e_lake ) {
+            slots[1] = nw_corner + lake_beach_x;
         }
     }
 
-    // Ok, all of the fiddling with the polygon corners is done.
-    // At this point we've got four points that make up four line segments that started out
-    // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
-    // Let's look at them and see which ones differ from their original state and should
-    // form our shoreline.
-    if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
-        line_segments.push_back( { nw, ne } );
+    if( w_shore ) {
+        if( sw_lake || s_lake ) {
+            slots[2] = nw_corner + lake_beach_y;
+        }
+        if( nw_lake || n_lake ) {
+            slots[3] = sw_corner - lake_beach_y;
+        }
     }
 
-    if( ne.x != ne_corner.x || se.x != se_corner.x ) {
-        line_segments.push_back( { ne, se } );
+    if( s_shore ) {
+        if( se_lake || e_lake ) {
+            slots[4] = sw_corner + lake_beach_x;
+        }
+        if( sw_lake || w_lake ) {
+            slots[5] = se_corner - lake_beach_x;
+        }
     }
 
-    if( se.y != se_corner.y || sw.y != sw_corner.y ) {
-        line_segments.push_back( { se, sw } );
+    if( e_shore ) {
+        if( ne_lake || n_lake ) {
+            slots[6] = se_corner - lake_beach_y;
+        }
+        if( se_lake || s_lake ) {
+            slots[7] = ne_corner + lake_beach_y;
+        }
     }
 
-    if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
-        line_segments.push_back( { sw, nw } );
+    std::vector<std::vector<point>> line_segments;
+    // Ok, now we know everything we need about adjacent terrain, time to link the points
+
+    bool open[8] = { false };
+    for( int i = 0; i < 8; i++ ) {
+        open[i] = slots.contains( i );
+        // Shores with two connections per side have overlapping offsets, we need to swap them
+        if( i % 2 && open[i] && open[i - 1] ) {
+            point p = slots[i];
+            slots[i] = slots[i - 1];
+            slots[i - 1] = p;
+        }
+    }
+
+    for( int i = 0; i < 8; i++ ) {
+        if( !open[i] ) {
+            continue;
+        }
+
+        // Check the next slot, and inverse direction if any
+        int next = i % 2 == 0 ? 1 : -1;
+        int dir = slots.contains( i + next ) ? -next : next;
+
+        // Now make a full round loop from our current point
+        int pair = i;
+        for( int j = modulo( i + dir, 8 ); j != i; j = modulo( j + dir, 8 ) ) {
+            if( open[j] ) {
+                pair = j;
+                break;
+            }
+        }
+
+        if( pair == i ) {
+            // No pair. Let's attach coast line to the middle of closest non-water tile
+            bool water[8] = { n_water, n_water, w_water, w_water, s_water, s_water, e_water, e_water };
+            int fallback = i;
+            for( int j = modulo( i + dir, 8 ); j != i; j = modulo( j + dir, 8 ) ) {
+                if( !water[j] ) {
+                    fallback = j;
+                    break;
+                }
+            }
+            if( fallback < 2 ) {
+                line_segments.push_back( { slots[i], { mx / 2, 0 } } );
+            } else if( fallback < 4 ) {
+                line_segments.push_back( { slots[i], { 0, my / 2 } } );
+            } else if( fallback < 6 ) {
+                line_segments.push_back( { slots[i], { mx / 2, my } } );
+            } else if( fallback < 8 ) {
+                line_segments.push_back( { slots[i], { mx, my / 2 } } );
+            }
+        } else if( pair == i + next ) {
+            // We returned to our neighbour on same side, let's connect them in the middle
+            point mid = { mx / 2, my / 2 };
+            line_segments.push_back( { mid, slots[i] } );
+            line_segments.push_back( { mid, slots[pair] } );
+        } else {
+            // Make a shore line with given two points
+            line_segments.push_back( { slots[i], slots[pair] } );
+        }
+
+        // Close both points, so we won't link anything to them again
+        open[i] = false;
+        open[pair] = false;
+    }
+
+    // We have no shores at all, make a small reef surrounded by water
+    if( line_segments.empty() ) {
+        point nw_inner = nw_corner + point( sector_length, sector_length );
+        point ne_inner = ne_corner + point( -sector_length, sector_length );
+        point se_inner = se_corner + point( -sector_length, -sector_length );
+        point sw_inner = sw_corner + point( sector_length, -sector_length );
+        line_segments.insert( line_segments.end(), {
+            {ne_inner, nw_inner}, {nw_inner, sw_inner},
+            {sw_inner, se_inner}, {se_inner, ne_inner}
+        } );
     }
 
     static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
@@ -3169,14 +2875,26 @@ void mapgen_lake_shore( mapgendata &dat )
         }
     };
 
+    // We need to have same shoreline on different z levels, to match surface shore
+    // with submerged shore, to do so we'll jitter shore lines using deterministic
+    // random seeded with x\y coordinates
+    // NOLINTNEXTLINE(cata-determinism)
+    std::mt19937 prng( std::hash<point_abs_omt>()( dat.pos.xy() ) ^ g->get_seed() );
+
     // Given two points, return a point that is midway between the two points and then
     // jittered by a random amount in proportion to the length of the line segment.
     const auto jittered_midpoint = [&]( point  from, point  to ) {
         const int jitter = rl_dist( from, to ) / 4;
-        const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
-                              ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
+        std::uniform_int_distribution<int> roll( -jitter, jitter );
+        const point midpoint( ( from.x + to.x ) / 2 + roll( prng ),
+                              ( from.y + to.y ) / 2 + roll( prng ) );
         return midpoint;
     };
+
+    ter_id edge_tile = dat.zlevel() >= 0 ? t_water_sh : t_rock;
+    ter_id water_tile = dat.zlevel() >= 0 ? t_water_dp :
+                        dat.zlevel() == dat.region.overmap_lake.lake_depth ? t_lake_bed :
+                        t_water_cube;
 
     // For each of our valid shoreline line segments, generate a slightly more interesting
     // set of line segments by splitting the line into four segments with jittered
@@ -3208,7 +2926,7 @@ void mapgen_lake_shore( mapgendata &dat )
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
         for( auto &wp : water_points ) {
-            m->ter_set( wp, t_water_dp );
+            m->ter_set( wp, water_tile );
             m->furn_set( wp, f_null );
         }
     };
@@ -3233,7 +2951,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
-    m->translate( t_null, t_water_sh );
+    m->translate( t_null, edge_tile );
 }
 
 void mremove_trap( map *m, point p )

@@ -40,7 +40,8 @@
       { "item": "crt_la_boots", "prob": 20 },
       { "item": "crt_chestrig", "prob": 10 },
       { "item": "crt_iduster", "prob": 10 },
-      { "item": "army_top", "prob": 50 },
+      { "item": "crt_jacket", "prob": 50 },
+      { "item": "crt_pants", "prob": 50 },
       { "item": "crt_legrig", "prob": 20 },
       { "item": "crt_earmor", "prob": 5 },
       { "item": "crt_earmor_boots", "prob": 5 },
@@ -97,16 +98,43 @@
     "items": [
       {
         "distribution": [
-          { "collection": [ { "item": "crt_legguard" }, { "item": "crt_legguard" } ], "prob": 75 },
+          { "collection": [ { "item": "crt_rec_duster" }, { "item": "crt_rec_hat", "prob": 50 } ], "prob": 50 },
+          { "collection": [ { "item": "crt_legguard" }, { "item": "crt_legguard" } ], "prob": 25 },
           { "item": "crt_aarmor", "prob": 15 },
           {
             "collection": [ { "item": "crt_sarmor" }, { "distribution": [ { "item": "crt_earmor" }, { "item": "crt_warmor" } ] } ],
             "prob": 10
           }
         ],
-        "prob": 5
+        "prob": 10
       }
     ]
+  },
+  {
+    "id": "clothing_military_winter",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
+    "items": [
+      {
+        "distribution": [
+          { "collection": [ { "item": "crt_rec_duster" }, { "item": "crt_rec_hat", "prob": 50 } ], "prob": 50 },
+          { "collection": [ { "item": "crt_legguard" }, { "item": "crt_legguard" } ], "prob": 25 },
+          { "item": "crt_aarmor", "prob": 15 },
+          {
+            "collection": [ { "item": "crt_sarmor" }, { "distribution": [ { "item": "crt_earmor" }, { "item": "crt_warmor" } ] } ],
+            "prob": 10
+          }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "id": "clothing_soldier_shirt",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "distribution": [ { "item": "tshirt", "prob": 4 }, { "item": "crt_jacket", "prob": 1 } ] } ]
   },
   {
     "type": "item_group",

@@ -11,6 +11,7 @@
 #   LTO         Set to 1 to enable link-time optimization.
 #   TILES       Set to 1 to enable tiles. Requires SDL.
 #   SOUND       Set to 1 to enable sounds. Requires SDL.
+#   LUA         Set to 1 to enable Lua.
 #
 # Platforms:
 # Linux/Cygwin native
@@ -36,7 +37,7 @@
 #   Run: make NATIVE=win32
 # OS X
 #   Run: make NATIVE=osx OSX_MIN=11
-#     It is highly recommended to supply OSX_MIN > 10.11
+#     It is highly recommended to supply OSX_MIN > 11
 #     otherwise optimizations are automatically disabled with -O0
 
 # Build types:
@@ -52,7 +53,7 @@
 #  make TILES=1 SOUND=1
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
-# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
+# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW and Linux builds)
 #  make LIBBACKTRACE=1
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
@@ -104,7 +105,7 @@
 # RELEASE_FLAGS is flags for release builds.
 RELEASE_FLAGS =
 WARNINGS = \
-  -Werror -Wall -Wextra \
+  -Wall -Wextra \
   -Wformat-signedness \
   -Wlogical-op \
   -Wmissing-declarations \
@@ -115,8 +116,9 @@ WARNINGS = \
   -Wpedantic \
   -Wsuggest-override \
   -Wunused-macros \
-  -Wzero-as-null-pointer-constant \
+  -Wno-zero-as-null-pointer-constant \
   -Wno-unknown-warning-option \
+  -Wno-dangling-reference \
   -Wno-range-loop-analysis # TODO: Fix warnings instead of disabling
 # Uncomment below to disable warnings
 #WARNINGS = -w
@@ -149,7 +151,7 @@ ifndef VERBOSE
   VERBOSE = 0
 endif
 
-TARGET_NAME = cataclysm
+TARGET_NAME = cataclysm-bn
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
 
 TARGET = $(BUILD_PREFIX)$(TARGET_NAME)
@@ -161,11 +163,13 @@ else
 endif
 W32TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME).exe
 W32TARGET = $(BUILD_PREFIX)$(TARGET_NAME).exe
-CHKJSON_BIN = $(BUILD_PREFIX)chkjson
 BINDIST_DIR = $(BUILD_PREFIX)bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
+LUA_SRC_DIR = $(SRC_DIR)/lua
 ASTYLE_BINARY = astyle
+
+CXXFLAGS += -I$(SRC_DIR) -I$(LUA_SRC_DIR)
 
 # Enable astyle by default
 ifndef ASTYLE
@@ -263,8 +267,10 @@ endif
 # when preprocessor defines change, but the source doesn't
 ODIR = $(BUILD_PREFIX)obj
 ODIRTILES = $(BUILD_PREFIX)obj/tiles
+ODIRLUA = $(BUILD_PREFIX)obj/lua
 W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
+W32ODIRLUA = $(W32ODIR)/lua
 
 ifdef AUTO_BUILD_PREFIX
   BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
@@ -392,7 +398,11 @@ ifeq ($(RELEASE), 1)
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   ifndef DEBUG_SYMBOLS
-    DEBUGSYMS =
+  	ifeq ($(LIBBACKTRACE), 1)
+      DEBUGSYMS = -g1
+    else
+      DEBUGSYMS =
+    endif
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
@@ -422,9 +432,9 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++17
+  OTHERS += -std=gnu++20
 else
-  OTHERS += -std=c++17
+  OTHERS += -std=c++20
 endif
 
 ifeq ($(CYGWIN),1)
@@ -567,11 +577,12 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
-  CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
+  ODIRLUA = $(W32ODIRLUA)
+  OTHERS += -Wa,-mbig-obj
   ifeq ($(DYNAMIC_LINKING), 1)
     # Windows isn't sold with programming support, these are static to remove MinGW dependency.
     LDFLAGS += -static-libgcc -static-libstdc++
@@ -601,11 +612,7 @@ ifeq ($(SOUND), 1)
     $(error "SOUND=1 only works with TILES=1")
   endif
   ifeq ($(NATIVE),osx)
-    ifdef FRAMEWORK
-      CXXFLAGS += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
-      LDFLAGS += -F$(FRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks \
-		 -framework SDL2_mixer -framework Vorbis -framework Ogg
-    else # libsdl build
+    ifndef FRAMEWORK # libsdl build
       ifeq ($(MACPORTS), 1)
         LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
       else # homebrew
@@ -640,7 +647,7 @@ ifeq ($(TILES), 1)
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
-			ifdef SOUND
+			ifeq ($(SOUND), 1)
 				OSX_INC += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
 			endif
       LDFLAGS += -F$(FRAMEWORKSDIR) \
@@ -656,7 +663,7 @@ ifeq ($(TILES), 1)
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
-      ifdef SOUND
+      ifeq ($(SOUND), 1)
         LDFLAGS += -lSDL2_mixer
       endif
     endif
@@ -755,9 +762,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
-    ifeq ($(LIBBACKTRACE),1)
-      LDFLAGS += -lbacktrace
-    endif
   endif
 endif
 
@@ -765,6 +769,7 @@ ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
   ifeq ($(LIBBACKTRACE),1)
       DEFINES += -DLIBBACKTRACE
+      LDFLAGS += -lbacktrace
   endif
 endif
 
@@ -792,7 +797,7 @@ HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
 JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
-CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
+LUA_SOURCES := $(wildcard $(LUA_SRC_DIR)/*.c)
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
 TOOLHDR := $(wildcard tools/*/*.h)
@@ -803,7 +808,6 @@ ASTYLE_SOURCES := $(sort \
   $(TESTSRC) \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
-  $(CHKJSON_SOURCES) \
   $(CLANG_TIDY_PLUGIN_SOURCES) \
   $(TOOLHDR))
 
@@ -813,6 +817,13 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
 OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
+
+ifeq ($(LUA), 1)
+  DEFINES += -DLUA
+  LUA_OBJS = $(sort $(LUA_SOURCES:$(LUA_SRC_DIR)/%.c=$(ODIRLUA)/%.o))
+else
+  LUA_OBJS =
+endif
 
 ifdef LANGUAGES
   L10N = localization
@@ -868,15 +879,15 @@ ifeq ($(LTO), 1)
   endif
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) $(LUA_OBJS)
 ifeq ($(VERBOSE),1)
-	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LUA_OBJS) $(LDFLAGS)
 else
 	@echo "Linking $@..."
-	@+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	@+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LUA_OBJS) $(LDFLAGS)
 	@echo Done!
 endif
 
@@ -891,15 +902,15 @@ endif
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
 
-$(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
+$(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS) $(LUA_OBJS)
 ifeq ($(VERBOSE),1)
-	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS)) $(LUA_OBJS)
 else
 	@echo "Creating $@..."
-	@$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+	@$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS)) $(LUA_OBJS)
 endif
 
-.PHONY: version
+.PHONY: version prefix
 version:
 	@( VERSION_STRING=$(VERSION) ; \
      VERSION_AUTOMATIC=$(VERSION_AUTOMATIC) ; \
@@ -908,8 +919,15 @@ version:
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then printf '// NOLINT(cata-header-guard)\n#define VERSION "%s"\n' "$$VERSION_STRING" | tee $(SRC_DIR)/version.h ; fi \
          )
 
+prefix:
+	@( PREFIX_STRING=$(PREFIX) ; \
+            [ -e "$(SRC_DIR)/prefix.h" ] && OLDPREFIX=$$(grep PREFIX $(SRC_DIR)/PREFIX.h|cut -d '"' -f2) ; \
+            if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
+         )
+
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
+$(shell mkdir -p $(ODIRLUA))
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 ifeq ($(VERBOSE), 1)
@@ -927,6 +945,14 @@ else
 	@$(RC) $(RFLAGS) $< -o $@
 endif
 
+$(ODIRLUA)/%.o: $(LUA_SRC_DIR)/%.c
+ifeq ($(VERBOSE), 1)
+	$(CXX) -xc -std=c11 -c $< -o $@
+else
+	@echo $(@F)
+	@$(CXX) -xc -std=c11 -c $< -o $@
+endif
+
 src/version.h: version
 
 src/version.cpp: src/version.h
@@ -934,19 +960,12 @@ src/version.cpp: src/version.h
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
-$(CHKJSON_BIN): $(CHKJSON_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
-
-json-check: $(CHKJSON_BIN)
-	./$(CHKJSON_BIN)
-
 clean: clean-tests
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
 	rm -rf *$(BINDIST_DIR) *cataclysmbn-*.tar.gz *cataclysmbn-*.zip
 	rm -f $(SRC_DIR)/version.h
-	rm -f $(CHKJSON_BIN)
 	rm -f pch/*pch.hpp.gch
 	rm -f pch/*pch.hpp.pch
 	rm -f pch/*pch.hpp.d
@@ -1073,7 +1092,7 @@ endif
 ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
-endif  # ifdef SOUND
+endif  # ifeq ($(SOUND), 1)
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
@@ -1081,10 +1100,7 @@ ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
 ifeq ($(SOUND), 1)
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
-	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -maxdepth 1 -type d -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
-endif  # ifdef SOUND
+endif  # ifeq ($(SOUND), 1)
 endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
 
@@ -1175,10 +1191,10 @@ $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
-tests: version $(BUILD_PREFIX)cataclysm.a
+tests: version $(BUILD_PREFIX)$(TARGET_NAME).a
 	$(MAKE) -C tests
 
-check: version $(BUILD_PREFIX)cataclysm.a
+check: version $(BUILD_PREFIX)$(TARGET_NAME).a
 	$(MAKE) -C tests check
 
 clean-tests:

@@ -187,7 +187,7 @@
   {
     "type": "construction_group",
     "id": "build_concrete_roof",
-    "name": "Build Concrete Roof"
+    "name": "Build Roof Over Concrete Floor"
   },
   {
     "type": "construction_group",
@@ -301,6 +301,31 @@
   },
   {
     "type": "construction_group",
+    "id": "build_floodlight",
+    "name": "Build floodlight"
+  },
+  {
+    "type": "construction_group",
+    "id": "rewire_street_light",
+    "name": "Rewire Street Light"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_a_concrete_ramp",
+    "name": "Build High End of a Concrete Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_an_earthen_ramp",
+    "name": "Build High End of a Rammed Earth Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_a_wooden_ramp",
+    "name": "Build High End of a Wooden Ramp"
+  },
+  {
+    "type": "construction_group",
     "id": "build_improvised_shelter",
     "name": "Build Improvised Shelter"
   },
@@ -332,7 +357,7 @@
   {
     "type": "construction_group",
     "id": "build_log_sod_roof",
-    "name": "Build Log & Sod Roof"
+    "name": "Build Roof Over Primitive Floor"
   },
   {
     "type": "construction_group",
@@ -343,6 +368,21 @@
     "type": "construction_group",
     "id": "build_log_wall",
     "name": "Build Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_a_concrete_ramp",
+    "name": "Build Low End of a Concrete Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_an_earthen_ramp",
+    "name": "Build Low End of a Rammed Earth Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_a_wooden_ramp",
+    "name": "Build Low End of a Wooden Ramp"
   },
   {
     "type": "construction_group",
@@ -402,12 +442,17 @@
   {
     "type": "construction_group",
     "id": "build_metal_roof",
-    "name": "Build Metal Roof"
+    "name": "Build Roof Over Simple Metal Floor"
   },
   {
     "type": "construction_group",
     "id": "build_metal_wall",
     "name": "Build Metal Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_mushroom_rack",
+    "name": "Build Mushroom Rack"
   },
   {
     "type": "construction_group",
@@ -477,7 +522,7 @@
   {
     "type": "construction_group",
     "id": "build_reinforced_concrete_roof",
-    "name": "Build Reinforced Concrete Roof"
+    "name": "Build Roof Over Reinforced Concrete Floor"
   },
   {
     "type": "construction_group",
@@ -537,7 +582,7 @@
   {
     "type": "construction_group",
     "id": "build_roof",
-    "name": "Build Roof"
+    "name": "Build Roof Over Wooden Floor"
   },
   {
     "type": "construction_group",
@@ -677,7 +722,7 @@
   {
     "type": "construction_group",
     "id": "build_thatched_roof",
-    "name": "Build Thatched Roof"
+    "name": "Build Thatched Roof Over Dirt Floor"
   },
   {
     "type": "construction_group",
@@ -786,6 +831,26 @@
   },
   {
     "type": "construction_group",
+    "id": "plow_a_paddy_field",
+    "name": "Plow A Paddy Field"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_a_paddy_field",
+    "name": "Remove A Paddy Field"
+  },
+  {
+    "type": "construction_group",
+    "id": "gather_clay_from_dirt",
+    "name": "Gather Clay From Dirt"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_niter_bed",
+    "name": "Build Niter Bed"
+  },
+  {
+    "type": "construction_group",
     "id": "clean_broken_window",
     "name": "Clean Broken Window"
   },
@@ -831,13 +896,8 @@
   },
   {
     "type": "construction_group",
-    "id": "extract_clay",
-    "name": "Extract Clay"
-  },
-  {
-    "type": "construction_group",
-    "id": "extract_sand",
-    "name": "Extract Sand"
+    "id": "dig_shallow_grave",
+    "name": "Fill Shallow Grave"
   },
   {
     "type": "construction_group",
@@ -907,12 +967,12 @@
   {
     "type": "construction_group",
     "id": "install_battery",
-    "name": "Install Battery"
+    "name": "Install Medium Storage Battery"
   },
   {
     "type": "construction_group",
     "id": "install_large_storage_battery",
-    "name": "Install Large Storage Battery"
+    "name": "Install Very Large Storage Battery"
   },
   {
     "type": "construction_group",
@@ -923,6 +983,11 @@
     "type": "construction_group",
     "id": "install_glass_freezer",
     "name": "Install Glass Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_minifridge",
+    "name": "Install Minifridge"
   },
   {
     "type": "construction_group",
@@ -946,6 +1011,26 @@
   },
   {
     "type": "construction_group",
+    "id": "install_plut_generator",
+    "name": "Install Plutonium Generator"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_3d_printer_basic",
+    "name": "Place 3D Printer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_3d_printer_advanced",
+    "name": "Place Advanced 3D Printer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_ac_unit",
+    "name": "Place Window-Mounted AC Unit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_space_heater",
     "name": "Place Small Space Heater"
   },
@@ -956,13 +1041,53 @@
   },
   {
     "type": "construction_group",
+    "id": "install_wind_turbine",
+    "name": "Install Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_wind_turbine",
+    "name": "Install Large Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_water_wheel",
+    "name": "Install Water Wheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_xl_water_wheel",
+    "name": "Install Large Water Wheel"
+  },
+  {
+    "type": "construction_group",
     "id": "install_solar_panel",
     "name": "Install Solar Panel"
   },
   {
     "type": "construction_group",
     "id": "install_storage_battery",
-    "name": "Install Storage Battery"
+    "name": "Install Large Storage Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_small_battery",
+    "name": "Install Small Storage Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_car_battery",
+    "name": "Install Car Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_motorbike_battery",
+    "name": "Install Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_small_motorbike_battery",
+    "name": "Install Small Motorbike Battery"
   },
   {
     "type": "construction_group",
@@ -996,6 +1121,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_steel_target",
+    "name": "Build steel target"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_beehive",
+    "name": "Build Beehive"
+  },
+  {
+    "type": "construction_group",
     "id": "mine_downstair",
     "name": "Mine Downstair"
   },
@@ -1003,6 +1138,21 @@
     "type": "construction_group",
     "id": "mine_upstair",
     "name": "Mine Upstair"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_flagpole",
+    "name": "Build Wooden Flagpole"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_us_flag",
+    "name": "Hoist American Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_pirate_flag",
+    "name": "Hoist Jolly Roger"
   },
   {
     "type": "construction_group",
@@ -1043,6 +1193,11 @@
     "type": "construction_group",
     "id": "paint_wall_yellow",
     "name": "Paint Wall Yellow"
+  },
+  {
+    "type": "construction_group",
+    "id": "constr_wall_standard",
+    "name": "Build Plastered Wooden Wall"
   },
   {
     "type": "construction_group",
@@ -1146,6 +1301,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_reloading_press",
+    "name": "Install Grid Reloading Press"
+  },
+  {
+    "type": "construction_group",
     "id": "place_water_mill",
     "name": "Place Water Mill"
   },
@@ -1217,7 +1377,7 @@
   {
     "type": "construction_group",
     "id": "remove_a_wall",
-    "name": "Remove a wall"
+    "name": "Remove a plastered wooden wall"
   },
   {
     "type": "construction_group",
@@ -1306,6 +1466,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_door_frame",
+    "name": "Build Door Frame"
+  },
+  {
+    "type": "construction_group",
     "id": "repair_wood_wall",
     "name": "Repair Wood Wall"
   },
@@ -1353,5 +1518,15 @@
     "type": "construction_group",
     "id": "wax_floor",
     "name": "Wax Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_concrete_lump",
+    "name": "Remove Mi-Go gas emitter"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_furniture_olight",
+    "name": "Install a ceiling lamp"
   }
 ]

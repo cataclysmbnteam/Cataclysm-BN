@@ -380,7 +380,7 @@ template <typename T> using sentinel_t = decltype( std::end( std::declval<T &>()
 // A workaround for std::string not having mutable data() until C++17.
 template <typename Char> inline Char *get_data( std::basic_string<Char> &s )
 {
-    return &s[0];
+    return s.data();
 }
 template <typename Container>
 inline typename Container::value_type *get_data( Container &c )
@@ -641,9 +641,9 @@ inline size_t code_point_index( basic_string_view<char8_type> s, size_t n )
 
 template <typename InputIt, typename OutChar>
 using needs_conversion = bool_constant <
-                         std::is_same<typename std::iterator_traits<InputIt>::value_type,
-                         char>::value &&
-                         std::is_same<OutChar, char8_type>::value >;
+                         std::is_same_v<typename std::iterator_traits<InputIt>::value_type,
+                         char> &&
+                         std::is_same_v<OutChar, char8_type> >;
 
 template < typename OutChar, typename InputIt, typename OutputIt,
            FMT_ENABLE_IF( !needs_conversion<InputIt, OutChar>::value ) >
@@ -891,7 +891,7 @@ namespace detail
 template <typename T>
 using is_signed =
     std::integral_constant < bool, std::numeric_limits<T>::is_signed ||
-    std::is_same<T, int128_t>::value >;
+    std::is_same_v<T, int128_t> >;
 
 // Returns true if value is negative, false otherwise.
 // Same as `value < 0` but doesn't produce warnings if T is an unsigned type.
@@ -909,9 +909,9 @@ FMT_CONSTEXPR bool is_negative( T )
 template <typename T, FMT_ENABLE_IF( std::is_floating_point<T>::value )>
 FMT_CONSTEXPR bool is_supported_floating_point( T )
 {
-    return ( std::is_same<T, float>::value && FMT_USE_FLOAT ) ||
-           ( std::is_same<T, double>::value && FMT_USE_DOUBLE ) ||
-           ( std::is_same<T, long double>::value && FMT_USE_LONG_DOUBLE );
+    return ( std::is_same_v<T, float> &&FMT_USE_FLOAT ) ||
+           ( std::is_same_v<T, double> &&FMT_USE_DOUBLE ) ||
+           ( std::is_same_v<T, long double> &&FMT_USE_LONG_DOUBLE );
 }
 
 // Smallest of uint32_t, uint64_t, uint128_t that is large enough to
@@ -1297,16 +1297,16 @@ class utf8_to_utf16
     public:
         FMT_API explicit utf8_to_utf16( string_view s );
         operator wstring_view() const {
-            return {&buffer_[0], size()};
+            return {buffer_.data(), size()};
         }
         size_t size() const {
             return buffer_.size() - 1;
         }
         const wchar_t *c_str() const {
-            return &buffer_[0];
+            return buffer_.data();
         }
         std::wstring str() const {
-            return {&buffer_[0], size()};
+            return {buffer_.data(), size()};
         }
 };
 
@@ -2242,7 +2242,7 @@ OutputIt write( OutputIt out, T value )
         return out;
     }
 
-    using floaty = conditional_t<std::is_same<T, long double>::value, double, T>;
+    using floaty = conditional_t<std::is_same_v<T, long double>, double, T>;
     using uint = typename dragonbox::float_info<floaty>::carrier_uint;
     auto bits = bit_cast<uint>( value );
 
@@ -2397,10 +2397,9 @@ OutputIt write( OutputIt out, const void *value )
 }
 
 template <typename Char, typename OutputIt, typename T>
-auto write( OutputIt out, const T &value ) -> typename std::enable_if <
-mapped_type_constant<T, basic_format_context<OutputIt, Char>>::value ==
-        type::custom_type,
-             OutputIt >::type
+auto write( OutputIt out, const T &value ) -> OutputIt
+requires( mapped_type_constant<T, basic_format_context<OutputIt, Char>>::value ==
+          type::custom_type )
 {
     using context_type = basic_format_context<OutputIt, Char>;
     using formatter_type =
@@ -2583,7 +2582,7 @@ class arg_formatter_base
 
         iterator operator()( Char value ) {
             handle_char_specs( specs_,
-                               char_spec_handler( *this, static_cast<Char>( value ) ) );
+                               char_spec_handler( *this, value ) );
             return out_;
         }
 
@@ -2731,9 +2730,9 @@ template <typename Context> class custom_formatter
 
 template <typename T>
 using is_integer =
-    bool_constant < is_integral<T>::value && !std::is_same<T, bool>::value &&
-    !std::is_same<T, char>::value &&
-    !std::is_same<T, wchar_t>::value >;
+    bool_constant < is_integral<T>::value && !std::is_same_v<T, bool> &&
+    !std::is_same_v<T, char> &&
+    !std::is_same_v<T, wchar_t> >;
 
 template <typename ErrorHandler> class width_checker
 {
@@ -3186,7 +3185,7 @@ constexpr Char to_ascii( Char value )
     return value;
 }
 template <typename Char, FMT_ENABLE_IF( std::is_enum<Char>::value )>
-constexpr typename std::underlying_type<Char>::type to_ascii( Char value )
+constexpr std::underlying_type_t<Char>to_ascii( Char value )
 {
     return value;
 }
@@ -4359,7 +4358,7 @@ make_format_to_n_args( const Args &... args )
     return format_arg_store<buffer_context<Char>, Args...>( args... );
 }
 
-template < typename Char, enable_if_t < ( !std::is_same<Char, char>::value ), int >>
+template < typename Char, enable_if_t < ( !std::is_same_v<Char, char> ), int >>
 std::basic_string<Char> detail::vformat(
     basic_string_view<Char> format_str,
     basic_format_args<buffer_context<type_identity_t<Char>>> args )

@@ -6,9 +6,8 @@
     "description": "The .700 Nitro Express is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
     "weight": "80 g",
     "volume": "250 ml",
-    "price": 5700,
-    "price_postapoc": 2000,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price": "57 USD",
+    "price_postapoc": "20 USD",
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "dark_gray",
@@ -22,5 +21,20 @@
     "dispersion": 15,
     "recoil": 12100,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "bp_700nx",
+    "copy-from": "700nx",
+    "type": "AMMO",
+    "name": { "str": ".700 NX, black powder" },
+    "description": "The .700 Nitro Express is a very powerful rifle round designed for long-range use.  The \"Nitro\" in the name isn't very applicable to this blackpowder load, but it still has plenty of Express.",
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

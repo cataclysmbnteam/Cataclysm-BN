@@ -14,12 +14,14 @@
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "color.h" // nc_color
 #include "damage.h"
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h" // use_function
+#include "mapdata.h"
 #include "pldata.h" // add_type
 #include "shape.h"
 #include "stomach.h"
@@ -107,6 +109,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
+    int turns_active = 0;
     int power_draw = 0;
 
     std::vector<int> rand_charges;
@@ -161,6 +164,9 @@ struct islot_comestible {
 
         /**Amount of radiation you get from this comestible*/
         int radiation = 0;
+
+        //pet food category
+        std::set<std::string> petfood;
 
         /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
         int freeze_point = units::to_fahrenheit( temperatures::freezing );
@@ -230,16 +236,7 @@ struct islot_container {
     itype_id unseals_into = itype_id::NULL_ID();
 };
 
-struct islot_armor {
-    /**
-     * Bitfield of enum body_part
-     * TODO: document me.
-     */
-    body_part_set covers;
-    /**
-     * Whether this item can be worn on either side of the body
-     */
-    bool sided = false;
+struct armor_portion_data {
     /**
      * How much this item encumbers the player.
      */
@@ -253,10 +250,30 @@ struct islot_armor {
      * This determines how likely it is to hit the item instead of the player.
      */
     int coverage = 0;
+
+    // Where does this cover if any
+    body_part_set covers;
+
+    // What layer does it cover if any
+    // TODO: Not currently supported, we still use flags for this
+    //std::optional<layer_level> layer;
+};
+
+struct islot_armor {
     /**
-     * TODO: document me.
+    * Whether this item can be worn on either side of the body
+    */
+    bool sided = false;
+    /**
+     * Multiplier on resistances provided by armor's materials.
+     * Damaged armors have lower effective thickness, low capped at 1.
+     * Note: 1 thickness means item retains full resistance when damaged.
      */
     int thickness = 0;
+    /**
+     * Damage negated by this armor. Usually calculated from materials+thickness.
+     */
+    resistances resistance;
     /**
      * Resistance to environmental effects.
      */
@@ -281,11 +298,15 @@ struct islot_armor {
     * Bonus to weight capacity
     */
     units::mass weight_capacity_bonus = 0_gram;
+
+    bool was_loaded;
     /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+    // Layer, encumbrance and coverage information.
+    std::vector<armor_portion_data> data;
 };
 
 struct islot_pet_armor {
@@ -543,45 +564,15 @@ struct islot_gun : common_ranged_data {
     int recoil = 0;
 };
 
-/// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
-class gun_type_type
-{
-    private:
-        std::string name_;
-
-    public:
-        /// @param name The untranslated name of the gun type. Must have been extracted
-        /// for translation with the context "gun_type_type".
-        gun_type_type( const std::string &name ) : name_( name ) {}
-        /// Translated name.
-        std::string name() const;
-
-        friend bool operator==( const gun_type_type &l, const gun_type_type &r ) {
-            return l.name_ == r.name_;
-        }
-
-        friend struct std::hash<gun_type_type>;
-        friend class Item_factory;
-};
-
-namespace std
-{
-
-template<>
-struct hash<gun_type_type> {
-    size_t operator()( const gun_type_type &t ) const {
-        return hash<std::string>()( t.name_ );
-    }
-};
-
-} // namespace std
-
 struct islot_gunmod : common_ranged_data {
     /** Where is this gunmod installed (e.g. "stock", "rail")? */
     gunmod_location location;
 
     /** What kind of weapons can this gunmod be used with (e.g. "rifle", "crossbow")? */
-    std::unordered_set<gun_type_type> usable;
+    std::unordered_set<itype_id> usable;
+    std::vector<std::unordered_set<weapon_category_id>> usable_category;
+    std::unordered_set<itype_id> exclusion;
+    std::vector<std::unordered_set<weapon_category_id>> exclusion_category;
 
     /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
     int sight_dispersion = -1;
@@ -787,7 +778,10 @@ struct islot_seed {
      * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
      */
     std::vector<itype_id> byproducts;
-
+    /**
+     * Terrain tag required to plant the seed.
+     */
+    std::string required_terrain_flag = "PLANTABLE";
     islot_seed() = default;
 };
 
@@ -833,12 +827,19 @@ class islot_milling
         int conversion_rate_;
 };
 
+struct attack_statblock {
+    int to_hit = 0;
+    damage_instance damage;
+};
+
 struct itype {
         friend class Item_factory;
 
-        using FlagsSetType = std::set<std::string>;
+        using FlagsSetType = std::set<flag_id>;
 
         std::vector<std::pair<itype_id, mod_id>> src;
+
+        LUA_TYPE_OPS( itype, id );
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -992,6 +993,12 @@ struct itype {
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;
+        /**
+         * Attacks possible to execute with this weapon.
+         * Keys are attack ids (not to be translated).
+         * WIP feature, intended to replace @ref melee and @ref to_hit.
+         */
+        std::map<std::string, attack_statblock> attacks;
         /** Base damage output when thrown */
         damage_instance thrown_damage;
 
@@ -1063,9 +1070,7 @@ struct itype {
 
         bool has_use() const;
 
-        // TODO: Remove the string version
-        bool has_flag( const std::string &flag ) const;
-        bool has_flag( const flag_str_id &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         // returns read-only set of all item tags/flags
         const FlagsSetType &get_flags() const;
@@ -1077,6 +1082,9 @@ struct itype {
         int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
         int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
         void tick( player &p, item &it, const tripoint &pos ) const;
+
+        bool is_fuel() const;
+        bool is_seed() const;
 };
 
 #endif // CATA_SRC_ITYPE_H

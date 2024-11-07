@@ -6,9 +6,8 @@
     "description": ".38 Super ammunition with 147gr FMJ bullets.  The .38 Super round was developed from .38 ACP in the 1920s, designed to penetrate the body armor of the era.",
     "weight": "8 g",
     "volume": "250 ml",
-    "price": 210,
-    "price_postapoc": 1200,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price": "210 cent",
+    "price_postapoc": "12 USD",
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -29,10 +28,38 @@
     "type": "AMMO",
     "name": { "str": ".38 Super" },
     "description": ".38 Super ammunition with 90gr JHP bullets.  Designed in 1929, the .38 super cartridge was designed to penetrate body armor and vehicles.",
-    "price": 240,
-    "price_postapoc": 600,
+    "price": "240 cent",
+    "price_postapoc": "6 USD",
     "count": 20,
     "//": "Hollowpoint damage increase of 25%.",
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 0 }
+  },
+  {
+    "id": "bp_38super_fmj",
+    "copy-from": "38super_fmj",
+    "type": "AMMO",
+    "name": { "str": ".38 Super, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
+  },
+  {
+    "id": "bp_38_super",
+    "copy-from": "38_super",
+    "type": "AMMO",
+    "name": { "str": ".38 Super, black powder" },
+    "proportional": {
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   }
 ]

@@ -2,13 +2,12 @@
   {
     "id": "308",
     "type": "AMMO",
-    "name": { "str": ".308 Winchester" },
+    "name": { "str": "7.62x51mm '.308 Winchester'" },
     "description": ".308 Winchester ammunition with 168gr hollow point bullets.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power.",
     "weight": "18 g",
     "volume": "250 ml",
-    "price": 180,
-    "price_postapoc": 800,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "price": "180 cent",
+    "price_postapoc": "8 USD",
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -27,7 +26,7 @@
     "id": "762_51",
     "copy-from": "308",
     "type": "AMMO",
-    "name": { "str": "7.62x51mm M80" },
+    "name": { "str": "7.62x51mm NATO M80" },
     "casing": "762_51_casing",
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -7, "armor_penetration": 17 }, "dispersion": -10 },
@@ -46,42 +45,44 @@
     "id": "bp_308",
     "copy-from": "308",
     "type": "AMMO",
-    "name": { "str": ".308 Winchester, black powder" },
+    "name": { "str": "7.62x51mm '.308 Winchester', black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] }
   },
   {
     "id": "bp_762_51",
     "copy-from": "762_51",
     "type": "AMMO",
-    "name": { "str": "7.62x51mm, black powder" },
+    "name": { "str": "7.62x51mm NATO, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "bp_762_51_incendiary",
     "copy-from": "762_51_incendiary",
     "type": "AMMO",
-    "name": { "str": "7.62x51mm tracer, black powder" },
+    "name": { "str": "7.62x51mm NATO tracer, black powder" },
     "proportional": {
-      "price": 0.3,
-      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "price": 0.5,
+      "price_postapoc": 0.5,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]

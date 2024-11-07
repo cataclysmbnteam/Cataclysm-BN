@@ -1,0 +1,23 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/External_Tileset_DP_eyes.png",
+        "tiles": [
+          { "id": "overlay_mutation_eye_red", "fg": 0 },
+          { "id": "overlay_mutation_eye_violet", "fg": 1 },
+          { "id": "overlay_mutation_eye_hazel", "fg": 2 },
+          { "id": "overlay_mutation_eye_blue", "fg": 3 },
+          { "id": "overlay_mutation_eye_brown", "fg": 4 },
+          { "id": "overlay_mutation_eye_gray", "fg": 5 },
+          { "id": "overlay_mutation_eye_green", "fg": 6 },
+          { "id": "overlay_mutation_eye_amber", "fg": 7 }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]

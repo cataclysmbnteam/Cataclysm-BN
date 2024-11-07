@@ -13,15 +13,15 @@ static const mtype_id mon_mi_go_myrmidon( "mon_mi_go_myrmidon" );
 namespace map_funcs
 {
 
-int climbing_cost( const map &m, const tripoint &from, const tripoint &to )
+auto climbing_cost( const map &m, const tripoint &from, const tripoint &to ) -> std::optional<int>
 {
     // TODO: All sorts of mutations, equipment weight etc. for characters
     if( !m.valid_move( from, to, false, true ) ) {
-        return 0;
+        return {};
     }
     const int diff = m.climb_difficulty( from );
     if( diff > 5 ) {
-        return 0;
+        return {};
     }
     return 50 + diff * 100;
 }
@@ -47,6 +47,8 @@ void migo_nerve_cage_removal( map &m, const tripoint &p, bool spawn_damaged )
     if( spawn_damaged ) {
         spawn->set_hp( spawn->get_hp_max() / 2 );
     }
+    // Don't give the mi-go free shots against the player
+    spawn->mod_moves( -300 );
     if( get_player_character().sees( p ) ) {
         add_msg( m_bad, _( "Something stirs and clambers out of the ruined mass of flesh and nerves!" ) );
     }

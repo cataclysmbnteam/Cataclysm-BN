@@ -1,0 +1,188 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "house_fence09_basement",
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^#######|||||||||||^^^",
+        "^^^#,,qq$$|TrrrP|&zz|^^^",
+        "^^^#!,,,,,+  h  + zz|^^^",
+        "^^^#,,,,,Z|R   b|~zz|^^^",
+        "^^^#,,,,,,|R  |||||||^^^",
+        "^^^#gUU5,W|R  |IIT@@|^^^",
+        "^^^||||||||R  | h  C|^^^",
+        "^^^|sHHHsA?   +     |^^^",
+        "^^^|H         ||||+||^^^",
+        "^^^|H xx  T    <|D d|^^^",
+        "^^^||||||||||||||||||^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^",
+        "^^^^^^^^^^^^^^^^^^^^^^^^"
+      ],
+      "terrain": {
+        ",": "t_thconc_floor",
+        "W": "t_thconc_floor",
+        "Z": "t_thconc_floor",
+        "5": "t_thconc_floor",
+        "g": "t_thconc_floor",
+        "!": "t_thconc_floor",
+        "$": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "q": "t_thconc_floor"
+      },
+      "furniture": { "!": "f_home_furnace", "$": "f_table", "&": "f_rack_coat", "~": "f_rack_wood", "?": "f_ergometer" },
+      "place_loot": [ { "item": "laptop", "x": 13, "y": 10 }, { "item": "television", "x": 6, "y": 18 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "house_fence09_1",
+    "method": "json",
+    "object": {
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "]{{{{{{{{{{}}{{{{{{{{{{]",
+        "]%%%%%%%%%%--p.%%%%%%%%]",
+        "].[....[...--...[.....j]",
+        "].--------------------j]",
+        "].-!!!!!!!!--!!!!!!!!-.]",
+        "][-%%%%%%%----^#ooo#!-X]",
+        "].-#??????#``###yyy##-.]",
+        "].-#         #R    h#-.]",
+        "].-# & & &   #R  hff#-.]",
+        "].-###ooo##o*#R   ffo-!]",
+        "].-#ysHHHs|L(by  hff#-!]",
+        "].-#yE    |Ə((     h#-!]",
+        "].-#a lll  (((      o-!]",
+        "].-#a          RRR y#-!]",
+        "].-#  xxx |    r|| |#*#]",
+        "].-#|||||||   hr|6____#]",
+        "].-#St|//|y    r|6_JJ_#]",
+        "].-o__|++|      |F____#]",
+        "].-#9_+     |<|>|5O341#]",
+        "].-#######o*#######oo##]",
+        "].-%%%!!!!---!!!!^%%%%%]",
+        "].-----------.....u....]",
+        "]......GK.G...........[]",
+        "]]]]]]]]]]]]]]]]]]]]]]]]"
+      ],
+      "terrain": {
+        "#": "t_brick_wall",
+        "{": "t_fence_metal",
+        "}": "t_gate_metal_c",
+        "]": "t_privacy_fence",
+        "?": "t_railing",
+        "!": "t_dirtmound",
+        "`": "t_floor_noroof",
+        "_": "t_linoleum_gray",
+        "K": "t_region_groundcover_urban",
+        "G": "t_region_groundcover_urban",
+        "(": "t_carpet_green",
+        "Ə": "t_carpet_green",
+        "b": "t_carpet_green",
+        "L": "t_carpet_green",
+        "Y": "t_linoleum_gray"
+      },
+      "furniture": { "!": "f_region_flower", "&": "f_deckchair", "/": "f_clothing_rail" },
+      "items": {
+        "/": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ]
+      },
+      "place_loot": [ { "item": "television", "x": 7, "y": 14 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "house_fence09_2",
+    "method": "json",
+    "object": {
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".............^.,,,,,....",
+        "...######oo######oo##...",
+        "...#wQ|8888B|d+ IIID#...",
+        "...#z |S___B|ɸ+     #...",
+        "...#|+|t___||||b    #...",
+        "...oy |||+||ƏƏ|  @@ o...",
+        "...oy         + ¤@@¤o...",
+        "...#|iiizVV   ||||||#...",
+        "...#|||||||   +   +d#...",
+        "...#y rr  |  R|ɸ  +d#,,.",
+        "...#D h   +  R|D  ||#,,.",
+        "...o¤   |||  R|r   yo,,.",
+        "...o@@  +d|y ||rh  @o,,.",
+        "...#@@T +d|y >|r T¤@#,,.",
+        "...###oo###oo########,,.",
+        "................^.......",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": { "_": "t_linoleum_gray", ",": "t_shingle_flat_roof", "Q": "t_null", "w": "t_null", ".": "t_open_air" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "house_fence09_roof",
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ----------5-------   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -~...............-   ",
+        "   -~...............-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -...=........X...-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   --------------5---   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 6, 11 ], "y": [ 8, 12 ] },
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 15, "y": 9 }
+      ]
+    }
+  }
+]

@@ -12,7 +12,7 @@
     "charges": 8,
     "book_learn": [ [ "cookbook", 1 ], [ "scots_cookbook", 2 ] ],
     "difficulty": 3,
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
       [ [ "sauropod_stomach_boiled", 1 ] ],

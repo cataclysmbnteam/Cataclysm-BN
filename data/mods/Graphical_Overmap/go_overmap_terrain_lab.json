@@ -3,124 +3,124 @@
     "type": "overmap_terrain",
     "id": "lab",
     "copy-from": "lab",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_stairs",
     "copy-from": "lab_stairs",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_core",
     "copy-from": "lab_core",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_escape_cells",
     "copy-from": "lab_escape_cells",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_escape_entrance",
     "copy-from": "lab_escape_entrance",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "ants_lab",
     "copy-from": "ants_lab",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "ants_lab_stairs",
     "copy-from": "ants_lab_stairs",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_finale",
     "copy-from": "lab_finale",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "ice_lab",
     "copy-from": "ice_lab",
-    "sym": "\u00C1",
+    "sym": "Á",
     "color": "white"
   },
   {
     "type": "overmap_terrain",
     "id": "ice_lab_stairs",
     "copy-from": "ice_lab_stairs",
-    "sym": "\u00C1",
+    "sym": "Á",
     "color": "white"
   },
   {
     "type": "overmap_terrain",
     "id": "ice_lab_core",
     "copy-from": "ice_lab_core",
-    "sym": "\u00C1",
+    "sym": "Á",
     "color": "white"
   },
   {
     "type": "overmap_terrain",
     "id": "ice_lab_finale",
     "copy-from": "ice_lab_finale",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "tower_lab",
     "copy-from": "tower_lab",
-    "sym": "\u00ED"
+    "sym": "í"
   },
   {
     "type": "overmap_terrain",
     "id": "tower_lab_stairs",
     "copy-from": "tower_lab",
-    "sym": "\u00ED"
+    "sym": "í"
   },
   {
     "type": "overmap_terrain",
     "id": "tower_lab_finale",
     "copy-from": "tower_lab",
-    "sym": "\u00ED"
+    "sym": "í"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_train_depot",
     "copy-from": "lab_train_depot",
-    "sym": "\u00C6"
+    "sym": "Æ"
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_train_depot",
     "copy-from": "central_lab_train_depot",
-    "sym": "\u00C6"
+    "sym": "Æ"
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_entrance",
     "copy-from": "central_lab_entrance",
-    "sym": "\u00E8"
+    "sym": "è"
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_shaft",
     "copy-from": "central_lab_shaft",
-    "sym": "\u00D2"
+    "sym": "Ò"
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_central_lab",
     "copy-from": "generic_central_lab",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
@@ -171,159 +171,44 @@
     "type": "overmap_terrain",
     "id": "central_lab",
     "copy-from": "central_lab",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_stairs",
     "copy-from": "central_lab_stairs",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_core",
     "copy-from": "central_lab_core",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_finale",
     "copy-from": "central_lab_finale",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementA0",
-    "copy-from": "lab_surface_brick_basementA0",
-    "sym": "\u00AE"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementB0",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementC0",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementD0",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementE0",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementA1",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementB1",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementC1",
-    "copy-from": "lab_surface_brick_basementA0"
+    "id": "lab_surface_brick_basementE1",
+    "copy-from": "lab_surface_brick_basementE1",
+    "sym": "®"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_basementD1_hidden_lab_stairs",
     "copy-from": "lab_surface_brick_basementD1_hidden_lab_stairs",
-    "sym": "\u00C1",
+    "sym": "Á",
     "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementE1",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementA2",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementB2",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementC2",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementD2",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementE2",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementA3",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementB3",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementC3",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementD3",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementE3",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementA4",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementB4",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementC4",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementD4",
-    "copy-from": "lab_surface_brick_basementA0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lab_surface_brick_basementE4",
-    "copy-from": "lab_surface_brick_basementA0"
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_blockA0",
     "copy-from": "lab_surface_brick_blockA0",
-    "sym": "\u00F4"
+    "sym": "ô"
   },
   {
     "type": "overmap_terrain",
@@ -374,7 +259,7 @@
     "type": "overmap_terrain",
     "id": "lab_surface_brick_blockA2",
     "copy-from": "lab_surface_brick_blockA2",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
@@ -410,7 +295,7 @@
     "type": "overmap_terrain",
     "id": "lab_surface_brick_blockC3",
     "copy-from": "lab_surface_brick_blockC3",
-    "sym": "\u00C1",
+    "sym": "Á",
     "color": "light_gray"
   },
   {
@@ -452,7 +337,7 @@
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2A0",
     "copy-from": "lab_surface_brick_block2A0",
-    "sym": "\u00A6"
+    "sym": "¦"
   },
   {
     "type": "overmap_terrain",
@@ -503,7 +388,7 @@
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block2A2",
     "copy-from": "lab_surface_brick_block2A2",
-    "sym": "\u00AE"
+    "sym": "®"
   },
   {
     "type": "overmap_terrain",
@@ -629,7 +514,7 @@
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block3A2",
     "copy-from": "lab_surface_brick_block3A2",
-    "sym": "\u00AE"
+    "sym": "®"
   },
   {
     "type": "overmap_terrain",
@@ -755,7 +640,7 @@
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block4A2",
     "copy-from": "lab_surface_brick_block4A2",
-    "sym": "\u00AE"
+    "sym": "®"
   },
   {
     "type": "overmap_terrain",
@@ -881,7 +766,7 @@
     "type": "overmap_terrain",
     "id": "lab_surface_brick_block5A2",
     "copy-from": "lab_surface_brick_block5A2",
-    "sym": "\u00C1",
+    "sym": "Á",
     "color": "light_blue"
   },
   {

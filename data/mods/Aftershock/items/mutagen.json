@@ -5,7 +5,7 @@
     "type": "COMESTIBLE",
     "name": "mi-go serum",
     "description": "A super-concentrated mutagen strongly resembling a lava lamp.  You need a syringe to inject it… if you really want to?",
-    "price": 1000000,
+    "price": "10 kUSD",
     "color": "red",
     "healthy": -4,
     "use_action": { "type": "mutagen_iv", "mutation_category": "MIGO" }
@@ -16,7 +16,7 @@
     "type": "COMESTIBLE",
     "name": "mi-go mutagen",
     "description": "An extremely rare mutagen cocktail, it smells of sulphur and glows orange.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": { "type": "mutagen", "mutation_category": "MIGO" }
   },
   {
@@ -25,7 +25,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "mastodon serum" },
     "description": "A super-concentrated mutagen not for those frightened of this thing they have become.  You need a syringe to inject it… if you really want to?",
-    "price": 1000000,
+    "price": "10 kUSD",
     "color": "red",
     "healthy": -4,
     "use_action": { "type": "mutagen_iv", "mutation_category": "MASTODON" }
@@ -36,7 +36,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "mastodon mutagen" },
     "description": "An extremely rare mutagen cocktail, it seeks to cure what's deep inside.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": { "type": "mutagen", "mutation_category": "MASTODON" }
   }
 ]

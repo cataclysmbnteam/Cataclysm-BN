@@ -1,0 +1,9 @@
+[
+  {
+    "result": "pressurized_tank_chem",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "metal_tank_little", 1 ] ] ]
+  }
+]

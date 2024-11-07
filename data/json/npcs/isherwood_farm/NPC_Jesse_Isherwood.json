@@ -20,9 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_female_worn",
+    "carry_override": "NC_ISHERWOOD_carry",
+    "weapon_override": "EMPTY_GROUP",
     "skills": [
       {
         "skill": "ALL",
@@ -184,7 +184,7 @@
   {
     "id": "MISSION_ISHERWOOD_JESSE_1",
     "type": "mission_definition",
-    "name": { "str": "Kill monster" },
+    "name": { "str": "Kill wolves" },
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 50000,
@@ -211,7 +211,7 @@
   {
     "id": "MISSION_ISHERWOOD_JESSE_2",
     "type": "mission_definition",
-    "name": { "str": "Kill monster" },
+    "name": { "str": "Kill unknown monsters" },
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 8,
     "value": 80000,

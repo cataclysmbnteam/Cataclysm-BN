@@ -4,7 +4,7 @@
 
 #include <list>
 
-#include "item_location.h"
+#include "safe_reference.h"
 
 class JsonIn;
 class JsonOut;
@@ -12,17 +12,17 @@ class JsonOut;
 struct iuse_location {
     iuse_location() = default;
     ~iuse_location() = default;
-    iuse_location( const item_location &loc, int count ) : loc( loc ), count( count ) { }
+    iuse_location( item &loc, int count ) : loc( &loc ), count( count ) { }
 
-    item_location loc;
+    safe_reference<item> loc;
     int count = 0;
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 };
-using iuse_locations = std::list<iuse_location>;
+using iuse_locations = std::vector<iuse_location>;
 
 using drop_location = iuse_location;
-using drop_locations = std::list<drop_location>;
+using drop_locations = std::vector<drop_location>;
 
 #endif // CATA_SRC_ITEM_HANDLING_UTIL_H

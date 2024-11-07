@@ -336,7 +336,7 @@
     "prereqs": [ "THIRST" ],
     "changes_to": [ "THIRST3" ],
     "cancels": [ "NO_THIRST" ],
-    "thirst_modifier": 1.0
+    "thirst_modifier": 1
   },
   {
     "type": "mutation",

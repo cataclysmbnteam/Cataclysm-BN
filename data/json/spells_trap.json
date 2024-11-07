@@ -1,0 +1,26 @@
+[
+  {
+    "id": "spell_trap_can_alarm_trigger",
+    "type": "SPELL",
+    "name": { "str": "Can Alarm Trigger" },
+    "description": "Has to be a target_attack spell instead of noise because spellcasting traps are a hacky mess.",
+    "valid_targets": [ "self", "ally", "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_VFX" ],
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "effect": "target_attack",
+    "extra_effects": [ { "id": "spell_trap_can_alarm_effect" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_trap_can_alarm_effect",
+    "name": { "str": "Can Alarm Effect" },
+    "description": "And this triggers the actual sound ",
+    "sound_description": "empty cans clattering!",
+    "min_damage": 25,
+    "max_damage": 25,
+    "valid_targets": [ "ground" ],
+    "flags": [ "NO_EXPLOSION_VFX" ],
+    "effect": "noise"
+  }
+]

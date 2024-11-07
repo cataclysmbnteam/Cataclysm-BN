@@ -33,6 +33,7 @@
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 extern void set_displaybuffer_rendertarget();
@@ -343,7 +344,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             if( current_color != color ) {
                 current_color = color;
-                cache_item.update_list.push_back( { x, y } );
+                cache_item.update_list.emplace_back( x, y );
             }
         }
     }

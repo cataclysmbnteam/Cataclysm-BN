@@ -1,6 +1,7 @@
 #include "filesystem.h"
 
 // FILE I/O
+#include <stdexcept>
 #include <sys/stat.h>
 #include <cstdlib>
 #include <algorithm>
@@ -8,6 +9,7 @@
 #include <cstdio>
 #include <cstring>
 #include <deque>
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -80,7 +82,19 @@ bool file_exist( const std::string &path )
 }
 #endif
 
+std::string as_norm_dir( const std::string &path )
+{
+    std::filesystem::path dir = std::filesystem::path( path ) / std::filesystem::path{};
+    std::filesystem::path norm = dir.lexically_normal();
+    const std::string ret = norm.generic_string();
+    if( ret == "." ) {
+        return "./"; // TODO Change the many places that use strings instead of paths
+    }
+    return ret;
+}
+
 #if defined(_WIN32)
+
 bool remove_file( const std::string &path )
 {
     return DeleteFileW( utf8_to_wstr( path ).c_str() ) != 0;
@@ -115,6 +129,18 @@ bool remove_directory( const std::string &path )
 #else
     return remove( path.c_str() ) == 0;
 #endif
+}
+
+bool remove_tree( const std::string &path )
+{
+    try {
+        // C++20 - path constructor can take the string as is but it fails on windows
+        std::filesystem::remove_all( std::filesystem::path( path ) );
+    } catch( std::filesystem::filesystem_error &e ) {
+        dbg( DL::Error ) << "remove_tree [" << path << "] failed with \"" << e.what() << "\".";
+        return false;
+    }
+    return true;
 }
 
 const char *cata_files::eol()
@@ -305,7 +331,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
     std::deque<std::string>  directories;
     if( root_path.empty() ) {
         directories.emplace_back( "./" );
-    } else if( string_ends_with( root_path, "/" ) ) {
+    } else if( root_path.ends_with( "/" ) ) {
         directories.emplace_back( root_path );
     } else {
         directories.emplace_back( root_path + "/" );
@@ -470,7 +496,7 @@ const char *CBN = "Q2F0YWNseXNtQnJpZ2h0TmlnaHRz";
 bool can_write_to_dir( const std::string &dir_path )
 {
     std::string dummy_file;
-    if( string_ends_with( dir_path, "/" ) ) {
+    if( dir_path.ends_with( "/" ) ) {
         dummy_file = dir_path + CBN;
     } else {
         dummy_file = dir_path + "/" + CBN;
@@ -484,7 +510,7 @@ bool can_write_to_dir( const std::string &dir_path )
 
     const auto writer = []( std::ostream & s ) {
         // Write at least something to check if there is free space on disk
-        s << CBN << std::endl;
+        s << CBN << '\n';
     };
 
     if( !write_to_file( dummy_file, writer, nullptr ) ) {

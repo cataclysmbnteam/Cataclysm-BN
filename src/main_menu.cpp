@@ -16,6 +16,7 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "catalua.h"
 #include "character_id.h"
 #include "color.h"
 #include "debug.h"
@@ -217,12 +218,20 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             }
             std::vector<std::string> all_worldnames = world_generator->all_worldnames();
             for( int i = 0; static_cast<size_t>( i ) < all_worldnames.size(); i++ ) {
-                int savegames_count = world_generator->get_world( all_worldnames[i] )->world_saves.size();
+                WORLDPTR world = world_generator->get_world( all_worldnames[i] );
+                int savegames_count = world->world_saves.size();
                 nc_color clr = c_white;
+                std::string txt = all_worldnames[i];
+                if( world->needs_lua() && !cata::has_lua() ) {
+                    clr = c_light_gray;
+                    txt += " - ";
+                    //~ Marker for worlds that need Lua in game builds without Lua
+                    txt += _( "Needs Lua!" );
+                }
                 if( all_worldnames[i] == "TUTORIAL" || all_worldnames[i] == "DEFENSE" ) {
                     clr = c_light_cyan;
                 }
-                sub_opts.push_back( colorize( string_format( "%s (%d)", all_worldnames[i], savegames_count ),
+                sub_opts.push_back( colorize( string_format( "%s (%d)", txt, savegames_count ),
                                               ( sel2 == i + ( extra_opt ? 1 : 0 ) ) ? hilite( clr ) : clr ) );
                 int len = utf8_width( sub_opts.back(), true );
                 if( len > xlen ) {
@@ -595,6 +604,21 @@ bool main_menu::opening_screen()
         return false;
     }
 
+    std::optional<int> os_bitness = get_os_bitness();
+    std::optional<int> game_bitness = game_info::bitness();
+    if( os_bitness && *os_bitness == 64 && game_bitness && *game_bitness == 32 ) {
+        popup( _(
+                   "You are running x32 build of the game on a x64 operating system.  "
+                   "This means the game will NOT be able to access all memory, "
+                   "and you may experience random out-of-memory crashes.  "
+                   "Consider obtaining a x64 build of the game to avoid that, "
+                   "but if you *really* want to be running x32 build of the game "
+                   "for some reason (or don't have a choice), you may want to lower "
+                   "your memory usage by disabling tileset, soundpack and mods "
+                   "and increasing autosave frequency."
+               ) );
+    }
+
     load_char_templates();
 
     ctxt.register_cardinal();
@@ -613,18 +637,11 @@ bool main_menu::opening_screen()
     player_character = avatar();
 
     int sel_line = 0;
-    size_t last_world_pos = 0;
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->all_worldnames().empty() ) {
-        std::vector<std::string> worlds = world_generator->all_worldnames();
-        last_world_pos = std::find( worlds.begin(), worlds.end(),
-                                    world_generator->last_world_name ) - worlds.begin();
-        if( last_world_pos >= worlds.size() ) {
-            last_world_pos = 0;
-        }
         sel1 = getopt( main_menu_opts::LOADCHAR );
-        sel2 = last_world_pos;
+        sel2 = world_generator->get_world_index( world_generator->last_world_name );
     }
 
     background_pane background;
@@ -642,6 +659,9 @@ bool main_menu::opening_screen()
     bool start_new = false;
     while( !start ) {
         ui_manager::redraw();
+        // Refresh in case player created new world or deleted old world
+        // Since this is an index for a mutable array, it should always be regenerated instead of modified.
+        const size_t last_world_pos = world_generator->get_world_index( world_generator->last_world_name );
         std::string action = ctxt.handle_input();
         input_event sInput = ctxt.get_raw_input();
 
@@ -941,12 +961,21 @@ bool main_menu::new_character_tab()
 
 bool main_menu::load_character_tab( const std::string &worldname )
 {
-    savegames = world_generator->get_world( worldname )->world_saves;
+    WORLDPTR world = world_generator->get_world( worldname );
+    savegames = world->world_saves;
     if( MAP_SHARING::isSharing() ) {
         auto new_end = std::remove_if( savegames.begin(), savegames.end(), []( const save_t &str ) {
             return str.decoded_name() != MAP_SHARING::getUsername();
         } );
         savegames.erase( new_end, savegames.end() );
+    }
+
+    if( world->needs_lua() && !cata::has_lua() ) {
+        on_error();
+        //~ Error when attempting to load a world whose mods depend on Lua
+        //~ on game build that doesn't have Lua.  %s = world name.
+        popup( _( "%s needs game build with Lua support!" ), worldname );
+        return false;
     }
 
     if( savegames.empty() ) {
@@ -980,7 +1009,6 @@ bool main_menu::load_character_tab( const std::string &worldname )
     } );
 
     g->gamemode = nullptr;
-    WORLDPTR world = world_generator->get_world( worldname );
     world_generator->last_world_name = world->world_name;
     world_generator->last_character_name = savegames[opt_val].decoded_name();
     world_generator->save_last_world_info();

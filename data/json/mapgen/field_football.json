@@ -48,7 +48,7 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
-        "                                                                                                                        ",
+        "                       '                       '                       '                       '                       '",
         "                                                                                                                        ",
         "                    HHHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHH RR                   ",
         "                     ,,,,,,,,,,,,,,,,,   ,,,,,,,,,,,,,,,,,   ,,,,,,,,,,,,,,,,,   ,,,,,,,,,,,,,,,,,,,,,                  ",
@@ -60,7 +60,7 @@
         "     p.p.p...................................................................................................p.p.p      ",
         "    p.p.p.ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp.p.p.p     ",
         "   p.p.p.pp                                                                                                 pp.p.p.p    ",
-        "   p.p.p.p                              HHHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHHH                              p.p.p.p    ",
+        "   p.p.p.p   '                          HHHHHHHHHHHHHHHHHHH'HHHHHHHHHHHHHHHHHHH                          '   p.p.p.p    ",
         "   p.p.p.p                                                                                                   p.p.p.p    ",
         "   p.p.p.p %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% p.p.p.p    ",
         "   p.p.p.p %       %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %       % p.p.p.p    ",
@@ -167,7 +167,7 @@
         "   p.p.p.p %       %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %   %       % p.p.p.p    ",
         "   p.p.p.p %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% p.p.p.p    ",
         "   p.p.p.p                                                                                                   p.p.p.p    ",
-        "   p.p.p.p      HHHHHHHH                HHHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHHH                              p.p.p.p    ",
+        "   p.p.p.p   '  HHHHHHHH                HHHHHHHHHHHHHHHHHHH'HHHHHHHHHHHHHHHHHHH                          '   p.p.p.p    ",
         "   p.p.p.pp                                                                                                 pp.p.p.p    ",
         "    p.p.p.ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp.p.p.p     ",
         "     p.p.p...................................................................................................p.p.p      ",

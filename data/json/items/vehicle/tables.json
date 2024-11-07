@@ -13,8 +13,8 @@
     "volume": "10500 ml",
     "bashing": 6,
     "category": "veh_parts",
-    "price": 20000,
-    "price_postapoc": 100
+    "price": "200 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -32,7 +32,7 @@
     "weight": "23000 g",
     "material": [ "steel" ],
     "bashing": 8,
-    "price": 40000,
+    "price": "400 USD",
     "copy-from": "v_table"
   }
 ]

@@ -138,9 +138,9 @@ void material_type::check() const
         }
     }
     for( auto &ci : _compacts_into ) {
-        if(
+        if( //TODO!: move this to type
             !ci.is_valid() ||
-            !item( ci, calendar::start_of_cataclysm ).only_made_of( std::set<material_id> { id } )
+            !item::spawn_temporary( ci, calendar::start_of_cataclysm )->only_made_of( std::set<material_id> { id } )
         ) {
             debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
         }

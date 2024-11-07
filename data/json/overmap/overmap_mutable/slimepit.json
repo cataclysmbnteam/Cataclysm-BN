@@ -1,0 +1,63 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Slime Pit",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 3, 30 ],
+    "occurrences": [ 0, 3 ],
+    "rotate": false,
+    "spawns": { "group": "GROUP_GOO", "population": [ 100, 200 ], "radius": [ 2, 10 ] },
+    "flags": [ "SLIME" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "wilderness" ] ],
+      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
+      [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
+      [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
+    ],
+    "joins": [ "slime_to_slime" ],
+    "overmaps": {
+      "surface": { "overmap": "slimepit_down", "below": "slime_to_slime", "locations": [ "wilderness" ] },
+      "slimepit": {
+        "overmap": "slimepit",
+        "above": { "id": "slime_to_slime", "type": "available" },
+        "north": "slime_to_slime",
+        "east": "slime_to_slime",
+        "south": "slime_to_slime",
+        "west": "slime_to_slime"
+      },
+      "slimepit_down": {
+        "overmap": "slimepit_down",
+        "below": "slime_to_slime",
+        "north": "slime_to_slime",
+        "east": "slime_to_slime",
+        "south": "slime_to_slime",
+        "west": "slime_to_slime"
+      },
+      "rock": {
+        "overmap": "rock",
+        "north": { "id": "slime_to_slime", "type": "available" },
+        "east": { "id": "slime_to_slime", "type": "available" },
+        "south": { "id": "slime_to_slime", "type": "available" },
+        "west": { "id": "slime_to_slime", "type": "available" }
+      }
+    },
+    "root": "surface",
+    "shared": { "size": [ 4, 10 ] },
+    "phases": [
+      [ { "overmap": "slimepit", "max": 1 } ],
+      [
+        { "overmap": "slimepit", "scale": "size", "max": { "poisson": 1 } },
+        {
+          "name": "stairs",
+          "chunk": [ { "overmap": "slimepit_down", "pos": [ 0, 0, 0 ] }, { "overmap": "slimepit", "pos": [ 0, 0, -1 ] } ],
+          "scale": "size",
+          "max": { "poisson": 0.1 }
+        }
+      ],
+      [ { "overmap": "rock" } ]
+    ]
+  }
+]

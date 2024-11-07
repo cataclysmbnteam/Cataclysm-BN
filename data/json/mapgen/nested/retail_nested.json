@@ -1229,6 +1229,25 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "city_block_14x14_restaurant_checkered_floor",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "       ",
+        "       ",
+        "XOXOXOX",
+        "OXOXOXO",
+        "XOXOXOX",
+        "OXOXOXO",
+        "XOXOXOX"
+      ],
+      "terrain": { "X": "t_linoleum_gray", "O": "t_linoleum_white" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "//": "designed for restaurant spaces 14x14.",
     "nested_mapgen_id": "city_block_14x14_restaurant",
     "object": {
@@ -1255,7 +1274,6 @@
         "L": "f_table",
         "H": "f_chair",
         "G": "f_sofa",
-        "t": "f_toilet",
         "j": "f_sink",
         "P": "f_rack",
         "S": "f_rack",
@@ -1271,6 +1289,7 @@
         "R": "f_counter",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
+      "place_nested": [ { "chunks": [ "city_block_14x14_restaurant_checkered_floor" ], "x": 0, "y": 7 } ],
       "items": {
         "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
         "l": [ { "item": "restaur_sink", "chance": 30, "repeat": [ 1, 2 ] } ],
@@ -1298,7 +1317,8 @@
           { "item": "groce_bread", "chance": 30, "repeat": [ 0, 4 ] },
           { "item": "restaur_kitchen", "chance": 30, "repeat": [ 1, 2 ] }
         ]
-      }
+      },
+      "toilets": { "t": {  } }
     }
   },
   {
@@ -1327,7 +1347,6 @@
         "L": "f_table",
         "x": "f_pool_table",
         "G": "f_sofa",
-        "t": "f_toilet",
         "j": "f_sink",
         "Y": "f_trashcan",
         "A": "f_stool",
@@ -1355,7 +1374,8 @@
           { "item": "bar_alcohol", "chance": 30, "repeat": [ 0, 4 ] },
           { "item": "bar_fridge", "chance": 30, "repeat": [ 1, 2 ] }
         ]
-      }
+      },
+      "toilets": { "t": {  } }
     }
   }
 ]

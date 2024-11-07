@@ -1163,7 +1163,10 @@
       { "x": -1, "y": -1, "part": "plating_military" },
       { "x": 3, "y": -2, "part": "plating_military" },
       { "x": 4, "y": -1, "part": "plating_military" },
-      { "x": 3, "y": 0, "part": "plating_military" }
+      { "x": 3, "y": 0, "part": "plating_military" },
+      { "x": -10, "y": -1, "part": "wheel_10" },
+      { "x": -2, "y": 0, "part": "wheel_10" },
+      { "x": -2, "y": -2, "part": "wheel_10" }
     ],
     "items": [
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "drugs_soldier" ] },
@@ -1312,7 +1315,9 @@
       { "x": -1, "y": -1, "part": "plating_military" },
       { "x": 3, "y": -2, "part": "plating_military" },
       { "x": 4, "y": -1, "part": "plating_military" },
-      { "x": 3, "y": 0, "part": "plating_military" }
+      { "x": 3, "y": 0, "part": "plating_military" },
+      { "x": -2, "y": 0, "part": "wheel_10" },
+      { "x": -2, "y": -2, "part": "wheel_10" }
     ],
     "items": [
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "drugs_soldier" ] },
@@ -3537,6 +3542,43 @@
       { "x": 0, "y": 2, "chance": 7, "items": [ "roadmap" ] },
       { "x": 0, "y": 2, "chance": 7, "items": [ "pockknife" ] },
       { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] }
+    ]
+  },
+  {
+    "id": "helicopter_gyro",
+    "type": "vehicle",
+    "name": "Gyrocopter",
+    "blueprint": [ [ "-X#" ] ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "xlframe_cross",
+          "seat",
+          "seatbelt",
+          { "part": "tank", "fuel": "gasoline" },
+          "controls",
+          "dashboard",
+          "wheel_mount_light_steerable",
+          "wheel_motorbike"
+        ]
+      },
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [
+          "xlframe_vertical",
+          "stowboard_vertical",
+          "engine_inline4",
+          "alternator_car",
+          "battery_car",
+          "gyrocopter_rotors",
+          "wheel_mount_light",
+          "wheel_motorbike_rear"
+        ]
+      },
+      { "x": -2, "y": 0, "parts": [ "xlframe_vertical" ] }
     ]
   }
 ]

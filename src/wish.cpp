@@ -16,6 +16,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
@@ -51,6 +52,8 @@ class wish_mutate_callback: public uilist_callback
         bool started = false;
         std::vector<trait_id> vTraits;
         std::map<trait_id, bool> pTraits;
+        // Traits by mutation category
+        std::unordered_map<mutation_category_id, std::set<mutation_branch>> category_mutations;
         player *p;
 
         nc_color mcolor( const trait_id &m ) {
@@ -62,7 +65,8 @@ class wish_mutate_callback: public uilist_callback
 
         wish_mutate_callback() = default;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
-            if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
+            const int input = event.get_first_input();
+            if( input == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
                     p->unset_mutation( vTraits[ entnum ] );
@@ -82,15 +86,57 @@ class wish_mutate_callback: public uilist_callback
                 entry.extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
             }
+            if( input == 'c' || input == 'C' ) {
+                // Building menu with mutation category entries (first entry - 'ALL' for cancell purposes)
+                uilist category_menu;
+                // We'll keep vector of values to map it later from user input
+                std::vector<std::pair<const string_id<mutation_category_trait>, std::set<mutation_branch>>*>
+                        entries;
+                int c = 0;
+                auto ch = '0';
+                category_menu.addentry( c, true, ch, "ALL" );
+                for( auto &it : category_mutations ) {
+                    c++;
+                    ch++;
+                    category_menu.addentry( c, true, ch, it.first.str() );
+                    entries.push_back( &it );
+                }
+                // Waiting for user input
+                category_menu.query();
+                int ret = category_menu.ret;
+                if( ret < 0 ) {
+                    return true;
+                }
+                if( ret == 0 ) {
+                    // If 'ALL' chosen - clearing filter
+                    menu->clear_filter();
+                    return true;
+                }
+                ret -= 1;
+                // Extracting selected option & filtering traits on category presence
+                const auto entry = entries[ret];
+                auto predicate = [&]( const int idx ) {
+                    return entry->second.find( *vTraits[idx] ) != entry->second.end();
+                };
+                menu->filterpredicate( predicate );
+                return true;
+            }
             return false;
         }
 
         void refresh( uilist *menu ) override {
+            // If it is our first time in menu - collect some data to map with uilist entry later
             if( !started ) {
                 started = true;
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
                     pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
+                    for( auto &category : traits_iter.category ) {
+                        if( category_mutations.find( category ) == category_mutations.end() ) {
+                            category_mutations[category] = std::set<mutation_branch>();
+                        }
+                        category_mutations[category].insert( traits_iter );
+                    }
                 }
             }
 
@@ -194,8 +240,8 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.category.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
-                    for( auto &j : mdata.category ) {
-                        mvwprintw( menu->window, point( startx + 11, line2 ), j );
+                    for( const mutation_category_id &j : mdata.category ) {
+                        mvwprintw( menu->window, point( startx + 11, line2 ), j.str() );
                         line2++;
                     }
                 }
@@ -223,7 +269,7 @@ class wish_mutate_callback: public uilist_callback
             msg.clear();
             input_context ctxt( menu->input_category );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
-                       _( "[%s] find, [%s] quit, [t] toggle base trait" ),
+                       _( "[%s] find, [%s] quit, [t] toggle base trait, [c] mutation categories menu" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
 
             wnoutrefresh( menu->window );
@@ -442,7 +488,7 @@ class wish_monster_callback: public uilist_callback
         // Number of monsters to spawn.
         int group;
         // scrap critter for monster::print_info
-        monster tmp;
+        std::unique_ptr<monster> tmp;
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
@@ -477,27 +523,26 @@ class wish_monster_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             catacurses::window w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
                                         point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
-            const std::string padding = std::string( getmaxx( w_info ), ' ' );
 
             const int entnum = menu->selected;
             const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
             if( entnum != lastent ) {
                 lastent = entnum;
                 if( valid_entnum ) {
-                    tmp = monster( mtypes[ entnum ]->id );
+                    tmp = std::make_unique<monster>( mtypes[ entnum ]->id );
                     if( friendly ) {
-                        tmp.friendly = -1;
+                        tmp->friendly = -1;
                     }
                 } else {
-                    tmp = monster();
+                    tmp = std::make_unique<monster>();
                 }
             }
 
             werase( w_info );
             if( valid_entnum ) {
-                tmp.print_info( w_info, 2, 5, 1 );
+                tmp->print_info( w_info, 2, 5, 1 );
 
-                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
+                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp->type->nname(),
                                                     group, hallucination ? _( " (hallucination)" ) : "" );
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
@@ -624,7 +669,7 @@ class wish_item_callback: public uilist_callback
             mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                item tmp( standard_itype_ids[entnum], calendar::turn );
+                item &tmp = *item::spawn_temporary( standard_itype_ids[entnum], calendar::turn );
                 const std::string header = string_format( "#%d: %s%s%s", entnum,
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
@@ -665,7 +710,12 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     }
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
-        opts.emplace_back( item( i, calendar::start_of_cataclysm ).tname( 1, false ), i );
+        //TODO!: push up
+        auto it = item::spawn_temporary( i, calendar::start_of_cataclysm );
+        if( it->has_flag( flag_VARSIZE ) ) {
+            it->set_flag( flag_FIT );
+        }
+        opts.emplace_back( it->tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -689,7 +739,8 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
-        item ity( opts[i].second, calendar::start_of_cataclysm );
+        //TODO!: push up
+        item &ity = *item::spawn_temporary( opts[i].second, calendar::start_of_cataclysm );
         wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
@@ -703,19 +754,22 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted( opts[wmenu.ret].second );
+            detached_ptr<item> granted = item::spawn( opts[wmenu.ret].second );
+            if( granted->has_flag( flag_VARSIZE ) ) {
+                granted->set_flag( flag_FIT );
+            }
             if( cb.incontainer ) {
-                granted = granted.in_its_container();
+                granted = item::in_its_container( std::move( granted ) );
             }
             if( cb.has_flag ) {
-                granted.item_tags.insert( cb.flag );
+                granted->item_tags.insert( flag_id( cb.flag ) );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( !granted.ammo_default().is_null() ) {
-                granted.ammo_set( granted.ammo_default(), -1 );
+            if( !granted->ammo_default().is_null() ) {
+                granted->ammo_set( granted->ammo_default(), -1 );
             }
 
-            granted.set_birthday( calendar::turn );
+            granted->set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
             if( p != nullptr && !did_amount_prompt ) {
@@ -730,7 +784,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                 } else {
                     popup
                     .title( _( "How many?" ) )
-                    .description( granted.tname() );
+                    .description( granted->tname() );
                 }
                 popup.width( 20 )
                 .edit( amount );
@@ -739,19 +793,19 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
             if( !canceled ) {
                 did_amount_prompt = true;
                 if( p != nullptr ) {
-                    if( granted.count_by_charges() ) {
+                    if( granted->count_by_charges() ) {
                         if( amount > 0 ) {
-                            granted.charges = amount;
-                            p->i_add_or_drop( granted );
+                            granted->charges = amount;
+                            p->i_add_or_drop( item::spawn( *granted ) );
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add_or_drop( granted );
+                            p->i_add_or_drop( item::spawn( *granted ) );
                         }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, granted );
+                    g->m.add_item_or_charges( pos, item::spawn( *granted ) );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {

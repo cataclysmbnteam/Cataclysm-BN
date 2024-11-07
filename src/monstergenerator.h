@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "catalua_type_operators.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
@@ -28,6 +29,7 @@ using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_at
 
 struct species_type {
     species_id id;
+    translation name;
     bool was_loaded = false;
     translation description;
     translation footsteps;
@@ -44,6 +46,8 @@ struct species_type {
     }
 
     void load( const JsonObject &jo, const std::string &src );
+
+    LUA_TYPE_OPS( species_type, id );
 };
 
 class MonsterGenerator

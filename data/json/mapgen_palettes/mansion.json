@@ -112,7 +112,8 @@
       "o": "t_door_frame",
       "x": "t_wall_glass",
       "|": "t_railing_v"
-    }
+    },
+    "nested": { "O": { "chunks": [ [ "null", 95 ], [ "house_place_air_conditioner", 5 ] ] } }
   },
   {
     "type": "palette",

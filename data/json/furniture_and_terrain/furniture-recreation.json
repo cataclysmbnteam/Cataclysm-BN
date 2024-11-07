@@ -28,7 +28,9 @@
         { "item": "steel_chunk", "prob": 50 },
         { "item": "pipe", "count": 1 },
         { "item": "lead", "charges": [ 1000, 2000 ] }
-      ]
+      ],
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 60, "block_unaimed_chance": "25%" }
     }
   },
   {
@@ -78,7 +80,8 @@
         { "item": "nail", "charges": [ 4, 12 ] },
         { "item": "splinter", "count": 1 },
         { "item": "felt_patch", "count": [ 0, 2 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -102,21 +105,51 @@
   {
     "type": "furniture",
     "id": "f_target",
-    "name": "target",
-    "description": "A metal shooting target in the rough shape of a human.",
+    "name": "steel target",
+    "description": "A metal shooting target in the rough shape of a human, that tips over when shot.  Or you could examine it to tip it over by hand, if you want.",
     "symbol": "@",
     "color": "black",
-    "move_cost_mod": 2,
-    "coverage": 40,
+    "move_cost_mod": -1,
+    "coverage": 60,
     "required_str": 5,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "SHOOT_ME" ],
+    "deconstruct": { "items": [ { "item": "steel_plate", "count": 1 }, { "item": "pipe", "count": 4 } ] },
     "bash": {
-      "str_min": 6,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "sheet_metal_small", "count": [ 3, 7 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
-    }
+      "str_min": 12,
+      "str_max": 25,
+      "sound": "clatter!",
+      "sound_fail": "plink!",
+      "furn_set": "f_target_downed",
+      "//": "reduction equal to str_max of toppled version, due to being designed to soak up bullets",
+      "ranged": { "reduction": [ 50, 50 ], "destroy_threshold": 25, "block_unaimed_chance": "50%" }
+    },
+    "examine_action": "transform",
+    "transforms_into": "f_target_downed",
+    "prompt": "Tip steel target over",
+    "message": "You knock the steel target over.  How fun."
+  },
+  {
+    "type": "furniture",
+    "id": "f_target_downed",
+    "copy-from": "f_target",
+    "name": "toppled steel target",
+    "description": "A metal shooting target in the rough shape of a human.  It's been knocked over by a good hit, examine it to stand it back up.",
+    "symbol": "@",
+    "color": "black",
+    "looks_like": "steel_plate",
+    "move_cost_mod": 0,
+    "coverage": 0,
+    "delete": { "flags": [ "SHOOT_ME" ] },
+    "bash": {
+      "str_min": 25,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "ting.",
+      "items": [ { "item": "steel_plate", "count": 1 }, { "item": "pipe", "count": [ 1, 3 ] } ]
+    },
+    "transforms_into": "f_target",
+    "prompt": "Stand steel target upright",
+    "message": "You prop the steel target back up."
   },
   {
     "type": "furniture",
@@ -155,7 +188,9 @@
         { "item": "circuit", "count": [ 0, 4 ] },
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "count": [ 0, 2 ] }
-      ]
+      ],
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 3, 6 ], "destroy_threshold": 35, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -166,7 +201,7 @@
     "symbol": "7",
     "color": "red",
     "move_cost_mod": -1,
-    "coverage": 35,
+    "coverage": 75,
     "required_str": 8,
     "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
     "deconstruct": {
@@ -202,7 +237,9 @@
         { "item": "glass_shard", "count": [ 1, 3 ] },
         { "item": "plastic_chunk", "count": [ 1, 3 ] },
         { "item": "bearing", "charges": [ 0, 16 ] }
-      ]
+      ],
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 4, 8 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -307,7 +344,8 @@
         { "item": "chain", "count": [ 1, 3 ] },
         { "item": "leather", "count": [ 4, 12 ] },
         { "item": "rag", "count": [ 4, 18 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 15, 15 ], "destroy_threshold": 20, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -344,7 +382,8 @@
         { "item": "nail", "charges": [ 6, 12 ] },
         { "item": "splinter", "count": 1 },
         { "item": "plastic_chunk", "count": [ 1, 5 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -383,7 +422,8 @@
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "e_scrap", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 20, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -443,7 +483,8 @@
         { "item": "splinter", "count": 1 },
         { "item": "felt_patch", "count": [ 0, 2 ] },
         { "item": "scrap", "count": [ 0, 1 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -484,7 +525,8 @@
         { "item": "plastic_chunk", "count": [ 1, 6 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "cable", "count": [ 1, 3 ] }
-      ]
+      ],
+      "ranged": { "reduction": [ 16, 16 ], "destroy_threshold": 40 }
     }
   }
 ]

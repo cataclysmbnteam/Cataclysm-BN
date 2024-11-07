@@ -7,8 +7,8 @@
     "description": "The Bond Arms Derringer is a series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.",
     "weight": "595 g",
     "volume": "132 ml",
-    "price": 41500,
-    "price_postapoc": 2250,
+    "price": "415 USD",
+    "price_postapoc": "2250 cent",
     "bashing": 2,
     "material": [ "steel", "wood" ],
     "color": "brown",
@@ -23,9 +23,9 @@
       [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ]
   },
   {
@@ -36,8 +36,8 @@
     "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Colt, complementing the Single Action Army as a Cowboy Action Shooting firearm.",
     "weight": "2722 g",
     "volume": "1601 ml",
-    "price": 132000,
-    "price_postapoc": 2500,
+    "price": "1320 USD",
+    "price_postapoc": "25 USD",
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "45colt",
@@ -58,13 +58,23 @@
     "weight": "1048 g",
     "volume": "324 ml",
     "barrel_length": "50 ml",
-    "price": 47900,
-    "price_postapoc": 2500,
+    "price": "479 USD",
+    "price_postapoc": "25 USD",
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "ammo": "45colt",
     "dispersion": 360,
     "blackpowder_tolerance": 56,
     "proportional": { "reload": 1.5 }
+  },
+  {
+    "id": "taurus_judge",
+    "copy-from": "raging_judge",
+    "type": "GUN",
+    "name": { "str_sp": "Taurus Judge" },
+    "description": "The Taurus Judge is a 6-shot revolver chambered in .45 Colt.  It can fire .410 shotshells as well.",
+    "ammo": [ "45colt", "410shot" ],
+    "dispersion": 360,
+    "durability": 6
   }
 ]

@@ -13,8 +13,8 @@
     "bashing": 1,
     "flags": [ "NO_REPAIR" ],
     "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 1000
+    "price": "900 USD",
+    "price_postapoc": "10 USD"
   },
   {
     "type": "GENERIC",
@@ -25,8 +25,8 @@
     "color": "light_blue",
     "material": [ "glass", "steel" ],
     "volume": "6500 ml",
-    "price": 120000,
-    "price_postapoc": 1500,
+    "price": "1200 USD",
+    "price_postapoc": "15 USD",
     "copy-from": "solar_panel"
   },
   {
@@ -36,8 +36,8 @@
     "description": "Electronic device that can convert solar radiation into electric power.  This panel has been upgraded to convert more sunlight into power.  Useful for a vehicle.",
     "weight": "18494 g",
     "volume": "4500 ml",
-    "price": 190000,
-    "price_postapoc": 3000,
+    "price": "1900 USD",
+    "price_postapoc": "30 USD",
     "copy-from": "solar_panel"
   },
   {
@@ -48,8 +48,8 @@
     "weight": "29062 g",
     "to_hit": -5,
     "volume": "7500 ml",
-    "price": 240000,
-    "price_postapoc": 3500,
+    "price": "2400 USD",
+    "price_postapoc": "35 USD",
     "copy-from": "reinforced_solar_panel"
   },
   {
@@ -61,8 +61,8 @@
     "symbol": ";",
     "volume": "250 ml",
     "category": "spare_parts",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "copy-from": "solar_panel"
   }
 ]

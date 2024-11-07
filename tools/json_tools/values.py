@@ -58,9 +58,9 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if args.human:
-        title = "Count of values from field '%s'" % search_key
-        print("\n\n%s" % title)
-        print("(Data from %s out of %s blobs)" % (num_matches, len(json_data)))
+        title = f"Count of values from field '{search_key}'"
+        print(f"\n\n{title}")
+        print(f"(Data from {num_matches} out of {len(json_data)} blobs)")
         print("-" * len(title))
         ui_counts_to_columns(stats)
     else:

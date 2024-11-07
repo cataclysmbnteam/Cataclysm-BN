@@ -20,7 +20,7 @@
     "melee_skill": 3,
     "armor_acid": 4,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_sci_bionics",
     "path_settings": { "max_dist": 3 },
     "special_attacks": [ { "id": "inject" } ],
     "death_drops": "mon_zombie_medical_death_drops",
@@ -43,7 +43,7 @@
     "armor_acid": 10,
     "vision_day": 45,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_sci_bionics",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
@@ -68,7 +68,7 @@
     "armor_acid": 20,
     "vision_day": 50,
     "vision_night": 10,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_sci_bionics",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5, "max_consider_range": 5, "move_cost": 0 },

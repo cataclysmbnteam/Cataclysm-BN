@@ -11,11 +11,8 @@
 #include "item.h"
 #include "itype.h"
 #include "player.h"
-#include "ret_val.h"
-#include "value_ptr.h"
+#include "make_static.h"
 #include "weather.h"
-
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 
 namespace behavior
 {
@@ -25,10 +22,9 @@ namespace behavior
 // approaches time to freeze.
 status_t character_oracle_t::needs_warmth_badly() const
 {
-    const player *p = dynamic_cast<const player *>( subject );
-    // Use player::temp_conv to predict whether the Character is "in trouble".
-    for( const body_part bp : all_body_parts ) {
-        if( p->temp_conv[ bp ] <= BODYTEMP_VERY_COLD ) {
+    // Use bodypart::temp_conv to predict whether the Character is "in trouble".
+    for( const auto &pr : subject->get_body() ) {
+        if( pr.second.get_temp_conv() <= BODYTEMP_VERY_COLD ) {
             return running;
         }
     }
@@ -58,9 +54,9 @@ status_t character_oracle_t::can_wear_warmer_clothes() const
     const player *p = dynamic_cast<const player *>( subject );
     // Check inventory for wearable warmer clothes, greedily.
     // Don't consider swapping clothes yet, just evaluate adding clothes.
-    for( const auto &i : subject->inv.const_slice() ) {
-        const item &candidate = i->front();
-        if( candidate.get_warmth() > 0 || p->can_wear( candidate ).success() ) {
+    for( const auto &i : subject->inv_const_slice() ) {
+        const item *const &candidate = i->front();
+        if( candidate->get_warmth() > 0 || p->can_wear( *candidate ).success() ) {
             return running;
         }
     }
@@ -72,14 +68,14 @@ status_t character_oracle_t::can_make_fire() const
     // Check inventory for firemaking tools and fuel
     bool tool = false;
     bool fuel = false;
-    for( const auto &i : subject->inv.const_slice() ) {
-        const item &candidate = i->front();
-        if( candidate.has_flag( flag_FIRESTARTER ) ) {
+    for( const auto &i : subject->inv_const_slice() ) {
+        const item *const &candidate = i->front();
+        if( candidate->has_flag( STATIC( flag_id( "FIRESTARTER" ) ) ) ) {
             tool = true;
             if( fuel ) {
                 return running;
             }
-        } else if( candidate.flammable() ) {
+        } else if( candidate->flammable() ) {
             fuel = true;
             if( tool ) {
                 return running;
@@ -99,7 +95,7 @@ status_t character_oracle_t::can_take_shelter() const
 status_t character_oracle_t::has_water() const
 {
     // Check if we know about water somewhere
-    bool found_water = subject->inv.has_item_with( []( const item & cand ) {
+    bool found_water = subject->has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->quench > 0;
     } );
     return found_water ? running : failure;
@@ -108,7 +104,7 @@ status_t character_oracle_t::has_water() const
 status_t character_oracle_t::has_food() const
 {
     // Check if we know about food somewhere
-    bool found_food = subject->inv.has_item_with( []( const item & cand ) {
+    bool found_food = subject->has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->has_calories();
     } );
     return found_food ? running : failure;

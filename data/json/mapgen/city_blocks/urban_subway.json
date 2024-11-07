@@ -1,0 +1,51 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_subway" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "rrrrXrrrX322223XrrrXrrrr",
+        "rrr-x---x3^22^3x---x-rrr",
+        "rrrrXrrrX23))32XrrrXrrrr",
+        "rrrrXrrrX32))23XrrrXrrrr",
+        "rrr-x---x32))23x---x-rrr",
+        "rrrrXrrrX2^22^2XrrrXrrrr",
+        "rrrrXrrrX32))23XrrrXrrrr",
+        "rrr-x---x32))23x---x-rrr",
+        "rrrrXrrrX23))32XrrrXrrrr",
+        "rrrrXrrrX3^22^3XrrrXrrrr",
+        "rrr-x---x232232x---x-rrr",
+        "rrrrXrrrX32<<23XrrrXrrrr",
+        "rrrrXrrrX32<<23XrrrXrrrr",
+        "rrr-x---x232232x---x-rrr",
+        "rrrrXrrrX3^22^3XrrrXrrrr",
+        "rrrrXrrrX23))32XrrrXrrrr",
+        "rrr-x---x32))23x---x-rrr",
+        "rrrrXrrrX32))23XrrrXrrrr",
+        "rrrrXrrrX2^22^2XrrrXrrrr",
+        "rrr-x---x32))23x---x-rrr",
+        "rrrrXrrrX32))23XrrrXrrrr",
+        "rrrrXrrrX23))32XrrrXrrrr",
+        "rrr-x---x3^22^3x---x-rrr",
+        "rrrrXrrrX322223XrrrXrrrr"
+      ],
+      "terrain": {
+        ")": "t_concrete",
+        "2": "t_concrete",
+        "3": "t_concrete_y",
+        "<": "t_stairs_up",
+        "^": "t_column",
+        "r": "t_railroad_rubble",
+        "-": "t_railroad_tie_h",
+        "X": "t_railroad_track",
+        "x": "t_railroad_track_on_tie",
+        "W": "t_buffer_stop"
+      },
+      "furniture": { ")": "f_bench" },
+      "items": { "'": { "item": "subway", "chance": 1 }, "K": { "item": "allclothes", "chance": 70 } }
+    }
+  }
+]

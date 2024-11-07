@@ -32,6 +32,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_group.h"
 
 class npc;
@@ -142,7 +143,7 @@ static DynamicDataLoader::deferred_json deferred;
 template<>
 bool string_id<vpart_info>::is_valid() const
 {
-    return vpart_info_all.count( *this );
+    return vpart_info_all.contains( *this );
 }
 
 /** @relates string_id */
@@ -227,7 +228,7 @@ void vpart_info::load_engine( std::optional<vpslot_engine> &eptr, const JsonObje
     if( !fuel_opts.empty() ) {
         e_info.fuel_opts.clear();
         for( const std::string line : fuel_opts ) {
-            e_info.fuel_opts.push_back( itype_id( line ) );
+            e_info.fuel_opts.emplace_back( line );
         }
     } else if( e_info.fuel_opts.empty() && fuel_type != itype_id( "null" ) ) {
         e_info.fuel_opts.push_back( fuel_type );
@@ -420,7 +421,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
-        def.damage_reduction = load_damage_array( dred );
+        def.damage_reduction = load_resistances_instance( dred );
     }
 
     if( def.has_flag( "ENGINE" ) ) {
@@ -463,60 +464,60 @@ void vpart_info::finalize()
 {
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
-    for( auto &e : vpart_info_all ) {
-        if( e.second.folded_volume > 0_ml ) {
-            e.second.set_flag( "FOLDABLE" );
+    for( auto &[_id, info] : vpart_info_all ) {
+        if( info.folded_volume > 0_ml ) {
+            info.set_flag( "FOLDABLE" );
         }
 
-        for( const auto &f : e.second.flags ) {
+        for( const auto &f : info.flags ) {
             auto b = vpart_bitflag_map.find( f );
             if( b != vpart_bitflag_map.end() ) {
-                e.second.bitflags.set( b->second );
+                info.bitflags.set( b->second );
             }
         }
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
-        if( e.second.location == "on_roof" ) {
-            e.second.z_order = 9;
-            e.second.list_order = 3;
-        } else if( e.second.location == "on_cargo" ) {
-            e.second.z_order = 8;
-            e.second.list_order = 6;
-        } else if( e.second.location == "center" ) {
-            e.second.z_order = 7;
-            e.second.list_order = 7;
-        } else if( e.second.location == "under" ) {
+        if( info.location == "on_roof" ) {
+            info.z_order = 9;
+            info.list_order = 3;
+        } else if( info.location == "on_cargo" ) {
+            info.z_order = 8;
+            info.list_order = 6;
+        } else if( info.location == "center" ) {
+            info.z_order = 7;
+            info.list_order = 7;
+        } else if( info.location == "under" ) {
             // Have wheels show up over frames
-            e.second.z_order = 6;
-            e.second.list_order = 10;
-        } else if( e.second.location == "structure" ) {
-            e.second.z_order = 5;
-            e.second.list_order = 1;
-        } else if( e.second.location == "engine_block" ) {
+            info.z_order = 6;
+            info.list_order = 10;
+        } else if( info.location == "structure" ) {
+            info.z_order = 5;
+            info.list_order = 1;
+        } else if( info.location == "engine_block" ) {
             // Should be hidden by frames
-            e.second.z_order = 4;
-            e.second.list_order = 8;
-        } else if( e.second.location == "on_battery_mount" ) {
+            info.z_order = 4;
+            info.list_order = 8;
+        } else if( info.location == "on_battery_mount" ) {
             // Should be hidden by frames
-            e.second.z_order = 3;
-            e.second.list_order = 10;
-        } else if( e.second.location == "fuel_source" ) {
+            info.z_order = 3;
+            info.list_order = 10;
+        } else if( info.location == "fuel_source" ) {
             // Should be hidden by frames
-            e.second.z_order = 3;
-            e.second.list_order = 9;
-        } else if( e.second.location == "roof" ) {
+            info.z_order = 3;
+            info.list_order = 9;
+        } else if( info.location == "roof" ) {
             // Shouldn't be displayed
-            e.second.z_order = -1;
-            e.second.list_order = 4;
-        } else if( e.second.location == "armor" ) {
+            info.z_order = -1;
+            info.list_order = 4;
+        } else if( info.location == "armor" ) {
             // Shouldn't be displayed (the color is used, but not the symbol)
-            e.second.z_order = -2;
-            e.second.list_order = 2;
+            info.z_order = -2;
+            info.list_order = 2;
         } else {
             // Everything else
-            e.second.z_order = 0;
-            e.second.list_order = 5;
+            info.z_order = 0;
+            info.list_order = 5;
         }
     }
 }
@@ -539,42 +540,42 @@ void vpart_info::check()
             part.removal_moves = part.install_moves / 2;
         }
 
-        for( auto &e : part.install_skills ) {
-            if( !e.first.is_valid() ) {
-                debugmsg( "vehicle part %s has unknown install skill %s", part.id.c_str(), e.first.c_str() );
+        for( const auto &[skill, level] : part.install_skills ) {
+            if( !skill.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown install skill %s", part.id.c_str(), skill.c_str() );
             }
         }
 
-        for( auto &e : part.removal_skills ) {
-            if( !e.first.is_valid() ) {
-                debugmsg( "vehicle part %s has unknown removal skill %s", part.id.c_str(), e.first.c_str() );
+        for( const auto &[skill, level] : part.removal_skills ) {
+            if( !skill.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown removal skill %s", part.id.c_str(), skill.c_str() );
             }
         }
 
-        for( auto &e : part.repair_skills ) {
-            if( !e.first.is_valid() ) {
-                debugmsg( "vehicle part %s has unknown repair skill %s", part.id.c_str(), e.first.c_str() );
+        for( const auto &[skill, level] : part.repair_skills ) {
+            if( !skill.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown repair skill %s", part.id.c_str(), skill.c_str() );
             }
         }
 
-        for( const auto &e : part.install_reqs ) {
-            if( !e.first.is_valid() || e.second <= 0 ) {
+        for( const auto &[skill, multiplier] : part.install_reqs ) {
+            if( !skill.is_valid() || multiplier <= 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified install requirements %s",
-                          part.id.c_str(), e.first.c_str() );
+                          part.id.c_str(), skill.c_str() );
             }
         }
 
-        for( const auto &e : part.install_reqs ) {
-            if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
+        for( const auto &[req, multiplier] : part.install_reqs ) {
+            if( !( req.is_null() || req.is_valid() ) || multiplier < 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified removal requirements %s",
-                          part.id.c_str(), e.first.c_str() );
+                          part.id.c_str(), req.c_str() );
             }
         }
 
-        for( const auto &e : part.repair_reqs ) {
-            if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
+        for( const auto &[req, multiplier] : part.repair_reqs ) {
+            if( !( req.is_null() || req.is_valid() ) || multiplier < 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified repair requirements %s",
-                          part.id.c_str(), e.first.c_str() );
+                          part.id.c_str(), req.c_str() );
             }
         }
 
@@ -738,7 +739,8 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
         long_descrip += "  " + _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
-        class::item base( item );
+        //TODO!: push up
+        class::item &base = *item::spawn_temporary( item );
         if( base.ammo_required() && !base.ammo_remaining() ) {
             itype_id default_ammo = base.magazine_current() ? base.common_ammo_default() : base.ammo_default();
             base.ammo_set( default_ammo );
@@ -938,7 +940,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
 template<>
 bool string_id<vehicle_prototype>::is_valid() const
 {
-    return vtypes.count( *this ) > 0;
+    return vtypes.contains( *this );
 }
 
 vehicle_prototype::vehicle_prototype() = default;
@@ -952,10 +954,10 @@ vehicle_prototype::vehicle_prototype( const std::string &name,
 {
 }
 
-vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
+vehicle_prototype::vehicle_prototype( vehicle_prototype && )  noexcept = default;
 vehicle_prototype::~vehicle_prototype() = default;
 
-vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
+vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && )  noexcept = default;
 
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.
@@ -1042,15 +1044,15 @@ void vehicle_prototype::load( const JsonObject &jo )
             spawn_info.read( "items", next_spawn.item_ids, true );
         } else if( spawn_info.has_string( "items" ) ) {
             //Treat single item as array
-            next_spawn.item_ids.push_back( itype_id( spawn_info.get_string( "items" ) ) );
+            next_spawn.item_ids.emplace_back( spawn_info.get_string( "items" ) );
         }
         if( spawn_info.has_array( "item_groups" ) ) {
             //Pick from a group of items, just like map::place_items
             for( const std::string line : spawn_info.get_array( "item_groups" ) ) {
-                next_spawn.item_groups.push_back( item_group_id( line ) );
+                next_spawn.item_groups.emplace_back( line );
             }
         } else if( spawn_info.has_string( "item_groups" ) ) {
-            next_spawn.item_groups.push_back( item_group_id( spawn_info.get_string( "item_groups" ) ) );
+            next_spawn.item_groups.emplace_back( spawn_info.get_string( "item_groups" ) );
         }
         vproto.item_spawns.push_back( std::move( next_spawn ) );
     }
@@ -1107,7 +1109,7 @@ void vehicle_prototype::finalize()
 
             } else {
                 for( const itype_id &e : pt.ammo_types ) {
-                    if( !e->ammo && base->gun->ammo.count( e->ammo->type ) ) {
+                    if( !e->ammo && base->gun->ammo.contains( e->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
@@ -1136,7 +1138,7 @@ void vehicle_prototype::finalize()
         blueprint.enable_refresh();
 
         for( auto &i : proto.item_spawns ) {
-            if( cargo_spots.count( i.pos ) == 0 ) {
+            if( !cargo_spots.contains( i.pos ) ) {
                 debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                           proto.name, i.pos.x, i.pos.y, i.chance );
             }

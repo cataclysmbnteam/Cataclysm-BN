@@ -2,6 +2,7 @@
 #ifndef CATA_TESTS_STRINGMAKER_H
 #define CATA_TESTS_STRINGMAKER_H
 
+#include <optional>
 #include <utility>
 
 #include "cuboid_rectangle.h"
@@ -32,6 +33,25 @@ struct StringMaker<string_id<T>> {
     }
 };
 
+template<typename T>
+struct StringMaker<std::optional<T>> {
+    static std::string convert( const std::optional<T> &i ) {
+        if( i.has_value() ) {
+            const T &val = *i;
+            return string_format( "optional( %s )", StringMaker<T>::convert( val ) );
+        } else {
+            return "optional()";
+        }
+    }
+};
+
+template<>
+struct StringMaker<std::nullopt_t> {
+    static std::string convert( const std::nullopt_t & ) {
+        return "optional()";
+    }
+};
+
 template<>
 struct StringMaker<item> {
     static std::string convert( const item &i ) {
@@ -43,6 +63,13 @@ template<>
 struct StringMaker<point> {
     static std::string convert( const point &p ) {
         return string_format( "point( %d, %d )", p.x, p.y );
+    }
+};
+
+template<>
+struct StringMaker<tripoint> {
+    static std::string convert( const tripoint &p ) {
+        return string_format( "tripoint( %d, %d, %d )", p.x, p.y, p.z );
     }
 };
 

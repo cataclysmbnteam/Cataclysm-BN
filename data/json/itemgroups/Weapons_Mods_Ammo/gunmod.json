@@ -41,7 +41,8 @@
       [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
       [ "waterproof_gunmod", 40 ],
-      [ "retool_ar15_300blk", 40 ]
+      [ "retool_ar15_300blk", 40 ],
+      { "group": "auto_sears", "prob": 40 }
     ]
   },
   {
@@ -56,6 +57,16 @@
       [ "masterkey", 30 ],
       [ "rm121aux", 10 ],
       [ "sword_bayonet", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_accessories_grenadier",
+    "subtype": "distribution",
+    "//": "For underbarrel launchers mounted on rifles used by fireteam grenadiers",
+    "entries": [
+      { "item": "m203", "ammo-item": "40x46mm_m433", "prob": 75, "charges": 1 },
+      { "item": "m320_mod", "ammo-item": "40x46mm_m433", "prob": 25, "charges": 1 }
     ]
   },
   {
@@ -156,6 +167,12 @@
     "type": "item_group",
     "id": "gunmod_archery",
     "//": "Gunmods for bows and crossbows.",
-    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ] ]
+    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ], [ "crossbow_lever", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "auto_sears",
+    "//": "Gunmods that enable full-auto fire, mainly in gunsmithing stores or rare registered examples, but could also spawn as contraband.",
+    "items": [ [ "dias", 25 ], [ "llink", 25 ], [ "glockswitch", 50 ] ]
   }
 ]

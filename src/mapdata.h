@@ -12,6 +12,7 @@
 
 #include "active_tile_data.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "color.h"
 #include "numeric_interval.h"
 #include "poly_serialized.h"
@@ -36,7 +37,8 @@ struct ranged_bash_info {
         numeric_interval<int> reduction; // Damage reduction when shot. Rolled like rng(min, max).
         // As above, but for lasers. If set, lasers won't destroy us.
         std::optional<numeric_interval<int>> reduction_laser;
-        int destroy_threshold = 0; // If reduced dmg is still above this value, destroy us.
+        int destroy_threshold =
+            0; // If dmg (times 0.9 to 1.1) before reduction is above this value, destroy us.
         bool flammable = false; // If true, getting hit with any heat damage creates a fire.
         units::probability block_unaimed_chance =
             100_pct; // Chance to intercept projectiles not aimed at this tile
@@ -47,13 +49,7 @@ struct ranged_bash_info {
             return std::tie( reduction, reduction_laser, destroy_threshold, flammable, block_unaimed_chance );
         }
     public:
-
-        // In C++20, this would be = default
-        bool operator==( const ranged_bash_info &rhs ) const {
-            return tie() == rhs.tie();
-        }
-
-
+        bool operator==( const ranged_bash_info &rhs ) const = default;
 };
 
 struct map_bash_info {
@@ -89,7 +85,7 @@ struct map_bash_info {
     // sound  made on fail
     translation sound_fail = to_translation( "thump!" );
     // message upon successfully bashing a field
-    translation field_bash_msg_success = translation();
+    translation field_bash_msg_success;
     // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set = ter_str_id::NULL_ID();
     // terrain to set if bashed from above (defaults to ter_set)
@@ -133,11 +129,7 @@ struct furn_workbench_info {
     furn_workbench_info();
     void deserialize( JsonIn &jsin );
 
-    // In C++20, this would be = default
-    bool operator==( const furn_workbench_info &rhs ) const {
-        return std::tie( multiplier, allowed_mass, allowed_volume )
-               == std::tie( rhs.multiplier, rhs.allowed_mass, rhs.allowed_volume );
-    }
+    bool operator==( const furn_workbench_info &rhs ) const = default;
 };
 struct plant_data {
     // What the furniture turns into when it grows or you plant seeds in it
@@ -152,17 +144,7 @@ struct plant_data {
 
     void deserialize( JsonIn &jsin );
 
-    // In C++20, this would be = default
-    bool operator==( const plant_data &rhs ) const {
-        return std::tie( transform, base, growth_multiplier, harvest_multiplier )
-               == std::tie( rhs.transform, rhs.base, rhs.growth_multiplier, rhs.harvest_multiplier );
-    }
-};
-
-struct lockpicking_open_result {
-    ter_id new_ter_type;
-    furn_id new_furn_type;
-    std::string open_message;
+    bool operator==( const plant_data &rhs ) const = default;
 };
 
 struct pry_result {
@@ -299,6 +281,7 @@ enum ter_bitflags : int {
     TFLAG_UNSTABLE,
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
+    TFLAG_WATER_CUBE,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -320,9 +303,17 @@ enum ter_bitflags : int {
     TFLAG_SMALL_PASSAGE,
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
+    TFLAG_FUNGUS,
+    TFLAG_FLOWER,
+    TFLAG_ORGANIC,
+    TFLAG_PLANT,
+    TFLAG_SHRUB,
+    TFLAG_TREE,
+    TFLAG_YOUNG,
     TFLAG_SUSPENDED,
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
+    TFLAG_ELEVATOR,
 
     NUM_TERFLAGS
 };
@@ -340,6 +331,84 @@ enum ter_connects : int {
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
+};
+
+struct activity_byproduct {
+    itype_id item;
+    int count      = 0;
+    int random_min = 0;
+    int random_max = 0;
+
+    int roll() const;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+};
+
+class activity_data_common
+{
+    public:
+        activity_data_common() = default;
+
+        bool valid() const {
+            return valid_;
+        }
+
+        const time_duration &duration() const {
+            return duration_;
+        }
+
+        const translation &message() const {
+            return message_;
+        }
+
+        const translation &sound() const {
+            return sound_;
+        }
+
+        const std::vector<activity_byproduct> &byproducts() const {
+            return byproducts_;
+        }
+
+        bool was_loaded = false;
+        void load( const JsonObject &jo );
+
+    protected:
+        bool valid_ = false;
+        time_duration duration_;
+        translation message_;
+        translation sound_;
+        std::vector<activity_byproduct> byproducts_;
+};
+
+class activity_data_ter : public activity_data_common
+{
+    public:
+        activity_data_ter() = default;
+
+        const ter_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        ter_str_id result_;
+};
+
+class activity_data_furn : public activity_data_common
+{
+    public:
+        activity_data_furn() = default;
+
+        const furn_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        furn_str_id result_;
 };
 
 struct map_data_common_t {
@@ -383,6 +452,8 @@ struct map_data_common_t {
         int movecost = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
+        // What itemgroup spawns when digging a shallow pit in this terrain, defaults to standard soil yield
+        std::string digging_result = "digging_soil_loam_200L";
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = 1000_liter;
 
@@ -417,7 +488,7 @@ struct map_data_common_t {
         }
 
         bool has_flag( const std::string &flag ) const {
-            return flags.count( flag ) > 0;
+            return flags.contains( flag );
         }
 
         bool has_flag( const ter_bitflags flag ) const {
@@ -465,6 +536,12 @@ struct ter_t : map_data_common_t {
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
+    ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
+
+    cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_ter> hacksaw; // Hacksaw action data
+    cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -478,16 +555,18 @@ struct ter_t : map_data_common_t {
 
     static size_t count();
 
+    bool is_null() const;
+
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<ter_t> &get_all();
+
+    LUA_TYPE_OPS( ter_t, id );
 };
 
 void set_ter_ids();
 void finalize_furn();
 void reset_furn_ter();
-/** Gets lockpicked object and message */
-lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type );
 
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
@@ -501,6 +580,9 @@ struct furn_t : map_data_common_t {
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
     furn_str_id transforms_into; // Transform into what furniture?
+    furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
+    itype_id  provides_liquids; // The liquid that is given as liquid source
 
     std::set<itype_id> crafting_pseudo_items;
     units::volume keg_capacity = 0_ml;
@@ -513,6 +595,10 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
+
+    cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_furn> hacksaw; // Hacksaw action data
+    cata::value_ptr<activity_data_furn> oxytorch; // Oxytorch action data
 
     cata::value_ptr<furn_workbench_info> workbench;
 
@@ -534,6 +620,8 @@ struct furn_t : map_data_common_t {
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<furn_t> &get_all();
+
+    LUA_TYPE_OPS( furn_t, id );
 };
 
 void load_furniture( const JsonObject &jo, const std::string &src );
@@ -553,7 +641,7 @@ t_basalt
 */
 extern ter_id t_null,
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
+       t_dirt, t_sand, t_clay, t_alluvial_deposit, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
@@ -619,7 +707,7 @@ extern ter_id t_null,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
        t_water_moving_dp, t_water_moving_sh, t_water_sh, t_swater_sh, t_water_dp, t_swater_dp,
-       t_water_pool, t_sewage,
+       t_water_cube, t_lake_bed, t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,

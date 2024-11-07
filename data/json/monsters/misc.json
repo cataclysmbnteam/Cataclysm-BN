@@ -24,6 +24,14 @@
     "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {
+    "id": "debug_mon_threat",
+    "type": "MONSTER",
+    "copy-from": "debug_mon",
+    "name": { "str": "menacing debug monster" },
+    "description": "This monster exists only for testing purposes.  It's threatening enough to warrant bullets from NPCs",
+    "diff": 1
+  },
+  {
     "id": "mon_dragon_dummy",
     "type": "MONSTER",
     "name": { "str": "ancient red dragon" },

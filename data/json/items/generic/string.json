@@ -18,15 +18,34 @@
     "material": "dry_plant"
   },
   {
+    "id": "cordage_6_leather",
+    "copy-from": "string_6",
+    "type": "GENERIC",
+    "name": { "str": "short leather cord" },
+    "description": "A 6-inch (or about 15 cm) long piece of rawhide or leather cord.  Useful for some purposes, but not as strong or flexible as proper string.",
+    "proportional": { "price": 0.5 },
+    "material": [ "leather" ]
+  },
+  {
+    "id": "cordage_36_leather",
+    "copy-from": "string_36",
+    "type": "GENERIC",
+    "name": { "str": "long leather cord" },
+    "description": "A 3-foot (or about 90 cm) long piece of rawhide or leather cord.  Useful for some purposes, but not as strong or flexible as proper string.",
+    "proportional": { "price": 0.5 },
+    "material": [ "leather" ]
+  },
+  {
     "id": "string_6",
     "type": "GENERIC",
+    "stackable": true,
     "category": "spare_parts",
     "name": { "str": "short string" },
     "description": "A 6-inch (or about 15 cm) long piece of cotton string.",
     "weight": "6 g",
     "volume": "10 ml",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": "cotton",
     "symbol": ",",
     "color": "light_gray",
@@ -96,6 +115,16 @@
     "proportional": { "price": 0.5 }
   },
   {
+    "id": "seatbelt",
+    "copy-from": "rope_6",
+    "type": "GENERIC",
+    "name": { "str": "seat belt" },
+    "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten a passenger inside a vehicle.",
+    "material": "nylon",
+    "weight": "800 g",
+    "volume": "500 ml"
+  },
+  {
     "id": "stick_fiber",
     "type": "COMESTIBLE",
     "category": "spare_parts",
@@ -107,6 +136,7 @@
     "healthy": -20,
     "volume": "1 L",
     "stack_size": 10,
-    "weight": "80 g"
+    "weight": "80 g",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

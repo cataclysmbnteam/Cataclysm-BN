@@ -16,7 +16,7 @@ class is_pimpl_helper<pimpl<T>> : public std::true_type
 {
 };
 template<typename T>
-class is_pimpl : public is_pimpl_helper<typename std::decay<T>::type>
+class is_pimpl : public is_pimpl_helper<std::decay_t<T>>
 {
 };
 /**
@@ -39,19 +39,19 @@ class pimpl : private std::unique_ptr<T>
         // The new argument serves the same purpose: this constructor should *not* be available when the
         // argument is a `pimpl` itself (the other copy constructors should be used instead).
         explicit pimpl() : std::unique_ptr<T>( new T() ) { }
-        template < typename P, typename ...Args,
-                   typename = typename std::enable_if < !is_pimpl<P>::value >::type >
-        explicit pimpl( P && head, Args &&
-                        ... args ) : std::unique_ptr<T>( new T( std::forward<P>( head ), std::forward<Args>( args )... ) ) { }
+        template < typename P, typename ...Args>
+        explicit pimpl( P &&head, Args &&
+                        ... args ) requires( !is_pimpl<P>::value ) : std::unique_ptr<T>( new T( std::forward<P>( head ),
+                                    std::forward<Args>( args )... ) ) { }
 
         explicit pimpl( const pimpl<T> &rhs ) : std::unique_ptr<T>( new T( *rhs ) ) { }
-        explicit pimpl( pimpl<T> &&rhs ) : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
+        explicit pimpl( pimpl<T> &&rhs )  noexcept : std::unique_ptr<T>( new T( std::move( *rhs ) ) ) { }
 
         pimpl<T> &operator=( const pimpl<T> &rhs ) {
             operator*() = *rhs;
             return *this;
         }
-        pimpl<T> &operator=( pimpl<T> &&rhs ) {
+        pimpl<T> &operator=( pimpl<T> &&rhs )  noexcept {
             operator*() = std::move( *rhs );
             return *this;
         }

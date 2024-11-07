@@ -4,7 +4,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_1side" ],
-    "weight": 100,
+    "weight": 25,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -35,7 +35,7 @@
       ],
       "palettes": [ "lab_palette" ],
       "furniture": { "#": "f_bench" },
-      "terrain": { "p": "t_pavement" },
+      "terrain": { "p": "t_pavement", "#": "t_thconc_floor" },
       "mapping": {
         "l": { "items": [ { "item": "clothing_work_set", "chance": 33 } ] },
         "r": {

@@ -121,7 +121,7 @@
     "vision_day": 25,
     "vision_night": 3,
     "luminance": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_survivalist_bionics",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "mon_zombie_cop_death_drops",
     "death_function": [ "NORMAL" ],
@@ -153,7 +153,7 @@
     "armor_bullet": 20,
     "armor_acid": 4,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_tooth",
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 10 } ] },
       { "type": "leap", "cooldown": 3, "max_range": 5 },
@@ -194,7 +194,7 @@
     "armor_bullet": 20,
     "vision_day": 30,
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_maybe_mil_bionics",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [
       {
@@ -288,7 +288,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 1,
     "vision_night": 3,
-    "harvest": "zombie",
+    "harvest": "zombie_acid",
     "special_attacks": [ [ "ACID_BARF", 5 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],

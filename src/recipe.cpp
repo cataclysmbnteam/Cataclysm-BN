@@ -14,6 +14,7 @@
 #include "character.h"
 #include "construction.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "item.h"
@@ -33,10 +34,11 @@
 #include "value_ptr.h"
 
 static const std::string flag_ALLOW_FILTHY( "ALLOW_FILTHY" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_dehydrator( "dehydrator" );
+static const itype_id itype_char_smoker( "char_smoker" );
+
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -91,7 +93,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 
 bool recipe::has_flag( const std::string &flag_name ) const
 {
-    return flags.count( flag_name );
+    return flags.contains( flag_name );
 }
 
 void recipe::load( const JsonObject &jo, const std::string &src )
@@ -202,7 +204,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "delete_flags" ) ) {
-        flags_to_delete = jo.get_tags( "delete_flags" );
+        flags_to_delete = jo.get_tags<flag_id>( "delete_flags" );
     }
 
     // recipes not specifying any external requirements inherit from their parent recipe (if any)
@@ -259,20 +261,20 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 bp_resources.emplace_back( resource );
             }
             for( JsonObject provide : jo.get_array( "blueprint_provides" ) ) {
-                bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
-                                          provide.get_int( "amount", 1 ) ) );
+                bp_provides.emplace_back( provide.get_string( "id" ),
+                                          provide.get_int( "amount", 1 ) );
             }
             // all blueprints provide themselves with needing it written in JSON
-            bp_provides.emplace_back( std::make_pair( result_.str(), 1 ) );
+            bp_provides.emplace_back( result_.str(), 1 );
             for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
-                bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
-                                          require.get_int( "amount", 1 ) ) );
+                bp_requires.emplace_back( require.get_string( "id" ),
+                                          require.get_int( "amount", 1 ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
-            bp_excludes.emplace_back( std::make_pair( result_.str(), 1 ) );
+            bp_excludes.emplace_back( result_.str(), 1 );
             for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
-                bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
-                                          exclude.get_int( "amount", 1 ) ) );
+                bp_excludes.emplace_back( exclude.get_string( "id" ),
+                                          exclude.get_int( "amount", 1 ) );
             }
             if( jo.has_member( "blueprint_needs" ) ) {
                 has_blueprint_needs = true;
@@ -453,73 +455,72 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
-item recipe::create_result() const
+detached_ptr<item> recipe::create_result() const
 {
-    item newit( result_, calendar::turn, item::default_charges_tag{} );
+    detached_ptr<item> newit = item::spawn( result_, calendar::turn, item::default_charges_tag{} );
     if( charges ) {
-        newit.charges = *charges;
+        newit->charges = *charges;
     }
 
-    if( !newit.craft_has_charges() ) {
-        newit.charges = 0;
+    if( !newit->craft_has_charges() ) {
+        newit->charges = 0;
     } else if( result_mult != 1 ) {
         // TODO: Make it work for charge-less items (update makes amount)
-        newit.charges *= result_mult;
+        newit->charges *= result_mult;
     }
 
     // Show crafted items as fitting
     // They might end up not fitting, but it's rare
-    if( newit.has_flag( flag_VARSIZE ) ) {
-        newit.item_tags.insert( flag_FIT );
+    if( newit->has_flag( flag_VARSIZE ) ) {
+        newit->item_tags.insert( flag_FIT );
     }
 
     if( contained ) {
-        newit = newit.in_container( container );
+        newit = item::in_container( container, std::move( newit ) );
     }
 
     return newit;
 }
 
-std::vector<item> recipe::create_results( int batch ) const
+std::vector<detached_ptr<item>> recipe::create_results( int batch ) const
 {
-    std::vector<item> items;
+    std::vector<detached_ptr<item>> items;
 
     const bool by_charges = item::count_by_charges( result_ );
     if( contained || !by_charges ) {
         // by_charges items get their charges multiplied in create_result
         const int num_results = by_charges ? batch : batch * result_mult;
         for( int i = 0; i < num_results; i++ ) {
-            item newit = create_result();
-            items.push_back( newit );
+            items.push_back( create_result() );
         }
     } else {
-        item newit = create_result();
-        newit.charges *= batch;
-        items.push_back( newit );
+        detached_ptr<item> newit = create_result();
+        newit->charges *= batch;
+        items.push_back( std::move( newit ) );
     }
 
     return items;
 }
 
-std::vector<item> recipe::create_byproducts( int batch ) const
+std::vector<detached_ptr<item>> recipe::create_byproducts( int batch ) const
 {
-    std::vector<item> bps;
+    std::vector<detached_ptr<item>> bps;
     for( const auto &e : byproducts ) {
-        item obj( e.first, calendar::turn, item::default_charges_tag{} );
-        if( obj.has_flag( "VARSIZE" ) ) {
-            obj.set_flag( "FIT" );
+        detached_ptr<item> obj = item::spawn( e.first, calendar::turn, item::default_charges_tag{} );
+        if( obj->has_flag( flag_VARSIZE ) ) {
+            obj->set_flag( flag_FIT );
         }
 
-        if( obj.count_by_charges() ) {
-            obj.charges *= e.second * batch;
-            bps.push_back( obj );
+        if( obj->count_by_charges() ) {
+            obj->charges *= e.second * batch;
+            bps.push_back( std::move( obj ) );
 
         } else {
-            if( !obj.craft_has_charges() ) {
-                obj.charges = 0;
+            if( !obj->craft_has_charges() ) {
+                obj->charges = 0;
             }
             for( int i = 0; i < e.second * batch; ++i ) {
-                bps.push_back( obj );
+                bps.push_back( item::spawn( *obj ) );
             }
         }
     }
@@ -574,7 +575,7 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
     std::vector< std::pair<skill_id, int> > skillList;
 
     if( !skill_used.is_null() ) {
-        skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
+        skillList.emplace_back( skill_used, difficulty );
     }
 
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
@@ -639,7 +640,8 @@ bool recipe::will_be_blacklisted() const
 std::function<bool( const item & )> recipe::get_component_filter(
     const recipe_filter_flags flags ) const
 {
-    const item result = create_result();
+    detached_ptr<item> res = create_result();
+    item &result = *res;
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
@@ -810,7 +812,7 @@ bool recipe::hot_result() const
     // We don't actually know which specific tool the player used/will use here, but
     // we're checking for a class of tools; because of the way requirements
     // processing works, the "surface_heat" id gets nuked into an actual
-    // list of tools, see data/json/recipes/cooking_tools.json.
+    // list of tools, see data/json/requirements/cooking_tools.json.
     //
     // Currently it's only checking for a hotplate because that's a
     // suitable item in both the "surface_heat" and "water_boiling_heat"
@@ -818,11 +820,26 @@ bool recipe::hot_result() const
     // does get heated we'll find it right away.
     //
     // TODO: Make this less of a hack
-    if( create_result().is_food() ) {
+    if( create_result()->is_food() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
                 if( t.type == itype_hotplate ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool recipe::dehydrate_result() const
+{
+    if( create_result()->is_food() ) {
+        const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
+        for( const std::vector<tool_comp> &tools : tool_lists ) {
+            for( const tool_comp &t : tools ) {
+                if( t.type == itype_dehydrator || t.type == itype_char_smoker ) {
                     return true;
                 }
             }

@@ -1,27 +1,5 @@
 [
   {
-    "result": "broken_laserturret",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": "1 h",
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "gun_module", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "laser_cannon", 1 ] ],
-      [ [ "storage_battery", 2 ] ],
-      [ [ "plut_cell", 1 ] ],
-      [ [ "power_supply", 2 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
-    ]
-  },
-  {
     "result": "l_HFPack",
     "type": "uncraft",
     "time": "30 s",
@@ -36,54 +14,6 @@
     "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
-    "result": "broken_dispatch_military",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "time": "1 h",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "tank_tread", 1 ] ],
-      [ [ "tankbot_chassis", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "power_supply", 3 ] ],
-      [ [ "plut_cell", 1 ] ],
-      [ [ "broken_manhack", 4 ] ],
-      [ [ "omnicamera", 1 ] ],
-      [ [ "storage_battery", 1 ] ]
-    ]
-  },
-  {
-    "result": "broken_dispatch",
-    "type": "uncraft",
-    "skill_used": "electronics",
-    "difficulty": 5,
-    "time": "1 h",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "tank_tread", 1 ] ],
-      [ [ "tankbot_chassis", 1 ] ],
-      [ [ "targeting_module", 1 ] ],
-      [ [ "power_supply", 3 ] ],
-      [ [ "plut_cell", 1 ] ],
-      [ [ "broken_manhack", 4 ] ],
-      [ [ "omnicamera", 1 ] ],
-      [ [ "storage_battery", 1 ] ]
-    ]
-  },
-  {
     "result": "broken_tankbot",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -93,6 +23,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -120,6 +51,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -144,6 +76,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],

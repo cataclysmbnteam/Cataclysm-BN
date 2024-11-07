@@ -3,7 +3,7 @@ if (Test-path bindist) {
 }
 
 mkdir bindist
-cp cataclysm-tiles.exe bindist/cataclysm-tiles.exe
+cp cataclysm-bn-tiles.exe bindist/cataclysm-bn-tiles.exe
 cp tools/format/json_formatter.exe bindist/json_formatter.exe
 
 mkdir bindist/lang

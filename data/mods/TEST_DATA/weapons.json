@@ -25,5 +25,30 @@
     "volume": "1 L",
     "symbol": ";",
     "weapon_category": [ "TEST_CAT1" ]
+  },
+  {
+    "id": "test_lucern_hammer",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "2H_HAMMERS", "SPEARS", "HOOKED_POLES" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "two attack lucerne hammer" },
+    "description": "This Lucerne hammer has been modified to make it hit harder, at the expense of being unable to bash and stab in the same attack.",
+    "price": "500 USD",
+    "material": [ "wood", "steel" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND" ],
+    "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
+    "weight": "3200 g",
+    "volume": "3750 ml",
+    "bashing": 1,
+    "cutting": 1,
+    "to_hit": 1,
+    "attacks": [
+      { "id": "BASH", "to_hit": 1, "damage": { "values": [ { "damage_type": "bash", "amount": 50 } ] } },
+      { "id": "THRUST", "damage": { "values": [ { "damage_type": "stab", "amount": 45 } ] } }
+    ],
+    "price_postapoc": "100 USD",
+    "qualities": [ [ "HAMMER", 2 ], [ "COOK", 1 ] ]
   }
 ]

@@ -1,0 +1,62 @@
+[
+  {
+    "type": "construction_group",
+    "id": "hoist_trans_flag",
+    "name": "Hoist Trans Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_rainbow_flag",
+    "name": "Hoist LGBTQ+ Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_aromantic_flag",
+    "name": "Hoist Aromantic Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_asexual_flag",
+    "name": "Hoist Asexual Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_bisexual_flag",
+    "name": "Hoist Bisexual Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_intersex_flag",
+    "name": "Hoist Intersex Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_lesbian_flag",
+    "name": "Hoist Lesbian Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_enby_flag",
+    "name": "Hoist Non-binary Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_pansexual_flag",
+    "name": "Hoist Pansexual Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_gay_flag",
+    "name": "Hoist Gay Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_genderfluid_flag",
+    "name": "Hoist Genderfluid Pride Flag"
+  },
+  {
+    "type": "construction_group",
+    "id": "hoist_autism_flag",
+    "name": "Hoist Autism Pride Flag"
+  }
+]

@@ -5,7 +5,6 @@
     "om_terrain": [ [ "dairy_farm_NW", "dairy_farm_NE" ] ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
       "rows": [
         "................................................",
         ".$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$.",
@@ -32,7 +31,7 @@
         ".$............................................$.",
         ".$............................................$."
       ],
-      "terrain": { "$": "t_splitrail_fence", ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ] },
+      "palettes": [ "farm_dairy_palette" ],
       "place_monsters": [
         { "monster": "GROUP_COWS", "x": [ 1, 10 ], "y": [ 1, 9 ], "density": 0.5 },
         { "monster": "GROUP_COWS", "x": [ 1, 12 ], "y": [ 1, 12 ], "density": 0.5 },
@@ -53,7 +52,6 @@
     "om_terrain": [ [ "dairy_farm_NW", "dairy_farm_NE" ] ],
     "weight": 200,
     "object": {
-      "fill_ter": "t_dirt",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
         ",$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$,",
@@ -80,11 +78,7 @@
         ",$............................................$,",
         ",$............................................$,"
       ],
-      "terrain": {
-        "$": "t_splitrail_fence",
-        ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
-        ",": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ]
-      }
+      "palettes": [ "farm_dairy_palette" ]
     }
   },
   {
@@ -120,23 +114,21 @@
         ".$$$$$$$$$$$$$$$$$$fffff$$$$$$$$$$$$$$$$$$$$$$$.",
         "................................................"
       ],
+      "palettes": [ "farm_dairy_palette" ],
       "terrain": {
-        "$": "t_splitrail_fence",
         "'": "t_door_o",
         "%": "t_milking_machine",
         "!": "t_window_bars",
         "*": "t_window_domestic",
         "=": "t_door_o",
         "+": "t_door_locked_interior",
-        ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
-        "N": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
-        "X": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
+        "N": "t_region_soil",
+        "X": "t_region_soil",
         "O": "t_bulk_tank",
         "S": "t_floor",
         "Y": "t_floor",
         "_": "t_floor",
-        "a": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
-        "f": "t_splitrail_fencegate_c",
+        "a": "t_region_soil",
         "|": "t_wall_w",
         "4": "t_gutter_downspout"
       },
@@ -154,17 +146,19 @@
         "X": "f_crate_c",
         "Y": "f_rack_coat",
         "a": "f_dumpster",
-        "b": "f_toilet",
         "c": "f_cupboard",
         "d": "f_desk",
-        "g": "f_gunsafe_ml",
         "o": "f_oven",
         "s": "f_shower",
         "t": "f_trashcan",
         "w": "f_washer",
         "{": "f_bookcase"
       },
-      "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
+      "items": {
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "a": { "item": "trash_dumpster", "chance": 80 },
+        "g": { "item": "guns_hunting_safe", "chance": 100 }
+      },
       "item": { "S": { "item": "salt_lick", "chance": 80, "repeat": [ 1, 4 ] } },
       "place_items": [
         { "item": "bed", "x": 12, "y": 16, "chance": 70 },
@@ -175,8 +169,8 @@
         { "item": "ranch_homebooks", "x": 10, "y": 15, "chance": 80 },
         { "item": "ranch_homebooks", "x": 11, "y": 16, "chance": 80 },
         { "item": "clothing_outdoor_set", "x": 9, "y": 16, "chance": 90 },
-        { "item": "fridge", "x": 15, "y": 17, "chance": 90 },
-        { "item": "fridge", "x": 15, "y": 17, "chance": 90 },
+        { "item": "SUS_fridge", "x": 15, "y": 17, "chance": 90 },
+        { "item": "SUS_fridge", "x": 15, "y": 17, "chance": 90 },
         { "item": "everyday_gear", "x": 14, "y": 16, "chance": 80 },
         { "item": "book_survival", "x": 7, "y": 10, "chance": 50 },
         { "item": "supplies_farming", "x": 18, "y": 16, "chance": 80 },
@@ -204,8 +198,10 @@
       "place_vehicles": [
         { "vehicle": "cube_van_cheap", "x": 7, "y": 5, "chance": 50, "fuel": 300, "status": -1, "rotation": 0 },
         { "vehicle": "quad_bike", "x": 15, "y": 6, "chance": 30, "fuel": 200, "status": -1, "rotation": 0 },
-        { "vehicle": "bicycle", "x": 13, "y": 8, "chance": 80, "fuel": 0, "status": 0, "rotation": 0 }
-      ]
+        { "vehicle": "bicycle", "x": 13, "y": 8, "chance": 80, "fuel": 0, "status": -1, "rotation": 0 }
+      ],
+      "toilets": { "b": {  } },
+      "nested": { "g": { "chunks": [ [ "house_chunk_spawn_firesafe", 50 ], [ "house_chunk_spawn_gunsafe", 50 ] ] } }
     }
   },
   {
@@ -224,16 +220,16 @@
         "                         ...&...    ...&...     ",
         "                         .......    .......     ",
         "                         .......    .......     ",
-        "     |222222222223       .......    .......     ",
-        "     |...........5       .......    .......     ",
-        "     |...........3       .......    .......     ",
-        "     |...........3       ...&...    ...&...     ",
-        "     |.......N...3       .......    .......     ",
-        "     |...........3       .......    .......     ",
-        "     |...........3       .......    .......     ",
-        "     |...&...=...3       ...&...    ...&...     ",
-        "     |...........3       .......    .......     ",
-        "     |-----------3       .......    .......     ",
+        "     -------------       .......    .......     ",
+        "     -...........5       .......    .......     ",
+        "     -...........-       .......    .......     ",
+        "     -...........-       ...&...    ...&...     ",
+        "     -.......N...-       .......    .......     ",
+        "     -...........-       .......    .......     ",
+        "     -...........-       .......    .......     ",
+        "     -...&...=...-       ...&...    ...&...     ",
+        "     -...........-       .......    .......     ",
+        "     -------------       .......    .......     ",
         "                         .......    .......     ",
         "                                                ",
         "                                                ",
@@ -241,8 +237,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof" },
-      "furniture": { "N": "f_TV_antenna" }
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   }
 ]

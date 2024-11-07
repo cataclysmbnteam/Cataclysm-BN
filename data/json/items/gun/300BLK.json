@@ -7,8 +7,8 @@
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.  This version is chambered for the .300 AAC Blackout round.",
     "weight": "3590 g",
     "volume": "2 L",
-    "price": 234300,
-    "price_postapoc": 5500,
+    "price": "2343 USD",
+    "price_postapoc": "55 USD",
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "300blk",
@@ -34,7 +34,8 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
-          "survivor223mag"
+          "survivor223mag",
+          "carbonmag_223"
         ]
       ]
     ]
@@ -47,8 +48,8 @@
     "description": "The IWI Tavor X95 (also called Micro-Tavor or MTAR) is an Israeli bullpup assault rifle designed and produced by Israel Weapon Industries.  This is the civilian version chambered for .300 AAC Blackout.",
     "weight": "3610 g",
     "volume": "1500 ml",
-    "price": 490000,
-    "price_postapoc": 4500,
+    "price": "4900 USD",
+    "price_postapoc": "45 USD",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
     "ammo": "300blk",
@@ -85,6 +86,7 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "carbonmag_223",
           "survivor223mag"
         ]
       ]

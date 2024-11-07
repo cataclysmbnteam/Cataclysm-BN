@@ -7,19 +7,27 @@
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
     "id": "t_sand",
     "name": "sand",
-    "description": "A large area of fine sand that could be useful in a number of ways, if it was extracted properly.",
+    "description": "A large area of fine sand that could be useful in a number of ways, if it was extracted properly.  Dig a shallow pit here to harvest the sand.",
     "symbol": ".",
     "color": "yellow",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW" ],
+    "digging_result": "digging_sand_200L",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "material_sand", "charges": [ 250, 500 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -30,56 +38,109 @@
     "color": "brown",
     "looks_like": "t_dirt",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
     "id": "t_clay",
     "name": "clay",
-    "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.",
+    "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.  Dig a shallow pit here to harvest the clay.",
     "symbol": ".",
     "color": "light_red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "digging_result": "digging_clay_200L",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "clay_lump", "count": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "terrain",
     "id": "t_claymound",
     "name": "mound of clay",
-    "description": "A mound of clay soil.",
+    "description": "A mound of clay soil.  Dig a shallow pit here to harvest the clay.",
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "BURROWABLE" ],
+    "digging_result": "digging_clay_mound_200L",
     "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
-      "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
+      "sound": "thump",
+      "sound_fail": "thump!",
+      "str_min": 50,
+      "str_max": 100,
+      "ter_set": "t_dirt",
+      "items": [ { "item": "clay_lump", "count": [ 25, 50 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_sandmound",
     "name": "mound of sand",
-    "description": "A mound of sand.",
+    "description": "A mound of sand.  Dig a shallow pit here to harvest the sand.",
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "BURROWABLE" ],
+    "digging_result": "digging_sand_mound_200L",
     "bash": {
-      "str_min": 2,
-      "str_max": 4,
-      "sound": "splosh!",
-      "sound_fail": "splosh!",
-      "ter_set": "t_water_dp",
-      "items": [ { "item": "material_sand", "charges": [ 300, 600 ] } ]
+      "sound": "thump!",
+      "sound_fail": "thump!",
+      "str_min": 50,
+      "str_max": 100,
+      "ter_set": "t_dirt",
+      "items": [ { "item": "material_sand", "charges": [ 1250, 2500 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_bog_iron",
+    "name": "bog iron",
+    "description": "A wet pit with exposed hints of iron-rich earth.  Dig a shallow pit here to stake your claim on the ore.",
+    "symbol": "*",
+    "looks_like": "t_claymound",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "digging_result": "digging_iron_200L",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "iron_ore", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alluvial_deposit",
+    "copy-from": "t_bog_iron",
+    "name": "alluvial deposit",
+    "description": "A patch of wet sediment washed ashore by the steady flow of a river, often containing mineral deposits.  And washed-up litter, thanks to pre-cataclysm humanity.  Dig a shallow pit here to see if you strike paydirt.",
+    "symbol": "*",
+    "looks_like": "t_bog_iron",
+    "color": "brown",
+    "digging_result": "digging_alluvial_200L",
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [
+        { "item": "material_soil", "count": [ 1, 4 ] },
+        { "group": "trash_forest", "prob": 25, "count": [ 1, 2 ] },
+        { "group": "digging_alluvial_extras", "prob": 50 }
+      ]
     }
   },
   {
@@ -90,8 +151,8 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "PLANTABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "VEH_TREAT_AS_BASH_BELOW", "PLANTABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
     "examine_action": "dirtmound"
   },
   {
@@ -104,16 +165,48 @@
     "color": "brown",
     "move_cost": 3,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "VEH_TREAT_AS_BASH_BELOW" ],
     "bash": {
       "sound": "thump",
-      "ter_set": "t_null",
+      "ter_set": "t_dirtfloor",
       "str_min": 50,
       "str_max": 100,
       "str_min_supported": 100,
       "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     },
     "examine_action": "dirtmound"
+  },
+  {
+    "type": "terrain",
+    "id": "t_paddy",
+    "name": "paddy field",
+    "description": "A damp, muddy field used to grow crops that require a lot of water.  The clay holds moisture, making it perfect for the crops.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "VEH_TREAT_AS_BASH_BELOW", "PLANTABLE", "SHALLOW_WATER" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "clay_lump", "count": [ 2, 6 ] } ]
+    },
+    "examine_action": "dirtmound",
+    "//": "Is this work even not t_dirtmound?"
+  },
+  {
+    "type": "terrain",
+    "id": "t_clay_bog",
+    "name": "ooze bog",
+    "description": "A pit filled with muddy water.  With additional work, some clay could be separated from the silt.",
+    "symbol": "O",
+    "color": "brown",
+    "looks_like": "t_mud",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -137,7 +230,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "VEH_TREAT_AS_BASH_BELOW" ],
     "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -149,7 +242,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "CONTAINER", "SEALED" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "VEH_TREAT_AS_BASH_BELOW", "CONTAINER", "SEALED" ],
     "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
@@ -175,7 +268,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -193,7 +286,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -211,7 +304,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -368,7 +461,7 @@
     "move_cost": 2,
     "looks_like": "t_dirtfloor",
     "flags": [ "TRANSPARENT", "FLAT", "DIGGABLE" ],
-    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "SMASH!", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 400, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -381,5 +474,120 @@
     "move_cost": 0,
     "roof": "t_rock_floor_no_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_elevator_no_roof",
+    "name": "elevator",
+    "description": "An elevator section of the flight deck.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "looks_like": "t_elevator",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ELEVATOR" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof",
+    "name": "deck coating",
+    "description": "Thick metal coating of a hull, covered with a military grade epoxy mix.  Used for runways, and can't be melted by jet engine nozzles.",
+    "symbol": ".",
+    "looks_like": "t_pavement",
+    "color": "dark_gray",
+    "//connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 500,
+      "str_max": 1000,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_y",
+    "name": "yellow deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in yellow color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": "t_pavement_y",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "yellow"
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_r",
+    "name": "red deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in red color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": "t_floor_red",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_w",
+    "name": "white deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in white color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": "t_linoleum_white_no_roof",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "white"
+  },
+  {
+    "type": "terrain",
+    "id": "t_thconc_y_no_roof",
+    "looks_like": "t_thconc_y",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor with a streak of yellow paint.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_thconc_floor_no_roof",
+    "alias": "t_thconc_floor_nofloor",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor.",
+    "symbol": ".",
+    "color": "cyan",
+    "looks_like": "t_thconc_floor",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
   }
 ]

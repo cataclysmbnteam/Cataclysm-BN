@@ -243,8 +243,8 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes() const
 dependency_tree::dependency_tree() = default;
 
 void dependency_tree::init(
-    std::map<mod_id, std::vector<mod_id> > key_dependency_map,
-    std::map<mod_id, std::vector<mod_id> > key_conflict_map
+    const std::map<mod_id, std::vector<mod_id> > &key_dependency_map,
+    const std::map<mod_id, std::vector<mod_id> > &key_conflict_map
 )
 {
     build_node_map( key_dependency_map );
@@ -252,7 +252,7 @@ void dependency_tree::init(
 }
 
 void dependency_tree::build_node_map(
-    std::map<mod_id, std::vector<mod_id > > key_dependency_map )
+    const std::map<mod_id, std::vector<mod_id > > &key_dependency_map )
 {
     for( auto &elem : key_dependency_map ) {
         // check to see if the master node map knows the key
@@ -263,8 +263,8 @@ void dependency_tree::build_node_map(
 }
 
 void dependency_tree::build_connections(
-    std::map<mod_id, std::vector<mod_id > > key_dependency_map,
-    std::map<mod_id, std::vector<mod_id > > key_conflict_map
+    const std::map<mod_id, std::vector<mod_id > > &key_dependency_map,
+    const std::map<mod_id, std::vector<mod_id > > &key_conflict_map
 )
 {
     for( auto &elem : key_dependency_map ) {

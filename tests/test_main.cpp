@@ -53,6 +53,7 @@
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
+#include "state_helpers.h"
 #include "string_utils.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -99,6 +100,9 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
                                     option_overrides_t &option_overrides,
                                     const std::string &user_dir )
 {
+    if( !remove_tree( user_dir ) ) {
+        assert( !"Unable to remove user_dir directory.  Check permissions." );
+    }
     if( !assure_dir_exist( user_dir ) ) {
         assert( !"Unable to make user_dir directory.  Check permissions." );
     }
@@ -157,7 +161,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->u = avatar();
     g->u.create( character_type::NOW );
 
-    g->m = map( get_option<bool>( "ZLEVELS" ) );
+    g->m = map();
     disable_mapgen = true;
 
     g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
@@ -229,7 +233,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
     if( option_user_dir.empty() ) {
         return "./test_user_dir/";
     }
-    if( !string_ends_with( option_user_dir, "/" ) ) {
+    if( !option_user_dir.ends_with( "/" ) ) {
         option_user_dir += "/";
     }
     return option_user_dir;
@@ -280,15 +284,30 @@ int main( int argc, const char *argv[] )
 
     std::string user_dir = extract_user_dir( arg_vec );
 
+    std::string error_fmt = extract_argument( arg_vec, "--error-format=" );
+    if( error_fmt == "github-action" ) {
+        error_log_format = error_log_format_t::github_action;
+    } else if( error_fmt == "human-readable" || error_fmt.empty() ) {
+        error_log_format = error_log_format_t::human_readable;
+    } else {
+        printf( "Unknown format %s", error_fmt.c_str() );
+        return EXIT_FAILURE;
+    }
+
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
-    int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
+    int result = session.applyCommandLine( arg_vec.size(), arg_vec.data() );
     if( result != 0 || session.configData().showHelp ) {
-        cata_printf( "CataclysmDDA specific options:\n" );
+        cata_printf( "Cataclysm: BN specific options:\n" );
         cata_printf( "  --mods=<mod1,mod2,…>         Loads the list of mods before executing tests.\n" );
         cata_printf( "  --user-dir=<dir>             Set user dir (where test world will be created).\n" );
+        cata_printf( "                               Don't use any existing folder you care about,\n" );
+        cata_printf( "                               all contents will be erased!\n" );
         cata_printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
         cata_printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
         cata_printf( "                               (overrides config/options.json values)\n" );
+        cata_printf( "  --error-format=<value>       Format of error messages.  Possible values are:\n" );
+        cata_printf( "                                   human-readable (default)\n" );
+        cata_printf( "                                   github-action\n" );
         return result;
     }
 
@@ -307,6 +326,10 @@ int main( int argc, const char *argv[] )
     }
     DebugLog( DL::Info, DC::Main ) << "Randomness seeded to: " << seed;
 
+    auto _on_out_of_scope = on_out_of_scope( []() {
+        g.reset();
+        DynamicDataLoader::get_instance().unload_data();
+    } );
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
@@ -326,6 +349,8 @@ int main( int argc, const char *argv[] )
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );
+
+    clear_all_state();
 
     auto world_name = world_generator->active_world->world_name;
     if( result == 0 || dont_save ) {

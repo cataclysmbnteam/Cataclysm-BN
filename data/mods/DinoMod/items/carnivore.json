@@ -5,7 +5,7 @@
     "type": "COMESTIBLE",
     "name": { "str": "sauropod stomach" },
     "description": "The stomach of an enormous sauropod dinosaur.  It is surprisingly durable and very roomy.",
-    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+    "proportional": { "weight": 2, "volume": 2, "price": 1.5, "calories": 2 }
   },
   {
     "type": "COMESTIBLE",
@@ -13,7 +13,7 @@
     "copy-from": "stomach_boiled",
     "name": { "str": "boiled sauropod stomach" },
     "description": "A boiled stomach from a sauropod, nothing else.  It looks all but appetizing.",
-    "proportional": { "price": 2.0, "calories": 2.0, "volume": 2.0, "weight": 2.0 },
+    "proportional": { "price": 2, "calories": 2, "volume": 2, "weight": 2 },
     "fun": -5
   },
   {
@@ -27,8 +27,8 @@
     "volume": "1400 ml",
     "symbol": "@",
     "color": "white",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ]
   },
   {
@@ -42,8 +42,8 @@
     "volume": "2800 ml",
     "symbol": "@",
     "color": "white",
-    "price": 20,
-    "price_postapoc": 20,
+    "price": "20 cent",
+    "price_postapoc": "20 cent",
     "material": [ "bone" ]
   },
   {
@@ -57,8 +57,8 @@
     "volume": "5600 ml",
     "symbol": "@",
     "color": "white",
-    "price": 40,
-    "price_postapoc": 40,
+    "price": "40 cent",
+    "price_postapoc": "40 cent",
     "material": [ "bone" ]
   },
   {
@@ -72,8 +72,8 @@
     "volume": "1400 ml",
     "symbol": "@",
     "color": "white",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ],
     "qualities": [ [ "CUT_FINE", 1 ] ]
   },
@@ -88,8 +88,8 @@
     "volume": "2800 ml",
     "symbol": "@",
     "color": "white",
-    "price": 20,
-    "price_postapoc": 20,
+    "price": "20 cent",
+    "price_postapoc": "20 cent",
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
   },
@@ -104,8 +104,8 @@
     "volume": "5600 ml",
     "symbol": "@",
     "color": "white",
-    "price": 40,
-    "price_postapoc": 40,
+    "price": "40 cent",
+    "price_postapoc": "40 cent",
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ]
   },

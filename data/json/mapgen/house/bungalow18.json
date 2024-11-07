@@ -2,7 +2,6 @@
   {
     "type": "mapgen",
     "om_terrain": "bungalow18",
-    "weight": 50,
     "method": "json",
     "object": {
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
@@ -17,7 +16,7 @@
         ".%%%...%%%..--.._______.",
         ".##o####oo##o*#########.",
         ".#B/t|@¤  d|i |Lq|D zD#.",
-        ".#B/S|@   d|i +  ||+||#.",
+        ".#B/S|@   ɸ|i +  ||+||#.",
         ".#//8| h  ||? ||||y  ¤#.",
         "^#Q/8|rrr +   + U|d @@o.",
         ".#|+|||||||y  |zU|d @@o.",
@@ -52,13 +51,13 @@
         { "item": "brewing_cookbook", "x": 17, "y": [ 17, 18 ], "chance": 10 },
         { "item": "cookbook", "x": 17, "y": [ 17, 18 ], "chance": 50 }
       ],
-      "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 2, "chance": 15, "fuel": 80, "status": 1, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 2, "chance": 15, "fuel": 80, "status": 1, "rotation": 270 } ],
+      "place_nested": [ { "chunks": [ "NC_res_frontlawn_3X3" ], "x": 5, "y": 2 } ]
     }
   },
   {
     "type": "mapgen",
     "om_terrain": "bungalow18_roof",
-    "weight": 50,
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
@@ -89,7 +88,11 @@
         " ----------------5----- ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "place_nested": [
+        { "chunks": [ "NC_res_roof_solar_4X4" ], "x": 16, "y": 9 },
+        { "chunks": [ "NC_res_roof_chunk_3X3" ], "x": [ 2, 8 ], "y": 8 }
+      ]
     }
   }
 ]

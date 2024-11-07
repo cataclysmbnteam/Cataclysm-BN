@@ -32,16 +32,17 @@
     "name": "GROUP_NETHER_FATIGUE_FIELD",
     "default": "mon_blank",
     "monsters": [
-      { "monster": "mon_flying_polyp", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_hunting_horror", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_flying_polyp", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 0, "starts": 840 },
+      { "monster": "mon_mi_go_scout", "freq": 50, "cost_multiplier": 0, "starts": 840 },
       { "monster": "mon_yugg", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_gelatin", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_flaming_eye", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_blank", "freq": 100, "cost_multiplier": 0 }
+      { "monster": "mon_blank", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_mothman", "freq": 100, "cost_multiplier": 0 }
     ]
   },
   {
@@ -56,7 +57,8 @@
       { "monster": "mon_flaming_eye", "freq": 120, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "freq": 210, "cost_multiplier": 0 },
       { "monster": "mon_gozu", "freq": 25, "cost_multiplier": 0 },
-      { "monster": "mon_shoggoth", "freq": 5, "cost_multiplier": 0 }
+      { "monster": "mon_shoggoth", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_mothman", "freq": 60, "cost_multiplier": 0 }
     ]
   },
   {
@@ -80,7 +82,8 @@
       { "monster": "mon_flaming_eye", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_kreck", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "freq": 200, "cost_multiplier": 0 },
-      { "monster": "mon_blank", "freq": 200, "cost_multiplier": 0 }
+      { "monster": "mon_blank", "freq": 150, "cost_multiplier": 0 },
+      { "monster": "mon_mothman", "freq": 50, "cost_multiplier": 0 }
     ]
   },
   {

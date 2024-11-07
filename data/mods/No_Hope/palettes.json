@@ -71,7 +71,8 @@
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
       "ʭ": "f_ladder",
-      "¤": "f_table"
+      "¤": "f_table",
+      "Ə": "f_table"
     },
     "terrain": {
       "a": "t_thconc_floor",
@@ -204,6 +205,7 @@
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "@": { "item": "bed", "chance": 20 },
+      "Ə": { "item": "table_foyer", "chance": 40 },
       "Z": { "item": "laundry", "chance": 20 },
       "W": { "item": "laundry", "chance": 20 },
       "z": [
@@ -218,7 +220,8 @@
         { "item": "toy_store", "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "allsporting", "chance": 5 }
       ]
-    }
+    },
+    "nested": { "ɸ": { "chunks": [ "NC_res_personal_items_1X1" ] } }
   },
   {
     "type": "palette",
@@ -362,6 +365,7 @@
       " ": "t_region_groundcover_urban",
       "*": [ [ "t_region_groundcover_urban", 4 ], "t_region_tree_shade" ],
       "_": "t_sidewalk",
+      "'": "t_sidewalk",
       ".": "t_floor",
       "#": "t_wall_w",
       "-": "t_wall_glass",
@@ -393,6 +397,7 @@
       "%": "t_console_broken"
     },
     "furniture": {
+      "'": "f_street_light",
       "c": "f_counter",
       "D": "f_vending_c",
       "F": "f_vending_c",
@@ -416,6 +421,7 @@
     "type": "palette",
     "id": "hotel_tower_palette.json",
     "furniture": {
+      "!": "f_street_light",
       "B": "f_bed",
       "c": "f_counter",
       "m": "f_bench",
@@ -446,6 +452,7 @@
       "6": "t_wall_glass",
       "_": "t_pavement",
       "2": "t_carpet_green",
+      "!": "t_sidewalk",
       "s": "t_sidewalk",
       "'": [ [ "t_region_groundcover_urban", 5 ], "t_region_shrub_decorative" ],
       "M": [ "t_region_shrub_decorative" ],
@@ -479,6 +486,7 @@
     "id": "office_doctor",
     "terrain": {
       " ": "t_region_groundcover_urban",
+      "]": "t_region_groundcover_urban",
       "!": "t_door_locked_interior",
       "#": "t_wall_w",
       "$": "t_floor",
@@ -531,6 +539,7 @@
       "6": "t_console"
     },
     "furniture": {
+      "]": "f_street_light",
       "$": "f_safe_l",
       "&": "f_toilet",
       "B": "f_bed",
@@ -670,6 +679,7 @@
       "_": [ "t_region_groundcover", [ "t_region_groundcover_barren", 9 ] ],
       "#": "t_rock",
       "$": [ "t_region_tree_fruit", "t_region_tree_nut", "t_region_shrub_fruit", "t_region_shrub" ],
+      "p": "t_region_groundcover",
       "S": [
         [ "t_region_groundcover", 5 ],
         "t_region_tree_fruit",
@@ -686,6 +696,7 @@
       "(": "t_slope_down",
       "T": [ "t_region_tree_fruit", "t_region_tree_nut" ]
     },
+    "furniture": { "p": "f_solar_unit_v2" },
     "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] }
   },
   {
@@ -705,8 +716,7 @@
       ":": "t_secretdoor_metal_c",
       ";": "t_secretdoor_metal_o",
       "~": "t_water_pump",
-      "t": "t_thconc_floor",
-      "G": "t_generator_broken"
+      "t": "t_thconc_floor"
     },
     "furniture": {
       "A": "f_air_filter",
@@ -721,6 +731,8 @@
       "E": "f_exercise",
       "F": "f_fridge",
       "f": "f_sofa",
+      "G": "f_battery",
+      "I": "f_floor_lamp",
       "h": "f_chair",
       "H": "f_water_heater",
       "K": "f_sink",

@@ -16,6 +16,7 @@
       "-": "t_sidewalk",
       "_": "t_pavement",
       "#": "t_sconc_wall",
+      "?": "t_card_industrial",
       "e": "t_elevator",
       "@": "t_elevator_control_off",
       "O": "t_wall_metal",
@@ -50,6 +51,7 @@
       "`": "t_thconc_y"
     },
     "furniture": {
+      "~": "f_utility_shelf",
       "h": "f_chair",
       "T": "f_table",
       "A": "f_air_conditioner",
@@ -72,6 +74,7 @@
       "7": "f_filing_cabinet"
     },
     "items": {
+      "~": { "item": "steel_mill_storage", "chance": 50 },
       "T": { "item": "snacks", "chance": 30 },
       "d": { "item": "office", "chance": 30 },
       "y": { "item": "office", "chance": 30 },
@@ -79,7 +82,7 @@
       "n": { "item": "fast_table", "chance": 30 },
       "|": { "item": "steel_mill_mill", "chance": 15 },
       "s": { "item": "metal_workshop", "chance": 10 },
-      "C": { "item": "metal_workshop", "chance": 10 },
+      "C": { "item": "metal_workshop", "chance": 15 },
       "b": { "item": "metal_workshop", "chance": 20 },
       "!": { "item": "steel_mill_mill", "chance": 3 },
       "1": { "item": "steel_mill_foundry", "chance": 5 },

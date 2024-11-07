@@ -2518,7 +2518,7 @@
     "upgrades": { "half_life": 15, "into": "mon_silophosaurus_brute" },
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ],
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -2828,7 +2828,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -2852,7 +2852,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -2876,7 +2876,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -2900,7 +2900,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -2924,7 +2924,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -2948,7 +2948,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -2980,7 +2980,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3004,7 +3004,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3044,7 +3044,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3068,7 +3068,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3092,7 +3092,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3116,7 +3116,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3140,7 +3140,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3164,7 +3164,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3188,7 +3188,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3212,7 +3212,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3236,7 +3236,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3260,7 +3260,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3284,7 +3284,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3309,7 +3309,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3333,7 +3333,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3357,7 +3357,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3381,7 +3381,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3405,7 +3405,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3429,7 +3429,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3453,7 +3453,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3477,7 +3477,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3501,7 +3501,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3525,7 +3525,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3549,7 +3549,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3573,7 +3573,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3597,7 +3597,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3621,7 +3621,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3645,7 +3645,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3669,7 +3669,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3693,7 +3693,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3717,7 +3717,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3741,7 +3741,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3765,7 +3765,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3789,7 +3789,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3813,7 +3813,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3837,7 +3837,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3861,7 +3861,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3885,7 +3885,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3909,7 +3909,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3933,7 +3933,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3957,7 +3957,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -3981,7 +3981,7 @@
     },
     "upgrades": {  },
     "extend": { "flags": [ "HARDTOSHOOT" ] },
-    "harvest": "mr_bones",
+    "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -4617,7 +4617,7 @@
     "morale": 100,
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "vision_night": 3,
-    "harvest": "zed_dino_feather",
+    "harvest": "zed_dino_feather_acid",
     "categories": [ "DINOSAUR" ],
     "looks_like": "mon_dilophosaurus",
     "volume": "400 L",
@@ -4667,7 +4667,7 @@
     "morale": 100,
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "vision_night": 3,
-    "harvest": "zed_dino_feather",
+    "harvest": "zed_dino_feather_acid",
     "categories": [ "DINOSAUR" ],
     "looks_like": "mon_zyrannosaurus",
     "volume": "540 L",

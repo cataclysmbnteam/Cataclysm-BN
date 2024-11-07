@@ -6,18 +6,13 @@
 
 #include "avatar.h"
 #include "game.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "options_helpers.h"
 #include "state_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
-
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_WET( "WET" );
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
@@ -35,7 +30,6 @@ static const skill_id skill_survival( "survival" );
 // - "burnt" or "badly burnt"
 // - (dirty)
 // - (rotten)
-// - (mushy)
 // - (old)
 // - (fresh)
 // - Radio-mod with signals (Red, Blue, Green)
@@ -48,7 +42,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
     g->u.clear_mutations();
 
     GIVEN( "food with hidden poison" ) {
-        item coffee = item( "coffee_pod" );
+        item &coffee = *item::spawn_temporary( "coffee_pod" );
         REQUIRE( coffee.is_food() );
         REQUIRE( coffee.has_flag( flag_HIDDEN_POISON ) );
 
@@ -72,7 +66,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
     }
 
     GIVEN( "food with hidden hallucinogen" ) {
-        item mushroom = item( "mushroom" );
+        item &mushroom = *item::spawn_temporary( "mushroom" );
         mushroom.set_flag( flag_HIDDEN_HALLU );
         REQUIRE( mushroom.is_food() );
         REQUIRE( mushroom.has_flag( flag_HIDDEN_HALLU ) );
@@ -100,7 +94,7 @@ TEST_CASE( "food with hidden effects", "[item][tname][hidden]" )
 TEST_CASE( "wet item", "[item][tname][wet]" )
 {
     clear_all_state();
-    item rag( "rag" );
+    item &rag = *item::spawn_temporary( "rag" );
     rag.set_flag( flag_WET );
     REQUIRE( rag.has_flag( flag_WET ) );
 
@@ -111,7 +105,7 @@ TEST_CASE( "filthy item", "[item][tname][filthy]" )
 {
     clear_all_state();
     override_option opt( "FILTHY_MORALE", "true" );
-    item rag( "rag" );
+    item &rag = *item::spawn_temporary( "rag" );
     rag.set_flag( flag_FILTHY );
     REQUIRE( rag.is_filthy() );
 
@@ -121,7 +115,7 @@ TEST_CASE( "filthy item", "[item][tname][filthy]" )
 TEST_CASE( "diamond item", "[item][tname][diamond]" )
 {
     clear_all_state();
-    item katana( "katana" );
+    item &katana = *item::spawn_temporary( "katana" );
     katana.set_flag( flag_DIAMOND );
     REQUIRE( katana.has_flag( flag_DIAMOND ) );
 
@@ -132,7 +126,7 @@ TEST_CASE( "truncated item name", "[item][tname][truncate]" )
 {
     clear_all_state();
     SECTION( "plain item name can be truncated" ) {
-        item katana( "katana" );
+        item &katana = *item::spawn_temporary( "katana" );
 
         CHECK( katana.tname() == "katana" );
         CHECK( katana.tname( 1, false, 5 ) == "katan" );
@@ -144,9 +138,9 @@ TEST_CASE( "truncated item name", "[item][tname][truncate]" )
 TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
 {
     clear_all_state();
-    item vtwin = item( "v2_combustion" );
-    item v12diesel = item( "v12_diesel" );
-    item turbine = item( "small_turbine_engine" );
+    item &vtwin = *item::spawn_temporary( "v2_combustion" );
+    item &v12diesel = *item::spawn_temporary( "v12_diesel" );
+    item &turbine = *item::spawn_temporary( "small_turbine_engine" );
 
     REQUIRE( vtwin.engine_displacement() == 100 );
     REQUIRE( v12diesel.engine_displacement() == 700 );
@@ -160,9 +154,9 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
 TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
 {
     clear_all_state();
-    item wheel17 = item( "wheel" );
-    item wheel24 = item( "wheel_wide" );
-    item wheel32 = item( "wheel_armor" );
+    item &wheel17 = *item::spawn_temporary( "wheel" );
+    item &wheel24 = *item::spawn_temporary( "wheel_wide" );
+    item &wheel32 = *item::spawn_temporary( "wheel_armor" );
 
     REQUIRE( wheel17.type->wheel->diameter == 17 );
     REQUIRE( wheel24.type->wheel->diameter == 24 );
@@ -177,7 +171,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
 {
     clear_all_state();
     GIVEN( "some clothing" ) {
-        item shirt( "longshirt" );
+        item &shirt = *item::spawn_temporary( "longshirt" );
         REQUIRE( shirt.is_armor() );
 
         // Ensure the health bar option is enabled
@@ -246,7 +240,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         override_option opt( "ITEM_HEALTH_BAR", "false" );
 
         THEN( "clothing health bars are hidden" ) {
-            item shirt( "longshirt" );
+            item &shirt = *item::spawn_temporary( "longshirt" );
             REQUIRE( shirt.is_armor() );
 
             CHECK( shirt.tname() == "long-sleeved shirt (poor fit)" );
@@ -258,17 +252,17 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
 {
     clear_all_state();
     GIVEN( "a gun with potential fouling" ) {
-        item gun( "hk_mp5" );
+        item &gun = *item::spawn_temporary( "hk_mp5" );
 
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
         g->u.clear_mutations();
-        REQUIRE( gun.get_sizing( g-> u, true ) == item::sizing::human_sized_human_char );
-        REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
-        REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );
+        REQUIRE( gun.get_sizing( g-> u ) == item::sizing::ignore );
+        REQUIRE_FALSE( gun.has_flag( flag_OVERSIZE ) );
+        REQUIRE_FALSE( gun.has_flag( flag_UNDERSIZE ) );
 
         WHEN( "it is perfectly clean" ) {
             gun.set_var( "dirt", 0 );
-            CHECK( gun.tname() == "H&K MP5A2" );
+            CHECK( gun.tname() == "H&K MP5A4" );
         }
 
         WHEN( "it is fouled" ) {
@@ -279,37 +273,37 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
 
             THEN( "minimal fouling is not indicated" ) {
                 gun.set_var( "dirt", 1000 );
-                CHECK( gun.tname() == "H&K MP5A2" );
+                CHECK( gun.tname() == "H&K MP5A4" );
             }
 
             // U+2581 'Lower one eighth block'
             THEN( "20%% fouling is indicated with a thin white bar" ) {
                 gun.set_var( "dirt", 2000 );
-                CHECK( gun.tname() == "<color_white>\u2581</color>H&K MP5A2" );
+                CHECK( gun.tname() == "<color_white>\u2581</color>H&K MP5A4" );
             }
 
             // U+2583 'Lower three eighths block'
             THEN( "40%% fouling is indicated with a slight gray bar" ) {
                 gun.set_var( "dirt", 4000 );
-                CHECK( gun.tname() == "<color_light_gray>\u2583</color>H&K MP5A2" );
+                CHECK( gun.tname() == "<color_light_gray>\u2583</color>H&K MP5A4" );
             }
 
             // U+2585 'Lower five eighths block'
             THEN( "60%% fouling is indicated with a medium gray bar" ) {
                 gun.set_var( "dirt", 6000 );
-                CHECK( gun.tname() == "<color_light_gray>\u2585</color>H&K MP5A2" );
+                CHECK( gun.tname() == "<color_light_gray>\u2585</color>H&K MP5A4" );
             }
 
             // U+2585 'Lower seven eighths block'
             THEN( "80%% fouling is indicated with a tall dark gray bar" ) {
                 gun.set_var( "dirt", 8000 );
-                CHECK( gun.tname() == "<color_dark_gray>\u2587</color>H&K MP5A2" );
+                CHECK( gun.tname() == "<color_dark_gray>\u2587</color>H&K MP5A4" );
             }
 
             // U+2588 'Full block'
             THEN( "100%% fouling is indicated with a full brown bar" ) {
                 gun.set_var( "dirt", 10000 );
-                CHECK( gun.tname() == "<color_brown>\u2588</color>H&K MP5A2" );
+                CHECK( gun.tname() == "<color_brown>\u2588</color>H&K MP5A4" );
             }
         }
     }

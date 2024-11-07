@@ -5,12 +5,14 @@
 #include <vector>
 
 class item;
-class item_location;
 class Character;
 class JsonIn;
 class JsonOut;
 class map;
 struct tripoint;
+
+template<typename T>
+class detached_ptr;
 
 namespace pickup
 {
@@ -39,13 +41,13 @@ int cost_to_move_item( const Character &who, const item &it );
  * If character is handling a potentially spillable bucket, gracefully handle what
  * to do with the contents.
  *
- * Returns true if we handled the container, false if we chose to spill the
+ * Returns nullptr if we handled the container and the container if we chose to spill the
  * contents and the container still needs to be put somewhere.
  * @param c Character handling the spillable item
  * @param it item to handle
  * @param m map they are on
  */
-bool handle_spillable_contents( Character &c, item &it, map &m );
+detached_ptr<item> handle_spillable_contents( Character &c, detached_ptr<item> &&it, map &m );
 } // namespace pickup
 
 #endif // CATA_SRC_PICKUP_H

@@ -93,26 +93,33 @@
       [ "portable_game", 60 ],
       [ "bat", 60 ],
       [ "backpack", 40 ],
-      [ "pockknife", 20 ],
+      [ "pockknife", 5 ],
       [ "wristwatch", 20 ],
       [ "teleumbrella", 5 ],
       { "group": "kids_books", "prob": 155 },
+      { "group": "games", "prob": 170 },
+      [ "frisbee", 40 ],
+      [ "disc_golf", 40 ],
+      [ "magic_8_ball", 30 ],
       [ "novel_pulp", 20 ],
       [ "folding_bicycle", 5 ],
       [ "sunglasses", 25 ],
-      [ "cowboy_hat", 25 ],
-      [ "mp3", 40 ],
       [ "wolfsuit", 5 ],
       [ "dinosuit", 5 ],
       [ "gum", 10 ],
+      [ "baseball", 40 ],
+      [ "football", 40 ],
+      [ "basketball", 50 ],
       [ "talking_doll", 50 ],
+      [ "marble", 60 ],
       [ "creepy_doll", 1 ],
       [ "jedi_cloak", 5 ],
       [ "clown_suit", 5 ],
       [ "clownshoes", 5 ],
       [ "radio_car_box", 10 ],
       [ "RPG_die", 5 ],
-      [ "metal_RPG_die", 1 ]
+      [ "metal_RPG_die", 1 ],
+      [ "shark_plush", 5 ]
     ]
   },
   {
@@ -140,12 +147,15 @@
     "items": [
       [ "knife_butcher", 20 ],
       [ "knife_combat", 35 ],
+      [ "knife_carbon", 35 ],
       [ "throwing_knife", 10 ],
+      { "item": "shuriken", "prob": 5, "count": [ 1, 4 ] },
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],
       [ "knife_trench", 7 ],
       [ "switchblade", 20 ],
       [ "knife_hunting", 20 ],
+      [ "knife_heat", 5 ],
       [ "knife_rambo", 5 ]
     ]
   },
@@ -328,7 +338,10 @@
       [ "cowboy_hat", 20 ],
       [ "tophat", 25 ],
       [ "hat_sombrero", 25 ],
-      [ "apron_leather", 20 ]
+      [ "apron_leather", 20 ],
+      [ "bandolier_knife", 15 ],
+      [ "baldric_holster", 10 ],
+      [ "pirate_flag", 15 ]
     ]
   },
   {
@@ -375,7 +388,8 @@
       [ "cavalry_sabre_fake", 4 ],
       [ "wakizashi_fake", 4 ],
       [ "wakizashi_inferior", 8 ],
-      [ "kris_fake", 8 ]
+      [ "kris_fake", 8 ],
+      { "item": "shuriken", "prob": 1, "count": [ 1, 4 ] }
     ]
   }
 ]

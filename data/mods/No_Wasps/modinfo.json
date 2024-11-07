@@ -1,0 +1,54 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "No_Wasps",
+    "name": "No Wasps",
+    "authors": [ "Zlorthishen" ],
+    "description": "Removes wasps, dermatiks, and their associated maps from the game",
+    "category": "monster_exclude",
+    "dependencies": [ "bn" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "categories": [
+      "GROUP_WASP_NEST",
+      "GROUP_WASP_FORAGER",
+      "GROUP_WASP_GUARD",
+      "GROUP_WASP_QUEEN",
+      "GROUP_WASP_PUPA",
+      "GROUP_DERMATIK_INCUB",
+      "GROUP_DERMATIK"
+    ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+      "mon_wasp_larva",
+      "mon_wasp_pupa",
+      "mon_wasp_small",
+      "mon_wasp_small_guard",
+      "mon_wasp_queen",
+      "mon_wasp",
+      "mon_wasp_guard",
+      "mon_wasp_mega",
+      "mon_dermatik",
+      "mon_dermatik_larva",
+      "mon_dermatik_midwife",
+      "mon_dermatik_incubator_deer",
+      "mon_dermatik_incubator_dog",
+      "mon_dermatik_incubator_spider"
+    ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wasp Tower",
+    "overmaps": [  ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Wasp Tower 1",
+    "overmaps": [  ],
+    "occurrences": [ 0, 0 ]
+  }
+]

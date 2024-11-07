@@ -11,6 +11,8 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
+#include "flat_set.h"
 #include "hash_utils.h"
 #include "translations.h"
 #include "type_id.h"
@@ -21,6 +23,7 @@ enum game_message_type : int;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class effect;
 
 /** Handles the large variety of weed messages. */
 void weed_msg( player &p );
@@ -31,6 +34,50 @@ enum effect_rating {
     e_bad,      // The effect is bad for the one who has it.
     e_mixed     // The effect has good and bad parts to the one who has it.
 };
+
+struct caused_effect {
+    public:
+        efftype_id type;
+        /** Minimum parent effect intensity to apply the new effect. */
+        int intensity_requirement = 0;
+        /** If false, prevents application if the trigger was parent decaying to 0 duration. */
+        bool allow_on_decay = true;
+        /** If false, prevents application if the trigger was parent being removed with at least 1 turn of duration left. */
+        bool allow_on_remove = false;
+
+        /**
+         * Duration of the new effect.
+         * If 0, type's max duration will be used instead.
+         * Should be left at 0 for permanent effects.
+         */
+        time_duration duration = 0_turns;
+        /**
+         * If true, duration field is ignored and parent intensity is copied.
+         * If true and parent duration was <1, the new effect will not be applied.
+         */
+        bool inherit_duration = false;
+        /** Intensity of the new effect. */
+        int intensity = 0;
+        /** If true, intensity field is ignored and parent effect intensity is copied. */
+        bool inherit_intensity = false;
+
+        bodypart_str_id bp = bodypart_str_id::NULL_ID();
+        bool inherit_body_part = true;
+
+        void load_decay( const JsonObject &jo );
+
+        auto tie() const {
+            return std::tie( type, intensity_requirement, allow_on_decay, allow_on_remove,
+                             duration, inherit_duration, intensity, inherit_intensity );
+        }
+
+        bool operator==( const caused_effect &rhs ) const {
+            return tie() == rhs.tie();
+        }
+    private:
+        void load( const JsonObject &jo );
+};
+
 
 class effect_type
 {
@@ -79,6 +126,10 @@ class effect_type
         /** Returns the id of morale type this effect produces. */
         morale_type get_morale_type() const;
 
+        const std::vector<caused_effect> &get_effects_on_remove() const {
+            return effects_on_remove;
+        }
+
         bool is_show_in_info() const;
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
@@ -92,7 +143,12 @@ class effect_type
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
+        /** Check if the effect type has the specified flag */
+        bool has_flag( const flag_id &flag ) const;
+
         static void check_consistency();
+
+        LUA_TYPE_OPS( effect_type, id );
 
     private:
         bool permanent = false;
@@ -109,7 +165,7 @@ class effect_type
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
 
-        std::set<std::string> flags;
+        std::set<flag_id> flags;
 
         bool main_parts_only = false;
 
@@ -151,6 +207,8 @@ class effect_type
         std::string blood_analysis_description;
 
         morale_type morale;
+
+        std::vector<caused_effect> effects_on_remove;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
@@ -260,26 +318,26 @@ class effect
         std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
-        int get_mod( std::string arg, bool reduced = false ) const;
+        int get_mod( const std::string &arg, bool reduced = false ) const;
         /** Returns the average return of get_mod for a modifier type. Used in effect description displays. */
-        int get_avg_mod( std::string arg, bool reduced = false ) const;
+        int get_avg_mod( const std::string &arg, bool reduced = false ) const;
         /** Returns the amount of a modifier type applied when a new effect is first added. */
-        int get_amount( std::string arg, bool reduced = false ) const;
+        int get_amount( const std::string &arg, bool reduced = false ) const;
         /** Returns the minimum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_min_val( std::string arg, bool reduced = false ) const;
+        int get_min_val( const std::string &arg, bool reduced = false ) const;
         /** Returns the maximum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_max_val( std::string arg, bool reduced = false ) const;
+        int get_max_val( const std::string &arg, bool reduced = false ) const;
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
         bool get_sizing( const std::string &arg ) const;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
-        double get_percentage( std::string arg, int val, bool reduced = false ) const;
+        double get_percentage( const std::string &arg, int val, bool reduced = false ) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated( const time_point &when, std::string arg, int val,
+        bool activated( const time_point &when, const std::string &arg, int val,
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
-        bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;
@@ -301,6 +359,11 @@ class effect
         /** Returns if the effect is supposed to be handled in Creature::movement */
         bool impairs_movement() const;
 
+        /** Create a set of effects that should replace this one when it decays to 0 duration. */
+        std::vector<effect> create_decay_effects() const;
+        /** Create a set of effects that should replace this one when it is removed prematurely. */
+        std::vector<effect> create_removal_effects() const;
+
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {
             return eff_type->id;
@@ -308,6 +371,9 @@ class effect
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+    private:
+        std::vector<effect> create_child_effects( bool decay ) const;
 
     protected:
         const effect_type *eff_type;

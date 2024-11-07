@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "id": "campus_admin_0_0_0",
     "copy-from": "campus_admin_0_0_0",
-    "sym": "\u00C1",
+    "sym": "Á",
     "color": "light_green"
   },
   {
@@ -65,7 +65,7 @@
     "type": "overmap_terrain",
     "id": "campus_commons_0_0_0",
     "name": "campus commons building",
-    "sym": "\u00C7",
+    "sym": "Ç",
     "color": "light_green"
   },
   {
@@ -229,7 +229,7 @@
     "type": "overmap_terrain",
     "id": "campus_media_0_0_0",
     "copy-from": "campus_media_0_0_0",
-    "sym": "\u00C1"
+    "sym": "Á"
   },
   {
     "type": "overmap_terrain",
@@ -330,7 +330,7 @@
     "type": "overmap_terrain",
     "id": "campus_health_0_0_0",
     "copy-from": "campus_health_0_0_0",
-    "sym": "\u00C1",
+    "sym": "Á",
     "color": "light_red"
   },
   {
@@ -392,7 +392,7 @@
     "type": "overmap_terrain",
     "id": "campus_lecture_0_0_0",
     "copy-from": "campus_lecture_0_0_0",
-    "sym": "\u00FE",
+    "sym": "þ",
     "color": "brown"
   },
   {

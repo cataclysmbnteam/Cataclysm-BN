@@ -12,6 +12,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "flat_set.h"
 #include "translations.h"
 #include "type_id.h"
@@ -41,6 +42,8 @@ struct bionic_data {
     units::energy power_over_time = 0_kJ;
     /** Power cost when the bionic's special effect is triggered */
     units::energy power_trigger = 0_kJ;
+    /** Kcal cost when the bionic's special effect is triggered */
+    int kcal_trigger = 0;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
@@ -67,6 +70,8 @@ struct bionic_data {
     int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
     float fuel_efficiency = 0.0f;
+    /**Multiplies the amount of fuel when loading into the bionic storage*/
+    int fuel_multiplier = 1;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency = 0.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/
@@ -129,9 +134,14 @@ struct bionic_data {
      * Upgrades available for this bionic (opposite to @ref upgraded_bionic).
      */
     std::set<bionic_id> available_upgrades;
+    /**
+     * Id of other bionics which this bionic needs to have installed to be installed.
+     * Also prevents those bionics from being removed while this bionic is installed.
+     */
+    std::vector<bionic_id> required_bionics;
 
-    std::set<flag_str_id> flags;
-    bool has_flag( const flag_str_id &flag ) const;
+    std::set<flag_id> flags;
+    bool has_flag( const flag_id &flag ) const;
 
     itype_id itype() const;
 
@@ -143,9 +153,11 @@ struct bionic_data {
     static void reset();
 
     bool was_loaded = false;
-    void load( const JsonObject &obj, std::string );
+    void load( const JsonObject &obj, const std::string & );
     void check() const;
     void finalize() const;
+
+    LUA_TYPE_OPS( bionic_data, id );
 };
 
 struct bionic {

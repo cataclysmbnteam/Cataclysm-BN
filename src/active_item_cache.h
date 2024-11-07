@@ -12,12 +12,6 @@
 
 class item;
 
-// A struct used to uniquely identify an item within a submap or vehicle.
-struct item_reference {
-    point location;
-    safe_reference<item> item_ref;
-};
-
 enum class special_item_type : int {
     none,
     corpse,
@@ -37,8 +31,8 @@ struct hash<special_item_type> {
 class active_item_cache
 {
     private:
-        std::unordered_map<int, std::list<item_reference>> active_items;
-        std::unordered_map<special_item_type, std::list<item_reference>> special_items;
+        std::unordered_map<int, std::pair<int, std::vector<cache_reference<item>>>> active_items;
+        std::unordered_map<special_item_type, std::vector<cache_reference<item>>> special_items;
 
     public:
         /**
@@ -52,7 +46,7 @@ class active_item_cache
          * Adds the reference to the cache. Does nothing if the reference is already in the cache.
          * Relies on the fact that item::processing_speed() is a constant.
          */
-        void add( item &it, point location );
+        void add( item &it );
 
         /**
          * Returns true if the cache is empty
@@ -63,7 +57,7 @@ class active_item_cache
          * Returns a vector of all cached active item references.
          * Broken references are removed from the cache.
          */
-        std::vector<item_reference> get();
+        std::vector<item *> get();
 
         /**
          * Returns the first size() / processing_speed() elements of each list, rounded up.
@@ -73,15 +67,12 @@ class active_item_cache
          * the cache.
          * Relies on the fact that item::processing_speed() is a constant.
          */
-        std::vector<item_reference> get_for_processing();
+        std::vector<item *> get_for_processing();
 
         /**
          * Returns the currently tracked list of special active items.
          */
-        std::vector<item_reference> get_special( special_item_type type );
-        /** Subtract delta from every item_reference's location */
-        void subtract_locations( point delta );
-        void rotate_locations( int turns, point dim );
+        std::vector<item *> get_special( special_item_type type );
 };
 
 #endif // CATA_SRC_ACTIVE_ITEM_CACHE_H

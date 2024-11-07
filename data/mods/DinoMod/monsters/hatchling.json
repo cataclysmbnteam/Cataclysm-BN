@@ -149,19 +149,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "STUMBLES",
-      "NO_BREED",
-      "CATFOOD",
-      "CANPLAY"
-    ],
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "STUMBLES", "NO_BREED", "CANPLAY" ],
     "harvest": "bird_tiny"
   },
   {
@@ -172,21 +161,8 @@
     "default_faction": "herbivore_young",
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "CANPLAY",
-      "STUMBLES",
-      "CATFOOD",
-      "DOGFOOD",
-      "CATTLEFODDER",
-      "NO_BREED"
-    ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_struthiomimus_hatchling",
@@ -208,20 +184,8 @@
     "default_faction": "insectivore_young",
     "color": "light_green_yellow",
     "upgrades": { "age_grow": 25, "into": "mon_albertonykus" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "CANPLAY",
-      "STUMBLES",
-      "CATFOOD",
-      "DOGFOOD",
-      "NO_BREED"
-    ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_nothronychus_hatchling",
@@ -292,21 +256,8 @@
     "name": "dark gray and yellow hatchling",
     "default_faction": "eoraptor",
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "CANPLAY",
-      "STUMBLES",
-      "CATFOOD",
-      "DOGFOOD",
-      "CATTLEFODDER",
-      "NO_BREED"
-    ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_sarahsaurus_hatchling",
@@ -316,19 +267,7 @@
     "weight": "2 kg",
     "volume": "2 L",
     "upgrades": { "age_grow": 40, "into": "mon_sarahsaurus_juvenile" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "GUILT",
-      "CANPLAY",
-      "STUMBLES",
-      "CATTLEFODDER",
-      "NO_BREED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_anchisaurus_hatchling",
@@ -404,7 +343,6 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and magenta hatchling",
     "default_faction": "herbivore_young",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
     "upgrades": { "age_grow": 30, "into": "mon_scutellosaurus" }
   },
   {
@@ -412,7 +350,6 @@
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",
     "name": "green and magenta hatchling",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
     "upgrades": { "age_grow": 30, "into": "mon_stegosaurus_juvenile" }
   },
   {
@@ -420,7 +357,6 @@
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",
     "name": "green and magenta hatchling",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
     "upgrades": { "age_grow": 30, "into": "mon_hesperosaurus_juvenile" }
   },
   {
@@ -672,7 +608,6 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and purple hatchling",
     "default_faction": "herbivore_young",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
     "upgrades": { "age_grow": 10, "into": "mon_nanosaurus" }
   },
   {
@@ -681,7 +616,6 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and purple hatchling",
     "default_faction": "herbivore_young",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
     "upgrades": { "age_grow": 30, "into": "mon_oryctodromeus" }
   },
   {
@@ -692,21 +626,8 @@
     "default_faction": "herbivore_young",
     "color": "light_gray",
     "upgrades": { "age_grow": 20, "into": "mon_thescelosaurus_juvenile" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATFOOD",
-      "CATTLEFODDER",
-      "DOGFOOD",
-      "CANPLAY",
-      "STUMBLES",
-      "NO_BREED",
-      "GUILT"
-    ]
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED", "GUILT" ]
   },
   {
     "id": "mon_dimorphodon_hatchling",
@@ -745,6 +666,7 @@
     "default_faction": "mosasaurus_hatchling",
     "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
-    "extend": { "flags": [ "AQUATIC", "CATFOOD" ] }
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "AQUATIC" ] }
   }
 ]

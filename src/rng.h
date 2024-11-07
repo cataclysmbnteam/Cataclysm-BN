@@ -135,7 +135,7 @@ class is_std_array_helper<std::array<T, N>> : public std::true_type
 {
 };
 template<typename T>
-class is_std_array : public is_std_array_helper<typename std::decay<T>::type>
+class is_std_array : public is_std_array_helper<std::decay_t<T>>
 {
 };
 
@@ -175,6 +175,23 @@ inline V random_entry_removed( C &container )
     container.erase( iter );
     return result;
 }
+
+
+template<typename T>
+class detached_ptr;
+template<typename T>
+class location_vector;
+
+template<typename C>
+inline detached_ptr<C> random_entry_detached( location_vector<C> &container )
+{
+    auto iter = container.begin();
+    std::advance( iter, rng( 0, container.size() - 1 ) );
+    detached_ptr<C> ret;
+    container.erase( iter, &ret );
+    return ret;
+}
+
 
 /// Returns a range enclosing all valid points of the map.
 tripoint_range<tripoint> points_in_range( const map &m );
