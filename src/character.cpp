@@ -6112,26 +6112,21 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
                                         int normal_bonus, int head_bonus, int torso_bonus,
                                         float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
-    /* This struct establishes some kind of connection between the hp_part (which can be healed and
-     * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
-     * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {
         mutable bool allowed;
         bodypart_id bp;
         std::string name; // Translated name as it appears in the menu.
         int bonus;
     };
-    /* The array of the menu entries show to the player. The entries are displayed in this order,
-     * it may be changed here. */
-    std::array<healable_bp, num_hp_parts> parts = { {
-            { false, bodypart_id( "head" ), _( "Head" ), head_bonus },
-            { false, bodypart_id( "torso" ), _( "Torso" ), torso_bonus },
-            { false, bodypart_id( "arm_l" ), _( "Left Arm" ), normal_bonus },
-            { false, bodypart_id( "arm_r" ), _( "Right Arm" ), normal_bonus },
-            { false, bodypart_id( "leg_l" ), _( "Left Leg" ), normal_bonus },
-            { false, bodypart_id( "leg_r" ), _( "Right Leg" ), normal_bonus },
-        }
-    };
+
+    std::vector<healable_bp> parts;
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+        // Ugly!
+        int heal_bonus = bp == body_part_head ? head_bonus :
+                         bp == body_part_torso ? torso_bonus :
+                         normal_bonus;
+        parts.emplace_back( false, bp, bp->name_as_heading.translated(), heal_bonus );
+    }
 
     int max_bp_name_len = 0;
     for( const auto &e : parts ) {
@@ -6812,26 +6807,6 @@ float Character::rest_quality() const
 bodypart_str_id Character::bp_to_hp( const bodypart_str_id &bp )
 {
     return bp->main_part;
-}
-
-const bodypart_str_id &Character::hp_to_bp( const hp_part hpart )
-{
-    switch( hpart ) {
-        case hp_head:
-            return body_part_head;
-        case hp_torso:
-            return body_part_torso;
-        case hp_arm_l:
-            return body_part_arm_l;
-        case hp_arm_r:
-            return body_part_arm_r;
-        case hp_leg_l:
-            return body_part_leg_l;
-        case hp_leg_r:
-            return body_part_leg_r;
-        default:
-            return bodypart_str_id::NULL_ID();
-    }
 }
 
 std::string Character::extended_description() const
