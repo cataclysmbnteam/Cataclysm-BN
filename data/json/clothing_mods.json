@@ -113,7 +113,7 @@
     "implement_prompt": "Add pockets",
     "destroy_prompt": "Remove pockets",
     "mod_value": [
-      { "type": "encumbrance", "value": 2, "proportion": [ "coverage" ] },
+      { "type": "encumbrance", "value": 1, "round_up": true, "proportion": [ "volume", "coverage" ] }
       { "type": "storage", "value": 1, "round_up": true, "proportion": [ "volume" ] }
     ]
   }
