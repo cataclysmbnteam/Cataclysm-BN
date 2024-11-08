@@ -3433,8 +3433,9 @@ The following actions are available as defined in trapfunc.cpp:
         "value": 1,       // value of effect.
         "round_up": false // (optional) round up value of effect. defaults to false.
         "proportion": [   // (optional) value of effect propotions to clothing's parameter.
-            "thickness",  //            "thickness" and "coverage" is available.
-            "coverage"
+            "thickness",  //            Add value for every layer of "material_thickness" the item has.
+            "volume",     //            Add value for every liter of baseline volume the item has.
+            "coverage"    //            Reduce value by percentage of average coverage the item has.
         ]
     }
 ]
