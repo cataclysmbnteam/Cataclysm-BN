@@ -39,6 +39,7 @@
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
     "allowed_locs": [
       "sloc_mall_loading_area",
+      "sloc_mall_loading_area_roof",
       "sloc_mall_food_court",
       "sloc_apartments_rooftop",
       "sloc_apartments_house",
