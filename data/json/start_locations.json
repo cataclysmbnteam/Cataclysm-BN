@@ -278,7 +278,7 @@
     "type": "start_location",
     "id": "sloc_mall_loading_area_roof",
     "name": "Mall (loading area roof)",
-    "terrain": ["mall_a_4_roof"]
+    "terrain": [ "mall_a_4_roof" ]
   },
   {
     "type": "start_location",
