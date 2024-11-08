@@ -281,7 +281,7 @@
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
-    "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
+    "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "BELT_CLIP" ],
     "weight": "400 g",
     "volume": "600 ml",
