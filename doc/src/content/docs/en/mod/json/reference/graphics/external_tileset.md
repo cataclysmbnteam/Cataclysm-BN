@@ -56,6 +56,8 @@ Links to relevant pull requests, for content covered below:
 - Extended sidewalk visuals: [#5657](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5657)
 - New Brick wall sprites: [#5657](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5664)
 - New/Updated door sprites: [#5674](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5674)
+- New cursor sprites: [#5689](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5689)
+- New floor sprites: [#5690](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5690)
 
 ## Undead People
 
@@ -136,6 +138,7 @@ Ultica are planned for the future.
 - Metal and wooden flagpoles (including with flag raised), furniture added to BN.
 - American flag displayed as a vehiclepart, specific to BN.
 - Flagpole furniture and vehiclepart for Jolly Roger, content specific to BN.
+- New sprites for run and crouch.
 
 ### alternative_mutation_tileset.png
 
