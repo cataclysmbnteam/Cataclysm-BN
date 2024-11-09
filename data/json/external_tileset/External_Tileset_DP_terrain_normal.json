@@ -160,7 +160,19 @@
           { "id": "t_door_makeshift_c", "fg": 152 },
           { "id": "t_door_makeshift_o", "fg": 153, "bg": 95 },
           { "id": "t_door_metal_locked", "fg": 154 },
-          { "id": "t_door_metal_locked_o", "fg": 155, "bg": 127 }
+          { "id": "t_door_metal_locked_o", "fg": 155, "bg": 127 },
+          {
+            "id": "t_concrete",
+            "fg": [
+              { "weight": 90, "sprite": 157 },
+              { "weight": 90, "sprite": 158 },
+              { "weight": 90, "sprite": 159 },
+              { "weight": 90, "sprite": 160 }
+            ],
+            "bg": 156
+          },
+          { "id": "t_floor_waxed", "fg": 161 },
+          { "id": "t_floor_waxed_y", "fg": 162 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
