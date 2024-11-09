@@ -107,7 +107,6 @@ Ultica are planned for the future.
 - Sprites for bone cuirass and greaves. Reimplementation of previously-obsoleted bone armor specific
   to BN.
 
-
 ### External_Tileset_DP_terrain_normal.png
 
 - Rice paddies. Terrain specific to BN.
