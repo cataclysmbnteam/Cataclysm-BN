@@ -116,6 +116,10 @@ Ultica are planned for the future.
 
 - Rice paddies. Terrain specific to BN.
 - Niter beds. Terrain specific to BN.
+- New sprites for generated sidewalks. Specific to BN.
+- Updated sprites for brick walls.
+- Updated/New sprites for most doors.
+- New floor sprites for linoleum, concrete and waxed floors.
 
 ### External_Tileset_DP_Tall.png
 
