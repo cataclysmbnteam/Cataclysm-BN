@@ -1937,7 +1937,7 @@
     "looks_like": "makeshift_machete",
     "name": { "str": "bone cleaver" },
     "description": "This shortsword is carved from a large chunk of bone set in a wooden haft, and is capable of slicing foes in with swiftness and efficiency.",
-    "material": [ "bone_heavy" ],
+    "material": [ "bone_heavy", "wood" ],
     "proportional": { "weight": 0.8, "cutting": 0.9 }
   }
 ]
