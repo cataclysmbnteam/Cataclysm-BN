@@ -168,6 +168,7 @@ static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 static const bionic_id bio_digestion( "bio_digestion" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
@@ -1700,7 +1701,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const std::map<std::string, std::string>::const_iterator idescription =
             item_vars.find( "description" );
         const std::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
-        if( snippet.has_value() ) {
+        if( snippet.has_value() && ( !get_avatar().has_trait( trait_ILLITERATE ) ||
+                                     !has_flag( flag_SNIPPET_NEEDS_LITERACY ) ) ) {
             // Just use the dynamic description
             info.emplace_back( "DESCRIPTION", snippet.value().translated() );
         } else if( idescription != item_vars.end() ) {

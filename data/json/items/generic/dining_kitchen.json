@@ -188,7 +188,8 @@
       },
       { "id": "mug15", "text": "The side of the mug reads 'I wish this was wine!'" },
       { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" }
-    ]
+    ],
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "type": "GENERIC",
