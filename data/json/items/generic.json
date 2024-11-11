@@ -139,22 +139,25 @@
     "id": "log_immersion27",
     "copy-from": "file",
     "name": { "str": "INCIDENT REPORT: IMMERSION-27A" },
-    "description": "A white piece of paper, with the logo of XEDRA printed on its upper left corner.  It seems to be an internal report of some kind.",
-    "snippet_category": "log_immersion27"
+    "description": "A white piece of paper, with a fancy-looking logo printed on its upper left corner.  It'd probably be very fascinating reading material.",
+    "snippet_category": "log_immersion27",
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "type": "GENERIC",
     "id": "report_t_substrate",
     "copy-from": "log_immersion27",
     "name": { "str": "MATERIAL: T-SUBSTRATE" },
-    "snippet_category": "t-substrate"
+    "snippet_category": "t-substrate",
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "type": "GENERIC",
     "id": "HAADF_t_substrate",
     "copy-from": "log_immersion27",
     "name": { "str": "HAADF MICROGRAPH: T-SUBSTRATE" },
-    "snippet_category": "HAADF_t-substrate"
+    "snippet_category": "HAADF_t-substrate",
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "type": "GENERIC",

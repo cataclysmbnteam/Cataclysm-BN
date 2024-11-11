@@ -176,7 +176,8 @@
         "id": "fairyat_2025",
         "text": "Titled \"The Fleeing Pancake\", this collection of silly folk tales is suitable for small children."
       }
-    ]
+    ],
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "id": "mag_gaming",
@@ -487,7 +488,8 @@
         "id": "scifi1_61",
         "text": "This is a well-worn copy of \"The Hitchhikers Guide to the Galaxy\" by Douglas Adams."
       }
-    ]
+    ],
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "id": "novel_sports",
@@ -693,7 +695,8 @@
       },
       { "id": "philosophy45", "text": "This is a copy of \"Anti-Capitalist Mentality\" by Ludwig von Mises." }
     ],
-    "price": "1250 cent"
+    "price": "1250 cent",
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "id": "phonebook",
@@ -874,7 +877,8 @@
       { "id": "classic53", "text": "This is a copy of \"Peter Simple\" by Frederick Marryat." }
     ],
     "price": "20 USD",
-    "looks_like": "tall_tales"
+    "looks_like": "tall_tales",
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "type": "BOOK",
@@ -957,6 +961,7 @@
     ],
     "price": "4550 cent",
     "looks_like": "tall_tales",
-    "fun": 3
+    "fun": 3,
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   }
 ]

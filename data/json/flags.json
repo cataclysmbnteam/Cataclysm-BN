@@ -1915,6 +1915,11 @@
     "context": [  ]
   },
   {
+    "id": "SNIPPET_NEEDS_LITERACY",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "SOLARPACK",
     "type": "json_flag",
     "context": [  ]
