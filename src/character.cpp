@@ -8661,6 +8661,12 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
+    if( !source->is_hallucination() ) {
+        // Gain reduced experience for failed attempts to dodge
+        const int difficulty = source->get_melee();
+        as_player()->practice( skill_dodge, std::max( difficulty, 0 ), difficulty, true );
+    }
+
     bool u_see = g->u.sees( *this );
     units::energy trigger_cost_base = bio_ods->power_trigger;
     if( has_active_bionic( bio_ods ) && get_power_level() >= trigger_cost_base * 4 ) {
