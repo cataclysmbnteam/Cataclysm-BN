@@ -6417,8 +6417,7 @@ void iexamine::practice_survival_while_foraging( player *p )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = p->int_cur / 2 + 1;
-    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
+    const int max_exp = 2 * max_forage_skill;
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }
