@@ -1109,7 +1109,7 @@ void complete_construction( Character &ch )
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
             const float built_time = to_moves<int>( built.time );
-            const float built_base = to_moves<int>( 30_minutes );
+            const float built_base = to_moves<int>( 10_minutes );
             c.practice( pr.first, static_cast<int>(
                             ( 10 + 15 * pr.second ) * ( 1.0f + built_time / built_base )
                         ), static_cast<int>( pr.second * 1.25 ) );
@@ -1415,6 +1415,9 @@ void construct::done_deconstruct( const tripoint &p )
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
+        if( f.active ) {
+            g->u.practice( skill_electronics, 20, 4 );
+        }
         if( f.deconstruct.furn_set.str().empty() ) {
             here.furn_set( p, f_null );
         } else {
@@ -1443,16 +1446,6 @@ void construct::done_deconstruct( const tripoint &p )
                 return;
             }
             done_deconstruct( top );
-        }
-        if( t.id == ter_str_id( "t_console_broken" ) )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 20, 4 );
-            }
-        }
-        if( t.id == ter_str_id( "t_console" ) )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 40, 8 );
-            }
         }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );

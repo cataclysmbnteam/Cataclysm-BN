@@ -3440,7 +3440,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     const int current_skill_level = pl.get_skill_level( used_skill );
     const auto action = default_action( fix, current_skill_level );
     const auto chance = repair_chance( pl, fix, action );
-    int practice_amount = repair_recipe_difficulty( pl, fix, true ) / 2 + 1;
+    int practice_amount = std::max( repair_recipe_difficulty( pl, fix, true ), 1 );
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -3834,7 +3834,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it,
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.get_part( healed ).set_damage_bandaged( patient.get_part_hp_max(
                     bp ) - patient.get_part_hp_cur( bp ) );
-        practice_amount += 2 * bandages_intensity;
+        practice_amount += 3 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
         int disinfectant_intensity = get_disinfected_level( healer );
@@ -3843,7 +3843,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it,
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.get_part( healed ).set_damage_disinfected( patient.get_part_hp_max(
                     bp ) - patient.get_part_hp_cur( bp ) );
-        practice_amount += 2 * disinfectant_intensity;
+        practice_amount += 3 * disinfectant_intensity;
     }
     practice_amount = std::max( 9.0f, practice_amount );
 

@@ -41,17 +41,13 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
 
     // how many levels are we above the requirement?
     const int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
+    // also track the objective difficulty of requirement
+    const int diff = std::max( iter->second, 1 );
 
-    // scale xp gain per hour according to relative level
-    // 0-1: 60 xp /h
-    //   2: 15 xp /h
-    //   3:  6 xp /h
-    //   4:  4 xp /h
-    //   5:  3 xp /h
-    //   6:  2 xp /h
-    //  7+:  1 xp /h
+    // xp gain per hour starts at 60 times difficulty of installation
+    // as your level exceeds this, divide exp gain by the level difference squared
     return std::ceil( static_cast<double>( vp.install_moves ) /
-                      to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
+                      to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) * diff );
 }
 
 vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repairable )
