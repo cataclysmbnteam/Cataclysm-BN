@@ -3106,5 +3106,94 @@
     "time": "15 s",
     "autolearn": true,
     "components": [ [ [ "sausage_cooked", 1, "LIST" ] ], [ [ "condiment_lite", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bibimbap",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "book_learn": [ [ "cookbook_sushi", 4 ] ],
+    "time": "10 m",
+    "autolearn": true,
+    "charges": 2,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ] ],
+      [ [ "rice_cooked", 4 ] ],
+      [ [ "eggs_small", 4, "LIST" ] ],
+      [ [ "garlic_clove", 4 ] ],
+      [ [ "soysauce", 2 ] ],
+      [ [ "honey_bottled", 1 ] ],
+      [ [ "carrot", 2 ], [ "irradiated_carrot", 2 ], [ "carrot_wild", 2 ] ],
+      [ [ "mushroom", 8 ], [ "mushroom_morel", 8 ] ],
+      [ [ "veggy_green", 2, "LIST" ] ],
+      [ [ "cooking_oil", 3 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "sugar", 20 ] ],
+      [ [ "gochujang", 24 ] ],
+      [ [ "vinegar", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bibimbap_simple",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "book_learn": [ [ "cookbook_sushi", 2 ] ],
+    "time": "10 m",
+    "autolearn": true,
+    "charges": 2,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ] ],
+      [ [ "rice_cooked", 4 ] ],
+      [ [ "eggs_small", 2, "LIST" ] ],
+      [ [ "veggy_green", 2, "LIST" ] ],
+      [ [ "cooking_oil", 3 ] ],
+      [ [ "gochujang", 12 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "samhap",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "book_learn": [ [ "cookbook_sushi", 4 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "charges": 3,
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 1, "LIST" ] ],
+      [ [ "seasoning_mild", 2, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "fish", 1 ] ],
+      [ [ "vinegar", 1 ], [ "soysauce", 1 ] ],
+      [ [ "kimchi", 3 ], [ "kimchi_raw", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bossam",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "autolearn": true,
+    "time": "30 m",
+    "charges": 2,
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "meat_red", 1, "LIST" ] ],
+      [ [ "seasoning_mild", 2, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "kimchi", 3 ], [ "kimchi_raw", 3 ] ]
+    ]
   }
 ]

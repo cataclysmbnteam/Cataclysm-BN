@@ -507,102 +507,6 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_military( map &m, const tripoint & )
-{
-    int num_bodies = dice( 2, 6 );
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_soldier, 1, *p );
-            } else if( one_in( 25 ) ) {
-                if( one_in( 2 ) ) {
-                    m.add_spawn( mon_zombie_bio_op, 1, *p );
-                } else {
-                    m.add_spawn( mon_dispatch, 1, *p );
-                }
-            } else {
-                m.place_items( item_group_id( "map_extra_military" ), 100, *p, *p, true,
-                               calendar::start_of_cataclysm );
-            }
-        }
-
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-    m.place_spawns( GROUP_MAYBE_MIL, 2, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                    0.1f ); //0.1 = 1-5
-    m.place_items( item_group_id( "rare" ), 25, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                   calendar::start_of_cataclysm );
-
-    return true;
-}
-
-static bool mx_science( map &m, const tripoint & )
-{
-    int num_bodies = dice( 2, 5 );
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_scientist, 1, *p );
-            } else {
-                m.place_items( item_group_id( "map_extra_science" ), 100, *p, *p, true,
-                               calendar::start_of_cataclysm );
-            }
-        }
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-    m.place_items( item_group_id( "rare" ), 45, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                   calendar::start_of_cataclysm );
-
-    return true;
-}
-
-static bool mx_collegekids( map &m, const tripoint & )
-{
-    //college kids that got into trouble
-    int num_bodies = dice( 2, 6 );
-    int type = dice( 1, 10 );
-
-    for( int i = 0; i < num_bodies; i++ ) {
-        if( const auto p = random_point( m, [&m]( const tripoint & n ) {
-        return m.passable( n );
-        } ) ) {
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_tough, 1, *p );
-            } else {
-                if( type < 6 ) { // kids going to a cabin in the woods
-                    m.place_items( item_group_id( "map_extra_college_camping" ), 100, *p, *p, true,
-                                   calendar::start_of_cataclysm );
-                } else if( type < 9 ) { // kids going to a sporting event
-                    m.place_items( item_group_id( "map_extra_college_sports" ), 100, *p, *p, true,
-                                   calendar::start_of_cataclysm );
-                } else { // kids going to a lake
-                    m.place_items( item_group_id( "map_extra_college_lake" ), 100, *p, *p, true,
-                                   calendar::start_of_cataclysm );
-                }
-            }
-        }
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-
-    return true;
-}
-
 static bool mx_roadblock( map &m, const tripoint &abs_sub )
 {
     // TODO: fix point types
@@ -838,133 +742,6 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
     }
 
     return false;
-}
-
-static bool mx_drugdeal( map &m, const tripoint &abs_sub )
-{
-    // Decide on a drug type
-    int num_drugs = 0;
-    itype_id drugtype;
-    switch( rng( 1, 10 ) ) {
-        case 1:
-            // Weed
-            num_drugs = rng( 20, 30 );
-            drugtype = itype_weed;
-            break;
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            // Cocaine
-            num_drugs = rng( 10, 20 );
-            drugtype = itype_coke;
-            break;
-        case 6:
-        case 7:
-        case 8:
-            // Meth
-            num_drugs = rng( 8, 14 );
-            drugtype = itype_meth;
-            break;
-        case 9:
-        case 10:
-            // Heroin
-            num_drugs = rng( 6, 12 );
-            drugtype = itype_heroin;
-            break;
-    }
-    int num_bodies_a = dice( 3, 3 );
-    int num_bodies_b = dice( 3, 3 );
-    bool north_south = one_in( 2 );
-    bool a_has_drugs = one_in( 2 );
-
-    for( int i = 0; i < num_bodies_a; i++ ) {
-        point p;
-        point offset;
-        int tries = 0;
-        do { // Loop until we find a valid spot to dump a body, or we give up
-            if( north_south ) {
-                p.x = rng( 0, SEEX * 2 - 1 );
-                p.y = rng( 0, SEEY - 4 );
-                offset.x = 0;
-                offset.y = -1;
-            } else {
-                p.x = rng( 0, SEEX - 4 );
-                p.y = rng( 0, SEEY * 2 - 1 );
-                offset.x = -1;
-                offset.y = 0;
-            }
-            tries++;
-        } while( tries < 10 && m.impassable( p ) );
-
-        if( tries < 10 ) { // We found a valid spot!
-            if( a_has_drugs && num_drugs > 0 ) {
-                int drugs_placed = rng( 2, 6 );
-                if( drugs_placed > num_drugs ) {
-                    drugs_placed = num_drugs;
-                    num_drugs = 0;
-                }
-                m.spawn_item( p, drugtype, 0, drugs_placed );
-            }
-            if( one_in( 10 ) ) {
-                m.add_spawn( mon_zombie_spitter, 1, { p, abs_sub.z } );
-            } else {
-                m.place_items( item_group_id( "map_extra_drugdeal" ), 100, p, p, true,
-                               calendar::start_of_cataclysm );
-                int splatter_range = rng( 1, 3 );
-                for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( p + tripoint( j * offset.x, j * offset.y, abs_sub.z ), fd_blood, 1, 0_turns );
-                }
-            }
-        }
-    }
-    for( int i = 0; i < num_bodies_b; i++ ) {
-        point p2;
-        point offset2;
-        int tries = 0;
-        do { // Loop until we find a valid spot to dump a body, or we give up
-            if( north_south ) {
-                p2.x = rng( 0, SEEX * 2 - 1 );
-                p2.y = rng( SEEY + 3, SEEY * 2 - 1 );
-                offset2.x = 0;
-                offset2.y = 1;
-            } else {
-                p2.x = rng( SEEX + 3, SEEX * 2 - 1 );
-                p2.y = rng( 0, SEEY * 2 - 1 );
-                offset2.x = 1;
-                offset2.y = 0;
-            }
-            tries++;
-        } while( tries < 10 && m.impassable( p2 ) );
-
-        if( tries < 10 ) { // We found a valid spot!
-            if( one_in( 20 ) ) {
-                m.add_spawn( mon_zombie_smoker, 1, { p2, abs_sub.z } );
-            } else {
-                m.place_items( item_group_id( "map_extra_drugdeal" ), 100, p2, p2, true,
-                               calendar::start_of_cataclysm );
-                int splatter_range = rng( 1, 3 );
-                for( int j = 0; j <= splatter_range; j++ ) {
-                    m.add_field( p2 + tripoint( j * offset2.x, j * offset2.y, abs_sub.z ), fd_blood, 1, 0_turns );
-                }
-                if( !a_has_drugs && num_drugs > 0 ) {
-                    int drugs_placed = rng( 2, 6 );
-                    if( drugs_placed > num_drugs ) {
-                        drugs_placed = num_drugs;
-                        num_drugs = 0;
-                    }
-                    m.spawn_item( p2, drugtype, 0, drugs_placed );
-                }
-            }
-        }
-    }
-    int num_monsters = rng( 0, 3 );
-    for( int i = 0; i < num_monsters; i++ ) {
-        point m2{ rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) };
-        m.place_spawns( GROUP_NETHER_CAPTURED, 1, m2, m2, 1, true );
-    }
-
-    return true;
 }
 
 static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
@@ -2928,17 +2705,13 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_crater", mx_crater },
-    { "mx_collegekids", mx_collegekids },
-    { "mx_drugdeal", mx_drugdeal },
     { "mx_roadworks", mx_roadworks },
     { "mx_mayhem", mx_mayhem },
     { "mx_roadblock", mx_roadblock },
     { "mx_bandits_block", mx_bandits_block },
     { "mx_minefield", mx_minefield },
     { "mx_supplydrop", mx_supplydrop },
-    { "mx_military", mx_military },
     { "mx_helicopter", mx_helicopter },
-    { "mx_science", mx_science },
     { "mx_portal", mx_portal },
     { "mx_portal_in", mx_portal_in },
     { "mx_house_spider", mx_house_spider },

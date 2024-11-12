@@ -9,7 +9,8 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 3 ] ], [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "chitin_piece", 3 ] ], [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   },
   {
     "result": "gauntlets_acidchitin",
@@ -20,7 +21,7 @@
     "difficulty": 5,
     "time": "1 h",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "acidchitin_piece", 3 ] ], [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   },

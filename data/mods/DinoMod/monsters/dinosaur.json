@@ -1226,7 +1226,7 @@
     "reproduction": { "baby_egg": "egg_stegosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -1357,7 +1357,7 @@
     "description": "This heavily armored four legged dinosaur has a beak and a long tail ending in a spiked club of bone.",
     "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW" ]
   },
   {
     "type": "MONSTER",
@@ -1394,7 +1394,7 @@
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "PET_WONT_FOLLOW" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -1415,7 +1415,7 @@
     "description": "This heavily armored four legged dinosaur has a horny beak, two bony rings protecting the neck, and a long tail ending in a heavy club of bone.",
     "reproduction": { "baby_egg": "egg_euoplocephalus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW" ]
   },
   {
     "type": "MONSTER",
@@ -1433,7 +1433,7 @@
     "description": "This heavily armored four legged dinosaur has several long spikes along the back and a long spiked tail ending in a club of bone.",
     "reproduction": { "baby_egg": "egg_scolosaurus", "baby_count": 3, "baby_timer": 24 },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW" ]
   },
   {
     "type": "MONSTER",
@@ -2033,7 +2033,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" } ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "BASHES" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES" ],
     "harvest": "triceratops",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],

@@ -484,8 +484,6 @@ void Character::load( const JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
     data.read( "healed_24h", healed_total );
 
-    body_wetness.fill( 0 );
-    data.read( "body_wetness", body_wetness );
     // @todo Remove after stable
     {
         std::array<int, num_bp> temp_cur_old, temp_conv_old, frostbite_timer_old;
@@ -507,8 +505,6 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
-    data.read( "damage_bandaged", damage_bandaged );
-    data.read( "damage_disinfected", damage_disinfected );
     data.read( "magic", magic );
     JsonArray parray;
 
@@ -696,9 +692,6 @@ void Character::store( JsonOut &json ) const
     json.member( "healthy_mod", healthy_mod );
     json.member( "healed_24h", healed_total );
 
-    // status
-    json.member( "body_wetness", body_wetness );
-
     // needs
     json.member( "thirst", thirst );
     json.member( "fatigue", fatigue );
@@ -825,9 +818,6 @@ void player::store( JsonOut &json ) const
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
-    // potential incompatibility with future expansion
-    json.member( "damage_bandaged", damage_bandaged );
-    json.member( "damage_disinfected", damage_disinfected );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );

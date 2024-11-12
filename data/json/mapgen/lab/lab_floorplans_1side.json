@@ -182,7 +182,8 @@
             { "item": "military", "chance": 10 },
             { "item": "ammo_milspec", "chance": 10 },
             { "item": "mags_milspec", "chance": 10 },
-            { "item": "guns_milspec", "chance": 10 }
+            { "item": "guns_milspec", "chance": 10 },
+            { "item": "rare", "chance": 2 }
           ]
         }
       },

@@ -274,7 +274,8 @@
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
     "price_postapoc": "1750 cent",
     "material": [ "acidchitin", "leather" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "encumbrance": 15,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
     "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
@@ -373,8 +374,9 @@
     "description": "A thick leather helmet that has been reinforced with strategically-placed metal plates.  Provides excellent protection for the head.",
     "material": [ "leather", "iron" ],
     "looks_like": "helmet_galea",
+    "encumbrance": 8,
     "proportional": { "price": 4, "price_postapoc": 1.2 },
-    "relative": { "weight": "500 g", "encumbrance": 4 }
+    "relative": { "weight": "500 g" }
   },
   {
     "id": "helmet_skull",
@@ -569,13 +571,13 @@
     "id": "helmet_scavenger",
     "type": "ARMOR",
     "name": { "str": "scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For dangerous scavenging ventures.",
+    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator, helmet, and eye protection.  For dangerous scavenging ventures.",
     "weight": "695 g",
     "volume": "2500 ml",
     "price": "550 USD",
     "price_postapoc": "35 USD",
     "to_hit": -3,
-    "material": [ "kevlar", "cotton" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "white",
@@ -583,7 +585,7 @@
     "coverage": 100,
     "encumbrance": 23,
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 8,
     "environmental_protection": 7,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
@@ -762,11 +764,25 @@
     "flags": [ "OVERSIZE" ]
   },
   {
+    "id": "helmet_bone",
+    "copy-from": "helmet_larmor",
+    "type": "ARMOR",
+    "name": { "str": "bone helmet" },
+    "description": "A helmet made from carved bone, laced together into a pattern resembling a Mycenaean boar's tusk helmet.  Tough but stiff, and a bit brittle.",
+    "material": [ "bone_heavy" ],
+    "color": "white",
+    "encumbrance": 12,
+    "warmth": 12,
+    "environmental_protection": 1,
+    "proportional": { "weight": 1.2 },
+    "delete": { "flags": [ "VARSIZE", "WATER_FRIENDLY" ] }
+  },
+  {
     "id": "carbon_helmet",
     "type": "ARMOR",
     "name": { "str": "carbon fiber helmet" },
     "description": "A custom helmet of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
-    "copy-from": "helmet_survivor",
+    "copy-from": "helmet_barbute",
     "material": [ "carbon_fiber" ],
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },

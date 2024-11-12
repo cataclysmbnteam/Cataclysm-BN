@@ -743,7 +743,7 @@ class Character : public Creature, public location_visitable<Character>
         void mutation_spend_resources( const trait_id &mut );
 
         /** Converts a bodypart_str_id to an hp_part */
-        static hp_part bp_to_hp( const bodypart_str_id &bp );
+        static bodypart_str_id bp_to_hp( const bodypart_str_id &bp );
         /** Converts an hp_part to a bodypart_str_id */
         static const bodypart_str_id &hp_to_bp( hp_part hpart );
 
@@ -793,10 +793,10 @@ class Character : public Creature, public location_visitable<Character>
          * bandage_power - quality of bandage
          * disinfectant_power - quality of disinfectant
          */
-        hp_part body_window( const std::string &menu_header,
-                             bool show_all, bool precise,
-                             int normal_bonus, int head_bonus, int torso_bonus,
-                             float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
+        bodypart_str_id body_window( const std::string &menu_header,
+                                     bool show_all, bool precise,
+                                     int normal_bonus, int head_bonus, int torso_bonus,
+                                     float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
@@ -805,13 +805,6 @@ class Character : public Creature, public location_visitable<Character>
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        // Drench cache
-        enum water_tolerance {
-            WT_IGNORED = 0,
-            WT_NEUTRAL,
-            WT_GOOD,
-            NUM_WATER_TOLERANCE
-        };
         int posx() const override {
             return position.x;
         }
@@ -874,8 +867,6 @@ class Character : public Creature, public location_visitable<Character>
          * If new_item is not null, then calculate under the asumption that it
          * is added to existing work items. */
         void item_encumb( char_encumbrance_data &vals, const item &new_item ) const;
-
-        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
@@ -1638,7 +1629,6 @@ class Character : public Creature, public location_visitable<Character>
         bool male = true;
 
         location_vector<item> worn;
-        std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
         bool hauling = false;
@@ -2356,10 +2346,6 @@ class Character : public Creature, public location_visitable<Character>
         std::unordered_map<point_abs_omt, time_duration> overmap_time;
 
     public:
-        // TODO: make these private
-        std::array<int, num_bp> body_wetness;
-        std::array<int, num_bp> drench_capacity;
-
         time_point next_climate_control_check;
         bool last_climate_control_ret = false;
 

@@ -1236,14 +1236,6 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     p->remove_mutation( valid[mutation_index] );
     valid.erase( valid.begin() + mutation_index );
 
-    // and one or two more untargeted purifications.
-    if( !valid.empty() ) {
-        p->remove_mutation( random_entry_removed( valid ) );
-    }
-    if( !valid.empty() && one_in( 2 ) ) {
-        p->remove_mutation( random_entry_removed( valid ) );
-    }
-
     p->mod_pain( 3 );
 
     p->i_add( item::spawn( "syringe", it->birthday() ) );
@@ -5240,7 +5232,9 @@ int iuse::towel_common( player *p, item *it, bool t )
         // dry off from being wet
     } else if( p->has_morale( MORALE_WET ) ) {
         p->rem_morale( MORALE_WET );
-        p->body_wetness.fill( 0 );
+        for( auto &pr : p->get_body() ) {
+            pr.second.set_wetness( 0 );
+        }
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
                               name );
 

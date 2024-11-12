@@ -45,6 +45,7 @@
       "tec_biojutsu_strike_unarmed",
       "tec_biojutsu_strike_melee",
       "tec_biojutsu_impale",
+      "tec_biojutsu_wrap",
       "tec_biojutsu_takedown",
       "tec_biojutsu_wide"
     ],
@@ -340,12 +341,34 @@
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "crit_tec": true,
+    "weapon_categories_allowed": [ "FIST_WEAPONS", "BIONIC_SWORDS" ],
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 1.5 },
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
     "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_biojutsu_wrap",
+    "name": "Biojutsu Wrap Attack",
+    "messages": [
+      "You wrap your weapon around %s and quickly yank it back",
+      "<npcname> wraps their weapon around %s and quickly yanks it back"
+    ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "unarmed_allowed": false,
+    "crit_tec": true,
+    "weapon_categories_allowed": [ "WHIPS" ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 },
+      { "stat": "movecost", "scale": 1.1 }
+    ],
+    "stun_dur": 2
   },
   {
     "type": "technique",

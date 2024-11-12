@@ -272,7 +272,13 @@
     "type": "start_location",
     "id": "sloc_mall_loading_area",
     "name": "Mall (loading area)",
-    "terrain": [ "mall_a_12" ]
+    "terrain": [ "mall_a_4" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mall_loading_area_roof",
+    "name": "Mall (loading area roof)",
+    "terrain": [ "mall_a_4_roof" ]
   },
   {
     "type": "start_location",
@@ -410,6 +416,12 @@
     "id": "sloc_apartments_rooftop",
     "name": "Apartment Building (rooftop)",
     "terrain": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_apartments_house",
+    "name": "Apartment Building (house)",
+    "terrain": [ "apartments_con_tower_112", "apartments_con_tower_012", "apartments_con_tower_102", "apartments_con_tower_002" ]
   },
   {
     "type": "start_location",

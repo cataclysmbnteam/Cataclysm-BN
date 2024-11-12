@@ -120,7 +120,8 @@
     "description": "Gauntlets crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "material": [ "acidchitin", "leather" ],
     "price_postapoc": "1750 cent",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "encumbrance": 15,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
     "relative": { "bashing": 1, "material_thickness": 1, "environmental_protection": 1 }
   },
   {
@@ -200,8 +201,9 @@
     "description": "Heavy fingerless leather gloves that have been reinforced with strategically-placed metal plates.  Flexible and tough.",
     "material": [ "leather", "iron" ],
     "looks_like": "gloves_plate",
+    "encumbrance": 8,
     "proportional": { "price": 4, "price_postapoc": 1.2 },
-    "relative": { "weight": "250 g", "encumbrance": 4 }
+    "relative": { "weight": "250 g" }
   },
   {
     "id": "gloves_bag",
@@ -319,7 +321,7 @@
     "looks_like": "gloves_fingerless",
     "coverage": 50,
     "warmth": 28,
-    "relative": { "encumbrance": -10 },
+    "encumbrance": 20,
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
@@ -432,7 +434,7 @@
     "looks_like": "gloves_fingerless",
     "coverage": 50,
     "warmth": 8,
-    "relative": { "encumbrance": -2 },
+    "encumbrance": 0,
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
@@ -693,7 +695,7 @@
     "looks_like": "gloves_fingerless",
     "coverage": 50,
     "warmth": 24,
-    "relative": { "encumbrance": -10 },
+    "encumbrance": 10,
     "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {

@@ -1145,11 +1145,6 @@
   },
   {
     "type": "recipe",
-    "result": "helmet_bone",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "helmet_netting",
     "obsolete": true
   },

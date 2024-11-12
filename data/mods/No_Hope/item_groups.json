@@ -101,7 +101,7 @@
   },
   {
     "type": "item_group",
-    "id": "drugdealer",
+    "id": "guns_pistol_common",
     "magazine": 100,
     "ammo": 50,
     "items": [

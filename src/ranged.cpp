@@ -1749,6 +1749,8 @@ static projectile make_gun_projectile( const item &gun )
         const islot_ammo &ammo = *gun.ammo_data()->ammo;
         // Some projectiles have a chance of being recoverable
         bool recover = !one_in( ammo.dont_recover_one_in );
+        // Some weapons can override this
+        recover = recover && !gun.has_flag( flag_NO_RECOVER_AMMO );
 
         if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
             detached_ptr<item> drop = item::spawn( gun.ammo_current(), calendar::turn, 1 );

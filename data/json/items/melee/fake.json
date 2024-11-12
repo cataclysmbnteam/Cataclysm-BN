@@ -33,5 +33,23 @@
     "cutting": 36,
     "flags": [ "UNARMED_WEAPON", "NO_DROP", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
+  },
+  {
+    "id": "bio_wire_weapon",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "BIONIC_WEAPONRY", "WHIPS" ],
+    "name": { "str": "monofilament whip" },
+    "description": "A long, sharp thread of high-tech material, with a small counterweight at the end.",
+    "weight": "100 g",
+    "to_hit": 3,
+    "color": "dark_gray",
+    "symbol": "{",
+    "material": [ "superalloy" ],
+    "techniques": [ "WIDE" ],
+    "volume": "250 ml",
+    "cutting": 28,
+    "flags": [ "REACH_ATTACK", "NO_DROP", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "WHIP" ],
+    "qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ]
   }
 ]

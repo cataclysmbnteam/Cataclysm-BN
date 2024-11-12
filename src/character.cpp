@@ -409,8 +409,6 @@ Character &get_player_character()
 Character::Character() :
     location_visitable<Character>(),
     worn(new worn_item_location(this)),
-    damage_bandaged( {{ 0 }} ),
-    damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
     inv(new character_item_location(this)),
     id( -1 ),
@@ -462,20 +460,6 @@ Character::Character() :
         pr.second.set_frostbite_timer(0);
     }
 
-    body_wetness.fill( 0 );
-
-    drench_capacity[bp_eyes] = 1;
-    drench_capacity[bp_mouth] = 1;
-    drench_capacity[bp_head] = 7;
-    drench_capacity[bp_leg_l] = 11;
-    drench_capacity[bp_leg_r] = 11;
-    drench_capacity[bp_foot_l] = 3;
-    drench_capacity[bp_foot_r] = 3;
-    drench_capacity[bp_arm_l] = 10;
-    drench_capacity[bp_arm_r] = 10;
-    drench_capacity[bp_hand_l] = 3;
-    drench_capacity[bp_hand_r] = 3;
-    drench_capacity[bp_torso] = 40;
     npc_ai_info_cache.fill(-1.0);
 }
 // *INDENT-ON*
@@ -505,14 +489,12 @@ void Character::move_operator_common( Character &&source ) noexcept
 
     reach_attacking = source.reach_attacking ;
 
-    mut_drench = source.mut_drench ;
     magic = std::move( source.magic );
 
     name = std::move( source.name );
     male = source.male ;
 
     worn = std::move( source.worn );
-    damage_disinfected = source.damage_disinfected ;
     in_vehicle = source.in_vehicle ;
     hauling = source.hauling ;
 
@@ -625,9 +607,6 @@ void Character::move_operator_common( Character &&source ) noexcept
     enchantment_cache = std::move( source.enchantment_cache );
 
     overmap_time = std::move( source.overmap_time );
-
-    body_wetness = source.body_wetness ;
-    drench_capacity = source.drench_capacity ;
 
     next_climate_control_check = source.next_climate_control_check ;
     last_climate_control_ret = source.last_climate_control_ret ;
@@ -4984,18 +4963,19 @@ void Character::regen( int rate_multiplier )
         healed_bp( i, healing_apply );
         heal( bp, healing_apply );
 
-        if( damage_bandaged[i] > 0 ) {
-            damage_bandaged[i] -= healing_apply;
-            if( damage_bandaged[i] <= 0 ) {
-                damage_bandaged[i] = 0;
+        bodypart &part = get_part( bp );
+        if( part.get_damage_bandaged() > 0 ) {
+            part.set_damage_bandaged( part.get_damage_bandaged() - healing_apply );
+            if( part.get_damage_bandaged() <= 0 ) {
+                part.set_damage_bandaged( 0 );
                 remove_effect( effect_bandaged, bp.id() );
                 add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
-        if( damage_disinfected[i] > 0 ) {
-            damage_disinfected[i] -= healing_apply;
-            if( damage_disinfected[i] <= 0 ) {
-                damage_disinfected[i] = 0;
+        if( part.get_damage_disinfected() > 0 ) {
+            part.set_damage_disinfected( part.get_damage_disinfected() - healing_apply );
+            if( part.get_damage_disinfected() <= 0 ) {
+                part.set_damage_disinfected( 0 );
                 remove_effect( effect_disinfected, bp.id() );
                 add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
@@ -5003,12 +4983,12 @@ void Character::regen( int rate_multiplier )
 
         // remove effects if the limb was healed by other way
         if( has_effect( effect_bandaged, bp.id() ) && ( get_part( bp ).is_at_max_hp() ) ) {
-            damage_bandaged[i] = 0;
+            part.set_damage_bandaged( 0 );
             remove_effect( effect_bandaged, bp.id() );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
         if( has_effect( effect_disinfected, bp.id() ) && ( get_part( bp ).is_at_max_hp() ) ) {
-            damage_disinfected[i] = 0;
+            part.set_damage_disinfected( 0 );
             remove_effect( effect_disinfected, bp.id() );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }
@@ -5957,7 +5937,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
             bp == body_part_foot_l || bp == body_part_hand_r || bp == body_part_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[bp->token] / drench_capacity[bp->token]; // 0 - 100
+            int wetness_percentage = 100 * bp_stats.get_wetness() / bp_stats.get_drench_capacity(); // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             double adjusted_warmth = warmth_per_bp.at( bp ) - wetness_percentage;
@@ -6122,7 +6102,7 @@ float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
     /** @EFFECT_DODGE increases dodge_base */
-    return get_dex() / 2.0f + get_skill_level( skill_dodge );
+    return get_dex() / 4.0f + get_skill_level( skill_dodge );
 }
 float Character::get_hit_base() const
 {
@@ -6130,10 +6110,10 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
-hp_part Character::body_window( const std::string &menu_header,
-                                bool show_all, bool precise,
-                                int normal_bonus, int head_bonus, int torso_bonus,
-                                float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
+bodypart_str_id Character::body_window( const std::string &menu_header,
+                                        bool show_all, bool precise,
+                                        int normal_bonus, int head_bonus, int torso_bonus,
+                                        float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -6141,19 +6121,18 @@ hp_part Character::body_window( const std::string &menu_header,
     struct healable_bp {
         mutable bool allowed;
         bodypart_id bp;
-        hp_part hp;
         std::string name; // Translated name as it appears in the menu.
         int bonus;
     };
     /* The array of the menu entries show to the player. The entries are displayed in this order,
      * it may be changed here. */
     std::array<healable_bp, num_hp_parts> parts = { {
-            { false, bodypart_id( "head" ), hp_head, _( "Head" ), head_bonus },
-            { false, bodypart_id( "torso" ), hp_torso, _( "Torso" ), torso_bonus },
-            { false, bodypart_id( "arm_l" ), hp_arm_l, _( "Left Arm" ), normal_bonus },
-            { false, bodypart_id( "arm_r" ), hp_arm_r, _( "Right Arm" ), normal_bonus },
-            { false, bodypart_id( "leg_l" ), hp_leg_l, _( "Left Leg" ), normal_bonus },
-            { false, bodypart_id( "leg_r" ), hp_leg_r, _( "Right Leg" ), normal_bonus },
+            { false, bodypart_id( "head" ), _( "Head" ), head_bonus },
+            { false, bodypart_id( "torso" ), _( "Torso" ), torso_bonus },
+            { false, bodypart_id( "arm_l" ), _( "Left Arm" ), normal_bonus },
+            { false, bodypart_id( "arm_r" ), _( "Right Arm" ), normal_bonus },
+            { false, bodypart_id( "leg_l" ), _( "Left Leg" ), normal_bonus },
+            { false, bodypart_id( "leg_r" ), _( "Right Leg" ), normal_bonus },
         }
     };
 
@@ -6330,9 +6309,9 @@ hp_part Character::body_window( const std::string &menu_header,
     bmenu.query();
     if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() &&
         parts[bmenu.ret].allowed ) {
-        return parts[bmenu.ret].hp;
+        return parts[bmenu.ret].bp.id();
     } else {
-        return num_hp_parts;
+        return bodypart_str_id::NULL_ID();
     }
 }
 
@@ -6833,30 +6812,9 @@ float Character::rest_quality() const
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
-hp_part Character::bp_to_hp( const bodypart_str_id &bp )
+bodypart_str_id Character::bp_to_hp( const bodypart_str_id &bp )
 {
-    switch( bp->token ) {
-        case bp_head:
-        case bp_eyes:
-        case bp_mouth:
-            return hp_head;
-        case bp_torso:
-            return hp_torso;
-        case bp_arm_l:
-        case bp_hand_l:
-            return hp_arm_l;
-        case bp_arm_r:
-        case bp_hand_r:
-            return hp_arm_r;
-        case bp_leg_l:
-        case bp_foot_l:
-            return hp_leg_l;
-        case bp_leg_r:
-        case bp_foot_r:
-            return hp_leg_r;
-        default:
-            return num_hp_parts;
-    }
+    return bp->main_part;
 }
 
 const bodypart_str_id &Character::hp_to_bp( const hp_part hpart )
@@ -8210,14 +8168,14 @@ void Character::set_highest_cat_level()
 
 void Character::drench_mut_calc()
 {
-    for( const body_part bp : all_body_parts ) {
+    for( std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         int ignored = 0;
         int neutral = 0;
         int good = 0;
 
         for( const trait_id &iter : get_mutations() ) {
             const mutation_branch &mdata = iter.obj();
-            const auto wp_iter = mdata.protection.find( bp );
+            const auto wp_iter = mdata.protection.find( elem.first->token );
             if( wp_iter != mdata.protection.end() ) {
                 ignored += wp_iter->second.x;
                 neutral += wp_iter->second.y;
@@ -8225,9 +8183,11 @@ void Character::drench_mut_calc()
             }
         }
 
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
+        std::array<int, static_cast<size_t>( water_tolerance::NUM_WATER_TOLERANCE )> mut_drench;
+        mut_drench[static_cast<size_t>( water_tolerance::WT_GOOD )] = good;
+        mut_drench[static_cast<size_t>( water_tolerance::WT_NEUTRAL )] = neutral;
+        mut_drench[static_cast<size_t>( water_tolerance::WT_IGNORED )] = ignored;
+        elem.second.set_mut_drench( mut_drench );
     }
 }
 
@@ -9825,8 +9785,11 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
         &clothing_map ) const
 {
     std::map<bodypart_id, int> ret;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        ret.emplace( bp, 0 );
+    std::map<bodypart_id, float> wetness_map;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        ret.emplace( elem.first.id(), 0 );
+        wetness_map.emplace( elem.first.id(),
+                             static_cast<float>( elem.second.get_wetness() ) / elem.second.get_drench_capacity() );
     }
 
     for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
@@ -9839,7 +9802,7 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
             []( float best, const material_id & mat ) {
                 return std::max( best, mat->warmth_when_wet() );
             } );
-            float wet_mult = 1.0f - max_wet_resistance * body_wetness[bp->token] / drench_capacity[bp->token];
+            float wet_mult = 1.0f - max_wet_resistance * wetness_map[bp];
             ret[bp] += warmth * wet_mult;
         }
         ret[bp] += get_effect_int( effect_heating_bionic, bp.id() );

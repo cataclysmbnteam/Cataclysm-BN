@@ -345,13 +345,17 @@ TEST_CASE( "towel", "[iuse][towel]" )
     dummy.i_add( std::move( det ) );
 
     GIVEN( "avatar is wet" ) {
+        REQUIRE( body_part_torso->drench_capacity > 0 );
+        REQUIRE( body_part_head->drench_capacity > 0 );
+        REQUIRE( body_part_arm_l->drench_capacity > 0 );
+        REQUIRE( body_part_arm_r->drench_capacity > 0 );
         // Saturate torso, head, and both arms
         dummy.drench( 100, { bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ) },
                       false );
-        REQUIRE( dummy.body_wetness[bp_torso] > 0 );
-        REQUIRE( dummy.body_wetness[bp_head] > 0 );
-        REQUIRE( dummy.body_wetness[bp_arm_l] > 0 );
-        REQUIRE( dummy.body_wetness[bp_arm_r] > 0 );
+        REQUIRE( dummy.get_part( body_part_torso ).get_wetness() > 0 );
+        REQUIRE( dummy.get_part( body_part_head ).get_wetness() > 0 );
+        REQUIRE( dummy.get_part( body_part_arm_l ).get_wetness() > 0 );
+        REQUIRE( dummy.get_part( body_part_arm_r ).get_wetness() > 0 );
 
         // FIXME: Morale alone is the trigger for drying off!
         // Without the morale modifier, towel_common thinks you're dry
@@ -362,10 +366,10 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it dries them off" ) {
-                CHECK( dummy.body_wetness[bp_torso] == 0 );
-                CHECK( dummy.body_wetness[bp_head] == 0 );
-                CHECK( dummy.body_wetness[bp_arm_l] == 0 );
-                CHECK( dummy.body_wetness[bp_arm_r] == 0 );
+                CHECK( dummy.get_part( body_part_torso ).get_wetness() == 0 );
+                CHECK( dummy.get_part( body_part_head ).get_wetness() == 0 );
+                CHECK( dummy.get_part( body_part_arm_l ).get_wetness() == 0 );
+                CHECK( dummy.get_part( body_part_arm_r ).get_wetness() == 0 );
 
                 AND_THEN( "the towel becomes wet" ) {
                     CHECK( towel.typeId().str() == "towel_wet" );
@@ -379,10 +383,10 @@ TEST_CASE( "towel", "[iuse][towel]" )
             dummy.invoke_item( &towel );
 
             THEN( "it does not dry them off" ) {
-                CHECK( dummy.body_wetness[bp_torso] > 0 );
-                CHECK( dummy.body_wetness[bp_head] > 0 );
-                CHECK( dummy.body_wetness[bp_arm_l] > 0 );
-                CHECK( dummy.body_wetness[bp_arm_r] > 0 );
+                CHECK( dummy.get_part( body_part_torso ).get_wetness() > 0 );
+                CHECK( dummy.get_part( body_part_head ).get_wetness() > 0 );
+                CHECK( dummy.get_part( body_part_arm_l ).get_wetness() > 0 );
+                CHECK( dummy.get_part( body_part_arm_r ).get_wetness() > 0 );
             }
         }
     }
