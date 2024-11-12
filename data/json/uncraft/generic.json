@@ -1425,8 +1425,8 @@
     "result": "broken_dissector",
     "type": "uncraft",
     "skill_used": "electronics",
-    "difficulty": 4,
-    "time": "20 min",
+    "difficulty": 2,
+    "time": "20 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
