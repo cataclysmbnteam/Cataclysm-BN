@@ -1620,7 +1620,8 @@
       [ "solder_wire", 50 ],
       { "item": "superglue", "prob": 55, "charges": [ 5, 10 ] },
       [ "screwdriver", 60 ],
-      [ "motor_small", 30 ]
+      [ "motor_small", 30 ],
+      [ "laser_source", 10 ]
     ]
   },
   {

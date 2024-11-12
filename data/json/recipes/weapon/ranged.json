@@ -1146,6 +1146,7 @@
     "using": [ [ "soldering_standard", 200 ] ],
     "components": [
       [ [ "battery_ups", 1 ] ],
+      [ [ "laser_source", 1 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 100 ] ],
