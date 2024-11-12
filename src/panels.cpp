@@ -826,7 +826,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
         } else {
             wmove( w, point( 11, i / 2 ) );
         }
-        wprintz( w, u.limb_color( bp, true, true, true ), str );
+        wprintz( w, u.limb_color( bp.id(), true, true, true ), str );
         if( i % 2 == 0 ) {
             wmove( w, point( 5, i / 2 ) );
         } else {
@@ -1140,7 +1140,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
         std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
-        wprintz( w, u.limb_color( bp, true, true, true ), str + ":" );
+        wprintz( w, u.limb_color( bp.id(), true, true, true ), str + ":" );
     }
     wnoutrefresh( w );
 }
@@ -1576,7 +1576,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         const std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( 8, i ) );
-        wprintz( w, u.limb_color( part[i], true, true, true ), str );
+        wprintz( w, u.limb_color( part[i].id(), true, true, true ), str );
         wmove( w, point( 14, i ) );
         draw_limb_health( u, w, bp.id() );
         i++;
