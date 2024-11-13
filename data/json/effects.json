@@ -468,9 +468,10 @@
       "dex_mod": [ -1, -1 ],
       "str_mod": [ -2, 0 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 150, 900 ],
+      "pain_chance": [ 30, 180 ],
+      "pain_max_val": [ 20 ],
       "hurt_min": [ 1 ],
-      "hurt_chance": [ 450, 2700 ]
+      "hurt_chance": [ 90, 540 ]
     },
     "show_in_info": true,
     "blood_analysis_description": "Poison"
@@ -494,10 +495,11 @@
       "str_mod": [ -3, -1 ],
       "speed_mod": [ -10 ],
       "pain_min": [ 2 ],
-      "pain_chance": [ 100, 500 ],
+      "pain_chance": [ 20, 100 ],
+      "pain_max_val": [ 40 ],
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
-      "hurt_chance": [ 300, 1800 ]
+      "hurt_chance": [ 60, 360 ]
     },
     "show_in_info": true,
     "blood_analysis_description": "Poison"
