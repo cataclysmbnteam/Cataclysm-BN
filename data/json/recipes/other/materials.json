@@ -627,13 +627,7 @@
     "batch_time_factors": [ 10, 1 ],
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [
-      [
-        [ "gloves_medical", 4 ],
-        [ "condom", 8 ],
-        [ "rubber_slug", 5 ]
-      ]
-    ]
+    "components": [ [ [ "gloves_medical", 4 ], [ "condom", 8 ], [ "rubber_slug", 5 ] ] ]
   },
   {
     "type": "recipe",
