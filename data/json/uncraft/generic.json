@@ -3397,6 +3397,14 @@
     "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
+    "result": "carton_unsealed",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "15 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cardboard", 2 ] ], [ [ "plastic_scrap", 1 ] ] ]
+  },
+  {
     "result": "clockworks",
     "type": "uncraft",
     "skill_used": "fabrication",

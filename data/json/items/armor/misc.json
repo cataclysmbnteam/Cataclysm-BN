@@ -30,7 +30,7 @@
     "volume": "100 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": ".",
     "color": "red",
     "flags": [ "FANCY" ]
