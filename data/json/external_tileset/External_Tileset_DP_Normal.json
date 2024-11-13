@@ -89,76 +89,9 @@
           { "id": "overlay_worn_helmet_scute", "fg": 77 },
           { "id": [ "armguard_scute", "overlay_wielded_armguard_scute" ], "fg": 78 },
           { "id": "overlay_worn_armguard_scute", "fg": 79 },
-          {
-            "id": "fd_blood",
-            "fg": 80,
-            "rotates": false,
-            "multitile": true,
-            "additional_tiles": [
-              { "id": "center", "fg": 81 },
-              { "id": "corner", "fg": [ 82, 83, 84, 85 ] },
-              { "id": "t_connection", "fg": [ 92, 93, 94, 95 ] },
-              { "id": "edge", "fg": [ 86, 87 ] },
-              { "id": "end_piece", "fg": [ 88, 89, 90, 91 ] },
-              {
-                "id": "unconnected",
-                "fg": [
-                  { "weight": 1, "sprite": 96 },
-                  { "weight": 1, "sprite": 97 },
-                  { "weight": 1, "sprite": 98 },
-                  { "weight": 1, "sprite": 99 },
-                  { "weight": 1, "sprite": 100 },
-                  { "weight": 1, "sprite": 101 },
-                  { "weight": 1, "sprite": 102 },
-                  { "weight": 1, "sprite": 103 },
-                  { "weight": 1, "sprite": 104 },
-                  { "weight": 1, "sprite": 105 },
-                  { "weight": 1, "sprite": 106 },
-                  { "weight": 1, "sprite": 107 },
-                  { "weight": 1, "sprite": 108 },
-                  { "weight": 1, "sprite": 109 },
-                  { "weight": 1, "sprite": 110 },
-                  { "weight": 1, "sprite": 111 },
-                  { "weight": 1, "sprite": 112 },
-                  { "weight": 1, "sprite": 113 },
-                  { "weight": 1, "sprite": 114 },
-                  { "weight": 1, "sprite": 115 },
-                  { "weight": 1, "sprite": 116 },
-                  { "weight": 1, "sprite": 117 },
-                  { "weight": 1, "sprite": 118 },
-                  { "weight": 1, "sprite": 119 },
-                  { "weight": 1, "sprite": 120 },
-                  { "weight": 1, "sprite": 121 },
-                  { "weight": 1, "sprite": 122 },
-                  { "weight": 1, "sprite": 123 },
-                  { "weight": 1, "sprite": 124 },
-                  { "weight": 1, "sprite": 125 },
-                  { "weight": 1, "sprite": 126 },
-                  { "weight": 1, "sprite": 127 }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "tr_portal",
-            "fg": [
-              { "weight": 10, "sprite": 128 },
-              { "weight": 10, "sprite": 129 },
-              { "weight": 10, "sprite": 130 },
-              { "weight": 10, "sprite": 131 },
-              { "weight": 10, "sprite": 132 },
-              { "weight": 10, "sprite": 133 },
-              { "weight": 10, "sprite": 134 },
-              { "weight": 10, "sprite": 135 }
-            ],
-            "animated": true
-          },
-          { "id": "overlay_worn_cuirass_bone", "fg": 136 },
-          { "id": [ "greaves_bone", "overlay_wielded_greaves_bone" ], "fg": 137 },
-          { "id": "overlay_worn_greaves_bone", "fg": 138 },
-          { "id": "cursor", "fg": 139 },
-          { "id": "line_target", "fg": 140 },
-          { "id": "animation_line", "fg": 141 }
+          { "id": "overlay_worn_cuirass_bone", "fg": 80 },
+          { "id": [ "greaves_bone", "overlay_wielded_greaves_bone" ], "fg": 81 },
+          { "id": "overlay_worn_greaves_bone", "fg": 82 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
