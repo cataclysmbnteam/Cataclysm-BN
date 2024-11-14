@@ -1542,12 +1542,12 @@ void map::player_in_field( player &u )
                        u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
                        u.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
-                    bool inhaled = u.add_env_effect( effect_poison, body_part_mouth, 5, intensity * 1_minutes );
+                    bool inhaled = u.add_env_effect( effect_poison, body_part_mouth, 5, intensity * 10_seconds );
                     if( u.has_trait( trait_THRESH_MYCUS ) || u.has_trait( trait_THRESH_MARLOSS ) ||
                         ( ft == fd_insecticidal_gas &&
                           ( u.get_highest_category() == mutation_category_id( "INSECT" ) ||
                             u.get_highest_category() == mutation_category_id( "SPIDER" ) ) ) ) {
-                        inhaled |= u.add_env_effect( effect_badpoison, body_part_mouth, 5, intensity * 1_minutes );
+                        inhaled |= u.add_env_effect( effect_badpoison, body_part_mouth, 5, intensity * 10_seconds );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
                     }

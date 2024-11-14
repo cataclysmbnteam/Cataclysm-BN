@@ -1108,7 +1108,7 @@
         { "id": "pkill3", "duration": 360 },
         { "id": "pkill2", "duration": 810 },
         { "id": "foodpoison", "duration": 810 },
-        { "id": "badpoison", "duration": 3600 },
+        { "id": "badpoison", "duration": 360 },
         { "id": "shakes", "duration": 810 }
       ]
     },

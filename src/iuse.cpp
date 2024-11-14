@@ -908,7 +908,7 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( !p->has_trait( trait_POISRESIST ) ) {
-        p->add_effect( effect_poison, 1_hours );
+        p->add_effect( effect_poison, 15_minutes );
     }
 
     p->add_effect( effect_foodpoison, 3_hours );
@@ -1068,7 +1068,7 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
         p->mod_pain( rng( 32, 64 ) );
-        p->add_effect( effect_poison, 1_hours );
+        p->add_effect( effect_poison, 15_minutes );
         p->apply_damage( nullptr, bodypart_id( "torso" ), rng( 4, 12 ) );
         p->vomit();
     }
