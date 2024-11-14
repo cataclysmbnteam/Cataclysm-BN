@@ -1528,5 +1528,10 @@
     "type": "construction_group",
     "id": "build_furniture_olight",
     "name": "Install a ceiling lamp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_light_switch",
+    "name": "Install a light switch"
   }
 ]

@@ -855,6 +855,19 @@ void iexamine::toilet( player &p, const tripoint &examp )
     }
 }
 
+/** Toggle the lights in a overmap terrain*/
+void iexamine::toggle_lights( player &/*p*/, const tripoint &examp )
+{
+    map &here = get_map();
+    const auto flag = here.has_flag_furn( "L_OFF", examp ) ? "L_OFF" : "L_ON";
+
+    for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag ) ) {
+        here.furn_set( light_loc, here.get_furn_transforms_into( light_loc ) );
+    };
+
+    add_msg( _( here.furn( examp ).obj().message ) );
+}
+
 /**
  * Open or close gate.
  */
@@ -6326,6 +6339,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "vending", &iexamine::vending },
             { "toilet", &iexamine::toilet },
             { "elevator", &iexamine::elevator },
+            { "toggle_lights", &iexamine::toggle_lights},
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader", &iexamine::cardreader },
             { "cardreader_robofac", &iexamine::cardreader_robofac },

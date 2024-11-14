@@ -8974,6 +8974,27 @@ std::vector<item *> map::get_active_items_in_radius( const tripoint &center, int
     return result;
 }
 
+std::vector<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
+        const std::string &flag )
+{
+    // Some stupid code to get to the corner
+    const point omt_diff = ( ms_to_omt_copy( getabs( point( ( p.x + SEEX ),
+                             ( p.y + SEEY ) ) ) ) ) - ( ms_to_omt_copy( getabs( p.xy() ) ) );
+    const point omt_p = omt_to_ms_copy( ( ms_to_omt_copy( p.xy() ) ) ) ;
+    const tripoint omt_o = tripoint( omt_p.x + ( 1 - omt_diff.x ) * SEEX,
+                                     omt_p.y + ( 1 - omt_diff.y ) * SEEY,
+                                     p.z );
+
+    std::vector<tripoint> furn_locs;
+    for( const auto &furn_loc : points_in_rectangle( omt_o,
+            tripoint( omt_o.x + 2 * SEEX - 1, omt_o.y + 2 * SEEY - 1, p.z ) ) ) {
+        if( has_flag_furn( flag, furn_loc ) ) {
+            furn_locs.push_back( furn_loc );
+        }
+    }
+    return furn_locs;
+};
+
 std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center,
         size_t radius,
         const std::string &flag,

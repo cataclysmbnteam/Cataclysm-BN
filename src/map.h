@@ -2055,6 +2055,10 @@ class map
         std::vector<item *> get_active_items_in_radius( const tripoint &center, int radius,
                 special_item_type type ) const;
 
+        /** returns positions of furnitures with matching flag in the overmap terrain*/
+        std::vector<tripoint> find_furnitures_with_flag_in_omt( const tripoint &p,
+                const std::string &flag );
+
         /**returns positions of furnitures with matching flag in the specified radius*/
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
