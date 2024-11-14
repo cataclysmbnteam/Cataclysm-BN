@@ -10015,7 +10015,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) &&
         !u.is_underwater() ) {
         // Climbing
-
         if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
             return;
