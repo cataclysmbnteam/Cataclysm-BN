@@ -18,5 +18,19 @@
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET", "NO_EXPLOSION_VFX" ],
     "energy_source": "NONE",
     "damage_type": "bio"
+  },
+  {
+    "id": "poison",
+    "type": "SPELL",
+    "name": { "str": "Poison" },
+    "description": "Poisons the target.",
+    "effect": "target_attack",
+    "effect_str": "poison",
+    "valid_targets": [ "hostile" ],
+    "min_range": 2,
+    "max_range": 2,
+    "min_duration": 15000,
+    "max_duration": 30000,
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DURATION", "NO_EXPLOSION_VFX" ]
   }
 ]

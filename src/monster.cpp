@@ -76,6 +76,7 @@ static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_command_buff( "command_buff" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_dazed( "dazed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
@@ -88,6 +89,7 @@ static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
+static const efftype_id effect_migo_atmosphere( "migo_atmosphere" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -98,8 +100,10 @@ static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
+static const efftype_id effect_smoke( "smoke" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
+static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 
@@ -1600,8 +1604,23 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         return type->in_species( PLANT );
     }
 
-    if( effect == effect_stunned ) {
+    // Used by screecher zombies to prevent dazing monsters that can't hear
+    if( effect == effect_deaf ) {
+        return !has_flag( MF_HEARS );
+    }
+
+    if( effect == effect_stunned || effect == effect_dazed ) {
         return has_flag( MF_STUN_IMMUNE );
+    }
+
+    if( effect == effect_smoke ||
+        effect == effect_teargas ||
+        effect == effect_migo_atmosphere ) {
+        return has_flag( MF_NO_BREATHE );
+    }
+
+    if( effect == effect_bleed ) {
+        return !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) );
     }
 
     return false;
@@ -1719,6 +1738,8 @@ void monster::melee_attack( Creature &target, float accuracy )
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
         damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
+        damage.add_damage( DT_BASH, bash_bonus );
+        damage.add_damage( DT_CUT, cut_bonus );
     }
 
     dealt_damage_instance dealt_dam;
@@ -2790,6 +2811,10 @@ void monster::process_one_effect( effect &it, bool is_new )
 
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
     mod_dodge_bonus( get_effect( "DODGE", reduced ) );
+    mod_hit_bonus( get_effect( "HIT", reduced ) );
+    mod_bash_bonus( get_effect( "BASH", reduced ) );
+    mod_cut_bonus( get_effect( "CUT", reduced ) );
+    mod_size_bonus( get_effect( "SIZE", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2984,7 +3009,9 @@ field_type_id monster::gibType() const
 
 creature_size monster::get_size() const
 {
-    return creature_size( type->size );
+    // Don't allow size bonuses from effects to make the creature larger than huge or smaller than tiny
+    return std::max( std::min( creature_size( type->size + size_bonus ), creature_size::huge ),
+                     creature_size::tiny );
 }
 
 units::mass monster::get_weight() const

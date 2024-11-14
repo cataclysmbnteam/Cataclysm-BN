@@ -3043,6 +3043,9 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "dodge_bonus", dodge_bonus );
     jsout.member( "block_bonus", block_bonus );
     jsout.member( "hit_bonus", hit_bonus );
+    jsout.member( "bash_bonus", bash_bonus );
+    jsout.member( "cut_bonus", cut_bonus );
+    jsout.member( "size_bonus", size_bonus );
 
     jsout.member( "underwater", underwater );
 
@@ -3099,6 +3102,9 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "dodge_bonus", dodge_bonus );
     jsin.read( "block_bonus", block_bonus );
     jsin.read( "hit_bonus", hit_bonus );
+    jsin.read( "bash_bonus", bash_bonus );
+    jsin.read( "cut_bonus", cut_bonus );
+    jsin.read( "size_bonus", size_bonus );
 
     jsin.read( "underwater", underwater );
 

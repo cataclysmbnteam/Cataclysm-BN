@@ -1901,6 +1901,7 @@
     "name": { "str": "stinger dagger" },
     "description": "A dagger made from a sharpened mutant insect stinger.  It's only natural that the Cataclysm would advent new, creative forms of old weapons.",
     "material": [ "chitin" ],
+    "proportional": { "weight": 0.8, "cutting": 0.9 },
     "relic_data": {
       "passive_effects": [
         {
@@ -1928,7 +1929,7 @@
     "price_postapoc": "3 USD",
     "material": [ "wood", "bone_heavy" ],
     "cutting": 21,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 5 ] ]
   },
   {
     "id": "sword_bone",
