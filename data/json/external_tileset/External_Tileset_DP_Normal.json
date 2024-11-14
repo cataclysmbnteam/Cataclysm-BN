@@ -152,7 +152,9 @@
               { "weight": 10, "sprite": 135 }
             ],
             "animated": true
-          }
+          },
+          { "id": "f_light_switch_off", "fg": 136, "rotates": false },
+          { "id": "f_light_switch_on", "fg": 137, "rotates": false }
         ],
         "sprite_width": 32,
         "sprite_height": 32
