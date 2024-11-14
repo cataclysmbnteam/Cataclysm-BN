@@ -66,11 +66,11 @@
     "name": "GROUP_NETHER_CAPTURED",
     "default": "mon_gracke",
     "monsters": [
-      { "monster": "mon_gelatin", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_mi_go", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_gelatin", "freq": 250, "cost_multiplier": 0, "starts": 240 },
+      { "monster": "mon_mi_go", "freq": 250, "cost_multiplier": 0, "starts": 720 },
       { "monster": "mon_mi_go_scout", "freq": 250, "cost_multiplier": 0, "starts": 840 },
-      { "monster": "mon_kreck", "freq": 250, "cost_multiplier": 0 },
-      { "monster": "mon_gracke", "freq": 250, "cost_multiplier": 0 }
+      { "monster": "mon_kreck", "freq": 250, "cost_multiplier": 0, "starts": 480 },
+      { "monster": "mon_gracke", "freq": 250, "cost_multiplier": 0, "starts": 240 }
     ]
   },
   {
