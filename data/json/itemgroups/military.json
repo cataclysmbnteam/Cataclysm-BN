@@ -176,7 +176,7 @@
     "id": "infantry_common_gear",
     "subtype": "collection",
     "entries": [
-      { "item": "e_tool", "prob": 60 },
+      { "item": "e_tool", "prob": 50 },
       { "item": "mask_gas", "prob": 20 },
       { "item": "two_way_radio", "prob": 60 },
       { "item": "sheath", "contents-item": "knife_combat", "prob": 80 }
@@ -186,16 +186,16 @@
     "type": "item_group",
     "id": "infantry_officer_gear",
     "subtype": "collection",
-    "entries": [ { "item": "binoculars", "prob": 90 }, { "item": "id_military", "prob": 90 } ]
+    "entries": [ { "item": "binoculars", "prob": 90 }, { "item": "id_military", "prob": 40 } ]
   },
   {
     "type": "item_group",
     "id": "infantry_medical_gear",
     "subtype": "collection",
     "entries": [
-      { "item": "1st_aid", "prob": 90 },
-      { "item": "quikclot", "prob": 60 },
-      { "collection": [ { "item": "morphine" }, { "item": "syringe" } ], "prob": 30 }
+      { "item": "1st_aid", "prob": 80 },
+      { "item": "quikclot", "prob": 70 },
+      { "collection": [ { "item": "morphine" }, { "item": "syringe" } ], "prob": 40 }
     ]
   },
   {
