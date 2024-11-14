@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/light_switch.png",
+        "tiles": [ { "id": "f_light_switch_off", "fg": 0 }, { "id": "f_light_switch_on", "fg": 1 } ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]
