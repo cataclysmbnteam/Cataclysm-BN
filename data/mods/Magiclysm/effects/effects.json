@@ -65,8 +65,7 @@
       "speed_mod": [ 20 ],
       "hit_mod": [ 2 ],
       "dodge_mod": [ 2 ],
-      "bash_mod": [ 2 ],
-      "cut_mod": [ 2 ]
+      "bash_mod": [ 2 ]
     }
   },
   {
