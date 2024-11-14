@@ -204,6 +204,9 @@ void Creature::reset_bonuses()
     dodge_bonus = 0;
     block_bonus = 0;
     hit_bonus = 0;
+    bash_bonus = 0;
+    cut_bonus = 0;
+    size_bonus = 0;
 }
 
 void Creature::process_turn()
@@ -1876,6 +1879,14 @@ float Creature::get_hit_bonus() const
 {
     return hit_bonus; //base is 0
 }
+int Creature::get_bash_bonus() const
+{
+    return bash_bonus;
+}
+int Creature::get_cut_bonus() const
+{
+    return cut_bonus;
+}
 
 void Creature::mod_stat( const std::string &stat, float modifier )
 {
@@ -1887,6 +1898,10 @@ void Creature::mod_stat( const std::string &stat, float modifier )
         mod_block_bonus( modifier );
     } else if( stat == "hit" ) {
         mod_hit_bonus( modifier );
+    } else if( stat == "bash" ) {
+        mod_bash_bonus( modifier );
+    } else if( stat == "cut" ) {
+        mod_cut_bonus( modifier );
     } else if( stat == "pain" ) {
         mod_pain( modifier );
     } else if( stat == "moves" ) {
@@ -1962,6 +1977,18 @@ void Creature::mod_block_bonus( int nblock )
 void Creature::mod_hit_bonus( float nhit )
 {
     hit_bonus += nhit;
+}
+void Creature::mod_bash_bonus( int nbash )
+{
+    bash_bonus += nbash;
+}
+void Creature::mod_cut_bonus( int ncut )
+{
+    cut_bonus += ncut;
+}
+void Creature::mod_size_bonus( int nsize )
+{
+    size_bonus += nsize;
 }
 
 units::mass Creature::weight_capacity() const

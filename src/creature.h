@@ -661,6 +661,8 @@ class Creature
         virtual float get_hit_base() const = 0;
         virtual float get_dodge_bonus() const;
         virtual float get_hit_bonus() const;
+        virtual int get_bash_bonus() const;
+        virtual int get_cut_bonus() const;
 
         virtual bool has_grab_break_tec() const = 0;
 
@@ -684,6 +686,9 @@ class Creature
         virtual void mod_speed_bonus( int nspeed );
         virtual void mod_speed_mult( float nspeed );
         virtual void mod_block_bonus( int nblock );
+        virtual void mod_bash_bonus( int nbash );
+        virtual void mod_cut_bonus( int ncut );
+        virtual void mod_size_bonus( int nsize );
 
         virtual void set_dodge_bonus( float ndodge );
         virtual void set_hit_bonus( float nhit );
@@ -958,6 +963,9 @@ class Creature
         float dodge_bonus = 0.0;
         int block_bonus = 0;
         float hit_bonus = 0.0;
+        int bash_bonus;
+        int cut_bonus;
+        int size_bonus;
 
         bool fake = false;
         Creature();
