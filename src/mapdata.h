@@ -314,7 +314,6 @@ enum ter_bitflags : int {
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
     TFLAG_ELEVATOR,
-
     NUM_TERFLAGS
 };
 
