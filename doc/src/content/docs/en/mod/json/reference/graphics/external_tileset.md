@@ -50,8 +50,11 @@ Links to relevant pull requests, for content covered below:
   [#5398](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5398)
 - Harvested cattails: [#5445](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5445)
 - Niter beds: [#5446](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5446)
-- Animated portals: [#5640](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5640)
+- Scaleskin armor, tooth and bone weapons:
+  [#5466](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5466)
 - Reimplemented bone armor: [#5646](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5646)
+- More tooth and bone weapons, triffid weapons:
+  [#5712](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5712)
 
 ## Undead People
 
@@ -99,8 +102,11 @@ Ultica are planned for the future.
 - Makeshift cannon, item and vehiclepart sprite. Item specific to BN.
 - Explosive cannonshells and sprites for readied cannon ammo. Items specific to BN.
 - Harvested state for cattails, including winter variation. Furniture specific to BN.
+- Armor made from reptile scutes, weapons made from heavy bones, teeth, and insect stingers. Items
+  specific to BN.
 - Sprites for bone cuirass and greaves. Reimplementation of previously-obsoleted bone armor specific
   to BN.
+- Additional tooth and stinger weapons, including triffid stinger weapons. Items specific to BN.
 
 ### External_Tileset_DP_terrain_normal.png
 

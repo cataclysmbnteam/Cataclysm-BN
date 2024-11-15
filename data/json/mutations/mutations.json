@@ -91,11 +91,12 @@
     "id": "PARKOUR",
     "name": { "str": "Parkour Expert" },
     "points": 2,
-    "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
+    "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.  Your experience also allows you to take reduced damage from falls.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADKNEES", "FELINE_FLEXIBILITY" ],
-    "movecost_obstacle_modifier": 0.5
+    "movecost_obstacle_modifier": 0.5,
+    "falling_damage_multiplier": 0.66
   },
   {
     "type": "mutation",
@@ -3459,6 +3460,8 @@
     "visibility": 4,
     "ugliness": 2,
     "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "//": "Immunity to falls is already hardcoded in, but this will make the effect consistent with other wing traits since hulk tosses check the same multiplier.",
+    "falling_damage_multiplier": 0.75,
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "BIRD" ]
@@ -3470,7 +3473,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 4,
-    "description": "You have a pair of large, translucent wings.  They are too small to lift you, but are powerful enough to greatly speed your movement, with some effort and noise.",
+    "description": "You have a pair of large, translucent wings.  They are too small to provide lift, but can reduce falling damage and if activated will greatly speed your movement, with some effort and noise.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
@@ -3480,7 +3483,8 @@
     "fatigue": true,
     "hunger": true,
     "thirst": true,
-    "movecost_modifier": 0.75
+    "movecost_modifier": 0.75,
+    "falling_damage_multiplier": 0.75
   },
   {
     "type": "mutation",
@@ -4242,10 +4246,11 @@
     "points": -1,
     "visibility": 9,
     "ugliness": 4,
-    "description": "You have a pair of large, leathery wings.  You can move them a little, but they are useless, and in fact put you off balance, reducing your ability to dodge slightly.",
+    "description": "You have a pair of large, leathery wings.  You can move them a little, but they only catch enough air to reduce falling damage a bit, and in fact put you off balance, reducing your ability to dodge slightly.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
-    "dodge_modifier": -3
+    "dodge_modifier": -3,
+    "falling_damage_multiplier": 0.75
   },
   {
     "type": "mutation",
@@ -4265,7 +4270,9 @@
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
-    "movecost_modifier": 0.9
+    "movecost_modifier": 0.9,
+    "//": "Hardcoded effects include a 50% chance to negate a fall outright, this multiplier kicks in if you fall that roll or when tossed by a hulk.",
+    "falling_damage_multiplier": 0.75
   },
   {
     "type": "mutation",
@@ -6487,13 +6494,14 @@
     "id": "FELINE_FLEXIBILITY",
     "name": { "str": "Feline Flexibility" },
     "points": 4,
-    "description": "Your muscles, joints, and the movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.  It also helps you avoid attacks a bit more easily.",
+    "description": "Your muscles, joints, and the movement center of your brain have changed internally somewhat, allowing you to traverse obstacles with ease.  It also helps you avoid attacks a bit more easily, and flex with falls to take less damage.",
     "valid": false,
     "purifiable": false,
     "cancels": [ "PARKOUR", "BADKNEES" ],
     "threshreq": [ "THRESH_FELINE" ],
     "category": [ "FELINE" ],
     "movecost_obstacle_modifier": 0.3,
+    "falling_damage_multiplier": 0.5,
     "dodge_modifier": 1
   },
   {
