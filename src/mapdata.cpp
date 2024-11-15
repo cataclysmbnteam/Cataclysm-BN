@@ -1550,8 +1550,8 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     // see the comment in ter_id::load for connect_group handling
     connect_group = TERCONN_NONE;
-    if (jo.has_member("connects_to")) {
-        set_connects(jo.get_string("connects_to"));
+    if( jo.has_member( "connects_to" ) ) {
+        set_connects( jo.get_string( "connects_to" ) );
     }
 
     optional( jo, was_loaded, "open", open, furn_str_id::NULL_ID() );

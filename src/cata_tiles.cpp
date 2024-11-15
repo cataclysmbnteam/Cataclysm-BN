@@ -2785,11 +2785,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         int rotation = 0;
 
         int connect_group = 0;
-        if (f.obj().connects(connect_group)) {
-            get_furn_connect_values(p, subtile, rotation, connect_group, {});
-        }
-        else {
-            get_tile_values_with_ter(p, f.to_i(), neighborhood, subtile, rotation);
+        if( f.obj().connects( connect_group ) ) {
+            get_furn_connect_values( p, subtile, rotation, connect_group, {} );
+        } else {
+            get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
         }
 
         const std::string &fname = f.id().str();
@@ -2823,11 +2822,10 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             int rotation = 0;
 
             int connect_group = 0;
-            if (f.obj().connects(connect_group)) {
-                get_furn_connect_values(p, subtile, rotation, connect_group, {});
-            }
-            else {
-                get_tile_values_with_ter(p, f.to_i(), neighborhood, subtile, rotation);
+            if( f.obj().connects( connect_group ) ) {
+                get_furn_connect_values( p, subtile, rotation, connect_group, {} );
+            } else {
+                get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
             }
 
             get_tile_values( f2.to_i(), neighborhood, subtile, rotation );
@@ -3914,89 +3912,89 @@ void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotat
     get_rotation_and_subtile( connections, rotation, subtile );
 }
 
-void cata_tiles::get_furn_connect_values(const tripoint& p, int& subtile, int& rotation,
-    const int connect_group, const std::map<tripoint,
-    furn_id>& furn_override)
+void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+        const int connect_group, const std::map<tripoint,
+        furn_id> &furn_override )
 {
-    uint8_t connections = get_map().get_known_connections_f(p, connect_group, furn_override);
-    get_rotation_and_subtile(connections, rotation, subtile);
+    uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
+    get_rotation_and_subtile( connections, rotation, subtile );
 }
 
-void cata_tiles::get_tile_values(const int t, const int* tn, int& subtile, int& rotation)
+void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int &rotation )
 {
     bool connects[4];
     char val = 0;
-    for (int i = 0; i < 4; ++i) {
-        connects[i] = (tn[i] == t);
-        if (connects[i]) {
+    for( int i = 0; i < 4; ++i ) {
+        connects[i] = ( tn[i] == t );
+        if( connects[i] ) {
             val += 1 << i;
         }
     }
-    get_rotation_and_subtile(val, rotation, subtile);
+    get_rotation_and_subtile( val, rotation, subtile );
 }
 
-void cata_tiles::get_tile_values_with_ter(const tripoint& p, const int t, const int* tn,
-    int& subtile, int& rotation)
+void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const int *tn,
+        int &subtile, int &rotation )
 {
-    get_tile_values(t, tn, subtile, rotation);
+    get_tile_values( t, tn, subtile, rotation );
     // calculate rotation for unconnected tiles based on surrounding walls
-    if (subtile == unconnected) {
+    if( subtile == unconnected ) {
         int val = 0;
         bool use_furniture = false;
-        map& here = get_map();
+        map &here = get_map();
 
-        if (here.has_flag("ALIGN_WORKBENCH", p)) {
-            for (int i = 0; i < 4; ++i) {
+        if( here.has_flag( "ALIGN_WORKBENCH", p ) ) {
+            for( int i = 0; i < 4; ++i ) {
                 // align to furniture that has the workbench quality
-                const tripoint& pt = p + four_adjacent_offsets[i];
-                if (here.has_furn(pt) && here.furn(pt).obj().workbench) {
+                const tripoint &pt = p + four_adjacent_offsets[i];
+                if( here.has_furn( pt ) && here.furn( pt ).obj().workbench ) {
                     val += 1 << i;
                     use_furniture = true;
                 }
             }
         }
         // if still unaligned, try aligning to walls
-        if (val == 0) {
-            for (int i = 0; i < 4; ++i) {
-                const tripoint& pt = p + four_adjacent_offsets[i];
-                if (here.has_flag("WALL", pt) || here.has_flag("WINDOW", pt) ||
-                    here.has_flag("DOOR", pt)) {
+        if( val == 0 ) {
+            for( int i = 0; i < 4; ++i ) {
+                const tripoint &pt = p + four_adjacent_offsets[i];
+                if( here.has_flag( "WALL", pt ) || here.has_flag( "WINDOW", pt ) ||
+                    here.has_flag( "DOOR", pt ) ) {
                     val += 1 << i;
                 }
             }
         }
 
-        switch (val) {
-        case 4:    // south wall
-        case 14:   // north opening T
-            rotation = 2;
-            break;
-        case 2:    // east wall
-        case 6:    // southeast corner
-        case 5:    // E/W corridor
-        case 7:    // east opening T
-            rotation = 1;
-            break;
-        case 8:    // west wall
-        case 12:   // southwest corner
-        case 13:   // west opening T
-            rotation = 3;
-            break;
-        case 0:    // no walls
-        case 1:    // north wall
-        case 3:    // northeast corner
-        case 9:    // northwest corner
-        case 10:   // N/S corridor
-        case 11:   // south opening T
-        case 15:   // surrounded
-        default:   // just in case
-            rotation = 0;
-            break;
+        switch( val ) {
+            case 4:    // south wall
+            case 14:   // north opening T
+                rotation = 2;
+                break;
+            case 2:    // east wall
+            case 6:    // southeast corner
+            case 5:    // E/W corridor
+            case 7:    // east opening T
+                rotation = 1;
+                break;
+            case 8:    // west wall
+            case 12:   // southwest corner
+            case 13:   // west opening T
+                rotation = 3;
+                break;
+            case 0:    // no walls
+            case 1:    // north wall
+            case 3:    // northeast corner
+            case 9:    // northwest corner
+            case 10:   // N/S corridor
+            case 11:   // south opening T
+            case 15:   // surrounded
+            default:   // just in case
+                rotation = 0;
+                break;
         };
 
         //
-        if (use_furniture) {
-            rotation = (rotation + 2) % 4;
+        if( use_furniture ) {
+            rotation = ( rotation + 2 ) % 4;
         }
     }
 }
