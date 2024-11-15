@@ -918,16 +918,18 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
                                 : nullptr;
         projectile projectile = make_gun_projectile( gun );
 
-        // Damage reduction from insufficient strength, if using a STR_DRAW weapon.
-        projectile.impact.mult_damage( ranged::str_draw_damage_modifier( gun, who ) );
         // Slings use ammo damage or damage from throwing the ammo, whichever is higher
         if( gun.gun_skill() == skill_throw && !who.is_fake() && gun.ammo_data() ) {
-            projectile.impact = gun.gun_damage( false );
             item &tmp = *item::spawn_temporary( item( gun.ammo_data() ) );
+            if( throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) > gun.ammo_data()->ammo->damage.damage_units.front().amount ) {
+            projectile.impact = gun.gun_damage( false );
             auto &impact = projectile.impact;
             impact.add_damage( DT_BASH,
                                throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) );
+            }
         }
+        // Damage reduction from insufficient strength, if using a STR_DRAW weapon.
+        projectile.impact.mult_damage( ranged::str_draw_damage_modifier( gun, who ) );
 
         if( who.has_trait( trait_NORANGEDCRIT ) ) {
             projectile.add_effect( ammo_effect_NO_CRIT );
