@@ -3696,22 +3696,19 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         // Moves
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_MOVES ) ) {
             info.emplace_back( "BASE", _( "Moves per attack: " ), "<num>",
-                               iteminfo::no_flags, attack_cost );
+                               iteminfo::lower_is_better, attack_cost );
         }
-    }
-    item &tmp = *item::spawn_temporary( type );
-
-    if( tmp.count_by_charges() && tmp.charges > 1 ) {
-        tmp.charges = 1;
-    }
-    float throw_amt = ranged::throw_damage( tmp,
-                                            get_avatar().get_skill_level( skill_throw ),
-                                            get_avatar().get_str() );
-    if( throw_amt > 0 ) {
-        info.emplace_back( "BASE", _( "Damage if thrown: " ), "<num>",
-                           iteminfo::no_flags, throw_amt );
-    }
-    if( print_attacks || debug_mode ) {
+        item &tmp = *item::spawn_temporary( type );
+        if( tmp.count_by_charges() && tmp.charges > 1 ) {
+            tmp.charges = 1;
+        }
+        float throw_amt = ranged::throw_damage( tmp,
+                                                get_avatar().get_skill_level( skill_throw ),
+                                                get_avatar().get_str() );
+        if( throw_amt > 0 ) {
+            info.emplace_back( "BASE", _( "Damage if thrown: " ), "<num>",
+                               iteminfo::no_flags, throw_amt );
+        }
         insert_separation_line( info );
     }
 }
