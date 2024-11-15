@@ -920,8 +920,9 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
         // Damage reduction from insufficient strength, if using a STR_DRAW weapon.
         projectile.impact.mult_damage( ranged::str_draw_damage_modifier( gun, who ) );
-        // Bonus damage for slings and the like
+        // Slings use ammo damage or damage from throwing the ammo, whichever is higher
         if( gun.gun_skill() == skill_throw && !who.is_fake() && gun.ammo_data() ) {
+            projectile.impact = gun.gun_damage( false );
             item &tmp = *item::spawn_temporary( item( gun.ammo_data() ) );
             auto &impact = projectile.impact;
             impact.add_damage( DT_BASH,

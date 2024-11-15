@@ -2270,6 +2270,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     gun_du.damage_multiplier *= ranged::str_draw_damage_modifier( *mod, viewer );
 
+    damage_unit thrown_du = damage_unit( DT_STAB, 0 );
+
     damage_unit ammo_du = curammo != nullptr
                           ? curammo->ammo->damage.damage_units.front()
                           : damage_unit( DT_STAB, 0 );
@@ -2277,7 +2279,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( skill.ident() == skill_throw && curammo != nullptr ) {
         item &tmp = *item::spawn_temporary( item( curammo ) );
 
-        ammo_du.amount += ranged::throw_damage( tmp,
+        thrown_du.amount += ranged::throw_damage( tmp,
                                                 get_avatar().get_skill_level( skill_throw ),
                                                 get_avatar().get_str() );
     }
@@ -2295,14 +2297,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             damage_instance ammo_dam = curammo->ammo->damage;
             info.emplace_back( "GUN", "ammo_damage", "",
                                iteminfo::no_newline | iteminfo::no_name |
-                               iteminfo::show_plus, ammo_du.amount );
+                               iteminfo::show_plus, std::max( ammo_du.amount, thrown_du.amount ) );
         }
 
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
             // Intentionally not using total_damage() as it applies multipliers
             info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
                                iteminfo::no_newline | iteminfo::no_name,
-                               gun_du.amount + ammo_du.amount );
+                               gun_du.amount + std::max( ammo_du.amount, thrown_du.amount ) );
         }
     }
     info.back().bNewLine = true;
@@ -7759,7 +7761,13 @@ int item::gun_range( bool with_ammo ) const
         if( ammo_shape ) {
             ret = ammo_shape->get_range();
         } else {
-            ret += ammo_data()->ammo->range;
+            int ret_thrown = 0;
+    if( gun_skill() == skill_throw && ammo_data() ) {
+        const itype *curammo = ammo_data();
+        item &tmp = *item::spawn_temporary( item( curammo ) );
+        ret_thrown += get_avatar().throw_range( tmp );
+    }
+            ret += std::max( ammo_data()->ammo->range, ret_thrown );
         }
     }
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
@@ -7777,11 +7785,6 @@ int item::gun_range( const player *p ) const
 
     // Reduce bow range if player has less than minimum strength.
     ret *= ranged::str_draw_range_modifier( *this, *p );
-    if( gun_skill() == skill_throw && ammo_data() ) {
-        const itype *curammo = ammo_data();
-        item &tmp = *item::spawn_temporary( item( curammo ) );
-        ret += get_avatar().throw_range( tmp );
-    }
 
     return std::max( 0, ret );
 }
