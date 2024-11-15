@@ -436,7 +436,7 @@
       "max_volume": "10 L",
       "min_volume": "1500 ml",
       "draw_cost": 150,
-      "flags": [ "SHEATH_SWORD", "SHEATH_AXE" ],
+      "flags": [ "SHEATH_SWORD", "SHEATH_AXE", "SHEATH_SPEAR" ],
       "skills": [ "smg", "shotgun", "rifle", "launcher" ]
     },
     "flags": [ "POWERARMOR_MOD", "COMPACT", "BELTED", "NO_QUICKDRAW", "ONLY_ONE" ]

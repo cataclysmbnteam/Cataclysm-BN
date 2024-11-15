@@ -269,5 +269,38 @@
       "sound_fail_vol": 4,
       "bash_below": true
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop",
+    "name": "treetop",
+    "description": "The upper branches of a tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": [ "light_green", "green", "yellow_yellow", "brown" ],
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE" ],
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop_evergreen",
+    "name": "treetop",
+    "description": "The upper branches of a tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": [ "green" ],
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE" ],
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop_dead",
+    "name": "dead treetop",
+    "description": "The bare upper branches of a dead tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE" ],
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
   }
 ]

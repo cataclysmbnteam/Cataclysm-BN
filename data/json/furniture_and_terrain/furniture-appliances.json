@@ -2682,7 +2682,7 @@
     "description": "A working lamp installed on the ceiling, this one is turned off.",
     "extend": { "flags": [ "L_OFF" ] },
     "examine_action": "transform",
-    "transforms_into": "f_olight_nopower",
+    "transforms_into": "f_olight",
     "prompt": "Switch on the ceiling lamp.",
     "message": "You switched on the ceiling lamp."
   },
@@ -2705,13 +2705,13 @@
       {
         "power": 3,
         "consume_every": "300 s",
-        "transform": { "id": "f_olight_nopower", "msg": "The ceiling lamp flickers and dies." }
+        "transform": { "id": "f_olight", "msg": "The ceiling lamp flickers and dies." }
       }
     ]
   },
   {
     "type": "furniture",
-    "id": "f_olight_nopower",
+    "id": "f_olight",
     "symbol": ".",
     "color": "light_gray",
     "copy-from": "f_olight_base",

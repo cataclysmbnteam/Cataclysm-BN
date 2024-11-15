@@ -1920,6 +1920,42 @@
     }
   },
   {
+    "id": "knife_triffid",
+    "type": "GENERIC",
+    "copy-from": "knife_stinger",
+    "name": { "str": "triffid dagger" },
+    "description": "A dagger made from the stinger of a strange plant monster.  Fitting that the Cataclysm brings with it a few creative twists on ancient weapons.",
+    "material": [ "wood" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "hit_you_effect": [
+            {
+              "id": "poison_paralyze",
+              "once_in": 10,
+              "message": "The stinger injects a small amount of poison into your target.",
+              "npc_message": "%1$s stings their target."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "knife_tooth",
+    "type": "GENERIC",
+    "copy-from": "dagger_medieval",
+    "looks_like": "bone_knife",
+    "name": { "str": "sharktooth dagger" },
+    "description": "A dagger made from a wooden handle with razor-sharp teeth lining the edge.",
+    "material": [ "bone_heavy", "wood" ],
+    "proportional": { "weight": 0.8 },
+    "//": "Same qualities as all the other daggers but gains fine cutting",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 20 ] ]
+  },
+  {
     "id": "tooth_leiomano",
     "copy-from": "glass_macuahuitl",
     "type": "GENERIC",
