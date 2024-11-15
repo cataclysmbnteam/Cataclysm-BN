@@ -224,7 +224,7 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "SHORT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "SHORT", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "max_volume": "750 L",
     "deconstruct": {
       "items": [
@@ -291,7 +291,7 @@
     "required_str": 3,
     "deployed_item": "chair_folding",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "max_volume": "750 L",
     "deconstruct": { "items": [ { "item": "chair_folding", "count": 1 } ] },
     "bash": {
