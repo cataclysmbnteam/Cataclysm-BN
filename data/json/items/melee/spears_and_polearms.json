@@ -599,6 +599,66 @@
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
+    "id": "spear_tooth",
+    "type": "GENERIC",
+    "copy-from": "spear_steel",
+    "name": { "str": "sharktooth spear" },
+    "description": "A stout wooden pole with several razor-sharp teeth set into the edges of its spearhead.",
+    "material": [ "bone_heavy", "wood" ],
+    "proportional": { "weight": 0.8 },
+    "//": "Could drag material to be cut along the teeth but manhandling it for butchery or fine work might be too much.",
+    "qualities": [ [ "COOK", 1 ], [ "CUT", 1 ] ]
+  },
+  {
+    "id": "spear_stinger",
+    "type": "GENERIC",
+    "copy-from": "spear_steel",
+    "name": { "str": "stinger spear" },
+    "description": "A stout wooden pole with a sharpened mutant insect stinger for a spearhead, to add a venomous touch to a classic weapon.",
+    "material": [ "chitin", "wood" ],
+    "proportional": { "weight": 0.8, "cutting": 0.9 },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "hit_you_effect": [
+            {
+              "id": "poison",
+              "once_in": 10,
+              "message": "The stinger injects a small amount of poison into your target.",
+              "npc_message": "%1$s stings their target."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "spear_triffid",
+    "type": "GENERIC",
+    "copy-from": "spear_stinger",
+    "name": { "str": "triffid spear" },
+    "description": "A stout wooden pole tipped with a stinger from a strange plant monster.  An alien twist on hunting with poison-tipped weapons made from natural sources.",
+    "material": [ "wood" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "hit_you_effect": [
+            {
+              "id": "poison_paralyze",
+              "once_in": 10,
+              "message": "The stinger injects a small amount of poison into your target.",
+              "npc_message": "%1$s stings their target."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
     "id": "glaive_bone",
     "type": "GENERIC",
     "copy-from": "glaive",
