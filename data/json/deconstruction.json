@@ -837,9 +837,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "electronics", 0 ] ],
     "time": "20 m",
-    "qualities": [
-      { "id": "SCREW", "level": 1 }
-    ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "byproducts": [
       { "item": "processor", "count": [ 1, 2 ] },
       { "item": "RAM", "count": [ 4, 8 ] },
@@ -862,9 +860,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "electronics", 0 ] ],
     "time": "20 m",
-    "qualities": [
-      { "id": "SCREW", "level": 1 }
-    ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "byproducts": [
       { "item": "processor", "count": [ 1, 2 ] },
       { "item": "RAM", "count": [ 4, 8 ] },

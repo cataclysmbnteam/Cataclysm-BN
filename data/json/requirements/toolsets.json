@@ -229,17 +229,9 @@
         [ "toolbox", -1 ],
         [ "toolbox_workshop", -1 ]
       ],
-      [
-        [ "multitool", -1 ],
-        [ "pliers", -1 ],
-        [ "toolset", -1 ]
-      ]
+      [ [ "multitool", -1 ], [ "pliers", -1 ], [ "toolset", -1 ] ]
     ],
-    "qualities": [
-      { "id": "PRY", "level": 2 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ]
+    "qualities": [ { "id": "PRY", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ]
   },
   {
     "id": "advanced_electronics_high_voltage",
@@ -255,20 +247,10 @@
         [ "survivor_belt", -1 ],
         [ "toolbox_workshop", -1 ]
       ],
-      [
-        [ "multitool", -1 ],
-        [ "pliers", -1 ],
-        [ "toolset", -1 ]
-      ],
-      [
-        [ "gloves_rubber", -1 ]
-      ]
+      [ [ "multitool", -1 ], [ "pliers", -1 ], [ "toolset", -1 ] ],
+      [ [ "gloves_rubber", -1 ] ]
     ],
-    "qualities": [
-      { "id": "PRY", "level": 2 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ]
+    "qualities": [ { "id": "PRY", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ]
   },
   {
     "id": "tool_flat_press_large",
