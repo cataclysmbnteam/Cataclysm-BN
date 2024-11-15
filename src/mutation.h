@@ -141,6 +141,7 @@ struct mutation_branch {
         float movecost_flatground_modifier = 1.0f;
         float movecost_obstacle_modifier = 1.0f;
         float attackcost_modifier = 1.0f;
+        float falling_damage_multiplier = 1.0f;
         float max_stamina_modifier = 1.0f;
         float weight_capacity_modifier = 1.0f;
         float hearing_modifier = 1.0f;
