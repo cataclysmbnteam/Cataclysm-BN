@@ -493,19 +493,6 @@
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "POWERARMOR_COMPATIBLE" ]
   },
   {
-    "id": "burn_scar",
-    "type": "effect_type",
-    "desc": [ "This burn really hurts!" ],
-    "max_duration": "10 second",
-    "rating": "bad",
-    "base_mods": { "pain_amount": [ 20 ] }
-  },
-  {
-    "id": "ench_overcharge_burn_scar",
-    "type": "enchantment",
-    "ench_effects": [ { "effect": "burn_scar", "intensity": 1 } ]
-  },
-  {
     "id": "overcharge_burn_scar",
     "type": "ARMOR",
     "name": { "str": "overcharge burn" },
@@ -593,5 +580,29 @@
     },
     "//": "ITEM_DAMAGE_BIO is not implemented yet, so ITEM_DAMAGE_BASH instead",
     "bashing": 12
+  },
+  {
+    "id": "windrunning_aura",
+    "type": "ARMOR",
+    "name": "windrunning aura",
+    "description": "The wind at your back helping to ease your travel.",
+    "weight": "1g",
+    "volume": "1ml",
+    "material": "concentrated_mana",
+    "price": "3646 cent",
+    "symbol": "o",
+    "color": "light_gray",
+    "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "POWERARMOR_COMPATIBLE"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_windrun" } ] }
   }
 ]
