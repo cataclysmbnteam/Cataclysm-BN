@@ -2979,7 +2979,7 @@ void monster::make_pet()
 {
     friendly = -1;
     g->critter_tracker->update_faction( *this );
-    add_effect( effect_pet, 1_turns, num_bp );
+    add_effect( effect_pet, 1_turns );
 }
 
 bool monster::is_pet() const

@@ -600,7 +600,7 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != num_bp ) {
+    if( bp ) {
         ret += string_format( " (%s)", body_part_name( bp ) );
     }
 

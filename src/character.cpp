@@ -4351,7 +4351,7 @@ void Character::item_encumb( char_encumbrance_data &vals, const item &new_item )
     std::map<bodypart_str_id, layer_level> highest_layer_so_far;
     const auto &all_bps = get_all_body_parts();
 
-    for( const bodypart_id &bp : all_bps ) { 
+    for( const bodypart_id &bp : all_bps ) {
         highest_layer_so_far[bp.id()] = PERSONAL_LAYER;
     }
 
@@ -8750,7 +8750,7 @@ void Character::apply_damage( Creature *source, item *source_weapon, item *sourc
         return;
     }
 
-    if( hurt == bodypart_id( "num_bp" ) ) {
+    if( hurt.id().is_null() ) {
         debugmsg( "Wacky body part hurt!" );
         hurt = bodypart_id( "torso" );
     }

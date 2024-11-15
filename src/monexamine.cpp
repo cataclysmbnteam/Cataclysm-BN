@@ -454,7 +454,7 @@ bool monexamine::mech_hack( monster &z )
         if( query_yn( _( "Swipe your %s into the %s's security port?" ), item::nname( card_type ),
                       z.get_name() ) ) {
             you.mod_moves( -100 );
-            z.add_effect( effect_pet, 1_turns, num_bp );
+            z.add_effect( effect_pet, 1_turns );
             z.friendly = -1;
             if( z.has_flag( MF_RIDEABLE_MECH ) ) {
                 add_msg( m_good, _( "The %s whirs into life and opens its restraints to accept a pilot." ),
@@ -513,7 +513,7 @@ bool monexamine::pay_bot( monster &z )
                 time_duration time_bought = time_duration::from_minutes( amount );
                 you.use_charges( itype_cash_card, amount * 10 );
                 z.add_effect( effect_pet, time_bought );
-                z.add_effect( effect_paid, time_bought, num_bp );
+                z.add_effect( effect_paid, time_bought );
                 z.friendly = -1;
                 popup( _( "Your friendship grows stronger!\n This %s will follow you for %s." ), z.get_name(),
                        to_string( z.get_effect_dur( effect_pet ) ) );
@@ -599,7 +599,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
             add_msg( _( "Never mind." ) );
             return;
         }
-        z.add_effect( effect_saddled, 1_turns, num_bp );
+        z.add_effect( effect_saddled, 1_turns );
         z.set_tack_item( loc->detach() );
     }
 }
@@ -669,7 +669,7 @@ void monexamine::attach_bag_to( monster &z )
     item &it = *loc;
     z.set_storage_item( it.detach( ) );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
-    z.add_effect( effect_has_bag, 1_turns, num_bp );
+    z.add_effect( effect_has_bag, 1_turns );
     // Update encumbrance in case we were wearing it
     you.flag_encumbrance();
     you.moves -= 200;
@@ -798,7 +798,7 @@ bool monexamine::add_armor( monster &z )
     z.set_armor_item( loc->detach() );
     add_msg( pgettext( "pet armor", "You put the %1$s on your %2$s." ), armor.display_name(),
              pet_name );
-    z.add_effect( effect_monster_armor, 1_turns, num_bp );
+    z.add_effect( effect_monster_armor, 1_turns );
     // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
     get_avatar().moves -= 200;
     return true;
@@ -1001,7 +1001,7 @@ void monexamine::milk_source( monster &source_mon )
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
-            source_mon.add_effect( effect_tied, 1_turns, num_bp );
+            source_mon.add_effect( effect_tied, 1_turns );
             you.activity->str_values.emplace_back( "temp_tie" );
         }
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
