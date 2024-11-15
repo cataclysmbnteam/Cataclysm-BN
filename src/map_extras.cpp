@@ -649,7 +649,7 @@ static bool mx_roadblock( map &m, const tripoint &abs_sub )
 
         line_furn( &m, f_sandbag_wall, point( 6, 10 ), point( 9, 10 ) );
         m.add_spawn( mon_turret_searchlight, 1, { 7, 11, abs_sub.z } );
-        m.ter_set( point( 8, 11 ), t_plut_generator );
+        //m.ter_set( point( 8, 11 ), t_plut_generator );
         line_furn( &m, f_sandbag_wall, point( 6, 12 ), point( 9, 12 ) );
 
         int num_bodies = dice( 1, 6 );
