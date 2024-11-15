@@ -904,8 +904,8 @@ item_reload_option select_ammo( const Character &who, item &base,
                     if( base.gun_skill() == skill_throw ) {
                         item &tmp = *item::spawn_temporary( item( ammo ) );
                         throw_amt += ranged::throw_damage( tmp,
-                                                         who.get_skill_level( skill_throw ),
-                                                         who.get_str() );
+                                                           who.get_skill_level( skill_throw ),
+                                                           who.get_str() );
                     }
                     float dam_amt = std::max( dam.total_damage(), throw_amt );
                     row += string_format( "| %-8d ", static_cast<int>( dam_amt ) );

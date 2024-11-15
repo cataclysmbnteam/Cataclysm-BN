@@ -2280,8 +2280,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         item &tmp = *item::spawn_temporary( item( curammo ) );
 
         thrown_du.amount += ranged::throw_damage( tmp,
-                                                get_avatar().get_skill_level( skill_throw ),
-                                                get_avatar().get_str() );
+                            get_avatar().get_skill_level( skill_throw ),
+                            get_avatar().get_str() );
     }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
@@ -7762,11 +7762,11 @@ int item::gun_range( bool with_ammo ) const
             ret = ammo_shape->get_range();
         } else {
             int ret_thrown = 0;
-    if( gun_skill() == skill_throw && ammo_data() ) {
-        const itype *curammo = ammo_data();
-        item &tmp = *item::spawn_temporary( item( curammo ) );
-        ret_thrown += get_avatar().throw_range( tmp );
-    }
+            if( gun_skill() == skill_throw && ammo_data() ) {
+                const itype *curammo = ammo_data();
+                item &tmp = *item::spawn_temporary( item( curammo ) );
+                ret_thrown += get_avatar().throw_range( tmp );
+            }
             ret += std::max( ammo_data()->ammo->range, ret_thrown );
         }
     }
