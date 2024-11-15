@@ -921,11 +921,12 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         // Slings use ammo damage or damage from throwing the ammo, whichever is higher
         if( gun.gun_skill() == skill_throw && !who.is_fake() && gun.ammo_data() ) {
             item &tmp = *item::spawn_temporary( item( gun.ammo_data() ) );
-            if( throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) > gun.ammo_data()->ammo->damage.damage_units.front().amount ) {
-            projectile.impact = gun.gun_damage( false );
-            auto &impact = projectile.impact;
-            impact.add_damage( DT_BASH,
-                               throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) );
+            if( throw_damage( tmp, who.get_skill_level( skill_throw ),
+                              who.get_str() ) > gun.ammo_data()->ammo->damage.damage_units.front().amount ) {
+                projectile.impact = gun.gun_damage( false );
+                auto &impact = projectile.impact;
+                impact.add_damage( DT_BASH,
+                                   throw_damage( tmp, who.get_skill_level( skill_throw ), who.get_str() ) );
             }
         }
         // Damage reduction from insufficient strength, if using a STR_DRAW weapon.
