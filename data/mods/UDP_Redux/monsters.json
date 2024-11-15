@@ -1,0 +1,46 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "monsters.png",
+        "tiles": [
+          {
+            "id": "mon_zombie_acidic",
+            "fg": [
+              { "weight": 10, "sprite": 0 },
+              { "weight": 10, "sprite": 1 },
+              { "weight": 10, "sprite": 2 },
+              { "weight": 10, "sprite": 3 },
+              { "weight": 10, "sprite": 4 },
+              { "weight": 10, "sprite": 5 },
+              { "weight": 10, "sprite": 6 },
+              { "weight": 10, "sprite": 7 },
+              { "weight": 10, "sprite": 8 }
+            ],
+            "bg": 16,
+            "animated": true
+          },
+          {
+            "id": "mon_boomer",
+            "fg": [
+              { "weight": 10, "sprite": 9 },
+              { "weight": 10, "sprite": 10 },
+              { "weight": 10, "sprite": 11 },
+              { "weight": 10, "sprite": 12 },
+              { "weight": 10, "sprite": 13 },
+              { "weight": 10, "sprite": 14 },
+              { "weight": 10, "sprite": 15 }
+            ],
+            "bg": 16,
+            "animated": true
+          },
+          { "id": "bg_shadow_normal", "fg": 16 }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]
