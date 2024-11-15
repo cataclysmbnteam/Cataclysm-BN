@@ -1093,7 +1093,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "electronics", 3 ] ],
     "time": "45 m",
-    "using": [ [ "advanced_electronics_low_voltage", 1 ] ],
+    "using": [ [ "advanced_electronics_high_voltage", 1 ] ],
     "byproducts": [
       { "item": "scrap", "count": [ 12, 16 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
@@ -1112,7 +1112,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "electronics", 4 ] ],
     "time": "55 m",
-    "using": [ [ "advanced_electronics_low_voltage", 1 ] ],
+    "using": [ [ "advanced_electronics_high_voltage", 1 ] ],
     "byproducts": [
       { "item": "scrap", "count": [ 12, 16 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
