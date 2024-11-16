@@ -1,0 +1,17 @@
+[
+  {
+    "type": "recipe",
+    "result": "brain_imp_energy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 6 ],
+    "difficulty": 6,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "rune_alchemist", -1 ] ] ],
+    "components": [ [ [ "coca_leaf", 150 ], [ "coke", 100 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  }
+]

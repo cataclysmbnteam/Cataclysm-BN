@@ -1,0 +1,30 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "brain_imp_energy",
+    "name": "Brain Implosion Energy",
+    "weight": "275 g",
+    "color": "magenta",
+    "addiction_type": "caffeine",
+    "fatigue_mod": 2400,
+    "stim": 100000,
+    "container": "can_drink",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 135,
+    "healthy": -100,
+    "addiction_potential": 42,
+    "calories": 200,
+    "description": "An impossibly caffeinated drink containg 10,000 grams of pure caffeine with the motto \"You can't overthink if your heart stops!\".  The motto is, at the very least, accurate.",
+    "price": "170 cent",
+    "price_postapoc": "50 cent",
+    "material": "junk",
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "vitamins": [ [ "vitC", 105 ] ],
+    "fun": 50,
+    "looks_like": "energy_drink"
+  }
+]
