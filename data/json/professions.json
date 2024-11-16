@@ -2133,7 +2133,7 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [ "jumpsuit", "socks", "smart_phone", "boots", "wristwatch" ],
+        "items": [ "jumpsuit", "socks", "gloves_rubber", "smart_phone", "boots", "wristwatch" ],
         "entries": [ { "item": "tool_belt", "contents-item": [ "voltmeter", "soldering_iron" ] }, { "group": "charged_flashlight" } ]
       },
       "male": [ "boxer_briefs" ],
