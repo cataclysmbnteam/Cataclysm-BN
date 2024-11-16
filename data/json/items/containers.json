@@ -1292,7 +1292,8 @@
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A child's balloon.  This could be used as a makeshift water container.",
-    "copy-from": "condom"
+    "copy-from": "condom",
+    "weight": "10 g"
   },
   {
     "id": "can_food_big",
