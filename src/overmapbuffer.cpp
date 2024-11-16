@@ -948,17 +948,17 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id,
     return om_loc.om->check_overmap_special_type( id, om_loc.local );
 }
 
-void overmapbuffer::add_unique_special(const overmap_special_id& id)
+void overmapbuffer::add_unique_special( const overmap_special_id &id )
 {
-    if (contains_unique_special(id)) {
-        debugmsg("Unique overmap special placed more than once: %s", id.str());
+    if( contains_unique_special( id ) ) {
+        debugmsg( "Unique overmap special placed more than once: %s", id.str() );
     }
-    placed_unique_specials.emplace(id);
+    placed_unique_specials.emplace( id );
 }
 
-bool overmapbuffer::contains_unique_special(const overmap_special_id& id) const
+bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) const
 {
-    return placed_unique_specials.find(id) != placed_unique_specials.end();
+    return placed_unique_specials.find( id ) != placed_unique_specials.end();
 }
 
 static omt_find_params assign_params(

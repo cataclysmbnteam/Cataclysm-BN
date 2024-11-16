@@ -560,19 +560,19 @@ class overmapbuffer
         /**
          * Adds the given globally unique overmap special to the list of placed specials.
          */
-        void add_unique_special(const overmap_special_id& id);
+        void add_unique_special( const overmap_special_id &id );
         /**
          * Returns true if the given globally unique overmap special has already been placed.
          */
-        bool contains_unique_special(const overmap_special_id& id) const;
+        bool contains_unique_special( const overmap_special_id &id ) const;
         /**
          * Writes the placed unique specials as a JSON value.
          */
-        void serialize_placed_unique_specials(JsonOut& json) const;
+        void serialize_placed_unique_specials( JsonOut &json ) const;
         /**
          * Reads placed unique specials from JSON and overwrites the global value.
          */
-        void deserialize_placed_unique_specials(JsonIn& jsin);
+        void deserialize_placed_unique_specials( JsonIn &jsin );
 
     private:
         /**

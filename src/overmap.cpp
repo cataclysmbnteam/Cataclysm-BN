@@ -5501,8 +5501,8 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
         return false;
     }
 
-    if (special.has_flag("GLOBALLY_UNIQUE") &&
-        overmap_buffer.contains_unique_special(special.id)) {
+    if( special.has_flag( "GLOBALLY_UNIQUE" ) &&
+        overmap_buffer.contains_unique_special( special.id ) ) {
         return false;
     }
 
@@ -5543,8 +5543,8 @@ std::vector<tripoint_om_omt> overmap::place_special(
         assert( can_place_special( special, p, dir, must_be_unexplored ) );
     }
 
-    if (special.has_flag("GLOBALLY_UNIQUE")) {
-        overmap_buffer.add_unique_special(special.id);
+    if( special.has_flag( "GLOBALLY_UNIQUE" ) ) {
+        overmap_buffer.add_unique_special( special.id );
     }
 
     const bool grid = special.has_flag( "ELECTRIC_GRID" );
@@ -5950,17 +5950,18 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         const float rate = is_true_center && special.has_flag( "ENDGAME" ) ? 1 :
                            zone_ratio[current];
 
-        const bool unique = iter.special_details->has_flag("UNIQUE");
-        const bool globally_unique = iter.special_details->has_flag("GLOBALLY_UNIQUE");
+        const bool unique = iter.special_details->has_flag( "UNIQUE" );
+        const bool globally_unique = iter.special_details->has_flag( "GLOBALLY_UNIQUE" );
 
         int amount_to_place;
         if( unique || globally_unique ) {
-            const overmap_special_id& id = iter.special_details->id;
-            const overmap_special_placement_constraints& constraints = iter.special_details->get_constraints();
+            const overmap_special_id &id = iter.special_details->id;
+            const overmap_special_placement_constraints &constraints = iter.special_details->get_constraints();
 
             int chance = roll_remainder( min * rate );
             //FINGERS CROSSED EMOGI
-            amount_to_place = x_in_y(min, max) && (!globally_unique || !overmap_buffer.contains_unique_special(id)) ? 1 : 0;
+            amount_to_place = x_in_y( min, max ) && ( !globally_unique ||
+                              !overmap_buffer.contains_unique_special( id ) ) ? 1 : 0;
         } else {
             // Number of instances normalized to terrain ratio
             float real_max = std::max( static_cast<float>( min ), max * rate );

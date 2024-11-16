@@ -1168,9 +1168,8 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( *faction_manager_ptr );
             } else if( name == "seed" ) {
                 jsin.read( seed );
-            }
-            else if (name == "placed_unique_specials") {
-                overmap_buffer.deserialize_placed_unique_specials(jsin);
+            } else if( name == "placed_unique_specials" ) {
+                overmap_buffer.deserialize_placed_unique_specials( jsin );
             } else if( name == "weather" ) {
                 JsonObject w = jsin.get_object();
                 w.read( "lightning", get_weather().lightning_active );
@@ -1206,8 +1205,8 @@ void game::serialize_master( std::ostream &fout )
         json.member( "active_missions" );
         mission::serialize_all( json );
 
-        json.member("placed_unique_specials");
-        overmap_buffer.serialize_placed_unique_specials(json);
+        json.member( "placed_unique_specials" );
+        overmap_buffer.serialize_placed_unique_specials( json );
 
         json.member( "factions", *faction_manager_ptr );
         json.member( "seed", seed );
@@ -1291,16 +1290,16 @@ void Creature_tracker::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void overmapbuffer::serialize_placed_unique_specials(JsonOut& json) const
+void overmapbuffer::serialize_placed_unique_specials( JsonOut &json ) const
 {
-    json.write_as_array(placed_unique_specials);
+    json.write_as_array( placed_unique_specials );
 }
 
-void overmapbuffer::deserialize_placed_unique_specials(JsonIn& jsin)
+void overmapbuffer::deserialize_placed_unique_specials( JsonIn &jsin )
 {
     placed_unique_specials.clear();
     jsin.start_array();
-    while (!jsin.end_array()) {
-        placed_unique_specials.emplace(jsin.get_string());
+    while( !jsin.end_array() ) {
+        placed_unique_specials.emplace( jsin.get_string() );
     }
 }
