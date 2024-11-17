@@ -2239,5 +2239,11 @@
     "id": "WINDMETER",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "HIDDEN",
+    "type": "json_flag",
+    "info": "You have marked this article to not display a sprite when worn.",
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
   }
 ]
