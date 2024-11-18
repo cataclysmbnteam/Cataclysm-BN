@@ -486,7 +486,7 @@
     "range": 6,
     "dispersion": 120,
     "count": 250,
-    "phase": "gas",
+    "phase": "liquid",
     "ammo_type": "c_hydrogen",
     "fuel": {
       "//": "The solid hydrogen canisters have roughly 4 times the density.",
