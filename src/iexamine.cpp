@@ -5168,8 +5168,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             int broken_limbs_count = 0;
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &part = player::hp_to_bp( static_cast<hp_part>( i ) ).id();
+            for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
                 const bool broken = patient.is_limb_broken( part );
                 if( !broken ) {
                     continue;
@@ -5241,8 +5240,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_str_id &bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+            for( const bodypart_id &bp : patient.get_all_body_parts( true ) ) {
+                const bodypart_str_id &bp_healed = bp.id();
                 if( patient.has_effect( effect_bleed, bp_healed ) ) {
                     patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,

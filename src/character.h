@@ -742,10 +742,8 @@ class Character : public Creature, public location_visitable<Character>
         /** Removes the appropriate costs (NOTE: will reapply mods & recalc sightlines in case of newly activated mutation). */
         void mutation_spend_resources( const trait_id &mut );
 
-        /** Converts a bodypart_str_id to an hp_part */
+        /** Converts a bodypart_str_id to its main part */
         static bodypart_str_id bp_to_hp( const bodypart_str_id &bp );
-        /** Converts an hp_part to a bodypart_str_id */
-        static const bodypart_str_id &hp_to_bp( hp_part hpart );
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
@@ -1835,11 +1833,6 @@ class Character : public Creature, public location_visitable<Character>
         void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
-        // adds total healing to the bodypart. this is only a counter.
-        void healed_bp( int bp, int amount );
-
-        // the amount healed per bodypart per day
-        std::array<int, num_hp_parts> healed_total;
 
         std::map<mutation_category_id, int> mutation_category_level;
 

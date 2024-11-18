@@ -870,7 +870,8 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return colorize( std::to_string( energy_cost( guy ) ), c_light_blue );
     }
     if( energy_source() == hp_energy ) {
-        auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / num_hp_parts );
+        auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() /
+                                std::max<size_t>( 1lu, guy.get_all_body_parts( true ).size() ) );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == stamina_energy ) {
