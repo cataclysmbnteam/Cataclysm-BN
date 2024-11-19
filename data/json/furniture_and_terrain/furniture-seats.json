@@ -37,7 +37,7 @@
     "bonus_fire_warmth_feet": 1000,
     "required_str": 7,
     "deconstruct": { "items": [ { "item": "2x4", "count": 10 }, { "item": "rag", "count": 35 }, { "item": "nail", "charges": 8 } ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -96,7 +96,7 @@
     "floor_bedding_warmth": -1500,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 4,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": 8 } ] },
     "bash": {
       "str_min": 6,
@@ -147,7 +147,7 @@
     "coverage": 30,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 3,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": 6 } ] },
     "max_volume": "875 L",
     "bash": {
@@ -174,7 +174,7 @@
     "required_str": 3,
     "deployed_item": "camp_chair",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "max_volume": "875 L",
     "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] },
     "bash": {
@@ -199,7 +199,7 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "max_volume": "750 L",
     "deconstruct": { "items": [ { "item": "log", "count": 1 } ] },
     "bash": {
@@ -224,7 +224,7 @@
     "floor_bedding_warmth": -1000,
     "bonus_fire_warmth_feet": 1000,
     "required_str": 5,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "SHORT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "SHORT", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "max_volume": "750 L",
     "deconstruct": {
       "items": [
@@ -291,7 +291,7 @@
     "required_str": 3,
     "deployed_item": "chair_folding",
     "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
     "max_volume": "750 L",
     "deconstruct": { "items": [ { "item": "chair_folding", "count": 1 } ] },
     "bash": {

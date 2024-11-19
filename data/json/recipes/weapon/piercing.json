@@ -935,6 +935,20 @@
   },
   {
     "type": "recipe",
+    "result": "knife_tooth",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 3 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "adhesive_proper", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "teeth_serrated", 2 ] ], [ [ "wood_structural_small", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "knife_stinger",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -957,9 +971,86 @@
   },
   {
     "type": "recipe",
+    "result": "knife_triffid",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 2 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [
+        [ "fabric_standard", 1, "LIST" ],
+        [ "felt_patch", 1 ],
+        [ "duct_tape", 50 ],
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ]
+      ],
+      [ [ "fighter_sting", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "spear_tooth",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 3 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "adhesive_proper", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "teeth_serrated", 2 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
+      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "spear_stinger",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 2 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "bee_sting", 1 ], [ "wasp_sting", 1 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
+      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "spear_triffid",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ [ "survival", 2 ] ],
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "fighter_sting", 1 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ],
+      [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "cestus_tooth",
     "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_BASHING",
+    "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "skills_required": [ "unarmed", 2 ],
     "difficulty": 4,

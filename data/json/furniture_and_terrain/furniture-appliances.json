@@ -2680,8 +2680,9 @@
     "copy-from": "f_olight_base",
     "name": "ceiling lamp (off)",
     "description": "A working lamp installed on the ceiling, this one is turned off.",
+    "extend": { "flags": [ "L_OFF" ] },
     "examine_action": "transform",
-    "transforms_into": "f_olight_nopower",
+    "transforms_into": "f_olight",
     "prompt": "Switch on the ceiling lamp.",
     "message": "You switched on the ceiling lamp."
   },
@@ -2693,6 +2694,7 @@
     "copy-from": "f_olight_base",
     "name": "ceiling lamp (on)",
     "description": "A working lamp installed on the ceiling, this one is turned on.",
+    "extend": { "flags": [ "L_ON" ] },
     "examine_action": "transform",
     "transforms_into": "f_olight_off",
     "prompt": "Switch off the ceiling lamp.",
@@ -2703,22 +2705,68 @@
       {
         "power": 3,
         "consume_every": "300 s",
-        "transform": { "id": "f_olight_nopower", "msg": "The ceiling lamp flickers and dies." }
+        "transform": { "id": "f_olight", "msg": "The ceiling lamp flickers and dies." }
       }
     ]
   },
   {
     "type": "furniture",
-    "id": "f_olight_nopower",
+    "id": "f_olight",
     "symbol": ".",
     "color": "light_gray",
     "copy-from": "f_olight_base",
     "name": "ceiling lamp (no power)",
     "description": "A working lamp installed on the ceiling, this one is turned on but it has no power.",
+    "extend": { "flags": [ "L_ON" ] },
     "examine_action": "transform",
     "transforms_into": "f_olight_off",
     "prompt": "Switch off the ceiling lamp.",
     "message": "You switched off the ceiling lamp.",
     "active": [ "charge_watcher", { "min_power": 5, "transform": { "id": "f_olight_on", "msg": "The ceiling lamp turns on." } } ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_light_switch",
+    "name": "light switch (off)",
+    "looks_like": "f_light_switch_off",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [ { "item": "cable", "charges": 2 }, { "item": "plastic_chunk", "count": 5 }, { "item": "scrap", "count": 1 } ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 1 ] },
+        { "item": "scrap", "charges": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 0, 4 ] }
+      ]
+    },
+    "description": "A light switch connected to your electrical grid, this one is turned off.",
+    "flags": [ "EASY_DECONSTRUCT", "L_OFF" ],
+    "examine_action": "toggle_lights",
+    "transforms_into": "f_light_switch_on",
+    "message": "You switched on the lights."
+  },
+  {
+    "type": "furniture",
+    "id": "f_light_switch_on",
+    "name": "light switch (on)",
+    "looks_like": "f_light_switch_on",
+    "symbol": "{",
+    "color": "yellow",
+    "copy-from": "f_light_switch",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "description": "A light switch connected to your electrical grid, this one is turned on.",
+    "flags": [ "EASY_DECONSTRUCT", "L_ON" ],
+    "examine_action": "toggle_lights",
+    "transforms_into": "f_light_switch",
+    "message": "You switched off the lights."
   }
 ]

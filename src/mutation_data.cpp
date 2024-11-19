@@ -368,6 +368,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, 1.0f );
     optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, 1.0f );
     optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, 1.0f );
+    optional( jo, was_loaded, "falling_damage_multiplier", falling_damage_multiplier, 1.0f );
     optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, 1.0f );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );

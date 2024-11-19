@@ -296,6 +296,7 @@ const flag_id flag_SLOWS_THIRST( "SLOWS_THIRST" );
 const flag_id flag_SLOW_WIELD( "SLOW_WIELD" );
 const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );
+const flag_id flag_SNIPPET_NEEDS_LITERACY( "SNIPPET_NEEDS_LITERACY" );
 const flag_id flag_SOLARPACK( "SOLARPACK" );
 const flag_id flag_SOLARPACK_ON( "SOLARPACK_ON" );
 const flag_id flag_SPAWN_FRIENDLY( "SPAWN_FRIENDLY" );

@@ -64,8 +64,10 @@ static const ammo_effect_str_id ammo_effect_NO_DAMAGE( "NO_DAMAGE" );
 static const ammo_effect_str_id ammo_effect_NO_DAMAGE_SCALING( "NO_DAMAGE_SCALING" );
 static const ammo_effect_str_id ammo_effect_NOGIB( "NOGIB" );
 static const ammo_effect_str_id ammo_effect_PARALYZEPOISON( "PARALYZEPOISON" );
+static const ammo_effect_str_id ammo_effect_POISON( "POISON" );
 static const ammo_effect_str_id ammo_effect_TANGLE( "TANGLE" );
 
+static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
@@ -74,6 +76,7 @@ static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
+static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sap( "sap" );
@@ -204,6 +207,9 @@ void Creature::reset_bonuses()
     dodge_bonus = 0;
     block_bonus = 0;
     hit_bonus = 0;
+    bash_bonus = 0;
+    cut_bonus = 0;
+    size_bonus = 0;
 }
 
 void Creature::process_turn()
@@ -914,6 +920,20 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     if( paralysis_strength > 0 ) {
         add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
         add_effect( effect_paralyzepoison, 5_minutes );
+    }
+
+    const int venom_strength = proj.has_effect( ammo_effect_POISON )
+                               ? total_damage - env_resist : 0;
+
+    if( venom_strength > 0 ) {
+        if( targetted_crit_allowed && goodhit < accuracy_critical ) {
+            add_msg_if_player( m_bad, _( "You feel venom flood your body, wracking you with pain…" ) );
+            add_effect( effect_poison, 5_minutes );
+            add_effect( effect_badpoison, 5_minutes );
+        } else {
+            add_msg_if_player( m_bad, _( "You're envenomed!" ) );
+            add_effect( effect_poison, 5_minutes );
+        }
     }
 
     const int stun_strength = get_stun_srength( proj, get_size() ) - get_env_resist( bp_hit );
@@ -1876,6 +1896,14 @@ float Creature::get_hit_bonus() const
 {
     return hit_bonus; //base is 0
 }
+int Creature::get_bash_bonus() const
+{
+    return bash_bonus;
+}
+int Creature::get_cut_bonus() const
+{
+    return cut_bonus;
+}
 
 void Creature::mod_stat( const std::string &stat, float modifier )
 {
@@ -1887,6 +1915,10 @@ void Creature::mod_stat( const std::string &stat, float modifier )
         mod_block_bonus( modifier );
     } else if( stat == "hit" ) {
         mod_hit_bonus( modifier );
+    } else if( stat == "bash" ) {
+        mod_bash_bonus( modifier );
+    } else if( stat == "cut" ) {
+        mod_cut_bonus( modifier );
     } else if( stat == "pain" ) {
         mod_pain( modifier );
     } else if( stat == "moves" ) {
@@ -1962,6 +1994,18 @@ void Creature::mod_block_bonus( int nblock )
 void Creature::mod_hit_bonus( float nhit )
 {
     hit_bonus += nhit;
+}
+void Creature::mod_bash_bonus( int nbash )
+{
+    bash_bonus += nbash;
+}
+void Creature::mod_cut_bonus( int ncut )
+{
+    cut_bonus += ncut;
+}
+void Creature::mod_size_bonus( int nsize )
+{
+    size_bonus += nsize;
 }
 
 units::mass Creature::weight_capacity() const

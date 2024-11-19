@@ -281,10 +281,11 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 8,
-    "description": "You have a pair of large, veiny wings.  They don't appear to be made for this atmosphere but they grant a powerful buffeting attack.",
+    "description": "You have a pair of large, veiny wings.  They don't appear to be made for this atmosphere but they grant a powerful buffeting attack, and reduce falling damage.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "MIGO" ],
+    "falling_damage_multiplier": 0.75,
     "attacks": {
       "attack_text_u": "You buffet %s with your wings",
       "attack_text_npc": "%1$s buffets %2$s with their wings",

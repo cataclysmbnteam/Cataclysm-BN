@@ -58,7 +58,15 @@
     "apply_message": "You are filled with energy that improves everything you do!",
     "remove_message": "Your energy fades.",
     "rating": "good",
-    "base_mods": { "per_mod": [ 2 ], "dex_mod": [ 2 ], "str_mod": [ 2, 2 ], "speed_mod": [ 20 ] }
+    "base_mods": {
+      "per_mod": [ 2 ],
+      "dex_mod": [ 2 ],
+      "str_mod": [ 2, 2 ],
+      "speed_mod": [ 20 ],
+      "hit_mod": [ 2 ],
+      "dodge_mod": [ 2 ],
+      "bash_mod": [ 2 ]
+    }
   },
   {
     "type": "effect_type",
@@ -257,7 +265,23 @@
     "rating": "bad",
     "max_intensity": 20,
     "int_dur_factor": "30 s",
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -0.17 ], "speed_mod": [ -3 ] },
-    "scaling_mods": { "str_mod": [ -0.07 ], "dex_mod": [ -0.17 ], "speed_mod": [ -3 ] }
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -0.17 ],
+      "speed_mod": [ -3 ],
+      "bash_mod": [ -1 ],
+      "cut_mod": [ -1 ],
+      "hit_mod": [ -0.17 ],
+      "dodge_mod": [ -0.17 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -0.07 ],
+      "dex_mod": [ -0.17 ],
+      "speed_mod": [ -3 ],
+      "bash_mod": [ -0.07 ],
+      "cut_mod": [ -0.07 ],
+      "hit_mod": [ -0.17 ],
+      "dodge_mod": [ -0.17 ]
+    }
   }
 ]

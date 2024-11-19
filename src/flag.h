@@ -300,6 +300,7 @@ extern const flag_id flag_SLOWS_THIRST;
 extern const flag_id flag_SLOW_WIELD;
 extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
+extern const flag_id flag_SNIPPET_NEEDS_LITERACY;
 extern const flag_id flag_SOLARPACK;
 extern const flag_id flag_SOLARPACK_ON;
 extern const flag_id flag_SPAWN_FRIENDLY;

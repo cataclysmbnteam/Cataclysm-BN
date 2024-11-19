@@ -350,7 +350,7 @@
     "max_intensity": 10,
     "int_add_val": 2,
     "max_duration": "10 m",
-    "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
+    "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ], "hit_mod": [ -2 ], "dodge_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
     "show_in_info": true
   },
@@ -468,9 +468,14 @@
       "dex_mod": [ -1, -1 ],
       "str_mod": [ -2, 0 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 150, 900 ],
+      "pain_chance": [ 30, 180 ],
+      "pain_max_val": [ 20 ],
       "hurt_min": [ 1 ],
-      "hurt_chance": [ 450, 2700 ]
+      "hurt_chance": [ 90, 540 ],
+      "hit_mod": [ -1, -1 ],
+      "dodge_mod": [ -1, -1 ],
+      "bash_mod": [ -2, 0 ],
+      "cut_mod": [ -2, 0 ]
     },
     "show_in_info": true,
     "blood_analysis_description": "Poison"
@@ -494,10 +499,15 @@
       "str_mod": [ -3, -1 ],
       "speed_mod": [ -10 ],
       "pain_min": [ 2 ],
-      "pain_chance": [ 100, 500 ],
+      "pain_chance": [ 20, 100 ],
+      "pain_max_val": [ 40 ],
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
-      "hurt_chance": [ 300, 1800 ]
+      "hurt_chance": [ 60, 360 ],
+      "hit_mod": [ -2 ],
+      "dodge_mod": [ -2 ],
+      "bash_mod": [ -3, -1 ],
+      "cut_mod": [ -3, -1 ]
     },
     "show_in_info": true,
     "blood_analysis_description": "Poison"
@@ -530,7 +540,9 @@
       "hurt_chance": [ 13, 100 ],
       "hurt_tick": [ 30 ]
     },
-    "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
+    "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] },
+    "show_in_info": true,
+    "blood_analysis_description": "Cytotoxic Venom"
   },
   {
     "id": "venom_weaken",
@@ -556,15 +568,25 @@
       "stamina_chance": [ 4.5, 10 ],
       "speed_mod": [ -10, 0 ],
       "vomit_chance": [ 15, 150 ],
-      "vomit_tick": [ 1200 ]
+      "vomit_tick": [ 1200 ],
+      "bash_mod": [ -2, 0 ],
+      "cut_mod": [ -2, 0 ],
+      "hit_mod": [ -2, 0 ],
+      "dodge_mod": [ -2, 0 ]
     },
     "scaling_mods": {
       "str_mod": [ -0.05, -0.04 ],
       "dex_mod": [ -0.05, -0.04 ],
       "stamina_min": [ -0.351, -0.151 ],
       "stamina_chance": [ -0.021, -0.051 ],
-      "speed_mod": [ -0.31, -0.21 ]
-    }
+      "speed_mod": [ -0.31, -0.21 ],
+      "bash_mod": [ -0.05, -0.04 ],
+      "cut_mod": [ -0.05, -0.04 ],
+      "hit_mod": [ -0.05, -0.04 ],
+      "dodge_mod": [ -0.05, -0.04 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Neurotoxic Poison"
   },
   {
     "type": "effect_type",
@@ -607,7 +629,11 @@
       "hurt_min": [ 2 ],
       "hurt_chance": [ 450, 2700 ],
       "speed_mod": [ -10 ],
-      "cough_chance": [ 10 ]
+      "cough_chance": [ 10 ],
+      "hit_mod": [ -1, -1 ],
+      "dodge_mod": [ -1, -1 ],
+      "bash_mod": [ -2, 0 ],
+      "cut_mod": [ -2, 0 ]
     },
     "show_in_info": true,
     "blood_analysis_description": "Unknown Organic Toxin"
@@ -646,8 +672,8 @@
     "resist_effects": [ "antitoxin" ],
     "int_add_val": 1,
     "int_decay_tick": 600,
-    "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
-    "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
+    "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ], "hit_mod": [ -0.34, -0.17 ], "dodge_mod": [ -0.34, -0.17 ] },
+    "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ], "hit_mod": [ -0.34, -0.17 ], "dodge_mod": [ -0.34, -0.17 ] },
     "show_in_info": true,
     "blood_analysis_description": "Paralyzing Poison"
   },
@@ -747,7 +773,15 @@
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
     "max_duration": "10 m",
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "cough_chance": [ 10 ],
+      "hit_mod": [ -1 ],
+      "dodge_mod": [ -1 ],
+      "bash_mod": [ -1 ],
+      "cut_mod": [ -1 ]
+    },
     "show_in_info": true
   },
   {
@@ -760,7 +794,17 @@
     "miss_messages": [ [ "Your eyes burn from the tear gas.", 2 ] ],
     "harmful_cough": true,
     "max_duration": "30 m",
-    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
+    "base_mods": {
+      "str_mod": [ -2 ],
+      "dex_mod": [ -2 ],
+      "per_mod": [ -5 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 5 ],
+      "hit_mod": [ -2 ],
+      "dodge_mod": [ -2 ],
+      "bash_mod": [ -2 ],
+      "cut_mod": [ -2 ]
+    },
     "show_in_info": true
   },
   {
@@ -1112,7 +1156,7 @@
     "max_intensity": 3,
     "int_decay_tick": 120,
     "int_add_val": 1,
-    "base_mods": { "str_mod": [ -1 ], "per_mod": [ -1 ] },
+    "base_mods": { "str_mod": [ -1 ], "per_mod": [ -1 ], "bash_mod": [ -1 ], "cut_mod": [ -1 ] },
     "show_in_info": true
   },
   {
@@ -1123,7 +1167,7 @@
     "apply_message": "You're covered in thick goo!",
     "rating": "bad",
     "miss_messages": [ [ "This goo makes you slip", 2 ] ],
-    "base_mods": { "dex_mod": [ -2 ], "speed_mod": [ -25 ], "vomit_chance": [ 2100 ] },
+    "base_mods": { "dex_mod": [ -2 ], "speed_mod": [ -25 ], "vomit_chance": [ 2100 ], "hit_mod": [ -2 ], "dodge_mod": [ -2 ] },
     "show_in_info": true
   },
   {
@@ -1777,7 +1821,7 @@
     "rating": "bad",
     "max_duration": "2 s",
     "dur_add_perc": 20,
-    "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ] },
+    "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ], "hit_mod": [ -100 ], "dodge_mod": [ -100 ] },
     "show_in_info": true
   },
   {
@@ -2106,7 +2150,7 @@
   {
     "type": "effect_type",
     "id": "grown_of_fuse",
-    "name": [ "Grown of Fusion" ],
+    "name": [ "Fused" ],
     "desc": [ "AI effect to increase stats after fusing with another critter. 1 stack means one absorbed max_hp." ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
@@ -2121,6 +2165,7 @@
       "bash_mod": [ 0.08333 ],
       "size_mod": [ 0.00625 ]
     },
+    "show_in_info": true,
     "int_decay_step": 0
   },
   {
@@ -2149,7 +2194,11 @@
       "int_mod": [ -0.75 ],
       "speed_mod": [ -10 ],
       "vomit_chance": [ 10 ],
-      "cough_chance": [ 501 ]
+      "cough_chance": [ 501 ],
+      "hit_mod": [ -0.25 ],
+      "dodge_mod": [ -0.25 ],
+      "bash_mod": [ -0.25 ],
+      "cut_mod": [ -0.25 ]
     },
     "show_in_info": true
   },

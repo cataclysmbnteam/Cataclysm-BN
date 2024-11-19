@@ -899,7 +899,7 @@ bool Character::eat( item &food, bool force )
     if( food.poison > 0 && !has_trait( trait_POISRESIST ) &&
         !has_trait( trait_EATDEAD ) ) {
         if( food.poison >= rng( 2, 4 ) ) {
-            add_effect( effect_poison, food.poison * 10_minutes );
+            add_effect( effect_poison, food.poison * 1_minutes );
         }
 
         add_effect( effect_foodpoison, food.poison * 30_minutes );

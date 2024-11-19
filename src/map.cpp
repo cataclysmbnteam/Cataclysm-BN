@@ -1631,6 +1631,60 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     return val;
 }
 
+
+uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
+                                      const std::map<tripoint, furn_id> &override ) const
+{
+    const level_cache &ch = access_cache( p.z );
+    uint8_t val = 0;
+    std::function<bool( const tripoint & )> is_memorized;
+    avatar &player_character = get_avatar();
+#ifdef TILES
+    if( use_tiles ) {
+        is_memorized = [&]( const tripoint & q ) {
+            return !player_character.get_memorized_tile( getabs( q ) ).tile.empty();
+        };
+    } else {
+#endif
+        is_memorized = [&]( const tripoint & q ) {
+            return player_character.get_memorized_symbol( getabs( q ) );
+        };
+#ifdef TILES
+    }
+#endif
+
+    const bool overridden = override.find( p ) != override.end();
+    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint pt = p + offsets[i];
+        if( !inbounds( pt ) ) {
+            continue;
+        }
+        const auto neighbour_override = override.find( pt );
+        const bool neighbour_overridden = neighbour_override != override.end();
+        // if there's some non-memory terrain to show at the neighboring tile
+        const bool may_connect = neighbour_overridden ||
+                                 get_visibility( ch.visibility_cache[pt.x][pt.y],
+                                         get_visibility_variables_cache() ) ==
+                                 visibility_type::VIS_CLEAR ||
+                                 // or if an actual center tile is transparent or
+                                 // next to a memorized tile
+                                 ( !overridden && ( is_transparent || is_memorized( pt ) ) );
+        if( may_connect ) {
+            const furn_t &neighbour_furn = neighbour_overridden ?
+                                           neighbour_override->second.obj() : furn( pt ).obj();
+            if( neighbour_furn.connects_to( connect_group ) ) {
+                val += 1 << i;
+            }
+        }
+    }
+
+    return val;
+}
+
+
 /*
  * Get the results of harvesting this tile's furniture or terrain
  */
@@ -2997,13 +3051,14 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             if( p != t && ( has_flag( TFLAG_SUPPORTS_ROOF, t ) && has_flag( TFLAG_COLLAPSES, t ) ) ) {
                 collapse_at( t, silent );
             }
-            // this tile used to support a roof, now it doesn't, which means there is only
-            // open air above us
-            if( zlevels ) {
-                ter_set( tz, t_open_air );
-                furn_set( tz, f_null );
-                propagate_suspension_check( tz );
-            }
+        }
+        // this tile used to support a roof, now it doesn't, which means there is only
+        // open air above us
+        if( zlevels ) {
+            const tripoint tabove( p.xy(), p.z + 1 );
+            ter_set( tabove, t_open_air );
+            furn_set( tabove, f_null );
+            propagate_suspension_check( tabove );
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
@@ -8973,6 +9028,27 @@ std::vector<item *> map::get_active_items_in_radius( const tripoint &center, int
 
     return result;
 }
+
+std::vector<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
+        const std::string &flag )
+{
+    // Some stupid code to get to the corner
+    const point omt_diff = ( ms_to_omt_copy( getabs( point( ( p.x + SEEX ),
+                             ( p.y + SEEY ) ) ) ) ) - ( ms_to_omt_copy( getabs( p.xy() ) ) );
+    const point omt_p = omt_to_ms_copy( ( ms_to_omt_copy( p.xy() ) ) ) ;
+    const tripoint omt_o = tripoint( omt_p.x + ( 1 - omt_diff.x ) * SEEX,
+                                     omt_p.y + ( 1 - omt_diff.y ) * SEEY,
+                                     p.z );
+
+    std::vector<tripoint> furn_locs;
+    for( const auto &furn_loc : points_in_rectangle( omt_o,
+            tripoint( omt_o.x + 2 * SEEX - 1, omt_o.y + 2 * SEEY - 1, p.z ) ) ) {
+        if( has_flag_furn( flag, furn_loc ) ) {
+            furn_locs.push_back( furn_loc );
+        }
+    }
+    return furn_locs;
+};
 
 std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center,
         size_t radius,

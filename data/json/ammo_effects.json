@@ -375,6 +375,11 @@
     "//": "Origin is a fake critter, replace it with null instead of passing a pointer to it."
   },
   {
+    "id": "POISON",
+    "type": "ammo_effect",
+    "//": "Applies poison to hit critter, worse poison on a crit."
+  },
+  {
     "id": "PARALYZEPOISON",
     "type": "ammo_effect",
     "//": "Applies paralyzing poison to hit critter."

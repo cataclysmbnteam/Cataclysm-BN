@@ -187,7 +187,6 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -855,6 +854,19 @@ void iexamine::toilet( player &p, const tripoint &examp )
     }
 }
 
+/** Toggle the lights in a overmap terrain*/
+void iexamine::toggle_lights( player &/*p*/, const tripoint &examp )
+{
+    map &here = get_map();
+    const auto flag = here.has_flag_furn( "L_OFF", examp ) ? "L_OFF" : "L_ON";
+
+    for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag ) ) {
+        here.furn_set( light_loc, here.get_furn_transforms_into( light_loc ) );
+    };
+
+    add_msg( _( here.furn( examp ).obj().message ) );
+}
+
 /**
  * Open or close gate.
  */
@@ -1060,7 +1072,8 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) && p.has_trait( trait_PARKOUR ) ) {
+    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) &&
+        p.mutation_value( "movecost_obstacle_modifier" ) <= 0.5f ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
     } else if( here.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
@@ -1074,7 +1087,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
                !p.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
-    } else if( p.has_trait( trait_PARKOUR ) ) {
+    } else if( p.mutation_value( "movecost_obstacle_modifier" ) <= 0.5f ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         p.moves -= 100;
     } else {
@@ -5155,8 +5168,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             int broken_limbs_count = 0;
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &part = player::hp_to_bp( static_cast<hp_part>( i ) ).id();
+            for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
                 const bool broken = patient.is_limb_broken( part );
                 if( !broken ) {
                     continue;
@@ -5228,8 +5240,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_str_id &bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+            for( const bodypart_id &bp : patient.get_all_body_parts( true ) ) {
+                const bodypart_str_id &bp_healed = bp.id();
                 if( patient.has_effect( effect_bleed, bp_healed ) ) {
                     patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
@@ -6326,6 +6338,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "vending", &iexamine::vending },
             { "toilet", &iexamine::toilet },
             { "elevator", &iexamine::elevator },
+            { "toggle_lights", &iexamine::toggle_lights},
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader", &iexamine::cardreader },
             { "cardreader_robofac", &iexamine::cardreader_robofac },
@@ -6417,8 +6430,7 @@ void iexamine::practice_survival_while_foraging( player *p )
 {
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = p->int_cur / 2 + 1;
-    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
+    const int max_exp = 2 * max_forage_skill;
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng( 1, max_exp ), max_forage_skill );
 }

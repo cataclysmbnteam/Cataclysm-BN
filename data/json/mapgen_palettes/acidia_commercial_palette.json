@@ -40,7 +40,8 @@
       "s": "f_shower",
       "t": "f_table",
       "u": "f_cupboard",
-      "x": "f_exercise"
+      "x": "f_exercise",
+      "à": "f_surgical_laser"
     },
     "terrain": {
       " ": "t_linoleum_white",
@@ -142,6 +143,7 @@
         "t_window_open"
       ],
       "x": "t_linoleum_white",
+      "à": "t_linoleum_white",
       "y": "t_sai_box",
       "z": "t_sewage",
       "{": "t_ladder_down",

@@ -330,7 +330,7 @@
     "copy-from": "tshirt",
     "type": "ARMOR",
     "name": { "str": "Linux t-shirt" },
-    "description": "A t-shirt with a picture of the Tux mascot on it.  Underneath it says \"You wouldn't buy a car with the hood welded shut.\"",
+    "description": "A t-shirt with a Linux logo on it and a pithy slogan of some sort.",
     "price": "20 USD",
     "price_postapoc": "50 cent",
     "color": "dark_gray",
@@ -368,7 +368,7 @@
         "text": "A t-shirt with the Debian logo on it, underneath it says \"The Universal Operating System\""
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SNIPPET_NEEDS_LITERACY" ]
   },
   {
     "id": "longshirt",
@@ -608,6 +608,7 @@
     "repairs_like": "tshirt",
     "copy-from": "tshirt",
     "name": { "str": "t-shirt" },
+    "description": "A short-sleeved cotton shirt.  It's got some text printed on it.",
     "type": "ARMOR",
     "color": "white",
     "snippet_category": [
@@ -615,7 +616,8 @@
         "id": "allyourbase",
         "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
       }
-    ]
+    ],
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "id": "tshirt_tour",

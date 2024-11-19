@@ -554,5 +554,19 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "leather", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mask_dust",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "paper", 10 ] ], [ [ "string_6", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "whistle",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ], [ "string_6", 1 ] ] ]
   }
 ]
