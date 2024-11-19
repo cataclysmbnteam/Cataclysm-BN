@@ -48,7 +48,6 @@
       "sloc_convention_center_rooftop"
     ],
     "start_name": "In Large Building",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
