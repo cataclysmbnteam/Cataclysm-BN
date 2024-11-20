@@ -896,7 +896,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_remove_plut_generator",
+    "id": "constr_remove_grid_plut_generator",
     "//": "Removes a Plut Gen from grid.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ], [ "electronics", 6 ] ],
