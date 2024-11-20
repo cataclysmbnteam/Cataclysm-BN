@@ -89,6 +89,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
+static const flag_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
@@ -562,7 +563,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     cached_crafting_inventory += worn;
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
-        if( ( !bio_data.activated || bio.powered ) &&
+        if( ( !bio_data.has_flag( flag_BIONIC_TOGGLED ) || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
             cached_crafting_inventory += *item::spawn_temporary( bio.info().fake_item,
                                          calendar::turn, units::to_kilojoule( get_power_level() ) );

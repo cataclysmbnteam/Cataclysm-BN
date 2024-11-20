@@ -203,6 +203,7 @@ static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_toolset( "toolset" );
+static const itype_id itype_voltmeter_bionic( "voltmeter_bionic" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_power_storage( "bio_power_storage" );
@@ -10044,6 +10045,10 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
 {
     std::vector<detached_ptr<item>> res;
     if( qty <= 0 ) {
+        return res;
+
+    } else if( what == itype_voltmeter_bionic ) {
+        mod_power_level( units::from_kilojoule( -qty ) );
         return res;
 
     } else if( what == itype_toolset ) {
