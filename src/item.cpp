@@ -7827,6 +7827,9 @@ bool item::energy_sufficient( const Character &ch, units::energy p_needed ) cons
     if( p_needed == -1_J ) {
         p_needed = energy_required();
     }
+    if( p_needed == 0_J ) {
+        return true;
+    }
     return energy_remaining() >= p_needed;
 }
 
@@ -8548,6 +8551,9 @@ bool item::units_sufficient( const Character &ch, int qty ) const
 {
     if( qty < 0 ) {
         qty = count_by_charges() ? 1 : ammo_required();
+    }
+    if( qty == 0 ) {
+        return true;
     }
 
     return units_remaining( ch, qty ) == qty;
