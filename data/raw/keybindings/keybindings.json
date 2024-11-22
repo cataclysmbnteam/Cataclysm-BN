@@ -478,7 +478,7 @@
     "id": "TOGGLE_CLOTH",
     "category": "SORT_ARMOR",
     "name": "Toggle armor visibility on character sprite",
-    "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "H" } ]
   },
   {
     "type": "keybinding",
