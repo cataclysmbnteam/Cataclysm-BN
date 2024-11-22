@@ -577,7 +577,7 @@ void show_armor_layers_ui( Character &who )
         const auto name = bp != body_part_appendix ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", name );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                          _( "[<color_yellow>%s</color>] Hide sprite.  "
+                         _( "[<color_yellow>%s</color>] Hide sprite.  "
                             "[<color_yellow>%s</color>] Change side.  "
                             "Press [<color_yellow>%s</color>] for help.  "
                             "Press [<color_yellow>%s</color>] to change keybindings." ),
@@ -619,7 +619,7 @@ void show_armor_layers_ui( Character &who )
                             penalties.color_for_stacking_badness(), worn_armor_name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
                          format_volume( ( *access_tmp_worn( itemindex ) )->get_storage() ) );
-            if( (*access_tmp_worn(itemindex))->has_flag( json_flag_HIDDEN ) ) {
+            if( ( *access_tmp_worn( itemindex ) )->has_flag( json_flag_HIDDEN ) ) {
                 //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
                 wprintz( w_sort_left, c_cyan, _( " H" ) );
             }
@@ -850,10 +850,10 @@ void show_armor_layers_ui( Character &who )
                 }
             }
         } else if( action == "TOGGLE_CLOTH" ) {
-            if( !(*access_tmp_worn(leftListIndex))->has_flag( json_flag_HIDDEN ) ) {
-                (*access_tmp_worn(leftListIndex))->set_flag( json_flag_HIDDEN );
+            if( !( *access_tmp_worn( leftListIndex ) )->has_flag( json_flag_HIDDEN ) ) {
+                ( *access_tmp_worn( leftListIndex ) )->set_flag( json_flag_HIDDEN );
             } else {
-                (*access_tmp_worn(leftListIndex))->unset_flag( json_flag_HIDDEN );
+                ( *access_tmp_worn( leftListIndex ) )->unset_flag( json_flag_HIDDEN );
             }
         } else if( action == "SORT_ARMOR" ) {
             std::stable_sort( who.worn.begin(),
