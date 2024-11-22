@@ -33,6 +33,7 @@
     "jsr:@std/toml@^1.0.1": "1.0.2",
     "jsr:@std/yaml@^1.0.5": "1.0.5",
     "jsr:@valibot/valibot@*": "0.42.1",
+    "npm:dprint@*": "0.47.5",
     "npm:ts-pattern@5.0.5": "5.0.5",
     "npm:type-fest@*": "4.27.0"
   },
@@ -154,6 +155,43 @@
     }
   },
   "npm": {
+    "@dprint/darwin-arm64@0.47.5": {
+      "integrity": "sha512-aVa3F//dkvEeNA7DCSlVcLxB0CV6zXpfbJZ/xsd+xgbayCXFuFr7qt0M6T4WP3gkQn5D7Zu8/pbXfRXQXo9qlQ=="
+    },
+    "@dprint/darwin-x64@0.47.5": {
+      "integrity": "sha512-84lmSLM/idIQ4UBkBHU1chP0WTldRjzLOEN22/XbdB1JGOIVN1pJIIU0lsmVWXaNI4SvGfty+thhGn73SSlQwA=="
+    },
+    "@dprint/linux-arm64-glibc@0.47.5": {
+      "integrity": "sha512-Zk7Ut9Trgl2ssGWx0u3YegnRQFXivKaK1fPEimg/uMwdaLtWFGvNs6DACAJk34d883zmDkTQvllqY1kc78CeBg=="
+    },
+    "@dprint/linux-arm64-musl@0.47.5": {
+      "integrity": "sha512-KmCu1yX5+/2MbT9n0iAgSK1gc6sQBcDayq8QRO7TRSs+gTDAZ/yQXHkhLdlk5fWsTR1mDQPVRG+2nAjHDhk8EA=="
+    },
+    "@dprint/linux-x64-glibc@0.47.5": {
+      "integrity": "sha512-oBwENMikvcM+eT6JdliMIM+TOiV4VuBJGK+AN1sTOW45VeiYvmzGPOQwCxVeFq4MnZkMfrycC/PAY3C7Vcuh6w=="
+    },
+    "@dprint/linux-x64-musl@0.47.5": {
+      "integrity": "sha512-B1IGyaP0k25JDhqmR/UpvgyNtnclBoXV7ZNQbvygehBkTeC69afwzpUxjQ2pKj2F9bl1Rby//fhsAFOg60PzsA=="
+    },
+    "@dprint/win32-arm64@0.47.5": {
+      "integrity": "sha512-tKSPwGWsKc+QAdsx6UQav9AY8WXm+B5Mx23ujliJJMRss6Dnlmg17NjbAnSBSqXSrfqaMeQx6d4gujPpOS3F9A=="
+    },
+    "@dprint/win32-x64@0.47.5": {
+      "integrity": "sha512-ljbrGv5rDR00ziBFY6V+qLhtLHm2dsjgiFG9OU7kr3vHEj4eN31nwxU5W2mh0eMoRk7IbcJ5ahTJDLgoYdvfgw=="
+    },
+    "dprint@0.47.5": {
+      "integrity": "sha512-EAP3OLYZXiW66HKMlhu6Gu0o7mzBVTWyMyuAAgT7dBtMX+W+pPJmIwyRUnTRQNyyFO4S7bAaa21rzIgo97Bg9A==",
+      "dependencies": [
+        "@dprint/darwin-arm64",
+        "@dprint/darwin-x64",
+        "@dprint/linux-arm64-glibc",
+        "@dprint/linux-arm64-musl",
+        "@dprint/linux-x64-glibc",
+        "@dprint/linux-x64-musl",
+        "@dprint/win32-arm64",
+        "@dprint/win32-x64"
+      ]
+    },
     "ts-pattern@5.0.5": {
       "integrity": "sha512-tL0w8U/pgaacOmkb9fRlYzWEUDCfVjjv9dD4wHTgZ61MjhuMt46VNWTG747NqW6vRzoWIKABVhFSOJ82FvXrfA=="
     },
