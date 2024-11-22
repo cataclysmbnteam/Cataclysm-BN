@@ -614,14 +614,14 @@ void show_armor_layers_ui( Character &who )
             item_penalties const penalties =
                 get_item_penalties( access_tmp_worn( itemindex ), who, bp );
 
-            const int offset_x = ( itemindex == selected ) ? 3 : 2;
+            const int offset_x = ( itemindex == selected ) ? 4 : 3;
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
                          format_volume( ( *access_tmp_worn( itemindex ) )->get_storage() ) );
             if( ( *access_tmp_worn( itemindex ) )->has_flag( json_flag_HIDDEN ) ) {
                 //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
-                wprintz( w_sort_left, c_cyan, _( " H" ) );
+                mvwprintz( w_sort_left, point( offset_x - 1, drawindex + 1 ), c_cyan, _( "H" ) );
             }
         }
 
