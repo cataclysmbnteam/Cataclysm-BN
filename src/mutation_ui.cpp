@@ -616,6 +616,9 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                             // Describing mutations, not activating them!
                             examine_id = mut_id;
                             break;
+                        case mutation_menu_mode::hidding:
+                            who.my_mutations[mut_id].show_sprite = !who.my_mutations[mut_id].show_sprite;
+                            break;
                     }
                 }
             } else if( action == "REASSIGN" ) {
