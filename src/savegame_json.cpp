@@ -336,6 +336,7 @@ void char_trait_data::serialize( JsonOut &json ) const
     json.member( "key", key );
     json.member( "charge", charge );
     json.member( "powered", powered );
+    json.member( "show_sprite", show_sprite );
     json.end_object();
 }
 
@@ -346,6 +347,7 @@ void char_trait_data::deserialize( JsonIn &jsin )
     data.read( "key", key );
     data.read( "charge", charge );
     data.read( "powered", powered );
+    data.read( "show_sprite", show_sprite );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
