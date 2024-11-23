@@ -3681,6 +3681,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item * const &worn_item : worn ) {
+        if( worn_item->has_flag( flag_id( "HIDDEN" ) ) ) {
+            continue;
+        }
         rval.push_back( "worn_" + worn_item->typeId().str() );
     }
 
