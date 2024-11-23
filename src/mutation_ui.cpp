@@ -80,8 +80,8 @@ static void show_mutations_titlebar( const catacurses::window &window,
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == mutation_menu_mode::hidding ) {
-    desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
-            ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+                ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != mutation_menu_mode::reassigning ) {
         desc += shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
