@@ -39,7 +39,7 @@ enum class mutation_menu_mode {
     activating,
     examining,
     reassigning,
-    hidding,
+    hiding,
 };
 enum class mutation_tab_mode {
     active,
@@ -79,8 +79,8 @@ static void show_mutations_titlebar( const catacurses::window &window,
                           c_light_blue ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
-    if( menu_mode == mutation_menu_mode::hidding ) {
-        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
+    if( menu_mode == mutation_menu_mode::hiding ) {
+        desc += colorize( _( "Hiding" ), c_cyan ) + "  " + shortcut_desc( _( "%s to activate mutation, " ),
                 ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != mutation_menu_mode::reassigning ) {
@@ -451,7 +451,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                         // Describing mutations, not activating them!
                         examine_id = mut_id;
                         break;
-                    case mutation_menu_mode::hidding:
+                    case mutation_menu_mode::hiding:
                         who.my_mutations[*mut_id].show_sprite = !who.my_mutations[*mut_id].show_sprite;
                         break;
                 }
@@ -616,7 +616,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                             // Describing mutations, not activating them!
                             examine_id = mut_id;
                             break;
-                        case mutation_menu_mode::hidding:
+                        case mutation_menu_mode::hiding:
                             who.my_mutations[mut_id].show_sprite = !who.my_mutations[mut_id].show_sprite;
                             break;
                     }
@@ -630,7 +630,7 @@ detail::mutations_ui_result detail::show_mutations_ui_internal( Character &who )
                             mutation_menu_mode::examining : mutation_menu_mode::activating;
                 examine_id = std::nullopt;
             } else if( action == "TOGGLE_SPRITE" ) {
-                menu_mode = mutation_menu_mode::hidding;
+                menu_mode = mutation_menu_mode::hiding;
                 examine_id = std::nullopt;
             } else if( action == "QUIT" ) {
                 ret.cmd = mutations_ui_cmd::exit;
