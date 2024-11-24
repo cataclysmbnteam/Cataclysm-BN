@@ -4503,7 +4503,6 @@ void item::on_wear( Character &p )
         } else if( has_flag( flag_POWERARMOR_MOD ) ) {
             // for power armor mods, wear on side with least mods
             std::vector< std::pair< bodypart_str_id, int > > mod_parts;
-            bodypart_str_id bpid;
             int lhs = 0;
             int rhs = 0;
             const auto &all_bps = p.get_all_body_parts();
@@ -4514,7 +4513,7 @@ void item::on_wear( Character &p )
             }
             for( auto &elem : p.worn ) {
                 for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
-                    bodypart_str_id bp = mod_part.first;
+                    const bodypart_str_id &bp = mod_part.first;
                     if( elem->get_covered_body_parts().test( bp ) &&
                         elem->has_flag( flag_POWERARMOR_MOD ) ) {
                         if( elem->is_sided() && elem->get_side() == bp->part_side ) {
@@ -4526,10 +4525,10 @@ void item::on_wear( Character &p )
                 }
             }
             for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
-                bodypart_str_id bp = mod_part.first;
-                if( bpid->part_side == side::LEFT && mod_part.second > lhs ) {
+                const bodypart_str_id &bp = mod_part.first;
+                if( bp->part_side == side::LEFT && mod_part.second > lhs ) {
                     lhs = mod_part.second;
-                } else if( bpid->part_side == side::RIGHT && mod_part.second > rhs ) {
+                } else if( bp->part_side == side::RIGHT && mod_part.second > rhs ) {
                     rhs = mod_part.second;
                 }
             }

@@ -370,8 +370,7 @@ class monster : public Creature, public location_visitable<monster>
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, const time_duration &dur, const bodypart_str_id &bp,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, bool dummy = false,
-                         int intensity = 0, bool force = false, bool deferred = false );
+        void add_effect( const efftype_id &eff_id, const time_duration &dur );
         // Use the bodypart_str_id variant instead
         void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
                          int intensity = 0, bool force = false, bool deferred = false ) = delete;
