@@ -215,6 +215,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
         { "WATER",                    TERCONN_WATER },
         { "PAVEMENT",                 TERCONN_PAVEMENT },
         { "RAIL",                     TERCONN_RAIL },
+        { "COUNTER",                     TERCONN_COUNTER },
     }
 };
 
@@ -1546,6 +1547,12 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     load_symbol( jo );
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
+
+    // see the comment in ter_id::load for connect_group handling
+    connect_group = TERCONN_NONE;
+    if( jo.has_member( "connects_to" ) ) {
+        set_connects( jo.get_string( "connects_to" ) );
+    }
 
     optional( jo, was_loaded, "open", open, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, furn_str_id::NULL_ID() );

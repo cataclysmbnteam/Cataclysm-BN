@@ -106,57 +106,57 @@ TEST_CASE( "Character::get_dodge_base", "[character][melee][dodge][dex][skill]" 
     avatar &dummy = g->u;
     clear_character( dummy );
 
-    // Character::get_dodge_base is simply DEXTERITY / 2 + DODGE_SKILL
+    // Character::get_dodge_base is simply DEXTERITY / 4 + DODGE_SKILL
     // Even with average dexterity, you can become really good at dodging
     GIVEN( "character has 8 DEX and no dodge skill" ) {
-        THEN( "base dodge is 4" ) {
-            CHECK( dodge_base_with_dex_and_skill( dummy, 8, 0 ) == 4.0f );
+        THEN( "base dodge is 2" ) {
+            CHECK( dodge_base_with_dex_and_skill( dummy, 8, 0 ) == 2.0f );
         }
 
         WHEN( "their dodge skill increases to 2" ) {
-            THEN( "base dodge is 6" ) {
-                CHECK( dodge_base_with_dex_and_skill( dummy, 8, 2 ) == 6.0f );
+            THEN( "base dodge is 4" ) {
+                CHECK( dodge_base_with_dex_and_skill( dummy, 8, 2 ) == 4.0f );
             }
         }
 
         AND_WHEN( "their dodge skill increases to 8" ) {
-            THEN( "base dodge is 12" ) {
-                CHECK( dodge_base_with_dex_and_skill( dummy, 8, 8 ) == 12.0f );
+            THEN( "base dodge is 10" ) {
+                CHECK( dodge_base_with_dex_and_skill( dummy, 8, 8 ) == 10.0f );
             }
         }
     }
 
     // More generally
 
-    SECTION( "character get_dodge_base increases by 1/2 for each point of DEX" ) {
-        CHECK( dodge_base_with_dex_and_skill( dummy, 1, 0 ) == 0.5f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 2, 0 ) == 1.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 3, 0 ) == 1.5f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 4, 0 ) == 2.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 5, 0 ) == 2.5f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 0 ) == 3.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 7, 0 ) == 3.5f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 0 ) == 4.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 9, 0 ) == 4.5f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 0 ) == 5.0f );
+    SECTION( "character get_dodge_base increases by 1/4 for each point of DEX" ) {
+        CHECK( dodge_base_with_dex_and_skill( dummy, 1, 0 ) == 0.25f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 2, 0 ) == 0.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 3, 0 ) == 0.75f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 4, 0 ) == 1.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 5, 0 ) == 1.25f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 0 ) == 1.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 7, 0 ) == 1.75f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 0 ) == 2.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 9, 0 ) == 2.25f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 0 ) == 2.50f );
     }
 
     SECTION( "character get_dodge_base increases by 1 for each level of dodge skill" ) {
-        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 0 ) == 4.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 1 ) == 5.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 2 ) == 6.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 3 ) == 7.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 4 ) == 8.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 0 ) == 2.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 1 ) == 3.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 2 ) == 4.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 3 ) == 5.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 8, 4 ) == 6.0f );
 
-        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 2 ) == 5.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 4 ) == 7.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 6 ) == 9.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 8 ) == 11.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 2 ) == 3.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 4 ) == 5.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 6 ) == 7.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 6, 8 ) == 9.5f );
 
-        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 7 ) == 12.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 8 ) == 13.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 9 ) == 14.0f );
-        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 10 ) == 15.0f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 7 ) == 9.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 8 ) == 10.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 9 ) == 11.5f );
+        CHECK( dodge_base_with_dex_and_skill( dummy, 10, 10 ) == 12.5f );
     }
 }
 
@@ -199,11 +199,9 @@ TEST_CASE( "Character::get_dodge", "[player][melee][dodge]" )
     const float base_dodge = dummy.get_dodge_base();
 
     SECTION( "each dodge after the first subtracts 2 points" ) {
-        // Simulate some dodges, so dodges_left will go to 0, -1
+        // Simulate a dodge
         dummy.on_dodge( nullptr, 0 );
         CHECK( dummy.get_dodge() == base_dodge - 2 );
-        dummy.on_dodge( nullptr, 0 );
-        CHECK( dummy.get_dodge() == base_dodge - 4 );
 
         // Reset dodges_left, so subsequent tests are not affected
         dummy.set_moves( 100 );

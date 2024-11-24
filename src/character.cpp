@@ -203,6 +203,7 @@ static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_toolset( "toolset" );
+static const itype_id itype_voltmeter_bionic( "voltmeter_bionic" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_power_storage( "bio_power_storage" );
@@ -315,7 +316,6 @@ static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
@@ -409,8 +409,6 @@ Character &get_player_character()
 Character::Character() :
     location_visitable<Character>(),
     worn(new worn_item_location(this)),
-    damage_bandaged( {{ 0 }} ),
-    damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
     inv(new character_item_location(this)),
     id( -1 ),
@@ -446,7 +444,6 @@ Character::Character() :
     pkill = 0;
     stored_calories = max_stored_kcal() - 100;
     initialize_stomach_contents();
-    healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
     name.clear();
     custom_profession.clear();
@@ -497,7 +494,6 @@ void Character::move_operator_common( Character &&source ) noexcept
     male = source.male ;
 
     worn = std::move( source.worn );
-    damage_disinfected = source.damage_disinfected ;
     in_vehicle = source.in_vehicle ;
     hauling = source.hauling ;
 
@@ -3666,6 +3662,9 @@ std::vector<std::string> Character::get_overlay_ids() const
 
     // then get mutations
     for( const std::pair<const trait_id, char_trait_data> &mut : my_mutations ) {
+        if( !mut.second.show_sprite ) {
+            continue;
+        }
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
@@ -3685,6 +3684,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item * const &worn_item : worn ) {
+        if( worn_item->has_flag( flag_id( "HIDDEN" ) ) ) {
+            continue;
+        }
         rval.push_back( "worn_" + worn_item->typeId().str() );
     }
 
@@ -4942,7 +4944,7 @@ void Character::regen( int rate_multiplier )
     if( heal_rate > 0.0f ) {
         const int heal = roll_remainder( rate_multiplier * heal_rate );
 
-        for( const bodypart_id &bp : get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
             const int actually_healed = heal_adjusted( *this, bp, heal );
             mod_part_healed_total( bp, actually_healed );
         }
@@ -4955,29 +4957,28 @@ void Character::regen( int rate_multiplier )
     }
 
     // include healing effects
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id &bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
 
         const bool is_broken = is_limb_broken( bp ) &&
                                !worn_with_flag( flag_SPLINT, bp );
         const int healing_apply = roll_remainder( is_broken ? healing *broken_regen_mod : healing );
 
-        healed_bp( i, healing_apply );
         heal( bp, healing_apply );
 
-        if( damage_bandaged[i] > 0 ) {
-            damage_bandaged[i] -= healing_apply;
-            if( damage_bandaged[i] <= 0 ) {
-                damage_bandaged[i] = 0;
+        bodypart &part = get_part( bp );
+        if( part.get_damage_bandaged() > 0 ) {
+            part.set_damage_bandaged( part.get_damage_bandaged() - healing_apply );
+            if( part.get_damage_bandaged() <= 0 ) {
+                part.set_damage_bandaged( 0 );
                 remove_effect( effect_bandaged, bp.id() );
                 add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
-        if( damage_disinfected[i] > 0 ) {
-            damage_disinfected[i] -= healing_apply;
-            if( damage_disinfected[i] <= 0 ) {
-                damage_disinfected[i] = 0;
+        if( part.get_damage_disinfected() > 0 ) {
+            part.set_damage_disinfected( part.get_damage_disinfected() - healing_apply );
+            if( part.get_damage_disinfected() <= 0 ) {
+                part.set_damage_disinfected( 0 );
                 remove_effect( effect_disinfected, bp.id() );
                 add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
@@ -4985,12 +4986,12 @@ void Character::regen( int rate_multiplier )
 
         // remove effects if the limb was healed by other way
         if( has_effect( effect_bandaged, bp.id() ) && ( get_part( bp ).is_at_max_hp() ) ) {
-            damage_bandaged[i] = 0;
+            part.set_damage_bandaged( 0 );
             remove_effect( effect_bandaged, bp.id() );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
         if( has_effect( effect_disinfected, bp.id() ) && ( get_part( bp ).is_at_max_hp() ) ) {
-            damage_disinfected[i] = 0;
+            part.set_damage_disinfected( 0 );
             remove_effect( effect_disinfected, bp.id() );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }
@@ -6104,7 +6105,7 @@ float Character::get_dodge_base() const
 {
     /** @EFFECT_DEX increases dodge base */
     /** @EFFECT_DODGE increases dodge_base */
-    return get_dex() / 2.0f + get_skill_level( skill_dodge );
+    return get_dex() / 4.0f + get_skill_level( skill_dodge );
 }
 float Character::get_hit_base() const
 {
@@ -6112,32 +6113,26 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
-hp_part Character::body_window( const std::string &menu_header,
-                                bool show_all, bool precise,
-                                int normal_bonus, int head_bonus, int torso_bonus,
-                                float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
+bodypart_str_id Character::body_window( const std::string &menu_header,
+                                        bool show_all, bool precise,
+                                        int normal_bonus, int head_bonus, int torso_bonus,
+                                        float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
-    /* This struct establishes some kind of connection between the hp_part (which can be healed and
-     * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
-     * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {
         mutable bool allowed;
         bodypart_id bp;
-        hp_part hp;
         std::string name; // Translated name as it appears in the menu.
         int bonus;
     };
-    /* The array of the menu entries show to the player. The entries are displayed in this order,
-     * it may be changed here. */
-    std::array<healable_bp, num_hp_parts> parts = { {
-            { false, bodypart_id( "head" ), hp_head, _( "Head" ), head_bonus },
-            { false, bodypart_id( "torso" ), hp_torso, _( "Torso" ), torso_bonus },
-            { false, bodypart_id( "arm_l" ), hp_arm_l, _( "Left Arm" ), normal_bonus },
-            { false, bodypart_id( "arm_r" ), hp_arm_r, _( "Right Arm" ), normal_bonus },
-            { false, bodypart_id( "leg_l" ), hp_leg_l, _( "Left Leg" ), normal_bonus },
-            { false, bodypart_id( "leg_r" ), hp_leg_r, _( "Right Leg" ), normal_bonus },
-        }
-    };
+
+    std::vector<healable_bp> parts;
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+        // Ugly!
+        int heal_bonus = bp == body_part_head ? head_bonus :
+                         bp == body_part_torso ? torso_bonus :
+                         normal_bonus;
+        parts.emplace_back( false, bp, bp->name_as_heading.translated(), heal_bonus );
+    }
 
     int max_bp_name_len = 0;
     for( const auto &e : parts ) {
@@ -6312,9 +6307,9 @@ hp_part Character::body_window( const std::string &menu_header,
     bmenu.query();
     if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() &&
         parts[bmenu.ret].allowed ) {
-        return parts[bmenu.ret].hp;
+        return parts[bmenu.ret].bp.id();
     } else {
-        return num_hp_parts;
+        return bodypart_str_id::NULL_ID();
     }
 }
 
@@ -6815,50 +6810,9 @@ float Character::rest_quality() const
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
-hp_part Character::bp_to_hp( const bodypart_str_id &bp )
+bodypart_str_id Character::bp_to_hp( const bodypart_str_id &bp )
 {
-    switch( bp->token ) {
-        case bp_head:
-        case bp_eyes:
-        case bp_mouth:
-            return hp_head;
-        case bp_torso:
-            return hp_torso;
-        case bp_arm_l:
-        case bp_hand_l:
-            return hp_arm_l;
-        case bp_arm_r:
-        case bp_hand_r:
-            return hp_arm_r;
-        case bp_leg_l:
-        case bp_foot_l:
-            return hp_leg_l;
-        case bp_leg_r:
-        case bp_foot_r:
-            return hp_leg_r;
-        default:
-            return num_hp_parts;
-    }
-}
-
-const bodypart_str_id &Character::hp_to_bp( const hp_part hpart )
-{
-    switch( hpart ) {
-        case hp_head:
-            return body_part_head;
-        case hp_torso:
-            return body_part_torso;
-        case hp_arm_l:
-            return body_part_arm_l;
-        case hp_arm_r:
-            return body_part_arm_r;
-        case hp_leg_l:
-            return body_part_leg_l;
-        case hp_leg_r:
-            return body_part_leg_r;
-        default:
-            return bodypart_str_id::NULL_ID();
-    }
+    return bp->main_part;
 }
 
 std::string Character::extended_description() const
@@ -6992,6 +6946,7 @@ mutation_value_map = {
     { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
     { "movecost_obstacle_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier> },
     { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
+    { "falling_damage_multiplier", calc_mutation_value_multiplicative<&mutation_branch::falling_damage_multiplier> },
     { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
@@ -8118,11 +8073,6 @@ void Character::vomit()
     wake_up();
 }
 
-void Character::healed_bp( int bp, int amount )
-{
-    healed_total[bp] += amount;
-}
-
 void Character::set_fac_id( const std::string &my_fac_id )
 {
     fac_id = faction_id( my_fac_id );
@@ -8685,6 +8635,12 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
+    if( !source->is_hallucination() ) {
+        // Gain reduced experience for failed attempts to dodge
+        const int difficulty = source->get_melee();
+        as_player()->practice( skill_dodge, std::max( difficulty, 0 ), difficulty, true );
+    }
+
     bool u_see = g->u.sees( *this );
     units::energy trigger_cost_base = bio_ods->power_trigger;
     if( has_active_bionic( bio_ods ) && get_power_level() >= trigger_cost_base * 4 ) {
@@ -9092,8 +9048,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
         auto damage = damage_instance::physical( ddam, cut, 0 );
@@ -10096,6 +10051,10 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
 {
     std::vector<detached_ptr<item>> res;
     if( qty <= 0 ) {
+        return res;
+
+    } else if( what == itype_voltmeter_bionic ) {
+        mod_power_level( units::from_kilojoule( -qty ) );
         return res;
 
     } else if( what == itype_toolset ) {
@@ -11275,9 +11234,7 @@ float Character::fall_damage_mod() const
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
     ret *= ( 100.0f - ( dex_dodge * 4.0f ) ) / 100.0f;
 
-    if( has_trait( trait_PARKOUR ) ) {
-        ret *= 2.0f / 3.0f;
-    }
+    ret *= mutation_value( "falling_damage_multiplier" );
 
     // TODO: Bonus for Judo, mutations. Penalty for heavy weight (including mutations)
     return std::max( 0.0f, ret );
@@ -11383,8 +11340,7 @@ int Character::impact( const int force, const tripoint &p )
 
     int total_dealt = 0;
     if( mod * effective_force >= 5 ) {
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            const bodypart_id bp = hp_to_bp( static_cast<hp_part>( i ) ).id();
+        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
             di.add_damage( DT_BASH, bash, 0, armor_eff, mod );

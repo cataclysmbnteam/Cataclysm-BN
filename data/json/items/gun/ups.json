@@ -196,5 +196,19 @@
     "loudness": 14,
     "ups_charges": 30,
     "ammo_effects": [ "LASER", "INCENDIARY" ]
+  },
+  {
+    "id": "laser_maxim",
+    "type": "GUN",
+    "copy-from": "laser_rifle_cheap",
+    "name": { "str": "shoddy autolaser" },
+    "description": "This is a handmade laser weapon with an equally handmade heat sink, using evaporative cooling to allow for a higher rate of fire.  It's massively heavy, but the lack of recoil means it's still somewhat manageable as a weapon if you can lift it.  It uses UPS power, and you need to fill the reservoir with water before you can fire it.",
+    "weight": "20 kg",
+    "volume": "30 L",
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
+    "ammo": "water",
+    "clip_size": 80,
+    "extend": { "flags": [ "MOUNTED_GUN", "NO_RECOVER_AMMO" ] },
+    "delete": { "flags": [ "NO_UNLOAD" ] }
   }
 ]

@@ -39,8 +39,10 @@
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
     "allowed_locs": [
       "sloc_mall_loading_area",
+      "sloc_mall_loading_area_roof",
       "sloc_mall_food_court",
       "sloc_apartments_rooftop",
+      "sloc_apartments_house",
       "sloc_hospital",
       "sloc_bastion_fort",
       "sloc_convention_center_rooftop"
@@ -365,7 +367,9 @@
       "hardened_survivor",
       "road_warrior",
       "waste_ranger",
-      "player_bandit"
+      "player_bandit",
+      "monster_hunter",
+      "monster_slayer"
     ]
   },
   {
@@ -397,7 +401,9 @@
       "hardened_survivor",
       "road_warrior",
       "waste_ranger",
-      "player_bandit"
+      "player_bandit",
+      "monster_hunter",
+      "monster_slayer"
     ]
   },
   {
@@ -483,7 +489,7 @@
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
-    "professions": [ "captive", "rescuer" ],
+    "professions": [ "captive", "rescuer", "monster_hunter" ],
     "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
   },
   {

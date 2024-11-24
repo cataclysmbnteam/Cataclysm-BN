@@ -1301,6 +1301,7 @@
     "name": { "str": "Electrosense Voltmeter" },
     "description": "Using this bionic allows you to check the status of any local grid connections or battery charge in your surroundings, as well as make modifications to grid connections.",
     "act_cost": "10 J",
+    "fake_item": "voltmeter_bionic",
     "included": true
   },
   {

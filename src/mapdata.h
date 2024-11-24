@@ -314,7 +314,6 @@ enum ter_bitflags : int {
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
     TFLAG_ELEVATOR,
-
     NUM_TERFLAGS
 };
 
@@ -331,6 +330,7 @@ enum ter_connects : int {
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
+    TERCONN_COUNTER,
 };
 
 struct activity_byproduct {

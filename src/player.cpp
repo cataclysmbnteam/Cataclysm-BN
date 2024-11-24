@@ -104,7 +104,6 @@ player::player()
     blocks_left = 1;
     set_power_level( 0_kJ );
     set_max_power_level( 0_kJ );
-    cash = 0;
     scent = 500;
     male = true;
     remove_primary_weapon();

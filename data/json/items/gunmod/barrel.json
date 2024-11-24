@@ -46,8 +46,8 @@
   {
     "id": "accelerator_gunmod",
     "type": "GUNMOD",
-    "name": { "str": "makeshift firearm accelerator" },
-    "description": "Advents in power transfer technology has resulted in railguns becoming much more viable.  Makeshift railgun conversions like this one were a rare but known sight in the riots before the Cataclysm, and it may help you survive it.",
+    "name": { "str": "makeshift rifle accelerator" },
+    "description": "Advents in power transfer technology has resulted in railguns becoming much more viable.  Makeshift railgun conversions like this one were a rare but known sight in the riots before the Cataclysm, and it may help you survive it.  This particular attachment is designed for long-barreled guns.",
     "weight": "250 g",
     "volume": "250 ml",
     "integral_volume": "150 ml",
@@ -59,14 +59,25 @@
     "color": "light_gray",
     "location": "barrel",
     "blacklist_mod": "emitter",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "MACHINE_GUNS" ], [ "PISTOLS" ], [ "REVOLVERS" ] ],
+    "mod_target_category": [ [ "RIFLES" ], [ "SHOTGUNS" ], [ "MACHINE_GUNS" ] ],
     "install_time": "15 m",
-    "handling_modifier": -5,
+    "handling_modifier": -15,
     "range_modifier": 5,
     "dispersion_modifier": 25,
     "loudness_modifier": 15,
-    "damage_modifier": { "damage_type": "bullet", "amount": 15 },
-    "ups_charges_modifier": 30,
+    "damage_modifier": { "damage_type": "bullet", "amount": 10 },
+    "ups_charges_modifier": 20,
     "min_skills": [ [ "electronics", 4 ] ]
+  },
+  {
+    "id": "accelerator_pistol_gunmod",
+    "type": "GUNMOD",
+    "name": { "str": "makeshift pistol accelerator" },
+    "copy-from": "accelerator_gunmod",
+    "description": "Advents in power transfer technology has resulted in railguns becoming much more viable.  Makeshift railgun conversions like this one were a rare but known sight in the riots before the Cataclysm, and it may help you survive it.  This particular attachment is designed for short-barreled guns.",
+    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "REVOLVERS" ] ],
+    "damage_modifier": { "damage_type": "bullet", "amount": 5 },
+    "ups_charges_modifier": 10,
+    "handling_modifier": -5
   }
 ]

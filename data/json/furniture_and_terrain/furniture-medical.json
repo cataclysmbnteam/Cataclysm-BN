@@ -36,7 +36,8 @@
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "laser_source", "prob": 50 }
       ],
       "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
@@ -939,6 +940,60 @@
       ],
       "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 12, "block_unaimed_chance": "25%" }
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_surgical_laser",
+    "name": "surgical laser",
+    "looks_like": "t_machinery_light",
+    "description": "This is a large box with a handheld stylus connected to it with a flexible tube.  With power and a trained operator, it could cut and cauterize tissue using focused light.  You can take it apart for electronics.",
+    "symbol": "&",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "cable", "charges": 30 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] },
+        { "item": "processor" },
+        { "item": "RAM" },
+        { "item": "circuit" },
+        { "item": "amplifier", "count": 4 },
+        { "item": "e_scrap", "count": 4 },
+        { "item": "small_lcd_screen" },
+        { "item": "power_supply", "count": 2 },
+        { "item": "laser_source" },
+        { "item": "lens" },
+        { "item": "lens_small", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 12 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "processor" },
+        { "item": "RAM" },
+        { "item": "circuit" },
+        { "item": "amplifier", "count": [ 0, 3 ] },
+        { "item": "e_scrap", "count": [ 0, 3 ] },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "power_supply", "count": 2, "prob": 50 },
+        { "item": "laser_source", "prob": 50 },
+        { "item": "lens", "prob": 25 },
+        { "item": "lens_small", "count": 2, "prob": 25 }
+      ],
+      "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
+      "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 16, "block_unaimed_chance": "25%" }
     }
   }
 ]

@@ -34,7 +34,8 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+    "using": [ [ "sewing_standard", 16 ] ],
+    "components": [ [ [ "chitin_piece", 8 ] ], [ [ "fabric_hides_proper", 8, "LIST" ] ] ]
   },
   {
     "result": "armguard_acidchitin",
@@ -45,9 +46,9 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 16 ] ],
-    "components": [ [ [ "acidchitin_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+    "components": [ [ [ "acidchitin_piece", 8 ] ], [ [ "fabric_hides_proper", 8, "LIST" ] ] ]
   },
   {
     "result": "armguard_hard",
@@ -255,5 +256,22 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "sewing_standard", 16 ] ],
     "components": [ [ [ "scute_piece", 6 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+  },
+  {
+    "result": "armguard_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
+    "using": [ [ "sewing_standard", 6 ] ],
+    "components": [
+      [ [ "bone_heavy", 6 ] ],
+      [ [ "cordage", 2, "LIST" ] ],
+      [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ]
+    ]
   }
 ]

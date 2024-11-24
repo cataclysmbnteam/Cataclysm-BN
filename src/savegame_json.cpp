@@ -336,6 +336,7 @@ void char_trait_data::serialize( JsonOut &json ) const
     json.member( "key", key );
     json.member( "charge", charge );
     json.member( "powered", powered );
+    json.member( "show_sprite", show_sprite );
     json.end_object();
 }
 
@@ -346,6 +347,7 @@ void char_trait_data::deserialize( JsonIn &jsin )
     data.read( "key", key );
     data.read( "charge", charge );
     data.read( "powered", powered );
+    data.read( "show_sprite", show_sprite );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -482,7 +484,6 @@ void Character::load( const JsonObject &data )
     // health
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
-    data.read( "healed_24h", healed_total );
 
     // @todo Remove after stable
     {
@@ -505,8 +506,6 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
-    data.read( "damage_bandaged", damage_bandaged );
-    data.read( "damage_disinfected", damage_disinfected );
     data.read( "magic", magic );
     JsonArray parray;
 
@@ -692,7 +691,6 @@ void Character::store( JsonOut &json ) const
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
-    json.member( "healed_24h", healed_total );
 
     // needs
     json.member( "thirst", thirst );
@@ -820,9 +818,6 @@ void player::store( JsonOut &json ) const
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
-    // potential incompatibility with future expansion
-    json.member( "damage_bandaged", damage_bandaged );
-    json.member( "damage_disinfected", damage_disinfected );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
@@ -3048,6 +3043,9 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "dodge_bonus", dodge_bonus );
     jsout.member( "block_bonus", block_bonus );
     jsout.member( "hit_bonus", hit_bonus );
+    jsout.member( "bash_bonus", bash_bonus );
+    jsout.member( "cut_bonus", cut_bonus );
+    jsout.member( "size_bonus", size_bonus );
 
     jsout.member( "underwater", underwater );
 
@@ -3104,6 +3102,9 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "dodge_bonus", dodge_bonus );
     jsin.read( "block_bonus", block_bonus );
     jsin.read( "hit_bonus", hit_bonus );
+    jsin.read( "bash_bonus", bash_bonus );
+    jsin.read( "cut_bonus", cut_bonus );
+    jsin.read( "size_bonus", size_bonus );
 
     jsin.read( "underwater", underwater );
 

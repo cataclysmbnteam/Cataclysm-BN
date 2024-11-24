@@ -169,6 +169,7 @@ static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 static const bionic_id bio_digestion( "bio_digestion" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
@@ -1701,7 +1702,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const std::map<std::string, std::string>::const_iterator idescription =
             item_vars.find( "description" );
         const std::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
-        if( snippet.has_value() ) {
+        if( snippet.has_value() && ( !get_avatar().has_trait( trait_ILLITERATE ) ||
+                                     !has_flag( flag_SNIPPET_NEEDS_LITERACY ) ) ) {
             // Just use the dynamic description
             info.emplace_back( "DESCRIPTION", snippet.value().translated() );
         } else if( idescription != item_vars.end() ) {
@@ -8078,21 +8080,17 @@ std::string item::ammo_sort_name() const
 
 bool item::magazine_integral() const
 {
-    for( const item *m : is_gun() ? gunmods() : toolmods() ) {
-        if( !m->type->mod->magazine_adaptor.empty() ) {
-            return false;
-        }
-    }
-    if( is_gun() ) {
+    // If it has a default magazine, it can't have an integral magazine.
+    if( magazine_default() ) {
+        return false;
+    } else if( is_gun() ) {
         // We have an integral magazine if we're a gun with an ammo capacity (clip)
         return type->gun->clip;
     } else if( is_tool() ) {
         // Or we are a tool with max_charges defined
         return type->tool->max_charges;
     }
-
-    // Or we're a non-gun/tool item with no magazines.
-    return ( type->magazines.empty() );
+    return true;
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -8102,14 +8100,15 @@ itype_id item::magazine_default( bool conversion ) const
             for( const item *m : is_gun() ? gunmods() : toolmods() ) {
                 if( !m->type->mod->magazine_adaptor.empty() ) {
                     auto mags = m->type->mod->magazine_adaptor.find( ammotype( *ammo_types( conversion ).begin() ) );
-                    if( mags != m->type->mod->magazine_adaptor.end() ) {
+                    if( mags != m->type->mod->magazine_adaptor.end() &&
+                        !( *mags->second.begin() )->has_flag( flag_SPEEDLOADER ) ) {
                         return *( mags->second.begin() );
                     }
                 }
             }
         }
         auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
-        if( mag != type->magazine_default.end() ) {
+        if( mag != type->magazine_default.end() && !mag->second->has_flag( flag_SPEEDLOADER ) ) {
             return mag->second;
         }
     }

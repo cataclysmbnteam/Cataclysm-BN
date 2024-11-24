@@ -1,0 +1,321 @@
+[
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about birds.", "Your dreams give you a strange feathered feeling." ],
+    "category": "HARPY",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about bears.", "Your dreams give you a rough furry feeling." ],
+    "category": "BEARGIRL",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about cats.", "Your dreams give you a sleek furry feeling." ],
+    "category": "NEKO",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about wolves.", "Your dreams give you a thick furry feeling." ],
+    "category": "DOGGIRL",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about cattle.", "Your dreams give you a strange content, furry feeling." ],
+    "category": "COWGIRL",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about plants.", "Your dreams give you a strange plantlike feeling." ],
+    "category": "DRYAD",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about slime.", "Your dreams give you a strange slimy feeling." ],
+    "category": "SLIMEGIRL",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about spiders.", "Your dreams give you a strange webbed feeling." ],
+    "category": "SPIDERGIRL",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream.", "You feel a yearning…" ],
+    "category": "FEY",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of a massive block of cheese bigger than you.", "You dream of being cozy in a dark place." ],
+    "category": "MOUSEGIRL",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have strange dreams of soaring through the sky.",
+      "In a dream, you see a curiously harpy-like reflection of yourself."
+    ],
+    "category": "HARPY",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of foraging in the woods… mouth-first?",
+      "Your dream-reflection seems to have a pair of bear ears on its head."
+    ],
+    "category": "BEARGIRL",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You easily bound from the street to a roof..oh, only a dream.",
+      "As you dream, your reflection appears to have some cat ears on its head."
+    ],
+    "category": "NEKO",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a disturbing dream of someone invading your territory.",
+      "Your dream-self appears to have dog ears on its head."
+    ],
+    "category": "DOGGIRL",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of grazing in an open field.",
+      "In a dream you catch a glimpse of a strangely cattle-like tail on yourself."
+    ],
+    "category": "COWGIRL",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a confusing dream of growing in a garden.",
+      "You are confused by a plantlike image of yourself in a dream."
+    ],
+    "category": "DRYAD",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream of living in sludge.", "In your dream you see an odd, slimy reflection of yourself." ],
+    "category": "SLIMEGIRL",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream of spinning webs", "In your dream you see a very spiderlike version of yourself." ],
+    "category": "SPIDERGIRL",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of a home in the forests.", "You feel beautiful, and yet riven with worry…" ],
+    "category": "FEY",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of… sneaking.", "You dream of a cold winter night.  Your jacket is too big to put on." ],
+    "category": "MOUSEGIRL",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a realistic dream of flying south with your flock for the winter.",
+      "You are disturbed when your harpy-like dreams are more lifelike than reality."
+    ],
+    "category": "HARPY",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your dream of raiding a giant beehive has you licking your lips in anticipation.",
+      "In your dream, you stalk and kill a young wolf, using only your teeth and claws."
+    ],
+    "category": "BEARGIRL",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "A warm, sunny spot high up where you can watch your prey.  What a great dream!",
+      "You dream of pursuing and killing a rat, for some reason."
+    ],
+    "category": "NEKO",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of tearing into a fresh steak.", "You dream of finally finding the perfect place to make your den." ],
+    "category": "DOGGIRL",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You terrifyingly dream of being led to a milking machine by a farmer.",
+      "You find it hard to wake from a vivid dream of grazing on a farm."
+    ],
+    "category": "COWGIRL",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a confusing and scary dream of becoming a plant.",
+      "The transition from your lifelike dreams of living as a plant to reality shocks you."
+    ],
+    "category": "DRYAD",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your vivid dream of living as a slime blob frightens you.",
+      "You find it hard to control your limbs after dreaming of amorphous blob life."
+    ],
+    "category": "SLIMEGIRL",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You vividly dream of living in a web and consuming insects.",
+      "Your dreams of turning into a half-spider frighten you."
+    ],
+    "category": "SPIDERGIRL",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [ "NO!  You will not allow this corruption to prevail!", "You see yourself reflected in the beauty of the forest." ],
+    "category": "FEY",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You weave between the zombies' legs, too small for them to catch.  The gas station isn't far now, with all its soda and chips and- UGH, dream…",
+      "Once you finish your tasty dinner of seeds, you look around for your drink, but you already ate it."
+    ],
+    "category": "MOUSEGIRL",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You wonder if your nest will be good enough.",
+      "Your dream of soaring over the landscape becomes a nightmare when you find yourself with arms and a glider!"
+    ],
+    "category": "HARPY",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You wonder if you could find one of those 'salmon runs', or if they were just a legend…",
+      "Ah, the wolf-slaying dream again.  That's a good one…"
+    ],
+    "category": "BEARGIRL",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Boing!  and you've pounced another yummy critter.",
+      "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!"
+    ],
+    "category": "NEKO",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of the hunt, the feed, and your pack.",
+      "Oh, you should really patrol your territory again, maybe expand."
+    ],
+    "category": "DOGGIRL",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of jumping the gate and leading your herd to freedom.",
+      "The herd moves along and you with them, finding greener pastures."
+    ],
+    "category": "COWGIRL",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of bees fighting over your sweet nectar.  Mmm.",
+      "How grand it would be to sink your roots deep into the soil as the seasons pass you by.",
+      "You dream of a gigantic knot of roots, beating like a heart.",
+      "You have a disturbing dream of termites chewing all over your body.",
+      "You dream of sharing your roots with a vast forest, all plants provided for as the canopy grows ever upwards.",
+      "A family of caterpillars munches away at your leaves.",
+      "Fire rages around you, licking at your bark and engulfing the saplings and bushes near your roots.  The once chatty forest is quiet in its wake.",
+      "You dream of communing with an ancient pine.  Trees are the true survivors of this world, it tells you.",
+      "A rather attractive triffid offers you a bouquet of zombie heads.  How thoughtful!"
+    ],
+    "category": "DRYAD",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your vivid dream of your pseudopods calcifying into rigid structures terrifies you.",
+      "Ah, the painting-the-planet dream again.  Maybe if you assimilated more…"
+    ],
+    "category": "SLIMEGIRL",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You excitedly web up an interloper and prepare to feast… nope, dream.",
+      "Your dreams of having to live without a web frighten you."
+    ],
+    "category": "SPIDERGIRL",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You pant, terrified at the thought of that FUNGUS destroying your home!",
+      "You wish others could understand, and join your struggle…"
+    ],
+    "category": "FEY",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You curl up some more in your nest.  Geez, shredded paper really *is* comfy.",
+      "You hear the sirens again, but this time you stay in your hole in the wall.  Nobody will think to look there!"
+    ],
+    "category": "MOUSEGIRL",
+    "strength": 4
+  }
+]

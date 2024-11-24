@@ -131,9 +131,6 @@ class player_activity
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
-        // used to migrate the item indices to item_location
-        // obsolete after 0.F stable
-        void migrate_item_position( Character &guy );
 
         /**
          * Preform necessary initialization to start or resume the activity. Must be

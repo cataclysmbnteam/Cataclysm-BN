@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "tall.png",
+        "tiles": [
+          { "id": "overlay_run", "fg": 0 },
+          { "id": "overlay_crouch", "fg": 1 },
+          { "id": "f_counter_gate_c", "fg": 2 },
+          { "id": "f_counter_gate_o", "fg": 3 },
+          {
+            "id": "t_gutter_downspout",
+            "fg": [ { "weight": 25, "sprite": 4 }, { "weight": 25, "sprite": 5 } ],
+            "bg": 6,
+            "rotates": false,
+            "animated": true
+          },
+          { "id": "t_stairs_down", "fg": 7 },
+          { "id": "t_stairs_up", "fg": 8 },
+          { "id": "t_wood_stairs_down", "fg": 9 },
+          { "id": "t_wood_stairs_up", "fg": 10 },
+          { "id": "t_wood_stairs_up_broken", "fg": 11 },
+          {
+            "id": [ "wind_turbine_ground", "wind_turbine_pillar", "wind_turbine_pillar_platform" ],
+            "fg": 12,
+            "bg": 13
+          }
+        ],
+        "sprite_width": 64,
+        "sprite_height": 80,
+        "sprite_offset_x": -16,
+        "sprite_offset_y": -48
+      }
+    ]
+  }
+]

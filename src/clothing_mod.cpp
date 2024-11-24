@@ -83,6 +83,8 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
             const std::string &str = entry.get_string();
             if( str == "thickness" ) {
                 mv.thickness_propotion = true;
+            } else if( str == "volume" ) {
+                mv.volume_propotion = true;
             } else if( str == "coverage" ) {
                 mv.coverage_propotion = true;
             } else {
@@ -97,12 +99,16 @@ float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it )
 {
     const int thickness = it.get_thickness();
     const int coverage = it.get_avg_coverage();
+    const int vol = it.base_volume() / 1_liter;
     float result = 0.0f;
     for( const mod_value &mv : mod_values ) {
         if( mv.type == type ) {
             float tmp = mv.value;
             if( mv.thickness_propotion ) {
                 tmp *= thickness;
+            }
+            if( mv.volume_propotion ) {
+                tmp *= vol;
             }
             if( mv.coverage_propotion ) {
                 tmp *= coverage / 100.0f;

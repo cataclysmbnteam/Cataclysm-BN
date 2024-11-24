@@ -1096,9 +1096,7 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
     // TODO: Drop splints when healed
 
     if( it->has_flag( flag_SPLINT ) ) {
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_part hpp = static_cast<hp_part>( i );
-            const bodypart_str_id &bp = player::hp_to_bp( hpp );
+        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
             if( is_limb_broken( bp.id() ) &&
                 !worn_with_flag( flag_SPLINT, bp.id() ) &&
                 it->covers( bp.id() ) ) {

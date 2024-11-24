@@ -153,5 +153,14 @@
     "name": { "str_sp": "mustard powder" },
     "description": "A fragnant yellow powder.  Not edible in this form.",
     "color": "red"
+  },
+  {
+    "id": "gochujang",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "gochujang" },
+    "description": "A spicy and sweet Korean condiment, quite often used throughout Korean cooking.",
+    "color": "red",
+    "looks_like": "chilly-p"
   }
 ]

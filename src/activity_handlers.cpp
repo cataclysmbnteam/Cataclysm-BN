@@ -1640,7 +1640,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
-    const hp_part healed = static_cast<hp_part>( act->values[0] );
+    const bodypart_str_id healed = bodypart_str_id( act->str_values[0] );
     const int charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 
@@ -4018,6 +4018,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
 
     here.ter_set( pos, t_stump );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
+    here.collapse_at( pos, false, true, false );
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );

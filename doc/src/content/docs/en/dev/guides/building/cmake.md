@@ -71,7 +71,8 @@ pacman -S mingw-w64-i686-toolchain msys/git \
    	  mingw-w64-i686-cmake \
    	  mingw-w64-i686-SDL2_{image,mixer,ttf} \
    	  ncurses-devel \
-     gettext
+      gettext \
+      base-devel
 ```
 
 This should get your environment set up to build console and tiles version of windows.
@@ -85,7 +86,8 @@ pacman -S mingw-w64-x86_64-toolchain msys/git \
    	  mingw-w64-x86_64-cmake \
    	  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
    	  ncurses-devel \
-     gettext
+      gettext \
+      base-devel
 ```
 
 :::

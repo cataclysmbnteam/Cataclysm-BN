@@ -336,7 +336,7 @@
     "encumbrance": 20,
     "storage": "3500 ml",
     "warmth": 15,
-    "material_thickness": 4,
+    "material_thickness": 5,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
@@ -386,6 +386,20 @@
     "material": [ "leather", "iron" ],
     "price_postapoc": "175 cent",
     "encumbrance": 6
+  },
+  {
+    "id": "greaves_bone",
+    "copy-from": "legguard_bronze",
+    "type": "ARMOR",
+    "name": { "str": "pair of bone greaves", "str_pl": "pairs of bone greaves" },
+    "description": "Leg guards made from strips of carved bone, laced together as splint armor.  Tough but stiff, and a bit brittle.",
+    "material": [ "bone_heavy" ],
+    "color": "white",
+    "encumbrance": 12,
+    "warmth": 12,
+    "environmental_protection": 1,
+    "//": "Lower here since the closet counterpart is heavier",
+    "proportional": { "weight": 0.8 }
   },
   {
     "id": "carbon_legguard",

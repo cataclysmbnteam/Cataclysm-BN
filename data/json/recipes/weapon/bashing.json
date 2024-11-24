@@ -494,6 +494,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
+      [ [ "wood_structural_small", 1, "LIST" ] ],
       [
         [ "fabric_standard", 1, "LIST" ],
         [ "felt_patch", 1 ],
