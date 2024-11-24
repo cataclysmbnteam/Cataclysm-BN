@@ -18,7 +18,7 @@
     "color": "white",
     "ammo_type": "conc_alcohol",
     "fuel": {
-      "energy": 15.6,
+      "energy": 24,
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
     }
   },
@@ -38,7 +38,11 @@
     "type": "AMMO",
     "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves.  Very toxic.",
     "price": "5 cent",
-    "price_postapoc": "1 USD"
+    "price_postapoc": "1 USD",
+    "fuel": {
+      "energy": 15.6,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
   },
   {
     "id": "diesel",
