@@ -218,6 +218,7 @@ struct char_trait_data {
      * is reset to @ref mutation_branch::cooldown.
      */
     int charge = 0;
+    bool show_sprite = true;
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };

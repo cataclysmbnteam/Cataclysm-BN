@@ -395,6 +395,7 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "calcium", 11 ], [ "vitC", 10 ], [ "vitA", 33 ], [ "iron", 10 ] ],
     "fun": 2
   },
   {
@@ -415,6 +416,7 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "calcium", 34 ], [ "vitC", 10 ], [ "vitA", 34 ], [ "iron", 20 ] ],
     "fun": 3
   },
   {

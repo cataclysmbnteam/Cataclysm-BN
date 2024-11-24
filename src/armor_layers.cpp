@@ -33,6 +33,8 @@
 namespace
 {
 const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
+const bodypart_str_id body_part_appendix( "num_bp" );
+const flag_id json_flag_HIDDEN( "HIDDEN" );
 
 std::string clothing_layer( const item &worn_item );
 std::vector<std::string> clothing_properties(
@@ -574,8 +576,12 @@ void show_armor_layers_ui( Character &who )
         const auto name = bp.id() ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", name );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "Press [<color_yellow>%s</color>] for help.  "
+                         _( "[<color_yellow>%s</color>] Hide sprite.  "
+                            "[<color_yellow>%s</color>] Change side.  "
+                            "Press [<color_yellow>%s</color>] for help.  "
                             "Press [<color_yellow>%s</color>] to change keybindings." ),
+                         ctxt.get_desc( "TOGGLE_CLOTH" ),
+                         ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
@@ -607,11 +613,15 @@ void show_armor_layers_ui( Character &who )
             item_penalties const penalties =
                 get_item_penalties( access_tmp_worn( itemindex ), who, bp );
 
-            const int offset_x = ( itemindex == selected ) ? 3 : 2;
+            const int offset_x = ( itemindex == selected ) ? 4 : 3;
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
                          format_volume( ( *access_tmp_worn( itemindex ) )->get_storage() ) );
+            if( ( *access_tmp_worn( itemindex ) )->has_flag( json_flag_HIDDEN ) ) {
+                //~ Hint: Letter to show which piece of armor is Hidden in the layering menu
+                mvwprintz( w_sort_left, point( offset_x - 1, drawindex + 1 ), c_cyan, _( "H" ) );
+            }
         }
 
         // Left footer
@@ -838,6 +848,12 @@ void show_armor_layers_ui( Character &who )
                     who.change_side( *access_tmp_worn( leftListIndex ) );
                 }
             }
+        } else if( action == "TOGGLE_CLOTH" ) {
+            if( !( *access_tmp_worn( leftListIndex ) )->has_flag( json_flag_HIDDEN ) ) {
+                ( *access_tmp_worn( leftListIndex ) )->set_flag( json_flag_HIDDEN );
+            } else {
+                ( *access_tmp_worn( leftListIndex ) )->unset_flag( json_flag_HIDDEN );
+            }
         } else if( action == "SORT_ARMOR" ) {
             std::stable_sort( who.worn.begin(),
                               who.worn.end(),
@@ -958,6 +974,7 @@ void show_armor_layers_ui( Character &who )
                 ctxt.get_desc( "NEXT_TAB" ),
                 ctxt.get_desc( "ASSIGN_INVLETS" ),
                 ctxt.get_desc( "CHANGE_SIDE" ),
+                ctxt.get_desc( "TOGGLE_CLOTH" ),
                 ctxt.get_desc( "SORT_ARMOR" ),
                 ctxt.get_desc( "EQUIP_ARMOR" ),
                 ctxt.get_desc( "EQUIP_ARMOR_HERE" ),
