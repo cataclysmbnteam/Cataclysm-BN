@@ -739,6 +739,32 @@
   },
   {
     "type": "profession",
+    "id": "bionic_labtech",
+    "name": "Bionic Lab-tech",
+    "description": "You've spent your career keeping up with the latest advances in science, even enrolling as a subject yourself to benefit from cutting-edge bionics that would assist your own studies.  Now however, you're starting to wish they offered courses on xenobiology.",
+    "points": 8,
+    "copy-from": "labtech",
+    "skills": [
+      { "level": 4, "name": "firstaid" },
+      { "level": 4, "name": "electronics" },
+      { "level": 3, "name": "computer" },
+      { "level": 3, "name": "cooking" },
+      { "level": 3, "name": "mechanics" }
+    ],
+    "CBMs": [
+      "bio_geiger",
+      "bio_blood_anal",
+      "bio_faraday",
+      "bio_infolink",
+      "bio_electrosense",
+      "bio_surgical_razor",
+      "bio_batteries",
+      "bio_power_storage_mkII"
+    ],
+    "traits": [ "PROF_AUTODOC" ]
+  },
+  {
+    "type": "profession",
     "id": "mechanic",
     "name": "Home Mechanic",
     "description": "You've always loved working on cars, and have been eager to tune up something special one of these days.  At least now you'll never be wanting for materials.",
