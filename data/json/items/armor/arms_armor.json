@@ -310,7 +310,7 @@
     "material_thickness": 4,
     "valid_mods": [  ],
     "proportional": { "weight": 1.2 },
-    "delete": { "flags": [ "OUTER" ] },
+    "extend": { "flags": [ "OUTER" ] },
     "delete": { "flags": [ "WATER_FRIENDLY" ] }
   },
   {
