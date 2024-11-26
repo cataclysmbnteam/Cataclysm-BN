@@ -798,7 +798,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
         targets_ordered_by_range.emplace( sign * rl_dist( pt, caster.pos() ), pt );
     }
 
-    for( const std::pair<int, tripoint> &pair : targets_ordered_by_range ) {
+    for( const std::pair<const int, tripoint> &pair : targets_ordered_by_range ) {
         const tripoint &push_point = pair.second;
         const  units::angle start_angle = coord_to_angle( caster.pos(), target );
         // positive is push, negative is pull
