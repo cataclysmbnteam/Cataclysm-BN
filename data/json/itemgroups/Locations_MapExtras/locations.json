@@ -501,7 +501,7 @@
       { "item": "hard_plate", "prob": 50, "count": [ 1, 3 ] },
       { "item": "alloy_plate", "prob": 25, "count": [ 1, 3 ] },
       { "item": "alloy_sheet", "prob": 25, "count": [ 1, 10 ] },
-      { "item": "thermal_cooling", "prob": 50, "count": [ 1, 3 ] }
+      { "item": "thermal_cooling_suit", "prob": 50, "count": [ 1, 3 ] }
     ]
   },
   {
