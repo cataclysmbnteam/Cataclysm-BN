@@ -466,6 +466,11 @@ bool Character::can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) con
 
 void Character::activate_mutation( const trait_id &mut )
 {
+    // Make sure we actually have the mutation, and it's inactive.
+    if( !( has_trait( mut ) && !my_mutations[mut].powered ) ) {
+        return;
+    }
+
     const mutation_branch &mdata = mut.obj();
     char_trait_data &tdata = my_mutations[mut];
     // You can take yourself halfway to Near Death levels of hunger/thirst.
@@ -593,6 +598,11 @@ void Character::activate_mutation( const trait_id &mut )
 
 void Character::deactivate_mutation( const trait_id &mut )
 {
+    // No-op if we don't have the required mutation.
+    if( !has_active_mutation( mut ) ) {
+        return;
+    }
+
     my_mutations[mut].powered = false;
 
     // Handle stat changes from deactivation

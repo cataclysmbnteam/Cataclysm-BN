@@ -453,6 +453,9 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( set_mutation, void( const trait_id & ) );
         SET_FX_T( unset_mutation, void( const trait_id & ) );
 
+        SET_FX_T( activate_mutation, void( const trait_id & ) );
+        SET_FX_T( deactivate_mutation, void( const trait_id & ) );
+
         SET_FX_T( can_mount, bool( const monster & critter ) const );
         SET_FX_T( mount_creature, void( monster & z ) );
         SET_FX_T( is_mounted, bool() const );
