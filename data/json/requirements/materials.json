@@ -69,7 +69,7 @@
     "id": "cvd_diamond",
     "type": "requirement",
     "//": "Materials required to apply diamond coating (per 250ml volume)",
-    "components": [ [ [ "plasma", 5 ], [ "c_hydrogen_gas", 200 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+    "components": [ [ [ "plasma", 5 ], [ "c_hydrogen_gas", 20 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
   },
   {
     "id": "autoclave",
