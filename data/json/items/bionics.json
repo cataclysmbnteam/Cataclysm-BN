@@ -778,7 +778,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Hydrogen Fuel Cell CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A small hydrogen fuel cell able to generate bionic power at a decent rate of efficiency.  It's connected to a diffuse network of compressors and compact canisters able to hold up to 500 ml of hydrogen.",
+    "description": "A small hydrogen fuel cell able to generate bionic power at a decent rate of efficiency.  It's connected to a diffuse network of compressors and compact canisters able to hold up to 2 liters of hydrogen.",
     "price": "7 kUSD",
     "weight": "600 g",
     "difficulty": 9

@@ -130,7 +130,7 @@
       [ "remotevehcontrol", 5 ],
       [ "bionic_scanner", 5 ],
       [ "recipe_mininuke_launch", 10 ],
-      { "item": "c_hydrogen_gas", "prob": 5, "container-item": "metal_tank_little", "charges": [ 1000, 2000 ] },
+      { "item": "c_hydrogen_gas", "prob": 5, "container-item": "metal_tank_little", "charges": [ 10, 20 ] },
       { "item": "carbon_fiber_filament", "prob": 10, "count": [ 25, 50 ] }
     ]
   },
@@ -522,7 +522,7 @@
     "id": "microlab_storage_cvd_hydrogen",
     "subtype": "distribution",
     "entries": [
-      { "item": "c_hydrogen_gas", "prob": 25, "container-item": "metal_tank_little", "charges": [ 1000, 2000 ] },
+      { "item": "c_hydrogen_gas", "prob": 25, "container-item": "metal_tank_little", "charges": [ 10, 20 ] },
       { "item": "plasma", "prob": 75, "charges": [ 10, 20 ] }
     ]
   },
