@@ -23,7 +23,7 @@
     "skill": "launcher",
     "ammo": "flammable",
     "ammo_effects": [ "FLARE" ],
-    "reload": 4,
+    "reload": 400,
     "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER", "PYROMANIAC_WEAPON" ],
     "use_action": { "type": "firestarter", "moves": 200 },
     "faults": [  ]
