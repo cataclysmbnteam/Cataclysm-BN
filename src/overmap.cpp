@@ -6115,7 +6115,8 @@ void overmap::save() const
         serialize_view( stream );
     } );
 
-    g->get_world_db()->write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
+    g->get_world_db()->write_to_file( overmapbuffer::terrain_filename( loc ), [&](
+    std::ostream & stream ) {
         serialize( stream );
     } );
 }

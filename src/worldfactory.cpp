@@ -229,14 +229,14 @@ void worldfactory::set_active_world( WORLDPTR world )
     // DLP: DEBUG
     std::cerr << "Setting active world to " << ( world ? world->folder_path() : "NULL" ) << std::endl;
 
-    if ( active_world_db ) {
+    if( active_world_db ) {
         active_world_db = nullptr;
     }
 
     world_generator->active_world = world;
     if( world ) {
         get_options().set_world_options( &world->WORLD_OPTIONS );
-        active_world_db = std::make_unique<worlddb>(world->folder_path());
+        active_world_db = std::make_unique<worlddb>( world->folder_path() );
     } else {
         get_options().set_world_options( nullptr );
     }
@@ -1738,7 +1738,7 @@ static bool isForbidden( const std::string &candidate )
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
     // Disconnect to the database if we're somehow trying to delete the currently active world
-    if ( active_world->world_name == worldname ) {
+    if( active_world->world_name == worldname ) {
         set_active_world( nullptr );
     }
 
