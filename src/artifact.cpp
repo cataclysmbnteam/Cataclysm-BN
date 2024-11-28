@@ -1088,7 +1088,7 @@ std::string artifact_name( const std::string &type )
 
 void load_artifacts( const std::string &path )
 {
-    read_from_file_optional_json( path, []( JsonIn & artifact_json ) {
+    read_from_file_json( path, []( JsonIn & artifact_json ) {
         artifact_json.start_array();
         while( !artifact_json.end_array() ) {
             JsonObject jo = artifact_json.get_object();
@@ -1101,7 +1101,7 @@ void load_artifacts( const std::string &path )
                 jo.throw_error( "unrecognized artifact type.", "type" );
             }
         }
-    } );
+    }, true );
 }
 
 void it_artifact_tool::deserialize( const JsonObject &jo )

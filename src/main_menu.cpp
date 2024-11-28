@@ -364,7 +364,7 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
         const std::string &alt_text ) const
 {
     std::vector<std::string> result;
-    read_from_file_optional( path, [&result]( std::istream & fin ) {
+    read_from_file( path, [&result]( std::istream & fin ) {
         std::string line;
         while( std::getline( fin, line ) ) {
             if( !line.empty() && line[0] == '#' ) {
@@ -372,7 +372,7 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
             }
             result.push_back( line );
         }
-    } );
+    }, true );
     if( result.empty() ) {
         result.push_back( alt_text );
     }
@@ -427,14 +427,14 @@ void main_menu::init_strings()
 
     // Credits
     mmenu_credits.clear();
-    read_from_file_optional( PATH_INFO::credits(), [&]( std::istream & stream ) {
+    read_from_file( PATH_INFO::credits(), [&]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {
                 mmenu_credits += ( line.empty() ? " " : line ) + "\n";
             }
         }
-    } );
+    }, true );
 
     if( mmenu_credits.empty() ) {
         mmenu_credits = _( "No credits information found." );

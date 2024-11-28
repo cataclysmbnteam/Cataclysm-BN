@@ -2507,7 +2507,7 @@ void game::load_master()
 {
     using namespace std::placeholders;
     const auto datafile = get_world_base_save_path() + "/" + SAVE_MASTER;
-    read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    read_from_file( datafile, std::bind( &game::unserialize_master, this, _1 ), true );
 }
 
 bool game::load( const std::string &world )
@@ -2562,12 +2562,12 @@ bool game::load( const save_t &name )
 
     get_weather().nextweather = calendar::turn;
 
-    read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
-                             std::bind( &memorial_logger::load, &memorial(), _1 ) );
+    read_from_file( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
+                             std::bind( &memorial_logger::load, &memorial(), _1 ), true );
 
 #if defined(__ANDROID__)
-    read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS,
-                             std::bind( &game::load_shortcuts, this, _1 ) );
+    read_from_file( worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS,
+                             std::bind( &game::load_shortcuts, this, _1 ), true );
 #endif
 
     // Now that the player's worn items are updated, their sight limits need to be
@@ -2586,10 +2586,10 @@ bool game::load( const save_t &name )
     get_auto_notes_settings().load();   // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream & stream ) {
+    read_from_file( get_world_base_save_path() + "/uistate.json", []( std::istream & stream ) {
         JsonIn jsin( stream );
         uistate.deserialize( jsin );
-    } );
+    }, true );
     reload_npcs();
     validate_npc_followers();
     validate_mounted_npcs();

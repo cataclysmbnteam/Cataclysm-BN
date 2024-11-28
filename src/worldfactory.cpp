@@ -1648,9 +1648,9 @@ bool WORLDINFO::load_options()
 
     using namespace std::placeholders;
     const auto path = folder_path() + "/" + PATH_INFO::worldoptions();
-    return read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
+    return read_from_file_json( path, [&]( JsonIn & jsin ) {
         load_options( jsin );
-    } );
+    }, true );
 }
 
 void load_world_option( const JsonObject &jo )

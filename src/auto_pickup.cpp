@@ -749,9 +749,9 @@ void player_settings::load( const bool bCharacter )
         sFile = g->get_player_base_save_path() + ".apu.json";
     }
 
-    read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
+    read_from_file_json( sFile, [&]( JsonIn & jsin ) {
         ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
-    } );
+    }, true );
 
     invalidate();
 }

@@ -6087,12 +6087,12 @@ void overmap::open( overmap_special_batch &enabled_specials )
         overmap::unserialize( fin, terfilename );
     };
 
-    if( g->get_active_world()->read_from_file_optional( terfilename, ter_reader ) ) {
+    if( g->get_active_world()->read_from_file( terfilename, ter_reader, true ) ) {
         const std::string plrfilename = overmapbuffer::player_filename( loc );
         const auto plr_reader = [&]( std::istream & fin ) {
             overmap::unserialize_view( fin, plrfilename );
         };
-        read_from_file_optional( plrfilename, plr_reader );
+        read_from_file( plrfilename, plr_reader, true );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;
         // Fetch south and north

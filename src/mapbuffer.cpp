@@ -260,8 +260,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     }
 
     using namespace std::placeholders;
-    if( !g->get_active_world()->read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize,
-            this, _1 ) ) ) {
+    if( !g->get_active_world()->read_from_file_json( quad_path, std::bind( &mapbuffer::deserialize,
+            this, _1 ), true ) ) {
         // If it doesn't exist, trigger generating it.
         return nullptr;
     }

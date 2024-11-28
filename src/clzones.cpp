@@ -1197,10 +1197,10 @@ void zone_manager::load_zones()
 {
     std::string savefile = g->get_player_base_save_path() + ".zones.json";
 
-    read_from_file_optional( savefile, [&]( std::istream & fin ) {
+    read_from_file( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin );
-    } );
+    }, true );
     revert_vzones();
     added_vzones.clear();
     changed_vzones.clear();

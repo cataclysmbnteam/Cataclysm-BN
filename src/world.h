@@ -5,6 +5,7 @@
 #include <functional>
 #include <string>
 #include "json.h"
+#include "fstream_utils.h"
 
 struct WORLDINFO;
 
@@ -18,21 +19,9 @@ class world
 
         bool file_exist( const std::string &path );
 
-        void write_to_file( const std::string &path,
-                            const std::function<void( std::ostream & )> &writer );
-
-        bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
-                            const char *const fail_message );
-
-        bool read_from_file( const std::string &path,
-                             const std::function<void( std::istream & )> &reader );
-        bool read_from_file_optional( const std::string &path,
-                                      const std::function<void( std::istream & )> &reader );
-        bool read_from_file_optional_json( const std::string &path,
-                                           const std::function<void( JsonIn & )> &reader );
-
-    private:
-        const std::string worlddir;
+        bool write_to_file( const std::string &path, file_write_cb &writer, const char *fail_message = nullptr );
+        bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
+        bool read_from_file_json( const std::string &path, file_read_json_cb reader, bool optional = false );
 };
 
 #endif // CATA_SRC_WORLDDB_H

@@ -223,7 +223,7 @@ bool load_world_lua_state( const std::string &path )
     const mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
     sol::table t = get_mod_storage_table( state );
 
-    bool ret = read_from_file_optional( path, [&]( std::istream & stream ) {
+    bool ret = read_from_file( path, [&]( std::istream & stream ) {
         JsonIn jsin( stream );
         JsonObject jsobj = jsin.get_object();
 
@@ -239,7 +239,7 @@ bool load_world_lua_state( const std::string &path )
             JsonObject mod_obj = jsobj.get_object( mod.str() );
             deserialize_lua_table( t[mod.str()], mod_obj );
         }
-    } );
+    }, true );
 
     run_on_game_load_hooks( state );
     return ret;

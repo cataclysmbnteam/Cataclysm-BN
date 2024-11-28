@@ -457,24 +457,19 @@ std::istream *cata_ifstream::operator->()
     return &*_stream;
 }
 
-void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
-{
-    // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
-    ofstream_wrapper fout( path, cata_ios_mode::binary );
-    writer( fout.stream() );
-    fout.close();
-}
-
-bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
-                    const char *const fail_message )
+bool write_to_file( const std::string &path, file_write_cb &writer, const char *const fail_message)
 {
     try {
-        write_to_file( path, writer );
+        // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
+        ofstream_wrapper fout( path, cata_ios_mode::binary );
+        writer( fout.stream() );
+        fout.close();
         return true;
-
     } catch( const std::exception &err ) {
         if( fail_message ) {
             popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
+        } else {
+            std::throw_with_nested(std::runtime_error( "file write failed: " + path ));
         }
         return false;
     }
@@ -523,8 +518,12 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
     }
 }
 
-bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
+bool read_from_file( const std::string &path, file_read_cb reader, bool optional )
 {
+    if (optional && !file_exist(path)) {
+        return false;
+    }
+
     try {
         cata_ifstream fin = std::move( cata_ifstream().mode( cata_ios_mode::binary ).open( path ) );
         if( !fin.is_open() ) {
@@ -542,44 +541,12 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
     }
 }
 
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
+bool read_from_file_json( const std::string &path, file_read_json_cb reader, bool optional )
 {
     return read_from_file( path, [&]( std::istream & fin ) {
         JsonIn jsin( fin, path );
         reader( jsin );
-    } );
-}
-
-bool read_from_file( const std::string &path, JsonDeserializer &reader )
-{
-    return read_from_file_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
-    } );
-}
-
-bool read_from_file_optional( const std::string &path,
-                              const std::function<void( std::istream & )> &reader )
-{
-    // Note: slight race condition here, but we'll ignore it. Worst case: the file
-    // exists and got removed before reading it -> reading fails with a message
-    // Or file does not exists, than everything works fine because it's optional anyway.
-    return file_exist( path ) && read_from_file( path, reader );
-}
-
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader )
-{
-    return read_from_file_optional( path, [&]( std::istream & fin ) {
-        JsonIn jsin( fin, path );
-        reader( jsin );
-    } );
-}
-
-bool read_from_file_optional( const std::string &path, JsonDeserializer &reader )
-{
-    return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
-        reader.deserialize( jsin );
-    } );
+    }, optional );
 }
 
 void ofstream_wrapper::open( cata_ios_mode mode )

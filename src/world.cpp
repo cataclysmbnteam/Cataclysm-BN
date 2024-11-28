@@ -8,7 +8,6 @@
 #include "filesystem.h"
 #include "json.h"
 #include "output.h"
-#include "fstream_utils.h"
 #include "worldfactory.h"
 
 #define dbg(x) DebugLogFL((x),DC::Main)
@@ -59,48 +58,17 @@ bool world::file_exist( const std::string &path )
     return ::file_exist( info->folder_path() + "/" + path );
 }
 
-void world::write_to_file( const std::string &path,
-                             const std::function<void( std::ostream & )> &writer )
+bool world::write_to_file( const std::string &path, file_write_cb &writer, const char *fail_message )
 {
-    ::write_to_file( info->folder_path() + "/" + path, writer );
+    return ::write_to_file( info->folder_path() + "/" + path, writer, fail_message );
 }
 
-bool world::write_to_file( const std::string &path,
-                             const std::function<void( std::ostream & )> &writer,
-                             const char *const fail_message )
+bool world::read_from_file( const std::string &path, file_read_cb reader, bool optional )
 {
-    try {
-        write_to_file( path, writer );
-        return true;
-
-    } catch( const std::exception &err ) {
-        if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
-        }
-        return false;
-    }
+    return ::read_from_file( info->folder_path() + "/" + path, reader, optional );
 }
 
-bool world::read_from_file( const std::string &path,
-                              const std::function<void( std::istream & )> &reader )
+bool world::read_from_file_json( const std::string &path, file_read_json_cb reader, bool optional )
 {
-    return ::read_from_file( info->folder_path() + "/" + path, reader );
-}
-
-bool world::read_from_file_optional( const std::string &path,
-                                       const std::function<void( std::istream & )> &reader )
-{
-    // Note: slight race condition here, but we'll ignore it. Worst case: the file
-    // exists and got removed before reading it -> reading fails with a message
-    // Or file does not exists, than everything works fine because it's optional anyway.
-    return file_exist( path ) && read_from_file( path, reader );
-}
-
-bool world::read_from_file_optional_json( const std::string &path,
-        const std::function<void( JsonIn & )> &reader )
-{
-    return read_from_file_optional( path, [&]( std::istream & fin ) {
-        JsonIn jsin( fin, path );
-        reader( jsin );
-    } );
+    return ::read_from_file_json( info->folder_path() + "/" + path, reader, optional );
 }

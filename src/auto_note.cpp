@@ -92,7 +92,7 @@ void auto_note_settings::load()
         }
     };
 
-    if( !read_from_file_optional_json( build_save_path(), parseJson ) ) {
+    if( !read_from_file_json( build_save_path(), parseJson, true ) ) {
         default_initialize();
         save();
     }

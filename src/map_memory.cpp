@@ -250,7 +250,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
     };
 
     try {
-        if( !read_from_file_optional_json( path, loader ) ) {
+        if( !read_from_file_json( path, loader, true ) ) {
             // Region not found
             return nullptr;
         }
@@ -308,9 +308,9 @@ void map_memory::load( const tripoint &pos )
         const std::string legacy_file = find_legacy_mm_file();
         if( file_exist( legacy_file ) ) {
             try {
-                read_from_file_optional_json( legacy_file, [&]( JsonIn & jsin ) {
+                read_from_file_json( legacy_file, [&]( JsonIn & jsin ) {
                     this->load_legacy( jsin );
-                } );
+                }, true );
             } catch( const std::exception &err ) {
                 debugmsg( "Failed to load legacy memory map file: %s", err.what() );
             }
