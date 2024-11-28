@@ -432,7 +432,7 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
         std::vector<mod_id> dummy;
         tilecontext->load_tileset(
             get_option<std::string>( "TILES" ),
-            world_generator->active_world ? world_generator->active_world->active_mod_order : dummy,
+            world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
             /*precheck=*/false,
             /*force=*/true,
             /*pump_events=*/true
@@ -1183,10 +1183,10 @@ bool game::cleanup_at_end()
             }
 
             if( queryDelete || get_option<std::string>( "WORLD_END" ) == "delete" ) {
-                world_generator->delete_world( world_generator->active_world->world_name, true );
+                world_generator->delete_world( world_generator->active_world->info->world_name, true );
 
             } else if( queryReset || get_option<std::string>( "WORLD_END" ) == "reset" ) {
-                world_generator->delete_world( world_generator->active_world->world_name, false );
+                world_generator->delete_world( world_generator->active_world->info->world_name, false );
             }
         } else if( get_option<std::string>( "WORLD_END" ) != "keep" ) {
             std::string tmpmessage;
@@ -2513,7 +2513,7 @@ void game::load_master()
 bool game::load( const std::string &world )
 {
     world_generator->init();
-    const WORLDPTR wptr = world_generator->get_world( world );
+    WORLDINFO* wptr = world_generator->get_world( world );
     if( !wptr ) {
         return false;
     }
@@ -2757,10 +2757,10 @@ bool game::save( bool quitting )
           ) {
             return false;
         } else {
-            world_generator->last_world_name = world_generator->active_world->world_name;
+            world_generator->last_world_name = world_generator->active_world->info->world_name;
             world_generator->last_character_name = u.name;
             world_generator->save_last_world_info();
-            world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
+            world_generator->active_world->info->add_save( save_t::from_save_id( u.get_save_id() ) );
             return true;
         }
     } catch( std::ios::failure &err ) {
@@ -2772,7 +2772,7 @@ bool game::save( bool quitting )
 std::vector<std::string> game::list_active_saves()
 {
     std::vector<std::string> saves;
-    for( auto &worldsave : world_generator->active_world->world_saves ) {
+    for( auto &worldsave : world_generator->active_world->info->world_saves ) {
         saves.push_back( worldsave.decoded_name() );
     }
     return saves;
@@ -2788,7 +2788,7 @@ void game::write_memorial_file( const std::string &filename, std::string sLastWo
 {
     const std::string &memorial_dir = PATH_INFO::memorialdir();
     const std::string &memorial_active_world_dir = memorial_dir +
-            world_generator->active_world->world_name + "/";
+            world_generator->active_world->info->world_name + "/";
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if( !assure_dir_exist( memorial_dir ) ) {
@@ -11413,12 +11413,12 @@ void game::quicksave()
 
 void game::quickload()
 {
-    const WORLDPTR active_world = world_generator->active_world;
+    world* active_world = get_active_world();
     if( active_world == nullptr ) {
         return;
     }
 
-    if( active_world->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
+    if( active_world->info->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
             MAPBUFFER.clear();
             overmap_buffer.clear();
@@ -12138,7 +12138,12 @@ std::string game::get_world_base_save_path() const
     if( world_generator->active_world == nullptr ) {
         return PATH_INFO::savedir();
     }
-    return world_generator->active_world->folder_path();
+    return world_generator->active_world->info->folder_path();
+}
+
+world* game::get_active_world()
+{
+    return world_generator->active_world.get();
 }
 
 void game::shift_destination_preview( point delta )

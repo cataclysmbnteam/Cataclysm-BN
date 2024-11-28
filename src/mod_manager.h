@@ -14,9 +14,7 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-struct WORLD;
-
-using WORLDPTR = WORLD *;
+struct WORLDINFO;
 class JsonObject;
 class dependency_tree;
 class mod_manager;
@@ -165,12 +163,12 @@ class mod_manager
          * Save list of mods that are active in that world to
          * the world folder.
          */
-        void save_mods_list( WORLDPTR world ) const;
+        void save_mods_list( WORLDINFO* world ) const;
         /**
          * Load list of mods that should be active in that
          * world.
          */
-        void load_mods_list( WORLDPTR world ) const;
+        void load_mods_list( WORLDINFO* world ) const;
         const t_mod_list &get_default_mods() const;
         bool set_default_mods( const t_mod_list &mods );
         std::vector<mod_id> get_all_sorted() const;
@@ -184,7 +182,7 @@ class mod_manager
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
          */
-        static std::string get_mods_list_file( WORLDPTR world );
+        static std::string get_mods_list_file( WORLDINFO* world );
 
         /**
          * Add mods from given list to the pool.

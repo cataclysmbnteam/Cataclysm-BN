@@ -946,7 +946,7 @@ void init::load_world_modfiles( loading_ui &ui, const std::string &artifacts_fil
 {
     clear_loaded_data();
 
-    mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
+    mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
 
     // remove any duplicates whilst preserving order (fixes #19385)
     std::set<mod_id> found;
@@ -1025,7 +1025,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
         world_generator->set_active_world( nullptr );
         world_generator->init();
         const std::vector<mod_id> mods_empty;
-        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        WORLDINFO* test_world = world_generator->make_new_world( mods_empty );
         if( !test_world ) {
             std::cerr << "Failed to generate test world." << '\n';
             return false;
@@ -1045,7 +1045,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
             std::cerr << "Error loading data: " << err.what() << '\n';
         }
 
-        std::string world_name = world_generator->active_world->world_name;
+        std::string world_name = world_generator->active_world->info->world_name;
         world_generator->delete_world( world_name, true );
 
         // TODO: Why would we need these calls?

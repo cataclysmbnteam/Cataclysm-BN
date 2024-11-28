@@ -2748,7 +2748,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
 
             tilecontext->load_tileset(
                 get_option<std::string>( "TILES" ),
-                ingame ? world_generator->active_world->active_mod_order : dummy,
+                ingame ? world_generator->active_world->info->active_mod_order : dummy,
                 /*precheck=*/false,
                 /*force=*/force_tile_change,
                 /*pump_events=*/true
@@ -3309,8 +3309,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
             save();
             if( ingame && world_options_changed ) {
-                world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
-                world_generator->active_world->save();
+                world_generator->active_world->info->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
+                world_generator->active_world->info->save();
             }
             g->on_options_changed();
         } else {

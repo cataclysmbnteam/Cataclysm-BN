@@ -147,7 +147,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
-    WORLDPTR test_world = world_generator->make_new_world( mods );
+    WORLDINFO* test_world = world_generator->make_new_world( mods );
     assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
     assert( world_generator->active_world != nullptr );
@@ -352,7 +352,7 @@ int main( int argc, const char *argv[] )
 
     clear_all_state();
 
-    auto world_name = world_generator->active_world->world_name;
+    auto world_name = world_generator->active_world->info->world_name;
     if( result == 0 || dont_save ) {
         world_generator->delete_world( world_name, true );
     } else {

@@ -166,7 +166,7 @@ void show_lua_console()
 void reload_lua_code()
 {
     cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
-    const auto &packs = world_generator->active_world->active_mod_order;
+    const auto &packs = world_generator->active_world->info->active_mod_order;
     try {
         init::load_main_lua_scripts( state, packs );
     } catch( std::runtime_error &e ) {
@@ -198,7 +198,7 @@ bool save_world_lua_state( const std::string &path )
 {
     lua_state &state = *DynamicDataLoader::get_instance().lua;
 
-    const mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
+    const mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
     sol::table t = get_mod_storage_table( state );
     run_on_game_save_hooks( state );
     bool ret = write_to_file( path, [&]( std::ostream & stream ) {
@@ -220,7 +220,7 @@ bool save_world_lua_state( const std::string &path )
 bool load_world_lua_state( const std::string &path )
 {
     lua_state &state = *DynamicDataLoader::get_instance().lua;
-    const mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
+    const mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
     sol::table t = get_mod_storage_table( state );
 
     bool ret = read_from_file_optional( path, [&]( std::istream & stream ) {

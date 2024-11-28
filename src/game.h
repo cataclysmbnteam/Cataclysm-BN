@@ -99,9 +99,8 @@ class stats_tracker;
 template<typename Tripoint>
 class tripoint_range;
 class vehicle;
-struct WORLD;
-
-using WORLDPTR = WORLD *;
+struct WORLDINFO;
+class world;
 class live_view;
 class loading_ui;
 class overmap;
@@ -167,6 +166,11 @@ class game
          * Base path for saving world data. This yields a path to a folder.
          */
         std::string get_world_base_save_path() const;
+
+        /**
+         * @return The current world database, or nullptr if no world is loaded.
+         */
+        world* get_active_world();
 
         /**
          * @brief Should be invoked whenever options change.

@@ -13,6 +13,7 @@
 #include "options.h"
 #include "pimpl.h"
 #include "type_id.h"
+#include "world.h"
 
 enum class special_game_type;
 
@@ -48,7 +49,13 @@ class save_t
         save_t &operator=( const save_t & ) = default;
 };
 
-struct WORLD {
+/**
+ * Structure containing metadata about a world. No actual world data is processed here.
+ * 
+ * The actual instances are owned by the worldfactory class. All other classes should
+ * only have a pointer to one of these owned instances.
+ */
+struct WORLDINFO {
     public:
         /**
          * @returns A path to a folder in the file system that should contain
@@ -66,8 +73,8 @@ struct WORLD {
          */
         std::vector<mod_id> active_mod_order;
 
-        WORLD();
-        void COPY_WORLD( const WORLD *world_to_copy );
+        WORLDINFO();
+        void COPY_WORLD( const WORLDINFO *world_to_copy );
 
         bool needs_lua() const;
 
@@ -85,8 +92,6 @@ class mod_manager;
 class mod_ui;
 class input_context;
 
-using WORLDPTR = WORLD *;
-
 class worldfactory
 {
     public:
@@ -94,23 +99,23 @@ class worldfactory
         ~worldfactory();
 
         // Generate a world
-        WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
-        WORLDPTR make_new_world( special_game_type special_type );
+        WORLDINFO* make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
+        WORLDINFO* make_new_world( special_game_type special_type );
         // Used for unit tests - does NOT verify if the mods can be loaded
-        WORLDPTR make_new_world( const std::vector<mod_id> &mods );
+        WORLDINFO* make_new_world( const std::vector<mod_id> &mods );
         // Returns the *existing* world of given name.
-        WORLDPTR get_world( const std::string &name );
+        WORLDINFO* get_world( const std::string &name );
         // Returns index for world name, 0 if world cannot be found.
         size_t get_world_index( const std::string &name );
         bool has_world( const std::string &name ) const;
 
-        void set_active_world( WORLDPTR world );
+        void set_active_world( WORLDINFO* world );
 
         void init();
 
-        WORLDPTR pick_world( bool show_prompt = true, bool empty_only = false );
+        WORLDINFO* pick_world( bool show_prompt = true, bool empty_only = false );
 
-        WORLDPTR active_world;
+        std::unique_ptr<world> active_world;
 
         std::vector<std::string> all_worldnames() const;
 
@@ -133,19 +138,19 @@ class worldfactory
 
         static void draw_worldgen_tabs( const catacurses::window &w, size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
-        void edit_active_world_mods( WORLDPTR world );
+        void edit_active_world_mods( WORLDINFO* world );
 
     private:
-        std::map<std::string, std::unique_ptr<WORLD>> all_worlds;
+        std::map<std::string, std::unique_ptr<WORLDINFO>> all_worlds;
 
         void load_last_world_info();
 
         std::string pick_random_name();
-        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world,
+        int show_worldgen_tab_options( const catacurses::window &win, WORLDINFO* world,
                                        const std::function<bool()> &on_quit );
-        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
+        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDINFO* world,
                                             const std::function<bool()> &on_quit );
-        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
+        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDINFO* world,
                                        const std::function<bool()> &on_quit );
 
         int show_modselection_window( const catacurses::window &win, std::vector<mod_id> &active_mod_order,
@@ -159,12 +164,12 @@ class worldfactory
                             const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
 
-        WORLDPTR add_world( std::unique_ptr<WORLD> retworld );
+        WORLDINFO* add_world( std::unique_ptr<WORLDINFO> retworld );
 
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;
 
-        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR,
+        using worldgen_display = std::function<int ( const catacurses::window &, WORLDINFO*,
                                  const std::function<bool()> )>;
 
         std::vector<worldgen_display> tabs;
