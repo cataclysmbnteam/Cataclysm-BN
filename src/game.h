@@ -29,6 +29,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "worlddb.h"
 
 class Character;
 class Creature_tracker;
@@ -167,6 +168,11 @@ class game
          * Base path for saving world data. This yields a path to a folder.
          */
         std::string get_world_base_save_path() const;
+
+        /**
+         * @return The current world database, or nullptr if no world is loaded.
+         */
+        shared_ptr_fast<worlddb> get_world_db();
 
         /**
          * @brief Should be invoked whenever options change.

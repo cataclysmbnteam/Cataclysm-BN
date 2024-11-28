@@ -33,7 +33,7 @@ static std::string find_quad_path( const std::string &dirname, const tripoint &o
 static std::string find_dirname( const tripoint &om_addr )
 {
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
-    return string_format( "%s/maps/%d.%d.%d", g->get_world_base_save_path(), segment_addr.x,
+    return string_format( "maps/%d.%d.%d", segment_addr.x,
                           segment_addr.y, segment_addr.z );
 }
 
@@ -97,7 +97,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( g->get_world_base_save_path() + "/maps" );
+    // assure_dir_exist( g->get_world_base_save_path() + "/maps" );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
@@ -144,7 +144,7 @@ void mapbuffer::save( bool delete_after_save )
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
         const bool zlev_del = !map_has_zlevels && om_addr.z != g->get_levz();
-        save_quad( dirname, quad_path, om_addr, submaps_to_delete,
+        save_quad( quad_path, om_addr, submaps_to_delete,
                    delete_after_save || zlev_del ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
                    om_addr.x > map_origin.x + HALF_MAPSIZE ||
@@ -158,7 +158,7 @@ void mapbuffer::save( bool delete_after_save )
     get_distribution_grid_tracker().on_saved();
 }
 
-void mapbuffer::save_quad( const std::string &dirname, const std::string &filename,
+void mapbuffer::save_quad( const std::string &filename,
                            const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                            bool delete_after_save )
 {
@@ -199,8 +199,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
     }
 
     // Don't create the directory if it would be empty
-    assure_dir_exist( dirname );
-    write_to_file( filename, [&]( std::ostream & fout ) {
+    g->get_world_db()->write_to_file( filename, [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         jsout.start_array();
         for( auto &submap_addr : submap_addrs ) {
@@ -247,20 +246,20 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     const std::string dirname = find_dirname( om_addr );
     std::string quad_path = find_quad_path( dirname, om_addr );
 
-    if( !file_exist( quad_path ) ) {
+    if( !g->get_world_db()->file_exist( quad_path ) ) {
         // Fix for old saves where the path was generated using std::stringstream, which
         // did format the number using the current locale. That formatting may insert
         // thousands separators, so the resulting path is "map/1,234.7.8.map" instead
         // of "map/1234.7.8.map".
         std::ostringstream buffer;
         buffer << dirname << "/" << om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
-        if( file_exist( buffer.str() ) ) {
+        if( g->get_world_db()->file_exist( buffer.str() ) ) {
             quad_path = buffer.str();
         }
     }
 
     using namespace std::placeholders;
-    if( !read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
+    if( !g->get_world_db()->read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
         // If it doesn't exist, trigger generating it.
         return nullptr;
     }

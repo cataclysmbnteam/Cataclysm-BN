@@ -775,9 +775,12 @@ void diary::export_to_md( bool last_export )
 
 bool diary::store()
 {
+    if ( !g->get_world_db() ) {
+        return false;
+    }
+    
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = g->get_world_base_save_path() + "/" + name + ".json";
-    const bool is_writen = write_to_file( path, [&]( std::ostream & fout ) {
+    const bool is_writen = g->get_world_db()->write_to_file( name + ".json", [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "diary data" ) );
     return is_writen;
@@ -826,10 +829,13 @@ void diary::serialize( JsonOut &jsout )
 
 void diary::load()
 {
+    if ( !g->get_world_db() ) {
+        return;
+    }
+    
     std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = g->get_world_base_save_path() + "/" + name + ".json";
-    if( file_exist( path ) ) {
-        read_from_file( path, [&]( std::istream & fin ) {
+    if( g->get_world_db()->file_exist( name + ".json" ) ) {
+        g->get_world_db()->read_from_file( name + ".json", [&]( std::istream & fin ) {
             deserialize( fin );
         } );
     }

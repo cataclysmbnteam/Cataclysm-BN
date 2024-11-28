@@ -6086,7 +6086,7 @@ void overmap::open( overmap_special_batch &enabled_specials )
         overmap::unserialize( fin, terfilename );
     };
 
-    if( read_from_file_optional( terfilename, ter_reader ) ) {
+    if( g->get_world_db()->read_from_file_optional( terfilename, ter_reader ) ) {
         const std::string plrfilename = overmapbuffer::player_filename( loc );
         const auto plr_reader = [&]( std::istream & fin ) {
             overmap::unserialize_view( fin, plrfilename );
@@ -6115,7 +6115,7 @@ void overmap::save() const
         serialize_view( stream );
     } );
 
-    write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
+    g->get_world_db()->write_to_file( overmapbuffer::terrain_filename( loc ), [&]( std::ostream & stream ) {
         serialize( stream );
     } );
 }

@@ -13,6 +13,8 @@
 #include "options.h"
 #include "pimpl.h"
 #include "type_id.h"
+#include "worlddb.h"
+#include "memory_fast.h"
 
 enum class special_game_type;
 
@@ -111,6 +113,7 @@ class worldfactory
         WORLDPTR pick_world( bool show_prompt = true, bool empty_only = false );
 
         WORLDPTR active_world;
+        shared_ptr_fast<worlddb> active_world_db;
 
         std::vector<std::string> all_worldnames() const;
 

@@ -121,6 +121,7 @@ void WORLD::add_save( const save_t &name )
 
 worldfactory::worldfactory()
     : active_world( nullptr )
+    , active_world_db( nullptr )
     , mman_ui( *mman )
 {
     // prepare tab display order
@@ -225,9 +226,17 @@ WORLDPTR worldfactory::make_new_world( special_game_type special_type )
 
 void worldfactory::set_active_world( WORLDPTR world )
 {
+    // DLP: DEBUG
+    std::cerr << "Setting active world to " << ( world ? world->folder_path() : "NULL" ) << std::endl;
+
+    if ( active_world_db ) {
+        active_world_db = nullptr;
+    }
+
     world_generator->active_world = world;
     if( world ) {
         get_options().set_world_options( &world->WORLD_OPTIONS );
+        active_world_db = std::make_unique<worlddb>(world->folder_path());
     } else {
         get_options().set_world_options( nullptr );
     }
@@ -591,8 +600,7 @@ void worldfactory::remove_world( const std::string &worldname )
     if( it != all_worlds.end() ) {
         WORLDPTR wptr = it->second.get();
         if( active_world == wptr ) {
-            get_options().set_world_options( nullptr );
-            active_world = nullptr;
+            set_active_world( nullptr );
         }
         all_worlds.erase( it );
     }
@@ -1729,6 +1737,11 @@ static bool isForbidden( const std::string &candidate )
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
+    // Disconnect to the database if we're somehow trying to delete the currently active world
+    if ( active_world->world_name == worldname ) {
+        set_active_world( nullptr );
+    }
+
     std::string worldpath = get_world( worldname )->folder_path();
     std::set<std::string> directory_paths;
 

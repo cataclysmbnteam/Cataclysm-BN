@@ -69,6 +69,8 @@ if (TILES)
             ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
     endif ()
 
+    target_link_libraries(cataclysm-bn-tiles-common PUBLIC SQLite::SQLite3)
+
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-bn-tiles-common PUBLIC "-pthread")
     endif ()
@@ -180,6 +182,8 @@ if (CURSES)
 
     target_include_directories(cataclysm-bn-common PUBLIC ${CURSES_INCLUDE_DIR})
     target_link_libraries(cataclysm-bn-common PUBLIC ${CURSES_LIBRARIES})
+
+    target_link_libraries(cataclysm-bn-tiles-common PUBLIC SQLite::SQLite3)
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-bn-common PUBLIC "-pthread")

@@ -12141,6 +12141,11 @@ std::string game::get_world_base_save_path() const
     return world_generator->active_world->folder_path();
 }
 
+shared_ptr_fast<worlddb> game::get_world_db()
+{
+    return world_generator->active_world_db;
+}
+
 void game::shift_destination_preview( point delta )
 {
     for( tripoint &p : destination_preview ) {
