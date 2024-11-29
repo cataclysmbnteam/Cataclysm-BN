@@ -942,11 +942,11 @@ void init::load_core_bn_modfiles()
     );
 }
 
-void init::load_world_modfiles( loading_ui &ui, const std::string &artifacts_file )
+void init::load_world_modfiles( loading_ui &ui, world* world, const std::string &artifacts_file )
 {
     clear_loaded_data();
 
-    mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;
+    mod_management::t_mod_list &mods = world->info->active_mod_order;
 
     // remove any duplicates whilst preserving order (fixes #19385)
     std::set<mod_id> found;
@@ -967,7 +967,7 @@ void init::load_world_modfiles( loading_ui &ui, const std::string &artifacts_fil
     }
 
     // TODO: get rid of artifacts
-    load_artifacts( artifacts_file );
+    load_artifacts( world, artifacts_file );
 
     // this code does not care about mod dependencies,
     // it assumes that those dependencies are static and

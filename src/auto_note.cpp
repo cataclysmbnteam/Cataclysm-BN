@@ -18,12 +18,13 @@
 #include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "world.h"
 
 namespace auto_notes
 {
 std::string auto_note_settings::build_save_path() const
 {
-    return g->get_player_base_save_path() + ".ano.json";
+    return g->get_active_world()->get_player_base_save_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -33,11 +34,12 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save()
 {
-    if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
+    world* world = g->get_active_world();
+    if( !world->file_exist( world->get_player_base_save_path() + ".sav" ) ) {
         return true;
     }
 
-    return write_to_file( build_save_path(), [&]( std::ostream & fstr ) {
+    return world->write_to_file( build_save_path(), [&]( std::ostream & fstr ) {
         JsonOut jout{ fstr, true };
 
         jout.start_object();
@@ -92,7 +94,7 @@ void auto_note_settings::load()
         }
     };
 
-    if( !read_from_file_json( build_save_path(), parseJson, true ) ) {
+    if( !g->get_active_world()->read_from_file_json( build_save_path(), parseJson, true ) ) {
         default_initialize();
         save();
     }

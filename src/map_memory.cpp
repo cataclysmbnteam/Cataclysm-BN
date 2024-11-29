@@ -9,6 +9,7 @@
 #include "line.h"
 #include "translations.h"
 #include "map.h"
+#include "world.h"
 const memorized_terrain_tile mm_submap::default_tile { "", 0, 0 };
 const int mm_submap::default_symbol = 0;
 
@@ -18,12 +19,14 @@ const int mm_submap::default_symbol = 0;
 
 static std::string find_legacy_mm_file()
 {
-    return g->get_player_base_save_path() + ".mm";
+    return g->get_active_world()->info->folder_path() + "/" 
+        + g->get_active_world()->get_player_base_save_path() + ".mm";
 }
 
 static std::string find_mm_dir()
 {
-    return string_format( "%s.mm1", g->get_player_base_save_path() );
+    return string_format( "%s.mm1", g->get_active_world()->info->folder_path() + "/" 
+        + g->get_active_world()->get_player_base_save_path() );
 }
 
 static std::string find_region_path( const std::string &dirname, const tripoint &p )

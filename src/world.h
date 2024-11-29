@@ -5,9 +5,75 @@
 #include <functional>
 #include <string>
 #include "json.h"
+#include "options.h"
+#include "type_id.h"
+#include "coordinates.h"
 #include "fstream_utils.h"
 
-struct WORLDINFO;
+class avatar;
+
+class save_t
+{
+    private:
+        std::string name;
+
+        save_t( const std::string &name );
+
+    public:
+        std::string decoded_name() const;
+        std::string base_path() const;
+
+        static save_t from_save_id( const std::string &save_id );
+        static save_t from_base_path( const std::string &base_path );
+
+        bool operator==( const save_t &rhs ) const {
+            return name == rhs.name;
+        }
+        bool operator!=( const save_t &rhs ) const {
+            return !operator==( rhs );
+        }
+        save_t( const save_t & ) = default;
+        save_t &operator=( const save_t & ) = default;
+};
+
+/**
+ * Structure containing metadata about a world. No actual world data is processed here.
+ * 
+ * The actual instances are owned by the worldfactory class. All other classes should
+ * only have a pointer to one of these owned instances.
+ */
+struct WORLDINFO {
+    public:
+        /**
+         * @returns A path to a folder in the file system that should contain
+         * all the world specific files. It depends on @ref world_name,
+         * changing that will also change the result of this function.
+         */
+        std::string folder_path() const;
+
+        std::string world_name;
+        options_manager::options_container WORLD_OPTIONS;
+        std::vector<save_t> world_saves;
+        /**
+         * A (possibly empty) list of (idents of) mods that
+         * should be loaded for this world.
+         */
+        std::vector<mod_id> active_mod_order;
+
+        WORLDINFO();
+        void COPY_WORLD( const WORLDINFO *world_to_copy );
+
+        bool needs_lua() const;
+
+        bool save_exists( const save_t &name ) const;
+        void add_save( const save_t &name );
+
+        bool save( bool is_conversion = false ) const;
+
+        void load_options( JsonIn &jsin );
+        bool load_options();
+        void load_legacy_options( std::istream &fin );
+};
 
 class world
 {
@@ -17,11 +83,53 @@ class world
 
         WORLDINFO* info;
 
-        bool file_exist( const std::string &path );
+        /**
+         * Right now, each file write is independent of the others. Once we start
+         * migrating to SQLite, each save would happen in a single transaction. This
+         * gives two benefits: (1) atomicity, and (2) performance.
+         * 
+         * When using the V1 non-sqlite save system, this merely records some metadata
+         * so we can print how long the save took.
+         */
+        /**@{*/
+        void start_save_tx();
+        long long commit_save_tx();
+        /**@}*/
 
+        /*
+         * Targeted/domain-specific file operations. Different save formats may choose to
+         * lay out files differently, so centralize file placement logic here rather than
+         * scattering it throughout the codebase.
+         */
+        bool read_map_quad( const tripoint &om_addr, file_read_json_cb reader );
+        bool write_map_quad( const tripoint &om_addr, file_write_cb &writer );
+
+        bool overmap_exists( const point_abs_om &p );
+        bool read_overmap( const point_abs_om &p, file_read_cb reader );
+        bool read_overmap_player_visibility( const point_abs_om &p, file_read_cb reader );
+        bool write_overmap( const point_abs_om &p, file_write_cb writer );
+        bool write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer );
+
+        /*
+         * Generic file operations, acting as a catch-all for miscellaneous save files.
+         */
+        bool file_exist( const std::string &path );
         bool write_to_file( const std::string &path, file_write_cb &writer, const char *fail_message = nullptr );
         bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
         bool read_from_file_json( const std::string &path, file_read_json_cb reader, bool optional = false );
+
+        /**
+         * Base path for saving player data. Just add a suffix (unique for
+         * the thing you want to save) and use the resulting path.
+         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
+         */
+        std::string overmap_terrain_filename( const point_abs_om &p ) const;
+        std::string overmap_player_filename( const point_abs_om &p ) const;
+        std::string get_player_base_save_path() const;
+    
+    private:
+        /** If non-zero, indicates we're in the middle of a save event */
+        long long save_tx_start_ts = 0;
 };
 
 #endif // CATA_SRC_WORLDDB_H

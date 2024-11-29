@@ -25,68 +25,6 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
-class save_t
-{
-    private:
-        std::string name;
-
-        save_t( const std::string &name );
-
-    public:
-        std::string decoded_name() const;
-        std::string base_path() const;
-
-        static save_t from_save_id( const std::string &save_id );
-        static save_t from_base_path( const std::string &base_path );
-
-        bool operator==( const save_t &rhs ) const {
-            return name == rhs.name;
-        }
-        bool operator!=( const save_t &rhs ) const {
-            return !operator==( rhs );
-        }
-        save_t( const save_t & ) = default;
-        save_t &operator=( const save_t & ) = default;
-};
-
-/**
- * Structure containing metadata about a world. No actual world data is processed here.
- * 
- * The actual instances are owned by the worldfactory class. All other classes should
- * only have a pointer to one of these owned instances.
- */
-struct WORLDINFO {
-    public:
-        /**
-         * @returns A path to a folder in the file system that should contain
-         * all the world specific files. It depends on @ref world_name,
-         * changing that will also change the result of this function.
-         */
-        std::string folder_path() const;
-
-        std::string world_name;
-        options_manager::options_container WORLD_OPTIONS;
-        std::vector<save_t> world_saves;
-        /**
-         * A (possibly empty) list of (idents of) mods that
-         * should be loaded for this world.
-         */
-        std::vector<mod_id> active_mod_order;
-
-        WORLDINFO();
-        void COPY_WORLD( const WORLDINFO *world_to_copy );
-
-        bool needs_lua() const;
-
-        bool save_exists( const save_t &name ) const;
-        void add_save( const save_t &name );
-
-        bool save( bool is_conversion = false ) const;
-
-        void load_options( JsonIn &jsin );
-        bool load_options();
-        void load_legacy_options( std::istream &fin );
-};
 
 class mod_manager;
 class mod_ui;
@@ -128,6 +66,7 @@ class worldfactory
 
         void remove_world( const std::string &worldname );
         bool valid_worldname( const std::string &name, bool automated = false );
+        std::string get_next_valid_worldname();
 
         /**
          * @param delete_folder If true: delete all the files and directories  of the given

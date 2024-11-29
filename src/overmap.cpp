@@ -6081,18 +6081,18 @@ void overmap::place_radios()
 
 void overmap::open( overmap_special_batch &enabled_specials )
 {
-    const std::string terfilename = overmapbuffer::terrain_filename( loc );
+    // const std::string terfilename = overmapbuffer::terrain_filename( loc );
 
     const auto ter_reader = [&]( std::istream & fin ) {
-        overmap::unserialize( fin, terfilename );
+        overmap::unserialize( fin, string_format( "overmap terrain %d.%d", loc.x(), loc.y() ) );
     };
 
-    if( g->get_active_world()->read_from_file( terfilename, ter_reader, true ) ) {
-        const std::string plrfilename = overmapbuffer::player_filename( loc );
+    if( g->get_active_world()->read_overmap( loc, ter_reader ) ) {
+        // const std::string plrfilename = overmapbuffer::player_filename( loc );
         const auto plr_reader = [&]( std::istream & fin ) {
-            overmap::unserialize_view( fin, plrfilename );
+            overmap::unserialize_view( fin, string_format( "overmap visibility %d.%d", loc.x(), loc.y() ) );
         };
-        read_from_file( plrfilename, plr_reader, true );
+        g->get_active_world()->read_overmap_player_visibility( loc, plr_reader );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;
         // Fetch south and north
@@ -6112,12 +6112,11 @@ void overmap::open( overmap_special_batch &enabled_specials )
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    write_to_file( overmapbuffer::player_filename( loc ), [&]( std::ostream & stream ) {
+    g->get_active_world()->write_overmap_player_visibility( loc, [&]( std::ostream & stream ) {
         serialize_view( stream );
     } );
 
-    g->get_active_world()->write_to_file( overmapbuffer::terrain_filename( loc ), [&](
-    std::ostream & stream ) {
+    g->get_active_world()->write_overmap( loc, [&](std::ostream & stream ) {
         serialize( stream );
     } );
 }

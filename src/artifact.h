@@ -7,6 +7,7 @@
 #include "enums.h"
 #include "itype.h"
 #include "relic.h"
+#include "world.h"
 
 class JsonObject;
 class JsonOut;
@@ -126,9 +127,9 @@ itype_id new_artifact();
 itype_id new_natural_artifact( artifact_natural_property prop );
 
 // note: needs to be called by main() before MAPBUFFER.load
-void load_artifacts( const std::string &path );
+void load_artifacts( world* world, const std::string &path );
 // save artifact definitions to json, path must be the same as for loading.
-bool save_artifacts( const std::string &path );
+bool save_artifacts( world* world, const std::string &path );
 
 bool check_art_charge_req( item &it );
 

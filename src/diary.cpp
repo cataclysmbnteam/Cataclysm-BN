@@ -748,7 +748,9 @@ void diary::delete_page()
 void diary::export_to_md( bool last_export )
 {
     std::ofstream myfile;
-    std::string path = last_export ? PATH_INFO::memorialdir() : g->get_world_base_save_path();
+    std::string path = last_export 
+        ? PATH_INFO::memorialdir() 
+        : (g->get_active_world() ? g->get_active_world()->info->folder_path() : PATH_INFO::savedir());
     path += "/" + owner + "s_diary.md";
     myfile.open( path );
 

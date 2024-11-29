@@ -25,7 +25,6 @@
 #include "input.h"
 #include "json.h"
 #include "mod_manager.h"
-#include "name.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -35,6 +34,7 @@
 #include "string_utils.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "name.h"
 
 using namespace std::placeholders;
 
@@ -46,78 +46,6 @@ std::unique_ptr<worldfactory> world_generator;
   * 0 index is inclusive.
   */
 static const int max_worldname_len = 32;
-
-save_t::save_t( const std::string &name ): name( name ) {}
-
-std::string save_t::decoded_name() const
-{
-    return name;
-}
-
-std::string save_t::base_path() const
-{
-    return base64_encode( name );
-}
-
-save_t save_t::from_save_id( const std::string &save_id )
-{
-    return save_t( save_id );
-}
-
-save_t save_t::from_base_path( const std::string &base_path )
-{
-    return save_t( base64_decode( base_path ) );
-}
-
-static std::string get_next_valid_worldname()
-{
-    std::string worldname = Name::get( nameIsWorldName );
-
-    return worldname;
-}
-
-WORLDINFO::WORLDINFO()
-{
-    world_name = get_next_valid_worldname();
-    WORLD_OPTIONS = get_options().get_world_defaults();
-
-    world_saves.clear();
-    active_mod_order = world_generator->get_mod_manager().get_default_mods();
-}
-
-void WORLDINFO::COPY_WORLD( const WORLDINFO *world_to_copy )
-{
-    world_name = world_to_copy->world_name + "_copy";
-    WORLD_OPTIONS = world_to_copy->WORLD_OPTIONS;
-    active_mod_order = world_to_copy->active_mod_order;
-}
-
-bool WORLDINFO::needs_lua() const
-{
-    for( const mod_id &mod : active_mod_order ) {
-        if( mod.is_valid() && mod->lua_api_version ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-std::string WORLDINFO::folder_path() const
-{
-    return PATH_INFO::savedir() + world_name;
-}
-
-bool WORLDINFO::save_exists( const save_t &name ) const
-{
-    return std::find( world_saves.begin(), world_saves.end(), name ) != world_saves.end();
-}
-
-void WORLDINFO::add_save( const save_t &name )
-{
-    if( !save_exists( name ) ) {
-        world_saves.push_back( name );
-    }
-}
 
 worldfactory::worldfactory()
     : active_world( nullptr )
@@ -633,6 +561,13 @@ std::string worldfactory::pick_random_name()
 {
     // TODO: add some random worldname parameters to name generator
     return get_next_valid_worldname();
+}
+
+std::string worldfactory::get_next_valid_worldname()
+{
+    std::string worldname = Name::get( nameIsWorldName );
+
+    return worldname;
 }
 
 int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDINFO* world,
@@ -1601,100 +1536,6 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated )
     return false;
 }
 
-void WORLDINFO::load_options( JsonIn &jsin )
-{
-    auto &opts = get_options();
-
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
-        jo.allow_omitted_members();
-        const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
-        const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
-                                  jo.get_string( "value" ) );
-
-        if( opts.has_option( name ) && opts.get_option( name ).getPage() == "world_default" ) {
-            WORLD_OPTIONS[ name ].setValue( value );
-        }
-    }
-}
-
-void WORLDINFO::load_legacy_options( std::istream &fin )
-{
-    auto &opts = get_options();
-
-    //load legacy txt
-    std::string sLine;
-    while( !fin.eof() ) {
-        getline( fin, sLine );
-        if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-            size_t ipos = sLine.find( ' ' );
-            // make sure that the option being loaded is part of the world_default page in OPTIONS
-            // In 0.C some lines consisted of a space and nothing else
-            const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
-            const std::string value = opts.migrateOptionValue( sLine.substr( 0, ipos ), sLine.substr( ipos + 1,
-                                      sLine.length() ) );
-
-            if( ipos != 0 && opts.get_option( name ).getPage() == "world_default" ) {
-                WORLD_OPTIONS[name].setValue( value );
-            }
-        }
-    }
-}
-
-bool WORLDINFO::load_options()
-{
-    WORLD_OPTIONS = get_options().get_world_defaults();
-
-    using namespace std::placeholders;
-    const auto path = folder_path() + "/" + PATH_INFO::worldoptions();
-    return read_from_file_json( path, [&]( JsonIn & jsin ) {
-        load_options( jsin );
-    }, true );
-}
-
-void load_world_option( const JsonObject &jo )
-{
-    auto arr = jo.get_array( "options" );
-    if( arr.empty() ) {
-        jo.throw_error( "no options specified", "options" );
-    }
-    for( const std::string line : arr ) {
-        get_options().get_option( line ).setValue( "true" );
-    }
-}
-
-//load external option from json
-void load_external_option( const JsonObject &jo )
-{
-    auto name = jo.get_string( "name" );
-    auto stype = jo.get_string( "stype" );
-    options_manager &opts = get_options();
-    if( !opts.has_option( name ) ) {
-        auto sinfo = jo.get_string( "info" );
-        opts.add_external( name, "external_options", stype, sinfo, sinfo );
-    }
-    options_manager::cOpt &opt = opts.get_option( name );
-    if( stype == "float" ) {
-        opt.setValue( static_cast<float>( jo.get_float( "value" ) ) );
-    } else if( stype == "int" ) {
-        opt.setValue( jo.get_int( "value" ) );
-    } else if( stype == "bool" ) {
-        if( jo.get_bool( "value" ) ) {
-            opt.setValue( "true" );
-        } else {
-            opt.setValue( "false" );
-        }
-    } else if( stype == "string" ) {
-        opt.setValue( jo.get_string( "value" ) );
-    } else {
-        jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
-    }
-    // Just visit this member if it exists
-    if( jo.has_member( "info" ) ) {
-        jo.get_string( "info" );
-    }
-}
 
 mod_manager &worldfactory::get_mod_manager()
 {

@@ -157,17 +157,6 @@ class game
         void load_static_data();
 
         /**
-         * Base path for saving player data. Just add a suffix (unique for
-         * the thing you want to save) and use the resulting path.
-         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
-         */
-        std::string get_player_base_save_path() const;
-        /**
-         * Base path for saving world data. This yields a path to a folder.
-         */
-        std::string get_world_base_save_path() const;
-
-        /**
          * @return The current world database, or nullptr if no world is loaded.
          */
         world* get_active_world();
@@ -606,12 +595,12 @@ class game
         * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
-        bool take_screenshot( const std::string &file_path ) const;
+        bool take_screenshot( const std::string &file_path );
         /** Saves a screenshot of the current viewport, as a PNG file. Filesystem location is derived from the current world and character.
         * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
-        bool take_screenshot() const;
+        bool take_screenshot();
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
@@ -932,6 +921,7 @@ class game
 
         void move_save_to_graveyard( const std::string &dirname );
         bool save_player_data();
+        bool save_uistate_data();
         // ########################## DATA ################################
     private:
         // May be a bit hacky, but it's probably better than the header spaghetti

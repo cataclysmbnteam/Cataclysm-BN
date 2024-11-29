@@ -29,6 +29,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "world.h"
 
 using namespace auto_pickup;
 
@@ -713,23 +714,27 @@ bool player_settings::save_global()
 }
 
 bool player_settings::save( const bool bCharacter )
-{
-    auto savefile = PATH_INFO::autopickup();
-
+{   
     if( bCharacter ) {
-        savefile = g->get_player_base_save_path() + ".apu.json";
+        world* world = g->get_active_world();
 
-        const std::string player_save = g->get_player_base_save_path() + ".sav";
+        const std::string player_save = world->get_player_base_save_path() + ".sav";
         //Character not saved yet.
-        if( !file_exist( player_save ) ) {
+        if( !world->file_exist( player_save ) ) {
             return true;
         }
-    }
 
-    return write_to_file( savefile, [&]( std::ostream & fout ) {
-        JsonOut jout( fout, true );
-        ( bCharacter ? character_rules : global_rules ).serialize( jout );
-    }, _( "autopickup configuration" ) );
+        return world->write_to_file( world->get_player_base_save_path() + ".apu.json", 
+        [&]( std::ostream & fout ) {
+            JsonOut jout( fout, true );
+            ( bCharacter ? character_rules : global_rules ).serialize( jout );
+        }, _( "autopickup configuration" ) );
+    } else {
+        return write_to_file( PATH_INFO::autopickup(), [&]( std::ostream & fout ) {
+            JsonOut jout( fout, true );
+            ( bCharacter ? character_rules : global_rules ).serialize( jout );
+        }, _( "autopickup configuration" ) );
+    }
 }
 
 void player_settings::load_character()
@@ -744,15 +749,18 @@ void player_settings::load_global()
 
 void player_settings::load( const bool bCharacter )
 {
-    std::string sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = g->get_player_base_save_path() + ".apu.json";
+        world* world = g->get_active_world();
+
+        world->read_from_file_json( world->get_player_base_save_path() + ".apu.json", 
+        [&]( JsonIn & jsin ) {
+            ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
+        }, true );
+    } else {
+        read_from_file_json( PATH_INFO::autopickup(), [&]( JsonIn & jsin ) {
+            ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
+        }, true );
     }
-
-    read_from_file_json( sFile, [&]( JsonIn & jsin ) {
-        ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
-    }, true );
-
     invalidate();
 }
 
