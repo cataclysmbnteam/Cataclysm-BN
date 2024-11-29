@@ -180,8 +180,8 @@ world::world( WORLDINFO *info )
     : info( info )
     , save_tx_start_ts( 0 )
 {
-    if( !assure_dir_exist( info->folder_path() )
-        || assure_dir_exist( info->folder_path() + "/maps" ) ) {
+    if( !assure_dir_exist( "" )
+        || !assure_dir_exist( "/maps" ) ) {
         dbg( DL::Error ) << "Unable to create or open world directory structure: " << info->folder_path();
     }
 
