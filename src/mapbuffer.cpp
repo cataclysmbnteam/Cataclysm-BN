@@ -125,7 +125,7 @@ void mapbuffer::save( bool delete_after_save )
         // A segment is a chunk of 32x32 submap quads.
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
-        
+
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
         const bool zlev_del = !map_has_zlevels && om_addr.z != g->get_levz();

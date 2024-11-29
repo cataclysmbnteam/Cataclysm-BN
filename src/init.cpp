@@ -942,7 +942,7 @@ void init::load_core_bn_modfiles()
     );
 }
 
-void init::load_world_modfiles( loading_ui &ui, world* world, const std::string &artifacts_file )
+void init::load_world_modfiles( loading_ui &ui, world *world, const std::string &artifacts_file )
 {
     clear_loaded_data();
 
@@ -1025,7 +1025,7 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
         world_generator->set_active_world( nullptr );
         world_generator->init();
         const std::vector<mod_id> mods_empty;
-        WORLDINFO* test_world = world_generator->make_new_world( mods_empty );
+        WORLDINFO *test_world = world_generator->make_new_world( mods_empty );
         if( !test_world ) {
             std::cerr << "Failed to generate test world." << '\n';
             return false;

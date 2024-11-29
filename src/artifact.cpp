@@ -1087,7 +1087,7 @@ std::string artifact_name( const std::string &type )
 
 /* Json Loading and saving */
 
-void load_artifacts( world* world, const std::string &path )
+void load_artifacts( world *world, const std::string &path )
 {
     world->read_from_file_json( path, []( JsonIn & artifact_json ) {
         artifact_json.start_array();
@@ -1267,7 +1267,7 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     }
 }
 
-bool save_artifacts( world* world, const std::string &path )
+bool save_artifacts( world *world, const std::string &path )
 {
     return world->write_to_file( path, [&]( std::ostream & fout ) {
         JsonOut json( fout, true );

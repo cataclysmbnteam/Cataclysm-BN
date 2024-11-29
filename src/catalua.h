@@ -28,8 +28,8 @@ void show_lua_console();
 void reload_lua_code();
 void debug_write_lua_backtrace( std::ostream &out );
 
-bool save_world_lua_state( world* world, const std::string &path );
-bool load_world_lua_state( world* world, const std::string &path );
+bool save_world_lua_state( world *world, const std::string &path );
+bool load_world_lua_state( world *world, const std::string &path );
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state();
 

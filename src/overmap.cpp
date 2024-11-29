@@ -6116,7 +6116,7 @@ void overmap::save() const
         serialize_view( stream );
     } );
 
-    g->get_active_world()->write_overmap( loc, [&](std::ostream & stream ) {
+    g->get_active_world()->write_overmap( loc, [&]( std::ostream & stream ) {
         serialize( stream );
     } );
 }

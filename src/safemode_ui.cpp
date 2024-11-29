@@ -772,7 +772,7 @@ bool safemode::save( const bool is_character_in )
     };
 
     if( is_character ) {
-        world* world = g->get_active_world();
+        world *world = g->get_active_world();
         if( !world->player_file_exist( ".sav" ) ) {
             return true; //Character not saved yet.
         }

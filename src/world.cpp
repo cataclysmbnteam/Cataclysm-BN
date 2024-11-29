@@ -176,9 +176,9 @@ void load_external_option( const JsonObject &jo )
     }
 }
 
-world::world( WORLDINFO* info )
+world::world( WORLDINFO *info )
     : info( info )
-    ,save_tx_start_ts( 0 )
+    , save_tx_start_ts( 0 )
 {
     if( !assure_dir_exist( info->folder_path() )
         || assure_dir_exist( info->folder_path() + "/maps" ) ) {
@@ -221,22 +221,22 @@ world::~world()
 
 void world::start_save_tx()
 {
-    if (save_tx_start_ts != 0) {
+    if( save_tx_start_ts != 0 ) {
         throw std::runtime_error( "Attempted to start a save transaction while one was already in progress" );
     }
     save_tx_start_ts = std::chrono::duration_cast< std::chrono::milliseconds >(
-        std::chrono::system_clock::now().time_since_epoch()
-    ).count();
+                           std::chrono::system_clock::now().time_since_epoch()
+                       ).count();
 }
 
 long long world::commit_save_tx()
 {
-    if (save_tx_start_ts == 0) {
+    if( save_tx_start_ts == 0 ) {
         throw std::runtime_error( "Attempted to commit a save transaction while none was in progress" );
     }
     long long now = std::chrono::duration_cast< std::chrono::milliseconds >(
-        std::chrono::system_clock::now().time_since_epoch()
-    ).count();
+                        std::chrono::system_clock::now().time_since_epoch()
+                    ).count();
     long long duration = now - save_tx_start_ts;
     save_tx_start_ts = 0;
     return duration;
@@ -257,7 +257,7 @@ static std::string get_quad_filename( const tripoint &om_addr )
     return string_format( "%d.%d.%d.map", om_addr.x, om_addr.y, om_addr.z );
 }
 
-bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader ) 
+bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader )
 {
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
@@ -277,7 +277,7 @@ bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader )
     return read_from_file_json( quad_path, reader, true );
 }
 
-bool world::write_map_quad( const tripoint &om_addr, file_write_cb &writer ) 
+bool world::write_map_quad( const tripoint &om_addr, file_write_cb &writer )
 {
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
@@ -300,29 +300,29 @@ std::string world::overmap_player_filename( const point_abs_om &p ) const
     return string_format( ".seen.%d.%d", p.x(), p.y() );
 }
 
-bool world::overmap_exists( const point_abs_om &p ) 
+bool world::overmap_exists( const point_abs_om &p )
 {
-    return file_exist( overmap_terrain_filename(p) );
+    return file_exist( overmap_terrain_filename( p ) );
 }
 
-bool world::read_overmap( const point_abs_om &p, file_read_cb reader ) 
+bool world::read_overmap( const point_abs_om &p, file_read_cb reader )
 {
-    return read_from_file( overmap_terrain_filename(p), reader, true );
+    return read_from_file( overmap_terrain_filename( p ), reader, true );
 }
 
-bool world::read_overmap_player_visibility( const point_abs_om &p, file_read_cb reader ) 
+bool world::read_overmap_player_visibility( const point_abs_om &p, file_read_cb reader )
 {
-    return read_from_player_file( overmap_player_filename(p), reader, true );
+    return read_from_player_file( overmap_player_filename( p ), reader, true );
 }
 
-bool world::write_overmap( const point_abs_om &p, file_write_cb writer ) 
+bool world::write_overmap( const point_abs_om &p, file_write_cb writer )
 {
-    return write_to_file( overmap_terrain_filename(p), writer );
+    return write_to_file( overmap_terrain_filename( p ), writer );
 }
 
-bool world::write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer ) 
+bool world::write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer )
 {
-    return write_to_player_file( overmap_player_filename(p), writer );
+    return write_to_player_file( overmap_player_filename( p ), writer );
 }
 
 /**
@@ -335,17 +335,17 @@ static std::string get_mm_filename( const tripoint &p )
 
 bool world::read_player_mm_quad( const tripoint &p, file_read_json_cb reader )
 {
-    return read_from_player_file_json(".mm1/" + get_mm_filename(p), reader, true);
+    return read_from_player_file_json( ".mm1/" + get_mm_filename( p ), reader, true );
 }
 
 bool world::write_player_mm_quad( const tripoint &p, file_write_cb &writer )
 {
     const std::string descr = string_format(
-        _( "memory map region for (%d,%d,%d)" ),
-        p.x, p.y, p.z
-    );
+                                  _( "memory map region for (%d,%d,%d)" ),
+                                  p.x, p.y, p.z
+                              );
     assure_dir_exist( get_player_path() + ".mm1" );
-    return write_to_player_file(".mm1/" + get_mm_filename(p), writer, descr.c_str());
+    return write_to_player_file( ".mm1/" + get_mm_filename( p ), writer, descr.c_str() );
 }
 
 /**
@@ -362,7 +362,8 @@ bool world::player_file_exist( const std::string &path )
     return file_exist( get_player_path() + path );
 }
 
-bool world::write_to_player_file( const std::string &path, file_write_cb &writer, const char *fail_message )
+bool world::write_to_player_file( const std::string &path, file_write_cb &writer,
+                                  const char *fail_message )
 {
     return write_to_file( get_player_path() + path, writer, fail_message );
 }
@@ -372,7 +373,8 @@ bool world::read_from_player_file( const std::string &path, file_read_cb reader,
     return read_from_file( get_player_path() + path, reader, optional );
 }
 
-bool world::read_from_player_file_json( const std::string &path, file_read_json_cb reader, bool optional )
+bool world::read_from_player_file_json( const std::string &path, file_read_json_cb reader,
+                                        bool optional )
 {
     return read_from_file_json( get_player_path() + path, reader, optional );
 }
@@ -391,7 +393,8 @@ bool world::file_exist( const std::string &path )
     return ::file_exist( info->folder_path() + "/" + path );
 }
 
-bool world::write_to_file( const std::string &path, file_write_cb &writer, const char *fail_message )
+bool world::write_to_file( const std::string &path, file_write_cb &writer,
+                           const char *fail_message )
 {
     return ::write_to_file( info->folder_path() + "/" + path, writer, fail_message );
 }

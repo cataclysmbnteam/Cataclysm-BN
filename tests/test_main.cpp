@@ -147,7 +147,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
-    WORLDINFO* test_world = world_generator->make_new_world( mods );
+    WORLDINFO *test_world = world_generator->make_new_world( mods );
     assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
     assert( world_generator->active_world != nullptr );

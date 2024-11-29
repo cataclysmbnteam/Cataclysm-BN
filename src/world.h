@@ -38,7 +38,7 @@ class save_t
 
 /**
  * Structure containing metadata about a world. No actual world data is processed here.
- * 
+ *
  * The actual instances are owned by the worldfactory class. All other classes should
  * only have a pointer to one of these owned instances.
  */
@@ -78,16 +78,16 @@ struct WORLDINFO {
 class world
 {
     public:
-        world( WORLDINFO* info );
+        world( WORLDINFO *info );
         ~world();
 
-        WORLDINFO* info;
+        WORLDINFO *info;
 
         /**
          * Right now, each file write is independent of the others. Once we start
          * migrating to SQLite, each save would happen in a single transaction. This
          * gives two benefits: (1) atomicity, and (2) performance.
-         * 
+         *
          * When using the V1 non-sqlite save system, this merely records some metadata
          * so we can print how long the save took.
          */
@@ -117,9 +117,11 @@ class world
          * Player-specific file operations. Paths will be prefixed with the player's save ID.
          */
         bool player_file_exist( const std::string &path );
-        bool write_to_player_file( const std::string &path, file_write_cb &writer, const char *fail_message = nullptr );
+        bool write_to_player_file( const std::string &path, file_write_cb &writer,
+                                   const char *fail_message = nullptr );
         bool read_from_player_file( const std::string &path, file_read_cb reader, bool optional = false );
-        bool read_from_player_file_json( const std::string &path, file_read_json_cb reader, bool optional = false );
+        bool read_from_player_file_json( const std::string &path, file_read_json_cb reader,
+                                         bool optional = false );
 
         /*
          * Generic file operations, acting as a catch-all for miscellaneous save files
@@ -127,10 +129,12 @@ class world
          */
         bool assure_dir_exist( const std::string &path );
         bool file_exist( const std::string &path );
-        bool write_to_file( const std::string &path, file_write_cb &writer, const char *fail_message = nullptr );
+        bool write_to_file( const std::string &path, file_write_cb &writer,
+                            const char *fail_message = nullptr );
         bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
-        bool read_from_file_json( const std::string &path, file_read_json_cb reader, bool optional = false );
-    
+        bool read_from_file_json( const std::string &path, file_read_json_cb reader,
+                                  bool optional = false );
+
     private:
         /** If non-zero, indicates we're in the middle of a save event */
         long long save_tx_start_ts = 0;

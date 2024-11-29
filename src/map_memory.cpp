@@ -295,7 +295,7 @@ void map_memory::load( const tripoint &pos )
 bool map_memory::save( const tripoint &pos )
 {
     tripoint sm_center = coord_pair( pos ).sm;
-    
+
     clear_cache();
 
     dbg( DL::Info ) << "N submaps before save: " << submaps.size();

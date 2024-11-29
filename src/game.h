@@ -159,7 +159,7 @@ class game
         /**
          * @return The current world database, or nullptr if no world is loaded.
          */
-        world* get_active_world();
+        world *get_active_world();
 
         /**
          * @brief Should be invoked whenever options change.

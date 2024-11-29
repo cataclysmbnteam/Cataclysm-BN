@@ -457,7 +457,7 @@ std::istream *cata_ifstream::operator->()
     return &*_stream;
 }
 
-bool write_to_file( const std::string &path, file_write_cb &writer, const char *const fail_message)
+bool write_to_file( const std::string &path, file_write_cb &writer, const char *const fail_message )
 {
     try {
         // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
@@ -469,7 +469,7 @@ bool write_to_file( const std::string &path, file_write_cb &writer, const char *
         if( fail_message ) {
             popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
         } else {
-            std::throw_with_nested(std::runtime_error( "file write failed: " + path ));
+            std::throw_with_nested( std::runtime_error( "file write failed: " + path ) );
         }
         return false;
     }
@@ -520,7 +520,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
 
 bool read_from_file( const std::string &path, file_read_cb reader, bool optional )
 {
-    if (optional && !file_exist(path)) {
+    if( optional && !file_exist( path ) ) {
         return false;
     }
 

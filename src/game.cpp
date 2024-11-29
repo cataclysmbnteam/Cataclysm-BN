@@ -2506,13 +2506,14 @@ void game::move_save_to_graveyard( const std::string &dirname )
 void game::load_master()
 {
     using namespace std::placeholders;
-    get_active_world()->read_from_file( SAVE_MASTER, std::bind( &game::unserialize_master, this, _1 ), true );
+    get_active_world()->read_from_file( SAVE_MASTER, std::bind( &game::unserialize_master, this, _1 ),
+                                        true );
 }
 
 bool game::load( const std::string &world )
 {
     world_generator->init();
-    WORLDINFO* wptr = world_generator->get_world( world );
+    WORLDINFO *wptr = world_generator->get_world( world );
     if( !wptr ) {
         return false;
     }
@@ -2549,8 +2550,8 @@ bool game::load( const save_t &name )
     u.recalc_hp();
     u.set_save_id( name.decoded_name() );
     u.name = name.decoded_name();
-    if( !get_active_world()->read_from_file( name.base_path() + SAVE_EXTENSION, 
-                                             std::bind( &game::unserialize, this, _1 ) ) ) {
+    if( !get_active_world()->read_from_file( name.base_path() + SAVE_EXTENSION,
+            std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
 
@@ -2560,11 +2561,11 @@ bool game::load( const save_t &name )
     get_weather().nextweather = calendar::turn;
 
     get_active_world()->read_from_file( name.base_path() + SAVE_EXTENSION_LOG,
-                             std::bind( &memorial_logger::load, &memorial(), _1 ), true );
+                                        std::bind( &memorial_logger::load, &memorial(), _1 ), true );
 
 #if defined(__ANDROID__)
     get_active_world()->read_from_file( name.base_path() + SAVE_EXTENSION_SHORTCUTS,
-                             std::bind( &game::load_shortcuts, this, _1 ), true );
+                                        std::bind( &game::load_shortcuts, this, _1 ), true );
 #endif
 
     // Now that the player's worn items are updated, their sight limits need to be
@@ -2678,7 +2679,7 @@ bool game::save_maps()
 
 bool game::save_player_data()
 {
-    world* world = get_active_world();
+    world *world = get_active_world();
     const bool saved_data = world->write_to_player_file( SAVE_EXTENSION, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "player data" ) );
@@ -2736,8 +2737,8 @@ bool game::save_uistate_data()
 
 bool game::save( bool quitting )
 {
-    world* world = get_active_world();
-    if ( !world ) {
+    world *world = get_active_world();
+    if( !world ) {
         return false;
     }
 
@@ -11417,7 +11418,7 @@ void game::quicksave()
 
 void game::quickload()
 {
-    world* active_world = get_active_world();
+    world *active_world = get_active_world();
     if( active_world == nullptr ) {
         return;
     }
@@ -12132,7 +12133,7 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
     return nullptr;
 }
 
-world* game::get_active_world()
+world *game::get_active_world()
 {
     return world_generator->active_world.get();
 }

@@ -413,12 +413,12 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
     return mod_management::save_mod_list( mods, PATH_INFO::mods_user_default() );
 }
 
-std::string mod_manager::get_mods_list_file( WORLDINFO* world )
+std::string mod_manager::get_mods_list_file( WORLDINFO *world )
 {
     return world->folder_path() + "/mods.json";
 }
 
-void mod_manager::save_mods_list( WORLDINFO* world ) const
+void mod_manager::save_mods_list( WORLDINFO *world ) const
 {
     if( world == nullptr ) {
         return;
@@ -436,7 +436,7 @@ void mod_manager::save_mods_list( WORLDINFO* world ) const
     }, _( "list of mods" ) );
 }
 
-void mod_manager::load_mods_list( WORLDINFO* world ) const
+void mod_manager::load_mods_list( WORLDINFO *world ) const
 {
     if( world == nullptr ) {
         return;

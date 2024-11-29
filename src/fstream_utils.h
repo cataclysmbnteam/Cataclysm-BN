@@ -116,7 +116,8 @@ using file_write_cb = const std::function<void( std::ostream & )> &;
  * @throw The void function throws when writing failes or when the @p writer throws.
  * The other function catches all exceptions and returns false.
  */
-bool write_to_file( const std::string &path, file_write_cb &writer, const char *fail_message = nullptr);
+bool write_to_file( const std::string &path, file_write_cb &writer,
+                    const char *fail_message = nullptr );
 
 class JsonDeserializer;
 
@@ -141,7 +142,8 @@ class JsonDeserializer;
  */
 /**@{*/
 bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
-bool read_from_file_json( const std::string &path, file_read_json_cb reader, bool optional = false );
+bool read_from_file_json( const std::string &path, file_read_json_cb reader,
+                          bool optional = false );
 
 /**@}*/
 /**

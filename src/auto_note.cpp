@@ -29,7 +29,7 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save()
 {
-    world* world = g->get_active_world();
+    world *world = g->get_active_world();
     if( !world->player_file_exist( ".sav" ) ) {
         return true;
     }

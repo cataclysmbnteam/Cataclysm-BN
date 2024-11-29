@@ -714,7 +714,7 @@ bool player_settings::save_global()
 }
 
 bool player_settings::save( const bool bCharacter )
-{   
+{
     if( bCharacter ) {
         //Character not saved yet.
         if( !g->get_active_world()->player_file_exist( ".sav" ) ) {

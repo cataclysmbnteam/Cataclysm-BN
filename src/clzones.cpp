@@ -1193,7 +1193,7 @@ bool zone_manager::save_zones()
 }
 
 void zone_manager::load_zones()
-{   
+{
     g->get_active_world()->read_from_player_file( ".zones.json", [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin );
