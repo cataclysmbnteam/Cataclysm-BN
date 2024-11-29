@@ -7181,13 +7181,13 @@ bool game::take_screenshot()
     }
 }
 #else
-bool game::take_screenshot( const std::string &/*path*/ ) const
+bool game::take_screenshot( const std::string &/*path*/ )
 {
     popup( _( "This binary was not compiled with tiles support." ) );
     return false;
 }
 
-bool game::take_screenshot() const
+bool game::take_screenshot()
 {
     popup( _( "This binary was not compiled with tiles support." ) );
     return false;
