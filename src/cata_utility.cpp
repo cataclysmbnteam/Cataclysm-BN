@@ -457,6 +457,18 @@ std::istream *cata_ifstream::operator->()
     return &*_stream;
 }
 
+/**
+ * If fail_message is provided, this method will eat any exceptions and display a popup with the
+ * exception detail and the message. If fail_message is not provided, the exception will be
+ * propagated.
+ *
+ * To eat any exceptions and not display a popup, pass the empty string as fail_message.
+ *
+ * @param path The path to write to.
+ * @param writer The function that writes to the file.
+ * @param fail_message The message to display if the write fails.
+ * @return True if the write was successful, false otherwise.
+ */
 bool write_to_file( const std::string &path, file_write_cb &writer, const char *const fail_message )
 {
     try {
@@ -466,9 +478,9 @@ bool write_to_file( const std::string &path, file_write_cb &writer, const char *
         fout.close();
         return true;
     } catch( const std::exception &err ) {
-        if( fail_message ) {
+        if( fail_message && fail_message[0] != '\0' ) {
             popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
-        } else {
+        } else if( fail_message == nullptr ) {
             std::throw_with_nested( std::runtime_error( "file write failed: " + path ) );
         }
         return false;

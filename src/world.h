@@ -129,6 +129,19 @@ class world
          */
         bool assure_dir_exist( const std::string &path );
         bool file_exist( const std::string &path );
+
+        /**
+         * If fail_message is provided, this method will eat any exceptions and display a popup with the
+         * exception detail and the message. If fail_message is not provided, the exception will be
+         * propagated.
+         *
+         * To eat any exceptions and not display a popup, pass the empty string as fail_message.
+         *
+         * @param path The path to write to.
+         * @param writer The function that writes to the file.
+         * @param fail_message The message to display if the write fails.
+         * @return True if the write was successful, false otherwise.
+         */
         bool write_to_file( const std::string &path, file_write_cb &writer,
                             const char *fail_message = nullptr );
         bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
