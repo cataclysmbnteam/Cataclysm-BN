@@ -1183,24 +1183,18 @@ void zone_data::deserialize( JsonIn &jsin )
 
 bool zone_manager::save_zones()
 {
-    world* world = g->get_active_world();
-    std::string savefile = world->get_player_base_save_path() + ".zones.json";
-
     added_vzones.clear();
     changed_vzones.clear();
     removed_vzones.clear();
-    return world->write_to_file( savefile, [&]( std::ostream & fout ) {
+    return g->get_active_world()->write_to_player_file( ".zones.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "zones date" ) );
 }
 
 void zone_manager::load_zones()
-{
-    world* world = g->get_active_world();
-    std::string savefile = world->get_player_base_save_path() + ".zones.json";
-
-    world->read_from_file( savefile, [&]( std::istream & fin ) {
+{   
+    g->get_active_world()->read_from_player_file( ".zones.json", [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin );
     }, true );

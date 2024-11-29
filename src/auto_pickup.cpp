@@ -716,16 +716,12 @@ bool player_settings::save_global()
 bool player_settings::save( const bool bCharacter )
 {   
     if( bCharacter ) {
-        world* world = g->get_active_world();
-
-        const std::string player_save = world->get_player_base_save_path() + ".sav";
         //Character not saved yet.
-        if( !world->file_exist( player_save ) ) {
+        if( !g->get_active_world()->player_file_exist( ".sav" ) ) {
             return true;
         }
 
-        return world->write_to_file( world->get_player_base_save_path() + ".apu.json", 
-        [&]( std::ostream & fout ) {
+        return g->get_active_world()->write_to_player_file( ".apu.json", [&]( std::ostream & fout ) {
             JsonOut jout( fout, true );
             ( bCharacter ? character_rules : global_rules ).serialize( jout );
         }, _( "autopickup configuration" ) );
@@ -750,10 +746,7 @@ void player_settings::load_global()
 void player_settings::load( const bool bCharacter )
 {
     if( bCharacter ) {
-        world* world = g->get_active_world();
-
-        world->read_from_file_json( world->get_player_base_save_path() + ".apu.json", 
-        [&]( JsonIn & jsin ) {
+        g->get_active_world()->read_from_player_file_json( ".apu.json", [&]( JsonIn & jsin ) {
             ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
         }, true );
     } else {

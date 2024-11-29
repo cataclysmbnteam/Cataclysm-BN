@@ -762,31 +762,24 @@ bool safemode::save_global()
 bool safemode::save( const bool is_character_in )
 {
     is_character = is_character_in;
+    auto serializer = [&]( std::ostream & fout ) {
+        JsonOut jout( fout, true );
+        serialize( jout );
+
+        if( !is_character ) {
+            create_rules();
+        }
+    };
 
     if( is_character ) {
         world* world = g->get_active_world();
-        if( !world->file_exist( world->get_player_base_save_path() + ".sav" ) ) {
+        if( !world->player_file_exist( ".sav" ) ) {
             return true; //Character not saved yet.
         }
 
-        return world->write_to_file( world->get_player_base_save_path() + ".sfm.json", 
-        [&]( std::ostream & fout ) {
-            JsonOut jout( fout, true );
-            serialize( jout );
-
-            if( !is_character ) {
-                create_rules();
-            }
-        }, _( "safemode configuration" ) );
+        return world->write_to_player_file( ".sfm.json", serializer, _( "safemode configuration" ) );
     } else {
-        return write_to_file( PATH_INFO::safemode(), [&]( std::ostream & fout ) {
-            JsonOut jout( fout, true );
-            serialize( jout );
-
-            if( !is_character ) {
-                create_rules();
-            }
-        }, _( "safemode configuration" ) );
+        return write_to_file( PATH_INFO::safemode(), serializer, _( "safemode configuration" ) );
     }
 }
 
@@ -813,8 +806,7 @@ void safemode::load( const bool is_character_in )
 
     std::ifstream fin;
     if( is_character ) {
-        world* world = g->get_active_world();
-        world->read_from_file_json( world->get_player_base_save_path() + ".sfm.json", loader, true );
+        g->get_active_world()->read_from_player_file_json( ".sfm.json", loader, true );
     } else {
         read_from_file_json( PATH_INFO::safemode(), loader, true );
     }

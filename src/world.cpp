@@ -242,6 +242,10 @@ long long world::commit_save_tx()
     return duration;
 }
 
+/**
+ * DOMAIN SPECIFIC: MAP
+ */
+
 static std::string get_quad_dirname( const tripoint &om_addr )
 {
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
@@ -253,7 +257,8 @@ static std::string get_quad_filename( const tripoint &om_addr )
     return string_format( "%d.%d.%d.map", om_addr.x, om_addr.y, om_addr.z );
 }
 
-bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader ) {
+bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader ) 
+{
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
 
@@ -269,21 +274,21 @@ bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader ) {
         }
     }
 
-    return ::read_from_file_json( info->folder_path() + "/" + quad_path, reader, true );
+    return read_from_file_json( quad_path, reader, true );
 }
 
-std::string world::get_player_base_save_path() const
+bool world::write_map_quad( const tripoint &om_addr, file_write_cb &writer ) 
 {
-    return base64_encode( g->u.get_save_id() );
-}
-
-bool world::write_map_quad( const tripoint &om_addr, file_write_cb &writer ) {
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
 
-    assure_dir_exist( info->folder_path() + "/" + dirname );
-    return ::write_to_file( info->folder_path() + "/" + quad_path, writer );
+    assure_dir_exist( dirname );
+    return write_to_file( quad_path, writer );
 }
+
+/**
+ * DOMAIN SPECIFIC: OVERMAP
+ */
 
 std::string world::overmap_terrain_filename( const point_abs_om &p ) const
 {
@@ -292,27 +297,93 @@ std::string world::overmap_terrain_filename( const point_abs_om &p ) const
 
 std::string world::overmap_player_filename( const point_abs_om &p ) const
 {
-    return string_format( "%s.seen.%d.%d", get_player_base_save_path(), p.x(), p.y() );
+    return string_format( ".seen.%d.%d", p.x(), p.y() );
 }
 
-bool world::overmap_exists( const point_abs_om &p ) {
+bool world::overmap_exists( const point_abs_om &p ) 
+{
     return file_exist( overmap_terrain_filename(p) );
 }
 
-bool world::read_overmap( const point_abs_om &p, file_read_cb reader ) {
-    return ::read_from_file( info->folder_path() + "/" + overmap_terrain_filename(p), reader, true );
+bool world::read_overmap( const point_abs_om &p, file_read_cb reader ) 
+{
+    return read_from_file( overmap_terrain_filename(p), reader, true );
 }
 
-bool world::read_overmap_player_visibility( const point_abs_om &p, file_read_cb reader ) {
-    return ::read_from_file( info->folder_path() + "/" + overmap_player_filename(p), reader, true );
+bool world::read_overmap_player_visibility( const point_abs_om &p, file_read_cb reader ) 
+{
+    return read_from_player_file( overmap_player_filename(p), reader, true );
 }
 
-bool world::write_overmap( const point_abs_om &p, file_write_cb writer ) {
-    return ::write_to_file( info->folder_path() + "/" + overmap_terrain_filename(p), writer );
+bool world::write_overmap( const point_abs_om &p, file_write_cb writer ) 
+{
+    return write_to_file( overmap_terrain_filename(p), writer );
 }
 
-bool world::write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer ) {
-    return ::write_to_file( info->folder_path() + "/" + overmap_player_filename(p), writer );
+bool world::write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer ) 
+{
+    return write_to_player_file( overmap_player_filename(p), writer );
+}
+
+/**
+ * DOMAIN SPECIFIC: MAP MEMORY
+ */
+static std::string get_mm_filename( const tripoint &p )
+{
+    return string_format( "%d.%d.%d.mmr", p.x, p.y, p.z );
+}
+
+bool world::read_player_mm_quad( const tripoint &p, file_read_json_cb reader )
+{
+    return read_from_player_file_json(".mm1/" + get_mm_filename(p), reader, true);
+}
+
+bool world::write_player_mm_quad( const tripoint &p, file_write_cb &writer )
+{
+    const std::string descr = string_format(
+        _( "memory map region for (%d,%d,%d)" ),
+        p.x, p.y, p.z
+    );
+    assure_dir_exist( get_player_path() + ".mm1" );
+    return write_to_player_file(".mm1/" + get_mm_filename(p), writer, descr.c_str());
+}
+
+/**
+ * PLAYER OPERATIONS
+ */
+
+std::string world::get_player_path() const
+{
+    return base64_encode( g->u.get_save_id() );
+}
+
+bool world::player_file_exist( const std::string &path )
+{
+    return file_exist( get_player_path() + path );
+}
+
+bool world::write_to_player_file( const std::string &path, file_write_cb &writer, const char *fail_message )
+{
+    return write_to_file( get_player_path() + path, writer, fail_message );
+}
+
+bool world::read_from_player_file( const std::string &path, file_read_cb reader, bool optional )
+{
+    return read_from_file( get_player_path() + path, reader, optional );
+}
+
+bool world::read_from_player_file_json( const std::string &path, file_read_json_cb reader, bool optional )
+{
+    return read_from_file_json( get_player_path() + path, reader, optional );
+}
+
+/**
+ * GENERIC OPERATIONS
+ */
+
+bool world::assure_dir_exist( const std::string &path )
+{
+    return ::assure_dir_exist( info->folder_path() + "/" + path );
 }
 
 bool world::file_exist( const std::string &path )

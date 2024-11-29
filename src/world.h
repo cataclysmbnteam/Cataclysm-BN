@@ -110,26 +110,34 @@ class world
         bool write_overmap( const point_abs_om &p, file_write_cb writer );
         bool write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer );
 
+        bool read_player_mm_quad( const tripoint &p, file_read_json_cb reader );
+        bool write_player_mm_quad( const tripoint &p, file_write_cb &writer );
+
         /*
-         * Generic file operations, acting as a catch-all for miscellaneous save files.
+         * Player-specific file operations. Paths will be prefixed with the player's save ID.
          */
+        bool player_file_exist( const std::string &path );
+        bool write_to_player_file( const std::string &path, file_write_cb &writer, const char *fail_message = nullptr );
+        bool read_from_player_file( const std::string &path, file_read_cb reader, bool optional = false );
+        bool read_from_player_file_json( const std::string &path, file_read_json_cb reader, bool optional = false );
+
+        /*
+         * Generic file operations, acting as a catch-all for miscellaneous save files
+         * living in the root of the world directory.
+         */
+        bool assure_dir_exist( const std::string &path );
         bool file_exist( const std::string &path );
         bool write_to_file( const std::string &path, file_write_cb &writer, const char *fail_message = nullptr );
         bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
         bool read_from_file_json( const std::string &path, file_read_json_cb reader, bool optional = false );
-
-        /**
-         * Base path for saving player data. Just add a suffix (unique for
-         * the thing you want to save) and use the resulting path.
-         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
-         */
-        std::string overmap_terrain_filename( const point_abs_om &p ) const;
-        std::string overmap_player_filename( const point_abs_om &p ) const;
-        std::string get_player_base_save_path() const;
     
     private:
         /** If non-zero, indicates we're in the middle of a save event */
         long long save_tx_start_ts = 0;
+
+        std::string overmap_terrain_filename( const point_abs_om &p ) const;
+        std::string overmap_player_filename( const point_abs_om &p ) const;
+        std::string get_player_path() const;
 };
 
 #endif // CATA_SRC_WORLDDB_H

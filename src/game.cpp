@@ -2679,18 +2679,16 @@ bool game::save_maps()
 bool game::save_player_data()
 {
     world* world = get_active_world();
-    const std::string playerfile = world->get_player_base_save_path();
-
-    const bool saved_data = world->write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
+    const bool saved_data = world->write_to_player_file( SAVE_EXTENSION, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "player data" ) );
     const bool saved_map_memory = u.save_map_memory();
-    const bool saved_log = world->write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
+    const bool saved_log = world->write_to_player_file( SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
         fout << memorial().dump();
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
-    const bool saved_shortcuts = world->write_to_file( playerfile + SAVE_EXTENSION_SHORTCUTS, [&](
+    const bool saved_shortcuts = world->write_to_player_file( SAVE_EXTENSION_SHORTCUTS, [&](
     std::ostream & fout ) {
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
