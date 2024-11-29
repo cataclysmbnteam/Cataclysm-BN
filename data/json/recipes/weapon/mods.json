@@ -937,7 +937,7 @@
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 100 ] ],
+      [ [ "cable", 500 ] ],
       [ [ "steel_lump", 1 ] ],
       [ [ "RAM", 1 ] ]
     ]
@@ -959,7 +959,7 @@
       [ [ "amplifier", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "cable", 500 ] ],
+      [ [ "cable", 100 ] ],
       [ [ "steel_lump", 1 ] ],
       [ [ "RAM", 1 ] ]
     ]
