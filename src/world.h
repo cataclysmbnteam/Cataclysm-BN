@@ -11,6 +11,7 @@
 #include "fstream_utils.h"
 
 class avatar;
+class sqlite3;
 
 class save_t
 {
@@ -39,6 +40,9 @@ class save_t
 enum save_format : int {
     /** Original save layout; uncompressed JSON as loose files */
     V1 = 0,
+
+    /** V2 format - compressed tuples in SQLite3 */
+    V2_COMPRESSED_SQLITE3 = 1,
 };
 
 /**
@@ -163,6 +167,11 @@ class world
         std::string overmap_player_filename( const point_abs_om &p ) const;
         std::string get_player_path() const;
 
+        sqlite3 *map_db = nullptr;
+
+        sqlite3 *save_db = nullptr;
+        std::string last_save_id = "";
+        sqlite3 *get_player_db();
 };
 
 #endif // CATA_SRC_WORLD_H

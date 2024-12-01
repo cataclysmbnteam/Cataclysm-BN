@@ -3,6 +3,8 @@
 #include <sstream>
 #include <cstring>
 #include <chrono>
+#include <sqlite3.h>
+#include <zlib.h>
 
 #include "game.h"
 #include "avatar.h"
@@ -13,6 +15,7 @@
 #include "worldfactory.h"
 #include "mod_manager.h"
 #include "path_info.h"
+#include "compress.h"
 
 #define dbg(x) DebugLogFL((x),DC::Main)
 
@@ -47,7 +50,7 @@ WORLDINFO::WORLDINFO()
 {
     world_name = world_generator->get_next_valid_worldname();
     WORLD_OPTIONS = get_options().get_world_defaults();
-    world_save_format = save_format::V1;
+    world_save_format = save_format::V2_COMPRESSED_SQLITE3;
 
     world_saves.clear();
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
@@ -218,47 +221,194 @@ void load_external_option( const JsonObject &jo )
     }
 }
 
+static sqlite3 *open_db( const std::string &path )
+{
+    sqlite3 *db = nullptr;
+    int ret;
+
+    if( SQLITE_OK != ( ret = sqlite3_initialize() ) ) {
+        dbg( DL::Error ) << "Failed to initialize sqlite3 (Error " << ret << ")";
+        throw std::runtime_error( "Failed to initialize sqlite3" );
+    }
+
+    if( SQLITE_OK != ( ret = sqlite3_open_v2( path.c_str(), &db,
+                         SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL ) ) ) {
+        dbg( DL::Error ) << "Failed to open db" << path << " (Error " << ret << ")";
+        throw std::runtime_error( "Failed to open db" );
+    }
+
+    auto sql = "CREATE TABLE IF NOT EXISTS files ("  \
+               "path           TEXT PRIMARY KEY NOT NULL," \
+               "parent         TEXT NOT NULL," \
+               "compression    TEXT DEFAULT NULL," \
+               "data           BLOB NOT NULL" \
+               ");";
+
+    char *sqlErrMsg = 0;
+    if( SQLITE_OK != ( ret = sqlite3_exec( db, sql, NULL, NULL, &sqlErrMsg ) ) ) {
+        dbg( DL::Error ) << "Failed to init db" << path << " (" << sqlErrMsg << ")";
+        throw std::runtime_error( "Failed to open db" );
+    }
+
+    return db;
+}
+
+static bool file_exist_in_db( sqlite3 *db, const std::string &path ) {
+    int fileCount = 0;
+    const char* sql = "SELECT count() FROM files WHERE path = :path";
+    sqlite3_stmt* stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        dbg( DL::Error ) << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        throw std::runtime_error( "DB query failed" );
+    }
+
+    if (sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":path"), path.c_str(), -1, SQLITE_TRANSIENT) != SQLITE_OK) {
+        dbg( DL::Error ) << "Failed to bind parameter: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        throw std::runtime_error( "DB query failed" );
+    }
+
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        // Retrieve the count result
+        fileCount = sqlite3_column_int(stmt, 0);
+    } else {
+        dbg( DL::Error ) << "Failed to execute query: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        throw std::runtime_error( "DB query failed" );
+    }
+
+    sqlite3_finalize(stmt);
+
+    return fileCount > 0;
+}
+
+static void write_to_db( sqlite3 *db, const std::string &path, file_write_cb writer ) {
+    std::ostringstream oss;
+    writer(oss);
+    auto data = oss.str();
+
+    std::vector<std::byte> compressedData;
+    zlib_compress(data, compressedData);
+
+    size_t basePos = path.find_last_of("/\\");
+    auto parent = (basePos == std::string::npos) ? "" : path.substr(0, basePos);
+
+    const char* sql = "INSERT INTO files(path, parent, data, compression) VALUES (:path, :parent, :data, 'zlib')"\
+                      "ON CONFLICT(path) DO UPDATE SET data = excluded.data, compression = excluded.compression";
+
+    sqlite3_stmt* stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        dbg( DL::Error ) << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        throw std::runtime_error( "DB query failed" );
+    }
+
+    if (sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":path"), path.c_str(), -1, SQLITE_TRANSIENT) != SQLITE_OK ||
+        sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":parent"), parent.c_str(), -1, SQLITE_TRANSIENT) != SQLITE_OK ||
+        sqlite3_bind_blob(stmt, sqlite3_bind_parameter_index(stmt, ":data"), compressedData.data(), compressedData.size(), SQLITE_TRANSIENT) != SQLITE_OK) {
+        dbg( DL::Error ) << "Failed to bind parameters: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        throw std::runtime_error( "DB query failed" );
+    }
+
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+        dbg( DL::Error ) << "Failed to execute query: " << sqlite3_errmsg(db) << std::endl;
+    }
+    sqlite3_finalize(stmt);
+}
+
+static bool read_from_db( sqlite3 *db, const std::string &path, file_read_cb reader, bool optional ) {
+    const char* sql = "SELECT data, compression FROM files WHERE path = :path LIMIT 1";
+
+    sqlite3_stmt* stmt = nullptr;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        dbg( DL::Error ) << "Failed to prepare statement: " << sqlite3_errmsg(db) << std::endl;
+        throw std::runtime_error( "DB query failed" );
+    }
+
+    if (sqlite3_bind_text(stmt, sqlite3_bind_parameter_index(stmt, ":path"), path.c_str(), -1, SQLITE_TRANSIENT) != SQLITE_OK) {
+        dbg( DL::Error ) << "Failed to bind parameter: " << sqlite3_errmsg(db) << std::endl;
+        sqlite3_finalize(stmt);
+        throw std::runtime_error( "DB query failed" );
+    }
+
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        // Retrieve the count result
+        const void* blobData = sqlite3_column_blob(stmt, 0);
+        int blobSize = sqlite3_column_bytes(stmt, 0);
+        auto compression_raw = sqlite3_column_text(stmt, 1);
+        std::string compression = compression_raw ? reinterpret_cast<const char*>(compression_raw) : "";
+
+        if (blobData == nullptr) {
+            return false; // Return an empty string if there's no data
+        }
+
+        std::string dataString;
+        if ( compression == "" ) {
+            dataString = std::string(static_cast<const char*>(blobData), blobSize);
+        } else if ( compression == "zlib" ) {
+            zlib_decompress(blobData, blobSize, dataString);
+        } else {
+            throw std::runtime_error( "Unknown compression format: " + compression );
+        }
+
+        std::istringstream stream(dataString);
+        reader(stream);
+        sqlite3_finalize(stmt);
+    } else {
+        auto err = sqlite3_errmsg(db);
+        sqlite3_finalize(stmt);
+
+        if ( !optional ) {
+            dbg( DL::Error ) << "Failed to execute query: " << err << std::endl;
+            throw std::runtime_error( "DB query failed" );
+        }
+        return false;
+    }
+
+    return true;
+}
+
+static bool read_from_db_json( sqlite3 *db, const std::string &path, file_read_json_cb reader, bool optional )
+{
+    return read_from_db( db, path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
+        reader( jsin );
+    }, optional );
+}
+
 world::world( WORLDINFO *info )
     : info( info )
     , save_tx_start_ts( 0 )
 {
-    if( !assure_dir_exist( "" )
-        || !assure_dir_exist( "/maps" ) ) {
+    if( !assure_dir_exist( "" ) ) {
         dbg( DL::Error ) << "Unable to create or open world directory structure: " << info->folder_path();
     }
 
-    // std::string db_path = path + "/world.db";
-    // int ret;
-
-    // if( SQLITE_OK != ( ret = sqlite3_initialize() ) ) {
-    //     dbg( DL::Error ) << "Failed to initialize sqlite3 (Error " << ret << ")";
-    //     throw std::runtime_error( "Failed to initialize sqlite3" );
-    // }
-
-    // if( SQLITE_OK != ( ret = sqlite3_open_v2( db_path.c_str(), &db,
-    //                          SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL ) ) ) {
-    //     dbg( DL::Error ) << "Failed to open db" << db_path << " (Error " << ret << ")";
-    //     throw std::runtime_error( "Failed to open db" );
-    // }
-
-    // auto sql = "CREATE TABLE IF NOT EXISTS files ("  \
-    //            "path           TEXT PRIMARY KEY NOT NULL," \
-    //            "parent         TEXT NOT NULL," \
-    //            "compression    TEXT DEFAULT NULL," \
-    //            "data           BLOB NOT NULL" \
-    //            ");";
-
-
-    // char *sqlErrMsg = 0;
-    // if( SQLITE_OK != ( ret = sqlite3_exec( db, sql, NULL, NULL, &sqlErrMsg ) ) ) {
-    //     dbg( DL::Error ) << "Failed to init db" << db_path << " (" << sqlErrMsg << ")";
-    //     throw std::runtime_error( "Failed to open db" );
-    // }
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        map_db = open_db( info->folder_path() + "/map.sqlite3" );
+    } else {
+        if( !assure_dir_exist( "/maps" ) ) {
+            dbg( DL::Error ) << "Unable to create or open world directory structure: " << info->folder_path();
+        }
+    }
 }
 
 world::~world()
 {
-    // sqlite3_close( db );
+    if ( save_tx_start_ts != 0 ) {
+        dbg( DL::Error ) << "Save transaction was not committed before world destruction";
+    }
+
+    if ( map_db ) {
+        sqlite3_close( map_db );
+    }
+
+    if ( save_db ) {
+        sqlite3_close( save_db );
+    }
 }
 
 void world::start_save_tx()
@@ -269,6 +419,14 @@ void world::start_save_tx()
     save_tx_start_ts = std::chrono::duration_cast< std::chrono::milliseconds >(
                            std::chrono::system_clock::now().time_since_epoch()
                        ).count();
+
+    if ( map_db ) {
+        sqlite3_exec( map_db, "BEGIN TRANSACTION", NULL, NULL, NULL );
+    }
+
+    if ( save_db ) {
+        sqlite3_exec( save_db, "BEGIN TRANSACTION", NULL, NULL, NULL );
+    }
 }
 
 long long world::commit_save_tx()
@@ -276,6 +434,15 @@ long long world::commit_save_tx()
     if( save_tx_start_ts == 0 ) {
         throw std::runtime_error( "Attempted to commit a save transaction while none was in progress" );
     }
+
+    if ( map_db ) {
+        sqlite3_exec( map_db, "COMMIT", NULL, NULL, NULL );
+    }
+
+    if ( save_db ) {
+        sqlite3_exec( save_db, "COMMIT", NULL, NULL, NULL );
+    }
+
     long long now = std::chrono::duration_cast< std::chrono::milliseconds >(
                         std::chrono::system_clock::now().time_since_epoch()
                     ).count();
@@ -304,19 +471,24 @@ bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader )
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
 
-    if( !file_exist( quad_path ) ) {
-        // Fix for old saves where the path was generated using std::stringstream, which
-        // did format the number using the current locale. That formatting may insert
-        // thousands separators, so the resulting path is "map/1,234.7.8.map" instead
-        // of "map/1234.7.8.map".
-        std::ostringstream buffer;
-        buffer << dirname << "/" << om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
-        if( file_exist( buffer.str() ) ) {
-            quad_path = buffer.str();
+    // V2 logic
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        return read_from_db_json( map_db, quad_path, reader, true );
+    } else {
+        if( !file_exist( quad_path ) ) {
+            // Fix for old saves where the path was generated using std::stringstream, which
+            // did format the number using the current locale. That formatting may insert
+            // thousands separators, so the resulting path is "map/1,234.7.8.map" instead
+            // of "map/1234.7.8.map".
+            std::ostringstream buffer;
+            buffer << dirname << "/" << om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
+            if( file_exist( buffer.str() ) ) {
+                quad_path = buffer.str();
+            }
         }
-    }
 
-    return read_from_file_json( quad_path, reader, true );
+        return read_from_file_json( quad_path, reader, true );
+    }
 }
 
 bool world::write_map_quad( const tripoint &om_addr, file_write_cb writer )
@@ -324,8 +496,14 @@ bool world::write_map_quad( const tripoint &om_addr, file_write_cb writer )
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
 
-    assure_dir_exist( dirname );
-    return write_to_file( quad_path, writer );
+    // V2 logic
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        write_to_db( map_db, quad_path, writer );
+        return true;
+    } else {
+        assure_dir_exist( dirname );
+        return write_to_file( quad_path, writer );
+    }
 }
 
 /**
@@ -344,27 +522,51 @@ std::string world::overmap_player_filename( const point_abs_om &p ) const
 
 bool world::overmap_exists( const point_abs_om &p )
 {
-    return file_exist( overmap_terrain_filename( p ) );
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        return file_exist_in_db( map_db, overmap_terrain_filename( p ) );
+    } else {
+        return file_exist( overmap_terrain_filename( p ) );
+    }
 }
 
 bool world::read_overmap( const point_abs_om &p, file_read_cb reader )
 {
-    return read_from_file( overmap_terrain_filename( p ), reader, true );
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        return read_from_db( map_db, overmap_terrain_filename( p ), reader, true );
+    } else {
+        return read_from_file( overmap_terrain_filename( p ), reader, true );
+    }
 }
 
 bool world::read_overmap_player_visibility( const point_abs_om &p, file_read_cb reader )
 {
-    return read_from_player_file( overmap_player_filename( p ), reader, true );
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        auto playerdb = get_player_db();
+        return read_from_db( playerdb, overmap_player_filename( p ), reader, true );
+    } else {
+        return read_from_player_file( overmap_player_filename( p ), reader, true );
+    }
 }
 
 bool world::write_overmap( const point_abs_om &p, file_write_cb writer )
 {
-    return write_to_file( overmap_terrain_filename( p ), writer );
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        write_to_db( map_db, overmap_terrain_filename( p ), writer );
+        return true;
+    } else {
+        return write_to_file( overmap_terrain_filename( p ), writer );
+    }
 }
 
 bool world::write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer )
 {
-    return write_to_player_file( overmap_player_filename( p ), writer );
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        auto playerdb = get_player_db();
+        write_to_db( playerdb, overmap_player_filename( p ), writer );
+        return true;
+    } else {
+        return write_to_player_file( overmap_player_filename( p ), writer );
+    }
 }
 
 /**
@@ -377,17 +579,28 @@ static std::string get_mm_filename( const tripoint &p )
 
 bool world::read_player_mm_quad( const tripoint &p, file_read_json_cb reader )
 {
-    return read_from_player_file_json( ".mm1/" + get_mm_filename( p ), reader, true );
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        auto playerdb = get_player_db();
+        return read_from_db_json( playerdb, get_mm_filename( p ), reader, true );
+    } else {
+        return read_from_player_file_json( ".mm1/" + get_mm_filename( p ), reader, true );
+    }
 }
 
 bool world::write_player_mm_quad( const tripoint &p, file_write_cb writer )
 {
-    const std::string descr = string_format(
-                                  _( "memory map region for (%d,%d,%d)" ),
-                                  p.x, p.y, p.z
-                              );
-    assure_dir_exist( get_player_path() + ".mm1" );
-    return write_to_player_file( ".mm1/" + get_mm_filename( p ), writer, descr.c_str() );
+    if ( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+        auto playerdb = get_player_db();
+        write_to_db( playerdb, get_mm_filename( p ), writer );
+        return true;
+    } else {
+        const std::string descr = string_format(
+                                    _( "memory map region for (%d,%d,%d)" ),
+                                    p.x, p.y, p.z
+                                );
+        assure_dir_exist( get_player_path() + ".mm1" );
+        return write_to_player_file( ".mm1/" + get_mm_filename( p ), writer, descr.c_str() );
+    }
 }
 
 /**
@@ -397,6 +610,20 @@ bool world::write_player_mm_quad( const tripoint &p, file_write_cb writer )
 std::string world::get_player_path() const
 {
     return base64_encode( g->u.get_save_id() );
+}
+
+sqlite3 *world::get_player_db()
+{
+    if ( !save_db ) {
+        save_db = open_db( info->folder_path() + "/" + get_player_path() + ".sqlite3" );
+        last_save_id = g->u.get_save_id();
+    }
+
+    if ( last_save_id != g->u.get_save_id() ) {
+        throw std::runtime_error( "Save ID changed without reloading the world object" );
+    }
+
+    return save_db;
 }
 
 bool world::player_file_exist( const std::string &path )

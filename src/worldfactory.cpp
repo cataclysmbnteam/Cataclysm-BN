@@ -196,8 +196,12 @@ void worldfactory::init()
         all_worlds[worldname] = std::make_unique<WORLDINFO>();
         // give the world a name
         all_worlds[worldname]->world_name = worldname;
-        // Record the world save format. Only one exists at this time.
-        all_worlds[worldname]->world_save_format = save_format::V1;
+        // Record the world save format. V2 is identified by the presence of a map.sqlite3 file.
+        if ( file_exist( world_dir + "/map.sqlite3" ) ) {
+            all_worlds[worldname]->world_save_format = save_format::V2_COMPRESSED_SQLITE3;
+        } else {
+            all_worlds[worldname]->world_save_format = save_format::V1;
+        }
         // add sav files
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
