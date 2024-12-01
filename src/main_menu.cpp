@@ -1072,7 +1072,8 @@ void main_menu::world_tab( const std::string &worldname )
 
     switch( opt_val ) {
         case 6: // Convert to V2 Save Format
-            if( query_yn( _( "Convert to V2 Save Format? A backup will be created. Conversion may take several minutes." ) ) ) {
+            if( query_yn(
+                    _( "Convert to V2 Save Format? A backup will be created. Conversion may take several minutes." ) ) ) {
                 convert_v2();
             }
             break;

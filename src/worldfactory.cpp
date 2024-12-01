@@ -197,7 +197,7 @@ void worldfactory::init()
         // give the world a name
         all_worlds[worldname]->world_name = worldname;
         // Record the world save format. V2 is identified by the presence of a map.sqlite3 file.
-        if ( file_exist( world_dir + "/map.sqlite3" ) ) {
+        if( file_exist( world_dir + "/map.sqlite3" ) ) {
             all_worlds[worldname]->world_save_format = save_format::V2_COMPRESSED_SQLITE3;
         } else {
             all_worlds[worldname]->world_save_format = save_format::V1;
@@ -1594,7 +1594,7 @@ void worldfactory::convert_to_v2( const std::string &worldname )
         return;
     }
 
-    if ( worldinfo->world_save_format != save_format::V1 ) {
+    if( worldinfo->world_save_format != save_format::V1 ) {
         popup( _( "World %s is already at savefile version 2" ), worldname );
         return;
     }
@@ -1611,7 +1611,7 @@ void worldfactory::convert_to_v2( const std::string &worldname )
     old_world->world_name = backup_name;
 
     // Deep copy the world saves
-    std::vector<save_t> world_saves_copy(worldinfo->world_saves);
+    std::vector<save_t> world_saves_copy( worldinfo->world_saves );
     old_world->world_saves = worldinfo->world_saves;
 
     // Rename the world folder perform the move
