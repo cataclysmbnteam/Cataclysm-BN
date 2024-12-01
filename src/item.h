@@ -2160,7 +2160,7 @@ class item : public location_visitable<item>, public game_object<item>
          */
         bool release_monster( const tripoint &target, int radius = 0 );
         /* add the monster at target to this item, despawning it */
-        int contain_monster( const tripoint &target );
+        std::pair<int, units::energy> contain_monster( const tripoint &target );
 
         time_duration age() const;
         void set_age( const time_duration &age );
