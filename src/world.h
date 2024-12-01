@@ -100,7 +100,7 @@ class world
          */
         /**@{*/
         void start_save_tx();
-        long long commit_save_tx();
+        int64_t commit_save_tx();
         /**@}*/
 
         /*
@@ -108,34 +108,35 @@ class world
          * lay out files differently, so centralize file placement logic here rather than
          * scattering it throughout the codebase.
          */
-        bool read_map_quad( const tripoint &om_addr, file_read_json_cb reader );
-        bool write_map_quad( const tripoint &om_addr, file_write_cb writer );
+        bool read_map_quad( const tripoint &om_addr, file_read_json_fn reader ) const;
+        bool write_map_quad( const tripoint &om_addr, file_write_fn writer ) const;
 
-        bool overmap_exists( const point_abs_om &p );
-        bool read_overmap( const point_abs_om &p, file_read_cb reader );
-        bool read_overmap_player_visibility( const point_abs_om &p, file_read_cb reader );
-        bool write_overmap( const point_abs_om &p, file_write_cb writer );
-        bool write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer );
+        bool overmap_exists( const point_abs_om &p ) const;
+        bool read_overmap( const point_abs_om &p, file_read_fn reader ) const;
+        bool read_overmap_player_visibility( const point_abs_om &p, file_read_fn reader );
+        bool write_overmap( const point_abs_om &p, file_write_fn writer ) const;
+        bool write_overmap_player_visibility( const point_abs_om &p, file_write_fn writer );
 
-        bool read_player_mm_quad( const tripoint &p, file_read_json_cb reader );
-        bool write_player_mm_quad( const tripoint &p, file_write_cb writer );
+        bool read_player_mm_quad( const tripoint &p, file_read_json_fn reader );
+        bool write_player_mm_quad( const tripoint &p, file_write_fn writer );
 
         /*
          * Player-specific file operations. Paths will be prefixed with the player's save ID.
          */
         bool player_file_exist( const std::string &path );
-        bool write_to_player_file( const std::string &path, file_write_cb writer,
+        bool write_to_player_file( const std::string &path, file_write_fn writer,
                                    const char *fail_message = nullptr );
-        bool read_from_player_file( const std::string &path, file_read_cb reader, bool optional = false );
-        bool read_from_player_file_json( const std::string &path, file_read_json_cb reader,
-                                         bool optional = false );
+        bool read_from_player_file( const std::string &path, file_read_fn reader,
+                                    bool optional = true );
+        bool read_from_player_file_json( const std::string &path, file_read_json_fn reader,
+                                         bool optional = true );
 
         /*
          * Generic file operations, acting as a catch-all for miscellaneous save files
          * living in the root of the world directory.
          */
-        bool assure_dir_exist( const std::string &path );
-        bool file_exist( const std::string &path );
+        bool assure_dir_exist( const std::string &path ) const;
+        bool file_exist( const std::string &path ) const;
 
         /**
          * If fail_message is provided, this method will eat any exceptions and display a popup with the
@@ -149,15 +150,16 @@ class world
          * @param fail_message The message to display if the write fails.
          * @return True if the write was successful, false otherwise.
          */
-        bool write_to_file( const std::string &path, file_write_cb writer,
-                            const char *fail_message = nullptr );
-        bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
-        bool read_from_file_json( const std::string &path, file_read_json_cb reader,
-                                  bool optional = false );
+        bool write_to_file( const std::string &path, file_write_fn writer,
+                            const char *fail_message = nullptr ) const;
+        bool read_from_file( const std::string &path, file_read_fn reader,
+                             bool optional = true ) const;
+        bool read_from_file_json( const std::string &path, file_read_json_fn reader,
+                                  bool optional = true ) const;
 
     private:
         /** If non-zero, indicates we're in the middle of a save event */
-        long long save_tx_start_ts = 0;
+        int64_t save_tx_start_ts = 0;
 
         std::string overmap_terrain_filename( const point_abs_om &p ) const;
         std::string overmap_player_filename( const point_abs_om &p ) const;

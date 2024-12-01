@@ -942,7 +942,8 @@ void init::load_core_bn_modfiles()
     );
 }
 
-void init::load_world_modfiles( loading_ui &ui, world *world, const std::string &artifacts_file )
+void init::load_world_modfiles( loading_ui &ui, const world *world,
+                                const std::string &artifacts_file )
 {
     clear_loaded_data();
 

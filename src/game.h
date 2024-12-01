@@ -159,7 +159,7 @@ class game
         /**
          * @return The current world database, or nullptr if no world is loaded.
          */
-        world *get_active_world();
+        world *get_active_world() const;
 
         /**
          * @brief Should be invoked whenever options change.
@@ -595,12 +595,12 @@ class game
         * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
-        bool take_screenshot( const std::string &file_path );
+        bool take_screenshot( const std::string &file_path ) const;
         /** Saves a screenshot of the current viewport, as a PNG file. Filesystem location is derived from the current world and character.
         * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
-        bool take_screenshot();
+        bool take_screenshot() const;
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
@@ -921,7 +921,7 @@ class game
 
         void move_save_to_graveyard( const std::string &dirname );
         bool save_player_data();
-        bool save_uistate_data();
+        bool save_uistate_data() const;
         // ########################## DATA ################################
     private:
         // May be a bit hacky, but it's probably better than the header spaghetti

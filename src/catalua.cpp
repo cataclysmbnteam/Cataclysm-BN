@@ -61,12 +61,12 @@ void debug_write_lua_backtrace( std::ostream &/*out*/ )
     // Nothing to do here
 }
 
-bool save_world_lua_state( world *world, const std::string & )
+bool save_world_lua_state( const world *world, const std::string & )
 {
     return true;
 }
 
-bool load_world_lua_state( world *world, const std::string & )
+bool load_world_lua_state( const world *world, const std::string & )
 {
     return true;
 }
@@ -194,7 +194,7 @@ static sol::table get_mod_storage_table( lua_state &state )
     return state.lua.globals()["game"]["cata_internal"]["mod_storage"];
 }
 
-bool save_world_lua_state( world *world, const std::string &path )
+bool save_world_lua_state( const world *world, const std::string &path )
 {
     lua_state &state = *DynamicDataLoader::get_instance().lua;
 
@@ -217,7 +217,7 @@ bool save_world_lua_state( world *world, const std::string &path )
     return ret;
 }
 
-bool load_world_lua_state( world *world, const std::string &path )
+bool load_world_lua_state( const world *world, const std::string &path )
 {
     lua_state &state = *DynamicDataLoader::get_instance().lua;
     const mod_management::t_mod_list &mods = world_generator->active_world->info->active_mod_order;

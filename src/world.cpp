@@ -226,39 +226,10 @@ world::world( WORLDINFO *info )
         || !assure_dir_exist( "/maps" ) ) {
         dbg( DL::Error ) << "Unable to create or open world directory structure: " << info->folder_path();
     }
-
-    // std::string db_path = path + "/world.db";
-    // int ret;
-
-    // if( SQLITE_OK != ( ret = sqlite3_initialize() ) ) {
-    //     dbg( DL::Error ) << "Failed to initialize sqlite3 (Error " << ret << ")";
-    //     throw std::runtime_error( "Failed to initialize sqlite3" );
-    // }
-
-    // if( SQLITE_OK != ( ret = sqlite3_open_v2( db_path.c_str(), &db,
-    //                          SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL ) ) ) {
-    //     dbg( DL::Error ) << "Failed to open db" << db_path << " (Error " << ret << ")";
-    //     throw std::runtime_error( "Failed to open db" );
-    // }
-
-    // auto sql = "CREATE TABLE IF NOT EXISTS files ("  \
-    //            "path           TEXT PRIMARY KEY NOT NULL," \
-    //            "parent         TEXT NOT NULL," \
-    //            "compression    TEXT DEFAULT NULL," \
-    //            "data           BLOB NOT NULL" \
-    //            ");";
-
-
-    // char *sqlErrMsg = 0;
-    // if( SQLITE_OK != ( ret = sqlite3_exec( db, sql, NULL, NULL, &sqlErrMsg ) ) ) {
-    //     dbg( DL::Error ) << "Failed to init db" << db_path << " (" << sqlErrMsg << ")";
-    //     throw std::runtime_error( "Failed to open db" );
-    // }
 }
 
 world::~world()
 {
-    // sqlite3_close( db );
 }
 
 void world::start_save_tx()
@@ -271,15 +242,15 @@ void world::start_save_tx()
                        ).count();
 }
 
-long long world::commit_save_tx()
+int64_t world::commit_save_tx()
 {
     if( save_tx_start_ts == 0 ) {
         throw std::runtime_error( "Attempted to commit a save transaction while none was in progress" );
     }
-    long long now = std::chrono::duration_cast< std::chrono::milliseconds >(
-                        std::chrono::system_clock::now().time_since_epoch()
-                    ).count();
-    long long duration = now - save_tx_start_ts;
+    int64_t now = std::chrono::duration_cast< std::chrono::milliseconds >(
+                      std::chrono::system_clock::now().time_since_epoch()
+                  ).count();
+    int64_t duration = now - save_tx_start_ts;
     save_tx_start_ts = 0;
     return duration;
 }
@@ -299,7 +270,7 @@ static std::string get_quad_filename( const tripoint &om_addr )
     return string_format( "%d.%d.%d.map", om_addr.x, om_addr.y, om_addr.z );
 }
 
-bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader )
+bool world::read_map_quad( const tripoint &om_addr, file_read_json_fn reader ) const
 {
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
@@ -319,7 +290,7 @@ bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader )
     return read_from_file_json( quad_path, reader, true );
 }
 
-bool world::write_map_quad( const tripoint &om_addr, file_write_cb writer )
+bool world::write_map_quad( const tripoint &om_addr, file_write_fn writer ) const
 {
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
@@ -342,27 +313,27 @@ std::string world::overmap_player_filename( const point_abs_om &p ) const
     return string_format( ".seen.%d.%d", p.x(), p.y() );
 }
 
-bool world::overmap_exists( const point_abs_om &p )
+bool world::overmap_exists( const point_abs_om &p ) const
 {
     return file_exist( overmap_terrain_filename( p ) );
 }
 
-bool world::read_overmap( const point_abs_om &p, file_read_cb reader )
+bool world::read_overmap( const point_abs_om &p, file_read_fn reader ) const
 {
     return read_from_file( overmap_terrain_filename( p ), reader, true );
 }
 
-bool world::read_overmap_player_visibility( const point_abs_om &p, file_read_cb reader )
+bool world::read_overmap_player_visibility( const point_abs_om &p, file_read_fn reader )
 {
     return read_from_player_file( overmap_player_filename( p ), reader, true );
 }
 
-bool world::write_overmap( const point_abs_om &p, file_write_cb writer )
+bool world::write_overmap( const point_abs_om &p, file_write_fn writer ) const
 {
     return write_to_file( overmap_terrain_filename( p ), writer );
 }
 
-bool world::write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer )
+bool world::write_overmap_player_visibility( const point_abs_om &p, file_write_fn writer )
 {
     return write_to_player_file( overmap_player_filename( p ), writer );
 }
@@ -375,12 +346,12 @@ static std::string get_mm_filename( const tripoint &p )
     return string_format( "%d.%d.%d.mmr", p.x, p.y, p.z );
 }
 
-bool world::read_player_mm_quad( const tripoint &p, file_read_json_cb reader )
+bool world::read_player_mm_quad( const tripoint &p, file_read_json_fn reader )
 {
     return read_from_player_file_json( ".mm1/" + get_mm_filename( p ), reader, true );
 }
 
-bool world::write_player_mm_quad( const tripoint &p, file_write_cb writer )
+bool world::write_player_mm_quad( const tripoint &p, file_write_fn writer )
 {
     const std::string descr = string_format(
                                   _( "memory map region for (%d,%d,%d)" ),
@@ -404,18 +375,19 @@ bool world::player_file_exist( const std::string &path )
     return file_exist( get_player_path() + path );
 }
 
-bool world::write_to_player_file( const std::string &path, file_write_cb writer,
+bool world::write_to_player_file( const std::string &path, file_write_fn writer,
                                   const char *fail_message )
 {
     return write_to_file( get_player_path() + path, writer, fail_message );
 }
 
-bool world::read_from_player_file( const std::string &path, file_read_cb reader, bool optional )
+bool world::read_from_player_file( const std::string &path, file_read_fn reader,
+                                   bool optional )
 {
     return read_from_file( get_player_path() + path, reader, optional );
 }
 
-bool world::read_from_player_file_json( const std::string &path, file_read_json_cb reader,
+bool world::read_from_player_file_json( const std::string &path, file_read_json_fn reader,
                                         bool optional )
 {
     return read_from_file_json( get_player_path() + path, reader, optional );
@@ -425,28 +397,30 @@ bool world::read_from_player_file_json( const std::string &path, file_read_json_
  * GENERIC OPERATIONS
  */
 
-bool world::assure_dir_exist( const std::string &path )
+bool world::assure_dir_exist( const std::string &path ) const
 {
     return ::assure_dir_exist( info->folder_path() + "/" + path );
 }
 
-bool world::file_exist( const std::string &path )
+bool world::file_exist( const std::string &path ) const
 {
     return ::file_exist( info->folder_path() + "/" + path );
 }
 
-bool world::write_to_file( const std::string &path, file_write_cb writer,
-                           const char *fail_message )
+bool world::write_to_file( const std::string &path, file_write_fn writer,
+                           const char *fail_message ) const
 {
     return ::write_to_file( info->folder_path() + "/" + path, writer, fail_message );
 }
 
-bool world::read_from_file( const std::string &path, file_read_cb reader, bool optional )
+bool world::read_from_file( const std::string &path, file_read_fn reader,
+                            bool optional ) const
 {
     return ::read_from_file( info->folder_path() + "/" + path, reader, optional );
 }
 
-bool world::read_from_file_json( const std::string &path, file_read_json_cb reader, bool optional )
+bool world::read_from_file_json( const std::string &path, file_read_json_fn reader,
+                                 bool optional ) const
 {
     return ::read_from_file_json( info->folder_path() + "/" + path, reader, optional );
 }

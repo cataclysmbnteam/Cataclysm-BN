@@ -2727,7 +2727,7 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
-bool game::save_uistate_data()
+bool game::save_uistate_data() const
 {
     return get_active_world()->write_to_file( "uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
@@ -7150,12 +7150,12 @@ int game::get_user_action_counter() const
 }
 
 #if defined(TILES)
-bool game::take_screenshot( const std::string &path )
+bool game::take_screenshot( const std::string &path ) const
 {
     return save_screenshot( path );
 }
 
-bool game::take_screenshot()
+bool game::take_screenshot() const
 {
     // check that the current '<world>/screenshots' directory exists
     std::string map_directory = get_active_world()->info->folder_path() + "/screenshots/";
@@ -7181,13 +7181,13 @@ bool game::take_screenshot()
     }
 }
 #else
-bool game::take_screenshot( const std::string &/*path*/ )
+bool game::take_screenshot( const std::string &/*path*/ ) const
 {
     popup( _( "This binary was not compiled with tiles support." ) );
     return false;
 }
 
-bool game::take_screenshot()
+bool game::take_screenshot() const
 {
     popup( _( "This binary was not compiled with tiles support." ) );
     return false;
@@ -12133,7 +12133,7 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
     return nullptr;
 }
 
-world *game::get_active_world()
+world *game::get_active_world() const
 {
     return world_generator->active_world.get();
 }

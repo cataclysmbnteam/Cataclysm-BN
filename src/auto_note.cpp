@@ -89,7 +89,8 @@ void auto_note_settings::load()
         }
     };
 
-    if( !g->get_active_world()->read_from_player_file_json( ".ano.json", parseJson, true ) ) {
+    if( !g->get_active_world()->read_from_player_file_json( ".ano.json", parseJson,
+            true ) ) {
         default_initialize();
         save();
     }

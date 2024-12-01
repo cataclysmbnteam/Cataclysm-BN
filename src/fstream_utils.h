@@ -101,9 +101,9 @@ struct cata_ifstream {
 };
 
 
-using file_read_cb = const std::function<void( std::istream & )> &;
-using file_read_json_cb = const std::function<void( JsonIn & )> &;
-using file_write_cb = const std::function<void( std::ostream & )> &;
+using file_read_fn = const std::function<void( std::istream & )> &;
+using file_read_json_fn = const std::function<void( JsonIn & )> &;
+using file_write_fn = const std::function<void( std::ostream & )> &;
 
 /**
  * Open a file for writing, calls the writer on that stream.
@@ -116,7 +116,7 @@ using file_write_cb = const std::function<void( std::ostream & )> &;
  * @throw The void function throws when writing failes or when the @p writer throws.
  * The other function catches all exceptions and returns false.
  */
-bool write_to_file( const std::string &path, file_write_cb &writer,
+bool write_to_file( const std::string &path, file_write_fn &writer,
                     const char *fail_message = nullptr );
 
 class JsonDeserializer;
@@ -141,8 +141,9 @@ class JsonDeserializer;
  * @return `true` is the file was read without any errors, `false` upon any error.
  */
 /**@{*/
-bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
-bool read_from_file_json( const std::string &path, file_read_json_cb reader,
+bool read_from_file( const std::string &path, file_read_fn reader,
+                     bool optional = false );
+bool read_from_file_json( const std::string &path, file_read_json_fn reader,
                           bool optional = false );
 
 /**@}*/
