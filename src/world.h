@@ -159,6 +159,12 @@ class world
         bool read_from_file_json( const std::string &path, file_read_json_cb reader,
                                   bool optional = false );
 
+        /**
+         * Convert (copy) the save data from the old format to the new format.
+         * This should only be called from `worldfactory`.
+         */
+        void convert_from_v1( const std::unique_ptr<WORLDINFO> &old_world );
+
     private:
         /** If non-zero, indicates we're in the middle of a save event */
         long long save_tx_start_ts = 0;

@@ -1584,3 +1584,45 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         get_world( worldname )->world_saves.clear();
     }
 }
+
+void worldfactory::convert_to_v2( const std::string &worldname )
+{
+    // Ensure we're ready to convert
+    WORLDINFO *worldinfo = get_world( worldname );
+    if( worldinfo == nullptr ) {
+        popup( _( "Tried to convert non-existing world %s to v2" ), worldname );
+        return;
+    }
+
+    if ( worldinfo->world_save_format != save_format::V1 ) {
+        popup( _( "World %s is already at savefile version 2" ), worldname );
+        return;
+    }
+
+    // Backup the world by renaming it to a new name
+    std::string backup_name = worldname + " (V2 Conversion Backup)";
+    if( has_world( backup_name ) ) {
+        popup( _( "Backup world '%s' already exists, aborting conversion" ), backup_name );
+        return;
+    }
+
+    std::unique_ptr<WORLDINFO> old_world = std::make_unique<WORLDINFO>();
+    old_world->COPY_WORLD( world_generator->get_world( worldname ) );
+    old_world->world_name = backup_name;
+
+    // Deep copy the world saves
+    std::vector<save_t> world_saves_copy(worldinfo->world_saves);
+    old_world->world_saves = worldinfo->world_saves;
+
+    // Rename the world folder perform the move
+    rename_file( worldinfo->folder_path(), old_world->folder_path() );
+    worldinfo->world_save_format = save_format::V2_COMPRESSED_SQLITE3;
+    world new_world( worldinfo );
+    new_world.convert_from_v1( old_world );
+    add_world( std::move( old_world ) );
+
+    // Save the world
+    worldinfo->save();
+
+    popup( _( "Conversion Complete!" ) );
+}

@@ -677,3 +677,119 @@ bool world::read_from_file_json( const std::string &path, file_read_json_cb read
 {
     return ::read_from_file_json( info->folder_path() + "/" + path, reader, optional );
 }
+
+void replaceBackslashes(std::string& input) {
+    std::size_t pos = 0;
+    while ((pos = input.find('\\', pos)) != std::string::npos) {
+        input.replace(pos, 1, "/");
+        pos++; // Move past the replaced character
+    }
+}
+
+/**
+ * Save Conversion
+ */
+void world::convert_from_v1( const std::unique_ptr<WORLDINFO> &old_world )
+{
+    dbg( DL::Info ) << "Converting world '" << info->world_name << "' from v1 to v2 format";
+
+    // The map database should already be loaded via the constructor.
+    // The save database(s) will need to be created separately here.
+    // Transactions are mostly being used for performance reasons rather than consistency.
+    sqlite3_exec( map_db, "BEGIN TRANSACTION", NULL, NULL, NULL );
+
+    // Keep track of the last used save DB
+    sqlite3 *last_save_db = nullptr;
+    std::string last_save_id = "";
+
+    // Begin copying files to the new world folder.
+    // This method is BFS, so we'll need to run two passes to keep player-specific
+    // files together.
+    auto old_world_path = old_world->folder_path() + "/";
+    auto root_paths = get_files_from_path( "", old_world->folder_path(), false, true );
+    for( auto &file_path : root_paths ) {
+        // Remove the old world path prefix from the file path
+        std::string part = file_path.substr( old_world_path.size() );
+        replaceBackslashes(part);
+
+        // Migrate contents of the maps/ directory into the map database
+        if ( part == "maps" ) {
+            // Recurse down the directory tree and migrate files into sqlite.
+            auto subpaths = get_files_from_path( "", file_path, true, true );
+            for ( auto &subpath : subpaths ) {
+                std::string map_path = "maps/" + subpath.substr( file_path.size() + 1 );
+                replaceBackslashes(map_path);
+                if ( !map_path.ends_with(".map") ) {
+                    continue;
+                }
+                ::read_from_file( subpath, [&]( std::istream & fin ) {
+                    write_to_db( map_db, map_path, [&]( std::ostream & fout ) {
+                        fout << fin.rdbuf();
+                    } );
+                } );
+            }
+            continue;
+        }
+
+        // Migrate o.* files into the map database
+        if ( part.starts_with( "o." ) ) {
+            ::read_from_file( file_path, [&]( std::istream & fin ) {
+                write_to_db( map_db, part, [&]( std::ostream & fout ) {
+                    fout << fin.rdbuf();
+                } );
+            } );
+            continue;
+        }
+
+        // Handle player-specific prefixed files
+        if ( part.find( ".seen." ) != std::string::npos || part.find( ".mm1" ) != std::string::npos ) {
+            auto save_id = part.substr( 0, part.find( "." ) );
+            if ( save_id != last_save_id ) {
+                if ( last_save_db ) {
+                    sqlite3_exec( last_save_db, "COMMIT", NULL, NULL, NULL );
+                    sqlite3_close( last_save_db );
+                }
+                last_save_db = open_db( info->folder_path() + "/" + save_id + ".sqlite3" );
+                last_save_id = save_id;
+                sqlite3_exec( last_save_db, "BEGIN TRANSACTION", NULL, NULL, NULL );
+            }
+
+            if ( part.find( ".seen." ) != std::string::npos ) {
+                ::read_from_file( file_path, [&]( std::istream & fin ) {
+                    write_to_db( last_save_db, part.substr(save_id.size()), [&]( std::ostream & fout ) {
+                        fout << fin.rdbuf();
+                    } );
+                } );
+            } else {
+                // Recurse down the directory tree and migrate files into sqlite.
+                auto subpaths = get_files_from_path( "", file_path, true, true );
+                for ( auto &subpath : subpaths ) {
+                    std::string map_path = subpath.substr( file_path.size() + 1);
+                    replaceBackslashes(map_path);
+                    if ( map_path.ends_with('/') ) {
+                        continue;
+                    }
+                    ::read_from_file( subpath, [&]( std::istream & fin ) {
+                        write_to_db( last_save_db, map_path, [&]( std::ostream & fout ) {
+                            fout << fin.rdbuf();
+                        } );
+                    } );
+                }
+            }
+
+            continue;
+        }
+
+        // Copy all other files as-is
+        if ( !part.ends_with( "/" ) ) {
+            copy_file( file_path, info->folder_path() + "/" + part );
+        }
+    }
+
+    if ( last_save_db ) {
+        sqlite3_exec( last_save_db, "COMMIT", NULL, NULL, NULL );
+        sqlite3_close( last_save_db );
+    }
+
+    sqlite3_exec( map_db, "COMMIT", NULL, NULL, NULL );
+}
