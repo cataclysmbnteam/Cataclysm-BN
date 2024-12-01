@@ -165,46 +165,6 @@ void worldfactory::set_active_world( WORLDINFO *new_world )
     }
 }
 
-bool WORLDINFO::save( const bool is_conversion ) const
-{
-    if( !assure_dir_exist( folder_path() ) ) {
-        DebugLog( DL::Error, DC::Main ) << "Unable to create or open world[" << world_name
-                                        << "] directory for saving";
-        return false;
-    }
-
-    if( !is_conversion ) {
-        const auto savefile = folder_path() + "/" + PATH_INFO::worldoptions();
-        const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
-            JsonOut jout( fout );
-
-            jout.start_array();
-
-            for( auto &elem : WORLD_OPTIONS ) {
-                // Skip hidden option because it is set by mod and should not be saved
-                if( !elem.second.getDefaultText().empty() ) {
-                    jout.start_object();
-
-                    jout.member( "info", elem.second.getTooltip() );
-                    jout.member( "default", elem.second.getDefaultText( false ) );
-                    jout.member( "name", elem.first );
-                    jout.member( "value", elem.second.getValue( true ) );
-
-                    jout.end_object();
-                }
-            }
-
-            jout.end_array();
-        }, _( "world data" ) );
-        if( !saved ) {
-            return false;
-        }
-    }
-
-    world_generator->get_mod_manager().save_mods_list( const_cast<WORLDINFO *>( this ) );
-    return true;
-}
-
 void worldfactory::init()
 {
     load_last_world_info();
@@ -236,6 +196,8 @@ void worldfactory::init()
         all_worlds[worldname] = std::make_unique<WORLDINFO>();
         // give the world a name
         all_worlds[worldname]->world_name = worldname;
+        // Record the world save format. Only one exists at this time.
+        all_worlds[worldname]->world_save_format = save_format::V1;
         // add sav files
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );

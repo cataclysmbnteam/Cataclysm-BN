@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_WORLDDB_H
-#define CATA_SRC_WORLDDB_H
+#ifndef CATA_SRC_WORLD_H
+#define CATA_SRC_WORLD_H
 
 #include <functional>
 #include <string>
@@ -36,6 +36,11 @@ class save_t
         save_t &operator=( const save_t & ) = default;
 };
 
+enum save_format : int {
+    /** Original save layout; uncompressed JSON as loose files */
+    V1 = 0,
+};
+
 /**
  * Structure containing metadata about a world. No actual world data is processed here.
  *
@@ -54,6 +59,8 @@ struct WORLDINFO {
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
         std::vector<save_t> world_saves;
+        save_format world_save_format;
+
         /**
          * A (possibly empty) list of (idents of) mods that
          * should be loaded for this world.
@@ -102,7 +109,7 @@ class world
          * scattering it throughout the codebase.
          */
         bool read_map_quad( const tripoint &om_addr, file_read_json_cb reader );
-        bool write_map_quad( const tripoint &om_addr, file_write_cb &writer );
+        bool write_map_quad( const tripoint &om_addr, file_write_cb writer );
 
         bool overmap_exists( const point_abs_om &p );
         bool read_overmap( const point_abs_om &p, file_read_cb reader );
@@ -111,13 +118,13 @@ class world
         bool write_overmap_player_visibility( const point_abs_om &p, file_write_cb writer );
 
         bool read_player_mm_quad( const tripoint &p, file_read_json_cb reader );
-        bool write_player_mm_quad( const tripoint &p, file_write_cb &writer );
+        bool write_player_mm_quad( const tripoint &p, file_write_cb writer );
 
         /*
          * Player-specific file operations. Paths will be prefixed with the player's save ID.
          */
         bool player_file_exist( const std::string &path );
-        bool write_to_player_file( const std::string &path, file_write_cb &writer,
+        bool write_to_player_file( const std::string &path, file_write_cb writer,
                                    const char *fail_message = nullptr );
         bool read_from_player_file( const std::string &path, file_read_cb reader, bool optional = false );
         bool read_from_player_file_json( const std::string &path, file_read_json_cb reader,
@@ -142,7 +149,7 @@ class world
          * @param fail_message The message to display if the write fails.
          * @return True if the write was successful, false otherwise.
          */
-        bool write_to_file( const std::string &path, file_write_cb &writer,
+        bool write_to_file( const std::string &path, file_write_cb writer,
                             const char *fail_message = nullptr );
         bool read_from_file( const std::string &path, file_read_cb reader, bool optional = false );
         bool read_from_file_json( const std::string &path, file_read_json_cb reader,
@@ -155,6 +162,7 @@ class world
         std::string overmap_terrain_filename( const point_abs_om &p ) const;
         std::string overmap_player_filename( const point_abs_om &p ) const;
         std::string get_player_path() const;
+
 };
 
-#endif // CATA_SRC_WORLDDB_H
+#endif // CATA_SRC_WORLD_H

@@ -47,6 +47,7 @@ WORLDINFO::WORLDINFO()
 {
     world_name = world_generator->get_next_valid_worldname();
     WORLD_OPTIONS = get_options().get_world_defaults();
+    world_save_format = save_format::V1;
 
     world_saves.clear();
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
@@ -56,6 +57,7 @@ void WORLDINFO::COPY_WORLD( const WORLDINFO *world_to_copy )
 {
     world_name = world_to_copy->world_name + "_copy";
     WORLD_OPTIONS = world_to_copy->WORLD_OPTIONS;
+    world_save_format = world_to_copy->world_save_format;
     active_mod_order = world_to_copy->active_mod_order;
 }
 
@@ -131,6 +133,46 @@ bool WORLDINFO::load_options()
     return read_from_file_json( path, [&]( JsonIn & jsin ) {
         load_options( jsin );
     }, true );
+}
+
+bool WORLDINFO::save( const bool is_conversion ) const
+{
+    if( !assure_dir_exist( folder_path() ) ) {
+        DebugLog( DL::Error, DC::Main ) << "Unable to create or open world[" << world_name
+                                        << "] directory for saving";
+        return false;
+    }
+
+    if( !is_conversion ) {
+        const auto savefile = folder_path() + "/" + PATH_INFO::worldoptions();
+        const bool saved = write_to_file( savefile, [&]( std::ostream & fout ) {
+            JsonOut jout( fout );
+
+            jout.start_array();
+
+            for( auto &elem : WORLD_OPTIONS ) {
+                // Skip hidden option because it is set by mod and should not be saved
+                if( !elem.second.getDefaultText().empty() ) {
+                    jout.start_object();
+
+                    jout.member( "info", elem.second.getTooltip() );
+                    jout.member( "default", elem.second.getDefaultText( false ) );
+                    jout.member( "name", elem.first );
+                    jout.member( "value", elem.second.getValue( true ) );
+
+                    jout.end_object();
+                }
+            }
+
+            jout.end_array();
+        }, _( "world data" ) );
+        if( !saved ) {
+            return false;
+        }
+    }
+
+    world_generator->get_mod_manager().save_mods_list( const_cast<WORLDINFO *>( this ) );
+    return true;
 }
 
 void load_world_option( const JsonObject &jo )
@@ -277,7 +319,7 @@ bool world::read_map_quad( const tripoint &om_addr, file_read_json_cb reader )
     return read_from_file_json( quad_path, reader, true );
 }
 
-bool world::write_map_quad( const tripoint &om_addr, file_write_cb &writer )
+bool world::write_map_quad( const tripoint &om_addr, file_write_cb writer )
 {
     const std::string dirname = get_quad_dirname( om_addr );
     std::string quad_path = dirname + "/" + get_quad_filename( om_addr );
@@ -338,7 +380,7 @@ bool world::read_player_mm_quad( const tripoint &p, file_read_json_cb reader )
     return read_from_player_file_json( ".mm1/" + get_mm_filename( p ), reader, true );
 }
 
-bool world::write_player_mm_quad( const tripoint &p, file_write_cb &writer )
+bool world::write_player_mm_quad( const tripoint &p, file_write_cb writer )
 {
     const std::string descr = string_format(
                                   _( "memory map region for (%d,%d,%d)" ),
@@ -362,7 +404,7 @@ bool world::player_file_exist( const std::string &path )
     return file_exist( get_player_path() + path );
 }
 
-bool world::write_to_player_file( const std::string &path, file_write_cb &writer,
+bool world::write_to_player_file( const std::string &path, file_write_cb writer,
                                   const char *fail_message )
 {
     return write_to_file( get_player_path() + path, writer, fail_message );
@@ -393,7 +435,7 @@ bool world::file_exist( const std::string &path )
     return ::file_exist( info->folder_path() + "/" + path );
 }
 
-bool world::write_to_file( const std::string &path, file_write_cb &writer,
+bool world::write_to_file( const std::string &path, file_write_cb writer,
                            const char *fail_message )
 {
     return ::write_to_file( info->folder_path() + "/" + path, writer, fail_message );
