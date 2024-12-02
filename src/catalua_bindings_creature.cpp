@@ -412,6 +412,15 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( has_watch, bool() const );
 
+        // These are named with 'BTU' (body temperature units) because other
+        // body temperature measurements might/can/should be added later.
+        DOC( "Gets the current temperature of a specific body part (in Body Temperature Units)." );
+        SET_FX_N_T( get_part_temp_cur, "get_part_temp_btu", int( const bodypart_id & id ) const );
+        DOC( "Sets a specific body part to a given temperature (in Body Temperature Units)." );
+        SET_FX_N_T( set_part_temp_cur, "set_part_temp_btu", void( const bodypart_id & id, int temp ) );
+        DOC( "Sets ALL body parts on a creature to the given temperature (in Body Temperature Units)." );
+        SET_FX_N_T( set_temp_cur, "set_temp_btu", void( int temp ) );
+
         SET_FX_T( blood_loss, int( const bodypart_id & bp ) const );
 
         SET_FX_N_T( encumb, "get_part_encumbrance", int( const bodypart_str_id & bp ) const );

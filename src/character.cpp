@@ -6083,6 +6083,28 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     }
 }
 
+// TODO: See how Lua treats these; what do the default values look like?
+int Character::get_part_temp_cur( const bodypart_id &id ) const
+{
+    return get_part( id ).get_temp_cur();
+}
+
+void Character::set_part_temp_cur( const bodypart_id &id, int temp )
+{
+    get_part( id ).set_temp_cur( temp );
+}
+
+void Character::set_temp_cur( int temp )
+{
+    // There may be a cleaner way to do this.
+    for( auto &pr : get_body() ) {
+        bodypart &bp = pr.second;
+        bp.set_temp_cur( temp );
+    }
+    // TODO: Unclear how temp_conv works exactly...look into it later.
+}
+
+
 int Character::blood_loss( const bodypart_id &bp ) const
 {
     int hp_cur_sum = get_part_hp_cur( bp );

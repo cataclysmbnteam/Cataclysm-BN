@@ -475,6 +475,13 @@ class Character : public Creature, public location_visitable<Character>
         /** Maintains body temperature */
         void update_bodytemp( const map &m, const weather_manager &weather );
 
+        /** Getters/setters for body part temperature.
+         *  This could go under Creature, but Character is the class with update_bodytemp. */
+        int  get_part_temp_cur( const bodypart_id &id ) const;
+        void set_part_temp_cur( const bodypart_id &id, int temp );
+        // Missing a getter for this; how do we present an average of part temperatures?
+        void set_temp_cur( int temp );
+
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
 
