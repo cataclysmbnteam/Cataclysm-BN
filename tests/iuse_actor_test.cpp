@@ -45,8 +45,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     player &dummy = g->u;
 
     g->clear_zombies();
-    detached_ptr<item> det = item::spawn( "bot_manhack", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "bot_manhack", calendar::start_of_cataclysm );
     item &test_item = *det;
     dummy.i_add( std::move( det ) );
 

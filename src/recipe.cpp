@@ -457,7 +457,7 @@ std::string recipe::get_consistency_error() const
 
 detached_ptr<item> recipe::create_result() const
 {
-    detached_ptr<item> newit = item::spawn( result_, calendar::turn, item::default_charges_tag{} );
+    detached_ptr<item> newit = item::spawn( result_, calendar::turn );
     if( charges ) {
         newit->charges = *charges;
     }
@@ -506,7 +506,7 @@ std::vector<detached_ptr<item>> recipe::create_byproducts( int batch ) const
 {
     std::vector<detached_ptr<item>> bps;
     for( const auto &e : byproducts ) {
-        detached_ptr<item> obj = item::spawn( e.first, calendar::turn, item::default_charges_tag{} );
+        detached_ptr<item> obj = item::spawn( e.first, calendar::turn );
         if( obj->has_flag( flag_VARSIZE ) ) {
             obj->set_flag( flag_FIT );
         }
