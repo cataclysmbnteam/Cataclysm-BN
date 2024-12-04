@@ -492,8 +492,9 @@
     "skills_required": [ [ "survival", 2 ] ],
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
+      [ [ "wood_structural_small", 1, "LIST" ] ],
       [
         [ "fabric_standard", 1, "LIST" ],
         [ "felt_patch", 1 ],
@@ -501,7 +502,7 @@
         [ "cordage_short", 2, "LIST" ],
         [ "filament", 100, "LIST" ]
       ],
-      [ [ "bone_heavy", 10 ] ]
+      [ [ "bone_heavy", 4 ] ]
     ]
   }
 ]

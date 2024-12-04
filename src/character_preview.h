@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CHARACTER_PREVIEW_H
-#define CHARACTER_PREVIEW_H
+#ifndef CATA_SRC_CHARACTER_PREVIEW_H
+#define CATA_SRC_CHARACTER_PREVIEW_H
 
 #include "cursesdef.h"
 #include "detached_ptr.h"
@@ -64,4 +64,4 @@ struct character_preview_window {
         auto calc_character_pos() const -> point ;
 };
 
-#endif // CHARACTER_PREVIEW_H
+#endif // CATA_SRC_CHARACTER_PREVIEW_H

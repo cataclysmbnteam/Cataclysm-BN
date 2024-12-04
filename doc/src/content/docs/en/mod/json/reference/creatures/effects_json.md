@@ -587,6 +587,14 @@ Valid arguments:
 "healing_torso"     - Percentage of healing value for torso
 
 "morale"            - Amount of morale provided. Must be a single number (resistance not supported).
+
+This following effects only apply to monsters:
+
+"hit_mod"           - Raises or lowers monster melee_skill
+"dodge_mod"         - Raises or lowers monster dodge rating
+"bash_mod"          - Raises or lowers bashing damage dealt by basic attacks and melee special attacks, lowering it to zero will make it deal no damage
+"cut_mod"           - Raises or lowers cutting damage dealt by basic attacks and melee special attacks, lowering it to zero will make it deal no damage
+"size_mod"          - Shrinks or grows a monster's size, can't make a monster smaller than tiny or larger than huge
 ```
 
 Each argument can also take either one or two values.

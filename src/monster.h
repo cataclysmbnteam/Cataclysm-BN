@@ -519,13 +519,13 @@ class monster : public Creature, public location_visitable<monster>
 
         void setpos( const tripoint &p ) override;
         const tripoint &pos() const override;
-        inline int posx() const override {
+        int posx() const override {
             return position.x;
         }
-        inline int posy() const override {
+        int posy() const override {
             return position.y;
         }
-        inline int posz() const override {
+        int posz() const override {
             return position.z;
         }
 

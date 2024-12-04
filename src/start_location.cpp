@@ -198,7 +198,7 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
 void start_location::prepare_map( tinymap &m ) const
 {
     const int z = m.get_abs_sub().z;
-    if( flags().count( "BOARDED" ) > 0 ) {
+    if( flags().contains( "BOARDED" ) ) {
         m.build_outside_cache( z );
         board_up( m, m.points_on_zlevel( z ) );
     } else {
@@ -346,7 +346,7 @@ void start_location::place_player( player &u ) const
     u.setz( g->get_levz() );
     m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
-    const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
+    const bool must_be_inside = !flags().contains( "ALLOW_OUTSIDE" );
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
     const int bash = u.get_str();
@@ -445,7 +445,7 @@ void start_location::handle_heli_crash( player &u ) const
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
             continue;// Skip head + torso for balance reasons.
         }
-        const int roll = static_cast<int>( rng( 1, 8 ) );
+        const int roll = rng( 1, 8 );
         switch( roll ) {
             // Damage + Bleed
             case 1:
@@ -458,7 +458,7 @@ void start_location::handle_heli_crash( player &u ) const
             case 5: {
                 const int maxHp = u.get_hp_max( bp );
                 // Body part health will range from 33% to 66% with occasional bleed
-                const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
+                const int dmg = rng( maxHp / 3, maxHp * 2 / 3 );
                 u.apply_damage( nullptr, bp, dmg );
                 break;
             }

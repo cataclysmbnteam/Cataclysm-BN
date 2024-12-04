@@ -313,6 +313,8 @@ bool melee_actor::call( monster &z ) const
     }
 
     damage_instance damage = damage_max_instance;
+    damage.add_damage( DT_BASH, z.get_bash_bonus() );
+    damage.add_damage( DT_CUT, z.get_cut_bonus() );
 
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );

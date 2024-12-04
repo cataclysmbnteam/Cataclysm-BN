@@ -411,6 +411,13 @@
     "entries": [ { "group": "on_hand_45colt", "prob": 100 }, { "group": "on_hand_410shot", "prob": 50 } ]
   },
   {
+    "id": "on_hand_454_or_45colt",
+    "type": "item_group",
+    "//": "Used for when a gun can freely use either .454 Casull or .45 Colt, for example raging_bull.",
+    "subtype": "distribution",
+    "entries": [ { "group": "on_hand_454", "prob": 100 }, { "group": "on_hand_45colt", "prob": 50 } ]
+  },
+  {
     "id": "on_hand_454_mixed",
     "type": "item_group",
     "//": "Used for when a gun can freely use either .410 shotshells or .45 Colt, for example bond_410.",

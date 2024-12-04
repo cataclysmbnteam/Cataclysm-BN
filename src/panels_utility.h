@@ -13,4 +13,4 @@ std::string value_trimmed( int value, int maximum = 100 );
 
 nc_color focus_color( int focus );
 
-#endif
+#endif // CATA_SRC_PANELS_UTILITY_H

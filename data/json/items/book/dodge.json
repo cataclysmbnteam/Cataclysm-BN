@@ -11,7 +11,7 @@
     "price_postapoc": "250 cent",
     "color": "pink",
     "skill": "dodge",
-    "max_level": 1,
+    "max_level": 2,
     "intelligence": 2,
     "time": "8 m",
     "fun": 1
@@ -28,7 +28,8 @@
     "price_postapoc": "750 cent",
     "color": "green",
     "skill": "dodge",
-    "max_level": 3,
+    "required_level": 3,
+    "max_level": 5,
     "intelligence": 7,
     "time": "20 m"
   },
@@ -44,7 +45,7 @@
     "price_postapoc": "5 USD",
     "color": "white",
     "skill": "dodge",
-    "max_level": 1,
+    "max_level": 3,
     "intelligence": 1,
     "time": "6 m",
     "fun": 1

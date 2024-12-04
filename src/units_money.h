@@ -22,72 +22,72 @@ const money money_max = units::money( std::numeric_limits<units::money::value_ty
                                       units::money::unit_type{} );
 
 template<typename value_type>
-inline constexpr quantity<value_type, money_in_cent_tag> from_cent(
+constexpr quantity<value_type, money_in_cent_tag> from_cent(
     const value_type v )
 {
     return quantity<value_type, money_in_cent_tag>( v, money_in_cent_tag{} );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, money_in_cent_tag> from_usd( const value_type v )
+constexpr quantity<value_type, money_in_cent_tag> from_usd( const value_type v )
 {
     return from_cent<value_type>( v * 100 );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, money_in_cent_tag> from_kusd( const value_type v )
+constexpr quantity<value_type, money_in_cent_tag> from_kusd( const value_type v )
 {
     return from_usd<value_type>( v * 1000 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_cent( const quantity<value_type, money_in_cent_tag> &v )
+constexpr value_type to_cent( const quantity<value_type, money_in_cent_tag> &v )
 {
     return v / from_cent<value_type>( 1 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_usd( const quantity<value_type, money_in_cent_tag> &v )
+constexpr value_type to_usd( const quantity<value_type, money_in_cent_tag> &v )
 {
     return to_cent( v ) / 100.0;
 }
 
 template<typename value_type>
-inline constexpr value_type to_kusd( const quantity<value_type, money_in_cent_tag> &v )
+constexpr value_type to_kusd( const quantity<value_type, money_in_cent_tag> &v )
 {
     return to_usd( v ) / 1000.0;
 }
 
 } // namespace units
 
-inline constexpr units::money operator"" _cent( const unsigned long long v )
+constexpr units::money operator"" _cent( const unsigned long long v )
 {
     return units::from_cent( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _cent(
+constexpr units::quantity<double, units::money_in_cent_tag> operator"" _cent(
     const long double v )
 {
     return units::from_cent( v );
 }
 
-inline constexpr units::money operator"" _USD( const unsigned long long v )
+constexpr units::money operator"" _USD( const unsigned long long v )
 {
     return units::from_usd( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _USD(
+constexpr units::quantity<double, units::money_in_cent_tag> operator"" _USD(
     const long double v )
 {
     return units::from_usd( v );
 }
 
-inline constexpr units::money operator"" _kUSD( const unsigned long long v )
+constexpr units::money operator"" _kUSD( const unsigned long long v )
 {
     return units::from_kusd( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _kUSD(
+constexpr units::quantity<double, units::money_in_cent_tag> operator"" _kUSD(
     const long double v )
 {
     return units::from_kusd( v );

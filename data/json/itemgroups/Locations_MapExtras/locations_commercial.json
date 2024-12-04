@@ -566,6 +566,7 @@
       [ "straw_hat", 5 ],
       [ "straw_fedora", 5 ],
       [ "shark_suit", 1 ],
+      [ "shark_plush", 1 ],
       [ "chainmail_suit", 1 ],
       [ "chainmail_hood", 2 ],
       [ "chainmail_vest", 2 ],
@@ -1619,7 +1620,8 @@
       [ "solder_wire", 50 ],
       { "item": "superglue", "prob": 55, "charges": [ 5, 10 ] },
       [ "screwdriver", 60 ],
-      [ "motor_small", 30 ]
+      [ "motor_small", 30 ],
+      [ "laser_source", 10 ]
     ]
   },
   {

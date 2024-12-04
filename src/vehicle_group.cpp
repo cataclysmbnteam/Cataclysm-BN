@@ -50,7 +50,7 @@ point VehicleLocation::pick_point() const
 template<>
 bool string_id<VehicleGroup>::is_valid() const
 {
-    return vgroups.count( *this ) > 0;
+    return vgroups.contains( *this );
 }
 
 template<>
@@ -68,7 +68,7 @@ const VehiclePlacement &string_id<VehiclePlacement>::obj() const
 template<>
 bool string_id<VehiclePlacement>::is_valid() const
 {
-    return vplacements.count( *this ) > 0;
+    return vplacements.contains( *this );
 }
 
 void VehicleGroup::load( const JsonObject &jo )
@@ -170,7 +170,7 @@ const VehicleSpawn &string_id<VehicleSpawn>::obj() const
 template<>
 bool string_id<VehicleSpawn>::is_valid() const
 {
-    return vspawns.count( *this ) > 0;
+    return vspawns.contains( *this );
 }
 
 void VehicleSpawn::load( const JsonObject &jo )
@@ -181,7 +181,7 @@ void VehicleSpawn::load( const JsonObject &jo )
             JsonObject vjo = type.get_object( "vehicle_json" );
             spawn.add( type.get_float( "weight" ), make_shared_fast<VehicleFunction_json>( vjo ) );
         } else if( type.has_string( "vehicle_function" ) ) {
-            if( builtin_functions.count( type.get_string( "vehicle_function" ) ) == 0 ) {
+            if( !builtin_functions.contains( type.get_string( "vehicle_function" ) ) ) {
                 type.throw_error( "load_vehicle_spawn: unable to find builtin function", "vehicle_function" );
             }
 

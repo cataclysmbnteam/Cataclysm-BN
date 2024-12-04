@@ -79,8 +79,8 @@ class statistics
         // Outside of this class, this should only be used for debugging
         // purposes.
         template<typename U = T>
-        std::enable_if_t< std::is_same_v< U, bool >, double >
-        margin_of_error() {
+        double
+        margin_of_error() requires( std::is_same_v< U, bool > ) {
             if( _error != invalid_err ) {
                 return _error;
             }
@@ -101,8 +101,8 @@ class statistics
         // Outside of this class, this should only be used for debugging purposes.
         // https://measuringu.com/ci-five-steps/
         template<typename U = T>
-        std::enable_if_t < ! std::is_same_v< U, bool >, double >
-        margin_of_error() {
+        double
+        margin_of_error() requires( ! std::is_same_v< U, bool > ) {
             if( _error != invalid_err ) {
                 return _error;
             }

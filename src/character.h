@@ -218,6 +218,7 @@ struct char_trait_data {
      * is reset to @ref mutation_branch::cooldown.
      */
     int charge = 0;
+    bool show_sprite = true;
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };
@@ -236,6 +237,11 @@ class Character : public Creature, public location_visitable<Character>
         Character( Character && ) noexcept;
         Character &operator=( Character && ) noexcept;
         ~Character() override;
+
+        // Move ctor and move operator= common stuff
+        // Avoids huge copypaste, without having to use operator= in ctor
+        // (operator= in ctor is different behavior from copypaste)
+        void move_operator_common( Character && ) noexcept;
 
         Character *as_character() override {
             return this;
@@ -468,9 +474,6 @@ class Character : public Creature, public location_visitable<Character>
         bool is_hibernating() const;
         /** Maintains body temperature */
         void update_bodytemp( const map &m, const weather_manager &weather );
-
-        /** Equalizes heat between body parts */
-        void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
 
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
@@ -740,10 +743,8 @@ class Character : public Creature, public location_visitable<Character>
         /** Removes the appropriate costs (NOTE: will reapply mods & recalc sightlines in case of newly activated mutation). */
         void mutation_spend_resources( const trait_id &mut );
 
-        /** Converts a bodypart_str_id to an hp_part */
-        static hp_part bp_to_hp( const bodypart_str_id &bp );
-        /** Converts an hp_part to a bodypart_str_id */
-        static const bodypart_str_id &hp_to_bp( hp_part hpart );
+        /** Converts a bodypart_str_id to its main part */
+        static bodypart_str_id bp_to_hp( const bodypart_str_id &bp );
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
@@ -791,10 +792,10 @@ class Character : public Creature, public location_visitable<Character>
          * bandage_power - quality of bandage
          * disinfectant_power - quality of disinfectant
          */
-        hp_part body_window( const std::string &menu_header,
-                             bool show_all, bool precise,
-                             int normal_bonus, int head_bonus, int torso_bonus,
-                             float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
+        bodypart_str_id body_window( const std::string &menu_header,
+                                     bool show_all, bool precise,
+                                     int normal_bonus, int head_bonus, int torso_bonus,
+                                     float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
@@ -803,32 +804,25 @@ class Character : public Creature, public location_visitable<Character>
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        // Drench cache
-        enum water_tolerance {
-            WT_IGNORED = 0,
-            WT_NEUTRAL,
-            WT_GOOD,
-            NUM_WATER_TOLERANCE
-        };
-        inline int posx() const override {
+        int posx() const override {
             return position.x;
         }
-        inline int posy() const override {
+        int posy() const override {
             return position.y;
         }
-        inline int posz() const override {
+        int posz() const override {
             return position.z;
         }
-        inline void setx( int x ) {
+        void setx( int x ) {
             setpos( tripoint( x, position.y, position.z ) );
         }
-        inline void sety( int y ) {
+        void sety( int y ) {
             setpos( tripoint( position.x, y, position.z ) );
         }
-        inline void setz( int z ) {
+        void setz( int z ) {
             setpos( tripoint( position.xy(), z ) );
         }
-        inline void setpos( const tripoint &p ) override {
+        void setpos( const tripoint &p ) override {
             position = p;
         }
 
@@ -872,8 +866,6 @@ class Character : public Creature, public location_visitable<Character>
          * If new_item is not null, then calculate under the asumption that it
          * is added to existing work items. */
         void item_encumb( char_encumbrance_data &vals, const item &new_item ) const;
-
-        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
     public:
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
@@ -1641,7 +1633,6 @@ class Character : public Creature, public location_visitable<Character>
         bool male = true;
 
         location_vector<item> worn;
-        std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
         bool hauling = false;
@@ -1860,11 +1851,6 @@ class Character : public Creature, public location_visitable<Character>
         void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
-        // adds total healing to the bodypart. this is only a counter.
-        void healed_bp( int bp, int amount );
-
-        // the amount healed per bodypart per day
-        std::array<int, num_hp_parts> healed_total;
 
         std::map<mutation_category_id, int> mutation_category_level;
 
@@ -2174,9 +2160,6 @@ class Character : public Creature, public location_visitable<Character>
         /** Called when character triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
-        /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( int bp ) const;
-
         // see Creature::sees
         bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
@@ -2374,11 +2357,6 @@ class Character : public Creature, public location_visitable<Character>
         std::unordered_map<point_abs_omt, time_duration> overmap_time;
 
     public:
-        // TODO: make these private
-        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
-        std::array<int, num_bp> body_wetness;
-        std::array<int, num_bp> drench_capacity;
-
         time_point next_climate_control_check;
         bool last_climate_control_ret = false;
 
@@ -2417,6 +2395,9 @@ std::map<bodypart_id, int> from_effects( const Character &c );
 /** Returns wind resistance provided by armor, etc **/
 std::map<bodypart_id, int> wind_resistance_from_clothing(
     const std::map<bodypart_id, std::vector<const item *>> &clothing_map );
+
+/** Define color for displaying the body temperature */
+nc_color bodytemp_color( const Character &c, const bodypart_str_id &bp );
 } // namespace warmth
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */

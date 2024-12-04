@@ -11,7 +11,7 @@ class IsOneOf : public Catch::MatcherBase<std::string>
     public:
         IsOneOf( std::set< std::string > v ): values{v} {}
         bool match( std::string const &s ) const override {
-            return values.count( s ) > 0;
+            return values.contains( s );
         }
         std::string describe() const override {
             std::string s = "is one of {";

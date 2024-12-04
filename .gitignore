@@ -218,3 +218,10 @@ Xcode/
 VERSION.txt
 
 changelog.md
+
+tidy-analyze-target
+
+test/Output
+test/.lit_test_times.txt
+affected_files.txt
+clang-tidy-trace

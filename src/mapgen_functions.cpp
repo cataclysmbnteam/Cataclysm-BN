@@ -1784,7 +1784,7 @@ void mapgen_parking_lot( mapgendata &dat )
                     dat.when() );
     for( int i = 1; i < 4; i++ ) {
         const std::string &id = dat.t_nesw[i].id().str();
-        if( id.size() > 5 && id.find( "road_" ) == 0 ) {
+        if( id.size() > 5 && id.starts_with( "road_" ) ) {
             m->rotate( i );
         }
     }
@@ -2782,7 +2782,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     bool open[8] = { false };
     for( int i = 0; i < 8; i++ ) {
-        open[i] = slots.count( i );
+        open[i] = slots.contains( i );
         // Shores with two connections per side have overlapping offsets, we need to swap them
         if( i % 2 && open[i] && open[i - 1] ) {
             point p = slots[i];
@@ -2798,7 +2798,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
         // Check the next slot, and inverse direction if any
         int next = i % 2 == 0 ? 1 : -1;
-        int dir = slots.count( i + next ) ? -next : next;
+        int dir = slots.contains( i + next ) ? -next : next;
 
         // Now make a full round loop from our current point
         int pair = i;

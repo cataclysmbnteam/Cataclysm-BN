@@ -10,21 +10,6 @@
     "coverage": 50,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
-    "deconstruct": {
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "large_lcd_screen", "count": 1 },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
-      ]
-    },
     "bash": {
       "str_min": 16,
       "str_max": 150,
@@ -43,6 +28,7 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
     }
   },
@@ -58,21 +44,6 @@
     "light_emitted": 10,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
-    "deconstruct": {
-      "ter_set": "t_floor",
-      "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
-        { "item": "large_lcd_screen", "count": 1 },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
-      ]
-    },
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -480,7 +451,7 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ],
-      "//": "destroy_threshold matches str_min since fragile",
+      "//": "Variable reduction, destroy_threshold matches str_min since fragile",
       "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
@@ -522,7 +493,7 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ],
-      "//": "destroy_threshold matches str_min since fragile",
+      "//": "Variable reduction, destroy_threshold matches str_min since fragile",
       "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 40, "block_unaimed_chance": "50%" }
     }
   },
@@ -552,7 +523,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "rock", "count": [ 2, 5 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -572,7 +545,9 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 2, 5 ] } ]
+      "items": [ { "item": "rock", "count": [ 2, 5 ] } ],
+      "//": "Stone obstacles have double the expected reduction but lower destroy_threshold in return",
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 100, "block_unaimed_chance": "25%" }
     }
   },
   {

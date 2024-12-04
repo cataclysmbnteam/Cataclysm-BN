@@ -44,5 +44,28 @@
     "time": "10 s",
     "components": [ [ [ "razor_shaving", 1 ] ], [ [ "razor_blade", 2 ] ], [ [ "hairbrush", 1 ] ], [ [ "bottle_plastic_small", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "scissors",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "dog_whistle",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "whistle_multitool",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "plastic_scrap", 1 ] ] ]
   }
 ]

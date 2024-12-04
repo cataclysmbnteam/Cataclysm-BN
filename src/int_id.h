@@ -32,8 +32,8 @@ class int_id
         /**
          * Prevent accidental construction from other int ids.
          */
-        template < typename S, typename std::enable_if_t < !std::is_same<S, T>::value, int > = 0 >
-        int_id( const int_id<S> &id ) = delete;
+        template < typename S>
+        int_id( const int_id<S> &id ) requires( !std::is_same_v<S, T> ) = delete;
 
         /**
          * Default constructor constructs a 0-id. No id value is special to this class, 0 as id
@@ -53,9 +53,8 @@ class int_id
          * constructor to create the int id. This allows plain C-strings,
          * and std::strings to be used.
          */
-        template<typename S, class =
-                 typename std::enable_if< std::is_convertible<S, std::string >::value>::type >
-        explicit int_id( S && id ) : int_id( string_id<T>( std::forward<S>( id ) ) ) {}
+        template<typename S> requires std::is_convertible_v<S, std::string >
+        explicit int_id( S &&id ) : int_id( string_id<T>( std::forward<S>( id ) ) ) {}
 
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key.

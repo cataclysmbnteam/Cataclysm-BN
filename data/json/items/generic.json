@@ -139,22 +139,25 @@
     "id": "log_immersion27",
     "copy-from": "file",
     "name": { "str": "INCIDENT REPORT: IMMERSION-27A" },
-    "description": "A white piece of paper, with the logo of XEDRA printed on its upper left corner.  It seems to be an internal report of some kind.",
-    "snippet_category": "log_immersion27"
+    "description": "A white piece of paper, with a fancy-looking logo printed on its upper left corner.  It'd probably be very fascinating reading material.",
+    "snippet_category": "log_immersion27",
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "type": "GENERIC",
     "id": "report_t_substrate",
     "copy-from": "log_immersion27",
     "name": { "str": "MATERIAL: T-SUBSTRATE" },
-    "snippet_category": "t-substrate"
+    "snippet_category": "t-substrate",
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "type": "GENERIC",
     "id": "HAADF_t_substrate",
     "copy-from": "log_immersion27",
     "name": { "str": "HAADF MICROGRAPH: T-SUBSTRATE" },
-    "snippet_category": "HAADF_t-substrate"
+    "snippet_category": "HAADF_t-substrate",
+    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
   },
   {
     "type": "GENERIC",
@@ -1390,6 +1393,36 @@
     "cutting": 6,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dissector",
+    "symbol": ",",
+    "color": "light_blue",
+    "name": { "str": "broken dissector" },
+    "category": "other",
+    "description": "Some kind of automated medical laser cutting system.  It has suffered some damage and doesn't seem to work any more, but it could be gutted for parts.",
+    "price": "20 kUSD",
+    "price_postapoc": "50 cent",
+    "material": [ "steel", "aluminum" ],
+    "weight": "30 kg",
+    "volume": "20 L",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "laser_source",
+    "symbol": "-",
+    "color": "light_gray",
+    "name": { "str": "industrial laser" },
+    "category": "spare_parts",
+    "description": "A high-power laser source, salvaged from some industrial machinery.  Doesn't do anything on its own, but could probably be useful in electronics crafting.",
+    "price": "2000 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "aluminum", "diamond" ],
+    "weight": "500 g",
+    "volume": "750 ml",
+    "to_hit": -1
   },
   {
     "type": "GENERIC",
@@ -3157,11 +3190,13 @@
     "weight": "225 g",
     "color": "green",
     "symbol": "%",
+    "looks_like": "raw_leather",
     "description": "A bony and scaled protrusion harvested from a large reptile.  Such things were used to make handbags before the Cataclysm, but the material is sturdy and protective.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": "scute",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -3171,11 +3206,13 @@
     "weight": "450 g",
     "color": "white",
     "symbol": "%",
+    "looks_like": "bone",
     "description": "A bone harvested from a large animal such as an elephant, or from certain types of zombies.  It is extremely dense and durable for its size, and largely inedible.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": "bone_heavy",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "stackable": true
   },
   {
     "type": "GENERIC",
@@ -3185,11 +3222,13 @@
     "weight": "450 g",
     "color": "white",
     "symbol": "%",
+    "looks_like": "spike",
     "description": "Teeth harvested from a carnivore such as a shark, or from certain types of mutant animals.  They are extremely dense and durable for their size, and can very easily cause jagged wounds.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "material": "bone_heavy",
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "stackable": true
   },
   {
     "id": "beehive_empty",
@@ -3202,5 +3241,20 @@
     "material": [ "wood" ],
     "symbol": "-",
     "color": "brown"
+  },
+  {
+    "type": "GENERIC",
+    "id": "shark_plush",
+    "category": "other",
+    "symbol": "S",
+    "color": "cyan",
+    "name": { "str": "shark plush" },
+    "description": "A slightly large shark plushie, perfect for cuddles.",
+    "price": "22 USD",
+    "price_postapoc": "1 USD",
+    "material": [ "cotton" ],
+    "weight": "660 g",
+    "volume": "1230 ml",
+    "flags": [ "SLEEP_AID" ]
   }
 ]

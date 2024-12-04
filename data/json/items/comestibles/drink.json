@@ -395,6 +395,7 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "calcium", 11 ], [ "vitC", 10 ], [ "vitA", 33 ], [ "iron", 10 ] ],
     "fun": 2
   },
   {
@@ -415,6 +416,7 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "calcium", 34 ], [ "vitC", 10 ], [ "vitA", 34 ], [ "iron", 20 ] ],
     "fun": 3
   },
   {
@@ -555,7 +557,7 @@
       { "type": "COMPONENT_ID", "condition": "plums", "name": { "str_sp": "plum %s" } },
       { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str_sp": "pomegranate %s" } },
       { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str_sp": "raspberry %s" } },
-      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str_sp": "rose_hip %s" } },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str_sp": "rose hip %s" } },
       { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str_sp": "strawberry %s" } },
       { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str_sp": "huckleberry %s" } },
       { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str_sp": "mulberry %s" } },
@@ -608,7 +610,7 @@
       { "type": "COMPONENT_ID", "condition": "plums", "name": { "str_sp": "plum %s" } },
       { "type": "COMPONENT_ID", "condition": "pomegranate", "name": { "str_sp": "pomegranate %s" } },
       { "type": "COMPONENT_ID", "condition": "raspberries", "name": { "str_sp": "raspberry %s" } },
-      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str_sp": "rose_hip %s" } },
+      { "type": "COMPONENT_ID", "condition": "rose_hips", "name": { "str_sp": "rose hip %s" } },
       { "type": "COMPONENT_ID", "condition": "strawberries", "name": { "str_sp": "strawberry %s" } },
       { "type": "COMPONENT_ID", "condition": "huckleberries", "name": { "str_sp": "huckleberry %s" } },
       { "type": "COMPONENT_ID", "condition": "mulberries", "name": { "str_sp": "mulberry %s" } },

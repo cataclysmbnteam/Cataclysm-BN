@@ -124,7 +124,7 @@ struct PlfTStream {
             }
             std::string ss = s->substr( pos, end - pos );
             for( const auto &t : simple_tokens ) {
-                if( string_starts_with( ss, t.first ) ) {
+                if( ss.starts_with( t.first ) ) {
                     return PlfToken{ t.second, 0, pos, t.first.size() };
                 }
             }
@@ -546,7 +546,7 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
     {
         bool found = false;
         for( const std::string &entry : headers ) {
-            if( !string_starts_with( entry, "Content-Type:" ) ) {
+            if( !entry.starts_with( "Content-Type:" ) ) {
                 continue;
             }
             found = true;
@@ -566,7 +566,7 @@ void trans_catalogue::check_encoding( const meta_headers &headers )
     {
         bool found = false;
         for( const std::string &entry : headers ) {
-            if( !string_starts_with( entry, "Content-Transfer-Encoding:" ) ) {
+            if( !entry.starts_with( "Content-Transfer-Encoding:" ) ) {
                 continue;
             }
             found = true;
@@ -602,7 +602,7 @@ trans_catalogue::catalogue_plurals_info trans_catalogue::parse_plf_header(
     {
         bool found = false;
         for( const std::string &entry : headers ) {
-            if( !string_starts_with( entry, "Plural-Forms:" ) ) {
+            if( !entry.starts_with( "Plural-Forms:" ) ) {
                 continue;
             }
             found = true;
@@ -624,7 +624,7 @@ trans_catalogue::catalogue_plurals_info trans_catalogue::parse_plf_header(
     // Parse & validate nplurals
     {
         std::string plf_n_raw = parts[0];
-        if( !string_starts_with( plf_n_raw, " nplurals=" ) ) {
+        if( !plf_n_raw.starts_with( " nplurals=" ) ) {
             throw std::runtime_error( "failed to parse Plural-Forms header" );
         }
         plf_n_raw = plf_n_raw.substr( 10 ); // 10 is length of " nplurals=" string
@@ -645,7 +645,7 @@ trans_catalogue::catalogue_plurals_info trans_catalogue::parse_plf_header(
     // Parse & validate plural formula
     {
         std::string plf_rules_raw = parts[1];
-        if( !string_starts_with( plf_rules_raw, " plural=" ) ) {
+        if( !plf_rules_raw.starts_with( " plural=" ) ) {
             throw std::runtime_error( "failed to parse Plural-Forms header" );
         }
         plf_rules_raw = plf_rules_raw.substr( 8 ); // 8 is length of " plural=" string

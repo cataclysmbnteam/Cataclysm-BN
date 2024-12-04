@@ -363,8 +363,30 @@ static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 
-struct extended_photo_def;
+
 struct object_names_collection;
+
+struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
+    int quality;
+    std::string name;
+    std::string description;
+
+    extended_photo_def() = default;
+    void deserialize( JsonIn &jsin ) override {
+        JsonObject obj = jsin.get_object();
+        quality = obj.get_int( "quality" );
+        name = obj.get_string( "name" );
+        description = obj.get_string( "description" );
+    }
+
+    void serialize( JsonOut &jsout ) const override {
+        jsout.start_object();
+        jsout.member( "quality", quality );
+        jsout.member( "name", name );
+        jsout.member( "description", description );
+        jsout.end_object();
+    }
+};
 
 static void item_save_monsters( player &p, item &it, const std::vector<monster *> &monster_vec,
                                 int photo_quality );
@@ -845,7 +867,7 @@ std::pair<int, units::energy> iuse::meth( player *p, item *it, bool, const tripo
         }
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            g->m.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
+            g->m.add_field( {p->posx() + rng( -2, 2 ), p->posy() + rng( -2, 2 ), p->posz()},
                             fd_methsmoke, 2 );
         }
     } else {
@@ -902,7 +924,7 @@ std::pair<int, units::energy> iuse::poison( player *p, item *it, bool, const tri
         return std::make_pair( 0, 0_J );
     }
     if( !p->has_trait( trait_POISRESIST ) ) {
-        p->add_effect( effect_poison, 1_hours );
+        p->add_effect( effect_poison, 15_minutes );
     }
 
     p->add_effect( effect_foodpoison, 3_hours );
@@ -1072,7 +1094,7 @@ std::pair<int, units::energy> iuse::blech( player *p, item *it, bool, const trip
     } else {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
         p->mod_pain( rng( 32, 64 ) );
-        p->add_effect( effect_poison, 1_hours );
+        p->add_effect( effect_poison, 15_minutes );
         p->apply_damage( nullptr, bodypart_id( "torso" ), rng( 4, 12 ) );
         p->vomit();
     }
@@ -1246,14 +1268,6 @@ std::pair<int, units::energy> iuse::purify_smart( player *p, item *it, bool, con
 
     p->remove_mutation( valid[mutation_index] );
     valid.erase( valid.begin() + mutation_index );
-
-    // and one or two more untargeted purifications.
-    if( !valid.empty() ) {
-        p->remove_mutation( random_entry_removed( valid ) );
-    }
-    if( !valid.empty() && one_in( 2 ) ) {
-        p->remove_mutation( random_entry_removed( valid ) );
-    }
 
     p->mod_pain( 3 );
 
@@ -2064,7 +2078,7 @@ std::pair<int, units::energy> iuse::pack_item( player *p, item *it, bool t, cons
         return std::make_pair( 0, 0_J );
     } else { // Turning it off
         std::string oname = it->typeId().str();
-        if( string_ends_with( oname, "_on" ) ) {
+        if( oname.ends_with( "_on" ) ) {
             oname.erase( oname.length() - 3, 3 );
         } else {
             debugmsg( "no item type to turn it into (%s)!", oname );
@@ -2641,7 +2655,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
         result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
     }
 
-    return { moves, static_cast<int>( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
+    return { moves, ( dig_minutes / 60 ), g->m.ter( pos )->digging_result, result_terrain };
 }
 
 std::pair<int, units::energy> iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -5313,7 +5327,9 @@ std::pair<int, units::energy> iuse::towel_common( player *p, item *it, bool t )
         // dry off from being wet
     } else if( p->has_morale( MORALE_WET ) ) {
         p->rem_morale( MORALE_WET );
-        p->body_wetness.fill( 0 );
+        for( auto &pr : p->get_body() ) {
+            pr.second.set_wetness( 0 );
+        }
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
                               name );
 
@@ -6079,7 +6095,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
                 const std::string mtype = s;
                 getline( f, s, ',' );
-                char *chq = &s[0];
+                char *chq = s.data();
                 const int quality = atoi( chq );
 
                 const size_t eink_strpos = photos.find( "," + mtype + "," );
@@ -6093,7 +6109,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
                     const int old_quality = atoi( chq );
 
                     if( quality > old_quality ) {
-                        chq = &string_format( "%d", quality )[0];
+                        chq = string_format( "%d", quality ).data();
                         photos[strqpos] = *chq;
                     }
                 }
@@ -6225,7 +6241,7 @@ std::pair<int, units::energy> iuse::einktabletpc( player *p, item *it, bool t, c
         if( ei_photo == choice ) {
 
             const int photos = it->get_var( "EIPC_PHOTOS", 0 );
-            const int viewed = std::min( photos, static_cast<int>( rng( 10, 30 ) ) );
+            const int viewed = std::min( photos, rng( 10, 30 ) );
             const int count = photos - viewed;
             if( count == 0 ) {
                 it->erase_var( "EIPC_PHOTOS" );
@@ -6347,7 +6363,7 @@ std::pair<int, units::energy> iuse::einktabletpc( player *p, item *it, bool t, c
                 const monster dummy( monster_photos.back() );
                 menu_str = dummy.name();
                 getline( f, s, ',' );
-                char *chq = &s[0];
+                char *chq = s.data();
                 const int quality = atoi( chq );
                 menu_str += " [" + photo_quality_name( quality ) + "]";
                 pmenu.addentry( k++, true, -1, menu_str.c_str() );
@@ -6462,27 +6478,6 @@ std::pair<int, units::energy> iuse::einktabletpc( player *p, item *it, bool t, c
     return std::make_pair( 0, 0_J );
 }
 
-struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
-    int quality;
-    std::string name;
-    std::string description;
-
-    extended_photo_def() = default;
-    void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
-        quality = obj.get_int( "quality" );
-        name = obj.get_string( "name" );
-        description = obj.get_string( "description" );
-    }
-
-    void serialize( JsonOut &jsout ) const override {
-        jsout.start_object();
-        jsout.member( "quality", quality );
-        jsout.member( "name", name );
-        jsout.member( "description", description );
-        jsout.end_object();
-    }
-};
 
 static std::string colorized_trap_name_at( const tripoint &point )
 {
@@ -7462,7 +7457,7 @@ std::pair<int, units::energy> iuse::camera( player *p, item *it, bool, const tri
             descriptions.push_back( dummy.type->get_description() );
 
             getline( f_mon, s, ',' );
-            char *chq = &s[0];
+            char *chq = s.data();
             const int quality = atoi( chq );
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
@@ -8330,7 +8325,7 @@ std::pair<int, units::energy> iuse::multicooker( player *p, item *it, bool t, co
             int counter = 0;
 
             for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
-                if( multicooked_subcats.count( r->subcategory ) > 0 ) {
+                if( multicooked_subcats.contains( r->subcategory ) ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
@@ -9096,7 +9091,7 @@ std::pair<int, units::energy> iuse::capture_monster_act( player *p, item *it, bo
             return std::make_pair( 0, 0_J );
         }
         const std::string capacity = it->get_property_string( "creature_size_capacity" );
-        if( Creature::size_map.count( capacity ) == 0 ) {
+        if( !Creature::size_map.contains( capacity ) ) {
             debugmsg( "%s has invalid creature_size_capacity %s.",
                       it->tname(), capacity.c_str() );
             return std::make_pair( 0, 0_J );

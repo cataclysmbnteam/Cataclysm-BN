@@ -4,8 +4,8 @@
 #include <clang/ASTMatchers/ASTMatchFinder.h>
 #include <unordered_set>
 
-#include "ClangTidy.h"
-#include "ClangTidyCheck.h"
+#include <clang-tidy/ClangTidy.h>
+#include <clang-tidy/ClangTidyCheck.h>
 
 namespace clang
 {
@@ -37,7 +37,7 @@ class UnusedStaticsCheck : public ClangTidyCheck
         void onEndOfTranslationUnit() override;
     private:
         std::unordered_set<const VarDecl *> used_decls_;
-        std::vector<DeclarationWithRange> decls_;
+        std::vector<const VarDecl *> decls_;
 };
 
 } // namespace cata

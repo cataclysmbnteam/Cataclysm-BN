@@ -183,8 +183,6 @@ void print_action( const char *prepend, npc_action action );
 
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
 
-hp_part most_damaged_hp_part( const Character &c );
-
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
 {
     if( sound_a.type != sound_b.type ) {
@@ -2085,7 +2083,7 @@ auto item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode
                               body_part_hand_r );
         // HACK: Doesn't check how much ammo they'll actually get from the reload. Because we don't know.
         // DPS is less impacted the larger the magazine being swapped.
-        reload_cost /= magazine_integral() ? 1 : ammo_capacity() / burst_size;
+        reload_cost /= magazine_integral() ? 1 : std::max( 1, ammo_capacity() / burst_size );
         move_cost += reload_cost;
     }
     std::vector<ranged::aim_type> aim_types = ranged::get_aim_types( who, *this );
@@ -4536,7 +4534,7 @@ void npc::do_reload( item &it )
 
     // Note: we may be reloading the magazine inside, not the gun itself
     // Maybe TODO: allow reload functions to understand such reloads instead of const casts
-    item &target = const_cast<item &>( *reload_opt.target );
+    item &target = ( *reload_opt.target );
     item *usable_ammo = reload_opt.ammo;
 
     // If in danger, don't spend multiple turns reloading a weapon to full one by one.

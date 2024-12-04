@@ -204,12 +204,12 @@ void check_consistency()
     for( const construction &c_it : all_constructions.get_all() ) {
         construction &c = const_cast<construction &>( c_it );
         bool did_migrate = false;
-        if( string_starts_with( c.pre_terrain.str(), "f_" ) ) {
+        if( c.pre_terrain.str().starts_with( "f_" ) ) {
             c.pre_furniture = furn_str_id( c.pre_terrain.str() );
             c.pre_terrain = ter_str_id();
             did_migrate = true;
         }
-        if( string_starts_with( c.post_terrain.str(), "f_" ) ) {
+        if( c.post_terrain.str().starts_with( "f_" ) ) {
             c.post_furniture = furn_str_id( c.post_terrain.str() );
             c.post_terrain = ter_str_id();
             did_migrate = true;
@@ -377,7 +377,7 @@ static nc_color construction_color( const construction_group_str_id &group, bool
 
 static bool is_favorite( const construction_group_str_id &c )
 {
-    return uistate.favorite_construct_recipes.count( c ) > 0;
+    return uistate.favorite_construct_recipes.contains( c );
 }
 
 static void favorite_add( const construction_group_str_id &c )
@@ -1109,7 +1109,7 @@ void complete_construction( Character &ch )
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
             const float built_time = to_moves<int>( built.time );
-            const float built_base = to_moves<int>( 30_minutes );
+            const float built_base = to_moves<int>( 10_minutes );
             c.practice( pr.first, static_cast<int>(
                             ( 10 + 15 * pr.second ) * ( 1.0f + built_time / built_base )
                         ), static_cast<int>( pr.second * 1.25 ) );
@@ -1136,7 +1136,7 @@ void complete_construction( Character &ch )
     }
     here.partial_con_remove( terp );
     // Some constructions are allowed to have items left on the tile.
-    if( built.post_flags.count( "keep_items" ) == 0 ) {
+    if( !built.post_flags.contains( "keep_items" ) ) {
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
         for( const tripoint &pt : here.points_in_radius( terp, 1 ) ) {
@@ -1415,6 +1415,9 @@ void construct::done_deconstruct( const tripoint &p )
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
+        if( f.active ) {
+            g->u.practice( skill_electronics, 20, 4 );
+        }
         if( f.deconstruct.furn_set.str().empty() ) {
             here.furn_set( p, f_null );
         } else {
@@ -1443,16 +1446,6 @@ void construct::done_deconstruct( const tripoint &p )
                 return;
             }
             done_deconstruct( top );
-        }
-        if( t.id == ter_str_id( "t_console_broken" ) )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 20, 4 );
-            }
-        }
-        if( t.id == ter_str_id( "t_console" ) )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 40, 8 );
-            }
         }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
@@ -1547,7 +1540,7 @@ void construct::done_mine_upstair( const tripoint &p )
         }
     };
 
-    if( liquids.count( tmpmap.ter( local_tmp ) ) > 0 ) {
+    if( liquids.contains( tmpmap.ter( local_tmp ) ) ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );

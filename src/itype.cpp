@@ -112,7 +112,7 @@ int itype::charges_default() const
 int itype::charges_to_use() const
 {
     if( tool ) {
-        return static_cast<int>( tool->charges_per_use );
+        return tool->charges_per_use;
     }
     return 1;
 }
@@ -147,7 +147,7 @@ bool itype::has_use() const
 
 bool itype::has_flag( const flag_id &flag ) const
 {
-    return item_tags.count( flag );
+    return item_tags.contains( flag );
 }
 
 const itype::FlagsSetType &itype::get_flags() const

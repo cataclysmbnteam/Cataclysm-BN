@@ -46,7 +46,7 @@ class overmap_connection
                 }
 
                 bool is_orthogonal() const {
-                    return flags.count( flag::orthogonal );
+                    return flags.contains( flag::orthogonal );
                 }
 
                 void load( const JsonObject &jo );

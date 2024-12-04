@@ -2487,5 +2487,87 @@
       ],
       [ [ "sausage_casings_plastic", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "kimchi_raw",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "30 m",
+    "charges": 4,
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "veggy_any_uncooked", 4, "LIST" ] ],
+      [ [ "salt", 4 ] ],
+      [ [ "chilly-p", 4 ] ],
+      [
+        [ "garlic_clove", 1 ],
+        [ "sugar", 4 ],
+        [ "soysauce", 4 ],
+        [ "vinegar", 4 ],
+        [ "fish", 1 ],
+        [ "offals_raw", 1, "LIST" ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "kimchi_hydria",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "components": [ [ [ "kimchi_raw", 400 ] ], [ [ "clay_hydria", 1 ] ], [ [ "salt_water", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "buchimgae_veggy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "autolearn": true,
+    "difficulty": 4,
+    "time": "18 m",
+    "batch_time_factors": [ 80, 5 ],
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "veggy_any_uncooked", 4, "LIST" ], [ "kimchi", 4 ], [ "kimchi_raw", 4 ] ],
+      [ [ "batter", 2, "LIST" ] ],
+      [ [ "eggs_small_dry", 1, "LIST" ] ],
+      [ [ "fry_oil", 2, "LIST" ] ],
+      [ [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "tofu_kimchi",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 1 ],
+    "book_learn": [ [ "cookbook_sushi", 3 ] ],
+    "qualities": [
+      { "id": "COOK", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "BOIL", "level": 2 },
+      { "id": "CONTAIN", "level": 1 }
+    ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "components": [
+      [ [ "kimchi", 3 ], [ "kimchi_raw", 3 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "tofu", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
   }
 ]

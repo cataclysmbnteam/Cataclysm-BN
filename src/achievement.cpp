@@ -9,7 +9,6 @@
 #include "character.h"
 #include "color.h"
 #include "debug.h"
-#include "enums.h"
 #include "event.h"
 #include "event_statistics.h"
 #include "game.h"
@@ -123,63 +122,6 @@ static nc_color color_from_completion( achievement_completion comp )
     debugmsg( "Invalid achievement_completion" );
     abort();
 }
-
-struct achievement_requirement {
-    string_id<event_statistic> statistic;
-    achievement_comparison comparison;
-    int target;
-    bool becomes_false = false;
-
-    void deserialize( JsonIn &jin ) {
-        const JsonObject &jo = jin.get_object();
-        if( !( jo.read( "event_statistic", statistic ) &&
-               jo.read( "is", comparison ) &&
-               ( comparison == achievement_comparison::anything ||
-                 jo.read( "target", target ) ) ) ) {
-            jo.throw_error( "Mandatory field missing for achievement requirement" );
-        }
-    }
-
-    void finalize() {
-        switch( comparison ) {
-            case achievement_comparison::less_equal:
-                becomes_false = is_increasing( statistic->monotonicity() );
-                return;
-            case achievement_comparison::greater_equal:
-                becomes_false = is_decreasing( statistic->monotonicity() );
-                return;
-            case achievement_comparison::anything:
-                becomes_false = true;
-                return;
-            case achievement_comparison::last:
-                break;
-        }
-        debugmsg( "Invalid achievement_comparison" );
-        abort();
-    }
-
-    void check( const string_id<achievement> &id ) const {
-        if( !statistic.is_valid() ) {
-            debugmsg( "score %s refers to invalid statistic %s", id.str(), statistic.str() );
-        }
-    }
-
-    bool satisifed_by( const cata_variant &v ) const {
-        int value = v.get<int>();
-        switch( comparison ) {
-            case achievement_comparison::less_equal:
-                return value <= target;
-            case achievement_comparison::greater_equal:
-                return value >= target;
-            case achievement_comparison::anything:
-                return true;
-            case achievement_comparison::last:
-                break;
-        }
-        debugmsg( "Invalid achievement_requirement comparison value" );
-        abort();
-    }
-};
 
 static time_point epoch_to_time_point( achievement::time_bound::epoch e )
 {
@@ -1076,11 +1018,65 @@ void achievements_tracker::deserialize( JsonIn &jsin )
 void achievements_tracker::init_watchers()
 {
     for( const achievement *a : valid_achievements() ) {
-        if( achievements_status_.count( a->id ) ) {
+        if( achievements_status_.contains( a->id ) ) {
             continue;
         }
         trackers_.emplace(
             std::piecewise_construct, std::forward_as_tuple( a->id ),
             std::forward_as_tuple( *a, *this, *stats_ ) );
     }
+}
+
+void achievement_requirement::deserialize( JsonIn &jin )
+{
+    const JsonObject &jo = jin.get_object();
+    if( !jo.read( "event_statistic", statistic ) ||
+        !jo.read( "is", comparison ) ||
+        ( comparison != achievement_comparison::anything &&
+          !jo.read( "target", target ) ) ) {
+        jo.throw_error( "Mandatory field missing for achievement requirement" );
+    }
+}
+
+void achievement_requirement::finalize()
+{
+    switch( comparison ) {
+        case achievement_comparison::less_equal:
+            becomes_false = is_increasing( statistic->monotonicity() );
+            return;
+        case achievement_comparison::greater_equal:
+            becomes_false = is_decreasing( statistic->monotonicity() );
+            return;
+        case achievement_comparison::anything:
+            becomes_false = true;
+            return;
+        case achievement_comparison::last:
+            break;
+    }
+    debugmsg( "Invalid achievement_comparison" );
+    abort();
+}
+
+void achievement_requirement::check( const string_id<achievement> &id ) const
+{
+    if( !statistic.is_valid() ) {
+        debugmsg( "score %s refers to invalid statistic %s", id.str(), statistic.str() );
+    }
+}
+
+bool achievement_requirement::satisifed_by( const cata_variant &v ) const
+{
+    int value = v.get<int>();
+    switch( comparison ) {
+        case achievement_comparison::less_equal:
+            return value <= target;
+        case achievement_comparison::greater_equal:
+            return value >= target;
+        case achievement_comparison::anything:
+            return true;
+        case achievement_comparison::last:
+            break;
+    }
+    debugmsg( "Invalid achievement_requirement comparison value" );
+    abort();
 }

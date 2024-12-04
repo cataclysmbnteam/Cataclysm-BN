@@ -128,7 +128,6 @@ struct visibility_variables {
 };
 
 struct bash_params {
-    bash_params() = default;
     // Initial strength
     int strength;
     // Make a sound?
@@ -829,6 +828,10 @@ class map
         /**
          * Returns the full harvest list, for spawning.
          */
+        // as above, but for furniture
+        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+                                         const std::map<tripoint, furn_id> &override = {} ) const;
+
         const harvest_id &get_harvest( const tripoint &p ) const;
         /**
          * Returns names of the items that would be dropped.
@@ -2055,6 +2058,10 @@ class map
         std::vector<item *> get_active_items_in_radius( const tripoint &center, int radius ) const;
         std::vector<item *> get_active_items_in_radius( const tripoint &center, int radius,
                 special_item_type type ) const;
+
+        /** returns positions of furnitures with matching flag in the overmap terrain*/
+        std::vector<tripoint> find_furnitures_with_flag_in_omt( const tripoint &p,
+                const std::string &flag );
 
         /**returns positions of furnitures with matching flag in the specified radius*/
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,

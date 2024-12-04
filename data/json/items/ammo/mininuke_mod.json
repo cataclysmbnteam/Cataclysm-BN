@@ -15,6 +15,7 @@
     "ammo_type": "mininuke_mod",
     "damage": { "damage_type": "stab", "amount": 14 },
     "stack_size": 2,
+    "loudness": 0,
     "effects": [ "MININUKE_MOD", "NEVER_MISFIRES" ]
   }
 ]

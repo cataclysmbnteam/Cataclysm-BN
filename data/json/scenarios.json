@@ -37,7 +37,16 @@
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
-    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital", "sloc_bastion_fort" ],
+    "allowed_locs": [
+      "sloc_mall_loading_area",
+      "sloc_mall_loading_area_roof",
+      "sloc_mall_food_court",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_house",
+      "sloc_hospital",
+      "sloc_bastion_fort",
+      "sloc_convention_center_rooftop"
+    ],
     "start_name": "In Large Building",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
@@ -247,6 +256,7 @@
       "mutant_patient",
       "mutant_volunteer",
       "labtech",
+      "bionic_labtech",
       "broken_cyborg",
       "faulty_bionic",
       "cykotic",
@@ -316,7 +326,7 @@
     "points": -8,
     "description": "You were deemed non-essential and made to stay behind during the lab evacuation.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "labtech", "security", "medic", "bionic_installer", "bio_medic", "bionic_mentat", "bionic_spy" ],
+    "professions": [ "labtech", "bionic_labtech", "security", "medic", "bionic_installer", "bio_medic", "bionic_mentat", "bionic_spy" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -358,7 +368,9 @@
       "hardened_survivor",
       "road_warrior",
       "waste_ranger",
-      "player_bandit"
+      "player_bandit",
+      "monster_hunter",
+      "monster_slayer"
     ]
   },
   {
@@ -390,7 +402,9 @@
       "hardened_survivor",
       "road_warrior",
       "waste_ranger",
-      "player_bandit"
+      "player_bandit",
+      "monster_hunter",
+      "monster_slayer"
     ]
   },
   {
@@ -476,7 +490,7 @@
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
-    "professions": [ "captive", "rescuer" ],
+    "professions": [ "captive", "rescuer", "monster_hunter" ],
     "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
   },
   {
@@ -636,7 +650,7 @@
     "description": "You were participating in a mining operation when you found… something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "sloc_mine_finale" ],
-    "professions": [ "miner", "labtech", "security", "bionic_worker", "archaeologist", "drone_op", "demolition_expert" ],
+    "professions": [ "miner", "labtech", "bionic_labtech", "security", "bionic_worker", "archaeologist", "drone_op", "demolition_expert" ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -673,7 +687,8 @@
       "bionic_athlete",
       "bionic_runner",
       "bionic_prepper",
-      "bionic_installer"
+      "bionic_installer",
+      "bionic_labtech"
     ]
   },
   {
@@ -696,6 +711,7 @@
       "bio_soldier",
       "bio_sniper",
       "labtech",
+      "bionic_labtech",
       "medic",
       "mili_pilot"
     ],

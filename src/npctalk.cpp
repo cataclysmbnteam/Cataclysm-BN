@@ -115,7 +115,9 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
-#define OWED_VAL 1000
+enum {
+    OWED_VAL = 1000
+};
 
 int topic_category( const talk_topic &the_topic );
 
@@ -978,7 +980,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             "TALK_MISSION_SUCCESS", "TALK_MISSION_SUCCESS_LIE", "TALK_MISSION_FAILURE"
         }
     };
-    if( mission_topics.count( topic ) > 0 ) {
+    if( mission_topics.contains( topic ) ) {
         if( p->chatbin.mission_selected == nullptr ) {
             return "mission_selected == nullptr; BUG!  (npctalk.cpp:dynamic_line)";
         }
@@ -1088,25 +1090,25 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
 
         std::string info = "&";
-        int str_range = static_cast<int>( 100 / ability );
-        int str_min = static_cast<int>( p->str_max / str_range ) * str_range;
+        int str_range = ( 100 / ability );
+        int str_min = ( p->str_max / str_range ) * str_range;
         info += string_format( _( "Str %d - %d" ), str_min, str_min + str_range );
 
         if( ability >= 40 ) {
-            int dex_range = static_cast<int>( 160 / ability );
-            int dex_min = static_cast<int>( p->dex_max / dex_range ) * dex_range;
+            int dex_range = ( 160 / ability );
+            int dex_min = ( p->dex_max / dex_range ) * dex_range;
             info += string_format( _( "  Dex %d - %d" ), dex_min, dex_min + dex_range );
         }
 
         if( ability >= 50 ) {
-            int int_range = static_cast<int>( 200 / ability );
-            int int_min = static_cast<int>( p->int_max / int_range ) * int_range;
+            int int_range = ( 200 / ability );
+            int int_min = ( p->int_max / int_range ) * int_range;
             info += string_format( _( "  Int %d - %d" ), int_min, int_min + int_range );
         }
 
         if( ability >= 60 ) {
-            int per_range = static_cast<int>( 240 / ability );
-            int per_min = static_cast<int>( p->per_max / per_range ) * per_range;
+            int per_range = ( 240 / ability );
+            int per_min = ( p->per_max / per_range ) * per_range;
             info += string_format( _( "  Per %d - %d" ), per_min, per_min + per_range );
         }
 
@@ -1155,7 +1157,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_OPINION" ) {
         return "&" + p->opinion_text();
     } else if( topic == "TALK_MIND_CONTROL" ) {
-        bool not_following = g->get_follower_list().count( p->getID() ) == 0;
+        bool not_following = !g->get_follower_list().contains( p->getID() );
         talk_function::follow( *p );
         if( not_following ) {
             return _( "YES, MASTER!" );
@@ -1544,70 +1546,70 @@ int topic_category( const talk_topic &the_topic )
             "TALK_MISSION_DESCRIBE_URGENT"
         }
     };
-    if( topic_1.count( topic ) > 0 ) {
+    if( topic_1.contains( topic ) ) {
         return 1;
     }
     static const std::unordered_set<std::string> topic_2 = { {
             "TALK_SHARE_EQUIPMENT", "TALK_GIVE_EQUIPMENT", "TALK_DENY_EQUIPMENT"
         }
     };
-    if( topic_2.count( topic ) > 0 ) {
+    if( topic_2.contains( topic ) ) {
         return 2;
     }
     static const std::unordered_set<std::string> topic_3 = { {
             "TALK_SUGGEST_FOLLOW", "TALK_AGREE_FOLLOW", "TALK_DENY_FOLLOW",
         }
     };
-    if( topic_3.count( topic ) > 0 ) {
+    if( topic_3.contains( topic ) ) {
         return 3;
     }
     static const std::unordered_set<std::string> topic_4 = { {
             "TALK_COMBAT_ENGAGEMENT",
         }
     };
-    if( topic_4.count( topic ) > 0 ) {
+    if( topic_4.contains( topic ) ) {
         return 4;
     }
     static const std::unordered_set<std::string> topic_5 = { {
             "TALK_COMBAT_COMMANDS",
         }
     };
-    if( topic_5.count( topic ) > 0 ) {
+    if( topic_5.contains( topic ) ) {
         return 5;
     }
     static const std::unordered_set<std::string> topic_6 = { {
             "TALK_TRAIN", "TALK_TRAIN_START", "TALK_TRAIN_FORCE"
         }
     };
-    if( topic_6.count( topic ) > 0 ) {
+    if( topic_6.contains( topic ) ) {
         return 6;
     }
     static const std::unordered_set<std::string> topic_7 = { {
             "TALK_MISC_RULES",
         }
     };
-    if( topic_7.count( topic ) > 0 ) {
+    if( topic_7.contains( topic ) ) {
         return 7;
     }
     static const std::unordered_set<std::string> topic_8 = { {
             "TALK_AIM_RULES",
         }
     };
-    if( topic_8.count( topic ) > 0 ) {
+    if( topic_8.contains( topic ) ) {
         return 8;
     }
     static const std::unordered_set<std::string> topic_9 = { {
             "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM",
         }
     };
-    if( topic_9.count( topic ) > 0 ) {
+    if( topic_9.contains( topic ) ) {
         return 9;
     }
     static const std::unordered_set<std::string> topic_99 = { {
             "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
         }
     };
-    if( topic_99.count( topic ) > 0 ) {
+    if( topic_99.contains( topic ) ) {
         return 99;
     }
     return -1; // Not grouped with other topics
@@ -1719,11 +1721,11 @@ talk_data talk_response::create_option_line( const dialogue &d, const char lette
 
     nc_color color;
     std::set<dialogue_consequence> consequences = get_consequences( d );
-    if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
+    if( consequences.contains( dialogue_consequence::hostile ) ) {
         color = c_red;
-    } else if( text[0] == '*' || consequences.count( dialogue_consequence::helpless ) > 0 ) {
+    } else if( text[0] == '*' || consequences.contains( dialogue_consequence::helpless ) ) {
         color = c_light_red;
-    } else if( text[0] == '&' || consequences.count( dialogue_consequence::action ) > 0 ) {
+    } else if( text[0] == '&' || consequences.contains( dialogue_consequence::action ) ) {
         color = c_green;
     } else {
         color = c_white;
@@ -1853,9 +1855,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         } while( ( ch < 0 || ch >= static_cast<int>( responses.size() ) ) );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[ch].get_consequences( *this );
-        if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
+        if( consequences.contains( dialogue_consequence::hostile ) ) {
             okay = query_yn( _( "You may be attacked!  Proceed?" ) );
-        } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
+        } else if( consequences.contains( dialogue_consequence::helpless ) ) {
             okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
         }
     } while( !okay );

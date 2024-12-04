@@ -508,7 +508,7 @@ profession::StartingSkillList profession::skills() const
 
 bool profession::has_flag( const std::string &flag ) const
 {
-    return flags.count( flag ) != 0;
+    return flags.contains( flag );
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const
@@ -519,7 +519,7 @@ bool profession::is_locked_trait( const trait_id &trait ) const
 
 bool profession::is_forbidden_trait( const trait_id &trait ) const
 {
-    return _forbidden_traits.count( trait ) != 0;
+    return _forbidden_traits.contains( trait );
 }
 
 std::map<spell_id, int> profession::spells() const

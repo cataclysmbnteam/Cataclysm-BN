@@ -984,7 +984,7 @@ static void draw_ascii( ui_adaptor &ui,
                 ter_color = c_dark_gray;
                 ter_sym = "#";
                 // All cases below assume that see is true.
-            } else if( blink && npc_color.count( omp ) != 0 ) {
+            } else if( blink && npc_color.contains( omp ) ) {
                 // Visible NPCs are cached already
                 ter_color = npc_color[omp].color;
                 ter_sym = "@";
@@ -1639,7 +1639,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
 
         mvwprintz( w_search, point( 1, 3 ), c_light_blue, _( "Direction:" ) );
         mvwprintz( w_search, point( align_width, 3 ), c_light_red, "%d %s",
-                   static_cast<int>( trig_dist( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ),
+                   trig_dist( orig, tripoint_abs_omt( locations[i], orig.z() ) ),
                    direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ) );
 
         if( locations.size() > 1 ) {

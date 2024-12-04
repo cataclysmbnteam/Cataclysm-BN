@@ -54,7 +54,7 @@ bool string_id<mutation_branch>::is_valid() const
 template<>
 bool string_id<Trait_group>::is_valid() const
 {
-    return trait_groups.count( *this );
+    return trait_groups.contains( *this );
 }
 
 static void extract_mod(
@@ -368,6 +368,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, 1.0f );
     optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, 1.0f );
     optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, 1.0f );
+    optional( jo, was_loaded, "falling_damage_multiplier", falling_damage_multiplier, 1.0f );
     optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, 1.0f );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );
@@ -694,7 +695,7 @@ void mutation_branch::load_trait_blacklist( const JsonObject &jsobj )
 
 bool mutation_branch::trait_is_blacklisted( const trait_id &tid )
 {
-    return trait_blacklist.count( tid );
+    return trait_blacklist.contains( tid );
 }
 
 void mutation_branch::finalize()
@@ -881,11 +882,11 @@ const mutation_category_trait &string_id<mutation_category_trait>::obj() const
 
 bool mutation_category_is_valid( const mutation_category_id &cat )
 {
-    return mutation_category_traits.count( cat );
+    return mutation_category_traits.contains( cat );
 }
 
 template<>
 bool string_id<mutation_category_trait>::is_valid() const
 {
-    return mutation_category_traits.count( *this );
+    return mutation_category_traits.contains( *this );
 }

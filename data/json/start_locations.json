@@ -272,7 +272,13 @@
     "type": "start_location",
     "id": "sloc_mall_loading_area",
     "name": "Mall (loading area)",
-    "terrain": [ "mall_a_12" ]
+    "terrain": [ "mall_a_4" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mall_loading_area_roof",
+    "name": "Mall (loading area roof)",
+    "terrain": [ "mall_a_4_roof" ]
   },
   {
     "type": "start_location",
@@ -413,6 +419,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_apartments_house",
+    "name": "Apartment Building (house)",
+    "terrain": [ "apartments_con_tower_112", "apartments_con_tower_012", "apartments_con_tower_102", "apartments_con_tower_002" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_horse_ranch",
     "name": "Horse Ranch",
     "terrain": [ "horse_farm_13" ]
@@ -497,5 +509,27 @@
     "name": "Bastion Fort",
     "terrain": [ "Bastion_Fort_1_SW" ],
     "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_convention_center_rooftop",
+    "name": "Convention Center Rooftop",
+    "terrain": [
+      "convention_0_0_2",
+      "convention_1_0_2",
+      "convention_2_0_2",
+      "convention_3_0_2",
+      "convention_4_0_2",
+      "convention_0_1_2",
+      "convention_1_1_2",
+      "convention_2_1_2",
+      "convention_3_1_2",
+      "convention_4_1_2",
+      "convention_0_2_2",
+      "convention_1_2_2",
+      "convention_2_2_2",
+      "convention_3_2_2",
+      "convention_4_2_2"
+    ]
   }
 ]

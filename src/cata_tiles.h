@@ -69,10 +69,10 @@ class tile_lookup_res
         tile_type *_tile;
     public:
         tile_lookup_res( const std::string &id, tile_type &tile ): _id( &id ), _tile( &tile ) {}
-        inline const std::string &id() {
+        const std::string &id() {
             return *_id;
         }
-        inline tile_type &tile() {
+        tile_type &tile() {
             return *_tile;
         }
 };
@@ -308,7 +308,7 @@ class idle_animation_manager
 
     public:
         /** Set whether idle animations are enabled. */
-        inline void set_enabled( bool enabled ) {
+        void set_enabled( bool enabled ) {
             enabled_ = enabled;
         }
 
@@ -316,22 +316,22 @@ class idle_animation_manager
         void prepare_for_redraw();
 
         /** Whether idle animations are enabled */
-        inline bool enabled() const {
+        bool enabled() const {
             return enabled_;
         }
 
         /** Current animation frame (increments by approx. 60 per second) */
-        inline int current_frame() const {
+        int current_frame() const {
             return frame;
         }
 
         /** Mark presence of an idle animation on screen */
-        inline void mark_present() {
+        void mark_present() {
             present_ = true;
         }
 
         /** Whether there are idle animations on screen */
-        inline bool present() const {
+        bool present() const {
             return present_;
         }
 };
@@ -490,11 +490,22 @@ class cata_tiles
 
         /** Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
+
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
+                                       int &rotation );
+
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
+
+        void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                      int connect_group,
+                                      const std::map<tripoint, furn_id> &furn_override );
+
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const bool ( &invisible )[5] );
+
         void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
         /** Map memory */

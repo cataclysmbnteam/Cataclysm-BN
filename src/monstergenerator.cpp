@@ -25,6 +25,7 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "monster.h"
 #include "mtype.h"
 #include "options.h"
 #include "pathfinding.h"
@@ -856,9 +857,52 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "harvest", harvest );
 
-    const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
-    optional( jo, was_loaded, "death_function", dies, death_reader );
-    if( dies.empty() ) {
+    /* Load "on_death": object */
+    if( jo.has_object( "on_death" ) ) {
+        JsonObject od = jo.get_object( "on_death" );
+        // on_death::death_function
+        const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
+        optional( od, was_loaded, "death_function", dies, death_reader );
+
+        // on_death::spawn_mon
+        std::vector<std::pair<int, mtype_id>> mon_spawns;
+        if( od.has_string( "spawn_mon" ) ) {
+            mtype_id spawn_mon = mtype_id::NULL_ID();
+            assign( od, "spawn_mon", spawn_mon );
+
+            mon_spawns.emplace_back( 0, spawn_mon );
+        }
+
+        // on_death::spawn_mon_near
+        if( od.has_object( "spawn_mon_near" ) ) {
+            JsonObject od_smn = od.get_object( "spawn_mon_near" );
+            int dist;
+            assign( od_smn, "distance", dist );
+
+            std::vector<mtype_id> mons;
+            optional( od_smn, was_loaded, "ids", mons, auto_flags_reader<mtype_id> {} );
+
+            for( const auto &id : mons ) {
+                mon_spawns.emplace_back( dist, id );
+            }
+        }
+
+        // Set the function that generates the spawns.
+        if( !mon_spawns.empty() ) {
+            on_death.emplace_back( [mon_spawns]( monster & z ) {
+                for( const auto &pair : mon_spawns ) {
+                    g->place_critter_around( pair.second, z.pos(), pair.first );
+                }
+            } );
+        }
+    }
+    /* Load "death_function": instead*/
+    else {
+        const auto death_reader = make_flag_reader( gen.death_map, "monster death function" );
+        optional( jo, was_loaded, "death_function", dies, death_reader );
+    }
+
+    if( dies.empty() && on_death.empty() ) {
         // TODO: really needed? Is an empty `dies` container not allowed?
         dies.push_back( mdeath::normal );
     }
@@ -1053,7 +1097,7 @@ void MonsterGenerator::add_attack( std::unique_ptr<mattack_actor> ptr )
 
 void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
 {
-    if( attack_map.count( wrapper->id ) > 0 ) {
+    if( attack_map.contains( wrapper->id ) ) {
         if( test_mode ) {
             debugmsg( "Overwriting monster attack with id %s", wrapper->id.c_str() );
         }
@@ -1132,7 +1176,7 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
 {
     mtype_special_attack new_attack = MonsterGenerator::generator().create_actor( obj, src );
 
-    if( special_attacks.count( new_attack->id ) > 0 ) {
+    if( special_attacks.contains( new_attack->id ) ) {
         special_attacks.erase( new_attack->id );
         const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(),
                                      new_attack->id );
@@ -1158,7 +1202,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
         inner.throw_error( "Invalid special_attacks" );
     }
 
-    if( special_attacks.count( name ) > 0 ) {
+    if( special_attacks.contains( name ) ) {
         special_attacks.erase( name );
         const auto iter = std::find( special_attacks_names.begin(), special_attacks_names.end(), name );
         if( iter != special_attacks_names.end() ) {
@@ -1213,7 +1257,7 @@ void mtype::add_regeneration_modifier( const JsonObject &inner, const std::strin
     //TODO: if invalid effect, throw error
     //  inner.throw_error( "Invalid regeneration_modifiers" );
 
-    if( regeneration_modifiers.count( effect ) > 0 ) {
+    if( regeneration_modifiers.contains( effect ) ) {
         regeneration_modifiers.erase( effect );
         debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
                   id.c_str(), effect_name );

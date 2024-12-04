@@ -421,7 +421,7 @@ void map::process_fields_in_submap( submap *const current_submap,
         for( locy = 0; locy < SEEY; locy++ ) {
             // Get a reference to the field variable from the submap;
             // contains all the pointers to the real field effects.
-            field &curfield = current_submap->get_field( { static_cast<int>( locx ), static_cast<int>( locy ) } );
+            field &curfield = current_submap->get_field( { locx, locy } );
 
             // when displayed_field_type == fd_null it means that `curfield` has no fields inside
             // avoids instantiating (relatively) expensive map iterator
@@ -1459,8 +1459,8 @@ void map::player_in_field( player &u )
             // Small universal damage based on intensity, only if not electroproofed.
             if( !u.is_elec_immune() ) {
                 int total_damage = 0;
-                for( size_t i = 0; i < num_hp_parts; i++ ) {
-                    const bodypart_id bp = player::hp_to_bp( static_cast<hp_part>( i ) ).id();
+
+                for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
                     const int dmg = rng( 1, cur.get_field_intensity() );
                     total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
                 }
@@ -1542,12 +1542,12 @@ void map::player_in_field( player &u )
                        u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
                        u.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
-                    bool inhaled = u.add_env_effect( effect_poison, body_part_mouth, 5, intensity * 1_minutes );
+                    bool inhaled = u.add_env_effect( effect_poison, body_part_mouth, 5, intensity * 10_seconds );
                     if( u.has_trait( trait_THRESH_MYCUS ) || u.has_trait( trait_THRESH_MARLOSS ) ||
                         ( ft == fd_insecticidal_gas &&
                           ( u.get_highest_category() == mutation_category_id( "INSECT" ) ||
                             u.get_highest_category() == mutation_category_id( "SPIDER" ) ) ) ) {
-                        inhaled |= u.add_env_effect( effect_badpoison, body_part_mouth, 5, intensity * 1_minutes );
+                        inhaled |= u.add_env_effect( effect_badpoison, body_part_mouth, 5, intensity * 10_seconds );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
                     }
@@ -1952,7 +1952,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
     const bool not_gas = type.obj().phase != GAS;
 
     while( amount > 0 && !open.empty() ) {
-        if( closed.count( open.top().second ) ) {
+        if( closed.contains( open.top().second ) ) {
             open.pop();
             continue;
         }
@@ -1963,7 +1963,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
         const int cur_intensity = get_field_intensity( open.top().second, type );
         open.pop();
         while( !open.empty() && get_field_intensity( open.top().second, type ) == cur_intensity ) {
-            if( closed.count( open.top().second ) == 0 ) {
+            if( !closed.contains( open.top().second ) ) {
                 gas_front.push_back( open.top() );
             }
 
@@ -1992,7 +1992,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
             static const std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
             for( size_t i = 0; i < 8; i++ ) {
                 tripoint pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
-                if( closed.count( pt ) > 0 ) {
+                if( closed.contains( pt ) ) {
                     continue;
                 }
 

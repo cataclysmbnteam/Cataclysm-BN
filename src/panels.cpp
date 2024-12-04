@@ -421,21 +421,44 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
     return std::make_pair( morale_color, morale_int );
 }
 
-static std::pair<int, int> temp_delta( const avatar &u )
+struct temp_delta_extremes {
+    temp_delta_extremes( bodypart_str_id extreme_cur_bp,
+                         int extreme_cur_temp,
+                         bodypart_str_id extreme_conv_bp,
+                         int extreme_conv_temp ) :
+        extreme_cur_bp( extreme_cur_bp ),
+        extreme_cur_temp( extreme_cur_temp ),
+        extreme_conv_bp( extreme_conv_bp ),
+        extreme_conv_temp( extreme_conv_temp )
+    {}
+    bodypart_str_id extreme_cur_bp;
+    int extreme_cur_temp;
+    bodypart_str_id extreme_conv_bp;
+    int extreme_conv_temp;
+};
+
+static temp_delta_extremes temp_delta( const avatar &u )
 {
-    int current_bp_extreme = 0;
-    int conv_bp_extreme = 0;
-    for( int i = 0; i < num_bp; i++ ) {
-        if( std::abs( u.temp_cur[i] - BODYTEMP_NORM ) >
-            std::abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
-            current_bp_extreme = i;
+    bodypart_str_id extreme_cur_bp;
+    int current_bp_extreme = BODYTEMP_NORM;
+    bodypart_str_id extreme_conv_bp;
+    int conv_bp_extreme = BODYTEMP_NORM;
+    for( const auto &pr : u.get_body() ) {
+        int temp_cur = pr.second.get_temp_cur();
+        if( std::abs( temp_cur - BODYTEMP_NORM ) >
+            std::abs( current_bp_extreme - BODYTEMP_NORM ) ) {
+            extreme_cur_bp = pr.first;
+            current_bp_extreme = temp_cur;
         }
-        if( std::abs( u.temp_conv[i] - BODYTEMP_NORM ) >
-            std::abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
-            conv_bp_extreme = i;
+
+        int temp_conv = pr.second.get_temp_conv();
+        if( std::abs( temp_conv - BODYTEMP_NORM ) >
+            std::abs( conv_bp_extreme - BODYTEMP_NORM ) ) {
+            extreme_conv_bp = pr.first;
+            conv_bp_extreme = temp_conv;
         }
     }
-    return std::make_pair( current_bp_extreme, conv_bp_extreme );
+    return temp_delta_extremes( extreme_cur_bp, current_bp_extreme, extreme_conv_bp, conv_bp_extreme );
 }
 
 static int define_temp_level( const int lvl )
@@ -459,10 +482,10 @@ static int define_temp_level( const int lvl )
 static std::string temp_delta_string( const avatar &u )
 {
     std::string temp_message;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    temp_delta_extremes temp_struct = temp_delta( u );
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( temp_struct.extreme_cur_temp );
+    const int conv_zone = define_temp_level( temp_struct.extreme_conv_temp );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
@@ -489,10 +512,10 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
 {
     std::string temp_message;
     nc_color temp_color = c_white;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    temp_delta_extremes temp_struct = temp_delta( u );
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( temp_struct.extreme_cur_temp );
+    const int conv_zone = define_temp_level( temp_struct.extreme_conv_temp );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
@@ -526,30 +549,31 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    int current_bp_extreme = temp_delta( u ).first;
+    temp_delta_extremes temp_struct = temp_delta( u );
+    int extreme_cur_temp = temp_struct.extreme_cur_temp;
 
     // printCur the hottest/coldest bodypart
     std::string temp_string;
     nc_color temp_color = c_yellow;
-    if( u.temp_cur[current_bp_extreme] > BODYTEMP_SCORCHING ) {
+    if( extreme_cur_temp > BODYTEMP_SCORCHING ) {
         temp_color = c_red;
         temp_string = _( "Scorching!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_HOT ) {
+    } else if( extreme_cur_temp > BODYTEMP_VERY_HOT ) {
         temp_color = c_light_red;
         temp_string = _( "Very hot!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_HOT ) {
+    } else if( extreme_cur_temp > BODYTEMP_HOT ) {
         temp_color = c_yellow;
         temp_string = _( "Warm" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_COLD ) {
+    } else if( extreme_cur_temp > BODYTEMP_COLD ) {
         temp_color = c_green;
         temp_string = _( "Comfortable" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_COLD ) {
+    } else if( extreme_cur_temp > BODYTEMP_VERY_COLD ) {
         temp_color = c_light_blue;
         temp_string = _( "Chilly" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_FREEZING ) {
+    } else if( extreme_cur_temp > BODYTEMP_FREEZING ) {
         temp_color = c_cyan;
         temp_string = _( "Very cold!" );
-    } else if( u.temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
+    } else if( extreme_cur_temp <= BODYTEMP_FREEZING ) {
         temp_color = c_blue;
         temp_string = _( "Freezing!" );
     }
@@ -742,7 +766,7 @@ static int get_int_digits( const int &digits )
 // panels code
 // ===============================
 
-static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
+static void draw_limb_health( avatar &u, const catacurses::window &w, const bodypart_str_id &bp )
 {
     const bool is_self_aware = u.has_trait( trait_SELFAWARE );
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
@@ -752,14 +776,12 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         }
     };
 
-    const bodypart_id bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ).id();
     const int hp_cur = u.get_part_hp_cur( bp );
     const int hp_max = u.get_part_hp_max( bp );
 
     std::optional<nc_color> color_override;
 
-    if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
-                                         limb_index <= hp_leg_r ) ) {
+    if( u.is_limb_broken( bp.id() ) && !bp->essential ) {
         //Limb is broken
         const int mend_perc =  100 * hp_cur / hp_max;
         bool splinted = u.worn_with_flag( json_flag_SPLINT, bp ) ||
@@ -794,27 +816,25 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
 static void draw_limb2( avatar &u, const catacurses::window &w )
 {
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
-
     werase( w );
     // print limb health
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+    int i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+        const std::string str = body_part_hp_bar_ui_text( bp );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
         } else {
             wmove( w, point( 11, i / 2 ) );
         }
-        wprintz( w, u.limb_color( part[i], true, true, true ), str );
+        wprintz( w, u.limb_color( bp, true, true, true ), str );
         if( i % 2 == 0 ) {
             wmove( w, point( 5, i / 2 ) );
         } else {
             wmove( w, point( 16, i / 2 ) );
         }
-        draw_limb_health( u, w, i );
+        draw_limb_health( u, w, bp.id() );
+
+        i++;
     }
 
     // print mood
@@ -1089,7 +1109,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
     int ny2 = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
+    int i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1100,16 +1121,12 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 26;
         }
         wmove( w, point( nx, ny ) );
-        draw_limb_health( u, w, i );
+        draw_limb_health( u, w, bp.id() );
+        i++;
     }
 
-    // display limbs status
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
     ny2 = 0;
-    for( size_t i = 0; i < part.size(); i++ ) {
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1120,34 +1137,28 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        std::string str = body_part_hp_bar_ui_text( part[i] );
+        std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
-        wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
+        wprintz( w, u.limb_color( bp, true, true, true ), str + ":" );
     }
     wnoutrefresh( w );
 }
 
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
-    const std::vector<std::pair<bodypart_id, int>> parts = {
-        {bodypart_id( "arm_l" ), 2},
-        {bodypart_id( "head" ), 0},
-        {bodypart_id( "arm_r" ), 3},
-        {bodypart_id( "leg_l" ), 4},
-        {bodypart_id( "torso" ), 1},
-        {bodypart_id( "leg_r" ), 5}
-    };
     werase( w );
-    for( int i = 0; i < num_hp_parts; i++ ) {
+    int i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         int offset = i * 15;
         int ny = offset / 45;
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
-                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
-        nc_color part_color = u.limb_color( parts[i].first, true, true, true );
+                                         left_justify( body_part_hp_bar_ui_text( bp.id() ), 5 ) );
+        nc_color part_color = u.limb_color( bp.id(), true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
-        draw_limb_health( u, w, parts[i].second );
+        draw_limb_health( u, w, bp.id() );
+        i++;
     }
     wnoutrefresh( w );
 }
@@ -1561,12 +1572,14 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     draw_minimap( u, w );
 
     // print limb health
-    for( int i = 0; i < num_hp_parts; i++ ) {
+    int i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         const std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, point( 8, i ) );
         wprintz( w, u.limb_color( part[i], true, true, true ), str );
         wmove( w, point( 14, i ) );
-        draw_limb_health( u, w, i );
+        draw_limb_health( u, w, bp.id() );
+        i++;
     }
 
     // needs

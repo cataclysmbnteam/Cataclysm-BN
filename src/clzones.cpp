@@ -568,7 +568,7 @@ std::string zone_manager::get_name_from_type( const zone_type_id &type ) const
 
 bool zone_manager::has_type( const zone_type_id &type ) const
 {
-    return types.count( type ) > 0;
+    return types.contains( type );
 }
 
 bool zone_manager::has_defined( const zone_type_id &type, const faction_id &fac ) const

@@ -82,8 +82,8 @@ void relic_recharge::load( const JsonObject &jo )
 {
     try {
         src_loc = jo.get_source_location();
+        // NOLINTNEXTLINE(bugprone-empty-catch): Savefiles don't specify source, so ignore error
     } catch( const std::exception & ) {
-        // Savefiles don't specify source, so ignore error
     }
 
     jo.read( "type", type );
@@ -339,9 +339,9 @@ bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Cha
             return get_map().get_radiation( carrier.pos() ) > 0 || carrier.get_rad() > 0;
         }
         case relic_recharge_req::wet: {
-            bool has_wet = std::any_of( carrier.body_wetness.begin(), carrier.body_wetness.end(),
-            []( const int w ) {
-                return w != 0;
+            bool has_wet = std::any_of( carrier.get_body().begin(), carrier.get_body().end(),
+            []( const std::pair<const bodypart_str_id, bodypart> &elem ) {
+                return elem.second.get_wetness() != 0;
             } );
             if( has_wet ) {
                 return true;
@@ -444,7 +444,7 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
             itm.ammo_set( itm.ammo_default(), clamp( itm.ammo_remaining() + rech.rate, 0,
                           itm.ammo_capacity() ) );
         } else {
-            itm.charges = clamp( itm.charges + rech.rate, 0, itm.charges );
+            itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
         }
     }
     if( rech.message ) {

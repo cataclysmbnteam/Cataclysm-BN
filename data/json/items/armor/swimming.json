@@ -81,7 +81,7 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 4,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
@@ -105,7 +105,7 @@
     "encumbrance": 20,
     "storage": "11500 ml",
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 4,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -127,7 +127,7 @@
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
-    "material_thickness": 1,
+    "material_thickness": 4,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
   },

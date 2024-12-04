@@ -1631,6 +1631,60 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
     return val;
 }
 
+
+uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
+                                      const std::map<tripoint, furn_id> &override ) const
+{
+    const level_cache &ch = access_cache( p.z );
+    uint8_t val = 0;
+    std::function<bool( const tripoint & )> is_memorized;
+    avatar &player_character = get_avatar();
+#ifdef TILES
+    if( use_tiles ) {
+        is_memorized = [&]( const tripoint & q ) {
+            return !player_character.get_memorized_tile( getabs( q ) ).tile.empty();
+        };
+    } else {
+#endif
+        is_memorized = [&]( const tripoint & q ) {
+            return player_character.get_memorized_symbol( getabs( q ) );
+        };
+#ifdef TILES
+    }
+#endif
+
+    const bool overridden = override.find( p ) != override.end();
+    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+
+    // populate connection information
+    for( int i = 0; i < 4; ++i ) {
+        tripoint pt = p + offsets[i];
+        if( !inbounds( pt ) ) {
+            continue;
+        }
+        const auto neighbour_override = override.find( pt );
+        const bool neighbour_overridden = neighbour_override != override.end();
+        // if there's some non-memory terrain to show at the neighboring tile
+        const bool may_connect = neighbour_overridden ||
+                                 get_visibility( ch.visibility_cache[pt.x][pt.y],
+                                         get_visibility_variables_cache() ) ==
+                                 visibility_type::VIS_CLEAR ||
+                                 // or if an actual center tile is transparent or
+                                 // next to a memorized tile
+                                 ( !overridden && ( is_transparent || is_memorized( pt ) ) );
+        if( may_connect ) {
+            const furn_t &neighbour_furn = neighbour_overridden ?
+                                           neighbour_override->second.obj() : furn( pt ).obj();
+            if( neighbour_furn.connects_to( connect_group ) ) {
+                val += 1 << i;
+            }
+        }
+    }
+
+    return val;
+}
+
+
 /*
  * Get the results of harvesting this tile's furniture or terrain
  */
@@ -2787,10 +2841,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
 
             if( to_proc > 0 ) {
                 cur_submap->field_count = cur_submap->field_count - to_proc;
-                dbg( DL::Error ) << "map::decay_fields_and_scent: submap at "
-                                 << abs_sub + tripoint( smx, smy, 0 )
-                                 << "has " << cur_submap->field_count - to_proc << "fields, but "
-                                 << cur_submap->field_count << " field_count";
+                dbg( DL::Warn ) << "map::decay_fields_and_scent: submap at "
+                                << abs_sub + tripoint( smx, smy, 0 )
+                                << "has " << cur_submap->field_count - to_proc << "fields, but "
+                                << cur_submap->field_count << " field_count";
             }
         }
     }
@@ -2997,13 +3051,14 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             if( p != t && ( has_flag( TFLAG_SUPPORTS_ROOF, t ) && has_flag( TFLAG_COLLAPSES, t ) ) ) {
                 collapse_at( t, silent );
             }
-            // this tile used to support a roof, now it doesn't, which means there is only
-            // open air above us
-            if( zlevels ) {
-                ter_set( tz, t_open_air );
-                furn_set( tz, f_null );
-                propagate_suspension_check( tz );
-            }
+        }
+        // this tile used to support a roof, now it doesn't, which means there is only
+        // open air above us
+        if( zlevels ) {
+            const tripoint tabove( p.xy(), p.z + 1 );
+            ter_set( tabove, t_open_air );
+            furn_set( tabove, f_null );
+            propagate_suspension_check( tabove );
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
@@ -3332,7 +3387,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
             int down_bash_tries = 10;
             do {
                 const ter_id &ter_now = ter( p );
-                if( encountered_types.count( ter_now ) != 0 ) {
+                if( encountered_types.contains( ter_now ) ) {
                     // We have encountered this type before and destroyed it (didn't block us)
                     ter_set( p, t_open_air );
                     bash_params params_below = params;
@@ -3421,13 +3476,13 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
 
         // Find the center of the tent
         // First check if we're not currently bashing the center
-        if( centers.count( furn( p ) ) > 0 ) {
+        if( centers.contains( furn( p ) ) ) {
             tentp.emplace( p, furn( p ) );
         } else {
             for( const tripoint &pt : points_in_radius( p, bash.collapse_radius ) ) {
                 const furn_id &f_at = furn( pt );
                 // Check if we found the center of the current tent
-                if( centers.count( f_at ) > 0 ) {
+                if( centers.contains( f_at ) ) {
                     tentp.emplace( pt, f_at );
                     break;
                 }
@@ -3449,7 +3504,7 @@ bash_results map::bash_furn_success( const tripoint &p, const bash_params &param
                 const map_bash_info &recur_bash = frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
                 for( const auto &cur_id : recur_bash.tent_centers ) {
-                    if( centers.count( cur_id.id() ) > 0 ) {
+                    if( centers.contains( cur_id.id() ) ) {
                         // Found same center, wreck current tile
                         spawn_items( p, item_group::items_from( recur_bash.drop_group, calendar::turn ) );
                         furn_set( pt, recur_bash.furn_set );
@@ -4750,7 +4805,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
                 tripoint p( x, y, z );
                 submap *s = get_submap_at_grid( p );
                 bool has_active_items = !s->active_items.get().empty();
-                bool map_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() );
+                bool map_has_active_items = submaps_with_active_items.contains( p + abs_sub.xy() );
                 if( has_active_items != map_has_active_items ) {
                     result.push_back( p + abs_sub.xy() );
                 }
@@ -8969,6 +9024,27 @@ std::vector<item *> map::get_active_items_in_radius( const tripoint &center, int
     return result;
 }
 
+std::vector<tripoint> map::find_furnitures_with_flag_in_omt( const tripoint &p,
+        const std::string &flag )
+{
+    // Some stupid code to get to the corner
+    const point omt_diff = ( ms_to_omt_copy( getabs( point( ( p.x + SEEX ),
+                             ( p.y + SEEY ) ) ) ) ) - ( ms_to_omt_copy( getabs( p.xy() ) ) );
+    const point omt_p = omt_to_ms_copy( ( ms_to_omt_copy( p.xy() ) ) ) ;
+    const tripoint omt_o = tripoint( omt_p.x + ( 1 - omt_diff.x ) * SEEX,
+                                     omt_p.y + ( 1 - omt_diff.y ) * SEEY,
+                                     p.z );
+
+    std::vector<tripoint> furn_locs;
+    for( const auto &furn_loc : points_in_rectangle( omt_o,
+            tripoint( omt_o.x + 2 * SEEX - 1, omt_o.y + 2 * SEEY - 1, p.z ) ) ) {
+        if( has_flag_furn( flag, furn_loc ) ) {
+            furn_locs.push_back( furn_loc );
+        }
+    }
+    return furn_locs;
+};
+
 std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center,
         size_t radius,
         const std::string &flag,
@@ -9263,11 +9339,11 @@ bool map::is_cornerfloor( const tripoint &p ) const
         //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
         std::set< tripoint> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
         for( const tripoint &impassable_diagonal : diagonals ) {
-            if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
+            if( impassable_adjacent.contains( impassable_diagonal ) ) {
                 //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
                 int f = 0;
                 for( const tripoint &l : points_in_radius( impassable_diagonal, 1 ) ) {
-                    if( impassable_adjacent.count( l ) != 0 ) {
+                    if( impassable_adjacent.contains( l ) ) {
                         f++;
                     }
                     if( f > 2 ) {

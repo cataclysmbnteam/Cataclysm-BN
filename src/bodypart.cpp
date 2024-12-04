@@ -65,25 +65,6 @@ std::string enum_to_string<side>( side data )
 }
 
 template<>
-std::string enum_to_string<hp_part>( hp_part data )
-{
-    switch( data ) {
-        // *INDENT-OFF*
-        case hp_part::hp_head: return "head";
-        case hp_part::hp_torso: return "torso";
-        case hp_part::hp_arm_l: return "arm_l";
-        case hp_part::hp_arm_r: return "arm_r";
-        case hp_part::hp_leg_l: return "leg_l";
-        case hp_part::hp_leg_r: return "leg_r";
-        // *INDENT-ON*
-        case hp_part::num_hp_parts:
-            break;
-    }
-    debugmsg( "Invalid hp_part" );
-    abort();
-}
-
-template<>
 std::string enum_to_string<body_part>( body_part data )
 {
     switch( data ) {
@@ -310,6 +291,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "opposite_part", opposite_part, id );
 
     optional( jo, was_loaded, "essential", essential, false );
+
+    assign( jo, "drench_capacity", drench_capacity, true );
 
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
@@ -589,6 +572,10 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
+    json.member( "frostbite_timer", frostbite_timer );
+    json.member( "wetness", wetness );
     json.end_object();
 }
 
@@ -600,6 +587,10 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "hp_max", hp_max, true );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
+    jo.read( "temp_cur", temp_cur, true );
+    jo.read( "temp_conv", temp_conv, false );
+    jo.read( "frostbite_timer", frostbite_timer, true );
+    jo.read( "wetness", wetness, true );
 }
 
 void bodypart::set_location( location<item> *loc )

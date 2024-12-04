@@ -9,7 +9,7 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "NO_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
@@ -58,7 +58,7 @@
     "close": "t_curtains",
     "open": "t_window_open",
     "deconstruct": {
-      "ter_set": "t_window_empty",
+      "ter_set": "t_window_empty_domestic",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
@@ -87,7 +87,7 @@
       "break_sound": "glass breaking!",
       "difficulty": 11,
       "new_ter_type": "t_window_open",
-      "break_ter_type": "t_window_frame",
+      "break_ter_type": "t_window_frame_domestic",
       "break_items": [
         { "item": "glass_shard", "count": [ 1, 3 ] },
         { "item": "sheet", "count": 2 },
@@ -121,7 +121,7 @@
       "break_sound": "glass breaking!",
       "difficulty": 11,
       "new_ter_type": "t_window_no_curtains_open",
-      "break_ter_type": "t_window_frame",
+      "break_ter_type": "t_window_frame_domestic",
       "break_items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ]
     }
   },
@@ -219,7 +219,7 @@
     "open": "t_window_domestic",
     "examine_action": "curtains",
     "deconstruct": {
-      "ter_set": "t_window_empty",
+      "ter_set": "t_window_empty_domestic",
       "items": [
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
@@ -248,7 +248,7 @@
       "break_sound": "glass breaking!",
       "difficulty": 11,
       "new_ter_type": "t_window_open",
-      "break_ter_type": "t_window_frame",
+      "break_ter_type": "t_window_frame_domestic",
       "break_items": [
         { "item": "glass_shard", "count": [ 1, 3 ] },
         { "item": "sheet", "count": 2 },
@@ -314,8 +314,66 @@
   },
   {
     "type": "terrain",
+    "id": "t_window_empty_domestic",
+    "looks_like": "t_window_empty",
+    "name": "empty domestic window",
+    "roof": "t_flat_roof",
+    "description": "An empty window frame consisting of two by fours and nails.  You could install a sheet of glass, or even board it up for protection.  You could also convert it into a wall if you took the time to construct it.",
+    "symbol": "0",
+    "color": "yellow",
+    "move_cost": 4,
+    "coverage": 60,
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "FLAMMABLE",
+      "SUPPORTS_ROOF",
+      "MOUNTABLE",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "SMALL_PASSAGE",
+      "PERMEABLE"
+    ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 0, 5 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_window_frame",
     "name": "window frame",
+    "description": "A wooden window frame that has shattered glass around it.  You'll probably get hurt if you crawled through the sharp and jagged shards.  You could smash out the remaining pieces, or take your time and quietly clean them up.",
+    "symbol": "0",
+    "color": "light_cyan",
+    "move_cost": 8,
+    "coverage": 60,
+    "roof": "t_flat_roof",
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "glass crunching!",
+      "sound_fail": "whack!",
+      "sound_vol": 12,
+      "sound_fail_vol": 8,
+      "ter_set": "t_window_empty",
+      "items": [ { "item": "glass_shard", "count": [ 0, 1 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE", "PERMEABLE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_frame_domestic",
+    "looks_like": "t_window_frame",
+    "name": "domestic window frame",
     "description": "A wooden window frame that has shattered glass around it.  You'll probably get hurt if you crawled through the sharp and jagged shards.  You could smash out the remaining pieces, or take your time and quietly clean them up.",
     "symbol": "0",
     "color": "light_cyan",
@@ -354,7 +412,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 1, 4 ] } ],
-      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 30 }
+      "ranged": { "reduction": [ 3, 3 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -378,7 +436,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
       "items": [ { "item": "splinter", "count": [ 0, 2 ] } ],
-      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 30 }
+      "ranged": { "reduction": [ 3, 3 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -400,7 +458,7 @@
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded",
       "items": [ { "item": "splinter", "count": [ 0, 8 ] } ],
-      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 30 }
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -422,7 +480,7 @@
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded_noglass",
       "items": [ { "item": "splinter", "count": [ 0, 8 ] } ],
-      "ranged": { "reduction": [ 6, 12 ], "destroy_threshold": 30 }
+      "ranged": { "reduction": [ 12, 12 ], "destroy_threshold": 30 }
     }
   },
   {
@@ -455,7 +513,7 @@
       "sound_fail": "wham!",
       "ter_set": "t_window_reinforced",
       "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ],
-      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 40 }
+      "ranged": { "reduction": [ 18, 18 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -488,7 +546,7 @@
       "sound_fail": "wham!",
       "ter_set": "t_window_reinforced_noglass",
       "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ],
-      "ranged": { "reduction": [ 9, 18 ], "destroy_threshold": 40 }
+      "ranged": { "reduction": [ 18, 18 ], "destroy_threshold": 40 }
     }
   },
   {
@@ -745,7 +803,8 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
       ],
-      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 75 }
     }
   },
   {
@@ -789,6 +848,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 75 }
     }
   },
@@ -842,7 +902,8 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
       ],
-      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 75 }
     }
   },
   {
@@ -883,7 +944,8 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
       ],
-      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 75 }
     }
   },
   {
@@ -927,7 +989,8 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
       ],
-      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 75 }
     }
   },
   {
@@ -980,7 +1043,8 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 5, 12 ] }
       ],
-      "ranged": { "reduction": [ 50, 75 ], "destroy_threshold": 75 }
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 75 }
     }
   },
   {
@@ -2808,7 +2872,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
-      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 5 }
+      "ranged": { "reduction": [ 3, 3 ], "destroy_threshold": 5 }
     }
   },
   {
@@ -2890,7 +2954,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
-      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 5 }
+      "ranged": { "reduction": [ 3, 3 ], "destroy_threshold": 5 }
     }
   },
   {
@@ -2937,7 +3001,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
       "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ],
-      "ranged": { "reduction": [ 2, 3 ], "destroy_threshold": 5 }
+      "ranged": { "reduction": [ 3, 3 ], "destroy_threshold": 5 }
     }
   },
   {
@@ -3024,7 +3088,7 @@
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 15 }
     }
   },
   {
@@ -3065,7 +3129,7 @@
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 15 }
     }
   },
   {
@@ -3115,7 +3179,7 @@
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 15 }
     }
   },
   {
@@ -3166,7 +3230,7 @@
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "plastic_sheet", "count": [ 1, 2 ] }
       ],
-      "ranged": { "reduction": [ 5, 10 ], "destroy_threshold": 15 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 15 }
     }
   },
   {
@@ -3484,6 +3548,7 @@
         { "item": "scrap", "count": [ 1, 5 ] },
         { "item": "glass_shard", "count": [ 20, 50 ] }
       ],
+      "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 25, 50 ], "reduction_laser": [ 0, 5 ], "destroy_threshold": 75 }
     }
   }

@@ -83,7 +83,7 @@
       "sound": "crunch!",
       "sound_fail": "poof!",
       "ter_set": "t_fungus",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 30, 30 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -102,7 +102,7 @@
       "sound": "crunch!",
       "sound_fail": "poof!",
       "ter_set": "t_fungus",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 30, 30 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -144,7 +144,7 @@
       "sound": "crunch!",
       "sound_fail": "poof!",
       "ter_set": "t_fungus",
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 40, 40 ], "destroy_threshold": 180 }
     }
   },
   {
@@ -175,7 +175,7 @@
       "sound": "crunch!",
       "sound_fail": "poof!",
       "ter_set": "t_fungus",
-      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 180 }
+      "ranged": { "reduction": [ 40, 40 ], "destroy_threshold": 180 }
     }
   }
 ]

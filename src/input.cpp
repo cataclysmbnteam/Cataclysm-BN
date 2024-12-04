@@ -145,9 +145,9 @@ void input_manager::init()
         // (if an action with that ident already exists there - think movement keys)
         // or otherwise to the DEFAULTMODE context.
         std::string context = "DEFAULTMODE";
-        if( action_contexts[default_context_id].count( action_id ) > 0 ) {
+        if( action_contexts[default_context_id].contains( action_id ) ) {
             context = default_context_id;
-        } else if( touched.count( a->second ) == 0 ) {
+        } else if( !touched.contains( a->second ) ) {
             // Note: movement keys are somehow special as the default in keymap
             // does not contain the arrow keys, so we don't clear existing keybindings
             // for them.
@@ -265,7 +265,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         if( !is_user_preferences ||
             !events.empty() ||
             context == default_context_id ||
-            actions.count( action_id ) > 0 ) {
+            actions.contains( action_id ) ) {
             // In case this is the second file containing user preferences,
             // this replaces the default bindings with the user's preferences.
             action_attributes &attributes = actions[action_id];

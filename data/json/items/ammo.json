@@ -384,7 +384,7 @@
     "dispersion": 100,
     "count": 500,
     "stack_size": 200,
-    "loudness": 9,
+    "loudness": 0,
     "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
@@ -459,6 +459,7 @@
     "damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 8 },
     "range": 12,
     "count": 25,
+    "loudness": 60,
     "effects": [ "INCENDIARY" ],
     "flags": [ "UNRECOVERABLE" ],
     "fuel": {
@@ -474,8 +475,8 @@
     "category": "chems",
     "description": "A light, flammable gas compressed for use as fuel.  Requires a lot of energy to produce, even moreso without pre-cataclysm industry.  Quite energy dense, though not very volume-efficient.",
     "//": "25 kg per cubic meter, in the lower half of the range for compressed hydrogen.",
-    "weight": "25 mg",
-    "volume": "250 ml",
+    "weight": "2500 mg",
+    "volume": "100 ml",
     "price": "50 cent",
     "price_postapoc": "5 cent",
     "symbol": "=",
@@ -484,12 +485,11 @@
     "damage": { "damage_type": "heat", "amount": 9, "armor_penetration": 2 },
     "range": 6,
     "dispersion": 120,
-    "count": 250,
-    "phase": "gas",
+    "phase": "liquid",
     "ammo_type": "c_hydrogen",
     "fuel": {
       "//": "The solid hydrogen canisters have roughly 4 times the density.",
-      "energy": 10,
+      "energy": 100,
       "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 0.5, "fiery": true, "size_factor": 0.1 }
     },
     "effects": [ "INCENDIARY" ],
@@ -646,7 +646,7 @@
     "description": "Rubber slugs from a shotgun beanbag round.  You could use them to make new beanbag rounds, or sling them at people.",
     "material": [ "plastic", "rubber" ],
     "volume": "250 ml",
-    "weight": "2 g",
+    "weight": "8 g",
     "ammo_type": "pebble",
     "count": 25,
     "damage": { "damage_type": "bash", "amount": 2 },
@@ -917,6 +917,7 @@
     "range": 18,
     "dispersion": 180,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL" ]
   },
   {
@@ -936,6 +937,7 @@
     "range": 23,
     "dispersion": 170,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL", "EXPLOSIVE" ]
   },
   {
@@ -955,6 +957,7 @@
     "range": 13,
     "dispersion": 200,
     "recoil": 130,
+    "loudness": 60,
     "effects": [ "COOKOFF", "TRAIL", "NAPALM" ]
   },
   {

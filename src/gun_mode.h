@@ -31,7 +31,7 @@ class gun_mode
 
         /** if true perform a melee attach as opposed to shooting */
         bool melee() const {
-            return flags.count( "MELEE" );
+            return flags.contains( "MELEE" );
         }
 
         operator bool() const {

@@ -500,6 +500,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ### Flags
 
 - `ALARMED` Sets off an alarm if smashed.
+- `ALIGN_WORKBENCH` (only for furniture) A hint to the tiles display that the sprite for this
+  furniture should face toward any adjacent tile with a workbench quality.-
 - `ALLOW_FIELD_EFFECT` Apply field effects to items inside `SEALED` terrain/furniture.
 - `AUTO_WALL_SYMBOL` (only for terrain) The symbol of this terrain will be one of the line drawings
   (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
@@ -624,6 +626,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   smashed instead of destroying the tile beneath it.
 - `WALL` This terrain is an upright obstacle. Used for fungal conversion, and also implies
   `CONNECT_TO_WALL`.
+- `WINDOW` This terrain is a window, though it may be closed, broken, or covered up. Used by teh
+  tiles code to align furniture sprites away from the window.
 
 ### Examine Actions
 
@@ -896,6 +900,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   cannot use the damage object used by ammo to specify the damage type of melee weapon.
 - `UNARMED_WEAPON` Wielding this item still counts as unarmed combat.
 - `WHIP` Has a chance of disarming the opponent.
+- `FLAMING` Deals a random amount of fire damage on hit
+- `SHOCKING` Deals a random amount of electric damage on hit
+- `ACIDIC` Deals a random amount of acid damage on hit
 
 ## Monster Groups
 

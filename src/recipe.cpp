@@ -93,7 +93,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 
 bool recipe::has_flag( const std::string &flag_name ) const
 {
-    return flags.count( flag_name );
+    return flags.contains( flag_name );
 }
 
 void recipe::load( const JsonObject &jo, const std::string &src )

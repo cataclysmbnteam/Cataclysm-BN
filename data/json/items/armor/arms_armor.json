@@ -53,8 +53,9 @@
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
     "material": [ "acidchitin", "leather" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "material_thickness": 1 }
+    "encumbrance": 15,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
+    "relative": { "material_thickness": 1, "environmental_protection": 1 }
   },
   {
     "id": "armguard_hard",
@@ -75,7 +76,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "OUTER", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_larmor",
@@ -151,7 +152,7 @@
     "encumbrance": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_bronze",
@@ -209,7 +210,7 @@
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_soft",
@@ -294,7 +295,23 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
-    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "armguard_bone",
+    "copy-from": "vambrace_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of bone vambraces", "str_pl": "pairs of bone vambraces" },
+    "description": "Arm protection made from strips of carved bone, laced together as splint armor.  Tough but stiff, and a bit brittle.",
+    "material": [ "bone_heavy" ],
+    "color": "white",
+    "encumbrance": 12,
+    "warmth": 12,
+    "material_thickness": 4,
+    "valid_mods": [  ],
+    "proportional": { "weight": 1.2 },
+    "extend": { "flags": [ "OUTER" ] },
+    "delete": { "flags": [ "WATER_FRIENDLY" ] }
   },
   {
     "id": "carbon_armguard",
@@ -310,7 +327,9 @@
     "type": "ARMOR",
     "name": { "str": "scaleskin armguards" },
     "description": "Arm guards made from the hardened scales of large reptiles.",
-    "copy-from": "armguard_acidchitin",
-    "material": [ "scute" ]
+    "copy-from": "armguard_larmor",
+    "material": [ "scute" ],
+    "material_thickness": 5,
+    "environmental_protection": 4
   }
 ]

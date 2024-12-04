@@ -119,8 +119,8 @@ rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`
 Cataclysm has a
 [clang-tidy configuration file](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/.clang-tidy)
 and if you have `clang-tidy` available you can run it to perform static analysis of the codebase. We
-test with `clang-tidy` from LLVM 12.0.0 with CI, so for the most consistent results, you might want
-to use that version.
+test with `clang-tidy` from LLVM 18 with CI, so for the most consistent results, you might want to
+use that version.
 
 To run it, you have a few options.
 
@@ -143,252 +143,49 @@ command-line.
 
 ## Custom clang-tidy plugin
 
-We have written our own clang-tidy checks in a custom plugin. Unfortunately, `clang-tidy` as
-distributed by LLVM doesn't support plugins, so making this work requires some extra steps.
+We have written our own clang-tidy checks in a custom plugin. refer to
+[clang-tidy.yml](/.github/workflows/clang-tidy.yml) for the exact steps to build the plugin on
+ubuntu 24.04.
 
-### Ubuntu Focal
+### Build plugin on Ubuntu 24.04
 
-If you are on Ubuntu Focal then you might be able to get it working the same way our CI does. Add
-the LLVM 12 Focal source [listed here](https://apt.llvm.org/) to your `sources.list`, install the
-needed packages (`clang-12 libclang-12-dev llvm-12-dev llvm-12-tools`), and build Cataclysm with
-CMake, adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
+Follow exact steps in [cmake guide](../../dev/guides/building/cmake.md) with following changes:
 
-On other distributions you will probably need to build `clang-tidy` yourself.
-
-- Check out the `llvm`, `clang`, and `clang-tools-extra` repositories in the required layout (as
-  described for example
-  [here](https://quuxplusone.github.io/blog/2018/04/16/building-llvm-from-source/).
-- Patch in plugin support for `clang-tidy` using
-  [this patch](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/plugin-support.patch).
-- Configure LLVM using CMake, including the `-DCMAKE_EXE_LINKER_FLAGS="-rdynamic"` option.
-- Add the `build/bin` directory to your path so that `clang-tidy` and `FileCheck` are found from
-  there.
-
-Then you can use your locally build `clang-tidy` to compile Cataclysm. You'll need to use the CMake
-version of the Cataclysm build rather than the `Makefile` build. Add the following CMake options:
+Also install these additional dependencies:
 
 ```sh
--DCATA_CLANG_TIDY_PLUGIN=ON
--DCATA_CLANG_TIDY_INCLUDE_DIR="$extra_dir/clang-tidy"
--DCATA_CHECK_CLANG_TIDY="$extra_dir/test/clang-tidy/check_clang_tidy.py"
+sudo apt-get install \
+  clang-18 libclang-18-dev llvm-18 llvm-18-dev clang-tidy-18
 ```
 
-where `$extra_dir` is the location of your `clang-tools-extra` checkout.
+add `CATA_CLANG_TIDY_PLUGIN=ON` to cmake flags when configuring the build.
 
-To run `clang-tidy` with this plugin enabled add the
-`'-plugins=$build_dir/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so'` option to your `clang-tidy`
-command line.
+### Build plugin on Fedora 40
 
-If you wish to run the tests for the custom clang-tidy plugin you will also need `lit`. This will be
-built as part of LLVM, or you can install it via `pip` or your local package manager if you prefer.
+Follow exact steps in [atomic cmake guide](../../dev/guides/building/atomic_cmake.md) with following
+changes:
 
-Then, assuming `build` is your Cataclysm build directory, you can run the tests with
+Also install these additional dependencies:
 
 ```sh
-lit -v build/tools/clang-tidy-plugin/test
+sudo dnf install clang-devel llvm-devel clang-tools-extra
 ```
 
-### Windows
+add `CATA_CLANG_TIDY_PLUGIN=ON` to cmake flags when configuring the build.
 
-#### Build LLVM
+### Using the plugin
 
-To build LLVM on Windows, you'll first need to get some tools installed.
-
-- Cmake
-- Python 3
-- MinGW-w64 (other compilers may or may not work. Clang itself does not seem to be building LLVM on
-  Windows correctly.)
-- A shell environment
-
-After the tools are installed, a patch still needs to be applied before building LLVM, since
-`clang-tidy` as distributed by LLVM doesn't support plugins.
-
-First, clone the LLVM repo from, for example,
-[the official github repo](https://github.com/llvm/llvm-project.git). Checkout the `release/12.x`
-branch, since that's what our patch was based on.
-
-On Windows, in addition to applying `plugin-support.patch` mentioned in the previous section, you
-should also apply
-[`clang-tidy-scripts.patch`](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/clang-tidy-scripts.patch)
-so you can run the lit test with the custom clang-tidy executable and let clang-tidy apply
-suggestions automatically.
-
-After the patch is applied, you can then build the LLVM code. Unfortunately, it seems that clang
-itself cannot correctly compile the LLVM code on Windows (gives some sort of relocation error).
-Luckily, MinGW-w64 can be used instead to compile the code.
-
-The first step to build the code is to run CMake to generate the makefile. On the root dir of LLVM,
-run the following script (substitute values inside `<>` with the actual paths). Make sure CMake,
-python, and MinGW-w64 are on the path.
+To run the plugin on a single file, run following command on project root:
 
 ```sh
-mkdir -p build
-cd build
-cmake \
-    -DCMAKE_MAKE_PROGRAM="<mingw-w64-root>/bin/mingw32-make" \
-    -G "MSYS Makefiles" \
-    -DLLVM_ENABLE_PROJECTS='clang;clang-tools-extra' \
-    -DCMAKE_BUILD_TYPE=MinSizeRel \
-    -DLLVM_TARGETS_TO_BUILD='X86' \
-    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-    ../llvm
+$ ./build-scripts/clang-tidy-wrapper.sh -fix src/achievement.cpp
 ```
 
-The next step is to call `make` to actually build clang-tidy as a library. When using MinGW-w64 to
-build, you should call `mingw32-make` instead. Also, because `FileCheck` is not shipped with
-Windows, you'll also need to build it yourself using LLVM sources by adding the `FileCheck` target
-to the make command.
+To run the plugin on multiple files, use [GNU parallel](https://www.gnu.org/software/parallel/):
 
 ```sh
-mkdir -p build
-cd build
-mingw32-make -j4 clang-tidy clangTidyMain FileCheck
+$ parallel ./build-scripts/clang-tidy-wrapper.sh -fix ::: src/*.cpp
 ```
-
-Here `clang-tidy` is only added to trigger the building of several targets that are needed to build
-our custom clang-tidy executable later.
-
-#### Build clang-tidy with custom checks
-
-After building clang-tidy as a library from the LLVM source, the next step is to build clang-tidy as
-an executable, with the custom checks from the CDDA source.
-
-In this step, the following tools are required.
-
-- Python 3
-- CMake
-- MinGW-w64
-- FileCheck (built from the LLVM source)
-- A shell environment
-
-You also need to install yaml for python 3 to work. Download the `.whl` installer corresponding to
-your python version from [here](https://pyyaml.org/wiki/PyYAML) and execute the following command
-inside the `<python3_root>/Scripts` directory
-
-```sh
-pip install path/to/your/downloaded/file.whl
-```
-
-Currently, the CDDA source is still building the custom checks as a plugin, which unfortunately is
-not supported on Windows, so the following patch needs to be applied before the custom checks can be
-built as an executable.
-
-```diff
-diff --git a/tools/clang-tidy-plugin/CMakeLists.txt b/tools/clang-tidy-plugin/CMakeLists.txt
-index cf0c237645..540d3e29a5 100644
---- a/tools/clang-tidy-plugin/CMakeLists.txt
-+++ b/tools/clang-tidy-plugin/CMakeLists.txt
-@@ -4,7 +4,7 @@ include(ExternalProject)
- find_package(LLVM REQUIRED CONFIG)
- find_package(Clang REQUIRED CONFIG)
- 
--add_library(CataAnalyzerPlugin MODULE
-+add_executable(CataAnalyzerPlugin
-         AlmostNeverAutoCheck.cpp
-         AssertCheck.cpp
-         CataTidyModule.cpp
-@@ -56,6 +56,11 @@ else ()
-     target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
- endif ()
- 
-+target_link_libraries(
-+    CataAnalyzerPlugin
-+    clangTidyMain
-+    )
-+
- target_compile_definitions(CataAnalyzerPlugin PRIVATE ${LLVM_DEFINITIONS})
- 
- # We need to turn off exceptions and RTTI to match the LLVM build.
-diff --git a/tools/clang-tidy-plugin/CataTidyModule.cpp b/tools/clang-tidy-plugin/CataTidyModule.cpp
-index b7cb4df22c..a83db0c60e 100644
---- a/tools/clang-tidy-plugin/CataTidyModule.cpp
-+++ b/tools/clang-tidy-plugin/CataTidyModule.cpp
-@@ -18,6 +18,7 @@
- #include "TestFilenameCheck.h"
- #include "TestsMustRestoreGlobalStateCheck.h"
- #include "TextStyleCheck.h"
-+#include "tool/ClangTidyMain.h"
- #include "TranslatorCommentsCheck.h"
- #include "UnsequencedCallsCheck.h"
- #include "UnusedStaticsCheck.h"
-@@ -80,3 +81,8 @@ X( "cata-module", "Adds Cataclysm-DDA checks." );
- 
- } // namespace tidy
- } // namespace clang
-+
-+int main( int argc, const char **argv )
-+{
-+    return clang::tidy::clangTidyMain( argc, argv );
-+}
-diff --git a/tools/clang-tidy-plugin/test/lit.cfg b/tools/clang-tidy-plugin/test/lit.cfg
-index 496804316a..43beb49653 100644
---- a/tools/clang-tidy-plugin/test/lit.cfg
-+++ b/tools/clang-tidy-plugin/test/lit.cfg
-@@ -17,11 +17,13 @@ else:
-             config.plugin_build_root, 'clang-tidy-plugin-support', 'bin',
-             'check_clang_tidy.py')
- 
--cata_include = os.path.join( config.cata_source_dir, "src" )
-+cata_include = os.path.join( config.cata_source_dir, "./src" )
- 
- cata_plugin = os.path.join(
-         config.plugin_build_root, 'libCataAnalyzerPlugin.so')
- 
-+cata_plugin = ''
-+
- config.substitutions.append(('%check_clang_tidy', check_clang_tidy))
- config.substitutions.append(('%cata_include', cata_include))
- config.substitutions.append(('%cata_plugin', cata_plugin))
-```
-
-The next step is to run CMake to generate the compilation database. The compilation database
-contains compiler flags that clang-tidy uses to check the source files.
-
-Make sure Python 3, CMake, MinGW-w64, and FileCheck are on the path. Note that two `bin` directories
-of MinGW-w64 should be on the path: `<mingw-w64-root>/bin`, and
-`<mingw-w64-root>/x86_64-w64-mingw32/bin`. FileCheck's path is `<llvm-source-root>/build/bin`, if
-you built it with the instructions in the previous section.
-
-Then add the following CMake options to generate the compilation database (substitute values inside
-`<>` with the actual paths), and build the CDDA source and the custom clang-tidy executable with
-`mingw32-make`. In this tutorial we run CMake and `mingw32-make` in the `build` subdirectory.
-
-```sh
--DCMAKE_EXPORT_COMPILE_COMMANDS=ON
--DLLVM_DIR="<llvm-source-root>/build/lib/cmake/llvm"
--DClang_DIR="<llvm-source-root>/build/lib/cmake/clang"
--DLLVM_INCLUDE_DIRS="<llvm-source-root>/llvm/include"
--DCLANG_INCLUDE_DIRS="<llvm-source-root>/clang/include"
--DCATA_CLANG_TIDY_PLUGIN=ON
--DCATA_CLANG_TIDY_INCLUDE_DIR="<llvm-source-root>/clang-tools-extra/clang-tidy"
--DCATA_CHECK_CLANG_TIDY="<llvm-source-root>/clang-tools-extra/test/clang-tidy/check_clang_tidy.py -clang-tidy=<cdda-source-root>/build/tools/clang-tidy-plugin/CataAnalyzerPlugin.exe"
-```
-
-Next, change the directory back to the source root, and run `tools/fix-compilation-database.py` with
-Python 3 to fix some errors in the compilation database. Then the compilation database should be
-usable by clang-tidy.
-
-If you want to check if the custom checks are working correctly, run the following script.
-
-```sh
-python3 <llvm-source-root>/llvm/utils/lit/lit.py -v build/tools/clang-tidy-plugin/test
-```
-
-Finally, use the following command to run clang-tidy with the custom checks. In the following
-command, the first line of "-extra-arg"s are used to tell clang-tidy to mimic g++ behavior, and the
-second line of "-extra-arg"s are used to tell clang-tidy to use clang's x86intrin.h instead of
-g++'s, so as to avoid compiler errors.
-
-```sh
-python3 <llvm-source-root>/clang-tools-extra/clang-tidy/tool/run-clang-tidy.py \
-    -clang-tidy-binary=build/tools/clang-tidy-plugin/CataAnalyzerPlugin.exe \
-    -p=build "\.cpp$" \
-    -extra-arg=-target -extra-arg=x86_64-pc-windows-gnu -extra-arg=-pthread -extra-arg=-DSDL_DISABLE_ANALYZE_MACROS \
-    -extra-arg=-isystem -extra-arg=<llvm-source-root>/clang/lib/Headers
-```
-
-You can also add `-fix-errors` to apply fixes reported by the checks, or `-checks="-*,xxx,yyy"` to
-specify the checks you would like to run.
 
 ## include-what-you-use
 

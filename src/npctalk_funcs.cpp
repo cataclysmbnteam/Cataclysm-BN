@@ -304,11 +304,11 @@ void talk_function::goto_location( npc &p )
     selection_menu.selected = 0;
     selection_menu.query();
     auto index = selection_menu.ret;
-    if( index < 0 || index > static_cast<int>( 2 ) ||
-        index == static_cast<int>( 1 ) ) {
+    if( index < 0 || index > 2 ||
+        index == 1 ) {
         return;
     }
-    if( index == static_cast<int>( 1 ) ) {
+    if( index == 1 ) {
         destination = g->u.global_omt_location();
     }
     p.goal = destination;

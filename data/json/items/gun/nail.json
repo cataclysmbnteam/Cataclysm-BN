@@ -17,9 +17,9 @@
     "ammo": "nail",
     "range": 1,
     "dispersion": 800,
-    "loudness": 5,
+    "loudness": 10,
     "clip_size": 20,
-    "reload": 50,
+    "reload": 200,
     "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "valid_mod_locations": [ [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
@@ -42,6 +42,7 @@
     "ranged_damage": { "damage_type": "stab", "amount": 15, "armor_penetration": 20 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "dispersion": 180,
+    "loudness": 5,
     "durability": 5,
     "ups_charges": 20,
     "valid_mod_locations": [
@@ -69,6 +70,7 @@
     "skill": "rifle",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "clip_size": 0,
+    "loudness": 7,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

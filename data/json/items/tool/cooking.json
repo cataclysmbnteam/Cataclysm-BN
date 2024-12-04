@@ -1079,5 +1079,31 @@
       ]
     ],
     "magazine_well": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "kimchi_hydria",
+    "name": { "str": "kimchi gimjangdok" },
+    "category": "food",
+    "description": "A dok, or clay jar, in which kimchi is stored for the winter.  Traditionally, this is buried in the ground, but it doesn't matter if you leave it above ground; just close the lid and wait for it to ferment, and you'll have delicious kimchi.",
+    "weight": "13 kg",
+    "volume": "15 L",
+    "material": [ "clay", "veggy" ],
+    "price": "10 cent",
+    "looks_like": "clay_hydria",
+    "color": "brown",
+    "symbol": ")",
+    "use_action": {
+      "type": "delayed_transform",
+      "target": "kimchi",
+      "target_charges": 400,
+      "container": "clay_hydria",
+      "moves": 50,
+      "transform_age": 86400,
+      "menu_text": "Open dok",
+      "msg": "You lift the lid and the smell of tangy, spicy, ripe kimchi makes you salivate.",
+      "not_ready_msg": "This kimchi is not done fermenting yet."
+    },
+    "flags": [ "SHATTERS" ]
   }
 ]

@@ -48,6 +48,16 @@
     ]
   },
   {
+    "id": "voltmeter_bionic",
+    "sub": "voltmeter",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "integrated voltmeter" },
+    "flags": [ "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "max_charges": 10000,
+    "use_action": [ "REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS", "MODIFY_GRID_CONNECTIONS" ]
+  },
+  {
     "id": "fake_goggles",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -62,7 +72,7 @@
     "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
     "to_hit": 2,
     "cutting": 8,
-    "techniques": "PRECISE",
+    "techniques": [ "PRECISE" ],
     "flags": [ "TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "STAB" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },

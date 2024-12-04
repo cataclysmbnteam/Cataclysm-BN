@@ -23,17 +23,28 @@
   },
   {
     "id": "clown_nose",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "name": { "str": "clown nose" },
-    "description": "A red latex nose often seen being worn by clowns.",
+    "description": "A red latex nose often seen being worn by clowns.  Squeezing the nose makes it honk.",
     "weight": "150 g",
     "volume": "100 ml",
     "price": "8 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": ".",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "use_action": {
+      "type": "manualnoise",
+      "moves": 100,
+      "noise": 10,
+      "noise_message": "honk.",
+      "noise_id": "misc",
+      "noise_variant": "horn_bicycle",
+      "use_message": "You honk the clown hose.",
+      "no_charges_message": "Seeing this is an error.",
+      "//": "Use of %s not currently supported."
+    }
   },
   {
     "id": "crown_golden",

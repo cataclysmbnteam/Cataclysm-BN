@@ -462,6 +462,7 @@ void location_vector<T>::on_destroy()
 
 template<>
 void std::swap<item>( location_vector<item> &lhs, location_vector<item> &rhs )
+noexcept
 {
     for( item *&it : lhs.contents ) {
         it->remove_location();

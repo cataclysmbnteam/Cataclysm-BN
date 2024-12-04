@@ -116,6 +116,16 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
+    "id": "bio_monowire",
+    "type": "bionic",
+    "name": { "str": "Monofilament Whip" },
+    "description": "Your left hand conceals three meters of monomolecular filament on an artificial diamond spool, extending behind a small counterweight in your thumbtip.  It requires a small amount of bionic power to activate, and prevents you from holding anything else while extended.",
+    "occupied_bodyparts": [ [ "hand_l", 5 ] ],
+    "act_cost": "50 J",
+    "fake_item": "bio_wire_weapon",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+  },
+  {
     "id": "bio_shotgun",
     "type": "bionic",
     "name": { "str": "Shotgun Arm" },
@@ -1134,10 +1144,10 @@
     "id": "bio_fuel_cell_hydrogen",
     "type": "bionic",
     "name": { "str": "Hydrogen Fuel Cell CBM" },
-    "description": "A small hydrogen fuel cell fixed to your scapula.  Fairly efficient and produces minimal heat, though the low density of even compressed hydrogen is a hindrance.  A network of compressors and fuel tanks has been distributed throughout your body to store fuel.",
+    "description": "A small hydrogen fuel cell fixed to your scapula.  Fairly efficient and high-yield, though the low density of compressed hydrogen and potential waste heat is a hindrance.  A network of compressors and fuel tanks has been distributed throughout your body, able to compactly store 2 liters of hydrogen.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "fuel_options": [ "c_hydrogen_gas" ],
-    "fuel_capacity": 500,
+    "fuel_capacity": 20,
     "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,
     "time": 1,
@@ -1291,6 +1301,7 @@
     "name": { "str": "Electrosense Voltmeter" },
     "description": "Using this bionic allows you to check the status of any local grid connections or battery charge in your surroundings, as well as make modifications to grid connections.",
     "act_cost": "10 J",
+    "fake_item": "voltmeter_bionic",
     "included": true
   },
   {
