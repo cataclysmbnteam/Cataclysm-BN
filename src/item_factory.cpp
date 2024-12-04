@@ -956,9 +956,7 @@ void Item_factory::init()
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
     add_iuse( "FILL_PIT", &iuse::fill_pit );
-    add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
-    add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
     add_iuse( "FIRECRACKER_PACK_ACT", &iuse::firecracker_pack_act );
     add_iuse( "FISH_ROD", &iuse::fishing_rod );
     add_iuse( "FISH_TRAP", &iuse::fish_trap );
@@ -1051,7 +1049,6 @@ void Item_factory::init()
     add_iuse( "STIMPACK", &iuse::stimpack );
     add_iuse( "STRONG_ANTIBIOTIC", &iuse::strong_antibiotic );
     add_iuse( "TAZER", &iuse::tazer );
-    add_iuse( "TAZER2", &iuse::tazer2 );
     add_iuse( "TELEPORT", &iuse::teleport );
     add_iuse( "THORAZINE", &iuse::thorazine );
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );

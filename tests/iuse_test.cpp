@@ -564,8 +564,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 TEST_CASE( "panacea", "[iuse][panacea]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "panacea", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "panacea", calendar::start_of_cataclysm );
     item &panacea = *det;
     dummy.i_add( std::move( det ) );
 
@@ -580,8 +579,7 @@ TEST_CASE( "panacea", "[iuse][panacea]" )
 TEST_CASE( "xanax", "[iuse][xanax]" )
 {
     avatar dummy;
-    detached_ptr<item> det = item::spawn( "xanax", calendar::start_of_cataclysm,
-                                          item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "xanax", calendar::start_of_cataclysm );
     item &xanax = *det;
     dummy.i_add( std::move( det ) );
 

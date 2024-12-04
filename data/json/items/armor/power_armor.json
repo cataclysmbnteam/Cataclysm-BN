@@ -686,7 +686,7 @@
     "storage": "15 L",
     "warmth": 10,
     "material_thickness": 8,
-    "max_charges": "500 kJ",
+    "max_power": "500 kJ",
     "relic_data": {
       "passive_effects": [
         {
