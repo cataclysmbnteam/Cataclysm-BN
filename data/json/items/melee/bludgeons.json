@@ -438,7 +438,7 @@
       "type": "transform"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "magazines": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "batteries": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
     "battery_well": "500 ml"
   },
   {
@@ -754,7 +754,7 @@
       "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_staff_on"
     },
-    "magazines": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
     "battery_well": "500 ml"
   },
   {
@@ -884,7 +884,7 @@
       "target": "shocktonfa_on"
     },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "magazines": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
     "battery_well": "500 ml"
   },
   {

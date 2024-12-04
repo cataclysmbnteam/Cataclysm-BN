@@ -1140,12 +1140,7 @@
     },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
     "magazine_well": "500 ml"
   },
   {
@@ -1199,12 +1194,7 @@
     },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
     "magazine_well": "500 ml"
   },
   {

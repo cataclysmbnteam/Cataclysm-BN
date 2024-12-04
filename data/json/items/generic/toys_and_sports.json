@@ -14,7 +14,7 @@
     "color": "pink",
     "power_draw": "1 kJ",
     "use_action": "DOLLCHAT",
-    "magazines": [
+    "batteries": [
       "light_minus_disposable_cell",
       "light_disposable_cell",
       "light_minus_battery_cell",
@@ -40,7 +40,7 @@
     "color": "pink",
     "power_draw": "1 kJ",
     "use_action": "DOLLCHAT",
-    "magazines": [
+    "batteries": [
       "light_minus_disposable_cell",
       "light_disposable_cell",
       "light_minus_battery_cell",
