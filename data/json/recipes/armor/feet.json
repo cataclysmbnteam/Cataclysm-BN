@@ -610,6 +610,18 @@
     "components": [ [ [ "rag", 4 ] ] ]
   },
   {
+    "result": "boots_rubber",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "80 m",
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 104, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "chunk_rubber", 26 ] ] ]
+  },
+  {
     "result": "carbon_boots",
     "type": "recipe",
     "category": "CC_ARMOR",

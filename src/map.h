@@ -828,6 +828,10 @@ class map
         /**
          * Returns the full harvest list, for spawning.
          */
+        // as above, but for furniture
+        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+                                         const std::map<tripoint, furn_id> &override = {} ) const;
+
         const harvest_id &get_harvest( const tripoint &p ) const;
         /**
          * Returns names of the items that would be dropped.

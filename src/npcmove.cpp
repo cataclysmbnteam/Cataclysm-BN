@@ -2083,7 +2083,7 @@ auto item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode
                               body_part_hand_r );
         // HACK: Doesn't check how much ammo they'll actually get from the reload. Because we don't know.
         // DPS is less impacted the larger the magazine being swapped.
-        reload_cost /= magazine_integral() ? 1 : ammo_capacity() / burst_size;
+        reload_cost /= magazine_integral() ? 1 : std::max( 1, ammo_capacity() / burst_size );
         move_cost += reload_cost;
     }
     std::vector<ranged::aim_type> aim_types = ranged::get_aim_types( who, *this );

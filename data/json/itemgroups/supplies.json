@@ -307,7 +307,7 @@
       [ "chem_agar", 10 ],
       [ "oxygen_tank", 6 ],
       [ "nitrogen_tank", 7 ],
-      { "item": "c_hydrogen_gas", "prob": 8, "container-item": "metal_tank_little", "charges": [ 1000, 2000 ] },
+      { "item": "c_hydrogen_gas", "prob": 8, "container-item": "metal_tank_little", "charges": [ 10, 20 ] },
       [ "salt", 10 ],
       [ "sugar", 10 ],
       [ "chem_ethanol", 10 ],

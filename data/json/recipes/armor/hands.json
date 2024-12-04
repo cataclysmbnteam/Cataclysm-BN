@@ -609,6 +609,19 @@
     "using": [ [ "chainmail_standard", 2 ] ]
   },
   {
+    "result": "gloves_rubber",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_electronics", 3 ] ],
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "chunk_rubber", 4 ] ] ]
+  },
+  {
     "result": "carbon_gloves",
     "type": "recipe",
     "category": "CC_ARMOR",

@@ -2672,6 +2672,10 @@ void monster::die( Creature *nkiller )
     for( const auto &deathfunction : type->dies ) {
         deathfunction( *this );
     }
+    // Process other on-death triggers (spawn monster(s), etc)
+    for( const auto &deathfunction : type->on_death ) {
+        deathfunction( *this );
+    }
 
     // If our species fears seeing one of our own die, process that
     int anger_adjust = 0;

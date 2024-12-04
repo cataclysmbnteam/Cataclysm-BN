@@ -2207,7 +2207,7 @@
   {
     "type": "item_group",
     "id": "fireman_torso",
-    "items": [ [ "bunker_coat", 80 ], [ "vest", 30 ], [ "thermal_cooling", 20 ] ]
+    "items": [ [ "bunker_coat", 80 ], [ "vest", 30 ], [ "thermal_cooling_suit", 20 ] ]
   },
   {
     "type": "item_group",

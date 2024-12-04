@@ -512,6 +512,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "decomp_learn": 5,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "time": "50 m",
     "reversible": true,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 3 ] ],

@@ -578,7 +578,7 @@
     "repairs_like": "gauntlets_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rubber gloves", "str_pl": "pairs of rubber gloves" },
-    "description": "A pair of rubber gloves, often used while cleaning with caustic materials.",
+    "description": "A pair of rubber gloves, often used while cleaning with caustic materials.  Mandatory for working with high voltage to ensure your safety.",
     "weight": "150 g",
     "volume": "1 L",
     "price": "13 USD",

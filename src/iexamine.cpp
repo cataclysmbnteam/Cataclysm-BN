@@ -5168,8 +5168,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             int broken_limbs_count = 0;
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &part = player::hp_to_bp( static_cast<hp_part>( i ) ).id();
+            for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
                 const bool broken = patient.is_limb_broken( part );
                 if( !broken ) {
                     continue;
@@ -5241,8 +5240,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
 
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_str_id &bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
+            for( const bodypart_id &bp : patient.get_all_body_parts( true ) ) {
+                const bodypart_str_id &bp_healed = bp.id();
                 if( patient.has_effect( effect_bleed, bp_healed ) ) {
                     patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
@@ -5316,6 +5315,7 @@ namespace sm_rack
 {
 const int MIN_CHARCOAL = 100;
 const int CHARCOAL_PER_LITER = 25;
+const units::volume MAX_FOOD_VOLUME_MILLING = units::from_liter( 100 );
 const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
 const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
 } // namespace sm_rack
@@ -5367,11 +5367,10 @@ static void mill_activate( player &p, const tripoint &examp )
         add_msg( _( "This mill is empty.  Fill it with starchy products such as wheat, barley or oats and try again." ) );
         return;
     }
-    // TODO: currently mill just uses sm_rack defined max volume
-    if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
+    if( food_volume > sm_rack::MAX_FOOD_VOLUME_MILLING ) {
         add_msg( _( "This mill is overloaded with products, and the millstone can't turn.  Remove some and try again." ) );
         add_msg( pgettext( "volume units", "You think that you can load about %s %s in it." ),
-                 format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() );
+                 format_volume( sm_rack::MAX_FOOD_VOLUME_MILLING ), volume_units_long() );
         return;
     }
 
@@ -5902,8 +5901,8 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
     }
 
     const bool empty = f_volume == 0_ml;
-    const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
-    const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
+    const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME_MILLING;
+    const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME_MILLING - f_volume;
 
     uilist smenu;
     smenu.text = _( "What to do with the mill?" );

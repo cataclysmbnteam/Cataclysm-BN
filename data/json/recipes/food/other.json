@@ -186,6 +186,7 @@
         [ "seed_canola", 4 ],
         [ "seed_grapes", 6 ],
         [ "seed_weed", 6 ],
+        [ "corn", 3 ],
         [ "rice_bran", 6 ]
       ]
     ]

@@ -249,7 +249,7 @@
     "dodge": 3,
     "harvest": "exempt",
     "special_attacks": [ [ "DOGTHING", 40 ] ],
-    "death_function": [ "THING" ],
+    "on_death": { "spawn_mon": "mon_thing" },
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "If you're seeing this message it's a bug.",
@@ -436,7 +436,7 @@
     "dodge": 4,
     "harvest": "exempt",
     "special_attacks": [ [ "TENTACLE", 5 ] ],
-    "death_function": [ "THING" ],
+    "on_death": { "spawn_mon": "mon_thing" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
   },
   {
