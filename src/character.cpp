@@ -7573,17 +7573,12 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
 
-    if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
+    if( used->is_tool() || used->count_by_charges() || used->is_comestible() ||
+        used->get_contained().is_comestible() ) {
         used->energy_consume( enrg, pt ) == enrg;
         return( consume_charges( *actually_used, chrg ) );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         used->detach();
-        return true;
-    } else if( used->count_by_charges() ) {
-        used->charges -= charges_used;
-        if( used->charges <= 0 ) {
-            used->detach();
-        }
         return true;
     }
 
@@ -10180,8 +10175,8 @@ std::vector<detached_ptr<item>> Character::use_energy( const itype_id &what,
                 units::energy power_found = std::min( e->energy_remaining(), power_needed );
                 e->energy_consume( power_found, p );
                 power_needed -= power_found;
-                return VisitResponse::SKIP;
             }
+            return VisitResponse::SKIP;
         } );
 
         return res;

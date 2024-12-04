@@ -419,7 +419,7 @@
     "dispersion": 180,
     "durability": 4,
     "loudness": 7,
-    "ups_charges": 20,
+    "power_draw": 20_kJ,
     "reload": 300,
     "valid_mod_locations": [
       [ "accessories", 2 ],

@@ -18,7 +18,6 @@
       "target": "plastic_jack_o_lantern_lit",
       "msg": "You light the candle in the jack o'lantern.",
       "active": true,
-      "cost": 1,
       "menu_text": "Light",
       "type": "transform"
     }
