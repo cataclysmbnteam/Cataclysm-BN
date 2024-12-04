@@ -1220,11 +1220,7 @@
     "revert_to": "shishkebab_off",
     "revert_msg": "Bummer, man!  Your shishkebab's flame flickers and dies out.",
     "use_action": [
-      {
-      "type": "transform",
-      "target": "firemachete_off",
-      "msg": "Peace out.  Your shishkebab's flame dies."
-      },
+      { "type": "transform", "target": "firemachete_off", "msg": "Peace out.  Your shishkebab's flame dies." },
       { "type": "firestarter", "moves": 30 }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_DISABLE" ]
@@ -1282,11 +1278,7 @@
     "revert_msg": "Your No. 9 cuts out!",
     "techniques": [ "WBLOCK_2" ],
     "use_action": [
-      {
-      "type": "transform",
-      "target": "firemachete_off",
-      "msg": "Your No. 9 goes dark."
-      },
+      { "type": "transform", "target": "firemachete_off", "msg": "Your No. 9 goes dark." },
       { "type": "firestarter", "moves": 30 }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
@@ -1339,16 +1331,9 @@
     "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "firekatana_off",
-    "revert_msg":  "The Light Fades.",
+    "revert_msg": "The Light Fades.",
     "techniques": [ "RAPID", "WBLOCK_2" ],
-    "use_action": [
-      {
-      "type": "transform",
-      "target": "firekatana_off",
-      "msg": "The Sun sets."
-      },
-      { "type": "firestarter", "moves": 30 }
-    ],
+    "use_action": [ { "type": "transform", "target": "firekatana_off", "msg": "The Sun sets." }, { "type": "firestarter", "moves": 30 } ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   },
   {
@@ -1391,14 +1376,7 @@
     "turns_per_charge": 30,
     "revert_to": "broadfire_off",
     "revert_msg": "Thy strength fades!",
-    "use_action": [
-      {
-      "type": "transform",
-      "target": "broadfire_off",
-      "msg": "Run away!"
-      },
-      { "type": "firestarter", "moves": 30 }
-    ],
+    "use_action": [ { "type": "transform", "target": "broadfire_off", "msg": "Run away!" }, { "type": "firestarter", "moves": 30 } ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_DISABLE" ]
   },
   {
@@ -1454,11 +1432,7 @@
     "revert_msg": "Dein Schwert zischt und erlischt.",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "use_action": [
-      {
-      "type": "transform",
-      "target": "zweifire_off",
-      "msg": "Die Flamme deines Schwertes erlischt."
-      },
+      { "type": "transform", "target": "zweifire_off", "msg": "Die Flamme deines Schwertes erlischt." },
       { "type": "firestarter", "moves": 30 }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ]
