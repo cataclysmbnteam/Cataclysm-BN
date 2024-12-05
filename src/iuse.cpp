@@ -3960,7 +3960,7 @@ int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
     if( roll == num_sides ) {
         add_msg( m_good, _( "Critical!" ) );
     }
-    return roll;
+    return 0;
 }
 
 int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
