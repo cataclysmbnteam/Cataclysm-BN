@@ -6332,7 +6332,7 @@ void iexamine::cardreader_plutgen( player &p, const tripoint &examp ) {
         here.ter_set( examp, t_concrete );
         here.add_item_or_charges( examp, item::spawn( itype_plut_generator_item, calendar::turn ) );
     } else {
-        add_msg( _( "The plutonium generator has significant security measures in place. If you don't have the necessary ID card, you'll have to remove it by hand." ) );
+        add_msg( _( "The plutonium generator has significant security measures in place. Without the necessary ID, you'll have to remove it by hand." ) );
     }
 }
 
