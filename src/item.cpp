@@ -2235,7 +2235,6 @@ auto nname( const itype_id &id ) -> std::string
 void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int /* batch */, bool /* debug */ ) const
 {
-    const std::string space = "  ";
     const islot_gun &gun = *mod->type->gun;
     const Skill &skill = *mod->gun_skill();
     avatar &viewer = get_avatar();
@@ -3023,14 +3022,15 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
     if( book.skill ) {
         const SkillLevel &skill = you.get_skill_level_object( book.skill );
-        if( skill.can_train() && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
+        if( parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
             const std::string skill_name = book.skill->name();
-            std::string fmt = string_format( _( "Can bring your <info>%s skill to</info> "
-                                                "<num>." ), skill_name );
-            info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, book.level );
-            fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ),
-                                 skill_name );
-            info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, skill.level() );
+            const std::string fmt = string_format( _( "Can bring <info>%s skill to</info> "
+                                                   "<num>." ), skill_name );
+            info.emplace_back( "BOOK", "", skill.can_train() ? fmt : colorize( fmt, c_brown ),
+                               iteminfo::no_flags, book.level );
+            info.emplace_back( "BOOK", "",
+                               string_format( _( "Your current <stat>%s skill</stat> is <num>." ), skill_name ),
+                               iteminfo::no_flags, skill.level() );
         }
 
         if( book.req != 0 && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MIN ) ) {
