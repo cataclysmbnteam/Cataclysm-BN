@@ -6320,7 +6320,8 @@ void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
     }
 }
 
-void iexamine::cardreader_plutgen( player &p, const tripoint &examp ) {
+void iexamine::cardreader_plutgen( player &p, const tripoint &examp )
+{
     map &here = get_map();
     itype_id card_type = itype_id_military;
     if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
@@ -6328,7 +6329,8 @@ void iexamine::cardreader_plutgen( player &p, const tripoint &examp ) {
         p.mod_moves( -100 );
         p.use_amount( card_type, 1 );
         add_msg( _( "You insert your ID card." ) );
-        add_msg( m_good, _( "The plutonium generator beeps twice, then disengages from the surrounding conduits with a series of mechanical clunks." ) );
+        add_msg( m_good,
+                 _( "The plutonium generator beeps twice, then disengages from the surrounding conduits with a series of mechanical clunks." ) );
         here.ter_set( examp, t_concrete );
         here.add_item_or_charges( examp, item::spawn( itype_plut_generator_item, calendar::turn ) );
     } else {
@@ -6430,7 +6432,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "dimensional_portal", &iexamine::dimensional_portal },
             { "check_power", &iexamine::check_power },
             { "migo_nerve_cluster", &iexamine::migo_nerve_cluster },
-            { "cardreader_plutgen", &iexamine::cardreader_plutgen }, 
+            { "cardreader_plutgen", &iexamine::cardreader_plutgen },
         }
     };
 
