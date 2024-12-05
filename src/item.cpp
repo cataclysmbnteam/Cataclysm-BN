@@ -3026,7 +3026,8 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             const std::string skill_name = book.skill->name();
             std::string fmt = string_format( _( "Can bring <info>%s skill to</info> "
                                                 "<num>." ), skill_name );
-            info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, book.level );
+            info.emplace_back( "BOOK", "", skill.can_train() ? fmt : colorize( fmt, c_brown ),
+                               iteminfo::no_flags, book.level );
             fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ),
                                  skill_name );
             info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, skill.level() );
