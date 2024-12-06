@@ -41,6 +41,10 @@ class weapon_category
             return name_;
         }
 
+        const translation &shorthand() const {
+            return shorthand_;
+        }
+
     private:
         friend class generic_factory<weapon_category>;
 
@@ -48,6 +52,7 @@ class weapon_category
         bool was_loaded = false;
 
         translation name_;
+        translation shorthand_;
 };
 
 matype_id martial_art_learned_from( const itype & );
