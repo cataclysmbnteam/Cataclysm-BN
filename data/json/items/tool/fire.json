@@ -15,10 +15,7 @@
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": { "type": "firestarter", "moves": 50 },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_plus_battery_cell",
@@ -26,8 +23,6 @@
           "light_minus_atomic_battery_cell",
           "light_minus_disposable_cell",
           "light_disposable_cell"
-        ]
-      ]
     ],
     "flags": [ "FIRESTARTER" ]
   },
@@ -273,6 +268,6 @@
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 50 },
     "magazine_well": "50 ml",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
+    "batteries": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
   }
 ]

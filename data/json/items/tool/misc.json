@@ -104,12 +104,7 @@
     "price_postapoc": "1 USD",
     "material": "plastic",
     "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
+    "batteries": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ],
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
@@ -138,12 +133,7 @@
     "ammo": "battery",
     "power_draw": 9000,
     "revert_to": "dab_pen",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
+    "batteries": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ],
     "charges_per_use": 1,
     "max_charges": 100,
     "use_action": {
@@ -176,10 +166,7 @@
       "need_charges": 1,
       "need_charges_msg": "Batteries not included."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_battery_cell",
@@ -187,10 +174,8 @@
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
-        ]
-      ]
     ],
-    "magazine_well": "250 ml",
+    "battery_well": "250 ml",
     "relic_data": {
       "passive_effects": [
         {
@@ -458,10 +443,8 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1000 ml"
+    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ],
+    "battery_well": "1000 ml"
   },
   {
     "id": "large_space_heater_on",
@@ -669,13 +652,8 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "small_space_heater_on",

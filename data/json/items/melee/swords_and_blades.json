@@ -1141,7 +1141,7 @@
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml"
   },
   {
     "id": "shock_foil_on",
@@ -1195,7 +1195,7 @@
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml"
   },
   {
     "id": "shock_epee_on",
@@ -1247,13 +1247,8 @@
     },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "shock_sabre_on",
@@ -1376,13 +1371,8 @@
     },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "shock_rapier_on",
@@ -1564,10 +1554,8 @@
       "need_dry": true
     },
     "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1000 ml"
+    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ],
+    "battery_well": "1000 ml"
   },
   {
     "id": "ecs_lajatang_on",
@@ -1585,7 +1573,7 @@
     "use_action": { "type": "transform", "target": "ecs_lajatang_off", "msg": "You turn off the chainsaw lajatang." },
     "qualities": [ [ "BUTCHER", -250 ] ],
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND", "WATER_DISABLE" ],
-    "magazine_well": "1000 ml"
+    "battery_well": "1000 ml"
   },
   {
     "id": "cutlass",
@@ -1769,12 +1757,7 @@
     },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "POWERED" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
     "magazine_well": "500 ml"
   },
   {
@@ -1792,7 +1775,7 @@
     "revert_msg": "Your combat chainsaw goes quiet",
     "use_action": { "type": "transform", "target": "e_combatsaw_off", "msg": "You turn off the combat chainsaw." },
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND", "WATER_DISABLE" ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml"
   },
   {
     "id": "dagger_medieval",

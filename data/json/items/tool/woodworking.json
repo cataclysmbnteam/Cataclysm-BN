@@ -101,13 +101,8 @@
     "charges_per_use": 5,
     "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "circsaw_on",
@@ -198,7 +193,7 @@
     },
     "flags": [ "NONCONDUCTIVE", "POWERED" ],
     "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml"
   },
   {
     "id": "elec_chainsaw_on",

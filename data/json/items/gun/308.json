@@ -53,7 +53,7 @@
     "material": "hardsteel",
     "color": "dark_gray",
     "ammo": "308",
-    "ups_charges": 1,
+    "power_draw": 1,
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "durability": 9,
     "blackpowder_tolerance": 96,

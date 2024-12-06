@@ -166,16 +166,6 @@
   },
   {
     "type": "item_action",
-    "id": "fireweapon_off",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "fireweapon_on",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "transform",
     "name": { "str": "Turn on" }
   },

@@ -171,7 +171,7 @@
       "light_plus_battery_cell",
       "light_atomic_battery_cell"
     ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml"
   },
   {
     "id": "electric_lantern_on",
@@ -207,10 +207,7 @@
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_battery_cell",
@@ -218,10 +215,8 @@
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
-        ]
-      ]
     ],
-    "magazine_well": "100 ml"
+    "battery_well": "100 ml"
   },
   {
     "id": "flashlight_on",
@@ -397,10 +392,7 @@
       "need_charges": 1,
       "need_charges_msg": "The heavy duty flashlight's batteries are dead."
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "light_disposable_cell",
           "light_minus_disposable_cell",
           "light_plus_battery_cell",
@@ -408,10 +400,8 @@
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
-        ]
-      ]
     ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml"
   },
   {
     "id": "heavy_flashlight_on",
@@ -470,10 +460,7 @@
       "need_charges": 1,
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -481,8 +468,6 @@
           "light_minus_atomic_battery_cell",
           "light_minus_disposable_cell",
           "light_disposable_cell"
-        ]
-      ]
     ]
   },
   {
@@ -584,8 +569,8 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
-    "magazine_well": "100 ml"
+    "batteries": [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ],
+    "battery_well": "100 ml"
   },
   {
     "id": "reading_light_on",
@@ -624,10 +609,7 @@
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -635,10 +617,8 @@
           "light_minus_atomic_battery_cell",
           "light_minus_disposable_cell",
           "light_disposable_cell"
-        ]
-      ]
     ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml"
   },
   {
     "id": "smart_lamp_on",

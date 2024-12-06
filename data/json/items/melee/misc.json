@@ -109,7 +109,7 @@
     "power_draw": "100 kJ",
     "use_action": "TAZER",
     "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "magazine_well": "500 ml",
+    "battery_well": "500 ml",
     "flags": [ "BELT_CLIP" ]
   }
 ]

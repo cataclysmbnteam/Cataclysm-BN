@@ -297,7 +297,7 @@
     "skill": "rifle",
     "dispersion": 90,
     "durability": 6,
-    "ups_charges": 40,
+    "power_draw": 40,
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [

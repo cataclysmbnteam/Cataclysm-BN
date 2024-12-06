@@ -1220,7 +1220,7 @@
     "revert_to": "shishkebab_off",
     "revert_msg": "Bummer, man!  Your shishkebab's flame flickers and dies out.",
     "use_action": [
-      { "type": "transform", "target": "firemachete_off", "msg": "Peace out.  Your shishkebab's flame dies." },
+      { "type": "transform", "target": "shishkebab_off", "msg": "Peace out.  Your shishkebab's flame dies." },
       { "type": "firestarter", "moves": 30 }
     ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_DISABLE" ]
@@ -4113,7 +4113,7 @@
     "weight": "40860 g",
     "ammo": "battery",
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
+    "batteries": [ "large_storage_battery", "storage_battery" ],
     "volume": "27 L",
     "price": "1 kUSD",
     "to_hit": -10,
@@ -4138,7 +4138,7 @@
     "material": "steel",
     "ammo": "battery",
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
+    "batteries": [ "large_storage_battery", "storage_battery" ],
     "symbol": "E",
     "color": "dark_gray",
     "use_action": {
@@ -4167,7 +4167,7 @@
     "power_draw": 120000,
     "revert_to": "vac_oven_small_full",
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
+    "batteries": [ "large_storage_battery", "storage_battery" ],
     "material": "steel",
     "symbol": "E",
     "color": "dark_gray",
@@ -4196,7 +4196,7 @@
     "bashing": 10,
     "ammo": "battery",
     "charges_per_use": 1,
-    "magazines": [ [ "battery", [ "large_storage_battery", "storage_battery" ] ] ],
+    "batteries": [ "large_storage_battery", "storage_battery" ],
     "material": "steel",
     "symbol": "E",
     "color": "dark_gray",
@@ -4229,10 +4229,7 @@
       "need_charges_msg": "The vacuum pump's batteries need more charge.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -4245,8 +4242,6 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
-      ]
     ]
   },
   {
@@ -4278,10 +4273,7 @@
       "need_charges_msg": "The vacuum pump's batteries need more charge.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -4294,8 +4286,6 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
-      ]
     ]
   },
   {
@@ -4326,10 +4316,7 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -4342,8 +4329,6 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
-      ]
     ],
     "qualities": [ [ "EXTRACT", 2 ] ]
   },
@@ -4375,10 +4360,7 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -4391,8 +4373,6 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
-      ]
     ],
     "qualities": [ [ "EXTRACT", 2 ] ]
   },
@@ -4414,10 +4394,7 @@
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
     "ammo": "battery",
     "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -4430,8 +4407,6 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
-      ]
     ],
     "use_action": {
       "target": "closed_loop_extractor_large_on",
@@ -4464,10 +4439,7 @@
     "power_draw": 1500000,
     "revert_to": "closed_loop_extractor_large",
     "charges_per_use": 1,
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [ 
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "medium_disposable_cell",
@@ -4480,8 +4452,6 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
-      ]
     ],
     "use_action": {
       "target": "closed_loop_extractor_large",
@@ -4636,12 +4606,7 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "lobster",

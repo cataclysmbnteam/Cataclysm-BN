@@ -385,7 +385,7 @@
       "active": true,
       "menu_text": "Light up",
       "need_dry": true,
-      "need_fire": true,
+      "need_fire": 1,
       "type": "transform"
     },
     "flags": [ "GRENADE" ]
@@ -432,7 +432,7 @@
       "active": true,
       "menu_text": "Light up",
       "need_dry": true,
-      "need_fire": true,
+      "need_fire": 1,
       "type": "transform"
     },
     "flags": [ "GRENADE" ]

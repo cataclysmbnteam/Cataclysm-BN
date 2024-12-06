@@ -216,10 +216,8 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1000 ml"
+    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ],
+    "battery_well": "1000 ml"
   },
   {
     "id": "kiln_done",

@@ -44,7 +44,7 @@
     "dispersion": 180,
     "loudness": 5,
     "durability": 5,
-    "ups_charges": 20,
+    "power_draw": 20,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

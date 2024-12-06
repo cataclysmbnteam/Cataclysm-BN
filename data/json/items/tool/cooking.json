@@ -93,12 +93,7 @@
       "need_dry": true
     },
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
     "magazine_well": "500 ml"
   },
   {
@@ -251,12 +246,7 @@
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell"    ],
     "magazine_well": "500 ml"
   },
   {
@@ -276,13 +266,8 @@
     "color": "blue",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "eggs_ferment",
@@ -475,13 +460,8 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "gasoline_cooker",
@@ -541,13 +521,8 @@
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "jar_eggs_pickled",
@@ -638,12 +613,7 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "mess_kit",
@@ -665,13 +635,8 @@
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "mess_tin",
@@ -711,13 +676,8 @@
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "mortar_pestle",
@@ -754,13 +714,8 @@
     "power_draw": "1J",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "multi_cooker_filled",
@@ -1020,13 +975,8 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+    "battery_well": "500 ml"
   },
   {
     "id": "waffleiron",
@@ -1064,10 +1014,7 @@
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "batteries": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -1075,10 +1022,8 @@
           "light_minus_atomic_battery_cell",
           "light_minus_disposable_cell",
           "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+        ],
+    "battery_well": "250 ml"
   },
   {
     "type": "GENERIC",

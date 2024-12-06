@@ -20,7 +20,7 @@
     "dispersion": 90,
     "durability": 6,
     "loudness": 15,
-    "ups_charges": 40,
+    "power_draw": 40,
     "reload": 600,
     "valid_mod_locations": [
       [ "emitter", 1 ],
