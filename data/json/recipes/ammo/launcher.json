@@ -241,7 +241,6 @@
     "delete_flags": [ "FILTHY" ],
     "flags": [ "ALLOW_FILTHY" ]
   },
-
   {
     "type": "recipe",
     "result": "gelled_gasoline",
@@ -256,11 +255,11 @@
     "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 5 ] ] ],
     "delete_flags": [ "FILTHY" ],
     "flags": [ "ALLOW_FILTHY" ]
-  },  
+  },
   {
     "type": "recipe",
     "result": "gelled_gasoline",
-    "id_suffix": "detergent",    
+    "id_suffix": "detergent",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_LAUNCHER",
     "skill_used": "cooking",
