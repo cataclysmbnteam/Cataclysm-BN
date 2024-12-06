@@ -5006,6 +5006,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string modtext;
+    if( !this->type->weapon_category.empty() ) {
+        modtext += colorize( this->type->weapon_category.begin()->obj().shorthand(), c_white_cyan ) + " ";
+    }
     if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
     }
