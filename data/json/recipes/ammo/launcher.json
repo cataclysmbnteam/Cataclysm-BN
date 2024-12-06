@@ -244,7 +244,6 @@
   {
     "type": "recipe",
     "result": "gelled_gasoline",
-    "id_suffix": "detergent",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_LAUNCHER",
     "skill_used": "cooking",
