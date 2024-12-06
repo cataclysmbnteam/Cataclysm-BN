@@ -961,7 +961,8 @@ static units::energy energy_of_internal( const T &self, const M &main, const ity
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
         if( ( e->typeId() == id || id == itype_id( "any" ) ) && filter( *e ) ) {
-            power_found = sum_no_wrap( power_found, e->energy_remaining() );
+            power_found = units::from_joule( sum_no_wrap( units::to_joule( power_found ),
+                                             units::to_joule( e->energy_remaining() ) ) );
             if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                 found_tool_with_UPS = true;
             }

@@ -153,7 +153,6 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "target": "electric_lantern_on",
@@ -180,6 +179,7 @@
     "name": { "str": "electric lantern (on)", "str_pl": "electric lanterns (on)" },
     "power_draw": "3 J",
     "revert_to": "electric_lantern",
+    "revert_msg": "The lamp runs out of power.",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
     "flags": [ "RADIO_MODABLE", "LIGHT_20", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },

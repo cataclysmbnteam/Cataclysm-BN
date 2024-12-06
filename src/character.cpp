@@ -10172,11 +10172,13 @@ std::vector<detached_ptr<item>> Character::use_energy( const itype_id &what,
                 return VisitResponse::NEXT;
             }
             if( e->has_flag( flag_IS_UPS ) ) {
-                units::energy power_found = std::min( e->energy_remaining(), power_needed );
-                e->energy_consume( power_found, p );
-                power_needed -= power_found;
+                power_needed -= e->energy_consume( power_needed, p );
+
+                return VisitResponse::SKIP;
             }
-            return VisitResponse::SKIP;
+
+            // recurse through any nested containers
+            return VisitResponse::NEXT;
         } );
 
         return res;

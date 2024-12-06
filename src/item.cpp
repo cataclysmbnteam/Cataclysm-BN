@@ -10110,7 +10110,9 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
     }
 
     int charges_to_use = 0;
+    bool charge_dependent = charges_to_use;
     units::energy energy_to_use = self->energy_required();
+    bool energy_dependent = energy_to_use > 0_J;
 
     const bool uses_UPS = self->has_flag( flag_USE_UPS );
     bool revert_destroy = false;
@@ -10137,6 +10139,8 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
                 }
             }
 
+            energy_to_use -= self->energy_consume( energy_to_use, pos );
+
             // for items in player possession if insufficient charges within tool try UPS
             if( carrier && uses_UPS ) {
                 if( carrier->use_energy_if_avail( itype_UPS, energy_to_use ) ) {
@@ -10148,7 +10152,9 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
         // HACK: this means that UPS items will last one more check longer than they should since they don't trigger when
         // their ammo_remaining is 0, since that doesn't check the UPS "stock" available (which is an expensive check)
         // It's done like this cause grenades must be destroyed when charge reaches 0, or it will linger an extra turn.
-        if( ( self->ammo_remaining() == 0 && !uses_UPS ) || energy_to_use > 0_J || charges_to_use > 0 ) {
+        if( ( charge_dependent && self->ammo_remaining() == 0 ) ||
+            ( energy_dependent && self->energy_remaining() == 0_J && !uses_UPS ) ||
+            energy_to_use > 0_J || charges_to_use > 0 ) {
             revert_destroy = true;
             if( carrier ) {
                 if( self->is_power_armor() ) {
