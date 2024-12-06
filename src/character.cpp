@@ -6094,6 +6094,17 @@ void Character::set_part_temp_cur( const bodypart_id &id, int temp )
     get_part( id ).set_temp_cur( temp );
 }
 
+std::map<bodypart_id, int> Character::get_temp_cur()
+{
+    std::map<bodypart_id, int> temps;
+
+    for( auto &pr : get_body() ) {
+        bodypart &bp = pr.second;
+        temps[bp.get_id()] = bp.get_temp_cur();
+    }
+    return temps;
+}
+
 void Character::set_temp_cur( int temp )
 {
     // There may be a cleaner way to do this.

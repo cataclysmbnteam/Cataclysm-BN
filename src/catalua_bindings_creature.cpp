@@ -418,6 +418,9 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_N_T( get_part_temp_cur, "get_part_temp_btu", int( const bodypart_id & id ) const );
         DOC( "Sets a specific body part to a given temperature (in Body Temperature Units)." );
         SET_FX_N_T( set_part_temp_cur, "set_part_temp_btu", void( const bodypart_id & id, int temp ) );
+        DOC( "Gets all bodyparts and their associated temperatures (in Body Temperature Units)." );
+        // May want to remove the 'resolve' call, but it clarifies the type...
+        luna::set_fx( ut, "get_temp_btu", sol::resolve< std::map<bodypart_id, int>() >( &UT_CLASS::get_temp_cur ) );
         DOC( "Sets ALL body parts on a creature to the given temperature (in Body Temperature Units)." );
         SET_FX_N_T( set_temp_cur, "set_temp_btu", void( int temp ) );
 
