@@ -307,7 +307,7 @@
     "book_learn": [ [ "textbook_anarch", 2 ] ],
     "components": [
       [ [ "gasoline", 100 ] ],
-      [ [ "powder_eggs", 30 ] ],
+      [ [ "powder_eggs", 12 ] ],
       [ [ "salt", 3 ], [ "coffee", 3 ], [ "tea_raw", 3 ], [ "sugar", 3 ], [ "material_quicklime", 3 ] ]
     ],
     "delete_flags": [ "FILTHY" ],
