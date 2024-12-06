@@ -253,22 +253,6 @@
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "textbook_anarch", 2 ] ],
-    "components": [ [ [ "gasoline", 100 ] ], [ [ "detergent", 30 ] ] ],
-    "delete_flags": [ "FILTHY" ],
-    "flags": [ "ALLOW_FILTHY" ]
-  },
-  {
-    "type": "recipe",
-    "result": "gelled_gasoline",
-    "id_suffix": "detergent",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_LAUNCHER",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "10 m",
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "book_learn": [ [ "textbook_anarch", 2 ] ],
     "components": [ [ [ "gasoline", 100 ] ], [ [ "detergent", 30 ] ], [ [ "chem_ethanol", 1 ] ] ],
     "delete_flags": [ "FILTHY" ],
     "flags": [ "ALLOW_FILTHY" ]
