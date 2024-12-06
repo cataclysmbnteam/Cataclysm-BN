@@ -3,324 +3,378 @@
     "type": "weapon_category",
     "id": "FIST_WEAPONS",
     "name": "Fist Weapons",
+    "shorthand": "FST",
     "//": "Handheld weapons used to supplement fists in martial arts."
   },
   {
     "type": "weapon_category",
     "id": "STILETTOS",
     "name": "Stilettos",
+    "shorthand": "STL",
     "//": "Short, tapering 'blade' fixed onto a handle, has no cutting edge"
   },
   {
     "type": "weapon_category",
     "id": "KNIVES",
     "name": "Knives",
+    "shorthand": "KNF",
     "//": "Short blade fixed onto a handle, for cutting or as weapon."
   },
   {
     "type": "weapon_category",
     "id": "SHORT_SWORDS",
     "name": "Short Swords",
+    "shorthand": "SSW",
     "//": "One handed sword of length between a large knife and a 'proper' sword."
   },
   {
     "type": "weapon_category",
     "id": "1H_SWORDS",
     "name": "One-handed Swords",
+    "shorthand": "1HS",
     "//": "Sword meant to be wielded with one hand."
   },
   {
     "type": "weapon_category",
     "id": "2H_SWORDS",
     "name": "Two-handed Swords",
+    "shorthand": "2HS",
     "//": "Sword meant to be wielded with both hands."
   },
   {
     "type": "weapon_category",
     "id": "DUELING_SWORDS",
     "name": "Dueling Swords",
+    "shorthand": "DLS",
     "//": "Swords with thin profiles typically meant for stabbing."
   },
   {
     "type": "weapon_category",
     "id": "BIONIC_SWORDS",
     "name": "Bionic Swords",
+    "shorthand": "BNS",
     "//": "Swords integrated into the body via bionics."
   },
   {
     "type": "weapon_category",
     "id": "SAPS",
     "name": "Saps",
+    "shorthand": "SAP",
     "//": "Very short length of typically flexible material, with a weighted tip."
   },
   {
     "type": "weapon_category",
     "id": "BATONS",
     "name": "Batons",
+    "shorthand": "BTN",
     "//": "Thin, balanced rod of strong material."
   },
   {
     "type": "weapon_category",
     "id": "TONFAS",
     "name": "Tonfas",
+    "shorthand": "TNF",
     "//": "Unique looking T-shaped baton believed to originate from China."
   },
   {
     "type": "weapon_category",
     "id": "CLUBS",
     "name": "Clubs",
+    "shorthand": "CLB",
     "//": "Rod with a thicker striking head. May be one or two-handed."
   },
   {
     "type": "weapon_category",
     "id": "QUARTERSTAVES",
     "name": "Quarterstaves",
+    "shorthand": "QST",
     "//": "Long pole wielded with both hands."
   },
   {
     "type": "weapon_category",
     "id": "MACES",
     "name": "Maces",
+    "shorthand": "MCE",
     "//": "Short one-handed weapon with a striking head firmly attached to a short handle."
   },
   {
     "type": "weapon_category",
     "id": "MORNINGSTARS",
     "name": "Morningstars",
+    "shorthand": "MRN",
     "//": "Typically two-handed weapon with a striking head firmly attached to a long handle."
   },
   {
     "type": "weapon_category",
     "id": "FLAILS",
     "name": "Flails",
+    "shorthand": "FLA",
     "//": "Striking head attached to handle by flexible rope/chain."
   },
   {
     "type": "weapon_category",
     "id": "1H_HAMMERS",
     "name": "One-handed Hammers",
+    "shorthand": "1HH",
     "//": "Hammers meant to be wielded with a single hand."
   },
   {
     "type": "weapon_category",
     "id": "2H_HAMMERS",
     "name": "Two-handed Hammers",
+    "shorthand": "2HH",
     "//": "Hammers meant to be wielded with both hands."
   },
   {
     "type": "weapon_category",
     "id": "HAND_AXES",
     "name": "Hand Axes",
+    "shorthand": "HAX",
     "//": "Axe with a short handle, typically wielded in one hand, ocassionally thrown."
   },
   {
     "type": "weapon_category",
     "id": "1H_AXES",
     "name": "One-handed Axes",
+    "shorthand": "1HA",
     "//": "Axes meant to be wielded with one hand, typically with a handle longer than the handaxe."
   },
   {
     "type": "weapon_category",
     "id": "2H_AXES",
     "name": "Two-handed Axes",
+    "shorthand": "2HA",
     "//": "Axes meant to be wielded with two hands."
   },
   {
     "type": "weapon_category",
     "id": "WHIPS",
     "name": "Whips",
+    "shorthand": "WHP",
     "//": "Flexible tool used to strike at range."
   },
   {
     "type": "weapon_category",
     "id": "1H_HOOKED",
     "name": "One-handed Hooking",
+    "shorthand": "1HK",
     "//": "One handed weapon with hooking capability that doesn't fall under traditional classification (ie: not a hammer or an axe)."
   },
   {
     "type": "weapon_category",
     "id": "HOOKED_POLES",
     "name": "Hooked Polearms",
+    "shorthand": "HPL",
     "//": "Polearm with hooked end (Like a shepherd's crook)"
   },
   {
     "type": "weapon_category",
     "id": "SPEARS",
     "name": "Spears",
+    "shorthand": "SPR",
     "//": "Polearm with a long shaft and a sharp tip made of hard material."
   },
   {
     "type": "weapon_category",
     "id": "PIKES",
     "name": "Pikes",
+    "shorthand": "PIK",
     "//": "Very long spear that can only be wielded in two hands, very unwieldy."
   },
   {
     "type": "weapon_category",
     "id": "GLAIVES",
     "name": "Glaives",
+    "shorthand": "GLV",
     "//": "Polearm with a single-edged blade mounted on the end."
   },
   {
     "type": "weapon_category",
     "id": "MEDIEVAL_SWORDS",
     "name": "Medieval Swords",
+    "shorthand": "MDS",
     "//": "Swords associated with European culture."
   },
   {
     "type": "weapon_category",
     "id": "JAPANESE_SWORDS",
     "name": "Japanese Swords",
+    "shorthand": "JPS",
     "//": "Swords associated with Japanese culture."
   },
   {
     "type": "weapon_category",
     "id": "BIONIC_WEAPONRY",
     "name": "Bionic Weaponry",
+    "shorthand": "BNW",
     "//": "Weapons integrated into the body via bionics."
   },
   {
     "type": "weapon_category",
     "id": "BOWS",
     "name": "Bows",
+    "shorthand": "BOW",
     "//": "Elastic launching device for long-shafted projectiles."
   },
   {
     "type": "weapon_category",
     "id": "M_XBOWS",
     "name": "Crossbows",
+    "shorthand": "XBW",
     "//": "Elastic launching device mounted on a frame to be triggered.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "S_XBOWS",
     "name": "Hand Crossbows",
+    "shorthand": "HXB",
     "//": "One-handed crossbows.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "SLINGSHOTS",
     "name": "Slingshots",
+    "shorthand": "SLG",
     "//": "Elastic, handheld launching device typically used for small round projectiles."
   },
   {
     "type": "weapon_category",
     "id": "SLINGS",
     "name": "Slings",
+    "shorthand": "SLN",
     "//": "Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles."
   },
   {
     "type": "weapon_category",
     "id": "PISTOLS",
     "name": "Pistols",
+    "shorthand": "PST",
     "//": "Handgun with a chamber integral to the gun barrel. In-game, any handgun that isn't a revolver goes here."
   },
   {
     "type": "weapon_category",
     "id": "REVOLVERS",
     "name": "Revolvers",
+    "shorthand": "RVV",
     "//": "Repeating handgun with a revolving cylinder containing multiple chambers."
   },
   {
     "type": "weapon_category",
     "id": "SUBMACHINE_GUNS",
     "name": "Submachine Guns",
+    "shorthand": "SMG",
     "//": "Magazine fed automatic carbine designed to fire handgun cartridges."
   },
   {
     "type": "weapon_category",
     "id": "RIFLES",
     "name": "Rifles",
+    "shorthand": "RF",
     "//": "Long barrelled firearms designed for more accurate shooting."
   },
   {
     "type": "weapon_category",
     "id": "MACHINE_GUNS",
     "name": "Machine Guns",
+    "shorthand": "MG",
     "//": "Fully automatic autoloading firearm designed for sustained fire."
   },
   {
     "type": "weapon_category",
     "id": "GATLING_GUNS",
     "name": "Gatling Guns",
+    "shorthand": "GTL",
     "//": "Rapid firing multi barrel firearm."
   },
   {
     "type": "weapon_category",
     "id": "SHOTGUNS",
     "name": "Shotguns",
+    "shorthand": "SHT",
     "//": "Long barreled firearm generally designed to fire shotshells."
   },
   {
     "type": "weapon_category",
     "id": "GRENADE_LAUNCHERS",
     "name": "Grenade Launchers",
+    "shorthand": "GLN",
     "//": "Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc).  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "ROCKET_LAUNCHERS",
     "name": "Rocket Launchers",
+    "shorthand": "RL",
     "//": "Firearm that propels unguided, rocket-propelled projectile.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "FLAMETHROWERS",
     "name": "Flamethrowers",
+    "shorthand": "FTW",
     "//": "Ranged incendiary device designed to propel a controllable jet of fire.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "WATER_CANNONS",
     "name": "Water Cannons",
+    "shorthand": "WTR",
     "//": "It fires water at your enemies.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "SPRAY_GUNS",
     "name": "Spray Guns",
+    "shorthand": "CHM",
     "//": "It spews chemicals at your enemies.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "1SHOT",
     "name": "One Shot",
+    "shorthand": "OSH",
     "//": "Ranged weapon with at least one barrel but no loading system/magazine."
   },
   {
     "type": "weapon_category",
     "id": "AUTOLOADING",
     "name": "Autoloading",
+    "shorthand": "AUT",
     "//": "Ranged weapon with autoloading mechanisms like blowback, gas-operated, or recoil operated systems."
   },
   {
     "type": "weapon_category",
     "id": "MANUAL_ACTION",
     "name": "Manual Action",
+    "shorthand": "MNL",
     "//": "Ranged weapon using manual actions like bolt/pump/lever."
   },
   {
     "type": "weapon_category",
     "id": "ENERGY_WEAPONS",
     "name": "Energy Weapons",
+    "shorthand": "NRG",
     "//": "Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc).  Both Ranged/Melee.  Changes firing sound (for guns)."
   },
   {
     "type": "weapon_category",
     "id": "MAGNETIC",
     "name": "Magnetic Weapons",
+    "shorthand": "MGN",
     "//": "Weapon that propels payload via electromagnetism.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "PNEUMATIC",
     "name": "Pneumatic Weapons",
+    "shorthand": "PNM",
     "//": "Ranged weapon that propels payload via compressed air.  Changes firing sound."
   },
   {
     "type": "weapon_category",
     "id": "ELASTIC",
     "name": "Elastic",
+    "shorthand": "ELA",
     "//": "Ranged weapon that propels payload via elastic band.  Changes firing sound."
   }
 ]
