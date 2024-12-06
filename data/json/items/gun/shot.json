@@ -331,7 +331,6 @@
     "ascii_picture": "remington870mcs",
     "material": [ "steel", "plastic" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -3 },
-    "skill": "pistol",
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "//": "dispersion should be 300 moa, but CDDA exaggerates dispersion.",
     "sight_dispersion": 750,
@@ -655,7 +654,6 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 120,
-    "skill": "pistol",
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
