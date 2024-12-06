@@ -80,7 +80,6 @@
     "material": [ "superalloy", "ceramic" ],
     "color": "dark_gray",
     "ammo": "20x66mm",
-    "skill": "pistol",
     "dispersion": 400,
     "durability": 9,
     "default_mods": [ "pistol_stock" ],
