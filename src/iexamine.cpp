@@ -865,8 +865,6 @@ void iexamine::toggle_lights( player &/*p*/, const tripoint &examp )
     for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag ) ) {
         here.furn_set( light_loc, here.get_furn_transforms_into( light_loc ) );
     };
-
-
 }
 
 /**
