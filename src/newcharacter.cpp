@@ -225,7 +225,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     init_age = rng( 16, 55 );
     // if adjusting min and max height from 145 and 200, make sure to see set_description()
     init_height = rng( 145, 200 );
-    bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
+    bool cities_enabled = world_generator->active_world->info->WORLD_OPTIONS["CITY_SIZE"].getValue() !=
+                          "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const auto &scen : scenario::get_all() ) {
@@ -455,7 +456,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     auto nameExists = [&]( const std::string & name ) {
-        return world_generator->active_world->save_exists( save_t::from_save_id( name ) ) &&
+        return world_generator->active_world->info->save_exists( save_t::from_save_id( name ) ) &&
                !query_yn( _( "A save with the name '%s' already exists in this world.\n"
                              "Saving will overwrite the already existing character.\n\n"
                              "Continue anyways?" ), name );
@@ -2338,7 +2339,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
     do {
         if( recalc_scens ) {
             sorted_scens.clear();
-            auto &wopts = world_generator->active_world->WORLD_OPTIONS;
+            auto &wopts = world_generator->active_world->info->WORLD_OPTIONS;
             for( const auto &scen : scenario::get_all() ) {
                 if( scen.scen_is_blacklisted() ) {
                     continue;
