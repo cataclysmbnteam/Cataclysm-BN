@@ -17,6 +17,7 @@
 class loading_ui;
 class JsonObject;
 class JsonIn;
+class world;
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -199,7 +200,7 @@ void load_core_bn_modfiles();
  * @param artifact_file file with per-world artifact definitions
  * @throw std::exception if the loaded data is not valid.
  */
-void load_world_modfiles( loading_ui &ui, const std::string &artifacts_file );
+void load_world_modfiles( loading_ui &ui, const world *world, const std::string &artifacts_file );
 
 /**
  * Load soundpack.

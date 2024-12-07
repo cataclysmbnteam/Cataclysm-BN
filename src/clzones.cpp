@@ -40,6 +40,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "world.h"
 
 static const item_category_id itcat_food( "food" );
 
@@ -1182,12 +1183,10 @@ void zone_data::deserialize( JsonIn &jsin )
 
 bool zone_manager::save_zones()
 {
-    std::string savefile = g->get_player_base_save_path() + ".zones.json";
-
     added_vzones.clear();
     changed_vzones.clear();
     removed_vzones.clear();
-    return write_to_file( savefile, [&]( std::ostream & fout ) {
+    return g->get_active_world()->write_to_player_file( ".zones.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         serialize( jsout );
     }, _( "zones date" ) );
@@ -1195,12 +1194,10 @@ bool zone_manager::save_zones()
 
 void zone_manager::load_zones()
 {
-    std::string savefile = g->get_player_base_save_path() + ".zones.json";
-
-    read_from_file_optional( savefile, [&]( std::istream & fin ) {
+    g->get_active_world()->read_from_player_file( ".zones.json", [&]( std::istream & fin ) {
         JsonIn jsin( fin );
         deserialize( jsin );
-    } );
+    }, true );
     revert_vzones();
     added_vzones.clear();
     changed_vzones.clear();

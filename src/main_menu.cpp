@@ -218,7 +218,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             }
             std::vector<std::string> all_worldnames = world_generator->all_worldnames();
             for( int i = 0; static_cast<size_t>( i ) < all_worldnames.size(); i++ ) {
-                WORLDPTR world = world_generator->get_world( all_worldnames[i] );
+                WORLDINFO *world = world_generator->get_world( all_worldnames[i] );
                 int savegames_count = world->world_saves.size();
                 nc_color clr = c_white;
                 std::string txt = all_worldnames[i];
@@ -364,7 +364,7 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
         const std::string &alt_text ) const
 {
     std::vector<std::string> result;
-    read_from_file_optional( path, [&result]( std::istream & fin ) {
+    read_from_file( path, [&result]( std::istream & fin ) {
         std::string line;
         while( std::getline( fin, line ) ) {
             if( !line.empty() && line[0] == '#' ) {
@@ -372,7 +372,7 @@ std::vector<std::string> main_menu::load_file( const std::string &path,
             }
             result.push_back( line );
         }
-    } );
+    }, true );
     if( result.empty() ) {
         result.push_back( alt_text );
     }
@@ -427,14 +427,14 @@ void main_menu::init_strings()
 
     // Credits
     mmenu_credits.clear();
-    read_from_file_optional( PATH_INFO::credits(), [&]( std::istream & stream ) {
+    read_from_file( PATH_INFO::credits(), [&]( std::istream & stream ) {
         std::string line;
         while( std::getline( stream, line ) ) {
             if( line[0] != '#' ) {
                 mmenu_credits += ( line.empty() ? " " : line ) + "\n";
             }
         }
-    } );
+    }, true );
 
     if( mmenu_credits.empty() ) {
         mmenu_credits = _( "No credits information found." );
@@ -894,7 +894,7 @@ bool main_menu::new_character_tab()
     } );
     g->gamemode.reset();
 
-    WORLDPTR world;
+    WORLDINFO *world;
     if( sel2 == 5 ) {
         g->gamemode = get_special_game( special_game_type::TUTORIAL );
         world = world_generator->make_new_world( special_game_type::TUTORIAL );
@@ -961,7 +961,7 @@ bool main_menu::new_character_tab()
 
 bool main_menu::load_character_tab( const std::string &worldname )
 {
-    WORLDPTR world = world_generator->get_world( worldname );
+    WORLDINFO *world = world_generator->get_world( worldname );
     savegames = world->world_saves;
     if( MAP_SHARING::isSharing() ) {
         auto new_end = std::remove_if( savegames.begin(), savegames.end(), []( const save_t &str ) {
@@ -1083,7 +1083,7 @@ void main_menu::world_tab( const std::string &worldname )
                               "If you have just started playing, consider creating new world instead.\n"
                               "Proceed?"
                           ) ) ) {
-                WORLDPTR world = world_generator->get_world( worldname );
+                WORLDINFO *world = world_generator->get_world( worldname );
                 world_generator->edit_active_world_mods( world );
             }
             break;
