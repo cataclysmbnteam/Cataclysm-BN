@@ -67,9 +67,9 @@ void cata::detail::mod_mutation_branch( sol::state &lua )
         DOC( "How physically unappealing the mutation is. Can be negative." );
         SET_MEMB_RO( ugliness );
 
-        SET_MEMB_RO(cost);
+        SET_MEMB_RO( cost );
         DOC( "Costs are incurred every 'cooldown' turns." );
-        SET_MEMB_RO(cooldown);
+        SET_MEMB_RO( cooldown );
 
         /* === Modifiers === */
         SET_MEMB_N_RO( bodytemp_min, "bodytemp_min_btu" );
@@ -128,45 +128,45 @@ void cata::detail::mod_mutation_branch( sol::state &lua )
         SET_FX_T( desc, std::string() const );
 
         DOC( "Returns a (long) list of every mutation in the game." );
-        SET_FX_T( get_all, const std::vector<mutation_branch>&() );
+        SET_FX_T( get_all, const std::vector<mutation_branch> &() );
 
         // The string conversion function references this object's str_id.
         luna::set_fx( ut, sol::meta_function::to_string,
-            []( const UT_CLASS & id ) -> std::string {
-                return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
+        []( const UT_CLASS & id ) -> std::string {
+            return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
         } );
 
         // Copy the return values so they can't be modified in-place.
         DOC( "Lists the primary mutation(s) needed to gain this mutation." );
         luna::set_fx( ut, "prerequisites", []( const UT_CLASS & mut ) -> std::vector<trait_id> {
-                std::vector<trait_id> rv = mut.prereqs; return rv;
+            std::vector<trait_id> rv = mut.prereqs; return rv;
         } );
         DOC( "Lists the secondary mutation(s) needed to gain this mutation." );
         luna::set_fx( ut, "other_prerequisites", []( const UT_CLASS & mut ) -> std::vector<trait_id> {
-                std::vector<trait_id> rv = mut.prereqs2; return rv;
+            std::vector<trait_id> rv = mut.prereqs2; return rv;
         } );
         DOC( "Lists the threshold mutation(s) required to gain this mutation." );
         luna::set_fx( ut, "thresh_requirements", []( const UT_CLASS & mut ) -> std::vector<trait_id> {
-                std::vector<trait_id> rv = mut.threshreq; return rv;
+            std::vector<trait_id> rv = mut.threshreq; return rv;
         } );
         DOC( "Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive." );
         luna::set_fx( ut, "mutation_types", []( const UT_CLASS & mut ) -> std::set<std::string> {
-                std::set<std::string> rv = mut.types; return rv;
+            std::set<std::string> rv = mut.types; return rv;
         } );
         DOC( "Lists conflicting mutations." );
         luna::set_fx( ut, "conflicts_with", []( const UT_CLASS & mut ) -> std::vector<trait_id> {
-                std::vector<trait_id> rv = mut.cancels; return rv;
+            std::vector<trait_id> rv = mut.cancels; return rv;
         } );
         DOC( "Lists mutations that replace (e.g. evolve from) this one." );
         luna::set_fx( ut, "replaced_by", []( const UT_CLASS & mut ) -> std::vector<trait_id> {
-                std::vector<trait_id> rv = mut.replacements; return rv;
+            std::vector<trait_id> rv = mut.replacements; return rv;
         } );
         luna::set_fx( ut, "addition_mutations", []( const UT_CLASS & mut ) -> std::vector<trait_id> {
-                std::vector<trait_id> rv = mut.additions; return rv;
+            std::vector<trait_id> rv = mut.additions; return rv;
         } );
         DOC( "Lists the categories this mutation belongs to." );
         luna::set_fx( ut, "categories", []( const UT_CLASS & mut ) -> std::vector<mutation_category_id> {
-                std::vector<mutation_category_id> rv = mut.category; return rv;
+            std::vector<mutation_category_id> rv = mut.category; return rv;
         } );
         /* Would bind .flags to .trait_flags(), but json_trait_flag does not
          * seem to have definitions for comparison to itself.
