@@ -6083,7 +6083,6 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     }
 }
 
-// TODO: See how Lua treats these; what do the default values look like?
 int Character::get_part_temp_cur( const bodypart_id &id ) const
 {
     return get_part( id ).get_temp_cur();
@@ -6100,19 +6099,17 @@ std::map<bodypart_id, int> Character::get_temp_cur()
 
     for( auto &pr : get_body() ) {
         bodypart &bp = pr.second;
-        temps[bp.get_id()] = bp.get_temp_cur();
+        temps[ bp.get_id() ] = bp.get_temp_cur();
     }
     return temps;
 }
 
 void Character::set_temp_cur( int temp )
 {
-    // There may be a cleaner way to do this.
     for( auto &pr : get_body() ) {
         bodypart &bp = pr.second;
         bp.set_temp_cur( temp );
     }
-    // TODO: Unclear how temp_conv works exactly...look into it later.
 }
 
 
