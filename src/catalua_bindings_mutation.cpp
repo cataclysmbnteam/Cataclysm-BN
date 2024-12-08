@@ -124,11 +124,6 @@ void cata::detail::mod_mutation_branch( sol::state &lua )
         SET_MEMB_RO( reading_speed_multiplier );
         SET_MEMB_RO( skill_rust_multiplier );
 
-        // Functions will have to be made for the following variables...
-        // prereqs; prereqs2; threshreq; types; cancels; replacements;
-        // additions; category
-        // ...to return safe copies of their otherwise-modifiable values.
-
         SET_FX_T( name, std::string() const );
         SET_FX_T( desc, std::string() const );
 
