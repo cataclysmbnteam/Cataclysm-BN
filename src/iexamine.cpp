@@ -152,6 +152,7 @@ static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_petrified_eye( "petrified_eye" );
+static const itype_id itype_plut_generator_item( "plut_generator_item" );
 static const itype_id itype_sheet( "sheet" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
@@ -860,11 +861,11 @@ void iexamine::toggle_lights( player &/*p*/, const tripoint &examp )
     map &here = get_map();
     const auto flag = here.has_flag_furn( "L_OFF", examp ) ? "L_OFF" : "L_ON";
 
+    add_msg( _( here.furn( examp ).obj().message ) );
+
     for( const auto &light_loc : here.find_furnitures_with_flag_in_omt( examp, flag ) ) {
         here.furn_set( light_loc, here.get_furn_transforms_into( light_loc ) );
     };
-
-    add_msg( _( here.furn( examp ).obj().message ) );
 }
 
 /**
@@ -6319,6 +6320,24 @@ void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )
     }
 }
 
+void iexamine::cardreader_plutgen( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+    itype_id card_type = itype_id_military;
+    if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
+        // The duration taken may need modification.
+        p.mod_moves( -100 );
+        p.use_amount( card_type, 1 );
+        add_msg( _( "You insert your ID card." ) );
+        add_msg( m_good,
+                 _( "The plutonium generator beeps twice, then disengages from the surrounding conduits with a series of mechanical clunks." ) );
+        here.ter_set( examp, t_concrete );
+        here.add_item_or_charges( examp, item::spawn( itype_plut_generator_item, calendar::turn ) );
+    } else {
+        add_msg( _( "The plutonium generator has significant security measures in place. Without the necessary ID, you'll have to remove it by hand." ) );
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6413,6 +6432,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "dimensional_portal", &iexamine::dimensional_portal },
             { "check_power", &iexamine::check_power },
             { "migo_nerve_cluster", &iexamine::migo_nerve_cluster },
+            { "cardreader_plutgen", &iexamine::cardreader_plutgen },
         }
     };
 

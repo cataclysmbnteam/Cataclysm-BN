@@ -708,7 +708,7 @@
     "type": "terrain",
     "id": "t_plut_generator",
     "name": "plutonium generator",
-    "description": "This imposing apparatus harnesses the power of the atom, configured to provide nearly limitless backup power from the nuclear fuel installed in it.  It's not doing much good here though.  It has a complicated security system that is dangerous and difficult to bypass without the code.",
+    "description": "This imposing apparatus harnesses the power of the atom, configured to provide nearly limitless backup power from the nuclear fuel installed in it.  It's not doing much good here though.  It has a complicated security system that is dangerous and difficult to bypass without authorization; a small slot suggests that it can accept some form of ID card.",
     "symbol": "0",
     "color": "light_green",
     "looks_like": "t_machinery_electronic",
@@ -729,7 +729,8 @@
       ],
       "//": "Variable reduction, destroy_threshold equal to str_min instead of str_max due to delicate electronics",
       "ranged": { "reduction": [ 25, 50 ], "destroy_threshold": 50, "block_unaimed_chance": "50%" }
-    }
+    },
+    "examine_action": "cardreader_plutgen"
   },
   {
     "type": "terrain",

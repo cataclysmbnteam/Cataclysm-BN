@@ -1774,7 +1774,7 @@ std::string game_info::mods_loaded()
         return "No active world";
     }
 
-    const std::vector<mod_id> &mod_ids = world_generator->active_world->active_mod_order;
+    const std::vector<mod_id> &mod_ids = world_generator->active_world->info->active_mod_order;
     if( mod_ids.empty() ) {
         return "No loaded mods";
     }

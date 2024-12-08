@@ -115,6 +115,7 @@ void workbench( player &p, const tripoint &examp );
 void dimensional_portal( player &p, const tripoint &examp );
 void check_power( player &p, const tripoint &examp );
 void migo_nerve_cluster( player &p, const tripoint &examp );
+void cardreader_plutgen( player &p, const tripoint &examp );
 
 detached_ptr<item> pour_into_keg( const tripoint &pos, detached_ptr<item> &&liquid );
 std::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );

@@ -73,10 +73,6 @@ class auto_note_settings
         void default_initialize();
 
     private:
-        /// Build string containing path to the auto notes save file for the active player.
-        std::string build_save_path() const;
-
-    private:
         /// This set contains the ID strings of all map extras that have auto note enabled.
         std::unordered_set<string_id<map_extra>> autoNoteEnabled;
 

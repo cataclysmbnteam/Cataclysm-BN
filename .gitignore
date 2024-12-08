@@ -42,6 +42,8 @@ cata_test
 cata_test-tiles
 cataclysm
 cataclysm-tiles
+cataclysm-bn-tiles
+json_formatter
 *.exe.manifest
 cataclysm-vcpkg
 cataclysmdda-*
