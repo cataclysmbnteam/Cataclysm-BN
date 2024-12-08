@@ -1747,7 +1747,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( hitspread >= 0 ) {
         target.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
     }
-    body_part bp_hit = dealt_dam.bp_hit;
+    const bodypart_str_id bp_hit = dealt_dam.bp_hit;
 
     const int total_dealt = dealt_dam.total_damage();
     if( hitspread < 0 ) {
@@ -1774,7 +1774,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "%1$s hits your %2$s." ), disp_name( false, true ),
-                         body_part_name_accusative( bp_hit ) );
+                         bp_hit->accusative.translated() );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
                     //~ %1$s: name of your mount, %2$s: target NPC name, %3$d: damage value
@@ -1784,7 +1784,7 @@ void monster::melee_attack( Creature &target, float accuracy )
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
                     add_msg( _( "%1$s hits %2$s %3$s." ), disp_name( false, true ),
                              target.disp_name( true ),
-                             body_part_name_accusative( bp_hit ) );
+                             bp_hit->accusative.translated() );
                 }
             } else {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
@@ -1799,7 +1799,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         } else if( target.is_player() ) {
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "Something hits your %s." ),
-                     body_part_name_accusative( bp_hit ) );
+                     bp_hit->accusative.translated() );
         }
     } else {
         // No damage dealt
@@ -1807,14 +1807,14 @@ void monster::melee_attack( Creature &target, float accuracy )
             if( target.is_player() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
                 add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ), disp_name( false, true ),
-                         body_part_name_accusative( bp_hit ), target.skin_name() );
+                         bp_hit->accusative.translated(), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
                 add_msg( _( "%1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), disp_name( false, true ),
                          target.disp_name( true ),
-                         body_part_name_accusative( bp_hit ),
+                         bp_hit->accusative.translated(),
                          target.disp_name( true ),
                          target.skin_name() );
             } else {
@@ -1828,7 +1828,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         } else if( target.is_player() ) {
             //~ 1$s is bodypart name in accusative, 2$s is armor name.
             add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
-                     body_part_name_accusative( bp_hit ), target.skin_name() );
+                     bp_hit->accusative.translated(), target.skin_name() );
         }
     }
 
@@ -1848,10 +1848,10 @@ void monster::melee_attack( Creature &target, float accuracy )
     // Add any on damage effects
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp_hit : eff.bp;
-            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), convert_bp( affected_bp ) );
+            const bodypart_str_id &affected_bp = eff.affect_hit_bp ? bp_hit : convert_bp( eff.bp );
+            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp );
             if( eff.permanent ) {
-                target.get_effect( eff.id, convert_bp( affected_bp ) ).set_permanent();
+                target.get_effect( eff.id, affected_bp ).set_permanent();
             }
         }
     }
@@ -1876,7 +1876,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 6_minutes, convert_bp( bp_hit ) );
+        target.add_effect( effect_bleed, 6_minutes, bp_hit );
     }
 }
 
@@ -2119,16 +2119,13 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration &dur,
-                          const bodypart_str_id &,
-                          int intensity, bool force, bool deferred )
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur )
 {
-    // Effects are not applied to specific monster body part
-    Creature::add_effect( eff_id, dur, bodypart_str_id::NULL_ID(), intensity, force, deferred );
+    Creature::add_effect( eff_id, dur, bodypart_str_id::NULL_ID() );
 }
 
 void monster::add_effect( const efftype_id &eff_id, const time_duration &dur,
-                          body_part,
+                          const bodypart_str_id &,
                           int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part
@@ -2983,7 +2980,7 @@ void monster::make_pet()
 {
     friendly = -1;
     g->critter_tracker->update_faction( *this );
-    add_effect( effect_pet, 1_turns, num_bp );
+    add_effect( effect_pet, 1_turns );
 }
 
 bool monster::is_pet() const
