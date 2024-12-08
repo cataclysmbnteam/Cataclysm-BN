@@ -248,7 +248,7 @@
     "type": "weapon_category",
     "id": "PISTOLS",
     "name": "Pistols",
-    "shorthand": "PST",
+    "shorthand": "HG",
     "//": "Handgun with a chamber integral to the gun barrel. In-game, any handgun that isn't a revolver goes here."
   },
   {
@@ -290,14 +290,14 @@
     "type": "weapon_category",
     "id": "SHOTGUNS",
     "name": "Shotguns",
-    "shorthand": "SHT",
+    "shorthand": "SG",
     "//": "Long barreled firearm generally designed to fire shotshells."
   },
   {
     "type": "weapon_category",
     "id": "GRENADE_LAUNCHERS",
     "name": "Grenade Launchers",
-    "shorthand": "GLN",
+    "shorthand": "GL",
     "//": "Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc).  Changes firing sound."
   },
   {
