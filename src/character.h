@@ -480,7 +480,6 @@ class Character : public Creature, public location_visitable<Character>
         int  get_part_temp_cur( const bodypart_id &id ) const;
         void set_part_temp_cur( const bodypart_id &id, int temp );
         std::map<bodypart_id, int> get_temp_cur();
-        // Missing a getter for this; how do we present an average of part temperatures?
         void set_temp_cur( int temp );
 
         /** Define blood loss (in percents) */
