@@ -287,6 +287,15 @@ void doc_member( sol::table &dt, sol::types<Value Class::*> && )
     dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( sol::types<Value>() );
 }
 
+// Olanti! Curse thee for what I must do!
+template<typename Class, typename Value>
+void doc_member( sol::table &dt, sol::types<sol::readonly_wrapper<Value Class::*>> && )
+{
+    dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
+    add_comment( dt, KEY_MEMBER_COMMENT );
+    dt[KEY_MEMBER_VARIABLE_TYPE] = doc_value( sol::types<Value>() );
+}
+
 template<typename Class, bool add_self_arg, typename RetVal, typename ...Args>
 void doc_member_fx_impl2( sol::table &dt, sol::types<RetVal> &&, sol::types<Args...> && )
 {

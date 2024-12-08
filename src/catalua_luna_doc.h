@@ -53,6 +53,7 @@ struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
 struct field_type;
+struct mutation_branch;
 struct npc_opinion;
 struct npc_personality;
 struct point;

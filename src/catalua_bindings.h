@@ -32,6 +32,7 @@ void reg_item( sol::state &lua );
 void reg_locale_api( sol::state &lua );
 void reg_map( sol::state &lua );
 void reg_monster( sol::state &lua );
+void mod_mutation_branch( sol::state &lua );
 void reg_npc( sol::state &lua );
 void reg_player( sol::state &lua );
 void reg_point_tripoint( sol::state &lua );
