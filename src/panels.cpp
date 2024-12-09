@@ -2226,9 +2226,9 @@ bool panel_manager::save()
 
 bool panel_manager::load()
 {
-    return read_from_file_optional_json( PATH_INFO::panel_options(), [&]( JsonIn & jsin ) {
+    return read_from_file_json( PATH_INFO::panel_options(), [&]( JsonIn & jsin ) {
         deserialize( jsin );
-    } );
+    }, true );
 }
 
 void panel_manager::serialize( JsonOut &json )

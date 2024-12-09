@@ -99,9 +99,8 @@ class stats_tracker;
 template<typename Tripoint>
 class tripoint_range;
 class vehicle;
-struct WORLD;
-
-using WORLDPTR = WORLD *;
+struct WORLDINFO;
+class world;
 class live_view;
 class loading_ui;
 class overmap;
@@ -158,15 +157,9 @@ class game
         void load_static_data();
 
         /**
-         * Base path for saving player data. Just add a suffix (unique for
-         * the thing you want to save) and use the resulting path.
-         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
+         * @return The current world database, or nullptr if no world is loaded.
          */
-        std::string get_player_base_save_path() const;
-        /**
-         * Base path for saving world data. This yields a path to a folder.
-         */
-        std::string get_world_base_save_path() const;
+        world *get_active_world() const;
 
         /**
          * @brief Should be invoked whenever options change.
@@ -928,6 +921,7 @@ class game
 
         void move_save_to_graveyard( const std::string &dirname );
         bool save_player_data();
+        bool save_uistate_data() const;
         // ########################## DATA ################################
     private:
         // May be a bit hacky, but it's probably better than the header spaghetti

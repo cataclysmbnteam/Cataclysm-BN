@@ -10,6 +10,7 @@ class Item_factory;
 class map;
 class time_point;
 struct tripoint;
+class world;
 
 namespace cata
 {
@@ -27,8 +28,8 @@ void show_lua_console();
 void reload_lua_code();
 void debug_write_lua_backtrace( std::ostream &out );
 
-bool save_world_lua_state( const std::string &path );
-bool load_world_lua_state( const std::string &path );
+bool save_world_lua_state( const world *world, const std::string &path );
+bool load_world_lua_state( const world *world, const std::string &path );
 
 std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state();
 

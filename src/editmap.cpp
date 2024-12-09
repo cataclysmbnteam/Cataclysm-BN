@@ -150,10 +150,10 @@ void edit_json( SAVEOBJ &it )
         } else if( tmret == 2 ) {
             write_to_file( "save/jtest-1j.txt", [&]( std::ostream & fout ) {
                 fout << osave1;
-            }, nullptr );
+            }, "" );
             write_to_file( "save/jtest-2j.txt", [&]( std::ostream & fout ) {
                 fout << serialize( it );
-            }, nullptr );
+            }, "" );
         }
         tm.addentry( 0, true, 'r', pgettext( "item manipulation debug menu entry", "rehash" ) );
         tm.addentry( 1, true, 'e', pgettext( "item manipulation debug menu entry", "edit" ) );

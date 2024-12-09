@@ -44,6 +44,7 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "profile.h"
+#include "world.h"
 
 class map_extra;
 
@@ -66,15 +67,6 @@ omt_find_params::~omt_find_params() = default;
 
 omt_route_params::~omt_route_params() = default;
 
-std::string overmapbuffer::terrain_filename( const point_abs_om &p )
-{
-    return string_format( "%s/o.%d.%d", g->get_world_base_save_path(), p.x(), p.y() );
-}
-
-std::string overmapbuffer::player_filename( const point_abs_om &p )
-{
-    return string_format( "%s.seen.%d.%d", g->get_player_base_save_path(), p.x(), p.y() );
-}
 
 overmap &overmapbuffer::get( const point_abs_om &p )
 {
@@ -268,7 +260,7 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
         // checked in a previous call of this function).
         return nullptr;
     }
-    if( file_exist( terrain_filename( p ) ) ) {
+    if( g->get_active_world() && g->get_active_world()->overmap_exists( p ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
         return &get( p );
