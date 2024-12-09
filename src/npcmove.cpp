@@ -1079,9 +1079,22 @@ void npc::execute_action( npc_action action )
             }
             break;
 
-        case npc_aim:
-            aim();
-            break;
+        case npc_aim: {
+            gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
+                            cbm_fake_active->gun_current_mode();
+            if( !mode ) {
+                std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
+                                           cbm_fake_active->tname();
+                debugmsg( "NPC tried to aim %s without valid mode.", error_weapon );
+            }
+
+            bool did_aim = aim();
+            if( !did_aim ) {
+                debugmsg( "%s is trying to aim, but failing repeatedly", disp_name().c_str() );
+                set_moves( 0 );
+            }
+        }
+        break;
 
         case npc_shoot: {
             gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
@@ -2178,15 +2191,27 @@ bool npc::enough_time_to_reload( const item &gun ) const
     return turns_til_reloaded < turns_til_reached;
 }
 
-void npc::aim()
+bool npc::aim()
 {
-    double aim_amount = ranged::aim_per_move( *this, primary_weapon(), recoil );
+    gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
+                    cbm_fake_active->gun_current_mode();
+    if( !mode ) {
+        std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
+                                   cbm_fake_active->tname();
+        debugmsg( "NPC tried to aim %s without valid mode.", error_weapon );
+    }
+
+    bool did_aim = false;
+    double aim_amount = ranged::aim_per_move( *this, *mode.target, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
+        did_aim = true;
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = ranged::aim_per_move( *this, primary_weapon(), recoil );
+        aim_amount = ranged::aim_per_move( *this, *mode.target, recoil );
     }
+
+    return did_aim;
 }
 
 bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
