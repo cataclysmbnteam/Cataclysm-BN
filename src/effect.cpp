@@ -600,7 +600,7 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != num_bp ) {
+    if( bp ) {
         ret += string_format( " (%s)", body_part_name( bp ) );
     }
 
@@ -850,7 +850,7 @@ time_point effect::get_start_time() const
 
 const bodypart_str_id &effect::get_bp() const
 {
-    return convert_bp( bp );
+    return bp;
 }
 
 bool effect::is_permanent() const
@@ -1456,7 +1456,7 @@ void effect::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "eff_type", eff_type != nullptr ? eff_type->id.str() : "" );
     json.member( "duration", duration );
-    json.member( "bp", static_cast<int>( bp ) );
+    json.member( "bp", bp );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
     // Legacy
@@ -1471,7 +1471,13 @@ void effect::deserialize( JsonIn &jsin )
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    bp = static_cast<body_part>( jo.get_int( "bp" ) );
+    // @todo Remove after stable
+    if( jo.has_int( "bp" ) ) {
+        bp = convert_bp( static_cast<body_part>( jo.get_int( "bp" ) ) );
+    } else {
+        bp = bodypart_str_id( jo.get_string( "bp" ) );
+
+    }
     intensity = jo.get_int( "intensity" );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
@@ -1584,7 +1590,7 @@ std::vector<effect> effect::create_child_effects( bool decay ) const
         const effect_type *new_effect_type = &*new_effect.type;
         time_duration dur = new_effect.inherit_duration ? this->duration : new_effect.duration;
         int intensity = new_effect.inherit_intensity ? this->intensity : new_effect.intensity;
-        bodypart_str_id bp = new_effect.inherit_body_part ? convert_bp( this->bp ) : new_effect.bp;
+        bodypart_str_id bp = new_effect.inherit_body_part ? this->bp : new_effect.bp;
         effect e = effect( new_effect_type, dur, bp, intensity, calendar::turn );
         ret.emplace_back( e );
     }
