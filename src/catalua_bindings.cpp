@@ -1012,6 +1012,7 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_enums( lua );
     reg_game_ids( lua );
     mod_mutation_branch( lua );
+    reg_magic( lua );
     reg_coords_library( lua );
     reg_constants( lua );
     reg_hooks_examples( lua );
