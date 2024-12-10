@@ -12,12 +12,12 @@
 #include "creature.h"
 #include "magic.h"
 
+// IN WAITING: fake_spell, enchantment_id, enchantments in general
 void cata::detail::reg_magic( sol::state &lua ) {
     reg_spell_type( lua );
     reg_spell( lua );
 }
 
-// It may be reasonable to skip fake_spell entirely.
 void cata::detail::reg_spell_type( sol::state &lua )
 {
 #define UT_CLASS spell_type
@@ -101,9 +101,10 @@ void cata::detail::reg_spell( sol::state &lua )
 {
 #define UT_CLASS spell
     {
-        /* NOTE: These changes are applied to the "SpellTypeRaw" Lua obj.
-         * Because spell_type is bound as an ID, the actual object is
-         * shoved into a 'Raw' binding.
+        /* NOTE: This is the actual 'spell type', which is fully-featured and
+         * intended for use with players. As such, it tracks things like xp
+         * and level, which you may not care about.
+         * Make sure to look at SpellFake (i.e., fake_spell) too.
          */
         sol::usertype<UT_CLASS> ut =
         luna::new_usertype<UT_CLASS>(
@@ -141,4 +142,5 @@ void cata::detail::reg_spell( sol::state &lua )
     }
 #undef UT_CLASS // #define UT_CLASS spell
 }
+
 #endif // #ifdef LUA
