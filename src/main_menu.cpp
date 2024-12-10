@@ -500,6 +500,7 @@ void main_menu::init_strings()
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Template" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Reset World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Delete World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Convert to V2 Save Format" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<= Return" ) );
 
     vWorldHotkeys = { 'm', 'e', 's', 't', 'r', 'd', 'q' };
@@ -1061,7 +1062,21 @@ void main_menu::world_tab( const std::string &worldname )
         }
     };
 
+    auto convert_v2 = [this, &worldname]() {
+        world_generator->set_active_world( nullptr );
+        savegames.clear();
+        MAPBUFFER.clear();
+        overmap_buffer.clear();
+        world_generator->convert_to_v2( worldname );
+    };
+
     switch( opt_val ) {
+        case 6: // Convert to V2 Save Format
+            if( query_yn(
+                    _( "Convert to V2 Save Format? A backup will be created. Conversion may take several minutes." ) ) ) {
+                convert_v2();
+            }
+            break;
         case 5: // Delete World
             if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
                 clear_world( true );
