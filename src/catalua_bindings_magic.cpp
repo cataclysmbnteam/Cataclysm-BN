@@ -15,6 +15,7 @@
 // IN WAITING: fake_spell, enchantment_id, enchantments in general
 void cata::detail::reg_magic( sol::state &lua ) {
     reg_spell_type( lua );
+    reg_spell_fake( lua );
     reg_spell( lua );
 }
 
@@ -95,6 +96,45 @@ void cata::detail::reg_spell_type( sol::state &lua )
 
     }
 #undef UT_CLASS // #define UT_CLASS spell_type
+}
+
+void cata::detail::reg_spell_fake( sol::state &lua )
+{
+#define UT_CLASS fake_spell
+    {
+        sol::usertype<UT_CLASS> ut =
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::constructors<
+            UT_CLASS( spell_id sp, bool hit_self ),
+            UT_CLASS( spell_id sp, bool hit_self, int max_level )
+            > ()
+        );
+
+        luna::set_fx( ut, sol::meta_function::to_string,
+        []( const UT_CLASS & id ) -> std::string {
+            return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
+        } );
+
+        SET_MEMB_RO( id );
+        // TODO: Look into binding std::optional<int> max_level
+        // Also consider making this SET_MEMB for modification.
+        SET_MEMB_RO( level );
+        SET_MEMB_N_RO( self, "target_is_source" );
+
+        // TODO: Support min_level_override
+        luna::set_fx( ut, "cast",
+         []( UT_CLASS & sp, 
+                    Creature & source,
+                    const tripoint & target,
+                    std::optional<int> min_level_override )
+                {
+                    int mlo = min_level_override ? *min_level_override : 0;
+                    sp.get_spell( mlo ).cast_all_effects( source, target );
+                });
+    }
+#undef UT_CLASS // #define UT_CLASS fake_spell
 }
 
 void cata::detail::reg_spell( sol::state &lua )

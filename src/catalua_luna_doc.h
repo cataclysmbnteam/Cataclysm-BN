@@ -54,6 +54,7 @@ struct body_part_type;
 struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
+struct fake_spell;
 struct field_type;
 struct mutation_branch;
 struct npc_opinion;
@@ -125,7 +126,8 @@ LUNA_VAL( point, "Point" );
 LUNA_VAL( query_popup, "QueryPopup" );
 LUNA_VAL( SkillLevelMap, "SkillLevelMap" );
 LUNA_VAL( SkillLevel, "SkillLevel" );
-LUNA_VAL( spell, "Spell" );
+LUNA_VAL( fake_spell, "SpellShell" )
+LUNA_VAL( spell, "Spell" )
 LUNA_VAL( time_duration, "TimeDuration" );
 LUNA_VAL( time_point, "TimePoint" );
 LUNA_VAL( tinymap, "Tinymap" );
