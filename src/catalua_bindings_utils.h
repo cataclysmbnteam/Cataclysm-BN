@@ -21,6 +21,10 @@ void reg_serde_functions( sol::usertype<T> &ut )
 #define SET_MEMB(prop_name) luna::set( ut, #prop_name, &UT_CLASS::prop_name )
 // SET MEMBer with Name
 //#define SET_MEMB_N(prop_name, lua_name_str) luna::set( ut, lua_name_str, &UT_CLASS::prop_name )
+// SET MEMBer, Read-Only
+#define SET_MEMB_RO(prop_name) luna::set( ut, #prop_name, sol::readonly( &UT_CLASS::prop_name ) )
+// SET MEMBer with Name, Read-Only
+#define SET_MEMB_N_RO(prop_name, lua_name_str) luna::set( ut, lua_name_str, sol::readonly( &UT_CLASS::prop_name ) )
 // SET FX (function)
 #define SET_FX(func_name) luna::set_fx ( ut, #func_name, &UT_CLASS::func_name)
 // SET FX (function) with Type

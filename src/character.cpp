@@ -6083,6 +6083,36 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     }
 }
 
+int Character::get_part_temp_cur( const bodypart_id &id ) const
+{
+    return get_part( id ).get_temp_cur();
+}
+
+void Character::set_part_temp_cur( const bodypart_id &id, int temp )
+{
+    get_part( id ).set_temp_cur( temp );
+}
+
+std::map<bodypart_id, int> Character::get_temp_cur()
+{
+    std::map<bodypart_id, int> temps;
+
+    for( auto &pr : get_body() ) {
+        bodypart &bp = pr.second;
+        temps[ bp.get_id() ] = bp.get_temp_cur();
+    }
+    return temps;
+}
+
+void Character::set_temp_cur( int temp )
+{
+    for( auto &pr : get_body() ) {
+        bodypart &bp = pr.second;
+        bp.set_temp_cur( temp );
+    }
+}
+
+
 int Character::blood_loss( const bodypart_id &bp ) const
 {
     int hp_cur_sum = get_part_hp_cur( bp );
