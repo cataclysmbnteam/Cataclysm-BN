@@ -58,7 +58,7 @@ your distro packages libraries and their development files separately (e.g. Debi
 
 Rough list based on building on Arch:
 
-- General: `gcc-libs`, `glibc`, `zlib`, `bzip2`
+- General: `gcc-libs`, `glibc`, `zlib`, `bzip2`, `sqlite3`
 - Optional: `intltool`
 - Curses: `ncurses`
 - Tiles: `sdl2`, `sdl2_image`, `sdl2_ttf`, `sdl2_mixer`, `freetype2`
@@ -137,7 +137,7 @@ Dependencies:
 Install:
 
 ```sh
-sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle
+sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle libsqlite3-dev zlib1g-dev
 ```
 
 ### Building
