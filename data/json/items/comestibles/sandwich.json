@@ -38,7 +38,17 @@
     "volume": "500 ml",
     "material": [ "flesh", "veggy", "wheat", "milk" ],
     "fun": 12,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ],
+    "vitamins": [
+      [ "vitA", 8 ],
+      [ "vitC", 26 ],
+      [ "calcium", 8 ],
+      [ "iron", 49 ],
+      [ "vitB", 389 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ],
     "charges": 4
   },
   {
@@ -53,7 +63,7 @@
     "material": [ "milk", "wheat" ],
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -66,7 +76,7 @@
     "price_postapoc": "2 USD",
     "material": [ "milk", "wheat" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -107,7 +117,7 @@
     "price_postapoc": "2 USD",
     "material": [ "fruit", "wheat" ],
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -119,7 +129,8 @@
     "price": "85 cent",
     "price_postapoc": "3 USD",
     "material": [ "junk", "wheat" ],
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -132,7 +143,7 @@
     "price_postapoc": "3 USD",
     "material": [ "honey", "wheat" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -191,7 +202,8 @@
     "material": [ "veggy", "wheat" ],
     "price": "2 USD",
     "price_postapoc": "2 USD",
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -205,7 +217,7 @@
     "material": [ "veggy", "wheat" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -222,7 +234,7 @@
     "price_postapoc": "250 cent",
     "material": [ "flesh", "wheat" ],
     "fun": 3,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -252,7 +264,7 @@
     "description": "A delicious peanut butter and jelly sandwich.  It reminds you of the times your mother would make you lunch.",
     "material": [ "fruit", "wheat" ],
     "fun": 6,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -263,7 +275,7 @@
     "description": "Some damned fool put honey on this peanut butter sandwich, who in their right mind- oh wait this is pretty good.",
     "material": [ "wheat", "honey" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -287,7 +299,7 @@
     "price_postapoc": "250 cent",
     "material": [ "flesh", "wheat" ],
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -299,7 +311,8 @@
     "price": "2 USD",
     "price_postapoc": "2 USD",
     "fun": 6,
-    "material": [ "flesh", "veggy", "wheat" ]
+    "material": [ "flesh", "veggy", "wheat" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -331,6 +344,7 @@
     "price": "2 USD",
     "price_postapoc": "2 USD",
     "fun": 9,
-    "material": [ "flesh", "veggy", "wheat" ]
+    "material": [ "flesh", "veggy", "wheat" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   }
 ]

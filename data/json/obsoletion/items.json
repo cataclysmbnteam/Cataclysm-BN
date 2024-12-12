@@ -2854,7 +2854,8 @@
     "weight": "180 g",
     "charges": 6,
     "calories": 400,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -2927,7 +2928,7 @@
     "healthy": -25,
     "fun": -25,
     "use_action": "POISON",
-    "vitamins": [  ]
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "magnetron",
@@ -3143,7 +3144,8 @@
     "material": [ "milk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "fun": -4
+    "fun": -4,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -4810,7 +4812,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "750 ml",
     "fun": 18,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 6 ], [ "iron", 15 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "description": "A delicious authentic lobster roll."
   },
   {
@@ -4854,7 +4856,7 @@
     "material": [ "flesh", "wheat" ],
     "volume": "750 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -4877,7 +4879,16 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
+    "vitamins": [
+      [ "vitA", 8 ],
+      [ "vitC", 10 ],
+      [ "calcium", 7 ],
+      [ "iron", 18 ],
+      [ "vitB", 20 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -4891,7 +4902,7 @@
     "material": [ "wheat", "veggy" ],
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "buckle_steel",

@@ -43,7 +43,8 @@
       "type": "delayed_transform",
       "transform_age": 200000,
       "not_ready_msg": "You've been caring for your starter for a while, but it's going to need longer before you can do anything tasty with it."
-    }
+    },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "sourdough_split_uncovered",
@@ -68,7 +69,8 @@
       "type": "delayed_transform",
       "transform_age": 180000,
       "not_ready_msg": "The starter isn't quite ready to go."
-    }
+    },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "sourdough_starter_uncovered",
@@ -85,7 +87,8 @@
     "symbol": "%",
     "color": "yellow",
     "fun": -1,
-    "calories": 192
+    "calories": 192,
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -172,7 +175,7 @@
     "charges": 14,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitB", 3 ], [ "calcium", 2 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitB", 3 ], [ "calcium", 2 ], [ "iron", 14 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -216,7 +219,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 4 ], [ "iron", 7 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -304,7 +307,7 @@
     "stack_size": 20,
     "flags": [ "EATEN_HOT" ],
     "fun": -1,
-    "vitamins": [ [ "calcium", 12 ] ],
+    "vitamins": [ [ "calcium", 12 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
   }
 ]

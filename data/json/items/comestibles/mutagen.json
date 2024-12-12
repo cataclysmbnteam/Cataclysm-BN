@@ -561,7 +561,7 @@
     "charges": 2,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -40,
-    "vitamins": [ [ "mutant_toxin", 2000 ] ]
+    "vitamins": [ [ "mutant_toxin", 2000 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -587,6 +587,6 @@
     "charges": 2,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -15,
-    "vitamins": [ [ "mutant_toxin", 2000 ] ]
+    "vitamins": [ [ "mutant_toxin", 2000 ], [ "junk_allergen", 1 ] ]
   }
 ]

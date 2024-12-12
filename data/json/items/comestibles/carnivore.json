@@ -998,7 +998,8 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "SMOKABLE" ],
     "smoking_result": "cured_pelt",
     "stack_size": 1,
-    "fun": -24
+    "fun": -24,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1018,7 +1019,8 @@
     "copy-from": "raw_fur",
     "name": "raw human pelt",
     "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
-    "material": [ "fur", "hflesh" ]
+    "material": [ "fur", "hflesh" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1037,7 +1039,8 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1056,7 +1059,8 @@
     "material": [ "flesh" ],
     "volume": "1 L",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1073,7 +1077,8 @@
     "price_postapoc": "25 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "fun": -30
+    "fun": -30,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "meat_frond",

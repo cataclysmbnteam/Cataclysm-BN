@@ -51,7 +51,7 @@
     "volume": "150 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -71,7 +71,7 @@
     "material": [ "veggy" ],
     "volume": "83 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -251,7 +251,7 @@
     "symbol": "%",
     "quench": -1,
     "calories": 47,
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "description": "This yellow cornmeal is useful for baking.",
     "price": "450 cent",
     "price_postapoc": "25 cent",
@@ -271,7 +271,7 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 295,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 8 ], [ "iron", 32 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 8 ], [ "iron", 32 ], [ "veggy_allergen", 1 ] ],
     "description": "Slow-cooked beans with vegetables.  Tasty and very filling.",
     "price": "7 USD",
     "price_postapoc": "1 USD",
@@ -362,7 +362,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ] ]
+    "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -424,7 +424,7 @@
     "//": "one bean + one rice + one veggy",
     "flags": [ "EATEN_HOT" ],
     "fun": 4,
-    "vitamins": [ [ "vitC", 28 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+    "vitamins": [ [ "vitC", 28 ], [ "calcium", 8 ], [ "iron", 32 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -484,7 +484,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -505,7 +505,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ] ]
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -526,7 +526,7 @@
     "volume": "250 ml",
     "charges": 4,
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 11 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitA", 7 ], [ "calcium", 11 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -587,7 +587,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

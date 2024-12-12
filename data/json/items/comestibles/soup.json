@@ -179,7 +179,15 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 19 ], [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ], [ "vitB", 24 ] ],
+    "vitamins": [
+      [ "vitA", 19 ],
+      [ "vitC", 30 ],
+      [ "calcium", 5 ],
+      [ "iron", 28 ],
+      [ "vitB", 24 ],
+      [ "meat_allergen", 1 ],
+      [ "veggy_allergen", 1 ]
+    ],
     "fun": 5
   },
   {
@@ -204,7 +212,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 20 ], [ "vitC", 9 ], [ "iron", 3 ], [ "vitB", 5 ] ],
+    "vitamins": [ [ "vitA", 20 ], [ "vitC", 9 ], [ "iron", 3 ], [ "vitB", 5 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -229,7 +237,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 10 ], [ "calcium", 1 ], [ "iron", 9 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "vitA", 10 ], [ "calcium", 1 ], [ "iron", 9 ], [ "vitB", 8 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -302,7 +310,15 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 81 ], [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ], [ "vitB", 20 ] ],
+    "vitamins": [
+      [ "vitA", 81 ],
+      [ "vitC", 7 ],
+      [ "calcium", 9 ],
+      [ "iron", 13 ],
+      [ "vitB", 20 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ]
+    ],
     "fun": 4
   },
   {
@@ -326,7 +342,15 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitA", 15 ], [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "vitB", 8 ] ],
+    "vitamins": [
+      [ "vitA", 15 ],
+      [ "vitC", 8 ],
+      [ "calcium", 7 ],
+      [ "iron", 7 ],
+      [ "vitB", 8 ],
+      [ "meat_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ],
     "fun": 5
   }
 ]

@@ -378,7 +378,8 @@
     "charges": 4,
     "stack_size": 1,
     "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -256,7 +256,8 @@
     "name": "chili & beans entree",
     "description": "The chili & beans entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "veggy", "bean" ],
-    "fun": -2
+    "fun": -2,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -274,7 +275,8 @@
     "name": "chicken noodle entree",
     "description": "The chicken noodle entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy", "wheat" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -283,7 +285,8 @@
     "name": "spaghetti entree",
     "description": "The spaghetti entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "wheat" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -300,7 +303,8 @@
     "name": { "str": "beef taco entree" },
     "description": "The beef taco entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -318,7 +322,8 @@
     "name": "meatballs & marinara entree",
     "description": "The meatballs & marinara entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "tomato" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -327,7 +332,8 @@
     "name": { "str": "beef stew entree" },
     "description": "The beef stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -336,7 +342,8 @@
     "name": "chili & macaroni entree",
     "description": "The chili & macaroni entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "wheat", "veggy" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -345,7 +352,8 @@
     "name": "vegetarian taco entree",
     "description": "The vegetarian taco entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "veggy", "tomato" ],
-    "fun": -2
+    "fun": -2,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -354,7 +362,8 @@
     "name": "macaroni & marinara entree",
     "description": "The macaroni & marinara entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -362,7 +371,8 @@
     "copy-from": "mre_entree",
     "name": "cheese tortellini entree",
     "description": "The cheese tortellini entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": [ "tomato", "veggy", "milk" ]
+    "material": [ "tomato", "veggy", "milk" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -370,7 +380,8 @@
     "copy-from": "mre_entree",
     "name": "mushroom fettuccine entree",
     "description": "The mushroom fettuccine entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": [ "mushroom", "veggy", "wheat" ]
+    "material": [ "mushroom", "veggy", "wheat" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -379,7 +390,8 @@
     "name": { "str": "Mexican chicken stew entree" },
     "description": "The Mexican chicken stew entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "tomato", "veggy", "flesh", "bean" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -388,7 +400,8 @@
     "name": "chicken burrito bowl entree",
     "description": "The chicken burrito bowl entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy", "bean" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -397,7 +410,8 @@
     "name": "maple sausage entree",
     "description": "The maple sausage entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "junk" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -406,7 +420,8 @@
     "name": "ravioli entree",
     "description": "The ravioli entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "wheat" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -414,7 +429,8 @@
     "copy-from": "mre_entree",
     "name": "pepper jack beef entree",
     "description": "The pepper jack beef entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": [ "flesh", "milk" ]
+    "material": [ "flesh", "milk" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -423,7 +439,8 @@
     "name": "hash browns & bacon entree",
     "description": "The hash browns & bacon entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -441,7 +458,8 @@
     "name": { "str": "asian beef & vegetables entree" },
     "description": "The asian beef & vegetables entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "veggy" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -450,7 +468,8 @@
     "name": "chicken pesto & pasta entree",
     "description": "The chicken pesto & pasta entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "wheat", "veggy" ],
-    "fun": 0
+    "fun": 0,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -459,7 +478,8 @@
     "name": "southwest beef & beans entree",
     "description": "The southwest beef & beans entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "material": [ "flesh", "bean" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -469,6 +489,7 @@
     "description": "The dreaded four fingers of death.  It seems to be several decades old.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
     "price": "850 cent",
     "material": [ "flesh", "junk", "bean" ],
-    "fun": -6
+    "fun": -6,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   }
 ]

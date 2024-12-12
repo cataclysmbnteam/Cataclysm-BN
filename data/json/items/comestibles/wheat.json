@@ -59,7 +59,7 @@
     "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ], [ "wheat_allergen", 1 ] ],
     "fun": -1
   },
   {
@@ -158,7 +158,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
     "fun": 5,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -178,7 +178,7 @@
     "volume": "250 ml",
     "flags": [ "RAW" ],
     "charges": 10,
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [ [ "iron", 3 ], [ "wheat_allergen", 1 ] ],
     "fun": -5
   },
   {
@@ -286,7 +286,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 6 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 6 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -350,7 +350,14 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 8,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [
+      [ "vitA", 4 ],
+      [ "calcium", 3 ],
+      [ "iron", 5 ],
+      [ "wheat_allergen", 1 ],
+      [ "egg_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -370,7 +377,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "vitamins": [ [ "vitA", 3 ], [ "calcium", 15 ], [ "iron", 9 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "calcium", 15 ], [ "iron", 9 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -419,7 +426,15 @@
     "volume": "375 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [
+      [ "vitA", 6 ],
+      [ "vitC", 120 ],
+      [ "calcium", 2 ],
+      [ "iron", 2 ],
+      [ "wheat_allergen", 1 ],
+      [ "fruit_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -491,7 +506,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "//": "these vitamins are only for pies that may spawn.  generally they will be inherited from the fruit used.",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -513,7 +528,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ] ]
+    "vitamins": [ [ "vitA", 12 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -562,7 +577,7 @@
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -587,7 +602,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 4 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 4 ], [ "iron", 8 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -626,7 +641,7 @@
     "volume": "250 ml",
     "stack_size": 1,
     "fun": 9,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ], [ "wheat_allergen", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -649,7 +664,7 @@
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 4 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "id": "sponge_cake",
@@ -718,6 +733,7 @@
     "calories": 300,
     "quench": 4,
     "fun": 6,
-    "flags": [ "EATEN_COLD" ]
+    "flags": [ "EATEN_COLD" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   }
 ]

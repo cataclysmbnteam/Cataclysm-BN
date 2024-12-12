@@ -144,7 +144,7 @@
     "price": "25 cent",
     "price_postapoc": "5 cent",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitA", 19 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 66 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "vitA", 19 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 66 ], [ "mutant_toxin", 25 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -214,7 +214,8 @@
     "description": "The fist-sized egg of a mutant firefly.  Glows faintly in the dark.",
     "material": [ "egg" ],
     "rot_spawn": "GROUP_EGG_FIREFLY",
-    "rot_spawn_chance": 50
+    "rot_spawn_chance": 50,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -312,7 +313,7 @@
     "volume": "250 ml",
     "charges": 16,
     "fun": -3,
-    "vitamins": [ [ "vitB", 2 ] ]
+    "vitamins": [ [ "vitB", 2 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -392,7 +393,15 @@
     "quench": 4,
     "healthy": 1,
     "calories": 349,
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 18 ], [ "calcium", 11 ], [ "iron", 9 ], [ "vitB", 21 ] ],
+    "vitamins": [
+      [ "vitA", 9 ],
+      [ "vitC", 18 ],
+      [ "calcium", 11 ],
+      [ "iron", 9 ],
+      [ "vitB", 21 ],
+      [ "veggy_allergen", 1 ],
+      [ "egg_allergen", 1 ]
+    ],
     "price": "490 cent",
     "price_postapoc": "150 cent",
     "material": [ "egg", "veggy" ],
@@ -414,7 +423,15 @@
     "comestible_type": "FOOD",
     "healthy": 1,
     "calories": 209,
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 36 ], [ "calcium", 7 ], [ "iron", 8 ], [ "vitB", 21 ] ],
+    "vitamins": [
+      [ "vitA", 9 ],
+      [ "vitC", 36 ],
+      [ "calcium", 7 ],
+      [ "iron", 8 ],
+      [ "vitB", 21 ],
+      [ "veggy_allergen", 1 ],
+      [ "egg_allergen", 1 ]
+    ],
     "price": "1190 cent",
     "price_postapoc": "2 USD",
     "material": [ "egg", "veggy" ],
@@ -436,7 +453,15 @@
     "healthy": 1,
     "comestible_type": "FOOD",
     "calories": 215,
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 11 ], [ "vitB", 21 ] ],
+    "vitamins": [
+      [ "vitA", 9 ],
+      [ "vitC", 4 ],
+      [ "calcium", 3 ],
+      [ "iron", 11 ],
+      [ "vitB", 21 ],
+      [ "veggy_allergen", 1 ],
+      [ "egg_allergen", 1 ]
+    ],
     "price": "4 USD",
     "price_postapoc": "1 USD",
     "material": [ "egg", "veggy" ],

@@ -64,7 +64,8 @@
     "spoils_in": "6 days 16 hours",
     "charges": 16,
     "fun": -7,
-    "phase": "liquid"
+    "phase": "liquid",
+    "vitamins": [ [ "egg_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "ketchup",
@@ -84,7 +85,8 @@
     "spoils_in": "15 days",
     "charges": 16,
     "fun": -6,
-    "phase": "liquid"
+    "phase": "liquid",
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "mustard",
@@ -199,7 +201,7 @@
     "phase": "liquid",
     "fun": -25,
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "vitamins": [  ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -207,7 +209,8 @@
     "name": { "str_sp": "animal cooking oil" },
     "copy-from": "cooking_oil",
     "description": "Thin yellow animal oil used for cooking.",
-    "material": [ "flesh", "oil" ]
+    "material": [ "flesh", "oil" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

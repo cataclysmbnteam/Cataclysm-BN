@@ -73,7 +73,8 @@
     "calories": 19,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted.",
-    "charges": 71
+    "charges": 71,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -144,7 +145,8 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "mustard_powder",

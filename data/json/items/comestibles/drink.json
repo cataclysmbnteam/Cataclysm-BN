@@ -172,7 +172,8 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 14
+    "fun": 14,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -208,7 +209,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 9 ], [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitA", 9 ], [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 7
   },
   {
@@ -374,7 +375,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 60 ] ],
+    "vitamins": [ [ "vitC", 60 ], [ "fruit_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 6
   },
   {
@@ -439,7 +440,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 15
   },
   {
@@ -529,7 +530,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -716,7 +717,8 @@
     "quench": 35,
     "fun": 10,
     "spoils_in": "1 day",
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -739,7 +741,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "milk_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -773,7 +775,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10
   },
   {
@@ -814,7 +816,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10
   },
   {

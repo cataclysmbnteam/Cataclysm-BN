@@ -17,7 +17,7 @@
     "volume": "1 L",
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 20
   },
   {
@@ -56,7 +56,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -10,
-    "vitamins": [ [ "vitA", 16 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitA", 16 ], [ "iron", 10 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -163,7 +163,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "charges": 3,
-    "vitamins": [ [ "iron", 16 ] ],
+    "vitamins": [ [ "iron", 16 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -183,7 +183,8 @@
     "material": [ "wheat", "junk" ],
     "volume": "500 ml",
     "charges": 3,
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -235,7 +236,7 @@
     "price_postapoc": "250 cent",
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 20
   },
   {
@@ -353,7 +354,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "750 ml",
     "charges": 8,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -402,7 +403,7 @@
     "volume": "250 ml",
     "charges": 4,
     "stack_size": 20,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 7
   },
   {
@@ -462,7 +463,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "2 L",
     "charges": 12,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 15
   },
   {
@@ -505,7 +506,8 @@
     "volume": "250 ml",
     "charges": 5,
     "stack_size": 30,
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -713,7 +715,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 6 ] ]
+    "vitamins": [ [ "calcium", 12 ], [ "iron", 6 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -739,7 +741,7 @@
     "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ], [ "vitB", 259 ] ]
+    "vitamins": [ [ "vitC", 5 ], [ "calcium", 2 ], [ "iron", 24 ], [ "vitB", 259 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -765,7 +767,15 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 10 ], [ "calcium", 10 ], [ "iron", 12 ], [ "vitB", 29 ] ]
+    "vitamins": [
+      [ "vitA", 10 ],
+      [ "calcium", 10 ],
+      [ "iron", 12 ],
+      [ "vitB", 29 ],
+      [ "meat_allergen", 1 ],
+      [ "junk_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -784,7 +794,7 @@
     "material": [ "flesh", "junk" ],
     "volume": "250 ml",
     "charges": 4,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "iron", 4 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -807,7 +817,8 @@
     "primary_material": "processed_food",
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -829,7 +840,8 @@
     "primary_material": "processed_food",
     "volume": "1 L",
     "charges": 2,
-    "fun": -3
+    "fun": -3,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -851,7 +863,8 @@
     "volume": "1 L",
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -872,7 +885,7 @@
     "volume": "1 L",
     "charges": 4,
     "fun": 12,
-    "vitamins": [ [ "iron", 4 ] ]
+    "vitamins": [ [ "iron", 4 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -894,7 +907,15 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 46 ], [ "calcium", 14 ], [ "iron", 21 ] ]
+    "vitamins": [
+      [ "vitA", 7 ],
+      [ "vitC", 46 ],
+      [ "calcium", 14 ],
+      [ "iron", 21 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "junk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -916,7 +937,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": -18,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 6 ], [ "iron", 8 ], [ "vitB", 15 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 6 ], [ "iron", 8 ], [ "vitB", 15 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -955,7 +976,15 @@
     "material": [ "wheat", "junk", "milk" ],
     "primary_material": "processed_food",
     "fun": 6,
-    "vitamins": [ [ "vitA", 5 ], [ "calcium", 5 ], [ "iron", 17 ], [ "vitB", 33 ] ]
+    "vitamins": [
+      [ "vitA", 5 ],
+      [ "calcium", 5 ],
+      [ "iron", 17 ],
+      [ "vitB", 33 ],
+      [ "wheat_allergen", 1 ],
+      [ "junk_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -975,7 +1004,15 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 25 ], [ "iron", 25 ], [ "vitB", 63 ] ]
+    "vitamins": [
+      [ "vitA", 7 ],
+      [ "calcium", 25 ],
+      [ "iron", 25 ],
+      [ "vitB", 63 ],
+      [ "wheat_allergen", 1 ],
+      [ "junk_allergen", 1 ],
+      [ "milk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -997,7 +1034,7 @@
     "charges": 8,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 15 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 15 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1019,7 +1056,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 4 ], [ "calcium", 17 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1040,7 +1077,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 7 ], [ "veggy_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1062,7 +1099,7 @@
     "charges": 10,
     "flags": [ "EATEN_HOT" ],
     "fun": -6,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "hotdogs_campfire",
@@ -1093,7 +1130,14 @@
     "volume": "500 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 85 ], [ "calcium", 22 ], [ "iron", 15 ] ]
+    "vitamins": [
+      [ "vitC", 85 ],
+      [ "calcium", 22 ],
+      [ "iron", 15 ],
+      [ "meat_allergen", 1 ],
+      [ "wheat_allergen", 1 ],
+      [ "junk_allergen", 1 ]
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -1114,7 +1158,7 @@
     "primary_material": "processed_food",
     "volume": "500 ml",
     "charges": 4,
-    "vitamins": [ [ "calcium", 4 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 6
   }
 ]

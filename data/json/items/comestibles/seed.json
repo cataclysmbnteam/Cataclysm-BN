@@ -687,7 +687,8 @@
     "fun": -10,
     "flags": [ "HIDDEN_POISON", "RAW" ],
     "use_action": "POISON",
-    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
+    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

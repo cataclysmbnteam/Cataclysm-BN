@@ -144,7 +144,7 @@
     "primary_material": "powder",
     "volume": "250 ml",
     "charges": 10,
-    "vitamins": [ [ "vitC", 7 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "fruit_allergen", 1 ] ],
     "fun": 1
   },
   {
