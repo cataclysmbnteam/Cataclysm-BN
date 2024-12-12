@@ -19,7 +19,8 @@
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "stack_size": 1,
-    "fun": -24
+    "fun": -24,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "GENERIC",
