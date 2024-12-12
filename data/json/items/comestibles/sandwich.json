@@ -225,7 +225,11 @@
     "copy-from": "sandwich_deluxe",
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
+      {
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
+        "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "calories": 200,

@@ -4,7 +4,7 @@
     "id": "sausage_raw",
     "name": "raw sausage",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw Mannwurst" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "raw Mannwurst" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
     "weight": "148 g",
@@ -31,7 +31,7 @@
     "id": "sausage",
     "name": "smoked sausage",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "smoked Mannwurst" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "smoked Mannwurst" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
     "copy-from": "sausage_raw",
@@ -48,7 +48,7 @@
     "id": "sausage_cooked",
     "name": "cooked sausage",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "cooked Mannwurst" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "cooked Mannwurst" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
     "copy-from": "sausage_raw",
@@ -80,7 +80,7 @@
     "looks_like": "meat_cooked",
     "name": { "str_sp": "potted meat" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "potted person" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "potted person" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "potted freak" } }
     ],
     "weight": "351 g",
@@ -125,7 +125,7 @@
     "id": "bratwurst_sausage",
     "name": { "str": "bratwurst" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "Mannbrat" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "Mannbrat" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "baleful %s" } }
     ],
     "weight": "100 g",
@@ -262,7 +262,7 @@
     "id": "cracklins",
     "name": { "str_sp": "cracklins" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "long pork rinds" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "long pork rinds" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "cursed %s" } }
     ],
     "weight": "42 g",
@@ -319,7 +319,7 @@
     "id": "currywurst",
     "name": "currywurst",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "cheapskate %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "cheapskate %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "bloodcurdling %s" } }
     ],
     "weight": "85 g",
@@ -346,7 +346,7 @@
     "name": { "str": "aspic" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } }
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "amoral %s" } }
     ],
     "weight": "154 g",
     "color": "red",
@@ -461,7 +461,7 @@
     "id": "bologna",
     "name": { "str_sp": "bologna" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "brat %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "brat %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "bleak %s" } }
     ],
     "weight": "56 g",
@@ -562,7 +562,11 @@
     "id": "sausagegravy",
     "name": { "str": "sausage gravy", "str_pl": "sausage gravies" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "Mannwurst gravy", "str_pl": "Mannwurst gravies" } },
+      {
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
+        "name": { "str": "Mannwurst gravy", "str_pl": "Mannwurst gravies" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "ghastly %s" } }
     ],
     "weight": "60 g",
@@ -587,7 +591,7 @@
     "id": "pemmican",
     "name": { "str_sp": "pemmican" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prepper %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "prepper %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "pernicious %s" } }
     ],
     "weight": "106 g",
@@ -610,7 +614,7 @@
     "id": "macaroni_helper",
     "name": "hamburger helper",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "hobo helper" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "hobo helper" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "heinous %s" } }
     ],
     "weight": "170 g",
@@ -665,7 +669,11 @@
     "id": "chili",
     "name": { "str": "chili con carne", "str_pl": "chilis con carne" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "chili con cabron", "str_pl": "chilis con cabron" } },
+      {
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
+        "name": { "str": "chili con cabron", "str_pl": "chilis con cabron" }
+      },
       {
         "type": "COMPONENT_ID",
         "condition": "mutant",
@@ -923,7 +931,7 @@
     "id": "pie_meat",
     "name": "meat pie",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "prick pie" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "prick pie" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "malignant %s" } }
     ],
     "weight": "189 g",
@@ -950,7 +958,7 @@
     "id": "pizza_meat",
     "name": "meat pizza",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "poser pizza" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "poser pizza" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "miserable %s" } }
     ],
     "weight": "230 g",
@@ -1029,7 +1037,7 @@
     "id": "meat_canned",
     "name": "canned meat",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "soylent slice" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "soylent slice" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1046,7 +1054,7 @@
     "id": "meat_salted",
     "name": "salted meat slice",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "salted simpleton slice" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "salted simpleton slice" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1066,7 +1074,7 @@
     "id": "spaghetti_bolognese",
     "name": { "str_sp": "spaghetti bolognese" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "scoundrel spaghetti" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "scoundrel spaghetti" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "gnarly %s" } }
     ],
     "weight": "150 g",
@@ -1091,7 +1099,7 @@
     "id": "lasagne",
     "name": "lasagne",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "Luigi %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Luigi %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "monster %s" } }
     ],
     "weight": "255 g",
@@ -1140,7 +1148,7 @@
     "id": "cheeseburger",
     "name": "cheeseburger",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "chump %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "chilling %s" } }
     ],
     "weight": "133 g",
@@ -1165,7 +1173,7 @@
     "id": "hamburger",
     "name": "hamburger",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "bobburger" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "bobburger" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "horrible %s" } }
     ],
     "weight": "99 g",
@@ -1189,7 +1197,7 @@
     "id": "sloppyjoe",
     "name": "sloppy joe",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "manwich", "str_pl": "manwiches" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "manwich", "str_pl": "manwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "suspicious %s" } }
     ],
     "weight": "113 g",
@@ -1220,7 +1228,7 @@
     "id": "taco",
     "name": "taco",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "tio %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "tio %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "terrifying %s" } }
     ],
     "weight": "102 g",
@@ -1244,7 +1252,7 @@
     "id": "meat_pickled",
     "name": "pickled meat",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "pickled punk" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "pickled punk" },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1263,7 +1271,7 @@
     "id": "dry_meat",
     "name": "dehydrated meat",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "%s, human" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1284,7 +1292,7 @@
     "id": "rehydrated_meat",
     "name": "rehydrated meat",
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "%s, human" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
@@ -1299,7 +1307,7 @@
     "type": "COMESTIBLE",
     "id": "haggis",
     "name": { "str": "haggis", "str_pl": "haggises" },
-    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } } ],
+    "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "human %s" } } ],
     "//": "That's whisky without an 'e' because we're talking about Scotch whisky.",
     "weight": "156 g",
     "color": "brown",
@@ -1462,7 +1470,7 @@
     "id": "bibimbap",
     "name": { "str_sp": "bibimbap" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "saram %s" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "saram %s" },
       { "type": "COMPONENT_ID", "condition": "fish", "name": "sashimi %s" }
     ],
     "type": "COMESTIBLE",
@@ -1484,7 +1492,7 @@
     "id": "bibimbap_simple",
     "name": { "str_sp": "simple bibimbap" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "saram %s" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "saram %s" },
       { "type": "COMPONENT_ID", "condition": "fish", "name": "sashimi %s" }
     ],
     "type": "COMESTIBLE",
