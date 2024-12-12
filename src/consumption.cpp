@@ -121,6 +121,8 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
@@ -730,7 +732,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( trait_flag_CANNIBAL ) ) {
+    if( food.has_vitamin( vitamin_human_flesh_vitamin ) && !has_trait_flag( trait_flag_CANNIBAL ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ),
                          edible_rating::cannibalism );
     }
@@ -1099,7 +1101,7 @@ void Character::modify_morale( item &food, int nutr )
         }
     }
 
-    if( food.has_flag( flag_CANNIBALISM ) ) {
+    if( food.has_vitamin( vitamin_human_flesh_vitamin ) ) {
         const bool cannibal = has_trait( trait_CANNIBAL );
         const bool psycho = has_trait( trait_PSYCHOPATH );
         const bool sapiovore = has_trait( trait_SAPIOVORE );

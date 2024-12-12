@@ -74,5 +74,14 @@
     "rate": "4 h",
     "flags": [ "NO_DISPLAY" ],
     "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
+  },
+  {
+    "id": "human_flesh_vitamin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Consumed human flesh" },
+    "min": 0,
+    "max": 10000,
+    "rate": "1 h"
   }
 ]
