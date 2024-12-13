@@ -15,12 +15,12 @@
     "description": "Pressed from fresh apples.  Tasty and nutritious.",
     "price": "85 cent",
     "price_postapoc": "25 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -63,11 +63,11 @@
     "description": "Milk some soybeans?  Not quite, but blend them with water, yes!  A dairy-free alternative strong in protein!  Rival to almond milk.",
     "price": "40 cent",
     "price_postapoc": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ], [ "calcium", 7 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -143,11 +143,11 @@
     "description": "A dense, sweet creamy sauce, often used in curries.",
     "price": "350 cent",
     "price_postapoc": "5 USD",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ], [ "fruit_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -272,12 +272,13 @@
     "description": "Things go better with cola.  Sugar water with caffeine added.",
     "price": "95 cent",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -298,12 +299,13 @@
     "description": "It tastes and looks like windshield wiper fluid, but it's loaded to the brim with sugar and caffeine.",
     "price": "1 USD",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -324,12 +326,13 @@
     "description": "A caffeinated, carbonated drink, flavored with vanilla.",
     "price": "95 cent",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -348,12 +351,12 @@
     "description": "Made from real Massachusetts cranberries.  Delicious and nutritious.",
     "price": "80 cent",
     "price_postapoc": "50 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -462,12 +465,12 @@
     "description": "A heavily caffeinated soft drink.  Energy drinks are popular among those who need to stay up late working.",
     "price": "170 cent",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 105 ] ],
+    "vitamins": [ [ "vitC", 105 ], [ "junk_allergen", 1 ] ],
     "fun": 5
   },
   {
@@ -577,13 +580,13 @@
     "description": "Freshly-squeezed from real fruit!  Tasty and nutritious.",
     "price": "80 cent",
     "price_postapoc": "50 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -630,12 +633,12 @@
     "description": "Clear juice obtained by cooking fruit in a large volume of water.",
     "price": "62 cent",
     "price_postapoc": "50 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 25 ] ],
+    "vitamins": [ [ "vitC", 25 ], [ "fruit_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -653,12 +656,12 @@
     "description": "Lemon juice mixed with water and sugar to dull the sourness.  Delicious and refreshing.",
     "price": "80 cent",
     "price_postapoc": "50 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -676,12 +679,13 @@
     "description": "Unlike cola this is caffeine free, however it is still carbonated and has plenty of sugar.  Not to mention a lemon-lime taste.",
     "price": "95 cent",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -836,13 +840,13 @@
     "description": "Freshly-squeezed from real oranges!  Tasty and nutritious.",
     "price": "90 cent",
     "price_postapoc": "50 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//2": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -860,12 +864,13 @@
     "description": "Unlike cola this is caffeine free, however it is still carbonated, sweet, and tastes vaguely orange-like.",
     "price": "95 cent",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -903,12 +908,12 @@
     "description": "A mass-produced grape flavored beverage of artificial origin.  Good for when you want something that tastes like fruit, but still don't care about your health.",
     "price": "85 cent",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ], [ "junk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -926,12 +931,13 @@
     "description": "Like cola, but without caffeine.  Still not that healthy.",
     "price": "95 cent",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -951,12 +957,13 @@
     "description": "Originating in Germany almost a century ago, this mix of cola and orange soda tastes great.",
     "price": "1 USD",
     "price_postapoc": "50 cent",
-    "material": "junk",
+    "material": [ "junk" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1115,13 +1122,13 @@
     "description": "Contains up to eight vegetables!  Nutritious and tasty.",
     "price": "40 cent",
     "price_postapoc": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitA", 60 ], [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "water",
@@ -1263,11 +1270,12 @@
     "description": "A traditional Korean beverage made from rice, often served as a dessert or a digestive aid.",
     "price": "85 cent",
     "price_postapoc": "25 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   }
 ]

@@ -64,7 +64,7 @@
     "description": "A bone from a dragon!  Even on its own, these bones make an excellent material for weapons.  However, something tells you that the bones hide more secrets than just that.",
     "price": "0 cent",
     "price_postapoc": "50 cent",
-    "material": "bone",
+    "material": [ "bone" ],
     "volume": "500 ml"
   }
 ]

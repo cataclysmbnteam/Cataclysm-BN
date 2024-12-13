@@ -15,12 +15,13 @@
     "price": "4 cent",
     "price_postapoc": "50 cent",
     "//": "Small cans--needs upsized after the string freeze.",
-    "material": "tomato",
+    "material": [ "tomato" ],
     "volume": "500 ml",
     "charges": 8,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "maple_sap",
@@ -97,7 +98,7 @@
     "description": "A condiment made from the seeds of a mustard plant (/Brassica/ or /Sinapis/), vinegar, salt, and spices.",
     "price": "50 cent",
     "price_postapoc": "1 USD",
-    "material": "junk",
+    "material": [ "junk" ],
     "weight": "5 g",
     "volume": "250 ml",
     "comestible_type": "DRINK",
@@ -107,7 +108,7 @@
     "spoils_in": "15 days",
     "charges": 48,
     "phase": "liquid",
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "honey_bottled",
@@ -227,13 +228,13 @@
     "description": "An extremely sugary tar-like syrup, produced by repeatedly boiling the juice of sugarcane or sugar beets.  It has a slightly bitter aftertaste.",
     "price": "2 USD",
     "price_postapoc": "5 USD",
-    "material": "junk",
+    "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
     "fun": 2,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ]
+    "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ], [ "junk_allergen", 1 ] ]
   },
   {
     "id": "horseradish",
@@ -244,7 +245,7 @@
     "description": "A spicy grated root vegetable packed in vinegared brine.",
     "price": "75 cent",
     "price_postapoc": "1 USD",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "weight": "6 g",
     "volume": "250 ml",
     "comestible_type": "FOOD",
@@ -254,7 +255,8 @@
     "charges": 48,
     "healthy": 1,
     "fun": -20,
-    "phase": "liquid"
+    "phase": "liquid",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -274,11 +276,12 @@
     "description": "A thick syrup made of water and sugar strained through coffee grounds.  Can be used to flavor many foods and beverages.",
     "price": "8 USD",
     "price_postapoc": "1 USD",
-    "material": "junk",
+    "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 8,
     "calories": 80,
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   }
 ]

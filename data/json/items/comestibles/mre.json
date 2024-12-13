@@ -265,8 +265,9 @@
     "copy-from": "mre_entree",
     "name": { "str": "BBQ beef entree" },
     "description": "The BBQ beef entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": "flesh",
-    "fun": 2
+    "material": [ "flesh" ],
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -294,7 +295,8 @@
     "copy-from": "mre_entree",
     "name": "chicken chunks entree",
     "description": "The chicken chunks entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": "flesh"
+    "material": [ "flesh" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -312,8 +314,9 @@
     "copy-from": "mre_entree",
     "name": { "str": "beef brisket entree" },
     "description": "The beef brisket entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": "flesh",
-    "fun": 1
+    "material": [ "flesh" ],
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -448,8 +451,9 @@
     "copy-from": "mre_entree",
     "name": "lemon pepper tuna entree",
     "description": "The lemon pepper tuna entree from an MRE.  Sterilized using radiation, so it's safe to eat.  Exposed to the atmosphere, it has started to go bad.",
-    "material": "flesh",
-    "fun": 2
+    "material": [ "flesh" ],
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

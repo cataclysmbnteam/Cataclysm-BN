@@ -18,12 +18,12 @@
     "spoils_in": "2 days",
     "phase": "liquid",
     "container": "bottle_plastic",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "calories": 100,
     "quench": 40,
     "healthy": 2,
     "fun": -1,
-    "vitamins": [ [ "calcium", 7 ] ],
+    "vitamins": [ [ "calcium", 7 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {

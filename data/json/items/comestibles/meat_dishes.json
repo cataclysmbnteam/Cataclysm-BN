@@ -19,11 +19,11 @@
     "description": "A hefty raw sausage, prepared for smoking or cooking.",
     "price": "16 USD",
     "price_postapoc": "2 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "sausage",
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 6 ], [ "vitB", 36 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 2 ], [ "iron", 6 ], [ "vitB", 36 ], [ "meat_allergen", 1 ] ],
     "fun": -10
   },
   {
@@ -113,10 +113,10 @@
     "calories": 539,
     "description": "A sweet and delicious sausage.  Better eat it fresh.",
     "price": "24 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "price_postapoc": "250 cent",
-    "vitamins": [ [ "vitA", 30 ], [ "vitC", 4 ], [ "iron", 22 ], [ "vitB", 36 ] ],
+    "vitamins": [ [ "vitA", 30 ], [ "vitC", 4 ], [ "iron", 22 ], [ "vitB", 36 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ],
     "fun": 8
   },
@@ -139,11 +139,12 @@
     "description": "A type of German sausage made of finely chopped meat and meant to be pan fried or roasted.  Better eat it hot and fresh.",
     "price": "18 USD",
     "price_postapoc": "15 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "500 ml",
     "charges": 10,
     "flags": [ "EATEN_HOT" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -159,10 +160,10 @@
     "description": "A chunk of meat with a coat of honey or royal jelly over it, making it quite rich and savory.",
     "price": "210 USD",
     "price_postapoc": "45 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ]
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -179,11 +180,11 @@
     "description": "A thick slab of salty cured bacon.  Shelf stable, precooked and ready-to-eat, it tastes better when reheated.",
     "price": "19 USD",
     "price_postapoc": "5 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ], [ "meat_allergen", 1 ] ],
     "fun": 5
   },
   {
@@ -276,11 +277,12 @@
     "description": "Also known as pork rinds or chicharrones, these are bits of edible fat and skin that have been fried until they are crispy and delicious.",
     "price": "170 cent",
     "price_postapoc": "5 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -333,12 +335,12 @@
     "description": "Sausage covered in a curry ketchup sauce.  Fairly spicy and impressive at the same time!",
     "price": "9 USD",
     "price_postapoc": "350 cent",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 20 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 20 ], [ "iron", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -358,9 +360,9 @@
     "description": "A dish in which meat or fish is set into a gelatin made from a meat or vegetable stock.",
     "price": "25 USD",
     "price_postapoc": "150 cent",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -399,8 +401,9 @@
     "quench": -1,
     "healthy": 1,
     "description": "This is a serving of crisply brined and canned fish.  Tasty and nutritious.",
-    "material": "flesh",
-    "fun": 7
+    "material": [ "flesh" ],
+    "fun": 7,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -429,11 +432,11 @@
     "description": "A delicious golden brown serving of crispy fried fish.",
     "price": "5 USD",
     "price_postapoc": "4 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "vitB", 94 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "vitB", 94 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -452,9 +455,9 @@
     "price": "14 cent",
     "price_postapoc": "75 cent",
     "//": "*Looking for ~$6 per pound here.",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "75 ml",
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [ [ "iron", 2 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -476,10 +479,10 @@
     "description": "Formally known as Bologna sausage, this is a finely ground preserved meat that comes in circular slices.  Its first name isn't Oscar.  You can eat it cold.",
     "price": "10 USD",
     "price_postapoc": "250 cent",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "750 ml",
     "charges": 10,
-    "vitamins": [ [ "iron", 15 ], [ "vitB", 8 ] ]
+    "vitamins": [ [ "iron", 15 ], [ "vitB", 8 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -496,12 +499,12 @@
     "description": "Lutefisk is preserved fish that has been dried in a lye solution.  Vile and soap-like yet highly nutritious, it is reminiscent of the afterbirth of a dog or the world's largest chunk of phlegm.",
     "price": "2 USD",
     "price_postapoc": "250 cent",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "primary_material": "cured_meat",
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": -15,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -519,12 +522,12 @@
     "description": "A canned pork product that is unnaturally pink, oddly rubbery, and not very tasty, this SPAM remains quite filling.  Completely unappetizing, but quite filling.",
     "price": "4 USD",
     "price_postapoc": "3 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "500 ml",
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
     "fun": -2,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "iron", 3 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -551,11 +554,11 @@
     "description": "Salty little fish.  They'll make you thirsty.",
     "price": "2 USD",
     "price_postapoc": "3 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 40 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 40 ], [ "iron", 12 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -734,10 +737,10 @@
     "description": "Now with 95 percent fewer dolphins!",
     "price": "2 USD",
     "price_postapoc": "3 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 141 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 2 ], [ "iron", 12 ], [ "vitB", 141 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -753,10 +756,10 @@
     "description": "Bright pink fish-paste in a can!",
     "price": "5 USD",
     "price_postapoc": "350 cent",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 57 ], [ "iron", 9 ], [ "vitB", 413 ] ]
+    "vitamins": [ [ "vitA", 4 ], [ "calcium", 57 ], [ "iron", 9 ], [ "vitB", 413 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -772,11 +775,11 @@
     "description": "Bright white chicken-paste.",
     "price": "4 USD",
     "price_postapoc": "6 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "500 ml",
     "charges": 2,
     "fun": 1,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 3 ], [ "iron", 18 ], [ "vitB", 34 ] ]
+    "vitamins": [ [ "vitA", 18 ], [ "calcium", 3 ], [ "iron", 18 ], [ "vitB", 34 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -792,11 +795,11 @@
     "description": "Fish fillets pickled in some sort of tangy white sauce.",
     "price": "310 cent",
     "price_postapoc": "7 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": 3,
     "charges": 2,
-    "vitamins": [ [ "calcium", 34 ], [ "iron", 34 ] ]
+    "vitamins": [ [ "calcium", 34 ], [ "iron", 34 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -813,10 +816,10 @@
     "description": "Chopped quahog clams in water.",
     "price": "5 USD",
     "price_postapoc": "5 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
-    "vitamins": [ [ "vitA", 28 ], [ "calcium", 11 ], [ "iron", 25 ], [ "vitB", 1312 ] ]
+    "vitamins": [ [ "vitA", 28 ], [ "calcium", 11 ], [ "iron", 25 ], [ "vitB", 1312 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1064,10 +1067,11 @@
     "description": "Meat slices cured in brine.  Salty but tasty in a pinch.",
     "price": "5 USD",
     "price_postapoc": "3 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "primary_material": "cured_meat",
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1139,9 +1143,10 @@
     "quench": -6,
     "description": "Having been fried, this SPAM is actually pretty tasty.",
     "price": "5 USD",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
-    "fun": 8
+    "fun": 8,
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1242,10 +1247,10 @@
     "description": "A traditional Mexican dish composed of a corn tortilla folded or rolled around a meat filling.",
     "price": "210 cent",
     "price_postapoc": "150 cent",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
-    "vitamins": [ [ "calcium", 13 ], [ "iron", 9 ], [ "vitB", 36 ] ]
+    "vitamins": [ [ "calcium", 13 ], [ "iron", 9 ], [ "vitB", 36 ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1283,9 +1288,10 @@
     "price": "9 USD",
     "price_postapoc": "3 USD",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "material": "flesh",
+    "material": [ "flesh" ],
     "primary_material": "cured_meat",
-    "volume": "125 ml"
+    "volume": "125 ml",
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1404,10 +1410,11 @@
     "description": "Pieces of poisonous meat that have been dried to prevent them from rotting away.  It will still poison you if you eat this.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "volume": "125 ml",
     "fun": -4,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW" ] },
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

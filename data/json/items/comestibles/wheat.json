@@ -14,10 +14,10 @@
     "description": "Whole-grain wheat cereal.  It's surprisingly good, and allegedly good for your heart.",
     "price": "3 USD",
     "price_postapoc": "6 USD",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "1 L",
     "charges": 12,
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 2 ], [ "iron", 9 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 2 ], [ "iron", 9 ], [ "wheat_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -34,11 +34,11 @@
     "description": "Raw wheat, not very tasty.",
     "price": "120 cent",
     "price_postapoc": "1 USD",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "milling": { "into": "flour", "conversion_rate": 15 },
     "volume": "250 ml",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ], [ "wheat_allergen", 1 ] ],
     "fun": -10
   },
   {
@@ -75,10 +75,10 @@
     "description": "A type of pasta usually used when preparing spaghetti.  It could be eaten raw if you're desperate, but is much better cooked.",
     "price": "120 cent",
     "price_postapoc": "1 USD",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "62 ml",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -8
   },
   {
@@ -94,10 +94,10 @@
     "description": "A pasta sheet used in making lasagne.  It could be eaten raw if you're desperate, but is much better cooked.",
     "price": "120 cent",
     "price_postapoc": "1 USD",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "62 ml",
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -8
   },
   {
@@ -115,10 +115,10 @@
     "description": "Fresh wet noodles.  Fairly bland, but fills you up.",
     "price": "20 cent",
     "price_postapoc": "50 cent",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -133,10 +133,10 @@
     "description": "It could be eaten raw if you're desperate, but is much better cooked.",
     "price": "150 cent",
     "price_postapoc": "1 USD",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "flags": [ "RAW" ],
     "volume": "62 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "wheat_allergen", 1 ] ],
     "fun": -6
   },
   {
@@ -195,12 +195,12 @@
     "description": "Dry flakes of flattened grain.  Tasty and nutritious when cooked, it also doubles as food for horses while dry.",
     "price": "75 USD",
     "price_postapoc": "50 cent",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "250 ml",
     "cooks_like": "oatmeal_cooked",
     "flags": [ "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 10,
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 2 ], [ "wheat_allergen", 1 ] ],
     "fun": -2
   },
   {
@@ -217,11 +217,11 @@
     "description": "Raw oats.",
     "price": "120 cent",
     "price_postapoc": "1 USD",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "250 ml",
     "milling": { "into": "flour", "conversion_rate": 4 },
     "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ], [ "wheat_allergen", 1 ] ],
     "fun": -10
   },
   {
@@ -238,11 +238,11 @@
     "description": "A filling and nutritious New England classic that has sustained pioneers and captains of industry alike.",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -259,12 +259,12 @@
     "description": "A filling and nutritious New England classic that has been improved with the addition of extra wholesome ingredients.",
     "price": "550 cent",
     "price_postapoc": "75 cent",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "375 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -450,10 +450,10 @@
     "description": "Dry and salty, these crackers will leave you quite thirsty.",
     "price": "110 cent",
     "price_postapoc": "6 USD",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "1 L",
     "charges": 8,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ], [ "wheat_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -618,9 +618,9 @@
     "description": "So-called ramen noodles.  Can be eaten raw.",
     "price": "2 USD",
     "price_postapoc": "1 USD",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ] ]
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -678,13 +678,13 @@
     "price": "50 USD",
     "price_postapoc": "3 USD",
     "charges": 4,
-    "material": "wheat",
+    "material": [ "wheat" ],
     "symbol": "%",
     "color": "brown",
     "calories": 278,
     "fun": 4,
     "spoils_in": "14 days",
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ], [ "wheat_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {

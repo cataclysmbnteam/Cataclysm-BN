@@ -254,10 +254,10 @@
     "description": "Some peanut butter smothered between two pieces of bread.  Not very filling and will stick to the roof of your mouth like glue.",
     "price": "175 cent",
     "price_postapoc": "175 cent",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "volume": "500 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ],
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ],
     "charges": 4
   },
   {
@@ -288,9 +288,9 @@
     "name": { "str": "PB&M sandwich", "str_pl": "PB&M sandwiches" },
     "calories": 170,
     "description": "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "fun": 6,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
+    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
