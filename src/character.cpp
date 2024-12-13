@@ -6683,7 +6683,7 @@ int Character::visibility( bool, int ) const
     // if ( dark_clothing() && light check ...
     int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
     int const crouching_bonus = 30;
-    if ((g->u.movement_mode_is(CMM_CROUCH))) {
+    if( ( g->u.movement_mode_is( CMM_CROUCH ) ) ) {
         stealth_modifier += crouching_bonus;
     };
     return clamp( 100 - stealth_modifier, 20, 160 );
