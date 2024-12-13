@@ -412,6 +412,18 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( has_watch, bool() const );
 
+        // These are named with 'BTU' (body temperature units) because other
+        // body temperature measurements might/can/should be added later.
+        DOC( "Gets the current temperature of a specific body part (in Body Temperature Units)." );
+        SET_FX_N_T( get_part_temp_cur, "get_part_temp_btu", int( const bodypart_id & id ) const );
+        DOC( "Sets a specific body part to a given temperature (in Body Temperature Units)." );
+        SET_FX_N_T( set_part_temp_cur, "set_part_temp_btu", void( const bodypart_id & id, int temp ) );
+        DOC( "Gets all bodyparts and their associated temperatures (in Body Temperature Units)." );
+        // May want to remove the 'resolve' call, but it clarifies the type...
+        luna::set_fx( ut, "get_temp_btu", sol::resolve< std::map<bodypart_id, int>() >( &UT_CLASS::get_temp_cur ) );
+        DOC( "Sets ALL body parts on a creature to the given temperature (in Body Temperature Units)." );
+        SET_FX_N_T( set_temp_cur, "set_temp_btu", void( int temp ) );
+
         SET_FX_T( blood_loss, int( const bodypart_id & bp ) const );
 
         SET_FX_N_T( encumb, "get_part_encumbrance", int( const bodypart_str_id & bp ) const );
@@ -525,6 +537,12 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( mutate_towards, bool( std::vector<trait_id>, int ) );
 
         SET_FX_T( mutate_towards, bool( const trait_id & ) );
+
+        luna::set_fx( ut, "mutate_towards", sol::overload(
+                          sol::resolve<bool( std::vector<trait_id>, int )>( &UT_CLASS::mutate_towards ),
+                          sol::resolve<bool( const trait_id & )>( &UT_CLASS::mutate_towards )
+                      ) );
+
 
         SET_FX_T( remove_mutation, void( const trait_id &, bool ) );
 
@@ -714,8 +732,10 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( rooted, void() );
 
-        SET_FX_T( fall_asleep, void() );
-        SET_FX_T( fall_asleep, void( const time_duration & duration ) );
+        luna::set_fx( ut, "fall_asleep", sol::overload(
+                          sol::resolve<void()>( &UT_CLASS::fall_asleep ),
+                          sol::resolve<void( const time_duration &duration )>( &UT_CLASS::fall_asleep )
+                      ) );
 
         SET_FX_T( get_hostile_creatures, std::vector<Creature *>( int ) const );
 

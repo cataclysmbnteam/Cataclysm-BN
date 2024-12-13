@@ -1060,7 +1060,7 @@ class npc : public player
 
         bool dispose_item( item &obj, const std::string &prompt = std::string() ) override;
 
-        void aim();
+        bool aim();
         void do_reload( item &it );
 
         // Physical movement from one tile to the next
