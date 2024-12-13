@@ -98,7 +98,7 @@
       { "id": "SCREW", "level": 1 }
     ],
     "components": [ [ [ "e_scrap", 15 ] ], [ [ "power_supply", 4 ] ], [ [ "amplifier", 5 ] ], [ [ "bearing", 60 ] ], [ [ "cable", 60 ] ] ]
-  }, 
+  },
   {
     "type": "recipe",
     "result": "cable",
