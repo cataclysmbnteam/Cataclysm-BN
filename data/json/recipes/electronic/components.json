@@ -17,6 +17,90 @@
   },
   {
     "type": "recipe",
+    "result": "motor",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "60 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+    "using": [ [ "soldering_standard", 40 ], [ "steel_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [ [ [ "e_scrap", 5 ] ], [ [ "amplifier", 2 ] ], [ [ "bearing", 10 ] ], [ [ "cable", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "motor_large",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "60 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "steel_standard", 15 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [ [ [ "e_scrap", 5 ] ], [ [ "power_supply", 2 ] ], [ [ "amplifier", 4 ] ], [ [ "bearing", 40 ] ], [ [ "cable", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "motor_enhanced",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 4 ],
+    "difficulty": 5,
+    "time": "60 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "steel_standard", 20 ], [ "welding_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [ [ [ "e_scrap", 10 ] ], [ [ "power_supply", 3 ] ], [ [ "amplifier", 5 ] ], [ [ "bearing", 50 ] ], [ [ "cable", 45 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "motor_super",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 5 ],
+    "difficulty": 7,
+    "time": "60 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "steel_standard", 20 ], [ "welding_standard", 10 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [ [ [ "e_scrap", 15 ] ], [ [ "power_supply", 4 ] ], [ [ "amplifier", 5 ] ], [ [ "bearing", 60 ] ], [ [ "cable", 60 ] ] ]
+  }, 
+  {
+    "type": "recipe",
     "result": "cable",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
