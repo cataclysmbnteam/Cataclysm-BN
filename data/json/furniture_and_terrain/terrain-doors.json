@@ -226,7 +226,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -265,7 +265,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -304,7 +304,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -343,7 +343,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -382,7 +382,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -421,7 +421,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
