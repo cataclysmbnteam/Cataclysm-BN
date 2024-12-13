@@ -213,7 +213,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -252,7 +252,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -291,7 +291,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -330,7 +330,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -369,7 +369,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -408,7 +408,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
