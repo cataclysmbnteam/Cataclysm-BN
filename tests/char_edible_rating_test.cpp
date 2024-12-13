@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <vitamin.h>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -11,6 +12,8 @@
 #include "itype.h"
 #include "state_helpers.h"
 #include "type_id.h"
+
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 // Character "edible rating" tests, covering the `can_eat` and `will_eat` functions
 
@@ -406,7 +409,7 @@ TEST_CASE( "who will eat human flesh", "[will_eat][edible_rating][cannibal]" )
 
     GIVEN( "some human flesh" ) {
         item &flesh = *item::spawn_temporary( "human_flesh" );
-        REQUIRE( flesh.has_flag( flag_CANNIBALISM ) );
+        REQUIRE( flesh.has_vitamin( vitamin_human_flesh_vitamin ) );
 
         WHEN( "character is not a cannibal" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "CANNIBAL" ) ) );
