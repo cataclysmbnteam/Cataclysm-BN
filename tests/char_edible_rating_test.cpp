@@ -13,7 +13,6 @@
 #include "state_helpers.h"
 #include "type_id.h"
 
-static const vitamin_id vitamin_bread_allergen( "bread_allergen" );
 static const vitamin_id vitamin_egg_allergen( "egg_allergen" );
 static const vitamin_id vitamin_fruit_allergen( "fruit_allergen" );
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
@@ -221,7 +220,7 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
 
         THEN( "they cannot eat wheat" ) {
             item &bread = *item::spawn_temporary( "sourdough_bread" );
-            REQUIRE( bread.has_vitamin( vitamin_bread_allergen ) );
+            REQUIRE( bread.has_vitamin( vitamin_wheat_allergen ) );
 
             expect_cannot_eat( dummy, bread, expect_reason, edible_rating::inedible_mutation );
         }

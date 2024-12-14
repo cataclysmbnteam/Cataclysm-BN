@@ -122,7 +122,6 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const vitamin_id vitamin_bread_allergen( "bread_allergen" );
 static const vitamin_id vitamin_egg_allergen( "egg_allergen" );
 static const vitamin_id vitamin_fruit_allergen( "fruit_allergen" );
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
