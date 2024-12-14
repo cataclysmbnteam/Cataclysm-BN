@@ -1116,13 +1116,19 @@
   {
     "type": "effect_type",
     "id": "pblue",
-    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -1 ] },
+    "name": [ "Took Prussian blue" ],
+    "desc": [ "You consumed Prussian blue, to help remove radioactive contaminants from your body more quickly." ],
+    "//": "Roughly 36 rads lost per hour, baseline per character.cpp is 72/hour so +50% increase",
+    "base_mods": { "rad_chance": [ 100 ], "rad_min": [ -1 ] },
     "blood_analysis_description": "Prussian Blue",
     "rating": "good"
   },
   {
     "type": "effect_type",
     "id": "iodine",
+    "name": [ "Took potassium iodide" ],
+    "desc": [ "You consumed potassium iodide, reducing the amount of contaminants you'll accumulate during radiation exposure." ],
+    "//": "Effects are in suffer.cpp, reduces rad gain by 40-70% depending on if you have any of the the Radioactive mutations",
     "rating": "good",
     "blood_analysis_description": "Potassium Iodide"
   },
