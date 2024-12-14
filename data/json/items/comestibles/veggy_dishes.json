@@ -530,7 +530,7 @@
     "volume": "250 ml",
     "charges": 4,
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 11 ], [ "iron", 3 ], [ "veggy_allergen", 1 ] ],
+    "vitamins": [ [ "vitA", 7 ], [ "calcium", 11 ], [ "iron", 3 ], [ "veggy_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -591,7 +591,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "fun": 15,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ], [ "nut_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
