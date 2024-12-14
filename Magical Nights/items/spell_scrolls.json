@@ -895,5 +895,32 @@
     "name": { "str": "Scroll of Summon... Demon(?)", "str_pl": "Scrolls of Summon... Demon(?)" },
     "description": "You can tell this is an authentic magic scroll by all the cursive writing.  It does make it a bit hard to read, though...",
     "use_action": { "type": "learn_spell", "spells": [ "summon_lemon" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_fire_storm",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Fire Storm", "str_pl": "Scrolls of Fire Storm" },
+    "description": "This scroll details how a spell called 'Fireball' which is commonly used among Kelvinists can be altered to become much more powerful, at a much higher mana cost.",
+    "use_action": { "type": "learn_spell", "spells": [ "fire_storm" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_ice_storm",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Ice Storm", "str_pl": "Scrolls of Ice Storm" },
+    "description": "This scroll details how a spell called 'Hoary Blast' which is commonly used among Kelvinists can be altered to become much more powerful, at a much higher mana cost.",
+    "use_action": { "type": "learn_spell", "spells": [ "ice_storm" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_rock_tomb",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Rock Tomb", "str_pl": "Scrolls of Rock Tomb" },
+    "description": "This scroll details how to tear up the ground beneath you to throw a medium boulder.",
+    "use_action": { "type": "learn_spell", "spells": [ "rock_tomb" ] }
   }
 ]

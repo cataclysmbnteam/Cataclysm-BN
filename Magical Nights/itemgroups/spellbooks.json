@@ -106,7 +106,8 @@
       [ "spell_scroll_druidic_regrowth", 20 ],
       [ "spell_scroll_stormshaper_ionization", 40 ],
       [ "spell_scroll_create_acid", 35 ],
-      [ "spell_scroll_condense_clean_water", 35 ]
+      [ "spell_scroll_condense_clean_water", 35 ],
+      [ "spell_scroll_rock_tomb", 50 ]
     ]
   },
   {
@@ -119,7 +120,9 @@
       [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_lava_bomb", 5 ],
       [ "spell_scroll_druidic_healing", 20 ],
-      [ "bio_sneeze_beam", 50 ]
+      [ "bio_sneeze_beam", 50 ],
+      [ "spell_scroll_fire_storm", 50 ],
+      [ "spell_scroll_ice_storm", 50 ]
     ]
   },
   {
