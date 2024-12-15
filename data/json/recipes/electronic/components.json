@@ -116,7 +116,7 @@
       [ [ "alloy_sheet", 15 ] ]
     ],
     "skills_required": [ [ "fabrication", 7 ], [ "mechanics", 8 ] ]
-  }, 
+  },
   {
     "type": "recipe",
     "result": "cable",
