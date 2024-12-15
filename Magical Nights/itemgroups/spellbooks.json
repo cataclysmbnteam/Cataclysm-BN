@@ -122,7 +122,8 @@
       [ "spell_scroll_druidic_healing", 20 ],
       [ "bio_sneeze_beam", 50 ],
       [ "spell_scroll_fire_storm", 50 ],
-      [ "spell_scroll_ice_storm", 50 ]
+      [ "spell_scroll_ice_storm", 50 ],
+      [ "spell_scroll_meteor", 10 ]
     ]
   },
   {
