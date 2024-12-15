@@ -38,14 +38,14 @@
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
       "//": "Variable reduction since might hit more or less material.",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 210 }
     }
   },
   {
@@ -126,13 +126,13 @@
     ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
-      "str_min": 8,
-      "str_max": 20,
+      "str_min": 15,
+      "str_max": 30,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 20, "block_unaimed_chance": "50%" }
+      "ranged": { "reduction": [ 15, 15 ], "destroy_threshold": 30, "block_unaimed_chance": "50%" }
     }
   },
   {
@@ -158,14 +158,14 @@
       "BLOCK_WIND"
     ],
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
       "//": "Variable reduction since might hit more or less material.",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 210 }
     }
   },
   {
@@ -191,14 +191,14 @@
       "BLOCK_WIND"
     ],
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
       "//": "Variable reduction since might hit more or less material.",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 210 }
     }
   },
   {
@@ -224,14 +224,14 @@
       "BLOCK_WIND"
     ],
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
       "//": "Variable reduction since might hit more or less material.",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 210 }
     }
   },
   {
@@ -257,14 +257,14 @@
       "BLOCK_WIND"
     ],
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
       "//": "Variable reduction since might hit more or less material.",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 210 }
     }
   },
   {
@@ -290,14 +290,14 @@
       "BLOCK_WIND"
     ],
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
       "//": "Variable reduction since might hit more or less material.",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 210 }
     }
   },
   {
@@ -322,14 +322,14 @@
       "BLOCK_WIND"
     ],
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
       "//": "Variable reduction since might hit more or less material.",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 210 }
     }
   },
   {
@@ -355,14 +355,14 @@
       "BLOCK_WIND"
     ],
     "bash": {
-      "str_min": 30,
+      "str_min": 40,
       "str_max": 210,
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": "wall_bash_results",
       "//": "Variable reduction since might hit more or less material.",
-      "ranged": { "reduction": [ 15, 30 ], "destroy_threshold": 210 }
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 210 }
     }
   },
   {
