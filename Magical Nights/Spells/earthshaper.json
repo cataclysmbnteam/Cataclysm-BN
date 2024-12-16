@@ -357,7 +357,7 @@
     "range_increment": 0.3,
     "min_aoe": 1,
     "max_aoe": 4,
-    "aoe_increment": 0.5
+    "aoe_increment": 0.5,
     "base_casting_time": 300,
     "base_energy_cost": 600,
     "energy_source": "MANA",
@@ -381,7 +381,7 @@
     "range_increment": 1,
     "min_aoe": 5,
     "max_aoe": 30,
-    "aoe_increment": 0.5
+    "aoe_increment": 0.5,
     "base_casting_time": 1000,
     "base_energy_cost": 2000,
     "energy_source": "MANA",
