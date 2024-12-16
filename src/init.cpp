@@ -28,7 +28,6 @@
 #include "construction.h"
 #include "construction_category.h"
 #include "construction_group.h"
-#include "construction_sequence.h"
 #include "crafting_gui.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -400,7 +399,6 @@ void DynamicDataLoader::initialize()
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
-    add( "construction_sequence", &construction_sequences::load );
     add( "construction", &constructions::load );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
@@ -561,7 +559,6 @@ void DynamicDataLoader::unload_data()
     clothing_mods::reset();
     construction_categories::reset();
     construction_groups::reset();
-    construction_sequences::reset();
     constructions::reset();
     Creature::reset_hit_range();
     disease_type::reset();
@@ -703,7 +700,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Monster factions" ), &monfactions::finalize },
             { _( "Factions" ), &npc_factions::finalize },
             { _( "Constructions" ), &constructions::finalize },
-            { _( "Construction sequences" ), &construction_sequences::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
