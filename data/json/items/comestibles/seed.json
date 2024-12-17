@@ -11,11 +11,12 @@
     "price_postapoc": "25 cent",
     "charges": 4,
     "stack_size": 100,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "symbol": ".",
     "color": "brown",
-    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ]
+    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "abstract": "seed_fruit",
@@ -23,7 +24,8 @@
     "copy-from": "seed",
     "name": { "str_sp": "fruit seeds" },
     "primary_material": "dried_vegetable",
-    "material": "fruit"
+    "material": [ "fruit" ],
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "id": "seed_hops",
@@ -311,11 +313,12 @@
     "price": "50 cent",
     "charges": 6,
     "stack_size": 6,
-    "material": "garlic",
+    "material": [ "garlic" ],
     "volume": "150 ml",
     "fun": -3,
     "flags": [ "UNSAFE_CONSUME" ],
-    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "10 days" }
+    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "10 days" },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -411,13 +414,14 @@
     "calories": 174,
     "description": "This looks like a sunflower seed the size of your palm.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.  You could probably plant it.",
     "price": "0 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "primary_material": "dried_vegetable",
     "volume": "100 ml",
     "stack_size": 10,
     "fun": 30,
     "flags": [ "UNSAFE_CONSUME", "CAN_PLANT_UNDERGROUND" ],
-    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "14 days" }
+    "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "14 days" },
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -625,11 +629,12 @@
     "price": "50 cent",
     "name": { "str_sp": "oat seeds" },
     "description": "Some oat seeds.",
-    "material": "wheat",
+    "material": [ "wheat" ],
     "primary_material": "dried_vegetable",
     "weight": "5 g",
     "stack_size": 40,
-    "seed_data": { "plant_name": "oats", "fruit": "oats", "byproducts": [ "withered" ], "grow": "7 days" }
+    "seed_data": { "plant_name": "oats", "fruit": "oats", "byproducts": [ "withered" ], "grow": "7 days" },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "id": "seed_wheat",
@@ -640,9 +645,10 @@
     "weight": "5 g",
     "price": "50 cent",
     "stack_size": 40,
-    "material": "wheat",
+    "material": [ "wheat" ],
     "primary_material": "dried_vegetable",
-    "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": "19 days" }
+    "seed_data": { "plant_name": "wheat", "fruit": "wheat", "byproducts": [ "straw_pile" ], "grow": "19 days" },
+    "vitamins": [ [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -657,12 +663,13 @@
     "description": "Some fried seeds of a sunflower, pumpkin or other plant.  Quite nutritious and tasty.",
     "price": "80 cent",
     "price_postapoc": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
     "flags": [ "SMOKED" ],
     "charges": 4,
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -687,7 +694,8 @@
     "fun": -10,
     "flags": [ "HIDDEN_POISON", "RAW" ],
     "use_action": "POISON",
-    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
+    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -695,7 +703,7 @@
     "category": "seeds",
     "container": "bag_plastic",
     "price": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "name": { "str_sp": "coffee beans" },
     "symbol": ".",
@@ -706,7 +714,7 @@
     "addiction_potential": 1,
     "calories": 549,
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "RAW" ],
     "stack_size": 40,
     "weight": "106 g"
@@ -798,7 +806,7 @@
     "price": "250 cent",
     "price_postapoc": "40 cent",
     "charges": 1,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "primary_material": "mushroom",
     "symbol": ".",
     "color": "light_gray",
@@ -811,7 +819,8 @@
       "fruit": "mushroom_morel",
       "grow": "14 days"
     },
-    "extend": { "flags": [ "CAN_PLANT_UNDERGROUND" ] }
+    "extend": { "flags": [ "CAN_PLANT_UNDERGROUND" ] },
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

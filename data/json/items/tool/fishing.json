@@ -54,7 +54,7 @@
     "price": "25 cent",
     "price_postapoc": "25 cent",
     "cutting": 3,
-    "material": "bone",
+    "material": [ "bone" ],
     "symbol": ",",
     "color": "white"
   },

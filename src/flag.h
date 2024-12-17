@@ -54,7 +54,6 @@ extern const flag_id flag_CABLE_SPOOL;
 extern const flag_id flag_CAMERA_PRO;
 extern const flag_id flag_CAN_PLANT_UNDERGROUND;
 extern const flag_id flag_CANNIBAL;
-extern const flag_id flag_CANNIBALISM;
 extern const flag_id flag_CANT_HEAL_EVERYONE;
 extern const flag_id flag_CARNIVORE_OK;
 extern const flag_id flag_CASING;
