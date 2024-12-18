@@ -240,7 +240,7 @@ jobs:
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel clang-format astyle
           python3 -m venv ./venv
           source ./venv/bin/activate
-          pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist
+          pip3 install mac_alias==2.2.0 dmgbuild==1.6.1 biplist polib
 
       - name: Build CBN (linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
