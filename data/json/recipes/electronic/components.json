@@ -94,11 +94,12 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 8,
+    "skills_required": [ [ "fabrication", 6 ], [ "mechanics", 7 ] ],
     "time": "12 h",
     "reversible": true,
-    "decomp_learn": 2,
+    "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 8 ] ],
-    "using": [ [ "soldering_standard", 50 ], [ "steel_standard", 10 ], [ "welding_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 100 ], [ "steel_standard", 60 ], [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "SAW_M_FINE", "level": 1 },
@@ -108,14 +109,17 @@
       { "id": "SCREW", "level": 1 }
     ],
     "components": [
-      [ [ "e_scrap", 15 ] ],
+      [ [ "e_scrap", 20 ] ],
+      [ [ "circuit", 6 ] ],
+      [ [ "processor", 2 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "power_supply", 4 ] ],
-      [ [ "amplifier", 5 ] ],
+      [ [ "amplifier", 6 ] ],
       [ [ "bearing", 60 ] ],
-      [ [ "cable", 60 ] ],
+      [ [ "motor_oil", 1000 ] ],
+      [ [ "carbon_fiber_filament", 75 ] ],
       [ [ "alloy_sheet", 15 ] ]
-    ],
-    "skills_required": [ [ "fabrication", 7 ], [ "mechanics", 8 ] ]
+    ]
   },
   {
     "type": "recipe",
