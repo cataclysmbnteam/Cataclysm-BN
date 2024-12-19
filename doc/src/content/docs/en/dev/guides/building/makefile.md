@@ -580,8 +580,10 @@ brew install llvm
 Then you can specify the compiler with `COMPILER=$(brew --prefix llvm)/bin/clang++` in your make
 command.
 
-It's always good to check that the compiler is the one you want by running
-`$(brew --prefix llvm)/bin/clang++ --version`.
+It's always good to check that the installed compiler is the one you want.
+```sh
+$(brew --prefix llvm)/bin/clang++ --version
+```
 
 ### Compiling
 
