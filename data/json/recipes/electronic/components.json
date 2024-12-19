@@ -21,20 +21,26 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
+    "difficulty": 3,
     "skills_required": [ "fabrication", 2 ],
-    "difficulty": 4,
     "time": "120 m",
     "reversible": true,
-    "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 40 ], [ "steel_standard", 10 ] ],
+    "decomp_learn": 3,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_electronics", 3 ], [ "mag_electronics", 3 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "soldering_standard", 40 ], [ "steel_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 }
     ],
-    "components": [ [ [ "e_scrap", 5 ] ], [ [ "amplifier", 2 ] ], [ [ "bearing", 10 ] ], [ [ "cable", 20 ] ] ]
+    "components": [
+      [ [ "e_scrap", 5 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "bearing", 10 ] ],
+      [ [ "cable", 20 ] ]
+    ]
   },
   {
     "type": "recipe",
