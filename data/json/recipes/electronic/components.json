@@ -48,12 +48,12 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 3 ],
-    "difficulty": 4,
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 4 ] ],
     "time": "300 m",
     "reversible": true,
-    "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 3 ], [ "mag_electronics", 3 ], [ "manual_mechanics", 3 ] ],
+    "decomp_learn": 4,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_electronics", 4 ], [ "mag_electronics", 4 ], [ "manual_mechanics", 4 ] ],
     "using": [ [ "soldering_standard", 50 ], [ "steel_standard", 15 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1 },
@@ -61,7 +61,14 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 }
     ],
-    "components": [ [ [ "e_scrap", 5 ] ], [ [ "power_supply", 2 ] ], [ [ "amplifier", 4 ] ], [ [ "bearing", 40 ] ], [ [ "cable", 30 ] ] ]
+    "components": [
+      [ [ "e_scrap", 5 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 4 ] ],
+      [ [ "bearing", 40 ] ],
+      [ [ "cable", 30 ] ],
+      [ [ "motor_oil", 500 ] ]
+    ]
   },
   {
     "type": "recipe",
