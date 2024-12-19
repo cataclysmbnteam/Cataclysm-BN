@@ -64,13 +64,14 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 6,
+    "skills_required": [ [ "fabrication", 4 ], [ "mechanics", 5 ] ],
     "time": "480 m",
     "reversible": true,
-    "decomp_learn": 2,
-    "book_learn": [ [ "recipe_lab_elec", 6 ] ],
-    "using": [ [ "soldering_standard", 50 ], [ "steel_standard", 10 ], [ "welding_standard", 10 ] ],
+    "decomp_learn": 6,
+    "book_learn": [ [ "textbook_robots", 5 ], [ "recipe_lab_elec", 5 ] ],
+    "using": [ [ "soldering_standard", 75 ], [ "steel_standard", 20 ], [ "welding_standard", 10 ] ],
     "qualities": [
-      { "id": "HAMMER", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "WRENCH_FINE", "level": 1 },
@@ -79,13 +80,15 @@
     ],
     "components": [
       [ [ "e_scrap", 10 ] ],
-      [ [ "alloy_sheet", 10 ] ],
+      [ [ "circuit", 4 ] ],
+      [ [ "processor", 1 ] ],
       [ [ "power_supply", 3 ] ],
-      [ [ "amplifier", 5 ] ],
+      [ [ "amplifier", 4 ] ],
       [ [ "bearing", 50 ] ],
-      [ [ "cable", 45 ] ]
-    ],
-    "skills_required": [ [ "fabrication", 5 ], [ "mechanics", 6 ] ]
+      [ [ "cable", 90 ], [ "carbon_fiber_filament", 30 ] ],
+      [ [ "motor_oil", 750 ] ],
+      [ [ "alloy_sheet", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
