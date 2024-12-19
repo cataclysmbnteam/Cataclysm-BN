@@ -2392,7 +2392,7 @@ bool game::is_game_over()
     if( u.is_dead_state() ) {
         if( get_option<bool>( "PROMPT_ON_CHARACTER_DEATH" ) &&
             !query_yn(
-                _( "Your character is dead, do you accept this?\n\nSelect Yes to abandon the character to their fate, select No to return to main menu." ) ) ) {
+                _( "Your character is dead, do you accept this?\n\nSelect Yes to abandon the character to their fate, select No to return to try again." ) ) ) {
             g->quickload();
             return false;
         }
