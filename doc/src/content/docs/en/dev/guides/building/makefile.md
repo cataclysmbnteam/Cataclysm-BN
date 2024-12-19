@@ -581,6 +581,7 @@ Then you can specify the compiler with `COMPILER=$(brew --prefix llvm)/bin/clang
 command.
 
 It's always good to check that the installed compiler is the one you want.
+
 ```sh
 $(brew --prefix llvm)/bin/clang++ --version
 ```
