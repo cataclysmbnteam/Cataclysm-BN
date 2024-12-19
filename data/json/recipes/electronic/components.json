@@ -34,13 +34,7 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 }
     ],
-    "components": [
-      [ [ "e_scrap", 5 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "bearing", 10 ] ],
-      [ [ "cable", 20 ] ]
-    ]
+    "components": [ [ [ "e_scrap", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 2 ] ], [ [ "bearing", 10 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
