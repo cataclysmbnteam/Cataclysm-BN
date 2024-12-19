@@ -2393,7 +2393,8 @@ bool game::is_game_over()
         if( get_option<bool>( "PROMPT_ON_CHARACTER_DEATH" ) &&
             !query_yn(
                 _( "Your character is dead, do you accept this?\n\nSelect Yes to abandon the character to their fate, select No to return to main menu." ) ) ) {
-            return true;
+            g->quickload();
+            return false;
         }
 
         Messages::deactivate();
@@ -2539,8 +2540,6 @@ bool game::load( const save_t &name )
     background_pane background;
     static_popup popup;
     popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
-    ui_manager::redraw();
-    refresh_display();
 
     using namespace std::placeholders;
 
@@ -2554,7 +2553,9 @@ bool game::load( const save_t &name )
             std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
-
+    // This needs to be here for some reason for quickload() to wo
+    ui_manager::redraw();
+    refresh_display();
     u.load_map_memory();
     u.get_avatar_diary()->load();
 
@@ -11424,16 +11425,58 @@ void game::quickload()
     }
 
     if( active_world->info->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
-        if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            MAPBUFFER.clear();
-            overmap_buffer.clear();
-            try {
-                setup();
-            } catch( const std::exception &err ) {
-                debugmsg( "Error: %s", err.what() );
-            }
-            load( save_t::from_save_id( u.get_save_id() ) );
+        MAPBUFFER.clear();
+        overmap_buffer.clear();
+        try {
+            // This is just setup() without `init::load_world_modfiles( ui, get_active_world(), SAVE_ARTIFACTS )`;
+            // Because we are already in this world
+            m = map();
+
+            next_npc_id = character_id( 1 );
+            next_mission_id = 1;
+            new_game = true;
+            uquit = QUIT_NO;   // We haven't quit the game
+            bVMonsterLookFire = true;
+
+            // invalidate calendar caches in case we were previously playing
+            // a different world
+            calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+            calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+            get_weather().weather_id = weather_type_id::NULL_ID();
+            get_weather().nextweather = calendar::before_time_starts;
+
+            turnssincelastmon = 0; //Auto safe mode init
+
+            sounds::reset_sounds();
+            clear_zombies();
+            coming_to_stairs.clear();
+            active_npc.clear();
+            faction_manager_ptr->clear();
+            mission::clear_all();
+            Messages::clear_messages();
+            timed_events = timed_event_manager();
+            explosion_handler::get_explosion_queue().clear();
+
+            SCT.vSCT.clear(); //Delete pending messages
+
+            stats().clear();
+            // reset kill counts
+            get_kill_tracker().clear();
+            achievements_tracker_ptr->clear();
+            // reset follower list
+            follower_ids.clear();
+            scent.reset();
+
+            remoteveh_cache_time = calendar::before_time_starts;
+            remoteveh_cache = nullptr;
+
+            token_provider_ptr->clear();
+            // back to menu for save loading, new game etc
+        } catch( const std::exception &err ) {
+            debugmsg( "Error: %s", err.what() );
         }
+        load( save_t::from_save_id( u.get_save_id() ) );
     } else {
         popup_getkey( _( "No saves for current character yet." ) );
     }
