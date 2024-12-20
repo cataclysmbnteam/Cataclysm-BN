@@ -470,11 +470,13 @@ void game::reenter_fullscreen()
 /*
  * Initialize more stuff after mapbuffer is loaded.
  */
-void game::setup()
+void game::setup( bool load_world_modfiles )
 {
     loading_ui ui( true );
 
-    init::load_world_modfiles( ui, get_active_world(), SAVE_ARTIFACTS );
+    if( load_world_modfiles ) {
+        init::load_world_modfiles( ui, get_active_world(), SAVE_ARTIFACTS );
+    }
 
     m = map();
 
@@ -2392,8 +2394,9 @@ bool game::is_game_over()
     if( u.is_dead_state() ) {
         if( get_option<bool>( "PROMPT_ON_CHARACTER_DEATH" ) &&
             !query_yn(
-                _( "Your character is dead, do you accept this?\n\nSelect Yes to abandon the character to their fate, select No to return to main menu." ) ) ) {
-            return true;
+                _( "Your character is dead, do you accept this?\n\nSelect Yes to abandon the character to their fate, select No to try again." ) ) ) {
+            g->quickload();
+            return false;
         }
 
         Messages::deactivate();
@@ -2539,8 +2542,6 @@ bool game::load( const save_t &name )
     background_pane background;
     static_popup popup;
     popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
-    ui_manager::redraw();
-    refresh_display();
 
     using namespace std::placeholders;
 
@@ -2554,7 +2555,9 @@ bool game::load( const save_t &name )
             std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
-
+    // This needs to be here for some reason for quickload() to work
+    ui_manager::redraw();
+    refresh_display();
     u.load_map_memory();
     u.get_avatar_diary()->load();
 
@@ -11424,16 +11427,15 @@ void game::quickload()
     }
 
     if( active_world->info->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
-        if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            MAPBUFFER.clear();
-            overmap_buffer.clear();
-            try {
-                setup();
-            } catch( const std::exception &err ) {
-                debugmsg( "Error: %s", err.what() );
-            }
-            load( save_t::from_save_id( u.get_save_id() ) );
+        MAPBUFFER.clear();
+        overmap_buffer.clear();
+        try {
+            // Doesn't need to load mod files again for the same world
+            setup( false );
+        } catch( const std::exception &err ) {
+            debugmsg( "Error: %s", err.what() );
         }
+        load( save_t::from_save_id( u.get_save_id() ) );
     } else {
         popup_getkey( _( "No saves for current character yet." ) );
     }
