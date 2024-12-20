@@ -1613,8 +1613,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
 
     //If we didn't find the item maybe it is a building instead!
     const recipe_id &making_id = recipe_id( id.c_str() );
-    if( oter_str_id( id.c_str() ).is_valid() ||
-        ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
+    if( oter_str_id( id.c_str() ).is_valid() ) {
         itype *def = new itype();
         def->id = id;
         def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
