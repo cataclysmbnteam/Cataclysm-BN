@@ -12,7 +12,7 @@
 #include "creature.h"
 #include "magic.h"
 
-// IN WAITING: fake_spell, enchantment_id, enchantments in general
+// IN WAITING: enchantment_id, enchantments in general
 void cata::detail::reg_magic( sol::state &lua ) {
     reg_spell_type( lua );
     reg_spell_fake( lua );
@@ -42,7 +42,9 @@ void cata::detail::reg_spell_type( sol::state &lua )
 
 
         SET_MEMB_RO( id );
+        DOC( "The name of the primary effect this spell will enact." );
         SET_MEMB_RO( effect_name );
+        DOC( "Specifics about the effect this spell will enact." );
         SET_MEMB_RO( effect_str );
 
         // Need to see how the code handles this...
@@ -79,6 +81,7 @@ void cata::detail::reg_spell_type( sol::state &lua )
         SET_MEMB_RO( energy_increment );
         SET_MEMB_RO( final_energy_cost );
 
+        //DOC( "The class necessary to cast this spell, if any." );
         //SET_MEMB_RO( spell_class );
         SET_MEMB_RO( difficulty );
         SET_MEMB_RO( max_level );
