@@ -2508,7 +2508,6 @@ void Item_factory::set_allergy_flags( itype &item_template )
     static const std::pair<material_id, flag_id> all_pairs[] = {
         // First allergens:
         // An item is an allergen even if it has trace amounts of allergenic material
-        std::make_pair( material_id( "hflesh" ), flag_CANNIBALISM ),
 
         std::make_pair( material_id( "hflesh" ), flag_ALLERGEN_MEAT ),
         std::make_pair( material_id( "iflesh" ), flag_ALLERGEN_MEAT ),
@@ -2545,6 +2544,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
 
 // Migration helper: turns human flesh into generic flesh
 // Don't call before making sure that the cannibalism flag is set
+// Cannibalism is vitamin based now, so **probably** obsolete (if it wasn't already?)
 void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;

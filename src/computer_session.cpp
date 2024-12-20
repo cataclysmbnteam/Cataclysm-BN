@@ -66,6 +66,8 @@ static const itype_id itype_sewage( "sewage" );
 static const itype_id itype_usb_drive( "usb_drive" );
 static const itype_id itype_vacutainer( "vacutainer" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 static const skill_id skill_computer( "computer" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
@@ -773,7 +775,7 @@ void computer_session::action_blood_anal()
                             print_error( _( "USB drive required!" ) );
                         }
                     }
-                } else if( blood.has_flag( flag_CANNIBALISM ) ) {  // Normal human blood
+                } else if( blood.has_vitamin( vitamin_human_flesh_vitamin ) ) {  // Normal human blood
                     print_line( _( "Result: Human blood, no pathogens found." ) );
                 } else { // Anything else
                     print_line( _( "Result: Unknown blood type.  Test non-conclusive." ) );

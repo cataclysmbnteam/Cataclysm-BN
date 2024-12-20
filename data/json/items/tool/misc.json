@@ -269,7 +269,7 @@
     "price": "3 kUSD",
     "price_postapoc": "10 cent",
     "bashing": 6,
-    "material": "bone",
+    "material": [ "bone" ],
     "symbol": ";",
     "color": "white"
   },
@@ -561,7 +561,7 @@
     "price": "40 USD",
     "price_postapoc": "1 USD",
     "to_hit": -1,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": "*",
     "color": "red",
     "initial_charges": 3,
