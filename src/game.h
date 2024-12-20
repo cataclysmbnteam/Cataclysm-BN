@@ -167,7 +167,7 @@ class game
         void on_options_changed();
 
     public:
-        void setup();
+        void setup( bool load_world_modfiles = true );
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
         void unserialize( std::istream &fin ); // for load
