@@ -931,5 +931,32 @@
     "name": { "str": "Scroll of Meteor", "str_pl": "Scrolls of Meteor" },
     "description": "This scroll contains a powerful spell to call down a meteor from high in the sky.  With this cataclysm, maybe another dinosaur-killer would be a good thing.",
     "use_action": { "type": "learn_spell", "spells": [ "meteor" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_acid_bolt",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Acid Bolt", "str_pl": "Scrolls of Acid Bolt" },
+    "description": "This scroll details how to throw acid at someone.",
+    "use_action": { "type": "learn_spell", "spells": [ "acid_bolt" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_acid_bomb",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Acid Bomb", "str_pl": "Scrolls of Acid Bomb" },
+    "description": "This scroll contains details on how to shape acid into a compressed spherical shape.",
+    "use_action": { "type": "learn_spell", "spells": [ "acid_bomb" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_acid_storm",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Acid Storm", "str_pl": "Scrolls of Acid Storm" },
+    "description": "This scroll details how a spell called 'Acid Bomb' can be altered to become much more powerful, at a much higher mana cost.",
+    "use_action": { "type": "learn_spell", "spells": [ "acid_storm" ] }
   }
 ]
