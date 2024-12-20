@@ -108,11 +108,12 @@
     "description": "This looks like a blueberry the size of your fist, but pinkish in color.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "volume": "250 ml",
     "stack_size": 4,
     "flags": [ "MYCUS_OK", "NO_BLOAT" ],
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -131,10 +132,11 @@
     "description": "This looks like a handful of lemon-colored liquid which has taken a set, much like pre-Cataclysm Jello.  It has a strong but delicious aroma, but is clearly either mutated or of alien origin.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "volume": "100 ml",
     "stack_size": 10,
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -151,11 +153,12 @@
     "description": "Humans might call this a Gray Delicious apple: large, gray, and smells even better than the Marloss.  If they didn't reject it for its alien origins.  But we know better.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": "fruit",
+    "material": [ "fruit" ],
     "volume": "250 ml",
     "stack_size": 4,
     "flags": [ "MYCUS_OK", "NO_BLOAT" ],
-    "fun": 30
+    "fun": 30,
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -264,11 +267,11 @@
     "description": "Canned beans.  A staple among canned goods, these are reputedly good for one's coronary health.",
     "price": "150 cent",
     "price_postapoc": "150 cent",
-    "material": "bean",
+    "material": [ "bean" ],
     "volume": "500 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
+    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -285,11 +288,11 @@
     "description": "Dehydrated great northern beans.  Tasty and nutritious when cooked, virtually inedible when dry.",
     "price": "3 USD",
     "price_postapoc": "150 cent",
-    "material": "bean",
+    "material": [ "bean" ],
     "volume": "250 ml",
     "cooks_like": "beans_cooked",
     "charges": 6,
-    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
+    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ], [ "veggy_allergen", 1 ] ],
     "fun": -6
   },
   {
@@ -307,11 +310,11 @@
     "description": "A hearty serving of cooked great northern beans.",
     "price": "1 USD",
     "price_postapoc": "1 USD",
-    "material": "bean",
+    "material": [ "bean" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 8 ], [ "vitB", 32 ] ]
+    "vitamins": [ [ "calcium", 8 ], [ "vitB", 32 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -328,11 +331,11 @@
     "price": "90 cent",
     "price_postapoc": "50 cent",
     "fun": -4,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "volume": "85 ml",
     "flags": [ "SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "smoking_result": "dry_tofu",
-    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -349,10 +352,10 @@
     "description": "Tofu, a soy protein crucial to East Asian cuisine.  It absorbs flavors very well and can be used as a meat alternative in many dishes.",
     "price": "90 cent",
     "price_postapoc": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "volume": "85 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -367,9 +370,9 @@
     "description": "Dehydrated tofu, sealed and still extra firm to last a long time.",
     "price": "90 cent",
     "price_postapoc": "75 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "volume": "85 ml",
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -387,9 +390,9 @@
     "price_postapoc": "50 cent",
     "charges": 4,
     "stack_size": 100,
-    "material": "bean",
+    "material": [ "bean" ],
     "fun": -5,
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
     "smoking_result": "soy_nuts"
   },
@@ -410,9 +413,9 @@
     "price_postapoc": "50 cent",
     "charges": 4,
     "stack_size": 100,
-    "material": "bean",
+    "material": [ "bean" ],
     "fun": 1,
-    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
+    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
     "smoking_result": "edamame_roasted"
   },
@@ -431,10 +434,10 @@
     "description": "A humble but nutrient-rich legume.  Should be cooked prior to consumption.",
     "price": "20 cent",
     "price_postapoc": "150 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "volume": "250 ml",
     "charges": 2,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ] ],
     "fun": -10
   },
   {
@@ -542,10 +545,10 @@
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": "350 cent",
     "price_postapoc": "1 USD",
-    "material": "tomato",
+    "material": [ "tomato" ],
     "volume": "250 ml",
     "charges": 2,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -561,11 +564,11 @@
     "healthy": -20,
     "quench": -47,
     "calories": 78,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "vitB", 54 ] ],
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "vitB", 54 ], [ "meat_allergen", 1 ] ],
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
     "price": "80 cent",
     "price_postapoc": "0 cent",
-    "material": "hflesh",
+    "material": [ "hflesh" ],
     "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME" ],
     "volume": "250 ml",
     "fun": -30
@@ -581,12 +584,12 @@
     "price": "1 USD",
     "price_postapoc": "25 cent",
     "to_hit": -5,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "symbol": ";",
     "healthy": 2,
     "quench": 1,
     "calories": 170,
-    "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
@@ -604,11 +607,11 @@
     "price": "20 cent",
     "price_postapoc": "25 cent",
     "to_hit": -5,
-    "material": "veggy",
+    "material": [ "veggy" ],
     "symbol": ";",
     "healthy": 1,
     "calories": 20,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ], [ "veggy_allergen", 1 ] ],
     "fun": 5,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
@@ -628,12 +631,12 @@
     "price": "3 USD",
     "price_postapoc": "250 cent",
     "to_hit": -5,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": ";",
     "healthy": 2,
     "quench": 2,
     "calories": 350,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "LUPINE" ],
@@ -653,12 +656,12 @@
     "price": "3 USD",
     "price_postapoc": "4 USD",
     "to_hit": -5,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": ";",
     "healthy": 2,
     "quench": 2,
     "calories": 600,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ], [ "meat_allergen", 1 ] ],
     "fun": -15,
     "color": "brown",
     "flags": [ "FELINE" ],
@@ -674,11 +677,11 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 70,
-    "vitamins": [  ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
     "description": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   },
@@ -691,11 +694,11 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 174,
-    "vitamins": [  ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ],
     "description": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID" ],
     "volume": "250 ml"
   },

@@ -1229,10 +1229,11 @@
     "container": "bag_plastic",
     "flags": [ "EATEN_COLD" ],
     "description": "These clear cubes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
-    "material": "junk",
+    "material": [ "junk" ],
     "volume": "900 ml",
     "//": "Bulk density is around 0.55 g/mL",
-    "weight": "20 g"
+    "weight": "20 g",
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "steel_grille",
@@ -1348,7 +1349,7 @@
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "container": "bottle_plastic_small",
-    "material": "flesh",
+    "material": [ "flesh" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "components"

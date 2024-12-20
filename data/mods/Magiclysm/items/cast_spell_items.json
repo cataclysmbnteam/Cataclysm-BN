@@ -95,7 +95,8 @@
     "color": "pink",
     "stack_size": 1,
     "spoils_in": "4 days",
-    "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "animist_doll_skeleton",
@@ -114,7 +115,8 @@
     "type": "COMESTIBLE",
     "category": "weapons",
     "material": [ "fur", "flesh", "bone" ],
-    "copy-from": "animist_doll_skeleton"
+    "copy-from": "animist_doll_skeleton",
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "twisted_restore_potion",
