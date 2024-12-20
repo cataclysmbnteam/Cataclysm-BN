@@ -126,7 +126,7 @@ LUNA_VAL( point, "Point" );
 LUNA_VAL( query_popup, "QueryPopup" );
 LUNA_VAL( SkillLevelMap, "SkillLevelMap" );
 LUNA_VAL( SkillLevel, "SkillLevel" );
-LUNA_VAL( fake_spell, "SpellShell" )
+LUNA_VAL( fake_spell, "SpellSimple" )
 LUNA_VAL( spell, "Spell" )
 LUNA_VAL( time_duration, "TimeDuration" );
 LUNA_VAL( time_point, "TimePoint" );

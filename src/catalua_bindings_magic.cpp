@@ -156,14 +156,9 @@ void cata::detail::reg_spell( sol::state &lua )
         );
 
         // Lets us grab the ID from the object.
-        // *NOTE* May not work (it's marked private).
         SET_MEMB_N_RO( type, "id" );
         // ↑ I have no clue why that works, even after 'type' is made private
         // again. I do not presently have the patience to investigate further.
-        //
-        //DOC( "Testing..." );
-        //SET_FX_T( id, spell_id() const );
-        //SET_FX( id );
         
         SET_FX_T( xp, int() const );
         SET_FX_T( gain_exp, void( int ) );
@@ -177,7 +172,9 @@ void cata::detail::reg_spell( sol::state &lua )
 
         // Present goal is basic functionality.
 
+        DOC( "Cast this spell, as well as any sub-spells." );
         SET_FX_N_T( cast_all_effects, "cast", void( Creature & source, const tripoint & target ) const );
+        DOC( "Cast *only* this spell's main effects. Generally, cast() should be used instead." );
         SET_FX_N_T( cast_spell_effect, "cast_single_effect", void( Creature & source, const tripoint & target ) const );
     }
 #undef UT_CLASS // #define UT_CLASS spell
