@@ -2553,7 +2553,7 @@ bool game::load( const save_t &name )
             std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
-    // This needs to be here for some reason for quickload() to wo
+    // This needs to be here for some reason for quickload() to work
     ui_manager::redraw();
     refresh_display();
     u.load_map_memory();
