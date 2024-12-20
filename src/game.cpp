@@ -470,11 +470,13 @@ void game::reenter_fullscreen()
 /*
  * Initialize more stuff after mapbuffer is loaded.
  */
-void game::setup()
+void game::setup( bool load_world_modfiles )
 {
     loading_ui ui( true );
 
-    init::load_world_modfiles( ui, get_active_world(), SAVE_ARTIFACTS );
+    if( load_world_modfiles ) {
+        init::load_world_modfiles( ui, get_active_world(), SAVE_ARTIFACTS );
+    }
 
     m = map();
 
@@ -11428,51 +11430,8 @@ void game::quickload()
         MAPBUFFER.clear();
         overmap_buffer.clear();
         try {
-            // This is just setup() without `init::load_world_modfiles( ui, get_active_world(), SAVE_ARTIFACTS )`;
-            // Because we are already in this world
-            m = map();
-
-            next_npc_id = character_id( 1 );
-            next_mission_id = 1;
-            new_game = true;
-            uquit = QUIT_NO;   // We haven't quit the game
-            bVMonsterLookFire = true;
-
-            // invalidate calendar caches in case we were previously playing
-            // a different world
-            calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-            calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
-
-            get_weather().weather_id = weather_type_id::NULL_ID();
-            get_weather().nextweather = calendar::before_time_starts;
-
-            turnssincelastmon = 0; //Auto safe mode init
-
-            sounds::reset_sounds();
-            clear_zombies();
-            coming_to_stairs.clear();
-            active_npc.clear();
-            faction_manager_ptr->clear();
-            mission::clear_all();
-            Messages::clear_messages();
-            timed_events = timed_event_manager();
-            explosion_handler::get_explosion_queue().clear();
-
-            SCT.vSCT.clear(); //Delete pending messages
-
-            stats().clear();
-            // reset kill counts
-            get_kill_tracker().clear();
-            achievements_tracker_ptr->clear();
-            // reset follower list
-            follower_ids.clear();
-            scent.reset();
-
-            remoteveh_cache_time = calendar::before_time_starts;
-            remoteveh_cache = nullptr;
-
-            token_provider_ptr->clear();
-            // back to menu for save loading, new game etc
+            // Doesn't need to load mod files again for the same world
+            setup( false );
         } catch( const std::exception &err ) {
             debugmsg( "Error: %s", err.what() );
         }
