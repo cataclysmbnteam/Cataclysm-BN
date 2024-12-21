@@ -81,6 +81,7 @@ void weapon_category::reset()
 void weapon_category::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "shorthand", shorthand_ );
 }
 
 const std::vector<weapon_category> &weapon_category::get_all()
