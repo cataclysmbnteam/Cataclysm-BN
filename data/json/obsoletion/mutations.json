@@ -238,5 +238,13 @@
     "points": 1,
     "description": "This mutation has been obsoleted due to the hidden movement speed penalty being removed.  If you see this on a profession or mutate this trait, this is a bug.",
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "STYLISH",
+    "name": { "str": "Stylish" },
+    "points": 2,
+    "description": "Obsoleted due to becoming default behavior.",
+    "valid": false
   }
 ]
