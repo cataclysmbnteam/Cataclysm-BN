@@ -289,8 +289,8 @@ player_morale::player_morale() :
                                          std::bind( set_badtemper, _1, -9 ),
                                          std::bind( set_badtemper, _1, 0 ) );
     mutations[trait_UNSTYLISH]       = mutation_data(
-                                         std::bind( set_stylish, _1, false ),
-                                         std::bind( set_stylish, _1, true ) );
+                                           std::bind( set_stylish, _1, false ),
+                                           std::bind( set_stylish, _1, true ) );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
     mutations[trait_ROOTS1]         = mutation_data( update_constrained );
     mutations[trait_ROOTS2]        = mutation_data( update_constrained );
