@@ -265,7 +265,7 @@
     "id": "FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
+    "//": "Wearing this clothing gives a morale bonus if the player doesn't have the Fashion Deficient trait.",
     "info": "This clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
   },
@@ -798,7 +798,7 @@
     "id": "SUPER_FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
+    "//": "Gives an additional moral bonus over FANCY if the player doesn't have the Fashion Deficient trait.",
     "info": "This clothing is <info>very fancy</info>.",
     "conflicts": [ "FANCY" ]
   },
