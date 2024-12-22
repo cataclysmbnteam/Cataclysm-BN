@@ -200,7 +200,8 @@ to find which flags work elsewhere.
 - `COLLAR` This piece of clothing has a wide collar that can keep your mouth warm.
 - `DEAF` Makes the player deaf.
 - `ELECTRIC_IMMUNE` This gear completely protects you from electric discharges.
-- `FANCY` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- `FANCY` Wearing this clothing gives a morale bonus if the player doesn't have the
+  `Fashion Deficient` trait.
 - `FIX_FARSIGHT` This gear corrects farsightedness.
 - `FIX_NEARSIGHT` This gear corrects nearsightedness.
 - `FLOTATION` Prevents the player from drowning in deep water. Also prevents diving underwater.
@@ -249,7 +250,8 @@ to find which flags work elsewhere.
   0.70.
 - `STURDY` This clothing is a lot more resistant to damage than normal.
 - `SUN_GLASSES` Prevents glaring when in sunlight.
-- `SUPER_FANCY` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
+- `SUPER_FANCY` Gives an additional moral bonus over `FANCY` if the player doesn't have the
+  `Fashion Deficient` trait.
 - `SWIM_GOGGLES` Allows you to see much further under water.
 - `THERMOMETER` This gear is equipped with an accurate thermometer (which is used to measure
   temperature).
