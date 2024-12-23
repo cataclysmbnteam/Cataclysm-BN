@@ -1330,7 +1330,7 @@ void Character::forced_dismount()
         }
         const int dodge = get_dodge();
         const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
-        bodypart_id hit( "num_bp" );
+        bodypart_id hit = bodypart_str_id::NULL_ID().id();
         switch( rng( 1, 10 ) ) {
             case  1:
                 if( one_in( 2 ) ) {
@@ -3175,25 +3175,23 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
         if( it.has_flag( flag_POWERARMOR_MOD ) ) {
             int max_layer = 2;
-            std::vector< std::pair< body_part, int > > mod_parts;
-            std::vector< std::pair< body_part, bool > > attachments;
-            body_part bp = num_bp;
-            bodypart_str_id bpid;
+            std::vector< std::pair< bodypart_str_id, int > > mod_parts;
+            std::vector< std::pair< bodypart_str_id, bool > > attachments;
             bool lhs = false;
             bool rhs = false;
-            for( std::size_t i = 0; i < static_cast< body_part >( num_bp ); ++i ) {
-                bp = static_cast< body_part >( i );
-                if( it.get_covered_body_parts().test( convert_bp( bp ) ) ) {
+            const auto &all_bps = get_all_body_parts();
+            for( const bodypart_id &bp : all_bps ) {
+                if( it.get_covered_body_parts().test( bp.id() ) ) {
                     mod_parts.emplace_back( bp, 0 );
                     attachments.emplace_back( bp, false );
                 }
             }
             for( auto &elem : worn ) {
                 // To check if there's an external/exoskeleton for the mod to attach to.
-                for( std::pair< body_part, bool > &attachment : attachments ) {
-                    if( elem->get_covered_body_parts().test( convert_bp( attachment.first ) ) &&
+                for( std::pair< bodypart_str_id, bool > &attachment : attachments ) {
+                    if( elem->get_covered_body_parts().test( attachment.first ) &&
                         ( elem->has_flag( flag_POWERARMOR_EXO ) || elem->has_flag( flag_POWERARMOR_EXTERNAL ) ) ) {
-                        if( elem->is_sided() && elem->get_side() == bpid->part_side ) {
+                        if( elem->is_sided() && elem->get_side() == attachment.first->part_side ) {
                             attachment.second = true;
                         } else {
                             attachment.second = true;
@@ -3201,11 +3199,10 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                     }
                 }
                 // To check how many mods are on a given part.
-                for( std::pair< body_part, int > &mod_part : mod_parts ) {
-                    bpid = convert_bp( mod_part.first );
-                    if( elem->get_covered_body_parts().test( bpid ) &&
+                for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
+                    if( elem->get_covered_body_parts().test( mod_part.first ) &&
                         elem->has_flag( flag_POWERARMOR_MOD ) ) {
-                        if( elem->is_sided() && elem->get_side() == bpid->part_side ) {
+                        if( elem->is_sided() && elem->get_side() == mod_part.first->part_side ) {
                             mod_part.second++;
                         } else {
                             mod_part.second++;
@@ -3213,21 +3210,20 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                     }
                 }
             }
-            for( std::pair< body_part, bool > &attachment : attachments ) {
+            for( std::pair< bodypart_str_id, bool > &attachment : attachments ) {
                 if( !attachment.second ) {
                     return ret_val<bool>::make_failure( _( "Nothing to attach the mod to!" ) );
                 }
             }
-            for( std::pair< body_part, int > &mod_part : mod_parts ) {
-                bpid = convert_bp( mod_part.first );
-                if( static_cast< body_part >( mod_part.first ) == bp_torso ) {
+            for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
+                if( mod_part.first == body_part_torso ) {
                     max_layer = 3;
                 }
                 if( mod_part.second >= max_layer ) {
-                    if( !it.is_sided() || bpid->part_side == side::BOTH ) {
+                    if( !it.is_sided() || mod_part.first->part_side == side::BOTH ) {
                         return ret_val<bool>::make_failure( _( "Can't wear any more mods on that body part!" ) );
                     } else {
-                        if( bpid->part_side == side::LEFT ) {
+                        if( mod_part.first->part_side == side::LEFT ) {
                             lhs = true;
                         } else {
                             rhs = true;
@@ -3483,27 +3479,23 @@ ret_val<bool> Character::can_swap( const item &it ) const
 {
     if( it.has_flag( flag_POWERARMOR_MOD ) ) {
         int max_layer = 2;
-        std::vector< std::pair< body_part, int > > mod_parts;
-        body_part bp = num_bp;
-        bodypart_str_id bpid;
-        for( std::size_t i = 0; i < static_cast< body_part >( num_bp ); ++i ) {
-            bp = static_cast< body_part >( i );
-            bpid = convert_bp( bp );
-            if( it.get_covered_body_parts().test( bpid ) && bpid->part_side != side::BOTH ) {
+        std::vector< std::pair< bodypart_str_id, int > > mod_parts;
+        const auto &all_bps = get_all_body_parts();
+        for( const bodypart_id &bp : all_bps ) {
+            if( it.get_covered_body_parts().test( bp.id() ) && bp->part_side != side::BOTH ) {
                 mod_parts.emplace_back( bp, 0 );
             }
         }
         for( auto &elem : worn ) {
-            for( std::pair< body_part, int > &mod_part : mod_parts ) {
-                bpid = convert_bp( mod_part.first );
+            for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
+                bodypart_str_id bpid = mod_part.first;
                 if( elem->get_covered_body_parts().test( bpid->opposite_part ) &&
                     elem->has_flag( flag_POWERARMOR_MOD ) ) {
                     mod_part.second++;
                 }
             }
         }
-        for( std::pair< body_part, int > &mod_part : mod_parts ) {
-            bpid = convert_bp( mod_part.first );
+        for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
             if( mod_part.second >= max_layer ) {
                 return ret_val<bool>::make_failure( _( "There is no space on the opposite side!" ) );
             }
@@ -4033,6 +4025,10 @@ char_encumbrance_data Character::calc_encumbrance( const item &new_item ) const
 {
 
     char_encumbrance_data enc;
+    // Make sure we have all body parts here, so that we can use ::at
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        enc.elems[bp.id()];
+    }
 
     item_encumb( enc, new_item );
     mut_cbm_encumb( enc );
@@ -4066,9 +4062,14 @@ char_encumbrance_data Character::get_encumbrance( const item &new_item ) const
     return calc_encumbrance( new_item );
 }
 
-int Character::extraEncumbrance( const layer_level level, const int bp ) const
+int Character::extra_encumbrance( layer_level level, const bodypart_str_id &bp ) const
 {
-    return encumbrance_cache->elems[bp].layer_penalty_details[static_cast<int>( level )].total;
+    auto iter = encumbrance_cache->elems.find( bp );
+    if( iter != encumbrance_cache->elems.end() ) {
+        return iter->second.layer_penalty_details[static_cast<int>( level )].total;
+    }
+
+    return 0;
 }
 
 bool Character::change_side( item &it, bool interactive )
@@ -4119,7 +4120,7 @@ bool Character::change_side( item *it, bool interactive )
 
 static void layer_item( char_encumbrance_data &vals,
                         const item &it,
-                        std::array<layer_level, num_bp> &highest_layer_so_far,
+                        std::map<bodypart_str_id, layer_level> &highest_layer_so_far,
                         const Character &c )
 {
     body_part_set covered_parts = it.get_covered_body_parts();
@@ -4146,17 +4147,17 @@ static void layer_item( char_encumbrance_data &vals,
             layering_encumbrance = 0;
         }
 
-        highest_layer_so_far[bp->token] =
-            std::max( highest_layer_so_far[bp->token], item_layer );
+        highest_layer_so_far[bp.id()] =
+            std::max( highest_layer_so_far[bp.id()], item_layer );
 
         // Apply layering penalty to this layer, as well as any layer worn
         // within it that would normally be worn outside of it.
         for( layer_level penalty_layer = item_layer;
-             penalty_layer <= highest_layer_so_far[bp->token]; ++penalty_layer ) {
-            vals.elems[bp->token].layer( penalty_layer, layering_encumbrance );
+             penalty_layer <= highest_layer_so_far[bp.id()]; ++penalty_layer ) {
+            vals.elems[bp.id()].layer( penalty_layer, layering_encumbrance );
         }
 
-        vals.elems[bp->token].armor_encumbrance += encumber_val;
+        vals.elems[bp.id()].armor_encumbrance += encumber_val;
     }
 }
 
@@ -4353,9 +4354,12 @@ void Character::item_encumb( char_encumbrance_data &vals, const item &new_item )
 
     // Track highest layer observed so far so we can penalize out-of-order
     // items
-    std::array<layer_level, num_bp> highest_layer_so_far;
-    std::fill( highest_layer_so_far.begin(), highest_layer_so_far.end(),
-               PERSONAL_LAYER );
+    std::map<bodypart_str_id, layer_level> highest_layer_so_far;
+    const auto &all_bps = get_all_body_parts();
+
+    for( const bodypart_id &bp : all_bps ) {
+        highest_layer_so_far[bp.id()] = PERSONAL_LAYER;
+    }
 
     for( auto w_it = worn.begin(); w_it != worn.end(); ++w_it ) {
         if( w_it == new_item_position ) {
@@ -4369,19 +4373,25 @@ void Character::item_encumb( char_encumbrance_data &vals, const item &new_item )
     }
 
     // make sure values are sane
-    for( const body_part bp : all_body_parts ) {
-        encumbrance_data &elem = vals.elems[bp];
+    for( const bodypart_id &bp : all_bps ) {
+        encumbrance_data &elem = vals.elems[bp.id()];
 
         elem.armor_encumbrance = std::max( 0, elem.armor_encumbrance );
 
         // Add armor and layering penalties for the final values
         elem.encumbrance += elem.armor_encumbrance + elem.layer_penalty;
     }
+    // @todo Debugmsg if there are bps not on our body list
 }
 
 int Character::encumb( const bodypart_str_id &bp ) const
 {
-    return encumbrance_cache->elems[bp->token].encumbrance;
+    const auto iter = encumbrance_cache->elems.find( bp );
+    if( iter != encumbrance_cache->elems.end() ) {
+        // @todo Debugmsg?
+        return iter->second.encumbrance;
+    }
+    return 0;
 }
 
 static void apply_mut_encumbrance( char_encumbrance_data &vals,
@@ -4389,12 +4399,12 @@ static void apply_mut_encumbrance( char_encumbrance_data &vals,
                                    const body_part_set &oversize )
 {
     for( const std::pair<const body_part, int> &enc : mut->encumbrance_always ) {
-        vals.elems[enc.first].encumbrance += enc.second;
+        vals.elems[convert_bp( enc.first )].encumbrance += enc.second;
     }
 
     for( const std::pair<const body_part, int> &enc : mut->encumbrance_covered ) {
         if( !oversize.test( convert_bp( enc.first ) ) ) {
-            vals.elems[enc.first].encumbrance += enc.second;
+            vals.elems[convert_bp( enc.first )].encumbrance += enc.second;
         }
     }
 }
@@ -4404,15 +4414,15 @@ void Character::mut_cbm_encumb( char_encumbrance_data &vals ) const
 
     for( const bionic_id &bid : get_bionics() ) {
         for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
-            vals.elems[element.first->token].encumbrance += element.second;
+            vals.elems[element.first].encumbrance += element.second;
         }
     }
 
     if( has_active_bionic( bio_shock_absorber ) ) {
         for( auto &val : vals.elems ) {
-            val.encumbrance += 3; // Slight encumbrance to all parts except eyes
+            val.second.encumbrance += 3; // Slight encumbrance to all parts except eyes
         }
-        vals.elems[bp_eyes].encumbrance -= 3;
+        vals.elems[body_part_eyes].encumbrance -= 3;
     }
 
     // Lower penalty for bps covered only by XL armor
@@ -5675,13 +5685,13 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     temp_equalizer( *this, body_part_leg_l, body_part_foot_l );
     temp_equalizer( *this, body_part_leg_r, body_part_foot_r );
 
+    const auto &all_bps = get_all_body_parts();
     for( const item * const &it : worn ) {
         // TODO: Port body part set id changes
         const body_part_set &covered = it->get_covered_body_parts();
-        for( size_t i = 0; i < num_bp; i++ ) {
-            body_part token = static_cast<body_part>( i );
-            if( covered.test( convert_bp( token ) ) ) {
-                clothing_map[convert_bp( token )].emplace_back( it );
+        for( const bodypart_id &bp : all_bps ) {
+            if( covered.test( bp.id() ) ) {
+                clothing_map[bp.id()].emplace_back( it );
             }
             if( it->has_flag( flag_HOOD ) ) {
                 bonus_clothing_map[body_part_head].emplace_back( it );
@@ -6184,10 +6194,10 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
         const int current_hp = get_part_hp_cur( bp );
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
-        const nc_color state_col = limb_color( bp, bleed > 0.0f, bite > 0.0f, infect > 0.0f );
+        const nc_color state_col = limb_color( bp.id(), bleed > 0.0f, bite > 0.0f, infect > 0.0f );
         const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
-        const nc_color all_state_col = limb_color( bp, true, true, true );
+        const nc_color all_state_col = limb_color( bp.id(), true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
 
@@ -6343,21 +6353,21 @@ bodypart_str_id Character::body_window( const std::string &menu_header,
     }
 }
 
-nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const
+nc_color Character::limb_color( const bodypart_str_id &bp, bool bleed, bool bite,
+                                bool infect ) const
 {
-    if( bp == bodypart_id( "num_bp" ) ) {
+    if( !bp ) {
         return c_light_gray;
     }
-    const bodypart_str_id &bp_str = bp.id();
     int color_bit = 0;
     nc_color i_color = c_light_gray;
-    if( bleed && has_effect( effect_bleed, bp_str ) ) {
+    if( bleed && has_effect( effect_bleed, bp ) ) {
         color_bit += 1;
     }
-    if( bite && has_effect( effect_bite, bp_str ) ) {
+    if( bite && has_effect( effect_bite, bp ) ) {
         color_bit += 10;
     }
-    if( infect && has_effect( effect_infected, bp_str ) ) {
+    if( infect && has_effect( effect_infected, bp ) ) {
         color_bit += 100;
     }
     switch( color_bit ) {
@@ -6872,13 +6882,9 @@ std::string Character::extended_description() const
     // This is a stripped-down version of the body_window function
     // This should be extracted into a separate function later on
     for( const bodypart_id &bp : bps ) {
-        // Hide appendix from the player
-        if( bp->id.str() == "num_bp" ) {
-            continue;
-        }
         const std::string &bp_heading = body_part_name_as_heading( bp->token, 1 );
 
-        const nc_color state_col = limb_color( bp, true, true, true );
+        const nc_color state_col = limb_color( bp.id(), true, true, true );
         nc_color name_color = state_col;
         std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part_hp_cur( bp ), get_part_hp_max( bp ),
                 false );
@@ -8784,7 +8790,7 @@ void Character::apply_damage( Creature *source, item *source_weapon, item *sourc
         return;
     }
 
-    if( hurt == bodypart_id( "num_bp" ) ) {
+    if( hurt.id().is_null() ) {
         debugmsg( "Wacky body part hurt!" );
         hurt = bodypart_id( "torso" );
     }
@@ -8856,8 +8862,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         return dealt_damage_instance();
     }
 
-    const body_part bp_token = bp->token;
-    if( bp_token == num_bp ) {
+    if( bp.id().is_null() ) {
         debugmsg( "Wacky bodypart hit!" );
         return dealt_damage_instance();
     }

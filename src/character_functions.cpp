@@ -477,12 +477,12 @@ std::string fmt_wielded_weapon( const Character &who )
     }
 }
 
-void add_pain_msg( const Character &who, int val, body_part bp )
+void add_pain_msg( const Character &who, int val, const bodypart_str_id &bp )
 {
     if( who.has_trait( trait_NOPAIN ) ) {
         return;
     }
-    if( bp == num_bp ) {
+    if( !bp ) {
         if( val > 20 ) {
             who.add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
         } else if( val > 10 ) {
@@ -497,19 +497,19 @@ void add_pain_msg( const Character &who, int val, body_part bp )
     } else {
         if( val > 20 ) {
             who.add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         } else if( val > 10 ) {
             who.add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         } else if( val > 5 ) {
             who.add_msg_if_player( _( "Your %s is wracked with pain!" ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         } else if( val > 1 ) {
             who.add_msg_if_player( _( "Your %s pains you!" ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         } else {
             who.add_msg_if_player( _( "Your %s aches." ),
-                                   body_part_name_accusative( bp ) );
+                                   body_part_name_accusative( bp.id() ) );
         }
     }
 }

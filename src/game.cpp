@@ -742,7 +742,7 @@ bool game::start_game()
     for( const mtype_id &elem : u.starting_pets ) {
         if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
             mon->friendly = -1;
-            mon->add_effect( effect_pet, 1_turns, num_bp );
+            mon->add_effect( effect_pet, 1_turns );
         } else {
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
@@ -4901,14 +4901,14 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
 
     critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5_turns, num_bp );
+    critter.add_effect( effect_downed, 5_turns );
     for( detached_ptr<item> &component : it.remove_components() ) {
         critter.add_corpse_component( std::move( component ) );
     }
 
     if( it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1_turns, num_bp );
-        critter.add_effect( effect_pet, 1_turns, num_bp );
+        critter.add_effect( effect_pacified, 1_turns );
+        critter.add_effect( effect_pet, 1_turns );
     }
 
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
