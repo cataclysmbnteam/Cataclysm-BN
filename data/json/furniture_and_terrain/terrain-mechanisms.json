@@ -30,7 +30,19 @@
       ],
       "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 8, 16 ], "destroy_threshold": 150, "block_unaimed_chance": "50%" }
-    }
+    },
+    "deconstruct": { "ter_set": "t_floor", "items": [
+      { "item": "processor", "count": [ 1, 2 ] },
+      { "item": "RAM", "count": [ 4, 8 ] },
+      { "item": "cable", "charges": [ 4, 6 ] },
+      { "item": "large_lcd_screen", "count": 1 },
+      { "item": "e_scrap", "count": [ 10, 16 ] },
+      { "item": "circuit", "count": [ 6, 10 ] },
+      { "item": "power_supply", "count": [ 2, 4 ] },
+      { "item": "amplifier", "count": [ 2, 4 ] },
+      { "item": "plastic_chunk", "count": [ 10, 12 ] },
+      { "item": "scrap", "count": [ 6, 8 ] }
+    ] }
   },
   {
     "type": "terrain",

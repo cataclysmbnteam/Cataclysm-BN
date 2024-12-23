@@ -861,20 +861,10 @@
     "required_skills": [ [ "electronics", 0 ] ],
     "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "byproducts": [
-      { "item": "processor", "count": [ 1, 2 ] },
-      { "item": "RAM", "count": [ 4, 8 ] },
-      { "item": "cable", "charges": [ 4, 6 ] },
-      { "item": "large_lcd_screen", "count": 1 },
-      { "item": "e_scrap", "count": [ 10, 16 ] },
-      { "item": "circuit", "count": [ 6, 10 ] },
-      { "item": "power_supply", "count": [ 2, 4 ] },
-      { "item": "amplifier", "count": [ 2, 4 ] },
-      { "item": "plastic_chunk", "count": [ 10, 12 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
-    ],
-    "pre_terrain": "t_console",
-    "post_terrain": "t_floor",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "pre_terrain": "t_console_broken",
     "group": "advanced_object_deconstruction"
   },
   {
