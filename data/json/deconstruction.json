@@ -903,10 +903,9 @@
     "time": "30 m",
     "using": [ [ "advanced_electronics_high_voltage", 1 ] ],
     "byproducts": [
-      { "item": "scrap", "count": [ 1, 4 ] },
-      { "item": "scrap_copper", "count": [ 10, 20 ] },
-      { "item": "cable", "charges": [ 20, 100 ] },
-      { "item": "pipe", "count": [ 1, 2 ] }
+      { "item": "plut_generator_item", "charges": [ 1, 1 ] },
+      { "item": "power_supply", "charges": [ 3, 3 ] },
+      { "item": "cable", "charges": [ 15, 15 ] }
     ],
     "pre_furniture": "f_grid_plut_generator",
     "post_furniture": "f_null",
