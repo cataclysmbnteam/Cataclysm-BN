@@ -59,7 +59,9 @@
         { "vehicle": "bicycle", "x": 10, "y": 7, "chance": 3, "status": 0, "rotation": 270 },
         { "vehicle": "bicycle", "x": 17, "y": 8, "chance": 2, "status": 0, "rotation": 180 },
         { "vehicle": "scooter", "x": 16, "y": 12, "chance": 5 },
-        { "vehicle": "bicycle", "x": 16, "y": 19, "chance": 7 }
+        { "vehicle": "bicycle", "x": 16, "y": 19, "chance": 7 },
+        { "vehicle": "skateboard", "x": 12, "y": 6, "chance": 3, "status": 0 },
+        { "vehicle": "skateboard", "x": 19, "y": 10, "chance": 2, "status": 0 }
       ]
     }
   }
