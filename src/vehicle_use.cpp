@@ -925,7 +925,7 @@ bool vehicle::fold_up()
         (itype_id == "folding_bicycle" ?
             (can_be_folded ? "generic_folded_vehicle" : "folding_bicycle") :
             (itype_id == "folding_skateboard" ?
-                (can_be_folded ? "generic_folded_skateboard" : "folding_skateboard") :
+                (can_be_folded ? "generic_folded_vehicle" : "folding_skateboard") :
                 "unknown_item")),
         calendar::turn);
 
