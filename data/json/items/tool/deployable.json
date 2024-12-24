@@ -145,7 +145,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "skateboard" },
-    "description": "This is a skateboard folded into a relatively portable package.",
+    "description": "This is a skateboard.",
     "weight": "2898 g",
     "volume": "3750 ml",
     "price": "350 USD",

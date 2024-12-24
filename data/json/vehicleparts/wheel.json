@@ -396,7 +396,7 @@
         "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW", "level": 1 } ]
       }
     },
-    "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] }, { "item": "aluminum", "count": [ 0, 2 ] } ],
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] } ],
     "damage_reduction": { "all": 10 }
   },
   {

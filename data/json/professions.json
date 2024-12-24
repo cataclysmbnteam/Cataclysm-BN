@@ -4320,7 +4320,7 @@
   {
     "type": "profession",
     "id": "skaterkid",
-    "name": { "male": "Skater Boy (Rollerskates)", "female": "Skater Girl (Rollerskates)" },
+    "name": { "male": "Skater Boy (Rollerblades)", "female": "Skater Girl (Rollerblades)" },
     "description": "You love to skate!  At least now the grown-ups aren't telling you where you can't roll.",
     "points": 1,
     "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
@@ -4352,7 +4352,7 @@
     "name": { "male": "Skater Boy (Skateboard)", "female": "Skater Girl (Skateboard)" },
     "description": "You love to skate!  You've probably spent more time on a skateboard than off.  Things have gotten pretty bad, but at least the grown-ups aren't telling you where you can't roll.",
     "points": 1,
-    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "swimming" } ],
     "traits": [ "PROF_SKATER" ],
     "items": {
       "both": {
