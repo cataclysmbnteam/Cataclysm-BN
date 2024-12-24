@@ -921,18 +921,13 @@ bool vehicle::fold_up()
     }
 
     // create a folding [non]bicycle item
-    // check for specific types and create the appropriate item
-    detached_ptr<item> item_ptr;
-    if (itype_id == "folding_bicycle") {
-        item_ptr = item::spawn(can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn);
-    }
-    else if (itype_id == "folding_skateboard") {
-        item_ptr = item::spawn(can_be_folded ? "generic_folded_vehicle" : "folding_skateboard", calendar::turn);
-    }
-    else {
-        // Handle unknown type or provide a default
-        item_ptr = item::spawn("unknown_item", calendar::turn);
-    }
+    detached_ptr<item> bicycle = item::spawn(
+        (itype_id == "folding_bicycle" ?
+            (can_be_folded ? "generic_folded_vehicle" : "folding_bicycle") :
+            (itype_id == "folding_skateboard" ?
+                (can_be_folded ? "generic_folded_skateboard" : "folding_skateboard") :
+                "unknown_item")),
+        calendar::turn);
 
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
