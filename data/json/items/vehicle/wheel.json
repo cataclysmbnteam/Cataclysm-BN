@@ -161,6 +161,24 @@
     "width": 1
   },
   {
+    "id": "wheel_skateboard",
+    "category": "veh_parts",
+    "type": "WHEEL",
+    "name": { "str": "set of skateboard wheels", "str_pl": "sets of skateboard wheels" },
+    "description": "A set of skateboard wheels.",
+    "weight": "1500 g",
+    "volume": "1250 ml",
+    "price": "20 USD",
+    "price_postapoc": "1 USD",
+    "bashing": 6,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 4,
+    "width": 1
+  },
+  {
     "id": "wheel_10",
     "category": "veh_parts",
     "type": "WHEEL",

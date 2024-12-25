@@ -351,6 +351,24 @@
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
   },
   {
+    "id": "wheel_skateboard",
+    "type": "vehicle_part",
+    "name": { "str": "skateboard wheels" },
+    "item": "wheel_skateboard",
+    "location": "under",
+    "color": "dark_gray",
+    "symbol": "o",
+    "broken_symbol": "x",
+    "durability": 70,
+    "description": "A set of four small wheels, for a skateboard.",
+    "damage_modifier": 50,
+    "folded_volume": "1250 ml",
+    "rolling_resistance": 1.5,
+    "wheel_type": "off-road",
+    "contact_area": 4,
+    "flags": [ "WHEEL", "NEEDS_WHEEL_MOUNT_SKATEBOARD", "NEEDS_JACKING", "STABLE", "STEERABLE" ]
+  },
+  {
     "id": "wheel_10",
     "type": "vehicle_part",
     "name": { "str": "wheels" },
