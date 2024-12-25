@@ -843,6 +843,7 @@
       { "group": "kids_books", "prob": 215 },
       { "item": "novel_pulp", "prob": 30 },
       { "item": "folding_bicycle", "prob": 3 },
+      { "item": "folding_skateboard", "prob": 3 },
       { "item": "sunglasses", "prob": 25 },
       { "item": "cowboy_hat", "prob": 25 },
       { "item": "mp3", "prob": 35 },
