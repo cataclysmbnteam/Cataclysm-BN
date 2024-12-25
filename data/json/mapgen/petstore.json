@@ -146,13 +146,13 @@
         " |CC+....|++|......#..| ",
         " |---..............#A.| ",
         " |CCW..............#..| ",
-        " |CC+...{..........-D-| ",
-        " |---...{.............| ",
-        " |CCW...{.............| ",
-        " |CCW...{.............| ",
-        " |CC+...{.............| ",
-        " |---...{......{{{{{{{| ",
-        " |CCW...{.....--------| ",
+        " |CC+...{.{........-D-| ",
+        " |---...{.{...........| ",
+        " |CCW...{.{...}.}.}.}.| ",
+        " |CCW...{.{...}.}.}.}.| ",
+        " |CC+...{.{...........| ",
+        " |---...{.{...{{{{{{{{| ",
+        " |CCW...{.{...--------| ",
         " |CCW.................| ",
         " |CC+.................| ",
         " |||||||||||||b||-...-| ",
@@ -190,20 +190,25 @@
         "{": "f_rack",
         "f": "f_filing_cabinet",
         "A": "f_stool",
-        "l": "f_locker"
+        "l": "f_locker",
+        "}": "f_counter"
       },
       "toilets": { "T": {  } },
       "place_item": [
-        { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 9 },
-        { "item": "pet_carrier", "repeat": 1, "x": 21, "y": 10 },
-        { "item": "pet_carrier", "repeat": 1, "x": 8, "y": 14 },
+        { "item": "pet_carrier", "x": 8, "y": 14 },
+        { "item": "pet_carrier", "x": 10, "y": 14 },
         { "item": "bathroom_scale", "x": 21, "y": 19 }
       ],
       "place_items": [
         { "chance": 15, "item": "vet_softdrug", "x": 21, "y": 6 },
         { "chance": 30, "item": "vet_utility", "x": [ 20, 21 ], "y": 3 }
       ],
-      "items": { "l": { "item": "cleaning", "chance": 30 }, "T": { "item": "softdrugs", "chance": 30 } },
+      "items": {
+        "{": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] },
+        "}": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
+        "l": { "item": "SUS_janitors_closet", "chance": 100 },
+        "T": { "item": "softdrugs", "chance": 30 }
+      },
       "place_monster": [
         { "monster": "mon_cat", "x": 2, "y": 3 },
         { "monster": "mon_rabbit", "x": 2, "y": 7 },
