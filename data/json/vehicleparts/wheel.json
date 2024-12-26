@@ -350,7 +350,7 @@
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
   },
-   {
+  {
     "id": "wheel_skateboard",
     "type": "vehicle_part",
     "name": { "str": "skateboard wheels" },
