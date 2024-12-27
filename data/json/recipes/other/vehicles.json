@@ -41,13 +41,7 @@
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "SCREW", "level": 1 }
     ],
-    "components": [
-      [ [ "steel_lump", 5 ] ],
-      [ [ "cu_pipe", 1 ] ],
-      [ [ "chunk_rubber", 3 ] ],
-      [ [ "scrap", 30 ] ],
-      [ [ "copper", 100 ] ]
-    ],
+    "components": [ [ [ "steel_lump", 5 ] ], [ [ "cu_pipe", 1 ] ], [ [ "chunk_rubber", 3 ] ], [ [ "scrap", 30 ] ], [ [ "copper", 100 ] ] ],
     "skills_required": [ [ "fabrication", 5 ] ]
   },
   {
