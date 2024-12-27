@@ -542,6 +542,7 @@ void show_armor_layers_ui( Character &who )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
+    ctxt.register_action( "TOGGLE_CLOTH" );
     ctxt.register_action( "ASSIGN_INVLETS" );
     ctxt.register_action( "SORT_ARMOR" );
     ctxt.register_action( "EQUIP_ARMOR" );
