@@ -78,7 +78,7 @@ item_penalties get_item_penalties( const location_vector<item>::const_iterator &
     std::vector<std::set<std::string>> lists_of_bad_items_within;
 
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
-        if( _bp->token && _bp != body_part_appendix ) {
+        if( _bp->token && _bp.id().is_null() ) {
             continue;
         }
         if( !worn_item->covers( bp ) ) {
@@ -288,9 +288,9 @@ std::vector<std::string> clothing_properties(
     props.reserve( 5 );
 
     const std::string space = "  ";
-    const int coverage = bp == body_part_appendix ? worn_item.get_avg_coverage() :
+    const int coverage = bp.id().is_null() ? worn_item.get_avg_coverage() :
                          worn_item.get_coverage( bp );
-    const int encumbrance = bp == body_part_appendix ? worn_item.get_avg_encumber(
+    const int encumbrance = bp.id().is_null() ? worn_item.get_avg_encumber(
                                 c ) : worn_item.get_encumber( c, bp );
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
     props.push_back( name_and_value( space + _( "Coverage:" ),
@@ -436,7 +436,7 @@ void show_armor_layers_ui( Character &who )
     * + 3 - horizontal lines;
     * + 1 - caption line;
     * + 2 - innermost/outermost string lines;
-    * + num_bp - sub-categories (torso, head, eyes, etc.);
+    * + num_of_parts - sub-categories (torso, head, eyes, etc.);
     * + 1 - gap;
     * number of lines required for displaying all items is calculated dynamically,
     * because some items can have multiple entries (i.e. cover a few parts of body).
@@ -452,7 +452,7 @@ void show_armor_layers_ui( Character &who )
     for( const bodypart_id &it : all_parts ) {
         armor_cat.insert( it );
     }
-    armor_cat.insert( body_part_appendix );
+    armor_cat.insert( bodypart_str_id::NULL_ID().id() );
 
     int req_right_h = 3 + 1 + 2 + num_of_parts + 1;
     for( const bodypart_id &cover : armor_cat ) {
@@ -468,9 +468,9 @@ void show_armor_layers_ui( Character &who )
     * + 1 - caption line;
     * + 8 - general properties
     * + 13 - ASSUMPTION: max possible number of flags @ item
-    * + num_bp+1 - warmth & enc block
+    * + num_of_parts+1 - warmth & enc block
     */
-    const int req_mid_h = 3 + 1 + 8 + 13 + num_bp + 1;
+    const int req_mid_h = 3 + 1 + 8 + 13 + num_of_parts + 1;
 
     int win_h = 0;
     int win_w = 0;
@@ -542,7 +542,6 @@ void show_armor_layers_ui( Character &who )
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
-    ctxt.register_action( "TOGGLE_CLOTH" );
     ctxt.register_action( "ASSIGN_INVLETS" );
     ctxt.register_action( "SORT_ARMOR" );
     ctxt.register_action( "EQUIP_ARMOR" );
@@ -574,7 +573,7 @@ void show_armor_layers_ui( Character &who )
 
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
-        const auto name = bp != body_part_appendix ? body_part_name_as_heading( bp, 1 ) : _( "All" );
+        const auto name = bp.id() ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", name );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
                          _( "[<color_yellow>%s</color>] Hide sprite.  "
@@ -678,7 +677,7 @@ void show_armor_layers_ui( Character &who )
         }
         int pos = 1, curr = 0;
         for( const bodypart_id cover : rl ) {
-            if( cover == body_part_appendix ) {
+            if( cover.id().is_null() ) {
                 continue;
             }
             if( curr >= rightListOffset && pos <= rightListLines ) {
@@ -743,7 +742,7 @@ void show_armor_layers_ui( Character &who )
         // Create ptr list of items to display
         tmp_worn.clear();
         const bodypart_id &bp = armor_cat[ tabindex ];
-        if( bp == body_part_appendix ) {
+        if( bp.id().is_null() ) {
             // All
             int i = 0;
             for( auto it = who.worn.begin(); it != who.worn.end(); ++it ) {
@@ -874,7 +873,7 @@ void show_armor_layers_ui( Character &who )
                 bool equipped = who.as_player()->wear_possessed( *loc );
                 if( equipped ) {
                     const bodypart_id &bp = armor_cat[tabindex];
-                    if( tabindex == num_bp || loc->covers( bp ) ) {
+                    if( tabindex == num_of_parts || loc->covers( bp ) ) {
                         // Set ourselves up to be pointing at the new item
                         // TODO: This doesn't work yet because we don't save our
                         // state through other activities, but that's a thing
@@ -886,7 +885,7 @@ void show_armor_layers_ui( Character &who )
                             if( i == loc ) {
                                 found = true;
                             }
-                            return !found && ( tabindex == num_bp || i->covers( bp ) );
+                            return !found && ( tabindex == num_of_parts || i->covers( bp ) );
                         } );
                     }
                 } else if( who.is_npc() ) {
