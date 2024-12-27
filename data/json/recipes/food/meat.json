@@ -2208,6 +2208,7 @@
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
       [ [ "edible_blood_concentrate", 6, "LIST" ] ],
       [ [ "vinegar", 2 ] ],
+      [ [ "jar_glass", 1 ] ],
       [
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],
@@ -2510,6 +2511,7 @@
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
       [ [ "edible_blood_concentrate", 36, "LIST" ] ],
       [ [ "vinegar", 12 ] ],
+      [ [ "jar_3l_glass", 1 ] ],
       [
         [ "seasoning_italian", 24 ],
         [ "wild_herbs", 24 ],
