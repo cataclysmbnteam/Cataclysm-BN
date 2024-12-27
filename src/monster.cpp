@@ -222,6 +222,7 @@ monster::monster() : corpse_components( new monster_component_item_location( thi
     last_updated = calendar::start_of_cataclysm;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
+    aggro_character = true;
     set_anatomy( anatomy_id( "default_anatomy" ) );
     set_body();
 }
@@ -242,6 +243,7 @@ monster::monster( const mtype_id &id ) : monster()
     ammo = type->starting_ammo;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
+    aggro_character = type->aggro_character;
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
     }
@@ -1385,6 +1387,10 @@ monster_attitude monster::attitude( const Character *u ) const
             return MATT_ATTACK;
         }
 
+        if( u != nullptr && !aggro_character && !u->is_monster() ) {
+            return MATT_IGNORE;
+        }
+
         if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                                             u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
@@ -1511,6 +1517,12 @@ void monster::process_triggers()
         } else {
             anger--;
         }
+    }
+
+    // If we got angry at characters have a chance at calming down
+    if( anger == type->agro && aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+        //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro reset", name() );
+        aggro_character = false;
     }
 
     // Cap values at [-100, 100] to prevent perma-angry moose etc.
@@ -1947,6 +1959,10 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
         }
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ) );
+         // Get angry at characters if hurt by one
+        if( source != nullptr && !aggro_character && !source->is_monster() ) {
+            aggro_character = true;
+        }
     }
 }
 void monster::apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
@@ -2679,6 +2695,13 @@ void monster::die( Creature *nkiller )
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust += 15;
+         if( nkiller != nullptr && !nkiller->is_monster() ) {
+            // A character killed our friend
+            //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by killing a friendly %s",
+            //                critter.name(), name() );
+            // we do not have add_msg_debug in BN
+            aggro_character = true;
+        }
     }
     if( type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
         morale_adjust -= 15;
@@ -3178,6 +3201,13 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust += 15;
+         if( source != nullptr && !source->is_monster() ) {
+            // A character attacked our friend
+            //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by attacking a friendly %s",
+            //                critter.name(), name() );
+            // not in BN
+            aggro_character = true;
+        }
     }
     if( type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         morale_adjust -= 15;
@@ -3344,6 +3374,36 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
+
+    if( anger != type->agro ) {
+        int dt_left_a = to_turns<int>( dt );
+
+        if( std::abs( anger - type->agro ) > 15 ) {
+            const int adjust_by_a = std::min( ( dt_left_a / 4 ),
+                                              ( std::abs( anger - type->agro ) - 15 ) );
+            dt_left_a -= adjust_by_a * 4;
+            if( anger < type->agro ) {
+                anger += adjust_by_a;
+            } else {
+                anger -= adjust_by_a;
+            }
+        }
+
+        if( anger > type->agro ) {
+            anger -= std::min( static_cast<int>( std::ceil( dt_left_a / 8.0 ) ),
+                               std::abs( anger - type->agro ) );
+        } else {
+            anger += std::min( ( dt_left_a / 8 ),
+                               std::abs( anger - type->agro ) );
+        }
+        // If we got angry at characters have a chance at calming down
+        if( aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+            //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro reset", name() );
+            aggro_character = false;
+        }
+    }
+
+    
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {

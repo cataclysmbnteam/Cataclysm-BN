@@ -813,7 +813,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
     }
-
+    
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
@@ -821,6 +821,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
+    optional( jo, was_loaded, "aggro_character", aggro_character, true );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {

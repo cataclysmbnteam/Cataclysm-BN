@@ -354,6 +354,10 @@ void monster::plan()
         target = &g->u;
         if( dist <= 5 ) {
             anger += angers_hostile_near;
+            if( angers_hostile_near && x_in_y( anger, 100 ) ) {
+                //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by proximity", name() );
+                aggro_character = true;
+            }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0 ) {
                 bool mating_angry = false;
@@ -369,6 +373,10 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    if( x_in_y( anger, 100 ) ) {
+                        //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        aggro_character = true;
+                    }
                 }
             }
         }
@@ -381,6 +389,7 @@ void monster::plan()
                         //proximity to baby; monster gets furious and less likely to flee
                         anger += angers_cub_threatened;
                         morale += angers_cub_threatened / 2;
+                        aggro_character = true;
                     }
                 }
             }
@@ -444,6 +453,10 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                     if( x_in_y( anger, 100 ) ) {
+                        //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        aggro_character = true;
+                    }
                 }
             }
         }
