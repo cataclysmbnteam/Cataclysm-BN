@@ -454,7 +454,7 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
-                     if( x_in_y( anger, 100 ) ) {
+                    if( x_in_y( anger, 100 ) ) {
                         add_msg( m_debug, "%s's character aggro triggered by mating season", get_name() );
                         aggro_character = true;
                     }
@@ -600,7 +600,7 @@ void monster::plan()
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
                 anger += 10 - ( hp_per / 10 );
-                if (anger <= 40 ) {
+                if( anger <= 40 ) {
                     if( x_in_y( anger, 100 ) ) {
                         add_msg( m_debug, "%s's character aggro triggered by weakness", get_name() );
                         aggro_character = true;

@@ -1454,17 +1454,13 @@ monster_attitude monster::attitude( const Character *u ) const
         }
     }
 
+
     if( effective_morale < 0 ) {
         if( effective_morale + effective_anger > 0 && get_hp() > get_hp_max() / 3 ) {
             return MATT_FOLLOW;
         }
         return MATT_FLEE;
     }
-
-    if( u != nullptr && !aggro_character && !u->is_monster() ) {
-        return MATT_IGNORE;
-    }
-
     if( effective_anger <= 0 ) {
         if( get_hp() <= 0.6 * get_hp_max() ) {
             return MATT_FLEE;
@@ -1475,6 +1471,10 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( effective_anger < 10 ) {
         return MATT_FOLLOW;
+    }
+
+    if( u != nullptr && !aggro_character && !u->is_monster() ) {
+        return MATT_IGNORE;
     }
 
     return MATT_ATTACK;
@@ -1959,8 +1959,10 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
         }
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ) );
-         // Get angry at characters if hurt by one
+        // Get angry at characters if hurt by one
         if( source != nullptr && !aggro_character && !source->is_monster() ) {
+            add_msg( m_debug, "%s's aggro triggered by hurt", get_name() );
+            add_msg( m_bad, "%s's aggro triggered by hurt", get_name() );
             aggro_character = true;
         }
     }
@@ -2695,7 +2697,7 @@ void monster::die( Creature *nkiller )
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust += 15;
-         if( nkiller != nullptr && !nkiller->is_monster() ) {
+        if( nkiller != nullptr && !nkiller->is_monster() ) {
             // A character killed our friend
             add_msg( m_debug, "%s's character aggro triggered by killing a friendly creature", name() );
             aggro_character = true;
@@ -3400,7 +3402,7 @@ void monster::on_load()
         }
     }
 
-    
+
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
