@@ -1387,10 +1387,6 @@ monster_attitude monster::attitude( const Character *u ) const
             return MATT_ATTACK;
         }
 
-        if( u != nullptr && !aggro_character && !u->is_monster() ) {
-            return MATT_IGNORE;
-        }
-
         if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                                             u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
@@ -1465,6 +1461,10 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FLEE;
     }
 
+    if( u != nullptr && !aggro_character && !u->is_monster() ) {
+        return MATT_IGNORE;
+    }
+
     if( effective_anger <= 0 ) {
         if( get_hp() <= 0.6 * get_hp_max() ) {
             return MATT_FLEE;
@@ -1521,7 +1521,7 @@ void monster::process_triggers()
 
     // If we got angry at characters have a chance at calming down
     if( anger == type->agro && aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
-        //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro reset", name() );
+        add_msg( m_debug, "%s's character aggro reset", get_name() );
         aggro_character = false;
     }
 
@@ -2697,9 +2697,7 @@ void monster::die( Creature *nkiller )
         anger_adjust += 15;
          if( nkiller != nullptr && !nkiller->is_monster() ) {
             // A character killed our friend
-            //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by killing a friendly %s",
-            //                critter.name(), name() );
-            // we do not have add_msg_debug in BN
+            add_msg( m_debug, "%s's character aggro triggered by killing a friendly creature", name() );
             aggro_character = true;
         }
     }
@@ -3201,10 +3199,9 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust += 15;
-         if( source != nullptr && !source->is_monster() ) {
+        if( source != nullptr && !source->is_monster() ) {
             // A character attacked our friend
-            //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by attacking a friendly %s",
-            //                critter.name(), name() );
+            add_msg( m_debug, "%s's character aggro triggered by attacking a friendly creature", name() );
             // not in BN
             aggro_character = true;
         }
@@ -3398,7 +3395,7 @@ void monster::on_load()
         }
         // If we got angry at characters have a chance at calming down
         if( aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
-            //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro reset", name() );
+            add_msg( m_debug, "%s's character aggro reset", name() );
             aggro_character = false;
         }
     }

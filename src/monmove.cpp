@@ -355,7 +355,7 @@ void monster::plan()
         if( dist <= 5 ) {
             anger += angers_hostile_near;
             if( angers_hostile_near && x_in_y( anger, 100 ) ) {
-                //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by proximity", name() );
+                add_msg( m_debug, "%s's character aggro triggered by proximity", get_name() );
                 aggro_character = true;
             }
             morale -= fears_hostile_near;
@@ -374,7 +374,7 @@ void monster::plan()
                 if( mating_angry ) {
                     anger += angers_mating_season;
                     if( x_in_y( anger, 100 ) ) {
-                        //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        add_msg( m_debug, "%s's character aggro triggered by mating season", get_name() );
                         aggro_character = true;
                     }
                 }
@@ -389,6 +389,7 @@ void monster::plan()
                         //proximity to baby; monster gets furious and less likely to flee
                         anger += angers_cub_threatened;
                         morale += angers_cub_threatened / 2;
+                        add_msg( m_debug, "%s's character aggro triggered by threatening cub", get_name() );
                         aggro_character = true;
                     }
                 }
@@ -454,7 +455,7 @@ void monster::plan()
                 if( mating_angry ) {
                     anger += angers_mating_season;
                      if( x_in_y( anger, 100 ) ) {
-                        //add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        add_msg( m_debug, "%s's character aggro triggered by mating season", get_name() );
                         aggro_character = true;
                     }
                 }
@@ -599,6 +600,12 @@ void monster::plan()
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
                 anger += 10 - ( hp_per / 10 );
+                if (anger <= 40 ) {
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg( m_debug, "%s's character aggro triggered by weakness", get_name() );
+                        aggro_character = true;
+                    }
+                }
             }
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
