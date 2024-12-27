@@ -923,8 +923,9 @@ bool vehicle::fold_up()
     }
 
     // Decide the spawn type based on item and folding state
+    // we're going to switch to using can_be_folded for this, as it has the same functionality and is less hard-coded
     std::string spawn_type;
-    if (itype_id == "folding_bicycle" || itype_id == "folding_skateboard") {
+    if ( !can_be_folded ) {
         spawn_type = itype_id;
     } else {
         spawn_type = "generic_folded_vehicle";  // Handle unexpected cases
@@ -957,10 +958,9 @@ bool vehicle::fold_up()
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
-    // i dont understand what the can_be_folded check was for here.
-    // seems to only evaluate true if vehicle has a part with FOLDING tag. 
-    // the folding bicycle does not? instead the item itself seems to turn the vehicle into folding
-    if( spawn_type == "generic_folded_vehicle") {
+    // evalautes to true on foldable items (folding_bicycle, skateboard) 
+    // and false on vehicles with folding flags (wheelchair, unicycle)
+    if( can_be_folded ) {
         bicycle->set_var( "weight", to_milligram( total_mass() ) );
         bicycle->set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         // remove "folded" from name to allow for more flexibility with folded vehicle names. also lowers first character
