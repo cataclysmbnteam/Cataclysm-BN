@@ -180,7 +180,7 @@
     "copy-from": "frame_wood_light",
     "item": "frame_wood_deck",
     "symbol": "]",
-    "looks_like": "frame_wood",
+    "looks_like": "frame_wood_light",
     "durability": 100,
     "fuel_type": "muscle",
     "power": 140,
