@@ -248,7 +248,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
                     if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        comfort_response.aid.push_back(items_it);
+                        comfort_response.aid.push_back( items_it );
                     }
                 }
             }
@@ -284,7 +284,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
                 if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                    comfort_response.aid.push_back(items_it);
+                    comfort_response.aid.push_back( items_it );
                 }
             }
         }
@@ -341,8 +341,9 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
     const int current_stim = who.get_stim();
     const comfort_response_t comfort_info = base_comfort_value( who, p );
     if( !comfort_info.aid.empty() ) {
-        for ( item *comfort_item:comfort_info.aid)
-        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_item->tname() );
+        for( item *comfort_item : comfort_info.aid ) {
+            who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_item->tname() );
+        }
     }
 
     int sleepy = static_cast<int>( comfort_info.level );
