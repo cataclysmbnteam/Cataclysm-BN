@@ -218,13 +218,13 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp(),
             intensity( 1 ), start_time( calendar::turn_zero ),
             removed( true ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur,
                 const bodypart_str_id &part, int nintensity, const time_point &nstart_time ) :
-            eff_type( peff_type ), duration( dur ), bp( part->token ),
+            eff_type( peff_type ), duration( dur ), bp( part ),
             intensity( nintensity ), start_time( nstart_time ),
             removed( false ) {
         }
@@ -378,7 +378,7 @@ class effect
     protected:
         const effect_type *eff_type;
         time_duration duration;
-        body_part bp;
+        bodypart_str_id bp;
         int intensity;
         time_point start_time;
         bool removed;

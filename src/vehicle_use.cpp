@@ -914,25 +914,17 @@ bool vehicle::fold_up()
     }
 
     std::string itype_id = "generic_folded_vehicle";
-    // Determine the item type from tags
-    for (const auto &elem : tags) {
-        if (elem.compare(0, 12, "convertible:") == 0) {
-            itype_id = elem.substr(12);
+    for( const auto &elem : tags ) {
+        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
+            itype_id = elem.substr( 12 );
             break;
         }
     }
-
-    // Decide the spawn type based on item and folding state
-    // we're going to switch to using can_be_folded for this, as it has the same functionality and is less hard-coded
-    std::string spawn_type;
-    if ( !can_be_folded ) {
-        spawn_type = itype_id;
-    } else {
-        spawn_type = "generic_folded_vehicle";  // Handle unexpected cases
-    }
-
+  
     // Create the item
-    detached_ptr<item> bicycle = item::spawn(spawn_type, calendar::turn);
+    detached_ptr<item> folding_veh_item = item::spawn( can_be_folded ? "generic_folded_vehicle" :
+                                          itype_id, calendar::turn );
+
 
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
@@ -953,24 +945,25 @@ bool vehicle::fold_up()
         std::ostringstream veh_data;
         JsonOut json( veh_data );
         json.write( parts );
-        bicycle->set_var( "folding_bicycle_parts", veh_data.str() );
+        folding_veh_item->set_var( "folding_bicycle_parts", veh_data.str() );
     } catch( const JsonError &e ) {
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
-    // evalautes to true on foldable items (folding_bicycle, skateboard) 
+    // evalautes to true on foldable items (folding_bicycle, skateboard)
     // and false on vehicles with folding flags (wheelchair, unicycle)
     if( can_be_folded ) {
-        bicycle->set_var( "weight", to_milligram( total_mass() ) );
-        bicycle->set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
+        folding_veh_item->set_var( "weight", to_milligram( total_mass() ) );
+        folding_veh_item->set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         // remove "folded" from name to allow for more flexibility with folded vehicle names. also lowers first character
-        bicycle->set_var("name", string_format(_("%s"), (name.empty() ? name : std::string(1, std::tolower(name[0])) + name.substr(1))));
-        bicycle->set_var( "vehicle_name", name );
+        folding_veh_item->set_var( "name", string_format( _( "%s" ), ( name.empty() ? name : std::string( 1,
+                                   std::tolower( name[0] ) ) + name.substr( 1 ) ) ) );
+        folding_veh_item->set_var( "vehicle_name", name );
         // TODO: a better description?
-        bicycle->set_var( "description", string_format( _( "A folded %s." ), (name.empty() ? name : std::string(1, std::tolower(name[0])) + name.substr(1))) );
+        folding_veh_item->set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( global_part_pos3( 0 ), std::move( bicycle ) );
+    g->m.add_item_or_charges( global_part_pos3( 0 ), std::move( folding_veh_item ) );
     g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
