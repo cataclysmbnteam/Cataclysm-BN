@@ -887,7 +887,7 @@ void vehicle::use_controls( const tripoint &pos )
 bool vehicle::fold_up()
 {
     const bool can_be_folded = is_foldable();
-    
+
     const bool is_convertible = ( tags.contains( "convertible" ) );
     if( !( can_be_folded || is_convertible ) ) {
         debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
@@ -920,7 +920,7 @@ bool vehicle::fold_up()
             break;
         }
     }
-  
+
     // Create the item
     detached_ptr<item> folding_veh_item = item::spawn( can_be_folded ? "generic_folded_vehicle" :
                                           itype_id, calendar::turn );
