@@ -484,6 +484,31 @@
     "magazine_well": "500 ml"
   },
   {
+    "id": "soda_machine",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "soda machine" },
+    "description": "This is a kitchen appliance capable of creating carbonated beverages.",
+    "weight": "3000 g",
+    "volume": "2 L",
+    "price": "50 cent",
+    "price_postapoc": "250 cent",
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "iron" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": "battery",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
+  },
+  {
     "id": "gasoline_cooker",
     "type": "TOOL",
     "category": "tools",

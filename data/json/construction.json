@@ -4983,6 +4983,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_gridsoda_machine",
+    "group": "place_soda_machine",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "soda_machine", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_gridsoda_machine"
+  },
+  {
+    "type": "construction",
     "id": "constr_gridvac_sealer",
     "group": "place_vaccuum_sealer",
     "category": "WORKSHOP",

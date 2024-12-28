@@ -1261,6 +1261,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_soda_machine",
+    "name": "Place Soda Machine"
+  },
+  {
+    "type": "construction_group",
     "id": "place_forge",
     "name": "Place Forge"
   },
