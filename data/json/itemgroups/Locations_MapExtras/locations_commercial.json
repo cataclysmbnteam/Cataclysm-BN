@@ -418,6 +418,7 @@
       [ "char_smoker", 25 ],
       [ "lawn_dart", 10 ],
       [ "dehydrator", 15 ],
+      [ "soda_machine", 15 ],
       [ "pickelhaube", 50 ],
       [ "well_pump", 2 ],
       [ "firehelmet", 10 ],

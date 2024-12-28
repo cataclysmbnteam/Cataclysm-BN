@@ -121,6 +121,8 @@
       [ "jerrycan_big", 10 ],
       [ "char_smoker", 5 ],
       [ "dehydrator", 5 ],
+      [ "soda_machine", 5 ],
+      [ "carbondioxide_tank", 1 ],
       [ "tongs", 1 ],
       [ "tourist_table", 1 ]
     ]
