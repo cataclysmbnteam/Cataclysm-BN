@@ -215,7 +215,6 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
     int comfort = 0;
 
     comfort_response_t comfort_response;
-    comfort_response.aid.clear();
 
     bool plantsleep = who.has_trait( trait_CHLOROMORPH );
     bool fungaloid_cosplay = who.has_trait( trait_M_SKIN3 );
