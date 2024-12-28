@@ -215,6 +215,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
     int comfort = 0;
 
     comfort_response_t comfort_response;
+    comfort_response.aid.clear();
 
     bool plantsleep = who.has_trait( trait_CHLOROMORPH );
     bool fungaloid_cosplay = who.has_trait( trait_M_SKIN3 );
@@ -243,12 +244,11 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
-                for( const item *items_it : items ) {
+                for( item *items_it : items ) {
                     if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        comfort_response.aid = items_it;
-                        break; // prevents using more than 1 sleep aid
+                        comfort_response.aid.push_back(items_it);
                     }
                 }
             }
@@ -278,14 +278,13 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             comfort -= here.move_cost( p );
         }
 
-        if( comfort_response.aid == nullptr ) {
+        if( comfort_response.aid.empty() ) {
             const map_stack items = here.i_at( p );
-            for( const item *items_it : items ) {
+            for( item *items_it : items ) {
                 if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                    comfort_response.aid = items_it;
-                    break; // prevents using more than 1 sleep aid
+                    comfort_response.aid.push_back(items_it);
                 }
             }
         }
@@ -341,8 +340,9 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
 {
     const int current_stim = who.get_stim();
     const comfort_response_t comfort_info = base_comfort_value( who, p );
-    if( comfort_info.aid != nullptr ) {
-        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
+    if( !comfort_info.aid.empty() ) {
+        for ( item *comfort_item:comfort_info.aid)
+        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_item->tname() );
     }
 
     int sleepy = static_cast<int>( comfort_info.level );
