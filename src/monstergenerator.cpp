@@ -813,7 +813,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
     }
-    
+
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );

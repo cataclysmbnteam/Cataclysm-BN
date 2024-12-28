@@ -55,7 +55,7 @@ mtype::mtype()
     harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;
-    
+
     aggro_character = true;
 
     flags

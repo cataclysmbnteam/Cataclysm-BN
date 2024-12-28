@@ -369,7 +369,7 @@ struct mtype {
         bool was_loaded = false;
         bool upgrades;
         bool reproduces;
-        
+
         // Do we indiscriminately attack characters, or should we wait until one annoys us?
         bool aggro_character = true;
 

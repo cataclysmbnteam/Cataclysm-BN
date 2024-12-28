@@ -219,9 +219,12 @@ Monster morale. Defines how low monster HP can get before it retreats. This numb
 of their max HP.
 
 ## "aggro_character"
+
 (bool, optional, default true)
 
-If the monster will differentiate between monsters and characters (NPC, Player) when deciding on targets - if false the monster will ignore characters regardless of current anger/morale until a character trips and anger trigger. Resets randomly when the monster is at its base anger level.
+If the monster will differentiate between monsters and characters (NPC, Player) when deciding on
+targets - if false the monster will ignore characters regardless of current anger/morale until a
+character trips and anger trigger. Resets randomly when the monster is at its base anger level.
 
 ## "speed"
 
