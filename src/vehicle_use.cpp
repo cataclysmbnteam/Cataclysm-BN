@@ -912,7 +912,7 @@ bool vehicle::fold_up()
         add_msg( _( "You let go of %s as you fold it." ), name );
     }
 
-    std::string itype_id = "folding_bicycle";
+    std::string itype_id = "generic_folded_vehicle";
     for( const auto &elem : tags ) {
         if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
             itype_id = elem.substr( 12 );
@@ -920,17 +920,9 @@ bool vehicle::fold_up()
         }
     }
 
-    // Decide the spawn type based on item and folding state
-    // we're going to switch to using can_be_folded for this, as it has the same functionality and is less hard-coded
-    std::string spawn_type;
-    if( !can_be_folded ) {
-        spawn_type = itype_id;
-    } else {
-        spawn_type = "generic_folded_vehicle";  // Handle unexpected cases
-    }
-
     // Create the item
-    detached_ptr<item> folding_veh_item = item::spawn( spawn_type, calendar::turn );
+    detached_ptr<item> folding_veh_item = item::spawn( can_be_folded ? "generic_folded_vehicle" :
+                                          itype_id, calendar::turn );
 
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
