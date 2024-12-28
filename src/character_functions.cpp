@@ -340,11 +340,9 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
 {
     const int current_stim = who.get_stim();
     const comfort_response_t comfort_info = base_comfort_value( who, p );
-    if( !comfort_info.aid.empty() ) {
-        for( item *comfort_item : comfort_info.aid ) {
-            who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_item->tname() );
-        }
-    }
+      for( item *comfort_item : comfort_info.aid ) {
+        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_item->tname() );
+      }
 
     int sleepy = static_cast<int>( comfort_info.level );
     bool watersleep = who.has_trait( trait_WATERSLEEP );
