@@ -4365,11 +4365,11 @@
           "gloves_fingerless",
           "helmet_skid",
           "sneakers",
-          "folding_skateboard",
           "wristwatch",
           "smart_phone",
           "sports_drink"
-        ]
+        ],
+        "entries": [ { "item": "folding_skateboard", "custom-flags": [ "auto_wield" ] } ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
