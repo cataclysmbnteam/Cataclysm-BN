@@ -14,7 +14,8 @@
 #include "magic.h"
 
 // IN WAITING: enchantment_id, enchantments in general
-void cata::detail::reg_magic( sol::state &lua ) {
+void cata::detail::reg_magic( sol::state &lua )
+{
     reg_spell_type( lua );
     reg_spell_fake( lua );
     reg_spell( lua );
@@ -38,8 +39,8 @@ void cata::detail::reg_spell_type( sol::state &lua )
 
         // The string conversion function references this object's str_id.
         luna::set_fx( ut, sol::meta_function::to_string,
-            []( const UT_CLASS & id ) -> std::string {
-                return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
+        []( const UT_CLASS & id ) -> std::string {
+            return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
         } );
 
         SET_MEMB_RO( id );
@@ -90,8 +91,8 @@ void cata::detail::reg_spell_type( sol::state &lua )
 
         DOC( "Other spells cast by this spell." );
         luna::set_fx( ut, "additional_spells",
-            []( const UT_CLASS & spid ) -> std::vector<fake_spell> {
-                std::vector<fake_spell> rv = spid.additional_spells; return rv;
+        []( const UT_CLASS & spid ) -> std::vector<fake_spell> {
+            std::vector<fake_spell> rv = spid.additional_spells; return rv;
         } );
 
         DOC( "Returns a (long) list of every spell in the game." );
@@ -110,15 +111,15 @@ void cata::detail::reg_spell_fake( sol::state &lua )
         luna::new_usertype<UT_CLASS>(
             lua,
             luna::no_bases,
-            luna::constructors<
+            luna::constructors <
             UT_CLASS( spell_id sp, bool hit_self ),
             UT_CLASS( spell_id sp, bool hit_self, int max_level )
             > ()
         );
 
         luna::set_fx( ut, sol::meta_function::to_string,
-             []( const UT_CLASS & id ) -> std::string {
-                return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
+        []( const UT_CLASS & id ) -> std::string {
+            return string_format( "%s[%s]", luna::detail::luna_traits<UT_CLASS>::name, id.id.c_str() );
         } );
 
         SET_MEMB_RO( id );
@@ -137,46 +138,46 @@ void cata::detail::reg_spell_fake( sol::state &lua )
 
         // TODO: Support min_level_override
         luna::set_fx( ut, "cast",
-            []( UT_CLASS & sp,
-                Creature & source,
-                const tripoint & target,
-                sol::optional<int> min_lvl_override )
-            {
-                int mlo = min_lvl_override.has_value() ? *min_lvl_override : 0;
-                sp.get_spell( mlo ).cast_all_effects( source, target );
-            }
-        );
+                      []( UT_CLASS & sp,
+                          Creature & source,
+                          const tripoint & target,
+                          sol::optional<int> min_lvl_override )
+        {
+            int mlo = min_lvl_override.has_value() ? *min_lvl_override : 0;
+            sp.get_spell( mlo ).cast_all_effects( source, target );
+        }
+                    );
 
         DOC( "Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level." );
         luna::set_fx( ut, "prompt_cast",
-            []( spell_id spid,
-                tripoint & target,
-                sol::optional<int> level ) -> fake_spell
+                      []( spell_id spid,
+                          tripoint & target,
+                          sol::optional<int> level ) -> fake_spell
+        {
+            // This will be our return value, as well as the spell we cast.
+            fake_spell sp;
+            /* Without a specified Creature, we assume the player is the
+             * source.
+             * I'd prefer to call gapi.get_avatar, but this will do for now.
+             */
+            avatar &avvy = get_avatar();
+            // If target is avatar's location, assume we want to hit self
+            bool hit_self = avvy.pos() == target;
+            sp = fake_spell( spid, hit_self );
+
+            // If a level is given, forcefully clamp to that level.
+            if( level.has_value() )
             {
-                // This will be our return value, as well as the spell we cast.
-                fake_spell sp;
-                /* Without a specified Creature, we assume the player is the
-                 * source.
-                 * I'd prefer to call gapi.get_avatar, but this will do for now.
-                 */
-                avatar & avvy = get_avatar();
-                // If target is avatar's location, assume we want to hit self
-                bool hit_self = avvy.pos() == target;
-                sp = fake_spell( spid, hit_self );
-
-                // If a level is given, forcefully clamp to that level.
-                if ( level.has_value() )
-                {
-                    sp.level = *level;
-                    sp.max_level = *level;
-                }
-
-                // Now that the spell is configured, we cast it as usual...
-                sp.get_spell().cast_all_effects( avvy, target );
-                // ...and return the spell we made for reuse.
-                return sp;
+                sp.level = *level;
+                sp.max_level = *level;
             }
-        );
+
+            // Now that the spell is configured, we cast it as usual...
+            sp.get_spell().cast_all_effects( avvy, target );
+            // ...and return the spell we made for reuse.
+            return sp;
+        }
+                    );
     }
 #undef UT_CLASS // #define UT_CLASS fake_spell
 }
@@ -197,14 +198,14 @@ void cata::detail::reg_spell( sol::state &lua )
         luna::new_usertype<UT_CLASS>(
             lua,
             luna::no_bases,
-            luna::constructors<
+            luna::constructors <
             UT_CLASS( spell_id, int )
             > ()
         );
 
         // Lets us grab the ID from the object.
         SET_MEMB_N_RO( type, "id" );
-        
+
         SET_FX_T( xp, int() const );
         SET_FX_T( gain_exp, void( int ) );
         SET_FX_T( set_exp, void( int ) );

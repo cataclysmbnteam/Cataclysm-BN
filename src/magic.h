@@ -121,7 +121,7 @@ struct fake_spell {
 
     // Borrowed from LUA_TYPE_OPS, catalua_type_operators.h
     inline bool operator<( const fake_spell &rhs ) const {
-        return (id) < rhs.id;
+        return ( id ) < rhs.id;
     }
 
     void load( const JsonObject &jo );

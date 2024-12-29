@@ -293,7 +293,8 @@ void doc_member( sol::table &dt, sol::types<Value Class::*> && )
 // property it's working with.
 // TODO: Resolve these issues.
 template<typename GetClass, typename GetVal>
-void doc_member( sol::table &dt, sol::types<sol::property_wrapper<GetVal GetClass::*, sol::detail::no_prop>> && )
+void doc_member( sol::table &dt,
+                 sol::types<sol::property_wrapper<GetVal GetClass::*, sol::detail::no_prop>> && )
 {
     dt[KEY_MEMBER_TYPE] = MEMBER_IS_VAR;
     add_comment( dt, KEY_MEMBER_COMMENT );
