@@ -2508,7 +2508,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
     "bash": {
       "str_min": 50,
       "str_max": 400,

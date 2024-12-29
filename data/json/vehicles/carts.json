@@ -296,7 +296,7 @@
   {
     "id": "wheelchair",
     "type": "vehicle",
-    "name": "Foldable wheelchair",
+    "name": "Wheelchair",
     "blueprint": [ "#" ],
     "parts": [
       { "x": 0, "y": 0, "part": "folding_frame" },

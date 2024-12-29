@@ -339,7 +339,7 @@ void Character::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
-    body_part bp = it.get_bp()->token;
+    bodypart_str_id bp = it.get_bp();
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
@@ -489,7 +489,7 @@ void Character::process_one_effect( effect &it, bool is_new )
             }
         }
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
-            if( bp == num_bp ) {
+            if( !bp ) {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp_torso ) );
                 } else {
@@ -502,7 +502,7 @@ void Character::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, convert_bp( bp ).id(), val, true );
+                apply_damage( nullptr, bp.id(), val, true );
             }
         }
     }

@@ -3577,7 +3577,6 @@
     "qualities": [ { "id": "DIG", "level": 1 } ],
     "components": [ [ [ "rock", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
-    "pre_terrain": "t_dirt",
     "dark_craftable": true,
     "post_furniture": "f_firering"
   },

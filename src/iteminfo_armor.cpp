@@ -339,7 +339,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     continue;
                 }
                 for( const bodypart_str_id &covering_id : piece.covers ) {
-                    if( covering_id != bodypart_str_id( "num_bp" ) ) {
+                    if( covering_id ) {
                         const int encumbrance_when_full =
                             get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
                         to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
