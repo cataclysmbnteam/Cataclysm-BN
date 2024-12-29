@@ -17,7 +17,6 @@
 #include "consistency_report.h"
 #include "construction_category.h"
 #include "construction_group.h"
-#include "construction_sequence.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -1877,65 +1876,4 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
     std::string time_text = get_time_string();
     std::vector<std::string> folded_time = foldstring( time_text, width );
     return folded_time;
-}
-
-void get_build_reqs_for_furn_ter_ids( const recipe_id &rid,
-                                      const std::pair<std::map<ter_id, int>,
-                                      std::map<furn_id, int>> &changed_ids,
-                                      build_reqs &total_reqs )
-{
-    if( !all_constructions.is_finalized() ) {
-        debugmsg( "get_build_reqs_for_furn_ter_ids called before finalization" );
-        return;
-    }
-
-    std::map<construction_id, int> total_builds;
-
-    const auto add_builds = [&total_builds]( const construction_sequence & seq, int count ) {
-        for( const construction_str_id &elem : seq.elems ) {
-            auto it = total_builds.emplace( elem.id(), 0 );
-            it.first->second += count;
-        }
-    };
-
-    for( const auto &ter_data : changed_ids.first ) {
-        const ter_str_id &sid = ter_data.first.id();
-        const construction_sequence *seq = construction_sequences::lookup_sequence( sid );
-        if( !seq ) {
-            debugmsg( R"(No construction sequence defined that produces "%s" terrain for blueprint "%s".)",
-                      sid, rid
-                    );
-            continue;
-        }
-        add_builds( *seq, ter_data.second );
-    }
-
-    for( const auto &furn_data : changed_ids.second ) {
-        const furn_str_id &sid = furn_data.first.id();
-        const construction_sequence *seq = construction_sequences::lookup_sequence( sid );
-        if( !seq ) {
-            debugmsg( R"(No construction sequence defined that produces "%s" furniture for blueprint "%s".)",
-                      sid, rid
-                    );
-            continue;
-        }
-        add_builds( *seq, furn_data.second );
-    }
-
-    for( const auto &build_data : total_builds ) {
-        const construction &build = build_data.first.obj();
-        const int count = build_data.second;
-        total_reqs.time += to_moves<int>( build.time ) * count;
-        if( total_reqs.reqs.find( build.requirements ) == total_reqs.reqs.end() ) {
-            total_reqs.reqs[build.requirements] = 0;
-        }
-        total_reqs.reqs[build.requirements] += count;
-        for( const auto &req_skill : build.required_skills ) {
-            if( total_reqs.skills.find( req_skill.first ) == total_reqs.skills.end() ) {
-                total_reqs.skills[req_skill.first] = req_skill.second;
-            } else if( total_reqs.skills[req_skill.first] < req_skill.second ) {
-                total_reqs.skills[req_skill.first] = req_skill.second;
-            }
-        }
-    }
 }

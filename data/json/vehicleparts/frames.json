@@ -141,7 +141,7 @@
     "name": { "str": "plastic frame" },
     "item": "frame_plastic",
     "location": "structure",
-    "durability": 500,
+    "durability": 250,
     "description": "A plastic framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_plastic",
     "requirements": {
@@ -158,7 +158,7 @@
     "name": { "str": "carbon fiber frame" },
     "item": "frame_carbon",
     "location": "structure",
-    "durability": 150,
+    "durability": 500,
     "description": "A carbon fiber framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_carbon",
     "requirements": {

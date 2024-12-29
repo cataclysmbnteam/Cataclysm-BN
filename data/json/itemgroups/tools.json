@@ -28,7 +28,8 @@
     "subtype": "distribution",
     "items": [
       [ "broom", 25 ],
-      [ "mop", 25 ],
+      [ "mop", 15 ],
+      [ "mop_folded", 10 ],
       [ "bucket", 10 ],
       { "item": "bag_plastic", "prob": 15, "count": [ 1, 5 ] },
       { "group": "tools_cleaning_small", "prob": 25 }
@@ -193,7 +194,8 @@
       [ "crowbar", 10 ],
       [ "pliers", 200 ],
       [ "bucket", 50 ],
-      [ "mop", 100 ],
+      [ "mop", 60 ],
+      [ "mop_folded", 40 ],
       [ "shovel", 40 ],
       [ "hammer_sledge", 10 ],
       [ "hammer_sledge_short", 20 ],

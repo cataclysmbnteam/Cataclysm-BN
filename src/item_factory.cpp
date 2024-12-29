@@ -1613,8 +1613,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
 
     //If we didn't find the item maybe it is a building instead!
     const recipe_id &making_id = recipe_id( id.c_str() );
-    if( oter_str_id( id.c_str() ).is_valid() ||
-        ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
+    if( oter_str_id( id.c_str() ).is_valid() ) {
         itype *def = new itype();
         def->id = id;
         def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
@@ -2508,7 +2507,6 @@ void Item_factory::set_allergy_flags( itype &item_template )
     static const std::pair<material_id, flag_id> all_pairs[] = {
         // First allergens:
         // An item is an allergen even if it has trace amounts of allergenic material
-        std::make_pair( material_id( "hflesh" ), flag_CANNIBALISM ),
 
         std::make_pair( material_id( "hflesh" ), flag_ALLERGEN_MEAT ),
         std::make_pair( material_id( "iflesh" ), flag_ALLERGEN_MEAT ),
@@ -2545,6 +2543,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
 
 // Migration helper: turns human flesh into generic flesh
 // Don't call before making sure that the cannibalism flag is set
+// Cannibalism is vitamin based now, so **probably** obsolete (if it wasn't already?)
 void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;

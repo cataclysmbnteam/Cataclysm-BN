@@ -96,6 +96,8 @@ struct body_part_type {
         bodypart_str_id id;
         bool was_loaded = false;
 
+        int sort_order = 0;
+
         // Those are stored untranslated
         translation name;
         translation name_multiple;

@@ -1222,7 +1222,7 @@ void options_manager::add_options_general()
     };
 
     add( "PROMPT_ON_CHARACTER_DEATH", general, translate_marker( "Prompt on character death" ),
-         translate_marker( "If enabled, when your character dies, the player is given a prompt that gives the option to cancel savefile deletion and other death effects, returning to the main menu without saving instead." ),
+         translate_marker( "If enabled, when your character dies, the player is given a prompt that gives the option to reload the last saved game instead of dying." ),
          false
        );
 
