@@ -1421,21 +1421,21 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     return true;
 }
 
-static body_part body_part_hit_by_plant()
+static bodypart_str_id body_part_hit_by_plant()
 {
-    body_part hit = num_bp;
+    bodypart_str_id hit;
     if( one_in( 2 ) ) {
-        hit = bp_leg_l;
+        hit = body_part_leg_l;
     } else {
-        hit = bp_leg_r;
+        hit = body_part_leg_r;
     }
     if( one_in( 4 ) ) {
-        hit = bp_torso;
+        hit = body_part_torso;
     } else if( one_in( 2 ) ) {
         if( one_in( 2 ) ) {
-            hit = bp_foot_l;
+            hit = body_part_foot_l;
         } else {
-            hit = bp_foot_r;
+            hit = body_part_foot_r;
         }
     }
     return hit;
@@ -1483,14 +1483,14 @@ bool mattack::growplants( monster *z )
             continue;
         }
 
-        const body_part hit = body_part_hit_by_plant();
+        const bodypart_str_id hit = body_part_hit_by_plant();
         critter->add_msg_player_or_npc( m_bad,
                                         //~ %s is bodypart name in accusative.
                                         _( "A tree bursts forth from the earth and pierces your %s!" ),
                                         //~ %s is bodypart name in accusative.
                                         _( "A tree bursts forth from the earth and pierces <npcname>'s %s!" ),
                                         body_part_name_accusative( hit ) );
-        critter->deal_damage( z, convert_bp( hit ).id(), damage_instance( DT_STAB, rng( 10, 30 ) ) );
+        critter->deal_damage( z, hit.id(), damage_instance( DT_STAB, rng( 10, 30 ) ) );
     }
 
     // 1 in 5 chance of making existing vegetation grow larger
@@ -1518,14 +1518,14 @@ bool mattack::growplants( monster *z )
             // Underbrush => young tree
             g->m.ter_set( p, t_tree_young );
             if( critter != nullptr && !critter->uncanny_dodge() ) {
-                const body_part hit = body_part_hit_by_plant();
+                const bodypart_str_id hit = body_part_hit_by_plant();
                 critter->add_msg_player_or_npc( m_bad,
                                                 //~ %s is bodypart name in accusative.
                                                 _( "The underbrush beneath your feet grows and pierces your %s!" ),
                                                 //~ %s is bodypart name in accusative.
                                                 _( "Underbrush grows into a tree, and it pierces <npcname>'s %s!" ),
                                                 body_part_name_accusative( hit ) );
-                critter->deal_damage( z, convert_bp( hit ).id(), damage_instance( DT_STAB, rng( 10, 30 ) ) );
+                critter->deal_damage( z, hit.id(), damage_instance( DT_STAB, rng( 10, 30 ) ) );
             }
         }
     }
@@ -2088,11 +2088,11 @@ bool mattack::fungus_fortify( monster *z )
         // Aimed at the player, too?  Sure!
         const tripoint hit_pos = target->pos() + point( rng( -1, 1 ), rng( -1, 1 ) );
         if( hit_pos == target->pos() && !target->uncanny_dodge() ) {
-            const body_part hit = body_part_hit_by_plant();
+            const bodypart_str_id hit = body_part_hit_by_plant();
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "A fungal tendril bursts forth from the earth and pierces your %s!" ),
                      body_part_name_accusative( hit ) );
-            g->u.deal_damage( z, convert_bp( hit ).id(), damage_instance( DT_CUT, rng( 5, 11 ) ) );
+            g->u.deal_damage( z, hit.id(), damage_instance( DT_CUT, rng( 5, 11 ) ) );
             g->u.check_dead_state();
             // Probably doesn't have spores available *just* yet.  Let's be nice.
         } else if( monster *const tendril = g->place_critter_at( mon_fungal_tendril, hit_pos ) ) {
@@ -2501,7 +2501,7 @@ bool mattack::callblobs( monster *z )
         }
         ( *ally )->set_dest( post );
         if( !( *ally )->has_effect( effect_ai_controlled ) ) {
-            ( *ally )->add_effect( effect_ai_controlled, 1_turns, num_bp );
+            ( *ally )->add_effect( effect_ai_controlled, 1_turns );
         }
     }
     // This is telepathy, doesn't take any moves.
@@ -2537,7 +2537,7 @@ bool mattack::jackson( monster *z )
         }
         ( *ally )->set_dest( post );
         if( !( *ally )->has_effect( effect_ai_controlled ) ) {
-            ( *ally )->add_effect( effect_ai_controlled, 1_turns, num_bp );
+            ( *ally )->add_effect( effect_ai_controlled, 1_turns );
         }
     }
     // Did we convert anybody?
@@ -3185,7 +3185,7 @@ bool mattack::nurse_operate( monster *z )
             // Check if we successfully grabbed the target
             if( target->has_effect( effect_grabbed ) ) {
                 z->dragged_foe_id = target->getID();
-                z->add_effect( effect_dragging, 1_turns, num_bp );
+                z->add_effect( effect_dragging, 1_turns );
                 return true;
             }
         }
@@ -5386,11 +5386,11 @@ bool mattack::bio_op_takedown( monster *z )
         return true;
     }
     // Yes, it has the CQC bionic.
-    bodypart_id hit( "num_bp" );
+    bodypart_str_id hit;
     if( one_in( 2 ) ) {
-        hit = bodypart_id( "leg_l" );
+        hit = body_part_leg_l;
     } else {
-        hit = bodypart_id( "leg_r" );
+        hit = body_part_leg_r;
     }
     // Weak kick to start with, knocks you off your footing
 
@@ -5403,17 +5403,17 @@ bool mattack::bio_op_takedown( monster *z )
     if( !foe->is_throw_immune() ) {
         if( !target->is_immune_effect( effect_downed ) ) {
             if( one_in( 4 ) ) {
-                hit = bodypart_id( "head" );
+                hit = body_part_head;
                 // 50% damage buff for the headshot.
                 dam = rng( 9, 21 );
                 target->add_msg_if_player( m_bad, _( "and slams you, face first, to the ground for %d damage!" ),
                                            dam );
-                foe->deal_damage( z, bodypart_id( "head" ), damage_instance( DT_BASH, dam ) );
+                foe->deal_damage( z, body_part_head.id(), damage_instance( DT_BASH, dam ) );
             } else {
-                hit = bodypart_id( "torso" );
+                hit = body_part_torso;
                 dam = rng( 6, 18 );
                 target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
-                foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
+                foe->deal_damage( z, body_part_torso.id(), damage_instance( DT_BASH, dam ) );
             }
             foe->add_effect( effect_downed, 3_turns );
         }
@@ -5421,12 +5421,12 @@ bool mattack::bio_op_takedown( monster *z )
                  foe->martial_arts_data->selected_has_weapon( foe->primary_weapon().typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
-        hit = bodypart_id( "torso" );
+        hit = body_part_torso;
         dam = rng( 3, 9 );
         target->add_msg_if_player( m_bad, _( "and slams you for %d damage!" ), dam );
         foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_BASH, dam ) );
     }
-    target->on_hit( z, hit );
+    target->on_hit( z, hit.id() );
     foe->check_dead_state();
 
     return true;
@@ -5982,7 +5982,7 @@ bool mattack::zombie_fuse( monster *z )
                  z->name() );
     }
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, 10_days, num_bp,
+    z->add_effect( effect_grown_of_fuse, 10_days, bodypart_str_id::NULL_ID(),
                    critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
     critter->death_drops = false;

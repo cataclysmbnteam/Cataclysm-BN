@@ -278,6 +278,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
     optional( jo, was_loaded, "encumbrance_text", encumb_text );
 
+    mandatory( jo, was_loaded, "sort_order", sort_order );
+
     assign( jo, "hit_size", hit_size, true );
     assign( jo, "hit_difficulty", hit_difficulty, true );
     assign( jo, "hit_size_relative", hit_size_relative, true );

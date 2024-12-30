@@ -108,5 +108,16 @@
     "purifiable": false,
     "threshold": true,
     "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_KITSUNE",
+    "name": { "str": "Kitsune" },
+    "points": 1,
+    "description": "While you may not have gained the magical powers of the japanese fox spirits, you embody their mischievous nature perfectly.  Perhaps one day, you'll find that special partner-in-crime to live up to the other reputation Kitsunes have.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
   }
 ]

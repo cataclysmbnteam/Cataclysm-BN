@@ -589,7 +589,7 @@ void Creature::deal_melee_hit( Creature *source, item *source_weapon, int hit_sp
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part()->token;
+        dealt_dam.bp_hit = anatomy_id( "human_anatomy" )->random_body_part().id();
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
@@ -607,12 +607,11 @@ void Creature::deal_melee_hit( Creature *source, item *source_weapon, int hit_sp
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
     bodypart_id bp_hit = select_body_part( source, hit_spread ).id();
-    const body_part bp_token = bp_hit->token;
     block_hit( source, bp_hit, d );
 
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d, source_weapon );
-    dealt_dam.bp_hit = bp_token;
+    dealt_dam.bp_hit = bp_hit.id();
 }
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
@@ -647,11 +646,11 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
     if( dealt_dam.total_damage() == 0 ) {
         //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
         add_msg( _( "The shot reflects off %1$s %2$s!" ), target.disp_name( true ),
-                 ( target.is_monster() || dealt_dam.bp_hit == num_bp ) ?
+                 ( target.is_monster() || !dealt_dam.bp_hit ) ?
                  target.skin_name() :
-                 body_part_name_accusative( dealt_dam.bp_hit ) );
+                 dealt_dam.bp_hit->accusative.translated() );
     } else if( target.is_player() ) {
-        if( dealt_dam.bp_hit != bodypart_str_id::NULL_ID()->token ) {
+        if( dealt_dam.bp_hit ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
             target.add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
@@ -861,7 +860,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     block_ranged_hit( source, bp_hit, impact );
     // If the projectile survives, both it and the launcher get credit for the kill.
     dealt_dam = deal_damage( source, bp_hit, impact, source_weapon, attack.proj.get_drop() );
-    dealt_dam.bp_hit = bp_hit->token;
+    dealt_dam.bp_hit = bp_hit.id();
 
     // Apply ammo effects to target.
     if( proj.has_effect( ammo_effect_TANGLE ) ) {
@@ -872,7 +871,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
         if( z ) {
             detached_ptr<item> drop_item = proj.unset_drop();
             if( drop_item ) {
-                z->add_effect( effect_tied, 1_turns, num_bp );
+                z->add_effect( effect_tied, 1_turns );
                 z->set_tied_item( std::move( drop_item ) );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
@@ -1264,7 +1263,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
         g->events().send<event_type::character_loses_effect>( ch->getID(), eff_id );
     }
 
-    // num_bp means remove all of a given effect id
+    // null bp means remove all of a given effect id
     if( !bp ) {
         for( auto &it : ( *effects )[eff_id] ) {
             auto &e = it.second;
@@ -1291,7 +1290,7 @@ bool Creature::has_effect( const efftype_id &eff_id ) const
 }
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
-    // num_bp means anything targeted or not
+    // null bp means anything, non-null means only that bp
     if( !bp ) {
         auto got = effects->find( eff_id );
         return got != effects->end() && !got->second.begin()->second.is_removed();
@@ -1835,12 +1834,16 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
         all_bps.emplace_back( elem.first );
     }
 
+    std::sort( all_bps.begin(), all_bps.end(),
+    []( const bodypart_id & lhs, const bodypart_id & rhs ) {
+        return lhs->sort_order < rhs->sort_order;
+    } );
     return all_bps;
 }
 
 int Creature::get_hp( const bodypart_id &bp ) const
 {
-    if( bp != bodypart_id( "num_bp" ) ) {
+    if( bp ) {
         return get_part_hp_cur( bp );
     }
     int hp_total = 0;
@@ -1852,12 +1855,12 @@ int Creature::get_hp( const bodypart_id &bp ) const
 
 int Creature::get_hp() const
 {
-    return get_hp( bodypart_id( "num_bp" ) );
+    return get_hp( bodypart_str_id::NULL_ID().id() );
 }
 
 int Creature::get_hp_max( const bodypart_id &bp ) const
 {
-    if( bp != bodypart_id( "num_bp" ) ) {
+    if( bp ) {
         return get_part_hp_max( bp );
     }
     int hp_total = 0;
@@ -1869,7 +1872,7 @@ int Creature::get_hp_max( const bodypart_id &bp ) const
 
 int Creature::get_hp_max() const
 {
-    return get_hp_max( bodypart_id( "num_bp" ) );
+    return get_hp_max( bodypart_str_id::NULL_ID().id() );
 }
 
 int Creature::get_speed_base() const

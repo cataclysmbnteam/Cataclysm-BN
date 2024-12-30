@@ -122,5 +122,17 @@
     "result": "mutagen_elf",
     "copy-from": "mutagen_elfa",
     "components": [ [ [ "mutagen_slime", 2 ], [ "iv_mutagen_slime", 1 ] ], [ [ "mutagen_plant", 1 ] ], [ [ "mutagen_bird", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_kitsune",
+    "copy-from": "iv_mutagen_beast",
+    "components": [ [ [ "mutagen_kitsune", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_kitsune",
+    "copy-from": "mutagen_beast",
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "animal_blood_concentrate", 9 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   }
 ]

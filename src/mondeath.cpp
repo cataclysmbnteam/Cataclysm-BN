@@ -864,7 +864,7 @@ void mdeath::detonate( monster &z )
         }
     }
     // HACK, used to stop them from having ammo on respawn
-    z.add_effect( effect_no_ammo, 1_turns, num_bp );
+    z.add_effect( effect_no_ammo, 1_turns );
 
     // First die normally
     mdeath::normal( z );
