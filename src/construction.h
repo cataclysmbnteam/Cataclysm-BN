@@ -65,6 +65,9 @@ struct construction {
         // Flags beginning terrain must have
         std::set<std::string> pre_flags;
 
+        // Flags that exclude a given terrain tile
+        std::set<std::string> deny_flags;
+
         // Post construction flags
         std::set<std::string> post_flags;
 
