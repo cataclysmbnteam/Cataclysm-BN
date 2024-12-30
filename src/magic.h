@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "bodypart.h"
+#include "catalua_type_operators.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "event_bus.h"
@@ -117,6 +118,11 @@ struct fake_spell {
     spell get_spell( int min_level_override = 0 ) const;
 
     bool operator==( const fake_spell &rhs )const;
+
+    // Borrowed from LUA_TYPE_OPS, catalua_type_operators.h
+    inline bool operator<( const fake_spell &rhs ) const {
+        return ( id ) < rhs.id;
+    }
 
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
@@ -284,14 +290,19 @@ class spell_type
         static void check_consistency();
         static void reset_all();
         bool is_valid() const;
+
+        LUA_TYPE_OPS( spell_type, id );
 };
 
 class spell
 {
+    public:
+        // Here for Lua reasons.
+        spell_id type;
+
     private:
         friend class spell_events;
         // basic spell data
-        spell_id type;
 
         // once you accumulate enough exp you level the spell
         int experience = 0;
@@ -448,6 +459,8 @@ class spell
         // picks a random valid tripoint from @area
         std::optional<tripoint> random_valid_target( const Creature &caster,
                 const tripoint &caster_pos ) const;
+
+        LUA_TYPE_OPS( spell, type );
 };
 
 class known_magic
