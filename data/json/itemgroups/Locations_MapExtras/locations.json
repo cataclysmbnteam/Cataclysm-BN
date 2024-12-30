@@ -577,6 +577,43 @@
     ]
   },
   {
+    "id": "fishing_items_trash",
+    "type": "item_group",
+    "//": "For underwater locations, the idea is these items have floated to the bottom.",
+    "items": [
+      [ "plastic_shopping_bag", 30 ],
+      [ "plastic_sheet", 20 ],
+      [ "rag", 30 ],
+      [ "bag_plastic", 30 ],
+      [ "bottle_plastic", 30 ],
+      [ "bottle_plastic_small", 30 ],
+      [ "bottle_glass", 30 ],
+      [ "bucket", 10 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "can_food_unsealed", 30 ],
+      [ "fishing_hook_basic", 30 ],
+      [ "fishing_hook_bone", 30 ],
+      [ "fishing_rod_professional", 5 ],
+      [ "fishing_rod_basic", 5 ],
+      [ "fish_bait", 5 ],
+      [ "fish_trap", 20 ],
+      [ "rope_6", 10 ],
+      [ "rope_30", 20 ],
+      [ "fishing_waders", 5 ],
+      [ "glowstick", 15 ],
+      [ "grapnel", 10 ],
+      [ "stick", 50 ],
+      [ "log", 50 ],
+      [ "razor_blade", 10 ],
+      [ "glass_shard", 20 ],
+      [ "scrap", 20 ],
+      [ "scrap_copper", 20 ],
+      [ "pipe", 20 ],
+      [ "battery_car", 5 ],
+      [ "wheel", 20 ]
+    ]
+  },
+  {
     "id": "recycle_paper",
     "type": "item_group",
     "items": [
