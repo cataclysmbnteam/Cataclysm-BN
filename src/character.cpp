@@ -3664,7 +3664,7 @@ std::vector<std::string> Character::get_overlay_ids() const
 
     // then get bionics
     for( const bionic &bio : *my_bionics ) {
-        if (!bio.show_sprite) {
+        if( !bio.show_sprite ) {
             continue;
         }
         overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
