@@ -18,19 +18,19 @@
 #include "compress.h"
 
 #define dbg(x) DebugLogFL((x),DC::Main)
-
 static sqlite3 *open_db( const std::string &path )
 {
     sqlite3 *db = nullptr;
     int ret;
 
-    if( SQLITE_OK != ( ret = sqlite3_initialize() ) ) {
+    ret = sqlite3_initialize();
+    if( ret != SQLITE_OK ) {
         dbg( DL::Error ) << "Failed to initialize sqlite3 (Error " << ret << ")";
         throw std::runtime_error( "Failed to initialize sqlite3" );
     }
 
-    if( SQLITE_OK != ( ret = sqlite3_open_v2( path.c_str(), &db,
-                             SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL ) ) ) {
+    ret = sqlite3_open_v2( path.c_str(), &db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL );
+    if( ret != SQLITE_OK ) {
         dbg( DL::Error ) << "Failed to open db" << path << " (Error " << ret << ")";
         throw std::runtime_error( "Failed to open db" );
     }
@@ -45,7 +45,8 @@ static sqlite3 *open_db( const std::string &path )
     )sql";
 
     char *sqlErrMsg = 0;
-    if( SQLITE_OK != ( ret = sqlite3_exec( db, sql, NULL, NULL, &sqlErrMsg ) ) ) {
+    ret = sqlite3_exec( db, sql, NULL, NULL, &sqlErrMsg );
+    if( ret != SQLITE_OK ) {
         dbg( DL::Error ) << "Failed to init db" << path << " (" << sqlErrMsg << ")";
         throw std::runtime_error( "Failed to open db" );
     }
@@ -569,7 +570,7 @@ bool world::read_overmap( const point_abs_om &p, file_read_fn reader ) const
 bool world::read_overmap_player_visibility( const point_abs_om &p, file_read_fn reader )
 {
     if( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
-        auto playerdb = get_player_db();
+        sqlite3 *playerdb = get_player_db();
         return read_from_db( playerdb, overmap_player_filename( p ), reader, true );
     } else {
         return read_from_player_file( overmap_player_filename( p ), reader, true );
@@ -589,7 +590,7 @@ bool world::write_overmap( const point_abs_om &p, file_write_fn writer ) const
 bool world::write_overmap_player_visibility( const point_abs_om &p, file_write_fn writer )
 {
     if( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
-        auto playerdb = get_player_db();
+        sqlite3 *playerdb = get_player_db();
         write_to_db( playerdb, overmap_player_filename( p ), writer );
         return true;
     } else {
@@ -608,7 +609,7 @@ static std::string get_mm_filename( const tripoint &p )
 bool world::read_player_mm_quad( const tripoint &p, file_read_json_fn reader )
 {
     if( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
-        auto playerdb = get_player_db();
+        sqlite3 *playerdb = get_player_db();
         return read_from_db_json( playerdb, get_mm_filename( p ), reader, true );
     } else {
         return read_from_player_file_json( ".mm1/" + get_mm_filename( p ), reader, true );
@@ -618,7 +619,7 @@ bool world::read_player_mm_quad( const tripoint &p, file_read_json_fn reader )
 bool world::write_player_mm_quad( const tripoint &p, file_write_fn writer )
 {
     if( info->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
-        auto playerdb = get_player_db();
+        sqlite3 *playerdb = get_player_db();
         write_to_db( playerdb, get_mm_filename( p ), writer );
         return true;
     } else {
@@ -709,7 +710,7 @@ bool world::read_from_file_json( const std::string &path, file_read_json_fn read
     return ::read_from_file_json( info->folder_path() + "/" + path, reader, optional );
 }
 
-void replaceBackslashes( std::string &input )
+static void replaceBackslashes( std::string &input )
 {
     std::size_t pos = 0;
     while( ( pos = input.find( '\\', pos ) ) != std::string::npos ) {
