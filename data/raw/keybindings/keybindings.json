@@ -1539,6 +1539,15 @@
     "name": "Toggle safe fuel mod",
     "bindings": [ { "input_method": "keyboard", "key": "S" } ]
   },
+  
+    {
+    "type": "keybinding",
+    "id": "TOGGLE_SPRITE",
+    "category": "BIONICS",
+    "name": "Toggle sprite",
+    "bindings": [ { "input_method": "keyboard", "key": "H" } ]
+  },
+  
   {
     "type": "keybinding",
     "id": "TOGGLE_AUTO_START",
