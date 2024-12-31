@@ -258,8 +258,10 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
                                      "[<color_yellow>%s</color>] Toggle fuel saving mode, "
+                                     "[<color_yellow>%s</color>] Toggle sprite visibility, "
                                      "[<color_yellow>%s</color>] Toggle auto start mode." ),
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
+                                  ctxt.get_desc( "TOGGLE_SPRITE" ),
                                   ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
                                   sort_mode_str( uistate.bionic_sort_mode ) );
@@ -316,6 +318,9 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     }
     if( bio.incapacitated_time > 0_turns ) {
         properties.emplace_back( _( "(incapacitated)" ) );
+    }
+    if( !bio.show_sprite ) {
+        properties.emplace_back( _( "(hidden)" ) );
     }
     if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ( !bio.info().fuel_opts.empty() ||
             bio.info().is_remote_fueled ) ) {
@@ -630,6 +635,7 @@ void show_bionics_ui( Character &who )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "TOGGLE_SAFE_FUEL" );
+    ctxt.register_action( "TOGGLE_SPRITE" );
     ctxt.register_action( "TOGGLE_AUTO_START" );
     ctxt.register_action( "SORT" );
 
@@ -839,6 +845,13 @@ void show_bionics_ui( Character &who )
                 } else {
                     popup( _( "You can't toggle auto start mode on a non-fueled CBM." ) );
                 }
+            }
+
+        } else if( action == "TOGGLE_SPRITE" ) {
+            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+                tmp->show_sprite = !tmp->show_sprite;
             }
         } else if( action == "SORT" ) {
             uistate.bionic_sort_mode = pick_sort_mode();
