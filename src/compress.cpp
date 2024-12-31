@@ -29,7 +29,7 @@ void zlib_compress( const std::string &input, std::vector<std::byte> &output )
 void zlib_decompress( const void *compressed_data, int compressed_size, std::string &output )
 {
     // We need to guess at the decompressed size - we expect things to compress fairly well.
-    uLongf decompressedSize = compressed_size * 8;
+    uLongf decompressedSize = static_cast<uLongf>( compressed_size ) * 8;
     output.resize( decompressedSize );
 
     int result;
