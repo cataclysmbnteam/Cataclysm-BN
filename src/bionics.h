@@ -165,6 +165,7 @@ struct bionic {
         int         charge_timer  = 0;
         char        invlet  = 'a';
         bool        powered = false;
+        bool        show_sprite = true;
         /* Ammunition actually loaded in this bionic gun in deactivated state */
         itype_id    ammo_loaded = itype_id::NULL_ID();
         /* Ammount of ammo actually held inside by this bionic gun in deactivated state */

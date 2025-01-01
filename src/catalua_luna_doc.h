@@ -44,6 +44,8 @@ class recipe;
 class Skill;
 class SkillLevel;
 class SkillLevelMap;
+class spell_type;
+class spell;
 class time_duration;
 class time_point;
 class tinymap;
@@ -52,6 +54,7 @@ struct body_part_type;
 struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
+struct fake_spell;
 struct field_type;
 struct mutation_branch;
 struct npc_opinion;
@@ -123,6 +126,8 @@ LUNA_VAL( point, "Point" );
 LUNA_VAL( query_popup, "QueryPopup" );
 LUNA_VAL( SkillLevelMap, "SkillLevelMap" );
 LUNA_VAL( SkillLevel, "SkillLevel" );
+LUNA_VAL( fake_spell, "SpellSimple" )
+LUNA_VAL( spell, "Spell" )
 LUNA_VAL( time_duration, "TimeDuration" );
 LUNA_VAL( time_point, "TimePoint" );
 LUNA_VAL( tinymap, "Tinymap" );
@@ -154,6 +159,7 @@ LUNA_ID( mutation_category_trait, "MutationCategoryTrait" )
 LUNA_ID( recipe, "Recipe" )
 LUNA_ID( Skill, "Skill" )
 LUNA_ID( species_type, "SpeciesType" )
+LUNA_ID( spell_type, "SpellType" )
 LUNA_ID( ter_t, "Ter" )
 
 // Enums
