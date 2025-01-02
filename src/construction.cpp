@@ -983,6 +983,13 @@ bool can_construct( const construction &con, const tripoint &p )
     bool place_okay = con.pre_special( p );
     // see if the terrain type checks out
     place_okay &= has_pre_terrain( con, p );
+    // see if the (deny) flags check out
+    place_okay &= std::none_of( con.deny_flags.begin(), con.deny_flags.end(),
+    [&p, &here]( const std::string & flag ) -> bool {
+        const furn_id &furn = here.furn( p );
+        const ter_id &ter = here.ter( p );
+        return furn == f_null ? ter->has_flag( flag ) : furn->has_flag( flag );
+    } );
     // see if the flags check out
     place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
     [&p, &here]( const std::string & flag ) -> bool {
@@ -1658,6 +1665,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
     optional( jo, was_loaded, "post_terrain", post_terrain );
     optional( jo, was_loaded, "post_furniture", post_furniture );
     assign( jo, "pre_flags", pre_flags );
+    optional( jo, was_loaded, "deny_flags", deny_flags );
     optional( jo, was_loaded, "post_flags", post_flags );
 
     if( jo.has_member( "byproducts" ) ) {
@@ -1728,7 +1736,12 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
         if( !post_special || !s.empty() ) {
             auto it = post_special_map.find( s );
             if( it != post_special_map.end() ) {
-                post_special = it->second;
+                if( s == "done_deconstruct" && ( !post_terrain.is_empty() || !post_furniture.is_empty() ) ) {
+                    jo.throw_error( "Can't use post_special function \"done_deconstruct\" alongside post_terrain/post_furniture fields",
+                                    s );
+                } else {
+                    post_special = it->second;
+                }
             } else {
                 debugmsg( "Unknown post_special function \"%s\"", s );
             }
@@ -1783,7 +1796,7 @@ void construction::check() const
 void construction::finalize()
 {
     if( !group.is_valid() ) {
-        debugmsg( "Invalid construction group (%s) defiend for construction (%s)", group, id );
+        debugmsg( "Invalid construction group (%s) defined for construction (%s)", group, id );
     }
     if( vehicle_start ) {
         std::vector<item_comp> frame_items;

@@ -713,7 +713,15 @@
     "color": "light_green",
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "plut_generator_item", "charges": [ 1, 1 ] },
+        { "item": "power_supply", "charges": [ 3, 3 ] },
+        { "item": "cable", "charges": [ 15, 15 ] }
+      ]
+    },
     "bash": {
       "str_min": 50,
       "str_max": 400,
@@ -742,7 +750,21 @@
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
-    "flags": [ "NOITEM", "WALL" ],
+    "flags": [ "NOITEM", "WALL", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 16, 40 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 12, 24 ] },
+        { "item": "circuit", "count": [ 6, 30 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 3, 6 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 8, 16 ] }
+      ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -763,7 +785,20 @@
     "looks_like": "f_wreckage",
     "move_cost": 0,
     "coverage": 90,
-    "flags": [ "NOITEM", "WALL" ],
+    "flags": [ "NOITEM", "WALL", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 4, 24 ] },
+        { "item": "e_scrap", "count": [ 4, 12 ] },
+        { "item": "circuit", "count": [ 2, 12 ] },
+        { "item": "power_supply", "count": [ 1, 4 ] },
+        { "item": "amplifier", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 6, 12 ] }
+      ]
+    },
     "bash": {
       "str_min": 6,
       "str_max": 80,
@@ -791,7 +826,19 @@
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "cable", "charges": [ 8, 24 ] },
+        { "item": "power_supply", "count": [ 4, 8 ] },
+        { "item": "amplifier", "count": [ 8, 16 ] },
+        { "item": "steel_chunk", "count": [ 4, 16 ] },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "sheet_metal", "count": [ 6, 12 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -818,7 +865,19 @@
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "cable", "charges": [ 4, 12 ] },
+        { "item": "power_supply", "count": [ 3, 6 ] },
+        { "item": "amplifier", "count": [ 6, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 8, 18 ] },
+        { "item": "sheet_metal", "count": [ 4, 8 ] },
+        { "item": "ceramic_shard", "count": [ 1, 4 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -845,7 +904,22 @@
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 4, 24 ] },
+        { "item": "small_lcd_screen", "count": [ 6, 12 ] },
+        { "item": "e_scrap", "count": [ 16, 24 ] },
+        { "item": "circuit", "count": [ 12, 30 ] },
+        { "item": "power_supply", "count": [ 6, 8 ] },
+        { "item": "amplifier", "count": [ 6, 8 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 8, 16 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -871,7 +945,22 @@
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 8 ] },
+        { "item": "small_lcd_screen", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 6, 12 ] },
+        { "item": "circuit", "count": [ 8, 24 ] },
+        { "item": "power_supply", "count": [ 2, 6 ] },
+        { "item": "amplifier", "count": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -900,7 +989,16 @@
     "color": "i_light_gray",
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "ceramic_shard", "count": [ 8, 16 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -924,7 +1022,24 @@
     "color": "light_gray",
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "RAM", "count": [ 12, 24 ] },
+        { "item": "cable", "charges": [ 6, 12 ] },
+        { "item": "small_lcd_screen", "count": [ 8, 16 ] },
+        { "item": "e_scrap", "count": [ 8, 12 ] },
+        { "item": "circuit", "count": [ 6, 18 ] },
+        { "item": "power_supply", "count": [ 8, 12 ] },
+        { "item": "amplifier", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "lead", "charges": [ 1, 2 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -950,7 +1065,18 @@
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "lead", "charges": [ 4, 16 ] },
+        { "item": "cable", "charges": [ 60, 120 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "ceramic_shard", "count": [ 4, 12 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -979,7 +1105,18 @@
     "looks_like": "t_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE", "ADV_DECONSTRUCT" ],
+    "deconstruct": {
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "lead", "charges": [ 12, 32 ] },
+        { "item": "cable", "charges": [ 20, 40 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "ceramic_shard", "count": [ 4, 12 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,

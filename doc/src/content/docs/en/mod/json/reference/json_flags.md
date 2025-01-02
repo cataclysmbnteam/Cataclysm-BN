@@ -518,6 +518,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
    |      O
   ```
 
+- `ADV_DECONSTRUCT` This cannot be deconstructed using normal deconstruction; a specially-defined
+  construction action is necessary. Most of these fall under the "`advanced_object_deconstruction`"
+  group.
 - `BARRICADABLE_DOOR_DAMAGED`
 - `BARRICADABLE_DOOR_REINFORCED_DAMAGED`
 - `BARRICADABLE_DOOR_REINFORCED`
