@@ -998,8 +998,7 @@
     "required_skills": [ [ "electronics", 4 ] ],
     "time": "55 m",
     "using": [ [ "advanced_electronics_high_voltage", 1 ] ],
-    "byproducts": [
-    ],
+    "byproducts": [  ],
     "pre_terrain": "t_potential_trans",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],

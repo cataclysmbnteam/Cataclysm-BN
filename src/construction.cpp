@@ -1737,7 +1737,8 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             auto it = post_special_map.find( s );
             if( it != post_special_map.end() ) {
                 if( s == "done_deconstruct" && ( !post_terrain.is_empty() || !post_furniture.is_empty() ) ) {
-                    jo.throw_error( "Can't use post_special function \"done_deconstruct\" alongside post_terrain/post_furniture fields", s );
+                    jo.throw_error( "Can't use post_special function \"done_deconstruct\" alongside post_terrain/post_furniture fields",
+                                    s );
                 } else {
                     post_special = it->second;
                 }
