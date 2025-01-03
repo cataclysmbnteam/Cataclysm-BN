@@ -607,6 +607,11 @@ endif
 
 PKG_CONFIG = $(CROSS)pkg-config
 
+CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sqlite3)
+LDFLAGS += $(shell $(PKG_CONFIG) --libs sqlite3)
+CXXFLAGS += $(shell $(PKG_CONFIG) --cflags zlib)
+LDFLAGS += $(shell $(PKG_CONFIG) --libs zlib)
+
 ifeq ($(SOUND), 1)
   ifneq ($(TILES),1)
     $(error "SOUND=1 only works with TILES=1")
