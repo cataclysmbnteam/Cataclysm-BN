@@ -6,6 +6,7 @@
 #include <set>
 
 #include "bodypart.h"
+#include "calendar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
@@ -186,6 +187,14 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
+    }
+
+    if (active_conditions.second == condition::NIGHT) {
+        return is_night(calendar::turn);
+    }
+
+    if (active_conditions.second == condition::DAY) {
+        return is_day(calendar::turn);
     }
 
     if( active_conditions.second == condition::UNDERGROUND ) {

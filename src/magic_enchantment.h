@@ -84,6 +84,8 @@ class enchantment
             ALWAYS,
             UNDERGROUND,
             UNDERWATER,
+            NIGHT,
+            DAY,
             ACTIVE, // the item, mutation, etc. is active
             NUM_CONDITION
         };
