@@ -2273,6 +2273,7 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
     if( extinguish ) {
         it.revert( &p, false );
         it.deactivate();
+        return 0;
 
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {

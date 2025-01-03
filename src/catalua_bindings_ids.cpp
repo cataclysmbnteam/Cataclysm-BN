@@ -14,6 +14,7 @@
 #include "flag_trait.h"
 #include "itype.h"
 #include "json.h"
+#include "magic.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "monfaction.h"
@@ -123,6 +124,7 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<recipe, false>( lua );
     reg_id<Skill, false>( lua );
     reg_id<species_type, false>( lua );
+    reg_id<spell_type, false>( lua );
     reg_id<ter_t, true>( lua );
 
 }

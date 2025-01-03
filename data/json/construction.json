@@ -7,6 +7,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "PRY", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "deny_flags": [ "ADV_DECONSTRUCT" ],
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
     "post_special": "done_deconstruct"
@@ -20,6 +21,7 @@
     "time": "10 s",
     "pre_note": "Certain terrain and furniture can be deconstructed without any tools.",
     "pre_flags": "EASY_DECONSTRUCT",
+    "deny_flags": [ "ADV_DECONSTRUCT" ],
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
     "dark_craftable": true,

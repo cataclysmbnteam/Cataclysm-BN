@@ -670,6 +670,7 @@
   },
   {
     "id": "exosuit_industrial",
+    "sub": "gloves_rubber",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "industrial exo-suit" },

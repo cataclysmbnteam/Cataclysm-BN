@@ -237,6 +237,7 @@
     "id": "advanced_electronics_high_voltage",
     "type": "requirement",
     "//": "For electronics and electrical terrain with voltage so high it kills you just for looking at it funny, includes wirecutting and pliers",
+    "//2": "Any TOOL_ARMOR electrical protection can be added as an alternative by setting it as a substitute for rubber gloves, but non-armor alternatives have to be explicitly added here.",
     "tools": [
       [
         [ "hacksaw", -1 ],
@@ -249,7 +250,7 @@
       ],
       [ [ "multitool", -1 ], [ "pliers", -1 ], [ "toolset", -1 ] ],
       [ [ "voltmeter", 10 ] ],
-      [ [ "gloves_rubber", -1 ] ]
+      [ [ "gloves_rubber", -1 ], [ "chainmail_suit_faraday", -1 ], [ "shark_suit_faraday", -1 ] ]
     ],
     "qualities": [ { "id": "PRY", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ]
   },
