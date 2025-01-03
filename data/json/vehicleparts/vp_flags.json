@@ -240,5 +240,21 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "requires_flag": "ROOF"
+  },
+  {
+    "id": "SEAT_REQUIRES_BALANCE",
+    "context": [ "vehicle_part" ],
+    "type": "json_flag"
+  },
+  {
+    "id": "WHEEL_MOUNT_SKATEBOARD",
+    "context": [ "vehicle_part" ],
+    "type": "json_flag"
+  },
+  {
+    "id": "NEEDS_WHEEL_MOUNT_SKATEBOARD",
+    "context": [ "vehicle_part" ],
+    "type": "json_flag",
+    "requires_flag": "WHEEL_MOUNT_SKATEBOARD"
   }
 ]

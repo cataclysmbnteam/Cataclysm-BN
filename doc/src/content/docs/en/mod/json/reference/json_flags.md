@@ -1657,6 +1657,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `SEAT` A seat where the player can sit or sleep.
 - `SEATBELT` Helps prevent the player from being ejected from the vehicle during an accident. Can
   only be installed on a part with `BELTABLE` flag.
+- `SEAT_REQUIRES_BALANCE` The player may fall off once they run into something determined by a
+  strength roll. TRAIT_DEFT and TRAIT_PROF_SKATER makes it harder to be thrown from vehicle.
 - `SECURITY`
 - `SHARP` Striking a monster with this part does cutting damage instead of bashing damage, and
   prevents stunning the monster.

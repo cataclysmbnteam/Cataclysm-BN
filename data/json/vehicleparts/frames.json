@@ -174,6 +174,40 @@
     "damage_reduction": { "all": 84 }
   },
   {
+    "id": "frame_wood_deck",
+    "type": "vehicle_part",
+    "name": { "str": "skateboard deck" },
+    "copy-from": "frame_wood_light",
+    "item": "frame_wood_deck",
+    "symbol": "]",
+    "looks_like": "frame_wood_light",
+    "durability": 100,
+    "fuel_type": "muscle",
+    "power": 140,
+    "muscle_power_factor": 30,
+    "m2c": 45,
+    "description": "A light wooden skateboard deck.  Other skateboard components can be mounted on it.",
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 0 ] ], "time": "0 m" },
+      "removal": { "skills": [ [ "fabrication", 0 ] ], "time": "0 m" },
+      "repair": { "skills": [ [ "fabrication", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [
+      "MOUNTABLE",
+      "INITIAL_PART",
+      "SEAT",
+      "ENGINE",
+      "E_STARTS_INSTANTLY",
+      "NONBELTABLE",
+      "MUSCLE_LEGS",
+      "SEAT_REQUIRES_BALANCE",
+      "BOARDABLE",
+      "CONTROLS"
+    ],
+    "damage_reduction": { "all": 2 }
+  },
+  {
     "id": "frame_cover",
     "copy-from": "frame",
     "type": "vehicle_part",

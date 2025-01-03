@@ -141,6 +141,29 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "folding_skateboard",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "skateboard" },
+    "description": "This is a skateboard.",
+    "weight": "2898 g",
+    "volume": "3750 ml",
+    "price": "350 USD",
+    "price_postapoc": "20 USD",
+    "to_hit": -5,
+    "bashing": 10,
+    "material": "aluminum",
+    "symbol": "0",
+    "color": "light_gray",
+    "use_action": {
+      "type": "unfold_vehicle",
+      "vehicle_name": "skateboard",
+      "unfold_msg": "You lay the skateboard down on the ground.",
+      "moves": 0
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
     "category": "tools",

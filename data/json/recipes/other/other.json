@@ -135,6 +135,20 @@
   },
   {
     "type": "recipe",
+    "result": "folding_skateboard",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "wheel_mount_skateboard", 1 ] ], [ [ "frame_wood_deck", 1 ] ], [ [ "wheel_skateboard", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "candle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
