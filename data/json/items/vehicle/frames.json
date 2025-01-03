@@ -120,5 +120,20 @@
     "price": "35 USD",
     "price_postapoc": "1 USD",
     "copy-from": "foldframe"
+  },
+  {
+    "type": "GENERIC",
+    "id": "frame_wood_deck",
+    "name": { "str": "skateboard deck" },
+    "symbol": "]",
+    "description": "A small skateboard frame made of thin layers of wood glued together.",
+    "weight": "1500 g",
+    "to_hit": -5,
+    "color": "brown",
+    "material": [ "wood" ],
+    "volume": "8750 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "copy-from": "foldframe"
   }
 ]
