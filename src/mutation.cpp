@@ -585,10 +585,10 @@ void Character::activate_mutation( const trait_id &mut )
         }
     } else if( !mdata.spawn_item.is_empty() ) {
         detached_ptr<item> granted = item::spawn( mdata.spawn_item );
-        if (granted->made_of(LIQUID)){
+        if( granted->made_of( LIQUID ) ) {
             liquid_handler::consume_liquid( std::move( granted ), 1 );
-        } else{
-            i_add_or_drop( std::move(granted) );
+        } else {
+            i_add_or_drop( std::move( granted ) );
         }
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
