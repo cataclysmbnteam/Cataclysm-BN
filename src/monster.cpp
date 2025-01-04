@@ -1960,7 +1960,7 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ) );
         // Get angry at characters if hurt by one
-        if( source != nullptr && !aggro_character && !source->is_monster() ) {
+        if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
             add_msg( m_debug, "%s's aggro triggered by hurt", get_name() );
             add_msg( m_bad, "%s's aggro triggered by hurt", get_name() );
             aggro_character = true;
@@ -2697,7 +2697,7 @@ void monster::die( Creature *nkiller )
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust += 15;
-        if( nkiller != nullptr && !nkiller->is_monster() ) {
+        if( nkiller != nullptr && !nkiller->is_monster() && !nkiller->is_fake() ) {
             // A character killed our friend
             add_msg( m_debug, "%s's character aggro triggered by killing a friendly creature", name() );
             aggro_character = true;
@@ -3201,7 +3201,7 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust += 15;
-        if( source != nullptr && !source->is_monster() ) {
+        if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
             // A character attacked our friend
             add_msg( m_debug, "%s's character aggro triggered by attacking a friendly creature", name() );
             // not in BN

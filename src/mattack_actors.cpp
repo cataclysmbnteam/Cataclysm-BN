@@ -579,7 +579,7 @@ bool gun_actor::call( monster &z ) const
         aim_at = target->pos();
     } else {
         target = z.attack_target();
-        if( !target || !z.sees( *target ) ) {
+        if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
             if( !target_moving_vehicles ) {
                 return false;
             }

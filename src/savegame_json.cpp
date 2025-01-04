@@ -1843,6 +1843,7 @@ void monster::load( const JsonObject &data )
     data.read( "anger", anger );
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
+    data.read( "aggro_character", aggro_character );
     data.read( "stairscount", staircount ); // really?
     data.read( "fish_population", fish_population );
     // Load legacy plans.
@@ -1935,6 +1936,7 @@ void monster::store( JsonOut &json ) const
     json.member( "anger", anger );
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
+    json.member( "aggro_character", aggro_character );
     json.member( "stairscount", staircount );
     if( tied_item ) {
         json.member( "tied_item", *tied_item );
