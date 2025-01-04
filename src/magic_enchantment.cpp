@@ -193,20 +193,20 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
         return true;
     }
 
-    if (active_conditions.second == condition::NIGHT) {
-        return is_night(calendar::turn);
+    if( active_conditions.second == condition::NIGHT ) {
+        return is_night( calendar::turn );
     }
 
-    if (active_conditions.second == condition::DAY) {
-        return is_day(calendar::turn);
-    }
-    
-    if (active_conditions.second == condition::DUSK) {
-        return is_dusk(calendar::turn);
+    if( active_conditions.second == condition::DAY ) {
+        return is_day( calendar::turn );
     }
 
-    if (active_conditions.second == condition::DAWN) {
-        return is_dawn(calendar::turn);
+    if( active_conditions.second == condition::DUSK ) {
+        return is_dusk( calendar::turn );
+    }
+
+    if( active_conditions.second == condition::DAWN ) {
+        return is_dawn( calendar::turn );
     }
 
     if( active_conditions.second == condition::UNDERGROUND ) {

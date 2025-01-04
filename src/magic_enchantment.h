@@ -85,7 +85,7 @@ class enchantment
             UNDERGROUND,
             UNDERWATER,
             NIGHT,
-            DAY, 
+            DAY,
             DUSK,
             DAWN,
             ACTIVE, // the item, mutation, etc. is active
