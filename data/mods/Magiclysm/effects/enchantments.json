@@ -24,5 +24,19 @@
     "has": "WORN",
     "condition": "DAY",
     "values": [ { "value": "STRENGTH", "multiply": 10 } ]
+  },
+  {
+    "id": "ench_test_dawn",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "DAWN",
+    "values": [ { "value": "PERCEPTION", "multiply": 10 } ]
+  },
+  {
+    "id": "ench_test_dusk",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "DUSK",
+    "values": [ { "value": "STRENGTH", "multiply": 10 } ]
   }
 ]

@@ -63,6 +63,8 @@ namespace io
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::DAY: return "DAY";
         case enchantment::condition::NIGHT: return "NIGHT";
+        case enchantment::condition::DUSK: return "DUSK";
+        case enchantment::condition::DAWN: return "DAWN";
         case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
@@ -197,6 +199,14 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 
     if (active_conditions.second == condition::DAY) {
         return is_day(calendar::turn);
+    }
+    
+    if (active_conditions.second == condition::DUSK) {
+        return is_dusk(calendar::turn);
+    }
+
+    if (active_conditions.second == condition::DAWN) {
+        return is_dawn(calendar::turn);
     }
 
     if( active_conditions.second == condition::UNDERGROUND ) {
