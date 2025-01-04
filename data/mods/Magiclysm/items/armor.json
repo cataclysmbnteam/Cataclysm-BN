@@ -104,5 +104,27 @@
     "volume": "150 L",
     "material_thickness": 6,
     "environmental_protection": 8
+  },
+  {
+    "id": "helmet_testNight",
+    "copy-from": "helmet_chitin",
+    "type": "ARMOR",
+    "name": { "str": "Night testing Helmet" },
+    "description": "I can see EVERYTHING!",
+    "material": [ "demon_chitin" ],
+    "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
+    "relic_data": { "passive_effects": [ { "id": "ench_test_night" }, { "id": "ench_test_dawn" } ] },
+    "environmental_protection": 8
+  },
+  {
+    "id": "gauntlets_testDay",
+    "copy-from": "gauntlets_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of Day Testing gauntlets" },
+    "description": "Super strong so long as the sun's on!",
+    "material": [ "demon_chitin" ],
+    "proportional": { "weight": 0.9, "encumbrance": 0.9, "price": 10, "warmth": 2 },
+    "relic_data": { "passive_effects": [ { "id": "ench_test_day" }, { "id": "ench_test_dusk" } ] },
+    "environmental_protection": 8
   }
 ]

@@ -371,6 +371,10 @@ Values:
 - `ALWAYS` (default) - Always active
 - `UNDERGROUND` - When the owner of the item is below Z-level 0
 - `UNDERWATER` - When the owner is in swimmable terrain
+- `NIGHT` - When it is night time
+- `DUSK` - When it is dusk
+- `DAY` - When it is day time
+- `DAWN` - When it is dawn
 - `ACTIVE` - whenever the item, mutation, bionic, or whatever the enchantment is attached to is
   active.
 
