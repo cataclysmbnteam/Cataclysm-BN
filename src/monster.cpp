@@ -1962,7 +1962,6 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
         // Get angry at characters if hurt by one
         if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
             add_msg( m_debug, "%s's aggro triggered by hurt", get_name() );
-            add_msg( m_bad, "%s's aggro triggered by hurt", get_name() );
             aggro_character = true;
         }
     }
