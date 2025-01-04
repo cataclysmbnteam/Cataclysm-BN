@@ -3467,15 +3467,27 @@ void item_group::debug_spawn()
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
     }
+    uilist iter_config;
+    iter_config.text = _( "How many iterations to test?" );
+    constexpr std::array<size_t, 4> iter_choices = { 10, 100, 1000, 10000 };
+    for( size_t i = 0; i < iter_choices.size(); i++ ) {
+        iter_config.entries.emplace_back( static_cast<int>( i ), true, -2,
+                                          std::to_string( iter_choices[i] ) );
+    }
     while( true ) {
         menu.query();
         const int index = menu.ret;
         if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
+        iter_config.query();
+        const int iter_index = iter_config.ret;
+        if( iter_index >= static_cast<int>( iter_choices.size() ) || iter_index < 0 ) {
+            break;
+        }
         // Spawn items from the group 100 times
         std::map<std::string, int> itemnames;
-        for( size_t a = 0; a < 100; a++ ) {
+        for( size_t a = 0; a < iter_choices[iter_index]; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
             for( auto &it : items ) {
                 itemnames[it->display_name()]++;
@@ -3487,7 +3499,7 @@ void item_group::debug_spawn()
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
         uilist menu2;
-        menu2.text = _( "Result of 100 spawns:" );
+        menu2.text = string_format( _( "Results of %zu spawns:" ), iter_choices[iter_index] );
         for( const auto &e : itemnames2 ) {
             menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
                                         string_format( _( "%d x %s" ), e.first, e.second ) );
