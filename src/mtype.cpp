@@ -56,6 +56,8 @@ mtype::mtype()
     luminance = 0;
     bash_skill = 0;
 
+    aggro_character = true;
+
     flags
     .set( MF_HUMAN )
     .set( MF_BONES )

@@ -532,6 +532,9 @@ class monster : public Creature, public location_visitable<monster>
         }
 
         short ignoring;
+
+        bool aggro_character = true;
+
         std::optional<time_point> lastseen_turn;
 
         // Stair data.
@@ -623,6 +626,7 @@ class monster : public Creature, public location_visitable<monster>
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         std::optional<time_duration> summon_time_limit = std::nullopt;
+
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );

@@ -370,6 +370,9 @@ struct mtype {
         bool upgrades;
         bool reproduces;
 
+        // Do we indiscriminately attack characters, or should we wait until one annoys us?
+        bool aggro_character = true;
+
         mtype();
         /**
          * Check if this type is of the same species as the other one, because
