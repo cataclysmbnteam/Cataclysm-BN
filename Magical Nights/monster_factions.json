@@ -20,6 +20,12 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "goblins"
+    "name": "goblins",
+	"friendly": [ "orcs" ]
+  },
+  {
+	  "type": "MONSTER_FACTION",
+	  "name": "orcs",
+	  "friendly": [ "goblins" ]
   }
 ]

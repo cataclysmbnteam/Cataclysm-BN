@@ -37,5 +37,41 @@
       { "item": "cuirass_scrap", "prob": 40 },
       { "group": "enchanted_melee_weapons_plus1", "prob": 100 }
     ]
+  },
+    {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "orc_warrior_drops",
+    "entries": [
+      { "item": "chainmail_legs", "prob": 40 },
+      { "item": "chainmail_feet", "prob": 40 },
+      { "item": "chainmail_arms", "prob": 40 },
+      { "item": "chainmail_vest", "prob": 40 },
+      { "item": "cutlass", "prob": 95 }
+    ]
+  },
+      {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "orc_archer_drops",
+    "entries": [
+      { "item": "chainmail_legs", "prob": 40 },
+      { "item": "chainmail_feet", "prob": 40 },
+      { "item": "chainmail_arms", "prob": 40 },
+      { "item": "chainmail_vest", "prob": 40 },
+      { "item": "longbow", "prob": 95 }
+    ]
+  },
+      {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "orc_blood_warrior_drops",
+    "entries": [
+      { "item": "chainmail_legs", "prob": 40 },
+      { "item": "chainmail_feet", "prob": 40 },
+      { "item": "chainmail_arms", "prob": 40 },
+      { "item": "chainmail_vest", "prob": 40 },
+      { "item": "pike_plus_one", "prob": 95 }
+    ]
   }
 ]

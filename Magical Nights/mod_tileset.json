@@ -211,7 +211,7 @@
           { "id": [ "goblin_camp" ], "fg": 292, "rotates": false },
           { "id": [ "magic_cabin" ], "fg": 293, "rotates": false },
           { "id": [ "magic_shop", "magic_shop_2ndfloor", "magic_shop_roof" ], "fg": 294, "rotates": false },
-          { "id": [ "orc_village" ], "fg": 295, "rotates": false },
+          { "id": [ "orc_camp" ], "fg": 295, "rotates": false },
           { "id": "wizardtower1_ground", "fg": 296, "rotates": false },
           {
             "id": "t_dirt_barren",
