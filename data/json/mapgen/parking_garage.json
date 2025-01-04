@@ -98,7 +98,8 @@
         { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
-      ]
+      ],
+      "place_loot": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {
@@ -144,7 +145,8 @@
         { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
-      ]
+      ],
+      "place_loot": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {
@@ -191,7 +193,8 @@
         { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
-      ]
+      ],
+      "place_loot": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {
@@ -238,7 +241,8 @@
         { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
-      ]
+      ],
+      "place_item": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {
@@ -285,7 +289,8 @@
         { "vehicle": "parking_garage", "x": 29, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 34, "y": 18, "chance": 25, "status": -1, "rotation": 90 },
         { "vehicle": "parking_garage", "x": 39, "y": 18, "chance": 25, "status": -1, "rotation": 90 }
-      ]
+      ],
+      "place_item": [ { "item": "folding_skateboard", "x": [ 10, 21 ], "y": [ 9, 16 ], "chance": 5 } ]
     }
   },
   {

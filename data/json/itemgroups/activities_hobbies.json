@@ -77,6 +77,7 @@
       [ "knee_pads", 40 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "folding_skateboard", 10 ],
       [ "manual_throw", 12 ],
       {
         "item": "protein_powder",
