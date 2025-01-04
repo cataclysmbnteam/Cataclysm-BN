@@ -5957,7 +5957,6 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         int amount_to_place;
         if( unique || globally_unique ) {
             const overmap_special_id &id = iter.special_details->id;
-            const overmap_special_placement_constraints &constraints = iter.special_details->get_constraints();
 
             int chance = roll_remainder( min * rate );
             //FINGERS CROSSED EMOGI
