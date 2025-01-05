@@ -142,10 +142,10 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "bash_resist": 13,
-	"cut_resist": 20,
-	"acid_resist": 10,
-	"fire_resist": 10,
-	"bullet_resist": 16,
-	"elec_resist": 10
+    "cut_resist": 20,
+    "acid_resist": 10,
+    "fire_resist": 10,
+    "bullet_resist": 16,
+    "elec_resist": 10
   }
 ]
