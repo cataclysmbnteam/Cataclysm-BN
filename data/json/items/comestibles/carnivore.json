@@ -55,7 +55,7 @@
     "name": "human stomach",
     "description": "The stomach of a human.  It is surprisingly durable.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "id": "hstomach_large",
@@ -72,7 +72,7 @@
     "name": { "str": "chunk of human fat", "str_pl": "chunks of human fat" },
     "description": "Freshly harvested from a human body.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -83,7 +83,7 @@
     "price": "5 USD",
     "//": "*May* have been commercially traded.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -186,7 +186,7 @@
     "name": "mutant humanoid meat",
     "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It smells like a failed chemical experiment.  You'd have to be crazy or starving to eat this.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "id": "mutant_human_cooked",
@@ -578,7 +578,7 @@
     "fun": -50,
     "flags": [ "IS_BLOOD" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_drop_blood" ], "scale_qty": true },
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -750,7 +750,7 @@
     "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
     "description": "Freshly butchered fat from a heavily mutated humanoid.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -759,7 +759,7 @@
     "copy-from": "mutant_tallow",
     "description": "A smooth white block of cleaned and rendered fat sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -924,7 +924,7 @@
     "name": { "str": "boiled large human stomach" },
     "description": "A boiled stomach from a large humanoid creature, nothing else.  It looks all but appetizing.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -952,7 +952,7 @@
     "name": { "str": "boiled human stomach" },
     "description": "A small boiled stomach from a human, nothing else.  It looks all but appetizing.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -996,7 +996,7 @@
     "name": "raw human skin",
     "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1041,7 +1041,7 @@
     "name": "raw human pelt",
     "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "material": [ "fur", "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",

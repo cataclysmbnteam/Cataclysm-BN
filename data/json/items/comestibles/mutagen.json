@@ -495,7 +495,7 @@
     "material": [ "hflesh" ],
     "volume": "250 ml",
     "fun": -60,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -517,7 +517,7 @@
     "material": [ "hflesh" ],
     "volume": "2 L",
     "fun": -20,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -539,7 +539,7 @@
     "material": [ "hflesh" ],
     "volume": "5 L",
     "fun": -20,
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "COMESTIBLE",
