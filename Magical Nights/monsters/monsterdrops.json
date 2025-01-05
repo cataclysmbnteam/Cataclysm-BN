@@ -38,7 +38,7 @@
       { "group": "enchanted_melee_weapons_plus1", "prob": 100 }
     ]
   },
-    {
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "orc_warrior_drops",
@@ -50,7 +50,7 @@
       { "item": "cutlass", "prob": 95 }
     ]
   },
-      {
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "orc_archer_drops",
@@ -62,7 +62,7 @@
       { "item": "longbow", "prob": 95 }
     ]
   },
-      {
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "orc_blood_warrior_drops",

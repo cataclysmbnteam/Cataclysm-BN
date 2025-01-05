@@ -343,7 +343,7 @@
     "id": "rock_tomb",
     "type": "SPELL",
     "name": { "str": "Rock Tomb" },
-    "description": "You tear up the ground beneath you to throw a medium boulder. It shatters upon impact, scattering rocks and debris everywhere.",
+    "description": "You tear up the ground beneath you to throw a medium boulder.  It shatters upon impact, scattering rocks and debris everywhere.",
     "effect": "projectile_attack",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "damage_type": "bash",

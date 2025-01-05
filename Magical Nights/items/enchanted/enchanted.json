@@ -9,7 +9,7 @@
     "price": "100 USD",
     "material": [ "wood" ],
     "weapon_category": [ "QUARTERSTAVES" ],
-    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND","FRAGILE_MELEE", "MAGIC_FOCUS" ],
+    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MANA_CAP", "multiply": 0.5 } ] } ]
     },
@@ -31,7 +31,7 @@
     "material": "wood",
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MANA_CAP", "multiply": 1.25} ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MANA_CAP", "multiply": 1.25 } ] } ]
     },
     "weight": "1400 g",
     "volume": "3 L",
