@@ -260,7 +260,7 @@
   {
     "id": "summon_lemon",
     "type": "SPELL",
-    "name": { "str": "Summon... Lemon?" },
+    "name": { "str": "Summon… Lemon?" },
     "description": "While at first this spell may appear to be \"Summon Demon\", in reality it appears to be a spell to summon a lemon.  Cursive truly is the bane of your existence.",
     "valid_targets": [ "none" ],
     "effect": "spawn_item",

@@ -197,7 +197,7 @@
     "id": "mon_resingolem_cured",
     "type": "MONSTER",
     "name": { "str": "hardened resin golem" },
-    "description": "Traditionally, creating a golem is a long and arduous process, taking several months for a golem so large as this one.  However, the advent of modern materials has allowed for much simpler and quicker to make golems.  This golem appears to be fully cured, meaning it'll be almost like stone.  You can't quite tell whether that's just a pattern on it, or if it's something more sinister...",
+    "description": "Traditionally, creating a golem is a long and arduous process, taking several months for a golem so large as this one.  However, the advent of modern materials has allowed for much simpler and quicker to make golems.  This golem appears to be fully cured, meaning it'll be almost like stone.  You can't quite tell whether that's just a pattern on it, or if it's something more sinister…",
     "default_faction": "robot",
     "bodytype": "human",
     "species": [ "ROBOT" ],
