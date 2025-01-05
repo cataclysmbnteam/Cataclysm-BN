@@ -354,9 +354,8 @@ void monster::plan()
         target = &g->u;
         if( dist <= 5 ) {
             anger += angers_hostile_near;
-            if( angers_hostile_near && x_in_y( anger, 100 ) ) {
-                add_msg( m_debug, "%s's character aggro triggered by proximity", get_name() );
-                aggro_character = true;
+            if( angers_hostile_near ) {
+                trigger_character_aggro_chance( anger, "proximity" );
             }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0 ) {
@@ -373,10 +372,7 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
-                    if( x_in_y( anger, 100 ) ) {
-                        add_msg( m_debug, "%s's character aggro triggered by mating season", get_name() );
-                        aggro_character = true;
-                    }
+                    trigger_character_aggro_chance( anger, "mating season" );
                 }
             }
         }
@@ -389,8 +385,7 @@ void monster::plan()
                         //proximity to baby; monster gets furious and less likely to flee
                         anger += angers_cub_threatened;
                         morale += angers_cub_threatened / 2;
-                        add_msg( m_debug, "%s's character aggro triggered by threatening cub", get_name() );
-                        aggro_character = true;
+                        trigger_character_aggro( "threatening cub" );
                     }
                 }
             }
@@ -454,10 +449,7 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
-                    if( x_in_y( anger, 100 ) ) {
-                        add_msg( m_debug, "%s's character aggro triggered by mating season", get_name() );
-                        aggro_character = true;
-                    }
+                    trigger_character_aggro_chance( anger, "mating season" );
                 }
             }
         }
@@ -601,10 +593,7 @@ void monster::plan()
             if( hp_per <= 70 ) {
                 anger += 10 - ( hp_per / 10 );
                 if( anger <= 40 ) {
-                    if( x_in_y( anger, 100 ) ) {
-                        add_msg( m_debug, "%s's character aggro triggered by weakness", get_name() );
-                        aggro_character = true;
-                    }
+                    trigger_character_aggro_chance( anger, "weakness" );
                 }
             }
         }

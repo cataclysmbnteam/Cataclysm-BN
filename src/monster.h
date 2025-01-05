@@ -604,6 +604,9 @@ class monster : public Creature, public location_visitable<monster>
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
+        void trigger_character_aggro( const char *reason );
+        void trigger_character_aggro_chance( int chance, const char *reason );
+
         location_vector<item> corpse_components; // Hack to make bionic corpses generate CBMs on death
 
     private:

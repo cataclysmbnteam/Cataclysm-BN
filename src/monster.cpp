@@ -1557,6 +1557,22 @@ void monster::process_trigger( mon_trigger trig, const std::function<int()> &amo
     }
 }
 
+
+// hopefully a good spot for these functions
+// eg. reason = "mating season"
+void monster::trigger_character_aggro( const char *reason )
+{
+    add_msg( m_debug, "%s's character aggro is triggered by %s", get_name(), reason );
+    aggro_character = true;
+}
+
+void monster::trigger_character_aggro_chance( int chance, const char *reason )
+{
+    if( x_in_y( chance, 100 ) ) {
+        trigger_character_aggro( reason );
+    }
+}
+
 bool monster::is_underwater() const
 {
     return Creature::is_underwater() && can_submerge();
@@ -1961,8 +1977,7 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
         process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ) );
         // Get angry at characters if hurt by one
         if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
-            add_msg( m_debug, "%s's aggro triggered by hurt", get_name() );
-            aggro_character = true;
+            trigger_character_aggro( "hurt" );
         }
     }
 }
@@ -2698,8 +2713,7 @@ void monster::die( Creature *nkiller )
         anger_adjust += 15;
         if( nkiller != nullptr && !nkiller->is_monster() && !nkiller->is_fake() ) {
             // A character killed our friend
-            add_msg( m_debug, "%s's character aggro triggered by killing a friendly creature", name() );
-            aggro_character = true;
+            trigger_character_aggro( "killing a friendly creature" );
         }
     }
     if( type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
@@ -3202,9 +3216,7 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
         anger_adjust += 15;
         if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
             // A character attacked our friend
-            add_msg( m_debug, "%s's character aggro triggered by attacking a friendly creature", name() );
-            // not in BN
-            aggro_character = true;
+            trigger_character_aggro( "killing a friendly creature" );
         }
     }
     if( type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {

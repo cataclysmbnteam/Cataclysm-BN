@@ -939,8 +939,7 @@ Flags used to describe monsters and define their properties and abilities.
 - `FIRE` There's a fire nearby.
 - `FRIEND_ATTACKED` A monster of the same type was attacked. Always triggers character aggro.
 - `FRIEND_DIED` A monster of the same type died. Always triggers character aggro.
-- `HURT` The monster is hurt. Always triggers character aggro. Triggers character aggro `<anger>%`
-  of the time.
+- `HURT` The monster is hurt. Always triggers character aggro.
 - `MEAT` Meat or a corpse is nearby.
 - `NULL` Source use only?
 - `PLAYER_CLOSE` The player gets within a few tiles distance. Triggers character aggro `<anger>%` of
