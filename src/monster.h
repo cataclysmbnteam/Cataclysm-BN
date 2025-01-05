@@ -532,6 +532,9 @@ class monster : public Creature, public location_visitable<monster>
         }
 
         short ignoring;
+
+        bool aggro_character = true;
+
         std::optional<time_point> lastseen_turn;
 
         // Stair data.
@@ -601,6 +604,9 @@ class monster : public Creature, public location_visitable<monster>
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
+        void trigger_character_aggro( const char *reason );
+        void trigger_character_aggro_chance( int chance, const char *reason );
+
         location_vector<item> corpse_components; // Hack to make bionic corpses generate CBMs on death
 
     private:
@@ -623,6 +629,7 @@ class monster : public Creature, public location_visitable<monster>
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         std::optional<time_duration> summon_time_limit = std::nullopt;
+
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );

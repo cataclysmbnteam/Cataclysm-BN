@@ -222,6 +222,7 @@ monster::monster() : corpse_components( new monster_component_item_location( thi
     last_updated = calendar::start_of_cataclysm;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
+    aggro_character = true;
     set_anatomy( anatomy_id( "default_anatomy" ) );
     set_body();
 }
@@ -242,6 +243,7 @@ monster::monster( const mtype_id &id ) : monster()
     ammo = type->starting_ammo;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
+    aggro_character = type->aggro_character;
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
     }
@@ -1452,13 +1454,13 @@ monster_attitude monster::attitude( const Character *u ) const
         }
     }
 
+
     if( effective_morale < 0 ) {
         if( effective_morale + effective_anger > 0 && get_hp() > get_hp_max() / 3 ) {
             return MATT_FOLLOW;
         }
         return MATT_FLEE;
     }
-
     if( effective_anger <= 0 ) {
         if( get_hp() <= 0.6 * get_hp_max() ) {
             return MATT_FLEE;
@@ -1469,6 +1471,10 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( effective_anger < 10 ) {
         return MATT_FOLLOW;
+    }
+
+    if( u != nullptr && !aggro_character && !u->is_monster() ) {
+        return MATT_IGNORE;
     }
 
     return MATT_ATTACK;
@@ -1513,6 +1519,12 @@ void monster::process_triggers()
         }
     }
 
+    // If we got angry at characters have a chance at calming down
+    if( anger == type->agro && aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+        add_msg( m_debug, "%s's character aggro reset", get_name() );
+        aggro_character = false;
+    }
+
     // Cap values at [-100, 100] to prevent perma-angry moose etc.
     morale = std::min( 100, std::max( -100, morale ) );
     anger  = std::min( 100, std::max( -100, anger ) );
@@ -1542,6 +1554,22 @@ void monster::process_trigger( mon_trigger trig, const std::function<int()> &amo
     }
     if( type->has_placate_trigger( trig ) ) {
         anger -= amount_func();
+    }
+}
+
+
+// hopefully a good spot for these functions
+// eg. reason = "mating season"
+void monster::trigger_character_aggro( const char *reason )
+{
+    add_msg( m_debug, "%s's character aggro is triggered by %s", get_name(), reason );
+    aggro_character = true;
+}
+
+void monster::trigger_character_aggro_chance( int chance, const char *reason )
+{
+    if( x_in_y( chance, 100 ) ) {
+        trigger_character_aggro( reason );
     }
 }
 
@@ -1947,6 +1975,10 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
         }
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ) );
+        // Get angry at characters if hurt by one
+        if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
+            trigger_character_aggro( "hurt" );
+        }
     }
 }
 void monster::apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
@@ -2679,6 +2711,10 @@ void monster::die( Creature *nkiller )
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust += 15;
+        if( nkiller != nullptr && !nkiller->is_monster() && !nkiller->is_fake() ) {
+            // A character killed our friend
+            trigger_character_aggro( "killing a friendly creature" );
+        }
     }
     if( type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
         morale_adjust -= 15;
@@ -3178,6 +3214,10 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust += 15;
+        if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
+            // A character attacked our friend
+            trigger_character_aggro( "killing a friendly creature" );
+        }
     }
     if( type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         morale_adjust -= 15;
@@ -3344,6 +3384,36 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
+
+    if( anger != type->agro ) {
+        int dt_left_a = to_turns<int>( dt );
+
+        if( std::abs( anger - type->agro ) > 15 ) {
+            const int adjust_by_a = std::min( ( dt_left_a / 4 ),
+                                              ( std::abs( anger - type->agro ) - 15 ) );
+            dt_left_a -= adjust_by_a * 4;
+            if( anger < type->agro ) {
+                anger += adjust_by_a;
+            } else {
+                anger -= adjust_by_a;
+            }
+        }
+
+        if( anger > type->agro ) {
+            anger -= std::min( static_cast<int>( std::ceil( dt_left_a / 8.0 ) ),
+                               std::abs( anger - type->agro ) );
+        } else {
+            anger += std::min( ( dt_left_a / 8 ),
+                               std::abs( anger - type->agro ) );
+        }
+        // If we got angry at characters have a chance at calming down
+        if( aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+            add_msg( m_debug, "%s's character aggro reset", name() );
+            aggro_character = false;
+        }
+    }
+
+
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {

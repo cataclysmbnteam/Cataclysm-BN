@@ -564,7 +564,15 @@
     "healthy": -20,
     "quench": -47,
     "calories": 78,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "vitB", 54 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [
+      [ "vitA", 0 ],
+      [ "vitC", 2 ],
+      [ "calcium", 1 ],
+      [ "iron", 8 ],
+      [ "vitB", 54 ],
+      [ "meat_allergen", 1 ],
+      [ "human_flesh_vitamin", 100 ]
+    ],
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
     "price": "80 cent",
     "price_postapoc": "0 cent",

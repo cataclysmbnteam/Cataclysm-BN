@@ -224,5 +224,19 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
     "components": [ [ [ "material_aluminium_ingot", 20 ] ] ]
+  },
+  {
+    "result": "wheel_mount_skateboard",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "mechanics", 3 ],
+    "time": "60 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 6 ] ],
+    "components": [ [ [ "material_aluminium_ingot", 4 ] ] ]
   }
 ]

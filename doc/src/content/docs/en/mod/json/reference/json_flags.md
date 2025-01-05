@@ -940,12 +940,13 @@ Flags used to describe monsters and define their properties and abilities.
 ### Anger, Fear and Placation Triggers
 
 - `FIRE` There's a fire nearby.
-- `FRIEND_ATTACKED` A monster of the same type was attacked.
-- `FRIEND_DIED` A monster of the same type died.
-- `HURT` The monster is hurt.
+- `FRIEND_ATTACKED` A monster of the same type was attacked. Always triggers character aggro.
+- `FRIEND_DIED` A monster of the same type died. Always triggers character aggro.
+- `HURT` The monster is hurt. Always triggers character aggro.
 - `MEAT` Meat or a corpse is nearby.
 - `NULL` Source use only?
-- `PLAYER_CLOSE` The player gets within a few tiles distance.
+- `PLAYER_CLOSE` The player gets within a few tiles distance. Triggers character aggro `<anger>%` of
+  the time.
 - `PLAYER_WEAK` The player is hurt.
 - `SOUND` Heard a sound.
 - `STALK` Increases when following the player.
@@ -1657,6 +1658,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `SEAT` A seat where the player can sit or sleep.
 - `SEATBELT` Helps prevent the player from being ejected from the vehicle during an accident. Can
   only be installed on a part with `BELTABLE` flag.
+- `SEAT_REQUIRES_BALANCE` The player may fall off once they run into something determined by a
+  strength roll. TRAIT_DEFT and TRAIT_PROF_SKATER makes it harder to be thrown from vehicle.
 - `SECURITY`
 - `SHARP` Striking a monster with this part does cutting damage instead of bashing damage, and
   prevents stunning the monster.
