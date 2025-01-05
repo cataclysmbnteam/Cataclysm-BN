@@ -469,5 +469,15 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orc_camp",
+    "name": "Orc Camp",
+    "sym": "O",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
   }
 ]
