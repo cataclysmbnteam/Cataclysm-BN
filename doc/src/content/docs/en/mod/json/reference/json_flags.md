@@ -940,12 +940,13 @@ Flags used to describe monsters and define their properties and abilities.
 ### Anger, Fear and Placation Triggers
 
 - `FIRE` There's a fire nearby.
-- `FRIEND_ATTACKED` A monster of the same type was attacked.
-- `FRIEND_DIED` A monster of the same type died.
-- `HURT` The monster is hurt.
+- `FRIEND_ATTACKED` A monster of the same type was attacked. Always triggers character aggro.
+- `FRIEND_DIED` A monster of the same type died. Always triggers character aggro.
+- `HURT` The monster is hurt. Always triggers character aggro.
 - `MEAT` Meat or a corpse is nearby.
 - `NULL` Source use only?
-- `PLAYER_CLOSE` The player gets within a few tiles distance.
+- `PLAYER_CLOSE` The player gets within a few tiles distance. Triggers character aggro `<anger>%` of
+  the time.
 - `PLAYER_WEAK` The player is hurt.
 - `SOUND` Heard a sound.
 - `STALK` Increases when following the player.
