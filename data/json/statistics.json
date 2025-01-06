@@ -449,8 +449,7 @@
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "RABBIT" } },
     "drop_fields": [ "category" ]
-  }, 
-
+  },
   {
     "id": "num_avatar_mutation_threshold_rat",
     "type": "event_statistic",

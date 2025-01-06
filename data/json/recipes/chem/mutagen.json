@@ -778,11 +778,7 @@
     "time": "12 m",
     "book_learn": [ [ "recipe_animal", 9 ] ],
     "using": [ [ "mutagen_production_standard", 31 ] ],
-    "components": [
-      [ [ "mutagen", 1 ] ],
-      [ [ "carrot", 3 ], [ "irradiated_carrot", 1 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
-    ],	
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "carrot", 3 ], [ "irradiated_carrot", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
