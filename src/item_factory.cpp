@@ -2040,17 +2040,15 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
                                           jo.has_int( "coverage" ) ) ) {
                 jo.throw_error( "Legacy armor format only supported for items with exactly 1 armor data entry.  Use \"armor_portion_data\" instead." );
             }
-            if( jo.has_int( "encumbrance" ) ) {
-                assign( jo, "encumbrance", slot.data[0].encumber );
+            // DISGUSTING hack
+            int old_encumbrance = slot.data[0].encumber;
+            assign( jo, "encumbrance", slot.data[0].encumber, strict );
+            if( old_encumbrance != slot.data[0].encumber ) {
                 slot.data[0].max_encumber = slot.data[0].encumber;
             }
-            if( jo.has_int( "max_encumbrance" ) ) {
-                assign( jo, "max_encumbrance", slot.data[0].max_encumber );
+            assign( jo, "max_encumbrance", slot.data[0].max_encumber, strict );
 
-            }
-            if( jo.has_int( "coverage" ) ) {
-                assign( jo, "coverage", slot.data[0].coverage );
-            }
+            assign( jo, "coverage", slot.data[0].coverage, strict );
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
             if( temp_cover_data.any() ) {
