@@ -16,7 +16,7 @@
   {
     "type": "recipe",
     "result": "chem_hydrogen_peroxide",
-    "id_suffix": "from Oxydation",
+    "id_suffix": "from oxidation",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
