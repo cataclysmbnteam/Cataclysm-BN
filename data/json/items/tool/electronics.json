@@ -122,12 +122,10 @@
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "WATCH", "LIGHT_8", "TRADER_AVOID" ],
-    "category": "electronics"
   },
   {
     "id": "control_laptop",
     "type": "TOOL",
-    "category": "electronics",
     "copy-from": "laptop",
     "name": { "str": "control laptop" },
     "description": "A modified laptop, now capable of transmitting in the ultra-high frequencies utilized by robots.  Activate it to command robots from afar, or to toggle charging via UPS.",
@@ -273,7 +271,6 @@
     "use_action": "GEIGER",
     "flags": [ "TRADER_AVOID" ],
     "magazine_well": "250 ml",
-    "category": "electronics"
   },
   {
     "id": "hand_crank_charger",
