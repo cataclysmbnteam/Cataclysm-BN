@@ -5,13 +5,20 @@
     "id": "animal",
     "symbol": "?",
     "color": "white",
-    "name": { "str_sp": "animal" },
+    "name": {
+      "str_sp": "animal"
+    },
     "description": "seeing this is a bug",
     "stackable": true,
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "flags": [
+      "PSEUDO",
+      "PERPETUAL"
+    ],
+    "fuel": {
+      "energy": 1
+    }
   },
   {
     "type": "GENERIC",
@@ -19,11 +26,15 @@
     "id": "fire",
     "symbol": "$",
     "color": "red",
-    "name": { "str_sp": "nearby fire" },
+    "name": {
+      "str_sp": "nearby fire"
+    },
     "description": "seeing this is a bug",
     "price": "0 cent",
     "volume": "1 ml",
-    "flags": [ "PSEUDO" ]
+    "flags": [
+      "PSEUDO"
+    ]
   },
   {
     "type": "GENERIC",
@@ -31,13 +42,20 @@
     "id": "muscle",
     "symbol": "?",
     "color": "white",
-    "name": { "str_sp": "muscle" },
+    "name": {
+      "str_sp": "muscle"
+    },
     "description": "seeing this is a bug",
     "stackable": true,
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "flags": [
+      "PSEUDO",
+      "PERPETUAL"
+    ],
+    "fuel": {
+      "energy": 1
+    }
   },
   {
     "type": "GENERIC",
@@ -45,13 +63,20 @@
     "id": "wind",
     "symbol": "?",
     "color": "white",
-    "name": { "str_sp": "wind" },
+    "name": {
+      "str_sp": "wind"
+    },
     "description": "seeing this is a bug",
     "stackable": true,
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "flags": [
+      "PSEUDO",
+      "PERPETUAL"
+    ],
+    "fuel": {
+      "energy": 1
+    }
   },
   {
     "type": "GENERIC",
@@ -59,13 +84,20 @@
     "id": "sunlight",
     "symbol": "?",
     "color": "white",
-    "name": { "str_sp": "sun light" },
+    "name": {
+      "str_sp": "sun light"
+    },
     "description": "seeing this is a bug",
     "stackable": true,
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "flags": [
+      "PSEUDO",
+      "PERPETUAL"
+    ],
+    "fuel": {
+      "energy": 1
+    }
   },
   {
     "type": "GENERIC",
@@ -73,13 +105,19 @@
     "id": "metabolism",
     "symbol": "?",
     "color": "white",
-    "name": { "str": "metabolism" },
+    "name": {
+      "str": "metabolism"
+    },
     "description": "seeing this is a bug",
     "stackable": true,
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "flags": [
+      "PERPETUAL"
+    ],
+    "fuel": {
+      "energy": 1
+    }
   },
   {
     "type": "GENERIC",
@@ -88,13 +126,19 @@
     "symbol": "?",
     "color": "white",
     "looks_like": "sunlight",
-    "name": { "str": "nonsensoleum" },
+    "name": {
+      "str": "nonsensoleum"
+    },
     "description": "seeing this is a bug",
     "stackable": true,
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "flags": [
+      "PERPETUAL"
+    ],
+    "fuel": {
+      "energy": 1
+    }
   },
   {
     "type": "GENERIC",
@@ -102,62 +146,89 @@
     "id": "apparatus",
     "symbol": "$",
     "color": "red",
-    "name": { "str": "a smoking device and a source of flame" },
+    "name": {
+      "str": "a smoking device and a source of flame"
+    },
     "description": "seeing this is a bug",
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "PSEUDO" ]
+    "flags": [
+      "PSEUDO"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "null",
     "symbol": "$",
     "color": "red",
-    "name": { "str_sp": "none" },
+    "name": {
+      "str_sp": "none"
+    },
     "description": "seeing this is a bug",
     "price": "0 cent",
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "UNARMED_WEAPON" ],
+    "flags": [
+      "PSEUDO",
+      "UNARMED_WEAPON"
+    ],
     "//": "Fist is internally represented as 'wielding a none as a weapon'"
   },
   {
     "type": "GENERIC",
     "id": "file",
-    "name": { "str": "file" },
+    "name": {
+      "str": "file"
+    },
     "category": "books",
     "description": "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
     "weight": "15 g",
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [
+      "paper"
+    ],
     "volume": "250 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "log_immersion27",
     "copy-from": "file",
-    "name": { "str": "INCIDENT REPORT: IMMERSION-27A" },
+    "name": {
+      "str": "INCIDENT REPORT: IMMERSION-27A"
+    },
     "description": "A white piece of paper, with a fancy-looking logo printed on its upper left corner.  It'd probably be very fascinating reading material.",
     "snippet_category": "log_immersion27",
-    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
+    "extend": {
+      "flags": "SNIPPET_NEEDS_LITERACY"
+    }
   },
   {
     "type": "GENERIC",
     "id": "report_t_substrate",
     "copy-from": "log_immersion27",
-    "name": { "str": "MATERIAL: T-SUBSTRATE" },
+    "name": {
+      "str": "MATERIAL: T-SUBSTRATE"
+    },
     "snippet_category": "t-substrate",
-    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
+    "extend": {
+      "flags": "SNIPPET_NEEDS_LITERACY"
+    }
   },
   {
     "type": "GENERIC",
     "id": "HAADF_t_substrate",
     "copy-from": "log_immersion27",
-    "name": { "str": "HAADF MICROGRAPH: T-SUBSTRATE" },
+    "name": {
+      "str": "HAADF MICROGRAPH: T-SUBSTRATE"
+    },
     "snippet_category": "HAADF_t-substrate",
-    "extend": { "flags": "SNIPPET_NEEDS_LITERACY" }
+    "extend": {
+      "flags": "SNIPPET_NEEDS_LITERACY"
+    }
   },
   {
     "type": "GENERIC",
@@ -165,12 +236,16 @@
     "category": "other",
     "symbol": "-",
     "color": "pink",
-    "name": { "str": "foodplace loyalty card" },
+    "name": {
+      "str": "foodplace loyalty card"
+    },
     "description": "A bright pink loyalty card, all the points are stamped.  This would definitely prove your fidelity to Foodplace, if it still meant anything…",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": "paper",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [
+      "TRADER_AVOID"
+    ],
     "weight": "3 g",
     "volume": "5 ml"
   },
@@ -179,28 +254,41 @@
     "id": "withered",
     "symbol": "%",
     "color": "light_gray",
-    "name": { "str": "withered plant" },
+    "name": {
+      "str": "withered plant"
+    },
     "description": "A dead plant.  Good for starting fires or making a pile of leaves to sleep on.",
     "material": "dry_plant",
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "NO_SALVAGE", "TINDER" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_SALVAGE",
+      "TINDER"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "fur",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "fur pelt" },
+    "name": {
+      "str": "fur pelt"
+    },
     "description": "A small bolt of fur from an animal.  Can be made into warm clothing.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "fur", "leather" ],
-    "flags": [ "NO_SALVAGE" ],
+    "material": [
+      "fur",
+      "leather"
+    ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "weight": "114 g",
     "volume": "250 ml",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "stackable": true
   },
   {
@@ -208,26 +296,41 @@
     "id": "faux_fur",
     "copy-from": "fur",
     "color": "pink",
-    "name": { "str": "faux fur pelt" },
+    "name": {
+      "str": "faux fur pelt"
+    },
     "price_postapoc": "10 cent",
     "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
-    "flags": [ "NO_SALVAGE" ],
-    "material": [ "faux_fur" ]
+    "flags": [
+      "NO_SALVAGE"
+    ],
+    "material": [
+      "faux_fur"
+    ],
+    "category": "scrap_fabric"
   },
   {
     "type": "GENERIC",
     "id": "leather",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "leather patch", "str_pl": "leather patches" },
+    "name": {
+      "str": "leather patch",
+      "str_pl": "leather patches"
+    },
     "description": "A smallish patch of leather, could be used to make tough clothing.",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "leather", "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
+    "material": [
+      "leather",
+      "flesh"
+    ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "weight": "100 g",
     "volume": "250 ml",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "to_hit": -1,
     "stackable": true
   },
@@ -236,30 +339,44 @@
     "id": "felt_patch",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "felt patch", "str_pl": "felt patches" },
+    "name": {
+      "str": "felt patch",
+      "str_pl": "felt patches"
+    },
     "description": "A smallish patch of felt, could be disassembled for wool fiber.",
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "material": [ "wool" ],
-    "flags": [ "NO_SALVAGE" ],
+    "material": [
+      "wool"
+    ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "weight": "100 g",
     "volume": "250 ml",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "to_hit": -1,
     "stackable": true
   },
   {
     "type": "GENERIC",
     "id": "nomex",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "Nomex patch", "str_pl": "Nomex patches" },
+    "name": {
+      "str": "Nomex patch",
+      "str_pl": "Nomex patches"
+    },
     "description": "A small bolt of Nomex fire-resistant fabric.",
     "price": "40 USD",
     "price_postapoc": "20 cent",
-    "material": [ "nomex" ],
-    "flags": [ "NO_SALVAGE" ],
+    "material": [
+      "nomex"
+    ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "weight": "42 g",
     "volume": "250 ml",
     "stackable": true
@@ -267,10 +384,12 @@
   {
     "type": "GENERIC",
     "id": "superglue",
-    "category": "spare_parts",
+    "category": "chems",
     "symbol": ",",
     "color": "white",
-    "name": { "str_sp": "superglue" },
+    "name": {
+      "str_sp": "superglue"
+    },
     "description": "A tube of strong glue.  Used in many crafting recipes.",
     "price": "18 USD",
     "price_postapoc": "1 USD",
@@ -278,24 +397,33 @@
     "weight": "4500 mg",
     "volume": "25 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE" ],
+    "flags": [
+      "UNRECOVERABLE"
+    ],
     "stackable": true
   },
   {
     "type": "GENERIC",
     "id": "bone_glue",
     "symbol": ",",
-    "category": "spare_parts",
+    "category": "chems",
     "color": "brown",
-    "name": { "str": "bone glue" },
+    "name": {
+      "str": "bone glue"
+    },
     "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used as a varnish or holding together small items.",
     "price": "18 USD",
     "price_postapoc": "50 cent",
-    "material": [ "bone" ],
+    "material": [
+      "bone"
+    ],
     "weight": "4500 mg",
     "volume": "25 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ],
+    "flags": [
+      "UNRECOVERABLE",
+      "NO_SALVAGE"
+    ],
     "stackable": true
   },
   {
@@ -306,35 +434,51 @@
     "symbol": ",",
     "color": "brown",
     "looks_like": "bone_glue",
-    "name": { "str_sp": "pitch" },
+    "name": {
+      "str_sp": "pitch"
+    },
     "description": "Sticky resin made from pine or birch tar.  Can be used for waterproofing or holding together small items, or for improvised repairs with the right tools.  When dried further it's known as rosin, often used as flux for solder.",
     "price": "9 USD",
-    "material": [ "oil" ],
+    "material": [
+      "oil"
+    ],
     "weight": "29 g",
     "volume": "25 ml",
     "ammo_type": "pitch_wood",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [
+      "UNRECOVERABLE"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "fertilizer",
     "symbol": "*",
     "color": "green",
-    "name": { "str": "fertilizer" },
+    "name": {
+      "str": "fertilizer"
+    },
     "description": "A token, representing fertilization of a plant.",
-    "material": [ "veggy" ]
+    "material": [
+      "veggy"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "chain",
-    "category": "spare_parts",
-    "name": { "str": "steel chain" },
+    "category": "scrap_metal",
+    "name": {
+      "str": "steel chain"
+    },
     "description": "A heavy steel chain.  Useful as a weapon, or for crafting.  It has a chance to wrap around your target, allowing for a bonus unarmed attack.",
     "weight": "3628 g",
     "color": "dark_gray",
     "symbol": "/",
-    "material": [ "steel" ],
-    "techniques": [ "WRAP" ],
+    "material": [
+      "steel"
+    ],
+    "techniques": [
+      "WRAP"
+    ],
     "volume": "1 L",
     "bashing": 26,
     "to_hit": -2,
@@ -344,16 +488,24 @@
   {
     "type": "GENERIC",
     "id": "chitin_piece",
-    "category": "spare_parts",
+    "category": "chems",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "chunk of chitin", "str_pl": "chunks of chitin" },
+    "name": {
+      "str": "chunk of chitin",
+      "str_pl": "chunks of chitin"
+    },
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": "0 cent",
     "price_postapoc": "25 cent",
     "material": "chitin",
-    "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "conversion_rate": 4 },
+    "flags": [
+      "NO_SALVAGE"
+    ],
+    "milling": {
+      "into": "meal_chitin_piece",
+      "conversion_rate": 4
+    },
     "stackable": true,
     "weight": "89 g",
     "volume": "250 ml",
@@ -363,15 +515,22 @@
   {
     "type": "GENERIC",
     "id": "mutant_bug_hydrogen_sacs",
-    "category": "spare_parts",
+    "category": "chems",
     "symbol": "o",
     "color": "light_gray",
-    "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
+    "name": {
+      "str": "cluster of gas sacs",
+      "str_pl": "clusters of gas sacs"
+    },
     "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
     "price": 0,
     "stackable": true,
-    "material": [ "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
+    "material": [
+      "flesh"
+    ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "weight": "50 g",
     "volume": "250 ml",
     "to_hit": -4
@@ -382,7 +541,10 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "set of 100 ceramic disk", "str_pl": "ceramic disks" },
+    "name": {
+      "str": "set of 100 ceramic disk",
+      "str_pl": "ceramic disks"
+    },
     "description": "A set of small slightly elongated disks, made of high-grade ceramic.  They remind you of scales.",
     "price": "0 cent",
     "price_postapoc": "25 cent",
@@ -396,18 +558,31 @@
     "type": "GENERIC",
     "id": "acidchitin_piece",
     "copy-from": "chitin_piece",
-    "name": { "str": "chunk of biosilicified chitin", "str_pl": "chunks of biosilicified chitin" },
+    "name": {
+      "str": "chunk of biosilicified chitin",
+      "str_pl": "chunks of biosilicified chitin"
+    },
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant and remarkably sturdy.",
     "material": "acidchitin",
-    "flags": [ "NO_SALVAGE" ],
-    "proportional": { "weight": 1.25 },
-    "relative": { "bashing": 2 }
+    "flags": [
+      "NO_SALVAGE"
+    ],
+    "proportional": {
+      "weight": 1.25
+    },
+    "relative": {
+      "bashing": 2
+    },
+    "category": "chems"
   },
   {
     "id": "bundle_rag",
     "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "bundle of rags", "str_pl": "bundles of rags" },
+    "category": "scrap_fabric",
+    "name": {
+      "str": "bundle of rags",
+      "str_pl": "bundles of rags"
+    },
     "description": "Cotton rags, bundled tightly together for storage.  Activate or disassemble to unpack.",
     "weight": "800 g",
     "volume": "750 ml",
@@ -417,13 +592,19 @@
     "symbol": ",",
     "color": "white",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ]
   },
   {
     "id": "bundle_leather",
     "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "bundle of leather", "str_pl": "bundles of leather" },
+    "category": "scrap_fabric",
+    "name": {
+      "str": "bundle of leather",
+      "str_pl": "bundles of leather"
+    },
     "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "1000 g",
     "volume": "1 L",
@@ -433,13 +614,19 @@
     "symbol": ",",
     "color": "brown",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ]
   },
   {
     "id": "bundle_wool",
     "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "bundle of felt", "str_pl": "bundles of felt" },
+    "category": "scrap_fabric",
+    "name": {
+      "str": "bundle of felt",
+      "str_pl": "bundles of felt"
+    },
     "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
     "weight": "1000 g",
     "volume": "1 L",
@@ -449,7 +636,10 @@
     "symbol": ",",
     "color": "white",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ]
   },
   {
     "type": "GENERIC",
@@ -457,7 +647,9 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "t-substrate sample" },
+    "name": {
+      "str": "t-substrate sample"
+    },
     "description": "An acrylic cube cast around a small black crystal.  It's tepid to the touch.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -472,11 +664,15 @@
     "id": "biollante_bud",
     "symbol": ",",
     "color": "magenta",
-    "name": { "str": "biollante bud" },
+    "name": {
+      "str": "biollante bud"
+    },
     "description": "An unopened biollante flower, brilliant purple in color.  It may still have its sap-producing organ intact.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "weight": "60 g",
     "volume": "250 ml",
     "to_hit": -3
@@ -486,22 +682,37 @@
     "id": "canister_empty",
     "symbol": "*",
     "color": "light_gray",
-    "name": { "str": "empty canister" },
+    "name": {
+      "str": "empty canister"
+    },
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": "steel",
     "weight": "158 g",
     "volume": "250 ml",
     "bashing": 2,
     "to_hit": -1,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "flags": [ "TRADER_AVOID" ]
+    "qualities": [
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ]
+    ],
+    "flags": [
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "petrified_eye",
     "symbol": "*",
     "color": "dark_gray",
-    "name": { "str": "petrified eye" },
+    "name": {
+      "str": "petrified eye"
+    },
     "description": "A fist-sized eyeball with a cross-shaped pupil.  It seems to be made of stone, but doesn't look like it was carved.",
     "price": "2 kUSD",
     "price_postapoc": "10 USD",
@@ -510,14 +721,21 @@
     "volume": "250 ml",
     "bashing": 6,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [
+      [
+        "HAMMER",
+        1
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "spiral_stone",
     "symbol": "*",
     "color": "light_gray",
-    "name": { "str": "spiral stone" },
+    "name": {
+      "str": "spiral stone"
+    },
     "category": "artifacts",
     "description": "A rock the size of your fist.  It is covered with intricate spirals; it is impossible to tell whether they are carved, naturally formed, or some kind of fossil.",
     "price": "200 USD",
@@ -527,58 +745,76 @@
     "volume": "250 ml",
     "bashing": 6,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [
+      [
+        "HAMMER",
+        1
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "usb_drive",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "USB drive" },
+    "name": {
+      "str": "USB drive"
+    },
     "description": "A USB thumb drive.  Useful for holding software.",
     "price": "100 USD",
     "price_postapoc": "10 cent",
     "material": "plastic",
     "weight": "18 g",
     "volume": "5 ml",
-    "to_hit": -3
+    "to_hit": -3,
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "data_card",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "data card" },
+    "name": {
+      "str": "data card"
+    },
     "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
     "price": "100 USD",
     "price_postapoc": "50 cent",
     "material": "plastic",
     "weight": "18 g",
     "volume": "1 ml",
-    "to_hit": -3
+    "to_hit": -3,
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "fema_data",
     "symbol": ",",
     "color": "white",
-    "name": { "str_sp": "FEMA data" },
+    "name": {
+      "str_sp": "FEMA data"
+    },
     "description": "Evacuation plans, disaster risk projections, personnel lists and last minute communications from just before the end, all scrubbed from FEMA servers and stored in an external hdd.",
     "price": "100 USD",
     "price_postapoc": "50 cent",
-    "material": [ "plastic" ],
+    "material": [
+      "plastic"
+    ],
     "weight": "30 g",
     "volume": "250 ml",
-    "to_hit": -3
+    "to_hit": -3,
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "candlestick",
     "symbol": "/",
     "color": "yellow",
-    "name": { "str": "candlestick" },
+    "name": {
+      "str": "candlestick"
+    },
     "description": "A gold candlestick.",
-    "category": "other",
+    "category": "valuables",
     "price": "100 USD",
     "price_postapoc": "10 cent",
     "material": "gold",
@@ -592,7 +828,9 @@
     "id": "blade",
     "symbol": "/",
     "color": "light_gray",
-    "name": { "str": "blade" },
+    "name": {
+      "str": "blade"
+    },
     "description": "A large, relatively sharp blade.  Could be used to make bladed weaponry, or attached to a car.",
     "category": "spare_parts",
     "price": "280 USD",
@@ -603,14 +841,21 @@
     "bashing": 6,
     "cutting": 8,
     "to_hit": -1,
-    "qualities": [ [ "BUTCHER", -38 ] ]
+    "qualities": [
+      [
+        "BUTCHER",
+        -38
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "blade_scythe",
     "symbol": "(",
     "color": "light_gray",
-    "name": { "str": "scythe blade" },
+    "name": {
+      "str": "scythe blade"
+    },
     "description": "A large, curved blade.  Could be used to assemble a scythe, or make an improvised polearm.",
     "category": "spare_parts",
     "price": "280 USD",
@@ -621,14 +866,21 @@
     "bashing": 6,
     "cutting": 8,
     "to_hit": -2,
-    "qualities": [ [ "BUTCHER", -38 ] ]
+    "qualities": [
+      [
+        "BUTCHER",
+        -38
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "circsaw_blade",
     "symbol": "/",
     "color": "light_gray",
-    "name": { "str": "circular sawblade" },
+    "name": {
+      "str": "circular sawblade"
+    },
     "description": "An 8\" circular sawblade.  You could make a saw with it, or throw it.  Wielding it without sturdy gloves is a bad idea.",
     "category": "spare_parts",
     "price": "200 USD",
@@ -637,7 +889,9 @@
     "weight": "349 g",
     "volume": "250 ml",
     "cutting": 14,
-    "flags": [ "HURT_WHEN_WIELDED" ],
+    "flags": [
+      "HURT_WHEN_WIELDED"
+    ],
     "to_hit": -4
   },
   {
@@ -645,9 +899,11 @@
     "id": "tree_spile",
     "symbol": ".",
     "color": "light_gray",
-    "name": { "str": "tree spile" },
+    "name": {
+      "str": "tree spile"
+    },
     "description": "A hollow metal cylinder which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
-    "category": "tools",
+    "category": "tools_cooking",
     "price": "5 cent",
     "price_postapoc": "10 cent",
     "material": "steel",
@@ -659,9 +915,11 @@
     "id": "wire",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str": "wire" },
+    "name": {
+      "str": "wire"
+    },
     "description": "A length of thin, relatively stiff, steel wire.  Like the sort you find in wire fences.",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "200 USD",
     "price_postapoc": "1 USD",
     "material": "steel",
@@ -675,7 +933,9 @@
     "id": "wire_barbed",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str": "barbed wire" },
+    "name": {
+      "str": "barbed wire"
+    },
     "description": "A length of stiff wire, covered in sharp barbs.",
     "price": "200 USD",
     "price_postapoc": "2 USD",
@@ -683,16 +943,20 @@
     "weight": "302 g",
     "volume": "500 ml",
     "to_hit": -2,
-    "stackable": true
+    "stackable": true,
+    "category": "scrap_metal"
   },
   {
     "type": "GENERIC",
     "id": "wire_mesh",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str": "steel mesh", "str_pl": "steel meshes" },
+    "name": {
+      "str": "steel mesh",
+      "str_pl": "steel meshes"
+    },
     "description": "A mat of woven fine steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put these on a window to keep mosquitoes and other bugs out, but chainlink fencing will do these days.",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "weight": "318 g",
     "volume": "500 ml",
     "price": "7 USD",
@@ -705,9 +969,11 @@
     "id": "rebar",
     "symbol": "/",
     "color": "dark_gray",
-    "name": { "str": "rebar" },
+    "name": {
+      "str": "rebar"
+    },
     "description": "A length of rebar, makes a nice melee weapon, and could be handy in constructing tougher walls and such.",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "75 USD",
     "price_postapoc": "25 cent",
     "material": "steel",
@@ -715,7 +981,12 @@
     "volume": "1500 ml",
     "bashing": 12,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ],
+    "qualities": [
+      [
+        "HAMMER",
+        1
+      ]
+    ],
     "stackable": true
   },
   {
@@ -723,24 +994,36 @@
     "id": "railroad_track_small",
     "symbol": "=",
     "color": "dark_gray",
-    "name": { "str": "small railroad track" },
+    "name": {
+      "str": "small railroad track"
+    },
     "description": "A length of track, made from some planks and rails.",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "75 USD",
     "price_postapoc": "10 cent",
-    "material": [ "wood", "steel" ],
+    "material": [
+      "wood",
+      "steel"
+    ],
     "weight": "40 kg",
     "volume": "30000 ml",
-    "qualities": [ [ "ANVIL", 2 ] ]
+    "qualities": [
+      [
+        "ANVIL",
+        2
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "concrete",
     "symbol": "%",
     "color": "light_gray",
-    "name": { "str_sp": "concrete" },
+    "name": {
+      "str_sp": "concrete"
+    },
     "description": "Some concrete, ready to be used in a construction project.",
-    "category": "spare_parts",
+    "category": "rocks",
     "container": "bag_canvas",
     "price": "100 USD",
     "price_postapoc": "25 cent",
@@ -754,29 +1037,50 @@
     "id": "skewer_bone",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "bone skewer" },
+    "name": {
+      "str": "bone skewer"
+    },
     "description": "A thin skewer carved from bone.  Can be used to cook food over a fire or as a terrible lockpick.",
     "category": "other",
-    "material": [ "bone" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
+    "material": [
+      "bone"
+    ],
+    "flags": [
+      "NO_SALVAGE",
+      "TRADER_AVOID"
+    ],
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
-    "qualities": [ [ "COOK", 1 ], [ "LOCKPICK", 1 ] ]
+    "qualities": [
+      [
+        "COOK",
+        1
+      ],
+      [
+        "LOCKPICK",
+        1
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "torch_done",
     "symbol": "/",
     "color": "brown",
-    "name": { "str": "burnt out torch", "str_pl": "burnt out torches" },
+    "name": {
+      "str": "burnt out torch",
+      "str_pl": "burnt out torches"
+    },
     "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
     "category": "other",
     "material": "wood",
     "weight": "751 g",
     "volume": "750 ml",
     "bashing": 8,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
@@ -784,10 +1088,14 @@
     "category": "other",
     "symbol": ";",
     "color": "red",
-    "name": { "str": "dead flare" },
+    "name": {
+      "str": "dead flare"
+    },
     "description": "This is a spent magnesium flare.  It is essentially trash.",
     "material": "plastic",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [
+      "TRADER_AVOID"
+    ],
     "weight": "39 g",
     "volume": "250 ml",
     "to_hit": -1
@@ -797,8 +1105,10 @@
     "id": "spring",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "spring" },
-    "category": "spare_parts",
+    "name": {
+      "str": "spring"
+    },
+    "category": "scrap_metal",
     "description": "A large, heavy-duty spring.  Expands with significant force when compressed.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
@@ -811,12 +1121,17 @@
     "id": "lawnmower",
     "symbol": ";",
     "color": "green",
-    "name": { "str": "lawnmower" },
+    "name": {
+      "str": "lawnmower"
+    },
     "description": "A motorized pushmower that seems to be broken.  You could take it apart if you had a wrench.",
     "category": "other",
     "price": "100 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel", "iron" ],
+    "material": [
+      "steel",
+      "iron"
+    ],
     "weight": "22680 g",
     "volume": "6250 ml",
     "bashing": 6,
@@ -827,40 +1142,56 @@
     "id": "broketent",
     "symbol": ";",
     "color": "green",
-    "name": { "str": "damaged tent" },
+    "name": {
+      "str": "damaged tent"
+    },
     "description": "A small tent, just big enough to fit a person comfortably.  This tent is broken and cannot be deployed.",
     "price": "65 USD",
     "price_postapoc": "1 USD",
-    "material": [ "plastic", "aluminum" ],
+    "material": [
+      "plastic",
+      "aluminum"
+    ],
     "weight": "1133 g",
     "volume": "2500 ml",
     "bashing": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "largebroketent",
     "symbol": ";",
     "color": "green",
-    "name": { "str": "large damaged tent" },
+    "name": {
+      "str": "large damaged tent"
+    },
     "description": "A family sized tent, very bulky but with plenty of space.  This tent is broken and can not be deployed.",
     "price": "100 USD",
     "price_postapoc": "150 cent",
-    "material": [ "plastic", "aluminum" ],
+    "material": [
+      "plastic",
+      "aluminum"
+    ],
     "weight": "2266 g",
     "volume": "10 L",
     "bashing": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "element",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "heating element" },
-    "category": "spare_parts",
+    "name": {
+      "str": "heating element"
+    },
+    "category": "scrap_electronics",
     "description": "A heating element, like the ones used in hotplates or kettles.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -873,8 +1204,10 @@
     "id": "thermostat",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "bimetal thermostat" },
-    "category": "spare_parts",
+    "name": {
+      "str": "bimetal thermostat"
+    },
+    "category": "scrap_electronics",
     "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -887,27 +1220,38 @@
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
-    "name": { "str": "television" },
+    "name": {
+      "str": "television"
+    },
     "description": "A large LCD television, full of delicious electronics.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "15000 g",
     "volume": "20 L",
     "bashing": 5,
-    "to_hit": -5
+    "to_hit": -5,
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "pilot_light",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "pilot light" },
-    "category": "spare_parts",
+    "name": {
+      "str": "pilot light"
+    },
+    "category": "scrap_electronics",
     "description": "A pilot light from a gas-burning device, this particular one is a simple piezoelectric igniter.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "5 g",
     "volume": "5 ml"
   },
@@ -921,7 +1265,10 @@
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives after a short time by triggering it.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "5 g",
     "volume": "0 ml"
   },
@@ -935,7 +1282,10 @@
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives upon a solid impact.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "5 g",
     "volume": "0 ml"
   },
@@ -944,38 +1294,55 @@
     "id": "toaster",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "toaster" },
+    "name": {
+      "str": "toaster"
+    },
     "description": "A small two slice toaster, not much use as anything but spare parts",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "725 g",
-    "volume": "750 ml"
+    "volume": "750 ml",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "microwave",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "microwave" },
+    "name": {
+      "str": "microwave"
+    },
     "description": "A home microwave, has probably seen its share of baked beans.  Good for scrap parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "11339 g",
-    "volume": "9 L"
+    "volume": "9 L",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "laptop",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "laptop computer" },
-    "category": "other",
+    "name": {
+      "str": "laptop computer"
+    },
+    "category": "electronics",
     "description": "A broken laptop, basically a paperweight now.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic", "aluminum" ],
+    "material": [
+      "plastic",
+      "aluminum"
+    ],
     "weight": "2721 g",
     "volume": "750 ml",
     "bashing": 6
@@ -985,149 +1352,215 @@
     "id": "broken_eyebot",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken eyebot" },
-    "category": "other",
+    "name": {
+      "str": "broken eyebot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken eyebot.  Much less threatening now that it won't be calling for backup.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "7050 g",
     "volume": "15 L",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_skitterbot",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken skitterbot" },
-    "category": "other",
+    "name": {
+      "str": "broken skitterbot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken skitterbot.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "62650 g",
     "volume": "30 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_science_bot",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken lab defense bot" },
-    "category": "other",
+    "name": {
+      "str": "broken lab defense bot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken lab defense bot, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "100000 g",
     "volume": "65000 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_copbot",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken police bot" },
-    "category": "other",
+    "name": {
+      "str": "broken police bot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken police bot.  Much less threatening now that it's quiet and still.  Could be gutted for parts.",
     "price": "300 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "140000 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_nursebot",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "broken nurse bot" },
-    "category": "other",
+    "name": {
+      "str": "broken nurse bot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken nurse bot.  Its smooth face staring vacantly into empty space.  Could be gutted for parts.",
     "price": "300 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "140000 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_grocerybot",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "broken grocery bot" },
-    "category": "other",
+    "name": {
+      "str": "broken grocery bot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken grocery bot.  Its smiling face staring vacantly into empty space.  Could be gutted for parts.",
     "price": "300 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "140000 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_grocerybot_busted",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "broken grocery bot" },
-    "category": "other",
+    "name": {
+      "str": "broken grocery bot"
+    },
+    "category": "scrap_electronics",
     "description": "The body of a busted grocery bot.  Its tarnished face is still smiling.  Could be gutted for parts.",
     "price": "300 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "140000 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_haulerbot",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "broken hauler bot" },
-    "category": "other",
+    "name": {
+      "str": "broken hauler bot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken hauler bot, now just a mass of limp mechanical limbs and busted chassis.  Only useful for parts now.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "100 kg",
     "volume": "65 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_nursebot_defective",
-    "name": { "str": "broken nurse bot" },
+    "name": {
+      "str": "broken nurse bot"
+    },
     "copy-from": "broken_nursebot"
   },
   {
@@ -1135,59 +1568,84 @@
     "id": "broken_riotbot",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken riot control bot" },
-    "category": "other",
+    "name": {
+      "str": "broken riot control bot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken riot control bot.  Much less threatening now that it's out of gas.  Could be gutted for parts.",
     "price": "300 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "140000 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_robofac_prototype",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken prototype robot" },
-    "category": "other",
+    "name": {
+      "str": "broken prototype robot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken prototype robot, well more broken than before.  Could be gutted for parts.",
     "price": "300 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "140000 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_molebot",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken miner bot" },
-    "category": "other",
+    "name": {
+      "str": "broken miner bot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken miner bot.  Much less threatening now that it's no longer capable of drilling anything.  Could be gutted for parts.",
     "price": "200 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "170200 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 10,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_mech_recon",
-    "name": { "str": "broken recon mech" },
+    "name": {
+      "str": "broken recon mech"
+    },
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
     "weight": "700388 g",
     "volume": "125 L",
@@ -1195,15 +1653,23 @@
     "price_postapoc": "10 cent",
     "to_hit": -3,
     "bashing": 7,
-    "material": [ "superalloy" ],
+    "material": [
+      "superalloy"
+    ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ],
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "broken_mech_lifter",
-    "name": { "str": "broken mech lifter" },
+    "name": {
+      "str": "broken mech lifter"
+    },
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
     "weight": "1280388 g",
     "volume": "250 L",
@@ -1211,15 +1677,23 @@
     "price_postapoc": "10 cent",
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "superalloy" ],
+    "material": [
+      "superalloy"
+    ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ],
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "broken_mech_combat",
-    "name": { "str": "broken combat mech" },
+    "name": {
+      "str": "broken combat mech"
+    },
     "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
     "weight": "1480388 g",
     "volume": "250 L",
@@ -1227,199 +1701,291 @@
     "price_postapoc": "10 cent",
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "superalloy" ],
+    "material": [
+      "superalloy"
+    ],
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ],
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "broken_dispatch",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "broken riot dispatch", "str_pl": "broken riot dispatches" },
-    "category": "other",
+    "name": {
+      "str": "broken riot dispatch",
+      "str_pl": "broken riot dispatches"
+    },
+    "category": "scrap_electronics",
     "description": "A broken riot dispatch, with its mesh midsection filled with fried manhacks and its motor limp and still.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "100000 g",
     "volume": "85000 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_dispatch_military",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken military dispatch", "str_pl": "broken military dispatches" },
-    "category": "other",
+    "name": {
+      "str": "broken military dispatch",
+      "str_pl": "broken military dispatches"
+    },
+    "category": "scrap_electronics",
     "description": "A broken military dispatch.  Though the scratched, disarmed manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "100000 g",
     "volume": "85000 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_manhack",
     "symbol": ",",
     "color": "light_green",
-    "name": { "str": "broken manhack" },
-    "category": "other",
+    "name": {
+      "str": "broken manhack"
+    },
+    "category": "scrap_electronics",
     "description": "A broken manhack.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "2700 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_grenade_hack",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken grenade hack" },
-    "category": "other",
+    "name": {
+      "str": "broken grenade hack"
+    },
+    "category": "scrap_electronics",
     "description": "A broken grenade hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
     "price": "90 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "2800 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_mininuke_hack",
     "symbol": ",",
     "color": "magenta",
-    "name": { "str": "broken mininuke hack" },
-    "category": "other",
+    "name": {
+      "str": "broken mininuke hack"
+    },
+    "category": "scrap_electronics",
     "description": "A broken magenta hack.  Just looking at the wreck makes you shiver.  Could be gutted for parts.",
     "price": "180 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "24600 g",
     "volume": "18550 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_gasbomb_hack",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "broken tear gas hack" },
-    "category": "other",
+    "name": {
+      "str": "broken tear gas hack"
+    },
+    "category": "scrap_electronics",
     "description": "A broken tear gas hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
     "price": "90 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "2700 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_EMP_hack",
     "symbol": ",",
     "color": "cyan",
-    "name": { "str": "broken EMP hack" },
-    "category": "other",
+    "name": {
+      "str": "broken EMP hack"
+    },
+    "category": "scrap_electronics",
     "description": "A broken EMP hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
     "price": "90 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "2 kg",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_flashbang_hack",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "broken flashbang hack" },
-    "category": "other",
+    "name": {
+      "str": "broken flashbang hack"
+    },
+    "category": "scrap_electronics",
     "description": "A broken flashbang hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
     "price": "90 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "1800 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_c4_hack",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "broken C-4 hack" },
-    "category": "other",
+    "name": {
+      "str": "broken C-4 hack"
+    },
+    "category": "scrap_electronics",
     "description": "A broken C-4 hack.  Much less threatening now that it lies quiet on solid ground.  Could be gutted for parts.",
     "price": "90 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "3200 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_dissector",
     "symbol": ",",
     "color": "light_blue",
-    "name": { "str": "broken dissector" },
+    "name": {
+      "str": "broken dissector"
+    },
     "category": "other",
     "description": "Some kind of automated medical laser cutting system.  It has suffered some damage and doesn't seem to work any more, but it could be gutted for parts.",
     "price": "20 kUSD",
     "price_postapoc": "50 cent",
-    "material": [ "steel", "aluminum" ],
+    "material": [
+      "steel",
+      "aluminum"
+    ],
     "weight": "30 kg",
     "volume": "20 L",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "laser_source",
     "symbol": "-",
     "color": "light_gray",
-    "name": { "str": "industrial laser" },
+    "name": {
+      "str": "industrial laser"
+    },
     "category": "spare_parts",
     "description": "A high-power laser source, salvaged from some industrial machinery.  Doesn't do anything on its own, but could probably be useful in electronics crafting.",
     "price": "2000 USD",
     "price_postapoc": "2 USD",
-    "material": [ "aluminum", "diamond" ],
+    "material": [
+      "aluminum",
+      "diamond"
+    ],
     "weight": "500 g",
     "volume": "750 ml",
     "to_hit": -1
@@ -1429,12 +1995,16 @@
     "id": "processor",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "processor board" },
-    "category": "spare_parts",
+    "name": {
+      "str": "processor board"
+    },
+    "category": "scrap_electronics",
     "description": "A central processor unit, useful in advanced electronics crafting.",
     "price": "120 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [
+      "plastic"
+    ],
     "weight": "56 g",
     "volume": "250 ml",
     "to_hit": -1
@@ -1444,12 +2014,16 @@
     "id": "RAM",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "RAM" },
-    "category": "spare_parts",
+    "name": {
+      "str": "RAM"
+    },
+    "category": "scrap_electronics",
     "description": "A stick of memory.  Useful in advanced electronics crafting.",
     "price": "90 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [
+      "plastic"
+    ],
     "weight": "30 g",
     "//": "A stick of DDR4 SRAM is 133.35 x 31.25 x 4.2mm, or 17.5ml. We round up a touch.",
     "volume": "20 ml",
@@ -1460,12 +2034,17 @@
     "id": "power_supply",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "power converter" },
-    "category": "spare_parts",
+    "name": {
+      "str": "power converter"
+    },
+    "category": "scrap_electronics",
     "description": "A power supply unit.  Useful in lots of electronics recipes.",
     "price": "170 USD",
     "price_postapoc": "25 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "113 g",
     "volume": "1 L",
     "bashing": 5,
@@ -1476,12 +2055,16 @@
     "id": "amplifier",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "amplifier circuit" },
-    "category": "spare_parts",
+    "name": {
+      "str": "amplifier circuit"
+    },
+    "category": "scrap_electronics",
     "description": "A circuit designed to amplify the strength of a signal.  Useful in lots of electronics recipes.",
     "price": "200 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic" ],
+    "material": [
+      "plastic"
+    ],
     "weight": "114 g",
     "volume": "250 ml",
     "to_hit": -1
@@ -1491,12 +2074,17 @@
     "id": "transponder",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "transponder circuit" },
-    "category": "spare_parts",
+    "name": {
+      "str": "transponder circuit"
+    },
+    "category": "scrap_electronics",
     "description": "A circuit designed to repeat a signal.  Useful for crafting communications equipment.",
     "price": "140 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "500 g",
     "volume": "250 ml",
     "to_hit": -1
@@ -1506,12 +2094,17 @@
     "id": "receiver",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "signal receiver" },
-    "category": "spare_parts",
+    "name": {
+      "str": "signal receiver"
+    },
+    "category": "scrap_electronics",
     "description": "A module designed to receive many forms of signals.  Useful for crafting communications equipment.",
     "price": "135 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "114 g",
     "volume": "250 ml",
     "to_hit": -1
@@ -1521,8 +2114,10 @@
     "id": "large_lcd_screen",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "large LCD screen" },
-    "category": "spare_parts",
+    "name": {
+      "str": "large LCD screen"
+    },
+    "category": "scrap_electronics",
     "description": "A large backlit screen, used for displaying images.  Useful in some electronics recipes.",
     "price": "100 USD",
     "price_postapoc": "10 cent",
@@ -1536,8 +2131,10 @@
     "id": "small_lcd_screen",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "small LCD screen" },
-    "category": "spare_parts",
+    "name": {
+      "str": "small LCD screen"
+    },
+    "category": "scrap_electronics",
     "description": "A small backlit screen, used for displaying images.  Useful in some electronics recipes.",
     "price": "240 USD",
     "price_postapoc": "10 cent",
@@ -1551,8 +2148,11 @@
     "id": "lens",
     "symbol": ".",
     "color": "light_cyan",
-    "name": { "str": "high-quality lens", "str_pl": "high-quality lenses" },
-    "category": "spare_parts",
+    "name": {
+      "str": "high-quality lens",
+      "str_pl": "high-quality lenses"
+    },
+    "category": "scrap_electronics",
     "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
     "price": "1200 USD",
     "price_postapoc": "1 USD",
@@ -1560,16 +2160,26 @@
     "weight": "30 g",
     "volume": "1 ml",
     "to_hit": -3,
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
-    "flags": [ "FIRESTARTER" ]
+    "use_action": {
+      "type": "firestarter",
+      "moves": 1000,
+      "moves_slow": 30000,
+      "need_sunlight": true
+    },
+    "flags": [
+      "FIRESTARTER"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "lens_small",
     "symbol": ".",
     "color": "light_cyan",
-    "name": { "str": "small high-quality lens", "str_pl": "small high-quality lenses" },
-    "category": "spare_parts",
+    "name": {
+      "str": "small high-quality lens",
+      "str_pl": "small high-quality lenses"
+    },
+    "category": "scrap_electronics",
     "description": "A small high-quality lens, useful for focusing or diffusing light.  Might be useful for crafting.",
     "price": "60 USD",
     "price_postapoc": "50 cent",
@@ -1582,8 +2192,11 @@
     "id": "glass_tinted",
     "symbol": ".",
     "color": "dark_gray",
-    "name": { "str": "pair of tinted glass", "str_pl": "pairs of tinted glass" },
-    "category": "spare_parts",
+    "name": {
+      "str": "pair of tinted glass",
+      "str_pl": "pairs of tinted glass"
+    },
+    "category": "scrap_glass",
     "description": "A pair of small darkened glass, like the one that sunglasses are made of.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
@@ -1597,52 +2210,74 @@
     "id": "burnt_out_bionic",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "burnt out bionic" },
-    "category": "spare_parts",
+    "name": {
+      "str": "burnt out bionic"
+    },
+    "category": "scrap_electronics",
     "description": "Once a valuable bionic implant, it has not held up well under repeated use.  This object has been destroyed by excessive electric current and is now useless.",
     "price": "135 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "317 g",
     "volume": "2500 ml",
     "to_hit": -1,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "standard_template_construct",
     "symbol": ",",
     "color": "cyan",
-    "name": { "str": "nanofabricator template" },
+    "name": {
+      "str": "nanofabricator template"
+    },
     "category": "spare_parts",
     "description": "A state-of-the-art optical storage system.  This small slate of transparent glass holds, inscribed as a miniature pattern, the instructions required to create an item through a nanofabricator.",
     "price": "1500 USD",
     "price_postapoc": "10 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "317 g",
     "volume": "250 ml",
     "to_hit": -1,
-    "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+    "flags": [
+      "NANOFAB_TEMPLATE",
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "template_photonics",
     "copy-from": "standard_template_construct",
     "color": "yellow",
-    "name": { "str": "nanofabricator template (silicon photonics)", "str_pl": "nanofabricator templates (silicon photonics)" },
+    "name": {
+      "str": "nanofabricator template (silicon photonics)",
+      "str_pl": "nanofabricator templates (silicon photonics)"
+    },
     "description": "A state-of-the-art optical storage system, containing the instruction set required for the fabrication of complex silicon photonic circuitry.  The data within was once clearly worth millions, but now, you are not sure if it's anything more than a fancy, high-tech paperweight.",
     "price": "2000 kUSD",
     "price_postapoc": "30 USD",
     "//": "actually worth millions",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [
+      "TRADER_AVOID"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "antenna",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "antenna" },
-    "category": "spare_parts",
+    "name": {
+      "str": "antenna"
+    },
+    "category": "scrap_electronics",
     "description": "A simple thin aluminum shaft.  Useful in lots of electronics recipes.",
     "price": "80 USD",
     "price_postapoc": "10 cent",
@@ -1656,12 +2291,17 @@
     "id": "motor_micro",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "micro motor" },
-    "category": "spare_parts",
+    "name": {
+      "str": "micro motor"
+    },
+    "category": "scrap_electronics",
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
     "price": "10 USD",
     "price_postapoc": "25 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "125 g",
     "volume": "25 ml"
   },
@@ -1670,8 +2310,10 @@
     "id": "circuit",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "circuit board" },
-    "category": "spare_parts",
+    "name": {
+      "str": "circuit board"
+    },
+    "category": "scrap_electronics",
     "description": "A printed card that supports and electrically connects electronic components on a non-conductive substrate.",
     "price": "50 USD",
     "price_postapoc": "10 cent",
@@ -1685,8 +2327,10 @@
     "id": "e_scrap",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "electronic scrap" },
-    "category": "spare_parts",
+    "name": {
+      "str": "electronic scrap"
+    },
+    "category": "scrap_electronics",
     "description": "A random collection of resistors, capacitors, and diodes which have been stripped from printed circuits.",
     "price": "30 USD",
     "price_postapoc": "10 cent",
@@ -1701,12 +2345,17 @@
     "id": "radio_repeater_mod",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "radio repeater mod" },
+    "name": {
+      "str": "radio repeater mod"
+    },
     "category": "spare_parts",
     "description": "A system designed to convert a radio station into an autonomous repeater.",
     "price": "250 USD",
     "price_postapoc": "50 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "21000 g",
     "volume": "2 L",
     "bashing": 4,
@@ -1717,21 +2366,29 @@
     "id": "fan",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "desk fan" },
+    "name": {
+      "str": "desk fan"
+    },
     "description": "A small fan, used to propel air around a room.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "weight": "2857 g",
-    "volume": "1 L"
+    "volume": "1 L",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "ceramic_armor",
-    "category": "spare_parts",
+    "category": "scrap_ceramics",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "ceramic armor plate" },
+    "name": {
+      "str": "ceramic armor plate"
+    },
     "description": "A ceramic armor plate, specifically engineered for use in a bullet resistant vest.",
     "price": "80 USD",
     "price_postapoc": "1 USD",
@@ -1745,7 +2402,9 @@
     "id": "fish_bowl",
     "symbol": "u",
     "color": "light_cyan",
-    "name": { "str": "fishbowl" },
+    "name": {
+      "str": "fishbowl"
+    },
     "description": "A filled fishbowl, the tag says 'to Ed' and the fish's name, 'Hoss'.  The fish appears to have tiny antlers.",
     "price": "1 USD",
     "price_postapoc": "10 cent",
@@ -1757,7 +2416,9 @@
   {
     "abstract": "rag_abstract",
     "type": "GENERIC",
-    "name": { "str": "rag" },
+    "name": {
+      "str": "rag"
+    },
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.  It's a bug if you see this.",
     "category": "spare_parts",
     "weight": "80 g",
@@ -1767,55 +2428,88 @@
     "material": "cotton",
     "symbol": ",",
     "color": "white",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "stackable": true
   },
   {
     "id": "rag",
     "type": "GENERIC",
-    "name": { "str": "rag" },
+    "name": {
+      "str": "rag"
+    },
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
     "copy-from": "rag_abstract",
-    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ]
+    "use_action": [
+      {
+        "type": "heal",
+        "move_cost": 200,
+        "used_up_item": "rag_bloody",
+        "bleed": 0.5,
+        "limb_power": 0
+      },
+      "WASH_HARD_ITEMS"
+    ],
+    "category": "scrap_fabric"
   },
   {
     "type": "GENERIC",
     "id": "rag_bloody",
     "copy-from": "rag_abstract",
     "color": "red",
-    "name": { "str": "blood soaked rag" },
+    "name": {
+      "str": "blood soaked rag"
+    },
     "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
-    "extend": { "flags": "TRADER_AVOID" }
+    "extend": {
+      "flags": "TRADER_AVOID"
+    }
   },
   {
     "id": "pipe_cleaner",
     "type": "GENERIC",
-    "name": { "str": "pipe cleaner" },
+    "name": {
+      "str": "pipe cleaner"
+    },
     "description": "This is a tool designed to clean interior surface of pipes, bottles, and similar objects.  This one is thin enough to be used for cleaning firearm barrels from dirt and fouling.",
     "weight": "50 g",
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "material": [ "steel", "cotton" ],
+    "material": [
+      "steel",
+      "cotton"
+    ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "GUN_CLEAN"
+    "use_action": "GUN_CLEAN",
+    "category": "tools_workshop"
   },
   {
     "type": "GENERIC",
     "id": "clock",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str": "clock" },
+    "name": {
+      "str": "clock"
+    },
     "description": "A small mechanical clock.  Tells the time and has an alarm clock feature.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "plastic", "steel" ],
+    "material": [
+      "plastic",
+      "steel"
+    ],
     "weight": "725 g",
     "volume": "250 ml",
     "bashing": 4,
     "to_hit": -3,
-    "flags": [ "WATCH", "ALARMCLOCK" ]
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK"
+    ],
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
@@ -1823,7 +2517,9 @@
     "category": "spare_parts",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str_sp": "clockworks" },
+    "name": {
+      "str_sp": "clockworks"
+    },
     "description": "A small assortment of gears and other clockwork gubbins.",
     "price": "2 USD",
     "price_postapoc": "10 cent",
@@ -1836,63 +2532,96 @@
     "id": "mobile_memory_card",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "SD-Memory card" },
+    "name": {
+      "str": "SD-Memory card"
+    },
     "description": "A memory card, used.  Might be worth a look.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": "plastic",
-    "flags": [ "MC_MOBILE", "MC_RANDOM_STUFF", "MC_MAY_BE_ENCRYPTED", "MC_TURN_USED" ],
+    "flags": [
+      "MC_MOBILE",
+      "MC_RANDOM_STUFF",
+      "MC_MAY_BE_ENCRYPTED",
+      "MC_TURN_USED"
+    ],
     "weight": "5 g",
-    "volume": "2 ml"
+    "volume": "2 ml",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_used",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "SD-Memory card (clean)", "str_pl": "SD-Memory cards (clean)" },
+    "name": {
+      "str": "SD-Memory card (clean)",
+      "str_pl": "SD-Memory cards (clean)"
+    },
     "description": "This memory card is either unused or has been wiped clean.  You could use it to store your data, though!",
     "price": "5 USD",
     "price_postapoc": "10 cent",
     "material": "plastic",
-    "flags": [ "MC_MOBILE", "MC_USED" ],
+    "flags": [
+      "MC_MOBILE",
+      "MC_USED"
+    ],
     "weight": "5 g",
-    "volume": "1 ml"
+    "volume": "1 ml",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_encrypted",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "SD-Memory card (encrypted)", "str_pl": "SD-Memory cards (encrypted)" },
+    "name": {
+      "str": "SD-Memory card (encrypted)",
+      "str_pl": "SD-Memory cards (encrypted)"
+    },
     "description": "This memory card appears to have the firmware encryption set.  Hopefully it contains something worth encrypting.",
     "price": "20 USD",
     "price_postapoc": "10 cent",
     "material": "plastic",
-    "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED" ],
+    "flags": [
+      "MC_MOBILE",
+      "MC_ENCRYPTED",
+      "MC_TURN_USED"
+    ],
     "weight": "5 g",
-    "volume": "1 ml"
+    "volume": "1 ml",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "mobile_memory_card_science",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "Science SD-Memory card" },
+    "name": {
+      "str": "Science SD-Memory card"
+    },
     "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks *Interesting*, though…",
     "price": "100 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
-    "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF" ],
+    "flags": [
+      "MC_MOBILE",
+      "MC_ENCRYPTED",
+      "MC_TURN_USED",
+      "MC_SCIENCE_STUFF"
+    ],
     "weight": "5 g",
-    "volume": "1 ml"
+    "volume": "1 ml",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "mirror",
     "symbol": "o",
     "color": "light_cyan",
-    "name": { "str": "hand mirror" },
+    "name": {
+      "str": "hand mirror"
+    },
     "description": "A small hand mirror.",
     "price": "150 USD",
     "price_postapoc": "10 cent",
@@ -1907,13 +2636,18 @@
     "id": "manhole_cover",
     "symbol": "]",
     "color": "dark_gray",
-    "name": { "str": "manhole cover" },
+    "name": {
+      "str": "manhole cover"
+    },
     "description": "A heavy iron disc that typically covers a ladder into the sewers.  Lifting it from the manhole is impossible without a crowbar.",
-    "category": "other",
+    "category": "scrap_metal",
     "price": "200 USD",
     "price_postapoc": "10 cent",
     "material": "iron",
-    "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
+    "flags": [
+      "DURABLE_MELEE",
+      "TRADER_AVOID"
+    ],
     "weight": "36287 g",
     "volume": "3 L",
     "bashing": 20,
@@ -1924,37 +2658,52 @@
     "id": "pine_bough",
     "symbol": "/",
     "color": "green",
-    "name": { "str": "pine bough" },
+    "name": {
+      "str": "pine bough"
+    },
     "description": "A branch from a pine tree, oozing sticky sap and bristling with prickly needles.",
     "material": "wood",
     "weight": "220 g",
     "volume": "500 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "TINDER" ]
+    "flags": [
+      "TRADER_AVOID",
+      "TINDER"
+    ],
+    "category": "scrap_wood"
   },
   {
     "type": "GENERIC",
     "id": "pinecone",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "pinecone" },
+    "name": {
+      "str": "pinecone"
+    },
     "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
     "weight": "90 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [
+      "TRADER_AVOID"
+    ],
+    "category": "cooking_ingredients"
   },
   {
     "type": "GENERIC",
     "id": "poppy_bud",
-    "name": { "str": "poppy bud" },
+    "name": {
+      "str": "poppy bud"
+    },
     "category": "chems",
     "description": "A poppy bud.  Contains some substances commonly produced by a mutated poppy flower.",
     "weight": "30 g",
     "to_hit": -3,
     "color": "light_red",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "volume": "5 ml",
     "price": "2 USD",
     "price_postapoc": "50 cent"
@@ -1962,63 +2711,86 @@
   {
     "type": "GENERIC",
     "id": "sunflower",
-    "name": { "str": "sunflower" },
+    "name": {
+      "str": "sunflower"
+    },
     "description": "The top of a sunflower, with yellow pedals and some seeds that have yet to be eaten by animals.",
     "weight": "500 g",
     "to_hit": -2,
     "color": "yellow",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "volume": "1500 ml",
     "price": "0 cent",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "category": "cooking_ingredients"
   },
   {
     "type": "GENERIC",
     "id": "chamomile",
-    "name": { "str_sp": "chamomile flowers" },
+    "name": {
+      "str_sp": "chamomile flowers"
+    },
     "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
     "weight": "50 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "category": "cooking_ingredients"
   },
   {
     "type": "GENERIC",
     "id": "lotus",
-    "name": { "str": "lotus flower" },
+    "name": {
+      "str": "lotus flower"
+    },
     "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
     "weight": "50 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "category": "cooking_ingredients"
   },
   {
     "type": "GENERIC",
     "id": "spurge",
-    "name": { "str_sp": "spurge flowers" },
+    "name": {
+      "str_sp": "spurge flowers"
+    },
     "description": "A handful of yellow-green flowers.  Can be brewed into a tea that prevents asthma attacks.",
     "weight": "50 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "volume": "250 ml",
     "price": "0 cent",
-    "price_postapoc": "0 cent"
+    "price_postapoc": "0 cent",
+    "category": "cooking_ingredients"
   },
   {
     "type": "GENERIC",
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "lump of clay", "str_pl": "lumps of clay" },
-    "category": "spare_parts",
+    "name": {
+      "str": "lump of clay",
+      "str_pl": "lumps of clay"
+    },
+    "category": "scrap_ceramics",
     "description": "A fresh piece of clay.  Useful for some crafting recipes.",
     "price": "531 cent",
     "price_postapoc": "10 cent",
@@ -2032,26 +2804,38 @@
     "id": "brick",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "brick" },
-    "category": "spare_parts",
+    "name": {
+      "str": "brick"
+    },
+    "category": "scrap_ceramics",
     "description": "A fire hardened building block used in masonry construction.",
     "price": "25 USD",
     "price_postapoc": "10 cent",
-    "material": [ "clay", "stone" ],
+    "material": [
+      "clay",
+      "stone"
+    ],
     "weight": "969 g",
     "volume": "500 ml",
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [
+      [
+        "HAMMER",
+        1
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "mortar_build",
     "symbol": "%",
     "color": "light_gray",
-    "name": { "str_sp": "mortar" },
+    "name": {
+      "str_sp": "mortar"
+    },
     "description": "Some mortar, ready to be used in building projects.",
-    "category": "spare_parts",
+    "category": "rocks",
     "container": "bag_canvas",
     "price": "50 USD",
     "price_postapoc": "25 cent",
@@ -2063,10 +2847,12 @@
   {
     "type": "GENERIC",
     "id": "soft_adobe_brick",
-    "category": "spare_parts",
+    "category": "scrap_ceramics",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "soft adobe brick" },
+    "name": {
+      "str": "soft adobe brick"
+    },
     "description": "A compacted mass of soil and natural fibers, still too wet to build with.  You could load it onto a pallet and leave it to dry to process them in bulk.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -2075,7 +2861,9 @@
     "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3,
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ],
     "use_action": {
       "target": "adobe_brick",
       "msg": "You test the brick, and it seems solid enough to use.",
@@ -2088,30 +2876,41 @@
   {
     "type": "GENERIC",
     "id": "adobe_brick",
-    "category": "spare_parts",
+    "category": "scrap_ceramics",
     "symbol": ",",
     "color": "yellow",
     "looks_like": "brick",
-    "name": { "str": "adobe brick" },
+    "name": {
+      "str": "adobe brick"
+    },
     "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
     "material": "soil",
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [
+      "NONCONDUCTIVE"
+    ],
     "weight": "1500 g",
     "volume": "750 ml",
     "bashing": 10,
     "to_hit": -2,
     "price": "20 USD",
     "price_postapoc": "10 cent",
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [
+      [
+        "HAMMER",
+        1
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "mortar_adobe",
     "symbol": "%",
     "color": "brown",
-    "name": { "str_sp": "adobe mortar" },
+    "name": {
+      "str_sp": "adobe mortar"
+    },
     "description": "A thick, pasty mud, low in sand content to reduce crumbling once dry.  Used to glue larger, heavier pieces of mud and clay together.",
-    "category": "spare_parts",
+    "category": "rocks",
     "container": "bag_canvas",
     "price": "2 USD",
     "price_postapoc": "10 cent",
@@ -2125,7 +2924,9 @@
     "id": "tanbark",
     "symbol": ",",
     "color": "brown",
-    "name": { "str_sp": "tanbark" },
+    "name": {
+      "str_sp": "tanbark"
+    },
     "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -2133,14 +2934,17 @@
     "weight": "323 g",
     "volume": "250 ml",
     "bashing": 4,
-    "to_hit": 1
+    "to_hit": 1,
+    "category": "scrap_wood"
   },
   {
     "type": "GENERIC",
     "id": "birchbark",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "birchbark" },
+    "name": {
+      "str": "birchbark"
+    },
     "description": "A sheet of tough, water-resistant bark taken from a birch tree.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
@@ -2148,14 +2952,17 @@
     "weight": "323 g",
     "volume": "250 ml",
     "bashing": 4,
-    "to_hit": 1
+    "to_hit": 1,
+    "category": "scrap_wood"
   },
   {
     "type": "GENERIC",
     "id": "willowbark",
     "symbol": ",",
     "color": "brown",
-    "name": { "str_sp": "willowbark" },
+    "name": {
+      "str_sp": "willowbark"
+    },
     "description": "A sheet of bark taken from a willow tree.  Used in the production of aspirin.",
     "price": "0 cent",
     "price_postapoc": "10 cent",
@@ -2163,146 +2970,196 @@
     "weight": "323 g",
     "volume": "250 ml",
     "bashing": 4,
-    "to_hit": 1
+    "to_hit": 1,
+    "category": "scrap_wood"
   },
   {
     "type": "GENERIC",
     "id": "diamond",
     "symbol": "*",
     "color": "white",
-    "name": { "str": "diamond" },
+    "name": {
+      "str": "diamond"
+    },
     "description": "A sparkling diamond.",
     "price": "10 kUSD",
     "price_postapoc": "50 cent",
     "material": "diamond",
     "weight": "200 mg",
     "volume": "6 ml",
-    "to_hit": -5
+    "to_hit": -5,
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "garnet",
     "symbol": "*",
     "color": "red",
-    "name": { "str": "garnet" },
+    "name": {
+      "str": "garnet"
+    },
     "description": "A sparkling garnet.",
     "price": "8 kUSD",
     "price_postapoc": "30 cent",
     "material": "gemstone",
     "weight": "200 mg",
     "volume": "6 ml",
-    "to_hit": -5
+    "to_hit": -5,
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "amethyst",
     "copy-from": "garnet",
     "color": "blue",
-    "name": { "str": "amethyst" },
-    "description": "A sparkling amethyst."
+    "name": {
+      "str": "amethyst"
+    },
+    "description": "A sparkling amethyst.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "aquamarine",
     "copy-from": "garnet",
     "color": "cyan",
-    "name": { "str": "aquamarine" },
-    "description": "A sparkling aquamarine."
+    "name": {
+      "str": "aquamarine"
+    },
+    "description": "A sparkling aquamarine.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "emerald",
     "copy-from": "garnet",
     "color": "green",
-    "name": { "str": "emerald" },
-    "description": "A sparkling emerald."
+    "name": {
+      "str": "emerald"
+    },
+    "description": "A sparkling emerald.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "alexandrite",
     "copy-from": "garnet",
     "color": "green",
-    "name": { "str": "alexandrite" },
-    "description": "A sparkling alexandrite."
+    "name": {
+      "str": "alexandrite"
+    },
+    "description": "A sparkling alexandrite.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "pearl",
     "copy-from": "garnet",
     "color": "white",
-    "name": { "str": "pearl" },
-    "description": "A lustrous pearl."
+    "name": {
+      "str": "pearl"
+    },
+    "description": "A lustrous pearl.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "ruby",
     "copy-from": "garnet",
     "color": "red",
-    "name": { "str": "ruby", "str_pl": "rubies" },
-    "description": "A sparkling ruby."
+    "name": {
+      "str": "ruby",
+      "str_pl": "rubies"
+    },
+    "description": "A sparkling ruby.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "peridot",
     "copy-from": "garnet",
     "color": "green",
-    "name": { "str": "peridot" },
-    "description": "A sparkling peridot."
+    "name": {
+      "str": "peridot"
+    },
+    "description": "A sparkling peridot.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "sapphire",
     "copy-from": "garnet",
     "color": "blue",
-    "name": { "str": "sapphire" },
-    "description": "A sparkling sapphire."
+    "name": {
+      "str": "sapphire"
+    },
+    "description": "A sparkling sapphire.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "opal",
     "copy-from": "garnet",
     "color": "white",
-    "name": { "str": "opal" },
-    "description": "A lustrous opal."
+    "name": {
+      "str": "opal"
+    },
+    "description": "A lustrous opal.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "tourmaline",
     "copy-from": "garnet",
     "color": "light_red",
-    "name": { "str": "tourmaline" },
-    "description": "A sparkling tourmaline."
+    "name": {
+      "str": "tourmaline"
+    },
+    "description": "A sparkling tourmaline.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "citrine",
     "copy-from": "garnet",
     "color": "yellow",
-    "name": { "str": "citrine" },
-    "description": "A sparkling citrine."
+    "name": {
+      "str": "citrine"
+    },
+    "description": "A sparkling citrine.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "blue_topaz",
     "copy-from": "garnet",
     "color": "light_blue",
-    "name": { "str": "topaz" },
-    "description": "A sparkling blue topaz."
+    "name": {
+      "str": "topaz"
+    },
+    "description": "A sparkling blue topaz.",
+    "category": "valuables"
   },
   {
     "type": "GENERIC",
     "id": "cured_hide",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "cured hide" },
+    "name": {
+      "str": "cured hide"
+    },
     "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It could be tanned and transformed into usable leather patches.",
     "price": "2 USD",
     "price_postapoc": "0 cent",
-    "material": [ "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
+    "material": [
+      "flesh"
+    ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "weight": "100 g",
     "volume": "125 ml",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "stackable": true,
     "to_hit": -1
   },
@@ -2311,15 +3168,22 @@
     "id": "cured_pelt",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "cured pelt" },
+    "name": {
+      "str": "cured pelt"
+    },
     "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It could be tanned and transformed into usable fur pelts.",
     "price": "2 USD",
     "price_postapoc": "0 cent",
-    "material": [ "fur", "flesh" ],
-    "flags": [ "NO_SALVAGE" ],
+    "material": [
+      "fur",
+      "flesh"
+    ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "weight": "114 g",
     "volume": "170 ml",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "stackable": true,
     "to_hit": -1
   },
@@ -2328,11 +3192,19 @@
     "id": "straw_pile",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "pile of straw", "str_pl": "piles of straw" },
+    "name": {
+      "str": "pile of straw",
+      "str_pl": "piles of straw"
+    },
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
-    "material": [ "dry_plant" ],
-    "flags": [ "TRADER_AVOID", "TINDER" ],
+    "material": [
+      "dry_plant"
+    ],
+    "flags": [
+      "TRADER_AVOID",
+      "TINDER"
+    ],
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2
@@ -2342,11 +3214,15 @@
     "id": "straw_doll",
     "symbol": "o",
     "color": "light_gray",
-    "name": { "str": "straw doll" },
+    "name": {
+      "str": "straw doll"
+    },
     "description": "Old straw doll.  Represents a woman in a dress.",
     "price": "1 USD",
     "price_postapoc": "0 cent",
-    "material": [ "dry_plant" ],
+    "material": [
+      "dry_plant"
+    ],
     "weight": "80 g",
     "volume": "500 ml",
     "stackable": true
@@ -2356,100 +3232,143 @@
     "id": "pillow",
     "symbol": ",",
     "color": "blue",
-    "name": { "str": "pillow" },
+    "name": {
+      "str": "pillow"
+    },
     "description": "A pillow to rest your head on when sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
+    "material": [
+      "cotton"
+    ],
     "weight": "514 g",
     "volume": "1 L",
-    "flags": [ "SLEEP_AID" ],
-    "category": "other"
+    "flags": [
+      "SLEEP_AID"
+    ],
+    "category": "scrap_fabric"
   },
   {
     "type": "GENERIC",
     "id": "bodypillow",
     "symbol": "[",
     "color": "white",
-    "name": { "str": "body pillow" },
+    "name": {
+      "str": "body pillow"
+    },
     "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily clad version on the back.",
     "price": "15 USD",
     "price_postapoc": "1 USD",
-    "material": [ "cotton" ],
+    "material": [
+      "cotton"
+    ],
     "weight": "774 g",
     "volume": "1750 ml",
-    "flags": [ "SLEEP_AID" ],
-    "category": "other"
+    "flags": [
+      "SLEEP_AID"
+    ],
+    "category": "scrap_fabric"
   },
   {
     "type": "GENERIC",
     "id": "down_pillow",
     "symbol": ",",
     "color": "blue",
-    "name": { "str": "down-filled pillow" },
+    "name": {
+      "str": "down-filled pillow"
+    },
     "description": "A fluffy pillow to rest your head on when sleeping.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
+    "material": [
+      "cotton"
+    ],
     "weight": "514 g",
     "volume": "1 L",
-    "flags": [ "SLEEP_AID" ],
-    "category": "other"
+    "flags": [
+      "SLEEP_AID"
+    ],
+    "category": "scrap_fabric"
   },
   {
     "type": "GENERIC",
     "id": "teddy",
     "symbol": "o",
     "color": "brown",
-    "name": { "str": "teddy bear" },
+    "name": {
+      "str": "teddy bear"
+    },
     "description": "An old and half rotten teddy bear.  Looks like this one commemorates the grave of the child who once owned it.",
     "price": "2 USD",
     "price_postapoc": "0 cent",
-    "material": [ "cotton" ],
+    "material": [
+      "cotton"
+    ],
     "weight": "514 g",
     "volume": "750 ml",
-    "flags": [ "SLEEP_AID" ]
+    "flags": [
+      "SLEEP_AID"
+    ],
+    "category": "scrap_fabric"
   },
   {
     "type": "GENERIC",
     "id": "teddy_bear",
     "symbol": "o",
     "color": "brown",
-    "name": { "str": "teddy bear" },
+    "name": {
+      "str": "teddy bear"
+    },
     "description": "A cuddly plush teddy bear.  It is wearing a little red tshirt but no pants.",
     "price": "2 USD",
     "price_postapoc": "10 cent",
-    "material": [ "cotton" ],
+    "material": [
+      "cotton"
+    ],
     "weight": "400 g",
     "volume": "850 ml",
-    "flags": [ "SLEEP_AID" ]
+    "flags": [
+      "SLEEP_AID"
+    ],
+    "category": "scrap_fabric"
   },
   {
     "type": "GENERIC",
     "id": "money_bundle",
-    "name": { "str": "money bundle" },
+    "name": {
+      "str": "money bundle"
+    },
     "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
     "weight": "20 g",
     "to_hit": -3,
     "color": "green",
     "symbol": ",",
-    "material": [ "paper" ],
+    "material": [
+      "paper"
+    ],
     "volume": "250 ml",
-    "price": "0 cent"
+    "price": "0 cent",
+    "category": "scrap_wood"
   },
   {
     "id": "pouch_autoclave",
     "type": "AMMO",
     "ammo_type": "NULL",
     "category": "other",
-    "name": { "str": "autoclave pouch", "str_pl": "autoclave pouches" },
+    "name": {
+      "str": "autoclave pouch",
+      "str_pl": "autoclave pouches"
+    },
     "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitely.",
     "weight": "2 g",
     "volume": "1 ml",
     "price": "5 cent",
     "price_postapoc": "1 USD",
     "to_hit": -1,
-    "material": [ "plastic", "paper" ],
+    "material": [
+      "plastic",
+      "paper"
+    ],
     "symbol": "]",
     "count": 25,
     "color": "light_gray"
@@ -2457,14 +3376,22 @@
   {
     "type": "GENERIC",
     "id": "cigar_lit",
-    "name": { "str": "cigar" },
+    "name": {
+      "str": "cigar"
+    },
     "color": "brown",
     "symbol": "!",
     "description": "The smoke billowing from this cigar has a sweet, musty odor.",
     "category": "drugs",
-    "emits": [ "emit_tobacco_trail" ],
+    "emits": [
+      "emit_tobacco_trail"
+    ],
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "type": "firestarter",
+        "moves": 200,
+        "moves_slow": 2000
+      },
       {
         "target": "cigar_butt",
         "msg": "You extinguish the cigar.",
@@ -2473,30 +3400,49 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [
+      "LITCIG",
+      "TOBACCO",
+      "LIGHT_4",
+      "TRADER_AVOID",
+      "FIRESTARTER"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "cigar_butt",
-    "name": { "str": "cigar butt" },
+    "name": {
+      "str": "cigar butt"
+    },
     "color": "dark_gray",
     "symbol": "!",
     "weight": "1 g",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
-    "flags": [ "TRADER_AVOID", "TINDER" ]
+    "flags": [
+      "TRADER_AVOID",
+      "TINDER"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "cig_lit",
-    "name": { "str": "cigarette" },
+    "name": {
+      "str": "cigarette"
+    },
     "color": "white",
     "symbol": "!",
     "description": "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
     "category": "drugs",
-    "emits": [ "emit_tobacco_trail" ],
+    "emits": [
+      "emit_tobacco_trail"
+    ],
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "type": "firestarter",
+        "moves": 200,
+        "moves_slow": 2000
+      },
       {
         "target": "cig_butt",
         "msg": "You extinguish the cigarette.",
@@ -2505,30 +3451,49 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [
+      "LITCIG",
+      "TOBACCO",
+      "LIGHT_4",
+      "TRADER_AVOID",
+      "FIRESTARTER"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "cig_butt",
-    "name": { "str": "cigarette butt" },
+    "name": {
+      "str": "cigarette butt"
+    },
     "color": "dark_gray",
     "symbol": "!",
     "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far…",
     "category": "other",
     "weight": "1 g",
-    "flags": [ "TRADER_AVOID", "TINDER" ]
+    "flags": [
+      "TRADER_AVOID",
+      "TINDER"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "joint_lit",
-    "name": { "str": "joint" },
+    "name": {
+      "str": "joint"
+    },
     "color": "light_green",
     "symbol": "!",
     "description": "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
     "category": "drugs",
-    "emits": [ "emit_joint_trail" ],
+    "emits": [
+      "emit_joint_trail"
+    ],
     "use_action": [
-      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "type": "firestarter",
+        "moves": 200,
+        "moves_slow": 2000
+      },
       {
         "target": "joint_roach",
         "msg": "You extinguish the joint.",
@@ -2537,29 +3502,44 @@
         "type": "transform"
       }
     ],
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [
+      "LITCIG",
+      "LIGHT_4",
+      "TRADER_AVOID",
+      "FIRESTARTER"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "joint_roach",
-    "name": { "str": "joint roach", "str_pl": "joint roaches" },
+    "name": {
+      "str": "joint roach",
+      "str_pl": "joint roaches"
+    },
     "color": "green",
     "symbol": "!",
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
     "weight": "1 g",
-    "flags": [ "TRADER_AVOID", "TINDER" ]
+    "flags": [
+      "TRADER_AVOID",
+      "TINDER"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "cannabis",
     "symbol": "%",
     "color": "light_green",
-    "name": { "str": "cannabis plant" },
+    "name": {
+      "str": "cannabis plant"
+    },
     "description": "A psychoactive plant indigenous to Central Asia and the Indian subcontinent traditionally cultivated for its fiber, oil, for medicinal purposes, and for use as a recreational drug.  It requires further processing to be useful.",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "weight": "400 g",
     "volume": "1 L"
   },
@@ -2569,30 +3549,46 @@
     "id": "tobacco_raw",
     "symbol": "%",
     "color": "light_green",
-    "name": { "str_sp": "raw tobacco" },
+    "name": {
+      "str_sp": "raw tobacco"
+    },
     "description": "Various parts of tobacco plant, full of nicotine.  They need to be dried to become smokable.",
     "looks_like": "wild_herbs",
     "price": "3 USD",
     "price_postapoc": "50 cent",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "weight": "100 g",
-    "flags": [ "SMOKABLE" ],
+    "flags": [
+      "SMOKABLE"
+    ],
     "volume": "250 ml",
     "smoking_result": "tobacco",
-    "vitamins": [ [ "veggy_allergen", 1 ] ]
+    "vitamins": [
+      [
+        "veggy_allergen",
+        1
+      ]
+    ]
   },
   {
     "id": "cash_card",
     "type": "TOOL",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "cash card" },
+    "name": {
+      "str": "cash card"
+    },
     "ascii_picture": "cashcard",
     "description": "A yellow plastic card used to store money.  These became popular once the government officially moved to all electronic money.  It holds up to 2 million dollars.",
     "price": "10 USD",
     "price_postapoc": "0 cent",
     "material": "plastic",
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [
+      "NO_UNLOAD",
+      "NO_RELOAD"
+    ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3,
@@ -2637,14 +3633,17 @@
       50000,
       100000
     ],
-    "ammo": "money"
+    "ammo": "money",
+    "category": "valuables"
   },
   {
     "id": "robofac_test_data",
     "type": "TOOL",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "prototype I/O recorder" },
+    "name": {
+      "str": "prototype I/O recorder"
+    },
     "description": "This small transparent card was attached to the prototype robot's CPU.  It might contain the data the intercom spoke of.",
     "category": "other",
     "price": "5 USD",
@@ -2659,13 +3658,18 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "silver gas discount card" },
+    "name": {
+      "str": "silver gas discount card"
+    },
     "description": "This card gives you a little discount on the purchase of gasoline.",
-    "category": "other",
+    "category": "valuables",
     "price": "5 USD",
     "price_postapoc": "0 cent",
     "material": "plastic",
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
+    "flags": [
+      "GAS_DISCOUNT",
+      "DISCOUNT_VALUE_1"
+    ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -2675,13 +3679,18 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "gold gas discount card" },
+    "name": {
+      "str": "gold gas discount card"
+    },
     "description": "This card gives you a good discount on the purchase of gasoline.",
-    "category": "other",
+    "category": "valuables",
     "price": "5 USD",
     "price_postapoc": "0 cent",
     "material": "plastic",
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ],
+    "flags": [
+      "GAS_DISCOUNT",
+      "DISCOUNT_VALUE_2"
+    ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -2691,13 +3700,18 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "platinum gas discount card" },
+    "name": {
+      "str": "platinum gas discount card"
+    },
     "description": "This card gives you a splendid discount on the purchase of gasoline.",
-    "category": "other",
+    "category": "valuables",
     "price": "5 USD",
     "price_postapoc": "0 cent",
     "material": "plastic",
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ],
+    "flags": [
+      "GAS_DISCOUNT",
+      "DISCOUNT_VALUE_3"
+    ],
     "weight": "6 g",
     "volume": "5 ml",
     "to_hit": -3
@@ -2707,28 +3721,34 @@
     "id": "id_science",
     "symbol": ",",
     "color": "blue",
-    "name": { "str": "science ID card" },
+    "name": {
+      "str": "science ID card"
+    },
     "description": "This ID card once belonged to a scientist.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": "600 USD",
     "price_postapoc": "250 cent",
     "material": "plastic",
     "weight": "6 g",
     "volume": "15 ml",
-    "to_hit": -3
+    "to_hit": -3,
+    "category": "tools_entry"
   },
   {
     "type": "GENERIC",
     "id": "id_military",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "military ID card" },
+    "name": {
+      "str": "military ID card"
+    },
     "description": "This ID card once belonged to a military officer.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": "1200 USD",
     "price_postapoc": "5 USD",
     "material": "plastic",
     "weight": "6 g",
     "volume": "5 ml",
-    "to_hit": -3
+    "to_hit": -3,
+    "category": "tools_entry"
   },
   {
     "type": "GENERIC",
@@ -2736,29 +3756,37 @@
     "looks_like": "id_science",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "industrial ID card" },
+    "name": {
+      "str": "industrial ID card"
+    },
     "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": "1200 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
     "weight": "6 g",
     "volume": "5 ml",
-    "to_hit": -3
+    "to_hit": -3,
+    "category": "tools_entry"
   },
   {
     "type": "GENERIC",
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
-    "name": { "str": "neoprene patch", "str_pl": "neoprene patches" },
+    "name": {
+      "str": "neoprene patch",
+      "str_pl": "neoprene patches"
+    },
     "description": "A moderately sized sheet of neoprene.  Can be used to craft light and stretchable clothing.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
     "material": "neoprene",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "weight": "80 g",
     "volume": "250 ml",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "stackable": true
   },
   {
@@ -2766,11 +3794,16 @@
     "type": "GENERIC",
     "symbol": "(",
     "color": "magenta",
-    "name": { "str": "TX-5LR Laser Cannon" },
+    "name": {
+      "str": "TX-5LR Laser Cannon"
+    },
     "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
     "price": "50 kUSD",
     "price_postapoc": "10 USD",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "5000 g",
     "volume": "750 ml",
     "category": "spare_parts"
@@ -2781,9 +3814,14 @@
     "looks_like": "gatling_mech_laser",
     "type": "GENERIC",
     "color": "blue",
-    "name": { "str": "salvaged CMES gatling laser" },
+    "name": {
+      "str": "salvaged CMES gatling laser"
+    },
     "description": "A rapid-fire weapon system stripped from a wrecked combat exoskeleton.  No longer usable as a weapon in its current condition.",
-    "material": [ "superalloy", "plastic" ],
+    "material": [
+      "superalloy",
+      "plastic"
+    ],
     "weight": "39 kg",
     "volume": "11 L"
   },
@@ -2793,16 +3831,23 @@
     "looks_like": "recon_mech_laser",
     "type": "GENERIC",
     "color": "blue",
-    "name": { "str": "salvaged RMES marksman laser" },
+    "name": {
+      "str": "salvaged RMES marksman laser"
+    },
     "description": "A long-range weapon system stripped from a wrecked recon exoskeleton.  No longer usable as a weapon in its current condition.",
-    "material": [ "superalloy", "plastic" ],
+    "material": [
+      "superalloy",
+      "plastic"
+    ],
     "weight": "12 kg",
     "volume": "5500 ml"
   },
   {
     "id": "light_bulb",
     "type": "GENERIC",
-    "name": { "str": "light bulb" },
+    "name": {
+      "str": "light bulb"
+    },
     "description": "A rather outdated light bulb used in all sorts of light equipment.",
     "symbol": ",",
     "color": "white",
@@ -2810,19 +3855,24 @@
     "weight": "10 g",
     "volume": "250 ml",
     "price": "5 USD",
-    "price_postapoc": "10 cent"
+    "price_postapoc": "10 cent",
+    "category": "scrap_electronics"
   },
   {
     "id": "shrapnel",
     "type": "AMMO",
-    "name": { "str": "shrapnel" },
+    "name": {
+      "str": "shrapnel"
+    },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "stack_size": 50,
-    "material": [ "steel" ],
+    "material": [
+      "steel"
+    ],
     "symbol": ".",
     "color": "white",
     "ammo_type": "components"
@@ -2830,8 +3880,10 @@
   {
     "id": "clay_pot_flower",
     "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "clay flower pot" },
+    "category": "scrap_ceramics",
+    "name": {
+      "str": "clay flower pot"
+    },
     "description": "A nice looking clay pot used for planting.",
     "weight": "500 g",
     "volume": "2500 ml",
@@ -2841,13 +3893,17 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "plastic_pot_flower",
     "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "plastic flower pot" },
+    "category": "scrap_plastic",
+    "name": {
+      "str": "plastic flower pot"
+    },
     "description": "A cheap plastic pot used for planting.",
     "weight": "190 g",
     "volume": "2500 ml",
@@ -2862,7 +3918,9 @@
     "id": "fluid_preserved_brain",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "fluid preserved brain" },
+    "name": {
+      "str": "fluid preserved brain"
+    },
     "description": "This 3L jar contains a human brain preserved in a formaldehyde solution.",
     "weight": "365 g",
     "volume": "3 L",
@@ -2879,7 +3937,9 @@
     "id": "evaporator_coil",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "evaporator coil" },
+    "name": {
+      "str": "evaporator coil"
+    },
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
     "weight": "4 kg",
     "volume": "2 L",
@@ -2893,7 +3953,9 @@
     "id": "condensor_coil",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "condenser coil" },
+    "name": {
+      "str": "condenser coil"
+    },
     "description": "A compressor and a fan work together to cool down the refrigerant.",
     "weight": "4 kg",
     "volume": "2 L",
@@ -2906,7 +3968,9 @@
   {
     "id": "refrigerant_tank",
     "type": "GENERIC",
-    "name": { "str": "refrigerant tank" },
+    "name": {
+      "str": "refrigerant tank"
+    },
     "description": "A small tank containing some sort of refrigerant often used in devices such as freezers.  Hermetically sealed to prevent evaporation - cannot be opened without prior connection to compatible valve.",
     "weight": "400 g",
     "volume": "1 L",
@@ -2924,7 +3988,9 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "light_cyan",
-    "name": { "str": "hard steel armor plate" },
+    "name": {
+      "str": "hard steel armor plate"
+    },
     "description": "An armor plating made of a very thick steel, specifically engineered for use in a bullet resistant vest.",
     "price": "100 USD",
     "price_postapoc": "1 USD",
@@ -2939,7 +4005,9 @@
     "category": "spare_parts",
     "symbol": ",",
     "color": "light_cyan",
-    "name": { "str": "steel armor plate" },
+    "name": {
+      "str": "steel armor plate"
+    },
     "description": "A steel armor plate, specifically engineered for use in a bullet resistant vest.",
     "price": "90 USD",
     "price_postapoc": "50 cent",
@@ -2954,7 +4022,10 @@
     "category": "spare_parts",
     "symbol": "P",
     "color": "dark_gray",
-    "name": { "str": "small lock and key", "str_pl": "small locks and keys" },
+    "name": {
+      "str": "small lock and key",
+      "str_pl": "small locks and keys"
+    },
     "description": "A small lock, with a set of keys still inserted.",
     "price": "5 USD",
     "price_postapoc": "10 cent",
@@ -2968,14 +4039,21 @@
     "id": "craft",
     "symbol": "%",
     "color": "white",
-    "name": { "str": "in progress craft" },
+    "name": {
+      "str": "in progress craft"
+    },
     "description": "This is an in progress craft.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "weight": "1 g",
     "volume": "250 ml",
     "use_action": "CRAFT",
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES", "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "NO_SALVAGE",
+      "TRADER_AVOID",
+      "CAN_HAVE_CHARGES",
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "type": "GENERIC",
@@ -2983,7 +4061,9 @@
     "category": "spare_parts",
     "symbol": "t",
     "color": "dark_gray",
-    "name": { "str": "spare tire carrier" },
+    "name": {
+      "str": "spare tire carrier"
+    },
     "description": "A bumper mounted rig for attaching and storing a spare tire on the back of a vehicle.  Combine it with a wheel to get a mountable piece.",
     "price": "35 USD",
     "price_postapoc": "250 cent",
@@ -2999,7 +4079,9 @@
     "material": "steel",
     "symbol": ";",
     "color": "red",
-    "name": { "str": "welding component kit" },
+    "name": {
+      "str": "welding component kit"
+    },
     "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
     "price": "90 USD",
     "price_postapoc": "25 USD",
@@ -3012,108 +4094,161 @@
     "id": "amplifier_head",
     "symbol": ";",
     "color": "blue",
-    "name": { "str": "amplifier head" },
+    "name": {
+      "str": "amplifier head"
+    },
     "description": "An amplifier head.  Typically paired with a speaker cabinet for amplifying musical instruments.  Basically only good for spare parts now.",
     "price": "250 USD",
     "price_postapoc": "1 USD",
-    "material": [ "steel", "plastic", "wood" ],
+    "material": [
+      "steel",
+      "plastic",
+      "wood"
+    ],
     "weight": "11339 g",
-    "volume": "3 L"
+    "volume": "3 L",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "broken_turret",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken turret" },
-    "category": "other",
+    "name": {
+      "str": "broken turret"
+    },
+    "category": "scrap_electronics",
     "description": "A broken turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "72650 g",
     "volume": "30 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_turret_riot",
     "symbol": ",",
     "color": "blue",
-    "name": { "str": "broken riot control turret" },
+    "name": {
+      "str": "broken riot control turret"
+    },
     "description": "A broken riot control turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
-    "copy-from": "broken_turret"
+    "copy-from": "broken_turret",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "broken_laserturret",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken laser turret" },
+    "name": {
+      "str": "broken laser turret"
+    },
     "weight": "110 kg",
-    "copy-from": "broken_turret"
+    "copy-from": "broken_turret",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "broken_secubot",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken secubot" },
-    "category": "other",
+    "name": {
+      "str": "broken secubot"
+    },
+    "category": "scrap_electronics",
     "description": "A broken secubot, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "100 kg",
     "volume": "65 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_talon_m202a1",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken M202A1 TALON" },
-    "category": "other",
+    "name": {
+      "str": "broken M202A1 TALON"
+    },
+    "category": "scrap_electronics",
     "description": "A broken TALON UGV, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "weight": "100 kg",
     "volume": "65 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [
+      "TRADER_AVOID",
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "fire_brick",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "fire brick" },
-    "category": "spare_parts",
+    "name": {
+      "str": "fire brick"
+    },
+    "category": "scrap_ceramics",
     "description": "A reinforced brick designed to withstand intense heat.  It could also be used as an impromptu anvil for light metalworking.",
     "price": "25 USD",
     "price_postapoc": "10 cent",
-    "material": [ "clay", "stone" ],
+    "material": [
+      "clay",
+      "stone"
+    ],
     "weight": "969 g",
     "volume": "500 ml",
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ [ "HAMMER", 1 ], [ "ANVIL", 1 ] ]
+    "qualities": [
+      [
+        "HAMMER",
+        1
+      ],
+      [
+        "ANVIL",
+        1
+      ]
+    ]
   },
   {
     "id": "survival_kit",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "survival kit" },
+    "name": {
+      "str": "survival kit"
+    },
     "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
     "weight": "1612 g",
     "volume": "1 L",
@@ -3123,13 +4258,18 @@
     "symbol": "!",
     "color": "green",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ]
   },
   {
     "id": "premium_survival_kit",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "survival kit" },
+    "name": {
+      "str": "survival kit"
+    },
     "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
     "weight": "1612 g",
     "volume": "1 L",
@@ -3137,14 +4277,24 @@
     "material": "aluminum",
     "symbol": "!",
     "color": "green",
-    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "use_action": {
+      "type": "unpack",
+      "group": "premium_contents",
+      "items_fit": true,
+      "filthy_volume_threshold": "10 L"
+    },
+    "flags": [
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ]
   },
   {
     "id": "plastic_six_dice",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str_sp": "plastic dice" },
+    "name": {
+      "str_sp": "plastic dice"
+    },
     "description": "A six-sided plastic dice.",
     "weight": "5 g",
     "volume": "10 ml",
@@ -3153,13 +4303,17 @@
     "material": "plastic",
     "symbol": ".",
     "color": "white",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [
+      "NO_REPAIR"
+    ]
   },
   {
     "id": "salt_lick",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "salt lick" },
+    "name": {
+      "str": "salt lick"
+    },
     "description": "A heavy cube-shaped block of salt for livestock.  Don't lick it, it's gross.",
     "weight": "18 kg",
     "volume": "10 L",
@@ -3169,49 +4323,66 @@
     "material": "stone",
     "symbol": ".",
     "color": "white",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [
+      "NO_REPAIR"
+    ]
   },
   {
     "type": "GENERIC",
     "id": "broken_turret_light",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken light turret" },
+    "name": {
+      "str": "broken light turret"
+    },
     "weight": "30 kg",
-    "copy-from": "broken_turret"
+    "copy-from": "broken_turret",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "broken_turret_medium",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken medium milspec turret" },
+    "name": {
+      "str": "broken medium milspec turret"
+    },
     "weight": "40 kg",
-    "copy-from": "broken_turret"
+    "copy-from": "broken_turret",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "broken_turret_longrange",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken longrange milspec turret" },
+    "name": {
+      "str": "broken longrange milspec turret"
+    },
     "weight": "50 kg",
-    "copy-from": "broken_turret"
+    "copy-from": "broken_turret",
+    "category": "scrap_electronics"
   },
   {
     "type": "GENERIC",
     "id": "wool_pillow",
     "copy-from": "pillow",
     "looks_like": "pillow",
-    "name": { "str": "wool pillow" },
+    "name": {
+      "str": "wool pillow"
+    },
     "description": "A pillow to rest your head on when sleeping.  This one is made entirely of fluffy wool!",
-    "material": [ "wool" ]
+    "material": [
+      "wool"
+    ]
   },
   {
     "id": "kevlar_plate",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "Kevlar plate" },
+    "name": {
+      "str": "Kevlar plate"
+    },
     "description": "This is a plate of reinforced Kevlar.  It could be used to repair items made of Kevlar.",
     "weight": "300 g",
     "volume": "250 ml",
@@ -3220,14 +4391,18 @@
     "material": "kevlar",
     "symbol": ",",
     "color": "green",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "stackable": true
   },
   {
     "type": "GENERIC",
     "id": "scute_piece",
     "category": "spare_parts",
-    "name": { "str": "scute" },
+    "name": {
+      "str": "scute"
+    },
     "weight": "225 g",
     "color": "green",
     "symbol": "%",
@@ -3243,7 +4418,9 @@
     "type": "GENERIC",
     "id": "bone_heavy",
     "category": "spare_parts",
-    "name": { "str": "heavy bone" },
+    "name": {
+      "str": "heavy bone"
+    },
     "weight": "450 g",
     "color": "white",
     "symbol": "%",
@@ -3259,7 +4436,9 @@
     "type": "GENERIC",
     "id": "teeth_serrated",
     "category": "spare_parts",
-    "name": { "str": "sharp teeth" },
+    "name": {
+      "str": "sharp teeth"
+    },
     "weight": "450 g",
     "color": "white",
     "symbol": "%",
@@ -3274,12 +4453,16 @@
   {
     "id": "beehive_empty",
     "type": "GENERIC",
-    "name": { "str": "empty beehive" },
+    "name": {
+      "str": "empty beehive"
+    },
     "description": "A large, enclosed wooden box with multiple sliding frames in it.  With something to attract bees, it can be used to grow a hive.",
     "weight": "10000 g",
     "volume": "20 L",
     "price": "92 USD",
-    "material": [ "wood" ],
+    "material": [
+      "wood"
+    ],
     "symbol": "-",
     "color": "brown"
   },
@@ -3289,13 +4472,19 @@
     "category": "other",
     "symbol": "S",
     "color": "cyan",
-    "name": { "str": "shark plush" },
+    "name": {
+      "str": "shark plush"
+    },
     "description": "A slightly large shark plushie, perfect for cuddles.",
     "price": "22 USD",
     "price_postapoc": "1 USD",
-    "material": [ "cotton" ],
+    "material": [
+      "cotton"
+    ],
     "weight": "660 g",
     "volume": "1230 ml",
-    "flags": [ "SLEEP_AID" ]
+    "flags": [
+      "SLEEP_AID"
+    ]
   }
 ]

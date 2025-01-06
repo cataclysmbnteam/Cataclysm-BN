@@ -2,8 +2,10 @@
   {
     "id": "fish_trap",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "plastic fish trap" },
+    "category": "tools_farming",
+    "name": {
+      "str": "plastic fish trap"
+    },
     "description": "This is a makeshift fish trap made from plastic bottles.  It's simple, even primitive, but easy to use.  The principle of action: the fish swims inside for bait, but can't get out.  Not humane, prohibited by law, but there are no cops left to care.",
     "weight": "85 g",
     "volume": "2 L",
@@ -21,18 +23,24 @@
     "id": "clay_fish_trap",
     "type": "TOOL",
     "copy-from": "fish_trap",
-    "name": { "str": "clay fish trap" },
+    "name": {
+      "str": "clay fish trap"
+    },
     "description": "This is a fish trap made from clay canisters, closely resembling old Japanese squid traps.  It's simple, even primitive, but easy to use.  The principle of action: the fish swims inside for bait, but can't get out.  Not humane, prohibited by law, but there are no cops left to care.",
     "weight": "1 kg",
     "material": "clay",
     "color": "brown",
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "fishing_hook_basic",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "fishing hook" },
+    "category": "tools_farming",
+    "name": {
+      "str": "fishing hook"
+    },
     "description": "A simple fishing hook.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -46,23 +54,29 @@
   {
     "id": "fishing_hook_bone",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "improvised fishing hook" },
+    "category": "tools_farming",
+    "name": {
+      "str": "improvised fishing hook"
+    },
     "description": "An improvised fishing hook carved from wood or bone.",
     "weight": "1 g",
     "volume": "1 ml",
     "price": "25 cent",
     "price_postapoc": "25 cent",
     "cutting": 3,
-    "material": [ "bone" ],
+    "material": [
+      "bone"
+    ],
     "symbol": ",",
     "color": "white"
   },
   {
     "id": "fishing_rod_basic",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "basic fishing rod" },
+    "category": "tools_farming",
+    "name": {
+      "str": "basic fishing rod"
+    },
     "description": "'Fishing rod' might be a bit too charitable of a description.  In truth, this is a stick with a piece of string and a hook.",
     "weight": "1700 g",
     "volume": "1250 ml",
@@ -74,14 +88,23 @@
     "symbol": "/",
     "color": "brown",
     "use_action": "FISH_ROD",
-    "qualities": [ [ "FISHING", 1 ] ],
-    "flags": [ "FISH_POOR" ]
+    "qualities": [
+      [
+        "FISHING",
+        1
+      ]
+    ],
+    "flags": [
+      "FISH_POOR"
+    ]
   },
   {
     "id": "fishing_rod_professional",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "pro fishing rod" },
+    "category": "tools_farming",
+    "name": {
+      "str": "pro fishing rod"
+    },
     "description": "A professional fishing rod with a matching set of weights.  With this you should be able to catch 'em all.",
     "weight": "1000 g",
     "volume": "1250 ml",
@@ -93,7 +116,14 @@
     "symbol": "/",
     "color": "brown",
     "use_action": "FISH_ROD",
-    "qualities": [ [ "FISHING", 2 ] ],
-    "flags": [ "FISH_GOOD" ]
+    "qualities": [
+      [
+        "FISHING",
+        2
+      ]
+    ],
+    "flags": [
+      "FISH_GOOD"
+    ]
   }
 ]

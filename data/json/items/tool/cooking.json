@@ -2,8 +2,10 @@
   {
     "id": "atomic_coffeepot",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "atomic coffee maker" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "atomic coffee maker"
+    },
     "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
     "weight": "6585 g",
     "volume": "1000 ml",
@@ -11,16 +13,30 @@
     "price_postapoc": "30 USD",
     "to_hit": -2,
     "bashing": 5,
-    "material": [ "plastic", "aluminum" ],
-    "qualities": [ [ "BOIL", 1 ] ],
+    "material": [
+      "plastic",
+      "aluminum"
+    ],
+    "qualities": [
+      [
+        "BOIL",
+        1
+      ]
+    ],
     "symbol": ",",
     "color": "light_green",
     "//": "It would be nice if this could have a use action to thaw frozen stuff.  It's not hot enough to work as a hotplate.",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [
+      "LEAK_DAM",
+      "RADIOACTIVE",
+      "DURABLE_MELEE"
+    ]
   },
   {
     "id": "butchering_kit",
-    "name": { "str": "butchering kit" },
+    "name": {
+      "str": "butchering kit"
+    },
     "type": "GENERIC",
     "description": "This is a kit containing all the specialized knives you need to debone, skin, and prepare cuts of meat from an animal.",
     "copy-from": "base_kitchen_knife",
@@ -29,13 +45,29 @@
     "volume": "800 ml",
     "price": "80 USD",
     "price_postapoc": "150 cent",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
+    "qualities": [
+      [
+        "CUT",
+        1
+      ],
+      [
+        "CUT_FINE",
+        1
+      ],
+      [
+        "BUTCHER",
+        37
+      ]
+    ],
+    "category": "tools_cooking"
   },
   {
     "id": "butter_churn",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "pseudo butter churn" },
+    "name": {
+      "str": "pseudo butter churn"
+    },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "6464 g",
     "volume": "9 L",
@@ -44,16 +76,25 @@
     "to_hit": -2,
     "bashing": 9,
     "material": "wood",
-    "qualities": [ [ "CHURN", 1 ] ],
+    "qualities": [
+      [
+        "CHURN",
+        1
+      ]
+    ],
     "symbol": "H",
     "color": "light_cyan",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "can_sealer",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "can sealer" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "can sealer"
+    },
     "description": "A hand crank powered cast steel machine designed to automatically seal tin cans.",
     "weight": "9800 g",
     "volume": "5 L",
@@ -68,8 +109,11 @@
   {
     "id": "carver_off",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "electric carver (off)",
+      "str_pl": "electric carvers (off)"
+    },
     "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even zombies!",
     "weight": "1106 g",
     "volume": "1500 ml",
@@ -78,7 +122,10 @@
     "bashing": 2,
     "cutting": 8,
     "to_hit": -2,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
@@ -92,11 +139,19 @@
       "transform_charges": 1,
       "need_dry": true
     },
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [
+      "SHEATH_SWORD",
+      "NONCONDUCTIVE"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -105,24 +160,47 @@
     "id": "carver_on",
     "copy-from": "carver_off",
     "type": "TOOL",
-    "name": { "str": "electric carver (on)", "str_pl": "electric carvers (on)" },
+    "name": {
+      "str": "electric carver (on)",
+      "str_pl": "electric carvers (on)"
+    },
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
     "cutting": 30,
     "to_hit": 1,
     "power_draw": 150000,
     "charges_per_use": 0,
     "revert_to": "carver_off",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [
+      [
+        "CUT",
+        1
+      ],
+      [
+        "BUTCHER",
+        25
+      ]
+    ],
     "revert_msg": "Your electric carver goes quiet",
-    "use_action": { "type": "transform", "target": "carver_off", "msg": "You turn off the electric carver." },
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "WATER_DISABLE" ],
+    "use_action": {
+      "type": "transform",
+      "target": "carver_off",
+      "msg": "You turn off the electric carver."
+    },
+    "flags": [
+      "MESSY",
+      "TRADER_AVOID",
+      "NONCONDUCTIVE",
+      "WATER_DISABLE"
+    ],
     "magazine_well": "500 ml"
   },
   {
     "id": "char_purifier",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "charcoal water purifier" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "charcoal water purifier"
+    },
     "description": "Using this item on a container full of water will purify the water using layered charcoal.  Once the charcoal has purified enough water, it will become unusable and can be disassembled and recycled.  Water taken from uncertain sources like a river may be dirty.",
     "weight": "1820 g",
     "volume": "3750 ml",
@@ -130,20 +208,27 @@
     "price_postapoc": "20 USD",
     "to_hit": -3,
     "bashing": 3,
-    "material": [ "wood", "plastic" ],
+    "material": [
+      "wood",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 150,
     "max_charges": 150,
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "char_smoker",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "charcoal smoker" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "charcoal smoker"
+    },
     "description": "This is a portable charcoal smoker.  Good for weekend barbecuing and preserving meat with smoke.",
     "weight": "2600 g",
     "volume": "5 L",
@@ -156,13 +241,17 @@
     "color": "light_gray",
     "ammo": "charcoal",
     "max_charges": 200,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "charcoal_cooker",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "charcoal cooker" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "charcoal cooker"
+    },
     "description": "This is a little metal tank for holding charcoal with a pilot light attached.  You could use it for cooking food.",
     "weight": "400 g",
     "volume": "1250 ml",
@@ -183,8 +272,10 @@
   {
     "id": "clay_pot",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "clay pot" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "clay pot"
+    },
     "description": "A crude clay pot with lid used for cooking.",
     "weight": "500 g",
     "volume": "2 L",
@@ -194,16 +285,41 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": "2 L", "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "container_data": {
+      "contains": "2 L",
+      "watertight": true
+    },
+    "qualities": [
+      [
+        "COOK",
+        3
+      ],
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ],
+      [
+        "CHEM",
+        1
+      ]
+    ],
     "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE", "SHATTERS" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE",
+      "SHATTERS"
+    ]
   },
   {
     "id": "clay_quern",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "clay quern" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "clay quern"
+    },
     "description": "This is a simple hand-powered clay quern for grinding grain.",
     "weight": "2264 g",
     "volume": "1500 ml",
@@ -216,8 +332,10 @@
   {
     "id": "clay_teapot",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "clay teapot" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "clay teapot"
+    },
     "description": "A clay teapot.  Now all you need is tea and water.",
     "weight": "400 g",
     "volume": "750 ml",
@@ -228,15 +346,27 @@
     "material": "clay",
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": "750 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "SHATTERS" ]
+    "container_data": {
+      "contains": "750 ml",
+      "watertight": true
+    },
+    "qualities": [
+      [
+        "BOIL",
+        1
+      ]
+    ],
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "coffeemaker",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "coffeemaker" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "coffeemaker"
+    },
     "description": "This is a heating element with pot and frame for holding coffee or other powders.  It's got a battery compartment for use when the power goes out.  You can use it to make coffee, or other drinks if you so choose.",
     "weight": "3100 g",
     "volume": "750 ml",
@@ -244,17 +374,29 @@
     "price_postapoc": "50 cent",
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "plastic" ],
+    "material": [
+      "plastic"
+    ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 10,
-    "qualities": [ [ "BOIL", 1 ] ],
+    "qualities": [
+      [
+        "BOIL",
+        1
+      ]
+    ],
     "use_action": "HOTPLATE",
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -262,8 +404,10 @@
   {
     "id": "dehydrator",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "food dehydrator" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "food dehydrator"
+    },
     "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
     "weight": "4200 g",
     "volume": "4500 ml",
@@ -271,15 +415,24 @@
     "price_postapoc": "20 USD",
     "to_hit": -2,
     "bashing": 8,
-    "material": [ "plastic" ],
+    "material": [
+      "plastic"
+    ],
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -287,15 +440,20 @@
   {
     "id": "eggs_ferment",
     "type": "GENERIC",
-    "category": "food",
-    "name": { "str": "fermenting eggs jar" },
+    "category": "cooking_ingredients",
+    "name": {
+      "str": "fermenting eggs jar"
+    },
     "description": "This jar contains a batch of eggs in a pickling solution.  You can seal up the jar once the process is completed.",
     "weight": "1750 g",
     "volume": "500 ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
     "bashing": 4,
-    "material": [ "glass", "egg" ],
+    "material": [
+      "glass",
+      "egg"
+    ],
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -306,13 +464,17 @@
       "transform_age": 33600,
       "not_ready_msg": "The eggs are not done yet."
     },
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "esbit_stove",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "hexamine stove" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "hexamine stove"
+    },
     "description": "Known as an Esbit stove, this is a lightweight, folding stove designed to use small hexamine tablets for cooking.",
     "weight": "180 g",
     "volume": "750 ml",
@@ -328,20 +490,28 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": [
+      "HOTPLATE",
+      "HEAT_FOOD"
+    ]
   },
   {
     "id": "flask_yeast",
     "type": "GENERIC",
-    "category": "food",
-    "name": { "str_sp": "small sealed yeast culture" },
+    "category": "cooking_ingredients",
+    "name": {
+      "str_sp": "small sealed yeast culture"
+    },
     "description": "A sealed flask holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "weight": "250 g",
     "volume": "250 ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
     "bashing": 8,
-    "material": [ "glass", "powder" ],
+    "material": [
+      "glass",
+      "powder"
+    ],
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -355,12 +525,17 @@
       "not_ready_msg": "The yeast isn't done culturing yet.",
       "//": "12 hours"
     },
-    "flags": [ "TRADER_AVOID", "SHATTERS" ]
+    "flags": [
+      "TRADER_AVOID",
+      "SHATTERS"
+    ]
   },
   {
     "id": "jar_yeast",
     "type": "GENERIC",
-    "name": { "str_sp": "sealed yeast culture" },
+    "name": {
+      "str_sp": "sealed yeast culture"
+    },
     "description": "A sealed jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "copy-from": "flask_yeast",
     "looks_like": "jar_glass_sealed",
@@ -381,7 +556,9 @@
   {
     "id": "clay_yeast",
     "type": "GENERIC",
-    "name": { "str_sp": "sealed yeast culture" },
+    "name": {
+      "str_sp": "sealed yeast culture"
+    },
     "description": "A sealed clay bowl holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "copy-from": "wild_clay_yeast",
     "use_action": {
@@ -399,7 +576,9 @@
   {
     "id": "jar_3l_glass_yeast",
     "type": "GENERIC",
-    "name": { "str_sp": "large sealed yeast culture" },
+    "name": {
+      "str_sp": "large sealed yeast culture"
+    },
     "description": "A sealed 3L glass jar holding sanitized yeast wort.  You may harvest the yeast inside when it's done culturing.",
     "copy-from": "jar_yeast",
     "looks_like": "jar_3l_glass_sealed",
@@ -420,7 +599,9 @@
   {
     "id": "wild_yeast",
     "type": "GENERIC",
-    "name": { "str_sp": "sealed wild yeast culture" },
+    "name": {
+      "str_sp": "sealed wild yeast culture"
+    },
     "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizable yeast culture.",
     "copy-from": "jar_yeast",
     "use_action": {
@@ -437,13 +618,18 @@
   {
     "id": "wild_clay_yeast",
     "type": "GENERIC",
-    "name": { "str_sp": "sealed wild yeast culture" },
+    "name": {
+      "str_sp": "sealed wild yeast culture"
+    },
     "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizable yeast culture.",
     "copy-from": "jar_yeast",
     "looks_like": "bowl_clay",
     "weight": "250 g",
     "volume": "250 ml",
-    "material": [ "clay", "powder" ],
+    "material": [
+      "clay",
+      "powder"
+    ],
     "symbol": ")",
     "color": "brown",
     "use_action": {
@@ -456,13 +642,17 @@
       "transform_age": 259200,
       "not_ready_msg": "The yeast isn't done culturing yet."
     },
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "food_processor",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "food processor" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "food processor"
+    },
     "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
     "weight": "3000 g",
     "volume": "2 L",
@@ -470,15 +660,24 @@
     "price_postapoc": "250 cent",
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "iron" ],
+    "material": [
+      "iron"
+    ],
     "symbol": "%",
     "color": "white",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -486,8 +685,10 @@
   {
     "id": "gasoline_cooker",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "gasoline cooker" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "gasoline cooker"
+    },
     "description": "This is a simple heater powered by gasoline.  It is designed for cooking food.",
     "weight": "1944 g",
     "volume": "1250 ml",
@@ -509,7 +710,9 @@
     "id": "heatpack",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "heat pack" },
+    "name": {
+      "str": "heat pack"
+    },
     "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  It is usable only once.",
     "weight": "226 g",
     "volume": "100 ml",
@@ -526,8 +729,10 @@
   {
     "id": "hotplate",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "hotplate" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "hotplate"
+    },
     "description": "This is a small heating element on a stand, powered by batteries.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
     "weight": "2835 g",
     "volume": "1250 ml",
@@ -535,7 +740,10 @@
     "price_postapoc": "250 cent",
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
@@ -544,7 +752,12 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -553,14 +766,20 @@
     "id": "jar_eggs_pickled",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str": "sealed jar of eggs", "str_pl": "sealed jars of eggs" },
+    "name": {
+      "str": "sealed jar of eggs",
+      "str_pl": "sealed jars of eggs"
+    },
     "description": "This is a sealed glass jar containing pickled eggs.  Use to open and eat to enjoy.",
     "weight": "1750 g",
     "volume": "500 ml",
     "price": "650 cent",
     "price_postapoc": "10 cent",
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": [
+      "glass",
+      "veggy"
+    ],
     "symbol": "%",
     "color": "green",
     "use_action": {
@@ -571,20 +790,28 @@
       "menu_text": "Open jar",
       "type": "transform"
     },
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "jar_pickles_pickled",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str": "sealed jar of pickles", "str_pl": "sealed jars of pickles" },
+    "name": {
+      "str": "sealed jar of pickles",
+      "str_pl": "sealed jars of pickles"
+    },
     "description": "This is a sealed glass jar containing pickles.  Use to open and eat to enjoy.",
     "weight": "1750 g",
     "volume": "500 ml",
     "price": "650 cent",
     "price_postapoc": "10 cent",
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": [
+      "glass",
+      "veggy"
+    ],
     "symbol": "%",
     "color": "green",
     "use_action": {
@@ -595,20 +822,28 @@
       "menu_text": "Open jar",
       "type": "transform"
     },
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "jar_sauerkraut_pickled",
     "type": "GENERIC",
     "category": "food",
-    "name": { "str": "sealed jar of sauerkraut", "str_pl": "sealed jars of sauerkraut" },
+    "name": {
+      "str": "sealed jar of sauerkraut",
+      "str_pl": "sealed jars of sauerkraut"
+    },
     "description": "This is a sealed glass jar containing sauerkraut.  Use to open and eat to enjoy.",
     "weight": "1750 g",
     "volume": "500 ml",
     "price": "650 cent",
     "price_postapoc": "10 cent",
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": [
+      "glass",
+      "veggy"
+    ],
     "symbol": "%",
     "color": "green",
     "use_action": {
@@ -619,13 +854,17 @@
       "menu_text": "Open jar",
       "type": "transform"
     },
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "makeshift_sealer",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "makeshift vacuum sealer" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "makeshift vacuum sealer"
+    },
     "description": "This is a homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
     "weight": "3218 g",
     "volume": "2 L",
@@ -633,23 +872,35 @@
     "price_postapoc": "250 cent",
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ]
   },
   {
     "id": "mess_kit",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "mess kit" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "mess kit"
+    },
     "description": "A self-contained camping mess kit, containing everything you might need for wilderness cooking.  This model relies on a battery-operated hotplate, rather than the more commonplace chemical-fueled Esbit stove.",
     "weight": "1500 g",
     "volume": "1 L",
@@ -657,18 +908,42 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
     "charges_per_use": 5,
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "qualities": [
+      [
+        "COOK",
+        2
+      ],
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ]
+    ],
+    "use_action": [
+      "HOTPLATE",
+      "HEAT_FOOD"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -676,8 +951,10 @@
   {
     "id": "mess_tin",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "mess tin" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "mess tin"
+    },
     "description": "A compact military-style pan and tray, designed for heating food over a fire or portable stove.  It is shallower than a proper pot or pan, and lacks the integrated heating elements modern mess kits have.",
     "weight": "500 g",
     "volume": "750 ml",
@@ -688,14 +965,29 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "qualities": [
+      [
+        "COOK",
+        2
+      ],
+      [
+        "BOIL",
+        1
+      ],
+      [
+        "CONTAIN",
+        1
+      ]
+    ],
     "use_action": "HEAT_FOOD"
   },
   {
     "id": "mil_mess_kit",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "military mess kit" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "military mess kit"
+    },
     "description": "Military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All parts are made from thin sheet of aluminum / superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled Esbit stove.  Compact, durable and lightweight.",
     "weight": "900 g",
     "volume": "1 L",
@@ -703,18 +995,42 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "superalloy", "ceramic" ],
+    "material": [
+      "superalloy",
+      "ceramic"
+    ],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
     "charges_per_use": 5,
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "qualities": [
+      [
+        "COOK",
+        2
+      ],
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ]
+    ],
+    "use_action": [
+      "HOTPLATE",
+      "HEAT_FOOD"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_plus_battery_cell",
+          "medium_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -722,8 +1038,11 @@
   {
     "id": "mortar_pestle",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "mortar and pestle", "str_pl": "mortars and pestles" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "mortar and pestle",
+      "str_pl": "mortars and pestles"
+    },
     "description": "This is a simple combination of a small grindstone and a bowl-shaped stone.  Used for grinding grain, but time-consuming compared to more complex methods.",
     "weight": "1000 g",
     "volume": "400 ml",
@@ -734,30 +1053,54 @@
     "material": "stone",
     "symbol": ":",
     "color": "light_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ]
+    ]
   },
   {
     "id": "multi_cooker",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "multi cooker" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "multi cooker"
+    },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  Its multitude of settings and features promise to handle any sort of cooking, from parboiling potatoes to cooking curry to popping popcorn.  There's no manual, but you're sure you can work it out.",
     "weight": "11339 g",
     "volume": "3750 ml",
     "price": "200 USD",
     "price_postapoc": "250 cent",
     "to_hit": -3,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
     "power_draw": 1500000,
-    "qualities": [ [ "CONTAIN", 1 ] ],
+    "qualities": [
+      [
+        "CONTAIN",
+        1
+      ]
+    ],
     "use_action": "MULTICOOKER",
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -766,15 +1109,26 @@
     "id": "multi_cooker_filled",
     "type": "TOOL",
     "copy-from": "multi_cooker",
-    "name": { "str": "multi cooker - cooking" },
+    "name": {
+      "str": "multi cooker - cooking"
+    },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish in it.",
-    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+    "delete": {
+      "qualities": [
+        [
+          "CONTAIN",
+          1
+        ]
+      ]
+    }
   },
   {
     "id": "oil_cooker",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "lamp oil cooker" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "lamp oil cooker"
+    },
     "description": "This is a simple heater powered by lamp oil.  It is designed for cooking food.",
     "weight": "2264 g",
     "volume": "1250 ml",
@@ -795,8 +1149,10 @@
   {
     "id": "pastaextruder",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "pasta extruder" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "pasta extruder"
+    },
     "description": "A pasta extruder run by a hand-crank.  Useful in making pasta.  It comes with various heads to make various kinds of pasta.",
     "weight": "2628 g",
     "volume": "1 L",
@@ -811,15 +1167,20 @@
   {
     "id": "pickles_ferment",
     "type": "GENERIC",
-    "category": "food",
-    "name": { "str": "fermenting pickle jar" },
+    "category": "cooking_ingredients",
+    "name": {
+      "str": "fermenting pickle jar"
+    },
     "description": "This jar contains a batch of pickles set to ferment.  You can seal up the jar once the process is completed.",
     "weight": "1750 g",
     "volume": "500 ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": [
+      "glass",
+      "veggy"
+    ],
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -831,13 +1192,17 @@
       "not_ready_msg": "The pickles are not done fermenting yet.",
       "//": "2 1/3 days, from the suggested recipie of 1 rl week"
     },
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "popcan_stove",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "soda can stove kit" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "soda can stove kit"
+    },
     "//": "Should be 20 but currently recipes do not utilize this value",
     "description": "This is an ultra-light alcohol-burning stove with simmer ring.  It comes with a 500 ml container to hold concentrated alcohol fuel.",
     "weight": "45 g",
@@ -858,8 +1223,10 @@
   {
     "id": "pressure_cooker",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "pressure cooker" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "pressure cooker"
+    },
     "description": "Useful for boiling water when cooking spaghetti and more.  This sealed pot is designed to cook food at higher pressures and temperatures.  Can also be used for pressure sensitive chemical reactions.",
     "weight": "2200 g",
     "volume": "2500 ml",
@@ -871,16 +1238,41 @@
     "symbol": ")",
     "color": "light_gray",
     "looks_like": "pot_canning",
-    "container_data": { "contains": "2 L", "seals": true, "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "container_data": {
+      "contains": "2 L",
+      "seals": true,
+      "watertight": true
+    },
+    "qualities": [
+      [
+        "COOK",
+        3
+      ],
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ],
+      [
+        "CHEM",
+        1
+      ]
+    ],
     "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "rock_quern",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "quern" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "quern"
+    },
     "description": "This is a simple hand-powered stone quern for grinding grain.",
     "weight": "3264 g",
     "volume": "2 L",
@@ -895,15 +1287,20 @@
   {
     "id": "sauerkraut_ferment",
     "type": "GENERIC",
-    "category": "food",
-    "name": { "str": "fermenting sauerkraut jar" },
+    "category": "cooking_ingredients",
+    "name": {
+      "str": "fermenting sauerkraut jar"
+    },
     "description": "This jar contains a batch of sauerkraut set to ferment.  You can seal up the jar once the process is completed.",
     "weight": "1750 g",
     "volume": "500 ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": [
+      "glass",
+      "veggy"
+    ],
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -915,13 +1312,17 @@
       "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
       "//": "2 1/3 days, from the suggested recipie of 1 rl week"
     },
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   },
   {
     "id": "still",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "still" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "still"
+    },
     "description": "This is a still.  It's useful for creating distillation of alcohol and other, more curious substances.",
     "weight": "10000 g",
     "volume": "10 L",
@@ -932,13 +1333,28 @@
     "material": "copper",
     "symbol": "L",
     "color": "white",
-    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [
+      [
+        "DISTILL",
+        2
+      ],
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ]
+    ]
   },
   {
     "id": "retort_clay",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "clay retort" },
+    "name": {
+      "str": "clay retort"
+    },
     "description": "This is a primitive distillation tool made from clay, with a long neck that acts as a condenser.",
     "weight": "500 g",
     "volume": "1 L",
@@ -950,13 +1366,28 @@
     "symbol": ";",
     "color": "brown",
     "looks_like": "clay_pot",
-    "qualities": [ [ "DISTILL", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [
+      [
+        "DISTILL",
+        1
+      ],
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ]
+    ]
   },
   {
     "id": "retort_copper",
     "copy-from": "retort_clay",
     "type": "GENERIC",
-    "name": { "str": "copper retort" },
+    "name": {
+      "str": "copper retort"
+    },
     "description": "This is a primitive distillation tool made from copper, with a long neck that acts as a condenser.",
     "weight": "300 g",
     "material": "copper",
@@ -966,8 +1397,10 @@
   {
     "id": "survivor_mess_kit",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "survivor mess kit" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "survivor mess kit"
+    },
     "description": "A homemade mess kit, containing everything you might need for creating post-apocalyptic cuisine.  Powered by a lamp oil burner, it is composed of simple yet durable tools and materials.",
     "weight": "2160 g",
     "volume": "2500 ml",
@@ -975,21 +1408,46 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "glass" ],
+    "material": [
+      "steel",
+      "glass"
+    ],
     "symbol": ";",
     "color": "brown",
     "ammo": "lamp_oil",
     "sub": "hotplate",
     "max_charges": 800,
     "charges_per_use": 1,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "qualities": [
+      [
+        "COOK",
+        3
+      ],
+      [
+        "BOIL",
+        2
+      ],
+      [
+        "CONTAIN",
+        1
+      ],
+      [
+        "CHEM",
+        1
+      ]
+    ],
+    "use_action": [
+      "HOTPLATE",
+      "HEAT_FOOD"
+    ]
   },
   {
     "id": "teapot",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "teapot" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "teapot"
+    },
     "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
     "weight": "229 g",
     "volume": "500 ml",
@@ -1000,14 +1458,24 @@
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": { "contains": "500 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ]
+    "container_data": {
+      "contains": "500 ml",
+      "watertight": true
+    },
+    "qualities": [
+      [
+        "BOIL",
+        1
+      ]
+    ]
   },
   {
     "id": "vac_sealer",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "vacuum sealer" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "vacuum sealer"
+    },
     "description": "This is a portable heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
     "weight": "2449 g",
     "volume": "1250 ml",
@@ -1015,15 +1483,25 @@
     "price_postapoc": "20 USD",
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
+    "material": [
+      "aluminum",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -1031,8 +1509,10 @@
   {
     "id": "waffleiron",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "waffle iron" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "waffle iron"
+    },
     "description": "A waffle iron.  For making waffles.",
     "weight": "2628 g",
     "volume": "1 L",
@@ -1043,13 +1523,20 @@
     "material": "iron",
     "symbol": ")",
     "color": "dark_gray",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [
+      [
+        "COOK",
+        1
+      ]
+    ]
   },
   {
     "id": "water_purifier",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "water purifier" },
+    "category": "tools_cooking",
+    "name": {
+      "str": "water purifier"
+    },
     "description": "This is a battery-powered device designed to purify drinking water.  Using this item on a container full of water will purify the contents.  It could be useful for water taken from uncertain sources like a river, as it may be non-potable.",
     "weight": "1360 g",
     "volume": "3 L",
@@ -1057,13 +1544,18 @@
     "price_postapoc": "15 USD",
     "to_hit": -3,
     "bashing": 2,
-    "material": [ "plastic", "steel" ],
+    "material": [
+      "plastic",
+      "steel"
+    ],
     "symbol": ";",
     "color": "light_blue",
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ],
     "magazines": [
       [
         "battery",
@@ -1083,12 +1575,17 @@
   {
     "type": "GENERIC",
     "id": "kimchi_hydria",
-    "name": { "str": "kimchi gimjangdok" },
+    "name": {
+      "str": "kimchi gimjangdok"
+    },
     "category": "food",
     "description": "A dok, or clay jar, in which kimchi is stored for the winter.  Traditionally, this is buried in the ground, but it doesn't matter if you leave it above ground; just close the lid and wait for it to ferment, and you'll have delicious kimchi.",
     "weight": "13 kg",
     "volume": "15 L",
-    "material": [ "clay", "veggy" ],
+    "material": [
+      "clay",
+      "veggy"
+    ],
     "price": "10 cent",
     "looks_like": "clay_hydria",
     "color": "brown",
@@ -1104,6 +1601,8 @@
       "msg": "You lift the lid and the smell of tangy, spicy, ripe kimchi makes you salivate.",
       "not_ready_msg": "This kimchi is not done fermenting yet."
     },
-    "flags": [ "SHATTERS" ]
+    "flags": [
+      "SHATTERS"
+    ]
   }
 ]

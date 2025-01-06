@@ -3,18 +3,27 @@
     "id": "adobe_pallet_full",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "pallet of wet adobe bricks", "str_pl": "pallets of wet adobe bricks" },
+    "name": {
+      "str": "pallet of wet adobe bricks",
+      "str_pl": "pallets of wet adobe bricks"
+    },
     "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
     "weight": "35000 g",
     "volume": "12500 ml",
     "price": "1 USD",
     "price_postapoc": "0 cent",
     "to_hit": -2,
-    "material": [ "soil", "wood" ],
+    "material": [
+      "soil",
+      "wood"
+    ],
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "NONCONDUCTIVE",
+      "ALLOWS_REMOTE_USE"
+    ],
     "use_action": {
       "target": "adobe_pallet_done",
       "msg": "You test the bricks, and they're solid enough to use.",
@@ -28,36 +37,55 @@
     "id": "adobe_pallet_done",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "pallet of dry adobe bricks", "str_pl": "pallets of dry adobe bricks" },
+    "name": {
+      "str": "pallet of dry adobe bricks",
+      "str_pl": "pallets of dry adobe bricks"
+    },
     "description": "A pallet of humble mud bricks that have dried out while you were out risking your life.  Disassemble it to retrieve your frame and building supplies.",
     "weight": "30000 g",
     "volume": "12500 ml",
     "price": "400 USD",
     "price_postapoc": "250 cent",
     "to_hit": -3,
-    "material": [ "ceramic", "wood" ],
+    "material": [
+      "ceramic",
+      "wood"
+    ],
     "symbol": "#",
     "color": "brown_yellow",
     "looks_like": "frame_wood_light",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ]
   },
   {
     "id": "clay_pallet_full",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "pallet of wet ceramic", "str_pl": "pallets of wet ceramic" },
+    "name": {
+      "str": "pallet of wet ceramic",
+      "str_pl": "pallets of wet ceramic"
+    },
     "description": "A pallet full of crushed wet ceramic, which needs to dry slowly to be usable.",
     "weight": "35000 g",
     "volume": "12500 ml",
     "price": "1 USD",
     "price_postapoc": "0 cent",
     "to_hit": -2,
-    "material": [ "ceramic", "wood" ],
+    "material": [
+      "ceramic",
+      "wood"
+    ],
     "symbol": "#",
     "color": "brown",
     "looks_like": "frame_wood_light",
-    "flags": [ "NONCONDUCTIVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "NONCONDUCTIVE",
+      "ALLOWS_REMOTE_USE"
+    ],
     "use_action": {
       "target": "clay_pallet_done",
       "msg": "You test the ceramic, and it's the right consistency to use.",
@@ -71,25 +99,37 @@
     "id": "clay_pallet_done",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "pallet of ceramic clay", "str_pl": "pallets of ceramic clay" },
+    "name": {
+      "str": "pallet of ceramic clay",
+      "str_pl": "pallets of ceramic clay"
+    },
     "description": "A pallet of ceramic clay which is now ready to be made into pottery.  Disassemble it to retrieve your sheet, frame and crafting supplies.",
     "weight": "30000 g",
     "volume": "12500 ml",
     "price": "400 USD",
     "price_postapoc": "250 cent",
     "to_hit": -3,
-    "material": [ "freshclay", "wood" ],
+    "material": [
+      "freshclay",
+      "wood"
+    ],
     "symbol": "#",
     "color": "brown_yellow",
     "looks_like": "frame_wood_light",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ]
   },
   {
     "id": "acetylene_machine",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "acetylene-gas machine" },
+    "category": "tools_chemistry",
+    "name": {
+      "str": "acetylene-gas machine"
+    },
     "symbol": "&",
     "color": "light_gray",
     "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
@@ -104,8 +144,10 @@
   {
     "id": "angle_grinder",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "angle grinder" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "angle grinder"
+    },
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
     "weight": "2780 g",
     "volume": "1750 ml",
@@ -114,18 +156,33 @@
     "to_hit": -3,
     "bashing": 2,
     "cutting": 2,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": "/",
     "color": "yellow",
-    "qualities": [ [ "GRIND", 2 ] ],
+    "qualities": [
+      [
+        "GRIND",
+        2
+      ]
+    ],
     "ammo": "battery",
     "charges_per_use": 1,
     "power_draw": 800000,
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [
+      "NONCONDUCTIVE"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -133,8 +190,10 @@
   {
     "id": "brick_kiln",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "brick kiln" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "brick kiln"
+    },
     "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
     "volume": "9 L",
@@ -147,13 +206,18 @@
     "color": "dark_gray",
     "ammo": "charcoal",
     "max_charges": 1000,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "carding_paddles",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "carding paddles", "str_pl": "pairs of carding paddles" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "carding paddles",
+      "str_pl": "pairs of carding paddles"
+    },
     "description": "A pair of toothy wooden paddles used to clean fibers for use in textile production.",
     "weight": "360 g",
     "volume": "500 ml",
@@ -161,15 +225,19 @@
     "price_postapoc": "250 cent",
     "to_hit": 1,
     "bashing": 3,
-    "material": [ "wood" ],
+    "material": [
+      "wood"
+    ],
     "symbol": ";",
     "color": "brown"
   },
   {
     "id": "chipper",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "paint chipper" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "paint chipper"
+    },
     "description": "A tool similar to a chisel, designed to remove paint.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -177,16 +245,23 @@
     "price_postapoc": "1 USD",
     "to_hit": 1,
     "cutting": 2,
-    "material": [ "steel", "wood" ],
+    "material": [
+      "steel",
+      "wood"
+    ],
     "symbol": ";",
     "color": "brown",
-    "flags": [ "BELT_CLIP" ]
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "clamp",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "clamp" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "clamp"
+    },
     "description": "This clamp is useful for keeping things still, especially if you have several of them.",
     "weight": "320 g",
     "volume": "300 ml",
@@ -198,14 +273,24 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "VISE", 1 ] ]
+    "qualities": [
+      [
+        "VISE",
+        1
+      ]
+    ]
   },
   {
     "id": "claw_bar",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "CLUBS", "1H_HOOKED" ],
-    "name": { "str": "claw bar" },
+    "category": "tools_entry",
+    "weapon_category": [
+      "CLUBS",
+      "1H_HOOKED"
+    ],
+    "name": {
+      "str": "claw bar"
+    },
     "description": "This is a small prying tool with a clawed bend at one end for pulling spikes.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "340 g",
     "volume": "375 ml",
@@ -217,15 +302,31 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
-    "use_action": [ "CROWBAR", "HAMMER" ],
-    "flags": [ "BELT_CLIP" ]
+    "qualities": [
+      [
+        "PRY",
+        2
+      ],
+      [
+        "HAMMER",
+        1
+      ]
+    ],
+    "use_action": [
+      "CROWBAR",
+      "HAMMER"
+    ],
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "con_mix",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "concrete mixer" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "concrete mixer"
+    },
     "description": "A portable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also has a heater built in.",
     "weight": "9071 g",
     "volume": "5 L",
@@ -238,12 +339,22 @@
     "color": "dark_gray",
     "ammo": "battery",
     "charges_per_use": 20,
-    "qualities": [ [ "CONTAIN", 1 ] ],
+    "qualities": [
+      [
+        "CONTAIN",
+        1
+      ]
+    ],
     "use_action": "HOTPLATE",
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -251,8 +362,10 @@
   {
     "id": "cordless_drill",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "cordless drill" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "cordless drill"
+    },
     "description": "This is a cordless battery-powered drill with a selection of drill bits.",
     "weight": "2721 g",
     "volume": "750 ml",
@@ -261,15 +374,32 @@
     "to_hit": -2,
     "bashing": 3,
     "cutting": 1,
-    "material": [ "plastic", "steel" ],
+    "material": [
+      "plastic",
+      "steel"
+    ],
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
+    "qualities": [
+      [
+        "DRILL",
+        3
+      ],
+      [
+        "SCREW",
+        1
+      ]
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -277,8 +407,11 @@
   {
     "id": "distaff_spindle",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "distaff and spindle", "str_pl": "distaves and spindles" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "distaff and spindle",
+      "str_pl": "distaves and spindles"
+    },
     "description": "A pair of specialized wooden rods used to spin fibers into thread and yarn.",
     "weight": "612 g",
     "volume": "1500 ml",
@@ -286,16 +419,22 @@
     "price_postapoc": "1 USD",
     "to_hit": 1,
     "bashing": 4,
-    "material": [ "wood" ],
+    "material": [
+      "wood"
+    ],
     "symbol": "/",
     "color": "brown",
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [
+      "WBLOCK_1"
+    ]
   },
   {
     "id": "elec_jackhammer",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "electric jackhammer" },
+    "category": "tools_entry",
+    "name": {
+      "str": "electric jackhammer"
+    },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a rechargeable cell, optionally compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
     "volume": "5 L",
@@ -311,14 +450,26 @@
     "initial_charges": 5000,
     "max_charges": 10000,
     "charges_per_use": 200,
-    "use_action": [ "JACKHAMMER", "TOGGLE_UPS_CHARGING" ],
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
+    "use_action": [
+      "JACKHAMMER",
+      "TOGGLE_UPS_CHARGING"
+    ],
+    "flags": [
+      "STAB",
+      "DIG_TOOL",
+      "POWERED",
+      "RECHARGE",
+      "NO_UNLOAD",
+      "NO_RELOAD"
+    ]
   },
   {
     "id": "hacksaw",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "hacksaw" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "hacksaw"
+    },
     "description": "This is a sturdy saw, useful for cutting through metal objects.",
     "weight": "952 g",
     "volume": "1 L",
@@ -333,16 +484,46 @@
     "use_action": {
       "type": "salvage",
       "moves_per_part": 1000,
-      "material_whitelist": [ "steel", "hardsteel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+      "material_whitelist": [
+        "steel",
+        "hardsteel",
+        "budget_steel",
+        "tin",
+        "silver_small",
+        "gold_small",
+        "copper",
+        "iron"
+      ]
     },
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_W", 1 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -90 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "qualities": [
+      [
+        "SAW_M",
+        2
+      ],
+      [
+        "SAW_W",
+        1
+      ],
+      [
+        "SAW_M_FINE",
+        1
+      ],
+      [
+        "BUTCHER",
+        -90
+      ]
+    ],
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "wire_saw",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "wire saw" },
+    "name": {
+      "str": "wire saw"
+    },
     "description": "This is a flexible saw made from thin wire, with simple handles on either end.  It should suffice for light metal and wood sawing, or for cutting chain-link fences.",
     "weight": "200 g",
     "volume": "100 ml",
@@ -352,12 +533,29 @@
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "chain",
-    "qualities": [ [ "SAW_M", 1 ], [ "SAW_W", 1 ] ],
+    "qualities": [
+      [
+        "SAW_M",
+        1
+      ],
+      [
+        "SAW_W",
+        1
+      ]
+    ],
     "use_action": [
       {
         "type": "salvage",
         "moves_per_part": 2000,
-        "material_whitelist": [ "steel", "budget_steel", "tin", "silver_small", "gold_small", "copper", "iron" ]
+        "material_whitelist": [
+          "steel",
+          "budget_steel",
+          "tin",
+          "silver_small",
+          "gold_small",
+          "copper",
+          "iron"
+        ]
       },
       "HACKSAW"
     ]
@@ -365,9 +563,13 @@
   {
     "id": "hammer",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "1H_HAMMERS" ],
-    "name": { "str": "hammer" },
+    "category": "tools_workshop",
+    "weapon_category": [
+      "1H_HAMMERS"
+    ],
+    "name": {
+      "str": "hammer"
+    },
     "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "weight": "566 g",
     "volume": "350 ml",
@@ -375,29 +577,58 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 9,
-    "material": [ "steel", "wood" ],
+    "material": [
+      "steel",
+      "wood"
+    ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ]
+    "qualities": [
+      [
+        "HAMMER",
+        3
+      ],
+      [
+        "PRY",
+        1
+      ],
+      [
+        "HAMMER_FINE",
+        1
+      ]
+    ],
+    "use_action": [
+      "HAMMER",
+      "CROWBAR"
+    ],
+    "flags": [
+      "BELT_CLIP",
+      "NONCONDUCTIVE"
+    ]
   },
   {
     "id": "hammer_bronze",
     "copy-from": "hammer",
     "type": "GENERIC",
-    "name": { "str": "bronze hammer" },
+    "name": {
+      "str": "bronze hammer"
+    },
     "description": "This is a bronze claw hammer with a wooden grip, commonly used where sparks from a steel hammer might be a safety hazard.  You could board up adjacent doors and windows, among myriad other uses.",
     "weight": "750 g",
     "bashing": 12,
-    "material": [ "bronze", "wood" ],
+    "material": [
+      "bronze",
+      "wood"
+    ],
     "color": "yellow"
   },
   {
     "id": "hand_drill",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "hand drill" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "hand drill"
+    },
     "description": "A primitive manual drill with a single drill bit.  It is slow and it will exhaust you quickly.",
     "weight": "907 g",
     "volume": "250 ml",
@@ -406,16 +637,26 @@
     "to_hit": -3,
     "bashing": 3,
     "cutting": 1,
-    "material": [ "wood", "steel" ],
+    "material": [
+      "wood",
+      "steel"
+    ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "DRILL", 2 ] ]
+    "qualities": [
+      [
+        "DRILL",
+        2
+      ]
+    ]
   },
   {
     "id": "hose",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "rubber hose" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "rubber hose"
+    },
     "description": "This is a flexible rubber hose.  It could be used for crafting, or siphoning fuel from a vehicle.",
     "weight": "544 g",
     "volume": "500 ml",
@@ -423,16 +664,25 @@
     "price_postapoc": "1 USD",
     "to_hit": 3,
     "bashing": 4,
-    "material": [ "rubber" ],
+    "material": [
+      "rubber"
+    ],
     "symbol": ",",
     "color": "green",
-    "qualities": [ [ "HOSE", 1 ] ]
+    "qualities": [
+      [
+        "HOSE",
+        1
+      ]
+    ]
   },
   {
     "id": "jack",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "bottle jack" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "bottle jack"
+    },
     "description": "A portable hydraulic bottle jack used for lifting vehicles.",
     "material": "steel",
     "symbol": ";",
@@ -443,13 +693,20 @@
     "price_postapoc": "5 USD",
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ [ "JACK", 16 ] ]
+    "qualities": [
+      [
+        "JACK",
+        16
+      ]
+    ]
   },
   {
     "id": "jack_makeshift",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "makeshift jack" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "makeshift jack"
+    },
     "description": "A poorly constructed improvised scissor jack used for lifting vehicles if you're brave enough to use it.",
     "material": "steel",
     "symbol": ";",
@@ -460,13 +717,20 @@
     "price_postapoc": "1 USD",
     "bashing": 4,
     "to_hit": -2,
-    "qualities": [ [ "JACK", 3 ] ]
+    "qualities": [
+      [
+        "JACK",
+        3
+      ]
+    ]
   },
   {
     "id": "jack_small",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "scissor jack" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "scissor jack"
+    },
     "description": "A compact scissor jack used for lifting vehicles.",
     "material": "steel",
     "symbol": ";",
@@ -477,13 +741,20 @@
     "price_postapoc": "750 cent",
     "bashing": 4,
     "to_hit": -2,
-    "qualities": [ [ "JACK", 4 ] ]
+    "qualities": [
+      [
+        "JACK",
+        4
+      ]
+    ]
   },
   {
     "id": "jackhammer",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "jackhammer" },
+    "category": "tools_entry",
+    "name": {
+      "str": "jackhammer"
+    },
     "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on gasoline.  Use it (if loaded) to blast a hole in adjacent solid terrain.",
     "weight": "15875 g",
     "volume": "5 L",
@@ -499,13 +770,19 @@
     "max_charges": 400,
     "charges_per_use": 10,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
+    "flags": [
+      "STAB",
+      "DIG_TOOL",
+      "POWERED"
+    ]
   },
   {
     "id": "auger",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "Auger" },
+    "category": "tools_farming",
+    "name": {
+      "str": "Auger"
+    },
     "description": "This is a construction tool for boring holes in ground.  It runs on gasoline.  For health reasons alone, augers are a worthwhile investment.",
     "looks_like": "jackhammer",
     "weight": "9875 g",
@@ -521,14 +798,23 @@
     "ammo": "gasoline",
     "max_charges": 2000,
     "charges_per_use": 20,
-    "qualities": [ [ "DIG", 6 ] ],
-    "flags": [ "POWERED" ]
+    "qualities": [
+      [
+        "DIG",
+        6
+      ]
+    ],
+    "flags": [
+      "POWERED"
+    ]
   },
   {
     "id": "kiln",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "electric kiln" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "electric kiln"
+    },
     "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "12000 g",
     "volume": "7500 ml",
@@ -540,17 +826,29 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ],
     "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+      [
+        "battery",
+        [
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_atomic_battery_cell",
+          "heavy_disposable_cell"
+        ]
+      ]
     ],
     "magazine_well": "1000 ml"
   },
   {
     "id": "large_repairkit",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "gunsmith repair kit" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "gunsmith repair kit"
+    },
     "description": "This is a complete toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 25 charges of battery power per use.",
     "weight": "9860 g",
     "volume": "2500 ml",
@@ -558,39 +856,88 @@
     "price_postapoc": 1500,
     "to_hit": -2,
     "bashing": 8,
-    "material": [ "steel", "aluminum" ],
+    "material": [
+      "steel",
+      "aluminum"
+    ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
     "charges_per_use": 25,
     "qualities": [
-      [ "HAMMER_FINE", 1 ],
-      [ "HAMMER", 3 ],
-      [ "PRY", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "SAW_M", 2 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "WRENCH", 2 ],
-      [ "SCREW_FINE", 1 ],
-      [ "SCREW", 1 ],
-      [ "CHISEL", 3 ]
+      [
+        "HAMMER_FINE",
+        1
+      ],
+      [
+        "HAMMER",
+        3
+      ],
+      [
+        "PRY",
+        1
+      ],
+      [
+        "SAW_M_FINE",
+        1
+      ],
+      [
+        "SAW_M",
+        2
+      ],
+      [
+        "WRENCH_FINE",
+        1
+      ],
+      [
+        "WRENCH",
+        2
+      ],
+      [
+        "SCREW_FINE",
+        1
+      ],
+      [
+        "SCREW",
+        1
+      ],
+      [
+        "CHISEL",
+        3
+      ]
     ],
-    "use_action": [ "GUN_CLEAN", "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [
+      "GUN_CLEAN",
+      "GUN_REPAIR",
+      "CROWBAR",
+      "HAMMER"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "makeshift_hammer",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "1H_HAMMERS" ],
-    "name": { "str": "makeshift hammer" },
+    "category": "tools_workshop",
+    "weapon_category": [
+      "1H_HAMMERS"
+    ],
+    "name": {
+      "str": "makeshift hammer"
+    },
     "description": "This is a crude hammer made from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
     "volume": "350 ml",
@@ -598,18 +945,35 @@
     "price_postapoc": "10 cent",
     "bashing": 9,
     "to_hit": -1,
-    "material": [ "steel", "wood" ],
+    "material": [
+      "steel",
+      "wood"
+    ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [
+      [
+        "HAMMER",
+        2
+      ],
+      [
+        "HAMMER_FINE",
+        1
+      ]
+    ],
     "use_action": "HAMMER",
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
+    "flags": [
+      "NONCONDUCTIVE",
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "metal_file",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "metal fileset" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "metal fileset"
+    },
     "description": "These tools are commonly used to remove small amounts of materials from the surface of metal objects.",
     "weight": "76 g",
     "volume": "250 ml",
@@ -621,13 +985,20 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "FILE", 2 ] ]
+    "qualities": [
+      [
+        "FILE",
+        2
+      ]
+    ]
   },
   {
     "id": "metal_smoother",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "metallic smoother" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "metallic smoother"
+    },
     "description": "This metallic tool is most often used to smooth concrete, or mortar, in construction projects.",
     "weight": "362 g",
     "volume": "400 ml",
@@ -637,13 +1008,20 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "qualities": [ [ "SMOOTH", 2 ] ]
+    "qualities": [
+      [
+        "SMOOTH",
+        2
+      ]
+    ]
   },
   {
     "id": "misc_repairkit",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "misc repair kit" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "misc repair kit"
+    },
     "description": "This is a portable toolkit, consisting of a small carving knife for precise carving of replacement parts from raw materials, a wood saw for more heavy-duty wood cutting, and a patch of soft material for cleaning surfaces.  If supplied with duct tape, it can be used to repair certain items.",
     "weight": "386 g",
     "volume": "1500 ml",
@@ -651,62 +1029,128 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 2,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "tape",
     "max_charges": 200,
     "charges_per_use": 5,
-    "qualities": [ [ "CUT", 1 ], [ "AXE", 2 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
+    "qualities": [
+      [
+        "CUT",
+        1
+      ],
+      [
+        "AXE",
+        2
+      ],
+      [
+        "SAW_W",
+        2
+      ],
+      [
+        "BUTCHER",
+        -90
+      ]
+    ],
     "use_action": [
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "acidchitin", "bone", "bone_heavy", "chitin", "paper", "dry_plant", "cardboard", "wood", "kevlar_rigid", "scute" ],
+        "materials": [
+          "acidchitin",
+          "bone",
+          "bone_heavy",
+          "chitin",
+          "paper",
+          "dry_plant",
+          "cardboard",
+          "wood",
+          "kevlar_rigid",
+          "scute"
+        ],
         "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "misc_repairkit_makeshift",
     "looks_like": "misc_repairkit",
     "type": "TOOL",
-    "name": { "str": "makeshift repair kit" },
+    "name": {
+      "str": "makeshift repair kit"
+    },
     "description": "This is a portable toolkit, consisting of a primitive knife for carving replacement parts, an adze for more heavy-duty wood cutting, and a patch of soft material for cleaning surfaces.  It can be used to repair certain items if supplied with pitch, though it isn't ideal for complex work.",
     "weight": "1800 g",
     "volume": "1500 ml",
     "price": "10 USD",
     "to_hit": -1,
     "bashing": 2,
-    "material": [ "stone", "wood" ],
+    "material": [
+      "stone",
+      "wood"
+    ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "pitch_wood",
     "max_charges": 60,
     "charges_per_use": 1,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ], [ "SAW_W", 1 ] ],
+    "qualities": [
+      [
+        "CUT",
+        1
+      ],
+      [
+        "BUTCHER",
+        11
+      ],
+      [
+        "SAW_W",
+        1
+      ]
+    ],
     "use_action": [
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "acidchitin", "bone", "bone_heavy", "chitin", "paper", "dry_plant", "cardboard", "wood", "kevlar_rigid", "scute" ],
+        "materials": [
+          "acidchitin",
+          "bone",
+          "bone_heavy",
+          "chitin",
+          "paper",
+          "dry_plant",
+          "cardboard",
+          "wood",
+          "kevlar_rigid",
+          "scute"
+        ],
         "skill": "fabrication",
         "tool_quality": 4,
         "cost_scaling": 0.1,
         "move_cost": 2000
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "mold_plastic",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "plastic mold" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "plastic mold"
+    },
     "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
     "weight": "320 g",
     "volume": "2500 ml",
@@ -717,13 +1161,20 @@
     "material": "plastic",
     "symbol": ";",
     "color": "light_blue",
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [
+      [
+        "CONTAIN",
+        1
+      ]
+    ]
   },
   {
     "id": "multitool",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "multi-tool" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "multi-tool"
+    },
     "//": "The multi-tool is a bit more of a toolkit than a knife.",
     "description": "A cleverly designed all-in-one tool which combines several smaller tools into the handles of a pair of pliers.",
     "weight": "250 g",
@@ -736,51 +1187,115 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "WRENCH", 1 ], [ "SCREW", 1 ], [ "SCREW_FINE", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "qualities": [
+      [
+        "CUT",
+        1
+      ],
+      [
+        "SAW_W",
+        1
+      ],
+      [
+        "SAW_M",
+        1
+      ],
+      [
+        "WRENCH",
+        1
+      ],
+      [
+        "SCREW",
+        1
+      ],
+      [
+        "SCREW_FINE",
+        1
+      ],
+      [
+        "BUTCHER",
+        7
+      ]
+    ],
+    "flags": [
+      "STAB",
+      "SHEATH_KNIFE"
+    ]
   },
   {
     "id": "oxy_torch",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "acetylene torch", "str_pl": "acetylene torches" },
+    "category": "tools_entry",
+    "name": {
+      "str": "acetylene torch",
+      "str_pl": "acetylene torches"
+    },
     "description": "A compact tool kit intended for welding and cutting metal, this portable oxyacetylene torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It requires connecting to pressurized cylinders of an appropriate welding gas before use.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
     "weight": "1600 g",
     "volume": "1 L",
     "price": "200 USD",
     "price_postapoc": "750 cent",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "red",
     "ammo": "weldgas",
     "charges_per_use": 4,
     "use_action": "OXYTORCH",
-    "qualities": [ [ "WELD", 2 ] ],
-    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "qualities": [
+      [
+        "WELD",
+        2
+      ]
+    ],
+    "magazines": [
+      [
+        "weldgas",
+        [
+          "weldtank",
+          "tinyweldtank"
+        ]
+      ]
+    ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "paint_brush",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "paint brush", "str_pl": "paint brushes" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "paint brush",
+      "str_pl": "paint brushes"
+    },
     "description": "A wide brush, suitable for painting walls.",
     "weight": "60 g",
     "volume": "350 ml",
     "price": "70 USD",
     "price_postapoc": "10 cent",
     "to_hit": 1,
-    "material": [ "wood" ],
+    "material": [
+      "wood"
+    ],
     "symbol": ";",
     "color": "brown",
-    "flags": [ "BELT_CLIP" ]
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "pickaxe",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "HOOKED_POLES" ],
-    "name": { "str": "pickaxe" },
+    "category": "tools_entry",
+    "weapon_category": [
+      "HOOKED_POLES"
+    ],
+    "name": {
+      "str": "pickaxe"
+    },
     "description": "This is a large steel pickaxe, suitable for breaking up hard things or (with enough skill) hard targets.  Strike the earth!",
     "weight": "4535 g",
     "volume": "3 L",
@@ -789,18 +1304,31 @@
     "to_hit": -2,
     "bashing": 20,
     "cutting": 12,
-    "material": [ "wood", "steel" ],
+    "material": [
+      "wood",
+      "steel"
+    ],
     "symbol": "/",
     "color": "dark_gray",
     "use_action": "PICKAXE",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ]
+    "techniques": [
+      "WBLOCK_1"
+    ],
+    "flags": [
+      "STAB",
+      "DURABLE_MELEE",
+      "NONCONDUCTIVE",
+      "DIG_TOOL",
+      "SHEATH_AXE"
+    ]
   },
   {
     "id": "pin_reamer",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "pin reamer" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "pin reamer"
+    },
     "description": "Handheld pin reamers of this kind are used to enlarge existing holes, or remove any burs and such from them.",
     "weight": "76 g",
     "volume": "250 ml",
@@ -812,13 +1340,20 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "REAM", 2 ] ]
+    "qualities": [
+      [
+        "REAM",
+        2
+      ]
+    ]
   },
   {
     "id": "pliers",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str_sp": "pliers" },
+    "category": "tools_workshop",
+    "name": {
+      "str_sp": "pliers"
+    },
     "description": "This is a basic pair of slip-joint pliers, able to handle basic mechanical work and pulling apart some ammunition cartridges.  Anything too complex will require a wrench.",
     "weight": "807 g",
     "volume": "250 ml",
@@ -828,14 +1363,27 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 1 ], [ "PULL", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "qualities": [
+      [
+        "WRENCH",
+        1
+      ],
+      [
+        "PULL",
+        1
+      ]
+    ],
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "polisher",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "electric polisher" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "electric polisher"
+    },
     "description": "An electric polisher which can be used to buff metal surfaces until they are reflective like a mirror.",
     "weight": "1000 g",
     "volume": "3500 ml",
@@ -844,11 +1392,16 @@
     "to_hit": -2,
     "bashing": 6,
     "cutting": 2,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [
+      "TRADER_AVOID"
+    ],
     "magazines": [
       [
         "battery",
@@ -869,8 +1422,12 @@
     "id": "primitive_hammer",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "1H_HAMMERS" ],
-    "name": { "str": "stone hammer" },
+    "weapon_category": [
+      "1H_HAMMERS"
+    ],
+    "name": {
+      "str": "stone hammer"
+    },
     "description": "This is a rock affixed to a stick, in the crude facsimile of a hammer.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
     "volume": "400 ml",
@@ -878,19 +1435,37 @@
     "price_postapoc": "10 cent",
     "bashing": 14,
     "to_hit": -1,
-    "material": [ "stone", "wood" ],
+    "material": [
+      "stone",
+      "wood"
+    ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ] ],
+    "qualities": [
+      [
+        "HAMMER",
+        2
+      ],
+      [
+        "HAMMER_FINE",
+        1
+      ]
+    ],
     "use_action": "HAMMER",
-    "flags": [ "BELT_CLIP" ]
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "screwdriver",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "STILETTOS" ],
-    "name": { "str": "screwdriver" },
+    "category": "tools_workshop",
+    "weapon_category": [
+      "STILETTOS"
+    ],
+    "name": {
+      "str": "screwdriver"
+    },
     "description": "This is a Philips-head screwdriver.  It is important for almost all electronics crafting, most mechanics crafting, and has many more uses.",
     "weight": "170 g",
     "volume": "40 ml",
@@ -899,17 +1474,30 @@
     "to_hit": -1,
     "bashing": 2,
     "cutting": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "SCREW", 1 ] ],
-    "flags": [ "STAB", "BELT_CLIP" ]
+    "qualities": [
+      [
+        "SCREW",
+        1
+      ]
+    ],
+    "flags": [
+      "STAB",
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "screwdriver_set",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "screwdriver set" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "screwdriver set"
+    },
     "description": "This is a set of screwdrivers in several sizes and blade types.  Guaranteed to have the right tools for more precise work.",
     "weight": "340 g",
     "volume": "500 ml",
@@ -918,17 +1506,33 @@
     "to_hit": -1,
     "bashing": 2,
     "cutting": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "SCREW", 1 ], [ "SCREW_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "qualities": [
+      [
+        "SCREW",
+        1
+      ],
+      [
+        "SCREW_FINE",
+        1
+      ]
+    ],
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "small_repairkit",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "firearm repair kit" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "firearm repair kit"
+    },
     "description": "This is a portable toolkit made to repair damaged firearms.  Powered by standard batteries, it is a vital tool for long-term firearms maintenance.  It requires 100 charges of battery power per use.",
     "weight": "2420 g",
     "volume": "1500 ml",
@@ -936,40 +1540,92 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 100,
     "qualities": [
-      [ "HAMMER_FINE", 1 ],
-      [ "HAMMER", 3 ],
-      [ "PRY", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_W", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "WRENCH", 2 ],
-      [ "SCREW_FINE", 1 ],
-      [ "SCREW", 1 ],
-      [ "CHISEL", 3 ]
+      [
+        "HAMMER_FINE",
+        1
+      ],
+      [
+        "HAMMER",
+        3
+      ],
+      [
+        "PRY",
+        1
+      ],
+      [
+        "SAW_M_FINE",
+        1
+      ],
+      [
+        "SAW_M",
+        2
+      ],
+      [
+        "SAW_W",
+        1
+      ],
+      [
+        "WRENCH_FINE",
+        1
+      ],
+      [
+        "WRENCH",
+        2
+      ],
+      [
+        "SCREW_FINE",
+        1
+      ],
+      [
+        "SCREW",
+        1
+      ],
+      [
+        "CHISEL",
+        3
+      ]
     ],
-    "use_action": [ "GUN_CLEAN", "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [
+      "GUN_CLEAN",
+      "GUN_REPAIR",
+      "CROWBAR",
+      "HAMMER"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "soldering_iron",
     "type": "TOOL",
-    "category": "tools",
-    "weapon_category": [ "STILETTOS" ],
-    "name": { "str": "electric soldering iron" },
+    "category": "tools_workshop",
+    "weapon_category": [
+      "STILETTOS"
+    ],
+    "name": {
+      "str": "electric soldering iron"
+    },
     "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  You could also use it to cauterize wounds, if you had to.",
     "weight": "181 g",
     "volume": "250 ml",
@@ -986,14 +1642,26 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "materials": [
+          "plastic",
+          "lead",
+          "tin",
+          "zinc"
+        ],
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
-      { "flame": false, "type": "cauterize" }
+      {
+        "flame": false,
+        "type": "cauterize"
+      }
     ],
-    "flags": [ "STAB", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "STAB",
+      "BELT_CLIP",
+      "ALLOWS_REMOTE_USE"
+    ],
     "magazines": [
       [
         "battery",
@@ -1015,7 +1683,9 @@
     "looks_like": "soldering_iron",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "alcohol-fueled soldering iron" },
+    "name": {
+      "str": "alcohol-fueled soldering iron"
+    },
     "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  A metal tip is hold over the burner to create enough heat to solder.  Not as sophisticated as a regular soldering iron.",
     "weight": "1000 g",
     "volume": "600 ml",
@@ -1033,20 +1703,33 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "materials": [
+          "plastic",
+          "lead",
+          "tin",
+          "zinc"
+        ],
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
-      { "flame": false, "type": "cauterize" }
+      {
+        "flame": false,
+        "type": "cauterize"
+      }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ]
   },
   {
     "id": "toolbox",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "toolbox", "str_pl": "toolboxes" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "toolbox",
+      "str_pl": "toolboxes"
+    },
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.",
     "weight": "3522 g",
     "volume": "2500 ml",
@@ -1058,19 +1741,58 @@
     "symbol": ";",
     "color": "red",
     "qualities": [
-      [ "CUT", 1 ],
-      [ "HAMMER", 3 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_W", 2 ],
-      [ "AXE", 2 ],
-      [ "WRENCH", 2 ],
-      [ "SCREW", 1 ],
-      [ "PRY", 1 ],
-      [ "HAMMER_FINE", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW_FINE", 1 ],
-      [ "BUTCHER", 11 ]
+      [
+        "CUT",
+        1
+      ],
+      [
+        "HAMMER",
+        3
+      ],
+      [
+        "SAW_M",
+        2
+      ],
+      [
+        "SAW_W",
+        2
+      ],
+      [
+        "AXE",
+        2
+      ],
+      [
+        "WRENCH",
+        2
+      ],
+      [
+        "SCREW",
+        1
+      ],
+      [
+        "PRY",
+        1
+      ],
+      [
+        "HAMMER_FINE",
+        1
+      ],
+      [
+        "SAW_M_FINE",
+        1
+      ],
+      [
+        "WRENCH_FINE",
+        1
+      ],
+      [
+        "SCREW_FINE",
+        1
+      ],
+      [
+        "BUTCHER",
+        11
+      ]
     ],
     "use_action": [
       "HAMMER",
@@ -1111,8 +1833,11 @@
   {
     "id": "toolbox_workshop",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "workshop toolbox",
+      "str_pl": "workshop toolboxes"
+    },
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities, as well as additional tools used in workshops for advanced fabrication jobs.",
     "looks_like": "toolbox",
     "weight": "3994 g",
@@ -1125,22 +1850,70 @@
     "symbol": ";",
     "color": "red",
     "qualities": [
-      [ "CUT", 1 ],
-      [ "HAMMER", 3 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_W", 2 ],
-      [ "AXE", 2 ],
-      [ "WRENCH", 2 ],
-      [ "SCREW", 1 ],
-      [ "PRY", 1 ],
-      [ "HAMMER_FINE", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW_FINE", 1 ],
-      [ "BUTCHER", 11 ],
-      [ "FILE", 2 ],
-      [ "REAM", 1 ],
-      [ "VISE", 1 ]
+      [
+        "CUT",
+        1
+      ],
+      [
+        "HAMMER",
+        3
+      ],
+      [
+        "SAW_M",
+        2
+      ],
+      [
+        "SAW_W",
+        2
+      ],
+      [
+        "AXE",
+        2
+      ],
+      [
+        "WRENCH",
+        2
+      ],
+      [
+        "SCREW",
+        1
+      ],
+      [
+        "PRY",
+        1
+      ],
+      [
+        "HAMMER_FINE",
+        1
+      ],
+      [
+        "SAW_M_FINE",
+        1
+      ],
+      [
+        "WRENCH_FINE",
+        1
+      ],
+      [
+        "SCREW_FINE",
+        1
+      ],
+      [
+        "BUTCHER",
+        11
+      ],
+      [
+        "FILE",
+        2
+      ],
+      [
+        "REAM",
+        1
+      ],
+      [
+        "VISE",
+        1
+      ]
     ],
     "use_action": [
       "HAMMER",
@@ -1182,14 +1955,21 @@
     "id": "toolset_extended",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "extended toolset" },
+    "name": {
+      "str": "extended toolset"
+    },
     "description": "Your toolset, protruding from your hands.  It can slice, dice, and make everything nice.",
     "symbol": "#",
     "color": "white",
     "weight": "226 g",
     "bashing": 3,
     "cutting": 5,
-    "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
+    "flags": [
+      "NO_UNWIELD",
+      "UNBREAKABLE_MELEE",
+      "TRADER_AVOID",
+      "USES_BIONIC_POWER"
+    ],
     "max_charges": 1000,
     "//": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
     "charges_per_use": 1,
@@ -1199,7 +1979,19 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "budget_steel", "hardsteel", "aluminum", "copper", "silver", "gold", "glass" ],
+        "materials": [
+          "kevlar",
+          "plastic",
+          "iron",
+          "steel",
+          "budget_steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "silver",
+          "gold",
+          "glass"
+        ],
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1000
@@ -1235,31 +2027,81 @@
           "wool"
         ]
       },
-      { "flame": false, "type": "cauterize" }
+      {
+        "flame": false,
+        "type": "cauterize"
+      }
     ],
     "qualities": [
-      [ "HAMMER", 3 ],
-      [ "HAMMER_FINE", 1 ],
-      [ "SAW_W", 1 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 2 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW", 1 ],
-      [ "SCREW_FINE", 1 ],
-      [ "CUT", 2 ],
-      [ "PRY", 1 ],
-      [ "DRILL", 3 ],
-      [ "BUTCHER", -38 ],
-      [ "FILE", 2 ],
-      [ "REAM", 1 ]
+      [
+        "HAMMER",
+        3
+      ],
+      [
+        "HAMMER_FINE",
+        1
+      ],
+      [
+        "SAW_W",
+        1
+      ],
+      [
+        "SAW_M",
+        2
+      ],
+      [
+        "SAW_M_FINE",
+        1
+      ],
+      [
+        "WRENCH",
+        2
+      ],
+      [
+        "WRENCH_FINE",
+        1
+      ],
+      [
+        "SCREW",
+        1
+      ],
+      [
+        "SCREW_FINE",
+        1
+      ],
+      [
+        "CUT",
+        2
+      ],
+      [
+        "PRY",
+        1
+      ],
+      [
+        "DRILL",
+        3
+      ],
+      [
+        "BUTCHER",
+        -38
+      ],
+      [
+        "FILE",
+        2
+      ],
+      [
+        "REAM",
+        1
+      ]
     ]
   },
   {
     "id": "welder",
     "type": "TOOL",
-    "category": "tools",
-    "name": { "str": "arc welder" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "arc welder"
+    },
     "description": "This is a battery powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
     "weight": "4200 g",
     "volume": "2500 ml",
@@ -1272,7 +2114,12 @@
     "color": "red",
     "ammo": "battery",
     "charges_per_use": 5,
-    "qualities": [ [ "WELD", 2 ] ],
+    "qualities": [
+      [
+        "WELD",
+        2
+      ]
+    ],
     "use_action": [
       {
         "type": "repair_item",
@@ -1297,11 +2144,18 @@
         "move_cost": 500
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [
+      "ALLOWS_REMOTE_USE"
+    ],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -1309,9 +2163,13 @@
   {
     "id": "wood_smoother",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "CLUBS" ],
-    "name": { "str": "wooden smoother" },
+    "category": "tools_workshop",
+    "weapon_category": [
+      "CLUBS"
+    ],
+    "name": {
+      "str": "wooden smoother"
+    },
     "description": "This large makeshift tool is used in smoothing concrete or mortar in construction projects.  You could also use it as an improvised head-basher.",
     "weight": "2000 g",
     "volume": "3500 ml",
@@ -1322,30 +2180,46 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "SMOOTH", 1 ] ]
+    "qualities": [
+      [
+        "SMOOTH",
+        1
+      ]
+    ]
   },
   {
     "id": "wool_staple",
     "type": "GENERIC",
-    "category": "spare_parts",
-    "name": { "str": "wool staple" },
+    "category": "scrap_fabric",
+    "name": {
+      "str": "wool staple"
+    },
     "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
     "weight": "200 g",
     "volume": "500 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
     "to_hit": -4,
-    "material": [ "wool" ],
+    "material": [
+      "wool"
+    ],
     "symbol": ",",
     "color": "white",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [
+      "NO_SALVAGE"
+    ]
   },
   {
     "id": "xacto",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "KNIVES" ],
-    "name": { "str": "X-Acto knife", "str_pl": "X-Acto knives" },
+    "category": "tools_workshop",
+    "weapon_category": [
+      "KNIVES"
+    ],
+    "name": {
+      "str": "X-Acto knife",
+      "str_pl": "X-Acto knives"
+    },
     "description": "This is a small, sharp knife, designed for making precise cuts for textiles or crafts.  It could cause decent damage, but is difficult to hit things with it.  Its small, sharp blade allows for precision strikes in the hands of the skilled.  It is too small to butcher corpses with.",
     "weight": "23 g",
     "volume": "20 ml",
@@ -1353,19 +2227,41 @@
     "price_postapoc": "1 USD",
     "to_hit": -3,
     "cutting": 6,
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "symbol": ";",
     "color": "light_gray",
-    "techniques": [ "PRECISE" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "techniques": [
+      "PRECISE"
+    ],
+    "qualities": [
+      [
+        "CUT",
+        1
+      ],
+      [
+        "CUT_FINE",
+        2
+      ]
+    ],
+    "flags": [
+      "STAB",
+      "SHEATH_KNIFE"
+    ]
   },
   {
     "id": "wrench",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "BATONS" ],
-    "name": { "str": "wrench", "str_pl": "wrenches" },
+    "category": "tools_workshop",
+    "weapon_category": [
+      "BATONS"
+    ],
+    "name": {
+      "str": "wrench",
+      "str_pl": "wrenches"
+    },
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "weight": "907 g",
     "volume": "450 ml",
@@ -1375,13 +2271,24 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "qualities": [
+      [
+        "WRENCH",
+        2
+      ],
+      [
+        "WRENCH_FINE",
+        1
+      ]
+    ],
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "makeshift_hose",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": "leather hose",
     "description": "This is a hose made out of leather.  Watertight and flexiable, it can be used to siphon fuel from a vehicle tank.  However, it's not as elastic a rubber hose.",
     "weight": "600 g",
@@ -1391,13 +2298,20 @@
     "material": "leather",
     "symbol": ",",
     "color": "green",
-    "qualities": [ [ "HOSE", 1 ] ]
+    "qualities": [
+      [
+        "HOSE",
+        1
+      ]
+    ]
   },
   {
     "id": "makeshift_hand_drill",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "makeshift hand drill" },
+    "category": "tools_workshop",
+    "name": {
+      "str": "makeshift hand drill"
+    },
     "description": "This is a makeshift manual drill made out of pipe and improvised drill bit.  It is very slow and it will exhaust you quickly.",
     "weight": "1354 g",
     "volume": "1 L",
@@ -1406,10 +2320,18 @@
     "to_hit": -3,
     "bashing": 4,
     "cutting": 1,
-    "material": [ "wood", "steel" ],
+    "material": [
+      "wood",
+      "steel"
+    ],
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "hand_drill",
-    "qualities": [ [ "DRILL", 1 ] ]
+    "qualities": [
+      [
+        "DRILL",
+        1
+      ]
+    ]
   }
 ]

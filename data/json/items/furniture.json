@@ -25,7 +25,8 @@
     "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "{",
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "category": "scrap_electronics"
   },
   {
     "id": "freezer",
@@ -39,7 +40,8 @@
     "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "{",
-    "color": "blue"
+    "color": "blue",
+    "category": "scrap_electronics"
   },
   {
     "id": "glass_fridge",
@@ -52,9 +54,13 @@
     "volume": "260000 ml",
     "price": "750 USD",
     "price_postapoc": "5 USD",
-    "material": [ "steel", "glass" ],
+    "material": [
+      "steel",
+      "glass"
+    ],
     "symbol": "{",
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "category": "scrap_electronics"
   },
   {
     "id": "glass_freezer",
@@ -66,9 +72,13 @@
     "volume": "260000 ml",
     "price": "1250 USD",
     "price_postapoc": "5 USD",
-    "material": [ "steel", "glass" ],
+    "material": [
+      "steel",
+      "glass"
+    ],
     "symbol": "{",
-    "color": "blue"
+    "color": "blue",
+    "category": "scrap_electronics"
   },
   {
     "id": "oven",
@@ -82,7 +92,8 @@
     "price_postapoc": "5 USD",
     "material": "steel",
     "symbol": "#",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "category": "scrap_electronics"
   },
   {
     "id": "plut_generator_item",
@@ -96,6 +107,7 @@
     "price_postapoc": "100 USD",
     "material": "steel",
     "symbol": "0",
-    "color": "light_green"
+    "color": "light_green",
+    "category": "scrap_electronics"
   }
 ]

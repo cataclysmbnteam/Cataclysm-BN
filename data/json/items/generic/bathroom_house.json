@@ -1,7 +1,9 @@
 [
   {
     "id": "base_toiletries",
-    "name": { "str": "generic grooming" },
+    "name": {
+      "str": "generic grooming"
+    },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": "+",
@@ -16,7 +18,9 @@
   },
   {
     "id": "razor_shaving",
-    "name": { "str": "shaving razor" },
+    "name": {
+      "str": "shaving razor"
+    },
     "type": "GENERIC",
     "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.  Could also be used for some basic fine cutting tasks.",
     "symbol": "t",
@@ -25,53 +29,102 @@
     "price_postapoc": "150 cent",
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.",
     "weight": "110 g",
-    "material": [ "plastic", "steel" ],
+    "material": [
+      "plastic",
+      "steel"
+    ],
     "cutting": 2,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
+    "qualities": [
+      [
+        "CUT",
+        1
+      ],
+      [
+        "CUT_FINE",
+        1
+      ]
+    ],
+    "category": "scrap_plastic"
   },
   {
     "id": "hairbrush",
-    "name": { "str": "hairbrush", "str_pl": "hairbrushes" },
+    "name": {
+      "str": "hairbrush",
+      "str_pl": "hairbrushes"
+    },
     "type": "GENERIC",
     "description": "An instrument of hair torture.",
     "symbol": "/",
     "copy-from": "base_toiletries",
     "snippet_category": [
-      { "id": "hbrush1", "text": "An instrument of hair torture.  There are round safety tips on the bristles." },
-      { "id": "hbrush2", "text": "An old-fashioned hair-straightening device with a faux-wood handle." },
-      { "id": "hbrush3", "text": "A soft, cushioned hairbrush.  The shiny chrome design appears modern." },
-      { "id": "hbrush4", "text": "A tacky kid's hairbrush.  The cartoon whale on the handle seems friendly enough." }
-    ]
+      {
+        "id": "hbrush1",
+        "text": "An instrument of hair torture.  There are round safety tips on the bristles."
+      },
+      {
+        "id": "hbrush2",
+        "text": "An old-fashioned hair-straightening device with a faux-wood handle."
+      },
+      {
+        "id": "hbrush3",
+        "text": "A soft, cushioned hairbrush.  The shiny chrome design appears modern."
+      },
+      {
+        "id": "hbrush4",
+        "text": "A tacky kid's hairbrush.  The cartoon whale on the handle seems friendly enough."
+      }
+    ],
+    "category": "scrap_plastic"
   },
   {
     "id": "string_floss",
-    "name": { "str": "dental floss", "str_pl": "rolls of dental floss" },
+    "name": {
+      "str": "dental floss",
+      "str_pl": "rolls of dental floss"
+    },
     "type": "GENERIC",
     "description": "Twenty-five yards of finely waxed thread wound up inside a plastic container.  Perfect for picking bits of smoked meat out of your teeth.  Disassemble to use the thread for something else.",
     "copy-from": "base_toiletries",
     "symbol": "~",
-    "material": [ "plastic", "cotton" ]
+    "material": [
+      "plastic",
+      "cotton"
+    ]
   },
   {
     "id": "comb_pocket",
-    "name": { "str": "comb" },
+    "name": {
+      "str": "comb"
+    },
     "type": "GENERIC",
     "description": "A grooming tool with teeth for straightening your hair.",
     "symbol": "/",
     "copy-from": "base_toiletries",
     "snippet_category": [
-      { "id": "pcomb1", "text": "Somehow, a few teeth have already broken off the end of this otherwise pristine comb." },
+      {
+        "id": "pcomb1",
+        "text": "Somehow, a few teeth have already broken off the end of this otherwise pristine comb."
+      },
       {
         "id": "pcomb2",
         "text": "A grooming tool with teeth for straightening your hair.  This one is narrow, black and austere."
       },
-      { "id": "pcomb3", "text": "A comb made of soft plastic.  Its tortoiseshell pattern makes it seem antique." },
-      { "id": "pcomb4", "text": "A comb which folds on a hinge, in case you want to look like a greaser." }
-    ]
+      {
+        "id": "pcomb3",
+        "text": "A comb made of soft plastic.  Its tortoiseshell pattern makes it seem antique."
+      },
+      {
+        "id": "pcomb4",
+        "text": "A comb which folds on a hinge, in case you want to look like a greaser."
+      }
+    ],
+    "category": "scrap_plastic"
   },
   {
     "id": "hair_dryer",
-    "name": { "str": "hair dryer" },
+    "name": {
+      "str": "hair dryer"
+    },
     "type": "GENERIC",
     "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a functioning power grid, it is a motorized paper weight.",
     "symbol": "(",
@@ -80,13 +133,19 @@
     "price_postapoc": "0 cent",
     "volume": "500 ml",
     "weight": "680 g",
-    "material": [ "plastic", "steel" ],
+    "material": [
+      "plastic",
+      "steel"
+    ],
     "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "category": "scrap_electronics"
   },
   {
     "id": "curling_iron",
-    "name": { "str": "curling iron" },
+    "name": {
+      "str": "curling iron"
+    },
     "type": "GENERIC",
     "description": "A wand made of heat-resistant ceramics.  When plugged into an outlet, it is hot enough to shape your hair into curls.  Too bad the power's out.",
     "symbol": "/",
@@ -95,8 +154,12 @@
     "price_postapoc": "0 cent",
     "volume": "250 ml",
     "weight": "590 g",
-    "material": [ "ceramic", "steel" ],
+    "material": [
+      "ceramic",
+      "steel"
+    ],
     "bashing": 3,
-    "to_hit": 1
+    "to_hit": 1,
+    "category": "scrap_electronics"
   }
 ]

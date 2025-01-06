@@ -2,9 +2,14 @@
   {
     "id": "crowbar",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "CLUBS", "1H_HOOKED" ],
-    "name": { "str": "crowbar" },
+    "category": "tools_entry",
+    "weapon_category": [
+      "CLUBS",
+      "1H_HOOKED"
+    ],
+    "name": {
+      "str": "crowbar"
+    },
     "description": "This is a hefty prying tool.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "1200 g",
     "volume": "500 ml",
@@ -16,17 +21,35 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELT_CLIP" ]
+    "qualities": [
+      [
+        "PRY",
+        3
+      ],
+      [
+        "HAMMER",
+        1
+      ]
+    ],
+    "use_action": [
+      "HAMMER",
+      "CROWBAR"
+    ],
+    "techniques": [
+      "WBLOCK_1"
+    ],
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "hairpin_picklock",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_entry",
     "looks_like": "hairpin",
-    "name": { "str": "hairpin lockpick" },
+    "name": {
+      "str": "hairpin lockpick"
+    },
     "description": "This is a metal hairpin bent into shape by hand, worse than an improvised set but easier to work with than a bone skewer.  You need MacGyver-like skills to open locks with this as it is brittle, but it lowers the chance of an alarm being set off.  If you're crouched, examining a locked door will have you prioritize picking the lock instead of using a crowbar on it.",
     "weight": "2 g",
     "volume": "2 ml",
@@ -35,13 +58,20 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "LOCKPICK", 2 ] ]
+    "qualities": [
+      [
+        "LOCKPICK",
+        2
+      ]
+    ]
   },
   {
     "id": "crude_picklock",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "improvised lockpick" },
+    "category": "tools_entry",
+    "name": {
+      "str": "improvised lockpick"
+    },
     "description": "This is an improvised set of picks and torsion wrenches made from scrap metal.  You need MacGyver-like skills to open locks with these as they are brittle, but they lower the chances of alarms being set off.  If you're crouched, examining a locked door will have you prioritize picking the lock instead of using a crowbar on it.",
     "weight": "23 g",
     "volume": "5 ml",
@@ -50,14 +80,23 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "qualities": [
+      [
+        "LOCKPICK",
+        3
+      ]
+    ]
   },
   {
     "id": "iceaxe",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "HAND_AXES" ],
-    "name": { "str": "ice axe" },
+    "category": "tools_entry",
+    "weapon_category": [
+      "HAND_AXES"
+    ],
+    "name": {
+      "str": "ice axe"
+    },
     "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough to pry open closed doors or lift manhole covers.",
     "weight": "500 g",
     "volume": "750 ml",
@@ -68,17 +107,42 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRY", 2 ] ],
+    "techniques": [
+      "WBLOCK_1"
+    ],
+    "qualities": [
+      [
+        "HAMMER",
+        2
+      ],
+      [
+        "HAMMER_FINE",
+        1
+      ],
+      [
+        "PRY",
+        2
+      ]
+    ],
     "use_action": "CROWBAR",
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "STAB", "SHEATH_AXE" ]
+    "flags": [
+      "DURABLE_MELEE",
+      "BELT_CLIP",
+      "STAB",
+      "SHEATH_AXE"
+    ]
   },
   {
     "id": "makeshift_crowbar",
     "type": "GENERIC",
-    "category": "tools",
-    "weapon_category": [ "CLUBS", "1H_HOOKED" ],
-    "name": { "str": "makeshift crowbar" },
+    "category": "tools_entry",
+    "weapon_category": [
+      "CLUBS",
+      "1H_HOOKED"
+    ],
+    "name": {
+      "str": "makeshift crowbar"
+    },
     "description": "This is a pipe whose ends have been bent and hammered flat to resemble a crowbar.  Use it to open locked crates without destroying them, to lift manhole covers, or even open doors and windows.  You could also wield it to fight with, in a pinch.",
     "weight": "1250 g",
     "volume": "500 ml",
@@ -90,16 +154,31 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
+    "qualities": [
+      [
+        "PRY",
+        1
+      ],
+      [
+        "HAMMER",
+        1
+      ]
+    ],
     "use_action": "CROWBAR",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELT_CLIP" ]
+    "techniques": [
+      "WBLOCK_1"
+    ],
+    "flags": [
+      "BELT_CLIP"
+    ]
   },
   {
     "id": "picklocks",
     "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "locksmith kit" },
+    "category": "tools_entry",
+    "name": {
+      "str": "locksmith kit"
+    },
     "description": "This is a locksmith's set of sturdy steel lock picks and torsion wrenches.  It is essential for silently and quickly opening locks, provided you have some mechanical skill.  If you're crouched, examining a locked door will have you prioritize picking the lock instead of using a crowbar on it.",
     "weight": "544 g",
     "volume": "100 ml",
@@ -108,20 +187,35 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "LOCKPICK", 5 ] ]
+    "qualities": [
+      [
+        "LOCKPICK",
+        5
+      ]
+    ]
   },
   {
     "id": "pseudo_bio_picklock",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "bio lockpick" },
+    "name": {
+      "str": "bio lockpick"
+    },
     "description": "this a pseudo item",
     "volume": "0 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "LOCKPICK", 40 ] ],
-    "flags": [ "PSEUDO", "PERFECT_LOCKPICK" ]
+    "qualities": [
+      [
+        "LOCKPICK",
+        40
+      ]
+    ],
+    "flags": [
+      "PSEUDO",
+      "PERFECT_LOCKPICK"
+    ]
   }
 ]

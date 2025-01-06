@@ -2,32 +2,46 @@
   {
     "type": "GENERIC",
     "id": "sheet_metal",
-    "name": { "str_sp": "sheet metal" },
+    "name": {
+      "str_sp": "sheet metal"
+    },
     "description": "A thin sheet of metal.",
     "//": "Roughly in the 70cm×70cm×1.5mm to 1m×1m×0.75mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
     "weight": "6000 g",
     "to_hit": -2,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": [
+      "steel"
+    ],
     "volume": "1 L",
     "bashing": 5,
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "60 USD",
     "price_postapoc": "1 USD",
-    "qualities": [ [ "COOK", 1 ] ],
+    "qualities": [
+      [
+        "COOK",
+        1
+      ]
+    ],
     "stackable": true
   },
   {
     "type": "GENERIC",
     "id": "sheet_metal_lit",
-    "name": { "str_sp": "wired sheet metal" },
+    "name": {
+      "str_sp": "wired sheet metal"
+    },
     "description": "Sheet metal that has had light housing wired into it.",
     "weight": "6200 g",
     "to_hit": -2,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel", "plastic" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
     "volume": "1250 ml",
     "bashing": 5,
     "category": "veh_parts",
@@ -37,13 +51,17 @@
   {
     "type": "GENERIC",
     "id": "wood_plate",
-    "name": { "str": "wooden armor kit" },
+    "name": {
+      "str": "wooden armor kit"
+    },
     "description": "A bundle of two by fours prepared to be used as vehicle armor.",
     "weight": "5600 g",
     "to_hit": -8,
     "color": "brown",
     "symbol": "]",
-    "material": [ "wood" ],
+    "material": [
+      "wood"
+    ],
     "volume": "3 L",
     "bashing": 10,
     "category": "veh_parts",
@@ -53,116 +71,193 @@
   {
     "type": "GENERIC",
     "id": "steel_plate",
-    "name": { "str_sp": "steel plating" },
+    "name": {
+      "str_sp": "steel plating"
+    },
     "description": "A piece of armor plating made of steel.",
     "weight": "12880 g",
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": [
+      "steel"
+    ],
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
     "price": "120 USD",
     "price_postapoc": "250 cent",
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
+    "qualities": [
+      [
+        "COOK",
+        1
+      ],
+      [
+        "ANVIL",
+        2
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "alloy_plate",
-    "name": { "str_sp": "superalloy plating" },
+    "name": {
+      "str_sp": "superalloy plating"
+    },
     "description": "A piece of armor plating made of sturdy superalloy.",
     "weight": "10800 g",
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "superalloy" ],
+    "material": [
+      "superalloy"
+    ],
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
     "price": "185 USD",
     "price_postapoc": "5 USD",
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
+    "qualities": [
+      [
+        "COOK",
+        1
+      ],
+      [
+        "ANVIL",
+        2
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "alloy_sheet",
-    "name": { "str": "superalloy sheet" },
+    "name": {
+      "str": "superalloy sheet"
+    },
     "description": "A sheet of sturdy superalloy, incredibly hard, yet incredibly malleable.",
     "weight": "900 g",
     "to_hit": -2,
     "color": "light_cyan",
     "symbol": ",",
-    "material": [ "superalloy" ],
+    "material": [
+      "superalloy"
+    ],
     "volume": "500 ml",
     "category": "veh_parts",
     "price": "85 USD",
     "price_postapoc": "5 USD",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [
+      [
+        "COOK",
+        1
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "spiked_plate",
-    "name": { "str_sp": "spiked plating" },
+    "name": {
+      "str_sp": "spiked plating"
+    },
     "description": "A piece of armor plating made of steel.  It is covered with menacing spikes.",
     "weight": "12240 g",
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": [
+      "steel"
+    ],
     "volume": "3500 ml",
     "bashing": 6,
     "cutting": 3,
-    "flags": [ "STAB" ],
+    "flags": [
+      "STAB"
+    ],
     "category": "veh_parts",
     "price": "185 USD",
     "price_postapoc": "250 cent",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [
+      [
+        "COOK",
+        1
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "hard_plate",
-    "name": { "str": "hard plating" },
+    "name": {
+      "str": "hard plating"
+    },
     "description": "A piece of very thick armor plating made of steel.",
     "weight": "32640 g",
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "hardsteel" ],
+    "material": [
+      "hardsteel"
+    ],
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
     "price": "160 USD",
     "price_postapoc": "5 USD",
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
+    "qualities": [
+      [
+        "COOK",
+        1
+      ],
+      [
+        "ANVIL",
+        2
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "mil_plate",
-    "name": { "str": "military composite plating" },
+    "name": {
+      "str": "military composite plating"
+    },
     "description": "A thick sheet of military grade armor, best bullet stopper you can stick on a vehicle.",
     "weight": "16500 g",
     "to_hit": -1,
     "color": "green",
     "symbol": "]",
-    "material": [ "hardsteel", "ceramic" ],
+    "material": [
+      "hardsteel",
+      "ceramic"
+    ],
     "volume": "3 L",
     "bashing": 8,
     "category": "veh_parts",
     "price": "160 USD",
     "price_postapoc": "750 cent",
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
+    "qualities": [
+      [
+        "COOK",
+        1
+      ],
+      [
+        "ANVIL",
+        2
+      ]
+    ]
   },
   {
     "type": "GENERIC",
     "id": "chitin_plate",
     "symbol": "]",
     "color": "yellow",
-    "name": { "str": "chitin armor kit" },
+    "name": {
+      "str": "chitin armor kit"
+    },
     "description": "Light chitin plating made for a vehicle.",
     "price": "12 USD",
     "price_postapoc": "250 cent",
-    "material": [ "chitin" ],
+    "material": [
+      "chitin"
+    ],
     "weight": "2000 g",
     "volume": "5500 ml",
     "bashing": 8,
@@ -173,21 +268,34 @@
     "type": "GENERIC",
     "id": "acidchitin_plate",
     "copy-from": "chitin_plate",
-    "name": { "str": "biosilicified chitin armor kit" },
+    "name": {
+      "str": "biosilicified chitin armor kit"
+    },
     "description": "Durable silica-coated chitin plating made for a vehicle.",
-    "material": [ "acidchitin" ],
-    "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
+    "material": [
+      "acidchitin"
+    ],
+    "proportional": {
+      "price": 1.333,
+      "weight": 1.2,
+      "volume": 1.18,
+      "bashing": 1.25
+    }
   },
   {
     "type": "GENERIC",
     "id": "bone_plate",
     "symbol": "]",
     "color": "white",
-    "name": { "str": "bone armor kit" },
+    "name": {
+      "str": "bone armor kit"
+    },
     "description": "Bone plating made for a vehicle.",
     "price": "12 USD",
     "price_postapoc": "1 USD",
-    "material": [ "bone" ],
+    "material": [
+      "bone"
+    ],
     "weight": "4000 g",
     "volume": "9500 ml",
     "bashing": 8,

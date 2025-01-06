@@ -5,19 +5,28 @@
     "category": "spare_parts",
     "price": "120 USD",
     "price_postapoc": "2 cent",
-    "name": { "str": "battery", "str_pl": "batteries" },
+    "name": {
+      "str": "battery",
+      "str_pl": "batteries"
+    },
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [
+      "TRADER_AVOID"
+    ],
     "material": "iron",
-    "effects": [ "COOKOFF" ],
+    "effects": [
+      "COOKOFF"
+    ],
     "volume": "100 ml",
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
     "count": 100,
     "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
-    "fuel": { "energy": 1 }
+    "fuel": {
+      "energy": 1
+    }
   },
   {
     "type": "TOOL",
@@ -25,12 +34,20 @@
     "category": "spare_parts",
     "price": "200 USD",
     "price_postapoc": "20 USD",
-    "name": { "str": "radioisotope thermoelectric generator" },
+    "name": {
+      "str": "radioisotope thermoelectric generator"
+    },
     "symbol": "=",
     "color": "green",
     "description": "Did your neighbors brag about their cool beta-decay powered nightlights?  Do them one better!  The CuppaTech 4 radioisotope thermoelectric generator is a three kilogram chunk of metal - mostly lead - with a slug of curium-244 encased within.  It is capable of generating somewhere between 100-150 Watts of thermal energy, although its electrical generation capacity is minimal at only 2 Watts.  Careful!  Curium is great at making heat, and also releases deadly gamma radiation.  Keep away from cellular life forms.",
-    "material": [ "steel", "lead" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
+    "material": [
+      "steel",
+      "lead"
+    ],
+    "flags": [
+      "LEAK_DAM",
+      "RADIOACTIVE"
+    ],
     "volume": "500 ml",
     "weight": "4000 g"
   },
@@ -40,7 +57,9 @@
     "category": "spare_parts",
     "price": "648 cent",
     "price_postapoc": "10 cent",
-    "name": { "str": "aluminum foil" },
+    "name": {
+      "str": "aluminum foil"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "A thin foil made of aluminum.  Sometimes called 'tin foil' due to being made of tin in the past.",
@@ -55,26 +74,34 @@
     "id": "money",
     "price": "1 cent",
     "//": "= one cent, gives correct prices for cash cards",
-    "name": { "str": "cent" },
+    "name": {
+      "str": "cent"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [
+      "TRADER_AVOID"
+    ],
     "volume": "0 ml",
     "ammo_type": "money"
   },
   {
     "type": "AMMO",
     "id": "thread",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "price": "50 USD",
     "price_postapoc": "25 cent",
-    "name": { "str_sp": "thread" },
+    "name": {
+      "str_sp": "thread"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "A small quantity of thread that could be used to refill a sewing kit.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -84,15 +111,19 @@
   {
     "type": "AMMO",
     "id": "sinew",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "name": { "str": "sinew" },
+    "name": {
+      "str": "sinew"
+    },
     "symbol": "=",
     "color": "light_red",
     "looks_like": "thread",
     "description": "A tough sinew cut from a corpse, usable as thread.",
-    "material": [ "flesh" ],
+    "material": [
+      "flesh"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -102,15 +133,19 @@
   {
     "type": "AMMO",
     "id": "plant_fibre",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "name": { "str": "plant fiber" },
+    "name": {
+      "str": "plant fiber"
+    },
     "symbol": "=",
     "color": "light_green",
     "looks_like": "thread",
     "description": "Tough thin fiber, taken from a plant.  Can be used as thread.",
-    "material": [ "veggy" ],
+    "material": [
+      "veggy"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -120,16 +155,20 @@
   {
     "type": "AMMO",
     "id": "yarn",
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "price": "0 cent",
     "price_postapoc": "25 cent",
-    "name": { "str_sp": "yarn" },
+    "name": {
+      "str_sp": "yarn"
+    },
     "symbol": "=",
     "color": "white",
     "looks_like": "thread",
     "description": "Wool yarn, could be used to knit wool clothing.",
     "material": "wool",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": [
+      "NO_SALVAGE"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -142,7 +181,9 @@
     "category": "chems",
     "price": "3 USD",
     "price_postapoc": "1 USD",
-    "name": { "str": "soap bar" },
+    "name": {
+      "str": "soap bar"
+    },
     "symbol": "=",
     "color": "white",
     "description": "A cleansing agent made into bars.",
@@ -155,10 +196,12 @@
   {
     "type": "AMMO",
     "id": "duct_tape",
-    "category": "spare_parts",
+    "category": "tools_workshop",
     "price": "20 USD",
     "price_postapoc": "250 cent",
-    "name": { "str": "duct tape" },
+    "name": {
+      "str": "duct tape"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "A roll of incredibly strong tape.  Its uses are innumerable.",
@@ -167,15 +210,19 @@
     "weight": "4 g",
     "ammo_type": "tape",
     "count": 200,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [
+      "UNRECOVERABLE"
+    ]
   },
   {
     "type": "AMMO",
-    "category": "other",
+    "category": "scrap_wood",
     "id": "rolling_paper",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "rolling paper" },
+    "name": {
+      "str": "rolling paper"
+    },
     "description": "These are thin paper strips intended for the rolling of cigarettes.",
     "price": "150 cent",
     "price_postapoc": "25 cent",
@@ -185,19 +232,27 @@
     "ammo_type": "components",
     "stack_size": 200,
     "count": 30,
-    "flags": [ "UNRECOVERABLE", "TINDER" ]
+    "flags": [
+      "UNRECOVERABLE",
+      "TINDER"
+    ]
   },
   {
     "type": "AMMO",
     "id": "cable",
-    "category": "spare_parts",
+    "category": "scrap_electronics",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "name": { "str": "copper wire" },
+    "name": {
+      "str": "copper wire"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Plastic jacketed copper cable of the type used in small electronics.",
-    "material": [ "plastic", "copper" ],
+    "material": [
+      "plastic",
+      "copper"
+    ],
     "volume": "750 ml",
     "weight": "2 g",
     "ammo_type": "components",
@@ -209,18 +264,31 @@
     "category": "spare_parts",
     "price": "1500 USD",
     "price_postapoc": "1250 cent",
-    "name": { "str": "plutonium fuel cell" },
+    "name": {
+      "str": "plutonium fuel cell"
+    },
     "symbol": "=",
     "color": "green",
     "description": "This power cell was designed to store enormous amounts of power, using plutonium-244 and now-irreplaceable compounds to make compact reactors more practical than ever.  Unfortunately it cannot be recharged by conventional means: expended cells had to be sent to a central reprocessing facility that almost certainly doesn't exist anymore.",
-    "material": [ "steel", "plastic" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
+    "material": [
+      "steel",
+      "plastic"
+    ],
+    "flags": [
+      "LEAK_DAM",
+      "RADIOACTIVE"
+    ],
     "volume": "250 ml",
     "weight": "80 g",
     "ammo_type": "plutonium",
     "count": 5,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
-    "fuel": { "energy": 10 }
+    "effects": [
+      "COOKOFF",
+      "NEVER_MISFIRES"
+    ],
+    "fuel": {
+      "energy": 10
+    }
   },
   {
     "type": "AMMO",
@@ -228,11 +296,16 @@
     "category": "spare_parts",
     "price": "250 cent",
     "price_postapoc": "0 cent",
-    "name": { "str_sp": "plutonium slurry" },
+    "name": {
+      "str_sp": "plutonium slurry"
+    },
     "symbol": "=",
     "color": "green",
     "description": "Highly radioactive slurry.  It is probably best to get far away from this.",
-    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "flags": [
+      "LEAK_ALWAYS",
+      "RADIOACTIVE"
+    ],
     "volume": "250 ml",
     "weight": "25500 mg",
     "ammo_type": "reactor_slurry",
@@ -246,11 +319,16 @@
     "category": "spare_parts",
     "price": "250 cent",
     "price_postapoc": "0 cent",
-    "name": { "str_sp": "watery plutonium slurry" },
+    "name": {
+      "str_sp": "watery plutonium slurry"
+    },
     "symbol": "=",
     "color": "green",
     "description": "Highly radioactive slurry.  It is probably best to get far away from this.",
-    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "flags": [
+      "LEAK_ALWAYS",
+      "RADIOACTIVE"
+    ],
     "volume": "250 ml",
     "weight": "25500 mg",
     "ammo_type": "reactor_slurry",
@@ -263,30 +341,47 @@
     "id": "rock",
     "symbol": "*",
     "color": "light_gray",
-    "name": { "str": "rock" },
+    "name": {
+      "str": "rock"
+    },
     "description": "A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
-    "category": "spare_parts",
+    "category": "rocks",
     "material": "stone",
     "ammo_type": "rock",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [
+      "TRADER_AVOID"
+    ],
     "weight": "500 g",
     "volume": "250 ml",
     "bashing": 7,
-    "damage": { "damage_type": "bash", "amount": 7 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 7
+    },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ],
+    "qualities": [
+      [
+        "HAMMER",
+        1
+      ]
+    ],
     "dont_recover_one_in": 80,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [
+      "NEVER_MISFIRES",
+      "NON_FOULING"
+    ]
   },
   {
     "type": "AMMO",
     "id": "pebble",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "name": { "str": "pebble" },
+    "name": {
+      "str": "pebble"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "A handful of pebbles, useful as ammunition for slings or slingshots.",
@@ -294,19 +389,27 @@
     "volume": "250 ml",
     "weight": "5 g",
     "ammo_type": "pebble",
-    "damage": { "damage_type": "bash", "amount": 2 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 2
+    },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "count": 10,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [
+      "NEVER_MISFIRES",
+      "NON_FOULING"
+    ]
   },
   {
     "type": "AMMO",
     "id": "pebble_clay",
     "price": "150 cent",
     "price_postapoc": "10 cent",
-    "name": { "str": "clay pellet" },
+    "name": {
+      "str": "clay pellet"
+    },
     "symbol": "=",
     "color": "brown",
     "looks_like": "pebble",
@@ -315,20 +418,29 @@
     "volume": "250 ml",
     "weight": "3 g",
     "ammo_type": "pebble",
-    "damage": { "damage_type": "bash", "amount": 1 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 1
+    },
     "range": 20,
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
-    "flags": [ "SHATTERS" ],
-    "effects": [ "NEVER_MISFIRES" ]
+    "flags": [
+      "SHATTERS"
+    ],
+    "effects": [
+      "NEVER_MISFIRES"
+    ]
   },
   {
     "type": "AMMO",
     "id": "marble",
     "price": "2 USD",
     "price_postapoc": "10 cent",
-    "name": { "str": "marble" },
+    "name": {
+      "str": "marble"
+    },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "pebble",
@@ -337,19 +449,26 @@
     "volume": "250 ml",
     "weight": "3 g",
     "ammo_type": "pebble",
-    "damage": { "damage_type": "bash", "amount": 3 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 3
+    },
     "range": 18,
     "dispersion": 12,
     "loudness": 0,
     "count": 20,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [
+      "NEVER_MISFIRES"
+    ]
   },
   {
     "type": "AMMO",
     "id": "bearing",
     "price": "1 USD",
     "price_postapoc": "250 cent",
-    "name": { "str_sp": "bearings" },
+    "name": {
+      "str_sp": "bearings"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "looks_like": "pebble",
@@ -358,20 +477,29 @@
     "volume": "250 ml",
     "weight": "10 g",
     "ammo_type": "pebble",
-    "damage": { "damage_type": "bash", "amount": 6, "armor_penetration": 1 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 6,
+      "armor_penetration": 1
+    },
     "range": 15,
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [
+      "NEVER_MISFIRES",
+      "NON_FOULING"
+    ]
   },
   {
     "type": "AMMO",
     "id": "bb",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "name": { "str": "BB" },
+    "name": {
+      "str": "BB"
+    },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "pebble",
@@ -380,12 +508,19 @@
     "volume": "200ml",
     "weight": "1 g",
     "ammo_type": "BB",
-    "damage": { "damage_type": "bullet", "amount": 2 },
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 2
+    },
     "dispersion": 100,
     "count": 500,
     "stack_size": 200,
     "loudness": 0,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [
+      "NOGIB",
+      "NEVER_MISFIRES",
+      "NON_FOULING"
+    ]
   },
   {
     "type": "AMMO",
@@ -393,12 +528,17 @@
     "category": "spare_parts",
     "price": "30 USD",
     "price_postapoc": "250 cent",
-    "name": { "str": "feather" },
+    "name": {
+      "str": "feather"
+    },
     "symbol": "=",
     "color": "brown",
     "description": "Feathers from a bird.  Useful for fletching arrows.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE", "TINDER" ],
+    "flags": [
+      "NO_SALVAGE",
+      "TINDER"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -411,12 +551,17 @@
     "category": "spare_parts",
     "price": "30 USD",
     "price_postapoc": "250 cent",
-    "name": { "str": "down feather" },
+    "name": {
+      "str": "down feather"
+    },
     "symbol": "=",
     "color": "brown",
     "description": "Fluffy down feathers from a bird.  Useful for making cozy bedclothes.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE", "TINDER" ],
+    "flags": [
+      "NO_SALVAGE",
+      "TINDER"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -428,50 +573,83 @@
     "id": "120mm_HEAT",
     "price": "999999 cent",
     "price_postapoc": "10 USD",
-    "name": { "str": "120mm HEAT" },
+    "name": {
+      "str": "120mm HEAT"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A 120mm high-explosive anti-tank round.  It could ruin anyone's whole day.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "250 ml",
     "weight": "22725 g",
     "ammo_type": "120mm",
-    "damage": { "damage_type": "stab", "amount": 40, "armor_penetration": 10 },
+    "damage": {
+      "damage_type": "stab",
+      "amount": 40,
+      "armor_penetration": 10
+    },
     "range": 80,
     "dispersion": 5,
     "recoil": 30,
-    "effects": [ "EXPLOSIVE_HUGE", "TRAIL" ]
+    "effects": [
+      "EXPLOSIVE_HUGE",
+      "TRAIL"
+    ]
   },
   {
     "type": "AMMO",
     "id": "plasma",
     "price": "800 USD",
     "price_postapoc": "10 USD",
-    "name": { "str": "hydrogen canister" },
+    "name": {
+      "str": "hydrogen canister"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "A canister of pressurized hydrogen so heavily compressed it has turned solid.  With proper equipment, it could be heated to plasma.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "2500 ml",
     "//": "A good chunk of this mass is the canister.  Would have to be 100 kg per cubic meter for the below energy density to make sense, IRL density tends to top out at 86 kg per cubic meter.",
     "weight": "183 g",
     "ammo_type": "plasma",
-    "damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 8 },
+    "damage": {
+      "damage_type": "heat",
+      "amount": 35,
+      "armor_penetration": 8
+    },
     "range": 12,
     "count": 25,
     "loudness": 60,
-    "effects": [ "INCENDIARY" ],
-    "flags": [ "UNRECOVERABLE" ],
+    "effects": [
+      "INCENDIARY"
+    ],
+    "flags": [
+      "UNRECOVERABLE"
+    ],
     "fuel": {
       "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
       "energy": 400,
-      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
+      "explosion_data": {
+        "chance_hot": 2,
+        "chance_cold": 2,
+        "factor": 1,
+        "fiery": true,
+        "size_factor": 0.15
+      }
     }
   },
   {
     "id": "c_hydrogen_gas",
     "type": "AMMO",
-    "name": { "str_sp": "hydrogen gas" },
+    "name": {
+      "str_sp": "hydrogen gas"
+    },
     "category": "chems",
     "description": "A light, flammable gas compressed for use as fuel.  Requires a lot of energy to produce, even moreso without pre-cataclysm industry.  Quite energy dense, though not very volume-efficient.",
     "//": "25 kg per cubic meter, in the lower half of the range for compressed hydrogen.",
@@ -482,7 +660,11 @@
     "symbol": "=",
     "color": "white",
     "container": "metal_tank_little",
-    "damage": { "damage_type": "heat", "amount": 9, "armor_penetration": 2 },
+    "damage": {
+      "damage_type": "heat",
+      "amount": 9,
+      "armor_penetration": 2
+    },
     "range": 6,
     "dispersion": 120,
     "phase": "liquid",
@@ -490,10 +672,21 @@
     "fuel": {
       "//": "The solid hydrogen canisters have roughly 4 times the density.",
       "energy": 100,
-      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 0.5, "fiery": true, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 2,
+        "chance_cold": 2,
+        "factor": 0.5,
+        "fiery": true,
+        "size_factor": 0.1
+      }
     },
-    "effects": [ "INCENDIARY" ],
-    "flags": [ "NO_DROP", "IRREMOVABLE" ]
+    "effects": [
+      "INCENDIARY"
+    ],
+    "flags": [
+      "NO_DROP",
+      "IRREMOVABLE"
+    ]
   },
   {
     "type": "AMMO",
@@ -501,18 +694,24 @@
     "category": "chems",
     "price": "5 USD",
     "price_postapoc": "20 USD",
-    "name": { "str": "smokeless gunpowder" },
+    "name": {
+      "str": "smokeless gunpowder"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Firearm-quality gunpowder.",
     "container": "bottle_plastic",
     "material": "powder",
-    "flags": [ "TINDER" ],
+    "flags": [
+      "TINDER"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 454,
-    "effects": [ "COOKOFF" ]
+    "effects": [
+      "COOKOFF"
+    ]
   },
   {
     "type": "AMMO",
@@ -520,7 +719,9 @@
     "category": "chems",
     "price": "30 USD",
     "price_postapoc": "10 USD",
-    "name": { "str": "oxidizer powder" },
+    "name": {
+      "str": "oxidizer powder"
+    },
     "symbol": "=",
     "color": "white",
     "description": "Volatile powdered chemical oxidizer.",
@@ -530,7 +731,9 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [
+      "COOKOFF"
+    ]
   },
   {
     "type": "AMMO",
@@ -538,7 +741,9 @@
     "category": "chems",
     "price": "30 USD",
     "price_postapoc": "5 USD",
-    "name": { "str": "lye powder" },
+    "name": {
+      "str": "lye powder"
+    },
     "symbol": "=",
     "color": "white",
     "description": "Powdered caustic soda.",
@@ -555,16 +760,23 @@
     "category": "spare_parts",
     "price": "30 USD",
     "price_postapoc": "20 USD",
-    "name": { "str": "shotgun primer" },
+    "name": {
+      "str": "shotgun primer"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a shotgun shell.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [
+      "COOKOFF"
+    ]
   },
   {
     "type": "AMMO",
@@ -572,16 +784,23 @@
     "category": "spare_parts",
     "price": "40 USD",
     "price_postapoc": "10 USD",
-    "name": { "str": "small pistol primer" },
+    "name": {
+      "str": "small pistol primer"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a small caliber pistol round.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [
+      "COOKOFF"
+    ]
   },
   {
     "type": "AMMO",
@@ -589,16 +808,23 @@
     "category": "spare_parts",
     "price": "60 USD",
     "price_postapoc": "20 USD",
-    "name": { "str": "large pistol primer" },
+    "name": {
+      "str": "large pistol primer"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a large caliber pistol round.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [
+      "COOKOFF"
+    ]
   },
   {
     "type": "AMMO",
@@ -606,16 +832,23 @@
     "category": "spare_parts",
     "price": "60 USD",
     "price_postapoc": "10 USD",
-    "name": { "str": "small rifle primer" },
+    "name": {
+      "str": "small rifle primer"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a small caliber rifle round.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [
+      "COOKOFF"
+    ]
   },
   {
     "type": "AMMO",
@@ -623,16 +856,23 @@
     "category": "spare_parts",
     "price": "80 USD",
     "price_postapoc": "20 USD",
-    "name": { "str": "large rifle primer" },
+    "name": {
+      "str": "large rifle primer"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a large caliber rifle round.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": [
+      "COOKOFF"
+    ]
   },
   {
     "type": "AMMO",
@@ -640,28 +880,43 @@
     "category": "spare_parts",
     "price": "10 USD",
     "price_postapoc": "250 cent",
-    "name": { "str": "rubber slug" },
+    "name": {
+      "str": "rubber slug"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Rubber slugs from a shotgun beanbag round.  You could use them to make new beanbag rounds, or sling them at people.",
-    "material": [ "plastic", "rubber" ],
+    "material": [
+      "plastic",
+      "rubber"
+    ],
     "volume": "250 ml",
     "weight": "8 g",
     "ammo_type": "pebble",
     "count": 25,
-    "damage": { "damage_type": "bash", "amount": 2 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 2
+    },
     "range": 10,
     "dispersion": 7,
     "loudness": 0,
     "dont_recover_one_in": 2,
-    "effects": [ "BEANBAG", "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [
+      "BEANBAG",
+      "NEVER_MISFIRES",
+      "NON_FOULING"
+    ]
   },
   {
     "type": "AMMO",
     "id": "chunk_rubber",
     "category": "spare_parts",
     "price": "75 cent",
-    "name": { "str": "chunk of rubber", "str_pl": "chunks of rubber" },
+    "name": {
+      "str": "chunk of rubber",
+      "str_pl": "chunks of rubber"
+    },
     "symbol": "*",
     "color": "dark_gray",
     "description": "A chunk of useful rubber, can be molded easily.",
@@ -669,15 +924,19 @@
     "volume": "250 ml",
     "weight": "38 g",
     "ammo_type": "components",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [
+      "NO_SALVAGE"
+    ]
   },
   {
     "type": "AMMO",
     "id": "copper",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "10 USD",
     "price_postapoc": "250 cent",
-    "name": { "str": "copper" },
+    "name": {
+      "str": "copper"
+    },
     "symbol": "=",
     "color": "yellow",
     "description": "Copper scraps.  Could be used to craft something, for example makeshift shotgun shells.",
@@ -693,7 +952,9 @@
     "category": "spare_parts",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "name": { "str": "medical tape" },
+    "name": {
+      "str": "medical tape"
+    },
     "symbol": "=",
     "color": "white",
     "description": "A roll of medical tape, similar to duct tape.",
@@ -707,13 +968,17 @@
     "type": "AMMO",
     "id": "generic_no_ammo",
     "price": "0 cent",
-    "name": { "str": "placeholder ammunition" },
+    "name": {
+      "str": "placeholder ammunition"
+    },
     "symbol": "=",
     "color": "red",
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
     "volume": "0 ml",
     "ammo_type": "NULL",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [
+      "UNRECOVERABLE"
+    ]
   },
   {
     "type": "AMMO",
@@ -721,7 +986,9 @@
     "category": "spare_parts",
     "price": "2 USD",
     "price_postapoc": "50 cent",
-    "name": { "str_sp": "charcoal" },
+    "name": {
+      "str_sp": "charcoal"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A flammable carbon-based material produced by slowly burning wood.  Utilized in recipes requiring a pure, hot flame.  Can also be used in filters to remove contaminants out of air and water.",
@@ -732,16 +999,22 @@
     "ammo_type": "charcoal",
     "count": 50,
     "stack_size": 10,
-    "fuel": { "energy": 1.6 },
-    "flags": [ "TINDER" ]
+    "fuel": {
+      "energy": 1.6
+    },
+    "flags": [
+      "TINDER"
+    ]
   },
   {
     "type": "AMMO",
     "id": "cac2powder",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "2 USD",
     "price_postapoc": "5 USD",
-    "name": { "str_sp": "calcium carbide premix" },
+    "name": {
+      "str_sp": "calcium carbide premix"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A powdered mixture of coke and lime ready to be smelted into usable calcium carbide in an arc furnace.",
@@ -752,7 +1025,9 @@
     "ammo_type": "cac2powder",
     "count": 25,
     "stack_size": 10,
-    "fuel": { "energy": 5.2 }
+    "fuel": {
+      "energy": 5.2
+    }
   },
   {
     "type": "AMMO",
@@ -760,7 +1035,9 @@
     "category": "spare_parts",
     "price": "2 USD",
     "price_postapoc": "1 USD",
-    "name": { "str": "coal" },
+    "name": {
+      "str": "coal"
+    },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Flammable black chunks of carbon-based material commonly used for cooking and heating.",
@@ -771,8 +1048,12 @@
     "ammo_type": "charcoal",
     "count": 250,
     "stack_size": 10,
-    "fuel": { "energy": 30 },
-    "flags": [ "TINDER" ]
+    "fuel": {
+      "energy": 30
+    },
+    "flags": [
+      "TINDER"
+    ]
   },
   {
     "type": "AMMO",
@@ -780,7 +1061,9 @@
     "category": "drugs",
     "price": "500 USD",
     "price_postapoc": "50 USD",
-    "name": { "str": "RA21E medical ampoule" },
+    "name": {
+      "str": "RA21E medical ampoule"
+    },
     "symbol": "=",
     "color": "cyan",
     "description": "A tiny glass vial filled with advanced fast-healing chemicals which can only be activated by a Rivtech jet injector device.  The packaged instructions describe its efficacy in dealing with infections, wounds, intoxications, envenomations, and general tiredness in enthusiastic detail.  A short safety section at the end warn - in much smaller typeface - against using more than two doses per hour.",
@@ -797,7 +1080,9 @@
     "category": "drugs",
     "price": "300 USD",
     "price_postapoc": "50 USD",
-    "name": { "str": "RA10K stimulant module" },
+    "name": {
+      "str": "RA10K stimulant module"
+    },
     "symbol": "=",
     "color": "cyan",
     "description": "A pressurized multi-chamber glass vial filled with powerful chemical stimulants which can only be activated by a Rivtech stimulant delivery system.",
@@ -814,7 +1099,9 @@
     "category": "spare_parts",
     "price": "25 USD",
     "price_postapoc": "30 USD",
-    "name": { "str": "rebreather filter cartridge" },
+    "name": {
+      "str": "rebreather filter cartridge"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "A replacement filter cartridge for a rebreather.",
@@ -830,7 +1117,9 @@
     "category": "spare_parts",
     "price": "25 USD",
     "price_postapoc": "5 USD",
-    "name": { "str": "filter mask cartridge" },
+    "name": {
+      "str": "filter mask cartridge"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "Small replacement filter cartridge for air filtration masks.",
@@ -845,7 +1134,9 @@
     "category": "spare_parts",
     "price": "25 USD",
     "price_postapoc": "750 cent",
-    "name": { "str": "gas mask cartridge" },
+    "name": {
+      "str": "gas mask cartridge"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "Medium replacement filter cartridge for air filtration masks.",
@@ -860,7 +1151,9 @@
     "category": "spare_parts",
     "price": "25 USD",
     "price_postapoc": "10 USD",
-    "name": { "str": "chemical mask cartridge" },
+    "name": {
+      "str": "chemical mask cartridge"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "Heavy replacement filter cartridge for air filtration masks.",
@@ -875,7 +1168,9 @@
     "category": "drugs",
     "price": "10 USD",
     "price_postapoc": "5 USD",
-    "name": { "str": "nicotine liquid" },
+    "name": {
+      "str": "nicotine liquid"
+    },
     "symbol": "=",
     "color": "yellow",
     "description": "A liquid that is made up of propylene glycol, vegetable glycerin, flavorings and nicotine.",
@@ -890,7 +1185,9 @@
     "id": "fish_bait",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str": "fish bait" },
+    "name": {
+      "str": "fish bait"
+    },
     "description": "A bait used in traps to lure fish.",
     "weight": "1 g",
     "volume": "250 ml",
@@ -905,60 +1202,98 @@
     "id": "spiked_rocket",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "name": { "str": "spiked homemade rocket" },
+    "name": {
+      "str": "spiked homemade rocket"
+    },
     "symbol": ",",
     "color": "dark_gray",
     "description": "A hand built rocket, consisting of a spike welded onto a pipe that was filled with improvised rocket fuel.  Horribly inaccurate, as can be expected of this grade of weapon, but packs a fierce punch… if it hits.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "1500 ml",
     "weight": "1510 g",
     "ammo_type": "homebrew_rocket",
-    "damage": { "damage_type": "stab", "amount": 80, "armor_penetration": 80 },
+    "damage": {
+      "damage_type": "stab",
+      "amount": 80,
+      "armor_penetration": 80
+    },
     "range": 18,
     "dispersion": 180,
     "recoil": 130,
     "loudness": 60,
-    "effects": [ "COOKOFF", "TRAIL" ]
+    "effects": [
+      "COOKOFF",
+      "TRAIL"
+    ]
   },
   {
     "type": "AMMO",
     "id": "explosive_hm_rocket",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "name": { "str": "explosive homemade rocket" },
+    "name": {
+      "str": "explosive homemade rocket"
+    },
     "symbol": ",",
     "color": "dark_gray",
     "description": "A hand built rocket, consisting of a simple explosive warhead attached onto a pipe, filled with improvised rocket fuel.  Not very powerful, but can be made from scratch.",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "1250 ml",
     "weight": "990 g",
     "ammo_type": "homebrew_rocket",
-    "damage": { "damage_type": "stab", "amount": 500, "armor_penetration": 125 },
+    "damage": {
+      "damage_type": "stab",
+      "amount": 500,
+      "armor_penetration": 125
+    },
     "range": 23,
     "dispersion": 170,
     "recoil": 130,
     "loudness": 60,
-    "effects": [ "COOKOFF", "TRAIL", "EXPLOSIVE" ]
+    "effects": [
+      "COOKOFF",
+      "TRAIL",
+      "EXPLOSIVE"
+    ]
   },
   {
     "type": "AMMO",
     "id": "incendiary_hm_rocket",
     "price": "13 USD",
     "price_postapoc": "1 USD",
-    "name": { "str": "incendiary homemade rocket" },
+    "name": {
+      "str": "incendiary homemade rocket"
+    },
     "symbol": ",",
     "color": "red",
     "description": "A hand built rocket, consisting of a container of flammable gel attached onto a pipe, filled with improvised rocket fuel.  Short-range incendiary - handle with care!",
-    "material": [ "steel", "powder" ],
+    "material": [
+      "steel",
+      "powder"
+    ],
     "volume": "1500 ml",
     "weight": "1190 g",
     "ammo_type": "homebrew_rocket",
-    "damage": { "damage_type": "stab", "amount": 50, "armor_penetration": 15 },
+    "damage": {
+      "damage_type": "stab",
+      "amount": 50,
+      "armor_penetration": 15
+    },
     "range": 13,
     "dispersion": 200,
     "recoil": 130,
     "loudness": 60,
-    "effects": [ "COOKOFF", "TRAIL", "NAPALM" ]
+    "effects": [
+      "COOKOFF",
+      "TRAIL",
+      "NAPALM"
+    ]
   },
   {
     "type": "AMMO",
@@ -966,7 +1301,9 @@
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "name": { "str_sp": "unfinished charcoal" },
+    "name": {
+      "str_sp": "unfinished charcoal"
+    },
     "symbol": "=",
     "color": "brown",
     "description": "The result of an interrupted charcoal making process.  Useless, except as fuel in a charcoal kiln.",
@@ -981,7 +1318,9 @@
     "category": "spare_parts",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "name": { "str_sp": "unfinished calcium carbide" },
+    "name": {
+      "str_sp": "unfinished calcium carbide"
+    },
     "symbol": "=",
     "color": "white",
     "description": "The incomplete process of converting coal and lime into calcium carbide.  Useless in this state.",
@@ -996,7 +1335,9 @@
     "category": "spare_parts",
     "price": "150 cent",
     "price_postapoc": "50 cent",
-    "name": { "str": "chain link" },
+    "name": {
+      "str": "chain link"
+    },
     "symbol": "=",
     "color": "light_gray",
     "description": "Small metal rings and wires for hand-made rivets, suitable for constructing chainmail.",
@@ -1012,7 +1353,9 @@
     "category": "chems",
     "price": "5 USD",
     "price_postapoc": "250 cent",
-    "name": { "str_sp": "nitrox" },
+    "name": {
+      "str_sp": "nitrox"
+    },
     "symbol": "=",
     "color": "white",
     "container": "bottle_plastic",
@@ -1025,8 +1368,10 @@
   {
     "id": "tinder",
     "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str_sp": "tinder" },
+    "category": "scrap_wood",
+    "name": {
+      "str_sp": "tinder"
+    },
     "description": "Flammable material, finely divided for easy combustion.",
     "weight": "10 g",
     "volume": "250 ml",
@@ -1034,19 +1379,27 @@
     "price_postapoc": "0 cent",
     "bashing": 1,
     "material": "dry_plant",
-    "flags": [ "NO_SALVAGE", "TINDER" ],
+    "flags": [
+      "NO_SALVAGE",
+      "TINDER"
+    ],
     "symbol": "=",
     "color": "brown",
     "count": 50,
     "ammo_type": "tinder",
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [
+      "NEVER_MISFIRES"
+    ]
   },
   {
     "type": "AMMO",
     "id": "RPG_die",
     "price": "10 cent",
     "price_postapoc": "10 cent",
-    "name": { "str": "RPG die", "str_pl": "RPG dice" },
+    "name": {
+      "str": "RPG die",
+      "str_pl": "RPG dice"
+    },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "marble",
@@ -1055,12 +1408,17 @@
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "pebble",
-    "damage": { "damage_type": "bash", "amount": 1 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 1
+    },
     "range": 20,
     "dispersion": 15,
     "loudness": 0,
     "count": 7,
-    "effects": [ "NEVER_MISFIRES" ],
+    "effects": [
+      "NEVER_MISFIRES"
+    ],
     "use_action": "RPGDIE"
   },
   {
@@ -1068,7 +1426,10 @@
     "id": "metal_RPG_die",
     "price": "50 cent",
     "price_postapoc": "10 cent",
-    "name": { "str": "metal RPG die", "str_pl": "metal RPG dice" },
+    "name": {
+      "str": "metal RPG die",
+      "str_pl": "metal RPG dice"
+    },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "marble",
@@ -1077,19 +1438,26 @@
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "pebble",
-    "damage": { "damage_type": "bash", "amount": 3 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 3
+    },
     "range": 15,
     "dispersion": 10,
     "loudness": 0,
     "count": 7,
-    "effects": [ "NEVER_MISFIRES" ],
+    "effects": [
+      "NEVER_MISFIRES"
+    ],
     "use_action": "RPGDIE"
   },
   {
     "id": "scrap_bronze",
     "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str_sp": "bronze" },
+    "category": "scrap_metal",
+    "name": {
+      "str_sp": "bronze"
+    },
     "description": "Decent-sized chunks of bronze, for fashioning some old-school items.",
     "//": "Density 7.4-8.9g/cm³ depending on composition ~ 825g/100ml if we use DF's chosen density, scrap stacks at ~25% efficiency",
     "weight": "220 g",
@@ -1109,20 +1477,28 @@
     "symbol": "*",
     "color": "light_gray",
     "looks_like": "rock",
-    "name": { "str": "sling bullet" },
+    "name": {
+      "str": "sling bullet"
+    },
     "description": "A ball of lead roughly the size of a baseball.  Traditionally thrown from a sling, and hits a lot harder than any old rock.",
     "material": "lead",
     "ammo_type": "rock",
     "weight": "150 g",
     "volume": "50 ml",
     "bashing": 14,
-    "damage": { "damage_type": "bash", "amount": 16 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 16
+    },
     "range": 14,
     "dispersion": 10,
     "loudness": 0,
     "to_hit": -1,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [
+      "NEVER_MISFIRES",
+      "NON_FOULING"
+    ]
   },
   {
     "type": "AMMO",
@@ -1130,18 +1506,26 @@
     "symbol": "*",
     "color": "light_gray",
     "looks_like": "bearing",
-    "name": { "str": "small sling bullet" },
+    "name": {
+      "str": "small sling bullet"
+    },
     "description": "A small ball of lead traditionally thrown from a sling.  It hits a lot harder than any old pebble.",
     "material": "lead",
     "ammo_type": "pebble",
     "weight": "25 g",
     "volume": "250 ml",
-    "damage": { "damage_type": "bash", "amount": 8 },
+    "damage": {
+      "damage_type": "bash",
+      "amount": 8
+    },
     "range": 20,
     "dispersion": 10,
     "loudness": 0,
     "count": 30,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
+    "effects": [
+      "NEVER_MISFIRES",
+      "NON_FOULING"
+    ]
   }
 ]
