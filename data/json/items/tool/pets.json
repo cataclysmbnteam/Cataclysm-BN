@@ -121,7 +121,7 @@
     "material": [ "wood" ],
     "symbol": "#",
     "color": "brown",
-    "looks_like": "pet_carrier",
+    "looks_like": "pet_carrier"
   },
   {
     "id": "dog_whistle_wood",

@@ -30,7 +30,7 @@
     "cutting": 10,
     "material": [ "steel", "wood" ],
     "delete": { "qualities": [ [ "LEATHER_AWL", 1 ] ] },
-    "extend": { "qualities": [ [ "LEATHER_AWL", 2 ] ] },
+    "extend": { "qualities": [ [ "LEATHER_AWL", 2 ] ] }
   },
   {
     "id": "knitting_needles",

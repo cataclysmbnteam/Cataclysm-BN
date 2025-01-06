@@ -121,7 +121,7 @@
     "power_draw": 2500,
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_8", "TRADER_AVOID" ],
+    "flags": [ "WATCH", "LIGHT_8", "TRADER_AVOID" ]
   },
   {
     "id": "control_laptop",
@@ -270,7 +270,7 @@
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
     "flags": [ "TRADER_AVOID" ],
-    "magazine_well": "250 ml",
+    "magazine_well": "250 ml"
   },
   {
     "id": "hand_crank_charger",
