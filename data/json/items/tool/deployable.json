@@ -3,9 +3,7 @@
     "id": "brazier",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "brazier"
-    },
+    "name": { "str": "brazier" },
     "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": "5000 g",
     "volume": "2500 ml",
@@ -13,67 +11,35 @@
     "price_postapoc": "10 cent",
     "to_hit": -4,
     "bashing": 7,
-    "material": [
-      "steel"
-    ],
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_brazier"
-    },
-    "qualities": [
-      [
-        "COOK",
-        1
-      ],
-      [
-        "BOIL",
-        2
-      ],
-      [
-        "CONTAIN",
-        1
-      ]
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" },
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "hobo_stove",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "hobo stove"
-    },
+    "name": { "str": "hobo stove" },
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to Deploy.",
     "weight": "70 g",
     "volume": "500 ml",
     "to_hit": -1,
     "bashing": 2,
     "looks_like": "can_medium_unsealed",
-    "material": [
-      "steel"
-    ],
+    "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_hobo_stove"
-    }
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
   },
   {
     "id": "55gal_firebarrel",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "fire barrel (200L)",
-      "str_pl": "fire barrels (200L)"
-    },
+    "name": { "str": "fire barrel (200L)", "str_pl": "fire barrels (200L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "20000 g",
     "volume": "200 L",
@@ -82,27 +48,17 @@
     "to_hit": -5,
     "bashing": 8,
     "looks_like": "55gal_drum",
-    "material": [
-      "steel"
-    ],
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_55gal_firebarrel"
-    }
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_55gal_firebarrel" }
   },
   {
     "id": "30gal_firebarrel",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "fire barrel (100L)",
-      "str_pl": "fire barrels (100L)"
-    },
+    "name": { "str": "fire barrel (100L)", "str_pl": "fire barrels (100L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "12000 g",
     "volume": "100 L",
@@ -111,26 +67,17 @@
     "to_hit": -4,
     "bashing": 7,
     "looks_like": "30gal_drum",
-    "material": [
-      "steel"
-    ],
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_30gal_firebarrel"
-    }
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_30gal_firebarrel" }
   },
   {
     "id": "camp_chair",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "camp chair"
-    },
+    "name": { "str": "camp chair" },
     "description": "Folded camp chair, deploy to sit down.",
     "weight": "1000 g",
     "volume": "2500 ml",
@@ -139,26 +86,17 @@
     "to_hit": -4,
     "bashing": 3,
     "looks_like": "rollmat",
-    "material": [
-      "steel"
-    ],
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_camp_chair"
-    }
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" }
   },
   {
     "id": "cot",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "cot"
-    },
+    "name": { "str": "cot" },
     "description": "This is a military style fold up cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "weight": "6164 g",
     "volume": "2 L",
@@ -166,10 +104,7 @@
     "price_postapoc": "5 USD",
     "to_hit": -1,
     "bashing": 6,
-    "material": [
-      "aluminum",
-      "cotton"
-    ],
+    "material": [ "aluminum", "cotton" ],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -180,17 +115,13 @@
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "folding_bicycle",
     "type": "TOOL",
     "category": "deployables",
-    "name": {
-      "str": "folding bicycle"
-    },
+    "name": { "str": "folding bicycle" },
     "description": "This is a bicycle folded into a relatively portable package.",
     "weight": "9071 g",
     "volume": "21500 ml",
@@ -207,17 +138,13 @@
       "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
       "moves": 500
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "folding_skateboard",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "skateboard"
-    },
+    "name": { "str": "skateboard" },
     "description": "This is a skateboard.",
     "weight": "2898 g",
     "volume": "3750 ml",
@@ -234,17 +161,13 @@
       "unfold_msg": "You lay the skateboard down on the ground.",
       "moves": 0
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str_sp": "seeing this is a bug"
-    },
+    "name": { "str_sp": "seeing this is a bug" },
     "description": "seeing this is a bug",
     "volume": "0 ml",
     "price": "0 cent",
@@ -252,17 +175,13 @@
     "symbol": "/",
     "color": "light_gray",
     "use_action": "UNFOLD_GENERIC",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_butcher_rack",
     "type": "GENERIC",
     "category": "tools",
-    "name": {
-      "str": "metal butchering rack"
-    },
+    "name": { "str": "metal butchering rack" },
     "description": "Metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation.",
     "weight": "5000 g",
     "volume": "10 L",
@@ -270,19 +189,11 @@
     "price_postapoc": "250 cent",
     "to_hit": -4,
     "bashing": 7,
-    "material": [
-      "steel"
-    ],
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "flags": [
-      "BUTCHER_RACK",
-      "ALLOWS_REMOTE_USE"
-    ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_metal_butcher_rack"
-    }
+    "flags": [ "BUTCHER_RACK", "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
   },
   {
     "id": "inflatable_boat",
@@ -290,9 +201,7 @@
     "category": "deployables",
     "symbol": "0",
     "color": "light_gray",
-    "name": {
-      "str": "inflatable boat"
-    },
+    "name": { "str": "inflatable boat" },
     "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
     "price": "3500 USD",
     "price_postapoc": "40 USD",
@@ -304,23 +213,17 @@
     "use_action": {
       "type": "unfold_vehicle",
       "vehicle_name": "inflatable_boat",
-      "tools_needed": {
-        "hand_pump": 1
-      },
+      "tools_needed": { "hand_pump": 1 },
       "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
       "moves": 15000
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_smoking_rack",
     "type": "GENERIC",
     "category": "tools_cooking",
-    "name": {
-      "str": "metal smoking rack"
-    },
+    "name": { "str": "metal smoking rack" },
     "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.",
     "weight": "5000 g",
     "volume": "25 L",
@@ -328,26 +231,17 @@
     "price_postapoc": "750 cent",
     "to_hit": -4,
     "bashing": 7,
-    "material": [
-      "steel"
-    ],
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_metal_smoking_rack"
-    }
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" }
   },
   {
     "id": "tourist_table",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "tourist table"
-    },
+    "name": { "str": "tourist table" },
     "description": "Metal tourist table for off-road trips.  It is folded for easy transportation.",
     "weight": "6000 g",
     "volume": "25 L",
@@ -355,27 +249,17 @@
     "price_postapoc": "1 USD",
     "to_hit": -3,
     "bashing": 5,
-    "material": [
-      "steel"
-    ],
-    "flags": [
-      "FLAT_SURFACE",
-      "ALLOWS_REMOTE_USE"
-    ],
+    "material": [ "steel" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "=",
     "color": "light_gray",
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_tourist_table"
-    }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" }
   },
   {
     "id": "leather_tarp",
     "type": "GENERIC",
     "category": "tools_cooking",
-    "name": {
-      "str": "leather tarp"
-    },
+    "name": { "str": "leather tarp" },
     "description": "A large sheet of sewn leather that can be deployed instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.  It's rolled and ready for carrying.",
     "weight": "2000 g",
     "volume": "2500 ml",
@@ -383,27 +267,17 @@
     "price_postapoc": "5 USD",
     "to_hit": -3,
     "bashing": 2,
-    "material": [
-      "leather"
-    ],
-    "flags": [
-      "FLAT_SURFACE",
-      "ALLOWS_REMOTE_USE"
-    ],
+    "material": [ "leather" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "*",
     "color": "brown",
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_leather_tarp"
-    }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
   },
   {
     "id": "fiber_mat",
     "type": "GENERIC",
     "category": "tools_cooking",
-    "name": {
-      "str": "fiber mat"
-    },
+    "name": { "str": "fiber mat" },
     "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be used as a comfortable sleeping place.  It's rolled and ready for carrying.",
     "weight": "1000 g",
     "volume": "2500 ml",
@@ -411,27 +285,17 @@
     "price_postapoc": "1 USD",
     "to_hit": -3,
     "bashing": 1,
-    "material": [
-      "veggy"
-    ],
-    "flags": [
-      "FLAT_SURFACE",
-      "ALLOWS_REMOTE_USE"
-    ],
+    "material": [ "veggy" ],
+    "flags": [ "FLAT_SURFACE", "ALLOWS_REMOTE_USE" ],
     "symbol": "*",
     "color": "yellow",
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_fiber_mat"
-    }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }
   },
   {
     "id": "churn",
     "type": "GENERIC",
     "category": "tools_cooking",
-    "name": {
-      "str": "folded butter churn"
-    },
+    "name": { "str": "folded butter churn" },
     "description": "A large wooden container used to turn raw milk into butter and buttermilk.  This model uses a foot crank and holds three gallons of raw milk.",
     "weight": "6464 g",
     "volume": "11356 ml",
@@ -439,37 +303,19 @@
     "price_postapoc": "10 USD",
     "to_hit": -4,
     "bashing": 7,
-    "material": [
-      "wood"
-    ],
+    "material": [ "wood" ],
     "looks_like": "f_wood_keg",
     "symbol": "u",
     "color": "light_gray",
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ],
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_butter_churn"
-    },
-    "qualities": [
-      [
-        "CONTAIN",
-        1
-      ],
-      [
-        "CHURN",
-        1
-      ]
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" },
+    "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 1 ] ]
   },
   {
     "id": "water_mill",
     "type": "GENERIC",
     "category": "tools",
-    "name": {
-      "str": "water mill"
-    },
+    "name": { "str": "water mill" },
     "description": "A small water-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",
@@ -480,17 +326,13 @@
     "material": "wood",
     "symbol": "*",
     "color": "red",
-    "flags": [
-      "DURABLE_MELEE"
-    ]
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "wind_mill",
     "type": "GENERIC",
     "category": "tools",
-    "name": {
-      "str": "wind mill"
-    },
+    "name": { "str": "wind mill" },
     "description": "A small wind-powered mill that can convert starchy products into flour.  Can be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "22500 ml",
@@ -501,16 +343,12 @@
     "material": "steel",
     "symbol": "T",
     "color": "red",
-    "flags": [
-      "DURABLE_MELEE"
-    ]
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "chair_folding",
     "type": "TOOL",
-    "name": {
-      "str": "folding chair"
-    },
+    "name": { "str": "folding chair" },
     "description": "Folded plastic chair on a metal frame, deploy to sit down.",
     "weight": "2900 g",
     "volume": "5 L",
@@ -518,18 +356,10 @@
     "price_postapoc": "1 USD",
     "to_hit": -4,
     "bashing": 10,
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "use_action": {
-      "type": "deploy_furn",
-      "furn_type": "f_chair_folding"
-    },
-    "flags": [
-      "FRAGILE_MELEE"
-    ]
+    "use_action": { "type": "deploy_furn", "furn_type": "f_chair_folding" },
+    "flags": [ "FRAGILE_MELEE" ]
   }
 ]

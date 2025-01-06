@@ -2,16 +2,11 @@
   {
     "type": "GENERIC",
     "abstract": "robot_module_abstract",
-    "name": {
-      "str": "module template"
-    },
+    "name": { "str": "module template" },
     "description": "This is a template for robot module.  If found in a game it is a bug.",
     "symbol": "%",
     "color": "cyan",
-    "material": [
-      "plastic",
-      "steel"
-    ],
+    "material": [ "plastic", "steel" ],
     "weight": "250 g",
     "volume": "500 ml",
     "price": "320 USD",
@@ -21,9 +16,7 @@
   {
     "type": "GENERIC",
     "id": "targeting_module",
-    "name": {
-      "str": "targeting module"
-    },
+    "name": { "str": "targeting module" },
     "description": "This module integrates visual and proprioceptive information from peripheric sensors and outputs information necessary for accurate aiming.",
     "copy-from": "robot_module_abstract",
     "category": "scrap_electronics"
@@ -31,9 +24,7 @@
   {
     "type": "GENERIC",
     "id": "identification_module",
-    "name": {
-      "str": "identification module"
-    },
+    "name": { "str": "identification module" },
     "description": "This module continuously runs image recognition algorithms to identify friends from foe.",
     "copy-from": "robot_module_abstract",
     "category": "scrap_electronics"
@@ -41,9 +32,7 @@
   {
     "type": "GENERIC",
     "id": "pathfinding_module",
-    "name": {
-      "str": "pathfinding module"
-    },
+    "name": { "str": "pathfinding module" },
     "description": "This module uses a combination of vector integration and egocentric mapping to find the best path available.",
     "copy-from": "robot_module_abstract",
     "category": "scrap_electronics"
@@ -51,9 +40,7 @@
   {
     "type": "GENERIC",
     "id": "memory_module",
-    "name": {
-      "str": "memory banks module"
-    },
+    "name": { "str": "memory banks module" },
     "description": "Allows for storage and recovery of information.",
     "copy-from": "robot_module_abstract",
     "category": "scrap_electronics"
@@ -61,9 +48,7 @@
   {
     "type": "GENERIC",
     "id": "sensor_module",
-    "name": {
-      "str": "sensor array"
-    },
+    "name": { "str": "sensor array" },
     "description": "A wide range of sensors meant to give the ability to perceive the surrounding world.",
     "copy-from": "robot_module_abstract",
     "category": "scrap_electronics"
@@ -71,9 +56,7 @@
   {
     "type": "GENERIC",
     "id": "self_monitoring_module",
-    "name": {
-      "str_sp": "self monitoring sensors"
-    },
+    "name": { "str_sp": "self monitoring sensors" },
     "description": "An array of sensors and diagnostic modules allowing the robot to perceive itself.",
     "copy-from": "robot_module_abstract",
     "category": "scrap_electronics"
@@ -81,9 +64,7 @@
   {
     "type": "GENERIC",
     "id": "ai_module",
-    "name": {
-      "str": "AI core"
-    },
+    "name": { "str": "AI core" },
     "description": "This module is responsible for decision-making, it basically runs the AI of the robot.",
     "copy-from": "robot_module_abstract",
     "category": "scrap_electronics"
@@ -91,9 +72,7 @@
   {
     "type": "GENERIC",
     "id": "ai_module_basic",
-    "name": {
-      "str": "basic AI core"
-    },
+    "name": { "str": "basic AI core" },
     "description": "A very basic AI core with minimal cognitive abilities.",
     "weight": "125 g",
     "copy-from": "ai_module",
@@ -102,9 +81,7 @@
   {
     "type": "GENERIC",
     "id": "ai_module_advanced",
-    "name": {
-      "str": "advanced AI core"
-    },
+    "name": { "str": "advanced AI core" },
     "description": "An advanced AI core with impressive cognitive abilities.",
     "copy-from": "ai_module",
     "category": "scrap_electronics"
@@ -112,9 +89,7 @@
   {
     "type": "GENERIC",
     "id": "gun_module",
-    "name": {
-      "str": "gun operating system"
-    },
+    "name": { "str": "gun operating system" },
     "description": "This system can operate most conventional weapons.",
     "copy-from": "robot_module_abstract",
     "category": "scrap_electronics"
@@ -122,10 +97,7 @@
   {
     "type": "GENERIC",
     "id": "spidery_legs_small",
-    "name": {
-      "str": "set of tiny spidery legs",
-      "str_pl": "sets of tiny spidery legs"
-    },
+    "name": { "str": "set of tiny spidery legs", "str_pl": "sets of tiny spidery legs" },
     "description": "A set of tiny pointy legs, like the ones found under a skitterbot.",
     "symbol": "w",
     "color": "light_gray",
@@ -139,10 +111,7 @@
   {
     "type": "GENERIC",
     "id": "reverse_jointed_legs",
-    "name": {
-      "str": "set of reverse-jointed legs",
-      "str_pl": "sets of reverse-jointed legs"
-    },
+    "name": { "str": "set of reverse-jointed legs", "str_pl": "sets of reverse-jointed legs" },
     "description": "A set of reverse-jointed legs, like the ones found under a chicken walker.",
     "symbol": "k",
     "color": "light_gray",
@@ -156,10 +125,7 @@
   {
     "type": "GENERIC",
     "id": "omni_wheel",
-    "name": {
-      "str": "set of omni wheels",
-      "str_pl": "sets of omni wheels"
-    },
+    "name": { "str": "set of omni wheels", "str_pl": "sets of omni wheels" },
     "description": "A set of omni wheels, like the ones found under a police bot.",
     "symbol": "o",
     "color": "light_gray",
@@ -173,10 +139,7 @@
   {
     "type": "GENERIC",
     "id": "quad_rotors",
-    "name": {
-      "str": "set of rotors",
-      "str_pl": "sets of rotors"
-    },
+    "name": { "str": "set of rotors", "str_pl": "sets of rotors" },
     "description": "A set of rotors able to lift a small drone.",
     "symbol": "#",
     "color": "light_gray",
@@ -184,19 +147,13 @@
     "volume": "500 ml",
     "price": "400 USD",
     "price_postapoc": "1 USD",
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
   {
     "type": "GENERIC",
     "id": "android_legs",
-    "name": {
-      "str": "set of android legs",
-      "str_pl": "sets of android legs"
-    },
+    "name": { "str": "set of android legs", "str_pl": "sets of android legs" },
     "description": "A set of human-like legs.",
     "symbol": "M",
     "color": "light_gray",
@@ -204,19 +161,13 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "250 cent",
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
   {
     "type": "GENERIC",
     "id": "android_arms",
-    "name": {
-      "str": "set of android arms",
-      "str_pl": "sets of android arms"
-    },
+    "name": { "str": "set of android arms", "str_pl": "sets of android arms" },
     "description": "A set of human-like arms.",
     "symbol": "m",
     "color": "light_gray",
@@ -224,19 +175,13 @@
     "volume": "5 L",
     "price": "1 kUSD",
     "price_postapoc": "250 cent",
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
   {
     "type": "GENERIC",
     "id": "tank_tread",
-    "name": {
-      "str": "set of small tank tread",
-      "str_pl": "sets of small tank tread"
-    },
+    "name": { "str": "set of small tank tread", "str_pl": "sets of small tank tread" },
     "description": "A set of small tank tread, like the one used by the \"Beagle\" mini-tank.",
     "symbol": "=",
     "color": "light_gray",
@@ -244,18 +189,13 @@
     "volume": "30 L",
     "price": "6 kUSD",
     "price_postapoc": "250 cent",
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
   {
     "type": "GENERIC",
     "id": "turret_chassis",
-    "name": {
-      "str_sp": "turret interior chassis"
-    },
+    "name": { "str_sp": "turret interior chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton of a turret.",
     "symbol": "c",
     "color": "light_gray",
@@ -263,17 +203,13 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "1 USD",
-    "material": [
-      "steel"
-    ],
+    "material": [ "steel" ],
     "category": "spare_parts"
   },
   {
     "type": "GENERIC",
     "id": "copbot_chassis",
-    "name": {
-      "str_sp": "secubot chassis"
-    },
+    "name": { "str_sp": "secubot chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of a police or military bot.",
     "symbol": "c",
     "color": "light_gray",
@@ -281,18 +217,13 @@
     "volume": "40000 ml",
     "price": "1 kUSD",
     "price_postapoc": "1 USD",
-    "material": [
-      "steel",
-      "superalloy"
-    ],
+    "material": [ "steel", "superalloy" ],
     "category": "spare_parts"
   },
   {
     "type": "GENERIC",
     "id": "android_chassis",
-    "name": {
-      "str": "android skeleton"
-    },
+    "name": { "str": "android skeleton" },
     "description": "What's left when you strip an android body from its components.",
     "symbol": "c",
     "color": "light_gray",
@@ -300,10 +231,7 @@
     "volume": "40000 ml",
     "price": "1 kUSD",
     "price_postapoc": "1 USD",
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   }
 ]

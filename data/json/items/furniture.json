@@ -54,10 +54,7 @@
     "volume": "260000 ml",
     "price": "750 USD",
     "price_postapoc": "5 USD",
-    "material": [
-      "steel",
-      "glass"
-    ],
+    "material": [ "steel", "glass" ],
     "symbol": "{",
     "color": "light_cyan",
     "category": "scrap_electronics"
@@ -72,10 +69,7 @@
     "volume": "260000 ml",
     "price": "1250 USD",
     "price_postapoc": "5 USD",
-    "material": [
-      "steel",
-      "glass"
-    ],
+    "material": [ "steel", "glass" ],
     "symbol": "{",
     "color": "blue",
     "category": "scrap_electronics"

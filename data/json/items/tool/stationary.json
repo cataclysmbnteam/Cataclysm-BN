@@ -3,9 +3,7 @@
     "id": "stapler",
     "type": "GENERIC",
     "category": "scrap_metal",
-    "name": {
-      "str": "stapler"
-    },
+    "name": { "str": "stapler" },
     "description": "A stapler for fastening sheets of paper together.",
     "weight": "300 g",
     "volume": "250 ml",
@@ -19,9 +17,7 @@
     "id": "pen",
     "type": "GENERIC",
     "category": "other",
-    "name": {
-      "str": "pen"
-    },
+    "name": { "str": "pen" },
     "description": "A plastic ball point pen.",
     "weight": "20 g",
     "volume": "10 ml",
@@ -35,13 +31,8 @@
     "id": "scissors",
     "type": "GENERIC",
     "category": "tools_workshop",
-    "weapon_category": [
-      "KNIVES"
-    ],
-    "name": {
-      "str": "pair of scissors",
-      "str_pl": "pairs of scissors"
-    },
+    "weapon_category": [ "KNIVES" ],
+    "name": { "str": "pair of scissors", "str_pl": "pairs of scissors" },
     "description": "These are a long pair of heavy-duty scissors.  Use scissors to cut items made from cotton (like clothing) into rags.",
     "weight": "113 g",
     "volume": "250 ml",
@@ -49,21 +40,11 @@
     "price_postapoc": "10 cent",
     "to_hit": -1,
     "cutting": 6,
-    "material": [
-      "aluminum",
-      "plastic"
-    ],
+    "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_red",
-    "qualities": [
-      [
-        "CUT",
-        1
-      ]
-    ],
-    "flags": [
-      "STAB"
-    ]
+    "qualities": [ [ "CUT", 1 ] ],
+    "flags": [ "STAB" ]
   },
   {
     "type": "GENERIC",

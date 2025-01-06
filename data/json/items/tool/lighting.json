@@ -3,9 +3,7 @@
     "id": "atomic_lamp",
     "type": "GENERIC",
     "category": "electronics",
-    "name": {
-      "str": "atomic lamp"
-    },
+    "name": { "str": "atomic lamp" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this very expensive lamp will emit a small amount of light for at least a decade.  Before the Cataclysm, it was mostly an expensive way to show off your preparedness.  Now, it's actually pretty cool.  Use it to close the cover and hide the light.",
     "weight": "605 g",
     "volume": "1 L",
@@ -13,34 +11,17 @@
     "price_postapoc": "40 USD",
     "to_hit": -2,
     "bashing": 8,
-    "material": [
-      "plastic",
-      "aluminum"
-    ],
+    "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": {
-      "target": "atomic_lamp_off",
-      "msg": "You close the lamp's cover.",
-      "menu_text": "Close cover",
-      "type": "transform"
-    },
-    "flags": [
-      "LIGHT_20",
-      "LEAK_DAM",
-      "RADIOACTIVE",
-      "DURABLE_MELEE",
-      "ALLOWS_REMOTE_USE"
-    ]
+    "use_action": { "target": "atomic_lamp_off", "msg": "You close the lamp's cover.", "menu_text": "Close cover", "type": "transform" },
+    "flags": [ "LIGHT_20", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_lamp_off",
     "type": "GENERIC",
     "category": "electronics",
-    "name": {
-      "str": "atomic lamp (covered)",
-      "str_pl": "atomic lamps (covered)"
-    },
+    "name": { "str": "atomic lamp (covered)", "str_pl": "atomic lamps (covered)" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this very expensive lamp will emit a small amount of light for at least a decade.  Before the Cataclysm, it was mostly an expensive way to show off your preparedness.  Now, it's actually pretty cool.  The cover is closed.  Use it to open the cover and show the light.",
     "weight": "605 g",
     "volume": "1 L",
@@ -48,10 +29,7 @@
     "price_postapoc": "40 USD",
     "to_hit": -2,
     "bashing": 8,
-    "material": [
-      "plastic",
-      "aluminum"
-    ],
+    "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
     "use_action": {
@@ -61,20 +39,13 @@
       "menu_text": "Open cover",
       "type": "transform"
     },
-    "flags": [
-      "LEAK_DAM",
-      "RADIOACTIVE",
-      "DURABLE_MELEE",
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light",
     "type": "GENERIC",
     "category": "electronics",
-    "name": {
-      "str": "atomic reading light"
-    },
+    "name": { "str": "atomic reading light" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this extremely expensive little light will provide just enough light to read by for at least a decade.  It is also available with a cute cartoon bear cover to turn it into a nightlight for a very wealthy child with a fear of the dark.  Use it to close the cover and hide the light.",
     "weight": "237 g",
     "volume": "250 ml",
@@ -82,10 +53,7 @@
     "price_postapoc": "40 USD",
     "to_hit": -2,
     "bashing": 4,
-    "material": [
-      "plastic",
-      "aluminum"
-    ],
+    "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
     "use_action": {
@@ -94,22 +62,13 @@
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [
-      "LIGHT_8",
-      "LEAK_DAM",
-      "RADIOACTIVE",
-      "DURABLE_MELEE",
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "LIGHT_8", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "atomic_light_off",
     "type": "GENERIC",
     "category": "electronics",
-    "name": {
-      "str": "atomic reading light (covered)",
-      "str_pl": "atomic reading lights (covered)"
-    },
+    "name": { "str": "atomic reading light (covered)", "str_pl": "atomic reading lights (covered)" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this extremely expensive little light will provide just enough light to read by for at least a decade.  It is also available with a cute cartoon bear cover to turn it into a nightlight for a very wealthy child with a fear of the dark.  The cover is closed.  Use it to open the cover and show the light.",
     "weight": "237 g",
     "volume": "250 ml",
@@ -117,10 +76,7 @@
     "price_postapoc": "40 USD",
     "to_hit": -2,
     "bashing": 4,
-    "material": [
-      "plastic",
-      "aluminum"
-    ],
+    "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
     "use_action": {
@@ -130,29 +86,20 @@
       "menu_text": "Open cover",
       "type": "transform"
     },
-    "flags": [
-      "LEAK_DAM",
-      "RADIOACTIVE",
-      "DURABLE_MELEE",
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "candle",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "candle"
-    },
+    "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
     "weight": "225 g",
     "volume": "250 ml",
     "price": "1 USD",
     "price_postapoc": "50 cent",
     "to_hit": -2,
-    "material": [
-      "veggy"
-    ],
+    "material": [ "veggy" ],
     "symbol": ",",
     "color": "white",
     "initial_charges": 100,
@@ -171,19 +118,14 @@
     "id": "candle_lit",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "candle (lit)",
-      "str_pl": "candles (lit)"
-    },
+    "name": { "str": "candle (lit)", "str_pl": "candles (lit)" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "weight": "225 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
-    "material": [
-      "veggy"
-    ],
+    "material": [ "veggy" ],
     "symbol": ",",
     "color": "white",
     "initial_charges": 100,
@@ -191,33 +133,16 @@
     "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": [
-      {
-        "type": "firestarter",
-        "moves": 100
-      },
-      {
-        "target": "candle",
-        "msg": "The candle winks out.",
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
+      { "type": "firestarter", "moves": 100 },
+      { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" }
     ],
-    "flags": [
-      "LIGHT_8",
-      "WATER_EXTINGUISH",
-      "TRADER_AVOID",
-      "WIND_EXTINGUISH",
-      "FIRESTARTER"
-    ]
+    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ]
   },
   {
     "id": "electric_lantern",
     "type": "TOOL",
     "category": "electronics",
-    "name": {
-      "str": "electric lantern (off)",
-      "str_pl": "electric lanterns (off)"
-    },
+    "name": { "str": "electric lantern (off)", "str_pl": "electric lanterns (off)" },
     "description": "This is a battery-powered lamp.  It does not provide much light, but it lasts a long time.  Use it to turn it on.",
     "weight": "980 g",
     "volume": "1 L",
@@ -225,9 +150,7 @@
     "price_postapoc": "1 USD",
     "bashing": 1,
     "to_hit": 2,
-    "material": [
-      "plastic"
-    ],
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
@@ -240,10 +163,7 @@
       "need_charges": 1,
       "need_charges_msg": "The lantern has no batteries."
     },
-    "flags": [
-      "RADIO_MODABLE",
-      "ALLOWS_REMOTE_USE"
-    ],
+    "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
         "battery",
@@ -264,38 +184,19 @@
     "id": "electric_lantern_on",
     "copy-from": "electric_lantern",
     "type": "TOOL",
-    "name": {
-      "str": "electric lantern (on)",
-      "str_pl": "electric lanterns (on)"
-    },
+    "name": { "str": "electric lantern (on)", "str_pl": "electric lanterns (on)" },
     "power_draw": 3500,
     "revert_to": "electric_lantern",
-    "use_action": {
-      "menu_text": "Turn off",
-      "type": "transform",
-      "target": "electric_lantern",
-      "msg": "You turn the lamp off."
-    },
-    "flags": [
-      "RADIO_MODABLE",
-      "LIGHT_20",
-      "TRADER_AVOID",
-      "ALLOWS_REMOTE_USE"
-    ]
+    "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
+    "flags": [ "RADIO_MODABLE", "LIGHT_20", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "flashlight",
     "type": "TOOL",
     "category": "electronics",
-    "name": {
-      "str": "flashlight (off)",
-      "str_pl": "flashlights (off)"
-    },
+    "name": { "str": "flashlight (off)", "str_pl": "flashlights (off)" },
     "description": "This is a typical household flashlight with a plastic handle.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
-    "material": [
-      "plastic",
-      "aluminum"
-    ],
+    "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "blue",
     "weight": "200 g",
@@ -303,9 +204,7 @@
     "price": "5 USD",
     "price_postapoc": "1 USD",
     "ammo": "battery",
-    "flags": [
-      "BELT_CLIP"
-    ],
+    "flags": [ "BELT_CLIP" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -335,32 +234,17 @@
     "id": "flashlight_on",
     "copy-from": "flashlight",
     "type": "TOOL",
-    "name": {
-      "str": "flashlight (on)",
-      "str_pl": "flashlights (on)"
-    },
+    "name": { "str": "flashlight (on)", "str_pl": "flashlights (on)" },
     "power_draw": 10000,
     "revert_to": "flashlight",
-    "use_action": {
-      "menu_text": "Turn off",
-      "type": "transform",
-      "msg": "You turn the flashlight off.",
-      "target": "flashlight"
-    },
-    "flags": [
-      "LIGHT_300",
-      "TRADER_AVOID",
-      "BELT_CLIP"
-    ]
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn the flashlight off.", "target": "flashlight" },
+    "flags": [ "LIGHT_300", "TRADER_AVOID", "BELT_CLIP" ]
   },
   {
     "id": "gasoline_lantern",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "gasoline lantern (off)",
-      "str_pl": "gasoline lanterns (off)"
-    },
+    "name": { "str": "gasoline lantern (off)", "str_pl": "gasoline lanterns (off)" },
     "description": "This is a small gasoline powered lantern.  It does not provide much light, but it lasts a long time.  Use it to turn it on.",
     "weight": "1400 g",
     "volume": "750 ml",
@@ -368,10 +252,7 @@
     "price_postapoc": "1 USD",
     "to_hit": 2,
     "bashing": 1,
-    "material": [
-      "glass",
-      "iron"
-    ],
+    "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
     "ammo": "gasoline",
@@ -387,40 +268,24 @@
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "gasoline_lantern_on",
     "copy-from": "gasoline_lantern",
     "type": "TOOL",
-    "name": {
-      "str": "gasoline lantern (on)",
-      "str_pl": "gasoline lanterns (on)"
-    },
+    "name": { "str": "gasoline lantern (on)", "str_pl": "gasoline lanterns (on)" },
     "description": "This is a small gasoline powered lantern.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
     "turns_per_charge": 60,
     "revert_to": "gasoline_lantern",
-    "use_action": {
-      "target": "gasoline_lantern",
-      "msg": "The lantern is extinguished.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
-    "flags": [
-      "LIGHT_20",
-      "TRADER_AVOID",
-      "ALLOWS_REMOTE_USE"
-    ]
+    "use_action": { "target": "gasoline_lantern", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
+    "flags": [ "LIGHT_20", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "glowstick",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "glowstick"
-    },
+    "name": { "str": "glowstick" },
     "description": "This is a small blue light glowstick.  Use it to bend the plastic and break the glass cylinder inside to start the reaction.  It will produce a small amount of light.",
     "weight": "29 g",
     "volume": "250 ml",
@@ -444,9 +309,7 @@
     "id": "glowstick_dead",
     "type": "GENERIC",
     "category": "other",
-    "name": {
-      "str": "dead glowstick"
-    },
+    "name": { "str": "dead glowstick" },
     "description": "This is a spent glowstick.  It is essentially trash.",
     "weight": "29 g",
     "volume": "250 ml",
@@ -457,17 +320,13 @@
     "material": "plastic",
     "symbol": ";",
     "color": "light_gray",
-    "flags": [
-      "TRADER_AVOID"
-    ]
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "glowstick_lit",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "active glowstick"
-    },
+    "name": { "str": "active glowstick" },
     "description": "This is an active glowstick and is producing light.  It will last for a few hours before burning out.",
     "weight": "29 g",
     "volume": "250 ml",
@@ -480,24 +339,15 @@
     "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
-    "flags": [
-      "LIGHT_8",
-      "TRADER_AVOID",
-      "SLEEP_IGNORE"
-    ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE" ]
   },
   {
     "id": "handflare",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "flare"
-    },
+    "name": { "str": "flare" },
     "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
-    "material": [
-      "plastic",
-      "powder"
-    ],
+    "material": [ "plastic", "powder" ],
     "symbol": ";",
     "color": "light_red",
     "weight": "128 g",
@@ -518,60 +368,33 @@
     "id": "handflare_lit",
     "copy-from": "handflare",
     "type": "TOOL",
-    "name": {
-      "str": "active flare"
-    },
+    "name": { "str": "active flare" },
     "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
     "color": "white",
     "turns_per_charge": 6,
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
-    "use_action": {
-      "type": "firestarter",
-      "moves": 50
-    },
-    "thrown_damage": [
-      {
-        "damage_type": "heat",
-        "amount": 8
-      }
-    ],
-    "flags": [
-      "FIRE",
-      "LIGHT_240",
-      "CHARGEDIM",
-      "FLAMING",
-      "TRADER_AVOID",
-      "FIRESTARTER"
-    ]
+    "use_action": { "type": "firestarter", "moves": 50 },
+    "thrown_damage": [ { "damage_type": "heat", "amount": 8 } ],
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "id": "heavy_flashlight",
     "type": "TOOL",
     "category": "electronics",
-    "weapon_category": [
-      "BATONS"
-    ],
-    "name": {
-      "str": "heavy duty flashlight (off)",
-      "str_pl": "heavy duty flashlights (off)"
-    },
+    "weapon_category": [ "BATONS" ],
+    "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
     "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "weight": "500 g",
     "volume": "500 ml",
     "price": "950 cent",
     "price_postapoc": "2 USD",
     "bashing": 8,
-    "material": [
-      "aluminum"
-    ],
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "flags": [
-      "BELT_CLIP",
-      "DURABLE_MELEE"
-    ],
+    "flags": [ "BELT_CLIP", "DURABLE_MELEE" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -601,10 +424,7 @@
     "id": "heavy_flashlight_on",
     "copy-from": "heavy_flashlight",
     "type": "TOOL",
-    "name": {
-      "str": "heavy duty flashlight (on)",
-      "str_pl": "heavy duty flashlights (on)"
-    },
+    "name": { "str": "heavy duty flashlight (on)", "str_pl": "heavy duty flashlights (on)" },
     "power_draw": 15000,
     "revert_to": "heavy_flashlight",
     "use_action": {
@@ -613,57 +433,39 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "heavy_flashlight"
     },
-    "flags": [
-      "LIGHT_500",
-      "DURABLE_MELEE",
-      "BELT_CLIP"
-    ]
+    "flags": [ "LIGHT_500", "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
     "abstract": "lightstrip_base",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "lightstrip_base"
-    },
+    "name": { "str": "lightstrip_base" },
     "weight": "27 g",
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "25 cent",
     "to_hit": 2,
     "bashing": 1,
-    "material": [
-      "plastic",
-      "aluminum"
-    ],
+    "material": [ "plastic", "aluminum" ],
     "symbol": ";"
   },
   {
     "id": "lightstrip",
     "type": "TOOL",
-    "name": {
-      "str": "lightstrip"
-    },
+    "name": { "str": "lightstrip" },
     "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that has been wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "color": "green",
     "power_draw": 1000,
     "revert_to": "lightstrip_inactive",
     "revert_msg": "The lightstrip dies.",
-    "flags": [
-      "LIGHT_4",
-      "NO_UNLOAD",
-      "NO_RELOAD"
-    ]
+    "flags": [ "LIGHT_4", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "//": "This doesn't make too much sense, flavor-wise, but it's the best I can come up with.  Put it on the todo list.",
     "id": "lightstrip_inactive",
     "type": "TOOL",
-    "name": {
-      "str": "lightstrip (inactive)",
-      "str_pl": "lightstrips (inactive)"
-    },
+    "name": { "str": "lightstrip (inactive)", "str_pl": "lightstrips (inactive)" },
     "copy-from": "lightstrip_base",
     "description": "This is a light-emitting circuit that can be wired directly to a battery.  It provides some weak light and can't be turned off until the battery dies.",
     "color": "white",
@@ -694,10 +496,7 @@
     "id": "oil_lamp",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "oil lamp (off)",
-      "str_pl": "oil lamps (off)"
-    },
+    "name": { "str": "oil lamp (off)", "str_pl": "oil lamps (off)" },
     "description": "This is an oil fueled lamp.  It does not provide much light, but it lasts a long time.  Use it to turn it on.",
     "weight": "1720 g",
     "volume": "1 L",
@@ -705,10 +504,7 @@
     "price_postapoc": "1 USD",
     "to_hit": 2,
     "bashing": 1,
-    "material": [
-      "glass",
-      "iron"
-    ],
+    "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
     "ammo": "lamp_oil",
@@ -724,42 +520,24 @@
       "need_charges_msg": "The lamp is empty.",
       "type": "transform"
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "oil_lamp_on",
     "copy-from": "oil_lamp",
     "type": "TOOL",
-    "name": {
-      "str": "oil lamp"
-    },
+    "name": { "str": "oil lamp" },
     "description": "This is an oil fueled lamp.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
     "turns_per_charge": 240,
     "revert_to": "oil_lamp",
-    "use_action": {
-      "target": "oil_lamp",
-      "msg": "The lantern is extinguished.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
-    "flags": [
-      "LIGHT_20",
-      "TRADER_AVOID",
-      "FIRE",
-      "ALLOWS_REMOTE_USE",
-      "WATER_EXTINGUISH"
-    ]
+    "use_action": { "target": "oil_lamp", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
+    "flags": [ "LIGHT_20", "TRADER_AVOID", "FIRE", "ALLOWS_REMOTE_USE", "WATER_EXTINGUISH" ]
   },
   {
     "id": "oxylamp",
     "type": "TOOL",
     "category": "tools",
-    "name": {
-      "str": "acetylene lamp (off)",
-      "str_pl": "acetylene lamps (off)"
-    },
+    "name": { "str": "acetylene lamp (off)", "str_pl": "acetylene lamps (off)" },
     "description": "An antique brass lamp designed to run from a pressurized cylinder of acetylene.  It is an efficient, if not somewhat dangerous light source.",
     "weight": "800 g",
     "volume": "500 ml",
@@ -767,10 +545,7 @@
     "price_postapoc": "1 USD",
     "symbol": ";",
     "color": "red",
-    "material": [
-      "copper",
-      "glass"
-    ],
+    "material": [ "copper", "glass" ],
     "ammo": "weldgas",
     "use_action": {
       "type": "transform",
@@ -781,52 +556,29 @@
       "need_charges": 1,
       "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "magazines": [
-      [
-        "weldgas",
-        [
-          "weldtank",
-          "tinyweldtank"
-        ]
-      ]
-    ]
+    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ]
   },
   {
     "id": "oxylamp_on",
     "copy-from": "oxylamp",
     "type": "TOOL",
-    "name": {
-      "str": "acetylene lamp (on)",
-      "str_pl": "acetylene lamps (on)"
-    },
+    "name": { "str": "acetylene lamp (on)", "str_pl": "acetylene lamps (on)" },
     "turns_per_charge": 240,
     "revert_to": "oxylamp",
-    "use_action": {
-      "menu_text": "Turn off",
-      "type": "transform",
-      "msg": "The %s is extinguished",
-      "target": "oxylamp"
-    },
-    "flags": [
-      "LIGHT_30"
-    ]
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s is extinguished", "target": "oxylamp" },
+    "flags": [ "LIGHT_30" ]
   },
   {
     "id": "reading_light",
     "type": "TOOL",
     "category": "electronics",
-    "name": {
-      "str": "reading light"
-    },
+    "name": { "str": "reading light" },
     "description": "A little clip-on LED light, meant for reading books in the dark.",
     "weight": "90 g",
     "volume": "100 ml",
     "price": "1 USD",
     "price_postapoc": "1 USD",
-    "material": [
-      "plastic",
-      "aluminum"
-    ],
+    "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
@@ -839,47 +591,25 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_disposable_cell",
-          "light_minus_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
     "magazine_well": "100 ml"
   },
   {
     "id": "reading_light_on",
     "copy-from": "reading_light",
     "type": "TOOL",
-    "name": {
-      "str": "reading light (active)",
-      "str_pl": "reading lights (active)"
-    },
+    "name": { "str": "reading light (active)", "str_pl": "reading lights (active)" },
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
     "power_draw": 4000,
     "revert_to": "reading_light",
-    "use_action": {
-      "target": "reading_light",
-      "msg": "You switch off the reading light.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
-    "flags": [
-      "LIGHT_20"
-    ]
+    "use_action": { "target": "reading_light", "msg": "You switch off the reading light.", "menu_text": "Turn off", "type": "transform" },
+    "flags": [ "LIGHT_20" ]
   },
   {
     "id": "smart_lamp",
     "type": "TOOL",
     "category": "electronics",
-    "name": {
-      "str": "smart lamp (off)",
-      "str_pl": "smart lamps (off)"
-    },
+    "name": { "str": "smart lamp (off)", "str_pl": "smart lamps (off)" },
     "description": "This is a smart lamp, it can be activated remotely.",
     "weight": "400 g",
     "volume": "500 ml",
@@ -887,10 +617,7 @@
     "price_postapoc": "1 USD",
     "to_hit": -1,
     "bashing": 1,
-    "material": [
-      "plastic",
-      "aluminum"
-    ],
+    "material": [ "plastic", "aluminum" ],
     "symbol": "&",
     "color": "blue",
     "ammo": "battery",
@@ -903,10 +630,7 @@
       "need_charges_msg": "The smart lamp batteries are dead.",
       "type": "transform"
     },
-    "flags": [
-      "RADIO_ACTIVATION",
-      "RADIOSIGNAL_2"
-    ],
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
     "magazines": [
       [
         "battery",
@@ -927,38 +651,20 @@
     "id": "smart_lamp_on",
     "copy-from": "smart_lamp",
     "type": "TOOL",
-    "name": {
-      "str": "smart lamp (on)",
-      "str_pl": "smart lamps (on)"
-    },
+    "name": { "str": "smart lamp (on)", "str_pl": "smart lamps (on)" },
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
     "power_draw": 8500,
     "revert_to": "smart_lamp",
-    "use_action": {
-      "target": "smart_lamp",
-      "msg": "Your smart lamp turned off",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
-    "flags": [
-      "RADIO_ACTIVATION",
-      "RADIOSIGNAL_2",
-      "LIGHT_240",
-      "TRADER_AVOID"
-    ],
+    "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "TRADER_AVOID" ],
     "magazine_well": "250 ml"
   },
   {
     "id": "torch",
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [
-      "CLUBS"
-    ],
-    "name": {
-      "str": "torch",
-      "str_pl": "torches"
-    },
+    "weapon_category": [ "CLUBS" ],
+    "name": { "str": "torch", "str_pl": "torches" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  When lit, produces a fair amount of light.  You'll need a lighter or matches to light it.",
     "weight": "831 g",
     "volume": "750 ml",
@@ -969,9 +675,7 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
-    "techniques": [
-      "WBLOCK_1"
-    ],
+    "techniques": [ "WBLOCK_1" ],
     "initial_charges": 25,
     "max_charges": 25,
     "use_action": {
@@ -988,13 +692,8 @@
     "id": "torch_lit",
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [
-      "CLUBS"
-    ],
-    "name": {
-      "str": "torch",
-      "str_pl": "torches"
-    },
+    "weapon_category": [ "CLUBS" ],
+    "name": { "str": "torch", "str_pl": "torches" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  It is burning, producing plenty of light.",
     "weight": "831 g",
     "volume": "750 ml",
@@ -1009,17 +708,9 @@
     "max_charges": 75,
     "turns_per_charge": 40,
     "revert_to": "torch_done",
-    "thrown_damage": [
-      {
-        "damage_type": "heat",
-        "amount": 4
-      }
-    ],
+    "thrown_damage": [ { "damage_type": "heat", "amount": 4 } ],
     "use_action": [
-      {
-        "type": "firestarter",
-        "moves": 30
-      },
+      { "type": "firestarter", "moves": 30 },
       {
         "target": "torch",
         "msg": "The torch is extinguished.",
@@ -1028,16 +719,7 @@
         "type": "transform"
       }
     ],
-    "techniques": [
-      "WBLOCK_1"
-    ],
-    "flags": [
-      "FIRE",
-      "LIGHT_300",
-      "CHARGEDIM",
-      "FLAMING",
-      "TRADER_AVOID",
-      "WATER_EXTINGUISH"
-    ]
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "FIRE", "LIGHT_300", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
   }
 ]

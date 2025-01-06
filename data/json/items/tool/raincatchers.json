@@ -3,9 +3,7 @@
     "id": "birchbark_funnel",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "birchbark funnel"
-    },
+    "name": { "str": "birchbark funnel" },
     "description": "This is a small birchbark funnel.  Place it above an outdoor container to collect rainwater.",
     "weight": "3 g",
     "volume": "250 ml",
@@ -23,17 +21,13 @@
       "practice": 0,
       "done_message": "You place the birchbark funnel, waiting to collect rain."
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "funnel",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "funnel"
-    },
+    "name": { "str": "funnel" },
     "description": "This is a funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "606 g",
     "volume": "500 ml",
@@ -52,17 +46,13 @@
       "practice": 0,
       "done_message": "You place the funnel, waiting to collect rain."
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "leather_funnel",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "leather funnel"
-    },
+    "name": { "str": "leather funnel" },
     "description": "This is a small, leather funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4 g",
     "volume": "250 ml",
@@ -80,17 +70,13 @@
       "practice": 0,
       "done_message": "You place the leather funnel, waiting to collect rain."
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "makeshift_funnel",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "makeshift funnel"
-    },
+    "name": { "str": "makeshift funnel" },
     "description": "This is a small, makeshift funnel used to collect rainwater.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4 g",
     "volume": "250 ml",
@@ -108,17 +94,13 @@
       "practice": 0,
       "done_message": "You place the makeshift funnel, waiting to collect rain."
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "metal_funnel",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "metal funnel"
-    },
+    "name": { "str": "metal funnel" },
     "description": "This is a large metal funnel used to collect rainwater.  Less portable than plastic funnels, but collects more water.  Use it outside and place a container beneath it to collect water when it rains.",
     "weight": "4017 g",
     "volume": "4 L",
@@ -137,26 +119,19 @@
       "practice": 0,
       "done_message": "You place the metal funnel, waiting to collect rain."
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "tarp_raincatcher",
     "type": "GENERIC",
     "category": "deployables",
-    "name": {
-      "str": "tarp raincatcher"
-    },
+    "name": { "str": "tarp raincatcher" },
     "description": "Some sticks and string with a tarpaulin to set up an improvised raincatcher.",
     "weight": "3980 g",
     "volume": "4 L",
     "price": "60 USD",
     "price_postapoc": "1 USD",
-    "material": [
-      "wood",
-      "plastic"
-    ],
+    "material": [ "wood", "plastic" ],
     "symbol": ";",
     "color": "yellow",
     "use_action": {
@@ -167,8 +142,6 @@
       "practice": 0,
       "done_message": "You set up the raincatcher, waiting to collect water."
     },
-    "flags": [
-      "ALLOWS_REMOTE_USE"
-    ]
+    "flags": [ "ALLOWS_REMOTE_USE" ]
   }
 ]

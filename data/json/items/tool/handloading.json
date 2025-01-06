@@ -3,10 +3,7 @@
     "id": "press",
     "type": "GENERIC",
     "category": "tools_workshop",
-    "name": {
-      "str": "hand press",
-      "str_pl": "hand presses"
-    },
+    "name": { "str": "hand press", "str_pl": "hand presses" },
     "description": "This is a small hand press for hand loading firearm ammunition.  It comes with everything you need to start hand loading your own munitions.",
     "weight": "2268 g",
     "volume": "500 ml",
@@ -14,10 +11,7 @@
     "price_postapoc": "20 USD",
     "to_hit": -2,
     "bashing": 6,
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray"
   },
@@ -25,10 +19,7 @@
     "id": "press_dowel",
     "type": "GENERIC",
     "category": "tools_workshop",
-    "name": {
-      "str": "makeshift shotshell press",
-      "str_pl": "makeshift shotshell presses"
-    },
+    "name": { "str": "makeshift shotshell press", "str_pl": "makeshift shotshell presses" },
     "description": "This is a collection of items improvised for field reloading of shotshells.  A plank with a hole cut in the center, a medium-sized nail, and a selection of whittled dowels are used to seat wads, decap primers, and reprime (carefully!) hulls.  The opposite side of the plank has been shaped to allow for roll crimping of the plastic hulls.",
     "weight": "348 g",
     "volume": "250 ml",
@@ -36,24 +27,16 @@
     "price_postapoc": "15 USD",
     "to_hit": -2,
     "bashing": 2,
-    "material": [
-      "wood",
-      "plastic",
-      "brass"
-    ],
+    "material": [ "wood", "plastic", "brass" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [
-      "TRADER_AVOID"
-    ]
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "puller",
     "type": "GENERIC",
     "category": "tools_workshop",
-    "name": {
-      "str": "kinetic bullet puller"
-    },
+    "name": { "str": "kinetic bullet puller" },
     "description": "This is a tool used for properly disassembling firearm ammunition.",
     "weight": "500 g",
     "volume": "250 ml",
@@ -63,22 +46,14 @@
     "material": "plastic",
     "symbol": ";",
     "color": "green",
-    "qualities": [
-      [
-        "PULL",
-        2
-      ]
-    ]
+    "qualities": [ [ "PULL", 2 ] ]
   },
   {
     "id": "press_workbench_item",
     "//": "Actual tool functions are on the furniture and its associated fake items, meant to be set up before use.",
     "type": "GENERIC",
     "category": "tools",
-    "name": {
-      "str": "reloading press",
-      "str_pl": "reloading presses"
-    },
+    "name": { "str": "reloading press", "str_pl": "reloading presses" },
     "description": "This is an all-in-one handloading tool consisting of a multi-stage press, bullet molds, a hotplate, and a collet puller for disassembling cartridges.  Once installed as furniture, it can handle both making your own ammunition and taking ammo apart for materials.",
     "weight": "6 kg",
     "volume": "2 L",
@@ -86,10 +61,7 @@
     "price_postapoc": "20 USD",
     "to_hit": -2,
     "bashing": 12,
-    "material": [
-      "steel",
-      "plastic"
-    ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "looks_like": "large_repairkit"

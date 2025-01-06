@@ -3,29 +3,18 @@
     "id": "combatnail",
     "copy-from": "nail",
     "type": "AMMO",
-    "name": {
-      "str": "flechette"
-    },
+    "name": { "str": "flechette" },
     "description": "A tiny steel dart.  Can be fired from a nail gun or similar weapon or used when crafting ammunition",
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "proportional": {
-      "price": 3,
-      "damage": {
-        "damage_type": "stab",
-        "amount": 3,
-        "armor_penetration": 3
-      }
-    }
+    "proportional": { "price": 3, "damage": { "damage_type": "stab", "amount": 3, "armor_penetration": 3 } }
   },
   {
     "id": "nail",
     "type": "AMMO",
     "category": "scrap_metal",
-    "name": {
-      "str": "nail"
-    },
+    "name": { "str": "nail" },
     "description": "A pin-shaped piece of iron, can be used to construct various things with a hammer.",
     "weight": "4 g",
     "volume": "250 ml",
@@ -38,19 +27,11 @@
     "stack_size": 100,
     "ammo_type": "nail",
     "range": 3,
-    "damage": {
-      "damage_type": "stab",
-      "amount": 4,
-      "armor_penetration": 3
-    },
+    "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 3 },
     "dispersion": 120,
     "dont_recover_one_in": 800,
     "loudness": 0,
-    "effects": [
-      "NON_FOULING"
-    ],
-    "flags": [
-      "NO_SALVAGE"
-    ]
+    "effects": [ "NON_FOULING" ],
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
