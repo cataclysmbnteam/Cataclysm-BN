@@ -5,6 +5,7 @@
     "name": "Magiclysm",
     "authors": [ "KorGgenT", "Aptronym", "LaVeyanFiend" ],
     "maintainers": [  ],
+    "obsolete": true,
     "description": "Cataclysm but with magic spells, BN Edition!",
     "category": "content",
     "dependencies": [ "bn" ]
