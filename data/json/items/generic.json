@@ -212,8 +212,7 @@
     "price_postapoc": "10 cent",
     "description": "A small bolt of garishly colored faux fur.  Can be made into clothing.",
     "flags": [ "NO_SALVAGE" ],
-    "material": [ "faux_fur" ],
-    "category": "scrap_fabric"
+    "material": [ "faux_fur" ]
   },
   {
     "type": "GENERIC",
@@ -402,8 +401,7 @@
     "material": "acidchitin",
     "flags": [ "NO_SALVAGE" ],
     "proportional": { "weight": 1.25 },
-    "relative": { "bashing": 2 },
-    "category": "chems"
+    "relative": { "bashing": 2 }
   },
   {
     "id": "bundle_rag",
@@ -2230,8 +2228,7 @@
     "copy-from": "garnet",
     "color": "blue",
     "name": { "str": "amethyst" },
-    "description": "A sparkling amethyst.",
-    "category": "valuables"
+    "description": "A sparkling amethyst."
   },
   {
     "type": "GENERIC",
@@ -2239,8 +2236,7 @@
     "copy-from": "garnet",
     "color": "cyan",
     "name": { "str": "aquamarine" },
-    "description": "A sparkling aquamarine.",
-    "category": "valuables"
+    "description": "A sparkling aquamarine."
   },
   {
     "type": "GENERIC",
@@ -2248,8 +2244,7 @@
     "copy-from": "garnet",
     "color": "green",
     "name": { "str": "emerald" },
-    "description": "A sparkling emerald.",
-    "category": "valuables"
+    "description": "A sparkling emerald."
   },
   {
     "type": "GENERIC",
@@ -2257,8 +2252,7 @@
     "copy-from": "garnet",
     "color": "green",
     "name": { "str": "alexandrite" },
-    "description": "A sparkling alexandrite.",
-    "category": "valuables"
+    "description": "A sparkling alexandrite."
   },
   {
     "type": "GENERIC",
@@ -2266,8 +2260,7 @@
     "copy-from": "garnet",
     "color": "white",
     "name": { "str": "pearl" },
-    "description": "A lustrous pearl.",
-    "category": "valuables"
+    "description": "A lustrous pearl."
   },
   {
     "type": "GENERIC",
@@ -2275,8 +2268,7 @@
     "copy-from": "garnet",
     "color": "red",
     "name": { "str": "ruby", "str_pl": "rubies" },
-    "description": "A sparkling ruby.",
-    "category": "valuables"
+    "description": "A sparkling ruby."
   },
   {
     "type": "GENERIC",
@@ -2284,8 +2276,7 @@
     "copy-from": "garnet",
     "color": "green",
     "name": { "str": "peridot" },
-    "description": "A sparkling peridot.",
-    "category": "valuables"
+    "description": "A sparkling peridot."
   },
   {
     "type": "GENERIC",
@@ -2293,8 +2284,7 @@
     "copy-from": "garnet",
     "color": "blue",
     "name": { "str": "sapphire" },
-    "description": "A sparkling sapphire.",
-    "category": "valuables"
+    "description": "A sparkling sapphire."
   },
   {
     "type": "GENERIC",
@@ -2302,8 +2292,7 @@
     "copy-from": "garnet",
     "color": "white",
     "name": { "str": "opal" },
-    "description": "A lustrous opal.",
-    "category": "valuables"
+    "description": "A lustrous opal."
   },
   {
     "type": "GENERIC",
@@ -2311,8 +2300,7 @@
     "copy-from": "garnet",
     "color": "light_red",
     "name": { "str": "tourmaline" },
-    "description": "A sparkling tourmaline.",
-    "category": "valuables"
+    "description": "A sparkling tourmaline."
   },
   {
     "type": "GENERIC",
@@ -2320,8 +2308,7 @@
     "copy-from": "garnet",
     "color": "yellow",
     "name": { "str": "citrine" },
-    "description": "A sparkling citrine.",
-    "category": "valuables"
+    "description": "A sparkling citrine."
   },
   {
     "type": "GENERIC",
@@ -2329,8 +2316,7 @@
     "copy-from": "garnet",
     "color": "light_blue",
     "name": { "str": "topaz" },
-    "description": "A sparkling blue topaz.",
-    "category": "valuables"
+    "description": "A sparkling blue topaz."
   },
   {
     "type": "GENERIC",
@@ -3097,8 +3083,7 @@
     "color": "blue",
     "name": { "str": "broken riot control turret" },
     "description": "A broken riot control turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
-    "copy-from": "broken_turret",
-    "category": "scrap_electronics"
+    "copy-from": "broken_turret"
   },
   {
     "type": "GENERIC",
@@ -3107,8 +3092,7 @@
     "color": "green",
     "name": { "str": "broken laser turret" },
     "weight": "110 kg",
-    "copy-from": "broken_turret",
-    "category": "scrap_electronics"
+    "copy-from": "broken_turret"
   },
   {
     "type": "GENERIC",
@@ -3232,8 +3216,7 @@
     "color": "green",
     "name": { "str": "broken light turret" },
     "weight": "30 kg",
-    "copy-from": "broken_turret",
-    "category": "scrap_electronics"
+    "copy-from": "broken_turret"
   },
   {
     "type": "GENERIC",
@@ -3242,8 +3225,7 @@
     "color": "green",
     "name": { "str": "broken medium milspec turret" },
     "weight": "40 kg",
-    "copy-from": "broken_turret",
-    "category": "scrap_electronics"
+    "copy-from": "broken_turret"
   },
   {
     "type": "GENERIC",
@@ -3252,8 +3234,7 @@
     "color": "green",
     "name": { "str": "broken longrange milspec turret" },
     "weight": "50 kg",
-    "copy-from": "broken_turret",
-    "category": "scrap_electronics"
+    "copy-from": "broken_turret"
   },
   {
     "type": "GENERIC",

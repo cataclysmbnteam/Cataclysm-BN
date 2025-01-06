@@ -75,16 +75,14 @@
     "name": { "str": "basic AI core" },
     "description": "A very basic AI core with minimal cognitive abilities.",
     "weight": "125 g",
-    "copy-from": "ai_module",
-    "category": "scrap_electronics"
+    "copy-from": "ai_module"
   },
   {
     "type": "GENERIC",
     "id": "ai_module_advanced",
     "name": { "str": "advanced AI core" },
     "description": "An advanced AI core with impressive cognitive abilities.",
-    "copy-from": "ai_module",
-    "category": "scrap_electronics"
+    "copy-from": "ai_module"
   },
   {
     "type": "GENERIC",

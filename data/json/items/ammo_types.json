@@ -27,8 +27,7 @@
     "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
-    "default": "nail",
-    "category": "scrap_metal"
+    "default": "nail"
   },
   {
     "type": "ammunition_type",
@@ -64,8 +63,7 @@
     "type": "ammunition_type",
     "id": "rock",
     "name": "rocks",
-    "default": "rock",
-    "category": "rocks"
+    "default": "rock"
   },
   {
     "type": "ammunition_type",
@@ -318,8 +316,7 @@
     "type": "ammunition_type",
     "id": "thread",
     "name": "thread",
-    "default": "thread",
-    "category": "scrap_fabric"
+    "default": "thread"
   },
   {
     "type": "ammunition_type",
@@ -433,8 +430,7 @@
     "type": "ammunition_type",
     "id": "cac2powder",
     "name": "powdered calcium carbide premix",
-    "default": "cac2powder",
-    "category": "chems"
+    "default": "cac2powder"
   },
   {
     "type": "ammunition_type",
@@ -626,8 +622,7 @@
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",
-    "type": "ammunition_type",
-    "category": "scrap_wood"
+    "type": "ammunition_type"
   },
   {
     "id": "esbit",
@@ -645,8 +640,7 @@
     "type": "ammunition_type",
     "id": "glass_shard",
     "name": "glass shards",
-    "default": "glass_shard",
-    "category": "scrap_glass"
+    "default": "glass_shard"
   },
   {
     "id": "water",

@@ -57,8 +57,7 @@
     "type": "GENERIC",
     "name": { "str": "long string" },
     "description": "A 3-foot (or about 90 cm) long piece of cotton string.",
-    "proportional": { "weight": 6, "volume": 6, "price": 6 },
-    "category": "scrap_fabric"
+    "proportional": { "weight": 6, "volume": 6, "price": 6 }
   },
   {
     "id": "rope_6",

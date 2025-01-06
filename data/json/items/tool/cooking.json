@@ -29,8 +29,7 @@
     "volume": "800 ml",
     "price": "80 USD",
     "price_postapoc": "150 cent",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ],
-    "category": "tools_cooking"
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
   },
   {
     "id": "butter_churn",
