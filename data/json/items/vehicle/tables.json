@@ -34,5 +34,24 @@
     "bashing": 8,
     "price": "400 USD",
     "copy-from": "v_table"
+  },
+  {
+    "type": "GENERIC",
+    "id": "robobench",
+    "name": { "str": "robobench", "str_pl": "robobenches" },
+    "description": "Having upgraded the basic workbench, you've now created a robotic workbench that helps speed up crafting.",
+    "weight": "43000 g",
+    "to_hit": -8,
+    "color": "red",
+    "looks_like": "machinery_heavy",
+    "symbol": "0",
+    "material": [ "steel" ],
+    "flags": [ "TRADER_AVOID", "FLAT_SURFACE" ],
+    "volume": "10500 ml",
+    "bashing": 8,
+    "category": "veh_parts",
+    "price": "400 USD",
+    "price_postapoc": "1 USD",
+    "copy-from": "v_table"
   }
 ]
