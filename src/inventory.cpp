@@ -504,6 +504,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                                bool assign_invlet )
 {
     const time_point bday = calendar::start_of_cataclysm;
+    std::unordered_map<const vehicle *, std::unordered_set<const vpart_reference *>> checked_vehi;
     items.clear();
     build_items_type_cache();
     for( const tripoint &p : pts ) {
@@ -576,6 +577,12 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             continue;
         }
         vehicle *const veh = &vp->vehicle();
+        if( auto ovi = checked_vehi.find( veh ); ovi == checked_vehi.end() ) {
+            // We haven't worked with this vehicle yet.
+            checked_vehi[veh] = std::unordered_set<const vpart_reference *>();
+        }
+        // Make sure we're ready to record 
+        std::unordered_set<const vpart_reference *> &found_parts = checked_vehi[veh];
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
@@ -596,7 +603,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
 
-        if( faupart ) {
+        if( faupart && !found_parts.contains( &*faupart ) ) {
             for( const auto &it : veh->fuels_left() ) {
                 item &fuel = *item::spawn_temporary( it.first, bday );
                 if( fuel.made_of( LIQUID ) ) {
@@ -604,11 +611,13 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     add_item_by_items_type_cache( fuel, false, true, false );
                 }
             }
+            found_parts.insert( &*faupart );
         }
 
         static const flag_id flag_PSEUDO( "PSEUDO" );
         static const flag_id flag_HEATS_FOOD( "HEATS_FOOD" );
-        if( kpart ) {
+
+        if( kpart && !found_parts.contains( &*kpart ) ) {
             item &hotplate = *item::spawn_temporary( "hotplate", bday );
             hotplate.charges = veh->fuel_left( itype_battery, true );
             hotplate.item_tags.insert( flag_PSEUDO );
@@ -622,8 +631,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             item &pan = *item::spawn_temporary( "pan", bday );
             pan.set_flag( flag_PSEUDO );
             add_item_by_items_type_cache( pan );
+            found_parts.insert( &*kpart );
         }
-        if( weldpart ) {
+        if( weldpart && !found_parts.contains( &*weldpart ) ) {
             item &welder = *item::spawn_temporary( "welder", bday );
             welder.charges = veh->fuel_left( itype_battery, true );
             welder.item_tags.insert( flag_PSEUDO );
@@ -633,8 +643,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             soldering_iron.charges = veh->fuel_left( itype_battery, true );
             soldering_iron.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( soldering_iron );
+            found_parts.insert( &*weldpart );
         }
-        if( craftpart ) {
+        if( craftpart && !found_parts.contains( &*craftpart ) ) {
             item &vac_sealer = *item::spawn_temporary( "vac_sealer", bday );
             vac_sealer.charges = veh->fuel_left( itype_battery, true );
             vac_sealer.item_tags.insert( flag_PSEUDO );
@@ -654,20 +665,23 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             press.charges = veh->fuel_left( itype_battery, true );
             press.set_flag( flag_PSEUDO );
             add_item_by_items_type_cache( press );
+            found_parts.insert( &*craftpart );
         }
-        if( forgepart ) {
+        if( forgepart && !found_parts.contains( &*forgepart ) ) {
             item &forge = *item::spawn_temporary( "forge", bday );
             forge.charges = veh->fuel_left( itype_battery, true );
             forge.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( forge );
+            found_parts.insert( &*forgepart );
         }
-        if( kilnpart ) {
+        if( kilnpart && !found_parts.contains( &*kilnpart ) ) {
             item &kiln = *item::spawn_temporary( "kiln", bday );
             kiln.charges = veh->fuel_left( itype_battery, true );
             kiln.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( kiln );
+            found_parts.insert( &*kilnpart );
         }
-        if( chempart ) {
+        if( chempart && !found_parts.contains( &*chempart ) ) {
             item &chemistry_set = *item::spawn_temporary( "chemistry_set", bday );
             chemistry_set.charges = veh->fuel_left( itype_battery, true );
             chemistry_set.item_tags.insert( flag_PSEUDO );
@@ -677,12 +691,14 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             electrolysis_kit.charges = veh->fuel_left( itype_battery, true );
             electrolysis_kit.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( electrolysis_kit );
+            found_parts.insert( &*chempart );
         }
-        if( autoclavepart ) {
+        if( autoclavepart && !found_parts.contains( &*autoclavepart ) ) {
             item &autoclave = *item::spawn_temporary( "autoclave", bday );
             autoclave.charges = veh->fuel_left( itype_battery, true );
             autoclave.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( autoclave );
+            found_parts.insert( &*autoclavepart );
         }
     }
     pts.clear();
