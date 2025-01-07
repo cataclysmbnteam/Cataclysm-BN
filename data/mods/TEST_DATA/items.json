@@ -785,5 +785,35 @@
     "name": { "str": "damageable anti-bullet armor" },
     "description": "This armor protects from bullets, but can be damaged to protect a bit less.",
     "material_thickness": 10
+  },
+  {
+    "id": "test_override_armor_copyfrom_encumbrance",
+    "repairs_like": "survivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "copyable armor with encumbrance" },
+    "description": "This armor has some encumbrance.",
+    "weight": "100 g",
+    "volume": "1 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "dark_gray",
+    "material": [ "cotton" ],
+    "warmth": 0,
+    "material_thickness": 1,
+    "encumbrance": 10,
+    "coverage": 100,
+    "covers": [ "torso", "arm_l", "arm_r", "head", "leg_l", "leg_r" ]
+  },
+  {
+    "id": "test_override_armor_copyfrom_proportional_encumbrance",
+    "copy-from": "test_override_armor_copyfrom_encumbrance",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "proportionally encumbering armor" },
+    "description": "This armor has half the encumbrance of some other armor.",
+    "proportional": { "weight": 0.5, "encumbrance": 0.5, "price": 10, "warmth": 2 }
   }
 ]

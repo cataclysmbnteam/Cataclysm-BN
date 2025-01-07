@@ -2035,16 +2035,20 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
             slot.data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
-            if( jo.has_int( "encumbrance" ) ) {
-                slot.data[0].encumber = jo.get_int( "encumbrance" );
+            if( slot.data.size() > 1 && ( jo.has_int( "encumbrance" ) ||
+                                          jo.has_int( "max_encumbrance" ) ||
+                                          jo.has_int( "coverage" ) ) ) {
+                jo.throw_error( "Legacy armor format only supported for items with exactly 1 armor data entry.  Use \"armor_portion_data\" instead." );
+            }
+            // DISGUSTING hack
+            int old_encumbrance = slot.data[0].encumber;
+            assign( jo, "encumbrance", slot.data[0].encumber, strict );
+            if( old_encumbrance != slot.data[0].encumber ) {
                 slot.data[0].max_encumber = slot.data[0].encumber;
             }
-            if( jo.has_int( "max_encumbrance" ) ) {
-                slot.data[0].max_encumber = jo.get_int( "max_encumbrance" );
-            }
-            if( jo.has_int( "coverage" ) ) {
-                slot.data[0].coverage = jo.get_int( "coverage" );
-            }
+            assign( jo, "max_encumbrance", slot.data[0].max_encumber, strict );
+
+            assign( jo, "coverage", slot.data[0].coverage, strict );
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
             if( temp_cover_data.any() ) {
