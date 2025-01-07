@@ -4700,7 +4700,8 @@ void overmap::place_cities()
             city tmp;
             tmp.pos = p.xy();
             tmp.size = size;
-            tmp.finale_counter =  = rand() % 15 + 1; //TODO: is there some rand range function I could use instead? would make this more configurable.
+            tmp.finale_counter =  = rand() % 15 +
+                                    1; //TODO: is there some rand range function I could use instead? would make this more configurable.
             cities.push_back( tmp );
 
             const auto start_dir = om_direction::random();
@@ -4718,7 +4719,8 @@ void overmap::place_cities()
     }
 }
 
-overmap_special_id overmap::pick_random_building_to_place( int town_dist , bool attempt_finale_place) const
+overmap_special_id overmap::pick_random_building_to_place( int town_dist,
+        bool attempt_finale_place ) const
 {
     const city_settings &city_spec = settings->city_spec;
     int shop_radius = city_spec.shop_radius;
@@ -4735,9 +4737,9 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist , bool 
     int park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ),
                                 park_radius );
 
-    if ( attempt_finale_place ){
-        return overmap_special_id("s_electronics_2")
-    }else if( shop_normal > town_dist ) {
+    if( attempt_finale_place ) {
+        return overmap_special_id( "s_electronics_2" )
+    } else if( shop_normal > town_dist ) {
         return city_spec.pick_shop();
     } else if( park_normal > town_dist ) {
         return city_spec.pick_park();
@@ -4746,7 +4748,8 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist , bool 
     }
 }
 
-void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town, bool attempt_finale_place )
+void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town,
+                              bool attempt_finale_place )
 {
     const tripoint_om_omt building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
@@ -4754,7 +4757,8 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
     const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
-        const overmap_special_id building_tid = pick_random_building_to_place( town_dist, attempt_finale_place );
+        const overmap_special_id building_tid = pick_random_building_to_place( town_dist,
+                                                attempt_finale_place );
 
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             place_special( *building_tid, building_pos, building_dir, town, false, false );
@@ -4821,26 +4825,27 @@ void overmap::build_city_street(
                 sewers.push_back( rp + tripoint_below );
             }
         }
-        bool finale_placed=false;
+        bool finale_placed = false;
         bool attempt_finale_place = false;
         // place a finale somewhere within the first 15 buildings
         if town.finale_counter == 0 && !town.finale_placed;
-            {
-                attempt_finale_place = true;
+    {
+        attempt_finale_place = true;
+    } else;
+    {
+        town.finale_counter--;
+    }
+    if( !one_in( BUILDINGCHANCE ) ) {
+            place_building( rp, om_direction::turn_left( dir ), town, attempt_finale_place );
+            if( attempt_finale_place ) {
+                town.finale_placed = true;
             }
-        else;
-            {
-                town.finale_counter--;
-            }
-        if( !one_in( BUILDINGCHANCE ) ) {
-            place_building( rp, om_direction::turn_left( dir ), town, attempt_finale_place);
-            if (attempt_finale_place) 
-                {town.finale_placed=true;} 
         }
         if( !one_in( BUILDINGCHANCE ) ) {
             place_building( rp, om_direction::turn_right( dir ), town, attempt_finale_place );
-            if (attempt_finale_place) 
-                {town.finale_placed=true;} 
+            if( attempt_finale_place ) {
+                town.finale_placed = true;
+            }
         }
     }
 
