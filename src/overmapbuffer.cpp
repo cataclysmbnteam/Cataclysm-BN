@@ -950,7 +950,7 @@ void overmapbuffer::add_unique_special( const overmap_special_id &id )
 
 bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) const
 {
-    return placed_unique_specials.find( id ) != placed_unique_specials.end();
+    return placed_unique_specials.contains( id );
 }
 
 static omt_find_params assign_params(
