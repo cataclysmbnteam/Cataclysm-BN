@@ -2,7 +2,7 @@
   {
     "id": "atomic_lamp",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "atomic lamp" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this very expensive lamp will emit a small amount of light for at least a decade.  Before the Cataclysm, it was mostly an expensive way to show off your preparedness.  Now, it's actually pretty cool.  Use it to close the cover and hide the light.",
     "weight": "605 g",
@@ -20,7 +20,7 @@
   {
     "id": "atomic_lamp_off",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "atomic lamp (covered)", "str_pl": "atomic lamps (covered)" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this very expensive lamp will emit a small amount of light for at least a decade.  Before the Cataclysm, it was mostly an expensive way to show off your preparedness.  Now, it's actually pretty cool.  The cover is closed.  Use it to open the cover and show the light.",
     "weight": "605 g",
@@ -44,7 +44,7 @@
   {
     "id": "atomic_light",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "atomic reading light" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this extremely expensive little light will provide just enough light to read by for at least a decade.  It is also available with a cute cartoon bear cover to turn it into a nightlight for a very wealthy child with a fear of the dark.  Use it to close the cover and hide the light.",
     "weight": "237 g",
@@ -67,7 +67,7 @@
   {
     "id": "atomic_light_off",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "atomic reading light (covered)", "str_pl": "atomic reading lights (covered)" },
     "description": "Powered by the magic of nuclear decay and low-energy LEDs, this extremely expensive little light will provide just enough light to read by for at least a decade.  It is also available with a cute cartoon bear cover to turn it into a nightlight for a very wealthy child with a fear of the dark.  The cover is closed.  Use it to open the cover and show the light.",
     "weight": "237 g",
@@ -141,7 +141,7 @@
   {
     "id": "electric_lantern",
     "type": "TOOL",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "electric lantern (off)", "str_pl": "electric lanterns (off)" },
     "description": "This is a battery-powered lamp.  It does not provide much light, but it lasts a long time.  Use it to turn it on.",
     "weight": "980 g",
@@ -193,7 +193,7 @@
   {
     "id": "flashlight",
     "type": "TOOL",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "flashlight (off)", "str_pl": "flashlights (off)" },
     "description": "This is a typical household flashlight with a plastic handle.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "material": [ "plastic", "aluminum" ],
@@ -381,7 +381,7 @@
   {
     "id": "heavy_flashlight",
     "type": "TOOL",
-    "category": "tools",
+    "category": "electronics",
     "weapon_category": [ "BATONS" ],
     "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
     "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
@@ -571,7 +571,7 @@
   {
     "id": "reading_light",
     "type": "TOOL",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "reading light" },
     "description": "A little clip-on LED light, meant for reading books in the dark.",
     "weight": "90 g",
@@ -608,7 +608,7 @@
   {
     "id": "smart_lamp",
     "type": "TOOL",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "smart lamp (off)", "str_pl": "smart lamps (off)" },
     "description": "This is a smart lamp, it can be activated remotely.",
     "weight": "400 g",

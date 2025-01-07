@@ -39,7 +39,7 @@
     "id": "string_6",
     "type": "GENERIC",
     "stackable": true,
-    "category": "spare_parts",
+    "category": "scrap_fabric",
     "name": { "str": "short string" },
     "description": "A 6-inch (or about 15 cm) long piece of cotton string.",
     "weight": "6 g",
