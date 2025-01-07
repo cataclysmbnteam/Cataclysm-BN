@@ -623,7 +623,13 @@
     "difficulty": 1,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "reveal_radius": 1, "search_range": 200, "min_distance": 45 }
+      "assign_mission_target": {
+        "om_terrain": "mansion_c3",
+        "om_special": "Mansion_Wild",
+        "reveal_radius": 1,
+        "search_range": 200,
+        "min_distance": 45
+      }
     },
     "origins": [ "ORIGIN_GAME_START" ]
   },
