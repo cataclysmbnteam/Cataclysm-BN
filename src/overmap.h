@@ -57,6 +57,7 @@ struct city {
     // location of the city (in overmap terrain coordinates)
     point_om_omt pos;
     int size;
+    int finale_counter;
     std::string name;
     city( const point_om_omt &P = point_om_omt(), int S = -1 );
 
