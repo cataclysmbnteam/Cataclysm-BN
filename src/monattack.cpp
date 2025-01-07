@@ -5394,7 +5394,6 @@ bool mattack::bio_op_takedown( monster *z )
     }
     // Weak kick to start with, knocks you off your footing
 
-    // TODO: Literally "The zombie kicks" vvvvv | Fix message or comment why Literally. | Specified the creature name
     //~ 1$s is the attacker, 2$s is bodypart name in accusative, 3$d is damage value.
     target->add_msg_if_player( m_bad, _( "The %1$s kicks your %2$s for %3$d damage…" ),
                                z->name(), body_part_name_accusative( hit->token ), dam );
