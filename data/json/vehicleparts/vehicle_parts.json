@@ -1174,6 +1174,36 @@
   },
   {
     "type": "vehicle_part",
+    "id": "robobench",
+    "name": { "str": "robobench" },
+    "symbol": "#",
+    "looks_like": "machinery_heavy",
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "damage_modifier": 60,
+    "durability": 300,
+    "size": "30 L",
+    "item": "robobench",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+    },
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
+    "breaks_into": [
+      { "item": "pipe", "count": [ 4, 6 ] },
+      { "item": "sheet_metal", "count": [ 0, 1 ] },
+      { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 12, 24 ] }
+    ],
+    "workbench": { "multiplier": 1.5, "mass": "300 kg", "volume": "30L" },
+    "damage_reduction": { "all": 25 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "boat_board",
     "name": { "str": "wooden boat hull" },
     "description": "A wooden board that keeps the water out of your boat.",
