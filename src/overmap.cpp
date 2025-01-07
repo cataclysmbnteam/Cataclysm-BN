@@ -4690,8 +4690,8 @@ void overmap::place_cities()
         // don't draw cities across the edge of the map, they will get clipped
         const tripoint_om_omt p{ rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ), 0 };
         //make a backup of the map
-        map_layer this_layer_backup = layer[z + OVERMAP_DEPTH];
-        map_layer sewers_backup = layer[z + OVERMAP_DEPTH + 1];
+        map_layer this_layer_backup = layer[p.z() + OVERMAP_DEPTH];
+        map_layer sewers_backup = layer[p.z() + OVERMAP_DEPTH + 1];
         //std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
         if( ter( p ) == settings->default_oter ) {
             placement_attempts = 0;
@@ -4700,7 +4700,8 @@ void overmap::place_cities()
             city tmp;
             tmp.pos = p.xy();
             tmp.size = size;
-            tmp.finale_counter =  = rand() % 15 + 1; //TODO: is there some rand range function I could use instead? would make this more configurable.
+            tmp.finale_counter = rand() % 15 + 1; //TODO: is there some rand range function I could use instead? would make this more configurable.
+            tmp.finale_placed = false;
             cities.push_back( tmp );
 
             const auto start_dir = om_direction::random();
@@ -4736,7 +4737,7 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist , bool 
                                 park_radius );
 
     if ( attempt_finale_place ){
-        return overmap_special_id("s_electronics_2")
+        return overmap_special_id("s_electronics_2");
     }else if( shop_normal > town_dist ) {
         return city_spec.pick_shop();
     } else if( park_normal > town_dist ) {
@@ -4746,7 +4747,7 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist , bool 
     }
 }
 
-void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town, bool attempt_finale_place )
+void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, city &town, bool attempt_finale_place )
 {
     const tripoint_om_omt building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
@@ -4765,8 +4766,8 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
 
 void overmap::build_city_street(
     const overmap_connection &connection, const point_om_omt &p, int cs,
-    om_direction::type dir, const city &town, std::vector<tripoint_om_omt> &sewers,
-    int block_width, )
+    om_direction::type dir, city &town, std::vector<tripoint_om_omt> &sewers,
+    int block_width )
 {
     int c = cs;
     int croad = cs;
@@ -4782,7 +4783,7 @@ void overmap::build_city_street(
         return; // Don't bother.
     }
     // Build the actual street.
-    build_connection( connection,   t_path, 0 );
+    build_connection( connection, street_path, 0 );
     // Grow in the stated direction, sprouting off sub-roads and placing buildings as we go.
     const auto from = std::next( street_path.nodes.begin() );
     const auto to = street_path.nodes.end();
@@ -4821,14 +4822,13 @@ void overmap::build_city_street(
                 sewers.push_back( rp + tripoint_below );
             }
         }
-        bool finale_placed=false;
         bool attempt_finale_place = false;
         // place a finale somewhere within the first 15 buildings
-        if town.finale_counter == 0 && !town.finale_placed;
+        if (town.finale_counter == 0 && !town.finale_placed)
             {
                 attempt_finale_place = true;
             }
-        else;
+        else
             {
                 town.finale_counter--;
             }
