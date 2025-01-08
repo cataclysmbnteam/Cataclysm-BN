@@ -1222,7 +1222,7 @@ void options_manager::add_options_general()
     };
 
     add( "PROMPT_ON_CHARACTER_DEATH", general, translate_marker( "Prompt on character death" ),
-         translate_marker( "If enabled, when your character dies, the player is given a prompt that gives the option to cancel savefile deletion and other death effects, returning to the main menu without saving instead." ),
+         translate_marker( "If enabled, when your character dies, the player is given a prompt that gives the option to reload the last saved game instead of dying." ),
          false
        );
 
@@ -2748,7 +2748,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
 
             tilecontext->load_tileset(
                 get_option<std::string>( "TILES" ),
-                ingame ? world_generator->active_world->active_mod_order : dummy,
+                ingame ? world_generator->active_world->info->active_mod_order : dummy,
                 /*precheck=*/false,
                 /*force=*/force_tile_change,
                 /*pump_events=*/true
@@ -3309,8 +3309,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
             save();
             if( ingame && world_options_changed ) {
-                world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
-                world_generator->active_world->save();
+                world_generator->active_world->info->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
+                world_generator->active_world->info->save();
             }
             g->on_options_changed();
         } else {
@@ -3478,9 +3478,9 @@ bool options_manager::save()
 void options_manager::load()
 {
     const auto file = PATH_INFO::options();
-    read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+    read_from_file_json( file, [&]( JsonIn & jsin ) {
         deserialize( jsin );
-    } );
+    }, true );
 
     cache_to_globals();
 }

@@ -156,6 +156,7 @@ static const itype_id itype_water_acid( "water_acid" );
 static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_throw( "throw" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
 
@@ -174,6 +175,8 @@ static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
+
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
@@ -1984,7 +1987,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                            _( "* This food will cause an <bad>allergic reaction</bad>." ) );
     }
 
-    if( food_item->has_flag( flag_CANNIBALISM ) &&
+    if( food_item->has_vitamin( vitamin_human_flesh_vitamin ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
         if( !you.has_trait_flag( trait_flag_CANNIBAL ) ) {
             info.emplace_back( "DESCRIPTION",
@@ -2244,7 +2247,6 @@ auto nname( const itype_id &id ) -> std::string
 void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminfo_query *parts,
                      int /* batch */, bool /* debug */ ) const
 {
-    const std::string space = "  ";
     const islot_gun &gun = *mod->type->gun;
     const Skill &skill = *mod->gun_skill();
     avatar &viewer = get_avatar();
@@ -2280,9 +2282,19 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     gun_du.damage_multiplier *= ranged::str_draw_damage_modifier( *mod, viewer );
 
-    const damage_unit &ammo_du = curammo != nullptr
-                                 ? curammo->ammo->damage.damage_units.front()
-                                 : damage_unit( DT_STAB, 0 );
+    damage_unit thrown_du = damage_unit( DT_STAB, 0 );
+
+    damage_unit ammo_du = curammo != nullptr
+                          ? curammo->ammo->damage.damage_units.front()
+                          : damage_unit( DT_STAB, 0 );
+
+    if( skill.ident() == skill_throw && curammo != nullptr ) {
+        item &tmp = *item::spawn_temporary( item( curammo ) );
+
+        thrown_du.amount += ranged::throw_damage( tmp,
+                            get_avatar().get_skill_level( skill_throw ),
+                            get_avatar().get_str() );
+    }
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
         insert_separation_line( info );
@@ -2297,14 +2309,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             damage_instance ammo_dam = curammo->ammo->damage;
             info.emplace_back( "GUN", "ammo_damage", "",
                                iteminfo::no_newline | iteminfo::no_name |
-                               iteminfo::show_plus, ammo_du.amount );
+                               iteminfo::show_plus, std::max( ammo_du.amount, thrown_du.amount ) );
         }
 
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
             // Intentionally not using total_damage() as it applies multipliers
             info.emplace_back( "GUN", "sum_of_damage", _( " = <num>" ),
                                iteminfo::no_newline | iteminfo::no_name,
-                               gun_du.amount + ammo_du.amount );
+                               gun_du.amount + std::max( ammo_du.amount, thrown_du.amount ) );
         }
     }
     info.back().bNewLine = true;
@@ -2518,6 +2530,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                           "Uses <stat>%i</stat> charges of UPS per shot",
                                           mod->get_gun_ups_drain() ),
                                           mod->get_gun_ups_drain() ) );
+    }
+
+    if( skill.ident() == skill_throw ) {
+        info.emplace_back( "GUN",
+                           _( "Damage/range will vary with <info>throwing skill and ammo.</info>" ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
@@ -3032,14 +3049,15 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
     if( book.skill ) {
         const SkillLevel &skill = you.get_skill_level_object( book.skill );
-        if( skill.can_train() && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
+        if( parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
             const std::string skill_name = book.skill->name();
-            std::string fmt = string_format( _( "Can bring your <info>%s skill to</info> "
-                                                "<num>." ), skill_name );
-            info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, book.level );
-            fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ),
-                                 skill_name );
-            info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, skill.level() );
+            const std::string fmt = string_format( _( "Can bring <info>%s skill to</info> "
+                                                   "<num>." ), skill_name );
+            info.emplace_back( "BOOK", "", skill.can_train() ? fmt : colorize( fmt, c_brown ),
+                               iteminfo::no_flags, book.level );
+            info.emplace_back( "BOOK", "",
+                               string_format( _( "Your current <stat>%s skill</stat> is <num>." ), skill_name ),
+                               iteminfo::no_flags, skill.level() );
         }
 
         if( book.req != 0 && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MIN ) ) {
@@ -4538,23 +4556,21 @@ void item::on_wear( Character &p )
             }
         } else if( has_flag( flag_POWERARMOR_MOD ) ) {
             // for power armor mods, wear on side with least mods
-            std::vector< std::pair< body_part, int > > mod_parts;
-            body_part bp = num_bp;
-            bodypart_str_id bpid;
+            std::vector< std::pair< bodypart_str_id, int > > mod_parts;
             int lhs = 0;
             int rhs = 0;
-            for( std::size_t i = 0; i < static_cast< body_part >( num_bp ) ; ++i ) {
-                bp = static_cast< body_part >( i );
-                if( get_covered_body_parts().test( convert_bp( bp ) ) ) {
+            const auto &all_bps = p.get_all_body_parts();
+            for( const bodypart_id &bp : all_bps ) {
+                if( get_covered_body_parts().test( bp.id() ) ) {
                     mod_parts.emplace_back( bp, 0 );
                 }
             }
             for( auto &elem : p.worn ) {
-                for( std::pair< body_part, int > &mod_part : mod_parts ) {
-                    bpid = convert_bp( mod_part.first );
-                    if( elem->get_covered_body_parts().test( bpid ) &&
+                for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
+                    const bodypart_str_id &bp = mod_part.first;
+                    if( elem->get_covered_body_parts().test( bp ) &&
                         elem->has_flag( flag_POWERARMOR_MOD ) ) {
-                        if( elem->is_sided() && elem->get_side() == bpid->part_side ) {
+                        if( elem->is_sided() && elem->get_side() == bp->part_side ) {
                             mod_part.second++;
                             continue;
                         }
@@ -4562,31 +4578,30 @@ void item::on_wear( Character &p )
                     }
                 }
             }
-            for( std::pair< body_part, int > &mod_part : mod_parts ) {
-                bpid = convert_bp( mod_part.first );
-                if( bpid->part_side == side::LEFT && mod_part.second > lhs ) {
-                    add_msg( _( "left" ) );
+            for( std::pair< bodypart_str_id, int > &mod_part : mod_parts ) {
+                const bodypart_str_id &bp = mod_part.first;
+                if( bp->part_side == side::LEFT && mod_part.second > lhs ) {
                     lhs = mod_part.second;
-                } else if( bpid->part_side == side::RIGHT && mod_part.second > rhs ) {
-                    add_msg( _( "right" ) );
+                } else if( bp->part_side == side::RIGHT && mod_part.second > rhs ) {
                     rhs = mod_part.second;
                 }
             }
             set_side( ( lhs > rhs ) ? side::RIGHT : side::LEFT );
         } else {
             // for sided items wear the item on the side which results in least encumbrance
+            const auto &all_bps = p.get_all_body_parts();
             int lhs = 0;
             int rhs = 0;
             set_side( side::LEFT );
             const char_encumbrance_data left_enc = p.get_encumbrance( *this );
-            for( const body_part bp : all_body_parts ) {
-                lhs += left_enc.elems[bp].encumbrance;
+            for( const bodypart_id &bp : all_bps ) {
+                lhs += left_enc.elems.at( bp.id() ).encumbrance;
             }
 
             set_side( side::RIGHT );
             const char_encumbrance_data right_enc = p.get_encumbrance( *this );
-            for( const body_part bp : all_body_parts ) {
-                rhs += right_enc.elems[bp].encumbrance;
+            for( const bodypart_id &bp : all_bps ) {
+                rhs += right_enc.elems.at( bp.id() ).encumbrance;
             }
 
             set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
@@ -5712,6 +5727,27 @@ bool item::has_flag( const flag_id &f ) const
 
     // now check for item specific flags
     return has_own_flag( f );
+}
+
+bool item::has_vitamin( const vitamin_id &v ) const
+{
+    if( !this->is_comestible() ) {
+        return false;
+    }
+    // We need this function to get all vitamins including from inheritance.
+    // But we don't care about calories, so we can just pass a dummy.
+    npc dummy;
+    const nutrients food_item = dummy.compute_effective_nutrients( *this );
+    for( auto const& [vit_id, amount] : food_item.vitamins ) {
+        if( vit_id == v ) {
+            if( amount > 0 ) {
+                return true;
+            } else {
+                break;
+            }
+        }
+    }
+    return false;
 }
 
 void item::set_flag( const flag_id &flag )
@@ -7797,7 +7833,13 @@ int item::gun_range( bool with_ammo ) const
         if( ammo_shape ) {
             ret = ammo_shape->get_range();
         } else {
-            ret += ammo_data()->ammo->range;
+            int ret_thrown = 0;
+            if( gun_skill() == skill_throw && ammo_data() ) {
+                const itype *curammo = ammo_data();
+                item &tmp = *item::spawn_temporary( item( curammo ) );
+                ret_thrown += get_avatar().throw_range( tmp );
+            }
+            ret += std::max( ammo_data()->ammo->range, ret_thrown );
         }
     }
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
@@ -10550,6 +10592,11 @@ std::string item::type_name( unsigned int quantity ) const
         switch( cname.type ) {
             case condition_type::FLAG:
                 if( has_flag( flag_id( cname.condition ) ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
+            case condition_type::VITAMIN:
+                if( has_vitamin( vitamin_id( cname.condition ) ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;

@@ -299,7 +299,7 @@
     "price_postapoc": "0 cent",
     "bashing": 4,
     "cutting": 20,
-    "material": "bone",
+    "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
   },

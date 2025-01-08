@@ -2929,6 +2929,7 @@ void bionic::serialize( JsonOut &json ) const
     if( energy_stored > 0_kJ ) {
         json.member( "energy_stored", energy_stored );
     }
+    json.member( "show_sprite", show_sprite );
 
     json.end_object();
 }
@@ -2952,6 +2953,9 @@ void bionic::deserialize( JsonIn &jsin )
     }
     if( jo.has_float( "auto_start_threshold" ) ) {
         auto_start_threshold = jo.get_float( "auto_start_threshold" );
+    }
+    if( jo.has_bool( "show_sprite" ) ) {
+        show_sprite = jo.get_bool( "show_sprite" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         for( const std::string line : jo.get_array( "bionic_tags" ) ) {

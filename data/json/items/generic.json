@@ -291,7 +291,7 @@
     "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy-duty usages, but it can be used as a varnish or holding together small items.",
     "price": "18 USD",
     "price_postapoc": "50 cent",
-    "material": "bone",
+    "material": [ "bone" ],
     "weight": "4500 mg",
     "volume": "25 ml",
     "to_hit": -2,
@@ -322,7 +322,7 @@
     "color": "green",
     "name": { "str": "fertilizer" },
     "description": "A token, representing fertilization of a plant.",
-    "material": "veggy"
+    "material": [ "veggy" ]
   },
   {
     "type": "GENERIC",
@@ -370,7 +370,7 @@
     "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
     "price": 0,
     "stackable": true,
-    "material": "flesh",
+    "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "50 g",
     "volume": "250 ml",
@@ -476,7 +476,7 @@
     "description": "An unopened biollante flower, brilliant purple in color.  It may still have its sap-producing organ intact.",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "weight": "60 g",
     "volume": "250 ml",
     "to_hit": -3
@@ -757,7 +757,7 @@
     "name": { "str": "bone skewer" },
     "description": "A thin skewer carved from bone.  Can be used to cook food over a fire or as a terrible lockpick.",
     "category": "other",
-    "material": "bone",
+    "material": [ "bone" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "weight": "10 g",
     "volume": "25 ml",
@@ -2559,7 +2559,7 @@
     "description": "A psychoactive plant indigenous to Central Asia and the Indian subcontinent traditionally cultivated for its fiber, oil, for medicinal purposes, and for use as a recreational drug.  It requires further processing to be useful.",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "weight": "400 g",
     "volume": "1 L"
   },
@@ -2574,11 +2574,12 @@
     "looks_like": "wild_herbs",
     "price": "3 USD",
     "price_postapoc": "50 cent",
-    "material": "veggy",
+    "material": [ "veggy" ],
     "weight": "100 g",
     "flags": [ "SMOKABLE" ],
     "volume": "250 ml",
-    "smoking_result": "tobacco"
+    "smoking_result": "tobacco",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "cash_card",

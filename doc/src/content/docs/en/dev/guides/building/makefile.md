@@ -569,6 +569,23 @@ this will not work.
 
 Check that `gcc -v` shows the homebrew version you installed.
 
+### brew clang
+
+If you want to use normal clang instead of apple clang, you can install it with Homebrew:
+
+```sh
+brew install llvm
+```
+
+Then you can specify the compiler with `COMPILER=$(brew --prefix llvm)/bin/clang++` in your make
+command.
+
+It's always good to check that the installed compiler is the one you want.
+
+```sh
+$(brew --prefix llvm)/bin/clang++ --version
+```
+
 ### Compiling
 
 The Cataclysm source is compiled using `make`.

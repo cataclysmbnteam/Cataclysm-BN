@@ -432,7 +432,7 @@ void game::reload_tileset( [[maybe_unused]] const std::function<void( std::strin
         std::vector<mod_id> dummy;
         tilecontext->load_tileset(
             get_option<std::string>( "TILES" ),
-            world_generator->active_world ? world_generator->active_world->active_mod_order : dummy,
+            world_generator->active_world ? world_generator->active_world->info->active_mod_order : dummy,
             /*precheck=*/false,
             /*force=*/true,
             /*pump_events=*/true
@@ -470,11 +470,13 @@ void game::reenter_fullscreen()
 /*
  * Initialize more stuff after mapbuffer is loaded.
  */
-void game::setup()
+void game::setup( bool load_world_modfiles )
 {
     loading_ui ui( true );
 
-    init::load_world_modfiles( ui, get_world_base_save_path() + "/" + SAVE_ARTIFACTS );
+    if( load_world_modfiles ) {
+        init::load_world_modfiles( ui, get_active_world(), SAVE_ARTIFACTS );
+    }
 
     m = map();
 
@@ -740,7 +742,7 @@ bool game::start_game()
     for( const mtype_id &elem : u.starting_pets ) {
         if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
             mon->friendly = -1;
-            mon->add_effect( effect_pet, 1_turns, num_bp );
+            mon->add_effect( effect_pet, 1_turns );
         } else {
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
@@ -1183,10 +1185,10 @@ bool game::cleanup_at_end()
             }
 
             if( queryDelete || get_option<std::string>( "WORLD_END" ) == "delete" ) {
-                world_generator->delete_world( world_generator->active_world->world_name, true );
+                world_generator->delete_world( world_generator->active_world->info->world_name, true );
 
             } else if( queryReset || get_option<std::string>( "WORLD_END" ) == "reset" ) {
-                world_generator->delete_world( world_generator->active_world->world_name, false );
+                world_generator->delete_world( world_generator->active_world->info->world_name, false );
             }
         } else if( get_option<std::string>( "WORLD_END" ) != "keep" ) {
             std::string tmpmessage;
@@ -2392,8 +2394,9 @@ bool game::is_game_over()
     if( u.is_dead_state() ) {
         if( get_option<bool>( "PROMPT_ON_CHARACTER_DEATH" ) &&
             !query_yn(
-                _( "Your character is dead, do you accept this?\n\nSelect Yes to abandon the character to their fate, select No to return to main menu." ) ) ) {
-            return true;
+                _( "Your character is dead, do you accept this?\n\nSelect Yes to abandon the character to their fate, select No to try again." ) ) ) {
+            g->quickload();
+            return false;
         }
 
         Messages::deactivate();
@@ -2467,7 +2470,7 @@ void game::win_screen()
 
 void game::move_save_to_graveyard( const std::string &dirname )
 {
-    const std::string save_dir           = get_world_base_save_path();
+    const std::string save_dir           = get_active_world()->info->folder_path();
     const std::string graveyard_dir      = PATH_INFO::graveyarddir() + "/";
     const std::string graveyard_save_dir = graveyard_dir + dirname + "/";
     const std::string &prefix            = base64_encode( u.get_save_id() ) + ".";
@@ -2506,14 +2509,14 @@ void game::move_save_to_graveyard( const std::string &dirname )
 void game::load_master()
 {
     using namespace std::placeholders;
-    const auto datafile = get_world_base_save_path() + "/" + SAVE_MASTER;
-    read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    get_active_world()->read_from_file( SAVE_MASTER, std::bind( &game::unserialize_master, this, _1 ),
+                                        true );
 }
 
 bool game::load( const std::string &world )
 {
     world_generator->init();
-    const WORLDPTR wptr = world_generator->get_world( world );
+    WORLDINFO *wptr = world_generator->get_world( world );
     if( !wptr ) {
         return false;
     }
@@ -2539,13 +2542,8 @@ bool game::load( const save_t &name )
     background_pane background;
     static_popup popup;
     popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
-    ui_manager::redraw();
-    refresh_display();
 
     using namespace std::placeholders;
-
-    const std::string worldpath = get_world_base_save_path() + "/";
-    const std::string playerpath = worldpath + name.base_path();
 
     // Now load up the master game data; factions (and more?)
     load_master();
@@ -2553,21 +2551,24 @@ bool game::load( const save_t &name )
     u.recalc_hp();
     u.set_save_id( name.decoded_name() );
     u.name = name.decoded_name();
-    if( !read_from_file( playerpath + SAVE_EXTENSION, std::bind( &game::unserialize, this, _1 ) ) ) {
+    if( !get_active_world()->read_from_file( name.base_path() + SAVE_EXTENSION,
+            std::bind( &game::unserialize, this, _1 ) ) ) {
         return false;
     }
-
+    // This needs to be here for some reason for quickload() to work
+    ui_manager::redraw();
+    refresh_display();
     u.load_map_memory();
     u.get_avatar_diary()->load();
 
     get_weather().nextweather = calendar::turn;
 
-    read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
-                             std::bind( &memorial_logger::load, &memorial(), _1 ) );
+    get_active_world()->read_from_file( name.base_path() + SAVE_EXTENSION_LOG,
+                                        std::bind( &memorial_logger::load, &memorial(), _1 ), true );
 
 #if defined(__ANDROID__)
-    read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS,
-                             std::bind( &game::load_shortcuts, this, _1 ) );
+    get_active_world()->read_from_file( name.base_path() + SAVE_EXTENSION_SHORTCUTS,
+                                        std::bind( &game::load_shortcuts, this, _1 ), true );
 #endif
 
     // Now that the player's worn items are updated, their sight limits need to be
@@ -2586,10 +2587,10 @@ bool game::load( const save_t &name )
     get_auto_notes_settings().load();   // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream & stream ) {
+    get_active_world()->read_from_file( "uistate.json", []( std::istream & stream ) {
         JsonIn jsin( stream );
         uistate.deserialize( jsin );
-    } );
+    }, true );
     reload_npcs();
     validate_npc_followers();
     validate_mounted_npcs();
@@ -2619,7 +2620,7 @@ bool game::load( const save_t &name )
 
     u.reset();
 
-    cata::load_world_lua_state( get_world_base_save_path() + "/lua_state.json" );
+    cata::load_world_lua_state( get_active_world(), "lua_state.json" );
 
     cata::run_on_game_load_hooks( *DynamicDataLoader::get_instance().lua );
 
@@ -2656,16 +2657,14 @@ void game::reset_npc_dispositions()
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
-    std::string masterfile = get_world_base_save_path() + "/" + SAVE_MASTER;
-    return write_to_file( masterfile, [&]( std::ostream & fout ) {
+    return get_active_world()->write_to_file( SAVE_MASTER, [&]( std::ostream & fout ) {
         serialize_master( fout );
     }, _( "factions data" ) );
 }
 
 bool game::save_artifacts()
 {
-    std::string artfilename = get_world_base_save_path() + "/" + SAVE_ARTIFACTS;
-    return ::save_artifacts( artfilename );
+    return ::save_artifacts( get_active_world(), SAVE_ARTIFACTS );
 }
 
 bool game::save_maps()
@@ -2683,18 +2682,17 @@ bool game::save_maps()
 
 bool game::save_player_data()
 {
-    const std::string playerfile = get_player_base_save_path();
-
-    const bool saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
+    world *world = get_active_world();
+    const bool saved_data = world->write_to_player_file( SAVE_EXTENSION, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "player data" ) );
     const bool saved_map_memory = u.save_map_memory();
-    const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
+    const bool saved_log = world->write_to_player_file( SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
         fout << memorial().dump();
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
-    const bool saved_shortcuts = write_to_file( playerfile + SAVE_EXTENSION_SHORTCUTS, [&](
+    const bool saved_shortcuts = world->write_to_player_file( SAVE_EXTENSION_SHORTCUTS, [&](
     std::ostream & fout ) {
         save_shortcuts( fout );
     }, _( "quick shortcuts" ) );
@@ -2732,9 +2730,9 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
-static bool save_uistate_data( const game &g )
+bool game::save_uistate_data() const
 {
-    return write_to_file( g.get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+    return get_active_world()->write_to_file( "uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
         uistate.serialize( jsout );
     }, _( "uistate data" ) );
@@ -2742,6 +2740,13 @@ static bool save_uistate_data( const game &g )
 
 bool game::save( bool quitting )
 {
+    world *world = get_active_world();
+    if( !world ) {
+        return false;
+    }
+
+    world->start_save_tx();
+
     cata::run_on_game_save_hooks( *DynamicDataLoader::get_instance().lua );
     try {
         reset_save_ids( time( nullptr ), quitting );
@@ -2752,15 +2757,18 @@ bool game::save( bool quitting )
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
-            !cata::save_world_lua_state( g->get_world_base_save_path() + "/lua_state.json" ) ||
-            !save_uistate_data( *this )
+            !cata::save_world_lua_state( get_active_world(), "lua_state.json" ) ||
+            !save_uistate_data()
           ) {
             return false;
         } else {
-            world_generator->last_world_name = world_generator->active_world->world_name;
+            world_generator->last_world_name = world_generator->active_world->info->world_name;
             world_generator->last_character_name = u.name;
             world_generator->save_last_world_info();
-            world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
+            world_generator->active_world->info->add_save( save_t::from_save_id( u.get_save_id() ) );
+
+            auto duration = world->commit_save_tx();
+            add_msg( m_info, _( "World Saved (took %dms)." ), duration );
             return true;
         }
     } catch( std::ios::failure &err ) {
@@ -2772,7 +2780,7 @@ bool game::save( bool quitting )
 std::vector<std::string> game::list_active_saves()
 {
     std::vector<std::string> saves;
-    for( auto &worldsave : world_generator->active_world->world_saves ) {
+    for( auto &worldsave : world_generator->active_world->info->world_saves ) {
         saves.push_back( worldsave.decoded_name() );
     }
     return saves;
@@ -2788,7 +2796,7 @@ void game::write_memorial_file( const std::string &filename, std::string sLastWo
 {
     const std::string &memorial_dir = PATH_INFO::memorialdir();
     const std::string &memorial_active_world_dir = memorial_dir +
-            world_generator->active_world->world_name + "/";
+            world_generator->active_world->info->world_name + "/";
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if( !assure_dir_exist( memorial_dir ) ) {
@@ -4893,14 +4901,14 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
 
     critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5_turns, num_bp );
+    critter.add_effect( effect_downed, 5_turns );
     for( detached_ptr<item> &component : it.remove_components() ) {
         critter.add_corpse_component( std::move( component ) );
     }
 
     if( it.get_var( "zlave" ) == "zlave" ) {
-        critter.add_effect( effect_pacified, 1_turns, num_bp );
-        critter.add_effect( effect_pet, 1_turns, num_bp );
+        critter.add_effect( effect_pacified, 1_turns );
+        critter.add_effect( effect_pet, 1_turns );
     }
 
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
@@ -7153,7 +7161,7 @@ bool game::take_screenshot( const std::string &path ) const
 bool game::take_screenshot() const
 {
     // check that the current '<world>/screenshots' directory exists
-    std::string map_directory = get_world_base_save_path() + "/screenshots/";
+    std::string map_directory = get_active_world()->info->folder_path() + "/screenshots/";
     assure_dir_exist( map_directory );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
@@ -11413,22 +11421,21 @@ void game::quicksave()
 
 void game::quickload()
 {
-    const WORLDPTR active_world = world_generator->active_world;
+    world *active_world = get_active_world();
     if( active_world == nullptr ) {
         return;
     }
 
-    if( active_world->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
-        if( moves_since_last_save != 0 ) { // See if we need to reload anything
-            MAPBUFFER.clear();
-            overmap_buffer.clear();
-            try {
-                setup();
-            } catch( const std::exception &err ) {
-                debugmsg( "Error: %s", err.what() );
-            }
-            load( save_t::from_save_id( u.get_save_id() ) );
+    if( active_world->info->save_exists( save_t::from_save_id( u.get_save_id() ) ) ) {
+        MAPBUFFER.clear();
+        overmap_buffer.clear();
+        try {
+            // Doesn't need to load mod files again for the same world
+            setup( false );
+        } catch( const std::exception &err ) {
+            debugmsg( "Error: %s", err.what() );
         }
+        load( save_t::from_save_id( u.get_save_id() ) );
     } else {
         popup_getkey( _( "No saves for current character yet." ) );
     }
@@ -12128,17 +12135,9 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
     return nullptr;
 }
 
-std::string game::get_player_base_save_path() const
+world *game::get_active_world() const
 {
-    return get_world_base_save_path() + "/" + base64_encode( get_avatar().get_save_id() );
-}
-
-std::string game::get_world_base_save_path() const
-{
-    if( world_generator->active_world == nullptr ) {
-        return PATH_INFO::savedir();
-    }
-    return world_generator->active_world->folder_path();
+    return world_generator->active_world.get();
 }
 
 void game::shift_destination_preview( point delta )

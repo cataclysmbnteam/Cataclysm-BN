@@ -653,7 +653,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     check_dead_state();
     if( t.as_character() ) {
         dealt_projectile_attack dp = dealt_projectile_attack();
-        t.as_character()->on_hit( this, bodypart_id( "num_bp" ), &dp );
+        t.as_character()->on_hit( this, bodypart_str_id::NULL_ID().id(), &dp );
     }
     return;
 }

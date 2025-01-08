@@ -475,6 +475,13 @@ class Character : public Creature, public location_visitable<Character>
         /** Maintains body temperature */
         void update_bodytemp( const map &m, const weather_manager &weather );
 
+        /** Getters/setters for body part temperature.
+         *  This could go under Creature, but Character is the class with update_bodytemp. */
+        int  get_part_temp_cur( const bodypart_id &id ) const;
+        void set_part_temp_cur( const bodypart_id &id, int temp );
+        std::map<bodypart_id, int> get_temp_cur();
+        void set_temp_cur( int temp );
+
         /** Define blood loss (in percents) */
         int blood_loss( const bodypart_id &bp ) const;
 
@@ -499,7 +506,7 @@ class Character : public Creature, public location_visitable<Character>
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
         char_encumbrance_data get_encumbrance( const item &new_item ) const;
         /** Get encumbrance penalty per layer & body part */
-        int extraEncumbrance( layer_level level, int bp ) const;
+        int extra_encumbrance( layer_level level, const bodypart_str_id &bp ) const;
 
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
@@ -798,7 +805,7 @@ class Character : public Creature, public location_visitable<Character>
                                      float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
-        nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
+        nc_color limb_color( const bodypart_str_id &bp, bool bleed, bool bite, bool infect ) const;
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;

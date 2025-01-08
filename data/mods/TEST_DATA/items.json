@@ -436,11 +436,11 @@
     "calories": 202,
     "description": "A handful of tasty crunchy nuts from a pinecone.",
     "price": "136 cent",
-    "material": "nut",
+    "material": [ "nut" ],
     "volume": "250 ml",
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "charges": 4,
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [ [ "iron", 9 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {

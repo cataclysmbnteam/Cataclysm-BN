@@ -11,6 +11,7 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <type_id.h>
 
 #include "activity_handlers.h"
 #include "addiction.h"
@@ -121,17 +122,27 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_egg_allergen( "egg_allergen" );
+static const vitamin_id vitamin_fruit_allergen( "fruit_allergen" );
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+static const vitamin_id vitamin_junk_allergen( "junk_allergen" );
+static const vitamin_id vitamin_meat_allergen( "meat_allergen" );
+static const vitamin_id vitamin_milk_allergen( "milk_allergen" );
+static const vitamin_id vitamin_nut_allergen( "nut_allergen" );
+static const vitamin_id vitamin_veggy_allergen( "veggy_allergen" );
+static const vitamin_id vitamin_wheat_allergen( "wheat_allergen" );
+
 static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
-static const std::array<flag_id, 4> carnivore_blacklist {{
-        flag_id( "ALLERGEN_VEGGY" ), flag_id( "ALLERGEN_FRUIT" ),
-        flag_id( "ALLERGEN_WHEAT" ), flag_id( "ALLERGEN_NUT" )
+static const std::array<vitamin_id, 4> carnivore_blacklist {{
+        vitamin_veggy_allergen, vitamin_fruit_allergen,
+        vitamin_wheat_allergen, vitamin_nut_allergen
     }};
 
-static const std::array<flag_id, 2> herbivore_blacklist {{
-        flag_id( "ALLERGEN_MEAT" ), flag_id( "ALLERGEN_EGG" )
+static const std::array<vitamin_id, 2> herbivore_blacklist {{
+        vitamin_meat_allergen, vitamin_egg_allergen
     }};
 
 // Defines the maximum volume that a internal furnace can consume
@@ -238,7 +249,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     if( you.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
-        comest.has_any_flag( carnivore_blacklist ) ) {
+        comest.has_any_vitamin( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
         kcal *= 0.5f;
     }
@@ -593,20 +604,20 @@ float Character::metabolic_rate() const
 
 morale_type Character::allergy_type( const item &food ) const
 {
-    using allergy_tuple = std::tuple<trait_id, flag_id, morale_type>;
+    using allergy_tuple = std::tuple<trait_id, vitamin_id, morale_type>;
     static const std::array<allergy_tuple, 8> allergy_tuples = {{
-            std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, MORALE_VEGETARIAN ),
-            std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, MORALE_MEATARIAN ),
-            std::make_tuple( trait_LACTOSE, flag_ALLERGEN_MILK, MORALE_LACTOSE ),
-            std::make_tuple( trait_ANTIFRUIT, flag_ALLERGEN_FRUIT, MORALE_ANTIFRUIT ),
-            std::make_tuple( trait_ANTIJUNK, flag_ALLERGEN_JUNK, MORALE_ANTIJUNK ),
-            std::make_tuple( trait_ANTIWHEAT, flag_ALLERGEN_WHEAT, MORALE_ANTIWHEAT )
+            std::make_tuple( trait_VEGETARIAN, vitamin_meat_allergen, MORALE_VEGETARIAN ),
+            std::make_tuple( trait_MEATARIAN, vitamin_veggy_allergen, MORALE_MEATARIAN ),
+            std::make_tuple( trait_LACTOSE, vitamin_milk_allergen, MORALE_LACTOSE ),
+            std::make_tuple( trait_ANTIFRUIT, vitamin_fruit_allergen, MORALE_ANTIFRUIT ),
+            std::make_tuple( trait_ANTIJUNK, vitamin_junk_allergen, MORALE_ANTIJUNK ),
+            std::make_tuple( trait_ANTIWHEAT, vitamin_wheat_allergen, MORALE_ANTIWHEAT )
         }
     };
 
     for( const auto &tp : allergy_tuples ) {
         if( has_trait( std::get<0>( tp ) ) &&
-            food.has_flag( std::get<1>( tp ) ) ) {
+            food.has_vitamin( std::get<1>( tp ) ) ) {
             return std::get<2>( tp );
         }
     }
@@ -681,13 +692,13 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 _( "Ugh, you can't drink that!" ) );
     }
     if( has_trait( trait_CARNIVORE ) && ( compute_effective_nutrients( food ).kcal ) > 0 &&
-        food.has_any_flag( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
+        food.has_any_vitamin( carnivore_blacklist ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
         return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "Eww.  Inedible plant stuff!" ) );
     }
 
     if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-        food.has_any_flag( herbivore_blacklist ) ) {
+        food.has_any_vitamin( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
         return ret_val<edible_rating>::make_failure( edible_rating::inedible_mutation,
                 _( "The thought of eating that makes you feel sick." ) );
@@ -730,7 +741,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( trait_flag_CANNIBAL ) ) {
+    if( food.has_vitamin( vitamin_human_flesh_vitamin ) && !has_trait_flag( trait_flag_CANNIBAL ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ),
                          edible_rating::cannibalism );
     }
@@ -1099,7 +1110,7 @@ void Character::modify_morale( item &food, int nutr )
         }
     }
 
-    if( food.has_flag( flag_CANNIBALISM ) ) {
+    if( food.has_vitamin( vitamin_human_flesh_vitamin ) ) {
         const bool cannibal = has_trait( trait_CANNIBAL );
         const bool psycho = has_trait( trait_PSYCHOPATH );
         const bool sapiovore = has_trait( trait_SAPIOVORE );
@@ -1177,7 +1188,7 @@ bool Character::consume_effects( item &food )
         return false;
     }
     if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-        food.has_any_flag( herbivore_blacklist ) ) {
+        food.has_any_vitamin( herbivore_blacklist ) ) {
         // No good can come of this.
         return false;
     }

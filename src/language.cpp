@@ -504,7 +504,7 @@ static bool add_mod_catalogues( std::vector<trans_catalogue> &list, const std::s
         return false;
     }
 
-    const std::vector<mod_id> &mods = world_generator->active_world->active_mod_order;
+    const std::vector<mod_id> &mods = world_generator->active_world->info->active_mod_order;
     for( const mod_id &mod : mods ) {
         add_mod_catalogue_if_exists( list, lang_id, mod->path );
     }

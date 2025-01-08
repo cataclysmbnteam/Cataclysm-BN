@@ -3590,7 +3590,7 @@ void load_tileset()
     }
     tilecontext->load_tileset(
         get_option<std::string>( "TILES" ),
-        world_generator->active_world->active_mod_order,
+        world_generator->active_world->info->active_mod_order,
         /*precheck=*/false,
         /*force=*/false,
         /*pump_events=*/true

@@ -1982,7 +1982,7 @@ Gun mods can be defined like this:
 "install_time": "30 s",        // Optional time installation takes. Installation is instantaneous if unspecified. An integer will be read as moves or a time string can be used.
 "ammo_modifier": [ "57" ],     // Optional field which if specified modifies parent gun to use these ammo types
 "magazine_adaptor": [ [ "223", [ "stanag30" ] ] ], // Optional field which changes the types of magazines the parent gun accepts
-"burst_modifier": 3,           // Optional field increasing or decreasing base gun burst size
+"mode_modifier": [ [ "AUTO", "auto", 5 ] ]         // Optional field which adds new firing modes to a weapon
 "damage_modifier": -1,         // Optional field increasing or decreasing base gun damage
 "dispersion_modifier": 15,     // Optional field increasing or decreasing base gun dispersion
 "loudness_modifier": 4,        // Optional field increasing or decreasing base guns loudness
@@ -3422,9 +3422,9 @@ The following actions are available as defined in trapfunc.cpp:
   processed as the mapgen update could just as easily remove the trap, change it to something else,
   or do any number of things that would otherwise disrupt the trap cleanup function.
 - `drain` - Deals a tiny amount of damage to the target, ignores armor and immunities.
-- `cast_spell` - Casts the spell specified by the trap's `spell_data`, centered on whatever set it
-  off. Note that the spell used generally requires a `min_aoe` defined to work successfully, and not
-  all spell effects can be expected to work properly with this.
+- `spell` - Casts the spell specified by the trap's `spell_data`, centered on whatever set it off.
+  Note that the spell used generally requires a `min_aoe` defined to work successfully, and not all
+  spell effects can be expected to work properly with this.
 - `snake` - Similar to `shadow` trap effect, summons shadow snakes nearby. Main difference is NPCs
   and monsters are capable of setting it off.
 

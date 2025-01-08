@@ -726,7 +726,7 @@ void location_visitable<location_inventory>::remove_items_with( const
 
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() &&
              last != VisitResponse::ABORT; ) {
-
+            location<item> *saved_loc = ( *istack_iter )->loc;
             ( *istack_iter )->remove_location();
             detached_ptr<item> t( *istack_iter );
 
@@ -747,7 +747,7 @@ void location_visitable<location_inventory>::remove_items_with( const
 
             if( t ) {
                 t.release();
-                ( *istack_iter )->set_location( &*inv->loc );
+                ( *istack_iter )->set_location( saved_loc );
                 istack_iter++;
             }
         }

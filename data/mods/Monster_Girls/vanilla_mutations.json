@@ -144,7 +144,7 @@
     "id": "DEFT",
     "copy-from": "DEFT",
     "delete": { "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "FELINE" ] },
-    "extend": { "category": [ "NEKO", "MOUSEGIRL", "HARPY" ] }
+    "extend": { "category": [ "NEKO", "MOUSEGIRL", "HARPY", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -179,7 +179,7 @@
     "id": "ADRENALINE",
     "copy-from": "ADRENALINE",
     "delete": { "category": [ "BEAST", "CHIMERA" ] },
-    "valid": false
+    "extend": { "category": [ "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -228,7 +228,7 @@
     "id": "PRETTY",
     "copy-from": "PRETTY",
     "delete": { "category": [ "ALPHA", "FELINE", "LUPINE" ] },
-    "extend": { "category": [ "NEKO", "DOGGIRL" ] }
+    "extend": { "category": [ "NEKO", "DOGGIRL", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -249,7 +249,7 @@
     "id": "SLEEPY",
     "copy-from": "SLEEPY",
     "delete": { "category": [ "BEAST", "CHIMERA", "MOUSE" ] },
-    "extend": { "category": [ "MOUSEGIRL" ] }
+    "extend": { "category": [ "MOUSEGIRL", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -340,7 +340,7 @@
     "id": "ANIMALDISCORD",
     "copy-from": "ANIMALDISCORD",
     "delete": { "category": [ "LUPINE", "BEAST", "RAPTOR", "INSECT" ] },
-    "extend": { "category": [ "DOGGIRL" ] }
+    "extend": { "category": [ "DOGGIRL", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -417,7 +417,7 @@
     "id": "NIGHTVISION2",
     "copy-from": "NIGHTVISION2",
     "delete": { "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE", "FELINE", "URSINE" ] },
-    "extend": { "category": [ "NEKO", "DOGGIRL", "MOUSEGIRL", "BEARGIRL" ] }
+    "extend": { "category": [ "NEKO", "DOGGIRL", "MOUSEGIRL", "BEARGIRL", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -445,7 +445,7 @@
     "id": "FEL_EYE",
     "copy-from": "FEL_EYE",
     "delete": { "category": [ "FELINE", "BEAST" ] },
-    "extend": { "category": [ "NEKO" ] }
+    "extend": { "category": [ "NEKO", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -1187,7 +1187,7 @@
     "id": "TAIL_FLUFFY",
     "copy-from": "TAIL_FLUFFY",
     "delete": { "category": [ "BEAST", "LUPINE" ] },
-    "extend": { "category": [ "DOGGIRL" ] }
+    "extend": { "category": [ "DOGGIRL", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -1334,7 +1334,7 @@
     "id": "LUPINE_EARS",
     "copy-from": "LUPINE_EARS",
     "delete": { "category": [ "LUPINE" ] },
-    "valid": false
+    "extend": { "category": [ "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -1810,7 +1810,7 @@
     "id": "HUNGER",
     "copy-from": "HUNGER",
     "delete": { "category": [ "RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE" ] },
-    "extend": { "category": [ "MOUSEGIRL", "SLIMEGIRL", "ELF" ] }
+    "extend": { "category": [ "MOUSEGIRL", "SLIMEGIRL", "ELF", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -1824,7 +1824,7 @@
     "id": "HUNGER2",
     "copy-from": "HUNGER2",
     "delete": { "category": [ "BEAST", "SLIME", "RAPTOR" ] },
-    "extend": { "category": [ "SLIMEGIRL" ] }
+    "extend": { "category": [ "SLIMEGIRL", "KITSUNE" ] }
   },
   {
     "type": "mutation",
@@ -2349,6 +2349,6 @@
     "id": "FELINE_FLEXIBILITY",
     "copy-from": "FELINE_FLEXIBILITY",
     "delete": { "category": [ "FELINE" ] },
-    "extend": { "category": [ "NEKO" ], "threshreq": [ "THRESH_NEKO" ] }
+    "extend": { "category": [ "NEKO", "KITSUNE" ], "threshreq": [ "THRESH_NEKO", "THRESH_KITSUNE" ] }
   }
 ]

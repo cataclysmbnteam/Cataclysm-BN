@@ -1135,7 +1135,7 @@ std::pair<int, units::energy> place_monster_iuse::use( player &p, item &it, bool
         }
         newmon.friendly = -1;
         if( is_pet ) {
-            newmon.add_effect( effect_pet, 1_turns, num_bp );
+            newmon.add_effect( effect_pet, 1_turns );
         }
     }
     // Transfer label from the item to monster nickname

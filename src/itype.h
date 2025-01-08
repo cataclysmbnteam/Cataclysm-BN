@@ -808,8 +808,9 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
-enum condition_type {
+enum class condition_type {
     FLAG,
+    VITAMIN,
     COMPONENT_ID,
     num_condition_types
 };

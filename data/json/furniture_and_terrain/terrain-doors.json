@@ -213,7 +213,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -226,7 +226,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -252,7 +252,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -265,7 +265,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -291,7 +291,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -304,7 +304,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -330,7 +330,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -343,7 +343,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -369,7 +369,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -382,7 +382,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {
@@ -408,7 +408,7 @@
       ]
     },
     "bash": {
-      "str_min": 8,
+      "str_min": 10,
       "str_max": 80,
       "str_min_blocked": 15,
       "str_max_blocked": 100,
@@ -421,7 +421,7 @@
         { "item": "splinter", "count": [ 1, 2 ] },
         { "item": "nail", "charges": [ 0, 2 ] }
       ],
-      "ranged": { "reduction": [ 8, 8 ], "destroy_threshold": 80 }
+      "ranged": { "reduction": [ 10, 10 ], "destroy_threshold": 80 }
     }
   },
   {

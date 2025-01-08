@@ -1175,7 +1175,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "loffice_tower_16", "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
+    "id": [ "loffice_tower_17", "loffice_tower_18", "loffice_tower_19", "loffice_tower_20" ],
     "name": "open air",
     "sym": ".",
     "color": "blue"

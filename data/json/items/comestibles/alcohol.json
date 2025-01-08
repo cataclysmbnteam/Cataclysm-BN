@@ -23,7 +23,8 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD", "MYCUS_OK" ],
-    "fun": 25
+    "fun": 25,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -521,7 +522,8 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": 20,
-    "flags": [ "UNSAFE_CONSUME", "EATEN_HOT" ]
+    "flags": [ "UNSAFE_CONSUME", "EATEN_HOT" ],
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -576,7 +578,7 @@
     "phase": "liquid",
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 118 ], [ "calcium", 2 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -603,7 +605,7 @@
     "phase": "liquid",
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 20,
-    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 135 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -629,7 +631,8 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1003,7 +1006,7 @@
     "charges": 6,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 8,
-    "vitamins": [ [ "vitC", 20 ] ]
+    "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1031,7 +1034,7 @@
     "charges": 6,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": -12,
-    "vitamins": [ [ "vitC", 20 ] ]
+    "vitamins": [ [ "vitC", 20 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1161,7 +1164,8 @@
     "phase": "liquid",
     "charges": 5,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1188,7 +1192,8 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
-    "fun": 20
+    "fun": 20,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1289,7 +1294,7 @@
     "charges": 2,
     "stack_size": 20,
     "fun": -1,
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 4 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1318,7 +1323,7 @@
     "charges": 2,
     "flags": [ "UNSAFE_CONSUME", "EATEN_COLD" ],
     "fun": 20,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 3 ], [ "calcium", 12 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",

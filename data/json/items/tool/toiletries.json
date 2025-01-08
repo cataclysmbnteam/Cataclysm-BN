@@ -75,6 +75,23 @@
     "use_action": "MOP"
   },
   {
+    "id": "mop_folded",
+    "type": "TOOL",
+    "name": { "str": "collapsible mop" },
+    "description": "A long unwieldy mop with a collapsible handle for convenient transportation.  You may use it to clean up any 'mess' you have made.",
+    "weight": "730 g",
+    "volume": "760 ml",
+    "price": "15 USD",
+    "price_postapoc": "15 cent",
+    "to_hit": -2,
+    "bashing": 3,
+    "material": [ "plastic" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "looks_like": "mop",
+    "use_action": [ "MOP" ]
+  },
+  {
     "type": "GENERIC",
     "category": "tools",
     "id": "razor_blade",

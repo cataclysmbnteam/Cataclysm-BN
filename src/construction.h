@@ -65,6 +65,9 @@ struct construction {
         // Flags beginning terrain must have
         std::set<std::string> pre_flags;
 
+        // Flags that exclude a given terrain tile
+        std::set<std::string> deny_flags;
+
         // Post construction flags
         std::set<std::string> post_flags;
 
@@ -128,8 +131,5 @@ void complete_construction( Character &ch );
 bool can_construct( const construction &con, const tripoint &p );
 bool player_can_build( Character &ch, const inventory &inv, const construction &con );
 
-void get_build_reqs_for_furn_ter_ids( const recipe_id &rid,
-                                      const std::pair<std::map<ter_id, int>,
-                                      std::map<furn_id, int>> &changed_ids,
-                                      build_reqs &total_reqs );
+
 #endif // CATA_SRC_CONSTRUCTION_H
