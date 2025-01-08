@@ -34,5 +34,16 @@
     "bashing": 8,
     "price": "400 USD",
     "copy-from": "v_table"
+  },
+  {
+    "type": "GENERIC",
+    "id": "robobench",
+    "name": { "str": "robobench", "str_pl": "robobenches" },
+    "description": "Having upgraded the basic workbench, you've now created a robotic workbench that helps speed up crafting.",
+    "weight": "43000 g",
+    "material": [ "steel" ],
+    "bashing": 9,
+    "price": "4000 USD",
+    "copy-from": "v_table"
   }
 ]

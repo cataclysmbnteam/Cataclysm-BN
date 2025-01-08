@@ -26,6 +26,29 @@
   },
   {
     "type": "recipe",
+    "result": "robobench",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "electronics",
+    "skills_required": [ [ "computer", 5 ], [ "fabrication", 3 ] ],
+    "difficulty": 7,
+    "time": "4 h",
+    "reversible": true,
+    "decomp_learn": 1,
+    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 6 ], [ "textbook_robots", 6 ] ],
+    "using": [ [ "welding_standard", 15 ], [ "soldering_standard", 40 ] ],
+    "components": [
+      [ [ "workbench", 1 ] ],
+      [ [ "plut_cell", 2 ] ],
+      [ [ "motor_small", 6 ] ],
+      [ [ "cable", 60 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "ai_module", 1 ] ],
+      [ [ "sheet_metal_small", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "pump_complex",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
