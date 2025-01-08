@@ -581,7 +581,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             // We haven't worked with this vehicle yet.
             checked_vehi[veh] = std::unordered_set<const vpart_reference *>();
         }
-        // Make sure we're ready to record 
+        // Make sure we're ready to record
         std::unordered_set<const vpart_reference *> &found_parts = checked_vehi[veh];
 
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
