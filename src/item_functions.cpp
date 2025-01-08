@@ -24,7 +24,7 @@ bool can_be_unloaded( const item &itm )
         return false;
     }
 
-    if( itm.magazine_current() ) {
+    if( itm.magazine_current() || itm.battery_current() ) {
         return true;
     }
 
