@@ -577,7 +577,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             continue;
         }
         vehicle *const veh = &vp->vehicle();
-        if( auto ovi = checked_vehi.find( veh ); ovi == checked_vehi.end() ) {
+        if( !checked_vehi.contains( veh ) ) {
             // We haven't worked with this vehicle yet.
             checked_vehi[veh] = std::unordered_set<const vpart_reference *>();
         }
