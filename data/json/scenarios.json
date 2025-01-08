@@ -578,7 +578,7 @@
     "start_name": "A Stop On The Road",
     "allowed_locs": [ "sloc_gas_station" ],
     "missions": [ "MISSION_LAST_DELIVERY" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "CITY_START" ]
   },
   {
     "type": "scenario",
