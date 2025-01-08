@@ -1034,7 +1034,7 @@ static void sleep()
     std::vector<std::string> active;
     for( auto &it : u.inv_dump() ) {
         if( it->has_flag( flag_LITCIG ) ||
-            ( it->is_active() && ( it->charges > 0 || it->units_remaining( u ) > 0 ) && it->is_tool() &&
+            ( it->is_active() && ( it->charges > 0 || it->units_remaining() > 0 ) && it->is_tool() &&
               !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );
         }

@@ -2115,7 +2115,7 @@ std::pair<int, units::energy> iuse::water_purifier( player *p, item *it, bool, c
     const auto use_multiplier = std::max( liquid.charges / purification_efficiency, 1 );
     enrg *= use_multiplier;
     chrg *= use_multiplier;
-    if( !( it->units_sufficient( *p, chrg ) && it->energy_sufficient( *p, enrg ) ) ) {
+    if( !( it->units_sufficient( chrg ) && it->energy_sufficient( *p, enrg ) ) ) {
         p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
         return std::make_pair( 0, 0_J );
     }
@@ -2130,7 +2130,7 @@ std::pair<int, units::energy> iuse::water_purifier( player *p, item *it, bool, c
 std::pair<int, units::energy> iuse::radio_off( player *p, item *it, bool, const tripoint & )
 {
     std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->units_sufficient() ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
         p->add_msg_if_player( _( "You turn the radio on." ) );
@@ -2268,7 +2268,7 @@ std::pair<int, units::energy> iuse::radio_on( player *p, item *it, bool t, const
 std::pair<int, units::energy> iuse::noise_emitter_off( player *p, item *it, bool, const tripoint & )
 {
     std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->units_sufficient() ) {
         p->add_msg_if_player( _( "It's dead." ) );
     } else {
         p->add_msg_if_player( _( "You turn the noise emitter on." ) );
@@ -3804,7 +3804,7 @@ std::pair<int, units::energy> iuse::tazer( player *p, item *it, bool, const trip
 {
     std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
 
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->units_sufficient() ) {
         return std::make_pair( 0, 0_J );
     }
 
@@ -3876,7 +3876,7 @@ std::pair<int, units::energy> iuse::mp3( player *p, item *it, bool, const tripoi
     std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
 
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->units_sufficient( *p ) || !it->energy_sufficient( *p ) ) {
+    if( !it->units_sufficient() || !it->energy_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
@@ -4185,7 +4185,7 @@ std::pair<int, units::energy> iuse::portable_game( player *p, item *it, bool t, 
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return std::make_pair( 0, 0_J );
-    } else if( !( it->units_sufficient( *p, chrg ) || it->energy_sufficient( *p, enrg ) ) ) {
+    } else if( !( it->units_sufficient( chrg ) || it->energy_sufficient( *p, enrg ) ) ) {
         p->add_msg_if_player( m_info, _( "You don't have enough charges to play." ) );
         return std::make_pair( 0, 0_J );
     } else {
@@ -4303,7 +4303,7 @@ std::pair<int, units::energy> iuse::vibe( player *p, item *it, bool, const tripo
         p->add_msg_if_player( m_info, _( "It's waterproof, but oxygen maybe?" ) );
         return std::make_pair( 0, 0_J );
     }
-    if( !( it->units_sufficient( *p ) || it->energy_sufficient( *p ) ) ) {
+    if( !( it->units_sufficient() || it->energy_sufficient( *p ) ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return std::make_pair( 0, 0_J );
     }
@@ -5499,7 +5499,7 @@ std::pair<int, units::energy> iuse::radglove( player *p, item *it, bool, const t
         p->add_msg_if_player( m_info,
                               _( "You must wear the radiation biomonitor before you can activate it." ) );
         return std::make_pair( 0, 0_J );
-    } else if( !it->units_sufficient( *p ) || !it->energy_sufficient( *p ) ) {
+    } else if( !it->units_sufficient() || !it->energy_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The radiation biomonitor needs batteries to function." ) );
         return std::make_pair( 0, 0_J );
     } else {
@@ -5557,7 +5557,7 @@ std::pair<int, units::energy> iuse::talking_doll( player *p, item *it, bool, con
 {
     std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
 
-    if( !it->units_sufficient( *p ) || !it->energy_sufficient( *p ) ) {
+    if( !it->units_sufficient() || !it->energy_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return std::make_pair( 0, 0_J );
     }
@@ -5604,7 +5604,7 @@ std::pair<int, units::energy> iuse::gun_repair( player *p, item *it, bool, const
 {
     std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
 
-    if( !it->units_sufficient( *p ) || !it->energy_sufficient( *p ) ) {
+    if( !it->units_sufficient() || !it->energy_sufficient( *p ) ) {
         return std::make_pair( 0, 0_J );
     }
     if( p->is_underwater() ) {
@@ -5795,7 +5795,7 @@ std::pair<int, units::energy> iuse::robotcontrol( player *p, item *it, bool, con
 {
     std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
 
-    if( !it->units_sufficient( *p ) || !it->energy_sufficient( *p ) ) {
+    if( !it->units_sufficient() || !it->energy_sufficient( *p ) ) {
         p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
         return std::make_pair( 0, 0_J );
 
@@ -7645,7 +7645,8 @@ std::pair<int, units::energy> iuse::foodperson( player *p, item *it, bool t, con
         return res;
     }
 
-    time_duration shift = time_duration::from_turns( it->energy_required() / it->energy_remaining() );
+    time_duration shift = time_duration::from_turns(
+                              it->energy_required() / it->energy_available( *p ) );
 
     p->add_msg_if_player( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ),
                           to_string( shift ) );
@@ -7833,7 +7834,7 @@ std::pair<int, units::energy> iuse::radiocontrol( player *p, item *it, bool t, c
     std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
 
     if( t ) {
-        if( !( it->units_sufficient( *p ) || it->energy_sufficient( *p ) ) ) {
+        if( !( it->units_sufficient() || it->energy_sufficient( *p ) ) ) {
             it->deactivate();
             p->remove_value( "remote_controlling" );
         } else if( p->get_value( "remote_controlling" ).empty() ) {
@@ -8028,7 +8029,7 @@ std::pair<int, units::energy> iuse::remoteveh( player *p, item *it, bool t, cons
     vehicle *remote = g->remoteveh();
     if( t ) {
         bool stop = false;
-        if( !( it->units_sufficient( *p ) || it->energy_sufficient( *p ) ) ) {
+        if( !( it->units_sufficient() || it->energy_sufficient( *p ) ) ) {
             p->add_msg_if_player( m_bad, _( "The remote control's battery goes dead." ) );
             stop = true;
         } else if( remote == nullptr ) {
@@ -8162,9 +8163,9 @@ std::pair<int, units::energy> iuse::autoclave( player *p, item *, bool, const tr
 std::pair<int, units::energy> iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
-    static const units::energy charges_to_start = 50_kJ;
+    static const units::energy energy_to_start = 50_kJ;
     if( t ) {
-        if( !( it->units_sufficient( *p ) || it->energy_sufficient( *p ) ) ) {
+        if( !( it->units_sufficient() || it->energy_sufficient( *p ) ) ) {
             it->deactivate();
             return std::make_pair( 0, 0_J );
         }
@@ -8238,7 +8239,7 @@ std::pair<int, units::energy> iuse::multicooker( player *p, item *it, bool t, co
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->energy_remaining() < charges_to_start ) {
+                if( it->energy_sufficient( *p, energy_to_start ) ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return std::make_pair( 0, 0_J );
                 }
@@ -8349,9 +8350,9 @@ std::pair<int, units::energy> iuse::multicooker( player *p, item *it, bool t, co
                     mealtime = meal->time * 2 / 100;
                 }
 
-                const units::energy all_charges = charges_to_start + it->energy_required() * mealtime;
+                const units::energy all_charges = energy_to_start + it->energy_required() * mealtime;
 
-                if( it->energy_remaining() < all_charges ) {
+                if( it->energy_sufficient( *p, all_charges ) ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %s to cook this dish." ),
@@ -8380,7 +8381,7 @@ std::pair<int, units::energy> iuse::multicooker( player *p, item *it, bool t, co
 
                 it->convert( itype_multi_cooker_filled );
                 it->activate();
-                it->energy_consume( charges_to_start, pos );
+                it->energy_consume( energy_to_start, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 

@@ -1201,23 +1201,6 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         }
     }
 
-    if( what == itype_bio_armor ) {
-        float efficiency = 1;
-        int power_charges = 0;
-
-        for( const bionic &bio : *self->my_bionics ) {
-            if( bio.powered && bio.info().has_flag( flag_BIONIC_ARMOR_INTERFACE ) ) {
-                efficiency = std::max( efficiency, bio.info().fuel_efficiency );
-            }
-        }
-        if( efficiency == 1 ) {
-            debugmsg( "Character lacks a bionic armor interface with fuel efficiency field." );
-        }
-        power_charges = units::to_kilojoule( self->as_player()->get_power_level() ) * efficiency;
-
-        return std::min( power_charges, limit );
-    }
-
     return charges_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
 }
 

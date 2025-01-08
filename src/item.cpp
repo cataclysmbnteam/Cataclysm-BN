@@ -2524,12 +2524,10 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
     }
 
-    if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
+    if( mod->get_gun_ups_drain() > 0_J && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
-                           string_format( vgettext( "Uses <stat>%i</stat> charge of UPS per shot",
-                                          "Uses <stat>%i</stat> charges of UPS per shot",
-                                          mod->get_gun_ups_drain() ),
-                                          mod->get_gun_ups_drain() ) );
+                           string_format( "Uses <stat>%s</stat> of UPS per shot",
+                                          units::display( mod->get_gun_ups_drain() ) ) );
     }
 
     if( skill.ident() == skill_throw ) {
@@ -7861,6 +7859,28 @@ int item::gun_range( const player *p ) const
     return std::max( 0, ret );
 }
 
+units::energy item::energy_available( const Character &ch, units::energy limit ) const
+{
+    units::energy res = energy_remaining();
+
+    if( limit > res ) {
+        if( is_power_armor() ) {
+            if( character_funcs::can_interface_armor( ch ) && has_flag( flag_USE_UPS ) ) {
+                res += std::max( ch.energy_of( itype_UPS, limit - res ), ch.energy_of( itype_bio_armor,
+                                 limit - res ) );
+            } else if( character_funcs::can_interface_armor( ch ) ) {
+                res += ch.energy_of( itype_bio_armor, limit - res );
+            } else {
+                res += ch.energy_of( itype_UPS, limit - res );
+            }
+        } else if( res < limit && has_flag( flag_USE_UPS ) ) {
+            res += ch.energy_of( itype_UPS, limit - res );
+        }
+    }
+
+    return res;
+}
+
 units::energy item::energy_remaining() const
 {
     const item *bat = battery_current();
@@ -7912,7 +7932,7 @@ bool item::energy_sufficient( const Character &ch, units::energy p_needed ) cons
     if( p_needed == 0_J ) {
         return true;
     }
-    return energy_remaining() >= p_needed;
+    return energy_available( ch, p_needed ) >= p_needed;
 }
 
 units::energy item::energy_consume( const units::energy power, const tripoint &pos )
@@ -8614,7 +8634,7 @@ item *item::get_usable_item( const std::string &use_name )
     return const_cast<item *>( const_cast<const item *>( this )->get_usable_item( use_name ) );
 }
 
-int item::units_remaining( const Character &ch, int limit ) const
+int item::units_remaining( int limit ) const
 {
     if( count_by_charges() ) {
         return std::min( static_cast<int>( charges ), limit );
@@ -8625,7 +8645,7 @@ int item::units_remaining( const Character &ch, int limit ) const
     return std::min( res, limit );
 }
 
-bool item::units_sufficient( const Character &ch, int qty ) const
+bool item::units_sufficient( int qty ) const
 {
     if( qty < 0 ) {
         qty = count_by_charges() ? 1 : ammo_required();
@@ -8634,7 +8654,7 @@ bool item::units_sufficient( const Character &ch, int qty ) const
         return true;
     }
 
-    return units_remaining( ch, qty ) == qty;
+    return units_remaining( qty ) == qty;
 }
 
 item_reload_option::item_reload_option( const item_reload_option & ) = default;
@@ -10191,11 +10211,9 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
             }
         }
 
-        // HACK: this means that UPS items will last one more check longer than they should since they don't trigger when
-        // their ammo_remaining is 0, since that doesn't check the UPS "stock" available (which is an expensive check)
         // It's done like this cause grenades must be destroyed when charge reaches 0, or it will linger an extra turn.
         if( ( charge_dependent && self->ammo_remaining() == 0 ) ||
-            ( energy_dependent && self->energy_remaining() == 0_J && !uses_UPS ) ||
+            ( energy_dependent && self->energy_available( *carrier ) == 0_J ) ||
             energy_to_use > 0_J || charges_to_use > 0 ) {
             revert_destroy = true;
             if( carrier ) {
@@ -10649,17 +10667,17 @@ bool item::count_by_charges( const itype_id &id )
     return id->count_by_charges();
 }
 
-int item::get_gun_ups_drain() const
+units::energy item::get_gun_ups_drain() const
 {
-    int draincount = 0;
+    units::energy draincount = 0_J;
     if( type->gun ) {
-        int modifier = 0;
+        units::energy modifier = 0_J;
         float multiplier = 1.0f;
         for( const item *mod : gunmods() ) {
-            modifier += mod->type->gunmod->ups_charges_modifier;
+            modifier += units::from_kilojoule( mod->type->gunmod->ups_charges_modifier );
             multiplier *= mod->type->gunmod->ups_charges_multiplier;
         }
-        draincount = ( units::to_joule( type->gun->energy_draw ) * multiplier ) + modifier;
+        draincount = type->gun->energy_draw * multiplier + modifier;
     }
     return draincount;
 }

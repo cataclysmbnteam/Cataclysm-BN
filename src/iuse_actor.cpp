@@ -246,7 +246,7 @@ std::pair<int, units::energy> iuse_transform::use( player &p, item &it, bool t,
                 return std::make_pair( 0, 0_J );
             }
         } else {
-            const int item_charges = it.units_remaining( p );
+            const int item_charges = it.units_remaining();
             if( item_charges < need_charges || item_charges < transform_charges ) {
                 p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
                 return std::make_pair( 0, 0_J );
@@ -962,7 +962,7 @@ std::pair<int, units::energy> set_transform_iuse::use( player &p, item &it, bool
                 }
                 return std::make_pair( 0, 0_J );
             }
-        } else if( it.units_remaining( p ) < set_charges ) {
+        } else if( it.units_remaining() < set_charges ) {
             if( possess ) {
                 p.add_msg_if_player( m_info, set_charges_msg, it.tname() );
             }
@@ -2041,7 +2041,7 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
     } else {
-        if( !it.units_sufficient( p ) ) {
+        if( !it.units_sufficient() ) {
             return ret_val<bool>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
                                                 it.ammo_required() );
         }
@@ -2234,8 +2234,8 @@ std::pair<int, units::energy> manualnoise_actor::use( player &p, item &it, bool 
     if( t ) {
         return std::make_pair( 0, 0_J );
     }
-    if( !it.units_sufficient( p, it.type->charges_to_use() ) &&
-        !( it.energy_remaining() >= it.energy_required() ) ) {
+    if( !it.units_sufficient( it.type->charges_to_use() ) &&
+        !( it.energy_sufficient( p, it.energy_required() ) ) ) {
         p.add_msg_if_player( _( no_charges_message ) );
         return std::make_pair( 0, 0_J );
     }
@@ -3005,7 +3005,7 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
-    if( !tool.units_sufficient( p ) ) {
+    if( !tool.units_sufficient() ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "Your tool does not have enough charges to do that." ) );
         }

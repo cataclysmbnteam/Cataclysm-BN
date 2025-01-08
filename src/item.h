@@ -1854,7 +1854,16 @@ class item : public location_visitable<item>, public game_object<item>
          */
         bool is_gun() const;
 
-        /** Amount of energy currently loaded in tool, gun or battery */
+        /**
+         *  Amount of energy available to a tool including UPS
+         *  if you want only the energy in the tool, use energy_remaining()
+         */
+        units::energy energy_available( const Character &ch,
+                                        units::energy p_needed = units::from_joule( INT_MAX ) ) const;
+        /**
+         *  Amount of energy currently loaded in tool, gun or battery
+         *  For total including UPS use energy_available()
+         */
         units::energy energy_remaining() const;
         /** Maximum quantity of energy loadable for tool, gun or battery*/
         units::energy energy_capacity() const;
@@ -2123,18 +2132,16 @@ class item : public location_visitable<item>, public game_object<item>
 
         /**
          * How many units (ammo or charges) are remaining?
-         * @param ch character responsible for invoking the item
          * @param limit stop searching after this many units found
          * @note also checks availability of UPS charges if applicable
          */
-        int units_remaining( const Character &ch, int limit = INT_MAX ) const;
+        int units_remaining( int limit = INT_MAX ) const;
 
         /**
          * Check if item has sufficient units (ammo or charges) remaining
-         * @param ch Character to check (used if ammo is UPS charges)
          * @param qty units required, if unspecified use item default
          */
-        bool units_sufficient( const Character &ch, int qty = -1 ) const;
+        bool units_sufficient( int qty = -1 ) const;
         /**
          * Returns name of deceased being if it had any or empty string if not
          **/
@@ -2181,7 +2188,7 @@ class item : public location_visitable<item>, public game_object<item>
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
-        int get_gun_ups_drain() const;
+        units::energy get_gun_ups_drain() const;
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;

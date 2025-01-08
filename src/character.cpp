@@ -7751,10 +7751,7 @@ bool Character::has_enough_power( const item &it, bool show_msg ) const
         return true;
     }
     if( it.is_power_armor() ) {
-        if( ( character_funcs::can_interface_armor( *this ) &&
-              has_charges( itype_bio_armor, it.ammo_required() ) ) ||
-            ( it.has_flag( flag_USE_UPS ) && has_charges( itype_UPS, it.ammo_required() ) ) ||
-            it.ammo_sufficient() ) {
+        if( it.energy_sufficient( *this ) ) {
             return true;
         }
 
@@ -7826,27 +7823,7 @@ bool Character::consume_charges( item &used, int qty )
         return false;
     }
 
-    if( used.is_power_armor() ) {
-        if( used.charges >= qty ) {
-            used.ammo_consume( qty, pos() );
-        } else if( character_funcs::can_interface_armor( *this ) &&
-                   use_charges_if_avail( itype_bio_armor, qty ) ) {
-        } else {
-            use_charges( itype_UPS, qty );
-        }
-    }
-
-    // USE_UPS may occur on base items and is added by the UPS tool mod
-    // If an item has the flag, then it should not be consumed on use.
-    if( used.has_flag( flag_USE_UPS ) ) {
-        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
-        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
-        if( used.charges >= qty ) {
-            used.ammo_consume( qty, pos() );
-        } else {
-            use_charges( itype_UPS, qty );
-        }
-    } else if( used.is_tool() && used.units_remaining( *this ) == 0 && !used.ammo_required() ) {
+    if( used.is_tool() && used.units_remaining() == 0 && !used.ammo_required() ) {
         // Tools which don't require ammo are instead destroyed.
         // Put here cause tools may have use actions that require charges without charges_per_use
         used.detach();
@@ -10064,13 +10041,13 @@ bool Character::has_energy( const itype_id &it, units::energy amount,
         units::energy UPS_needed = amount;
         if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
             auto mons = mounted_creature.get();
-            UPS_needed -= mons->get_battery_item()->energy_remaining();
+            UPS_needed -= std::min( mons->get_battery_item()->energy_remaining(), UPS_needed );
             if( UPS_needed == 0_J ) {
                 return true;
             }
         }
         if( has_power() && has_active_bionic( bio_ups ) ) {
-            UPS_needed -= get_power_level();
+            UPS_needed -= std::min( get_power_level(), UPS_needed );
             if( UPS_needed == 0_J ) {
                 return true;
             }
