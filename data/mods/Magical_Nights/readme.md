@@ -1,5 +1,5 @@
 # The Ancestry of this Mod
-This mod, Magical Nights, is built off of / a fork of the version of Magiclysm found in Cataclysm: Bright Nights. As such, some thanks goes to KorGgenT, Aptronym, and LaVeyanFiend for their past work on Magiclysm.
+This mod, Magical Nights, is built off of the version of Magiclysm previously found in Cataclysm: Bright Nights. As such, some thanks goes to KorGgenT, Aptronym, and LaVeyanFiend for their past work on Magiclysm.
 
 I adopted that version of Magiclysm, becoming its maintainer. I rebalanced Demon Spiders, I rebalanced almost every single spell in the mod, and even added my own content (in the form of my own take on Goblins, some clothing mods (including owlbear fur), and the dragonbone weapons).
 However, I found myself disagreeing fundamentally with much of KorG's original vision for Magiclysm, particularly in the lore. Thus, Magical Nights was born.

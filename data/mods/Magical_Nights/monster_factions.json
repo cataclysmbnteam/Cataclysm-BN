@@ -21,11 +21,11 @@
   {
     "type": "MONSTER_FACTION",
     "name": "goblins",
-	"friendly": [ "orcs" ]
+    "friendly": [ "orcs" ]
   },
   {
-	  "type": "MONSTER_FACTION",
-	  "name": "orcs",
-	  "friendly": [ "goblins" ]
+    "type": "MONSTER_FACTION",
+    "name": "orcs",
+    "friendly": [ "goblins" ]
   }
 ]

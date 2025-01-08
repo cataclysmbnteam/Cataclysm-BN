@@ -33,7 +33,7 @@
     "category": "spellbooks",
     "name": { "str": "A Beginner's Guide to Magic", "str_pl": "copies of A Beginner's Guide to Magic" },
     "//": "2 Magus, 1 classless spell",
-    "description": "Looks just like a typical pamphlet claiming to teach people magic.  Yet, for some reason you can't quite put your finger on, you get the feeling that there's a little more truth than usual to this one...",
+    "description": "Looks just like a typical pamphlet claiming to teach people magic.  Yet, for some reason you can't quite put your finger on, you get the feeling that there's a little more truth than usual to this one…",
     "weight": "585 g",
     "volume": "250 ml",
     "price": "50 USD",

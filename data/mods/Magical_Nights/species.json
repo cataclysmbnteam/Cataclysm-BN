@@ -23,8 +23,8 @@
     "name": { "str": "goblin" }
   },
   {
-	  "type": "SPECIES",
-	  "id": "ORC",
-	  "name": { "str": "orc"}
+    "type": "SPECIES",
+    "id": "ORC",
+    "name": { "str": "orc" }
   }
 ]
