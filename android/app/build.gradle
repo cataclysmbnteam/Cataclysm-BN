@@ -64,11 +64,6 @@ if (localProperties.getProperty('abi_x86_64') != null) {
     abi_x86_64 = localProperties.getProperty("abi_x86_64").toBoolean()
 }
 
-def deps = getProperty("deps")
-if (localProperties.getProperty('deps') != null) {
-    deps = localProperties.getProperty("deps")
-}
-
 def override_version = getProperty("override_version")
 if (localProperties.getProperty('override_version') != null) {
     override_version = localProperties.getProperty("override_version")
@@ -106,7 +101,6 @@ if (localProperties.getProperty('override_ndkVersion') != null) {
 
 println("Using [              njobs]: $njobs")
 println("Using [           localize]: $localize")
-println("Using [               deps]: $deps")
 println("Using [   override_version]: $override_version")
 println("Using [version_header_path]: $version_header_path")
 println("Using [  compileSdkVersion]: $override_compileSdkVersion")
@@ -122,9 +116,6 @@ println("Using [         abi_x86_64]: $abi_x86_64")
 if (!abi_arm_32 && !abi_arm_64 && !abi_x86_32 && !abi_x86_64) {
     throw new GradleException("All supported ABI properties are set to false!")
 }
-if (!file(deps).exists()) {
-    throw new GradleException("Dependencies file does not exist:" + deps)
-}
 
 if (!override_version.isEmpty()) {
     if (version_header_path.isEmpty()) {
@@ -132,14 +123,6 @@ if (!override_version.isEmpty()) {
     } else {
         println("Overriding version number to $override_version using path $version_header_path")
     }
-}
-
-task unzipDeps(type: Copy) {
-    println("Using dependencies file: $deps")
-    def zipFile = new File("$deps")
-    def outputDir = new File('.')
-    from zipTree(zipFile)
-    into outputDir
 }
 
 task makeLocalization(type: Exec) {
@@ -166,8 +149,7 @@ task makeLocalization(type: Exec) {
 }
 
 makeLocalization
-unzipDeps.dependsOn makeLocalization
-preBuild.dependsOn unzipDeps
+preBuild.dependsOn makeLocalization
 
 android {
     namespace "com.cleverraven.cataclysmdda"
