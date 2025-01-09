@@ -459,6 +459,33 @@ To build a debug APK and immediately deploy to your connected device over adb ru
 To build a signed release APK (ie. one that can be installed on a device),
 [build an unsigned release APK and sign it manually](https://developer.android.com/studio/publish/app-signing#signing-manually).
 
+### Triggering a Nightly Build in a Github Fork
+
+To successfully build an Android APK using a nightly build in your own Github fork, you will need to
+initialize a set of dummy Android signing keys. This is necessary because the Github Actions
+workflow requires a set of keys to sign the APKs with.
+
+1. Make up a >6 character password. Remember it and save it into github secrets as
+   `KEYSTORE_PASSWORD`
+2. Create a key via
+   `keytool -genkey -v -keystore release.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias dummy-key`.
+   When asked for a password, use the password from above.
+3. Create a file called `keystore.properties.asc` with the following contents:
+
+```text
+storeFile=release.keystore
+storePassword=<INSERT PASSWORD FROM STEP 1>
+keyAlias=dummy-key
+keyPassword=<INSERT PASSWORD FROM STEP 1>
+```
+
+4. Encrypt `release.keystore` using the password from step 1 using
+   `gpg --symmetric --cipher-algo AES256 --armor release.keystore`. Save the result into github
+   secrets as `KEYSTORE`
+5. Encrypt `keystore.properties` using the password from step 1 using
+   `gpg --symmetric --cipher-algo AES256 --armor keystore.properties`. Save the result into github
+   secrets as `KEYSTORE_PROPERTIES`
+
 ### Additional notes
 
 The app stores data files on the device in
