@@ -75,11 +75,10 @@ jobs:
       uses: lukka/get-cmake@latest
 
     - name: Install vcpkg
-      uses: lukka/run-vcpkg@v11
+      uses: lukka/run-vcpkg@main
       id: runvcpkg
       with:
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        vcpkgGitCommitId: "66444e13a86da7087ee24c342f91801cc6eb9877"
 
     - name: Integrate vcpkg
       run: |

@@ -229,7 +229,6 @@ jobs:
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-          vcpkgGitCommitId: "66444e13a86da7087ee24c342f91801cc6eb9877"
 
       - name: Integrate vcpkg
         if: runner.os == 'Windows'
