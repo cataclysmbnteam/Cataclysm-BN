@@ -7938,7 +7938,7 @@ bool item::energy_sufficient( const Character &ch, units::energy p_needed ) cons
 units::energy item::energy_consume( const units::energy power, const tripoint &pos )
 {
     if( power < 0_J ) {
-        debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
+        debugmsg( "Cannot consume negative power for %s", tname() );
         return 0_J;
     }
 
@@ -7958,7 +7958,7 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
     if( is_battery() ) {
         units::energy need = std::min( energy_remaining(), power );
         mod_energy( -need );
-        return need;
+        return power - need;
     } else if( is_tool() || is_gun() ) {
         if( has_flag( flag_USES_BIONIC_POWER ) ) {
             avatar &you = get_avatar();
@@ -7970,6 +7970,27 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
             mod_energy( -need );
             return need;
         }
+    }
+    return 0_J;
+}
+
+units::energy item::energy_recharge( const units::energy power )
+{
+    if( power > 0_J ) {
+        debugmsg( "Cannot charge negative power for %s", tname() );
+        return 0_J;
+    }
+
+    item *bat = battery_current();
+    if( bat ) {
+        const units::energy res = bat->energy_recharge( power );
+        return res;
+    }
+
+    if( is_battery() || ( ( is_tool() || is_gun() ) && battery_integral() ) ) {
+        units::energy to_charge = std::min( energy_capacity() - energy_remaining(), power );
+        mod_energy( to_charge );
+        return to_charge;
     }
     return 0_J;
 }

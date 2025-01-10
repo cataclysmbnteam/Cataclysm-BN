@@ -947,13 +947,13 @@ class vehicle
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
          * @return amount of charge left over.
          */
-        int charge_battery( int amount, bool include_other_vehicles = true );
+        units::energy charge_battery( units::energy amount, bool include_other_vehicles = true );
 
         /**
          * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
          * @return amount of request unfulfilled (0 if totally successful).
          */
-        int discharge_battery( int amount, bool recurse = true );
+        units::energy discharge_battery( units::energy amount, bool recurse = true );
 
         /**
          * Mark mass caches and pivot cache as dirty

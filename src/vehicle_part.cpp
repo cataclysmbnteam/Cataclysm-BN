@@ -385,6 +385,26 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
     return base->ammo_consume( qty, pos );
 }
 
+units::energy vehicle_part::energy_capacity() const
+{
+    return base->energy_capacity();
+}
+
+units::energy vehicle_part::energy_remaining() const
+{
+    return base->energy_remaining();
+}
+
+units::energy vehicle_part::energy_set( const units::energy enrg )
+{
+    units::energy ret = -1_J;
+    if( base->energy_capacity() > 0_J ) {
+        ret = std::min( enrg, base->energy_capacity() );
+        base->set_energy( ret );
+    }
+    return ret;
+}
+
 double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 {
     if( base->contents.empty() || !is_fuel_store() ) {

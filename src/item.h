@@ -1885,6 +1885,13 @@ class item : public location_visitable<item>, public game_object<item>
         */
         units::energy energy_consume( const units::energy power, const tripoint &pos );
 
+        /**
+         * Recharge power(if available) and return the amount of power that was recharged
+         * @param power maximum amount of power to be recharged.
+         * @return amount of power recharged which will be between 0_J and power
+        */
+        units::energy energy_recharge( const units::energy power );
+
         /** Does item have an integral battery (as opposed to allowing detachable batteries) */
         bool battery_integral() const;
 
