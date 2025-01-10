@@ -87,7 +87,7 @@
     "effect": "target_attack",
     "base_casting_time": 85,
     "base_energy_cost": 250,
-    "damage_type": "none",
+    "damage_type": "true",
     "spell_class": "ANIMIST",
     "difficulty": 8,
     "max_level": 22,
