@@ -225,17 +225,18 @@ experience you need to get to a level is below:
   valid target within range instead of the caster choosing the target. This also affects
   extra_effects.
 
-##### For Spells that have an attack type, these are the available damage types:
+##### For Spells that have an attack type, these are the available damage types (case-insensitive):
 
 - `fire`
 - `acid`
 - `bash`
+- `bullet`
 - `bio` - internal damage such as poison
 - `cold`
 - `cut`
 - `electric`
 - `stab`
-- `none` - this damage type goes through armor altogether. it is the default.
+- `true` - this damage type goes through armor altogether, and thus is very powerful. It is the default damage type when unspecified.
 
 #### Spells that level up
 

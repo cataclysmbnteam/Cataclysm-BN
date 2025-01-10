@@ -322,7 +322,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     spell_class = trait_id( temp_string );
     optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
     energy_source = energy_source_from_string( temp_string );
-    optional( jo, was_loaded, "damage_type", temp_string, "NONE" );
+    optional( jo, was_loaded, "damage_type", temp_string, "TRUE" );
     dmg_type = damage_type_from_string( temp_string );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
