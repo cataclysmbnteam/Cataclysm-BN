@@ -157,7 +157,7 @@ static energy_type energy_source_from_string( const std::string &str )
 static damage_type damage_type_from_string( std::string &str )
 {
     // Uppercase the string so that case on the input doesn't matter
-    std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+    std::transform( str.begin(), str.end(), str.begin(), ::toupper );
     if( str == "FIRE" ) {
         return DT_HEAT;
     } else if( str == "ACID" ) {

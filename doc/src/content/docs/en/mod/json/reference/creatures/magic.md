@@ -236,7 +236,8 @@ experience you need to get to a level is below:
 - `cut`
 - `electric`
 - `stab`
-- `true` - this damage type goes through armor altogether, and thus is very powerful. It is the default damage type when unspecified.
+- `true` - this damage type goes through armor altogether, and thus is very powerful. It is the
+  default damage type when unspecified.
 
 #### Spells that level up
 
