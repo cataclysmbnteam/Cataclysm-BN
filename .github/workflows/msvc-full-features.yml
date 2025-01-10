@@ -1,4 +1,4 @@
-name: Cataclysm Windows build (CMake + MSVC)
+name: Cataclysm Windows build (MSVC)
 
 on:
   push:
@@ -34,7 +34,7 @@ on:
 
 # We only care about the latest revision, so cancel previous instances.
 concurrency:
-  group: msvc-cmake-build-${{ github.ref_name }}
+  group: msvc-build-${{ github.ref_name }}
   cancel-in-progress: true
 
 env:
@@ -43,7 +43,6 @@ env:
   # Have to use github.workspace because runner namespace isn't available yet.
   VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
   ZSTD_CLEVEL: 17
-  CMAKE_PRESET: windows-tiles-sounds-x64-msvc
 
 jobs:
   build_catatclysm:
@@ -71,8 +70,14 @@ jobs:
         echo =========================
         echo $env:PATH
 
-    - name: Install stable CMake
-      uses: lukka/get-cmake@latest
+    - name: Setup msys2 (windows msvc)
+      if: runner.os == 'Windows'
+      uses: msys2/setup-msys2@v2
+      with: { msystem: mingw64, install: gettext }
+
+    - name: Compile translations (windows msvc)
+      shell: msys2 {0}
+      run: lang/compile_mo.sh all
 
     - name: Install vcpkg
       uses: lukka/run-vcpkg@main
@@ -85,26 +90,10 @@ jobs:
         vcpkg integrate install
 
     - uses: ammaraskar/msvc-problem-matcher@master
-    - name: Configure
-      run: |
-          cmake -DTESTS=ON --preset $env:CMAKE_PRESET
-
-    - uses: ammaraskar/msvc-problem-matcher@master
     - name: Build
       run: |
-          cmake --build out/build/$env:CMAKE_PRESET --config RelWithDebInfo
-
-    - name: Dump logs if build failed
-      if: failure()
-      run: |
-        echo =================================================
-        Get-ChildItem "${{ runner.workspace }}/Cataclysm-BN/out/build/$env:CMAKE_PRESET" -Recurse
-        echo =================================================
-
-    - name: Compile .mo files for localization
-      run: |
-          cmake --build out/build/$env:CMAKE_PRESET --target translations_compile --config RelWithDebInfo
+        msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static;Cataclysm-test-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
 
     - name: Run tests
       run: |
-          .\RelWithDebInfo\cata_test-tiles.exe --rng-seed time
+        .\Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time
