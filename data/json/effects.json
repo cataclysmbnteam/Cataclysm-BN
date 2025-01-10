@@ -841,6 +841,13 @@
   },
   {
     "type": "effect_type",
+    "id": "debug_irradiation",
+    "name": [ "Irradiation triangle" ],
+    "desc": [ "This irradiates you every 15 minutes while aboveground so long as you have it in your inventory!" ],
+    "base_mods": { "rad_min": [ 1 ], "rad_max": [ 3 ], "rad_tick": [ 900 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "took_xanax",
     "name": [ "Took Xanax" ],
     "desc": [ "You took Xanax some time ago and you might still be under its influence." ],
