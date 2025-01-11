@@ -4663,6 +4663,8 @@ void overmap::place_cities()
     const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
     int placement_attempts = 0;
     bool finale_placement;
+    bool tiny_town_generated;
+    bool tiny_town_selected;
     // place a seed for NUM_CITIES cities, and maybe one more
     while( cities.size() < static_cast<size_t>( NUM_CITIES ) &&
            placement_attempts < MAX_PLACEMENT_ATTEMTPS ) {
@@ -4671,8 +4673,11 @@ void overmap::place_cities()
         // randomly make some cities smaller or larger
         // guarantee placement of a finale/vault tile in small/large/huge cities
         finale_placement = false;
+        tiny_town_generated = false;
+        tiny_town_selected = false;
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
+            tiny_town_selected = true;
             size = 1;
         } else if( one_in( 2 ) ) { // 33% small
             finale_placement = true;
@@ -4692,29 +4697,44 @@ void overmap::place_cities()
         //make a backup of the map
         map_layer this_layer_backup = layer[p.z() + OVERMAP_DEPTH];
         map_layer sewers_backup = layer[p.z() + OVERMAP_DEPTH + 1];
-        //std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
-        if( ter( p ) == settings->default_oter ) {
-            placement_attempts = 0;
-            ter_set( p, oter_id( "road_nesw_manhole" ) ); // every city starts with an intersection
-            ter_set( p + tripoint_below, oter_id( "sewer_isolated" ) );
-            city tmp;
-            tmp.pos = p.xy();
-            tmp.size = size;
-            tmp.finale_counter = rand() % 15 + 1; //TODO: is there some rand range function I could use instead? would make this more configurable.
-            tmp.finale_placed = false;
-            cities.push_back( tmp );
+        city tmp;
+        tmp.finale_placed = false;
+        //attempt to generate a city with a finale if it's not tiny. If it's tiny just run once via short circuit.
+        for(int finale_attempts = 0; (!tiny_town_generated && !tmp.finale_placed && finale_attempts < MAX_PLACEMENT_ATTEMTPS ); finale_attempts++)
+        {
+            //std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
+            if( ter( p ) == settings->default_oter ) {
+                placement_attempts = 0;
+                ter_set( p, oter_id( "road_nesw_manhole" ) ); // every city starts with an intersection
+                ter_set( p + tripoint_below, oter_id( "sewer_isolated" ) );
+                tmp.pos = p.xy();
+                tmp.size = size;
+                tmp.finale_counter = rand() % 15 + 1; //TODO: is there some rand range function I could use instead? would make this more configurable.
+                cities.push_back( tmp );
 
-            const auto start_dir = om_direction::random();
-            auto cur_dir = start_dir;
-            std::vector<tripoint_om_omt> sewers;
+                const auto start_dir = om_direction::random();
+                auto cur_dir = start_dir;
+                std::vector<tripoint_om_omt> sewers;
 
-            do {
-                build_city_street( local_road, tmp.pos, size, cur_dir, tmp, sewers );
-            } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
-
-            for( const tripoint_om_omt &p : sewers ) {
+                do {
+                    build_city_street( local_road, tmp.pos, size, cur_dir, tmp, sewers );
+                } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
+                for( const tripoint_om_omt &p : sewers ) {
                 build_connection( tmp.pos, p.xy(), p.z(), *sewer_tunnel, false );
             }
+                //if tiny town, just call it after one attempt since no finale.
+                if (tiny_town_selected)
+                    {
+                        tiny_town_generated = true;
+                    }
+                //if the city finale failed to place, restore from last backup and try again at the top of the loop
+                else if ( !tmp.finale_placed )
+                    {
+                        layer[p.z() + OVERMAP_DEPTH] = this_layer_backup;
+                        layer[p.z() + OVERMAP_DEPTH + 1] = sewers_backup;
+                    }
+            }
+            
         }
     }
 }
@@ -4737,7 +4757,7 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist , bool 
                                 park_radius );
 
     if ( attempt_finale_place ){
-        return overmap_special_id("s_electronics_2");
+        return overmap_special_id("Military Outpost");
     }else if( shop_normal > town_dist ) {
         return city_spec.pick_shop();
     } else if( park_normal > town_dist ) {
@@ -4833,14 +4853,27 @@ void overmap::build_city_street(
                 town.finale_counter--;
             }
         if( !one_in( BUILDINGCHANCE ) ) {
-            place_building( rp, om_direction::turn_left( dir ), town, attempt_finale_place);
-            if (attempt_finale_place) 
-                {town.finale_placed=true;} 
+            
+            if (attempt_finale_place && !town.finale_placed ) 
+                {town.finale_placed=true;
+                    place_building( rp, om_direction::turn_left( dir ), town, true);
+                }
+            else
+                {
+                place_building( rp, om_direction::turn_left( dir ), town, false);
+                }
         }
         if( !one_in( BUILDINGCHANCE ) ) {
-            place_building( rp, om_direction::turn_right( dir ), town, attempt_finale_place );
-            if (attempt_finale_place) 
-                {town.finale_placed=true;} 
+            
+            if (attempt_finale_place && !town.finale_placed) 
+                {
+                town.finale_placed=true;
+                place_building( rp, om_direction::turn_right( dir ), town, true );
+                } 
+            else
+                {
+                place_building( rp, om_direction::turn_right( dir ), town, false );
+                }
         }
     }
 
