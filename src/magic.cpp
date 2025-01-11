@@ -25,7 +25,7 @@
 #include "enums.h"
 #include "event.h"
 #include "field.h"
-#include <flag.h>
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "input.h"
