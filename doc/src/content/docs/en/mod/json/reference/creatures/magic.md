@@ -370,7 +370,7 @@ Values:
 
 - `ALWAYS` (default) - Always active
 - `UNDERGROUND` - When the owner of the item is below Z-level 0
-- `ABOVEGROUND` - When the owner of the item is below Z-level 0
+- `ABOVEGROUND` - When the owner of the item is at or above Z-level 0
 - `UNDERWATER` - When the owner is in swimmable terrain
 - `NIGHT` - When it is night time
 - `DUSK` - When it is dusk
