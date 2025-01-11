@@ -25,6 +25,7 @@
 #include "enums.h"
 #include "event.h"
 #include "field.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "input.h"
@@ -736,6 +737,10 @@ int spell::casting_time( const Character &guy ) const
         const int arms_encumb = std::max( 0,
                                           guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - 20 );
         casting_time += arms_encumb * 2;
+    }
+    if( guy.is_armed() && !has_flag( spell_flag::NO_HANDS ) &&
+        !guy.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
+        casting_time = std::round( casting_time * 1.5 );
     }
     return casting_time;
 }
