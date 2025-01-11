@@ -4739,7 +4739,8 @@ void overmap::place_cities()
     }
 }
 
-overmap_special_id overmap::pick_random_building_to_place( int town_dist , bool attempt_finale_place) const
+overmap_special_id overmap::pick_random_building_to_place( int town_dist,
+        bool attempt_finale_place ) const
 {
     const city_settings &city_spec = settings->city_spec;
     int shop_radius = city_spec.shop_radius;
@@ -4775,7 +4776,8 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
     const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
-        const overmap_special_id building_tid = pick_random_building_to_place( town_dist, attempt_finale_place );
+        const overmap_special_id building_tid = pick_random_building_to_place( town_dist,
+                                                attempt_finale_place );
 
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             place_special( *building_tid, building_pos, building_dir, town, false, false );
