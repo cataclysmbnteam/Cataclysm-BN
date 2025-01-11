@@ -4758,7 +4758,8 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist,
                                 park_radius );
 
     if ( attempt_finale_place ){
-        return overmap_special_id("Military Outpost");
+        //return overmap_special_id("Military Outpost");
+        return overmap_special_id("Prison");
     }else if( shop_normal > town_dist ) {
         return city_spec.pick_shop();
     } else if( park_normal > town_dist ) {
