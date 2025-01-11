@@ -437,7 +437,8 @@ class overmap
         overmap_special_id pick_random_building_to_place( int town_dist, bool attempt_finale_place ) const;
 
         void place_cities();
-        void place_building( const tripoint_om_omt &p, om_direction::type dir, city &town, bool attempt_finale_place );
+        void place_building( const tripoint_om_omt &p, om_direction::type dir, city &town,
+                             bool attempt_finale_place );
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
                                 om_direction::type dir, city &town, std::vector<tripoint_om_omt> &sewers,
