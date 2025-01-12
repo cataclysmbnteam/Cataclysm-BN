@@ -4756,10 +4756,10 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist,
     int park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ),
                                 park_radius );
 
-    if ( attempt_finale_place ){
+    if( attempt_finale_place ) {
         //return overmap_special_id("Military Outpost");
-        return overmap_special_id("megastore");
-    }else if( shop_normal > town_dist ) {
+        return overmap_special_id( "megastore" );
+    } else if( shop_normal > town_dist ) {
         return city_spec.pick_shop();
     } else if( park_normal > town_dist ) {
         return city_spec.pick_park();
