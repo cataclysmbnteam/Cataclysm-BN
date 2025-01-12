@@ -127,7 +127,7 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 3,
-    "damage_type": "none"
+    "damage_type": "true"
   },
   {
     "id": "ethereal_grasp",

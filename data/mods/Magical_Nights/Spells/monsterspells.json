@@ -187,7 +187,7 @@
     "flags": [ "SOMATIC", "NO_LEGS", "SILENT" ],
     "min_damage": 5,
     "damage_increment": 2.5,
-    "damage_type": "none",
+    "damage_type": "true",
     "max_damage": 30,
     "min_range": 5,
     "base_energy_cost": 50,
