@@ -47,10 +47,12 @@ struct city_settings {
     building_bin houses;
     building_bin shops;
     building_bin parks;
+    building_bin finales;
 
     overmap_special_id pick_house() const;
     overmap_special_id pick_shop() const;
     overmap_special_id pick_park() const;
+    overmap_special_id pick_finale() const;
 
     void finalize();
 };
