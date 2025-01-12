@@ -2869,7 +2869,7 @@
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 35, 100 ],
     "rotate": false,
-    "flags": [ "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "ELECTRIC_GRID", "UNIQUE", "GLOBALLY_UNIQUE" ]
   },
   {
     "type": "overmap_special",
