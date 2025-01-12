@@ -140,7 +140,7 @@
         "########################"
       ],
       "terrain": {
-        "#": "t_dirt",
+        "#": "t_rock",
         "│": "t_concrete_wall",
         ".": "t_concrete",
         "<": "t_concrete_ramp_up_high",
