@@ -383,9 +383,6 @@ builds the SDL version with all features enabled, including tiles, sound and loc
 - SDL2_mixer (tested with 2.0.2)
 - SDL2_image (tested with 2.0.3)
 
-The Gradle build process automatically installs dependencies from
-[deps.zip](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/android/app/deps.zip).
-
 ### Setup
 
 Install Linux dependencies. For a desktop Ubuntu installation:
