@@ -957,6 +957,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
                     E2_after;  //Lost energy at collision -> deformation energy
         dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
 
+        // Remember that the impulse on vehicle 1 is techncally negative, slowing it
         veh1_impulse = std::abs( m1 * ( vel1_y_a - vel1_y ) );
         veh2_impulse = std::abs( m2 * ( vel2_y_a - vel2_y ) );
     } else {

@@ -768,12 +768,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                       here.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
                 //Experimental: only use as much energy as was required to destroy the obstacle, and recalc impulse and momentum off of that.
-                //Recalculate vel1_a from new impulse
+                //Recalculate vel1_a from new impulse. Remember that the impulse from a collision is technically negative, reducing speed.
                 float old_veh_imp = impulse_veh;
                 impulse_veh = damage_to_impulse( std::min( part_dmg, bash_max / dmg_mod ) );
                 add_msg( m_debug, "Terrain collision impulse recovery of %.2f Ns", old_veh_imp - impulse_veh );
-                if( ( ( impulse_veh / mass ) + vel1 ) < vel1_a ) {
-                    vel1_a = ( ( impulse_veh / mass ) + vel1 );
+                if( ( vel1 - ( impulse_veh / mass ) ) < vel1 ) {
+                    vel1_a = ( vel1 - ( impulse_veh / mass ) );
                     add_msg( m_debug, "Post collision velocity recovered to %.2f m/s", vel1_a );
                 }
                 add_msg( m_debug, _( "%1s smashed %2s!" ), name, ret.target_name );
@@ -836,9 +836,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                          "Vehicle received impulse of %.2f Nm dealing %.2f damage of maximum %.2f, Critter received impulse of %.2f Nm dealing %.2f damage. ",
                          impulse_veh, part_dmg, impulse_obj, obj_dmg );
                 //attempt to recover unspent collision energy
+                // Remember that the impulse from a collision is technically negative, reducing speed.
                 impulse_veh = damage_to_impulse( part_dmg );
-                if( ( ( impulse_veh / mass ) + vel1 ) < vel1_a ) {
-                    vel1_a = ( ( impulse_veh / mass ) + vel1 );
+                if( ( vel1 - ( impulse_veh / mass ) ) < vel1 ) {
+                    vel1_a = ( vel1 - ( impulse_veh / mass ) );
                     add_msg( m_debug, "Post collision velocity recovered to %.2f m/s", vel1_a );
                 }
 
