@@ -112,7 +112,7 @@ struct veh_collision {
     //int veh?
     int part  = 0;
     veh_coll_type type = veh_coll_nothing;
-    // Impulse, in Ns. Call impulse_to_damage or damage_to_impulse from vehicle_move.cpp for conversion to damage.  
+    // Impulse, in Ns. Call impulse_to_damage or damage_to_impulse from vehicle_move.cpp for conversion to damage.
     int  imp = 0;
     //vehicle
     void *target  = nullptr;
@@ -183,8 +183,8 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
-float impulse_to_damage(float impulse);
-float damage_to_impulse(float damage);
+float impulse_to_damage( float impulse );
+float damage_to_impulse( float damage );
 
 class turret_data
 {
