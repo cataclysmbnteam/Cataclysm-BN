@@ -687,11 +687,13 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                 // Lower bound of shock damage
                 int shock_min = coll_dmg / 2;
                 // Reduce shock damage by collision part DR to prevent bushes from damaging car batteries
-                shock_min = std::max<int>( 0, shock_min - veh.part_info( coll.part ).damage_reduction.type_resist( DT_BASH ));
-                shock_max = std::max<int>( 0, shock_max - veh.part_info( coll.part ).damage_reduction.type_resist( DT_BASH ));
+                shock_min = std::max<int>( 0, shock_min - veh.part_info( coll.part ).damage_reduction.type_resist(
+                                               DT_BASH ) );
+                shock_max = std::max<int>( 0, shock_max - veh.part_info( coll.part ).damage_reduction.type_resist(
+                                               DT_BASH ) );
                 // Shock damage decays exponentially, we only want to track shock damage that would cause meaningful damage.
-                if (shock_min >= 20) {
-                    veh.damage_all(shock_min, shock_max, DT_BASH, collision_point);
+                if( shock_min >= 20 ) {
+                    veh.damage_all( shock_min, shock_max, DT_BASH, collision_point );
                 }
             }
         }
@@ -863,8 +865,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     float veh1_impulse = 0;
     float veh2_impulse = 0;
     float delta_vel = 0;
-    // A constant to tune how many Ns of impulse are equivalent to 1 point of damage, look in vehicle_move.cpp for the impulse to damage function. 
-    const float dmg_adjust = impulse_to_damage(1);
+    // A constant to tune how many Ns of impulse are equivalent to 1 point of damage, look in vehicle_move.cpp for the impulse to damage function.
+    const float dmg_adjust = impulse_to_damage( 1 );
     float dmg_veh1 = 0;
     float dmg_veh2 = 0;
     // Vertical collisions will be simpler for a while (1D)
@@ -879,8 +881,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m2 = to_kilogram( veh2.total_mass() );
 
         //Energy of vehicle1 and vehicle2 before collision
-        float E1_before = 0.5 * m1 * std::pow((0.0044704f * velo_veh1.magnitude()), 2.0f);
-        float E2_before = 0.5 * m2 * std::pow((0.0044704f * velo_veh2.magnitude()), 2.0f);
+        float E1_before = 0.5 * m1 * std::pow( ( 0.0044704f * velo_veh1.magnitude() ), 2.0f );
+        float E2_before = 0.5 * m2 * std::pow( ( 0.0044704f * velo_veh2.magnitude() ), 2.0f );
 
         // Collision_axis
         point cof1 = veh .rotated_center_of_mass();
@@ -904,12 +906,12 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         //velocity of veh2 before collision in the direction of collision_axis_y, converting to m/s
         float vel2_y = 0.0044704f * collision_axis_y.dot_product( velo_veh2 );
         float vel2_x = 0.0044704f * collision_axis_x.dot_product( velo_veh2 );
-        delta_vel = std::abs(vel1_y - vel2_y);
+        delta_vel = std::abs( vel1_y - vel2_y );
         // Keep in mind get_collision_factor is looking for m/s, not m/h.
         // e = 0 -> inelastic collision
         // e = 1 -> elastic collision
         float e = get_collision_factor( vel1_y - vel2_y );
-        add_msg(m_debug, "Requested collision factor, received %.2f", e);
+        add_msg( m_debug, "Requested collision factor, received %.2f", e );
 
         // Velocity after collision
         // vel1_x_a = vel1_x, because in x-direction we have no transmission of force
@@ -917,11 +919,11 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         float vel2_x_a = vel2_x;
         // Transmission of force only in direction of collision_axix_y
         // Equation: partially elastic collision
-        float vel1_y_a = (( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e ) ) / ( m1 + m2 ));
-        float vel2_y_a = (( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e ) ) / ( m1 + m2 ));
+        float vel1_y_a = ( ( m2 * vel2_y * ( 1 + e ) + vel1_y * ( m1 - m2 * e ) ) / ( m1 + m2 ) );
+        float vel2_y_a = ( ( m1 * vel1_y * ( 1 + e ) + vel2_y * ( m2 - m1 * e ) ) / ( m1 + m2 ) );
         // Add both components; Note: collision_axis is normalized
-        rl_vec2d final1 = (collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a)/ 0.0044704f;
-        rl_vec2d final2 = (collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a)/ 0.0044704f;
+        rl_vec2d final1 = ( collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a ) / 0.0044704f;
+        rl_vec2d final2 = ( collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a ) / 0.0044704f;
 
         veh.move.init( final1.as_point() );
         if( final1.dot_product( veh.face_vec() ) < 0 ) {
@@ -949,28 +951,28 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.of_turn = avg_of_turn * 1.1;
 
         //Energy after collision
-        float E1_after = 0.5 * m1 * std::pow((0.0044704f * final1.magnitude()), 2.0f);
-        float E2_after = 0.5 * m2 * std::pow((0.0044704f * final2.magnitude()), 2.0f);
-        float d_E = E1_before + E2_before - E1_after - E2_after;  //Lost energy at collision -> deformation energy
+        float E1_after = 0.5 * m1 * std::pow( ( 0.0044704f * final1.magnitude() ), 2.0f );
+        float E2_after = 0.5 * m2 * std::pow( ( 0.0044704f * final2.magnitude() ), 2.0f );
+        float d_E = E1_before + E2_before - E1_after -
+                    E2_after;  //Lost energy at collision -> deformation energy
         dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
 
-        veh1_impulse = std::abs(m1 * (vel1_y_a - vel1_y));
-        veh2_impulse = std::abs(m2 * (vel2_y_a - vel2_y));
+        veh1_impulse = std::abs( m1 * ( vel1_y_a - vel1_y ) );
+        veh2_impulse = std::abs( m2 * ( vel2_y_a - vel2_y ) );
     } else {
         const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = std::abs( vmiph_to_mps(veh.vertical_velocity) ) * m1 / 10;
+        dmg = std::abs( vmiph_to_mps( veh.vertical_velocity ) ) * m1 / 10;
         veh.vertical_velocity = 0;
     }
 
     // To facilitate pushing vehicles, because the simulation pretends cars are ping pong balls that get all their velocity in zero starting distance to slam into eachother while touching.
     // Stay under 6 m/s to push cars without damaging them
-    if (delta_vel >= 6.0f) {
+    if( delta_vel >= 6.0f ) {
         dmg_veh1 = veh1_impulse * dmg_adjust;
         dmg_veh2 = veh2_impulse * dmg_adjust;
-    }
-    else {
+    } else {
         dmg_veh1 = 0;
         dmg_veh2 = 0;
     }
