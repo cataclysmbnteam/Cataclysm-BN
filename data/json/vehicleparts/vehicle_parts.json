@@ -116,7 +116,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
-    "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE", "SHOCK_RESISTANT" ],
     "breaks_into": "ig_vp_seat",
     "damage_reduction": { "all": 2 }
   },
@@ -151,7 +151,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
     },
-    "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
+    "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO", "SHOCK_RESISTANT" ],
     "breaks_into": "ig_vp_seat",
     "damage_reduction": { "all": 3 }
   },
@@ -680,7 +680,7 @@
     "color": "light_gray",
     "broken_symbol": "*",
     "broken_color": "dark_gray",
-    "flags": [ "NO_REPAIR" ],
+    "flags": [ "NO_REPAIR", "SHOCK_IMMUNE" ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "using": [ [ "vehicle_screw", 1 ] ] }
@@ -1641,7 +1641,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "fabric_standard", 1 ] ] }
     },
-    "flags": [ "SEATBELT", "FOLDABLE" ],
+    "flags": [ "SEATBELT", "FOLDABLE", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "nylon", "count": [ 0, 3 ] } ]
   },
   {
@@ -1695,7 +1695,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "fabric_standard", 1 ] ] }
     },
-    "flags": [ "SEATBELT", "FOLDABLE" ],
+    "flags": [ "SEATBELT", "FOLDABLE", "SHOCK_IMMUNE" ],
     "breaks_into": [ { "item": "seatbelt", "count": [ 0, 3 ] } ]
   },
   {
@@ -2916,7 +2916,7 @@
         "using": [ [ "adhesive", 1 ], [ "vehicle_repair_electronics", 1 ] ]
       }
     },
-    "flags": [ "WATCH", "ALARMCLOCK", "FOLDABLE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "FOLDABLE", "SHOCK_RESISTANT" ],
     "breaks_into": [ { "item": "scrap", "prob": 50 } ]
   },
   {

@@ -256,5 +256,15 @@
     "context": [ "vehicle_part" ],
     "type": "json_flag",
     "requires_flag": "WHEEL_MOUNT_SKATEBOARD"
+  },
+  {
+    "id": "SHOCK_IMMUNE",
+    "context": [ "vehicle_part" ],
+    "type": "json_flag"
+  },
+  {
+    "id": "SHOCK_RESISTANT",
+    "context": [ "vehicle_part" ],
+    "type": "json_flag"
   }
 ]
