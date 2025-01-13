@@ -11,7 +11,9 @@
           "name": "sdl2-mixer",
           "features": [ "libflac", "mpg123", "libmodplug" ]
         },
-        "sdl2-ttf"
+        "sdl2-ttf",
+        "sqlite3",
+        "zlib"
     ],
     "builtin-baseline": "c9aba300923c8ec0ab190e2bff23085209925c97",
     "vcpkg-configuration": {
