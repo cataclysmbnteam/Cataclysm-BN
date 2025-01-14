@@ -715,6 +715,7 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_building_types( "houses", region.city_spec.houses );
     load_building_types( "shops", region.city_spec.shops );
     load_building_types( "parks", region.city_spec.parks );
+    load_building_types( "finales", region.city_spec.finales );
 
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 
