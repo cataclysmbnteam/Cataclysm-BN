@@ -692,13 +692,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Velocity of object 2 after collision
         vel2_a = ( mass * vel1 + mass2 * vel2 + e * mass * ( vel1 - vel2 ) ) / ( mass + mass2 );
 
-        const float E1_before = 0.5f * ( mass * vel1 * vel1 );
-        const float E2_before = 0.5f * ( mass2 * vel2 * vel2 );
-        const float E1_after = 0.5f * ( mass * vel1_a * vel1_a );
-        const float E2_after =  0.5f * ( mass2 * vel2_a * vel2_a );
-        //Deformation Energy, measured in Joules (Nm). Equals energy lost due to elastic effects during collision. Maintained for stat purposes, and somebody may want to grab it.
-        const float d_E = E1_before + E2_before - E1_after - E2_after;
-
         // Impulse of vehicle part from collision. Measured in newton seconds (Ns)
         // Calculated as the change in momentum due to the collision
         impulse_veh = std::abs( mass * ( vel1_a - vel1 ) );
@@ -709,12 +702,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         if( std::abs( impulse_obj - impulse_veh ) > 5 ) {
             add_msg( m_debug,
                      "Conservation of momentum violated, impulse values between object and vehicle are not equal! " );
-        }
-
-        if( d_E <= 0 ) {
-            // Deformation energy is signed
-            // If it's negative, it means something went wrong
-            // But it still does happen sometimes...
             if( std::fabs( vel1_a ) < std::fabs( vel1 ) ) {
                 // Lower vehicle's speed to prevent infinite loops
                 coll_velocity = mps_to_vmiph( vel1_a ) * 0.9;
@@ -728,6 +715,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
             continue;
         }
+
         // Damage calculation
         // Maximum damage for vehicle part to take
         const float bash_max = here.bash_strength( p, bash_floor );
