@@ -1021,12 +1021,7 @@
         "parking_garage": 200,
         "afs_augmentation_clinic_1": 200
       },
-      "finales": {
-        "s_electronics_2": 200,
-        "s_gun_2": 200,
-        "megastore": 200,
-        "Military Outpost": 200
-      }
+      "finales": { "s_electronics_2": 200, "s_gun_2": 200, "megastore": 200, "Military Outpost": 200 }
     },
     "weather": {
       "spring_temp": 8,
