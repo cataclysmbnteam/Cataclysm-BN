@@ -69,6 +69,10 @@ static const int mi_to_vmi = 100;
 static const float mps_to_miph = 2.23694f;
 // Conversion constant for Impulse Ns to damage for vehicle collisions. Fine tune to desired damage.
 static const float imp_conv_const = 0.1;
+// Inverse conversion constant for impulse to damage
+static const float imp_conv_const_inv = 1 / imp_conv_const;
+// Conversion constant for 100ths of miles per hour to meters per second
+constexpr float velocity_constant = 0.0044704;
 
 // convert m/s to vehicle 100ths of a mile per hour
 int mps_to_vmiph( double mps )
@@ -79,7 +83,7 @@ int mps_to_vmiph( double mps )
 // convert vehicle 100ths of a mile per hour to m/s
 double vmiph_to_mps( int vmiph )
 {
-    return vmiph / mps_to_miph / mi_to_vmi;
+    return vmiph * velocity_constant;
 }
 
 int cmps_to_vmiph( int cmps )
@@ -100,7 +104,7 @@ float impulse_to_damage( float impulse )
 // Convert damage back to impulse Ns
 float damage_to_impulse( float damage )
 {
-    return damage / imp_conv_const;
+    return damage * imp_conv_const_inv;
 }
 
 int vehicle::slowdown( int at_velocity ) const
@@ -646,7 +650,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //Calculates density factor. Used as a bad stand in to determine deformation distance.
     //Ranges from 0.1 -> 100, measured in cm. A density difference of 100 is needed for the full value.
     float density_factor = std::abs( part_dens - vpart_dens );
-    density_factor = std::max( 0.1f, std::min( 100.0f, density_factor ) );
+    density_factor = clamp( density_factor, 0.1f, 100.0f );
 
     //Deformation distance of the collision, measured in meters. A bad approximation for a value we dont have that would take intensive simulation to determine.
     // 0.001 -> 1 meter. Left modifiable so that armor or other parts can affect it.
@@ -658,15 +662,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     const float weight_factor = mass >= mass2 ?
                                 -25 * ( std::log( mass ) - std::log( mass2 ) ) / std::log( mass ) :
                                 25 * ( std::log( mass2 ) - std::log( mass ) ) / std::log( mass2 );
-    //Depeciated
-    //k=100 -> 100% damage on part
-    //k=0 -> 100% damage on obj
-    float k = 50 + density_factor + weight_factor;
-    k = std::max( 0.0f, std::min( 90.0f, k ) );
 
     bool smashed = true;
     const std::string snd = _( "smash!" );
-    float dmg = 0;
     float part_dmg = 0;
     float obj_dmg = 0;
     // Calculate stun time of car
@@ -1352,7 +1350,8 @@ rl_vec2d vehicle::dir_vec() const
 {
     return angle_to_vec( turn_dir );
 }
-
+// Takes delta_v in m/s, returns collision factor. Ranges from 1 at 0m/s to 0.3 at approx ~60mph.
+// Changed from e min of 0.1 as this is a nearly perfectly plastic collision, which is not common outside of vehicles with engineered crumple zones. Cata vehicles dont have crumple zones.
 float get_collision_factor( const float delta_v )
 {
     if( std::abs( delta_v ) <= 26.8224 ) {

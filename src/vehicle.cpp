@@ -6641,41 +6641,40 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
 
 void vehicle::damage_all( int dmg1, int dmg2, damage_type type, point impact )
 {
-    const float damage_min = std::abs( dmg1 );
-    const float damage_max = std::abs( dmg2 );
     if( dmg2 < dmg1 ) {
         std::swap( dmg1, dmg2 );
     }
-
     if( dmg1 < 1 ) {
         return;
     }
+    const float damage_min = std::abs( dmg1 );
+    const float damage_max = std::abs( dmg2 );
     add_msg( m_debug, "Shock damage to vehicle of %.2f to %.2f", damage_min, damage_max );
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
+        const vpart_info &shockpart = part_info( p );
         int distance = 1 + square_dist( vp.mount(), impact );
         if( distance > 1 ) {
             int net_dmg = rng( dmg1, dmg2 ) / ( distance * distance );
-            if( part_info( p ).location != part_location_structure ||
-                !part_info( p ).has_flag( "PROTRUSION" ) ) {
+            if( shockpart.location != part_location_structure ||
+                !shockpart.has_flag( "PROTRUSION" ) ) {
                 int shock_absorber = part_with_feature( p, "SHOCK_ABSORBER", true );
                 if( shock_absorber >= 0 ) {
-                    net_dmg = std::max( 0.0f, net_dmg - ( parts[ shock_absorber ].info().bonus ) - part_info(
-                                            p ).damage_reduction.type_resist( type ) );
+                    net_dmg = std::max( 0.0f, net_dmg - ( parts[ shock_absorber ].info().bonus ) -
+                                        shockpart.damage_reduction.type_resist( type ) );
                 }
-                if( part_info( p ).has_flag( "SHOCK_IMMUNE" ) ) {
-                    net_dmg = 0;
+                if( shockpart.has_flag( "SHOCK_IMMUNE" ) ) {
+                    continue;
                 }
-                if( part_info( p ).has_flag( "SHOCK_RESISTANT" ) ) {
+                if( shockpart.has_flag( "SHOCK_RESISTANT" ) ) {
                     float damage_resist = 0;
-                    for( const int elem : all_parts_at_location( part_info( p ).location ) ) {
+                    for( const int elem : all_parts_at_location( shockpart.location ) ) {
                         //Original intent was to find the frame that the part was mounted on and grab that objects resistance, but instead we will go with half the largest damage resist in the stack.
                         damage_resist = std::max( damage_resist, part_info( elem ).damage_reduction.type_resist( type ) );
                     }
-                    if( damage_resist != 0 ) {
-                        damage_resist = damage_resist / 2;
-                    }
-                    add_msg( m_debug, "%1s inherited %.1f damage resistance!", part_info( p ).name(), damage_resist );
+                    damage_resist = damage_resist / 2;
+
+                    add_msg( m_debug, "%1s inherited %.1f damage resistance!", shockpart.name(), damage_resist );
                     net_dmg = std::max( 0.0f, net_dmg - damage_resist );
                 }
             }

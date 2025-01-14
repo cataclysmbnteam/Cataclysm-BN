@@ -135,6 +135,9 @@ static const efftype_id effect_crushed( "crushed" );
 
 static const ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
 
+// Conversion constant for 100ths of miles per hour to meters per second
+constexpr float velocity_constant = 0.0044704;
+
 #define dbg(x) DebugLog((x),DC::Map)
 
 static location_vector<item> nulitems( new
@@ -296,6 +299,7 @@ maptile map::maptile_at_internal( const tripoint &p )
 }
 
 // Vehicle functions
+
 
 VehicleList map::get_vehicles()
 {
@@ -686,11 +690,11 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
                 int shock_max = coll_dmg;
                 // Lower bound of shock damage
                 int shock_min = coll_dmg / 2;
+                float coll_part_bash_resist = veh.part_info( coll.part ).damage_reduction.type_resist(
+                                                  DT_BASH );
                 // Reduce shock damage by collision part DR to prevent bushes from damaging car batteries
-                shock_min = std::max<int>( 0, shock_min - veh.part_info( coll.part ).damage_reduction.type_resist(
-                                               DT_BASH ) );
-                shock_max = std::max<int>( 0, shock_max - veh.part_info( coll.part ).damage_reduction.type_resist(
-                                               DT_BASH ) );
+                shock_min = std::max<int>( 0, shock_min - coll_part_bash_resist );
+                shock_max = std::max<int>( 0, shock_max - coll_part_bash_resist );
                 // Shock damage decays exponentially, we only want to track shock damage that would cause meaningful damage.
                 if( shock_min >= 20 ) {
                     veh.damage_all( shock_min, shock_max, DT_BASH, collision_point );
@@ -861,7 +865,6 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     point epicenter1;
     point epicenter2;
 
-    float dmg;
     float veh1_impulse = 0;
     float veh2_impulse = 0;
     float delta_vel = 0;
@@ -951,11 +954,12 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh2.of_turn = avg_of_turn * 1.1;
 
         //Energy after collision
-        float E1_after = 0.5 * m1 * std::pow( ( 0.0044704f * final1.magnitude() ), 2.0f );
-        float E2_after = 0.5 * m2 * std::pow( ( 0.0044704f * final2.magnitude() ), 2.0f );
+        float E1_after = 0.5 * m1 * ( velocity_constant * velocity_constant * final1.dot_product(
+                                          final1 ) );
+        float E2_after = 0.5 * m2 * ( velocity_constant * velocity_constant * final1.dot_product(
+                                          final1 ) );
         float d_E = E1_before + E2_before - E1_after -
                     E2_after;  //Lost energy at collision -> deformation energy
-        dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
 
         // Remember that the impulse on vehicle 1 is techncally negative, slowing it
         veh1_impulse = std::abs( m1 * ( vel1_y_a - vel1_y ) );
@@ -964,7 +968,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = to_kilogram( veh.total_mass() );
         // Collision is perfectly inelastic for simplicity
         // Assume veh2 is standing still
-        dmg = std::abs( vmiph_to_mps( veh.vertical_velocity ) ) * m1 / 10;
+        dmg_veh1 = ( std::abs( vmiph_to_mps( veh.vertical_velocity ) ) * ( m1 / 10 ) ) / 2;
+        dmg_veh2 = dmg_veh1;
         veh.vertical_velocity = 0;
     }
 
