@@ -6658,13 +6658,14 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, point impact )
             int net_dmg = rng( dmg1, dmg2 ) / ( distance * distance );
             if( shockpart.location != part_location_structure ||
                 !shockpart.has_flag( "PROTRUSION" ) ) {
+                if( shockpart.has_flag( "SHOCK_IMMUNE" ) ) {
+                    net_dmg = 0;
+                    continue;
+                }
                 int shock_absorber = part_with_feature( p, "SHOCK_ABSORBER", true );
                 if( shock_absorber >= 0 ) {
                     net_dmg = std::max( 0.0f, net_dmg - ( parts[ shock_absorber ].info().bonus ) -
                                         shockpart.damage_reduction.type_resist( type ) );
-                }
-                if( shockpart.has_flag( "SHOCK_IMMUNE" ) ) {
-                    continue;
                 }
                 if( shockpart.has_flag( "SHOCK_RESISTANT" ) ) {
                     float damage_resist = 0;
