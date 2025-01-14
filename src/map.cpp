@@ -883,10 +883,6 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m1 = to_kilogram( veh.total_mass() );
         const float m2 = to_kilogram( veh2.total_mass() );
 
-        //Energy of vehicle1 and vehicle2 before collision
-        float E1_before = 0.5 * m1 * std::pow( ( 0.0044704f * velo_veh1.magnitude() ), 2.0f );
-        float E2_before = 0.5 * m2 * std::pow( ( 0.0044704f * velo_veh2.magnitude() ), 2.0f );
-
         // Collision_axis
         point cof1 = veh .rotated_center_of_mass();
         point cof2 = veh2.rotated_center_of_mass();
@@ -952,14 +948,6 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
         veh.of_turn = avg_of_turn * .9;
         veh2.of_turn = avg_of_turn * 1.1;
-
-        //Energy after collision
-        float E1_after = 0.5 * m1 * ( velocity_constant * velocity_constant * final1.dot_product(
-                                          final1 ) );
-        float E2_after = 0.5 * m2 * ( velocity_constant * velocity_constant * final1.dot_product(
-                                          final1 ) );
-        float d_E = E1_before + E2_before - E1_after -
-                    E2_after;  //Lost energy at collision -> deformation energy
 
         // Remember that the impulse on vehicle 1 is techncally negative, slowing it
         veh1_impulse = std::abs( m1 * ( vel1_y_a - vel1_y ) );
