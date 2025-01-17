@@ -4769,7 +4769,7 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist,
     }
 }
 
-void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, city &town,
+bool overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, city &town,
                               bool attempt_finale_place )
 {
     const tripoint_om_omt building_pos = p + om_direction::displace( dir );
@@ -4783,9 +4783,11 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
 
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             place_special( *building_tid, building_pos, building_dir, town, false, false );
+            return(true);
             break;
         }
     }
+    return(false);
 }
 //city passed by reference as it's modified by the function, which calls itself recursively
 void overmap::build_city_street(
@@ -4856,8 +4858,15 @@ void overmap::build_city_street(
         if( !one_in( BUILDINGCHANCE ) ) {
 
             if( attempt_finale_place && !town.finale_placed ) {
-                town.finale_placed = true;
-                place_building( rp, om_direction::turn_left( dir ), town, true );
+                //attempt to place a finale, confirm that it was placed.
+                if ( place_building( rp, om_direction::turn_left( dir ), town, true ); ) 
+                {
+                    town.finale_placed = true;
+                }
+                else // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
+                {
+                    attempt_finale_place = false;
+                }
             } else {
                 place_building( rp, om_direction::turn_left( dir ), town, false );
             }
@@ -4865,8 +4874,15 @@ void overmap::build_city_street(
         if( !one_in( BUILDINGCHANCE ) ) {
 
             if( attempt_finale_place && !town.finale_placed ) {
-                town.finale_placed = true;
-                place_building( rp, om_direction::turn_right( dir ), town, true );
+                //attempt to place a finale, confirm that it was placed.
+                if ( place_building( rp, om_direction::turn_left( dir ), town, true ); ) 
+                {
+                    town.finale_placed = true;
+                }
+                else // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
+                {
+                    attempt_finale_place = false;
+                }
             } else {
                 place_building( rp, om_direction::turn_right( dir ), town, false );
             }
