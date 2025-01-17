@@ -4663,24 +4663,24 @@ void overmap::place_cities()
     const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
     int placement_attempts = 0;
     bool finale_placement;
-    bool tiny_town_generated;
-    bool tiny_town_selected;
+    bool no_finale_town_generated;
+    bool no_finale_town_selected;
     // place a seed for NUM_CITIES cities, and maybe one more
     while( cities.size() < static_cast<size_t>( NUM_CITIES ) &&
            placement_attempts < MAX_PLACEMENT_ATTEMTPS ) {
         placement_attempts++;
 
         // randomly make some cities smaller or larger
-        // guarantee placement of a finale/vault tile in small/large/huge cities
+        // guarantee placement of a finale/vault tile in large/huge cities
         finale_placement = false;
-        tiny_town_generated = false;
-        tiny_town_selected = false;
+        no_finale_town_generated = false;
+        no_finale_town_selected = false;
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
-            tiny_town_selected = true;
+            no_finale_town_selected = true;
             size = 1;
         } else if( one_in( 2 ) ) { // 33% small
-            finale_placement = true;
+            no_finale_town_selected = true;
             size = size * 2 / 3;
         } else if( one_in( 2 ) ) { // 17% large
             finale_placement = true;
@@ -4700,7 +4700,7 @@ void overmap::place_cities()
         city tmp;
         tmp.finale_placed = false;
         //attempt to generate a city with a finale if it's not tiny. If it's tiny just run once via short circuit.
-        for( int finale_attempts = 0; ( !tiny_town_generated && !tmp.finale_placed &&
+        for( int finale_attempts = 0; ( !no_finale_town_generated && !tmp.finale_placed &&
                                         finale_attempts < MAX_PLACEMENT_ATTEMTPS ); finale_attempts++ ) {
             //std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
             if( ter( p ) == settings->default_oter ) {
@@ -4724,8 +4724,8 @@ void overmap::place_cities()
                     build_connection( tmp.pos, p.xy(), p.z(), *sewer_tunnel, false );
                 }
                 //if tiny town, just call it after one attempt since no finale.
-                if( tiny_town_selected ) {
-                    tiny_town_generated = true;
+                if( no_finale_town_selected ) {
+                    no_finale_town_generated = true;
                 }
                 //if the city finale failed to place, restore from last backup and try again at the top of the loop
                 else if( !tmp.finale_placed ) {
