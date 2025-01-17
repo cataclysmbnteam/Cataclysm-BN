@@ -1,22 +1,14 @@
 {
-    "name": "bn-vcpkg-dependencies",
-    "version-string": "experimental",
-    "dependencies": [
-        "sdl2",
-        {
-          "name": "sdl2-image",
-          "features": [ "libjpeg-turbo" ]
-        },
-        {
-          "name": "sdl2-mixer",
-          "features": [ "libflac", "mpg123", "libmodplug" ]
-        },
-        "sdl2-ttf"
-    ],
-    "builtin-baseline": "c9aba300923c8ec0ab190e2bff23085209925c97",
-    "vcpkg-configuration": {
-        "overlay-ports": [
-            "../.github/vcpkg_ports"
-        ]
-    }
+  "name": "bn-vcpkg-dependencies",
+  "version-string": "experimental",
+  "dependencies": [
+    "sdl2",
+    { "name": "sdl2-image", "features": [ "libjpeg-turbo" ] },
+    { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "libmodplug" ] },
+    "sdl2-ttf"
+  ],
+  "builtin-baseline": "b322364f06308bdd24823f9d8f03fe0cc86fd46f",
+  "vcpkg-configuration": {
+    "overlay-ports": [ "../.github/vcpkg_ports" ]
+  }
 }
