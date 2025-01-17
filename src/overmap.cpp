@@ -4859,7 +4859,7 @@ void overmap::build_city_street(
 
             if( attempt_finale_place && !town.finale_placed ) {
                 //attempt to place a finale, confirm that it was placed.
-                if ( place_building( rp, om_direction::turn_left( dir ), town, true ); ) 
+                if ( place_building( rp, om_direction::turn_left( dir ), town, true ) ) 
                 {
                     town.finale_placed = true;
                 }
@@ -4875,7 +4875,7 @@ void overmap::build_city_street(
 
             if( attempt_finale_place && !town.finale_placed ) {
                 //attempt to place a finale, confirm that it was placed.
-                if ( place_building( rp, om_direction::turn_left( dir ), town, true ); ) 
+                if ( place_building( rp, om_direction::turn_left( dir ), town, true ) ) 
                 {
                     town.finale_placed = true;
                 }
