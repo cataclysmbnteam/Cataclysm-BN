@@ -4787,7 +4787,7 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
         }
     }
 }
-
+//city passed by reference as it's modified by the function, which calls itself recursively
 void overmap::build_city_street(
     const overmap_connection &connection, const point_om_omt &p, int cs,
     om_direction::type dir, city &town, std::vector<tripoint_om_omt> &sewers,
