@@ -8,6 +8,9 @@
     "sdl2-ttf"
   ],
   "builtin-baseline": "b322364f06308bdd24823f9d8f03fe0cc86fd46f",
+  "overrides": [
+    { "name": "sdl2-mixer", "version": "2.6.3#1" }
+  ],
   "vcpkg-configuration": {
     "overlay-ports": [ "../.github/vcpkg_ports" ]
   }
