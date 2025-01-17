@@ -4783,11 +4783,11 @@ bool overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
 
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             place_special( *building_tid, building_pos, building_dir, town, false, false );
-            return(true);
+            return( true );
             break;
         }
     }
-    return(false);
+    return( false );
 }
 //city passed by reference as it's modified by the function, which calls itself recursively
 void overmap::build_city_street(
@@ -4859,12 +4859,9 @@ void overmap::build_city_street(
 
             if( attempt_finale_place && !town.finale_placed ) {
                 //attempt to place a finale, confirm that it was placed.
-                if ( place_building( rp, om_direction::turn_left( dir ), town, true ) ) 
-                {
+                if( place_building( rp, om_direction::turn_left( dir ), town, true ) ) {
                     town.finale_placed = true;
-                }
-                else // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
-                {
+                } else { // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
                     attempt_finale_place = false;
                 }
             } else {
@@ -4875,12 +4872,9 @@ void overmap::build_city_street(
 
             if( attempt_finale_place && !town.finale_placed ) {
                 //attempt to place a finale, confirm that it was placed.
-                if ( place_building( rp, om_direction::turn_left( dir ), town, true ) ) 
-                {
+                if( place_building( rp, om_direction::turn_left( dir ), town, true ) ) {
                     town.finale_placed = true;
-                }
-                else // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
-                {
+                } else { // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
                     attempt_finale_place = false;
                 }
             } else {
