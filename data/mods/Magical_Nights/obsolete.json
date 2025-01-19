@@ -1,0 +1,19 @@
+[
+  {
+    "type": "recipe",
+    "result": "flu_shot",
+    "obsolete": true
+  },
+  {
+    "id": "armor_stonefist",
+    "type": "MIGRATION",
+    "replace": "stonefist"
+  },
+  {
+    "id": "bio_fuel_cell_blood",
+    "type": "bionic",
+    "name": { "str": "Obsolete Blood Power Generator CBM" },
+    "description": "This bionic is obsolete!",
+    "occupied_bodyparts": [ [ "torso", 8 ] ]
+  }
+]

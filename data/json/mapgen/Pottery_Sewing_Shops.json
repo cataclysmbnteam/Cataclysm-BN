@@ -36,6 +36,8 @@
         ".": "t_floor",
         "s": "t_sidewalk",
         "u": "t_sidewalk",
+        "D": "t_sidewalk",
+        "F": "t_sidewalk",
         "_": "t_pavement",
         "'": "t_pavement",
         "U": "t_pavement",

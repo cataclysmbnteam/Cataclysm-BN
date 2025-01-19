@@ -9,7 +9,7 @@
     "value": 50000,
     "start": {
       "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
-      "assign_mission_target": { "om_terrain": "haz_sar_1_1", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3, "search_range": 360 }
+      "assign_mission_target": { "om_terrain": "haz_sar_1_1", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "haz_sar_b_1",
@@ -129,10 +129,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
-    "start": {
-      "effect": { "u_buy_item": "black_box" },
-      "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3, "search_range": 360 }
-    },
+    "start": { "effect": { "u_buy_item": "black_box" }, "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
@@ -339,7 +336,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3, "search_range": 360 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -362,9 +359,7 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": {
-      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3, "search_range": 360 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
@@ -388,7 +383,7 @@
     "value": 150000,
     "item": "visions_solitude",
     "start": {
-      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3, "search_range": 360 },
+      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3 },
       "update_mapgen": {
         "set": [ { "point": "terrain", "id": "t_door_bar_o", "x": 12, "y": 19 } ],
         "place_fields": [
@@ -580,10 +575,7 @@
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 60000,
-    "start": {
-      "effect": "follow_only",
-      "assign_mission_target": { "om_terrain": "fema_entrance", "reveal_radius": 3, "search_range": 256 }
-    },
+    "start": { "effect": "follow_only", "assign_mission_target": { "om_terrain": "fema_entrance", "reveal_radius": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_REACH_FARM_HOUSE",
     "destination": "fema_entrance",
@@ -608,9 +600,7 @@
     "destination": "s_air_hangars",
     "difficulty": 1,
     "value": 0,
-    "start": {
-      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 100 }
-    },
+    "start": { "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport" } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -632,7 +622,15 @@
     "destination": "mansion_c3",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "search_range": 200 } },
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "mansion_c3",
+        "om_special": "Mansion_Wild",
+        "reveal_radius": 1,
+        "search_range": 200,
+        "min_distance": 45
+      }
+    },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -842,8 +840,7 @@
         "om_terrain": "s_air_term",
         "om_special": "o_airport",
         "reveal_radius": 6,
-        "random": true,
-        "search_range": 90,
+        "search_range": 200,
         "min_distance": 45,
         "z": 0
       },

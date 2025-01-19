@@ -79,6 +79,8 @@ class worldfactory
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
         void edit_active_world_mods( WORLDINFO *world );
 
+        void convert_to_v2( const std::string &worldname );
+
     private:
         std::map<std::string, std::unique_ptr<WORLDINFO>> all_worlds;
 

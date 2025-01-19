@@ -21,6 +21,7 @@ CataclysmBN:
   - `glibc`
   - `zlib`
   - `bzip2`
+  - `sqlite3`
 - Curses
   - `ncurses`
 - Tiles
@@ -50,7 +51,8 @@ Obtain packages specified above with your system package manager.
 ```sh
 $ sudo apt install git cmake ninja-build mold clang ccache \ 
   libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev \ 
-  freetype glibc bzip2 zlib libvorbis ncurses gettext libflac++-dev
+  freetype glibc bzip2 zlib libvorbis ncurses gettext libflac++-dev \
+  libsqlite3-dev zlib1g-dev
 ```
 
 - For Fedora-based distros:
@@ -58,7 +60,8 @@ $ sudo apt install git cmake ninja-build mold clang ccache \
 ```sh
 $ sudo dnf install git cmake ninja-build mold clang ccache \
   SDL2-devel SDL2_image-devel SDL2_ttf-devel SDL2_mixer-devel \
-  freetype glibc bzip2 zlib-ng libvorbis ncurses gettext flac-devel
+  freetype glibc bzip2 zlib-ng libvorbis ncurses gettext flac-devel \
+  sqlite-devel zlib-devel
 ```
 
 ### Windows Environment (MSYS2)

@@ -2,7 +2,7 @@
   {
     "id": "bathroom_scale",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "scrap_metal",
     "name": { "str": "bathroom scale" },
     "symbol": "■",
     "color": "light_gray",
@@ -20,7 +20,7 @@
   {
     "id": "brush",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "scrub brush", "str_pl": "scrub brushes" },
     "description": "This is a simple scrub brush.",
     "weight": "70 g",
@@ -37,7 +37,7 @@
   {
     "id": "elec_hairtrimmer",
     "type": "TOOL",
-    "category": "tools",
+    "category": "electronics",
     "name": { "str": "electric hair trimmer" },
     "description": "This is a pocket-sized electric trimmer made for cutting hair.  You can use it to cut your hair if it's supplied with batteries.  It requires 10 batteries per use.",
     "weight": "138 g",
@@ -93,7 +93,7 @@
   },
   {
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "id": "razor_blade",
     "symbol": ",",
     "color": "light_cyan",
@@ -128,7 +128,7 @@
   {
     "id": "sponge",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "sponge" },
     "description": "A sponge is a tool or cleaning aid made of soft, porous material.  Typically used for cleaning impervious surfaces.",
     "weight": "80 g",
@@ -181,7 +181,7 @@
   {
     "id": "washboard",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "washboard" },
     "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": "90 g",
@@ -198,7 +198,7 @@
   {
     "id": "wash_kit",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "washing kit" },
     "description": "A combination kit of a washboard and a scrubbing tool.  Everything you need to clean items after the apocalypse.",
     "weight": "100 g",

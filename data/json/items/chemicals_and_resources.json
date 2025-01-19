@@ -39,7 +39,7 @@
   {
     "type": "AMMO",
     "id": "chunk_sulfur",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "50 cent",
     "price_postapoc": "1 USD",
     "name": { "str": "chunk of sulfur", "str_pl": "chunks of sulfur" },
@@ -61,7 +61,7 @@
   {
     "type": "AMMO",
     "id": "material_cement",
-    "category": "spare_parts",
+    "category": "rocks",
     "price": "2 USD",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "cement" },
@@ -78,7 +78,7 @@
   {
     "type": "AMMO",
     "id": "material_limestone",
-    "category": "spare_parts",
+    "category": "rocks",
     "price": "50 cent",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "limestone" },
@@ -100,7 +100,7 @@
   {
     "type": "AMMO",
     "id": "material_quicklime",
-    "category": "spare_parts",
+    "category": "rocks",
     "price": "1 USD",
     "price_postapoc": "10 cent",
     "name": { "str_sp": "quicklime" },
@@ -117,7 +117,7 @@
   {
     "type": "AMMO",
     "id": "material_sand",
-    "category": "spare_parts",
+    "category": "scrap_glass",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "sand" },
@@ -134,7 +134,7 @@
   {
     "type": "AMMO",
     "id": "material_soil",
-    "category": "spare_parts",
+    "category": "soil",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "soil" },
@@ -167,7 +167,7 @@
   {
     "type": "GENERIC",
     "id": "material_rocksalt",
-    "category": "food",
+    "category": "cooking_ingredients",
     "price": "50 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "rock salt" },
@@ -182,7 +182,7 @@
   {
     "type": "GENERIC",
     "id": "material_rhodonite",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "250 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "rhodonite" },
@@ -198,7 +198,7 @@
   {
     "type": "GENERIC",
     "id": "material_zincite",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "250 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "zincite" },
@@ -756,7 +756,7 @@
   {
     "type": "AMMO",
     "id": "material_niter",
-    "category": "spare_parts",
+    "category": "chems",
     "price": "75 cent",
     "price_postapoc": "1 USD",
     "name": { "str_sp": "niter" },
@@ -772,7 +772,7 @@
   {
     "type": "GENERIC",
     "id": "iron_ore",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "250 cent",
     "name": { "str": "chunk of iron ore", "str_pl": "chunks of iron ore" },
     "symbol": ",",
@@ -1238,7 +1238,7 @@
   {
     "id": "steel_grille",
     "type": "GENERIC",
-    "category": "other",
+    "category": "tools_chemistry",
     "name": { "str": "steel grille" },
     "description": "This is a metal grille.  It can be used as a framework for making a chemical catalyst.",
     "weight": "600 g",
@@ -1292,7 +1292,7 @@
   {
     "id": "wooden_bead",
     "type": "AMMO",
-    "category": "spare_parts",
+    "category": "scrap_wood",
     "name": { "str": "wooden bead" },
     "description": "This is a wooden bead.  It can be used to craft inscribable jewelry or create a beaded curtain door.",
     "weight": "1 g",

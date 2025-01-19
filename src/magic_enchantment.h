@@ -83,6 +83,7 @@ class enchantment
         enum condition {
             ALWAYS,
             UNDERGROUND,
+            ABOVEGROUND,
             UNDERWATER,
             NIGHT,
             DAY,

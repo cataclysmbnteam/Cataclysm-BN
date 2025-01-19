@@ -12,7 +12,7 @@
     "material": [ "steel" ],
     "volume": "1 L",
     "bashing": 5,
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "60 USD",
     "price_postapoc": "1 USD",
     "qualities": [ [ "COOK", 1 ] ],

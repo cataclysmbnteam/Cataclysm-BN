@@ -235,7 +235,8 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     // If we got here and this is still invalid, it means that we couldn't find it nor create it
     // on any overmap (new or existing) within the allowed search range.
     if( target_pos == overmap::invalid_tripoint ) {
-        debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain );
+        debugmsg( "Unable to find and assign mission target %s within %d tiles.",
+                  params.overmap_terrain, find_params.search_range );
         return std::nullopt;
     }
     return target_pos;

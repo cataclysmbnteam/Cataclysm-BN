@@ -2,7 +2,7 @@
   {
     "id": "brazier",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "brazier" },
     "description": "A large metal stand used to contain a fire.  Fires set in a brazier will not spread to surrounding flammable objects.",
     "weight": "5000 g",
@@ -21,7 +21,7 @@
   {
     "id": "hobo_stove",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "hobo stove" },
     "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to Deploy.",
     "weight": "70 g",
@@ -38,7 +38,7 @@
   {
     "id": "55gal_firebarrel",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "fire barrel (200L)", "str_pl": "fire barrels (200L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "20000 g",
@@ -57,7 +57,7 @@
   {
     "id": "30gal_firebarrel",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "fire barrel (100L)", "str_pl": "fire barrels (100L)" },
     "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "weight": "12000 g",
@@ -76,7 +76,7 @@
   {
     "id": "camp_chair",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "camp chair" },
     "description": "Folded camp chair, deploy to sit down.",
     "weight": "1000 g",
@@ -95,7 +95,7 @@
   {
     "id": "cot",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "cot" },
     "description": "This is a military style fold up cot.  While it may not be quite as comfortable as a bed, it's better than slumming it on the ground.",
     "weight": "6164 g",
@@ -120,7 +120,7 @@
   {
     "id": "folding_bicycle",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "folding bicycle" },
     "description": "This is a bicycle folded into a relatively portable package.",
     "weight": "9071 g",
@@ -198,7 +198,7 @@
   {
     "id": "inflatable_boat",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "symbol": "0",
     "color": "light_gray",
     "name": { "str": "inflatable boat" },
@@ -222,7 +222,7 @@
   {
     "id": "metal_smoking_rack",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "metal smoking rack" },
     "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation.",
     "weight": "5000 g",
@@ -240,7 +240,7 @@
   {
     "id": "tourist_table",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "tourist table" },
     "description": "Metal tourist table for off-road trips.  It is folded for easy transportation.",
     "weight": "6000 g",
@@ -258,7 +258,7 @@
   {
     "id": "leather_tarp",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "leather tarp" },
     "description": "A large sheet of sewn leather that can be deployed instead of a picnic blanket, but it's more valuable as a butchery appliance as it does not soak in blood.  It's rolled and ready for carrying.",
     "weight": "2000 g",
@@ -276,7 +276,7 @@
   {
     "id": "fiber_mat",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "fiber mat" },
     "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be used as a comfortable sleeping place.  It's rolled and ready for carrying.",
     "weight": "1000 g",
@@ -294,7 +294,7 @@
   {
     "id": "churn",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "folded butter churn" },
     "description": "A large wooden container used to turn raw milk into butter and buttermilk.  This model uses a foot crank and holds three gallons of raw milk.",
     "weight": "6464 g",

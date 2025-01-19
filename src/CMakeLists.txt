@@ -61,6 +61,8 @@ if (TILES)
 
     add_dependencies(cataclysm-bn-tiles-common get_version)
 
+    target_link_libraries(cataclysm-bn-tiles-common PUBLIC ZLIB::ZLIB)
+    target_link_libraries(cataclysm-bn-tiles-common PUBLIC SQLite::SQLite3)
     target_link_libraries(cataclysm-bn-tiles PRIVATE cataclysm-bn-tiles-common)
     target_compile_definitions(cataclysm-bn-tiles-common PUBLIC TILES )
 
@@ -176,9 +178,12 @@ if (CURSES)
     endif ()
 
     add_dependencies(cataclysm-bn-common get_version)
+
     target_link_libraries(cataclysm-bn PRIVATE cataclysm-bn-common)
 
     target_include_directories(cataclysm-bn-common PUBLIC ${CURSES_INCLUDE_DIR})
+    target_link_libraries(cataclysm-bn-common PUBLIC ZLIB::ZLIB)
+    target_link_libraries(cataclysm-bn-common PUBLIC SQLite::SQLite3)
     target_link_libraries(cataclysm-bn-common PUBLIC ${CURSES_LIBRARIES})
 
     if (CMAKE_USE_PTHREADS_INIT)

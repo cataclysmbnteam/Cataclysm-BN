@@ -2,7 +2,7 @@
   {
     "id": "anvil",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "anvil" },
     "description": "This is an enormously heavy block of oddly shaped steel with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
     "weight": "54000 g",
@@ -20,7 +20,7 @@
   {
     "id": "anvil_bronze",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "bronze anvil" },
     "description": "This is a block of oddly shaped bronze with a chisel-like projection set into the corner.  It's used in most metalworking fabrication recipes.",
     "weight": "2200 g",
@@ -38,7 +38,7 @@
   {
     "id": "boltcutters",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "pair of bolt cutters", "str_pl": "pairs of bolt cutters" },
     "description": "This is a large pair of bolt cutters.  You could use them to cut padlocks or heavy gauge wire.",
     "weight": "1224 g",
@@ -56,7 +56,7 @@
   {
     "id": "char_forge",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "charcoal forge" },
     "description": "This is a portable, charcoal fired, metalworking forge.  If combined with the right tools, you could use this for metalworking, or it could be used to repair metal items.",
     "weight": "8600 g",
@@ -104,7 +104,7 @@
   {
     "id": "char_kiln",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "charcoal kiln" },
     "description": "A stout metal box used for producing charcoal via pyrolysis; the incomplete burning of organic materials in the absence of oxygen.",
     "weight": "6400 g",
@@ -121,7 +121,7 @@
   {
     "id": "chisel",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "metalworking chisel" },
     "description": "This is a short, stout metalworking chisel.  It's used in some metalworking fabrication recipes.",
     "weight": "660 g",
@@ -140,7 +140,7 @@
   {
     "id": "crucible",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "crucible" },
     "description": "This is a small metalworking crucible.  It's used in some metalworking fabrication recipes.",
     "weight": "1400 g",
@@ -157,7 +157,7 @@
   {
     "id": "crucible_clay",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "clay crucible" },
     "description": "This is a primitive metalworking crucible made of clay.  You could use it for metalworking.",
     "weight": "1642 g",
@@ -174,7 +174,7 @@
   {
     "id": "forge",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "electric forge" },
     "description": "This is a portable electric metalworking forge, powered by batteries.  Combined with the right tools, you could use this for metalworking, or it could be used to repair metal items.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
     "weight": "10000 g",
@@ -224,7 +224,7 @@
   {
     "id": "kiln_done",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "finished charcoal kiln" },
     "description": "A charcoal kiln that has finished burning.  Disassemble it to retrieve the charcoal and kiln.",
     "weight": "8142 g",
@@ -241,7 +241,7 @@
   {
     "id": "kiln_full",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "filled charcoal kiln" },
     "description": "A kiln filled with wood which will become charcoal after a slow period of burning.",
     "weight": "15142 g",
@@ -265,7 +265,7 @@
   {
     "id": "kiln_lit",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "lit charcoal kiln" },
     "description": "A kiln full of wood that has been lit; better drop it!",
     "weight": "15142 g",
@@ -304,7 +304,7 @@
   {
     "id": "swage",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "swage and die set" },
     "description": "These are a set of swages and dies for metalsmithing.  These loops and metal blocks are used in some metalworking fabrication recipes.",
     "weight": "2620 g",
@@ -321,7 +321,7 @@
   {
     "id": "tongs",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
     "description": "These are long, metal tongs.  They are commonly used for cooking or in metalworking fabrication recipes.",
     "weight": "540 g",

@@ -224,6 +224,7 @@ extern const flag_id flag_NPC_THROWN;
 extern const flag_id flag_NPC_THROW_NOW;
 extern const flag_id flag_NUTRIENT_OVERRIDE;
 extern const flag_id flag_ONLY_ONE;
+extern const flag_id flag_EXOSUIT;
 extern const flag_id flag_ORGANIC;
 extern const flag_id flag_OUTER;
 extern const flag_id flag_OVERSIZE;

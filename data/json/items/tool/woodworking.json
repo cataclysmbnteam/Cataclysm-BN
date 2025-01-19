@@ -2,7 +2,7 @@
   {
     "id": "ax",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_farming",
     "weapon_category": [ "2H_AXES" ],
     "name": { "str": "wood axe" },
     "description": "This is a large, two-handed wood axe.  It makes a good melee weapon, but is a bit slow to recover between swings.",
@@ -35,7 +35,7 @@
   {
     "id": "chainsaw_off",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "chainsaw (off)", "str_pl": "chainsaws (off)" },
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with gas, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "weight": "6577 g",
@@ -84,7 +84,7 @@
   {
     "id": "circsaw_off",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "circular saw (off)", "str_pl": "circular saws (off)" },
     "description": "A lightweight handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, zombies, or in an emergency, pizza.  The blade, while effective in combat, is hard to hit with due to its small size.",
     "weight": "2940 g",
@@ -130,7 +130,7 @@
   {
     "id": "copper_ax",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_farming",
     "weapon_category": [ "2H_AXES" ],
     "name": { "str": "copper axe" },
     "description": "This is a decent-sized chunk of worked copper affixed to a wooden shaft, to make a crude yet effective axe.",
@@ -171,7 +171,7 @@
   {
     "id": "elec_chainsaw_off",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "electric chainsaw (off)", "str_pl": "electric chainsaws (off)" },
     "description": "This is a lumbering tool moonlighting as weapon of opportunity.  If loaded with batteries, using this item will cause it to turn on, turning it into a very powerful but unwieldy melee weapon.",
     "weight": "6577 g",
@@ -272,7 +272,7 @@
   {
     "id": "saw",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "wood saw" },
     "description": "This is a thin saw, useful for cutting through wood objects.",
     "weight": "283 g",
