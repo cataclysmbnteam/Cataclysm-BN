@@ -1623,6 +1623,11 @@ void worldfactory::convert_to_v2( const std::string &worldname )
     }
 
     // Backup the world by renaming it to a new name
+    if( worldname.find( " (V2 Conversion Backup)" ) != std::string::npos ) {
+        popup( _( "World '%s' is already a backup. Rename the world before trying again." ), worldname );
+        return;
+    }
+
     std::string backup_name = worldname + " (V2 Conversion Backup)";
     if( has_world( backup_name ) ) {
         popup( _( "Backup world '%s' already exists, aborting conversion" ), backup_name );
