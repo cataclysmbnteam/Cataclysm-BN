@@ -55,6 +55,8 @@ jobs:
           mingw-w64-x86_64-SDL2_ttf
           mingw-w64-x86_64-toolchain
           mingw-w64-x86_64-cmake
+          mingw-w64-x86_64-sqlite3
+          mingw-w64-x86_64-zstd
 
     - name: Create build directory
       run: mkdir build
