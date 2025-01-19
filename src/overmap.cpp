@@ -5958,7 +5958,6 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         if( unique || globally_unique ) {
             const overmap_special_id &id = iter.special_details->id;
 
-            int chance = roll_remainder( min * rate );
             //FINGERS CROSSED EMOGI
             amount_to_place = x_in_y( min, max ) && ( !globally_unique ||
                               !overmap_buffer.contains_unique_special( id ) ) ? 1 : 0;
