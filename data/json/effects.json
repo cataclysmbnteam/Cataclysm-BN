@@ -1008,8 +1008,9 @@
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000, 1200 ],
-      "fatigue_min": [ 360, 180 ],
-      "fatigue_chance": [ -102 ]
+      "fatigue_min": [ 2, 1 ],
+      "fatigue_chance": [ -102 ],
+      "fatigue_tick": [ 6 ]
     },
     "scaling_mods": {
       "pain_max_val": [ 30, 20 ],
@@ -1035,7 +1036,7 @@
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
       "vomit_chance": [ 1000 ],
-      "fatigue_min": [ 360 ],
+      "fatigue_min": [ 2 ],
       "fatigue_chance": [ -102 ],
       "fatigue_tick": [ 6 ],
       "pain_tick": [ 6 ],
