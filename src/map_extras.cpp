@@ -762,26 +762,26 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
                 case 2:
                 case 3:
                 case 4:
-                    item_groups.push_back("mil_food");
+                    item_groups.push_back( "mil_food" );
                     break;
                 case 5:
                 case 6:
                 case 7:
-                    item_groups.push_back("grenades");
+                    item_groups.push_back( "grenades" );
                     break;
                 case 8:
                 case 9:
-                    item_groups.push_back("mil_armor");
+                    item_groups.push_back( "mil_armor" );
                     break;
                 case 10:
-                    item_groups.push_back("guns_rifle_milspec");
+                    item_groups.push_back( "guns_rifle_milspec" );
                     break;
             }
         }
         int items_created = 0;
         for( int i = 0; i < 4; i++ ) {
             items_created += m.put_items_from_loc( item_group_id( item_groups[i] ), *p,
-                                            calendar::start_of_cataclysm ).size();
+                                                   calendar::start_of_cataclysm ).size();
         }
         if( m.i_at( *p ).empty() || items_created == 0 ) {
             m.destroy( *p, true );
