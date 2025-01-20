@@ -8541,7 +8541,8 @@ void game::butcher()
                 const auto components = dis.disassembly_requirements().get_components();
                 for( const auto &subcomps : components ) {
                     if( subcomps.size() > 0 ) {
-                        disassembly_stacks_res.emplace_back( subcomps.front().type, subcomps.front().count );
+                        disassembly_stacks_res.emplace_back( subcomps.front().type,
+                                                             subcomps.front().count * disassembly_stacks_res[i].second );
                     }
                 }
             }
