@@ -3370,58 +3370,6 @@
     "to_hit": 1
   },
   {
-    "id": "lycra_patch",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "Lycra patch", "str_pl": "Lycra patches" },
-    "description": "This is a small bolt of a synthetic fabric blended with stretchy Lycra fibers.  It could be used to make flexible yet strong clothing.  Stylish, but bad for the environment; at least you're recycling it.",
-    "weight": "87 g",
-    "volume": "250 ml",
-    "price": "0 cent",
-    "price_postapoc": "10 cent",
-    "material": "lycra",
-    "symbol": ",",
-    "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
-    "id": "scrap_lycra",
-    "copy-from": "scrap_cotton",
-    "type": "AMMO",
-    "name": { "str_sp": "Lycra scraps" },
-    "description": "Oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": "0 cent",
-    "material": "lycra"
-  },
-  {
-    "id": "sheet_lycra",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "Lycra sheet" },
-    "description": "A sheet of synthetic fabric blended with stretchy Lycra fibers, suitable for making flexible yet strong clothing.",
-    "weight": "3 g",
-    "volume": "300 ml",
-    "price": "50 USD",
-    "price_postapoc": "1 USD",
-    "material": "lycra",
-    "symbol": "=",
-    "color": "dark_gray",
-    "count": 100,
-    "ammo_type": "components"
-  },
-  {
-    "id": "sheet_lycra_patchwork",
-    "copy-from": "sheet_lycra",
-    "type": "AMMO",
-    "name": { "str_sp": "patchwork Lycra clothing parts" },
-    "description": "A selection of various clothing parts, sewn together from Lycra patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
-    "weight": "60 g",
-    "volume": "60 ml",
-    "price": "10 USD",
-    "price_postapoc": "50 cent",
-    "count": 1
-  },
-  {
     "id": "burette",
     "type": "GENERIC",
     "category": "tools",
@@ -4280,29 +4228,6 @@
     "flags": [ "EATEN_COLD" ],
     "fun": 8,
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
-  },
-  {
-    "id": "zipper_long_plastic",
-    "copy-from": "zipper_short_plastic",
-    "type": "AMMO",
-    "name": { "str": "long plastic zipper" },
-    "description": "A long zipper made from plastic, usually found on clothing.",
-    "proportional": { "weight": 3, "volume": 3, "price": 3 }
-  },
-  {
-    "id": "zipper_short_plastic",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str": "short plastic zipper" },
-    "description": "A short zipper made from plastic, usually found on footwear or clothing pockets.",
-    "weight": "4 g",
-    "volume": "4 ml",
-    "price": "1 USD",
-    "price_postapoc": "0 cent",
-    "material": [ "plastic", "cotton" ],
-    "symbol": "=",
-    "color": "dark_gray",
-    "ammo_type": "components"
   },
   {
     "abstract": "seed_mushroom_base",
