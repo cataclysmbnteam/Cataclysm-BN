@@ -4230,14 +4230,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "button_plastic",
-    "type": "uncraft",
-    "skill_used": "fabrication",
-    "time": "6 s",
-    "components": [ [ [ "plastic_scrap", 3 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "bottle_folding",
     "type": "uncraft",
     "skill_used": "fabrication",
