@@ -262,6 +262,11 @@
     "info": "You can wear <info>only one</info>."
   },
   {
+    "id": "EXOSUIT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
+  },
+  {
     "id": "FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

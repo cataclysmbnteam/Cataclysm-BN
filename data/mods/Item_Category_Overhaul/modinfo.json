@@ -4,8 +4,9 @@
     "id": "Item_Category_Overhaul",
     "name": "Item Category Overhaul",
     "authors": [ "RoyalFox" ],
-    "maintainers": [ "RoyalFox" ],
+    "maintainers": [  ],
     "description": "Massively overhauls item categories to allow better sorting.",
+    "obsolete": true,
     "category": "content",
     "dependencies": [ "bn" ]
   }

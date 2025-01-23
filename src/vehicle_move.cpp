@@ -67,6 +67,12 @@ static const float tile_height = 4;
 static const int mi_to_vmi = 100;
 // meters per second to miles per hour
 static const float mps_to_miph = 2.23694f;
+// Conversion constant for Impulse Ns to damage for vehicle collisions. Fine tune to desired damage.
+static const float imp_conv_const = 0.1;
+// Inverse conversion constant for impulse to damage
+static const float imp_conv_const_inv = 1 / imp_conv_const;
+// Conversion constant for 100ths of miles per hour to meters per second
+constexpr float velocity_constant = 0.0044704;
 
 // convert m/s to vehicle 100ths of a mile per hour
 int mps_to_vmiph( double mps )
@@ -77,7 +83,7 @@ int mps_to_vmiph( double mps )
 // convert vehicle 100ths of a mile per hour to m/s
 double vmiph_to_mps( int vmiph )
 {
-    return vmiph / mps_to_miph / mi_to_vmi;
+    return vmiph * velocity_constant;
 }
 
 int cmps_to_vmiph( int cmps )
@@ -89,13 +95,24 @@ int vmiph_to_cmps( int vmiph )
 {
     return vmiph / mps_to_miph;
 }
+// Conversion of impulse Ns to damage for vehicle collision purposes.
+float impulse_to_damage( float impulse )
+{
+    return impulse * imp_conv_const;
+}
+
+// Convert damage back to impulse Ns
+float damage_to_impulse( float damage )
+{
+    return damage * imp_conv_const_inv;
+}
 
 int vehicle::slowdown( int at_velocity ) const
 {
     double mps = vmiph_to_mps( std::abs( at_velocity ) );
 
     // slowdown due to air resistance is proportional to square of speed
-    double f_total_drag = coeff_air_drag() * mps * mps;
+    double f_total_drag = std::abs( coeff_air_drag() * mps * mps );
     if( is_watercraft() ) {
         // same with water resistance
         f_total_drag += coeff_water_drag() * mps * mps;
@@ -112,7 +129,7 @@ int vehicle::slowdown( int at_velocity ) const
     }
     double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
     // converting m/s^2 to vmiph/s
-    int slowdown = mps_to_vmiph( accel_slowdown );
+    float slowdown = mps_to_vmiph( accel_slowdown );
     if( is_towing() ) {
         vehicle *other_veh = tow_data.get_towed();
         if( other_veh ) {
@@ -122,14 +139,14 @@ int vehicle::slowdown( int at_velocity ) const
     if( slowdown < 0 ) {
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name, slowdown );
     }
-    add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
+    add_msg( m_debug, "%s at %d vimph, f_drag %3.2f, drag accel %.1f vmiph - extra drag %d",
              name, at_velocity, f_total_drag, slowdown, static_drag() );
     // plows slow rolling vehicles, but not falling or floating vehicles
     if( !( is_falling || is_floating || is_flying ) ) {
         slowdown -= static_drag();
     }
 
-    return std::max( 1, slowdown );
+    return std::max( 1.0f, slowdown );
 }
 
 void vehicle::thrust( int thd, int z )
@@ -554,13 +571,18 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( armor_part >= 0 ) {
         ret.part = armor_part;
     }
-
-    int dmg_mod = part_info( ret.part ).dmg_mod;
+    // Damage modifier, pre-divided by 100. 1 is full collision damage, 1.5 is 50% bonus, etc.
+    int dmg_mod = ( part_info( ret.part ).dmg_mod ) / 100;
+    // Failsafe incase of wierdness.
+    if( dmg_mod == 0 ) {
+        dmg_mod = 1;
+    }
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0;
     // e = 0 -> plastic collision
-    float e = 0.3;
     // e = 1 -> inelastic collision
+    float e = 0.3;
+
     //part density
     float part_dens = 0;
 
@@ -611,7 +633,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     const float mass = ( part_info( part ).rotor_diameter() > 0 ) ?
                        to_kilogram( parts[ part ].base->weight() ) : to_kilogram( total_mass() );
 
-    //Calculate damage resulting from d_E
+    // No longer calculating damage based on deformation energy.
+    // Damage to each object is based upon force applied from change in momentum
+
+    //Finds vehicle part density using part material
     const material_id_list &mats = part_info( ret.part ).item->materials;
     float vpart_dens = 0;
     if( !mats.empty() ) {
@@ -622,25 +647,33 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         vpart_dens /= mats.size();
     }
 
-    //k=100 -> 100% damage on part
-    //k=0 -> 100% damage on obj
-    float material_factor = ( part_dens - vpart_dens ) * 0.5;
-    material_factor = std::max( -25.0f, std::min( 25.0f, material_factor ) );
+    //Calculates density factor. Used as a bad stand in to determine deformation distance.
+    //Ranges from 0.1 -> 100, measured in cm. A density difference of 100 is needed for the full value.
+    float density_factor = std::abs( part_dens - vpart_dens );
+    density_factor = clamp( density_factor, 0.1f, 100.0f );
+
+    //Deformation distance of the collision, measured in meters. A bad approximation for a value we dont have that would take intensive simulation to determine.
+    // 0.001 -> 1 meter. Left modifiable so that armor or other parts can affect it.
+    float deformation_distance = density_factor / 100;
+
+    //Calculates mass factor. Depreciated, maintained for stats.
     // factor = -25 if mass is much greater than mass2
     // factor = +25 if mass2 is much greater than mass
     const float weight_factor = mass >= mass2 ?
                                 -25 * ( std::log( mass ) - std::log( mass2 ) ) / std::log( mass ) :
                                 25 * ( std::log( mass2 ) - std::log( mass ) ) / std::log( mass2 );
 
-    float k = 50 + material_factor + weight_factor;
-    k = std::max( 10.0f, std::min( 90.0f, k ) );
-
     bool smashed = true;
     const std::string snd = _( "smash!" );
-    float dmg = 0.0f;
-    float part_dmg = 0.0f;
-    // Calculate Impulse of car
+    float part_dmg = 0;
+    float obj_dmg = 0;
+    // Calculate stun time of car
     time_duration time_stunned = 0_turns;
+    float vel1_a = 0;
+    float vel2_a = 0;
+    float impulse_veh = 0;
+    float impulse_obj = 0;
+    int critter_health = 0;
 
     const int prev_velocity = coll_velocity;
     const int vel_sign = sgn( coll_velocity );
@@ -650,24 +683,28 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float vel2 = 0.0f;
     do {
         smashed = false;
-        // Impulse of vehicle
-        const float vel1 = coll_velocity / 100.0f;
+        // Velocity of vehicle for calculations
+        // Changed from mph to m/s, because mixing unit systems is a nono
+        const float vel1 = vmiph_to_mps( coll_velocity );
         // Velocity of car after collision
-        const float vel1_a = ( mass * vel1 + mass2 * vel2 + e * mass2 * ( vel2 - vel1 ) ) /
-                             ( mass + mass2 );
-        // Velocity of object after collision
-        const float vel2_a = ( mass * vel1 + mass2 * vel2 + e * mass * ( vel1 - vel2 ) ) / ( mass + mass2 );
-        // Lost energy at collision -> deformation energy -> damage
-        const float E_before = 0.5f * ( mass * vel1 * vel1 )     + 0.5f * ( mass2 * vel2 * vel2 );
-        const float E_after  = 0.5f * ( mass * vel1_a * vel1_a ) + 0.5f * ( mass2 * vel2_a * vel2_a );
-        const float d_E = E_before - E_after;
-        if( d_E <= 0 ) {
-            // Deformation energy is signed
-            // If it's negative, it means something went wrong
-            // But it still does happen sometimes...
+        vel1_a = ( mass * vel1 + mass2 * vel2 + e * mass2 * ( vel2 - vel1 ) ) /
+                 ( mass + mass2 );
+        // Velocity of object 2 after collision
+        vel2_a = ( mass * vel1 + mass2 * vel2 + e * mass * ( vel1 - vel2 ) ) / ( mass + mass2 );
+
+        // Impulse of vehicle part from collision. Measured in newton seconds (Ns)
+        // Calculated as the change in momentum due to the collision
+        impulse_veh = std::abs( mass * ( vel1_a - vel1 ) );
+        // Impulse of the impacted object from collision. Measured in newton seconds (Ns)
+        // Calculated as the change in momentum due to the collision.
+        impulse_obj = std::abs( mass2 * ( vel2_a - vel2 ) );
+        // Due to conservation of momentum, both of these values should be equal. If not, something odd has happened and physics will be wonky. Small threshold for rounding errors.
+        if( std::abs( impulse_obj - impulse_veh ) > 5 ) {
+            add_msg( m_debug,
+                     "Conservation of momentum violated, impulse values between object and vehicle are not equal! " );
             if( std::fabs( vel1_a ) < std::fabs( vel1 ) ) {
                 // Lower vehicle's speed to prevent infinite loops
-                coll_velocity = vel1_a * 90;
+                coll_velocity = mps_to_vmiph( vel1_a ) * 0.9;
             }
             if( std::fabs( vel2_a ) > std::fabs( vel2 ) ) {
                 vel2 = vel2_a;
@@ -679,19 +716,35 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             continue;
         }
 
-        add_msg( m_debug, "Deformation energy: %.2f", d_E );
         // Damage calculation
-        // Damage dealt overall
-        dmg += d_E / 400;
+        // Maximum damage for vehicle part to take
+        const float bash_max = here.bash_strength( p, bash_floor );
+
+
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
-            part_dmg = dmg * k / 100;
-            add_msg( m_debug, "Part collision damage: %.2f", part_dmg );
-        }
-        // Damage for object
-        const float obj_dmg = dmg * ( 100 - k ) / 100;
 
+            part_dmg = impulse_to_damage( impulse_veh );
+            if( bash_max != 0 ) {
+                part_dmg = std::min( bash_max / dmg_mod, part_dmg );
+            }
+
+            //add_msg( m_debug, "Part collision damage: %.2f", part_dmg );
+        } else {
+            part_dmg = 0;
+            add_msg( m_debug, "Part damage 0, critter assumed to be hallucination" );
+        }
+        // Damage for object.
+        obj_dmg = impulse_to_damage( impulse_obj ) * dmg_mod;
+        ret.target_name = here.disp_name( p );
+        add_msg( m_debug, _( "%1s collided with %2s!" ), name, ret.target_name );
+        add_msg( m_debug,
+                 "Vehicle mass of %.2f Kg with a Pre-Collision Velocity of %d vmph, collision object mass of %.2f Kg, with a Velocity of %.2f mph. predicted deformation distance is %.2f meters.",
+                 mass, prev_velocity, mass2, vel2, deformation_distance );
+        add_msg( m_debug,
+                 "Vehicle impulse of %.2f Ns resulted in Part collision damage %.2f of a maximum of %.2f, Object impulse of %.2f resulted in damage of %.2f (dmg mod %0.2i)",
+                 impulse_veh, part_dmg, bash_max, impulse_obj, obj_dmg, dmg_mod );
         if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
             // NOTE: Floor bashing disabled for balance reasons
@@ -700,6 +753,17 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                       here.bash_resistance( p, bash_floor ) <= obj_dmg &&
                       here.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
+                //Experimental: only use as much energy as was required to destroy the obstacle, and recalc impulse and momentum off of that.
+                //Recalculate vel1_a from new impulse. Remember that the impulse from a collision is technically negative, reducing speed.
+                float old_veh_imp = impulse_veh;
+                impulse_veh = damage_to_impulse( std::min( part_dmg, bash_max / dmg_mod ) );
+                add_msg( m_debug, "Terrain collision impulse recovery of %.2f Ns", old_veh_imp - impulse_veh );
+                if( ( vel1 - ( impulse_veh / mass ) ) < vel1 ) {
+                    vel1_a = ( vel1 - ( impulse_veh / mass ) );
+                    add_msg( m_debug, "Post collision velocity recovered to %.2f m/s", vel1_a );
+                }
+                add_msg( m_debug, _( "%1s smashed %2s!" ), name, ret.target_name );
+
                 if( here.is_bashable_ter_furn( p, bash_floor ) ) {
                     // There's new terrain there to smash
                     smashed = false;
@@ -716,7 +780,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
         } else if( ret.type == veh_coll_body ) {
-            int dam = obj_dmg * dmg_mod / 100;
 
             // We know critter is set for this type.  Assert to inform static
             // analysis.
@@ -724,29 +787,48 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             // No blood from hallucinations
             if( !critter->is_hallucination() ) {
+                // Get critter health for determining max damage to apply
+                critter_health = critter->get_hp_max();
                 if( part_flag( ret.part, "SHARP" ) ) {
-                    parts[ret.part].blood += ( 20 + dam ) * 5;
-                } else if( dam > rng( 10, 30 ) ) {
-                    parts[ret.part].blood += ( 10 + dam / 2 ) * 5;
+                    parts[ret.part].blood += ( 20 + obj_dmg ) * 5;
+                } else if( obj_dmg > rng( 10, 30 ) ) {
+                    parts[ret.part].blood += ( 10 + obj_dmg / 2 ) * 5;
                 }
 
                 check_environmental_effects = true;
             }
 
-            time_stunned = time_duration::from_turns( ( rng( 0, dam ) > 10 ) + ( rng( 0, dam ) > 40 ) );
+            time_stunned = time_duration::from_turns( ( rng( 0, obj_dmg ) > 10 ) + ( rng( 0, obj_dmg ) > 40 ) );
             if( time_stunned > 0_turns ) {
                 critter->add_effect( effect_stunned, time_stunned );
             }
 
             if( ph != nullptr ) {
-                ph->hitall( dam, 40, driver );
+                ph->hitall( obj_dmg, 40, driver );
             } else {
                 const int armor = part_flag( ret.part, "SHARP" ) ?
                                   critter->get_armor_cut( bodypart_id( "torso" ) ) :
                                   critter->get_armor_bash( bodypart_id( "torso" ) );
-                dam = std::max( 0, dam - armor );
-                critter->apply_damage( driver, bodypart_id( "torso" ), dam );
-                add_msg( m_debug, "Critter collision damage: %d", dam );
+                obj_dmg = std::max( 0.0f, obj_dmg - armor );
+                critter->apply_damage( driver, bodypart_id( "torso" ), obj_dmg );
+
+                // Limit vehicle damage to the max health of the critter, attenuated by the damage modifier.
+                part_dmg = std::min( ( critter_health * 1.0f ) / dmg_mod, part_dmg );
+
+                add_msg( m_debug, "Critter collision! %1s was hit by %2s", critter->disp_name(), name );
+                add_msg( m_debug, "Vehicle of %.2f Kg at %2.f vmph impacted Critter of %.2f Kg at %.2f vmph", mass,
+                         vel1, mass2, vel2 );
+                add_msg( m_debug,
+                         "Vehicle received impulse of %.2f Nm dealing %.2f damage of maximum %.2f, Critter received impulse of %.2f Nm dealing %.2f damage. ",
+                         impulse_veh, part_dmg, impulse_obj, obj_dmg );
+                //attempt to recover unspent collision energy
+                // Remember that the impulse from a collision is technically negative, reducing speed.
+                impulse_veh = damage_to_impulse( part_dmg );
+                if( ( vel1 - ( impulse_veh / mass ) ) < vel1 ) {
+                    vel1_a = ( vel1 - ( impulse_veh / mass ) );
+                    add_msg( m_debug, "Post collision velocity recovered to %.2f m/s", vel1_a );
+                }
+
             }
 
             // Don't fling if vertical - critter got smashed into the ground
@@ -780,7 +862,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
 
         if( critter == nullptr || !critter->is_hallucination() ) {
-            coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+            coll_velocity = mps_to_vmiph( vel1_a * ( smashed ? 1 : 0.9 ) );
         }
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
@@ -844,7 +926,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
     }
 
-    ret.imp = part_dmg;
+    ret.imp = impulse_to_damage( impulse_veh );
     return ret;
 }
 
@@ -1256,13 +1338,14 @@ rl_vec2d vehicle::dir_vec() const
 {
     return angle_to_vec( turn_dir );
 }
-
+// Takes delta_v in m/s, returns collision factor. Ranges from 1 at 0m/s to 0.3 at approx ~60mph.
+// Changed from e min of 0.1 as this is a nearly perfectly plastic collision, which is not common outside of vehicles with engineered crumple zones. Cata vehicles dont have crumple zones.
 float get_collision_factor( const float delta_v )
 {
-    if( std::abs( delta_v ) <= 31 ) {
-        return ( 1 - ( 0.9 * std::abs( delta_v ) ) / 31 );
+    if( std::abs( delta_v ) <= 26.8224 ) {
+        return ( 1 - ( 0.7 * std::abs( delta_v ) ) / 26.8224 );
     } else {
-        return 0.1;
+        return 0.3;
     }
 }
 

@@ -8524,18 +8524,33 @@ void game::butcher()
             kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
         }
         if( disassembles.size() > 1 ) {
-            int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
+            int time_to_disassemble_rec = 0;
+            std::vector<std::pair<itype_id, int>> disassembly_stacks_res;
+
             for( const auto &stack : disassembly_stacks ) {
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time;
-                time_to_disassemble += time;
                 time_to_disassemble_all += time * stack.second;
+                disassembly_stacks_res.emplace_back( stack.first->typeId(), stack.second );
             }
 
-            kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) );
-            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
+            for( int i = 0; i < disassembly_stacks_res.size(); i++ ) {
+                const auto dis = recipe_dictionary::get_uncraft( disassembly_stacks_res[i].first );
+                time_to_disassemble_rec += dis.time * disassembly_stacks_res[i].second;
+                //uses default craft materials to estimate recursive disassembly time
+                const auto components = dis.disassembly_requirements().get_components();
+                for( const auto &subcomps : components ) {
+                    if( subcomps.size() > 0 ) {
+                        disassembly_stacks_res.emplace_back( subcomps.front().type,
+                                                             subcomps.front().count * disassembly_stacks_res[i].second );
+                    }
+                }
+            }
+
+            kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
+            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_rec / 100 ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {
             int time_to_salvage = 0;

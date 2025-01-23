@@ -25,6 +25,7 @@
 #include "enums.h"
 #include "event.h"
 #include "field.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "input.h"
@@ -154,31 +155,37 @@ static energy_type energy_source_from_string( const std::string &str )
     }
 }
 
-static damage_type damage_type_from_string( const std::string &str )
+static damage_type damage_type_from_string( std::string &str )
 {
-    if( str == "fire" ) {
+    // Uppercase the string so that case on the input doesn't matter
+    std::transform( str.begin(), str.end(), str.begin(), ::toupper );
+    if( str == "FIRE" ) {
         return DT_HEAT;
-    } else if( str == "acid" ) {
+    } else if( str == "ACID" ) {
         return DT_ACID;
-    } else if( str == "bash" ) {
+    } else if( str == "BASH" ) {
         return DT_BASH;
-    } else if( str == "bio" ) {
+    } else if( str == "BIO" ) {
         return DT_BIOLOGICAL;
-    } else if( str == "cold" ) {
+    } else if( str == "COLD" ) {
         return DT_COLD;
-    } else if( str == "cut" ) {
+    } else if( str == "CUT" ) {
         return DT_CUT;
-    } else if( str == "bullet" ) {
+    } else if( str == "BULLET" ) {
         return DT_BULLET;
-    } else if( str == "electric" ) {
+    } else if( str == "ELECTRIC" ) {
         return DT_ELECTRIC;
-    } else if( str == "stab" ) {
+    } else if( str == "STAB" ) {
         return DT_STAB;
-    } else if( str == "none" || str == "NONE" ) {
+    } else if( str == "TRUE" ) {
+        return DT_TRUE;
+    } else if( str == "NONE" ) {
+        debugmsg( _( "ERROR: 'None' damage is not not valid and obsoleted for spells!  Please switch to 'True' instead" ) );
         return DT_TRUE;
     } else {
-        debugmsg( _( "ERROR: Invalid damage type string.  Defaulting to none" ) );
-        return DT_TRUE;
+        // Bash is much less problematic than defaulting to True damage, bypassing any and all armor, like it did previously
+        debugmsg( _( "ERROR: Invalid damage type string.  Defaulting to bash" ) );
+        return DT_BASH;
     }
 }
 
@@ -316,7 +323,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     spell_class = trait_id( temp_string );
     optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
     energy_source = energy_source_from_string( temp_string );
-    optional( jo, was_loaded, "damage_type", temp_string, "NONE" );
+    optional( jo, was_loaded, "damage_type", temp_string, "TRUE" );
     dmg_type = damage_type_from_string( temp_string );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
@@ -736,6 +743,10 @@ int spell::casting_time( const Character &guy ) const
         const int arms_encumb = std::max( 0,
                                           guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - 20 );
         casting_time += arms_encumb * 2;
+    }
+    if( guy.is_armed() && !has_flag( spell_flag::NO_HANDS ) &&
+        !guy.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
+        casting_time = std::round( casting_time * 1.5 );
     }
     return casting_time;
 }

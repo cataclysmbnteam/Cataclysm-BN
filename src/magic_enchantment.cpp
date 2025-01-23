@@ -60,6 +60,7 @@ namespace io
         switch ( data ) {
         case enchantment::condition::ALWAYS: return "ALWAYS";
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
+        case enchantment::condition::ABOVEGROUND: return "ABOVEGROUND";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::DAY: return "DAY";
         case enchantment::condition::NIGHT: return "NIGHT";
@@ -211,6 +212,10 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
 
     if( active_conditions.second == condition::UNDERGROUND ) {
         return guy.pos().z < 0;
+    }
+
+    if( active_conditions.second == condition::ABOVEGROUND ) {
+        return guy.pos().z > -1;
     }
 
     if( active_conditions.second == condition::UNDERWATER ) {

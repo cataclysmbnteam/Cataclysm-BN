@@ -129,11 +129,11 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
 
     // Here and not above because we want the animation first
     // Terrain will be shown damaged, but having it in unknown state would complicate timing the animation
-    for( const std::pair<const tripoint, double> &pr : final_coverage ) {
-        Creature *critter = g->critter_at( pr.first );
+    for( const auto &[point, coverage] : final_coverage ) {
+        Creature *critter = g->critter_at( point );
         if( critter != nullptr ) {
             dealt_projectile_attack atk;
-            atk.end_point = pr.first;
+            atk.end_point = point;
             atk.hit_critter = critter;
             atk.proj = proj;
             atk.missed_by = rng_float( 0.15, 0.45 );

@@ -11,6 +11,7 @@
 #include "fstream_utils.h"
 
 class avatar;
+class sqlite3;
 
 class save_t
 {
@@ -39,6 +40,9 @@ class save_t
 enum save_format : int {
     /** Original save layout; uncompressed JSON as loose files */
     V1 = 0,
+
+    /** V2 format - compressed tuples in SQLite3 */
+    V2_COMPRESSED_SQLITE3 = 1,
 };
 
 /**
@@ -157,6 +161,12 @@ class world
         bool read_from_file_json( const std::string &path, file_read_json_fn reader,
                                   bool optional = true ) const;
 
+        /**
+         * Convert (copy) the save data from the old format to the new format.
+         * This should only be called from `worldfactory`.
+         */
+        void convert_from_v1( const std::unique_ptr<WORLDINFO> &old_world );
+
     private:
         /** If non-zero, indicates we're in the middle of a save event */
         int64_t save_tx_start_ts = 0;
@@ -165,6 +175,11 @@ class world
         std::string overmap_player_filename( const point_abs_om &p ) const;
         std::string get_player_path() const;
 
+        sqlite3 *map_db = nullptr;
+
+        sqlite3 *save_db = nullptr;
+        std::string last_save_id = "";
+        sqlite3 *get_player_db();
 };
 
 #endif // CATA_SRC_WORLD_H

@@ -746,7 +746,7 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 
 static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 {
-    int num_crates = rng( 1, 5 );
+    int num_crates = rng( 3, 7 );
     for( int i = 0; i < num_crates; i++ ) {
         const auto p = random_point( m, [&m]( const tripoint & n ) {
             return m.passable( n );
@@ -755,34 +755,35 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
             break;
         }
         m.furn_set( p->xy(), f_crate_c );
-        std::string item_group;
-        switch( rng( 1, 10 ) ) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-                item_group = "mil_food";
-                break;
-            case 5:
-            case 6:
-            case 7:
-                item_group = "grenades";
-                break;
-            case 8:
-            case 9:
-                item_group = "mil_armor";
-                break;
-            case 10:
-                item_group = "guns_rifle_milspec";
-                break;
+        std::vector<std::string> item_groups;
+        for( int i = 0; i < 4; i++ ) {
+            switch( rng( 1, 10 ) ) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    item_groups.push_back( "mil_food" );
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    item_groups.push_back( "grenades" );
+                    break;
+                case 8:
+                case 9:
+                    item_groups.push_back( "mil_armor" );
+                    break;
+                case 10:
+                    item_groups.push_back( "guns_rifle_milspec" );
+                    break;
+            }
         }
         int items_created = 0;
-        for( int i = 0; i < 10 && items_created < 2; i++ ) {
-            items_created += m.place_items( item_group_id( item_group ), 80, *p, *p, true,
-                                            calendar::start_of_cataclysm,
-                                            100 ).size();
+        for( int i = 0; i < 4; i++ ) {
+            items_created += m.put_items_from_loc( item_group_id( item_groups[i] ), *p,
+                                                   calendar::start_of_cataclysm ).size();
         }
-        if( m.i_at( *p ).empty() ) {
+        if( m.i_at( *p ).empty() || items_created == 0 ) {
             m.destroy( *p, true );
         }
     }

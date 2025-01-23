@@ -608,7 +608,6 @@
     "components": [
       [
         [ "plastic_scrap", 10 ],
-        [ "button_plastic", 3 ],
         [ "bottle_folding", 4 ],
         [ "plastic_six_dice", 10 ],
         [ "bag_zipper", 10 ],

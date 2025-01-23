@@ -1928,6 +1928,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_place_robobench",
+    "group": "place_workbench",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "robobench", 1 ] ] ],
+    "pre_special": "check_empty",
+    "dark_craftable": true,
+    "post_furniture": "f_robobench"
+  },
+  {
+    "type": "construction",
     "id": "constr_chair",
     "group": "build_chair",
     "category": "FURN",
