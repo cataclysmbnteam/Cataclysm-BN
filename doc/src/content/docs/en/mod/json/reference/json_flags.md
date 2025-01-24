@@ -709,6 +709,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `DANGEROUS` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies
   "NPC_THROW_NOW".
 - `DETERGENT` ... This item can be used as a detergent in a washing machine.
+- `DESTROY_ON_DECHARGE` ... This item should be destroyed if loses charges.
 - `DURABLE_MELEE` ... Item is made to hit stuff and it does it well, so it's considered to be a lot
   tougher than other weapons made of the same materials.
 - `FAKE_MILL` ... Item is a fake item, to denote a partially milled product by @ref
