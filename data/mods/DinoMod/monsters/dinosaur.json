@@ -907,7 +907,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_eoraptor" }, "baby_count": 3, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 100 },
-    "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 60 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [
       "SEES",
       "HEARS",
