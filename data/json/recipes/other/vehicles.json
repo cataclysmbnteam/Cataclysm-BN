@@ -1891,9 +1891,9 @@
     "skill_used": "computer",
     "difficulty": 2,
     "autolearn": true,
-    "time": "30 m",
+    "time": "20 m",
     "batch_time_factors": [ 60, 1 ],
-    "using": [ [ "3d_printing_standard", 30 ] ],
+    "using": [ [ "3d_printing_standard", 20 ] ],
     "components": [ [ [ "carbon_fiber_filament", 200 ] ] ]
   }
 ]
