@@ -1892,6 +1892,7 @@
     "difficulty": 2,
     "autolearn": true,
     "time": "30 m",
+    "batch_time_factors": [ 60, 1 ],
     "using": [ [ "3d_printing_standard", 30 ] ],
     "components": [ [ [ "carbon_fiber_filament", 200 ] ] ]
   }
