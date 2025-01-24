@@ -380,6 +380,7 @@ Values:
 - `DAWN` - When it is dawn
 - `ACTIVE` - whenever the item, mutation, bionic, or whatever the enchantment is attached to is
   active.
+- `INACTIVE` - the opposite of `ACTIVE`
 
 ### emitter
 
