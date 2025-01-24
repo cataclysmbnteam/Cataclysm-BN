@@ -93,7 +93,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "use_action": "RADIO_MOD",
-    "flags": [ "DESTROY_ON_DECHARGE"]
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "radio",

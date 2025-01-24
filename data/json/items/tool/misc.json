@@ -725,7 +725,7 @@
     "symbol": "H",
     "color": "brown",
     "use_action": "LADDER",
-    "flags": [ "DESTROY_ON_DECHARGE"]
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "survival_marker",

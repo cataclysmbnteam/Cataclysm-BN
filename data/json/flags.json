@@ -119,7 +119,7 @@
   {
     "id": "DESTROY_ON_DECHARGE",
     "type": "json_flag",
-    "context": [ ]
+    "context": [  ]
   },
   {
     "id": "DIAMOND",
