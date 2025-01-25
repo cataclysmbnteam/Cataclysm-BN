@@ -51,7 +51,6 @@ As much as possible, there should be content and feature parity between both (al
     - Death functions for ACID and FIREBALL and SMOKEBURST have different formatting also.
     - RANGED_ATTACKER and WATER_CAMOUFLAGE and CAN_BE_CULLED are flags in DDA but not BN.
     - smash special attack in DDA is SMASH in BN.
-    - no EAT_CARRION special in BN
     - no EATS flag in BN
     - no SMALL_HIDER flag in BN
     - no CORNERED_FIGHTER flag in BN
@@ -63,6 +62,8 @@ As much as possible, there should be content and feature parity between both (al
     - no aggro_character field in BN
     - no weakpoint_sets field in BN
     - for reproduction no baby_type field is needed or understood in BN
+    - no EAT_CARRION special attack in BN
+    - no BROWSE or GRAZE special attacks in BN
 * Mapgen folder - lots of content missing or different in BN, science basements still need to be reconstructed from BN originals, t_soil isn't a valid terrain in BN, spawn_data": "patrol" doesn't exist in BN. Dozens of nests had to be removed because mapgen could not see the monsters, I'm guessing copy strangeness. Added portal_location to DinoMod since portal map extras do not exist in BN
 * Items folder - BN port removes pocket_data and amm0_to_fire and longest_side lines and changes damage_type bullet to stab and removes armor entry. No copy-from or event entries in item groups in BN. No dry catfood or dogfood to copy from in BN
 * egg items - BN port removes FREEZERBURN flag
