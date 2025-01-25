@@ -929,6 +929,9 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
+    "armor_bash": 6,
+    "armor_cut": 2,
+    "armor_bullet": 2,
     "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
     "dodge": 4,
     "hp": 110,
@@ -942,8 +945,7 @@
     "vision_night": 5,
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR", "WILDLIFE" ],
-    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -965,6 +967,9 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "armor_bash": 6,
+    "armor_cut": 2,
+    "armor_bullet": 2,
     "dodge": 5,
     "hp": 50,
     "zombify_into": "mon_zanchisaurus",
@@ -977,8 +982,7 @@
     "vision_night": 5,
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR", "WILDLIFE" ],
-    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1000,6 +1004,9 @@
     "melee_dice": 4,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "bash", "amount": 1 } ],
+    "armor_bash": 6,
+    "armor_cut": 2,
+    "armor_bullet": 2,
     "dodge": 4,
     "hp": 150,
     "zombify_into": "mon_zissi",
@@ -1012,8 +1019,7 @@
     "vision_night": 5,
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR", "WILDLIFE" ],
-    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1053,10 +1059,12 @@
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
     "speed": 100,
     "hp": 230,
+    "armor_bash": 6,
+    "armor_cut": 8,
+    "armor_bullet": 2,
     "zombify_into": "mon_zamargasaurus",
     "description": "Massive, long-necked, four-legged dinosaur with a whip-like tail and two rows of tall spines running down the neck and back.",
-    "reproduction": { "baby_egg": "egg_amargasaurus", "baby_count": 3, "baby_timer": 24 },
-    "armor": { "bash": 6, "bullet": 2, "cut": 8 }
+    "reproduction": { "baby_egg": "egg_amargasaurus", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -1078,6 +1086,9 @@
     "melee_skill": 5,
     "melee_dice": 4,
     "melee_dice_sides": 4,
+    "armor_bash": 6,
+    "armor_cut": 2,
+    "armor_bullet": 2,
     "vision_day": 70,
     "hp": 475,
     "zombify_into": "mon_zapatosaurus",
@@ -1093,8 +1104,7 @@
     "harvest": "dino_sauropod",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR", "WILDLIFE" ],
-    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
@@ -1103,10 +1113,12 @@
     "copy-from": "mon_apatosaurus",
     "//": "When large weights and volumes are fixed this should be 15000 L and 15000 kg",
     "hp": 450,
+    "armor_bash": 8,
+    "armor_cut": 2,
+    "armor_bullet": 2,
     "zombify_into": "mon_zrontosaurus",
     "description": "Massive, long-necked, four-legged dinosaur with bulky torso and long, whip-like tail.",
-    "reproduction": { "baby_egg": "egg_brontosaurus", "baby_count": 3, "baby_timer": 24 },
-    "armor": { "cut": 2, "bullet": 2, "bash": 8 }
+    "reproduction": { "baby_egg": "egg_brontosaurus", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -1146,12 +1158,14 @@
     "copy-from": "mon_apatosaurus",
     "//": "When large weights and volumes are fixed this should be 47000 L and 47000 kg",
     "hp": 500,
+    "armor_bash": 6,
+    "armor_cut": 3,
+    "armor_bullet": 3,
     "speed": 60,
     "attack_cost": 60,
     "zombify_into": "mon_zamarasaurus",
     "description": "Huge four-legged dinosaur with a square head and a shorter neck and tail than similar dinosaurs.",
-    "reproduction": { "baby_egg": "egg_camarasaurus", "baby_count": 3, "baby_timer": 24 },
-    "armor": { "bash": 6, "cut": 3, "bullet": 3 }
+    "reproduction": { "baby_egg": "egg_camarasaurus", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -1163,10 +1177,12 @@
     "attack_cost": 40,
     "melee_dice": 6,
     "hp": 475,
+    "armor_bash": 8,
+    "armor_cut": 6,
+    "armor_bullet": 3,
     "zombify_into": "mon_zrachiosaurus",
     "description": "Massive, long-necked, four-legged dinosaur with longer forelegs and a whip-like tail.",
-    "reproduction": { "baby_egg": "egg_brachiosaurus", "baby_count": 3, "baby_timer": 24 },
-    "armor": { "bash": 8, "cut": 6, "bullet": 3 }
+    "reproduction": { "baby_egg": "egg_brachiosaurus", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
@@ -1192,10 +1208,12 @@
     "attack_cost": 40,
     "melee_dice": 5,
     "hp": 500,
+    "armor_bash": 15,
+    "armor_cut": 19,
+    "armor_bullet": 3,
     "zombify_into": "mon_zalamosaurus",
     "description": "Gigantic four-legged dinosaur with a long neck and spiked tail protected by natural bone armor.",
-    "reproduction": { "baby_egg": "egg_alamosaurus", "baby_count": 3, "baby_timer": 24 },
-    "armor": { "bash": 15, "cut": 19, "bullet": 3 }
+    "reproduction": { "baby_egg": "egg_alamosaurus", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
