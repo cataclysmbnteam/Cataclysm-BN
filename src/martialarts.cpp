@@ -510,6 +510,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool weapon_ok = is_valid_weapon( u.primary_weapon() );
     bool style_weapon = u.martial_arts_data->selected_has_weapon( u.primary_weapon().typeId() );
     bool all_weapons = u.martial_arts_data->selected_allow_melee();
+    std::set<trait_id> style_muts = u.martial_arts_data->selected_mutations();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
     bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
@@ -519,6 +520,18 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
     if( !valid_unarmed && !valid_melee ) {
         return false;
+    }
+
+    if(!style_muts.empty()) {
+        bool valid_mut = false;
+        for(const trait_id &mut : style_muts) {
+            if (u.has_trait(mut)) {
+                valid_mut = true;
+            }
+        }
+        if(!valid_mut){
+            return false;
+        }
     }
 
     if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
