@@ -329,7 +329,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
     optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<weapon_category_id> {} );
-    optional( jo, was_loaded, "mutation", mutation, auto_flags_reader<trait_id> {});
+    optional( jo, was_loaded, "mutation", mutation, auto_flags_reader<trait_id> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
@@ -410,8 +410,8 @@ void check_martialarts()
                 debugmsg( "Weapon category %s in style %s is invalid.", weap_cat.c_str(), ma.name );
             }
         }
-        for( const trait_id &mut : ma.mutation) {
-            if (!mut.is_valid()) {
+        for( const trait_id &mut : ma.mutation ) {
+            if( !mut.is_valid() ) {
                 debugmsg( "Mutation %s in style %s is invalid.", mut.c_str(), ma.name );
             }
         }
@@ -543,14 +543,14 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
-    if( !mutations_required.empty()) {
+    if( !mutations_required.empty() ) {
         bool valid_mut = false;
-        for(const trait_id &mut : mutations_required) {
-            if (u.has_trait(mut)) {
+        for( const trait_id &mut : mutations_required ) {
+            if( u.has_trait( mut ) ) {
                 valid_mut = true;
             }
         }
-        if (!valid_mut){
+        if( !valid_mut ) {
             return false;
         }
     }
@@ -620,7 +620,7 @@ std::string ma_requirements::get_description( bool buff ) const
         } ) + "\n";
     }
 
-    if (!mutations_required.empty()) {
+    if( !mutations_required.empty() ) {
         dump += vgettext( "<bold>Mutation required: </bold>",
                           "<bold>Mutations required: </bold>", mutations_required.size() );
         dump += enumerate_as_string( mutations_required.begin(),
@@ -1658,16 +1658,17 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 buffer += enumerate_as_string( weapons );
             }
         }
-        if ( !ma.mutation.empty()) {
+        if( !ma.mutation.empty() ) {
             Character &player = get_player_character();
             buffer += _( "<bold>Mutations:</bold>" ) + std::string( "\n" );
             std::vector<std::string> mutations;
-            for (const trait_id &mut : ma.mutation) {
-                std::string mutname = player.has_trait(mut) ? colorize(mut->name() + _(" [have]"), c_light_cyan) : mut->name();
-                mutations.push_back(mutname);
+            for( const trait_id &mut : ma.mutation ) {
+                std::string mutname = player.has_trait( mut ) ? colorize( mut->name() + _( " [have]" ),
+                                      c_light_cyan ) : mut->name();
+                mutations.push_back( mutname );
             }
-            std::sort(mutations.begin(), mutations.end(), localized_compare);
-            buffer += enumerate_as_string(mutations);
+            std::sort( mutations.begin(), mutations.end(), localized_compare );
+            buffer += enumerate_as_string( mutations );
         }
 
         catacurses::window w;
