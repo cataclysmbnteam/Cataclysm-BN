@@ -361,7 +361,7 @@
     "fear_triggers": [ "FRIEND_DIED" ],
     "upgrades": { "age_grow": 1460, "into": "mon_amargasaurus" },
     "petfood": { "food": [ "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY", "GROUP_MORALE" ]
   },
   {
     "id": "mon_apatosaurus_juvenile",
