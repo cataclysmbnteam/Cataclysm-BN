@@ -49,6 +49,7 @@ As much as possible, there should be content and feature parity between both (al
     - RANGED_ATTACKER and WATER_CAMOUFLAGE and CAN_BE_CULLED are flags in DDA but not BN.
     - smash special attack in DDA is SMASH in BN.
     - no EAT_CARRION special in BN
+    - no EATS flag in BN
     - No vertebrate parts to drop in BN.
     - PATH_AVOID_DANGER flag in DDA is PATH_AVOID_DANGER_1 in BN
 * Mapgen folder - lots of content missing or different in BN, science basements still need to be reconstructed from BN originals, t_soil isn't a valid terrain in BN, spawn_data": "patrol" doesn't exist in BN. Dozens of nests had to be removed because mapgen could not see the monsters, I'm guessing copy strangeness. Added portal_location to DinoMod since portal map extras do not exist in BN
