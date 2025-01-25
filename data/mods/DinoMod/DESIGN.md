@@ -44,7 +44,7 @@ As much as possible, there should be content and feature parity between both (al
 * Monstergroups folder - BN groups need  "default" and "cost_multiplier" to be defined, "weight should be "freq" instead
 * Monsters folder:
     - DDA supports biosignature and dissect and melee_damage and aggro_character and "bleeds" (not the flag) and bleed_rate, and not the BLEEDS or the GUILT flag while BN supports BLEEDS and GUILT and melee_cut and biosignature or dissect or melee damage or the death_guilt death_function or aggro_character or the "bleeds" entry or bleed_rate.
-    - no bullet armor in BN
+    - bullet armor is "armor_bullet" in BN and so on for other armor types
     - DDA's petfood entry is handled by DOGFOOD, CATFOOD, and CATTLEFODDER flags in BN.
     - Death functions for ACID and FIREBALL and SMOKEBURST have different formatting also.
     - RANGED_ATTACKER and WATER_CAMOUFLAGE and CAN_BE_CULLED are flags in DDA but not BN.
