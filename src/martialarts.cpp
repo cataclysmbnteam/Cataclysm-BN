@@ -1658,6 +1658,17 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 buffer += enumerate_as_string( weapons );
             }
         }
+        if ( !ma.mutation.empty()) {
+            Character &player = get_player_character();
+            buffer += _( "<bold>Mutations:</bold>" ) + std::string( "\n" );
+            std::vector<std::string> mutations;
+            for (const trait_id &mut : ma.mutation) {
+                std::string mutname = player.has_trait(mut) ? colorize(mut->name() + _(" [have]"), c_light_cyan) : mut->name();
+                mutations.push_back(mutname);
+            }
+            std::sort(mutations.begin(), mutations.end(), localized_compare);
+            buffer += enumerate_as_string(mutations);
+        }
 
         catacurses::window w;
 
