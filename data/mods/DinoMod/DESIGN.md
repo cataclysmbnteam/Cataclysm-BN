@@ -61,6 +61,7 @@ As much as possible, there should be content and feature parity between both (al
     - no families field in BN
     - no biosignature field in BN
     - no aggro_character field in BN
+    - no weakpoint_sets field in BN
     - for reproduction no baby_type field is needed or understood in BN
 * Mapgen folder - lots of content missing or different in BN, science basements still need to be reconstructed from BN originals, t_soil isn't a valid terrain in BN, spawn_data": "patrol" doesn't exist in BN. Dozens of nests had to be removed because mapgen could not see the monsters, I'm guessing copy strangeness. Added portal_location to DinoMod since portal map extras do not exist in BN
 * Items folder - BN port removes pocket_data and amm0_to_fire and longest_side lines and changes damage_type bullet to stab and removes armor entry. No copy-from or event entries in item groups in BN. No dry catfood or dogfood to copy from in BN
