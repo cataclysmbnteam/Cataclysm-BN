@@ -946,8 +946,7 @@
       "CLIMBS",
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
-      "PET_WONT_FOLLOW",
-      "CAN_BE_CULLED"
+      "PET_WONT_FOLLOW"
     ],
     "harvest": "mammal_large_leather",
     "vision_night": 5,
@@ -992,8 +991,7 @@
       "CLIMBS",
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
-      "PET_WONT_FOLLOW",
-      "CAN_BE_CULLED"
+      "PET_WONT_FOLLOW"
     ],
     "harvest": "mammal_small_leather",
     "vision_night": 5,
