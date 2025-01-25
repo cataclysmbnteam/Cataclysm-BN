@@ -13,7 +13,6 @@
     "revert"
   ],
   "scopes": [
-    "content",
     "UI",
     "i18n",
     "balance",
