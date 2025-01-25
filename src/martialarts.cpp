@@ -522,14 +522,14 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    if(!style_muts.empty()) {
+    if( !style_muts.empty() ) {
         bool valid_mut = false;
-        for(const trait_id &mut : style_muts) {
-            if (u.has_trait(mut)) {
+        for( const trait_id &mut : style_muts ) {
+            if( u.has_trait( mut ) ) {
                 valid_mut = true;
             }
         }
-        if(!valid_mut){
+        if( !valid_mut ) {
             return false;
         }
     }
