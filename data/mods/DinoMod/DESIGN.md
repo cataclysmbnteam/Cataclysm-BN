@@ -54,6 +54,7 @@ As much as possible, there should be content and feature parity between both (al
     - no EATS flag in BN
     - no SMALL_HIDER flag in BN
     - no CORNERED_FIGHTER flag in BN
+    - no COMBAT_MOUNT flag in BN
     - no vertebrate parts to drop in BN.
     - PATH_AVOID_DANGER flag in DDA is PATH_AVOID_DANGER_1 in BN
     - no stomach_size field in BN
