@@ -908,7 +908,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 100 },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS", "SMALL_HIDER", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS", "CORNERED_FIGHTER" ],
     "harvest": "mammal_tiny",
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ],
@@ -1009,7 +1009,6 @@
       "COMBAT_MOUNT",
       "PET_WONT_FOLLOW",
       "CAN_BE_CULLED",
-      "SMALL_HIDER",
       "CORNERED_FIGHTER"
     ],
     "harvest": "mammal_small_leather",
