@@ -908,7 +908,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 100 },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
     "harvest": "mammal_tiny",
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ],
@@ -956,8 +956,7 @@
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
       "PET_WONT_FOLLOW",
-      "CAN_BE_CULLED",
-      "CORNERED_FIGHTER"
+      "CAN_BE_CULLED"
     ],
     "harvest": "mammal_large_leather",
     "vision_night": 5,
@@ -1008,8 +1007,7 @@
       "PET_MOUNTABLE",
       "COMBAT_MOUNT",
       "PET_WONT_FOLLOW",
-      "CAN_BE_CULLED",
-      "CORNERED_FIGHTER"
+      "CAN_BE_CULLED"
     ],
     "harvest": "mammal_small_leather",
     "vision_night": 5,
@@ -1050,7 +1048,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 40 ], [ "BROWSE", 60 ], [ "GRAZE", 60 ] ],
-    "flags": [ "SEES", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
     "harvest": "mammal_large_leather",
     "vision_night": 5,
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
@@ -1144,7 +1142,7 @@
     "reproduction": { "baby_type": { "baby_egg": "egg_apatosaurus" }, "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON", "CORNERED_FIGHTER" ],
+    "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_sauropod",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],
