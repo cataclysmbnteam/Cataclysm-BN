@@ -324,16 +324,6 @@
   },
   {
     "copy-from": "cargo_space",
-    "id": "livestock_stall",
-    "type": "vehicle_part",
-    "name": { "str": "livestock stall" },
-    "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "size": "200 L",
-    "item": "livestock_carrier",
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ]
-  },
-  {
-    "copy-from": "cargo_space",
     "id": "cargo_space_carbon",
     "type": "vehicle_part",
     "name": { "str": "carbon cargo space" },
@@ -350,6 +340,16 @@
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": "300 L",
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
+  },
+  {
+    "copy-from": "cargo_space",
+    "id": "livestock_stall",
+    "type": "vehicle_part",
+    "name": { "str": "livestock stall" },
+    "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
+    "size": "200 L",
+    "item": "livestock_carrier",
+    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ]
   },
   {
     "copy-from": "livestock_stall",
