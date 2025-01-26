@@ -1117,7 +1117,55 @@
     ]
   },
   {
+    "result": "bot_dispatch",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "tank_tread", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "power_supply", 3 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "broken_manhack", 4 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "storage_battery", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_dispatch_military",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "tank_tread", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "power_supply", 3 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "broken_manhack", 4 ] ],
+      [ [ "omnicamera", 1 ] ],
+      [ [ "storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "result": "bot_dispatch_military",
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
@@ -1683,7 +1731,9 @@
   {
     "result": "crown_golden_survivor",
     "type": "uncraft",
-    "copy-from": "crown_golden"
+    "time": "36 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 200 ] ] ]
   },
   {
     "result": "cu_pipe",
