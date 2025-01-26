@@ -1,8 +1,8 @@
-## Purpose of change
+## Purpose of change (The Why)
 
 <!-- e.g resolves #1234 / monster A is too OP despite being an early-game mob -->
 
-## Describe the solution
+## Describe the solution (The How)
 
 <!-- e.g nerfs monster A -->
 
