@@ -4,8 +4,8 @@ title: Modding guide
 
 :::caution{title="Some documentation is not complete"}
 
-Some parts of the documentation are incomplete or have not been properly updated from older documentation.
-Contributions to fix this are greatly appreciated.
+Some parts of the documentation are incomplete or have not been properly updated from older
+documentation. Contributions to fix this are greatly appreciated.
 
 :::
 
