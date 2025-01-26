@@ -1117,6 +1117,11 @@
     ]
   },
   {
+    "result": "bot_dispatch",
+    "type": "uncraft",
+    "copy-from": "broken_dispatch"
+  },
+  {
     "result": "broken_dispatch_military",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -1139,6 +1144,11 @@
       [ [ "omnicamera", 1 ] ],
       [ [ "storage_battery", 1 ] ]
     ]
+  },
+  {
+    "result": "bot_dispatch_military",
+    "type": "uncraft",
+    "copy-from": "broken_dispatch_military"
   },
   {
     "result": "targeting_module",
