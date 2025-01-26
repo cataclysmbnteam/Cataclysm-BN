@@ -219,7 +219,7 @@
   },
   {
     "copy-from": "box_abstract",
-    "id": "wood_box",
+    "id": "wood box",
     "type": "vehicle_part",
     "name": { "str": "wood box" },
     "durability": 70,
@@ -234,7 +234,7 @@
   },
   {
     "copy-from": "box_abstract",
-    "id": "folding_wood_box",
+    "id": "folding wood box",
     "type": "vehicle_part",
     "name": { "str": "folding wood box" },
     "durability": 65,
