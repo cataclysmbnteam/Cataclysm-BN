@@ -7803,6 +7803,12 @@ bool Character::consume_charges( item &used, int qty )
         return false;
     }
 
+    //Destroy items with specific flag
+    if( used.has_flag( flag_DESTROY_ON_DECHARGE ) || used.get_use( "place_monster" ) != nullptr ) {
+        used.detach();
+        return true;
+    }
+
     if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
         debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
         return false;
@@ -7838,11 +7844,6 @@ bool Character::consume_charges( item &used, int qty )
         } else {
             use_charges( itype_UPS, qty );
         }
-    } else if( used.is_tool() && used.units_remaining( *this ) == 0 && !used.ammo_required() ) {
-        // Tools which don't require ammo are instead destroyed.
-        // Put here cause tools may have use actions that require charges without charges_per_use
-        used.detach();
-        return true;
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     }

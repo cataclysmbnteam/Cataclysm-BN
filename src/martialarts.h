@@ -64,6 +64,9 @@ struct ma_requirements {
     /** Weapon categories compatible with this requirement. If empty, allow any weapon category. */
     std::vector<weapon_category_id> weapon_categories_allowed;
 
+    // A list of mutations that are compatible with the technique (i.e. without them no technique usage for you)
+    std::vector<trait_id> mutations_required;
+
     /** Minimum amount of given skill to trigger this bonus */
     std::vector<std::pair<skill_id, int>> min_skill;
 
@@ -286,6 +289,8 @@ class martialart
         std::set<matec_id> techniques; // all available techniques
         std::set<itype_id> weapons; // all style weapons
         std::set<weapon_category_id> weapon_category; // all style weapon categories
+        std::set<trait_id>
+        mutation; // style-based necessary mutations (if set, need at least 1 to use style)
         bool strictly_unarmed = false; // Punch daggers etc.
         bool strictly_melee = false; // Must have a weapon.
         bool allow_melee = false; // Can use unarmed or with ANY weapon

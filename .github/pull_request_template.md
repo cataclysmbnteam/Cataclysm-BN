@@ -1,14 +1,20 @@
-## Why should this PR be merged?
+## Purpose of change
 
 <!-- e.g resolves #1234 / monster A is too OP despite being an early-game mob -->
 
-## What does this PR do?
+## Describe the solution
 
 <!-- e.g nerfs monster A -->
 
-## Steps to test and verify this PR
+## Describe alternatives you've considered
+
+## Testing
 
 <!-- Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.  Also include testing suggestions for reviewers and maintainers. -->
+
+## Additional context
+
+<!-- Add any other context (such as mock-ups, proof of concepts or screenshots) about the feature or bugfix here. -->
 
 ## Checklist
 

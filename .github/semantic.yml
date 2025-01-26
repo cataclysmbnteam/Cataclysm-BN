@@ -20,18 +20,21 @@ types:
   - chore
   - revert
 scopes:
-  - content
   - UI
   - i18n
   - balance
   - port
+  - mods/CheesyInnaWoodFixes
   - mods/DinoMod
   - mods/FujiStruct
   - mods/Graphical_Overmap
   - mods/Graphical_Overmap_Fujistruct
   - mods/Graphical_Overmap_More_Locations
   - mods/Graphical_Overmap_Urban_Development
+  - mods/Item_Category_Overhaul
   - mods/MMA
+  - mods/MagicalNights
+  - mods/MonsterGirls
   - mods/Mundane_Zombies
   - mods/No_Acid_Zombies
   - mods/No_Anthills
@@ -53,8 +56,10 @@ scopes:
   - mods/alt_map_key
   - mods/cbm_slots
   - mods/classic_zombies
+  - mods/craftgp
   - mods/crazy_cataclysm
   - mods/crt_expansion
+  - mods/dangerous_fungi
   - mods/desertpack
   - mods/disable_lifting
   - mods/elevated_bridges
@@ -62,7 +67,6 @@ scopes:
   - mods/generic_guns
   - mods/innawoods
   - mods/limit_fungal_growth
-  - mods/Magical_Nights
   - mods/manualbionicinstall
   - mods/modular_turrets
   - mods/more_classes_scenarios
@@ -82,6 +86,7 @@ scopes:
   - mods/no_zombify
   - mods/novitamins
   - mods/pride_flags
+  - mods/ruralbiome
   - mods/saveload_lua_test
   - mods/sees_player_hitbutton
   - mods/sees_player_retro
@@ -90,4 +95,4 @@ scopes:
   - mods/stats_through_kills
   - mods/teleportation_tech
   - mods/test_data
-  - mods/Monster_Girls
+  - mods/udp_redux
