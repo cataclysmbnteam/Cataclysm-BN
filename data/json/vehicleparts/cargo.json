@@ -329,7 +329,7 @@
     "name": { "str": "carbon cargo space" },
     "size": "600 L",
     "item": "cargo_rack_carbon",
-    "breaks_into": [ ]
+    "breaks_into": [  ]
   },
   {
     "copy-from": "cargo_space_carbon",

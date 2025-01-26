@@ -1958,6 +1958,6 @@
     "time": "20 m",
     "batch_time_factors": [ 60, 1 ],
     "using": [ [ "3d_printing_standard", 20 ], [ "rope_natural", 4 ] ],
-    "components": [ [ [ "carbon_fiber_filament", 400 ], ["frame_carbon", 2] ] ]
+    "components": [ [ [ "carbon_fiber_filament", 400 ], [ "frame_carbon", 2 ] ] ]
   }
 ]
