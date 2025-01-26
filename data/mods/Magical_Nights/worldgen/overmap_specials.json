@@ -7,9 +7,9 @@
       { "point": [ 0, 0, 1 ], "overmap": "magic_cabin_roof_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 5 ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 10 ],
+    "occurrences": [ 1, 5 ],
     "flags": [ "ELECTRIC_GRID" ]
   },
   {
@@ -121,17 +121,17 @@
     "id": "goblin_camp",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "goblin_camp_north" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 5 ]
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 10 ],
+    "occurrences": [ 1, 4 ]
   },
   {
     "type": "overmap_special",
     "id": "orc_camp",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orc_camp_north" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 20 ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 10 ],
     "occurrences": [ 0, 2 ]
   },
   {
@@ -157,10 +157,10 @@
       { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_north" },
       { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_north" }
     ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 5 ],
+    "locations": [ "forest" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 10 ],
+    "occurrences": [ 1, 4 ],
     "flags": [ "ELECTRIC_GRID" ]
   },
   {
@@ -173,15 +173,15 @@
       { "point": [ 0, 0, 3 ], "overmap": "wizardtower2_study_north" },
       { "point": [ 0, 0, 4 ], "overmap": "wizardtower2_roof_north" }
     ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 5 ],
+    "locations": [ "forest" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 10 ],
+    "occurrences": [ 1, 4 ],
     "flags": [ "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
-    "id": "forest_tomb",
+    "id": "magic_academy",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "magic_academy_ground_north" },
       { "point": [ 0, 0, 1 ], "overmap": "magic_academy_2nd_north" },
@@ -195,8 +195,8 @@
       { "point": [ 0, 0, -1 ], "overmap": "magic_academy_basement_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, -1 ],
-    "city_sizes": [ 0, 20 ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 10 ],
     "occurrences": [ 0, 1 ],
     "flags": [ "ELECTRIC_GRID" ]
   }
