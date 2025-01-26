@@ -57,6 +57,7 @@ As much as possible, there should be content and feature parity between both (al
     - no COMBAT_MOUNT flag in BN
     - no vertebrate parts to drop in BN.
     - PATH_AVOID_DANGER flag in DDA is PATH_AVOID_DANGER_1 in BN
+    - no bleed_rate field in BN
     - no stomach_size field in BN
     - no families field in BN
     - no biosignature field in BN
