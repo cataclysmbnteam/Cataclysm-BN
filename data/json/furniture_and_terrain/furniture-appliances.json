@@ -925,9 +925,9 @@
     "color": "yellow",
     "move_cost_mod": -1,
     "required_str": -1,
-    "//": "10 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
+    "//": "30 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
     "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
-    "active": [ "steady_consumer", { "power": -3, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -9, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -963,9 +963,9 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
-    "//": "30 watts",
+    "//": "90 watts",
     "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
-    "active": [ "steady_consumer", { "power": -9, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -27, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -2252,7 +2252,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND", "EASY_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "ac_unit_item", "count": 1 },
