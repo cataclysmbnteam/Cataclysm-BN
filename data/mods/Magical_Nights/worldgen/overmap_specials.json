@@ -157,7 +157,7 @@
       { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_north" },
       { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_north" }
     ],
-    "locations": [ "wilderness" ],
+    "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 10 ],
     "occurrences": [ 1, 4 ],
@@ -173,7 +173,7 @@
       { "point": [ 0, 0, 3 ], "overmap": "wizardtower2_study_north" },
       { "point": [ 0, 0, 4 ], "overmap": "wizardtower2_roof_north" }
     ],
-    "locations": [ "wilderness" ],
+    "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
     "city_sizes": [ 0, 10 ],
     "occurrences": [ 1, 4 ],
