@@ -39,6 +39,11 @@ bool character_martial_arts::selected_strictly_melee() const
     return style_selected->strictly_melee;
 }
 
+std::set<trait_id> character_martial_arts::selected_mutations() const
+{
+    return style_selected->mutation;
+}
+
 bool character_martial_arts::selected_has_weapon( const itype_id &weap ) const
 {
     return style_selected->has_weapon( weap );

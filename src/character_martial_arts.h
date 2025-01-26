@@ -37,6 +37,8 @@ class character_martial_arts
 
         bool knows_selected_style() const;
         bool selected_strictly_melee() const;
+        std::set<trait_id> selected_mutations()
+        const; // returns a list of the selected style's required mutations
         bool selected_allow_melee() const;
         bool selected_has_weapon( const itype_id &weap ) const;
         bool selected_force_unarmed() const;

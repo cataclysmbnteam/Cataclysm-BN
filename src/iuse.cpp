@@ -3298,7 +3298,6 @@ int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &
                 g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 2 ) );
             }
         }
-        it->charges = -1;
         return 1;
     }
     it->deactivate();
@@ -3572,9 +3571,6 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
         // If you exploded it on yourself through activation.
-        if( it->has_position() ) {
-            it->detach();
-        }
         return 1;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
         return 0;

@@ -117,6 +117,11 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DESTROY_ON_DECHARGE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -290,7 +295,7 @@
     "id": "FIREWOOD",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "info": "This item can serve as a firewood."
+    "info": "This item can serve as firewood."
   },
   {
     "id": "FIX_FARSIGHT",

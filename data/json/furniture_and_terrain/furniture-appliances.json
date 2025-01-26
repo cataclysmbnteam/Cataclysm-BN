@@ -2252,7 +2252,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND", "EASY_DECONSTRUCT" ],
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
     "deconstruct": {
       "items": [
         { "item": "ac_unit_item", "count": 1 },
