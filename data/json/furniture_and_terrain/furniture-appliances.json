@@ -1003,9 +1003,9 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
-    "//": "80 watts",
+    "//": "240 watts",
     "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
-    "active": [ "steady_consumer", { "power": -24, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -72, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -1041,9 +1041,9 @@
     "symbol": "#",
     "color": "yellow",
     "coverage": 60,
-    "//": "30 watts",
+    "//": "90 watts",
     "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
-    "active": [ "steady_consumer", { "power": -54, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -162, "consume_every": "300 s" } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
