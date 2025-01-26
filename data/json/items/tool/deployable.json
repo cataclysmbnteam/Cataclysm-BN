@@ -115,7 +115,7 @@
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "folding_bicycle",
@@ -138,7 +138,7 @@
       "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
       "moves": 500
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "folding_skateboard",
@@ -161,7 +161,7 @@
       "unfold_msg": "You lay the skateboard down on the ground.",
       "moves": 0
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "generic_folded_vehicle",
@@ -217,7 +217,7 @@
       "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
       "moves": 15000
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "metal_smoking_rack",
