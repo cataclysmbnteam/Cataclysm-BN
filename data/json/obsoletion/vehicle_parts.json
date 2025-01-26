@@ -20,5 +20,52 @@
       { "item": "scrap", "count": [ 4, 4 ] },
       { "item": "solar_cell", "count": [ 2, 8 ] }
     ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "wood box",
+    "name": { "str": "wood box" },
+    "symbol": "o",
+    "looks_like": "f_crate_o",
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 70,
+    "size": "75 L",
+    "item": "frame_wood",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 15 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+    },
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
+    "damage_reduction": { "all": 16, "stab": 6, "cut": 6 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "folding wood box",
+    "name": { "str": "folding wood box" },
+    "symbol": "o",
+    "looks_like": "wood box",
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 65,
+    "folded_volume": "1500 ml",
+    "size": "30 L",
+    "item": "foldwoodframe",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
+    },
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "LOCKABLE_CARGO" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
+    "damage_reduction": { "all": 10, "stab": 4, "cut": 5 }
   }
 ]
