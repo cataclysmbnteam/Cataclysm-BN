@@ -331,11 +331,25 @@
     "size": "200 L",
     "item": "livestock_carrier",
     "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ]
-    "breaks_into": [  ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+  },
+  {
+    "copy-from": "cargo_space",
+    "id": "cargo_space_carbon",
+    "type": "vehicle_part",
+    "name": { "str": "carbon cargo space" },
+    "size": "600 L",
+    "item": "cargo_rack_carbon",
+    "breaks_into": [ ]
+  },
+  {
+    "copy-from": "cargo_space_carbon",
+    "id": "cargo_space_carbon_external",
+    "type": "vehicle_part",
+    "name": { "str": "external carbon cargo rack" },
+    "location": "structure",
+    "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
+    "size": "300 L",
+    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ]
   },
   {
     "copy-from": "livestock_stall",

@@ -83,6 +83,18 @@
     "price_postapoc": "5 USD"
   },
   {
+    "copy-from": "cargo_rack",
+    "id": "cargo_rack_carbon",
+    "type": "GENERIC",
+    "name": { "str": "carbon cargo carrier" },
+    "description": "A sturdy, yet lightweight carbon structure outfitted with tie-downs and attachment points for carrying cargo.",
+    "weight": "10000 g",
+    "to_hit": -3,
+    "material": [ "carbon_fiber" ],
+    "price": "1000 USD",
+    "price_postapoc": "10 USD"
+  },
+  {
     "id": "cargo_aisle",
     "type": "GENERIC",
     "name": { "str": "floor trunk" },
