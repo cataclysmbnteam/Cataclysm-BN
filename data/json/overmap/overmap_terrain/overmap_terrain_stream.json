@@ -6,7 +6,6 @@
     "name": "stream",
     "sym": ".",
     "color": "light_blue",
-    "vision_levels": "blends_till_details",
-    "flags": [ "REQUIRES_PREDECESSOR" ]
+    "vision_levels": "blends_till_details"
   }
 ]
