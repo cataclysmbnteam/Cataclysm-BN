@@ -84,6 +84,8 @@ extern int PICKUP_RANGE;
  */
 extern bool dont_debugmsg;
 
+// Maximum (effective) level for a skill.
+extern int MAX_SKILL;
 
 /* Options related to fungal activity */
 struct FungalOptions {

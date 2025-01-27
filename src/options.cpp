@@ -2226,6 +2226,11 @@ void options_manager::add_options_debug()
          0.0, 100.0, 1.0, 0.1
        );
 
+    add( "MAX_SKILL_LEVEL", debug, translate_marker("Max Skill Level"),
+         translate_marker("The maximum level a skill can be trained to."),
+         0, 1000, 10
+       );
+
     add( "SKILL_RUST", debug, translate_marker( "Skill rust" ),
          translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
          //~ plain, default, normal
@@ -3448,6 +3453,7 @@ void options_manager::cache_to_globals()
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
+    MAX_SKILL = ::get_option<int>( "MAX_SKILL_LEVEL" );
 
     merge_comestible_mode = ( [] {
         const auto opt = ::get_option<std::string>( "MERGE_COMESTIBLES" );

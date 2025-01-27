@@ -164,10 +164,12 @@ static void test_throwing_player_versus(
     CHECK( dmg_thresh_met );
 }
 
+constexpr int DEFAULT_MAX_SKILL = 10;
+
 constexpr throw_test_pstats lo_skill_base_stats = { 0, 8, 8, 8 };
-constexpr throw_test_pstats mid_skill_base_stats = { MAX_SKILL / 2, 8, 8, 8 };
-constexpr throw_test_pstats hi_skill_base_stats = { MAX_SKILL, 8, 8, 8 };
-constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
+constexpr throw_test_pstats mid_skill_base_stats = { DEFAULT_MAX_SKILL / 2, 8, 8, 8 };
+constexpr throw_test_pstats hi_skill_base_stats = { DEFAULT_MAX_SKILL, 8, 8, 8 };
+constexpr throw_test_pstats hi_skill_athlete_stats = { DEFAULT_MAX_SKILL, 12, 12, 12 };
 
 TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 {

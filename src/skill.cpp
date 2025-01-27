@@ -9,7 +9,7 @@
 
 #include "cata_utility.h"
 #include "debug.h"
-#include "game_constants.h"
+#include "cached_options.h"
 #include "item.h"
 #include "json.h"
 #include "options.h"

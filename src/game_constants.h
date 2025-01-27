@@ -113,9 +113,6 @@ static constexpr units::mass JACK_LIMIT = 8500_kilogram;
 // Slowest speed at which a gun can be aimed.
 static constexpr int MAX_AIM_COST = 10;
 
-// Maximum (effective) level for a skill.
-static constexpr int MAX_SKILL = 10;
-
 // Maximum (effective) level for a stat.
 static constexpr int MAX_STAT = 20;
 
