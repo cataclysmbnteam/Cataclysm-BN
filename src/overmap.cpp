@@ -4632,7 +4632,7 @@ void overmap::place_cities()
         return;
     }
     int op_city_spacing = get_option<int>( "CITY_SPACING" );
-
+    const city_settings &city_spec = settings->city_spec;
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
     // spacing | % of map |  2  |  4  |  8  |  12 |  16
@@ -4688,6 +4688,10 @@ void overmap::place_cities()
         } else {                 // 17% huge
             finale_placement = true;
             size = size * 2;
+        }
+        //also avoid a finale if the city spec has none
+        if (city_spec.finales.buildings.empty()){
+            no_finale_town_selected = true;
         }
         size = std::max( size, 1 );
 
