@@ -4690,7 +4690,7 @@ void overmap::place_cities()
             size = size * 2;
         }
         //also avoid a finale if the city spec has none
-        if (city_spec.finales.buildings.empty()){
+        if( city_spec.finales.buildings.empty() ) {
             no_finale_town_selected = true;
         }
         size = std::max( size, 1 );
