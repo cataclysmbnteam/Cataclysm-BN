@@ -178,6 +178,18 @@ int calc_focus_equilibrium( const Character &who )
 {
     int focus_equilibrium = 100;
 
+    if( who.activity->id() == ACT_READ ) {
+        safe_reference<item> loc = who.activity->targets[0];
+        if( loc && loc->is_book() ) {
+            auto &bt = *loc->type->book;
+            // apply a penalty when we're actually learning something
+            const SkillLevel &skill_level = who.get_skill_level_object( bt.skill );
+            if( skill_level.can_train() && skill_level < bt.level ) {
+                focus_equilibrium -= 50;
+            }
+        }
+    }
+
     int eff_morale = who.get_morale_level();
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
