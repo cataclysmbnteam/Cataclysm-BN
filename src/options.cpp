@@ -2226,8 +2226,8 @@ void options_manager::add_options_debug()
          0.0, 100.0, 1.0, 0.1
        );
 
-    add( "MAX_SKILL_LEVEL", debug, translate_marker("Max Skill Level"),
-         translate_marker("The maximum level a skill can be trained to."),
+    add( "MAX_SKILL_LEVEL", debug, translate_marker( "Max Skill Level" ),
+         translate_marker( "The maximum level a skill can be trained to." ),
          0, 1000, 10
        );
 
