@@ -151,7 +151,7 @@
     "id": "hatchet",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "HAND_AXES" ],
+    "weapon_category": [ "1H_AXES" ],
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "hatchet" },
