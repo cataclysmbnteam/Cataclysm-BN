@@ -11,7 +11,6 @@
         "...~",
         " ..~"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_clay", "~": "t_water_moving_sh" }
     }
   },
@@ -27,7 +26,6 @@
         " ..~",
         ". ~~"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_clay", "~": "t_water_moving_sh" }
     }
   },
@@ -43,7 +41,6 @@
         "iii~",
         ",i~ "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
       "furniture": { "i": "f_cattails" }
     }
@@ -60,7 +57,6 @@
         " ,i~",
         ",i~~"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
       "furniture": { "i": "f_cattails" }
     }
@@ -77,7 +73,6 @@
         " # ~",
         "   ~"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "#": "t_dirtmound", "~": "t_water_moving_sh" },
       "place_monster": [ { "monster": "mon_squirrel_red", "x": 2, "y": 3 } ],
       "place_loot": [ { "item": "hazelnut", "x": 1, "y": 2 } ]
@@ -95,7 +90,6 @@
         ",,i~",
         ",i~ "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
       "furniture": { "i": "f_cattails" }
     }
@@ -112,7 +106,6 @@
         "~.. ",
         " ~  "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_clay", "~": "t_water_moving_sh" }
     }
   },
@@ -128,7 +121,6 @@
         "~.. ",
         "~.  "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { ".": "t_clay", "~": "t_water_moving_sh" }
     }
   },
@@ -144,7 +136,6 @@
         "~ii,",
         " ~i,"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
       "furniture": { "i": "f_cattails" }
     }
@@ -161,7 +152,6 @@
         "~i, ",
         " ~,,"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
       "furniture": { "i": "f_cattails" }
     }
@@ -178,7 +168,6 @@
         "~~~ ",
         " ~ ~"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "#": "t_dirtmound", "~": "t_water_moving_sh" }
     }
   },
@@ -194,7 +183,6 @@
         "~~i,",
         "~~i,"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "i": "t_water_moving_sh", "~": "t_water_moving_sh", ",": "t_grass_long" },
       "furniture": { "i": "f_cattails" }
     }
@@ -215,7 +203,6 @@
         "   ~  ^ ",
         "^  ~^  ^"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "-": "t_water_sh", "~": "t_water_moving_sh", ",": "t_grass_long", "^": "t_stump" },
       "furniture": { "#": "f_beaver_dam" },
       "place_monster": [ { "monster": "mon_beaver", "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": 8 } ]
@@ -237,7 +224,6 @@
         "  ,~~~, ",
         ", ,~~,  "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "~": "t_water_moving_sh", ",": "t_grass_long" }
     }
   }
