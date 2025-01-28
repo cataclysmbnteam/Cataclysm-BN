@@ -32,9 +32,8 @@
         "     22211~~11222       ",
         "      22211~~11222      "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
-      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25, "use_pack_size": true } ]
+      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25 } ]
     }
   },
   {
@@ -112,9 +111,8 @@
         },
         { "chunks": [ [ "null", 500 ], [ "stream_8x8_ll_01", 20 ], [ "stream_8x8_ll_02", 100 ] ], "x": 8, "y": 2 }
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
-      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25, "use_pack_size": true } ]
+      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25 } ]
     }
   },
   {
@@ -149,10 +147,9 @@
         "     22211~~11222       ",
         "      22211~~11222      "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
       "terrain": { "-": "t_water_sh" },
-      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25, "use_pack_size": true } ]
+      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25 } ]
     }
   },
   {
@@ -188,9 +185,8 @@
         "                        ",
         "                        "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
-      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25, "use_pack_size": true } ]
+      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25 } ]
     }
   },
   {
@@ -226,9 +222,8 @@
         "                        ",
         "                        "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
-      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25, "use_pack_size": true } ]
+      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25 } ]
     }
   },
   {
@@ -264,9 +259,8 @@
         "                        ",
         "                        "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "stream_palette" ],
-      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25, "use_pack_size": true } ]
+      "place_monster": [ { "group": "GROUP_STREAM", "x": 10, "y": 10, "chance": 25 } ]
     }
   }
 ]
