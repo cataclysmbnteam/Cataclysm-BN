@@ -5,7 +5,6 @@
     "copy-from": "generic_open_land",
     "name": "stream",
     "sym": ".",
-    "color": "light_blue",
-    "vision_levels": "blends_till_details"
+    "color": "light_blue"
   }
 ]
