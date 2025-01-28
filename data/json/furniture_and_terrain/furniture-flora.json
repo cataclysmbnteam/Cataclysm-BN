@@ -355,7 +355,6 @@
       "sound": "crunch.",
       "sound_fail": "bonk.",
       "items": [
-        { "item": "twig", "count": [ 5, 12 ] },
         { "item": "stick", "count": [ 5, 12 ] },
         { "item": "stick_long", "count": [ 5, 12 ] },
         { "item": "splinter", "count": [ 12, 38 ] }
