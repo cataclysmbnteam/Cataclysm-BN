@@ -4196,7 +4196,6 @@
         "cost_multiplier": 0
       },
       { "monster": "mon_goose_canadian", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_goat", "freq": 1, "pack_size": [ 1, 4 ], "cost_multiplier": 0 },
       { "monster": "mon_chicken", "freq": 1, "cost_multiplier": 2, "starts": 336 },
       { "monster": "mon_frog_giant", "freq": 2, "cost_multiplier": 0, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       {
