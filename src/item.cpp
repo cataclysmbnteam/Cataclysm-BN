@@ -7906,7 +7906,7 @@ int item::ammo_required() const
         } else if( has_flag( flag_FIRE_20 ) ) {
             return 20;
         } else {
-            return 1;
+            return type->gun->ammo_to_fire;
         }
     }
 

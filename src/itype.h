@@ -562,6 +562,9 @@ struct islot_gun : common_ranged_data {
      *  @note useful for adding recoil effect to guns which otherwise consume no ammo
      */
     int recoil = 0;
+
+    /** How much ammo is consumed per shot. */
+    int ammo_to_fire = 1;
 };
 
 struct islot_gunmod : common_ranged_data {
