@@ -1361,6 +1361,21 @@
     "components": [ [ [ "fur", 1 ] ] ]
   },
   {
+    "result": "material_aluminium_ingot",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "60 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [[ [ "can_drink_unsealed", 27 ],["aluminum_foil", 68], [ "chem_aluminium_powder", 135 ] ]]
+  },
+  {
     "result": "steel_chunk",
     "type": "recipe",
     "id_suffix": "hammering",
