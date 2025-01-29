@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <generic_readers.h>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -20,6 +19,7 @@
 #include "effect.h"
 #include "enums.h"
 #include "generic_factory.h"
+#include "generic_readers.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
