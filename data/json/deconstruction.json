@@ -1102,7 +1102,12 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 2 ] ],
     "time": "30 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
     "pre_furniture": "f_air_conditioner",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
@@ -1141,7 +1146,12 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 3 ] ],
     "time": "45 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
     "pre_terrain": "t_machinery_light",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
@@ -1154,7 +1164,12 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 3 ] ],
     "time": "45 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
     "pre_terrain": "t_machinery_old",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
@@ -1167,7 +1182,12 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 4 ] ],
     "time": "50 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
     "pre_terrain": "t_generator_broken",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
@@ -1180,7 +1200,12 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 4 ] ],
     "time": "50 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
     "pre_terrain": "t_machinery_electronic",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
@@ -1206,7 +1231,12 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 5 ] ],
     "time": "60 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
     "pre_terrain": "t_machinery_heavy",
     "pre_special": "check_deconstruct",
     "post_flags": [ "keep_items" ],
