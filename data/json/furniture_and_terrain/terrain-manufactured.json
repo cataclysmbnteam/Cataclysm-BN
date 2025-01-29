@@ -293,7 +293,7 @@
     "looks_like": "t_machinery_old",
     "move_cost": 0,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "ADV_DECONSTRUCT" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -1143,7 +1143,7 @@
     "symbol": "=",
     "color": "brown",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM", "INDOORS", "ADV_DECONSTRUCT" ],
     "coverage": 30,
     "deconstruct": {
       "ter_set": "t_rock_floor",
@@ -1175,7 +1175,7 @@
     "color": "dark_gray",
     "move_cost": 10,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1221,7 +1221,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 75,
-    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1273,7 +1273,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1323,7 +1323,7 @@
     "color": "yellow",
     "move_cost": 8,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM", "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
