@@ -1,0 +1,10 @@
+[    
+  {
+    "result": "xlframe",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [[["material_aluminium_ingot",18]], [ [ "chem_aluminium_powder", 50 ] ] ]
+  }
+]
