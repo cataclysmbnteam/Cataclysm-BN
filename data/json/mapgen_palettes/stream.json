@@ -10,10 +10,10 @@
         [ "t_sand", 1 ],
         [ "t_clay", 4 ],
         [ "t_grass_long", 900 ],
-        [ "t_region_shrub_forest", 20 ],
-        [ "t_region_tree_forest", 20 ]
+        [ "t_region_shrub", 20 ],
+        [ "t_region_tree", 20 ]
       ],
-      "2": [ [ "t_null", 150 ], [ "t_grass_long", 10 ], [ "t_region_shrub_forest", 1 ], [ "t_region_tree_forest", 1 ] ]
+      "2": [ [ "t_null", 150 ], [ "t_grass_long", 10 ], [ "t_region_shrub", 1 ], [ "t_region_tree", 1 ] ]
     },
     "furniture": {
       " ": "f_null",
