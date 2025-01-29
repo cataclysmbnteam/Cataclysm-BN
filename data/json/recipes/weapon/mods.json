@@ -963,5 +963,19 @@
       [ [ "steel_lump", 1 ] ],
       [ [ "RAM", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "mod_flamethrower_nozzle",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 4 ] ],
+    "time": "45 m",
+    "book_learn": [ [ "textbook_gaswarfare", 5 ], [ "book_icef", 5 ], [ "textbook_anarch", 6 ], [ "manual_launcher", 4 ] ],
+    "using": [ [ "welding_standard", 10 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "pump_complex", 1 ] ] ]
   }
 ]
