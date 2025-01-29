@@ -1,4 +1,4 @@
-[    
+[
   {
     "result": "xlframe",
     "type": "uncraft",
@@ -6,6 +6,6 @@
     "difficulty": 3,
     "time": "15 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [[["material_aluminium_ingot",18]], [ [ "chem_aluminium_powder", 50 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 18 ] ], [ [ "chem_aluminium_powder", 50 ] ] ]
   }
 ]

@@ -1373,7 +1373,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [[ [ "can_drink_unsealed", 27 ],["aluminum_foil", 68], [ "chem_aluminium_powder", 135 ] ]]
+    "components": [ [ [ "can_drink_unsealed", 27 ], [ "aluminum_foil", 68 ], [ "chem_aluminium_powder", 135 ] ] ]
   },
   {
     "result": "steel_chunk",
@@ -1448,7 +1448,7 @@
   {
     "result": "tin",
     "type": "recipe",
-    "byproducts": [ [ "scrap", 4 ], ["water_acid_weak", 3] ],
+    "byproducts": [ [ "scrap", 4 ], [ "water_acid_weak", 3 ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "cooking",
@@ -1458,9 +1458,13 @@
     "time": "10 m",
     "charges": 10,
     "batch_time_factors": [ 60, 2 ],
-    "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass", -1 ], [ "jar_3l_glass", -1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ],
-    "qualities": [{ "id": "HAMMER", "level": 1 }],
-    "//":"hammer to actually break down what's left of cans",
+    "tools": [
+      [ [ "electrolysis_kit", 100 ] ],
+      [ [ "jar_glass", -1 ], [ "jar_3l_glass", -1 ] ],
+      [ [ "water", 3 ], [ "water_clean", 3 ] ]
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "//": "hammer to actually break down what's left of cans",
     "components": [
       [ [ "acid", 1 ], [ "chem_sulphuric_acid", 1 ] ],
       [ [ "can_food_big_unsealed", 1 ], [ "can_medium_unsealed", 5 ], [ "can_food_unsealed", 9 ] ]
@@ -1481,8 +1485,8 @@
     "charges": 50,
     "batch_time_factors": [ 60, 2 ],
     "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_3l_glass", -1 ] ], [ [ "water", 9 ], [ "water_clean", 9 ] ] ],
-    "qualities": [{ "id": "HAMMER", "level": 1 }],
-    "//":"hammer to actually break down what's left of cans",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "//": "hammer to actually break down what's left of cans",
     "components": [
       [ [ "chem_lye", 1, "LIST" ] ],
       [ [ "can_food_big_unsealed", 5 ], [ "can_medium_unsealed", 25 ], [ "can_food_unsealed", 45 ] ]

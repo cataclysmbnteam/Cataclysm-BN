@@ -105,7 +105,7 @@
     "difficulty": 3,
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "material_aluminium_ingot", 4 ] ], [ [ "chem_aluminium_powder", 50 ] ]]
+    "components": [ [ [ "material_aluminium_ingot", 4 ] ], [ [ "chem_aluminium_powder", 50 ] ] ]
   },
   {
     "result": "longsword_fake",
@@ -204,6 +204,6 @@
     "difficulty": 3,
     "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [[["material_aluminium_ingot", 2 ]], [ [ "chem_aluminium_powder", 30 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ], [ [ "chem_aluminium_powder", 30 ] ] ]
   }
 ]

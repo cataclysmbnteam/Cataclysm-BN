@@ -225,7 +225,7 @@
     "time": "10 m",
     "charges": 135,
     "autolearn": true,
-    "tools":[[[ "angle_grinder", 90 ]]],
+    "tools": [ [ [ "angle_grinder", 90 ] ] ],
     "components": [ [ [ "material_aluminium_ingot", 1 ], [ "can_drink_unsealed", 27 ] ] ]
   },
   {
@@ -239,7 +239,7 @@
     "time": "25 s",
     "charges": 5,
     "autolearn": true,
-    "tools":[[[ "angle_grinder", 4 ]]],
+    "tools": [ [ [ "angle_grinder", 4 ] ] ],
     "components": [ [ [ "can_drink_unsealed", 1 ] ] ]
   },
   {
