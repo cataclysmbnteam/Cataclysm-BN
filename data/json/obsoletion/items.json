@@ -1587,7 +1587,7 @@
     "type": "MAGAZINE",
     "name": { "str": "LW-5 speedloader" },
     "description": "This speedloader, made by Leadworks for use with L2037 Backup revolver, can hold 5 rounds of .223 and quickly reload a compatible revolver.",
-    "weight": "116 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "32 USD",
     "material": "plastic",

@@ -157,7 +157,7 @@
     "type": "COMESTIBLE",
     "id": "cranberries",
     "name": { "str_sp": "cranberries" },
-    "weight": "116 g",
+    "weight": "100 g",
     "color": "red",
     "spoils_in": "12 days",
     "comestible_type": "FOOD",
