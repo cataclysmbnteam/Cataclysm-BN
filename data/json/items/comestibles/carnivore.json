@@ -691,7 +691,7 @@
     "type": "COMESTIBLE",
     "id": "tallow",
     "name": "tallow",
-    "weight": "110 g",
+    "weight": "100 g",
     "color": "white",
     "comestible_type": "FOOD",
     "symbol": "%",

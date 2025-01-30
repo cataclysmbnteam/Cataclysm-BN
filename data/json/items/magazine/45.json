@@ -186,7 +186,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Model JHP magazine" },
     "description": "A 9-round steel box magazine for use with the Hi-Point Model JHP.",
-    "weight": "110 g",
+    "weight": "100 g",
     "volume": "353 ml",
     "price": "25 USD",
     "price_postapoc": "1 USD",

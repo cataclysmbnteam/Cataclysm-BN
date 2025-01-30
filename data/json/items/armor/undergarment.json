@@ -589,7 +589,7 @@
     "type": "ARMOR",
     "name": { "str": "unitard" },
     "description": "A skin-tight spandex garment resembling a crew necked leotard combined with leggings.  Commonly used by gymnasts, dancers and equestrian vaulters, the unitard provides overall coverage with great flexibility.",
-    "weight": "110 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "31 USD",
     "price_postapoc": "50 cent",

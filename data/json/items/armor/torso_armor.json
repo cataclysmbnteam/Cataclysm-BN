@@ -376,7 +376,7 @@
     "type": "ARMOR",
     "name": { "str": "underarm protector" },
     "description": "A sturdy cotton plastron that protects much of the torso, the dominant shoulder, and underarm while fencing.",
-    "weight": "110 g",
+    "weight": "100 g",
     "volume": "500 ml",
     "price": "16 USD",
     "price_postapoc": "50 cent",

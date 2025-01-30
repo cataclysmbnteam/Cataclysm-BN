@@ -402,7 +402,7 @@
     "type": "ARMOR",
     "name": { "str": "helmet liner" },
     "description": "This goes inside a helmet to help keep your head warm in cold climates.",
-    "weight": "110 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "10 USD",
     "price_postapoc": "50 cent",

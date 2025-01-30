@@ -231,7 +231,7 @@
     "type": "MAGAZINE",
     "name": { "str": "H&K417 compact magazine" },
     "description": "A 10 round double stack box magazine for the H&K417 rifle.",
-    "weight": "110 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "50 USD",
     "price_postapoc": "1 USD",
