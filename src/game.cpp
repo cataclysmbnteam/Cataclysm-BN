@@ -8534,7 +8534,7 @@ void game::butcher()
                 disassembly_stacks_res.emplace_back( stack.first->typeId(), stack.second );
             }
 
-            for( int i = 0; i < disassembly_stacks_res.size(); i++ ) {
+            for( int i = 0; i < static_cast<int>( disassembly_stacks_res.size() ); i++ ) {
                 const auto dis = recipe_dictionary::get_uncraft( disassembly_stacks_res[i].first );
                 time_to_disassemble_rec += dis.time * disassembly_stacks_res[i].second;
                 //uses default craft materials to estimate recursive disassembly time

@@ -16,7 +16,7 @@
     "ammo_type": "410shot",
     "casing": "410shot_hull",
     "range": 0,
-    "shape": [ "cone", { "half_angle": 10, "length": 12 } ],
+    "shape": [ "cone", { "half_angle": 10, "length": 16 } ],
     "damage": { "damage_type": "bullet", "amount": 30 },
     "recoil": 1350,
     "loudness": 90,

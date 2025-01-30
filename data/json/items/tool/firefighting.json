@@ -3,7 +3,7 @@
     "id": "crash_axe",
     "type": "GENERIC",
     "category": "tools_entry",
-    "weapon_category": [ "HAND_AXES" ],
+    "weapon_category": [ "1H_AXES" ],
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "crash axe" },

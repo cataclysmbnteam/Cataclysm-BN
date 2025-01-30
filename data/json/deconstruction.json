@@ -1004,5 +1004,243 @@
     "post_flags": [ "keep_items" ],
     "post_special": "done_deconstruct",
     "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_home_furnace",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 0 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 } ],
+    "pre_furniture": "f_home_furnace",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_shredder",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 0 ], [ "electronics", 0 ] ],
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "pre_furniture": "f_shredder",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_water_dispenser",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 0 ], [ "electronics", 0 ] ],
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "pre_furniture": "f_water_dispenser",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_water_heater",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 0 ], [ "electronics", 0 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 } ],
+    "pre_furniture": "f_water_heater",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_washer",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 } ],
+    "pre_furniture": "f_washer",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_dryer",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 } ],
+    "pre_furniture": "f_dryer",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_dishwasher",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 } ],
+    "pre_furniture": "f_dishwasher",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_air_conditioner",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 2 ] ],
+    "time": "30 m",
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "pre_furniture": "f_air_conditioner",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_air_filter",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 2 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "pre_furniture": "f_air_filter",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_water_purifier",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 2 ], [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "pre_furniture": "f_water_purifier",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_t_machinery_light",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 3 ], [ "electronics", 1 ] ],
+    "time": "45 m",
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "pre_terrain": "t_machinery_light",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_t_machinery_old",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 3 ], [ "electronics", 2 ] ],
+    "time": "45 m",
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "pre_terrain": "t_machinery_old",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_t_generator_broken",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 4 ], [ "electronics", 2 ] ],
+    "time": "50 m",
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "pre_terrain": "t_generator_broken",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_t_machinery_electronic",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 4 ], [ "electronics", 2 ] ],
+    "time": "50 m",
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "pre_terrain": "t_machinery_electronic",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_t_conveyor",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 4 ], [ "electronics", 1 ] ],
+    "time": "50 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "pre_terrain": "t_conveyor",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_t_machinery_heavy",
+    "category": "OTHER",
+    "required_skills": [ [ "mechanics", 5 ], [ "electronics", 2 ] ],
+    "time": "60 m",
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "PRY", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "pre_terrain": "t_machinery_heavy",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
   }
 ]
