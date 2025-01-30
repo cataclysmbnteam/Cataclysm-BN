@@ -482,7 +482,7 @@
     "category": "tools_cooking",
     "name": { "str": "lifestraw" },
     "description": "Set the lifestraw in suspect water, let sit for one minute then drink.  The two part filtration system will purify the water you drink.  Water taken from uncertain sources like a river may be dirty.",
-    "weight": "104 g",
+    "weight": "100 g",
     "volume": "592 ml",
     "price": "40 USD",
     "price_postapoc": "10 USD",

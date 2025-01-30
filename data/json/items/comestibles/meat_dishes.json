@@ -1236,7 +1236,7 @@
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "tio %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "terrifying %s" } }
     ],
-    "weight": "102 g",
+    "weight": "100 g",
     "color": "yellow",
     "spoils_in": "2 days",
     "container": "wrapper",

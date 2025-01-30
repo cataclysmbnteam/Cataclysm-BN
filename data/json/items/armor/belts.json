@@ -110,7 +110,7 @@
     "type": "ARMOR",
     "name": { "str": "leather belt" },
     "description": "A leather belt.  Useful for making your pair of pants fit.",
-    "weight": "102 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "90 USD",
     "price_postapoc": "250 cent",
