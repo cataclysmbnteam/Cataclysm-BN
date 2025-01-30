@@ -7906,7 +7906,13 @@ int item::ammo_required() const
         } else if( has_flag( flag_FIRE_20 ) ) {
             return 20;
         } else {
-            return 1;
+            int modifier = 0;
+            float multiplier = 1.0f;
+            for( const item *mod : gunmods() ) {
+                modifier += mod->type->gunmod->ammo_to_fire_modifier;
+                multiplier *= mod->type->gunmod->ammo_to_fire_multiplier;
+            }
+            return ( type->gun->ammo_to_fire * multiplier ) + modifier;
         }
     }
 
