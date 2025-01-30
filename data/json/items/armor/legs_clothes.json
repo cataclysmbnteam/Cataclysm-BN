@@ -88,7 +88,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "fur hot pants" },
     "description": "A simple pair of fur short shorts.",
-    "weight": "118 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "55 USD",
     "price_postapoc": "1 USD",
