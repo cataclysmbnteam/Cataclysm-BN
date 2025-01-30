@@ -156,7 +156,7 @@
     "type": "MAGAZINE",
     "name": { "str": "LW-21 magazine" },
     "description": "A 21-round polymer magazine for Leadworks LLC 9x19mm firearms.  Lightweight and reliable but somewhat more difficult to reload.",
-    "weight": "105 g",
+    "weight": "100 g",
     "volume": "500 ml",
     "price": "76 USD",
     "material": "plastic",

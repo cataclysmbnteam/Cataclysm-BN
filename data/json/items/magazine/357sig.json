@@ -23,7 +23,7 @@
     "type": "MAGAZINE",
     "name": { "str": "P320 .357 SIG magazine" },
     "description": "A 13 round double stack box magazine for the SIG Sauer P320.",
-    "weight": "105 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "29 USD",
     "price_postapoc": "1 USD",
