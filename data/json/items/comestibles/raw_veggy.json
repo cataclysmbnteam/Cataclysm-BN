@@ -795,7 +795,7 @@
     "type": "COMESTIBLE",
     "id": "veggy",
     "name": "plant marrow",
-    "weight": "119 g",
+    "weight": "100 g",
     "color": "green",
     "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
