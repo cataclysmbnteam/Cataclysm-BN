@@ -597,7 +597,7 @@
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "prepper %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "pernicious %s" } }
     ],
-    "weight": "106 g",
+    "weight": "100 g",
     "color": "brown",
     "container": "bag_plastic",
     "comestible_type": "FOOD",

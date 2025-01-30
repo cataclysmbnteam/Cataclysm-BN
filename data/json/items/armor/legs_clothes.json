@@ -107,7 +107,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "leather hot pants" },
     "description": "A simple pair of leather short shorts.",
-    "weight": "106 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "25 USD",
     "price_postapoc": "50 cent",

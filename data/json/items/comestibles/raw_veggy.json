@@ -211,7 +211,7 @@
     "type": "COMESTIBLE",
     "id": "celery",
     "name": "celery",
-    "weight": "107 g",
+    "weight": "100 g",
     "color": "light_green",
     "spoils_in": "6 days 6 hours",
     "comestible_type": "FOOD",

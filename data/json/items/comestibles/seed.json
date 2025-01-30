@@ -704,7 +704,7 @@
     "vitamins": [ [ "calcium", 4 ], [ "iron", 8 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "RAW" ],
     "stack_size": 40,
-    "weight": "106 g"
+    "weight": "100 g"
   },
   {
     "type": "COMESTIBLE",

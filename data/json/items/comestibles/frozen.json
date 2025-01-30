@@ -227,7 +227,7 @@
     "fun": 10,
     "price": "175 cent",
     "price_postapoc": "1 USD",
-    "weight": "106 g",
+    "weight": "100 g",
     "vitamins": [ [ "fruit_allergen", 1 ] ],
     "material": [ "water", "fruit" ]
   },
