@@ -141,21 +141,22 @@ enum class DebugOutput {
     file,
 };
 
+#define debugmsg_of(debug_level, ...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, debug_level, __VA_ARGS__)
+
 /**
  * Debug message of level DL::Error and class DC::DebugMsg, also includes the source
  * file name and line, uses varg style arguments, the first argument must be
  * a printf style format string.
  */
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, __VA_ARGS__)
-
+#define debugmsg(...) debugmsg_of(DL::Error, __VA_ARGS__)
 // Don't use this, use debugmsg instead.
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
-                   const std::string &text );
+                   const DL debug_level, const std::string &text );
 template<typename ...Args>
 inline void realDebugmsg( const char *const filename, const char *const line,
-                          const char *const funcname, const char *const mes, Args &&... args )
+                          const char *const funcname, const DL debug_level, const char *const mes, Args &&... args )
 {
-    return realDebugmsg( filename, line, funcname, string_format( mes,
+    return realDebugmsg( filename, line, funcname, debug_level, string_format( mes,
                          std::forward<Args>( args )... ) );
 }
 
