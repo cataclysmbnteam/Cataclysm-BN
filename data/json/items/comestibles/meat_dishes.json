@@ -1205,7 +1205,7 @@
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "manwich", "str_pl": "manwiches" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "suspicious %s" } }
     ],
-    "weight": "113 g",
+    "weight": "100 g",
     "color": "brown",
     "spoils_in": "2 days",
     "container": "wrapper",

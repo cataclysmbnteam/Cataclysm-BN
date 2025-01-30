@@ -83,7 +83,7 @@
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "PRIMITIVE_RANGED_WEAPON", "BELTED", "COMPACT", "NO_UNLOAD" ],
     "skill": "archery",
     "min_strength": 4,
-    "weight": "113 g",
+    "weight": "100 g",
     "volume": "1500 ml",
     "bashing": 8,
     "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 7 },
