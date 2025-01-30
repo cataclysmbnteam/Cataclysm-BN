@@ -201,7 +201,7 @@
     "category": "electronics",
     "name": { "str": "electrohack" },
     "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "500 ml",
     "price": "400 USD",
     "price_postapoc": "5 USD",

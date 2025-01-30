@@ -513,7 +513,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "tights" },
     "description": "A snug cloth garment which clings tightly to the legs and feet to protect them from the cold.",
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "20 USD",
     "price_postapoc": "1 USD",

@@ -4,7 +4,7 @@
     "id": "raw_owlbear_fur",
     "category": "spare_parts",
     "name": "raw owlbear pelt",
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "170 ml",
     "color": "brown",
     "spoils_in": "1 day 12 hours",
@@ -32,7 +32,7 @@
     "price_postapoc": "0 cent",
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "170 ml",
     "category": "spare_parts",
     "to_hit": -1
@@ -48,7 +48,7 @@
     "price_postapoc": "10 cent",
     "material": [ "fur", "leather" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "category": "spare_parts"
   },
