@@ -24,7 +24,6 @@
     "price": "8 USD",
     "price_postapoc": "150 cent",
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.",
-    "weight": "100 g",
     "material": [ "plastic", "steel" ],
     "cutting": 2,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ],
