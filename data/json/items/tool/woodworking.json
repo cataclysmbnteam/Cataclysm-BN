@@ -249,7 +249,7 @@
   {
     "id": "primitive_axe",
     "type": "GENERIC",
-    "category": "tools_workshop",
+    "category": "tools_farming",
     "weapon_category": [ "2H_AXES" ],
     "name": { "str": "primitive axe" },
     "conditional_names": [
