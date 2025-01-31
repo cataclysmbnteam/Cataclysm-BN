@@ -225,7 +225,7 @@
   {
     "id": "primitive_adze",
     "type": "GENERIC",
-    "category": "tools_workshop",
+    "category": "tools_farming",
     "weapon_category": [ "1H_HOOKED" ],
     "name": { "str": "primitive adze" },
     "conditional_names": [
