@@ -2763,7 +2763,7 @@
   {
     "id": "scuba_tank",
     "type": "TOOL_ARMOR",
-    "category": "tools_entry",
+    "category": "tool",
     "name": { "str": "scuba tank" },
     "looks_like": "oxygen_tank",
     "description": "This is a high-pressure 232 bar diving tank that can contain up to 12L of compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
