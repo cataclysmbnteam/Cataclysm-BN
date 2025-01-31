@@ -143,7 +143,7 @@
   {
     "id": "folding_skateboard",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "skateboard" },
     "description": "This is a skateboard.",
     "weight": "2898 g",
@@ -166,7 +166,7 @@
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str_sp": "seeing this is a bug" },
     "description": "seeing this is a bug",
     "volume": "0 ml",
@@ -180,7 +180,7 @@
   {
     "id": "metal_butcher_rack",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "metal butchering rack" },
     "description": "Metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation.",
     "weight": "5000 g",

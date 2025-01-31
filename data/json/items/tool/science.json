@@ -685,7 +685,7 @@
   {
     "id": "3d_printer_basic",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "3D printer" },
     "description": "Although it's not nearly as fancy as the experimental nanofabricators, this civilian-grade 3D printer can produce almost any item out of plastic, polymer, or carbon fiber…  so long as you can program it.",
     "weight": "2000 g",

@@ -858,7 +858,7 @@
   {
     "id": "umbrella",
     "type": "GENERIC",
-    "category": "tools_farming",
+    "category": "tools",
     "weapon_category": [ "BATONS" ],
     "name": { "str": "umbrella" },
     "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
