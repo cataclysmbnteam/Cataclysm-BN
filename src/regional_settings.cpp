@@ -1046,7 +1046,9 @@ void city_settings::finalize()
     houses.finalize();
     shops.finalize();
     parks.finalize();
-    finales.finalize();
+    if (!finales.buildings.empty()) {
+        finales.finalize();
+    }
 }
 
 void building_bin::add( const overmap_special_id &building, int weight )

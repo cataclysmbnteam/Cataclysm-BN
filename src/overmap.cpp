@@ -4662,36 +4662,30 @@ void overmap::place_cities()
     // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMTPS = approx. 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMTPS=OMAPX * OMAPY
     const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
     int placement_attempts = 0;
-    bool finale_placement;
-    bool no_finale_town_generated;
-    bool no_finale_town_selected;
     // place a seed for NUM_CITIES cities, and maybe one more
     while( cities.size() < static_cast<size_t>( NUM_CITIES ) &&
            placement_attempts < MAX_PLACEMENT_ATTEMTPS ) {
         placement_attempts++;
-
+        city tmp;
         // randomly make some cities smaller or larger
         // guarantee placement of a finale/vault tile in large/huge cities
-        finale_placement = false;
-        no_finale_town_generated = false;
-        no_finale_town_selected = false;
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
-            no_finale_town_selected = true;
+            tmp.attempt_finale = false;
             size = 1;
         } else if( one_in( 2 ) ) { // 33% small
-            no_finale_town_selected = true;
+            tmp.attempt_finale = false;
             size = size * 2 / 3;
         } else if( one_in( 2 ) ) { // 17% large
-            finale_placement = true;
+            tmp.attempt_finale = true;
             size = size * 3 / 2;
         } else {                 // 17% huge
-            finale_placement = true;
+            tmp.attempt_finale = true;
             size = size * 2;
         }
         //also avoid a finale if the city spec has none
-        if (city_spec.finales.buildings.empty()){
-            no_finale_town_selected = true;
+        if (!city_spec.finales.finalized ){
+            tmp.attempt_finale = false;
         }
         size = std::max( size, 1 );
 
@@ -4701,11 +4695,11 @@ void overmap::place_cities()
         //make a backup of the map
         map_layer this_layer_backup = layer[p.z() + OVERMAP_DEPTH];
         map_layer sewers_backup = layer[p.z() + OVERMAP_DEPTH + 1];
-        city tmp;
+        
         tmp.finale_placed = false;
-        //attempt to generate a city with a finale if it's not tiny. If it's tiny just run once via short circuit.
-        for( int finale_attempts = 0; ( !no_finale_town_generated && !tmp.finale_placed &&
-                                        finale_attempts < MAX_PLACEMENT_ATTEMTPS ); finale_attempts++ ) {
+        int finale_attempts = 0;
+        //attempt to generate a city with a finale if it's not tiny. If it's tiny just run once via a do while.
+        do  {
             //std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
             if( ter( p ) == settings->default_oter ) {
                 placement_attempts = 0;
@@ -4727,18 +4721,16 @@ void overmap::place_cities()
                 for( const tripoint_om_omt &p : sewers ) {
                     build_connection( tmp.pos, p.xy(), p.z(), *sewer_tunnel, false );
                 }
-                //if tiny town, just call it after one attempt since no finale.
-                if( no_finale_town_selected ) {
-                    no_finale_town_generated = true;
-                }
+
                 //if the city finale failed to place, restore from last backup and try again at the top of the loop
-                else if( !tmp.finale_placed ) {
+                if(  !tmp.finale_placed ) {
                     layer[p.z() + OVERMAP_DEPTH] = this_layer_backup;
                     layer[p.z() + OVERMAP_DEPTH + 1] = sewers_backup;
                 }
             }
-
-        }
+        finale_attempts++;
+        } while (  ( tmp.attempt_finale && !tmp.finale_placed &&
+                                        finale_attempts < MAX_PLACEMENT_ATTEMTPS ));                               
     }
 }
 
@@ -4854,13 +4846,13 @@ void overmap::build_city_street(
         }
         bool attempt_finale_place = false;
         // place a finale somewhere within the first 15 buildings
-        if( town.finale_counter == 0 && !town.finale_placed ) {
+        //TODO This needs to respect greater finale placement choices, probably need a member on the class
+        if( town.finale_counter == 0 && !town.finale_placed && town.attempt_finale ) {
             attempt_finale_place = true;
         } else {
             town.finale_counter--;
         }
         if( !one_in( BUILDINGCHANCE ) ) {
-
             if( attempt_finale_place && !town.finale_placed ) {
                 //attempt to place a finale, confirm that it was placed.
                 if( place_building( rp, om_direction::turn_left( dir ), town, true ) ) {

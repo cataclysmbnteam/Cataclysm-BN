@@ -22,9 +22,9 @@ class JsonObject;
 class building_bin
 {
     private:
-        bool finalized = false;
         std::map<overmap_special_id, int> unfinalized_buildings;
     public:
+        bool finalized = false;
         weighted_int_list<overmap_special_id> buildings;
         building_bin() = default;
         void add( const overmap_special_id &building, int weight );

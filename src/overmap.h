@@ -59,6 +59,7 @@ struct city {
     int size;
     int finale_counter;
     bool finale_placed;
+    bool attempt_finale;
     std::string name;
     city( const point_om_omt &P = point_om_omt(), int S = -1 );
 
