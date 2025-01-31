@@ -2821,7 +2821,7 @@
   {
     "id": "small_scuba_tank",
     "type": "TOOL_ARMOR",
-    "category": "tools_entry",
+    "category": "tools",
     "name": { "str": "small scuba tank" },
     "description": "This is a small high-pressure 200 bar backup diving tank, that can contain 4L of compressed mixture of oxygen and nitrogen.  It is equipped with an on-demand regulator and a mouthpiece designed mostly for underwater use.",
     "looks_like": "smoxygen_tank",
