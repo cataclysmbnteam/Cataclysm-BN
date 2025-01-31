@@ -253,7 +253,7 @@
     "type": "COMESTIBLE",
     "id": "cotton_boll",
     "name": { "str": "cotton boll" },
-    "category": "other",
+    "category": "scrap_fabric",
     "weight": "26 g",
     "color": "light_green",
     "comestible_type": "FOOD",

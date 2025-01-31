@@ -651,7 +651,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bone",
-    "category": "spare_parts",
+    "category": "other",
     "name": { "str": "bone" },
     "weight": "225 g",
     "color": "white",

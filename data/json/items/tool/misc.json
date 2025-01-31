@@ -261,7 +261,7 @@
   {
     "id": "etched_skull",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "other",
     "name": { "str": "etched human skull" },
     "description": "This is a human skull with strange etchings covering it.",
     "weight": "311 g",
@@ -572,7 +572,7 @@
   {
     "id": "pocketwatch",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "pocket watch", "str_pl": "pocket watches" },
     "description": "An old-fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
     "weight": "65 g",
@@ -630,7 +630,7 @@
   {
     "id": "sarcophagus_access_code",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "valuables",
     "name": { "str": "sarcophagus access code" },
     "description": "This printout is a string of numbers to access the elevator in the hazardous waste sarcophagus.",
     "weight": "5 g",
@@ -748,7 +748,7 @@
   {
     "id": "survivor_scope",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_entry",
     "name": { "str": "survivor telescope" },
     "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "weight": "500 g",
@@ -806,7 +806,7 @@
   {
     "id": "teleumbrella",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "telescoping umbrella" },
     "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
     "weight": "118 g",
@@ -858,7 +858,7 @@
   {
     "id": "umbrella",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_farming",
     "weapon_category": [ "BATONS" ],
     "name": { "str": "umbrella" },
     "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",

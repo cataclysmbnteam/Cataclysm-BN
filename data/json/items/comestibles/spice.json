@@ -72,6 +72,7 @@
     "volume": "250 ml",
     "calories": 19,
     "flags": [ "NUTRIENT_OVERRIDE" ],
+    "category": "cooking_ingredients",
     "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted.",
     "charges": 71,
     "vitamins": [ [ "junk_allergen", 1 ] ]
@@ -106,6 +107,7 @@
     "volume": "250 ml",
     "charges": 20,
     "flags": [ "RAW" ],
+    "category": "cooking_ingredients",
     "stack_size": 100,
     "fun": -15,
     "vitamins": [ [ "veggy_allergen", 1 ] ]
@@ -125,6 +127,7 @@
     "comestible_type": "DRINK",
     "container": "bottle_glass",
     "primary_material": "water",
+    "category": "cooking_ingredients",
     "quench": -20,
     "charges": 10,
     "healthy": -1,
@@ -147,6 +150,7 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
+    "category": "cooking_ingredients",
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {

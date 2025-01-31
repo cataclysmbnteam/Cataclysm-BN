@@ -1288,7 +1288,7 @@
   {
     "id": "balloon",
     "type": "CONTAINER",
-    "category": "other",
+    "category": "scrap_plastic",
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A child's balloon.  This could be used as a makeshift water container.",
