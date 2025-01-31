@@ -158,7 +158,7 @@
   {
     "id": "knife_hunting",
     "type": "TOOL",
-    "category": "tools_farming",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "hunting knife", "str_pl": "hunting knives" },
     "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
