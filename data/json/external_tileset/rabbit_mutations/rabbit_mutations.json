@@ -1,0 +1,48 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/rabbit_ears.png",
+        "tiles": [
+          { "id": "overlay_female_mutation_RABBIT_EARS", "fg": 0, "rotates": false },
+          { "id": "overlay_male_mutation_RABBIT_EARS", "fg": 0, "rotates": false }
+        ],
+        "sprite_offset_y": -8,
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  },
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/rabbit_tail.png",
+        "tiles": [
+          { "id": "overlay_female_mutation_TAIL_RABBIT", "fg": 0, "rotates": false },
+          { "id": "overlay_male_mutation_TAIL_RABBIT", "fg": 0, "rotates": false }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  },
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/rabbit_nose.png",
+        "tiles": [
+          { "id": "overlay_female_mutation_RABBIT_NOSE", "fg": 0, "rotates": false },
+          { "id": "overlay_male_mutation_RABBIT_NOSE", "fg": 0, "rotates": false }
+        ],
+        "sprite_width": 32,
+        "sprite_height": 32
+      }
+    ]
+  }
+]
