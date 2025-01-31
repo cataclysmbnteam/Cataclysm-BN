@@ -814,7 +814,7 @@
   {
     "type": "AMMO",
     "id": "rebreather_filter",
-    "category": "tools_entry",
+    "category": "spare_parts",
     "price": "25 USD",
     "price_postapoc": "30 USD",
     "name": { "str": "rebreather filter cartridge" },
