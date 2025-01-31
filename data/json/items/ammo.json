@@ -721,7 +721,7 @@
   {
     "type": "AMMO",
     "id": "charcoal",
-    "category": "rocks",
+    "category": "fuel",
     "price": "2 USD",
     "price_postapoc": "50 cent",
     "name": { "str_sp": "charcoal" },
@@ -760,7 +760,7 @@
   {
     "type": "AMMO",
     "id": "coal_lump",
-    "category": "rocks",
+    "category": "fuel",
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "name": { "str": "coal" },
@@ -830,7 +830,7 @@
   {
     "type": "AMMO",
     "id": "gasfilter_s",
-    "category": "tools_entry",
+    "category": "spare_parts",
     "price": "25 USD",
     "price_postapoc": "5 USD",
     "name": { "str": "filter mask cartridge" },
@@ -845,7 +845,7 @@
   {
     "type": "AMMO",
     "id": "gasfilter_m",
-    "category": "tools_entry",
+    "category": "spare_parts",
     "price": "25 USD",
     "price_postapoc": "750 cent",
     "name": { "str": "gas mask cartridge" },
@@ -860,7 +860,7 @@
   {
     "type": "AMMO",
     "id": "gasfilter_l",
-    "category": "tools_entry",
+    "category": "spare_parts",
     "price": "25 USD",
     "price_postapoc": "10 USD",
     "name": { "str": "chemical mask cartridge" },
