@@ -572,7 +572,7 @@
   {
     "id": "pocketwatch",
     "type": "GENERIC",
-    "category": "tools_farming",
+    "category": "tools",
     "name": { "str": "pocket watch", "str_pl": "pocket watches" },
     "description": "An old-fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
     "weight": "65 g",
@@ -748,7 +748,7 @@
   {
     "id": "survivor_scope",
     "type": "GENERIC",
-    "category": "tools_entry",
+    "category": "tools",
     "name": { "str": "survivor telescope" },
     "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "weight": "500 g",

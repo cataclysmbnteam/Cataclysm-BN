@@ -243,7 +243,7 @@
   {
     "id": "gasoline_lantern",
     "type": "TOOL",
-    "category": "tools_farming",
+    "category": "tools",
     "name": { "str": "gasoline lantern (off)", "str_pl": "gasoline lanterns (off)" },
     "description": "This is a small gasoline powered lantern.  It does not provide much light, but it lasts a long time.  Use it to turn it on.",
     "weight": "1400 g",
