@@ -287,7 +287,7 @@
     "id": "bone_knife",
     "name": { "str": "bone shiv" },
     "type": "TOOL",
-    "category": "tools_farming",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "description": "A femur or other bone, at least 30 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
