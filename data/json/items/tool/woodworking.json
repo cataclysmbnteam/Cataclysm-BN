@@ -225,7 +225,7 @@
   {
     "id": "primitive_adze",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_farming",
     "weapon_category": [ "1H_HOOKED" ],
     "name": { "str": "primitive adze" },
     "conditional_names": [
@@ -249,7 +249,7 @@
   {
     "id": "primitive_axe",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_farming",
     "weapon_category": [ "2H_AXES" ],
     "name": { "str": "primitive axe" },
     "conditional_names": [
