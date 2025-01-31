@@ -79,7 +79,7 @@
   {
     "type": "mutation",
     "id": "THRESH_DRYAD",
-    "name": { "str": "Drayd" },
+    "name": { "str": "Dryad" },
     "points": 1,
     "description": "You've found yourself enjoying and communing with nature even more since you became so intertwined with it and the nature talks back.  Once this is all over and natural order has been restored, you'll *have* to start a conservationist group.",
     "valid": false,
