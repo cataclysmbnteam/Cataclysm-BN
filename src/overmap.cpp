@@ -4684,7 +4684,7 @@ void overmap::place_cities()
             size = size * 2;
         }
         //also avoid a finale if the city spec has none
-        if (!city_spec.finales.finalized ){
+        if( !city_spec.finales.finalized ) {
             tmp.attempt_finale = false;
         }
         size = std::max( size, 1 );
@@ -4695,7 +4695,7 @@ void overmap::place_cities()
         //make a backup of the map
         map_layer this_layer_backup = layer[p.z() + OVERMAP_DEPTH];
         map_layer sewers_backup = layer[p.z() + OVERMAP_DEPTH + 1];
-        
+
         tmp.finale_placed = false;
         int finale_attempts = 0;
         //attempt to generate a city with a finale if it's not tiny. If it's tiny just run once via a do while.
@@ -4723,14 +4723,14 @@ void overmap::place_cities()
                 }
 
                 //if the city finale failed to place, restore from last backup and try again at the top of the loop
-                if(  !tmp.finale_placed ) {
+                if( !tmp.finale_placed ) {
                     layer[p.z() + OVERMAP_DEPTH] = this_layer_backup;
                     layer[p.z() + OVERMAP_DEPTH + 1] = sewers_backup;
                 }
             }
-        finale_attempts++;
-        } while (  ( tmp.attempt_finale && !tmp.finale_placed &&
-                                        finale_attempts < MAX_PLACEMENT_ATTEMTPS ));                               
+            finale_attempts++;
+        } while( ( tmp.attempt_finale && !tmp.finale_placed &&
+                   finale_attempts < MAX_PLACEMENT_ATTEMTPS ) );
     }
 }
 
