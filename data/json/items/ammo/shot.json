@@ -86,7 +86,7 @@
     "ammo_type": "shot",
     "casing": "shot_hull",
     "range": 20,
-    "damage": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2 },
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 2 },
     "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -123,7 +123,7 @@
     "price": "1 USD",
     "price_postapoc": "4 USD",
     "range": 0,
-    "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 },
+    "damage": { "damage_type": "bullet", "amount": 25, "armor_multiplier": 3 },
     "loudness": 80,
     "shape": [ "cone", { "half_angle": 15, "length": 10 } ],
     "extend": { "effects": [ "NOGIB" ] }

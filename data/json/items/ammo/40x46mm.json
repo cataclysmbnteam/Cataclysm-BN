@@ -53,7 +53,7 @@
     "weight": "120 g",
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 12 } ],
-    "damage": { "damage_type": "bullet", "amount": 120 },
+    "damage": { "damage_type": "bullet", "amount": 60 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -80,7 +80,7 @@
     "weight": "120 g",
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 12 } ],
-    "damage": { "damage_type": "bullet", "amount": 120 },
+    "damage": { "damage_type": "bullet", "amount": 60 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -121,7 +121,7 @@
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 12 } ],
     "//": "Balanced as AP.",
-    "damage": { "damage_type": "bullet", "amount": 84, "armor_penetration": 72 },
+    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 36 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -136,7 +136,7 @@
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 12 } ],
     "//": "Balanced as AP.",
-    "damage": { "damage_type": "bullet", "amount": 84, "armor_penetration": 72 },
+    "damage": { "damage_type": "bullet", "amount": 42, "armor_penetration": 36 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
     "extend": { "effects": [ "SHOT" ] }
