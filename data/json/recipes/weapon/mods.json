@@ -990,7 +990,16 @@
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ],  [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "laser_source", 1 ] ], [ ["plastic_chunk", 4 ] ], [["light_minus_disposable_cell", 1], ["light_minus_battery_cell", 1]] ],
-    "byproducts": [ [ "material_aluminium_ingot" , 1 ], ["e_scrap", 2], ["lens", 2], ["power_supply", 1] ]
+    "components": [
+      [["e_scrap", 4]],
+      [["solder_wire", 10]],
+      [["cable", 5]],
+      [["diamond", 1], ["sapphire", 1], ["ruby", 1]],
+      [ ["light_minus_battery_cell", 1]],
+      [ ["plastic_chunk", 5 ] ],
+      [ ["circuit", 1 ] ],
+      [["lens", 1]],
+      [["amplifier", 1]]
+    ]
   }
 ]
