@@ -43,7 +43,6 @@
     "price_postapoc": "4 USD",
     "dispersion": 0,
     "range": 0,
-    "damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 0 },
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "proportional": { "recoil": 0.334 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }

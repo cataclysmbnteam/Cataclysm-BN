@@ -52,7 +52,7 @@
     "weight": "5651 g",
     "looks_like": "cannon_round_ball",
     "//2": "balanced as hollowpoint, with buckshot level of armor multiplier.",
-    "damage": { "damage_type": "bullet", "amount": 125, "armor_multiplier": 2 },
+    "damage": { "damage_type": "bullet", "amount": 250, "armor_multiplier": 2 },
     "range": 0,
     "shape": [ "cone", { "half_angle": 10, "length": 30 } ],
     "dispersion": 450,
