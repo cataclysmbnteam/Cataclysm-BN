@@ -43,6 +43,19 @@ struct aoe_flood_node {
 namespace ranged
 {
 
+namespace
+{
+
+auto falloff_damage_multiplier( const shape &sh, const dealt_projectile_attack &atk ) -> double
+{
+    const float dist = trig_dist( sh.get_origin(), atk.end_point );
+    const float range = std::max( 1, atk.proj.range );
+
+    return 1 - ( 0.5 * ( std::max( 0.0f, dist - 1 ) / range ) );
+}
+
+} // namespace
+
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker,
                             item *source_weapon, const vehicle *in_veh )
 {
@@ -136,6 +149,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
             atk.end_point = point;
             atk.hit_critter = critter;
             atk.proj = proj;
+            atk.proj.impact.mult_damage( falloff_damage_multiplier( sh, atk ) );
             atk.missed_by = rng_float( 0.15, 0.45 );
             critter->deal_projectile_attack( &attacker, source_weapon, atk );
         }
