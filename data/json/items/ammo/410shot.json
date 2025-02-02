@@ -16,7 +16,7 @@
     "ammo_type": "410shot",
     "casing": "410shot_hull",
     "range": 20,
-    "damage": { "damage_type": "bullet", "amount": 30 },
+    "damage": { "damage_type": "bullet", "amount": 30, "armor_multiplier": 2 },
     "recoil": 1350,
     "loudness": 90,
     "effects": [ "COOKOFF", "SHOT" ]

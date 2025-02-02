@@ -52,7 +52,7 @@
     "description": "A 40x46mm buckshot load, designed for use in thick vegetation or room clearing.",
     "weight": "120 g",
     "range": 12,
-    "damage": { "damage_type": "bullet", "amount": 120 },
+    "damage": { "damage_type": "bullet", "amount": 120, "armor_multiplier": 2 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -78,7 +78,7 @@
     "description": "An improvised 40x46mm buckshot load somewhat resembling M576.  Aside from using the M118 casing normally used by HEDP shells, it performs as well as buckshot loads using the intended M199 casing.",
     "weight": "120 g",
     "range": 10,
-    "damage": { "damage_type": "bullet", "amount": 120 },
+    "damage": { "damage_type": "bullet", "amount": 120, "armor_multiplier": 2 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -92,7 +92,7 @@
     "weight": "120 g",
     "range": 10,
     "//": "Balanced as FMJ.",
-    "damage": { "damage_type": "bullet", "amount": 96, "armor_penetration": 42 },
+    "damage": { "damage_type": "bullet", "amount": 96, "armor_penetration": 42, "armor_multiplier": 1.5 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing"
   },
@@ -105,7 +105,7 @@
     "weight": "120 g",
     "range": 10,
     "//": "Balanced as FMJ.",
-    "damage": { "damage_type": "bullet", "amount": 96, "armor_penetration": 42 },
+    "damage": { "damage_type": "bullet", "amount": 96, "armor_penetration": 42, "armor_multiplier": 1.5 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing"
   },
