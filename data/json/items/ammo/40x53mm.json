@@ -55,7 +55,7 @@
     "weight": "340 g",
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 10 } ],
-    "damage": { "damage_type": "bullet", "amount": 130 },
+    "damage": { "damage_type": "bullet", "amount": 130, "armor_multiplier": 2 },
     "recoil": 1200,
     "casing": "40x53mm_m169_casing",
     "extend": { "effects": [ "SHOT" ] }
@@ -69,7 +69,7 @@
     "weight": "340 g",
     "range": 10,
     "//": "Balanced as FMJ.",
-    "damage": { "damage_type": "bullet", "amount": 104, "armor_penetration": 46 },
+    "damage": { "damage_type": "bullet", "amount": 104, "armor_penetration": 46, "armor_multiplier": 1.5 },
     "recoil": 1200,
     "casing": "40x53mm_m169_casing"
   }

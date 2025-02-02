@@ -17,7 +17,7 @@
     "casing": "410shot_hull",
     "range": 0,
     "shape": [ "cone", { "half_angle": 10, "length": 16 } ],
-    "damage": { "damage_type": "bullet", "amount": 30 },
+    "damage": { "damage_type": "bullet", "amount": 30, "armor_multiplier": 2 },
     "recoil": 1350,
     "loudness": 90,
     "effects": [ "COOKOFF", "SHOT" ]
