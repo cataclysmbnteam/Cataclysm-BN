@@ -100,7 +100,6 @@
     "bashing": 8,
     "to_hit": -1,
     "ranged_damage": { "damage_type": "bullet", "amount": 15, "armor_penetration": 10 },
-    "range": 6,
     "dispersion": 350,
     "durability": 7,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
