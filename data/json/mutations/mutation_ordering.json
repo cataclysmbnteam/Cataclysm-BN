@@ -158,7 +158,7 @@
       },
       { "id": [ "PAWS", "PAWS_LARGE", "SLIME_HANDS" ], "order": 2500 },
       {
-        "id": [ "PAWS_LITTLE","CLAWS", "CLAWS_RAT", "CLAWS_RETRACT", "LONG_FINGERNAILS", "VINES1", "VINES2", "VINES3", "bio_claws" ],
+        "id": [ "PAWS_LITTLE", "CLAWS", "CLAWS_RAT", "CLAWS_RETRACT", "LONG_FINGERNAILS", "VINES1", "VINES2", "VINES3", "bio_claws" ],
         "order": 3000
       },
       { "id": [ "bio_blade", "bio_blaster", "bio_emp_armgun" ], "order": 3250 },
