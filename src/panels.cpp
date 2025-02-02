@@ -1746,7 +1746,6 @@ static void draw_armor_comp( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 10, 0 ), color, _( "A:" ) );
     mvwprintz( w, point( 15, 0 ), color, _( "L:" ) );
     mvwprintz( w, point( 20, 0 ), color, _( "F:" ) );
-    unsigned int max_length = 2;
     print_colored_text( w, point( 2, 0 ), color, color, get_armor_comp( u, bodypart_id( "head" ) ) );
     print_colored_text( w, point( 7, 0 ), color, color, get_armor_comp( u, bodypart_id( "torso" ) ) );
     print_colored_text( w, point( 12, 0 ), color, color, get_armor_comp( u, bodypart_id( "arm_r" ) ) );
