@@ -204,6 +204,9 @@ std::string mods_loaded();
 /** Generate a game report, including the information returned by all of the other functions.
  */
 std::string game_report();
+/** Current world save file version
+ */
+std::string save_file_version();
 } // namespace game_info
 
 /** Initializes the debugging system, called exactly once from main() */
