@@ -291,9 +291,10 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 }
 
 
-static void draw_minimap(const avatar &u, const catacurses::window &w_minimap) {
+static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
+{
     const tripoint_abs_omt curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk(w_minimap, u, curs, point(-1, -1), 7, 7);
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point( -1, -1 ), 7, 7 );
 }
 
 
