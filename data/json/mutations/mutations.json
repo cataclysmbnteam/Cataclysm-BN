@@ -5934,7 +5934,7 @@
     "description": "Your stubby tail has become fuzzy and more round.  It looks adorable, but doesn't seem to serve another purpose beyond that.",
     "types": [ "TAIL" ],
     "cancels": [ "TAIL_STUB" ],
-    "category": [ "RABBIT" ]
+    "category": [ "RABBIT", "BEAST" ]
   },
   {
     "type": "mutation",
@@ -5948,7 +5948,7 @@
     "description": "Your fur keeps you covered in winter, maintaining heat and allowing you to better tolerate cold temperatures.",
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
-    "category": [ "RABBIT" ],
+    "category": [ "RABBIT", "BEAST" ],
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
