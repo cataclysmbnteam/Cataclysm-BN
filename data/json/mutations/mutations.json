@@ -5909,7 +5909,8 @@
     "description": "You really want to eat some carrots.  Welcome to the Lagomorpha family.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "mutagen_target_modifier": 10
   },
   {
     "type": "mutation",
