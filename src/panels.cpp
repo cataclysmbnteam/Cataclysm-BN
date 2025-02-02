@@ -1727,7 +1727,7 @@ static std::string get_armor_comp( const avatar &u, bodypart_id bp )
         if( ( *it )->covers( bp ) ) {
             std::string armor_name = ( *it )->tname( 1, true );  // Get full name
             std::size_t end_pos = armor_name.find( "</color>" );
-            if (end_pos != std::string::npos) {
+            if( end_pos != std::string::npos ) {
                 return armor_name.substr( 0, end_pos + 8 );  // Include everything until </color>
             } else {
                 return armor_name.substr( 0, 2 );  // If no </color> can be found, show first 2 letters instead.
