@@ -1725,12 +1725,12 @@ static std::string get_armor_comp( const avatar &u, bodypart_id bp )
 {
     for( auto it = u.worn.rbegin(); it != u.worn.rend(); ++it ) {
         if( ( *it )->covers( bp ) ) {
-            std::string armor_name = ( *it )->tname( 1, true );  // Holen des vollständigen Namens
+            std::string armor_name = ( *it )->tname( 1, true );  // Get full name
             std::size_t end_pos = armor_name.find( "</color>" );
             if (end_pos != std::string::npos) {
-                return armor_name.substr( 0, end_pos + 8 );  // Alles bis einschließlich </color> anzeigen
+                return armor_name.substr( 0, end_pos + 8 );  // Include everything until </color>
             } else {
-                return armor_name.substr( 0, 2 );  // Falls kein </color> gefunden wird, die ersten 2 Zeichen anzeigen
+                return armor_name.substr( 0, 2 );  // If no </color> can be found, show first 2 letters instead.
             }
         }
     }
