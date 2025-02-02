@@ -1755,6 +1755,18 @@ static void draw_compass( avatar &, const catacurses::window &w )
     g->mon_info( w );
     wnoutrefresh( w );
 }
+static void draw_compact_compass( avatar &u, const catacurses::window &w ) {
+    werase( w );
+
+    const auto &visible_creatures = u.get_visible_creatures( 60 );
+    std::string enemies_text;
+    for( const auto &creature : visible_creatures ) {
+        enemies_text += creature->disp_name() + " ";
+    }
+
+    mvwprintz( w, point( 1, 0 ), c_white, enemies_text );
+    wnoutrefresh( w );
+}
 
 static void draw_compass_padding( avatar &, const catacurses::window &w )
 {
@@ -2032,6 +2044,7 @@ bool default_render()
 static std::vector<window_panel> initialize_default_classic_panels()
 {
     std::vector<window_panel> ret;
+ret.emplace_back( draw_compact_compass, translate_marker( "Compact Compass" ), 8, 44, true );
 
     ret.emplace_back( draw_health_classic, translate_marker( "Health" ), 7, 44, true );
     ret.emplace_back( draw_location_classic, translate_marker( "Location" ), 1, 44,
