@@ -1796,7 +1796,7 @@ static void draw_simple_compass( avatar &u, const catacurses::window &w )
         enemies_text += entry.first + "(" + std::to_string( entry.second ) + ") ";
     }
 
-    mvwprintz( w, point( 1, 0 ), c_white, enemies_text );
+    mvwprintz( w, point( 0, 0 ), c_white, enemies_text );
     wnoutrefresh( w );
 }
 
