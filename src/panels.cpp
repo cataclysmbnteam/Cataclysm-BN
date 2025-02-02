@@ -1755,18 +1755,52 @@ static void draw_compass( avatar &, const catacurses::window &w )
     g->mon_info( w );
     wnoutrefresh( w );
 }
-static void draw_compact_compass( avatar &u, const catacurses::window &w ) {
+static std::string direction_to_enemy( const tripoint &enemy_pos, const tripoint &player_pos )
+{
+    const int dx = enemy_pos.x - player_pos.x;
+    const int dy = enemy_pos.y - player_pos.y;
+    const int adx = std::abs( dx );
+    const int ady = std::abs( dy );
+
+    if( adx > 2 * ady ) {
+        return dx > 0 ? "E" : "W";
+    } else if( ady > 2 * adx ) {
+        return dy > 0 ? "S" : "N";
+    } else if( dx > 0 && dy > 0 ) {
+        return "SE";
+    } else if( dx > 0 && dy < 0 ) {
+        return "NE";
+    } else if( dx < 0 && dy > 0 ) {
+        return "SW";
+    } else {
+        return "NW";
+    }
+}
+
+static void draw_simple_compass( avatar &u, const catacurses::window &w )
+{
     werase( w );
 
-    const auto &visible_creatures = u.get_visible_creatures( 60 );
-    std::string enemies_text;
+    const auto &visible_creatures = u.get_visible_creatures( -1 );
+    std::map<std::string, int> direction_count;
+    const tripoint player_pos = u.pos();
+
     for( const auto &creature : visible_creatures ) {
-        enemies_text += creature->disp_name() + " ";
+        const tripoint enemy_pos = creature->pos();
+        std::string direction = direction_to_enemy( enemy_pos, player_pos );
+        direction_count[direction]++;
+    }
+
+    std::string enemies_text;
+    for( const auto &entry : direction_count ) {
+        enemies_text += entry.first + "(" + std::to_string( entry.second ) + ") ";
     }
 
     mvwprintz( w, point( 1, 0 ), c_white, enemies_text );
     wnoutrefresh( w );
 }
+
+
 
 static void draw_compass_padding( avatar &, const catacurses::window &w )
 {
@@ -2044,7 +2078,6 @@ bool default_render()
 static std::vector<window_panel> initialize_default_classic_panels()
 {
     std::vector<window_panel> ret;
-ret.emplace_back( draw_compact_compass, translate_marker( "Compact Compass" ), 8, 44, true );
 
     ret.emplace_back( draw_health_classic, translate_marker( "Health" ), 7, 44, true );
     ret.emplace_back( draw_location_classic, translate_marker( "Location" ), 1, 44,
@@ -2065,6 +2098,10 @@ ret.emplace_back( draw_compact_compass, translate_marker( "Compact Compass" ), 8
     ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 44, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                       true );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Comp.Compass" ), 3, 44,
+                      false );
+    ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
+
     ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 44, true );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
@@ -2092,6 +2129,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 32, false );
     ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 32, true );
     ret.emplace_back( draw_compass, translate_marker( "Compass" ), 8, 32, true );
+    ret.emplace_back( draw_compass, translate_marker( "Comp.Compass" ), 3, 32, false );
+    ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
                       default_render, true );
@@ -2124,6 +2163,9 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
                       true );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Comp.Compass" ), 3, 32,
+                      false );
+    ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
                       default_render, true );
@@ -2157,6 +2199,9 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                       true );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Comp.Compass" ), 3, 32,
+                      false );
+    ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
                       default_render, true );
