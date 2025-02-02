@@ -1781,7 +1781,7 @@ static void draw_simple_compass( avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    const auto &visible_creatures = u.get_visible_creatures( -1 );
+    const auto &visible_creatures = u.get_visible_creatures( 200 );
     std::map<std::string, int> direction_count;
     const tripoint player_pos = u.pos();
 
