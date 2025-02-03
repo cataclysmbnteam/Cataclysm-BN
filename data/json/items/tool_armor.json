@@ -305,7 +305,7 @@
     "name": { "str": "smart watch", "str_pl": "smart watches" },
     "volume": "250 ml",
     "description": "A waterproof smart watch, powered by UPS.  It has reliable weather data from its build-in sensors and some pre-installed apps.  Activate to use.",
-    "weight": "112 g",
+    "weight": "100 g",
     "to_hit": -1,
     "color": "light_gray",
     "covers": [ "hand_either" ],

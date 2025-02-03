@@ -31,7 +31,7 @@
     "type": "TOOL",
     "description": "This is a sharp knife, designed for cutting meat.  It makes a poor melee weapon, but is decent at butchering corpses.",
     "copy-from": "base_kitchen_knife",
-    "weight": "112 g",
+    "weight": "100 g",
     "volume": "100 ml",
     "price": "250 cent",
     "price_postapoc": "50 cent",

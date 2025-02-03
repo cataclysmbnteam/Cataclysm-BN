@@ -186,7 +186,7 @@
     "type": "COMESTIBLE",
     "id": "quesadilla_cheese",
     "name": "quesadilla",
-    "weight": "116 g",
+    "weight": "100 g",
     "color": "brown",
     "spoils_in": "20 days",
     "container": "wrapper",

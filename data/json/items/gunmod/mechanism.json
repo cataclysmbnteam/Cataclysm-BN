@@ -34,7 +34,7 @@
     "type": "GUNMOD",
     "name": { "str": "drop-in auto sear" },
     "description": "This is a vaguely 'U' shaped piece of metal with a vaguely 'T' shaped flapper on a pin.  Once tucked into an AR-15's lower receiver, the rifle will become selective fire-capable.  The handcrafted-sear surface isn't as good as actual full-auto parts, so precision suffers slightly.",
-    "weight": "113 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
     "integral_weight": "0 g",

@@ -405,7 +405,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of light gloves", "str_pl": "pairs of light gloves" },
     "description": "A pair of cotton gloves.",
-    "weight": "118 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "price": "11 USD",
     "price_postapoc": "250 cent",

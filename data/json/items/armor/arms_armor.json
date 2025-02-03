@@ -259,7 +259,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of elbow pads", "str_pl": "pairs of elbow pads" },
     "description": "A pair of elbow pads made of stout plastic and cloth.",
-    "weight": "110 g",
+    "weight": "100 g",
     "volume": "750 ml",
     "price": "35 USD",
     "price_postapoc": "250 cent",

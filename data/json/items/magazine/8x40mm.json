@@ -99,7 +99,7 @@
     "type": "MAGAZINE",
     "name": { "str": "RMGB50 8x40mm magazine" },
     "description": "A 50 round box magazine for use with Rivtech 8x40mm caseless firearms.",
-    "weight": "110 g",
+    "weight": "100 g",
     "volume": "500 ml",
     "price": "250 USD",
     "price_postapoc": "5 USD",

@@ -198,7 +198,7 @@
     "price_postapoc": "10 cent",
     "material": [ "fur", "leather" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "category": "scrap_fabric",
     "stackable": true
@@ -1478,7 +1478,7 @@
     "price": "170 USD",
     "price_postapoc": "25 cent",
     "material": [ "aluminum", "plastic" ],
-    "weight": "113 g",
+    "weight": "100 g",
     "volume": "1 L",
     "bashing": 5,
     "to_hit": -1
@@ -1494,7 +1494,7 @@
     "price": "200 USD",
     "price_postapoc": "10 cent",
     "material": [ "plastic" ],
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "to_hit": -1
   },
@@ -1524,7 +1524,7 @@
     "price": "135 USD",
     "price_postapoc": "10 cent",
     "material": [ "aluminum", "plastic" ],
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "250 ml",
     "to_hit": -1
   },
@@ -2348,7 +2348,7 @@
     "price_postapoc": "0 cent",
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "170 ml",
     "category": "scrap_fabric",
     "stackable": true,

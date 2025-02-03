@@ -873,7 +873,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of lowtop tennis shoes", "str_pl": "pairs of lowtop tennis shoes" },
     "description": "Lightweight shoes made of cloth and rubber.",
-    "weight": "114 g",
+    "weight": "100 g",
     "volume": "750 ml",
     "price": "15 USD",
     "price_postapoc": "250 cent",

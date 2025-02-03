@@ -65,7 +65,7 @@
     "name": { "str": "glass shiv" },
     "description": "A glass shard with wrapping at one end so it can be safely wielded.",
     "material": [ "glass", "cotton" ],
-    "weight": "115 g",
+    "weight": "100 g",
     "price_postapoc": "10 cent",
     "volume": "250 ml",
     "cutting": 6,

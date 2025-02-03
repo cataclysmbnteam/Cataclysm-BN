@@ -222,7 +222,7 @@
     "type": "MAGAZINE",
     "name": { "str": "Model JCP magazine" },
     "description": "A 10-round steel box magazine for use with the Hi-Point Model JCP.",
-    "weight": "110 g",
+    "weight": "100 g",
     "volume": "312 ml",
     "price": "25 USD",
     "price_postapoc": "1 USD",
