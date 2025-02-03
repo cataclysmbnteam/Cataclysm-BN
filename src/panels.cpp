@@ -1755,38 +1755,39 @@ static void draw_compass( avatar &, const catacurses::window &w )
     g->mon_info( w );
     wnoutrefresh( w );
 }
+
+// Forward declarations
+std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoint &player_pos );
+void check( const char *msg, std::function<std::string( const tripoint &, const tripoint & )> fn );
+
+// Improved direction function
 std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoint &player_pos )
 {
-    // Really close to optimal 22.5 degree line
-    // Calculated from the continued fraction estimate of cos(22.5deg) / sin(22.5deg)
+    // Constants based on cos(22.5°) / sin(22.5°) approximation
     constexpr int x0 = 80782;
     constexpr int y0 = 33461;
 
-    // Sections:
     struct wedge_range {
         const char *direction;
-
         int x0, y0;
         int x1, y1;
     };
 
     constexpr std::array<wedge_range, 8> wedges = {{
-            { "N", -y0, -x0, y0, -x0 },
-            {"NE", y0, -x0, x0, -y0 },
-            { "E", x0, -y0, x0, y0 },
-            {"SE", x0, y0, y0, x0 },
-            { "S", y0, x0, -y0, x0 },
-            {"SW", -y0, x0, -x0, y0 },
-            { "W", -x0, y0, -x0, -y0 },
-            {"NW", -x0, -y0, -y0, -x0 }
-        }
-    };
+        { "N",  -y0, -x0,   y0, -x0 },
+        { "NE",  y0, -x0,   x0, -y0 },
+        { "E",   x0, -y0,   x0,  y0 },
+        { "SE",  x0,  y0,   y0,  x0 },
+        { "S",   y0,  x0,  -y0,  x0 },
+        { "SW", -y0,  x0,  -x0,  y0 },
+        { "W",  -x0,  y0,  -x0, -y0 },
+        { "NW", -x0, -y0, -y0, -x0 }
+    }};
 
-    auto between = []( int cx, int cy, const wedge_range & wr ) {
+    auto between = []( int cx, int cy, const wedge_range &wr ) {
         auto side_of_sign = []( int ax, int ay, int bx, int by ) {
             int dot = ax * by - ay * bx;
-
-            return ( dot > 0 ) - ( dot < 0 ); // Returns [-1, 0, +1] sign of dot product
+            return ( dot > 0 ) - ( dot < 0 );
         };
 
         int dot_ab = side_of_sign( wr.x0, wr.y0, wr.x1, wr.y1 );
@@ -1795,6 +1796,7 @@ std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoi
 
         return ( dot_ab == dot_ac ) && ( dot_ab == dot_cb );
     };
+
     const int dx = enemy_pos.x - player_pos.x;
     const int dy = enemy_pos.y - player_pos.y;
 
@@ -1806,9 +1808,10 @@ std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoi
     return "--";
 }
 
+// Corrected check function
 void check( const char *msg, std::function<std::string( const tripoint &, const tripoint & )> fn )
 {
-    printf( msg );
+    printf( "%s\n", msg );  // Secure printf usage
 
     constexpr int dim = 21;
     constexpr int mid = dim / 2;
@@ -1821,34 +1824,37 @@ void check( const char *msg, std::function<std::string( const tripoint &, const 
 
     for( int y = 0; y < dim; ++y ) {
         for( int x = 0; x < dim; ++x ) {
-            grid[y][x] = "--";
             if( x == mid && y == mid ) {
                 continue;
             }
 
             int d2 = ( x - mid ) * ( x - mid ) + ( y - mid ) * ( y - mid );
-            if( false || d2 < r2 ) {
-                grid[y][x] = fn( { x, y, 0}, {mid, mid, 0} );
+            if( d2 < r2 ) {
+                grid[y][x] = fn( { x, y, 0 }, { mid, mid, 0 } );
                 counts[grid[y][x]] += 1;
+            } else {
+                grid[y][x] = "--";
             }
         }
     }
+
     for( int y = 0; y < dim; ++y ) {
         for( int x = 0; x < dim; ++x ) {
-            printf( "%*.*s ", 2, 2, grid[y][x].c_str() );
+            printf( "%2s ", grid[y][x].c_str() );
         }
         printf( "\n" );
     }
+
     printf( "Tiles per direction:\n" );
     for( const auto &p : counts ) {
-        printf( "%*.*s %d\n", 2, 2, p.first.c_str(), p.second );
+        printf( "%2s %d\n", p.first.c_str(), p.second );
     }
-    printf( "\n\n" );
+    printf( "\n" );
 }
 
 int main()
 {
-    check( "Improved\n", direction_to_enemy_improved );
+    check( "Improved", direction_to_enemy_improved );
 
     return 0;
 }
