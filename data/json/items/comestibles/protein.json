@@ -30,6 +30,7 @@
     "id": "protein_powder",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "protein powder" },
     "conditional_names": [
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent green powder" } },
