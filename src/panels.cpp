@@ -1765,34 +1765,35 @@ std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoi
     // Sections:
     struct wedge_range {
         const char *direction;
-        
+
         int x0, y0;
         int x1, y1;
     };
 
     constexpr std::array<wedge_range, 8> wedges = {{
-        { "N", -y0, -x0, y0, -x0 },
-        {"NE", y0, -x0, x0, -y0 },
-        { "E", x0, -y0, x0, y0 },
-        {"SE", x0, y0, y0, x0 },
-        { "S", y0, x0, -y0, x0 },
-        {"SW", -y0, x0, -x0, y0 },
-        { "W", -x0, y0, -x0, -y0 },
-        {"NW", -x0, -y0, -y0, -x0 }
-    }};
+            { "N", -y0, -x0, y0, -x0 },
+            {"NE", y0, -x0, x0, -y0 },
+            { "E", x0, -y0, x0, y0 },
+            {"SE", x0, y0, y0, x0 },
+            { "S", y0, x0, -y0, x0 },
+            {"SW", -y0, x0, -x0, y0 },
+            { "W", -x0, y0, -x0, -y0 },
+            {"NW", -x0, -y0, -y0, -x0 }
+        }
+    };
 
-    auto between = []( int cx, int cy, const wedge_range &wr ) {
+    auto between = []( int cx, int cy, const wedge_range & wr ) {
         auto side_of_sign = []( int ax, int ay, int bx, int by ) {
             int dot = ax * by - ay * bx;
 
-            return (dot > 0) - (dot < 0); // Returns [-1, 0, +1] sign of dot product
+            return ( dot > 0 ) - ( dot < 0 ); // Returns [-1, 0, +1] sign of dot product
         };
 
         int dot_ab = side_of_sign( wr.x0, wr.y0, wr.x1, wr.y1 );
         int dot_ac = side_of_sign( wr.x0, wr.y0, cx, cy );
         int dot_cb = side_of_sign( cx, cy, wr.x1, wr.y1 );
 
-        return (dot_ab == dot_ac) && (dot_ab == dot_cb );
+        return ( dot_ab == dot_ac ) && ( dot_ab == dot_cb );
     };
     const int dx = enemy_pos.x - player_pos.x;
     const int dy = enemy_pos.y - player_pos.y;
@@ -1805,7 +1806,8 @@ std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoi
     return "--";
 }
 
-void check( const char* msg, std::function<std::string(const tripoint &, const tripoint &)> fn ) {
+void check( const char *msg, std::function<std::string( const tripoint &, const tripoint & )> fn )
+{
     printf( msg );
 
     constexpr int dim = 21;
@@ -1824,7 +1826,7 @@ void check( const char* msg, std::function<std::string(const tripoint &, const t
                 continue;
             }
 
-            int d2 = (x - mid) * (x - mid) + (y - mid) * (y - mid);
+            int d2 = ( x - mid ) * ( x - mid ) + ( y - mid ) * ( y - mid );
             if( false || d2 < r2 ) {
                 grid[y][x] = fn( { x, y, 0}, {mid, mid, 0} );
                 counts[grid[y][x]] += 1;
@@ -1844,7 +1846,8 @@ void check( const char* msg, std::function<std::string(const tripoint &, const t
     printf( "\n\n" );
 }
 
-int main() {
+int main()
+{
     check( "Improved\n", direction_to_enemy_improved );
 
     return 0;
