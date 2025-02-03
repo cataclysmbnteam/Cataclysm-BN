@@ -1774,17 +1774,18 @@ std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoi
     };
 
     constexpr std::array<wedge_range, 8> wedges = {{
-        { "N",  -y0, -x0,   y0, -x0 },
-        { "NE",  y0, -x0,   x0, -y0 },
-        { "E",   x0, -y0,   x0,  y0 },
-        { "SE",  x0,  y0,   y0,  x0 },
-        { "S",   y0,  x0,  -y0,  x0 },
-        { "SW", -y0,  x0,  -x0,  y0 },
-        { "W",  -x0,  y0,  -x0, -y0 },
-        { "NW", -x0, -y0, -y0, -x0 }
-    }};
+            { "N",  -y0, -x0,   y0, -x0 },
+            { "NE",  y0, -x0,   x0, -y0 },
+            { "E",   x0, -y0,   x0,  y0 },
+            { "SE",  x0,  y0,   y0,  x0 },
+            { "S",   y0,  x0,  -y0,  x0 },
+            { "SW", -y0,  x0,  -x0,  y0 },
+            { "W",  -x0,  y0,  -x0, -y0 },
+            { "NW", -x0, -y0, -y0, -x0 }
+        }
+    };
 
-    auto between = []( int cx, int cy, const wedge_range &wr ) {
+    auto between = []( int cx, int cy, const wedge_range & wr ) {
         auto side_of_sign = []( int ax, int ay, int bx, int by ) {
             int dot = ax * by - ay * bx;
             return ( dot > 0 ) - ( dot < 0 );
