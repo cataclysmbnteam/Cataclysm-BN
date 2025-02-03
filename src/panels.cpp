@@ -1755,26 +1755,99 @@ static void draw_compass( avatar &, const catacurses::window &w )
     g->mon_info( w );
     wnoutrefresh( w );
 }
-static std::string direction_to_enemy( const tripoint &enemy_pos, const tripoint &player_pos )
+std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoint &player_pos )
 {
+    // Really close to optimal 22.5 degree line
+    // Calculated from the continued fraction estimate of cos(22.5deg) / sin(22.5deg)
+    constexpr int x0 = 80782;
+    constexpr int y0 = 33461;
+
+    // Sections:
+    struct wedge_range {
+        const char *direction;
+        
+        int x0, y0;
+        int x1, y1;
+    };
+
+    constexpr std::array<wedge_range, 8> wedges = {{
+        { "N", -y0, -x0, y0, -x0 },
+        {"NE", y0, -x0, x0, -y0 },
+        { "E", x0, -y0, x0, y0 },
+        {"SE", x0, y0, y0, x0 },
+        { "S", y0, x0, -y0, x0 },
+        {"SW", -y0, x0, -x0, y0 },
+        { "W", -x0, y0, -x0, -y0 },
+        {"NW", -x0, -y0, -y0, -x0 }
+    }};
+
+    auto between = []( int cx, int cy, const wedge_range &wr ) {
+        auto side_of_sign = []( int ax, int ay, int bx, int by ) {
+            int dot = ax * by - ay * bx;
+
+            return (dot > 0) - (dot < 0); // Returns [-1, 0, +1] sign of dot product
+        };
+
+        int dot_ab = side_of_sign( wr.x0, wr.y0, wr.x1, wr.y1 );
+        int dot_ac = side_of_sign( wr.x0, wr.y0, cx, cy );
+        int dot_cb = side_of_sign( cx, cy, wr.x1, wr.y1 );
+
+        return (dot_ab == dot_ac) && (dot_ab == dot_cb );
+    };
     const int dx = enemy_pos.x - player_pos.x;
     const int dy = enemy_pos.y - player_pos.y;
-    const int adx = std::abs( dx );
-    const int ady = std::abs( dy );
 
-    if( adx > 2 * ady ) {
-        return dx > 0 ? "E" : "W";
-    } else if( ady > 2 * adx ) {
-        return dy > 0 ? "S" : "N";
-    } else if( dx > 0 && dy > 0 ) {
-        return "SE";
-    } else if( dx > 0 && dy < 0 ) {
-        return "NE";
-    } else if( dx < 0 && dy > 0 ) {
-        return "SW";
-    } else {
-        return "NW";
+    for( const auto &wr : wedges ) {
+        if( between( dx, dy, wr ) ) {
+            return wr.direction;
+        }
     }
+    return "--";
+}
+
+void check( const char* msg, std::function<std::string(const tripoint &, const tripoint &)> fn ) {
+    printf( msg );
+
+    constexpr int dim = 21;
+    constexpr int mid = dim / 2;
+    std::string grid[dim][dim];
+    grid[mid][mid] = "--";
+
+    std::map<std::string, int> counts;
+
+    constexpr int r2 = mid * mid;
+
+    for( int y = 0; y < dim; ++y ) {
+        for( int x = 0; x < dim; ++x ) {
+            grid[y][x] = "--";
+            if( x == mid && y == mid ) {
+                continue;
+            }
+
+            int d2 = (x - mid) * (x - mid) + (y - mid) * (y - mid);
+            if( false || d2 < r2 ) {
+                grid[y][x] = fn( { x, y, 0}, {mid, mid, 0} );
+                counts[grid[y][x]] += 1;
+            }
+        }
+    }
+    for( int y = 0; y < dim; ++y ) {
+        for( int x = 0; x < dim; ++x ) {
+            printf( "%*.*s ", 2, 2, grid[y][x].c_str() );
+        }
+        printf( "\n" );
+    }
+    printf( "Tiles per direction:\n" );
+    for( const auto &p : counts ) {
+        printf( "%*.*s %d\n", 2, 2, p.first.c_str(), p.second );
+    }
+    printf( "\n\n" );
+}
+
+int main() {
+    check( "Improved\n", direction_to_enemy_improved );
+
+    return 0;
 }
 
 static void draw_simple_compass( avatar &u, const catacurses::window &w )
@@ -1787,7 +1860,7 @@ static void draw_simple_compass( avatar &u, const catacurses::window &w )
 
     for( const auto &creature : visible_creatures ) {
         const tripoint enemy_pos = creature->pos();
-        std::string direction = direction_to_enemy( enemy_pos, player_pos );
+        std::string direction = direction_to_enemy_improved( enemy_pos, player_pos );
         direction_count[direction]++;
     }
 
