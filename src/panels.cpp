@@ -290,11 +290,13 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     }
 }
 
+
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint_abs_omt curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 7, 7 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point( -1, -1 ), 7, 7 );
 }
+
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
 {
@@ -1721,6 +1723,38 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
                         max_length ) );
     wnoutrefresh( w );
 }
+static std::string get_armor_comp( const avatar &u, bodypart_id bp )
+{
+    for( auto it = u.worn.rbegin(); it != u.worn.rend(); ++it ) {
+        if( ( *it )->covers( bp ) ) {
+            std::string armor_name = ( *it )->tname( 1, true );  // Get full name
+            std::size_t end_pos = armor_name.find( "</color>" );
+            if( end_pos != std::string::npos ) {
+                return armor_name.substr( 0, end_pos + 8 );  // Include everything until </color>
+            } else {
+                return armor_name.substr( 0, 2 );  // If no </color> can be found, show first 2 letters instead.
+            }
+        }
+    }
+    return "-";
+}
+
+static void draw_armor_comp( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    nc_color color = c_light_gray;
+    mvwprintz( w, point_zero, color, _( "H:" ) );
+    mvwprintz( w, point( 5, 0 ), color, _( "T:" ) );
+    mvwprintz( w, point( 10, 0 ), color, _( "A:" ) );
+    mvwprintz( w, point( 15, 0 ), color, _( "L:" ) );
+    mvwprintz( w, point( 20, 0 ), color, _( "F:" ) );
+    print_colored_text( w, point( 2, 0 ), color, color, get_armor_comp( u, bodypart_id( "head" ) ) );
+    print_colored_text( w, point( 7, 0 ), color, color, get_armor_comp( u, bodypart_id( "torso" ) ) );
+    print_colored_text( w, point( 12, 0 ), color, color, get_armor_comp( u, bodypart_id( "arm_r" ) ) );
+    print_colored_text( w, point( 17, 0 ), color, color, get_armor_comp( u, bodypart_id( "leg_r" ) ) );
+    print_colored_text( w, point( 22, 0 ), color, color, get_armor_comp( u, bodypart_id( "foot_r" ) ) );
+    wnoutrefresh( w );
+}
 
 static void draw_messages( avatar &, const catacurses::window &w )
 {
@@ -2050,6 +2084,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( draw_time_classic, translate_marker( "Time" ), 1, 44, true );
     ret.emplace_back( draw_wind, translate_marker( "Wind" ), 1, 44, false );
     ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 44, false );
+    ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                       true );
     ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 44, true );
@@ -2077,6 +2112,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( draw_weightvolume_compact, translate_marker( "Wgt/Vol" ), 2, 32,
                       true );
     ret.emplace_back( draw_armor, translate_marker( "Armor" ), 5, 32, false );
+    ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
     ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 32, true );
     ret.emplace_back( draw_compass, translate_marker( "Compass" ), 8, 32, true );
 #if defined(TILES)
@@ -2109,6 +2145,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( draw_messages, translate_marker( "Log" ), -2, 32, true );
     ret.emplace_back( draw_moon_narrow, translate_marker( "Moon" ), 2, 32, false );
     ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false );
+    ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
                       true );
 #if defined(TILES)
@@ -2142,6 +2179,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( draw_messages, translate_marker( "Log" ), -2, 44, true );
     ret.emplace_back( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false );
     ret.emplace_back( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false );
+    ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                       true );
 #if defined(TILES)

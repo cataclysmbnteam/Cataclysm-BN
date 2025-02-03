@@ -2352,7 +2352,7 @@
     "type": "uncraft",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap", 1 ] ], [ [ "wire", 5 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap", 1 ] ], [ [ "wire", 5 ] ], [ [ "spring", 1 ] ] ]
   },
   {
     "result": "umbrella",

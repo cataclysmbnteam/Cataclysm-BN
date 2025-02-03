@@ -80,9 +80,9 @@
     "type": "TOOL",
     "id": "orich_fire_ax",
     "name": { "str": "orichalcum fire axe" },
-    "description": "A fire axe made with orichalcum instead of steel.  This makes it possible to chop through harder materials, and in the very well-funded fire stations is preferred.",
+    "description": "A fire axe made with orichalcum instead of steel.  This allows the axe to be just as effective as its steal counterpart at chopping, with less weight to tire the arms.",
     "material": [ "orichalcum_metal" ],
-    "proportional": { "cutting": 1.1, "price": 5 },
+    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.99 },
     "color": "yellow"
   },
   {

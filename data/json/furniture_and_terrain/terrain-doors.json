@@ -9,7 +9,7 @@
     "move_cost": 0,
     "looks_like": "t_reinforced_door_glass_c",
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_laminated_door_glass_o",
     "bash": {
       "str_min": 60,
@@ -57,7 +57,7 @@
     "move_cost": 0,
     "looks_like": "t_reinforced_door_glass_c",
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_ballistic_door_glass_o",
     "bash": {
       "str_min": 100,
@@ -105,7 +105,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_reinforced_door_glass_o",
     "bash": {
       "str_min": 80,
@@ -130,7 +130,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "NO_SCENT", "MINEABLE" ],
     "open": "t_reinforced_door_glass_lab_o",
     "bash": {
       "str_min": 80,
@@ -201,7 +201,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_door_o",
     "deconstruct": {
       "ter_set": "t_door_frame",
@@ -240,7 +240,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_lab_o",
     "deconstruct": {
       "ter_set": "t_door_lab_frame",
@@ -279,7 +279,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_white_o",
     "deconstruct": {
       "ter_set": "t_door_white_frame",
@@ -318,7 +318,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_gray_o",
     "deconstruct": {
       "ter_set": "t_door_gray_frame",
@@ -357,7 +357,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_red_o",
     "deconstruct": {
       "ter_set": "t_door_red_frame",
@@ -396,7 +396,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_green_o",
     "deconstruct": {
       "ter_set": "t_door_green_frame",
@@ -830,7 +830,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_glass_red_o",
     "deconstruct": { "ter_set": "t_door_red_frame", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -856,7 +856,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_glass_green_o",
     "deconstruct": { "ter_set": "t_door_green_frame", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -880,7 +880,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_glass_white_o",
     "deconstruct": { "ter_set": "t_door_white_frame", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -906,7 +906,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_glass_gray_o",
     "deconstruct": { "ter_set": "t_door_gray_frame", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -1029,7 +1029,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "INDOORS", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "INDOORS", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "NO_SCENT", "BLOCK_WIND" ],
     "examine_action": "door_peephole",
     "open": "t_door_o_peep",
     "deconstruct": {
@@ -1293,7 +1293,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_rdoor_o",
     "deconstruct": {
       "ter_set": "t_door_c",
@@ -1397,7 +1397,7 @@
     "lockpick_result": "t_door_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED", "NO_SCENT", "BLOCK_WIND" ],
     "examine_action": "locked_object",
     "bash": {
       "str_min": 8,
@@ -1452,7 +1452,7 @@
       "FLAMMABLE_ASH",
       "NOITEM",
       "OPENCLOSE_INSIDE",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BARRICADABLE_DOOR",
       "LOCKED",
@@ -1513,7 +1513,7 @@
       "FLAMMABLE_ASH",
       "NOITEM",
       "OPENCLOSE_INSIDE",
-      "REDUCE_SCENT",
+      "NO_SCENT",
       "CONNECT_TO_WALL",
       "BARRICADABLE_DOOR",
       "LOCKED",
@@ -1570,7 +1570,7 @@
     "lockpick_result": "t_door_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "ALARMED", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR", "LOCKED", "BLOCK_WIND" ],
     "examine_action": "locked_object",
     "bash": {
       "str_min": 8,
@@ -1857,7 +1857,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -1916,7 +1916,7 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "examine_action": "door_peephole",
-    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND" ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -2033,7 +2033,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
     "oxytorch": {
       "result": "t_mdoor_frame",
@@ -2086,7 +2086,7 @@
     "symbol": "'",
     "color": "cyan",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "CONNECT_TO_WALL", "ROAD", "NO_SCENT", "MINEABLE" ],
     "open": "t_null",
     "close": "t_secretdoor_metal_c"
   },
@@ -2101,7 +2101,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "NO_SCENT", "MINEABLE" ],
     "open": "t_door_metal_lab_o",
     "bash": {
       "str_min": 90,
@@ -2178,7 +2178,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_door_metal_o_peep",
     "examine_action": "door_peephole",
     "bash": {
@@ -2239,7 +2239,7 @@
       "duration": "14 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "bash": {
       "str_min": 90,
       "str_max": 250,
@@ -2303,7 +2303,7 @@
     },
     "symbol": "+",
     "color": "cyan",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ]
+    "flags": [ "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ]
   },
   {
     "type": "terrain",
@@ -2319,7 +2319,7 @@
     "lockpick_result": "t_door_metal_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
     "examine_action": "locked_object",
     "oxytorch": {
@@ -2468,7 +2468,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_door_glass_o",
     "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -2494,7 +2494,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL" ],
     "open": "t_door_glass_lab_o",
     "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -2617,7 +2617,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_door_metal_bulkhead_o",
     "bash": {
       "str_min": 90,
