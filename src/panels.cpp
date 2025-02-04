@@ -1758,7 +1758,7 @@ static void draw_compass( avatar &, const catacurses::window &w )
 
 // Forward declarations
 std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoint &player_pos );
-void check( const char *msg, std::function<std::string( const tripoint &, const tripoint & )> fn );
+void check( const char *msg, std::function<auto ( const tripoint &, const tripoint & ) -> std::string> fn );
 
 // Improved direction function
 std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoint &player_pos )
