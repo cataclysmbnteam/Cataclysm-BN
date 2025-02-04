@@ -1854,12 +1854,6 @@ void check( const char *msg, std::function<std::string( const tripoint &, const 
     printf( "\n" );
 }
 
-int main()
-{
-    check( "Improved", direction_to_enemy_improved );
-
-    return 0;
-}
 
 static void draw_simple_compass( avatar &u, const catacurses::window &w )
 {
