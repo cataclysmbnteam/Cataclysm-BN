@@ -8,10 +8,12 @@
     "weight": "1731 g",
     "color": "light_gray",
     "material": [ "orichalcum_metal", "wood", "gold" ],
-    "techniques": [ "WBLOCK_2", "BRUTAL" ],
+    "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_mjolnir" } ] },
     "volume": "3750 ml",
     "bashing": 50,
     "cutting": 0,
+    "to_hit": 2,
     "price": "2 kUSD"
   },
   {
@@ -23,9 +25,11 @@
     "weight": "1854 g",
     "material": [ "orichalcum_metal", "wood", "gold" ],
     "techniques": [ "WBLOCK_1", "IMPALE", "SWEEP" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_gungnir" } ] },
     "volume": "3250 ml",
     "bashing": 10,
     "cutting": 40,
+    "to_hit": 3,
     "price": "2 kUSD"
   },
   {
@@ -38,7 +42,9 @@
     "material": [ "orichalcum_metal", "steel", "leather" ],
     "techniques": [ "WBLOCK_2", "PRECISE", "VORPAL" ],
     "volume": "2500 ml",
-    "cutting": 50,
+    "//": "Extra-sharp because it is thus in mythos and also to compensate for lack of sick magic",
+    "cutting": 80,
+    "to_hit": 2,
     "price": "2 kUSD"
   },
   {
@@ -51,10 +57,10 @@
     "material": [ "steel", "gold", "orichalcum_metal" ],
     "flags": [ "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_laevateinn" } ] },
     "weight": "1860 g",
     "bashing": 30,
-    "cutting": 10,
-    "use_action": { "type": "cast_spell", "spell_id": "ethereal_grasp", "no_fail": true, "level": 10, "need_wielding": true }
+    "cutting": 10
   },
   {
     "copy-from": "knife_combat",
