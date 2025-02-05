@@ -1810,50 +1810,6 @@ std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoi
     return "--";
 }
 
-// Corrected check function
-void check( const char *msg, std::function<std::string( const tripoint &, const tripoint & )> fn )
-{
-    printf( "%s\n", msg );  // Secure printf usage
-
-    constexpr int dim = 21;
-    constexpr int mid = dim / 2;
-    std::string grid[dim][dim];
-    grid[mid][mid] = "--";
-
-    std::map<std::string, int> counts;
-
-    constexpr int r2 = mid * mid;
-
-    for( int y = 0; y < dim; ++y ) {
-        for( int x = 0; x < dim; ++x ) {
-            if( x == mid && y == mid ) {
-                continue;
-            }
-
-            int d2 = ( x - mid ) * ( x - mid ) + ( y - mid ) * ( y - mid );
-            if( d2 < r2 ) {
-                grid[y][x] = fn( { x, y, 0 }, { mid, mid, 0 } );
-                counts[grid[y][x]] += 1;
-            } else {
-                grid[y][x] = "--";
-            }
-        }
-    }
-
-    for( int y = 0; y < dim; ++y ) {
-        for( int x = 0; x < dim; ++x ) {
-            printf( "%2s ", grid[y][x].c_str() );
-        }
-        printf( "\n" );
-    }
-
-    printf( "Tiles per direction:\n" );
-    for( const auto &p : counts ) {
-        printf( "%2s %d\n", p.first.c_str(), p.second );
-    }
-    printf( "\n" );
-}
-
 
 static void draw_simple_compass( avatar &u, const catacurses::window &w )
 {
