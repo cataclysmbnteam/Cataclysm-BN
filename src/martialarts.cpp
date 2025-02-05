@@ -173,8 +173,10 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "strictly_running", strictly_running, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
+    optional( jo, was_loaded, "consume_buffs", consume_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
@@ -200,12 +202,14 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "strictly_running", strictly_running, false);
     optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
-    optional( jo, was_loaded, "side_switch", side_switch, false );
+    optional( jo, was_loaded, "switch_side", switch_side, false );
+    optional( jo, was_loaded, "switch_pos", switch_pos, false );
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
     optional( jo, was_loaded, "block_counter", block_counter, false );
@@ -220,6 +224,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
     optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
     optional( jo, was_loaded, "knockback_follow", knockback_follow, false );
+    optional( jo, was_loaded, "knockback_follow_full", knockback_follow_full, false );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -495,6 +500,11 @@ bool ma_requirements::is_valid_character( const Character &u ) const
             return false;
         }
     }
+    for( const mabuff_id &buff_id : consume_buffs ) {
+        if( !u.has_mabuff( buff_id ) ) {
+            return false;
+        }
+    }
 
     //A technique is valid if it applies to unarmed strikes, if it applies generally
     //to all weapons (such as Ninjutsu sneak attacks or innate weapon techniques like RAPID)
@@ -535,6 +545,10 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     }
 
     if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
+        return false;
+    }
+
+    if( strictly_running && !u.movement_mode_is(CMM_RUN) ) {
         return false;
     }
 
@@ -652,6 +666,13 @@ std::string ma_requirements::get_description( bool buff ) const
             return _( bid->name );
         }, enumeration_conjunction::none ) + "\n";
     }
+    if( !consume_buffs.empty() ) {
+        dump += _( "<bold>Consumes:</bold> " );
+
+        dump += enumerate_as_string( consume_buffs.begin(), consume_buffs.end(), []( const mabuff_id & bid ) {
+            return _( bid->name );
+        }, enumeration_conjunction::none ) + "\n";
+    }
 
     const std::string type = buff ? _( "activate" ) : _( "be used" );
 
@@ -687,7 +708,8 @@ ma_technique::ma_technique()
     crit_tec = false;
     crit_ok = false;
     defensive = false;
-    side_switch = false; // moves the target behind user
+    switch_side = false; // moves the target behind user
+    switch_pos = false; // switches positions with the target
     dummy = false;
 
     down_dur = 0;
@@ -696,6 +718,7 @@ ma_technique::ma_technique()
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
     powerful_knockback = false;
     knockback_follow = false; // player follows the knocked-back party into their former tile
+    knockback_follow_full = false; // player follows the knocked-back party into their final tile
 
     // offensive
     disarms = false; // like tec_disarm
@@ -872,10 +895,17 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
         const ma_buff &buff = buffid.obj();
         if( buff.is_valid_character( u ) ) {
             buffer.push_back( &buff );
+
         }
     }
     for( auto &elem : buffer ) {
         elem->apply_buff( u );
+        for (const mabuff_id& consume_id : elem->reqs.consume_buffs) {
+            if (u.has_mabuff(consume_id))
+            {
+                u.remove_effect(efftype_id(std::string("mabuff:") + consume_id.str()));
+            }
+        }
     }
 }
 
@@ -1432,13 +1462,20 @@ std::string ma_technique::get_description() const
         dump += _( "* Will only activate on a <info>crit</info>" ) + std::string( "\n" );
     }
 
-    if( side_switch ) {
+    if( switch_side ) {
         dump += _( "* Moves target <info>behind</info> you" ) + std::string( "\n" );
     }
 
+    if( switch_pos ) {
+        dump += _( "* switchs positions with the target" ) + std::string( "\n" );
+    }
+
     if( wall_adjacent ) {
-        dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
-                std::string( "\n" );
+        dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) + std::string( "\n" );
+    }
+
+    if( strictly_running ) {
+        dump += _( "* Will only activate while <info>running</info>" ) + std::string( "\n" );
     }
 
     if( downed_target ) {
@@ -1492,6 +1529,10 @@ std::string ma_technique::get_description() const
 
     if( knockback_follow ) {
         dump += _( "* Will <info>follow</info> enemies after knockback." ) + std::string( "\n" );
+    }
+
+    if( knockback_follow ) {
+        dump += _( "* Will <info>follow</info> enemies all the way after knockback." ) + std::string( "\n" );
     }
 
     if( down_dur ) {

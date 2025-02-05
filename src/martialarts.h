@@ -60,6 +60,7 @@ struct ma_requirements {
     bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
     bool strictly_unarmed; // Ignore force_unarmed?
     bool wall_adjacent; // Does it only work near a wall?
+    bool strictly_running; //Does it only work when running?
 
     /** Weapon categories compatible with this requirement. If empty, allow any weapon category. */
     std::vector<weapon_category_id> weapon_categories_allowed;
@@ -76,6 +77,7 @@ struct ma_requirements {
     std::vector<std::pair<damage_type, int>> min_damage;
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
+    std::set<mabuff_id> consume_buffs; // as req_buffs, but will remove the buffs after application
     std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
@@ -84,6 +86,7 @@ struct ma_requirements {
         unarmed_weapons_allowed = true;
         strictly_unarmed = false;
         wall_adjacent = false;
+        strictly_running = false;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -120,7 +123,8 @@ class ma_technique
         std::string npc_message;
 
         bool defensive = false;
-        bool side_switch = false; // moves the target behind user
+        bool switch_side = false; // moves the target behind user
+        bool switch_pos = false; // switches places with the target
         bool dummy = false;
         bool crit_tec = false;
         bool crit_ok = false;
@@ -134,6 +138,7 @@ class ma_technique
         bool powerful_knockback = false;
         std::string aoe;                // corresponds to an aoe shape, defaults to just the target
         bool knockback_follow = false;  // Character follows the knocked-back party into their former tile
+        bool knockback_follow_full = false;  // Character follows the knocked-back party to their final tile
 
         // offensive
         bool disarms = false;       // like tec_disarm
@@ -150,6 +155,7 @@ class ma_technique
         bool downed_target = false; // only works on downed enemies
         bool stunned_target = false;// only works on stunned enemies
         bool wall_adjacent = false; // only works near a wall
+        bool strictly_running = false; // only works when running
         bool human_target = false;  // only works on humanoid enemies
 
         /** All kinds of bonuses by types to damage, hit etc. */

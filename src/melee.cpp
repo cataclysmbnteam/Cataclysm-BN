@@ -524,7 +524,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
         // Pick one or more special attacks
         matec_id technique_id;
-        if( allow_special && !has_force_technique ) {
+        if( allow_special && (!has_force_technique)){//|| *force_technique == tec_none)) {
             technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else if( has_force_technique ) {
             technique_id = *force_technique;
@@ -745,7 +745,7 @@ void Character::reach_attack( const tripoint &p )
     }
 
     reach_attacking = true;
-    melee_attack( *critter, false, &force_technique, false );
+    melee_attack( *critter, true, &force_technique, false );
     reach_attacking = false;
 }
 
@@ -1179,7 +1179,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = g->m.is_wall_adjacent( pos() );
-
+    bool strictly_running = g->u.movement_mode_is(CMM_RUN);
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
         const ma_technique &tec = tec_id.obj();
@@ -1196,6 +1196,11 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
         // skip wall adjacent techniques if not next to a wall
         if( tec.wall_adjacent && !wall_adjacent ) {
+            continue;
+        }
+
+        // skip running techniques if not running
+        if( tec.strictly_running && !strictly_running ) {
             continue;
         }
 
@@ -1451,7 +1456,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    if( technique.side_switch ) {
+    if (technique.switch_pos) {
+        g->swap_critters(g->u, t);
+    }
+    if( technique.switch_side ) {
         const tripoint b = t.pos();
         int newx;
         int newy;
@@ -1483,15 +1491,15 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 
     if( technique.knockback_dist ) {
-        const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
+        tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
-        for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
+        for( int dist = rng(technique.knockback_dist/2, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
         // This technique makes the player follow into the tile the target was knocked from
-        if( technique.knockback_follow ) {
+        if( technique.knockback_follow || technique.knockback_follow_full) {
             const optional_vpart_position vp0 = g->m.veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
             bool to_swimmable = g->m.has_flag( "SWIMMABLE", prev_pos );
@@ -1508,6 +1516,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
             if( !move_issue ) {
                 if( t.pos() != prev_pos ) {
+                    if (technique.knockback_follow_full) {
+                        const tripoint delta = prev_pos - pos();
+                        prev_pos = t.pos() - delta;
+                    }
                     g->place_player( prev_pos );
                     g->on_move_effects();
                 }
@@ -1578,6 +1590,13 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
         if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
             martial_arts_data->learn_current_style_CQB( is_player() );
+        }
+    }
+
+    for (const mabuff_id& consume_id : technique.reqs.consume_buffs) {
+        if (has_mabuff(consume_id))
+        {
+            remove_effect(efftype_id(std::string("mabuff:") + consume_id.str()));
         }
     }
 }
