@@ -49,7 +49,7 @@
       { "text": "What are you doing here?", "topic": "TALK_WARRENER_DOING" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_WARRENER_WORLD" },
       { "text": "You look different?", "topic": "TALK_WARRENER_MUTATION" },
-      { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },	  
+      { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
