@@ -332,7 +332,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
     "occurrences": [ 40, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "GLOBALLY_UNIQUE", "UNIQUE", "ELECTRIC_GRID" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "GLOBALLY_UNIQUE", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -615,7 +615,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 10, 100 ],
-    "flags": [ "GLOBALLY_UNIQUE", "UNIQUE", "FARM", "ELECTRIC_GRID" ]
+    "flags": [ "GLOBALLY_UNIQUE", "FARM", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",
@@ -5080,7 +5080,7 @@
     "city_distance": [ 15, -1 ],
     "occurrences": [ 20, 100 ],
     "connections": [ { "point": [ -1, 15, 0 ], "connection": "local_road", "from": [ 0, 15, 0 ] } ],
-    "flags": [ "CLASSIC", "FARM", "GLOBALLY_UNIQUE", "UNIQUE" ]
+    "flags": [ "CLASSIC", "FARM", "GLOBALLY_UNIQUE" ]
   },
   {
     "id": "airliner_crashed",
