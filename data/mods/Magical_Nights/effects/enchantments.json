@@ -27,7 +27,7 @@
     "hit_you_effect": [
       {
         "id": "gungnir_apply",
-        "hit_self": false,
+        "hit_self": true,
         "message": "Gungnir's incredible balance makes it so that your foe may not evade thine strikes!"
       }
     ]
@@ -38,7 +38,7 @@
     "has": "WIELD",
     "hit_you_effect": [
       { "id": "ethereal_grasp", "hit_self": false, "once_in": 5, "message": "The trickster's staff hobbles thine enemies!" },
-      { "id": "summon_lemon", "once_in": 5, "message": "The trickster's staff summons a lemon!" },
+      { "id": "summon_lemon", "once_in": 5, "hit_self": true, "message": "The trickster's staff summons a lemon!" },
       {
         "id": "chilling_touch",
         "hit_self": false,
