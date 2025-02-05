@@ -202,7 +202,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
-    optional( jo, was_loaded, "strictly_running", strictly_running, false);
+    optional( jo, was_loaded, "strictly_running", strictly_running, false );
     optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
@@ -548,7 +548,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    if( strictly_running && !u.movement_mode_is(CMM_RUN) ) {
+    if( strictly_running && !u.movement_mode_is( CMM_RUN ) ) {
         return false;
     }
 
@@ -669,7 +669,8 @@ std::string ma_requirements::get_description( bool buff ) const
     if( !consume_buffs.empty() ) {
         dump += _( "<bold>Consumes:</bold> " );
 
-        dump += enumerate_as_string( consume_buffs.begin(), consume_buffs.end(), []( const mabuff_id & bid ) {
+        dump += enumerate_as_string( consume_buffs.begin(),
+        consume_buffs.end(), []( const mabuff_id & bid ) {
             return _( bid->name );
         }, enumeration_conjunction::none ) + "\n";
     }
@@ -900,10 +901,9 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
     }
     for( auto &elem : buffer ) {
         elem->apply_buff( u );
-        for (const mabuff_id& consume_id : elem->reqs.consume_buffs) {
-            if (u.has_mabuff(consume_id))
-            {
-                u.remove_effect(efftype_id(std::string("mabuff:") + consume_id.str()));
+        for( const mabuff_id &consume_id : elem->reqs.consume_buffs ) {
+            if( u.has_mabuff( consume_id ) ) {
+                u.remove_effect( efftype_id( std::string( "mabuff:" ) + consume_id.str() ) );
             }
         }
     }
@@ -1471,7 +1471,8 @@ std::string ma_technique::get_description() const
     }
 
     if( wall_adjacent ) {
-        dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) + std::string( "\n" );
+        dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
+                std::string( "\n" );
     }
 
     if( strictly_running ) {
@@ -1532,7 +1533,8 @@ std::string ma_technique::get_description() const
     }
 
     if( knockback_follow ) {
-        dump += _( "* Will <info>follow</info> enemies all the way after knockback." ) + std::string( "\n" );
+        dump += _( "* Will <info>follow</info> enemies all the way after knockback." ) +
+                std::string( "\n" );
     }
 
     if( down_dur ) {
