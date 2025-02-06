@@ -13,7 +13,7 @@
   "lint": { "include": ["scripts"] },
   "fmt": {
     "exclude": ["doc/dist", "doc/.astro", "doc/pnpm-lock.yaml"],
-    "include": ["scripts", "doc", "*.md"],
+    "include": ["scripts", "doc", "*.md", ".github"],
     "semiColons": false,
     "lineWidth": 100
   },
