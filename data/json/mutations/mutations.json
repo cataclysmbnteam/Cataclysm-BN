@@ -216,8 +216,6 @@
     "changes_to": [ "NIGHTVISION2" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
     "category": [ "BIRD", "CATTLE", "INSECT", "URSINE" ],
-    "active": true,
-    "starts_active": true,
     "night_vision_range": 2
   },
   {
