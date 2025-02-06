@@ -228,7 +228,7 @@ jobs:
         uses: lukka/run-vcpkg@main
         id: runvcpkg
         with:
-          vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+          vcpkgDirectory: "${{ runner.workspace }}/b/vcpkg"
 
       - name: Integrate vcpkg
         if: runner.os == 'Windows'

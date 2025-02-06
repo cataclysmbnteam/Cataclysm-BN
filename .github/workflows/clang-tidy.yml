@@ -6,7 +6,19 @@ on:
   #   paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**","tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
   pull_request:
     branches: [main]
-    paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**", "tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
+    paths: [
+      "**.cpp",
+      "**.h",
+      "**.c",
+      "**/CMakeLists.txt",
+      "**/Makefile",
+      "**.hpp",
+      "**.cmake",
+      "build-scripts/**",
+      "tools/clang-tidy-plugin/**",
+      ".github/workflows/clang-tidy.yml",
+      "**/.clang-tidy",
+    ]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
