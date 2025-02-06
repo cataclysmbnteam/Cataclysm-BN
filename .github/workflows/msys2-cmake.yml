@@ -15,7 +15,8 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
     - 'scripts/**'
-
+    - "**.md"
+    - "**.mdx"
 # We only care about the latest revision, so cancel previous instances.
 concurrency:
   group: msys2-cmake-build-${{ github.ref_name }}

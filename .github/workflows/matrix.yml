@@ -3,10 +3,10 @@ name: General build matrix
 on:
   push:
     branches: [main]
-    paths-ignore: [doc/**, scripts/**]
+    paths-ignore: [doc/**, scripts/**, "**.md", "**.mdx"]
   pull_request:
     branches: [main]
-    paths-ignore: [doc/**, scripts/**]
+    paths-ignore: [doc/**, scripts/**, "**.md", "**.mdx"]
     types: [opened, reopened, synchronize, ready_for_review]
   workflow_dispatch:
 
