@@ -16,6 +16,8 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
     - 'scripts/**'
+    - "**.md"
+    - "**.mdx"
   pull_request:
     branches:
     - main
@@ -31,7 +33,8 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
     - 'scripts/**'
-
+    - "**.md"
+    - "**.mdx"
 # We only care about the latest revision, so cancel previous instances.
 concurrency:
   group: msvc-cmake-build-${{ github.ref_name }}
