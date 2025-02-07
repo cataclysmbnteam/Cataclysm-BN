@@ -420,7 +420,7 @@
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 7 ] ],
     "using": [ [ "blacksmithing_advanced", 12 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 2 ] ], [ [ "dragon_essence", 1 ] ] ]
+    "components": [ [ [ "black_dragon_tanned_hide", 2 ] ], [ [ "dragon_essence", 1 ] ], [ [ "dbone_battleaxe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -433,7 +433,7 @@
     "time": "8 h",
     "book_learn": [ [ "textbook_weapeast", 7 ] ],
     "using": [ [ "blacksmithing_advanced", 8 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 1 ] ], [ [ "dragon_essence", 1 ] ] ]
+    "components": [ [ [ "black_dragon_tanned_hide", 1 ] ], [ [ "dragon_essence", 1 ] ], [ [ "dbone_tachi", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -446,7 +446,7 @@
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
     "using": [ [ "blacksmithing_advanced", 16 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 1 ] ], [ [ "dragon_essence", 1 ] ] ]
+    "components": [ [ [ "black_dragon_tanned_hide", 1 ] ], [ [ "dragon_essence", 1 ] ], [ [ "dbone_longsword", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -459,7 +459,7 @@
     "time": "7 h 40 m",
     "book_learn": [ [ "textbook_armschina", 6 ] ],
     "using": [ [ "blacksmithing_advanced", 4 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 2 ] ], [ [ "dragon_essence", 1 ] ] ]
+    "components": [ [ [ "black_dragon_tanned_hide", 2 ] ], [ [ "dragon_essence", 1 ] ], [ [ "dbone_qiang", 1 ] ] ]
   },
   {
     "type": "recipe",
