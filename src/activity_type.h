@@ -31,13 +31,15 @@ class activity_type
         bool multi_activity_ = false;
         bool refuel_fires = false;
         bool auto_needs = false;
+        bool assistable_ = false;
         bool bench_affected_ = false;
+        bool light_affected_ = false;
         bool speed_affected_ = false;
         bool skill_affected_ = false;
         bool tools_affected_ = false;
         bool moral_affected_ = false;
         bool morale_blocked_ = false;
-        bool verbose_tooltip_ = false;
+        bool verbose_tooltip_ = true;
 
     public:
         const activity_id &id() const {
@@ -59,8 +61,14 @@ class activity_type
         bool multi_activity() const {
             return multi_activity_;
         }
+        bool assistable() const {
+            return assistable_;
+        }
         bool bench_affected() const {
             return bench_affected_;
+        }
+        bool light_affected() const {
+            return light_affected_;
         }
         bool speed_affected() const {
             return speed_affected_;

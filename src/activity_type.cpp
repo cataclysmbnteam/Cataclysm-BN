@@ -53,7 +53,9 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
     assign( jo, "auto_needs", result.auto_needs, false );
+    assign( jo, "assistable", result.assistable_, false );
     assign( jo, "bench_affected", result.bench_affected_, false );
+    assign( jo, "light_affected", result.light_affected_, false );
     assign( jo, "speed_affected", result.speed_affected_, false );
     assign( jo, "skill_affected", result.skill_affected_, false );
     assign( jo, "tools_affected", result.tools_affected_, false );

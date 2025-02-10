@@ -79,20 +79,6 @@ void player_activity::set_to_null()
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
 }
 
-bool player_activity::rooted() const
-{
-    return type != activity_id::NULL_ID() && type->rooted();
-}
-
-std::string player_activity::get_stop_phrase() const
-{
-    return type->stop_phrase();
-}
-
-const translation &player_activity::get_verb() const
-{
-    return type->verb();
-}
 
 int player_activity::get_value( size_t index, int def ) const
 {

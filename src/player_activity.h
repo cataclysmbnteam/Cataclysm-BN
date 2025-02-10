@@ -108,11 +108,19 @@ class player_activity
         bool is_suspendable() const {
             return type->suspendable();
         }
+
+
         bool is_multi_type() const {
             return type->multi_activity();
         }
+        bool is_assistable() const {
+            return type->light_affected();
+        }
         bool is_bench_affected() const {
             return type->bench_affected();
+        }
+        bool is_light_affected() const {
+            return type->light_affected();
         }
         bool is_speed_affected() const {
             return type->speed_affected();
@@ -138,13 +146,19 @@ class player_activity
         const activity_id &id() const {
             return type;
         }
-        bool rooted() const;
+        bool rooted() const {
+            return type != activity_id::NULL_ID() && type->rooted();
+        }
 
         // Question to ask when the activity is to be stopped,
         // e.g. "Stop doing something?", already translated.
-        std::string get_stop_phrase() const;
+        std::string get_stop_phrase() const {
+            return type->stop_phrase();
+        }
 
-        const translation &get_verb() const;
+        const translation &get_verb() const {
+            return type->verb();
+        }
 
         int get_value( size_t index, int def = 0 ) const;
         bool is_verbose_tooltip() const;

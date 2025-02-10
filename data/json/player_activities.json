@@ -121,13 +121,14 @@
     "verb": "crafting",
     "refuel_fires": true,
     "auto_needs": true,
+    "assistable": true,
     "bench_affected": true,
+    "light_affected": true,
     "speed_affected": true,
     "skill_affected": false,
     "tools_affected": false,
     "moral_affected": true,
-    "morale_blocked": true,
-    "verbose_tooltip": true
+    "morale_blocked": true
   }, 
   {
     "id": "ACT_DISASSEMBLE",
@@ -336,7 +337,7 @@
   {
     "id": "ACT_MOVE_LOOT",
     "type": "activity_type",
-    "verb": "sorting out the loot",
+    "verb": "sorting out the loot"
   },
   {
     "id": "ACT_FETCH_REQUIRED",
