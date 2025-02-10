@@ -317,8 +317,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "base_energy_cost", base_energy_cost, 0 );
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
     optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
-    optional( jo, was_loaded, "base_arm_encumbrance_value", base_arm_encumbrance_value, 20 );
-    optional( jo, was_loaded, "base_leg_encumbrance_value", base_leg_encumbrance_value, 20 );
+    optional( jo, was_loaded, "arm_encumbrance_threshold", arm_encumbrance_threshold, 20 );
+    optional( jo, was_loaded, "leg_encumbrance_threshold", leg_encumbrance_threshold, 20 );
 
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
@@ -737,13 +737,13 @@ int spell::casting_time( const Character &guy ) const
     if( !has_flag( spell_flag::NO_LEGS ) ) {
         // The first base leg encumbrance combined points of encumbrance are ignored
         const int legs_encumb = std::max( 0,
-                                          guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - type->base_leg_encumbrance_value );
+                                          guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - type->leg_encumbrance_threshold );
         casting_time += legs_encumb * 3;
     }
     if( has_flag( spell_flag::SOMATIC ) ) {
         // the first base arm encumbrance combined points of encumbrance are ignored.
         const int arms_encumb = std::max( 0,
-                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - type->base_arm_encumbrance_value );
+                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - type->arm_encumbrance_threshold );
         casting_time += arms_encumb * 2;
     }
     if( guy.is_armed() && !has_flag( spell_flag::NO_HANDS ) &&
@@ -797,9 +797,9 @@ float spell::spell_fail( const Character &guy ) const
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
     if( has_flag( spell_flag::SOMATIC ) &&
         !guy.has_trait_flag( trait_flag_SUBTLE_SPELL ) ) {
-        // the first base_arm_encumbrance_value points of encumbrance combined is ignored
+        // the first arm_encumbrance_threshold points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0,
-                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - type->base_arm_encumbrance_value );
+                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - type->arm_encumbrance_threshold );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
@@ -1629,14 +1629,12 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
 {
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
-        // the first base_leg_encumbrance_value points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) -
-                            sp.id()->base_leg_encumbrance_value );
+        // the first leg_encumbrance_threshold points of encumbrance combined is ignored
+        encumb += std::max( 0, guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - sp.id()->leg_encumbrance_threshold );
     }
     if( sp.has_flag( spell_flag::SOMATIC ) ) {
-        // the first base_arm_encumbrance_value points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) -
-                            sp.id()->base_arm_encumbrance_value );
+        // the first arm_encumbrance_threshold points of encumbrance combined is ignored
+        encumb += std::max( 0, guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - sp.id()->arm_encumbrance_threshold );
     }
     return encumb > 0;
 }

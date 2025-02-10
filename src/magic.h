@@ -243,11 +243,11 @@ class spell_type
 
         // base encumbrance value for the spell to be hindered by the caster's
         // arms. anything over this value will affect the spell.
-        int base_arm_encumbrance_value = 20;
+        int arm_encumbrance_threshold = 20;
 
         // base encumerance value for the spell to be hindered by the caster's
         // legs. anything over this value will affect the spell.
-        int base_leg_encumbrance_value = 20;
+        int leg_encumbrance_threshold = 20;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
