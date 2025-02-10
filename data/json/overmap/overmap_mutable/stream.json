@@ -4,7 +4,7 @@
     "id": "stream_mutable",
     "subtype": "mutable",
     "locations": [ "field", "forest", "swamp" ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "WILDERNESS" ],
     "check_for_locations_area": [ { "type": [ "field", "forest" ], "from": [ 1, 1, 0 ], "to": [ -1, -1, 0 ] } ],
     "joins": [ "stream_to_stream", "stream_to_east", "stream_to_west" ],
