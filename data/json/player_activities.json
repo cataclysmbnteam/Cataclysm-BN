@@ -282,7 +282,7 @@
     "type": "activity_type",
     "verb": "cranking",
     "rooted": true,
-    "based_on": "time"
+    "based_on": "speed"
   },
   {
     "id": "ACT_HEATING",
@@ -429,7 +429,7 @@
     "verb": "milking an animal",
     "suspendable": false,
     "rooted": true,
-    "based_on": "time",
+    "based_on": "speed",
     "no_resume": true
   },
   {
@@ -438,7 +438,7 @@
     "verb": "shearing an animal",
     "suspendable": false,
     "rooted": true,
-    "based_on": "time",
+    "based_on": "speed",
     "no_resume": true
   },
   {
@@ -609,13 +609,13 @@
     "id": "ACT_CHURN",
     "type": "activity_type",
     "verb": "churning earth",
-    "based_on": "time"
+    "based_on": "speed"
   },
   {
     "id": "ACT_PLANT_SEED",
     "type": "activity_type",
     "verb": "planting seeds",
-    "based_on": "time"
+    "based_on": "speed"
   },
   {
     "id": "ACT_DIG",
@@ -675,7 +675,7 @@
     "type": "activity_type",
     "verb": "programming override",
     "suspendable": false,
-    "based_on": "time",
+    "based_on": "speed",
     "no_resume": true
   },
   {
@@ -729,7 +729,7 @@
     "refuel_fires": true,
     "auto_needs": true,
     "rooted": true,
-    "based_on": "time",
+    "based_on": "speed",
     "no_resume": true
   },
   {
@@ -761,7 +761,7 @@
     "type": "activity_type",
     "verb": "hacking",
     "suspendable": false,
-    "based_on": "time",
+    "based_on": "speed",
     "no_resume": true
   },
   {
