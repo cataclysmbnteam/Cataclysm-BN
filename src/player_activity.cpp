@@ -172,6 +172,11 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
+static std::string activity_progress_message( const avatar &u, const player_activity &act )
+{
+
+}
+
 std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( !type || get_verb().empty() ) {
@@ -293,23 +298,7 @@ void player_activity::do_turn( player &p )
             }
         }
     }
-    if( type->based_on() == based_on_type::TIME ) {
-        if( moves_left >= 100 ) {
-            moves_left -= 100;
-            p.moves = 0;
-        } else {
-            p.moves -= p.moves * moves_left / 100;
-            moves_left = 0;
-        }
-    } else if( type->based_on() == based_on_type::SPEED ) {
-        if( p.moves <= moves_left ) {
-            moves_left -= p.moves;
-            p.moves = 0;
-        } else {
-            p.moves -= moves_left;
-            moves_left = 0;
-        }
-    }
+
     int previous_stamina = p.get_stamina();
     if( p.is_npc() && p.restore_outbounds_activity() ) {
         // npc might be operating at the edge of the reality bubble.

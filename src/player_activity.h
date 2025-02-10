@@ -33,6 +33,8 @@ class player_activity
 {
     private:
         activity_id type;
+        bool bench_affected;
+        bool speed_affected;
         std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
@@ -116,6 +118,8 @@ class player_activity
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
 
+        //Returns number of moves done per turn
+        int get_moves( int p_moves );
         /**
          * Helper that returns an activity specific progress message.
          */
