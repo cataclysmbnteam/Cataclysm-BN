@@ -35,6 +35,9 @@ class player_activity
         activity_id type;
         bool bench_affected;
         bool speed_affected;
+        bool skill_affected;
+        bool tools_affected;
+        bool moral_affected;
         std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
