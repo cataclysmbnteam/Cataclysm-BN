@@ -228,7 +228,7 @@ jobs:
         uses: lukka/run-vcpkg@main
         id: runvcpkg
         with:
-          vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+          vcpkgDirectory: "${{ runner.workspace }}/b/vcpkg"
 
       - name: Integrate vcpkg
         if: runner.os == 'Windows'
@@ -241,7 +241,8 @@ jobs:
           sudo apt update
           sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool \
             libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl \
-            p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+            p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin \
+            libsqlite3-dev zlib1g-dev
 
       - name: Install MXE
         if: matrix.mxe != 'none'

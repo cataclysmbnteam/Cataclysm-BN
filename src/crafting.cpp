@@ -1150,6 +1150,10 @@ void complete_craft( player &p, item &craft, const bench_location & )
             food_contained.set_owner( p.get_faction()->id );
         }
 
+        // If we created a tool that spawns empty, don't preset its ammotype.
+        if( !newit->ammo_remaining() ) {
+            newit->ammo_unset();
+        }
         if( newit->made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( std::move( newit ), PICKUP_RANGE );
         } else {

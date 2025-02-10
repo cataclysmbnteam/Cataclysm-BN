@@ -8,9 +8,12 @@
     "weight": "1731 g",
     "color": "light_gray",
     "material": [ "orichalcum_metal", "wood", "gold" ],
-    "techniques": [ "WBLOCK_2", "BRUTAL" ],
+    "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_mjolnir" } ] },
     "volume": "3750 ml",
-    "bashing": 45,
+    "bashing": 50,
+    "cutting": 0,
+    "to_hit": 2,
     "price": "2 kUSD"
   },
   {
@@ -22,9 +25,11 @@
     "weight": "1854 g",
     "material": [ "orichalcum_metal", "wood", "gold" ],
     "techniques": [ "WBLOCK_1", "IMPALE", "SWEEP" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_gungnir" } ] },
     "volume": "3250 ml",
     "bashing": 10,
-    "cutting": 35,
+    "cutting": 40,
+    "to_hit": 3,
     "price": "2 kUSD"
   },
   {
@@ -37,7 +42,9 @@
     "material": [ "orichalcum_metal", "steel", "leather" ],
     "techniques": [ "WBLOCK_2", "PRECISE", "VORPAL" ],
     "volume": "2500 ml",
-    "cutting": 45,
+    "//": "Extra-sharp because it is thus in mythos and also to compensate for lack of sick magic",
+    "cutting": 80,
+    "to_hit": 2,
     "price": "2 kUSD"
   },
   {
@@ -50,10 +57,10 @@
     "material": [ "steel", "gold", "orichalcum_metal" ],
     "flags": [ "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_laevateinn" } ] },
     "weight": "1860 g",
-    "bashing": 20,
-    "cutting": 35,
-    "use_action": { "type": "cast_spell", "spell_id": "ethereal_grasp", "no_fail": true, "level": 10, "need_wielding": true }
+    "bashing": 30,
+    "cutting": 10
   },
   {
     "copy-from": "knife_combat",
@@ -80,9 +87,9 @@
     "type": "TOOL",
     "id": "orich_fire_ax",
     "name": { "str": "orichalcum fire axe" },
-    "description": "A fire axe made with orichalcum instead of steel.  This makes it possible to chop through harder materials, and in the very well-funded fire stations is preferred.",
+    "description": "A fire axe made with orichalcum instead of steel.  This allows the axe to be just as effective as its steel counterpart at chopping, with less weight to tire the arms.",
     "material": [ "orichalcum_metal" ],
-    "proportional": { "cutting": 1.1, "price": 5 },
+    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.99 },
     "color": "yellow"
   },
   {

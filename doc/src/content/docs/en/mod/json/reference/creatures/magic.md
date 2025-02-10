@@ -4,7 +4,7 @@ title: Spells, enchantments and other custom effects
 
 # Spells
 
-In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
+In `data/json/debug_spells.json` there is a template spell, copied here for your perusal:
 
 ```json
 {

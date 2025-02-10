@@ -8,7 +8,7 @@ void report_strict_violation( const JsonObject &jo, const std::string &message,
         jo.throw_error( message, name );
     } catch( const JsonError &err ) {
         // And catch the exception so the loading continues like normal.
-        debugmsg( "(json-error)\n%s", err.what() );
+        debugmsg_of( DL::Warn, "(json-error)\n%s", err.what() );
     }
 }
 

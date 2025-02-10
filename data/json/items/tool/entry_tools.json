@@ -56,7 +56,7 @@
     "id": "iceaxe",
     "type": "GENERIC",
     "category": "tools_entry",
-    "weapon_category": [ "HAND_AXES" ],
+    "weapon_category": [ "1H_AXES" ],
     "name": { "str": "ice axe" },
     "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough to pry open closed doors or lift manhole covers.",
     "weight": "500 g",

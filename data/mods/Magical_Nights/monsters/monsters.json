@@ -14,7 +14,7 @@
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "brown",
-    "aggression": 8,
+    "aggression": 9,
     "morale": 100,
     "melee_skill": 6,
     "melee_dice": 5,
@@ -50,7 +50,7 @@
     "hp": 100,
     "speed": 75,
     "phase": "LIQUID",
-    "aggression": 8,
+    "aggression": 20,
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "morale": 100,
     "melee_skill": 5,
@@ -67,7 +67,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "ooze_acidicspray" },
-        "cooldown": 20,
+        "cooldown": 40,
         "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
@@ -111,7 +111,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "krab_gaze" },
-        "cooldown": 5,
+        "cooldown": 35,
         "monster_message": "The krabgek gazes at %3$s!"
       }
     ]
@@ -151,7 +151,7 @@
     "material": [ "arcane_skin" ],
     "symbol": "U",
     "color": "light_gray",
-    "aggression": 0,
+    "aggression": 10,
     "morale": 60,
     "melee_skill": 6,
     "melee_dice": 4,
@@ -236,7 +236,7 @@
     "material": [ "flesh" ],
     "symbol": "T",
     "color": "light_green",
-    "aggression": 8,
+    "aggression": 20,
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "morale": 100,
     "melee_skill": 5,

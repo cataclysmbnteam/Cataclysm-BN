@@ -79,7 +79,7 @@
   {
     "id": "primitive_knife",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "primitive knife", "str_pl": "primitive knives" },
     "conditional_names": [

@@ -165,8 +165,6 @@
     "prereqs": [ "ELFAEYES" ],
     "changes_to": [ "ELFA_FNV" ],
     "cancels": [ "LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
-    "active": true,
-    "starts_active": true,
     "valid": false,
     "night_vision_range": 4.5
   },
@@ -178,8 +176,6 @@
     "description": "You have great low-light vision now, though that doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "ELFA_NV" ],
     "cancels": [ "LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
-    "active": true,
-    "starts_active": true,
     "valid": false,
     "night_vision_range": 10
   },
@@ -191,8 +187,6 @@
     "description": "Your optic nerves and brain caught up with your eyes.  Now you can see pretty well at night.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "FEL_EYE" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "LIZ_IR", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
-    "active": true,
-    "starts_active": true,
     "valid": false,
     "night_vision_range": 4.5
   },
@@ -203,8 +197,6 @@
     "points": 3,
     "description": "Your brain has caught up with your eyes.  You can see much better in the dark, but sunlight seems much brighter now.  Activate to toggle NV-visible areas on or off.",
     "cancels": [ "LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3", "ELFA_NV", "ELFA_FNV" ],
-    "active": true,
-    "starts_active": true,
     "valid": false,
     "night_vision_range": 10
   },

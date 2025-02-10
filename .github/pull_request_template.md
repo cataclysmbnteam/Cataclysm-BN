@@ -28,8 +28,9 @@ NOTE: Please read your emails. Anyone mentioned on Github with an @ will receive
 
 - [ ] I wrote the PR title in [conventional commit format](https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/).
 - [ ] I ran the [code formatter](https://docs.cataclysmbn.org/en/contribute/contributing/#code-style).
-- [ ] I linked any relevant issues using [github keyword syntax](https://docs.cataclysmbn.org/en/contribute/contributing/#pull-request-notes) like `closes #1234` in [Summary of the PR](#why-should-this-pr-be-merged) so it can be closed automatically.
+- [ ] I linked any relevant issues using [github keyword syntax](https://docs.cataclysmbn.org/en/contribute/contributing/#pull-request-notes) like `closes #1234` in [Summary of the PR](#purpose-of-change-the-why) so it can be closed automatically.
 - [ ] I've [committed my changes to new branch that isn't `main`](https://docs.cataclysmbn.org/en/contribute/contributing/#make-your-changes) so it won't cause conflict when updating `main` branch later.
+- [ ] I understand that, unless specified otherwise, [my contributions will fall under the AGPL v3.0 and/or CC-BY-SA 4.0 licenses](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/LICENSE.txt)
 
 <!--
 please remove sections irrelevant to this PR.
@@ -39,6 +40,7 @@ please remove sections irrelevant to this PR.
 - [ ] This PR ports commits from DDA or other cataclysm forks.
   - [ ] I have attributed original authors in the commit messages adding [`Co-Authored-By`](https://docs.github.com/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors) in the commit message.
   - [ ] I have linked the URL of original PR(s) in the description.
+  - [ ] I have made sure to preserve the correct license for the ported content by adding a code or JSON comment to the ported sections indicating their original license
 - [ ] This is a C++ PR that modifies JSON loading or behavior.
   - [ ] I have documented the changes in the appropriate location in the `doc/` folder.
   - [ ] If documentation for this feature does not exist, please write it or at least note its lack in PR description.
