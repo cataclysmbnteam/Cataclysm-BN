@@ -33,11 +33,6 @@ class player_activity
 {
     private:
         activity_id type;
-        bool bench_affected;
-        bool speed_affected;
-        bool skill_affected;
-        bool tools_affected;
-        bool moral_affected;
         std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
@@ -103,7 +98,40 @@ class player_activity
         bool is_null() const {
             return type.is_null();
         }
-        bool is_multi_type() const;
+
+        /**
+         * If this returns true, the action can be continued without
+         * starting from scratch again (see player::backlog). This is only
+         * possible if the player start the very same activity (with the same
+         * parameters) again.
+         */
+        bool is_suspendable() const {
+            return type->suspendable();
+        }
+        bool is_multi_type() const {
+            return type->multi_activity();
+        }
+        bool is_bench_affected() const {
+            return type->bench_affected();
+        }
+        bool is_speed_affected() const {
+            return type->speed_affected();
+        }
+        bool is_skill_affected() const {
+            return type->skill_affected();
+        }
+        bool is_tools_affected() const {
+            return type->tools_affected();
+        }
+        bool is_moral_affected() const {
+            return type->moral_affected();
+        }
+        bool is_morale_blocked() const {
+            return type->morale_blocked();
+        }
+        bool is_verbose_tooltip() const {
+            return type->verbose_tooltip();
+        }
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
 
@@ -119,6 +147,7 @@ class player_activity
         const translation &get_verb() const;
 
         int get_value( size_t index, int def = 0 ) const;
+        bool is_verbose_tooltip() const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
 
         //Returns number of moves done per turn
@@ -127,14 +156,6 @@ class player_activity
          * Helper that returns an activity specific progress message.
          */
         std::optional<std::string> get_progress_message( const avatar &u ) const;
-
-        /**
-         * If this returns true, the action can be continued without
-         * starting from scratch again (see player::backlog). This is only
-         * possible if the player start the very same activity (with the same
-         * parameters) again.
-         */
-        bool is_suspendable() const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
