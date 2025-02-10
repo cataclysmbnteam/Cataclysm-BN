@@ -524,7 +524,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
         // Pick one or more special attacks
         matec_id technique_id;
-        if( allow_special && ( !has_force_technique || (reach_attacking && *force_technique == tec_none))) {
+        if( allow_special && ( !has_force_technique || ( reach_attacking &&
+                               *force_technique == tec_none ) ) ) {
             technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else if( has_force_technique ) {
             technique_id = *force_technique;
@@ -746,7 +747,7 @@ void Character::reach_attack( const tripoint &p )
 
     reach_attacking = true;
 
-    melee_attack(*critter, true);// , nullptr, false );
+    melee_attack( *critter, true ); // , nullptr, false );
     reach_attacking = false;
 }
 
@@ -1207,7 +1208,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
         //if reaching then select from reach_tecs
         //but otherwise allow the tec if its reach ok (yes this was just copied from below)
-        if (!tec.reach_ok && (reach_attacking != tec.reach_tec)) {
+        if( !tec.reach_ok && ( reach_attacking != tec.reach_tec ) ) {
             continue;
         }
         // skip dodge counter techniques
@@ -1462,79 +1463,84 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    if (technique.pull_target || technique.pull_self) {
-        map& here = get_map();
+    if( technique.pull_target || technique.pull_self ) {
+        map &here = get_map();
 
         Creature *target = technique.pull_target ? &t : this;
         Creature *anchor = technique.pull_target ? this : &t;
-        std::vector<tripoint> line = here.find_clear_path(anchor -> pos(), target -> pos());
+        std::vector<tripoint> line = here.find_clear_path( anchor -> pos(), target -> pos() );
         tripoint prev_point = target -> pos();
-        for (auto& i : line) {
+        for( auto &i : line ) {
             // can't pull through cars and windows
-            if ((!g->is_empty(i) && i != anchor->pos() && i != target -> pos()) ||
-                here.obstructed_by_vehicle_rotation(prev_point, i)) {
+            if( ( !g->is_empty( i ) && i != anchor->pos() && i != target -> pos() ) ||
+                here.obstructed_by_vehicle_rotation( prev_point, i ) ) {
                 continue;
             }
             prev_point = i;
         }
 
         // Limit the range in case some weird math thing would cause the target to fly past us
-        int range = rl_dist(anchor -> pos(), target -> pos()) + 1;
+        int range = rl_dist( anchor -> pos(), target -> pos() ) + 1;
         tripoint pt = target->pos();
-        while (range > 0) {
+        while( range > 0 ) {
             // Recalculate the ray each step
             // We can't depend on either the target position being constant (obviously),
             // but neither on z pos staying constant, because we may want to shift the map mid-pull
-            const units::angle dir = coord_to_angle(target->pos(), anchor->pos());
-            tileray tdir(dir);
+            const units::angle dir = coord_to_angle( target->pos(), anchor->pos() );
+            tileray tdir( dir );
             tdir.advance();
             pt.x = target->posx() + tdir.dx();
             pt.y = target->posy() + tdir.dy();
-            if (!g->is_empty(pt)) { //Cancel the grab if the space is occupied by something
+            if( !g->is_empty( pt ) ) { //Cancel the grab if the space is occupied by something
                 break;
             }
 
-            player* foe = dynamic_cast<player*>(target);
-            if (foe != nullptr) {
-                if (foe->in_vehicle) {
-                    here.unboard_vehicle(foe->pos());
+            player *foe = dynamic_cast<player *>( target );
+            if( foe != nullptr ) {
+                if( foe->in_vehicle ) {
+                    here.unboard_vehicle( foe->pos() );
                 }
 
-                if (target->is_player() && (pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y || //I don't actually know what this check does.
-                    pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY)) {
-                    g->update_map(pt.x, pt.y);
+                if( target->is_player() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
+                                             //I don't actually know what this check does.
+                                             pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
+                    g->update_map( pt.x, pt.y );
                 }
             }
 
-            if (technique.pull_target) t.setpos(pt);
-            else setpos(pt);
+            if( technique.pull_target ) {
+                t.setpos( pt );
+            } else {
+                setpos( pt );
+            }
             range--;
         }
         // The monster might drag a target that's not on it's z level
         // So if they leave them on open air, make them fall
-        here.creature_on_trap(*target);
+        here.creature_on_trap( *target );
     }
     if( technique.switch_pos ) {
         g->swap_critters( g->u, t );
     }
 
-    if( technique.switch_side_target || technique.switch_side_self) {
+    if( technique.switch_side_target || technique.switch_side_self ) {
         const tripoint tPos = technique.switch_side_target ? t.pos() : pos();
         const tripoint aPos = technique.switch_side_target ? pos() : t.pos();
-        const tripoint dest = aPos - (tPos - aPos);
+        const tripoint dest = aPos - ( tPos - aPos );
 
-        if( g->is_empty(dest) ) {
-            if (technique.switch_side_target) t.setpos(dest);
-            else {
-                if (in_vehicle) { //Don't unboard unless it's the player, and unless there is actually a place to swap to.
-                    get_map().unboard_vehicle(pos());
+        if( g->is_empty( dest ) ) {
+            if( technique.switch_side_target ) {
+                t.setpos( dest );
+            } else {
+                if( in_vehicle ) { //Don't unboard unless it's the player, and unless there is actually a place to swap to.
+                    get_map().unboard_vehicle( pos() );
                 }
-                setpos(dest);
+                setpos( dest );
             }
         }
     }
 
-    if( technique.stun_dur > 0 && technique.knockback_type.empty()) {
+    if( technique.stun_dur > 0 && technique.knockback_type.empty() ) {
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
