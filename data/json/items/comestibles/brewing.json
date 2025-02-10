@@ -2,6 +2,7 @@
   {
     "type": "COMESTIBLE",
     "abstract": "brew_base",
+    "category": "cooking_ingredients",
     "name": "base brew",
     "price": "0 cent",
     "price_postapoc": "10 cent",

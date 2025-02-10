@@ -4,7 +4,7 @@
     "id": "wizard_novice",
     "name": "Would-be Wizard",
     "description": "You found a pamphlet with bright colors claiming you can be a Wizard, oddly serene with the world falling down around you.",
-    "points": 1,
+    "points": 0,
     "items": {
       "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "wizard_beginner" ],
       "male": [ "boxer_briefs" ],
@@ -16,7 +16,7 @@
     "id": "pyromaniac",
     "name": "Pyromaniac Kelvinist",
     "description": "You have loved fire all of your life.  You have now discovered your inner fire, and want to exercise that upon the world.",
-    "points": 2,
+    "points": 1,
     "items": {
       "both": [ "lighter", "sneakers", "pants", "tshirt", "jacket_light", "pyro" ],
       "male": [ "boxer_briefs" ],
@@ -29,7 +29,7 @@
     "id": "druid",
     "name": "Druid",
     "description": "The ancient circle of druids is gone with the Cataclysm.  Nature must thrive.",
-    "points": 2,
+    "points": 1,
     "items": {
       "both": [ "druid_spellbook", "leathersandals", "robe", "rope_makeshift_30", "hide_bag", "hat_fur", "gloves_wraps_fur" ]
     },
@@ -200,8 +200,8 @@
     "id": "novice_necromancer",
     "name": "Novice Necromancer",
     "description": "You always had to hide your magic, as it was generally not an acceptable type of magic in the wizarding world, but with the Cataclysm you need to pull every trick out of the book.",
-    "spells": [ { "id": "summon_zombie", "level": 5 }, { "id": "necrotic_gaze", "level": 1 } ],
-    "points": 2,
+    "spells": [ { "id": "summon_zombie", "level": 1 }, { "id": "necrotic_gaze", "level": 1 } ],
+    "points": 1,
     "skills": [ { "level": 1, "name": "spellcraft" } ],
     "items": {
       "both": [

@@ -3,7 +3,7 @@
     "id": "crash_axe",
     "type": "GENERIC",
     "category": "tools_entry",
-    "weapon_category": [ "HAND_AXES" ],
+    "weapon_category": [ "1H_AXES" ],
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "crash axe" },
@@ -106,7 +106,7 @@
   },
   {
     "id": "throw_extinguisher",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "throwable fire extinguisher" },
     "description": "This is a fire extinguisher in grenade form.  While not as effective as a regular fire extinguisher, you can use it from a distance.  It is activated by heat, so just throw it into the flames.",
@@ -120,7 +120,7 @@
     "symbol": "*",
     "color": "blue",
     "use_action": "THROWABLE_EXTINGUISHER_ACT",
-    "flags": [ "ACT_IN_FIRE" ]
+    "flags": [ "ACT_IN_FIRE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "pike_pole",

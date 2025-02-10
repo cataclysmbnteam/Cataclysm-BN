@@ -104,5 +104,17 @@
     "spell_class": "NONE",
     "message": "Your veins feel like they are on fire!\nYou start regenerating mana!",
     "extra_effects": [ { "id": "potion_recover_mana" } ]
+  },
+  {
+    "id": "gungnir_apply",
+    "type": "SPELL",
+    "name": { "str": "Apply Gungnir Effect" },
+    "description": "You probably shouldn't be seeing this",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_VFX" ],
+    "effect": "target_attack",
+    "effect_str": "gungnir_debuff",
+    "min_duration": 600000,
+    "spell_class": "NONE"
   }
 ]

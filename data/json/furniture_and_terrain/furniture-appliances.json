@@ -10,6 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
+    "flags": [ "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "ac_unit_item", "count": 1 },
@@ -47,6 +48,7 @@
     "coverage": 50,
     "required_str": -1,
     "looks_like": "f_air_conditioner",
+    "flags": [ "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -90,7 +92,7 @@
     "coverage": 60,
     "required_str": 13,
     "max_volume": "200 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT", "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -135,7 +137,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "37500 ml",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT", "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -571,7 +573,7 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR", "ADV_DECONSTRUCT" ],
     "examine_action": "fireplace",
     "deconstruct": {
       "items": [
@@ -614,7 +616,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "30 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "TRANSPARENT", "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -801,7 +803,7 @@
     "move_cost_mod": 5,
     "required_str": 6,
     "looks_like": "f_filing_cabinet",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -925,9 +927,9 @@
     "color": "yellow",
     "move_cost_mod": -1,
     "required_str": -1,
-    "//": "10 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
+    "//": "30 watts, all of these below are staggered across 5 minutes to avoid lag.  Todo: convert to not rely on steady_consumer hacks",
     "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
-    "active": [ "steady_consumer", { "power": -3, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -9, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -963,9 +965,9 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
-    "//": "30 watts",
+    "//": "90 watts",
     "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
-    "active": [ "steady_consumer", { "power": -9, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -27, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -1003,9 +1005,9 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
-    "//": "80 watts",
+    "//": "240 watts",
     "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
-    "active": [ "steady_consumer", { "power": -24, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -72, "consume_every": "300 s" } ],
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -1041,9 +1043,9 @@
     "symbol": "#",
     "color": "yellow",
     "coverage": 60,
-    "//": "30 watts",
+    "//": "90 watts",
     "//2": "Please keep steady_consumer to 300 s or more to avoid lag.",
-    "active": [ "steady_consumer", { "power": -54, "consume_every": "300 s" } ],
+    "active": [ "steady_consumer", { "power": -162, "consume_every": "300 s" } ],
     "deconstruct": {
       "items": [
         { "item": "solder_wire", "charges": 20 },
@@ -2252,7 +2254,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND", "EASY_DECONSTRUCT" ],
+    "flags": [ "NOITEM", "NO_SCENT", "BLOCK_WIND" ],
     "deconstruct": {
       "items": [
         { "item": "ac_unit_item", "count": 1 },

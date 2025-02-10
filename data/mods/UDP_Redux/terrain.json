@@ -177,7 +177,21 @@
           { "id": "t_floor_waxed", "fg": 161 },
           { "id": "t_floor_waxed_y", "fg": 162 },
           { "id": "t_thconc_floor", "fg": 163 },
-          { "id": "t_thconc_floor_olight", "fg": 164 }
+          { "id": "t_thconc_floor_olight", "fg": 164 },
+          {
+            "id": "t_shingle_flat_roof",
+            "fg": 165,
+            "rotates": false,
+            "multitile": true,
+            "additional_tiles": [
+              { "id": "center", "fg": 166 },
+              { "id": "corner", "fg": [ 167, 168, 169, 170 ] },
+              { "id": "t_connection", "fg": [ 177, 178, 179, 180 ] },
+              { "id": "edge", "fg": [ 171, 172 ] },
+              { "id": "end_piece", "fg": [ 173, 174, 175, 176 ] },
+              { "id": "unconnected", "fg": 181 }
+            ]
+          }
         ],
         "sprite_width": 32,
         "sprite_height": 32

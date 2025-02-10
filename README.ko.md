@@ -58,13 +58,29 @@
 자세한 내용은 [공식 문서](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/)를
 참고해주세요.
 
-## 기여하기
+## License
 
-> 카타클리즘: 밝은 밤은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 라이선스로 개발되고
-> 있습니다. 소스 코드와 게임 내용물은 어떠한 목적으로든 사용, 수정, 재배포가 가능합니다. 자세한
-> 내용은 <http://creativecommons.org/licenses/by-sa/3.0/>를 참고하세요. 일부 코드는 프로젝트와 함께
-> 배포되지만, 다른 소프트웨어 라이선스에 따라 배포됩니다. 다른 소프트웨어 라이선스에 따라 배포되는
-> 파일들은 각 파일에 라이선스 공지가 포함되어 있습니다.
+Cataclysm: Bright Nights의 코드는
+[GNU Affero General Public License v3 only](https://www.gnu.org/licenses/agpl.html)에 따라
+라이선스가 부여되며, 해당 라이선스는 [LICENSE](./LICENSE)에서 확인할 수 있습니다. 별도로 명시되지
+않는 한, 애셋(assets)은 [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/) 라이선스에
+따라 배포됩니다.
+
+Git 커밋 dcb566320368cf3236ede27125e150540cd56387 (`2025-02-06 16:08:18 UTC`) 이후의 모든 기여는
+다음과 같이 라이선스가 부여됩니다.
+
+- 코드(C++, TypeScript, JSON 등): AGPL-3.0-only.
+- 애셋(이미지, 사운드 등): CC-BY-SA-4.0.
+
+Git 커밋 dcb566320368cf3236ede27125e150540cd56387 (`2025-02-06 16:08:18 UTC`) 이전의 모든 기여는
+[CC-BY-SA-3.0](http://creativecommons.org/licenses/by-sa/3.0/) 라이선스에 따라 배포됩니다.
+
+프로젝트에 포함된 일부 코드는 본 프로젝트의 일부가 아니며, 다른 소프트웨어 라이선스에 따라
+배포됩니다. 각 파일에 적용되는 라이선스는 해당 파일 내의 라이선스 고지문을 확인하세요.
+
+자세한 사항은 [LICENSE.txt](./LICENSE.txt)에서 확인할 수 있습니다.
+
+## 기여하기
 
 [공식 사이트](https://docs.cataclysmbn.org/ko/contribute/contributing/)에서 자세한 내용을 확인할 수
 있습니다.

@@ -452,29 +452,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "trunk_floor",
-    "name": { "str": "floor trunk" },
-    "symbol": "=",
-    "looks_like": "t_carpet_red",
-    "color": "white",
-    "broken_symbol": "#",
-    "broken_color": "light_gray",
-    "durability": 400,
-    "description": "An aisle.  A hatch lets you access a cargo space beneath it.",
-    "size": "87500 ml",
-    "item": "cargo_aisle",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
-    },
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
-    "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 28 }
-  },
-  {
-    "type": "vehicle_part",
     "id": "roof_cloth",
     "name": { "str": "cloth roof" },
     "symbol": "#",
@@ -996,29 +973,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "trunk",
-    "name": { "str": "trunk" },
-    "symbol": "H",
-    "looks_like": "f_locker",
-    "color": "brown",
-    "broken_symbol": "#",
-    "broken_color": "brown",
-    "damage_modifier": 80,
-    "durability": 350,
-    "size": "162500 ml",
-    "item": "frame",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
-    },
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE" ],
-    "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 30 }
-  },
-  {
-    "type": "vehicle_part",
     "id": "travois",
     "name": { "str": "travois" },
     "symbol": "o",
@@ -1038,53 +992,6 @@
       "repair": { "time": "5 m", "using": [ [ "adhesive", 1 ], [ "vehicle_repair_small_wood", 4 ] ] }
     },
     "damage_reduction": { "all": 18, "stab": 8, "cut": 8 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "wood box",
-    "name": { "str": "wood box" },
-    "symbol": "o",
-    "looks_like": "f_crate_o",
-    "color": "brown",
-    "broken_symbol": "#",
-    "broken_color": "brown",
-    "damage_modifier": 60,
-    "durability": 70,
-    "size": "75 L",
-    "item": "frame_wood",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 15 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
-    },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 16, "stab": 6, "cut": 6 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "folding wood box",
-    "name": { "str": "folding wood box" },
-    "symbol": "o",
-    "looks_like": "wood box",
-    "color": "brown",
-    "broken_symbol": "#",
-    "broken_color": "brown",
-    "damage_modifier": 60,
-    "durability": 65,
-    "folded_volume": "1500 ml",
-    "size": "30 L",
-    "item": "foldwoodframe",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 10 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ], [ "wood_structural_small", 1 ] ] }
-    },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "LOCKABLE_CARGO" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 10, "stab": 4, "cut": 5 }
   },
   {
     "type": "vehicle_part",
@@ -1763,7 +1670,7 @@
     "damage_modifier": 10,
     "durability": 50,
     "description": "A water wheel.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
-    "epower": 80,
+    "epower": 240,
     "item": "water_wheel",
     "location": "center",
     "flags": [ "WATER_WHEEL", "OBSTACLE" ],
@@ -1787,7 +1694,7 @@
     "damage_modifier": 10,
     "durability": 80,
     "description": "A large water wheel with wooden supports.  Will recharge the vehicle's electrical power when built over shallow moving water.",
-    "epower": 180,
+    "epower": 540,
     "item": "xl_water_wheel",
     "location": "center",
     "flags": [ "WATER_WHEEL", "OBSTACLE", "EXTRA_DRAG" ],
@@ -1841,7 +1748,7 @@
     "damage_modifier": 10,
     "durability": 15,
     "description": "A small wind turbine.  Will slowly recharge the vehicle's electrical power when exposed to the wind.",
-    "epower": 10,
+    "epower": 30,
     "item": "wind_turbine",
     "location": "on_roof",
     "requirements": {
@@ -1881,7 +1788,7 @@
     "damage_modifier": 10,
     "durability": 70,
     "description": "A large wind turbine with stabilizing legs.  Will recharge the vehicle's electrical power when exposed to the wind.  Will cause extra drag on the vehicle.",
-    "epower": 30,
+    "epower": 90,
     "item": "xl_wind_turbine",
     "location": "on_roof",
     "power": -3000,
@@ -2376,72 +2283,6 @@
     "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE" ],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 26 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "cargo_space",
-    "name": { "str": "cargo space" },
-    "symbol": "=",
-    "looks_like": "box",
-    "color": "light_gray",
-    "broken_symbol": "#",
-    "broken_color": "dark_gray",
-    "durability": 250,
-    "size": "500 L",
-    "item": "cargo_rack",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
-    },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 8 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
-    ],
-    "damage_reduction": { "all": 28 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "livestock_stall",
-    "name": { "str": "livestock stall" },
-    "symbol": "=",
-    "color": "light_gray",
-    "looks_like": "cargo_space",
-    "broken_symbol": "#",
-    "broken_color": "dark_gray",
-    "durability": 250,
-    "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "size": "200 L",
-    "item": "livestock_carrier",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
-    },
-    "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 8 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
-    ],
-    "damage_reduction": { "all": 30 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "animal_compartment",
-    "copy-from": "livestock_stall",
-    "looks_like": "livestock_stall",
-    "name": { "str": "animal compartment" },
-    "durability": 125,
-    "description": "A large locker for transporting smaller animals.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "size": "50 L",
-    "item": "animal_locker",
-    "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE" ],
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 4 ] } ]
   },
   {
     "type": "vehicle_part",

@@ -455,7 +455,7 @@ static repetition_folder rep_folder;
 static void output_repetitions( std::ostream &out );
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
-                   const std::string &text )
+                   const DL debug_level, const std::string &text )
 {
     assert( filename != nullptr );
     assert( line != nullptr );
@@ -465,7 +465,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         captured += text;
     } else {
         if( !rep_folder.test( filename, line, funcname, text ) ) {
-            *detail::realDebugLog( DL::Error, DC::DebugMsg, filename, line, funcname ) << text;
+            *detail::realDebugLog( debug_level, DC::DebugMsg, filename, line, funcname ) << text;
             rep_folder.set( filename, line, funcname, text );
         } else {
             rep_folder.increment_count();
@@ -1768,6 +1768,24 @@ std::string game_info::graphics_version()
 #endif
 }
 
+std::string game_info::save_file_version()
+{
+    const auto &world = world_generator->active_world;
+    if( world == nullptr ) {
+        return "No active world";
+    }
+    const auto *info = world->info;
+    if( info == nullptr ) {
+        return "No world info";
+    }
+    switch( info->world_save_format ) {
+        case save_format::V1:
+            return "V1";
+        case save_format::V2_COMPRESSED_SQLITE3:
+            return "V2 (compressed with sqlite 3)";
+    }
+}
+
 std::string game_info::mods_loaded()
 {
     if( world_generator->active_world == nullptr ) {
@@ -1815,6 +1833,7 @@ std::string game_info::game_report()
            "- Game Version: " << game_version() << " [" << bitness_string() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
            "- LAPI Version: " << cata::get_lapi_version_string() << "\n" <<
+           "- Save File Version: " << save_file_version() << "\n" <<
            "- Game Language: " << lang_translated << " [" << lang << "]\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 

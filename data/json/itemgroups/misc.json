@@ -149,7 +149,7 @@
       { "item": "copper", "charges": [ 800, 3200 ], "prob": 70 },
       { "item": "lead", "charges": [ 800, 3200 ], "prob": 10 },
       { "item": "tin", "charges": [ 800, 3200 ], "prob": 10 },
-      { "item": "silver", "charges": [ 400, 1600 ], "prob": 5 },
+      { "item": "silver_small", "charges": [ 400, 1600 ], "prob": 5 },
       { "item": "gold_small", "charges": [ 400, 1600 ], "prob": 5 }
     ]
   },

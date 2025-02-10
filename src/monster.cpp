@@ -361,6 +361,11 @@ void monster::poly( const mtype_id &id )
     faction = type->default_faction;
     upgrades = type->upgrades;
     reproduces = type->reproduces;
+
+    // HACK: We should know if the monster is in the bubble instead of checking it like this
+    if( g->critter_tracker->temporary_id( *this ) >= 0 ) {
+        g->critter_tracker->update_faction( *this );
+    }
 }
 
 bool monster::can_upgrade() const
