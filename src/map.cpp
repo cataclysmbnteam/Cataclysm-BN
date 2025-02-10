@@ -1934,6 +1934,16 @@ bool map::is_wall_adjacent( const tripoint &center ) const
     return false;
 }
 
+bool map::is_half_wall_adjacent( const tripoint &center ) const
+{
+    for( const tripoint &p : points_in_radius( center, 1 ) ) {
+        if( p != center && passable_ter_furn( p ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Move cost: 3D
 
 int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const

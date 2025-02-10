@@ -607,7 +607,7 @@ class Character : public Creature, public location_visitable<Character>
         bool can_miss_recovery( const item &weap ) const;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
-        /** Returns true if the player has stealthy movement */
+        /** Returns true if the player has quiet movement */
         bool is_stealthy() const;
 
         bool uncanny_dodge() override;
@@ -645,7 +645,7 @@ class Character : public Creature, public location_visitable<Character>
 
         /** Handles reach melee attack on point p */
         void reach_attack( const tripoint &p );
-        // HACK for mdefense::zapback
+        // HACK for mdefense::zapback, and also now used for reach techniques.
         bool reach_attacking = false;
 
         /** Returns value of player's stable footing */

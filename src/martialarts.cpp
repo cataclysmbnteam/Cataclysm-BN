@@ -46,6 +46,8 @@ static const skill_id skill_unarmed( "unarmed" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
+static const efftype_id effect_downed("downed");
+static const efftype_id effect_stunned("stunned");
 
 static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
@@ -172,8 +174,19 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
-    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
-    optional( jo, was_loaded, "strictly_running", strictly_running, false );
+
+    optional( jo, was_loaded, "req_running", req_running, false );
+    optional( jo, was_loaded, "req_unseen", req_unseen, false );
+    optional( jo, was_loaded, "req_climbed", req_climbed, false );
+    optional( jo, was_loaded, "wall_adjacent", req_wall, false ); //Old Field Adapater
+    optional( jo, was_loaded, "req_wall", req_wall, false );
+    optional( jo, was_loaded, "req_half_wall", req_half_wall, false );
+
+    optional( jo, was_loaded, "adjacent_enemies_min", adjacent_enemies_min, 0 );
+    optional( jo, was_loaded, "adjacent_enemies_max", adjacent_enemies_max, 8 );
+
+    optional( jo, was_loaded, "stam_min", stam_min, 0 );
+    optional( jo, was_loaded, "stam_max", stam_max, 1 );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "consume_buffs", consume_buffs, auto_flags_reader<mabuff_id> {} );
@@ -197,19 +210,38 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         npc_message = jsarr.get_string( 1 );
     }
 
+    bool adapter_bool; //used to cache bool values from obsolete json fields so they can be coallatd into sets/strings
+    std::vector<std::string> string_list_adapter; //reusable array for checking multiple strings in the json.
+
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
-    optional( jo, was_loaded, "downed_target", downed_target, false );
-    optional( jo, was_loaded, "stunned_target", stunned_target, false );
-    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
-    optional( jo, was_loaded, "strictly_running", strictly_running, false );
-    optional( jo, was_loaded, "human_target", human_target, false );
 
+    optional( jo, was_loaded, "reach_tec", reach_tec, false );
+    optional( jo, was_loaded, "reach_ok", reach_ok, false );
+
+    optional(jo, was_loaded, "req_target_effects", req_target_effects, auto_flags_reader<efftype_id> {});
+
+    optional( jo, was_loaded, "downed_target", adapter_bool, false );
+    if (adapter_bool && !req_target_effects.contains(effect_downed)) req_target_effects.insert(effect_downed);
+    optional( jo, was_loaded, "stunned_target", adapter_bool, false );
+    if (adapter_bool && !req_target_effects.contains(effect_downed)) req_target_effects.insert(effect_stunned);
+
+    string_list_adapter = { "wall_adjacent", "req_wall" };
+    optional( jo, was_loaded, string_list_adapter, req_wall, false );
+    optional( jo, was_loaded, "req_half_wall", req_half_wall, false);
+    optional( jo, was_loaded, "req_running", req_running, false );
+
+    optional( jo, was_loaded, "human_target", human_target, false );
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
-    optional( jo, was_loaded, "switch_side", switch_side, false );
+
+
+    string_list_adapter = { "side_switch", "switch_side_target" };
+    optional( jo, was_loaded, string_list_adapter, switch_side_target, false );
+    optional( jo, was_loaded, "switch_side_self", switch_side_self, false );
     optional( jo, was_loaded, "switch_pos", switch_pos, false );
+
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
     optional( jo, was_loaded, "block_counter", block_counter, false );
@@ -218,13 +250,23 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "weighting", weighting, 1 );
 
+    optional( jo, was_loaded, "req_ammo", req_ammo, false );
+    optional( jo, was_loaded, "fire_weapon", req_ammo, false );
+    optional( jo, was_loaded, "sneak_attack", sneak_attack, false );
+
+
     optional( jo, was_loaded, "down_dur", down_dur, 0 );
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
+    optional(jo, was_loaded, "pull_target", pull_target, false );
+    optional(jo, was_loaded, "pull_self", pull_self, false );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
-    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
-    optional( jo, was_loaded, "knockback_follow", knockback_follow, false );
-    optional( jo, was_loaded, "knockback_follow_full", knockback_follow_full, false );
+
+    optional( jo, was_loaded, "powerful_knockback", adapter_bool, false); //Adapater for knockback_type coallation
+    optional( jo, was_loaded, "knockback_type", knockback_type, adapter_bool ? "powerful" : "");
+    
+    optional( jo, was_loaded, "knockback_follow", adapter_bool, false ); //Adapter for knock_follow_type coallation
+    optional( jo, was_loaded, "knockback_follow_type", knockback_follow_type, adapter_bool ? "partial" : "");
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -257,13 +299,18 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "buff_duration", buff_duration, 2_turns );
     optional( jo, was_loaded, "max_stacks", max_stacks, 1 );
+    optional( jo, was_loaded, "stacks_per_enemy", stack_per_enemy, false );
 
     optional( jo, was_loaded, "bonus_dodges", dodges_bonus, 0 );
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
-    optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
-    optional( jo, was_loaded, "stealthy", stealthy, false );
+
+    std::vector<std::string> string_list = { "quiet", "quiet_attacks" };
+    optional( jo, was_loaded, string_list, quiet_attacks, false );
+
+    string_list = { "stealthy", "quiet_movement" };
+    optional( jo, was_loaded, string_list, quiet_movement, false );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -544,13 +591,23 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
-    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
+    if (req_running && !u.movement_mode_is(CMM_RUN)) {
         return false;
     }
 
-    if( strictly_running && !u.movement_mode_is( CMM_RUN ) ) {
+    //if (req_unseen) { //sees( g->u )
+    //    return false;
+    //}
+
+    if( req_wall && !get_map().is_wall_adjacent( u.pos() ) ) {
         return false;
     }
+
+    if (req_half_wall && !get_map().is_half_wall_adjacent(u.pos())) {
+        return false;
+    }
+
+
 
     for( const auto &pr : min_skill ) {
         if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
@@ -696,7 +753,7 @@ std::string ma_requirements::get_description( bool buff ) const
                                type ) + "\n";
     }
 
-    if( wall_adjacent ) {
+    if( req_wall ) {
         dump += string_format( _( "* Can %s while <info>near</info> to a <info>wall</info>" ),
                                type ) + "\n";
     }
@@ -709,7 +766,7 @@ ma_technique::ma_technique()
     crit_tec = false;
     crit_ok = false;
     defensive = false;
-    switch_side = false; // moves the target behind user
+    switch_side_target = false; // moves the target behind user
     switch_pos = false; // switches positions with the target
     dummy = false;
 
@@ -717,9 +774,7 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
-    powerful_knockback = false;
-    knockback_follow = false; // player follows the knocked-back party into their former tile
-    knockback_follow_full = false; // player follows the knocked-back party into their final tile
+    knockback_follow_type = ""; // "partial" = target's former tile. "full" = relative tile to target's final tile.
 
     // offensive
     disarms = false; // like tec_disarm
@@ -730,7 +785,7 @@ ma_technique::ma_technique()
     // conditional
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
-    wall_adjacent = false;    // only works near a wall
+    req_wall = false;    // only works near a wall
     human_target = false;     // only works on humanoid enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
@@ -823,11 +878,11 @@ bool ma_buff::is_throw_immune() const
 }
 bool ma_buff::is_quiet() const
 {
-    return quiet;
+    return quiet_attacks;
 }
 bool ma_buff::is_stealthy() const
 {
-    return stealthy;
+    return quiet_movement;
 }
 
 std::string ma_buff::get_description( bool passive ) const
@@ -870,11 +925,11 @@ std::string ma_buff::get_description( bool passive ) const
                                blocks_bonus, vgettext( " for the stack", " per stack", max_stacks ) ) + "\n";
     }
 
-    if( quiet ) {
+    if( quiet_attacks ) {
         dump += _( "* Attacks will be completely <info>silent</info>" ) + std::string( "\n" );
     }
 
-    if( stealthy ) {
+    if( quiet_movement ) {
         dump += _( "* Movement will make <info>less noise</info>" ) + std::string( "\n" );
     }
 
@@ -1462,7 +1517,7 @@ std::string ma_technique::get_description() const
         dump += _( "* Will only activate on a <info>crit</info>" ) + std::string( "\n" );
     }
 
-    if( switch_side ) {
+    if( switch_side_target ) {
         dump += _( "* Moves target <info>behind</info> you" ) + std::string( "\n" );
     }
 
@@ -1470,20 +1525,20 @@ std::string ma_technique::get_description() const
         dump += _( "* switchs positions with the target" ) + std::string( "\n" );
     }
 
-    if( wall_adjacent ) {
+    if( req_wall ) {
         dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
                 std::string( "\n" );
     }
 
-    if( strictly_running ) {
+    if( req_running ) {
         dump += _( "* Will only activate while <info>running</info>" ) + std::string( "\n" );
     }
 
-    if( downed_target ) {
+    if( req_target_effects.contains( effect_stunned ) ) {
         dump += _( "* Only works on a <info>downed</info> target" ) + std::string( "\n" );
     }
 
-    if( stunned_target ) {
+    if( req_target_effects.contains( effect_downed ) ) {
         dump += _( "* Only works on a <info>stunned</info> target" ) + std::string( "\n" );
     }
 
@@ -1491,8 +1546,12 @@ std::string ma_technique::get_description() const
         dump += _( "* Only works on a <info>humanoid</info> target" ) + std::string( "\n" );
     }
 
-    if( powerful_knockback ) {
+    if( knockback_type == "powerful") {
         dump += _( "* Causes extra damage on <info>knockback collision</info>." ) + std::string( "\n" );
+    }
+
+    if( knockback_type == "destructive") {
+        dump += _( "* Causes extra damage on <info>knockback collision</info>, and can break terrain." ) + std::string( "\n" );
     }
 
     if( dodge_counter ) {
@@ -1528,11 +1587,11 @@ std::string ma_technique::get_description() const
                                knockback_dist, vgettext( "tile", "tiles", knockback_dist ) ) + "\n";
     }
 
-    if( knockback_follow ) {
+    if(knockback_follow_type == "partial") {
         dump += _( "* Will <info>follow</info> enemies after knockback." ) + std::string( "\n" );
     }
 
-    if( knockback_follow ) {
+    if( knockback_follow_type == "full") {
         dump += _( "* Will <info>follow</info> enemies all the way after knockback." ) +
                 std::string( "\n" );
     }

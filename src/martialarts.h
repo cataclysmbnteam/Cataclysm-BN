@@ -55,12 +55,26 @@ matype_id martial_art_learned_from( const itype & );
 struct ma_requirements {
     bool was_loaded = false;
 
-    bool unarmed_allowed; // does this bonus work when unarmed?
-    bool melee_allowed; // what about with a melee weapon?
+    bool unarmed_allowed;   // does this bonus work when unarmed?
+    bool melee_allowed;     // what about with a melee weapon?
     bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
     bool strictly_unarmed; // Ignore force_unarmed?
-    bool wall_adjacent; // Does it only work near a wall?
-    bool strictly_running; //Does it only work when running?
+
+    bool req_running;   // Does it only work when running?
+    bool req_unseen;    // Is the user undetected by enemies?
+    bool req_climbed;   // Has the user changed elevation this action?
+    bool req_wall;      // Does it only work near a wall?
+    bool req_half_wall; // Does it only work near halfwalls?
+
+    bool adjacent_enemies_min; //Must be more than this number of adjacent enemies.
+    bool adjacent_enemies_max; //Must be below this number of adjacent enemies.
+
+    bool stam_min; //Must have stamina above this value;
+    bool stam_max; //Must have stamina below this value;
+
+    // Maybe we hate these tho, ya know?
+    // bool hp_above; //Must have stamina above this value;
+    // bool hp_below; //Must have stamina below this value;
 
     /** Weapon categories compatible with this requirement. If empty, allow any weapon category. */
     std::vector<weapon_category_id> weapon_categories_allowed;
@@ -85,8 +99,18 @@ struct ma_requirements {
         melee_allowed = false;
         unarmed_weapons_allowed = true;
         strictly_unarmed = false;
-        wall_adjacent = false;
-        strictly_running = false;
+
+        req_running = false;
+        req_climbed = false;
+        req_unseen = false;
+        req_wall = false;
+        req_half_wall = false;
+
+        adjacent_enemies_min = 0;
+        adjacent_enemies_max = 8;
+
+        stam_min = 0;
+        stam_max = 1;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -123,28 +147,38 @@ class ma_technique
         std::string npc_message;
 
         bool defensive = false;
-        bool switch_side = false; // moves the target behind user
+        bool switch_side_target = false; // moves the target behind user
+        bool switch_side_self = false; // moves the user behind the target
         bool switch_pos = false; // switches places with the target
+
         bool dummy = false;
-        bool crit_tec = false;
-        bool crit_ok = false;
+        bool crit_tec = false;  //Can only be used on a crit
+        bool crit_ok = false;   //Is allowed to be used on a crit
+        bool reach_tec = false; //Can only be used with reach attacks
+        bool reach_ok = false;  //Is allowed to be used with rach attacks
+
+        bool req_ammo = false;
+        bool fire_weapon = false;   // should the held weapon be (f)ired if able?
+        bool sneak_attack = false;
 
         ma_requirements reqs;
 
         int down_dur = 0;
         int stun_dur = 0;
+        bool pull_target = false;
+        bool pull_self = false;
         int knockback_dist = 0;
         float knockback_spread = 0.0f;  // adding randomness to knockback, like tec_throw
-        bool powerful_knockback = false;
+        std::string knockback_type;     //"", "powerful", "destructive"
+        std::string knockback_follow_type = "";  // "", "partial", "full"
         std::string aoe;                // corresponds to an aoe shape, defaults to just the target
-        bool knockback_follow = false;  // Character follows the knocked-back party into their former tile
-        bool knockback_follow_full = false;  // Character follows the knocked-back party to their final tile
-
         // offensive
         bool disarms = false;       // like tec_disarm
         bool take_weapon = false;   // disarms and equips weapon if hands are free
         bool dodge_counter = false; // counter move activated on a dodge
         bool block_counter = false; // counter move activated on a block
+
+        std::set<mabuff_id> triggered_buffs; //MA Buffs to trigger upon using this technique.
 
         bool miss_recovery = false; // allows free recovery from misses, like tec_feint
         bool grab_break = false;    // allows grab_breaks, like tec_break
@@ -154,8 +188,10 @@ class ma_technique
         // conditional
         bool downed_target = false; // only works on downed enemies
         bool stunned_target = false;// only works on stunned enemies
-        bool wall_adjacent = false; // only works near a wall
-        bool strictly_running = false; // only works when running
+        std::set<efftype_id> req_target_effects; //required effects on enemy for triggering
+        bool req_wall = false; // only works near a wall
+        bool req_half_wall = false; // only works near a wall
+        bool req_running = false; // only works when running
         bool human_target = false;  // only works on humanoid enemies
 
         /** All kinds of bonuses by types to damage, hit etc. */
@@ -222,6 +258,7 @@ class ma_buff
 
         time_duration buff_duration = 0_turns; // total length this buff lasts
         int max_stacks = 0; // total number of stacks this buff can have
+        bool stack_per_enemy = false; //should this buff gain stacks per adjacent enemy
 
         int dodges_bonus = 0; // extra dodges, like karate
         int blocks_bonus = 0; // extra blocks, like karate
@@ -229,10 +266,10 @@ class ma_buff
         /** All kinds of bonuses by types to damage, hit, armor etc. */
         bonus_container bonuses;
 
-        bool quiet = false;
-        bool throw_immune = false; // are we immune to throws/grabs?
-        bool strictly_melee = false; // can we only use it with weapons?
-        bool stealthy = false; // do we make less noise when moving?
+        bool throw_immune = false;      // are we immune to throws/grabs?
+        bool quiet_attacks = false;     // are our attack silent?
+        bool quiet_movement = false;    // do we make less noise when moving?
+        bool strictly_melee = false;    // can we only use it with weapons?
 
         void load( const JsonObject &jo, const std::string &src );
 

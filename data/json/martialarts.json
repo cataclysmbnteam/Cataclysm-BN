@@ -770,8 +770,8 @@
         "description": "Your training allows you to make no noise when attacking and less noise when moving around.\n\nMelee and unarmed attacks generate 0 noise.  Moving generates 1/2 as much noise.",
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "quiet": true,
-        "stealthy": true
+        "quiet_attacks": true,
+        "quiet_movement": true
       },
       {
         "id": "buff_ninjutsu_static2",
