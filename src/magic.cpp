@@ -1630,11 +1630,13 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
         // the first leg_encumbrance_threshold points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - sp.id()->leg_encumbrance_threshold );
+        encumb += std::max( 0, guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) -
+                            sp.id()->leg_encumbrance_threshold );
     }
     if( sp.has_flag( spell_flag::SOMATIC ) ) {
         // the first arm_encumbrance_threshold points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - sp.id()->arm_encumbrance_threshold );
+        encumb += std::max( 0, guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) -
+                            sp.id()->arm_encumbrance_threshold );
     }
     return encumb > 0;
 }
