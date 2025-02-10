@@ -67,7 +67,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "ooze_acidicspray" },
-        "cooldown": 20,
+        "cooldown": 40,
         "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
