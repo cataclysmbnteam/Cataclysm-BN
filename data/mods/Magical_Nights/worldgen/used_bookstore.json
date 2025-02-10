@@ -52,7 +52,7 @@
         "d": "f_dumpster",
         "C": "f_counter"
       },
-      "monster": { "O": { "monster": "mon_krabgek", "chance": 100 }, "z": { "monster": "mon_krabgek", "chance": 33 } },
+      "monster": { "O": { "monster": "mon_resingolem_fresh", "chance": 100 }, "z": { "monster": "mon_resingolem_half", "chance": 20 } },
       "toilets": { "&": {  } },
       "items": { "M": { "item": "spellbook_loot_1", "chance": 60 }, "N": { "item": "novels", "chance": 60, "repeat": [ 1, 3 ] } }
     }
