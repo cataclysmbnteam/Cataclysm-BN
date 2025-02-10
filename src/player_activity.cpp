@@ -104,6 +104,63 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
+int player_activity::calc_moves( const avatar &u ) const
+{
+    float total = 100.f;
+    float bench = 0.f;
+    float p_speed = 0.f;
+    float skills = 0.f;
+    float tools = 0.f;
+    float morale = 0.f;
+
+    if( is_bench_affected() ) {
+        bench = calc_bench();
+    }
+    if( is_speed_affected() ) {
+        p_speed = u.get_moves();
+    }
+    if( is_skill_affected() ) {
+        skills = calc_skill();
+    }
+    if( is_tools_affected() ) {
+        tools = calc_tools();
+    }
+    if( is_moral_affected() ) {
+        morale = calc_morale( u.get_morale_level() );
+    }
+
+    total = total * ( 1.f + bench ) * ( 1.f + p_speed ) * ( 1.f + skills ) * ( 1.f + tools ) *
+            ( 1.f + morale );
+
+    //TODO: message?
+    if( is_verbose_tooltip() ) {
+
+    } else {
+
+    }
+
+    return total;
+}
+
+float player_activity::calc_bench() const
+{
+    return 1.f;
+}
+
+float player_activity::calc_skill() const
+{
+    return 1.f;
+}
+
+float player_activity::calc_tools() const
+{
+    return 1.f;
+}
+float player_activity::calc_morale( int morale ) const
+{
+    return 1.f;
+}
+
 static std::string craft_progress_message( const avatar &u, const player_activity &act )
 {
     const item *craft = &*act.targets.front();
@@ -162,10 +219,6 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
-static std::string activity_progress_message( const avatar &u, const player_activity &act )
-{
-
-}
 
 std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {

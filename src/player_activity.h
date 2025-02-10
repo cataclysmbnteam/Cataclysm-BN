@@ -150,6 +150,12 @@ class player_activity
         bool is_verbose_tooltip() const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
 
+        int calc_moves( const avatar &u ) const;
+        float calc_bench() const;
+        float calc_skill() const;
+        float calc_tools() const;
+        float calc_morale( int morale ) const;
+
         //Returns number of moves done per turn
         int get_moves( int p_moves );
         /**
@@ -192,3 +198,4 @@ class player_activity
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H
+
