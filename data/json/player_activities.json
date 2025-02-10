@@ -105,7 +105,7 @@
     "type": "activity_type",
     "verb": "playing",
     "rooted": true
-    },
+  },
   {
     "id": "ACT_WAIT",
     "type": "activity_type",
@@ -129,7 +129,7 @@
     "tools_affected": false,
     "moral_affected": true,
     "morale_blocked": true
-  }, 
+  },
   {
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
