@@ -602,7 +602,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     };
 }
 
-static std::string dump_requirements(
+[[maybe_unused]] static std::string dump_requirements(
     const requirement_data &reqs,
     int move_cost,
     const std::map<skill_id, int> &skills )

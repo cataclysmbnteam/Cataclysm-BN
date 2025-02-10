@@ -2515,6 +2515,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
     }
 
+    if( mod->ammo_required() > 1 ) {
+        info.emplace_back( "AMMO", string_format( "Uses <stat>%i</stat> ammo per shot",
+                           mod->ammo_required() ) );
+    }
+
     if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
                            string_format( vgettext( "Uses <stat>%i</stat> charge of UPS per shot",
@@ -7906,7 +7911,13 @@ int item::ammo_required() const
         } else if( has_flag( flag_FIRE_20 ) ) {
             return 20;
         } else {
-            return 1;
+            int modifier = 0;
+            float multiplier = 1.0f;
+            for( const item *mod : gunmods() ) {
+                modifier += mod->type->gunmod->ammo_to_fire_modifier;
+                multiplier *= mod->type->gunmod->ammo_to_fire_multiplier;
+            }
+            return ( type->gun->ammo_to_fire * multiplier ) + modifier;
         }
     }
 

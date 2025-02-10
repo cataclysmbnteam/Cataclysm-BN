@@ -15,6 +15,7 @@
   {
     "type": "COMESTIBLE",
     "id": "starch",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "starch" },
     "weight": "180 g",
     "color": "light_gray",
@@ -194,6 +195,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buckwheat_cooked",
+    "category": "food",
     "name": { "str_sp": "cooked buckwheat" },
     "copy-from": "buckwheat",
     "spoils_in": "20 days",
@@ -246,6 +248,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cornmeal",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "cornmeal" },
     "weight": "19 g",
     "color": "yellow",
@@ -287,6 +290,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_rice",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "dried rice" },
     "weight": "40 g",
     "color": "white",
@@ -311,6 +315,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rice_cooked",
+    "category": "food",
     "name": { "str_sp": "cooked rice" },
     "copy-from": "dry_rice",
     "weight": "62 g",
@@ -699,6 +704,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dried_salad",
+    "category": "cooking_ingredients",
     "name": "dried salad",
     "copy-from": "veggy_salad",
     "weight": "150 g",

@@ -261,7 +261,7 @@
   {
     "id": "etched_skull",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "other",
     "name": { "str": "etched human skull" },
     "description": "This is a human skull with strange etchings covering it.",
     "weight": "311 g",
@@ -630,7 +630,7 @@
   {
     "id": "sarcophagus_access_code",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "valuables",
     "name": { "str": "sarcophagus access code" },
     "description": "This printout is a string of numbers to access the elevator in the hazardous waste sarcophagus.",
     "weight": "5 g",

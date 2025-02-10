@@ -45,6 +45,7 @@
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "proportional": { "recoil": 0.334 },
+    "relative": { "damage": { "damage_type": "bullet", "armor_multiplier": 2 } },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
   {

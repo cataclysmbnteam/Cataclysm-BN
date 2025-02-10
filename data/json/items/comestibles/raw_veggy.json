@@ -2,6 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "barley",
+    "category": "cooking_ingredients",
     "name": { "str": "barley" },
     "weight": "211 g",
     "color": "brown",
@@ -24,6 +25,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bee_balm",
+    "category": "cooking_ingredients",
     "name": { "str": "bee balm" },
     "description": "A snow-white flower also known as wild bergamot.  Smells faintly of mint.",
     "comestible_type": "FOOD",
@@ -62,6 +64,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buckwheat",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "buckwheat" },
     "weight": "180 g",
     "color": "brown",
@@ -253,7 +256,7 @@
     "type": "COMESTIBLE",
     "id": "cotton_boll",
     "name": { "str": "cotton boll" },
-    "category": "other",
+    "category": "scrap_fabric",
     "weight": "26 g",
     "color": "light_green",
     "comestible_type": "FOOD",
@@ -389,6 +392,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dogbane",
+    "category": "other",
     "name": "dogbane",
     "description": "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
     "comestible_type": "FOOD",
@@ -431,6 +435,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hops",
+    "category": "cooking_ingredients",
     "name": { "str": "hops flower" },
     "weight": "92 g",
     "color": "light_green",
@@ -492,6 +497,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mugwort",
+    "category": "cooking_ingredients",
     "name": "mugwort",
     "description": "A stalk of mugwort.  Smells wonderful.",
     "comestible_type": "FOOD",
@@ -724,6 +730,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea_raw",
+    "category": "cooking_ingredients",
     "name": { "str": "tea leaf", "str_pl": "tea leaves" },
     "weight": "2 g",
     "color": "green",
@@ -747,6 +754,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coca_leaf",
+    "category": "drugs",
     "looks_like": "raw_edamame",
     "name": { "str": "coca leaf", "str_pl": "coca leaves" },
     "weight": "2 g",
@@ -861,6 +869,7 @@
   {
     "type": "COMESTIBLE",
     "id": "canola",
+    "category": "cooking_ingredients",
     "name": "canola",
     "description": "A pretty stalk of canola.  Its seeds can be pressed into oil.",
     "comestible_type": "FOOD",

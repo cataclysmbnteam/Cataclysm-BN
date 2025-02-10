@@ -154,7 +154,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "limestone shard" },
-    "category": "spare_parts",
+    "category": "rocks",
     "description": "A small shard of limestone.  Pretty flimsy and not much of a weapon, but its alkaline properties may yet find some use.",
     "price": "5 USD",
     "price_postapoc": "10 cent",

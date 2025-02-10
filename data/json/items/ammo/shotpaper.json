@@ -27,8 +27,6 @@
     "copy-from": "shot_paper_abstract",
     "type": "AMMO",
     "name": { "str": "20ga paper shot" },
-    "range": 0,
-    "shape": [ "cone", { "half_angle": 8, "length": 20 } ],
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of 00 buckshot."
   },
   {
