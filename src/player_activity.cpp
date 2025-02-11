@@ -154,7 +154,7 @@ float player_activity::calc_morale( int morale ) const
     //Any morale mod above 0 is valid, else - use default morale calc
     if( ac_morale > 0 ) {
         return ac_morale;
-}
+    }
 
     //1% per 4 extra morale
     if( morale > 20 ) {
@@ -163,63 +163,47 @@ float player_activity::calc_morale( int morale ) const
         return 1.10f + morale / 25.f;
     }
     return 1.0f;
-    }
-
-    // Horrid copypaste warning! TODO: Functions
-    const recipe &rec = craft->get_making();
-    const tripoint bench_pos = act.coords.front();
-    // Ugly
-    bench_type bench_t = bench_type( act.values[1] );
-
-    const bench_location bench{bench_t, bench_pos};
-
-    const float light_mult = lighting_crafting_speed_multiplier( u, rec );
-    const float bench_mult = workbench_crafting_speed_multiplier( *craft, bench );
-    const float morale_mult = morale_crafting_speed_multiplier( u, rec );
-    const int assistants = u.available_assistant_count( craft->get_making() );
-    const float base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
-    const float assist_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, assistants ) );
-    const float assist_mult = base_total_moves / assist_total_moves;
-    const float speed_mult = u.get_speed() / 100.0f;
-    const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult;
-
-    const double remaining_percentage = 1.0 - craft->item_counter / 10'000'000.0;
-    int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
-    std::string time_desc = string_format( _( "Time left: %s" ),
-                                           to_string( time_duration::from_turns( remaining_turns ) ) );
-
-    const std::array<std::pair<float, std::string>, 6> mults_with_data = {{
-            { total_mult, _( "Total" ) },
-            { speed_mult, _( "Speed" ) },
-            { light_mult, _( "Light" ) },
-            { bench_mult, _( "Workbench" ) },
-            { morale_mult, _( "Morale" ) },
-            { assist_mult, _( "Assistants" ) },
-        }
-    };
-    std::string mults_desc = _( "Crafting speed multipliers:\n" );
-    // Hack to make sure total always shows
-    bool first = true;
-    for( const std::pair<float, std::string> &p : mults_with_data ) {
-        int percent = static_cast<int>( p.first * 100 );
-        if( first || percent != 100 ) {
-            nc_color col = percent > 100 ? c_green : c_red;
-            std::string colorized = colorize( std::to_string( percent ) + '%', col );
-            mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
-        }
-        first = false;
-    }
-
-    return string_format( _( "%s: %s\n\n%s\n\n%s" ), act.get_verb().translated(), craft->tname(),
-                          time_desc,
-                          mults_desc );
 }
 
+std::string formatSpd( float level, std::string name )
+{
+    if( level == 1.f ) {
+        return "";
+    }
+    int percent = static_cast<int>( std::roundf( level * 100.f ) );
+    nc_color col = percent == 100
+                   ? c_white
+                   : percent > 100 ? c_green : c_red;
+    std::string colorized = colorize( std::to_string( percent ) + '%', col );
+    return string_format( _( "%s: %s\n" ), name, colorized );
+
+}
 
 std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( !type || get_verb().empty() ) {
         return std::optional<std::string>();
+    }
+    if( is_verbose_tooltip() ) {
+
+        std::string time_desc = string_format( _( "Time left: %s" ),
+                                               to_string( time_duration::from_turns( moves_left / speed.total() ) ) );
+
+        std::string mults_desc = string_format( _( "Speed multipliers:\n" ),
+                                                get_verb().translated() );
+        mults_desc += formatSpd( speed.total(), "Total" );
+        mults_desc += formatSpd( speed.assist, "Assistants" );
+        mults_desc += formatSpd( speed.tools, "Tools" );
+        mults_desc += formatSpd( speed.bench, "Workbench" );
+        mults_desc += formatSpd( speed.light, "Light" );
+        mults_desc += formatSpd( speed.morale, "Morale" );
+        mults_desc += formatSpd( speed.p_speed, "Speed" );
+        mults_desc += formatSpd( speed.skills, "Skills" );
+        mults_desc += formatSpd( speed.tools, "Tools" );
+
+        return string_format( _( "%s: %s\n\n%s" ), get_verb().translated(),
+                              time_desc,
+                              mults_desc );
     }
 
     if( actor ) {
@@ -297,6 +281,37 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
                     get_verb().translated(), extra_info );
 }
 
+void player_activity::find_best_bench( const Character &who )
+{
+    bench_l best_bench = bench_l(
+                             workbench_info_wrapper(
+                                 * string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
+                             bench_type::ground,
+                             who.pos() );
+    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
+    get_map().reachable_flood_steps( reachable, who.pos(), PICKUP_RANGE, 1, 100 );
+    for( const tripoint &adj : reachable ) {
+        if( auto wb = get_map().furn( adj ).obj().workbench ) {
+            if( wb->multiplier > best_bench.wb_info.multiplier ) {
+                best_bench = bench_l( workbench_info_wrapper( *wb.get() ), bench_type::furniture, adj );
+            }
+        }
+
+        if( const std::optional<vpart_reference> vp = get_map().veh_at(
+                    adj ).part_with_feature( "WORKBENCH", true ) ) {
+            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( wb_info->multiplier > best_bench.wb_info.multiplier ) {
+                    best_bench = bench_l( workbench_info_wrapper( wb_info.value() ), bench_type::furniture, adj );
+                }
+            } else {
+                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+            }
+        }
+    }
+
+    bench = &best_bench;
+}
+
 void player_activity::start_or_resume( Character &who, bool resuming )
 {
     if( actor && !resuming ) {
@@ -318,7 +333,10 @@ void player_activity::do_turn( player &p )
         this->resolve_active();
     } );
 
-    // Should happen before activity or it may fail du to 0 moves
+    /*
+    * Auto-needs block
+    * Should happen before activity or it may fail du to 0 moves
+    */
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
     }
@@ -339,6 +357,9 @@ void player_activity::do_turn( player &p )
         }
     }
 
+    /*
+    * Stamina block
+    */
     int previous_stamina = p.get_stamina();
     if( p.is_npc() && p.restore_outbounds_activity() ) {
         // npc might be operating at the edge of the reality bubble.
@@ -349,13 +370,6 @@ void player_activity::do_turn( player &p )
         return;
     }
     const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
-    // This might finish the activity (set it to null)
-    if( actor ) {
-        actor->do_turn( *this, p );
-    } else {
-        // Use the legacy turn function
-        type->call_do_turn( this, &p );
-    }
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -378,6 +392,39 @@ void player_activity::do_turn( player &p )
     if( *this && type->rooted() ) {
         p.rooted();
         character_funcs::do_pause( p );
+    }
+
+    /*
+     * Moves block
+     * This might finish the activity (set it to null)
+    */
+    if( type->based_on() == based_on_type::TIME ) {
+        if( moves_left >= 100 ) {
+            moves_left -= 100;
+            p.moves = 0;
+        } else {
+            p.moves -= moves_left ;
+            moves_left = 0;
+        }
+    }
+    // Leave as is till full migration to actors for "NEITHER"
+    else if( type->based_on() != based_on_type::NEITHER ) {
+        calc_moves( p );
+        int moves_total = speed.totalMoves();
+        if( moves_left >= moves_total ) {
+            moves_left -= moves_total;
+            p.moves = 0;
+        } else {
+            p.moves -= std::round( ( moves_total - moves_left ) * 100.f / moves_total );
+            moves_left = 0;
+        }
+    }
+
+    if( actor ) {
+        actor->do_turn( *this, p );
+    } else {
+        // Use the legacy turn function
+        type->call_do_turn( this, &p );
     }
 
     if( *this && moves_left <= 0 ) {

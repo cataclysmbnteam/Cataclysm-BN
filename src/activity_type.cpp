@@ -41,6 +41,12 @@ bool string_id<activity_type>::is_valid() const
     return found != activity_type_all.end();
 }
 
+static const std::unordered_map< std::string, based_on_type > based_on_type_values = {
+    { "time", based_on_type::TIME },
+    { "neither", based_on_type::NEITHER }
+};
+
+
 void activity_type::load( const JsonObject &jo )
 {
     activity_type result;
@@ -63,6 +69,8 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "morale_blocked", result.morale_blocked_, false );
     assign( jo, "verbose_tooltip", result.verbose_tooltip_, false );
 
+    result.based_on_ = io::string_to_enum_look_up( based_on_type_values, jo.get_string( "based_on" ) );
+
     if( activity_type_all.find( result.id_ ) != activity_type_all.end() ) {
         debugmsg( "Redefinition of %s", result.id_.c_str() );
     } else {
@@ -81,7 +89,7 @@ void activity_type::check_consistency()
         const bool has_turn_func = activity_handlers::do_turn_functions.find( pair.second.id_ ) !=
                                    activity_handlers::do_turn_functions.end();
 
-        if( !( has_turn_func || has_actor ) ) {
+        if( pair.second.based_on_ == based_on_type::NEITHER && !( has_turn_func || has_actor ) ) {
             debugmsg( "%s needs a do_turn function or activity actor if it's not based on time or speed.",
                       pair.second.id_.c_str() );
         }

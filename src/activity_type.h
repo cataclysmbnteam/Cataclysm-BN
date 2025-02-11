@@ -19,6 +19,11 @@ using activity_id = string_id<activity_type>;
 template<>
 const activity_type &string_id<activity_type>::obj() const;
 
+enum class based_on_type : int {
+    TIME = 0,
+    NEITHER
+};
+
 /** A class that stores constant information that doesn't differ between activities of the same type */
 class activity_type
 {
@@ -27,6 +32,7 @@ class activity_type
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
         bool suspendable_ = true;
+        based_on_type based_on_ = based_on_type::TIME;
         bool no_resume_ = false;
         bool multi_activity_ = false;
         bool refuel_fires = false;
@@ -54,6 +60,9 @@ class activity_type
         std::string stop_phrase() const;
         const translation &verb() const {
             return verb_;
+        }
+        based_on_type based_on() const {
+            return based_on_;
         }
         bool no_resume() const {
             return no_resume_;
