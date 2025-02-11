@@ -130,6 +130,18 @@ class activity_actor
             msg.implemented = false;
             return msg;
         }
+
+        virtual float calc_skill() const {
+            return 1.f;
+        }
+
+        virtual float calc_tools() const {
+            return 1.f;
+        }
+
+        virtual float calc_morale( int morale ) const {
+            return -1.f;
+        }
 };
 
 namespace activity_actors

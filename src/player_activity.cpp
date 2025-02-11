@@ -33,6 +33,12 @@
 #include "translations.h"
 #include "value_ptr.h"
 #include "profile.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vehicle_part.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
+#include <character_functions.h>
 
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -90,42 +96,26 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-int player_activity::calc_moves( const avatar &u ) const
+void player_activity::calc_moves( const Character &who )
 {
-    float total = 100.f;
-    float bench = 0.f;
-    float p_speed = 0.f;
-    float skills = 0.f;
-    float tools = 0.f;
-    float morale = 0.f;
-
     if( is_bench_affected() ) {
-        bench = calc_bench();
+        speed.bench = calc_bench();
+    }
+    if( is_light_affected() ) {
+        speed.light = calc_light( who );
     }
     if( is_speed_affected() ) {
-        p_speed = u.get_moves();
+        speed.p_speed = who.get_moves();
     }
     if( is_skill_affected() ) {
-        skills = calc_skill();
+        speed.skills = calc_skill();
     }
     if( is_tools_affected() ) {
-        tools = calc_tools();
+        speed.tools = calc_tools();
     }
     if( is_moral_affected() ) {
-        morale = calc_morale( u.get_morale_level() );
+        speed.morale = calc_morale( who.get_morale_level() );
     }
-
-    total = total * ( 1.f + bench ) * ( 1.f + p_speed ) * ( 1.f + skills ) * ( 1.f + tools ) *
-            ( 1.f + morale );
-
-    //TODO: message?
-    if( is_verbose_tooltip() ) {
-
-    } else {
-
-    }
-
-    return total;
 }
 
 float player_activity::calc_bench() const
@@ -133,26 +123,46 @@ float player_activity::calc_bench() const
     return 1.f;
 }
 
+float player_activity::calc_light( const Character &who ) const
+{
+    if( character_funcs::can_see_fine_details( who ) ) {
+        return 1.0f;
+    }
+
+    // This value whould be within [0,1]
+    const float darkness =
+        (
+            character_funcs::fine_detail_vision_mod( who ) -
+            character_funcs::FINE_VISION_THRESHOLD
+        ) / 7.0f;
+    return 1.0f - darkness;
+}
+
 float player_activity::calc_skill() const
 {
-    return 1.f;
+    return actor ? actor->calc_skill() : 1.f;
 }
 
 float player_activity::calc_tools() const
 {
-    return 1.f;
-}
-float player_activity::calc_morale( int morale ) const
-{
-    return 1.f;
+    return actor ? actor->calc_tools() : 1.f;
 }
 
-static std::string craft_progress_message( const avatar &u, const player_activity &act )
+float player_activity::calc_morale( int morale ) const
 {
-    const item *craft = &*act.targets.front();
-    if( craft == nullptr ) {
-        // Should never happen (?)
-        return string_format( _( "%s…" ), act.get_verb().translated() );
+    float ac_morale = actor ? actor->calc_morale( morale ) : -1.f;
+    //Any morale mod above 0 is valid, else - use default morale calc
+    if( ac_morale > 0 ) {
+        return ac_morale;
+}
+
+    //1% per 4 extra morale
+    if( morale > 20 ) {
+        return 0.95f + morale / 25.f;
+    } else if( morale < -40 ) {
+        return 1.10f + morale / 25.f;
+    }
+    return 1.0f;
     }
 
     // Horrid copypaste warning! TODO: Functions
@@ -237,9 +247,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     }
 
     std::string extra_info;
-    if( type == activity_id( "ACT_CRAFT" ) ) {
-        return craft_progress_message( u, *this );
-    } else if( type == activity_id( "ACT_READ" ) ) {
+    if( type == activity_id( "ACT_READ" ) ) {
         if( const item *book = &*targets.front() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -292,6 +300,9 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 void player_activity::start_or_resume( Character &who, bool resuming )
 {
     if( actor && !resuming ) {
+        if( is_bench_affected() ) {
+            find_best_bench( who );
+        }
         actor->start( *this, who );
     }
     if( rooted() ) {

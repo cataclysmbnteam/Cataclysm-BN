@@ -18,6 +18,7 @@
 #include "point.h"
 #include "type_id.h"
 #include "safe_reference.h"
+#include "crafting.h"
 
 class activity_actor;
 class Character;
@@ -28,6 +29,27 @@ class monster;
 class player;
 class translation;
 class activity_ptr;
+
+struct activity_speed {
+    public:
+        float assist = 1.f;
+        float bench = 1.f;
+        float p_speed = 1.f;
+        float skills = 1.f;
+        float tools = 1.f;
+        float morale = 1.f;
+        float light = 1.f;
+
+        float total() const {
+            return 1.f * assist * bench * p_speed * skills * tools * morale * light ;
+        }
+
+        int totalMoves() const {
+            return std::roundf( total() ) * 100;
+        }
+
+        activity_speed() = default;
+};
 
 class player_activity
 {
@@ -51,6 +73,9 @@ class player_activity
         int moves_left = 0;
         /** Controls whether this activity can be cancelled with 'pause' action */
         bool interruptable_with_kb = true;
+
+        activity_speed speed = activity_speed();
+        bench_l *bench = nullptr;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -161,21 +186,21 @@ class player_activity
         }
 
         int get_value( size_t index, int def = 0 ) const;
-        bool is_verbose_tooltip() const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
 
-        int calc_moves( const avatar &u ) const;
+        void calc_moves( const Character &who );
         float calc_bench() const;
+        float calc_light( const Character &who ) const;
         float calc_skill() const;
         float calc_tools() const;
         float calc_morale( int morale ) const;
 
-        //Returns number of moves done per turn
-        int get_moves( int p_moves );
         /**
          * Helper that returns an activity specific progress message.
          */
         std::optional<std::string> get_progress_message( const avatar &u ) const;
+
+        void find_best_bench( const Character &who );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
