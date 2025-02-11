@@ -4723,7 +4723,7 @@ void overmap::place_cities()
                 }
 
                 //if the city finale failed to place, restore from last backup and try again at the top of the loop
-                if( !tmp.finale_placed ) {
+                if( !tmp.finale_placed  && tmp.attempt_finale ) {
                     layer[p.z() + OVERMAP_DEPTH] = this_layer_backup;
                     layer[p.z() + OVERMAP_DEPTH + 1] = sewers_backup;
                 }
