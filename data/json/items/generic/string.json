@@ -127,7 +127,7 @@
   {
     "id": "stick_fiber",
     "type": "COMESTIBLE",
-    "category": "spare_parts",
+    "category": "other",
     "name": "fibrous stalk",
     "symbol": "=",
     "material": "dry_plant",

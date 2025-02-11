@@ -59,13 +59,28 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for
 details.
 
-## Contributing
+## License
 
-> Cataclysm: Bright Nights developed under Creative Commons Attribution ShareAlike 3.0 license. The
-> code and content of the game is free to use, modify, and redistribute for any purpose whatsoever.
-> See http://creativecommons.org/licenses/by-sa/3.0/ for details. Some code distributed with the
-> project is not part of the project and is released under different software licenses, the files
-> covered by different software licenses have their own license notices.
+The code for Cataclysm: Bright Nights is licensed under
+[GNU Affero General Public License v3 only](https://www.gnu.org/licenses/agpl.html), which can be
+found in [LICENSE](./LICENSE). The assets are licensed under
+[CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+All git authorship on or after dcb566320368cf3236ede27125e150540cd56387 (`2025-02-06 16:08:18 UTC`)
+is assumed to be licensed under
+
+- code (c++, typescript, JSON, etc): AGPL-3.0-only.
+- assets (images, sounds, etc): CC-BY-SA-4.0.
+
+All git authorship prior to dcb566320368cf3236ede27125e150540cd56387 (`2025-02-06 16:08:18 UTC`) is
+licensed under the Creative http://creativecommons.org/licenses/by-sa/3.0/ license.
+
+Some code distributed with the project is not part of the project and is released under different
+software licenses, the files covered by different software licenses have their own license notices.
+
+Check [LICENSE.txt](./LICENSE.txt) for details.
+
+## Contributing
 
 Please check the [official docs](https://docs.cataclysmbn.org/en/contribute/contributing/) for
 details.

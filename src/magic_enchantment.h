@@ -90,6 +90,7 @@ class enchantment
             DUSK,
             DAWN,
             ACTIVE, // the item, mutation, etc. is active
+            INACTIVE,
             NUM_CONDITION
         };
 

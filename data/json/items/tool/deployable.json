@@ -115,7 +115,7 @@
       "practice": 0,
       "done_message": "You unfold the cot and place it on the ground."
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "folding_bicycle",
@@ -138,12 +138,12 @@
       "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
       "moves": 500
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "folding_skateboard",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "skateboard" },
     "description": "This is a skateboard.",
     "weight": "2898 g",
@@ -161,12 +161,12 @@
       "unfold_msg": "You lay the skateboard down on the ground.",
       "moves": 0
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "generic_folded_vehicle",
     "type": "TOOL",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str_sp": "seeing this is a bug" },
     "description": "seeing this is a bug",
     "volume": "0 ml",
@@ -175,12 +175,12 @@
     "symbol": "/",
     "color": "light_gray",
     "use_action": "UNFOLD_GENERIC",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "metal_butcher_rack",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "deployables",
     "name": { "str": "metal butchering rack" },
     "description": "Metal butchering rack designed to hang a carcass in the air.  It is folded for easy transportation.",
     "weight": "5000 g",
@@ -217,7 +217,7 @@
       "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
       "moves": 15000
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "metal_smoking_rack",

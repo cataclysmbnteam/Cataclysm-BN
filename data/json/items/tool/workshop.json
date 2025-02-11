@@ -341,7 +341,7 @@
   {
     "id": "wire_saw",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "wire saw" },
     "description": "This is a flexible saw made from thin wire, with simple handles on either end.  It should suffice for light metal and wood sawing, or for cutting chain-link fences.",
     "weight": "200 g",
@@ -868,7 +868,7 @@
   {
     "id": "primitive_hammer",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "1H_HAMMERS" ],
     "name": { "str": "stone hammer" },
     "description": "This is a rock affixed to a stick, in the crude facsimile of a hammer.  It functions adequately as a hammer, but really can't compare to a proper one.",
@@ -1014,7 +1014,7 @@
     "id": "soldering_ethanol",
     "looks_like": "soldering_iron",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "alcohol-fueled soldering iron" },
     "description": "This is a device with a metal tip that can get very hot.  It is necessary for advanced electronics crafting.  A metal tip is hold over the burner to create enough heat to solder.  Not as sophisticated as a regular soldering iron.",
     "weight": "1000 g",

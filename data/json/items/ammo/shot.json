@@ -96,9 +96,7 @@
     "copy-from": "shot_abstract",
     "type": "AMMO",
     "name": { "str": "00 shot" },
-    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
-    "range": 0,
-    "shape": [ "cone", { "half_angle": 10, "length": 12 } ]
+    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces."
   },
   {
     "id": "shot_beanbag",
@@ -125,7 +123,7 @@
     "range": 0,
     "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 },
     "loudness": 80,
-    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
+    "shape": [ "cone", { "half_angle": 15, "length": 10 } ],
     "extend": { "effects": [ "NOGIB" ] }
   },
   {

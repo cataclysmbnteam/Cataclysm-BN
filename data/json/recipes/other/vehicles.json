@@ -1627,8 +1627,8 @@
     "autolearn": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "byproducts": [ [ "steel_lump", 50 ] ],
-    "components": [ [ [ "hdframe", 3 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "byproducts": [ [ "steel_lump", 20 ] ],
+    "components": [ [ [ "hdframe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1915,9 +1915,10 @@
     "skill_used": "computer",
     "difficulty": 1,
     "autolearn": true,
-    "time": "50 m",
-    "using": [ [ "3d_printing_standard", 50 ] ],
-    "components": [ [ [ "plastic_chunk", 50 ] ] ]
+    "time": "30 m",
+    "batch_time_factors": [ 60, 1 ],
+    "using": [ [ "3d_printing_standard", 30 ] ],
+    "components": [ [ [ "plastic_chunk", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -1928,8 +1929,9 @@
     "difficulty": 3,
     "time": "75 m",
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 75, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 50 ] ] ]
+    "batch_time_factors": [ 60, 1 ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 55, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 30 ] ] ]
   },
   {
     "result": "frame_carbon",
@@ -1939,8 +1941,23 @@
     "skill_used": "computer",
     "difficulty": 2,
     "autolearn": true,
-    "time": "30 m",
-    "using": [ [ "3d_printing_standard", 30 ] ],
-    "components": [ [ [ "carbon_fiber_filament", 300 ] ] ]
+    "time": "20 m",
+    "batch_time_factors": [ 60, 1 ],
+    "using": [ [ "3d_printing_standard", 20 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 200 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cargo_rack_carbon",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ "mechanics", 1 ],
+    "autolearn": true,
+    "time": "20 m",
+    "batch_time_factors": [ 60, 1 ],
+    "using": [ [ "3d_printing_standard", 20 ], [ "rope_natural", 4 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 400 ], [ "frame_carbon", 2 ] ] ]
   }
 ]

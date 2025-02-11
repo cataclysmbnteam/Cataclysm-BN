@@ -1046,7 +1046,7 @@ void city_settings::finalize()
     houses.finalize();
     shops.finalize();
     parks.finalize();
-    if (!finales.buildings.empty()) {
+    if( !finales.buildings.empty() ) {
         finales.finalize();
     }
 }

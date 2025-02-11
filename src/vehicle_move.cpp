@@ -656,13 +656,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // 0.001 -> 1 meter. Left modifiable so that armor or other parts can affect it.
     float deformation_distance = density_factor / 100;
 
-    //Calculates mass factor. Depreciated, maintained for stats.
-    // factor = -25 if mass is much greater than mass2
-    // factor = +25 if mass2 is much greater than mass
-    const float weight_factor = mass >= mass2 ?
-                                -25 * ( std::log( mass ) - std::log( mass2 ) ) / std::log( mass ) :
-                                25 * ( std::log( mass2 ) - std::log( mass ) ) / std::log( mass2 );
-
     bool smashed = true;
     const std::string snd = _( "smash!" );
     float part_dmg = 0;

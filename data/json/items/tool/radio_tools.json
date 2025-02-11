@@ -92,7 +92,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": "RADIO_MOD"
+    "use_action": "RADIO_MOD",
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "radio",

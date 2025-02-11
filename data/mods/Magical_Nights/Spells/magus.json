@@ -13,7 +13,7 @@
     "min_range": 13,
     "range_increment": 0.8,
     "max_range": 35,
-    "base_energy_cost": 50,
+    "base_energy_cost": 90,
     "spell_class": "MAGUS",
     "difficulty": 1,
     "max_level": 22,
@@ -38,9 +38,9 @@
     "max_level": 15,
     "difficulty": 2,
     "spell_class": "MAGUS",
-    "base_casting_time": 100,
+    "base_casting_time": 200,
     "energy_source": "MANA",
-    "base_energy_cost": 100
+    "base_energy_cost": 225
   },
   {
     "id": "gravity_well",
@@ -63,9 +63,9 @@
     "max_level": 30,
     "difficulty": 8,
     "spell_class": "MAGUS",
-    "base_casting_time": 600,
+    "base_casting_time": 200,
     "energy_source": "MANA",
-    "base_energy_cost": 350
+    "base_energy_cost": 200
   },
   {
     "id": "magus_mana_blast",
@@ -78,7 +78,7 @@
     "spell_class": "MAGUS",
     "energy_source": "MANA",
     "base_casting_time": 150,
-    "base_energy_cost": 200,
+    "base_energy_cost": 225,
     "difficulty": 5,
     "max_level": 30,
     "min_damage": 21,
@@ -102,8 +102,8 @@
     "effect": "projectile_attack",
     "spell_class": "MAGUS",
     "energy_source": "MANA",
-    "base_casting_time": 100,
-    "base_energy_cost": 150,
+    "base_casting_time": 125,
+    "base_energy_cost": 225,
     "difficulty": 5,
     "max_level": 30,
     "min_damage": 57,
@@ -129,9 +129,9 @@
     "base_casting_time": 200,
     "base_energy_cost": 300,
     "max_level": 30,
-    "min_duration": 96000,
-    "max_duration": 276000,
-    "duration_increment": 6000
+    "min_duration": 48000,
+    "max_duration": 138000,
+    "duration_increment": 3000
   },
   {
     "id": "magus_mana_beam",
@@ -144,7 +144,7 @@
     "spell_class": "MAGUS",
     "energy_source": "MANA",
     "base_casting_time": 150,
-    "base_energy_cost": 200,
+    "base_energy_cost": 225,
     "difficulty": 4,
     "max_level": 30,
     "min_damage": 18,
@@ -176,7 +176,7 @@
     "spell_class": "MAGUS",
     "base_casting_time": 100,
     "energy_source": "MANA",
-    "base_energy_cost": 250
+    "base_energy_cost": 350
   },
   {
     "id": "create_rune_magus",

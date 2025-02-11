@@ -709,6 +709,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `DANGEROUS` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies
   "NPC_THROW_NOW".
 - `DETERGENT` ... This item can be used as a detergent in a washing machine.
+- `DESTROY_ON_DECHARGE` ... This item should be destroyed if loses charges.
 - `DURABLE_MELEE` ... Item is made to hit stuff and it does it well, so it's considered to be a lot
   tougher than other weapons made of the same materials.
 - `FAKE_MILL` ... Item is a fake item, to denote a partially milled product by @ref
@@ -777,8 +778,10 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `CROSSBOW` Counts as a crossbow for the purpose of gunmod compatibility. Default behavior is to
   match the skill used by that weapon.
 - `DISABLE_SIGHTS` Prevents use of the base weapon sights
-- `FIRE_100` Uses 100 shots per firing.
+- `FIRE_20` Uses 20 shots per firing.
 - `FIRE_50` Uses 50 shots per firing.
+- `FIRE_100` Uses 100 shots per firing. See also the `ammo_to_fire` property to specify any amount
+  of ammo usage per shot desired. These flags will override `ammo_to_fire` if present.
 - `HEAVY_WEAPON_SUPPORT` Wearing this will let you hip-fire heavy weapons without needing terrain
   support, like Large or Huge mutants can.
 - `FIRE_TWOHAND` Gun can only be fired if player has two free hands.

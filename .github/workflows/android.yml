@@ -14,7 +14,9 @@ on:
       - "tools/**"
       - "!tools/format/**"
       - "utilities/**"
-      - 'scripts/**'
+      - "scripts/**"
+      - "**.md"
+      - "**.mdx"
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:

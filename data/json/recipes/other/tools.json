@@ -475,7 +475,8 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 4,
+    "difficulty": 3,
+    "skills_required": [ "survival", 2 ],
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
@@ -493,8 +494,8 @@
     "result": "primitive_axe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 2 ],
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
     "difficulty": 3,
     "time": "1 h",
     "reversible": true,
@@ -2604,6 +2605,17 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_advanced", 3 ], [ "steel_tiny", 3 ] ]
+  },
+  {
+    "result": "kettle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h 15 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_advanced", 34 ], [ "steel_tiny", 4 ] ]
   },
   {
     "result": "awl_bone",

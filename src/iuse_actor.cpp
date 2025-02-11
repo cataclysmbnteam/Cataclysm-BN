@@ -2260,6 +2260,8 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
     bool extinguish = true;
     if( it.charges == 0 ) {
         p.add_msg_if_player( m_bad, _( charges_extinguish_message ) );
+        // Revert when it runs out of charges is handled in process_tool.
+        extinguish = false;
     } else if( p.is_underwater() ) {
         p.add_msg_if_player( m_bad, _( water_extinguish_message ) );
     } else if( auto_extinguish_chance > 0 && one_in( auto_extinguish_chance ) ) {
@@ -2274,7 +2276,6 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
         it.revert( &p, false );
         it.deactivate();
         return 0;
-
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( noise_message ) );

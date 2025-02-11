@@ -263,5 +263,13 @@
     "max_duration": "10 second",
     "rating": "bad",
     "base_mods": { "pain_amount": [ 20 ] }
+  },
+  {
+    "id": "gungnir_debuff",
+    "type": "effect_type",
+    "desc": [ "Let's see this foe try and dodge the powerful Gungnir NOW!" ],
+    "rating": "bad",
+    "//": "This is the best I can do in terms of making it 'never miss' generally",
+    "base_mods": { "dodge_mod": [ -10 ] }
   }
 ]

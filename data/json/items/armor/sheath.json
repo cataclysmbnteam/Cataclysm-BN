@@ -76,7 +76,7 @@
       "type": "holster",
       "holster_prompt": "Sheath knife",
       "holster_msg": "You sheath your %s",
-      "min_volume": "15 ml",
+      "min_volume": "10 ml",
       "max_volume": "500 ml",
       "draw_cost": 150,
       "flags": [ "SHEATH_KNIFE" ]
@@ -105,7 +105,7 @@
       "type": "holster",
       "holster_prompt": "Sheath knife",
       "holster_msg": "You sheath your %s",
-      "min_volume": "15 ml",
+      "min_volume": "10 ml",
       "max_volume": "250 ml",
       "draw_cost": 50,
       "flags": [ "SHEATH_KNIFE" ]
