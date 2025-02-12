@@ -46,8 +46,8 @@ static const skill_id skill_unarmed( "unarmed" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
-static const efftype_id effect_downed("downed");
-static const efftype_id effect_stunned("stunned");
+static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
@@ -262,13 +262,15 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "down_dur", down_dur, 0 );
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
-    optional(jo, was_loaded, "pull_target", pull_target, false );
-    optional(jo, was_loaded, "pull_self", pull_self, false );
+    optional( jo, was_loaded, "pull_target", pull_target, false );
+    optional( jo, was_loaded, "pull_self", pull_self, false );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
 
-    optional( jo, was_loaded, "knockback_type", knockback_type, jo.get_bool("powerful_knockback", false) ? "powerful" : "");
-    optional( jo, was_loaded, "knockback_follow_type", knockback_follow_type, jo.get_bool("knockback_follow", false) ? "partial" : "");
+    optional( jo, was_loaded, "knockback_type", knockback_type,
+              jo.get_bool("powerful_knockback", false) ? "powerful" : "");
+    optional( jo, was_loaded, "knockback_follow_type", knockback_follow_type,
+              jo.get_bool("knockback_follow", false) ? "partial" : "");
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -593,7 +595,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
-    if (req_running && !u.movement_mode_is(CMM_RUN)) {
+    if( req_running && !u.movement_mode_is( CMM_RUN ) ) {
         return false;
     }
 
@@ -770,7 +772,8 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
-    knockback_follow_type = ""; // "partial" = target's former tile. "full" = relative tile to target's final tile.
+    knockback_follow_type =
+        ""; // "partial" = target's former tile. "full" = relative tile to target's final tile.
 
     // offensive
     disarms = false; // like tec_disarm
@@ -1546,12 +1549,13 @@ std::string ma_technique::get_description() const
         dump += _( "* Only works on a <info>humanoid</info> target" ) + std::string( "\n" );
     }
 
-    if( knockback_type == "powerful") {
+    if( knockback_type == "powerful" ) {
         dump += _( "* Causes extra damage on <info>knockback collision</info>." ) + std::string( "\n" );
     }
 
-    if( knockback_type == "destructive") {
-        dump += _( "* Causes extra damage on <info>knockback collision</info>, and can break terrain." ) + std::string( "\n" );
+    if( knockback_type == "destructive" ) {
+        dump += _( "* Causes extra damage on <info>knockback collision</info>, and can break terrain." ) +
+                std::string( "\n" );
     }
 
     if( dodge_counter ) {
@@ -1587,11 +1591,11 @@ std::string ma_technique::get_description() const
                                knockback_dist, vgettext( "tile", "tiles", knockback_dist ) ) + "\n";
     }
 
-    if(knockback_follow_type == "partial") {
+    if( knockback_follow_type == "partial" ) {
         dump += _( "* Will <info>follow</info> enemies after knockback." ) + std::string( "\n" );
     }
 
-    if( knockback_follow_type == "full") {
+    if( knockback_follow_type == "full" ) {
         dump += _( "* Will <info>follow</info> enemies all the way after knockback." ) +
                 std::string( "\n" );
     }
