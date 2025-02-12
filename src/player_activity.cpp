@@ -99,31 +99,31 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 void player_activity::calc_moves( const Character &who )
 {
     if( is_bench_affected() ) {
-        speed.bench = calc_bench();
+        speed.bench = calc_bench_factor();
     }
     if( is_light_affected() ) {
-        speed.light = calc_light( who );
+        speed.light = calc_light_factor( who );
     }
     if( is_speed_affected() ) {
-        speed.p_speed = who.get_speed() / 100.f;
+        speed.player_speed = who.get_speed() / 100.0f;
     }
     if( is_skill_affected() ) {
-        speed.skills = calc_skill();
+        speed.skills = calc_skill_factor();
     }
     if( is_tools_affected() ) {
-        speed.tools = calc_tools();
+        speed.tools = calc_tools_factor();
     }
-    if( is_moral_affected() ) {
-        speed.morale = calc_morale( who.get_morale_level() );
+    if( is_morale_affected() ) {
+        speed.morale = calc_morale_factor( who.get_morale_level() );
     }
 }
 
-float player_activity::calc_bench() const
+float player_activity::calc_bench_factor() const
 {
-    return 1.f;
+    return 1.0f;
 }
 
-float player_activity::calc_light( const Character &who ) const
+float player_activity::calc_light_factor( const Character &who ) const
 {
     if( character_funcs::can_see_fine_details( who ) ) {
         return 1.0f;
@@ -138,19 +138,19 @@ float player_activity::calc_light( const Character &who ) const
     return 1.0f - darkness;
 }
 
-float player_activity::calc_skill() const
+float player_activity::calc_skill_factor() const
 {
-    return actor ? actor->calc_skill() : 1.f;
+    return actor ? actor->calc_skill_factor() : 1.0f;
 }
 
-float player_activity::calc_tools() const
+float player_activity::calc_tools_factor() const
 {
-    return actor ? actor->calc_tools() : 1.f;
+    return actor ? actor->calc_tools_factor() : 1.0f;
 }
 
-float player_activity::calc_morale( int morale ) const
+float player_activity::calc_morale_factor( int morale ) const
 {
-    float ac_morale = actor ? actor->calc_morale( morale ) : -1.f;
+    float ac_morale = actor ? actor->calc_morale_factor( morale ) : -1.0f;
     //Any morale mod above 0 is valid, else - use default morale calc
     if( ac_morale > 0 ) {
         return ac_morale;
@@ -223,12 +223,12 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
-std::string formatSpd( float level, std::string name, int indent = 0, bool force_show = false )
+std::string format_spd( float level, std::string name, int indent = 0, bool force_show = false )
 {
-    if( !force_show && level == 1.f ) {
+    if( !force_show && level == 1.0f ) {
         return "";
     }
-    int percent = static_cast<int>( std::roundf( level * 100.f ) );
+    int percent = static_cast<int>( std::roundf( level * 100.0f ) );
     nc_color col = percent == 100
                    ? c_white
                    : percent > 100 ? c_green : c_red;
@@ -248,15 +248,15 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
         std::string mults_desc = string_format( _( "Speed multipliers:\n" ),
                                                 get_verb().translated() );
-        mults_desc += formatSpd( speed.total(), "Total", 0, true );
-        mults_desc += formatSpd( speed.assist, "Assistants", 1 );
-        mults_desc += formatSpd( speed.tools, "Tools", 1 );
-        mults_desc += formatSpd( speed.bench, "Workbench", 1 );
-        mults_desc += formatSpd( speed.light, "Light", 1 );
-        mults_desc += formatSpd( speed.morale, "Morale", 1 );
-        mults_desc += formatSpd( speed.p_speed, "Speed", 1 );
-        mults_desc += formatSpd( speed.skills, "Skills", 1 );
-        mults_desc += formatSpd( speed.tools, "Tools", 1 );
+        mults_desc += format_spd( speed.total(), "Total", 0, true );
+        mults_desc += format_spd( speed.assist, "Assistants", 1 );
+        mults_desc += format_spd( speed.tools, "Tools", 1 );
+        mults_desc += format_spd( speed.bench, "Workbench", 1 );
+        mults_desc += format_spd( speed.light, "Light", 1 );
+        mults_desc += format_spd( speed.morale, "Morale", 1 );
+        mults_desc += format_spd( speed.player_speed, "Speed", 1 );
+        mults_desc += format_spd( speed.skills, "Skills", 1 );
+        mults_desc += format_spd( speed.tools, "Tools", 1 );
 
         return string_format( _( "%s: %s\n\n%s" ), get_verb().translated(),
                               time_desc,
@@ -467,7 +467,7 @@ void player_activity::do_turn( player &p )
                 moves_left -= moves_total;
                 p.moves = 0;
             } else {
-                p.moves -= std::round( ( moves_total - moves_left ) * 100.f / moves_total );
+                p.moves -= std::round( ( moves_total - moves_left ) * 100.0f / moves_total );
                 moves_left = 0;
             }
         } else {

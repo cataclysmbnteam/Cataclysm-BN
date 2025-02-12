@@ -32,16 +32,16 @@ class activity_ptr;
 
 struct activity_speed {
     public:
-        float assist = 1.f;
-        float bench = 1.f;
-        float p_speed = 1.f;
-        float skills = 1.f;
-        float tools = 1.f;
-        float morale = 1.f;
-        float light = 1.f;
+        float assist = 1.0f;
+        float bench = 1.0f;
+        float player_speed = 1.0f;
+        float skills = 1.0f;
+        float tools = 1.0f;
+        float morale = 1.0f;
+        float light = 1.0f;
 
         float total() const {
-            return 1.f * assist * bench * p_speed * skills * tools * morale * light ;
+            return 1.0f * assist * bench * player_speed * skills * tools * morale * light ;
         }
 
         int totalMoves() const {
@@ -59,7 +59,7 @@ class player_activity
         bool speed_affected;
         bool skill_affected;
         bool tools_affected;
-        bool moral_affected;
+        bool morale_affected;
         std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
@@ -161,8 +161,8 @@ class player_activity
         bool is_tools_affected() const {
             return type->tools_affected();
         }
-        bool is_moral_affected() const {
-            return type->moral_affected();
+        bool is_morale_affected() const {
+            return type->morale_affected();
         }
         bool is_morale_blocked() const {
             return type->morale_blocked();
@@ -194,11 +194,11 @@ class player_activity
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
 
         void calc_moves( const Character &who );
-        float calc_bench() const;
-        float calc_light( const Character &who ) const;
-        float calc_skill() const;
-        float calc_tools() const;
-        float calc_morale( int morale ) const;
+        float calc_bench_factor() const;
+        float calc_light_factor( const Character &who ) const;
+        float calc_skill_factor() const;
+        float calc_tools_factor() const;
+        float calc_morale_factor( int morale ) const;
 
         /**
          * Helper that returns an activity specific progress message.

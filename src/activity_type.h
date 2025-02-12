@@ -43,7 +43,7 @@ class activity_type
         bool speed_affected_ = false;
         bool skill_affected_ = false;
         bool tools_affected_ = false;
-        bool moral_affected_ = false;
+        bool morale_affected_ = false;
         bool morale_blocked_ = false;
         bool verbose_tooltip_ = true;
 
@@ -91,8 +91,8 @@ class activity_type
         bool tools_affected() const {
             return tools_affected_;
         }
-        bool moral_affected() const {
-            return moral_affected_;
+        bool morale_affected() const {
+            return morale_affected_;
         }
         bool morale_blocked() const {
             return morale_blocked_;

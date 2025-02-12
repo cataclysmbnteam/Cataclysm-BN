@@ -132,7 +132,7 @@
     "refuel_fires": true,
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "bench": true, "light": true, "speed": true, "skill": false, "tools": false, "moral": true }
+    "complex_moves": { "assistable": true, "bench": true, "light": true, "speed": true, "skill": false, "tools": false, "morale": true }
   },
   {
     "id": "ACT_DISASSEMBLE",

@@ -69,7 +69,7 @@ void activity_type::load( const JsonObject &jo )
         result.speed_affected_ =  arr.get_bool( "speed", false );
         result.skill_affected_ =  arr.get_bool( "skill", false );
         result.tools_affected_ =  arr.get_bool( "tools", false );
-        result.moral_affected_ =  arr.get_bool( "moral", false );
+        result.morale_affected_ =  arr.get_bool( "morale", false );
     }
 
 
