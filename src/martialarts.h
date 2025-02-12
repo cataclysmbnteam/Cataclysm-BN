@@ -63,7 +63,8 @@ struct ma_requirements {
     bool req_running;   // Does it only work when running?
     bool req_unseen;    // Is the user undetected by enemies?
     bool req_climbed;   // Has the user changed elevation this action?
-    std::set<std::string> req_adjacent; // a set of flags to check adjacent terrain for. AS_TODO: Maybe it should be a vector?
+    std::set<std::string>
+    req_adjacent; // a set of flags to check adjacent terrain for. AS_TODO: Maybe it should be a vector?
 
     bool adjacent_enemies_min; //Must be more than this number of adjacent enemies.
     bool adjacent_enemies_max; //Must be below this number of adjacent enemies.
@@ -90,8 +91,10 @@ struct ma_requirements {
     std::vector<std::pair<damage_type, int>> min_damage;
 
     //std::set<mabuff_id> req_buffs;
-    std::vector<std::pair<mabuff_id, int>> consumed_buffs; // as req_buffs, but will remove the buffs after application
-    std::vector<std::pair<mabuff_id, int>> required_buffs;  // other buffs, and their stacks, required to trigger this
+    std::vector<std::pair<mabuff_id, int>>
+                                        consumed_buffs; // as req_buffs, but will remove the buffs after application
+    std::vector<std::pair<mabuff_id, int>>
+                                        required_buffs;  // other buffs, and their stacks, required to trigger this
     std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {

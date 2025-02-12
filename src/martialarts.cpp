@@ -170,7 +170,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
 
 void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
-    
+
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
@@ -180,8 +180,10 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "req_unseen", req_unseen, false );
     optional( jo, was_loaded, "req_climbed", req_climbed, false );
 
-    optional( jo, was_loaded, "req_adjacent", req_adjacent, auto_flags_reader<std::string> {});
-    if(jo.get_bool( "wall_adjacent", false) && !req_adjacent.contains("WALL")) req_adjacent.insert("WALL");
+    optional( jo, was_loaded, "req_adjacent", req_adjacent, auto_flags_reader<std::string> {} );
+    if( jo.get_bool( "wall_adjacent", false ) && !req_adjacent.contains( "WALL" ) ) {
+        req_adjacent.insert( "WALL" );
+    }
 
     optional( jo, was_loaded, "adjacent_enemies_min", adjacent_enemies_min, 0 );
     optional( jo, was_loaded, "adjacent_enemies_max", adjacent_enemies_max, 8 );
@@ -191,17 +193,18 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
 
-    for (const JsonObject& req : jo.get_array("required_buffs")) {
-        const std::string id = req.get_string("id");
-        required_buffs.emplace_back( std::pair<mabuff_id, int>( id, req.get_int("stacks")) );
+    for( const JsonObject &req : jo.get_array( "required_buffs" ) ) {
+        const std::string id = req.get_string( "id" );
+        required_buffs.emplace_back( std::pair<mabuff_id, int>( id, req.get_int( "stacks" ) ) );
     }
 
-    for (const auto& req_old : jo.get_string_array("req_buffs")) { //This should catch legacy fields.
-        required_buffs.emplace_back(std::pair<mabuff_id, int>(req_old, 1));
+    for( const auto &req_old : jo.get_string_array( "req_buffs" ) ) { //This should catch legacy fields.
+        required_buffs.emplace_back( std::pair<mabuff_id, int>( req_old, 1 ) );
     }
 
-    for (const JsonObject& req : jo.get_array("consumed_buffs")) {
-        consumed_buffs.emplace_back(std::pair<mabuff_id, int>(req.get_string("id"), req.get_int("stacks")));
+    for( const JsonObject &req : jo.get_array( "consumed_buffs" ) ) {
+        consumed_buffs.emplace_back( std::pair<mabuff_id, int>( req.get_string( "id" ),
+                                     req.get_int( "stacks" ) ) );
     }
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
@@ -228,12 +231,18 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "reach_tec", reach_tec, false );
     optional( jo, was_loaded, "reach_ok", reach_ok, false );
 
-    optional(jo, was_loaded, "req_target_effects", req_target_effects, auto_flags_reader<efftype_id> {});
-    if (jo.get_bool("downed_target",false) && !req_target_effects.contains(effect_downed)) req_target_effects.insert(effect_downed);
-    if (jo.get_bool("stunned_target",false) && !req_target_effects.contains(effect_stunned)) req_target_effects.insert(effect_stunned);
+    optional( jo, was_loaded, "req_target_effects", req_target_effects, auto_flags_reader<efftype_id> {} );
+    if( jo.get_bool( "downed_target", false ) && !req_target_effects.contains( effect_downed ) ) {
+        req_target_effects.insert( effect_downed );
+    }
+    if( jo.get_bool( "stunned_target", false ) && !req_target_effects.contains( effect_stunned ) ) {
+        req_target_effects.insert( effect_stunned );
+    }
 
-    optional(jo, was_loaded,"req_adjacent", req_adjacent, auto_flags_reader<std::string> {});
-    if (jo.get_bool("wall_adjacent",false) && !req_adjacent.contains("WALL")) req_adjacent.insert("WALL");
+    optional( jo, was_loaded, "req_adjacent", req_adjacent, auto_flags_reader<std::string> {} );
+    if( jo.get_bool( "wall_adjacent", false ) && !req_adjacent.contains( "WALL" ) ) {
+        req_adjacent.insert( "WALL" );
+    }
 
     optional( jo, was_loaded, "req_running", req_running, false );
 
@@ -243,7 +252,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
 
 
-    optional(jo, was_loaded,  std::vector<std::string>{ "side_switch", "switch_side_target" }, switch_side_target, false);
+    optional( jo, was_loaded,  std::vector<std::string> { "side_switch", "switch_side_target" },
+              switch_side_target, false );
     optional( jo, was_loaded, "switch_side_self", switch_side_self, false );
     optional( jo, was_loaded, "switch_pos", switch_pos, false );
 
@@ -268,9 +278,9 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
 
     optional( jo, was_loaded, "knockback_type", knockback_type,
-              jo.get_bool("powerful_knockback", false) ? "powerful" : "");
+              jo.get_bool( "powerful_knockback", false ) ? "powerful" : "" );
     optional( jo, was_loaded, "knockback_follow_type", knockback_follow_type,
-              jo.get_bool("knockback_follow", false) ? "partial" : "");
+              jo.get_bool( "knockback_follow", false ) ? "partial" : "" );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -547,12 +557,14 @@ void clear_techniques_and_martial_arts()
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
     for( const auto &buff : required_buffs ) {
-        if( !u.has_mabuff( buff.first ) || u.get_effect_int(buff.first.obj().get_effect_id()) < buff.second) {
+        if( !u.has_mabuff( buff.first ) ||
+            u.get_effect_int( buff.first.obj().get_effect_id() ) < buff.second ) {
             return false;
         }
     }
-    for( const auto &buff : consumed_buffs) {
-        if( !u.has_mabuff( buff.first ) || u.get_effect_int(buff.first.obj().get_effect_id()) < buff.second) {
+    for( const auto &buff : consumed_buffs ) {
+        if( !u.has_mabuff( buff.first ) ||
+            u.get_effect_int( buff.first.obj().get_effect_id() ) < buff.second ) {
             return false;
         }
     }
@@ -599,7 +611,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    if (!req_adjacent.empty() && !get_map().has_adjacent_flags(u.pos(), req_adjacent)){
+    if( !req_adjacent.empty() && !get_map().has_adjacent_flags( u.pos(), req_adjacent ) ) {
         return false;
     }
 
@@ -713,14 +725,16 @@ std::string ma_requirements::get_description( bool buff ) const
     if( !required_buffs.empty() ) {
         dump += _( "<bold>Requires:</bold> " );
 
-        dump += enumerate_as_string( required_buffs.begin(), required_buffs.end(), []( const std::pair<mabuff_id,int> & bid ) {
+        dump += enumerate_as_string( required_buffs.begin(),
+        required_buffs.end(), []( const std::pair<mabuff_id, int> &bid ) {
             return _( bid.first->name );
         }, enumeration_conjunction::none ) + "\n";
     }
     if( !consumed_buffs.empty() ) {
         dump += _( "<bold>Consumes:</bold> " );
 
-        dump += enumerate_as_string(consumed_buffs.begin(), consumed_buffs.end(), []( const std::pair<mabuff_id,int> & bid ) {
+        dump += enumerate_as_string( consumed_buffs.begin(),
+        consumed_buffs.end(), []( const std::pair<mabuff_id, int> &bid ) {
             return _( bid.first->name );
         }, enumeration_conjunction::none ) + "\n";
     }
@@ -747,11 +761,12 @@ std::string ma_requirements::get_description( bool buff ) const
     }
 
     if( !req_adjacent.empty() ) {
-        dump += string_format( _( "* Can %s while <info>adjacent</info> to terrain with any of the following flags:" ),
-                               type ) + "\n";
-        for (std::string flag : req_adjacent) {
-            dump += string_format(_("\t <info>" + flag +"</info"),
-                type) + "\n";
+        dump += string_format(
+                    _( "* Can %s while <info>adjacent</info> to terrain with any of the following flags:" ),
+                    type ) + "\n";
+        for( std::string flag : req_adjacent ) {
+            dump += string_format( _( "\t <info>" + flag + "</info" ),
+                                   type ) + "\n";
 
         }
     }
@@ -953,10 +968,10 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
     }
     for( auto &elem : buffer ) {
         elem->apply_buff( u );
-        for( const std::pair<mabuff_id,int>& to_consume : elem->reqs.consumed_buffs) {
-            if( u.has_mabuff( to_consume.first) )
-            {
-                u.remove_effect( efftype_id( std::string( "mabuff:" ) + to_consume.first.str()), to_consume.second );
+        for( const std::pair<mabuff_id, int> &to_consume : elem->reqs.consumed_buffs ) {
+            if( u.has_mabuff( to_consume.first ) ) {
+                u.remove_effect( efftype_id( std::string( "mabuff:" ) + to_consume.first.str() ),
+                                 to_consume.second );
             }
         }
     }
@@ -1523,12 +1538,13 @@ std::string ma_technique::get_description() const
         dump += _( "* Switches positions with the target" ) + std::string( "\n" );
     }
 
-    if (!req_adjacent.empty()) {
-        dump += string_format(_("* Will only activate while <info>adjacent</info> to terrain with any of the following flags:"),
-            type) + "\n";
-        for (std::string flag : req_adjacent) {
-            dump += string_format(_("\t\t <info>" + flag + "</info>"),
-                type) + "\n";
+    if( !req_adjacent.empty() ) {
+        dump += string_format(
+                    _( "* Will only activate while <info>adjacent</info> to terrain with any of the following flags:" ),
+                    type ) + "\n";
+        for( std::string flag : req_adjacent ) {
+            dump += string_format( _( "\t\t <info>" + flag + "</info>" ),
+                                   type ) + "\n";
 
         }
     }
