@@ -105,7 +105,7 @@ void player_activity::calc_moves( const Character &who )
         speed.light = calc_light( who );
     }
     if( is_speed_affected() ) {
-        speed.p_speed = who.get_moves();
+        speed.p_speed = who.get_speed() / 100.f;
     }
     if( is_skill_affected() ) {
         speed.skills = calc_skill();
@@ -165,9 +165,9 @@ float player_activity::calc_morale( int morale ) const
     return 1.0f;
 }
 
-std::string formatSpd( float level, std::string name )
+std::string formatSpd( float level, std::string name, int indent = 0, bool force_show = false )
 {
-    if( level == 1.f ) {
+    if( !force_show && level == 1.f ) {
         return "";
     }
     int percent = static_cast<int>( std::roundf( level * 100.f ) );
@@ -175,8 +175,7 @@ std::string formatSpd( float level, std::string name )
                    ? c_white
                    : percent > 100 ? c_green : c_red;
     std::string colorized = colorize( std::to_string( percent ) + '%', col );
-    return string_format( _( "%s: %s\n" ), name, colorized );
-
+    return string_format( _( "%s: %s\n" ), name.insert( 0, indent, ' ' ), colorized );
 }
 
 std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
@@ -184,22 +183,22 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     if( !type || get_verb().empty() ) {
         return std::optional<std::string>();
     }
-    if( is_verbose_tooltip() ) {
+    if( !type->based_on().has_value() && is_verbose_tooltip() ) {
 
         std::string time_desc = string_format( _( "Time left: %s" ),
-                                               to_string( time_duration::from_turns( moves_left / speed.total() ) ) );
+                                               to_string( time_duration::from_turns( moves_left / speed.totalMoves() ) ) );
 
         std::string mults_desc = string_format( _( "Speed multipliers:\n" ),
                                                 get_verb().translated() );
-        mults_desc += formatSpd( speed.total(), "Total" );
-        mults_desc += formatSpd( speed.assist, "Assistants" );
-        mults_desc += formatSpd( speed.tools, "Tools" );
-        mults_desc += formatSpd( speed.bench, "Workbench" );
-        mults_desc += formatSpd( speed.light, "Light" );
-        mults_desc += formatSpd( speed.morale, "Morale" );
-        mults_desc += formatSpd( speed.p_speed, "Speed" );
-        mults_desc += formatSpd( speed.skills, "Skills" );
-        mults_desc += formatSpd( speed.tools, "Tools" );
+        mults_desc += formatSpd( speed.total(), "Total", 0, true );
+        mults_desc += formatSpd( speed.assist, "Assistants", 1 );
+        mults_desc += formatSpd( speed.tools, "Tools", 1 );
+        mults_desc += formatSpd( speed.bench, "Workbench", 1 );
+        mults_desc += formatSpd( speed.light, "Light", 1 );
+        mults_desc += formatSpd( speed.morale, "Morale", 1 );
+        mults_desc += formatSpd( speed.p_speed, "Speed", 1 );
+        mults_desc += formatSpd( speed.skills, "Skills", 1 );
+        mults_desc += formatSpd( speed.tools, "Tools", 1 );
 
         return string_format( _( "%s: %s\n\n%s" ), get_verb().translated(),
                               time_desc,
@@ -314,10 +313,11 @@ void player_activity::find_best_bench( const Character &who )
 
 void player_activity::start_or_resume( Character &who, bool resuming )
 {
-    if( actor && !resuming ) {
         if( is_bench_affected() ) {
             find_best_bench( who );
         }
+    calc_moves( who );
+    if( actor && !resuming ) {
         actor->start( *this, who );
     }
     if( rooted() ) {
@@ -397,18 +397,10 @@ void player_activity::do_turn( player &p )
     /*
      * Moves block
      * This might finish the activity (set it to null)
+     * Leave as is till full migration to actors for "NEITHER"
     */
-    if( type->based_on() == based_on_type::TIME ) {
-        if( moves_left >= 100 ) {
-            moves_left -= 100;
-            p.moves = 0;
-        } else {
-            p.moves -= moves_left ;
-            moves_left = 0;
-        }
-    }
-    // Leave as is till full migration to actors for "NEITHER"
-    else if( type->based_on() != based_on_type::NEITHER ) {
+    if( type->based_on() != based_on_type::NEITHER ) {
+        if( type->complex_moves() ) {
         calc_moves( p );
         int moves_total = speed.totalMoves();
         if( moves_left >= moves_total ) {
@@ -417,6 +409,15 @@ void player_activity::do_turn( player &p )
         } else {
             p.moves -= std::round( ( moves_total - moves_left ) * 100.f / moves_total );
             moves_left = 0;
+            }
+        } else {
+            if( moves_left >= 100 ) {
+                moves_left -= 100;
+                p.moves = 0;
+            } else {
+                p.moves -= moves_left;
+                moves_left = 0;
+            }
         }
     }
 

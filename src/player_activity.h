@@ -45,7 +45,7 @@ struct activity_speed {
         }
 
         int totalMoves() const {
-            return std::roundf( total() ) * 100;
+            return std::roundf( total() * 100 );
         }
 
         activity_speed() = default;
