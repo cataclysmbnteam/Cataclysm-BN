@@ -42,7 +42,6 @@ bool string_id<activity_type>::is_valid() const
 }
 
 static const std::unordered_map< std::string, based_on_type > based_on_type_values = {
-    { "time", based_on_type::TIME },
     { "neither", based_on_type::NEITHER }
 };
 
@@ -59,17 +58,25 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
     assign( jo, "auto_needs", result.auto_needs, false );
-    assign( jo, "assistable", result.assistable_, false );
-    assign( jo, "bench_affected", result.bench_affected_, false );
-    assign( jo, "light_affected", result.light_affected_, false );
-    assign( jo, "speed_affected", result.speed_affected_, false );
-    assign( jo, "skill_affected", result.skill_affected_, false );
-    assign( jo, "tools_affected", result.tools_affected_, false );
-    assign( jo, "moral_affected", result.moral_affected_, false );
     assign( jo, "morale_blocked", result.morale_blocked_, false );
     assign( jo, "verbose_tooltip", result.verbose_tooltip_, false );
+    if( jo.has_member( "complex_moves" ) ) {
+        result.complex_moves_ = true;
+        auto arr = jo.get_object( "complex_moves" );
+        result.assistable_     = arr.get_bool( "assistable", false );
+        result.bench_affected_ =  arr.get_bool( "bench", false );
+        result.light_affected_ =  arr.get_bool( "light", false );
+        result.speed_affected_ =  arr.get_bool( "speed", false );
+        result.skill_affected_ =  arr.get_bool( "skill", false );
+        result.tools_affected_ =  arr.get_bool( "tools", false );
+        result.moral_affected_ =  arr.get_bool( "moral", false );
+    }
 
-    result.based_on_ = io::string_to_enum_look_up( based_on_type_values, jo.get_string( "based_on" ) );
+
+    std::string based_on_type_tmp = jo.get_string( "based_on", "" );
+    if( !based_on_type_tmp.empty() ) {
+        result.based_on_ = io::string_to_enum_look_up( based_on_type_values, based_on_type_tmp );
+    }
 
     if( activity_type_all.find( result.id_ ) != activity_type_all.end() ) {
         debugmsg( "Redefinition of %s", result.id_.c_str() );

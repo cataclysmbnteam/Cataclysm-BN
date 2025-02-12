@@ -20,7 +20,6 @@ template<>
 const activity_type &string_id<activity_type>::obj() const;
 
 enum class based_on_type : int {
-    TIME = 0,
     NEITHER
 };
 
@@ -32,11 +31,12 @@ class activity_type
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
         bool suspendable_ = true;
-        based_on_type based_on_ = based_on_type::TIME;
+        std::optional<based_on_type> based_on_ = {};
         bool no_resume_ = false;
         bool multi_activity_ = false;
         bool refuel_fires = false;
         bool auto_needs = false;
+        bool complex_moves_ = false;
         bool assistable_ = false;
         bool bench_affected_ = false;
         bool light_affected_ = false;
@@ -61,7 +61,7 @@ class activity_type
         const translation &verb() const {
             return verb_;
         }
-        based_on_type based_on() const {
+        std::optional<based_on_type> based_on() const {
             return based_on_;
         }
         bool no_resume() const {
@@ -69,6 +69,9 @@ class activity_type
         }
         bool multi_activity() const {
             return multi_activity_;
+        }
+        bool complex_moves() const {
+            return complex_moves_;
         }
         bool assistable() const {
             return assistable_;
