@@ -1179,8 +1179,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
-    bool req_wall = g->m.is_wall_adjacent( pos() );
-    bool req_running = g->u.movement_mode_is( CMM_RUN );
+    bool running = g->u.movement_mode_is( CMM_RUN );
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
         const ma_technique &tec = tec_id.obj();
@@ -1195,13 +1194,18 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-        // skip wall adjacent techniques if not next to a wall
-        if( tec.req_wall && !req_wall ) {
+        //skip all techniques requiring ammo if the weapon doesn't require ammo, or does but has none.
+        if( tec.req_ammo && (weap.ammo_required() == 0 || !weap.ammo_remaining()))
+        {
             continue;
         }
 
+        if (!tec.req_adjacent.empty() && !g->m.has_adjacent_flags( pos(), tec.req_adjacent )) {
+           continue;
+        }
+
         // skip running techniques if not running
-        if( tec.req_running && !req_running ) {
+        if( tec.req_running && !running ) {
             continue;
         }
 
@@ -1641,9 +1645,11 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    for( const mabuff_id &consume_id : technique.reqs.consume_buffs ) {
-        if( has_mabuff( consume_id ) ) {
-            remove_effect( efftype_id( std::string( "mabuff:" ) + consume_id.str() ) );
+    //if a technique was used that consumed a buff, make sure we actually remove the buff.
+    for( const std::pair<mabuff_id, int> &consume_id : technique.reqs.consumed_buffs ) {
+        if( has_mabuff( consume_id.first ) ) {
+            debugmsg("Removal clause");
+            remove_effect(efftype_id(std::string("mabuff:") + consume_id.first.str()));//, consume_id.second );
         }
     }
 }

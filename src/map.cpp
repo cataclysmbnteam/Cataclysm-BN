@@ -1934,11 +1934,18 @@ bool map::is_wall_adjacent( const tripoint &center ) const
     return false;
 }
 
-bool map::is_half_wall_adjacent( const tripoint &center ) const
+bool map::has_adjacent_flags(const tripoint& center, const std::set<std::string>& ter_flags) const
 {
-    for( const tripoint &p : points_in_radius( center, 1 ) ) {
-        if( p != center && passable_ter_furn( p ) ) {
-            return true;
+    for (const tripoint& p : points_in_radius(center, 1))
+    {
+        for (const std::string flag_id : ter_flags)
+        {
+            if (has_flag(flag_id, p)
+                || (flag_id == "WALL" && impassable(p)) //Here to replicate existing functionality of counting lockers and other impassable furniture
+                )
+            {
+                return true;
+            }
         }
     }
     return false;

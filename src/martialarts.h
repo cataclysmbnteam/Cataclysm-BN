@@ -63,8 +63,7 @@ struct ma_requirements {
     bool req_running;   // Does it only work when running?
     bool req_unseen;    // Is the user undetected by enemies?
     bool req_climbed;   // Has the user changed elevation this action?
-    bool req_wall;      // Does it only work near a wall?
-    bool req_half_wall; // Does it only work near halfwalls?
+    std::set<std::string> req_adjacent; // a set of flags to check adjacent terrain for. AS_TODO: Maybe it should be a vector?
 
     bool adjacent_enemies_min; //Must be more than this number of adjacent enemies.
     bool adjacent_enemies_max; //Must be below this number of adjacent enemies.
@@ -90,8 +89,9 @@ struct ma_requirements {
      */
     std::vector<std::pair<damage_type, int>> min_damage;
 
-    std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
-    std::set<mabuff_id> consume_buffs; // as req_buffs, but will remove the buffs after application
+    //std::set<mabuff_id> req_buffs;
+    std::vector<std::pair<mabuff_id, int>> consumed_buffs; // as req_buffs, but will remove the buffs after application
+    std::vector<std::pair<mabuff_id, int>> required_buffs;  // other buffs, and their stacks, required to trigger this
     std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
@@ -103,8 +103,6 @@ struct ma_requirements {
         req_running = false;
         req_climbed = false;
         req_unseen = false;
-        req_wall = false;
-        req_half_wall = false;
 
         adjacent_enemies_min = 0;
         adjacent_enemies_max = 8;
@@ -186,11 +184,8 @@ class ma_technique
         int weighting = 0; //how often this technique is used
 
         // conditional
-        bool downed_target = false; // only works on downed enemies
-        bool stunned_target = false;// only works on stunned enemies
         std::set<efftype_id> req_target_effects; //required effects on enemy for triggering
-        bool req_wall = false; // only works near a wall
-        bool req_half_wall = false; // only works near a wall
+        std::set<std::string> req_adjacent; // a vector of flags to check adjacent terrain for.
         bool req_running = false; // only works when running
         bool human_target = false;  // only works on humanoid enemies
 

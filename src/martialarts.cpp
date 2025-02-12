@@ -170,6 +170,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
 
 void ma_requirements::load( const JsonObject &jo, const std::string & )
 {
+    
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
@@ -178,9 +179,9 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "req_running", req_running, false );
     optional( jo, was_loaded, "req_unseen", req_unseen, false );
     optional( jo, was_loaded, "req_climbed", req_climbed, false );
-    optional( jo, was_loaded, "wall_adjacent", req_wall, false ); //Old Field Adapater
-    optional( jo, was_loaded, "req_wall", req_wall, false );
-    optional( jo, was_loaded, "req_half_wall", req_half_wall, false );
+
+    optional( jo, was_loaded, "req_adjacent", req_adjacent, auto_flags_reader<std::string> {});
+    if(jo.get_bool( "wall_adjacent", false) && !req_adjacent.contains("WALL")) req_adjacent.insert("WALL");
 
     optional( jo, was_loaded, "adjacent_enemies_min", adjacent_enemies_min, 0 );
     optional( jo, was_loaded, "adjacent_enemies_max", adjacent_enemies_max, 8 );
@@ -188,9 +189,20 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stam_min", stam_min, 0 );
     optional( jo, was_loaded, "stam_max", stam_max, 1 );
 
-    optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
-    optional( jo, was_loaded, "consume_buffs", consume_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
+
+    for (const JsonObject& req : jo.get_array("required_buffs")) {
+        const std::string id = req.get_string("id");
+        required_buffs.emplace_back( std::pair<mabuff_id, int>( id, req.get_int("stacks")) );
+    }
+
+    for (const auto& req_old : jo.get_string_array("req_buffs")) { //This should catch legacy fields.
+        required_buffs.emplace_back(std::pair<mabuff_id, int>(req_old, 1));
+    }
+
+    for (const JsonObject& req : jo.get_array("consumed_buffs")) {
+        consumed_buffs.emplace_back(std::pair<mabuff_id, int>(req.get_string("id"), req.get_int("stacks")));
+    }
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -210,9 +222,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         npc_message = jsarr.get_string( 1 );
     }
 
-    bool adapter_bool; //used to cache bool values from obsolete json fields so they can be coallatd into sets/strings
-    std::vector<std::string> string_list_adapter; //reusable array for checking multiple strings in the json.
-
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
 
@@ -220,15 +229,12 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "reach_ok", reach_ok, false );
 
     optional(jo, was_loaded, "req_target_effects", req_target_effects, auto_flags_reader<efftype_id> {});
+    if (jo.get_bool("downed_target",false) && !req_target_effects.contains(effect_downed)) req_target_effects.insert(effect_downed);
+    if (jo.get_bool("stunned_target",false) && !req_target_effects.contains(effect_stunned)) req_target_effects.insert(effect_stunned);
 
-    optional( jo, was_loaded, "downed_target", adapter_bool, false );
-    if (adapter_bool && !req_target_effects.contains(effect_downed)) req_target_effects.insert(effect_downed);
-    optional( jo, was_loaded, "stunned_target", adapter_bool, false );
-    if (adapter_bool && !req_target_effects.contains(effect_downed)) req_target_effects.insert(effect_stunned);
+    optional(jo, was_loaded,"req_adjacent", req_adjacent, auto_flags_reader<std::string> {});
+    if (jo.get_bool("wall_adjacent",false) && !req_adjacent.contains("WALL")) req_adjacent.insert("WALL");
 
-    string_list_adapter = { "wall_adjacent", "req_wall" };
-    optional( jo, was_loaded, string_list_adapter, req_wall, false );
-    optional( jo, was_loaded, "req_half_wall", req_half_wall, false);
     optional( jo, was_loaded, "req_running", req_running, false );
 
     optional( jo, was_loaded, "human_target", human_target, false );
@@ -237,8 +243,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "take_weapon", take_weapon, false );
 
 
-    string_list_adapter = { "side_switch", "switch_side_target" };
-    optional( jo, was_loaded, string_list_adapter, switch_side_target, false );
+    optional(jo, was_loaded,  std::vector<std::string>{ "side_switch", "switch_side_target" }, switch_side_target, false);
     optional( jo, was_loaded, "switch_side_self", switch_side_self, false );
     optional( jo, was_loaded, "switch_pos", switch_pos, false );
 
@@ -262,11 +267,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
 
-    optional( jo, was_loaded, "powerful_knockback", adapter_bool, false); //Adapater for knockback_type coallation
-    optional( jo, was_loaded, "knockback_type", knockback_type, adapter_bool ? "powerful" : "");
-    
-    optional( jo, was_loaded, "knockback_follow", adapter_bool, false ); //Adapter for knock_follow_type coallation
-    optional( jo, was_loaded, "knockback_follow_type", knockback_follow_type, adapter_bool ? "partial" : "");
+    optional( jo, was_loaded, "knockback_type", knockback_type, jo.get_bool("powerful_knockback", false) ? "powerful" : "");
+    optional( jo, was_loaded, "knockback_follow_type", knockback_follow_type, jo.get_bool("knockback_follow", false) ? "partial" : "");
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -435,9 +437,9 @@ std::vector<matype_id> autolearn_martialart_types()
 
 static void check( const ma_requirements &req, const std::string &display_text )
 {
-    for( auto &r : req.req_buffs ) {
-        if( !r.is_valid() ) {
-            debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
+    for( auto &r : req.required_buffs ) {
+        if( !r.first.is_valid() ) {
+            debugmsg( "ma buff %s of %s does not exist", r.first.c_str(), display_text );
         }
     }
 }
@@ -542,13 +544,13 @@ void clear_techniques_and_martial_arts()
 
 bool ma_requirements::is_valid_character( const Character &u ) const
 {
-    for( const mabuff_id &buff_id : req_buffs ) {
-        if( !u.has_mabuff( buff_id ) ) {
+    for( const auto &buff : required_buffs ) {
+        if( !u.has_mabuff( buff.first ) || u.get_effect_int(buff.first.obj().get_effect_id()) < buff.second) {
             return false;
         }
     }
-    for( const mabuff_id &buff_id : consume_buffs ) {
-        if( !u.has_mabuff( buff_id ) ) {
+    for( const auto &buff : consumed_buffs) {
+        if( !u.has_mabuff( buff.first ) || u.get_effect_int(buff.first.obj().get_effect_id()) < buff.second) {
             return false;
         }
     }
@@ -595,19 +597,9 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    //if (req_unseen) { //sees( g->u )
-    //    return false;
-    //}
-
-    if( req_wall && !get_map().is_wall_adjacent( u.pos() ) ) {
+    if (!req_adjacent.empty() && !get_map().has_adjacent_flags(u.pos(), req_adjacent)){
         return false;
     }
-
-    if (req_half_wall && !get_map().is_half_wall_adjacent(u.pos())) {
-        return false;
-    }
-
-
 
     for( const auto &pr : min_skill ) {
         if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
@@ -716,19 +708,18 @@ std::string ma_requirements::get_description( bool buff ) const
         } ) + "\n";
     }
 
-    if( !req_buffs.empty() ) {
+    if( !required_buffs.empty() ) {
         dump += _( "<bold>Requires:</bold> " );
 
-        dump += enumerate_as_string( req_buffs.begin(), req_buffs.end(), []( const mabuff_id & bid ) {
-            return _( bid->name );
+        dump += enumerate_as_string( required_buffs.begin(), required_buffs.end(), []( const std::pair<mabuff_id,int> & bid ) {
+            return _( bid.first->name );
         }, enumeration_conjunction::none ) + "\n";
     }
-    if( !consume_buffs.empty() ) {
+    if( !consumed_buffs.empty() ) {
         dump += _( "<bold>Consumes:</bold> " );
 
-        dump += enumerate_as_string( consume_buffs.begin(),
-        consume_buffs.end(), []( const mabuff_id & bid ) {
-            return _( bid->name );
+        dump += enumerate_as_string(consumed_buffs.begin(), consumed_buffs.end(), []( const std::pair<mabuff_id,int> & bid ) {
+            return _( bid.first->name );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -753,9 +744,14 @@ std::string ma_requirements::get_description( bool buff ) const
                                type ) + "\n";
     }
 
-    if( req_wall ) {
-        dump += string_format( _( "* Can %s while <info>near</info> to a <info>wall</info>" ),
+    if( !req_adjacent.empty() ) {
+        dump += string_format( _( "* Can %s while <info>adjacent</info> to terrain with any of the following flags:" ),
                                type ) + "\n";
+        for (std::string flag : req_adjacent) {
+            dump += string_format(_("\t <info>" + flag +"</info"),
+                type) + "\n";
+
+        }
     }
 
     return dump;
@@ -783,9 +779,7 @@ ma_technique::ma_technique()
     block_counter = false; // like tec_counter
 
     // conditional
-    downed_target = false;    // only works on downed enemies
-    stunned_target = false;   // only works on stunned enemies
-    req_wall = false;    // only works near a wall
+    std::set<std::string> req_adjacent;
     human_target = false;     // only works on humanoid enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
@@ -956,9 +950,10 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
     }
     for( auto &elem : buffer ) {
         elem->apply_buff( u );
-        for( const mabuff_id &consume_id : elem->reqs.consume_buffs ) {
-            if( u.has_mabuff( consume_id ) ) {
-                u.remove_effect( efftype_id( std::string( "mabuff:" ) + consume_id.str() ) );
+        for( const std::pair<mabuff_id,int>& to_consume : elem->reqs.consumed_buffs) {
+            if( u.has_mabuff( to_consume.first) )
+            {
+                u.remove_effect( efftype_id( std::string( "mabuff:" ) + to_consume.first.str()), to_consume.second );
             }
         }
     }
@@ -1522,12 +1517,17 @@ std::string ma_technique::get_description() const
     }
 
     if( switch_pos ) {
-        dump += _( "* switchs positions with the target" ) + std::string( "\n" );
+        dump += _( "* Switches positions with the target" ) + std::string( "\n" );
     }
 
-    if( req_wall ) {
-        dump += _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) +
-                std::string( "\n" );
+    if (!req_adjacent.empty()) {
+        dump += string_format(_("* Will only activate while <info>adjacent</info> to terrain with any of the following flags:"),
+            type) + "\n";
+        for (std::string flag : req_adjacent) {
+            dump += string_format(_("\t\t <info>" + flag + "</info>"),
+                type) + "\n";
+
+        }
     }
 
     if( req_running ) {
