@@ -158,9 +158,9 @@ float player_activity::calc_morale_factor( int morale ) const
 
     //1% per 4 extra morale
     if( morale > 20 ) {
-        return 0.95f + morale / 25.f;
+        return 0.95f + morale / 25.0f;
     } else if( morale < -40 ) {
-        return 1.10f + morale / 25.f;
+        return 1.10f + morale / 25.0f;
     }
     return 1.0f;
 }
