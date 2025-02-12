@@ -4,9 +4,7 @@
     "type": "activity_type",
     "verb": "reloading",
     "suspendable": false,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_FIND_MOUNT",
@@ -23,9 +21,7 @@
     "rooted": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
@@ -136,15 +132,7 @@
     "refuel_fires": true,
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": {
-      "assistable": true,
-      "bench": true,
-      "light": true,
-      "speed": true,
-      "skill": false,
-      "tools": false,
-      "moral": true
-    }
+    "complex_moves": { "assistable": true, "bench": true, "light": true, "speed": true, "skill": false, "tools": false, "moral": true }
   },
   {
     "id": "ACT_DISASSEMBLE",
@@ -154,73 +142,55 @@
     "rooted": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_BUTCHER",
     "type": "activity_type",
     "verb": "butchering",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_BUTCHER_FULL",
     "type": "activity_type",
     "verb": "butchering",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_FIELD_DRESS",
     "type": "activity_type",
     "verb": "field dressing",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_BLEED",
     "type": "activity_type",
     "verb": "bleeding",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_SKIN",
     "type": "activity_type",
     "verb": "skinning",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_QUARTER",
     "type": "activity_type",
     "verb": "quartering",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_DISMEMBER",
     "type": "activity_type",
     "verb": "dismembering",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_DISSECT",
     "type": "activity_type",
     "verb": "dissecting",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_LONGSALVAGE",
@@ -229,17 +199,13 @@
     "no_resume": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_FORAGE",
     "type": "activity_type",
     "verb": "foraging",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_BUILD",
@@ -253,17 +219,13 @@
     "id": "ACT_VEHICLE",
     "type": "activity_type",
     "verb": "interacting with the vehicle",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_TRAIN",
     "type": "activity_type",
     "verb": "training",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_SOCIALIZE",
@@ -283,9 +245,7 @@
     "id": "ACT_FIRSTAID",
     "type": "activity_type",
     "verb": "using first aid",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_FISH",
@@ -293,25 +253,19 @@
     "verb": "fishing",
     "rooted": true,
     "suspendable": false,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_PICKAXE",
     "type": "activity_type",
     "verb": "mining",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_BURROW",
     "type": "activity_type",
     "verb": "burrowing",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_PULP",
@@ -325,9 +279,7 @@
     "type": "activity_type",
     "verb": "cranking",
     "rooted": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_HEATING",
@@ -344,9 +296,7 @@
     "type": "activity_type",
     "verb": "cutting tissues",
     "suspendable": false,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_DROP",
@@ -457,9 +407,7 @@
     "id": "ACT_TOGGLE_GATE",
     "type": "activity_type",
     "verb": "working the winch",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_FILL_LIQUID",
@@ -477,9 +425,7 @@
     "suspendable": false,
     "rooted": true,
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_SHEAR",
@@ -488,17 +434,13 @@
     "suspendable": false,
     "rooted": true,
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_HOTWIRE_CAR",
     "type": "activity_type",
     "verb": "hotwiring the vehicle",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_AIM",
@@ -526,18 +468,14 @@
     "id": "ACT_OXYTORCH",
     "type": "activity_type",
     "verb": "welding",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_CRACKING",
     "type": "activity_type",
     "verb": "cracking",
     "rooted": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_LOCKPICK",
@@ -546,9 +484,7 @@
     "rooted": true,
     "suspendable": false,
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_REPAIR_ITEM",
@@ -566,27 +502,21 @@
     "rooted": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_GUNMOD_ADD",
     "type": "activity_type",
     "verb": "modifying gun",
     "suspendable": false,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_TOOLMOD_ADD",
     "type": "activity_type",
     "verb": "modifying tool",
     "suspendable": false,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_WAIT_NPC",
@@ -606,18 +536,14 @@
     "id": "ACT_CLEAR_RUBBLE",
     "type": "activity_type",
     "verb": "clearing that rubble",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_MEDITATE",
     "type": "activity_type",
     "verb": "meditating",
     "rooted": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_WASH",
@@ -626,132 +552,100 @@
     "rooted": true,
     "suspendable": false,
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_HACKSAW",
     "type": "activity_type",
     "verb": "cutting the metal",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_BOLTCUTTING",
     "type": "activity_type",
     "verb": "cutting the wire",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_PRY_NAILS",
     "type": "activity_type",
     "verb": "prying nails",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
     "verb": "chopping down a tree",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_CHOP_LOGS",
     "type": "activity_type",
     "verb": "chopping a log",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_CHOP_PLANKS",
     "type": "activity_type",
     "verb": "cutting planks",
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_JACKHAMMER",
     "type": "activity_type",
     "verb": "drilling",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_CHURN",
     "type": "activity_type",
     "verb": "churning earth",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_PLANT_SEED",
     "type": "activity_type",
     "verb": "planting seeds",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_DIG",
     "type": "activity_type",
     "verb": "digging",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_DIG_CHANNEL",
     "type": "activity_type",
     "verb": "digging",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_FILL_PIT",
     "type": "activity_type",
     "verb": "filling",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_SHAVE",
     "type": "activity_type",
     "verb": "shaving",
     "rooted": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_HAIRCUT",
     "type": "activity_type",
     "verb": "cutting your hair",
     "rooted": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_PLAY_WITH_PET",
     "type": "activity_type",
     "verb": "playing with your pet",
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_TRY_SLEEP",
@@ -759,9 +653,7 @@
     "verb": "trying to fall asleep",
     "rooted": true,
     "suspendable": false,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_OPERATION",
@@ -816,9 +708,7 @@
     "verb": "casting",
     "suspendable": false,
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_STUDY_SPELL",
@@ -829,9 +719,7 @@
     "auto_needs": true,
     "rooted": true,
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_CONSUME_DRINK_MENU",
@@ -855,9 +743,7 @@
     "verb": "using the mind splicer",
     "rooted": true,
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_HACKING",
@@ -865,9 +751,7 @@
     "verb": "hacking",
     "suspendable": false,
     "no_resume": true,
-    "complex_moves": {
-      "speed": true
-    }
+    "complex_moves": { "speed": true }
   },
   {
     "id": "ACT_MIGRATION_CANCEL",
