@@ -1940,7 +1940,8 @@ bool map::has_adjacent_flags( const tripoint &center, const std::set<std::string
         for( const std::string flag_id : ter_flags ) {
             if( has_flag( flag_id, p )
                 || ( flag_id == "WALL" &&
-                     impassable( p ) ) //Here to replicate existing functionality of counting lockers and other impassable furniture
+                     impassable(
+                         p ) ) //Here to replicate existing functionality of counting lockers and other impassable furniture
               ) {
                 return true;
             }
