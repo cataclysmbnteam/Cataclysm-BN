@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <functional>
 #include <optional>
+#include <queue>
 #include <vector>
 
 #include "cata_utility.h"
@@ -104,8 +105,8 @@ struct RouteSettings {
     S -- `start`
     E -- `end`
     t -- candidate `t`ile
-    a -- `a`ngle of pSE
-    `search_cone_angle` <= `a` <= `search_cone_angle`?
+    a -- `a`ngle of tSE
+    `-search_cone_angle` <= `a` <= `search_cone_angle`?
     */
     float search_cone_angle = 180.0;
 
@@ -113,7 +114,7 @@ struct RouteSettings {
     bool is_in_search_cone( const tripoint start, const tripoint pos, const tripoint end ) const {
         assert( 0.0 <= this->search_cone_angle );
 
-        if( this->search_cone_angle < 180. ) {
+        if( this->search_cone_angle >= 180. ) {
             return true;
         }
 
@@ -140,7 +141,7 @@ struct RouteSettings {
     float alpha = 1.0;
 
     unsigned int rank_weighted_rng( const unsigned int n ) const {
-        assert(-1. <= this->alpha && this->alpha <= 1. );
+        assert( -1. <= this->alpha && this->alpha <= 1. );
 
         // Trivial cases
         if( this->alpha >= 1. ) {
@@ -173,9 +174,14 @@ struct RouteSettings {
 
 struct GraphPortal {
     const tripoint from;
-    const float from_cost;
+    // Do we get teleported to destination from here upon entry or upon specific action?
+    // false for ramp-like portals, true for stairs-like portals.
+    const bool is_instant;
+    // Time to go through this portal. 0 for ramp-like portals, non-0 for stair-like portals.
+    float from_cost = NAN;
 
-    GraphPortal( const tripoint from, const float from_cost ) : from( from ), from_cost( from_cost ) {};
+    GraphPortal( const tripoint from, const bool is_instant ) :
+        from( from ), is_instant( is_instant ) {};
 };
 
 class DijikstraPathfinding
@@ -191,18 +197,19 @@ class DijikstraPathfinding
         // INF for disconnected tiles
         float cost_array[DIJIKSTRA_ARRAY_SIZE];
 
-        // We don't want to calculate dijikstra of the whole map every time, so we store wave frontier to proceed from later if needed
+        // We don't want to calculate dijikstra of the whole map every time,
+        //   so we store wave `frontier` to proceed from later if needed
         std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> frontier;
 
-        // See DijikstraPathfinding::route
-        std::optional<std::vector<tripoint>> get_route( const tripoint origin,
-                                          const RouteSettings route_settings = RouteSettings() );
+        // See `DijikstraPathfinding::route`
+        std::optional<std::vector<tripoint>> get_route( const tripoint &origin,
+                                          const RouteSettings &route_settings );
 
         // Moves in this map that are between adjacent non-disconnected tiles that may NOT be taken
         std::set<std::pair<tripoint, tripoint>> forbidden_moves;
 
         // Continue expanding the dijikstra map until we reach `origin` or nothing remains of the frontier. Returns whether a route is present.
-        bool expand_up_to( const tripoint &origin, const RouteSettings &route_settings = RouteSettings() );
+        bool expand_up_to( const tripoint &origin, const RouteSettings &route_settings );
 
         bool is_unvisited( const tripoint &p ) {
             return std::isnan( this->at( p ) );
@@ -211,10 +218,6 @@ class DijikstraPathfinding
         bool is_disconnected( const tripoint &p ) {
             return std::isinf( this->at( p ) );
         }
-
-        // A directed graph edge representing connected non-adjacent tiles
-        // (multi-level ledges dropping down, stairs, literal distant portals etc).
-        std::map<tripoint, GraphPortal> portals;
 
         // Get cost `at` `p`
         float &at( const tripoint &p ) {
@@ -233,6 +236,12 @@ class DijikstraPathfinding
 
         // Global state: memoized dijikstra maps. Clear every game turn.
         inline static std::vector<DijikstraPathfinding> maps{};
+
+        // A directed graph edge representing connected non-adjacent tiles
+        // (multi-level ledges dropping down, stairs, literal distant portals etc).
+        inline static std::optional<std::map<tripoint, GraphPortal>> portals = std::nullopt;
+        // Scan the whole map for portal-like jumps if `portals` is nullopt
+        static void scan_for_portals();
     public:
         DijikstraPathfinding( const tripoint dest, const PathfindingSettings settings )
             : dest( dest ), settings( settings ) {
@@ -243,9 +252,9 @@ class DijikstraPathfinding
 
         // get `route` from `from` to `to` if available in accordance to `route_settings` while `path_settings` defines our capabilities, otherwise empty vector.
         // Route will include `from` and `to`.
-        static std::vector<tripoint> route( const tripoint from, const tripoint to,
-                                            const PathfindingSettings path_settings = PathfindingSettings(),
-                                            const RouteSettings route_settings = RouteSettings() );
+        static std::vector<tripoint> route( const tripoint &from, const tripoint &to,
+                                            const std::optional<PathfindingSettings> path_settings = std::nullopt,
+                                            const std::optional<RouteSettings> route_settings = std::nullopt );
 
         static void clear_paths() {
             DijikstraPathfinding::maps.clear();

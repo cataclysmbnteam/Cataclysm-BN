@@ -135,6 +135,7 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "path_info.h"
+#include "pathfinding_dijikstra.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -1598,6 +1599,9 @@ bool game::do_turn()
 
     // reset player noise
     u.volume = 0;
+
+    // Finally, clear pathfinding cache
+    DijikstraPathfinding::clear_paths();
 
     return false;
 }

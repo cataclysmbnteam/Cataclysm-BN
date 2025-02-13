@@ -35,6 +35,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "pathfinding.h"
+#include "pathfinding_dijikstra.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
@@ -889,15 +890,28 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            const auto &pf_settings = get_pathfinding_settings();
-            if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
-                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
-                // We need a new path
-                path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
-            }
+            // const auto &pf_settings = get_pathfinding_settings();
+            // if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
+            //     ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
+            //     // We need a new path
+            //     path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+            // }
+
+            PathfindingSettings path_settings;
+            path_settings.mob_presence_penalty = 10.0;
+            path_settings.bash_strength = this->bash_skill();
+
+            RouteSettings route_settings;
+            route_settings.h_coeff = 0.9;
+            route_settings.alpha = 0.8;
+            route_settings.search_radius_coeff = 1.2;
+            route_settings.search_cone_angle = 180.0;
+
+            path = DijikstraPathfinding::route( pos(), goal, path_settings, route_settings );
 
             // Try to respect old paths, even if we can't pathfind at the moment
             if( !path.empty() && path.back() == goal ) {
+                path.erase( path.begin() );
                 destination = path.front();
                 moved = true;
                 pathed = true;
