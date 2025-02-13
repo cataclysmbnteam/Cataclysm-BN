@@ -6852,8 +6852,6 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
 unsigned int vehicle::hits_to_destroy( int p, int dmg, damage_type type ) const
 {
-    const bool is_true_damage = type == DT_TRUE;
-
     const int armor_part = part_with_feature( p, VPFLAG_ARMOR, true );
     const bool is_armor_considered = !(
                                          armor_part < 0 ||
