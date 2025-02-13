@@ -125,43 +125,25 @@ float player_activity::calc_bench_factor() const
 
 float player_activity::calc_light_factor( const Character &who ) const
 {
-    if( character_funcs::can_see_fine_details( who ) ) {
-        return 1.0f;
-    }
-
-    // This value whould be within [0,1]
-    const float darkness =
-        (
-            character_funcs::fine_detail_vision_mod( who ) -
-            character_funcs::FINE_VISION_THRESHOLD
-        ) / 7.0f;
-    return 1.0f - darkness;
+    return 1.0f;
 }
 
 float player_activity::calc_skill_factor() const
 {
-    return actor ? actor->calc_skill_factor() : 1.0f;
+    return actor
+           ? actor->calc_skill_factor()
+           : 1.0f;
 }
 
 float player_activity::calc_tools_factor() const
 {
-    return actor ? actor->calc_tools_factor() : 1.0f;
+    return actor
+           ? actor->calc_tools_factor()
+           : 1.0f;
 }
 
 float player_activity::calc_morale_factor( int morale ) const
 {
-    float ac_morale = actor ? actor->calc_morale_factor( morale ) : -1.0f;
-    //Any morale mod above 0 is valid, else - use default morale calc
-    if( ac_morale > 0 ) {
-        return ac_morale;
-    }
-
-    //1% per 4 extra morale
-    if( morale > 20 ) {
-        return 0.95f + morale / 25.0f;
-    } else if( morale < -40 ) {
-        return 1.10f + morale / 25.0f;
-    }
     return 1.0f;
 }
 
@@ -393,15 +375,15 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
            : string_format( _( "%s: %s" ), get_verb().translated(), extra_info );
 }
 
-void player_activity::find_best_bench( const Character &who )
+void player_activity::find_best_bench( const tripoint &pos )
 {
     bench_l best_bench = bench_l(
                              workbench_info_wrapper(
                                  * string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
                              bench_type::ground,
-                             who.pos() );
+                             pos );
     std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    get_map().reachable_flood_steps( reachable, who.pos(), PICKUP_RANGE, 1, 100 );
+    get_map().reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
     for( const tripoint &adj : reachable ) {
         if( auto wb = get_map().furn( adj ).obj().workbench ) {
             if( wb->multiplier > best_bench.wb_info.multiplier ) {
@@ -426,14 +408,14 @@ void player_activity::find_best_bench( const Character &who )
 
 void player_activity::start_or_resume( Character &who, bool resuming )
 {
-    if( is_bench_affected() ) {
-        find_best_bench( who );
-    }
     total_targets = targets.size();
-    calc_moves( who );
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
+    if( is_bench_affected() ) {
+        find_best_bench( who.pos() );
+    }
+    calc_moves( who );
     if( rooted() ) {
         who.rooted_message();
     }

@@ -206,7 +206,7 @@ class player_activity
          */
         std::optional<std::string> get_progress_message( const avatar &u ) const;
 
-        void find_best_bench( const Character &who );
+        void find_best_bench( const tripoint &pos );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
