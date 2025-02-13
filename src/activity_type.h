@@ -3,6 +3,7 @@
 #define CATA_SRC_ACTIVITY_TYPE_H
 
 #include <string>
+#include <optional>
 
 #include "catalua_type_operators.h"
 #include "string_id.h"
