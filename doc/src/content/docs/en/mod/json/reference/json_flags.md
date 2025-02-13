@@ -806,6 +806,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   instead of being a strict limit like it normally would be.
 - `STR_RELOAD` Reload speed is affected by strength.
 - `UNDERWATER_GUN` Gun is optimized for usage underwater, does perform badly outside of water.
+- `USE_PARENT_GUN` For gunmods with `gun_data` meant to represent extra magazines on a gun, e.g. KSG.
+  Will make fouling apply to the gun it's installed on instead of itself, check for suppressors installed
+  on the parent item, and apply brass catcher behavior if present on parent item.
 - `WATERPROOF_GUN` Gun does not rust and can be used underwater.
 
 ### Firing modes

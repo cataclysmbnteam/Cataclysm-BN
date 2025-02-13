@@ -175,7 +175,7 @@
       "clip_size": 7,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "USE_PARENT_GUN" ]
   },
   {
     "id": "ksg25_aux_shotgun",
@@ -200,7 +200,7 @@
       "clip_size": 12,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "USE_PARENT_GUN" ]
   },
   {
     "id": "ts12_aux_shotgun",
@@ -226,7 +226,7 @@
       "clip_size": 5,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "USE_PARENT_GUN" ]
   },
   {
     "id": "ts12_aux_shotgun2",
@@ -252,7 +252,7 @@
       "clip_size": 5,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "USE_PARENT_GUN" ]
   },
   {
     "id": "laser_sight",
