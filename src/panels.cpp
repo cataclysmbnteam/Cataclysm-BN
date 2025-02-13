@@ -1790,6 +1790,86 @@ static void draw_compass( avatar &, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+// Forward declarations
+std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoint &player_pos );
+void check( const char *msg, std::function < auto( const tripoint &,
+            const tripoint & ) -> std::string > fn );
+
+// Improved direction function
+std::string direction_to_enemy_improved( const tripoint &enemy_pos, const tripoint &player_pos )
+{
+    // Constants based on cos(22.5°) / sin(22.5°) approximation
+    constexpr int x0 = 80782;
+    constexpr int y0 = 33461;
+
+    struct wedge_range {
+        const char *direction;
+        int x0, y0;
+        int x1, y1;
+    };
+
+    constexpr std::array<wedge_range, 8> wedges = {{
+            { "N",  -y0, -x0,   y0, -x0 },
+            { "NE",  y0, -x0,   x0, -y0 },
+            { "E",   x0, -y0,   x0,  y0 },
+            { "SE",  x0,  y0,   y0,  x0 },
+            { "S",   y0,  x0,  -y0,  x0 },
+            { "SW", -y0,  x0,  -x0,  y0 },
+            { "W",  -x0,  y0,  -x0, -y0 },
+            { "NW", -x0, -y0, -y0, -x0 }
+        }
+    };
+
+    auto between = []( int cx, int cy, const wedge_range & wr ) {
+        auto side_of_sign = []( int ax, int ay, int bx, int by ) {
+            int dot = ax * by - ay * bx;
+            return ( dot > 0 ) - ( dot < 0 );
+        };
+
+        int dot_ab = side_of_sign( wr.x0, wr.y0, wr.x1, wr.y1 );
+        int dot_ac = side_of_sign( wr.x0, wr.y0, cx, cy );
+        int dot_cb = side_of_sign( cx, cy, wr.x1, wr.y1 );
+
+        return ( dot_ab == dot_ac ) && ( dot_ab == dot_cb );
+    };
+
+    const int dx = enemy_pos.x - player_pos.x;
+    const int dy = enemy_pos.y - player_pos.y;
+
+    for( const auto &wr : wedges ) {
+        if( between( dx, dy, wr ) ) {
+            return wr.direction;
+        }
+    }
+    return "--";
+}
+
+
+static void draw_simple_compass( avatar &u, const catacurses::window &w )
+{
+    werase( w );
+
+    const auto &visible_creatures = u.get_visible_creatures( 200 );
+    std::map<std::string, int> direction_count;
+    const tripoint player_pos = u.pos();
+
+    for( const auto &creature : visible_creatures ) {
+        const tripoint enemy_pos = creature->pos();
+        std::string direction = direction_to_enemy_improved( enemy_pos, player_pos );
+        direction_count[direction]++;
+    }
+
+    std::string enemies_text;
+    for( const auto &entry : direction_count ) {
+        enemies_text += entry.first + "(" + std::to_string( entry.second ) + ") ";
+    }
+
+    mvwprintz( w, point( 0, 0 ), c_white, enemies_text );
+    wnoutrefresh( w );
+}
+
+
+
 static void draw_compass_padding( avatar &, const catacurses::window &w )
 {
     werase( w );
@@ -2087,6 +2167,10 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                       true );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Comp.Compass" ), 3, 44,
+                      false );
+    ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
+
     ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 44, true );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
@@ -2115,6 +2199,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
     ret.emplace_back( draw_messages_classic, translate_marker( "Log" ), -2, 32, true );
     ret.emplace_back( draw_compass, translate_marker( "Compass" ), 8, 32, true );
+    ret.emplace_back( draw_compass, translate_marker( "Comp.Compass" ), 3, 32, false );
+    ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
                       default_render, true );
@@ -2148,6 +2234,9 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
                       true );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Comp.Compass" ), 3, 32,
+                      false );
+    ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
                       default_render, true );
@@ -2182,6 +2271,9 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( draw_armor_comp, translate_marker( "comp.Armor" ), 1, 32, false );
     ret.emplace_back( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
                       true );
+    ret.emplace_back( draw_compass_padding, translate_marker( "Comp.Compass" ), 3, 32,
+                      false );
+    ret.emplace_back( draw_simple_compass, translate_marker( "Sim.Compass" ), 1, 44, false );
 #if defined(TILES)
     ret.emplace_back( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
                       default_render, true );
