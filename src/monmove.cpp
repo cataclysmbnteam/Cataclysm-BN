@@ -1476,8 +1476,14 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
-    if( flat_ground && !g->m.is_bashable_furn( p ) ) {
+    map &here = get_map();
+
+    bool is_obstructed_by_ter_furn = here.impassable_ter_furn( p );
+    bool is_obstructed_by_veh = here.veh_at( p ).obstacle_at_part().has_value();
+    bool is_obstructed = is_obstructed_by_ter_furn || is_obstructed_by_veh;
+    bool is_flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
+
+    if( !is_obstructed && is_flat_ground ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
         bool try_bash_ter = one_in( 50 );
         if( !( can_bash_ter && try_bash_ter ) ) {
