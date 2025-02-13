@@ -60,6 +60,7 @@ class player_activity
         bool skill_affected;
         bool tools_affected;
         bool morale_affected;
+        int total_targets = 0;
         std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;

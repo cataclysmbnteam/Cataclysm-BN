@@ -232,8 +232,9 @@ std::string format_spd( float level, std::string name, int indent = 0, bool forc
     nc_color col = percent == 100
                    ? c_white
                    : percent > 100 ? c_green : c_red;
+    std::string spaces = "";
     std::string colorized = colorize( std::to_string( percent ) + '%', col );
-    return string_format( _( "%s: %s\n" ), name.insert( 0, indent, ' ' ), colorized );
+    return string_format( _( " %s- %s: %s\n" ), spaces.insert( 0, indent, ' ' ), name, colorized );
 }
 
 std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
@@ -243,9 +244,57 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     }
     if( !type->based_on().has_value() && is_verbose_tooltip() ) {
 
-        std::string time_desc = string_format( _( "Time left: %s" ),
-                                               to_string( time_duration::from_turns( moves_left / speed.totalMoves() ) ) );
+        /*
+        * Progress block
+        */
+        std::string target = "";
+        std::string progress_desc = "Progress: ";
 
+        if( targets.size() > 0 ) {
+            target = string_format( _( ": %s" ), targets.front()->tname() );
+        }
+
+        /*
+         * TODO progress for targets
+         * proper use of player_activity::targets for all activities
+         * must be implementated for proper work of multiple targets
+         */
+
+        if( total_targets > 1 ) {
+            if( total_targets >= targets.size() ) {
+                progress_desc += "\n - Total: ";
+                progress_desc += string_format( _( "%s out of %s\n" ), total_targets - targets.size(),
+                                                total_targets );
+                /*
+                * TODO total time left and total progress
+                */
+                progress_desc += "\n - Current: ";
+            }
+
+        }
+        if( moves_total <= 0 ) {
+            debugmsg( "Unexpected amount of moves for activity %s: %s", type, moves_total );
+        } else {
+            progress_desc += string_format( _( "%.1f%%\n" ),
+                                            ( 1.0f - float( moves_left ) / moves_total ) * 100.0f );
+        }
+
+        if( moves_left <= 0 ) {
+            debugmsg( "Unexpected amount of moves left for activity %s: %s", type, moves_left );
+        } else {
+            if( total_targets > 1 ) {
+                progress_desc += "  - ";
+            }
+            progress_desc += string_format( _( "Time left: %s\n" ),
+                                            to_string( time_duration::from_turns( moves_left / speed.totalMoves() ) ) );
+        }
+        if( moves_total <= 0 && moves_left <= 0 ) {
+            progress_desc = "";
+        }
+
+        /*
+        * Speed block
+        */
         std::string mults_desc = string_format( _( "Speed multipliers:\n" ),
                                                 get_verb().translated() );
         mults_desc += format_spd( speed.total(), "Total", 0, true );
@@ -258,8 +307,11 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         mults_desc += format_spd( speed.skills, "Skills", 1 );
         mults_desc += format_spd( speed.tools, "Tools", 1 );
 
-        return string_format( _( "%s: %s\n\n%s" ), get_verb().translated(),
-                              time_desc,
+
+
+        return string_format( _( "%s%s\n%s\n%s" ), get_verb().translated(),
+                              target,
+                              progress_desc,
                               mults_desc );
     }
 
@@ -335,9 +387,9 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         }
     }
 
-    return extra_info.empty() ? string_format( _( "%s…" ),
-            get_verb().translated() ) : string_format( _( "%s: %s" ),
-                    get_verb().translated(), extra_info );
+    return extra_info.empty()
+           ? string_format( _( "%s…" ), get_verb().translated() )
+           : string_format( _( "%s: %s" ), get_verb().translated(), extra_info );
 }
 
 void player_activity::find_best_bench( const Character &who )
@@ -376,6 +428,7 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     if( is_bench_affected() ) {
         find_best_bench( who );
     }
+    total_targets = targets.size();
     calc_moves( who );
     if( actor && !resuming ) {
         actor->start( *this, who );

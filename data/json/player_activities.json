@@ -385,7 +385,8 @@
     "verb": "interacting with inventory",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_ARMOR_LAYERS",
@@ -393,7 +394,8 @@
     "verb": "fiddling with your clothes",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_START_FIRE",
@@ -448,7 +450,8 @@
     "verb": "aiming",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_ATM",
@@ -456,7 +459,8 @@
     "verb": "using the ATM",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_START_ENGINES",
@@ -691,7 +695,8 @@
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_CONSUME_FOOD_MENU",
@@ -700,7 +705,8 @@
     "suspendable": false,
     "rooted": true,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_SPELLCASTING",
@@ -727,7 +733,8 @@
     "verb": "drinking",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_CONSUME_MEDS_MENU",
@@ -735,7 +742,8 @@
     "verb": "using drugs",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_MIND_SPLICER",
