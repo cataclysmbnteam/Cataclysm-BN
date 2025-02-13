@@ -30,6 +30,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
+#include "xp.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
@@ -1185,7 +1186,11 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                     selectedSkill = skillslist[line].skill;
                 }
                 if( selectedSkill ) {
-                    you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
+                    if( !get_option<bool>( "SKILLS_THROUGH_KILLS" ) ) {
+                        you.get_skill_level_object( selectedSkill->ident() ).toggleTraining();
+                    } else {
+                        character_display::upgrade_skill_prompt( *you.as_avatar(), selectedSkill->ident() );
+                    }
                 }
                 invalidate_tab( curtab );
                 break;
@@ -1649,5 +1654,27 @@ void character_display::upgrade_stat_prompt( avatar &you, const character_stat &
     if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
                   free_points ) ) {
         you.upgrade_stat( stat );
+    }
+}
+
+void character_display::upgrade_skill_prompt( avatar &you, const skill_id &skill )
+{
+    int xp_total = you.kill_xp();
+    int xp_cost_current = xp::total( you );
+    int xp_available = xp_total - xp_cost_current;
+
+    int xp_cost = xp::to_raise_skill( you, skill );
+
+    int skill_lvl = you.get_skill_level( skill );
+
+    if( xp_available < xp_cost ) {
+        popup_top( _( "Not enough xp to raise skill %s (%d -> %d).\nNeeded xp %d > Available xp %d" ),
+                   skill->name().c_str(), skill_lvl, skill_lvl + 1, xp_cost, xp_available );
+        return;
+    }
+
+    if( query_yn( _( "Are you sure you want to raise %s (%d -> %d)?\nWill cost %d xp out of %d." ),
+                  skill->name().c_str(), skill_lvl, skill_lvl + 1, xp_cost, xp_available ) ) {
+        you.set_skill_level( skill, skill_lvl + 1 );
     }
 }

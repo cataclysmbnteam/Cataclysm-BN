@@ -12,6 +12,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "json.h"
+#include "make_static.h"
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
@@ -238,7 +239,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
     if( skip_scaling ) {
         _exercise += amount;
     } else {
-        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+        const double scaling = get_option<float>( STATIC( "SKILL_TRAINING_SPEED" ) );
         if( scaling > 0.0 ) {
             _exercise += roll_remainder( amount * scaling );
         }
@@ -318,7 +319,8 @@ void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 
 bool SkillLevel::can_train() const
 {
-    return ( get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0 && _level < MAX_SKILL );
+    return ( get_option<float>( STATIC( "SKILL_TRAINING_SPEED" ) ) > 0.0 && _level < MAX_SKILL &&
+             !get_option<bool>( STATIC( "SKILLS_THROUGH_KILLS" ) ) );
 }
 
 const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const

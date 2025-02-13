@@ -73,7 +73,8 @@ int kill_tracker::kill_xp() const
 
 bool kill_tracker::option_xp() const
 {
-    return ( xp_allowed && get_option<bool>( "STATS_THROUGH_KILLS" ) );
+    return ( xp_allowed && ( get_option<bool>( "STATS_THROUGH_KILLS" ) ||
+                             get_option<bool>( "SKILLS_THROUGH_KILLS" ) ) );
 }
 
 std::string kill_tracker::get_kills_text() const

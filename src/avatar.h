@@ -228,6 +228,13 @@ class avatar : public player
             return mon_visible;
         }
 
+        int get_bonus_xp() const {
+            return bonus_xp;
+        }
+        void set_bonus_xp( int new_xp ) {
+            bonus_xp = new_xp;
+        }
+
     private:
         // The name used to generate save filenames for this avatar. Not serialized in json.
         std::string save_id;
@@ -274,6 +281,11 @@ class avatar : public player
 
         /** Warnings from factions about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
+
+        /**
+         * XP for things other than kills. Only used by Skills From Kills.
+         */
+        int bonus_xp = 0;
 };
 
 avatar &get_avatar();

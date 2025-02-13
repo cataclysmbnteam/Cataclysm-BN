@@ -41,6 +41,7 @@
 #include "json.h"
 #include "locations.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -53,6 +54,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -1520,6 +1522,10 @@ int npc::assigned_missions_value()
 std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
     std::vector<skill_id> ret;
+    if( get_option<bool>( STATIC( "SKILLS_THROUGH_KILLS" ) ) ) {
+        return ret;
+    }
+
     for( const auto &pair : *_skills ) {
         const skill_id &id = pair.first;
         if( p.get_skill_level( id ) < pair.second.level() ) {
