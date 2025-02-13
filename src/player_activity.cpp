@@ -223,7 +223,8 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
-std::string format_spd( float level, std::string name, int indent = 0, bool force_show = false )
+static std::string format_spd( float level, std::string name, int indent = 0,
+                               bool force_show = false )
 {
     if( !force_show && level == 1.0f ) {
         return "";
