@@ -1720,7 +1720,7 @@ class Character : public Creature, public location_visitable<Character>
          * the new activity_actor class and may cause issues with resuming.
          * TODO: delete this once migration of activites to the activity_actor system is complete
          */
-        void assign_activity( const activity_id &type, int moves = 0,
+        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
