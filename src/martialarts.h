@@ -61,8 +61,6 @@ struct ma_requirements {
     bool strictly_unarmed; // Ignore force_unarmed?
 
     bool req_running;   // Does it only work when running?
-    bool req_unseen;    // Is the user undetected by enemies?
-    bool req_climbed;   // Has the user changed elevation this action?
     std::set<std::string> req_adjacent; // a set of flags to check adjacent terrain for. AS_TODO: Maybe it should be a vector?
 
     bool adjacent_enemies_min; //Must be more than this number of adjacent enemies.
@@ -92,6 +90,7 @@ struct ma_requirements {
     //std::set<mabuff_id> req_buffs;
     std::vector<std::pair<mabuff_id, int>> consumed_buffs; // as req_buffs, but will remove the buffs after application
     std::vector<std::pair<mabuff_id, int>> required_buffs;  // other buffs, and their stacks, required to trigger this
+    std::vector<mabuff_id> prevented_by_buffs;  // buffs that will prevent activation
     std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
@@ -101,8 +100,6 @@ struct ma_requirements {
         strictly_unarmed = false;
 
         req_running = false;
-        req_climbed = false;
-        req_unseen = false;
 
         adjacent_enemies_min = 0;
         adjacent_enemies_max = 8;
@@ -145,49 +142,50 @@ class ma_technique
         std::string npc_message;
 
         bool defensive = false;
-        bool switch_side_target = false; // moves the target behind user
-        bool switch_side_self = false; // moves the user behind the target
-        bool switch_pos = false; // switches places with the target
-
-        bool dummy = false;
-        bool crit_tec = false;  //Can only be used on a crit
-        bool crit_ok = false;   //Is allowed to be used on a crit
-        bool reach_tec = false; //Can only be used with reach attacks
-        bool reach_ok = false;  //Is allowed to be used with rach attacks
-
-        bool req_ammo = false;
-        bool fire_weapon = false;   // should the held weapon be (f)ired if able?
-        bool sneak_attack = false;
+        bool miss_recovery = false; // allows free recovery from misses, like tec_feint
+        bool grab_break = false;    // allows grab_breaks, like tec_break
 
         ma_requirements reqs;
 
-        int down_dur = 0;
-        int stun_dur = 0;
+        std::vector<mabuff_id> triggered_buffs; //MA Buffs to trigger upon using this technique.
+        int weighting = 0; //how often this technique is used
+
+        // conditional
+        std::set<efftype_id> req_target_effects; //required effects on enemy for triggering
+
+        bool human_target = false;  // only works on humanoid enemies
+        bool sneak_attack = false;
+
+        bool crit_tec = false;  //Can only be used on a crit
+        bool crit_ok = false;   //Is allowed to be used on a crit
+        bool reach_tec = false; //Can only be used with reach attacks
+        bool reach_ok = false;  //Is allowed to be used with reach attacks
+        bool throwing_tec = false; //Can only be used with throwing attack
+        bool throwing_ok = false; //Is allowed to be used with throwing attacks
+
+        bool dummy = false;
+        
+        // offensive
         bool pull_target = false;
         bool pull_self = false;
-        int knockback_dist = 0;
-        float knockback_spread = 0.0f;  // adding randomness to knockback, like tec_throw
-        std::string knockback_type;     //"", "powerful", "destructive"
-        std::string knockback_follow_type = "";  // "", "partial", "full"
-        std::string aoe;                // corresponds to an aoe shape, defaults to just the target
-        // offensive
         bool disarms = false;       // like tec_disarm
         bool take_weapon = false;   // disarms and equips weapon if hands are free
         bool dodge_counter = false; // counter move activated on a dodge
         bool block_counter = false; // counter move activated on a block
 
-        std::set<mabuff_id> triggered_buffs; //MA Buffs to trigger upon using this technique.
+        bool switch_side_target = false; // moves the target behind user
+        bool switch_side_self = false; // moves the user behind the target
+        bool switch_pos = false; // switches places with the target           // corresponds to an aoe shape, defaults to just the target
 
-        bool miss_recovery = false; // allows free recovery from misses, like tec_feint
-        bool grab_break = false;    // allows grab_breaks, like tec_break
+        int down_dur = 0;
+        int stun_dur = 0;
 
-        int weighting = 0; //how often this technique is used
+        int knockback_dist = 0;
+        float knockback_spread = 0.0f;  // adding randomness to knockback, like tec_throw
+        std::string knockback_type;     //"", "powerful", "destructive"
+        std::string knockback_follow_type;  // "", "partial", "full"
 
-        // conditional
-        std::set<efftype_id> req_target_effects; //required effects on enemy for triggering
-        std::set<std::string> req_adjacent; // a vector of flags to check adjacent terrain for.
-        bool req_running = false; // only works when running
-        bool human_target = false;  // only works on humanoid enemies
+        std::string aoe;
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
@@ -235,6 +233,7 @@ class ma_buff
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool is_stealthy() const;
+        bool is_expert_thrower() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -264,6 +263,7 @@ class ma_buff
         bool throw_immune = false;      // are we immune to throws/grabs?
         bool quiet_attacks = false;     // are our attack silent?
         bool quiet_movement = false;    // do we make less noise when moving?
+        bool expert_thrower = false;    // do we make less noise when moving?
         bool strictly_melee = false;    // can we only use it with weapons?
 
         void load( const JsonObject &jo, const std::string &src );
@@ -300,6 +300,8 @@ class martialart
         void apply_oncrit_buffs( Character &u ) const;
 
         void apply_onkill_buffs( Character &u ) const;
+
+        void apply_triggered_buffs( Character &u, const matec_id &tec) const;
 
         // determines if a technique is valid or not for this style
         bool has_technique( const Character &u, const matec_id &tec_id ) const;
@@ -344,6 +346,7 @@ class martialart
         std::vector<mabuff_id> onmiss_buffs;
         std::vector<mabuff_id> oncrit_buffs;
         std::vector<mabuff_id> onkill_buffs;
+        std::vector<mabuff_id> triggered_buffs;
 };
 
 class ma_style_callback : public uilist_callback

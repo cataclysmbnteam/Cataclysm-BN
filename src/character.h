@@ -609,6 +609,8 @@ class Character : public Creature, public location_visitable<Character>
         bool is_quiet() const;
         /** Returns true if the player has quiet movement */
         bool is_stealthy() const;
+        /** Returns true if the player has strong throwing*/
+        bool is_expert_thrower() const;
 
         bool uncanny_dodge() override;
 
@@ -625,8 +627,11 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns a random valid technique */
         matec_id pick_technique( Creature &t, const item &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
-        void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                int &move_cost );
+        
+        void apply_technique_buffs( const ma_technique &technique, damage_instance* di, int* move_cost );
+
+        void perform_technique( const ma_technique &technique, Creature &t);
+
         /**
          * Sets up a melee attack and handles melee attack function calls
          * @param t Creature to attack
@@ -647,6 +652,7 @@ class Character : public Creature, public location_visitable<Character>
         void reach_attack( const tripoint &p );
         // HACK for mdefense::zapback, and also now used for reach techniques.
         bool reach_attacking = false;
+        bool throw_attacking = false;
 
         /** Returns value of player's stable footing */
         float stability_roll() const override;

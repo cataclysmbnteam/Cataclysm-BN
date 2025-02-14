@@ -99,7 +99,7 @@
         "name": "Lizard's Cunning",
         "description": "By briefly scaling, leaping, or pushing off a nearby wall, you can avoid the worst of your opponents attacks.\n\n+3.0 Dodge skill when near a wall.\nEnables \"Lizard Tail\" and \"Lizard Wall Counter\" techniques when near a wall.",
         "unarmed_allowed": true,
-        "req_wall": true,
+        "wall_adjacent": true,
         "flat_bonuses": [ { "stat": "dodge", "scale": 3 } ]
       }
     ],

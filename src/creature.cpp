@@ -85,6 +85,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const matec_id tec_none( "tec_none" );
+
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
     {"SMALL",  creature_size::small},
@@ -854,6 +856,19 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
 
     if( proj.has_effect( ammo_effect_NO_DAMAGE ) ) {
         impact.mult_damage( 0.0f );
+    }
+
+    // Roll techniques now that we know for sure who the target is.
+    attack.tec_id = tec_none;
+    auto *c = dynamic_cast<Character*>(source);
+    if (c!=nullptr && c->throw_attacking) {
+        matec_id tec_id = c->pick_technique(*this, *source_weapon, ht == ranged::hit_tier::critical, false, false);
+        if (tec_id != tec_none) {
+            ma_technique technique = tec_id.obj();
+            c->apply_technique_buffs(technique, &impact, nullptr);
+            c->perform_technique(technique, *this);
+            attack.tec_id = tec_id;
+        }
     }
 
     // If we have a shield, it might passively block ranged impacts
