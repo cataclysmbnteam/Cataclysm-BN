@@ -9,6 +9,7 @@
 #include <set>
 #include <string>
 #include <unordered_set>
+#include <queue>
 #include <vector>
 
 #include "activity_actor.h"
@@ -30,6 +31,96 @@ class player;
 class translation;
 class activity_ptr;
 
+struct simple_task {
+    const std::string target_name;
+    /** Total number of moves required to complete the activity */
+    const int moves_total = 0;
+    /** The number of moves remaining in this activity before it is complete. */
+    int moves_left = 0;
+
+    simple_task( const std::string &name, int moves_total )
+        : target_name( name ), moves_total( moves_total ), moves_left( moves_total ) {
+    }
+
+    const bool complete() const {
+        return moves_left <= 0;
+    }
+};
+
+class progress_counter
+{
+    private:
+        /** Total number of moves required to complete the activity */
+        int moves_total = 0;
+        /** The number of moves remaining in this activity before it is complete. */
+        int moves_left = 0;
+
+        int idx = 1;
+
+        int total_tasks = 0;
+
+        std::queue<simple_task> targets;
+
+    public:
+        void emplace( std::string name, int moves_total_ ) {
+            moves_total += moves_total_;
+            moves_left += moves_total_;
+            targets.emplace( name, moves_total_ );
+            total_tasks++;
+        }
+        void pop() {
+            if( targets.empty() ) {
+                debugmsg( "task was popped out of empty progress queue" );
+                return;
+            }
+            moves_left -= targets.front().moves_left;
+            targets.pop();
+            idx++;
+        }
+        const bool empty() const {
+            return targets.empty();
+        }
+        const bool complete() const {
+            return total_tasks > 0 && moves_left <= 0;
+        }
+        const bool invalid() const {
+            return total_tasks == 0 && targets.empty();
+        }
+        const int get_index() const {
+            return idx;
+        }
+        const int get_total_tasks() const {
+            return total_tasks;
+        }
+        const int get_moves_total() const {
+            return moves_total;
+        }
+        const int get_moves_left() const {
+            return moves_left;
+        }
+        size_t size() const {
+            return targets.size();
+        }
+        const simple_task front() const {
+            return targets.front();
+        }
+        const simple_task back() const {
+            return targets.back();
+        }
+        void mod_moves_left( int moves ) {
+            moves_left += moves;
+            targets.front().moves_left += moves;
+        }
+        /*
+        * Creates a dummy task, ends it instantaneously
+        * For very certain and rare occasions, use cautiously
+        */
+        void dummy() {
+            emplace( "If you see this it's a bug", 1 );
+            pop();
+        }
+};
+
 struct activity_speed {
     public:
         float assist = 1.0f;
@@ -45,7 +136,7 @@ struct activity_speed {
         }
 
         int totalMoves() const {
-            return std::roundf( total() * 100 );
+            return std::roundf( total() * 100.0f );
         }
 
         activity_speed() = default;
@@ -60,7 +151,6 @@ class player_activity
         bool skill_affected;
         bool tools_affected;
         bool morale_affected;
-        int total_targets = 0;
         std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
@@ -129,6 +219,14 @@ class player_activity
         bool is_null() const {
             return type.is_null();
         }
+
+        /*
+        * Members to work with activity_actor.
+        */
+
+        //List of task with nams of ACTUAL targets, like a wall u mine or a grave u dig
+        //Also movements
+        progress_counter progress;
 
         /**
          * If this returns true, the action can be continued without
@@ -200,13 +298,12 @@ class player_activity
         float calc_skill_factor() const;
         float calc_tools_factor() const;
         float calc_morale_factor( int morale ) const;
+        void find_best_bench( const tripoint &pos );
 
         /**
          * Helper that returns an activity specific progress message.
          */
         std::optional<std::string> get_progress_message( const avatar &u ) const;
-
-        void find_best_bench( const tripoint &pos );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

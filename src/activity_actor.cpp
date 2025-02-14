@@ -369,7 +369,7 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
                 who.cancel_activity();
                 break;
             case autodrive_result::finished:
-                act.moves_left = 0;
+                act.progress.dummy();
                 break;
         }
     } else {
@@ -407,12 +407,21 @@ std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & 
 
 void dig_activity_actor::start( player_activity &act, Character & )
 {
-    act.moves_total = moves_total;
-    act.moves_left = moves_total;
+    map &here = get_map();
+    const bool grave = here.ter( location ) == t_grave;
+    std::string name;
+    name = grave
+           ? "grave"
+           : here.ter( location ).obj().name();
+    act.progress.emplace( name, moves_total );
 }
 
-void dig_activity_actor::do_turn( player_activity &, Character & )
+void dig_activity_actor::do_turn( player_activity &act, Character & )
 {
+    if( act.progress.front().complete() ) {
+        act.progress.pop();
+        return;
+    }
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
@@ -511,12 +520,16 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
 
 void dig_channel_activity_actor::start( player_activity &act, Character & )
 {
-    act.moves_total = moves_total;
-    act.moves_left = moves_total;
+    map &here = get_map();
+    act.progress.emplace( here.ter( location ).obj().name(), moves_total );
 }
 
-void dig_channel_activity_actor::do_turn( player_activity &, Character & )
+void dig_channel_activity_actor::do_turn( player_activity &act, Character & )
 {
+    if( act.progress.front().complete() ) {
+        act.progress.pop();
+        return;
+    }
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
@@ -597,17 +610,15 @@ bool disassemble_activity_actor::try_start_single( player_activity &act, Charact
         who.add_msg_if_player( m_info, "%s", can_do.c_str() );
         return false;
     }
-
-    int moves_needed = dis.time * target.count;
-
-    act.moves_total = moves_needed;
-    act.moves_left = moves_needed;
     return true;
 }
 
-int disassemble_activity_actor::calc_num_targets() const
+void disassemble_activity_actor::process_target( player_activity &act, iuse_location target )
 {
-    return static_cast<int>( targets.size() );
+    const item &itm = *target.loc;
+    const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
+    int moves_needed = dis.time * target.count;
+    act.progress.emplace( itm.tname( target.count ), moves_needed );
 }
 
 void disassemble_activity_actor::start( player_activity &act, Character &who )
@@ -618,23 +629,33 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     } else if( !try_start_single( act, who ) ) {
         act.set_to_null();
     }
-    initial_num_targets = calc_num_targets();
+    for( auto target : targets ) {
+        process_target( act, target );
+    }
+}
+
+void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( act.progress.front().complete() ) {
+        const iuse_location &target = targets.front();
+        if( !target.loc ) {
+            debugmsg( "Lost target of ACT_DISASSEMBLY" );
+        } else {
+            crafting::complete_disassemble( who, target, get_map().getlocal( pos.raw() ) );
+        }
+        targets.erase( targets.begin() );
+        act.progress.pop();
+        if( !act.progress.empty() && !try_start_single( act, who ) ) {
+            act.set_to_null();
+        }
+    }
 }
 
 void disassemble_activity_actor::finish( player_activity &act, Character &who )
 {
-    const iuse_location &target = targets.front();
-    if( !target.loc ) {
-        debugmsg( "Lost target of ACT_DISASSEMBLY" );
-    } else {
-        crafting::complete_disassemble( who, target, get_map().getlocal( pos.raw() ) );
-    }
-    targets.erase( targets.begin() );
-
     if( try_start_single( act, who ) ) {
-        return;
+        debugmsg( "disassemble_activity_actor call finish function while able to start new dissasembly" );
     }
-
     // Make a copy to avoid use-after-free
     bool recurse = this->recursive;
 
@@ -652,7 +673,6 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "targets", targets );
     jsout.member( "pos", pos );
     jsout.member( "recursive", recursive );
-    jsout.member( "initial_num_targets", initial_num_targets );
 
     jsout.end_object();
 }
@@ -666,33 +686,8 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     data.read( "targets", actor->targets );
     data.read( "pos", actor->pos );
     data.read( "recursive", actor->recursive );
-    data.read( "initial_num_targets", actor->initial_num_targets );
 
     return actor;
-}
-
-act_progress_message disassemble_activity_actor::get_progress_message(
-    const player_activity &act, const Character & ) const
-{
-    std::string msg;
-
-    const int percentage = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
-
-    msg = string_format( "%d%%", percentage );
-
-    if( initial_num_targets != 1 ) {
-        constexpr int width = 20; // An arbitrary value
-        std::string item_name_trimmed = trim_by_length( targets.front().loc->display_name(), width );
-
-        msg += string_format(
-                   _( "\n%d out of %d, working on %-20s" ),
-                   initial_num_targets - calc_num_targets() + 1,
-                   initial_num_targets,
-                   item_name_trimmed
-               );
-    }
-
-    return act_progress_message::make_extra_info( std::move( msg ) );
 }
 
 drop_activity_actor::drop_activity_actor( Character &ch, const drop_locations &items,
@@ -733,12 +728,6 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
     return actor;
 }
 
-void hacking_activity_actor::start( player_activity &act, Character & )
-{
-    act.moves_total = to_moves<int>( 5_minutes );
-    act.moves_left = to_moves<int>( 5_minutes );
-}
-
 enum hack_result {
     HACK_UNABLE,
     HACK_FAIL,
@@ -753,6 +742,53 @@ enum hack_type {
     HACK_NULL
 };
 
+static hack_type get_hack_type( tripoint examp )
+{
+    hack_type type = HACK_NULL;
+    const map &here = get_map();
+    const furn_t &xfurn_t = here.furn( examp ).obj();
+    const ter_t &xter_t = here.ter( examp ).obj();
+    if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
+        type = HACK_GAS;
+    } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
+        type = HACK_DOOR;
+    } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
+        type = HACK_SAFE;
+    }
+    return type;
+}
+
+void hacking_activity_actor::start( player_activity &act, Character & )
+{
+    hack_type type = get_hack_type( act.placement );
+    std::string name = "";
+
+    switch( type ) {
+        case hack_type::HACK_SAFE:
+            name = "safe";
+            break;
+        case hack_type::HACK_DOOR:
+            name = "door panel";
+            break;
+        case hack_type::HACK_GAS:
+            name = "gas pump";
+            break;
+        default:
+            name = "";
+            break;
+    }
+
+    act.progress.emplace( name, to_moves<int>( 5_minutes ) );
+}
+
+void hacking_activity_actor::do_turn( player_activity &act, Character & )
+{
+    if( act.progress.front().complete() ) {
+        act.progress.pop();
+        return;
+    }
+}
+
 static int hack_level( const Character &who )
 {
     ///\EFFECT_COMPUTER increases success chance of hacking card readers
@@ -764,12 +800,7 @@ static int hack_level( const Character &who )
 
 static hack_result hack_attempt( Character &who, const bool using_bionic )
 {
-    // TODO: Remove this once player -> Character migration is complete
-    {
-        player *p = dynamic_cast<player *>( &who );
-        p->practice( skill_computer, 20 );
-    }
-
+    who.practice( skill_computer, 20 );
     // only skilled supergenius never cause short circuits, but the odds are low for people
     // with moderate skills
     const int hack_stddev = 5;
@@ -798,22 +829,6 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     } else {
         return HACK_SUCCESS;
     }
-}
-
-static hack_type get_hack_type( tripoint examp )
-{
-    hack_type type = HACK_NULL;
-    const map &here = get_map();
-    const furn_t &xfurn_t = here.furn( examp ).obj();
-    const ter_t &xter_t = here.ter( examp ).obj();
-    if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
-        type = HACK_GAS;
-    } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
-        type = HACK_DOOR;
-    } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
-        type = HACK_SAFE;
-    }
-    return type;
 }
 
 hacking_activity_actor::hacking_activity_actor( use_bionic )
@@ -1074,8 +1089,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-
-        act.moves_total = to_moves<int>( furn_type->hacksaw->duration() );
+        act.progress.emplace( furn_type->name(), to_moves<int>( furn_type->hacksaw->duration() ) );
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->hacksaw->valid() ) {
@@ -1085,7 +1099,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-        act.moves_total = to_moves<int>( ter_type->hacksaw->duration() );
+        act.progress.emplace( ter_type->name(), to_moves<int>( ter_type->hacksaw->duration() ) );
     } else {
         if( !testing ) {
             debugmsg( "hacksaw activity called on invalid terrain" );
@@ -1093,12 +1107,14 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
         act.set_to_null();
         return;
     }
-
-    act.moves_left = act.moves_total;
 }
 
-void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+void hacksaw_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    if( act.progress.front().complete() ) {
+        act.progress.pop();
+        return;
+    }
     if( tool->ammo_sufficient() ) {
         tool->ammo_consume( tool->ammo_required(), tool->position() );
         sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( target ) );
@@ -1224,8 +1240,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
             act.set_to_null();
             return;
         }
-
-        act.moves_total = to_moves<int>( furn_type->boltcut->duration() );
+        act.progress.emplace( furn_type->name(), to_moves<int>( furn_type->boltcut->duration() ) );
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->boltcut->valid() ) {
@@ -1235,7 +1250,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
             act.set_to_null();
             return;
         }
-        act.moves_total = to_moves<int>( ter_type->boltcut->duration() );
+        act.progress.emplace( ter_type->name(), to_moves<int>( ter_type->boltcut->duration() ) );
     } else {
         if( !testing ) {
             debugmsg( "boltcut activity called on invalid terrain" );
@@ -1243,12 +1258,14 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
         act.set_to_null();
         return;
     }
-
-    act.moves_left = act.moves_total;
 }
 
-void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+void boltcutting_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    if( act.progress.front().complete() ) {
+        act.progress.pop();
+        return;
+    }
     if( tool->ammo_sufficient() ) {
         tool->ammo_consume( tool->ammo_required(), tool->position() );
     } else {
@@ -1395,8 +1412,31 @@ std::unique_ptr<lockpick_activity_actor> lockpick_activity_actor::use_bionic(
 
 void lockpick_activity_actor::start( player_activity &act, Character & )
 {
-    act.moves_left = moves_total;
-    act.moves_total = moves_total;
+    const tripoint target = g->m.getlocal( this->target );
+    const ter_id ter_type = g->m.ter( target );
+    const furn_id furn_type = g->m.furn( target );
+
+    if( g->m.has_furn( target ) ) {
+        if( furn_type->lockpick_result.is_null() ) {
+            debugmsg( "%s lockpick_result is null", furn_type.id().str() );
+            return;
+        }
+        act.progress.emplace( furn_type->name(), moves_total );
+    } else {
+        if( ter_type->lockpick_result.is_null() ) {
+            debugmsg( "%s lockpick_result is null", ter_type.id().str() );
+            return;
+        }
+        act.progress.emplace( ter_type->name(), moves_total );
+    }
+}
+
+void lockpick_activity_actor::do_turn( player_activity &act, Character & )
+{
+    if( act.progress.front().complete() ) {
+        act.progress.pop();
+        return;
+    }
 }
 
 void lockpick_activity_actor::finish( player_activity &act, Character &who )
@@ -1571,8 +1611,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-
-        act.moves_total = to_moves<int>( furn_type->oxytorch->duration() );
+        act.progress.emplace( furn_type->name(), to_moves<int>( furn_type->oxytorch->duration() ) );
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->oxytorch->valid() ) {
@@ -1582,7 +1621,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-        act.moves_total = to_moves<int>( ter_type->oxytorch->duration() );
+        act.progress.emplace( ter_type->name(), to_moves<int>( ter_type->oxytorch->duration() ) );
     } else {
         if( !testing ) {
             debugmsg( "oxytorch activity called on invalid terrain" );
@@ -1590,12 +1629,14 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
         act.set_to_null();
         return;
     }
-
-    act.moves_left = act.moves_total;
 }
 
-void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+void oxytorch_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    if( act.progress.front().complete() ) {
+        act.progress.pop();
+        return;
+    }
     if( tool->ammo_sufficient() ) {
         tool->ammo_consume( tool->ammo_required(), tool->position() );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
