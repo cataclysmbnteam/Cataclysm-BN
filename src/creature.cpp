@@ -1264,11 +1264,12 @@ bool Creature::remove_effect( const efftype_id &eff_id, const int &stacks )
 {
     return remove_effect( eff_id, bodypart_str_id::NULL_ID(), stacks );
 }
-bool Creature::remove_effect(const efftype_id& eff_id, const bodypart_str_id &bp)
+bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
 {
-    return remove_effect(eff_id, bp, 0);
+    return remove_effect( eff_id, bp, 0 );
 }
-bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp, const int &stacks )
+bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp,
+                              const int &stacks )
 {
     if( !has_effect( eff_id, bp ) ) {
         //Effect doesn't exist, so do nothing
@@ -1283,38 +1284,36 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_str_id &b
         for( auto &it : ( *effects )[eff_id] ) {
             auto &e = it.second;
             if( !e.is_removed() ) {
-                if (stacks == 0 || stacks > e.get_intensity()) {
+                if( stacks == 0 || stacks > e.get_intensity() ) {
                     e.set_removed();
                     removed = true;
-                    }
-                else{
-                    e.mod_intensity(-stacks);
+                } else {
+                    e.mod_intensity( -stacks );
                 }
-                on_effect_int_change( e.get_id(), stacks==0?0:e.get_intensity(), e.get_bp() );
+                on_effect_int_change( e.get_id(), stacks == 0 ? 0 : e.get_intensity(), e.get_bp() );
             }
         }
     } else {
         effect &e = get_effect( eff_id, bp );
-        if (!e.is_removed()) {
-            if (stacks == 0 || stacks > e.get_intensity()) {
+        if( !e.is_removed() ) {
+            if( stacks == 0 || stacks > e.get_intensity() ) {
                 e.set_removed();
                 removed = true;
+            } else {
+                e.mod_intensity( -stacks );
             }
-            else {
-                e.mod_intensity(-stacks);
-            }
-            on_effect_int_change(e.get_id(), stacks == 0 ? 0 : e.get_intensity(), e.get_bp());
+            on_effect_int_change( e.get_id(), stacks == 0 ? 0 : e.get_intensity(), e.get_bp() );
         }
     }
 
-    Character* ch = as_character();
-    if (removed && ch != nullptr) {
-        if (is_player()) {
-            if (!type.get_remove_message().empty()) {
-                add_msg(type.lose_game_message_type(), _(type.get_remove_message()));
+    Character *ch = as_character();
+    if( removed && ch != nullptr ) {
+        if( is_player() ) {
+            if( !type.get_remove_message().empty() ) {
+                add_msg( type.lose_game_message_type(), _( type.get_remove_message() ) );
             }
         }
-        g->events().send<event_type::character_loses_effect>(ch->getID(), eff_id);
+        g->events().send<event_type::character_loses_effect>( ch->getID(), eff_id );
     }
     // Sleep is a special case, since it affects max sight range and other effects
     // Must be below the set_removed above or we'll get an infinite loop

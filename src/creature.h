@@ -497,7 +497,8 @@ class Creature
         virtual bool remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp );
         //AS_TODO: Still not entirely sure adding an additional two methods here to account for stack was the right move.
         //Maybe should access the default effect methods instead?
-        virtual bool remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp, const int &stacks);
+        virtual bool remove_effect( const efftype_id &eff_id, const bodypart_str_id &bp,
+                                    const int &stacks );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. No bp means to check if the Creature has any effect

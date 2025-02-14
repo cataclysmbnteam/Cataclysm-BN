@@ -1640,8 +1640,9 @@ void Character::perform_technique( const ma_technique &technique, Creature &t )
     //if a technique was used that consumed a buff, make sure we actually remove the buff.
     for( const std::pair<mabuff_id, int> &consume_id : technique.reqs.consumed_buffs ) {
         if( has_mabuff( consume_id.first ) ) {
-            debugmsg("Removal clause");
-            remove_effect(efftype_id(std::string("mabuff:") + consume_id.first.str()));//, consume_id.second );
+            debugmsg( "Removal clause" );
+            remove_effect( efftype_id( std::string( "mabuff:" ) +
+                                       consume_id.first.str() ) ); //, consume_id.second );
         }
     }
 
