@@ -24,7 +24,7 @@
 #include "ui_manager.h"
 #include "worldfactory.h"
 
-std::string game_info::operating_system()
+auto game_info::operating_system() -> std::string
 {
 #if defined(__ANDROID__)
     return "Android";
@@ -64,7 +64,7 @@ std::string game_info::operating_system()
  * @note The output buffer is limited to 512 characters.
  * @returns The result of the command (only stdout) or an empty string if there was a problem.
  */
-static std::string shell_exec( const std::string &command )
+static auto shell_exec( const std::string &command ) -> std::string
 {
     std::vector<char> buffer( 512 );
     std::string output;
@@ -146,7 +146,7 @@ static std::string bsd_version()
  * @note The code shells-out to call `lsb_release -a`.
  * @returns If successful, a string containing the Linux system version, otherwise an empty string.
  */
-static std::string linux_version()
+static auto linux_version() -> std::string
 {
     std::string output;
     output = shell_exec( "lsb_release -a" );
@@ -306,7 +306,7 @@ static std::string windows_version()
 }
 #endif // Various OS define tests
 
-std::string game_info::operating_system_version()
+auto game_info::operating_system_version() -> std::string
 {
 #if defined(__ANDROID__)
     return android_version();
@@ -323,7 +323,7 @@ std::string game_info::operating_system_version()
 #endif
 }
 
-std::optional<int> game_info::bitness()
+auto game_info::bitness() -> std::optional<int>
 {
     if( sizeof( void * ) == 8 ) {
         return 64;
@@ -336,7 +336,7 @@ std::optional<int> game_info::bitness()
     return std::nullopt;
 }
 
-std::string game_info::bitness_string()
+auto game_info::bitness_string() -> std::string
 {
     auto b = bitness();
     if( b && *b == 32 ) {
@@ -348,12 +348,12 @@ std::string game_info::bitness_string()
     return "Unknown";
 }
 
-std::string game_info::game_version()
+auto game_info::game_version() -> std::string
 {
     return getVersionString();
 }
 
-std::string game_info::graphics_version()
+auto game_info::graphics_version() -> std::string
 {
 #if defined(TILES)
     return "Tiles";
@@ -362,7 +362,7 @@ std::string game_info::graphics_version()
 #endif
 }
 
-std::string game_info::save_file_version()
+auto game_info::save_file_version() -> std::string
 {
     const auto &world = world_generator->active_world;
     if( world == nullptr ) {
@@ -380,7 +380,7 @@ std::string game_info::save_file_version()
     }
 }
 
-std::string game_info::mods_loaded()
+auto game_info::mods_loaded() -> std::string
 {
     if( world_generator->active_world == nullptr ) {
         return "No active world";
@@ -402,7 +402,7 @@ std::string game_info::mods_loaded()
     return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
 }
 
-std::string game_info::game_report()
+auto game_info::game_report() -> std::string
 {
     std::string os_version = operating_system_version();
     if( os_version.empty() ) {
@@ -434,7 +434,7 @@ std::string game_info::game_report()
     return report.str();
 }
 
-std::optional<int> get_os_bitness()
+auto get_os_bitness() -> std::optional<int>
 {
 #if defined(_WIN32)
     SYSTEM_INFO si;
