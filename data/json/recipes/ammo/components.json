@@ -146,7 +146,8 @@
         [ "can_food_unsealed", 1 ],
         [ "canister_empty", 1 ],
         [ "scrap", 2 ],
-        [ "scrap_copper", 2 ]
+        [ "copper_scrap_equivalent", 2, "LIST" ],
+        [ "aluminum_foil", 100 ]
       ],
       [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
     ]
@@ -188,7 +189,8 @@
         [ "can_food_unsealed", 1 ],
         [ "canister_empty", 1 ],
         [ "scrap", 2 ],
-        [ "scrap_copper", 2 ]
+        [ "copper_scrap_equivalent", 2, "LIST" ],
+        [ "aluminum_foil", 100 ]
       ],
       [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
     ]
@@ -230,7 +232,8 @@
         [ "can_food_unsealed", 1 ],
         [ "canister_empty", 1 ],
         [ "scrap", 2 ],
-        [ "scrap_copper", 2 ]
+        [ "copper_scrap_equivalent", 2, "LIST" ],
+        [ "aluminum_foil", 100 ]
       ],
       [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
     ]
@@ -272,7 +275,8 @@
         [ "can_food_unsealed", 1 ],
         [ "canister_empty", 1 ],
         [ "scrap", 2 ],
-        [ "scrap_copper", 2 ]
+        [ "copper_scrap_equivalent", 2, "LIST" ],
+        [ "aluminum_foil", 100 ]
       ],
       [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
     ]
@@ -314,7 +318,8 @@
         [ "can_food_unsealed", 1 ],
         [ "canister_empty", 1 ],
         [ "scrap", 2 ],
-        [ "scrap_copper", 2 ]
+        [ "copper_scrap_equivalent", 2, "LIST" ],
+        [ "aluminum_foil", 100 ]
       ],
       [ [ "oxy_powder", 50 ], [ "chem_match_head_powder", 50 ] ]
     ]
