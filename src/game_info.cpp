@@ -15,7 +15,6 @@
 #include "input.h"
 #include "language.h"
 #include "mod_manager.h"
-#include "options.h"
 #include "output.h"
 #include "path_info.h"
 #include "string_utils.h"
