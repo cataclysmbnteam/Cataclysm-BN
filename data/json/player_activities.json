@@ -786,7 +786,6 @@
     "id": "ACT_NULL",
     "type": "activity_type",
     "verb": "dummy activity",
-    "special": true,
-    "suspendable": false
+    "//": "dummy activity for tests, cuz, apparently it's much harder to insert it to map"
   }
 ]
