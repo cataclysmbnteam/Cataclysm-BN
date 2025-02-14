@@ -41,10 +41,6 @@ bool string_id<activity_type>::is_valid() const
     return found != activity_type_all.end();
 }
 
-static const std::unordered_map< std::string, based_on_type > based_on_type_values = {
-    { "neither", based_on_type::NEITHER }
-};
-
 
 void activity_type::load( const JsonObject &jo )
 {
@@ -55,6 +51,7 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "verb", result.verb_, true );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
+    assign( jo, "special", result.special_, false );
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
     assign( jo, "auto_needs", result.auto_needs, false );
@@ -70,12 +67,6 @@ void activity_type::load( const JsonObject &jo )
         result.skill_affected_ =  arr.get_bool( "skill", false );
         result.tools_affected_ =  arr.get_bool( "tools", false );
         result.morale_affected_ =  arr.get_bool( "morale", false );
-    }
-
-
-    std::string based_on_type_tmp = jo.get_string( "based_on", "" );
-    if( !based_on_type_tmp.empty() ) {
-        result.based_on_ = io::string_to_enum_look_up( based_on_type_values, based_on_type_tmp );
     }
 
     if( activity_type_all.find( result.id_ ) != activity_type_all.end() ) {
@@ -96,7 +87,7 @@ void activity_type::check_consistency()
         const bool has_turn_func = activity_handlers::do_turn_functions.find( pair.second.id_ ) !=
                                    activity_handlers::do_turn_functions.end();
 
-        if( pair.second.based_on_ == based_on_type::NEITHER && !( has_turn_func || has_actor ) ) {
+        if( pair.second.special_ && !( has_turn_func || has_actor ) ) {
             debugmsg( "%s needs a do_turn function or activity actor if it's not based on time or speed.",
                       pair.second.id_.c_str() );
         }

@@ -20,10 +20,6 @@ using activity_id = string_id<activity_type>;
 template<>
 const activity_type &string_id<activity_type>::obj() const;
 
-enum class based_on_type : int {
-    NEITHER
-};
-
 /** A class that stores constant information that doesn't differ between activities of the same type */
 class activity_type
 {
@@ -32,11 +28,11 @@ class activity_type
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
         bool suspendable_ = true;
-        std::optional<based_on_type> based_on_ = {};
         bool no_resume_ = false;
         bool multi_activity_ = false;
         bool refuel_fires = false;
         bool auto_needs = false;
+        bool special_ = false;
         bool complex_moves_ = false;
         bool assistable_ = false;
         bool bench_affected_ = false;
@@ -62,14 +58,14 @@ class activity_type
         const translation &verb() const {
             return verb_;
         }
-        std::optional<based_on_type> based_on() const {
-            return based_on_;
-        }
         bool no_resume() const {
             return no_resume_;
         }
         bool multi_activity() const {
             return multi_activity_;
+        }
+        bool special() const {
+            return special_;
         }
         bool complex_moves() const {
             return complex_moves_;

@@ -225,7 +225,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     if( !type || get_verb().empty() ) {
         return std::optional<std::string>();
     }
-    if( !type->based_on().has_value() && is_verbose_tooltip() ) {
+    if( !type->special() && is_verbose_tooltip() ) {
 
         /*
         * Progress block
@@ -495,7 +495,7 @@ void player_activity::do_turn( player &p )
      * This might finish the activity (set it to null)
      * Leave as is till full migration to actors for "NEITHER"
     */
-    if( type->based_on() != based_on_type::NEITHER ) {
+    if( !type->special() ) {
         if( type->complex_moves() ) {
             calc_moves( p );
             int moves_total = speed.totalMoves();
