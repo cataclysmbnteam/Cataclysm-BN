@@ -13,7 +13,7 @@
 #include "point.h"
 #include "player_activity.h"
 
-static const activity_id ACT_NULL( "ACT_NULL" );
+static const activity_id ACT_NULL = activity_id::NULL_ID();
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
