@@ -781,5 +781,12 @@
     "special": true,
     "no_resume": true,
     "verbose_tooltip": false
+  },
+  {
+    "id": "ACT_NULL",
+    "type": "activity_type",
+    "verb": "dummy activity",
+    "special": true,
+    "suspendable": false
   }
 ]
