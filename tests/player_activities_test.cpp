@@ -197,7 +197,8 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
                         dummy.moves = dummy.get_speed();
                         dummy.activity->do_turn( dummy );
                         CHECK( dummy.activity->id() == ACT_BOLTCUTTING );
-                        CHECK( dummy.activity->progress.get_moves_left() < to_moves<int>( furn_t_test_f_boltcut3->boltcut->duration() ) );
+                        CHECK( dummy.activity->progress.get_moves_left() < to_moves<int>
+                               ( furn_t_test_f_boltcut3->boltcut->duration() ) );
                     }
                 }
             }
@@ -459,7 +460,8 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
                         dummy.moves = dummy.get_speed();
                         dummy.activity->do_turn( dummy );
                         CHECK( dummy.activity->id() == ACT_HACKSAW );
-                        CHECK( dummy.activity->progress.get_moves_left() < to_moves<int>( furn_t_test_f_hacksaw3->hacksaw->duration() ) );
+                        CHECK( dummy.activity->progress.get_moves_left() < to_moves<int>
+                               ( furn_t_test_f_hacksaw3->hacksaw->duration() ) );
                     }
                 }
             }
