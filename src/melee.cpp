@@ -526,7 +526,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         matec_id technique_id;
         if( allow_special && ( !has_force_technique || ( reach_attacking &&
                                *force_technique == tec_none ) ) ) {
-            technique_id = pick_technique( t, cur_weapon, critical_hit, false, false);
+            technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else if( has_force_technique ) {
             technique_id = *force_technique;
         } else {
@@ -549,8 +549,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
 
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
-            apply_technique_buffs(technique, &d, &move_cost);
-            perform_technique( technique, t);
+            apply_technique_buffs( technique, &d, &move_cost );
+            perform_technique( technique, t );
         }
 
         // Proceed with melee attack.
@@ -1178,10 +1178,10 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap );
 
     std::vector<matec_id> possible;
-    
+
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
-    bool sneak_attack = !(t.sees(g->u.pos()) && t.sees(g->u));
+    bool sneak_attack = !( t.sees( g->u.pos() ) && t.sees( g->u ) );
     bool running = g->u.movement_mode_is( CMM_RUN );
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
@@ -1199,13 +1199,13 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
         //if throwing seelect for throwing_tecs
         //but otherwise allow throwing_ok tecs
-        if (!tec.throwing_ok && (throw_attacking != tec.throwing_tec)) {
+        if( !tec.throwing_ok && ( throw_attacking != tec.throwing_tec ) ) {
             continue;
         }
 
         // skip techniques that require specific adjacency flags if those flags aren't present
-        if (!tec.reqs.req_adjacent.empty() && !g->m.has_adjacent_flags( pos(), tec.reqs.req_adjacent )) {
-           continue;
+        if( !tec.reqs.req_adjacent.empty() && !g->m.has_adjacent_flags( pos(), tec.reqs.req_adjacent ) ) {
+            continue;
         }
 
         // skip running techniques if not running
@@ -1214,7 +1214,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
         }
 
         // skip running techniques if not running
-        if (tec.sneak_attack && !sneak_attack) {
+        if( tec.sneak_attack && !sneak_attack ) {
             continue;
         }
 
@@ -1235,12 +1235,13 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
         // if critical then select only from critical tecs
         // but allow the technique if its crit ok
-        if( !tec.crit_ok && ( crit != tec.crit_tec ) ) { //if its not crit_ok && (crit does not equal crit_tec)
+        if( !tec.crit_ok &&
+            ( crit != tec.crit_tec ) ) { //if its not crit_ok && (crit does not equal crit_tec)
             continue;
         }
 
         // don't apply downing techniques to someone who's already downed
-        if( downed && tec.down_dur > 0) {
+        if( downed && tec.down_dur > 0 ) {
             continue;
         }
 
@@ -1646,40 +1647,40 @@ void Character::perform_technique( const ma_technique &technique, Creature &t )
         }
     }
 
-    martial_arts_data->ma_triggered_effects(*this, technique.id);
+    martial_arts_data->ma_triggered_effects( *this, technique.id );
 }
 
 
 /// <summary>
 /// Applies damage_instance modifications, and move_cost modifications from a technique.
-/// 
+///
 /// Can be called only one by passing in nullptr for damage_instance or move_cost.
 /// </summary>
-void Character::apply_technique_buffs( const ma_technique &technique, damage_instance* di,
-                                   int* move_cost )
+void Character::apply_technique_buffs( const ma_technique &technique, damage_instance *di,
+                                       int *move_cost )
 {
     add_msg( m_debug, "dmg before tec:" );
-    if (di) {
+    if( di ) {
 
-    print_damage_info( *di );
+        print_damage_info( *di );
 
-    for( damage_unit &du : di -> damage_units ) {
-        // TODO: Allow techniques to add more damage types to attacks
-        if( du.amount <= 0 ) {
-            continue;
+        for( damage_unit &du : di -> damage_units ) {
+            // TODO: Allow techniques to add more damage types to attacks
+            if( du.amount <= 0 ) {
+                continue;
+            }
+
+            du.amount += technique.damage_bonus( *this, du.type );
+            du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
+            du.res_pen += technique.armor_penetration( *this, du.type );
         }
 
-        du.amount += technique.damage_bonus( *this, du.type );
-        du.damage_multiplier *= technique.damage_multiplier( *this, du.type );
-        du.res_pen += technique.armor_penetration( *this, du.type );
+        add_msg( m_debug, "dmg after tec:" );
+        print_damage_info( *di );
     }
-
-    add_msg( m_debug, "dmg after tec:" );
-    print_damage_info( *di );
-    }
-    if (move_cost) {
-    *move_cost *= technique.move_cost_multiplier( *this );
-    *move_cost += technique.move_cost_penalty( *this );
+    if( move_cost ) {
+        *move_cost *= technique.move_cost_multiplier( *this );
+        *move_cost += technique.move_cost_penalty( *this );
     }
 }
 
@@ -1930,7 +1931,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     martial_arts_data->ma_onblock_effects( *this );
 
     // Check if we have any block counters
-    matec_id tec = pick_technique( *source, shield, false, false, true);
+    matec_id tec = pick_technique( *source, shield, false, false, true );
 
     if( tec != tec_none && !is_dead_state() ) {
         if( get_stamina() < get_stamina_max() / 3 ) {

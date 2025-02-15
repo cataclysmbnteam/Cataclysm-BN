@@ -860,13 +860,14 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
 
     // Roll techniques now that we know for sure who the target is.
     attack.tec_id = tec_none;
-    auto *c = dynamic_cast<Character*>(source);
-    if (c!=nullptr && c->throw_attacking) {
-        matec_id tec_id = c->pick_technique(*this, *source_weapon, ht == ranged::hit_tier::critical, false, false);
-        if (tec_id != tec_none) {
+    auto *c = dynamic_cast<Character *>( source );
+    if( c != nullptr && c->throw_attacking ) {
+        matec_id tec_id = c->pick_technique( *this, *source_weapon, ht == ranged::hit_tier::critical, false,
+                                             false );
+        if( tec_id != tec_none ) {
             ma_technique technique = tec_id.obj();
-            c->apply_technique_buffs(technique, &impact, nullptr);
-            c->perform_technique(technique, *this);
+            c->apply_technique_buffs( technique, &impact, nullptr );
+            c->perform_technique( technique, *this );
             attack.tec_id = tec_id;
         }
     }

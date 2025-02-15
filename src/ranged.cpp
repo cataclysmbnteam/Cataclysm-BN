@@ -117,7 +117,7 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
 
-static const matec_id tec_none("tec_none");
+static const matec_id tec_none( "tec_none" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
@@ -1355,14 +1355,13 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target,
 
     auto dealt_attack = projectile_attack( proj, throw_from, target, dispersion, &who, &thrown );
 
-    int move_cost = ranged::throw_cost(who, thrown);
+    int move_cost = ranged::throw_cost( who, thrown );
     //We call this again just to modify our mvoe cost
-    if (dealt_attack.tec_id != tec_none && dealt_attack.tec_id.is_valid())
-    {
-        debugmsg("tec id %s", dealt_attack.tec_id.c_str());
-        who.apply_technique_buffs(dealt_attack.tec_id.obj(), nullptr, &move_cost);
+    if( dealt_attack.tec_id != tec_none && dealt_attack.tec_id.is_valid() ) {
+        debugmsg( "tec id %s", dealt_attack.tec_id.c_str() );
+        who.apply_technique_buffs( dealt_attack.tec_id.obj(), nullptr, &move_cost );
     }
-    who.mod_moves(-move_cost);
+    who.mod_moves( -move_cost );
 
 
     //dealt_attack.hit_critter

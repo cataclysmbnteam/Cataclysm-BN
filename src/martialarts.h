@@ -61,7 +61,8 @@ struct ma_requirements {
     bool strictly_unarmed; // Ignore force_unarmed?
 
     bool req_running;   // Does it only work when running?
-    std::set<std::string> req_adjacent; // a set of flags to check adjacent terrain for. AS_TODO: Maybe it should be a vector?
+    std::set<std::string>
+    req_adjacent; // a set of flags to check adjacent terrain for. AS_TODO: Maybe it should be a vector?
 
     bool adjacent_enemies_min; //Must be more than this number of adjacent enemies.
     bool adjacent_enemies_max; //Must be below this number of adjacent enemies.
@@ -88,8 +89,10 @@ struct ma_requirements {
     std::vector<std::pair<damage_type, int>> min_damage;
 
     //std::set<mabuff_id> req_buffs;
-    std::vector<std::pair<mabuff_id, int>> consumed_buffs; // as req_buffs, but will remove the buffs after application
-    std::vector<std::pair<mabuff_id, int>> required_buffs;  // other buffs, and their stacks, required to trigger this
+    std::vector<std::pair<mabuff_id, int>>
+                                        consumed_buffs; // as req_buffs, but will remove the buffs after application
+    std::vector<std::pair<mabuff_id, int>>
+                                        required_buffs;  // other buffs, and their stacks, required to trigger this
     std::vector<mabuff_id> prevented_by_buffs;  // buffs that will prevent activation
     std::set<flag_id> req_flags; // any item flags required for this technique
 
@@ -164,7 +167,7 @@ class ma_technique
         bool throwing_ok = false; //Is allowed to be used with throwing attacks
 
         bool dummy = false;
-        
+
         // offensive
         bool pull_target = false;
         bool pull_self = false;
@@ -175,7 +178,8 @@ class ma_technique
 
         bool switch_side_target = false; // moves the target behind user
         bool switch_side_self = false; // moves the user behind the target
-        bool switch_pos = false; // switches places with the target           // corresponds to an aoe shape, defaults to just the target
+        bool switch_pos =
+            false; // switches places with the target           // corresponds to an aoe shape, defaults to just the target
 
         int down_dur = 0;
         int stun_dur = 0;
@@ -301,7 +305,7 @@ class martialart
 
         void apply_onkill_buffs( Character &u ) const;
 
-        void apply_triggered_buffs( Character &u, const matec_id &tec) const;
+        void apply_triggered_buffs( Character &u, const matec_id &tec ) const;
 
         // determines if a technique is valid or not for this style
         bool has_technique( const Character &u, const matec_id &tec_id ) const;
