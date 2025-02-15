@@ -4662,6 +4662,7 @@ void overmap::place_cities()
     // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMTPS = approx. 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMTPS=OMAPX * OMAPY
     const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
     int placement_attempts = 0;
+    int finale_distance = 1;
     // place a seed for NUM_CITIES cities, and maybe one more
     while( cities.size() < static_cast<size_t>( NUM_CITIES ) &&
            placement_attempts < MAX_PLACEMENT_ATTEMTPS ) {
@@ -4679,9 +4680,11 @@ void overmap::place_cities()
         } else if( one_in( 2 ) ) { // 17% large
             tmp.attempt_finale = true;
             size = size * 3 / 2;
+            finale_distance = 5;
         } else {                 // 17% huge
             tmp.attempt_finale = true;
             size = size * 2;
+            finale_distance = 15;
         }
         //also avoid a finale if the city spec has none
         if( !city_spec.finales.finalized ) {
@@ -4707,8 +4710,8 @@ void overmap::place_cities()
                 ter_set( p + tripoint_below, oter_id( "sewer_isolated" ) );
                 tmp.pos = p.xy();
                 tmp.size = size;
-                tmp.finale_counter = rand() % 15 +
-                                     1; //TODO: is there some rand range function I could use instead? would make this more configurable.
+                ;
+                tmp.finale_counter = rng( 1, finale_distance);
                 cities.push_back( tmp );
 
                 const auto start_dir = om_direction::random();
@@ -4846,7 +4849,6 @@ void overmap::build_city_street(
         }
         bool attempt_finale_place = false;
         // place a finale somewhere within the first 15 buildings
-        //TODO This needs to respect greater finale placement choices, probably need a member on the class
         if( town.finale_counter == 0 && !town.finale_placed && town.attempt_finale ) {
             attempt_finale_place = true;
         } else {
