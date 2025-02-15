@@ -20,6 +20,24 @@
     "stackable": true
   },
   {
+    "type": "GENERIC",
+    "id": "cartridgebrass",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str_sp": "cartridge brass" },
+    "category": "scrap_metal",
+    "description": "Some brass that has been made specifically to be formed into bullets.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": "brass",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "bashing": 1,
+    "to_hit": -2,
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
+  },
+  {
     "id": "scrap",
     "type": "AMMO",
     "category": "scrap_metal",
