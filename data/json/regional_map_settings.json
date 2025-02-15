@@ -1025,12 +1025,14 @@
         "s_electronics_2": 200,
         "s_gun_2": 200,
         "megastore": 200,
-        "Military Outpost": 200,
+        "town_hall": 200,
         "police_1": 200,
         "s_gun_1": 200,
-        "house_prepper": 50,
+        "fire_station": 100,
         "hospital": 100,
-        "office_tower_hiddenlab": 50
+        "house_prepper": 50,
+        "office_tower_hiddenlab": 50,
+        "pawn_pf": 50
       }
     },
     "weather": {
