@@ -36,7 +36,7 @@
     "ammo": "40",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "durability": 6,
-    "blackpowder_tolerance": 48,
+    "blackpowder_tolerance": 24,
     "min_cycle_recoil": 425,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -179,7 +179,6 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 620,
     "durability": 6,
-    "blackpowder_tolerance": 60,
     "loudness": 25,
     "magazines": [ [ "40", [ "40_speedloader6" ] ] ],
     "reload": 285,
@@ -213,7 +212,6 @@
     "ammo": [ "10mm", "40" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 320,
-    "blackpowder_tolerance": 56,
     "magazines": [ [ "40", [ "40_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],

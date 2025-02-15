@@ -70,6 +70,7 @@
     "dispersion": 425,
     "durability": 6,
     "clip_size": 5,
+    "blackpowder_tolerance": 24,
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
@@ -432,6 +433,7 @@
       [ "sights", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "blackpowder_tolerance": 48,
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
   {
@@ -461,6 +463,7 @@
       [ "sights", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "blackpowder_tolerance": 24,
     "magazines": [ [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
   },
   {
@@ -507,6 +510,7 @@
       [ "rail", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "blackpowder_tolerance": 96,
     "extend": { "flags": [ "NEVER_JAMS" ] }
   },
   {
@@ -670,6 +674,7 @@
       [ "sights", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "blackpowder_tolerance": 72,
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -703,6 +708,7 @@
       [ "sights", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "blackpowder_tolerance": 72,
     "default_mods": [ "sword_bayonet" ],
     "flags": [ "RELOAD_ONE" ]
   }

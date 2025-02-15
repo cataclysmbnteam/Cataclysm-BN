@@ -108,6 +108,7 @@
     "name": { "str": "single shot pistols" },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "More reliable than other pistols because it uses no magazine and has no loading/cycling mechanisms.",
+    "blackpowder_tolerance": 72,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
@@ -122,6 +123,7 @@
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
+    "blackpowder_tolerance": 48,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -145,6 +147,7 @@
     "extend": { "flags": [ "NO_UNLOAD" ] },
     "delete": { "flags": [ "NEVER_JAMS" ] },
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
+    "blackpowder_tolerance": 72,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "sights", 1 ] ]
   },
@@ -217,6 +220,7 @@
     "weapon_category": [ "RIFLES", "MANUAL_ACTION" ],
     "name": { "str": "rifle with manual actions", "str_pl": "rifles with manual actions" },
     "//": "Slightly more reliable than autoloading actions.",
+    "blackpowder_tolerance": 48,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
@@ -237,6 +241,7 @@
     "type": "GUN",
     "weapon_category": [ "RIFLES", "1SHOT" ],
     "name": { "str": "single shot rifle" },
+    "blackpowder_tolerance": 72,
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
   {
@@ -248,7 +253,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 550,
     "durability": 6,
-    "blackpowder_tolerance": 60,
+    "blackpowder_tolerance": 72,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -386,6 +391,7 @@
     "weapon_category": [ "SHOTGUNS", "1SHOT" ],
     "name": { "str": "single shot shotguns" },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ] },
+    "blackpowder_tolerance": 72,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
@@ -396,6 +402,7 @@
     "name": { "str": "pump action shotgun" },
     "reload_noise": "chuk chuk.",
     "extend": { "flags": [ "RELOAD_ONE", "PUMP_ACTION" ] },
+    "blackpowder_tolerance": 48,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
@@ -471,6 +478,7 @@
     "handling": 60,
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "flags": [ "MOUNTED_GUN" ],
+    "blackpowder_tolerance": 48,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
