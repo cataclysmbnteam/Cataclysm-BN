@@ -31,6 +31,7 @@
     "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
+      [ "HOSE", 1 ],      
       [ "HAMMER", 3 ],
       [ "HAMMER_FINE", 1 ],
       [ "SAW_W", 1 ],
