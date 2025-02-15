@@ -4711,7 +4711,7 @@ void overmap::place_cities()
                 tmp.pos = p.xy();
                 tmp.size = size;
                 ;
-                tmp.finale_counter = rng( 1, finale_distance);
+                tmp.finale_counter = rng( 1, finale_distance );
                 cities.push_back( tmp );
 
                 const auto start_dir = om_direction::random();
