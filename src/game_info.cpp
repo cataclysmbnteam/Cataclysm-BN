@@ -23,6 +23,12 @@
 #include "ui_manager.h"
 #include "worldfactory.h"
 
+#if defined(_WIN32)
+#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#   endif
+#endif
+
 auto game_info::operating_system() -> std::string
 {
 #if defined(__ANDROID__)
