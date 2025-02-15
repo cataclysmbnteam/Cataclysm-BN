@@ -222,6 +222,29 @@
     "magazine_well": "1000 ml"
   },
   {
+    "id": "hydraulic_press",
+    "type": "TOOL",
+    "category": "tools_workshop",
+    "name": { "str": "hydraulic press" },
+    "description": "A large, barely portable hydraulic press, that uses a 36kW motor to squash whatever needs squashing. Do not put your hand in here, it will get squashed.",
+    "weight": "320 kg",
+    "volume": "130 L",
+    "price": 120000,
+    "price_postapoc": 14000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 20,
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": "1000 ml"
+  },
+  {
     "id": "kiln_done",
     "type": "GENERIC",
     "category": "tools_workshop",
