@@ -125,7 +125,8 @@
         "s_hardware": 2,
         "police": 1,
         "s_lot": 6
-      }
+      },
+      "finales": { "Military Outpost": 200 }
     },
     "weather": {
       "spring_temp": 16,
