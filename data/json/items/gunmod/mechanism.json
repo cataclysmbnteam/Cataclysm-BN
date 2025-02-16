@@ -3,7 +3,7 @@
     "id": "match_trigger",
     "type": "GUNMOD",
     "name": { "str": "match trigger" },
-    "description": "A precision weighted trigger assembly that slightly improves a firearm's accuracy.",
+    "description": "A precision weighted trigger assembly that improves a firearm's accuracy.",
     "weight": "120 g",
     "volume": "250 ml",
     "integral_volume": "0 ml",
@@ -27,7 +27,7 @@
       [ "FLAMETHROWERS" ]
     ],
     "install_time": "30 m",
-    "dispersion_modifier": -1
+    "dispersion_modifier": -100
   },
   {
     "id": "dias",
@@ -46,7 +46,7 @@
     "location": "mechanism",
     "mod_targets": [ "ar15" ],
     "install_time": "5 m",
-    "dispersion_modifier": 10,
+    "dispersion_modifier": 25,
     "mode_modifier": [ [ "AUTO", "auto", 4 ] ]
   },
   {
@@ -66,7 +66,7 @@
     "mod_targets": [ "ar15" ],
     "install_time": "25 m",
     "min_skills": [ [ "weapon", 5 ] ],
-    "dispersion_modifier": 40,
+    "dispersion_modifier": 50,
     "mode_modifier": [ [ "DEFAULT", "auto", 6 ] ],
     "flags": [ "INSTALL_DIFFICULT" ]
   },
@@ -87,7 +87,7 @@
     "mod_targets": [ "glock_17", "glock_19", "glock_20", "glock_21", "glock_22", "glock_31" ],
     "install_time": "10 m",
     "min_skills": [ [ "weapon", 5 ] ],
-    "dispersion_modifier": 65,
+    "dispersion_modifier": 100,
     "mode_modifier": [ [ "semi-auto", "auto", 6 ] ],
     "flags": [ "INSTALL_DIFFICULT" ]
   },
