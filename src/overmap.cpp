@@ -4712,7 +4712,7 @@ void overmap::place_cities()
                 tmp.pos = p.xy();
                 tmp.size = size;
                 ;
-                tmp.finale_counter = rng( 0, finale_distance);
+                tmp.finale_counter = rng( 0, finale_distance );
                 cities.push_back( tmp );
 
                 const auto start_dir = om_direction::random();
@@ -4862,7 +4862,7 @@ void overmap::build_city_street(
                     town.finale_placed = true;
                 } else { // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
                     attempt_finale_place = false;
-                    town.finale_counter= -1;
+                    town.finale_counter = -1;
                 }
             } else {
                 place_building( rp, om_direction::turn_left( dir ), town, false );
@@ -4876,7 +4876,7 @@ void overmap::build_city_street(
                     town.finale_placed = true;
                 } else { // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
                     attempt_finale_place = false;
-                    town.finale_counter= -1;
+                    town.finale_counter = -1;
                 }
             } else {
                 place_building( rp, om_direction::turn_right( dir ), town, false );
