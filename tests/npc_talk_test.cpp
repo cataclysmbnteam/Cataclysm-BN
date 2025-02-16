@@ -606,9 +606,9 @@ static bool has_item( Character &p, const std::string &id, int count )
     }
 }
 
-static bool has_beer_bottle( Character &p, int count )
+static bool has_rootbeer_bottle( Character &p, int count )
 {
-    return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
+    return has_item( p, "bottle_glass", 1 ) && has_item( p, "rootbeer", count );
 }
 
 static void give_item( Character &p, const std::string &id, int count )
@@ -630,7 +630,6 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
     player_character.remove_top_items_with( []( detached_ptr<item> &&it ) {
         return ( it->get_category().get_id() == item_category_id( "books" ) ||
                  it->get_category().get_id() == item_category_id( "food" ) ||
-                 it->get_category().get_id() == item_category_id( "drugs" ) ||
                  it->typeId() == itype_id( "bottle_glass" ) ) ? detached_ptr<item>() : std::move( it );
     } );
 
@@ -693,13 +692,13 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         gen_response_lines( d, 4 );
         // buying and spending
         talker_npc.op_of_u.owed = 1000;
-        REQUIRE_FALSE( has_beer_bottle( player_character, 2 ) );
+        REQUIRE_FALSE( has_rootbeer_bottle( player_character, 2 ) );
         REQUIRE( talker_npc.op_of_u.owed == 1000 );
         REQUIRE( player_character.cash == 1000 );
         talk_effect_t &effects = d.responses[1].success;
         effects.apply( d );
         CHECK( talker_npc.op_of_u.owed == 500 );
-        CHECK( has_beer_bottle( player_character, 2 ) );
+        CHECK( has_rootbeer_bottle( player_character, 2 ) );
         REQUIRE_FALSE( has_item( player_character, "bottle_plastic", 1 ) );
         effects = d.responses[2].success;
         effects.apply( d );
@@ -754,7 +753,7 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
     }
 
     SECTION( "has_item" ) {
-        give_item( player_character, "beer", 2 );
+        give_item( player_character, "rootbeer", 2 );
         give_item( player_character, "bottle_glass", 1 );
         give_item( player_character, "manual_speech", 1 );
         give_item( player_character, "dnd_handbook", 1 );
@@ -764,15 +763,15 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         CHECK( d.responses[0].text == "This is a repeated item manual_speech test response" );
         CHECK( d.responses[0].success.next_topic.item_type == itype_id( "manual_speech" ) );
         CHECK( d.responses[1].text == "This is a basic test response." );
-        CHECK( d.responses[2].text == "This is a u_has_item beer test response." );
+        CHECK( d.responses[2].text == "This is a u_has_item rootbeer test response." );
         CHECK( d.responses[3].text == "This is a u_has_item bottle_glass test response." );
-        CHECK( d.responses[4].text == "This is a u_has_items beer test response." );
+        CHECK( d.responses[4].text == "This is a u_has_items rootbeer test response." );
         CHECK( d.responses[5].text == "This is a u_has_item_category books test response." );
         CHECK( d.responses[6].text == "This is a u_has_item_category books count 2 test response." );
     }
 
     SECTION( "item_repeat" ) {
-        give_item( player_character, "beer", 2 );
+        give_item( player_character, "rootbeer", 2 );
         give_item( player_character, "bottle_glass", 1 );
         give_item( player_character, "manual_speech", 1 );
         give_item( player_character, "dnd_handbook", 1 );
@@ -780,7 +779,7 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         d.add_topic( "TALK_TEST_ITEM_REPEAT" );
         gen_response_lines( d, 8 );
         CHECK( d.responses[0].text == "This is a repeated category books, food test response" );
-        CHECK( d.responses[0].success.next_topic.item_type == itype_id( "beer" ) );
+        CHECK( d.responses[0].success.next_topic.item_type == itype_id( "rootbeer" ) );
         CHECK( d.responses[1].text == "This is a repeated category books, food test response" );
         CHECK( d.responses[1].success.next_topic.item_type == itype_id( "dnd_handbook" ) );
         CHECK( d.responses[2].text == "This is a repeated category books, food test response" );
@@ -792,12 +791,12 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         CHECK( d.responses[5].text == "This is a repeated item beer, bottle_glass test response" );
         CHECK( d.responses[5].success.next_topic.item_type == itype_id( "bottle_glass" ) );
         CHECK( d.responses[6].text == "This is a repeated item beer, bottle_glass test response" );
-        CHECK( d.responses[6].success.next_topic.item_type == itype_id( "beer" ) );
+        CHECK( d.responses[6].success.next_topic.item_type == itype_id( "rootbeer" ) );
         CHECK( d.responses[7].text == "This is a basic test response." );
     }
 
     SECTION( "sell_and_consume" ) {
-        give_item( player_character, "beer", 2 );
+        give_item( player_character, "rootbeer", 2 );
         give_item( player_character, "bottle_glass", 1 );
         give_item( player_character, "bottle_plastic", 1 );
 
@@ -806,26 +805,26 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         gen_response_lines( d, 5 );
         REQUIRE( player_character.cash == 1000 );
         REQUIRE( has_item( player_character, "bottle_plastic", 1 ) );
-        REQUIRE( has_beer_bottle( player_character, 2 ) );
+        REQUIRE( has_rootbeer_bottle( player_character, 2 ) );
         REQUIRE( player_character.wield( player_character.i_at( player_character.inv_position_by_type(
                                              itype_id( "bottle_glass" ) ) ) ) );
         talk_effect_t &effects = d.responses[1].success;
         effects.apply( d );
         CHECK_FALSE( has_item( player_character, "bottle_plastic", 1 ) );
-        CHECK_FALSE( has_item( player_character, "beer", 1 ) );
+        CHECK_FALSE( has_item( player_character, "rootbeer", 1 ) );
         CHECK( has_item( talker_npc, "bottle_plastic", 1 ) );
-        CHECK( has_item( talker_npc, "beer", 2 ) );
+        CHECK( has_item( talker_npc, "rootbeer", 2 ) );
         effects = d.responses[2].success;
         effects.apply( d );
-        CHECK_FALSE( has_item( talker_npc, "beer", 2 ) );
-        CHECK( has_item( talker_npc, "beer", 1 ) );
+        CHECK_FALSE( has_item( talker_npc, "rootbeer", 2 ) );
+        CHECK( has_item( talker_npc, "rootbeer", 1 ) );
         effects = d.responses[3].success;
         effects.apply( d );
-        CHECK( has_item( player_character, "beer", 1 ) );
+        CHECK( has_item( player_character, "rootbeer", 1 ) );
         effects = d.responses[4].success;
         effects.apply( d );
-        CHECK( has_item( player_character, "beer", 0 ) );
-        CHECK_FALSE( has_item( player_character, "beer", 1 ) );
+        CHECK( has_item( player_character, "rootbeer", 0 ) );
+        CHECK_FALSE( has_item( player_character, "rootbeer", 1 ) );
         // Ecash should NOT be used for trade
         REQUIRE( player_character.cash == 1000 );
     }
