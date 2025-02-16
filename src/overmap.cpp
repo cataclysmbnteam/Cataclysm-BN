@@ -4700,7 +4700,7 @@ void overmap::place_cities()
         // don't draw cities across the edge of the map, they will get clipped
         const tripoint_om_omt p{ rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ), 0 };
         //make a backup of the map
-        std::copy(std::begin(layer), std::end(layer), std::begin(layer_backup));
+        std::copy( std::begin( layer ), std::end( layer ), std::begin( layer_backup ) );
         tmp.finale_placed = false;
         int finale_attempts = 0;
         int finale_max_tries = 1500;
@@ -4730,7 +4730,7 @@ void overmap::place_cities()
 
                 //if the city finale failed to place, restore from last backup and try again at the top of the loop
                 if( !tmp.finale_placed  && tmp.attempt_finale && finale_attempts < finale_max_tries ) {
-                    std::copy(std::begin(layer_backup), std::end(layer_backup), std::begin(layer));
+                    std::copy( std::begin( layer_backup ), std::end( layer_backup ), std::begin( layer ) );
                 }
             }
             finale_attempts++;
