@@ -4711,7 +4711,7 @@ void overmap::place_cities()
                 tmp.pos = p.xy();
                 tmp.size = size;
                 ;
-                tmp.finale_counter = rng( 1, finale_distance );
+                tmp.finale_counter = rng( 0, finale_distance);
                 cities.push_back( tmp );
 
                 const auto start_dir = om_direction::random();
@@ -4726,14 +4726,14 @@ void overmap::place_cities()
                 }
 
                 //if the city finale failed to place, restore from last backup and try again at the top of the loop
-                if( !tmp.finale_placed  && tmp.attempt_finale ) {
+                if( !tmp.finale_placed  && tmp.attempt_finale && finale_attempts < 10 ) {
                     layer[p.z() + OVERMAP_DEPTH] = this_layer_backup;
                     layer[p.z() + OVERMAP_DEPTH + 1] = sewers_backup;
                 }
             }
             finale_attempts++;
         } while( ( tmp.attempt_finale && !tmp.finale_placed &&
-                   finale_attempts < MAX_PLACEMENT_ATTEMTPS ) );
+                   finale_attempts < 1500 ) );
     }
 }
 
@@ -4861,6 +4861,7 @@ void overmap::build_city_street(
                     town.finale_placed = true;
                 } else { // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
                     attempt_finale_place = false;
+                    town.finale_counter= -1;
                 }
             } else {
                 place_building( rp, om_direction::turn_left( dir ), town, false );
@@ -4874,6 +4875,7 @@ void overmap::build_city_street(
                     town.finale_placed = true;
                 } else { // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
                     attempt_finale_place = false;
+                    town.finale_counter= -1;
                 }
             } else {
                 place_building( rp, om_direction::turn_right( dir ), town, false );
