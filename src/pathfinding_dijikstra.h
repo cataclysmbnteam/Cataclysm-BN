@@ -15,11 +15,18 @@ typedef std::pair<float, tripoint> val_pair;
 
 // A struct defining abilities of the actor and how to respond to various terrain features
 struct PathfindingSettings {
-    // Our bash strength
-    int bash_strength = 0;
+    // Our approximate bash strength is `bash_strength_val` * `bash_strength_quanta`
+    // We quantize bash strength to reduce the amount of maps created for different mob types, considering the actual bash strength
+    //   does not change g-values much
+    int bash_strength_val = 0;
+    // Our approximate bash strength is `bash_strength_val` * `bash_strength_quanta`
+    // We quantize bash strength to reduce the amount of maps created for different mob types, considering the actual bash strength
+    //   does not change g-values much.
+    int bash_strength_quanta = 10;
+
     // Even if we can bash, multiply time needed to do it by this
     // >1 to make bashes less attractive, <1 to make them more attractive. Do not use negative values.
-    float bash_cost = 3.0;
+    float bash_cost = 2.0;
 
     // Cost of climbing terrain. INFINITY if we can't
     float climb_cost = INFINITY;
@@ -45,9 +52,6 @@ struct PathfindingSettings {
     // If a mob is in the way currently, add this extra cost. INFINITY to always path around other critters.
     float mob_presence_penalty = 0.;
 
-    PathfindingSettings() = default;
-    PathfindingSettings( PathfindingSettings const & ) = default;
-
     bool operator==( const PathfindingSettings &rhs ) const = default;
 };
 
@@ -57,79 +61,6 @@ struct RouteSettings {
     // How directed the pathfinding is. A value of 1.0 makes pathfinding equivalent to A*, 0.0 is raw Dijikstra;
     //   this adjusts precision, high values will converge quicker, but produce a possibly less than shortest path.
     float h_coeff = 1.0;
-
-    /*
-    ```plain
-        -----
-       /  |r'\
-      /   |   \
-     /   ---   \
-    |   / |r\   |
-    |  |  |  |  |
-    |--S--E--|--|
-    |  |  |  |  |
-    | t \ | /   |
-     \   ---   /
-      \   |   /
-       \  |  /
-        -----
-     ```
-    S -- `start`
-    E -- `end`
-    t -- candidate `t`ile
-    r -- `r`adius (distance from `S` to `E`)
-    r' -- search `r`adius (`r` * `search_radius_coeff`)
-    Test if `t` is inside circle of radius r'.
-    */
-    float search_radius_coeff = INFINITY;
-
-    // Test if `pos` is in the circle of radius distance from `start` to `end` by `search_radius_coeff` centered at `end`
-    bool is_in_search_radius( const tripoint start, const tripoint pos, const tripoint end ) const {
-        const float objective_distance = rl_dist_exact( start, end );
-        const float search_radius = objective_distance * this->search_radius_coeff;
-        const float distance_to_objective = rl_dist_exact( pos, end );
-
-        return distance_to_objective <= search_radius;
-    }
-
-    /*
-    ```plain
-          t
-         / .
-        /   .
-       /     .
-      /       .
-     /a        .
-    S----------E
-    ```
-    S -- `start`
-    E -- `end`
-    t -- candidate `t`ile
-    a -- `a`ngle of tSE
-    `-search_cone_angle` <= `a` <= `search_cone_angle`?
-    */
-    float search_cone_angle = 180.0;
-
-    // Test if `pos` is in the cone of `search_cone_angle` projected from `start` to `end`
-    bool is_in_search_cone( const tripoint start, const tripoint pos, const tripoint end ) const {
-        assert( 0.0 <= this->search_cone_angle );
-
-        if( this->search_cone_angle >= 180. ) {
-            return true;
-        }
-
-        const units::angle max_cone_angle = units::from_degrees( this->search_cone_angle );
-
-        const point objective_delta = end.xy() - start.xy();
-        const units::angle objective_angle = units::atan2( objective_delta.y, objective_delta.x );
-
-        const point conic_delta = pos.xy() - start.xy();
-        const units::angle conic_angle = units::atan2( conic_delta.y, conic_delta.x );
-
-        const units::angle deviation = conic_angle - objective_angle;
-
-        return -max_cone_angle <= deviation && deviation <= max_cone_angle;
-    }
 
     // If multiple tiles are valid for a path, where valid means at each point in the path the cost function decreases,
     //   we may want to select one of them randomly to decongest routes across multiple pathfinds.
@@ -160,16 +91,124 @@ struct RouteSettings {
         return static_cast<unsigned int>( n * powf( r, ( 1. + this->alpha ) / ( 1. - this->alpha ) ) );
     }
 
-    // If our chosen path is longer than this coefficient mulplitied by the minimum amount of tiles needed to
-    //   go from start tile to destination in a straight line, then the path is considered not found
-    float max_path_length_coefficient = INFINITY;
+    /*
+    ```plain
+        -----
+       /  |r'\
+      /   |   \
+     /   ---   \
+    |   / |r\   |
+    |  |  |  |  |
+    |--S--E--|--|
+    |  |  |  |  |
+    | t \ | /   |
+     \   ---   /
+      \   |   /
+       \  |  /
+        -----
+     ```
+    S -- `start`
+    E -- `end`
+    t -- candidate `t`ile
+    r -- `r`adius (euclidean distance from `S` to `E`)
+    r' -- search `r`adius (`r` * `search_radius_coeff`)
+    Limit our search area to only tiles `t` that are inside circle of radius r' are valid for pathfinding.
 
-    // Limit our search only to paths whose g value is less than this coefficient multiplied by the distance
-    //   between start and destination
-    float max_path_g_coefficient = INFINITY;
+    **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
+      Additionally, limiting the search area too much might cause the destination to be inaccessible
+      which is the worst case for pathfinding as it forces a complete scan of the whole search area.
+    Use only if needed.
+    */
+    float search_radius_coeff = INFINITY;
+    // Test if `pos` is in the circle of radius distance from `start` to `end` by `search_radius_coeff` centered at `end`
+    bool is_in_search_radius( const tripoint start, const tripoint pos, const tripoint end ) const {
+        if( std::isinf( search_radius_coeff ) ) {
+            return true;
+        }
 
-    RouteSettings() = default;
-    RouteSettings( RouteSettings const & ) = default;
+        const float objective_distance = rl_dist_exact( start, end );
+        const float search_radius = objective_distance * this->search_radius_coeff;
+        const float distance_to_objective = rl_dist_exact( pos, end );
+
+        return distance_to_objective <= search_radius;
+    }
+
+    /*
+    ```plain
+          t
+         / .
+        /   .
+       /     .
+      /       .
+     /a        .
+    S----------E
+    ```
+    S -- `start`
+    E -- `end`
+    t -- candidate `t`ile
+    a -- `a`ngle of tSE
+    Limit our search area to only tiles `t` where `-search_cone_angle` <= `a` <= `search_cone_angle`
+
+    **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
+      Additionally, limiting the search area too much might cause the destination to be inaccessible
+      which is the worst case for pathfinding as it forces a complete scan of the whole search area.
+    Use only if needed.
+    */
+    float search_cone_angle = 180.0;
+    // Test if `pos` is in the cone of `search_cone_angle` projected from `start` to `end`
+    bool is_in_search_cone( const tripoint start, const tripoint pos, const tripoint end ) const {
+        assert( 0.0 <= this->search_cone_angle );
+
+        if( this->search_cone_angle >= 180. ) {
+            return true;
+        }
+
+        // A couple special cases for boundaries
+        if( start == pos || start == end ) {
+            return true;
+        }
+
+        const units::angle max_cone_angle = units::from_degrees( this->search_cone_angle );
+
+        const point objective_delta = end.xy() - start.xy();
+        const units::angle objective_angle = units::atan2( objective_delta.y, objective_delta.x );
+
+        const point conic_delta = pos.xy() - start.xy();
+        const units::angle conic_angle = units::atan2( conic_delta.y, conic_delta.x );
+
+        const units::angle deviation = conic_angle - objective_angle;
+
+        return -max_cone_angle <= deviation && deviation <= max_cone_angle;
+    }
+
+    /* Limit our search area to tiles  chebyshev distance
+
+    **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
+      Additionally, limiting the search area too much might cause the destination to be inaccessible
+      which is the worst case for pathfinding as it forces a complete scan of the whole search area.
+    Use only if needed.
+    */
+    float max_path_s_coefficient = INFINITY;
+
+    /* Limit our search only to paths whose g value is less than this coefficient multiplied by the distance
+    between start and destination
+
+    **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
+      Additionally, limiting the search area too much might cause the destination to be inaccessible
+      which is the worst case for pathfinding as it forces a complete scan of the whole search area.
+    Use only if needed.
+    */
+    float max_path_f_coefficient = INFINITY;
+
+    // Is the search domain limited?
+    bool is_limited_search() const {
+        return !(
+                   this->search_cone_angle >= 180. &&
+                   std::isinf( this->search_radius_coeff ) &&
+                   std::isinf( this->max_path_s_coefficient ) &&
+                   std::isinf( this->max_path_f_coefficient )
+               );
+    }
 };
 
 struct GraphPortal {
@@ -184,6 +223,57 @@ struct GraphPortal {
         from( from ), is_instant( is_instant ) {};
 };
 
+enum class ExpansionOutcome {
+    PATH_FOUND, // Path exists
+    TARGET_INACCESSIBLE, // Although pathfinding reached the target, the target is inside some impassable location
+    PATH_NOT_FOUND, // The map has not been explored fully, but a path may still exist with a wider search area
+    NO_PATH_EXISTS, // Map explored fully, no path exists
+    UNSET // Internal use
+};
+
+enum class DijikstraValueState {
+    UNVISITED, // Tile has not been expanded to yet
+    ACCESSIBLE, // Tile is reachable
+    IMPASSABLE, // Tile is reachable, but cannot be gone into
+    INACCESSIBLE // Tile is completely unreachable
+};
+
+enum class MapDomain {
+    PARTIAL, // Map was built with limits to the search area
+    FULL // Map was built with no limits to the search area
+};
+
+struct DijikstraMapValue {
+    float p = INFINITY; // Smallest adjacent DijikstraValue's f
+    float g = NAN; // Associated tile's g cost [movement, bashing down...]
+    float h = NAN; // Heurestic to start [manhattan distance]
+
+    int s = INT_MAX; // Steps from `dest`ination
+
+    // f0(x, y) = p + g(x, y)
+    inline float get_f_unbiased() const {
+        return this->p + this->g;
+    }
+
+    // f1(x, y) = p + g(x, y) + `h_coeff` * h(x, y)
+    inline float get_f_biased( float h_coeff ) const {
+        return this->get_f_unbiased() + h_coeff * this->h;
+    }
+
+    inline DijikstraValueState get_state() const {
+        if( std::isinf( this->g ) ) {
+            return DijikstraValueState::IMPASSABLE;
+        } else if( std::isnan( this->p ) ) {
+            return DijikstraValueState::INACCESSIBLE;
+        } else if( std::isnan( this->g ) ) {
+            return DijikstraValueState::UNVISITED;
+        }
+        return DijikstraValueState::ACCESSIBLE;
+    }
+};
+
+typedef std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> Frontier;
+
 class DijikstraPathfinding
 {
     private:
@@ -193,35 +283,26 @@ class DijikstraPathfinding
         const PathfindingSettings settings;
 
         // 1D array containing our map
-        // NAN for unvisited tiles
-        // INF for disconnected tiles
-        float cost_array[DIJIKSTRA_ARRAY_SIZE];
+        DijikstraMapValue dijikstra_array[DIJIKSTRA_ARRAY_SIZE];
+        MapDomain domain = MapDomain::PARTIAL;
 
         // We don't want to calculate dijikstra of the whole map every time,
         //   so we store wave `frontier` to proceed from later if needed
-        std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> frontier;
+        std::vector<tripoint> unbiased_frontier;
+
+        // Moves we don't allow to happen
+        std::set<std::pair<tripoint, tripoint>> forbidden_moves;
 
         // See `DijikstraPathfinding::route`
         std::optional<std::vector<tripoint>> get_route( const tripoint &origin,
                                           const RouteSettings &route_settings );
 
-        // Moves in this map that are between adjacent non-disconnected tiles that may NOT be taken
-        std::set<std::pair<tripoint, tripoint>> forbidden_moves;
-
         // Continue expanding the dijikstra map until we reach `origin` or nothing remains of the frontier. Returns whether a route is present.
-        bool expand_up_to( const tripoint &origin, const RouteSettings &route_settings );
-
-        bool is_unvisited( const tripoint &p ) {
-            return std::isnan( this->at( p ) );
-        }
-
-        bool is_disconnected( const tripoint &p ) {
-            return std::isinf( this->at( p ) );
-        }
+        ExpansionOutcome expand_up_to( const tripoint &origin, const RouteSettings &route_settings );
 
         // Get cost `at` `p`
-        float &at( const tripoint &p ) {
-            assert( p.x >= 0 && p.y >= 0 && p.x < MAPSIZE_X && p.y < MAPSIZE_Y );
+        DijikstraMapValue &at( const tripoint &p ) {
+            // assert( p.x >= 0 && p.y >= 0 && p.x < MAPSIZE_X && p.y < MAPSIZE_Y );
 
             // Row major ordering
             size_t index = 0;
@@ -229,9 +310,7 @@ class DijikstraPathfinding
             index += p.y * MAPSIZE_X;
             index += ( p.z + OVERMAP_DEPTH ) * MAPSIZE_Y * MAPSIZE_X;
 
-            assert( index < DIJIKSTRA_ARRAY_SIZE );
-
-            return this->cost_array[index];
+            return this->dijikstra_array[index];
         };
 
         // Global state: memoized dijikstra maps. Clear every game turn.
@@ -240,14 +319,13 @@ class DijikstraPathfinding
         // A directed graph edge representing connected non-adjacent tiles
         // (multi-level ledges dropping down, stairs, literal distant portals etc).
         inline static std::optional<std::map<tripoint, GraphPortal>> portals = std::nullopt;
+
         // Scan the whole map for portal-like jumps if `portals` is nullopt
         static void scan_for_portals();
     public:
         DijikstraPathfinding( const tripoint dest, const PathfindingSettings settings )
             : dest( dest ), settings( settings ) {
-            std::fill_n( this->cost_array, std::size( this->cost_array ), NAN );
-            this->at( dest ) = 0.;
-            this->frontier.emplace( 0., dest );
+            std::fill_n( this->dijikstra_array, std::size( this->dijikstra_array ), DijikstraMapValue() );
         };
 
         // get `route` from `from` to `to` if available in accordance to `route_settings` while `path_settings` defines our capabilities, otherwise empty vector.
