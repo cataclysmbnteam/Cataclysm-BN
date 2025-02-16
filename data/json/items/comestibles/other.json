@@ -35,7 +35,6 @@
   {
     "type": "COMESTIBLE",
     "id": "honeycomb",
-    "category": "cooking_ingredients",
     "name": "honey comb",
     "weight": "150 g",
     "color": "yellow",
@@ -521,7 +520,6 @@
   {
     "id": "honey_glassed",
     "type": "COMESTIBLE",
-    "category": "cooking_ingredients",
     "symbol": "~",
     "color": "yellow",
     "name": { "str_sp": "candied honey" },

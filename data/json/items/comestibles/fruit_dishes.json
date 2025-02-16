@@ -202,7 +202,6 @@
   {
     "type": "COMESTIBLE",
     "id": "jam_fruit",
-    "category": "cooking_ingredients",
     "name": { "str_sp": "jam" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "apple %s" } },
