@@ -4701,6 +4701,7 @@ void overmap::place_cities()
 
         tmp.finale_placed = false;
         int finale_attempts = 0;
+        int finale_max_tries = 1500;
         //attempt to generate a city with a finale if it's not tiny. If it's tiny just run once via a do while.
         do  {
             //std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
@@ -4726,14 +4727,14 @@ void overmap::place_cities()
                 }
 
                 //if the city finale failed to place, restore from last backup and try again at the top of the loop
-                if( !tmp.finale_placed  && tmp.attempt_finale && finale_attempts < 10 ) {
+                if( !tmp.finale_placed  && tmp.attempt_finale && finale_attempts < finale_max_tries ) {
                     layer[p.z() + OVERMAP_DEPTH] = this_layer_backup;
                     layer[p.z() + OVERMAP_DEPTH + 1] = sewers_backup;
                 }
             }
             finale_attempts++;
         } while( ( tmp.attempt_finale && !tmp.finale_placed &&
-                   finale_attempts < 1500 ) );
+                   finale_attempts < finale_max_tries ) );
     }
 }
 
