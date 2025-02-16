@@ -2944,6 +2944,10 @@ void overmap::init_layers()
                 layer[k].visible[i][j] = false;
                 layer[k].explored[i][j] = false;
                 layer[k].path[i][j] = false;
+                layer_backup[k].terrain[i][j] = tid;
+                layer_backup[k].visible[i][j] = false;
+                layer_backup[k].explored[i][j] = false;
+                layer_backup[k].path[i][j] = false;
             }
         }
     }
@@ -4696,9 +4700,7 @@ void overmap::place_cities()
         // don't draw cities across the edge of the map, they will get clipped
         const tripoint_om_omt p{ rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ), 0 };
         //make a backup of the map
-        map_layer this_layer_backup = layer[p.z() + OVERMAP_DEPTH];
-        map_layer sewers_backup = layer[p.z() + OVERMAP_DEPTH + 1];
-
+        std::copy(std::begin(layer), std::end(layer), std::begin(layer_backup));
         tmp.finale_placed = false;
         int finale_attempts = 0;
         int finale_max_tries = 1500;
@@ -4728,8 +4730,7 @@ void overmap::place_cities()
 
                 //if the city finale failed to place, restore from last backup and try again at the top of the loop
                 if( !tmp.finale_placed  && tmp.attempt_finale && finale_attempts < finale_max_tries ) {
-                    layer[p.z() + OVERMAP_DEPTH] = this_layer_backup;
-                    layer[p.z() + OVERMAP_DEPTH + 1] = sewers_backup;
+                    std::copy(std::begin(layer_backup), std::end(layer_backup), std::begin(layer));
                 }
             }
             finale_attempts++;

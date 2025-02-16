@@ -362,6 +362,7 @@ class overmap
         point_abs_om loc;
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
+        std::array<map_layer, OVERMAP_LAYERS> layer_backup;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
 
         // Records the locations where a given overmap special was placed, which
