@@ -51,7 +51,7 @@ class activity_type
         std::unordered_map<character_stat, int> stats = {};
         std::unordered_map<skill_id, int> skills = {};
         std::unordered_map<quality_id, int> qualities = {};
-        
+
         const activity_id &id() const {
             return id_;
         }
