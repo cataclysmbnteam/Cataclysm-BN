@@ -126,13 +126,14 @@ struct activity_speed {
         float assist = 1.0f;
         float bench = 1.0f;
         float player_speed = 1.0f;
+        float stats = 1.0f;
         float skills = 1.0f;
         float tools = 1.0f;
         float morale = 1.0f;
         float light = 1.0f;
 
         float total() const {
-            return 1.0f * assist * bench * player_speed * skills * tools * morale * light ;
+            return 1.0f * assist * bench * player_speed * stats * skills * tools * morale * light ;
         }
 
         int totalMoves() const {
@@ -172,6 +173,7 @@ class player_activity
 
         activity_speed speed = activity_speed();
         bench_l *bench = nullptr;
+        std::vector<safe_reference<item>> tools;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -251,11 +253,14 @@ class player_activity
         bool is_light_affected() const {
             return type->light_affected();
         }
-        bool is_speed_affected() const {
-            return type->speed_affected();
-        }
         bool is_skill_affected() const {
             return type->skill_affected();
+        }
+        bool is_stats_affected() const {
+            return type->stats_affected();
+        }
+        bool is_speed_affected() const {
+            return type->speed_affected();
         }
         bool is_tools_affected() const {
             return type->tools_affected();
@@ -295,7 +300,8 @@ class player_activity
         void calc_moves( const Character &who );
         float calc_bench_factor() const;
         float calc_light_factor( const Character &who ) const;
-        float calc_skill_factor() const;
+        float calc_skill_factor( const Character &who ) const;
+        float calc_stats_factor( const Character &who ) const;
         float calc_tools_factor() const;
         float calc_morale_factor( int morale ) const;
         void find_best_bench( const tripoint &pos );

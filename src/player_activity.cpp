@@ -108,7 +108,10 @@ void player_activity::calc_moves( const Character &who )
         speed.player_speed = who.get_speed() / 100.0f;
     }
     if( is_skill_affected() ) {
-        speed.skills = calc_skill_factor();
+        speed.skills = calc_skill_factor( who );
+    }
+    if( is_stats_affected() ) {
+        speed.stats = calc_stats_factor( who );
     }
     if( is_tools_affected() ) {
         speed.tools = calc_tools_factor();
@@ -128,18 +131,37 @@ float player_activity::calc_light_factor( const Character &who ) const
     return 1.0f;
 }
 
-float player_activity::calc_skill_factor() const
+float player_activity::calc_skill_factor( const Character &who ) const
 {
-    return actor
-           ? actor->calc_skill_factor()
-           : 1.0f;
+    if( actor ) {
+        float f = actor->calc_skill_factor( who, type->skills );
+        return f == -1.f
+               ? 1.0f
+               : f;
+    }
+    return 1.0f;
+}
+
+float player_activity::calc_stats_factor( const Character &who ) const
+{
+    if( actor ) {
+        float f = actor->calc_stats_factor( who, type->stats );
+        return f == -1.f
+               ? 1.0f
+               : f;
+    }
+    return 1.0f;
 }
 
 float player_activity::calc_tools_factor() const
 {
-    return actor
-           ? actor->calc_tools_factor()
-           : 1.0f;
+    if( actor ) {
+        float f = actor->calc_tools_factor( type->qualities, tools );
+        return f == -1.f
+               ? 1.0f
+               : f;
+    }
+    return 1.0f;
 }
 
 float player_activity::calc_morale_factor( int morale ) const

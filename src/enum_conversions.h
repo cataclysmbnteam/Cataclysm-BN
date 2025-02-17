@@ -81,10 +81,27 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
     return iter->second;
 }
 
+template<typename C, typename E = typename C::mapped_type>
+inline E string_to_enum_look_up_fallback( const C &container, const std::string &data,
+        const E default_val )
+{
+    const auto iter = container.find( data );
+    if( iter == container.end() ) {
+        return default_val;
+    }
+    return iter->second;
+}
+
 template<typename E>
 E string_to_enum( const std::string &data )
 {
     return string_to_enum_look_up( get_enum_lookup_map<E>(), data );
+}
+
+template<typename E>
+E string_to_enum_fallback( const std::string &data, const E default_val )
+{
+    return string_to_enum_look_up_fallback( get_enum_lookup_map<E>(), data, default_val );
 }
 
 template<typename E>

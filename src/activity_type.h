@@ -8,6 +8,8 @@
 #include "catalua_type_operators.h"
 #include "string_id.h"
 #include "translations.h"
+#include <character_stat.h>
+#include "type_id.h"
 
 class JsonObject;
 class activity_type;
@@ -37,14 +39,19 @@ class activity_type
         bool assistable_ = false;
         bool bench_affected_ = false;
         bool light_affected_ = false;
-        bool speed_affected_ = false;
         bool skill_affected_ = false;
+        bool speed_affected_ = false;
+        bool stats_affected_ = false;
         bool tools_affected_ = false;
         bool morale_affected_ = false;
         bool morale_blocked_ = false;
         bool verbose_tooltip_ = true;
 
     public:
+        std::unordered_map<character_stat, int> stats = {};
+        std::unordered_map<skill_id, int> skills = {};
+        std::unordered_map<quality_id, int> qualities = {};
+        
         const activity_id &id() const {
             return id_;
         }
@@ -79,11 +86,14 @@ class activity_type
         bool light_affected() const {
             return light_affected_;
         }
-        bool speed_affected() const {
-            return speed_affected_;
-        }
         bool skill_affected() const {
             return skill_affected_;
+        }
+        bool stats_affected() const {
+            return stats_affected_;
+        }
+        bool speed_affected() const {
+            return speed_affected_;
         }
         bool tools_affected() const {
             return tools_affected_;

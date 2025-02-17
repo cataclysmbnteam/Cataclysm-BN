@@ -9,6 +9,9 @@
 
 #include "activity_type.h"
 #include "clone_ptr.h"
+#include "type_id.h"
+#include "safe_reference.h"
+#include "item.h"
 
 class avatar;
 class Character;
@@ -131,15 +134,21 @@ class activity_actor
             return msg;
         }
 
-        virtual float calc_skill_factor() const {
+        virtual float calc_skill_factor( const Character &who,
+                                         const std::unordered_map<skill_id, int> skills ) const {
             return 1.0f;
         }
 
-        virtual float calc_tools_factor() const {
-            return 1.0f;
+        virtual float calc_tools_factor( const std::unordered_map<quality_id, int> qualities,
+                                         std::vector<safe_reference<item>> tools ) const {
+            return -1.0f;
         }
 
         virtual float calc_morale_factor( int morale ) const {
+            return -1.0f;
+        }
+        float calc_stats_factor( const Character &who,
+                                 const std::unordered_map<character_stat, int> stats ) const {
             return -1.0f;
         }
 };

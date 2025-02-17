@@ -104,6 +104,9 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "type_id.h"
+#include "safe_reference.h"
+#include "item.h"
 
 enum creature_size : int;
 
