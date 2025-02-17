@@ -38,12 +38,12 @@ something that takes more than just one turn.
 - rooted (false): If true, then during the activity, recoil is reduced, and plant mutants sink their
   roots into the ground. Should be true if the activity lasts longer than a few minutes, and can
   always be accomplished without moving your feet.
-  
+
 - special (false): activity is considered special and expects to have unconventional logic,
   compared to other activities
 
 - complex_moves(false):
-  - if false - activity expects to have no speed calculations and do 100 moves per turn 
+  - if false - activity expects to have no speed calculations and do 100 moves per turn
   - if true - activity expects to have complex speed/moves calculations, based on several factors:
     - assistable(false): activity can be assisted by other craetures;
     - bench(false): activity can be done using workbench;
@@ -56,7 +56,7 @@ something that takes more than just one turn.
 
 - morale_blocked(false): activity won't be performed if craeture's morale level is below certain level.
 
-- verbose_tooltip(true): activity will have an expanded progress window, showing a lot of information 
+- verbose_tooltip(true): activity will have an expanded progress window, showing a lot of information
 
 - no_resume (false): Rather than resuming, you must always restart the activity from scratch.
 
@@ -86,7 +86,7 @@ There are several ways an activity can be ended:
 
 3. `progress.complete()`
 
-    Basically the same as `moves_left` <= 0, but with extra checks and using a progress system.
+   Basically the same as `moves_left` <= 0, but with extra checks and using a progress system.
 
 4. `Character::cancel_activity`
 
@@ -94,22 +94,20 @@ There are several ways an activity can be ended:
    activity does therefore not yield a result. Instead, `activity_actor::canceled` is called. If
    activity is suspendable, a copy of it is written to `Character::backlog`.
 
-
 ## Progress
 
 `progress_counter` - class specialize on tracking progress of and activity
 
-  - targets: queue of targets that are expected to be processed, stores target name, moves_total and
-    moves_left for the target;
+- targets: queue of targets that are expected to be processed, stores target name, moves_total and
+  moves_left for the target;
 
-  - moves_total (0): Total number of moves required to complete the activity aka all the tasks;
+- moves_total (0): Total number of moves required to complete the activity aka all the tasks;
 
-  - moves_left (): The number of moves remaining in this activity before it is complete aka all the tasks;
+- moves_left (): The number of moves remaining in this activity before it is complete aka all the tasks;
 
-  - idx (1): 1-based index of currently prcessing task;
-  
-  - total_tasks (0): Counts total amount of tasks - done and in queue.
-  
+- idx (1): 1-based index of currently prcessing task;
+
+- total_tasks (0): Counts total amount of tasks - done and in queue.
 
 ## Notes
 
