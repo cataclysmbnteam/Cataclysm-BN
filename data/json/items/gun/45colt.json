@@ -16,7 +16,7 @@
     "dispersion": 520,
     "durability": 6,
     "clip_size": 2,
-    "blackpowder_tolerance": 80,
+    "blackpowder_tolerance": 96,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -45,7 +45,7 @@
     "dispersion": 180,
     "durability": 7,
     "clip_size": 14,
-    "blackpowder_tolerance": 56,
+    "blackpowder_tolerance": 72,
     "reload_noise": "chik chik.",
     "flags": [ "RELOAD_ONE" ]
   },
@@ -64,7 +64,7 @@
     "material": [ "steel", "wood" ],
     "ammo": "45colt",
     "dispersion": 360,
-    "blackpowder_tolerance": 56,
+    "blackpowder_tolerance": 72,
     "proportional": { "reload": 1.5 }
   },
   {
