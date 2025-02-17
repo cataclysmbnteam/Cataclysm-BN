@@ -137,7 +137,7 @@ class activity_actor
         /*
          * actor specific formula for speed factor based on skills
          * anything above 0 is a valid number
-         * anything below 0 is invalid, promting to use default formula 
+         * anything below 0 is invalid, promting to use default formula
         */
         virtual float calc_skill_factor( const Character &who,
                                          const std::unordered_map<skill_id, int> skills ) const {
@@ -147,7 +147,7 @@ class activity_actor
         /*
          * actor specific formula for speed factor based on tools' qualities
          * anything above 0 is a valid number
-         * anything below 0 is invalid, promting to use default formula 
+         * anything below 0 is invalid, promting to use default formula
         */
         virtual float calc_tools_factor( const std::unordered_map<quality_id, int> qualities,
                                          std::vector<safe_reference<item>> tools ) const {
@@ -157,16 +157,16 @@ class activity_actor
         /*
          * actor specific formula for speed factor based on player's morale
          * anything above 0 is a valid number
-         * anything below 0 is invalid, promting to use default formula 
+         * anything below 0 is invalid, promting to use default formula
         */
         virtual float calc_morale_factor( int morale ) const {
             return -1.0f;
         }
-        
+
         /*
          * actor specific formula for speed factor based on stats
          * anything above 0 is a valid number
-         * anything below 0 is invalid, promting to use default formula 
+         * anything below 0 is invalid, promting to use default formula
         */
         float calc_stats_factor( const Character &who,
                                  const std::unordered_map<character_stat, int> stats ) const {
