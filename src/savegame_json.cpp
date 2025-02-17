@@ -291,9 +291,9 @@ void simple_task::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
-    data.read( "target_name", target_name );
-    data.read( "moves_total", moves_total );
-    data.read( "moves_left", moves_left );
+    simple_task( data.get_string( "target_name" ),
+                 data.get_int( "moves_total" ),
+                 data.get_int( "moves_left" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
