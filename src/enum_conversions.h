@@ -81,6 +81,7 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
     return iter->second;
 }
 
+// If method fails to parse data - returns provided default value
 template<typename C, typename E = typename C::mapped_type>
 inline E string_to_enum_look_up_fallback( const C &container, const std::string &data,
         const E default_val )
@@ -98,6 +99,7 @@ E string_to_enum( const std::string &data )
     return string_to_enum_look_up( get_enum_lookup_map<E>(), data );
 }
 
+// If method fails to parse data - returns provided default value
 template<typename E>
 E string_to_enum_fallback( const std::string &data, const E default_val )
 {

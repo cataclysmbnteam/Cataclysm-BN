@@ -71,6 +71,11 @@ class activity_type
         bool multi_activity() const {
             return multi_activity_;
         }
+
+        /*
+         * "Special" activities do not use basic logic
+         * instead those rely on their own unique spagett
+        */
         bool special() const {
             return special_;
         }

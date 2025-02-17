@@ -211,6 +211,8 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
         json.member( "monsters", monsters );
+        json.member( "progress", progress );
+        json.member( "tools", tools );
     }
     json.end_object();
 }
@@ -249,7 +251,49 @@ void player_activity::deserialize( JsonIn &jsin )
     str_values = data.get_string_array( "str_values" );
     data.read( "auto_resume", auto_resume );
     data.read( "monsters", monsters );
+    data.read( "progress", progress );
+    data.read( "tools", tools );
 
+}
+
+void progress_counter::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "moves_total", moves_total );
+    json.member( "moves_left", moves_left );
+    json.member( "idx", idx );
+    json.member( "total_tasks", total_tasks );
+    json.member( "targets", targets );
+    json.end_object();
+}
+
+void progress_counter::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
+    data.read( "moves_total", moves_total );
+    data.read( "moves_left", moves_left );
+    data.read( "idx", idx );
+    data.read( "total_tasks", total_tasks );
+    data.read( "targets", targets );
+}
+
+void simple_task::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "target_name", target_name );
+    json.member( "moves_total", moves_total );
+    json.member( "moves_left", moves_left );
+    json.end_object();
+}
+
+void simple_task::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
+    data.read( "target_name", target_name );
+    data.read( "moves_total", moves_total );
+    data.read( "moves_left", moves_left );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

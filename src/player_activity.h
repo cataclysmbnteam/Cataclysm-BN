@@ -32,95 +32,128 @@ class translation;
 class activity_ptr;
 
 struct simple_task {
+    // Name of the target that's being processed
     const std::string target_name;
-    /** Total number of moves required to complete the activity */
+    /* Total number of moves required for this target/task to complete */
     const int moves_total = 0;
-    /** The number of moves remaining in this activity before it is complete. */
+    /* The number of moves remaining for this target/task to complete */
     int moves_left = 0;
 
-    simple_task( const std::string &name, int moves_total )
-        : target_name( name ), moves_total( moves_total ), moves_left( moves_total ) {
+    simple_task( const std::string &name_, int moves_total_ )
+        : target_name( name_ ), moves_total( moves_total_ ), moves_left( moves_total_ ) {
+    }
+    simple_task( const std::string &name_, int moves_total_, int moves_left_ )
+        : target_name( name_ ), moves_total( moves_total_ ), moves_left( moves_left_ ) {
     }
 
-    const bool complete() const {
+    inline const bool complete() const {
         return moves_left <= 0;
     }
+
+    //Json stuff
+
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
 };
 
+/*
+ * Special class to track progress of current activity
+ * Outside is a queue with slighly altered functionality
+*/
 class progress_counter
 {
     private:
-        /** Total number of moves required to complete the activity */
+        /** Total number of moves required to complete the activity aka all the tasks */
         int moves_total = 0;
-        /** The number of moves remaining in this activity before it is complete. */
+        /** The number of moves remaining in this activity before it is complete aka all the tasks */
         int moves_left = 0;
-
+        //Index of current task - 1-based
         int idx = 1;
-
+        //Counts total amount of tasks - done and in queue
         int total_tasks = 0;
 
-        std::queue<simple_task> targets;
+        std::deque<simple_task> targets;
+
+        // Only exists for dummy
+        inline void pop_back() {
+            if( targets.empty() ) {
+                debugmsg( "task was popped out of empty progress queue" );
+                return;
+            }
+            moves_left -= targets.back().moves_left;
+            targets.pop_back();
+            idx++;
+        }
 
     public:
-        void emplace( std::string name, int moves_total_ ) {
+        inline void emplace( std::string name, int moves_total_ ) {
             moves_total += moves_total_;
             moves_left += moves_total_;
-            targets.emplace( name, moves_total_ );
+            targets.emplace(targets.end(), name, moves_total_ );
             total_tasks++;
         }
-        void pop() {
+        inline void pop() {
             if( targets.empty() ) {
                 debugmsg( "task was popped out of empty progress queue" );
                 return;
             }
             moves_left -= targets.front().moves_left;
-            targets.pop();
+            targets.pop_front();
             idx++;
         }
-        const bool empty() const {
+        inline const bool empty() const {
             return targets.empty();
         }
-        const bool complete() const {
+        inline const bool complete() const {
             return total_tasks > 0 && moves_left <= 0;
         }
-        const bool invalid() const {
+        inline const bool invalid() const {
             return total_tasks == 0 && targets.empty();
         }
-        const int get_index() const {
+        inline const int get_index() const {
             return idx;
         }
-        const int get_total_tasks() const {
+        inline const int get_total_tasks() const {
             return total_tasks;
         }
-        const int get_moves_total() const {
+        inline const int get_moves_total() const {
             return moves_total;
         }
-        const int get_moves_left() const {
+        inline const int get_moves_left() const {
             return moves_left;
         }
-        size_t size() const {
+        inline size_t size() const {
             return targets.size();
         }
-        const simple_task front() const {
+        inline const simple_task front() const {
             return targets.front();
         }
-        const simple_task back() const {
+        inline const simple_task back() const {
             return targets.back();
         }
-        void mod_moves_left( int moves ) {
+        //Modifies move_left of the first task(and total progress)
+        inline void mod_moves_left( int moves ) {
             moves_left += moves;
             targets.front().moves_left += moves;
         }
         /*
         * Creates a dummy task, ends it instantaneously
         * For very certain and rare occasions, use cautiously
+        * Basically to properly process "unique" activities, like autodrive
         */
-        void dummy() {
+        inline void dummy() {
             emplace( "If you see this it's a bug", 1 );
-            pop();
+            pop_back();
         }
-};
 
+        //Json stuff
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+/*
+ * Struct to track activity by factors
+*/
 struct activity_speed {
     public:
         float assist = 1.0f;
@@ -131,12 +164,14 @@ struct activity_speed {
         float tools = 1.0f;
         float morale = 1.0f;
         float light = 1.0f;
-
-        float total() const {
+        
+        //Returns total product of all factors
+        inline float total() const {
             return 1.0f * assist * bench * player_speed * stats * skills * tools * morale * light ;
         }
 
-        int totalMoves() const {
+        //Returns total amonut of moves based on factors
+        inline int totalMoves() const {
             return std::roundf( total() * 100.0f );
         }
 
@@ -226,8 +261,8 @@ class player_activity
         * Members to work with activity_actor.
         */
 
-        //List of task with nams of ACTUAL targets, like a wall u mine or a grave u dig
-        //Also movements
+        //List of task with names of ACTUAL targets, like a wall u mine or a grave u dig
+        //Also tracks number of moves left and total
         progress_counter progress;
 
         /**
@@ -296,6 +331,10 @@ class player_activity
 
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
+
+        /*
+         * Bunch of functioins to calculate speed factors based on certain conditions
+        */        
 
         void calc_moves( const Character &who );
         float calc_bench_factor() const;
