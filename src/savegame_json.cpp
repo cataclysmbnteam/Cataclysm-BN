@@ -275,7 +275,12 @@ void progress_counter::deserialize( JsonIn &jsin )
     data.read( "moves_left", moves_left );
     data.read( "idx", idx );
     data.read( "total_tasks", total_tasks );
-    data.read( "targets", targets );
+    auto arr = data.get_array( "targets" );
+    for( JsonObject target : arr ) {
+        targets.emplace_back( target.get_string( "target_name" ),
+                              target.get_int( "moves_total" ),
+                              target.get_int( "moves_left" ) );
+    }
 }
 
 void simple_task::serialize( JsonOut &json ) const
@@ -285,15 +290,6 @@ void simple_task::serialize( JsonOut &json ) const
     json.member( "moves_total", moves_total );
     json.member( "moves_left", moves_left );
     json.end_object();
-}
-
-void simple_task::deserialize( JsonIn &jsin )
-{
-    JsonObject data = jsin.get_object();
-    data.allow_omitted_members();
-    simple_task( data.get_string( "target_name" ),
-                 data.get_int( "moves_total" ),
-                 data.get_int( "moves_left" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

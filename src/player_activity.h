@@ -53,7 +53,6 @@ struct simple_task {
     //Json stuff
 
     void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
 
     simple_task() = default;
 };
