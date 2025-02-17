@@ -137,9 +137,9 @@
       "bench": true,
       "light": true,
       "speed": true,
-      "stats": [ [ "STR", 0 ], [ "DEX", 0 ], [ "INT", 0 ], [ "PER", 0 ] ],
-      "skills": [ [ "survival", 0 ], [ "firstaid", 0 ], [ "fabrication", 0 ], [ "asd", 0 ] ],
-      "qualities": [ [ "CUT_FINE", 0 ], [ "BUTCHER", 0 ], [ "asd", 0 ] ],
+      "stats": [],
+      "skills": [],
+      "qualities": [],
       "morale": true
     }
   },
