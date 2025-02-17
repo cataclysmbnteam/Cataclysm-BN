@@ -131,6 +131,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade_powder",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "lemonade drink mix" },
     "weight": "19 g",
     "color": "yellow",

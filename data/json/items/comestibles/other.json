@@ -164,6 +164,7 @@
   {
     "type": "COMESTIBLE",
     "id": "yeast",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "yeast" },
     "weight": "11 g",
     "color": "white",
