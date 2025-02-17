@@ -89,7 +89,7 @@ class progress_counter
         inline void emplace( std::string name, int moves_total_ ) {
             moves_total += moves_total_;
             moves_left += moves_total_;
-            targets.emplace(targets.end(), name, moves_total_ );
+            targets.emplace( targets.end(), name, moves_total_ );
             total_tasks++;
         }
         inline void pop() {
@@ -164,7 +164,7 @@ struct activity_speed {
         float tools = 1.0f;
         float morale = 1.0f;
         float light = 1.0f;
-        
+
         //Returns total product of all factors
         inline float total() const {
             return 1.0f * assist * bench * player_speed * stats * skills * tools * morale * light ;
@@ -334,7 +334,7 @@ class player_activity
 
         /*
          * Bunch of functioins to calculate speed factors based on certain conditions
-        */        
+        */
 
         void calc_moves( const Character &who );
         float calc_bench_factor() const;

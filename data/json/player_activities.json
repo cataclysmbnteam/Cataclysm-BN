@@ -137,9 +137,9 @@
       "bench": true,
       "light": true,
       "speed": true,
-      "stats": [],
-      "skills": [],
-      "qualities": [],
+      "stats": [  ],
+      "skills": [  ],
+      "qualities": [  ],
       "morale": true
     }
   },
