@@ -93,6 +93,12 @@ class progress_counter
             targets.emplace_back( name, moves_total_ );
             total_tasks++;
         }
+        inline void emplace( std::string name, int moves_total_, int moves_left_ ) {
+            moves_total += moves_total_;
+            moves_left += moves_left_;
+            targets.emplace_back( name, moves_total_, moves_left_ );
+            total_tasks++;
+        }
         inline void pop() {
             if( targets.empty() ) {
                 debugmsg( "task was popped out of empty progress queue" );

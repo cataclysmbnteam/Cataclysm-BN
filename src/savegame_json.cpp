@@ -198,8 +198,6 @@ void player_activity::serialize( JsonOut &json ) const
 
     if( !type.is_null() ) {
         json.member( "actor", actor );
-        json.member( "moves_total", moves_total );
-        json.member( "moves_left", moves_left );
         json.member( "index", index );
         json.member( "position", position );
         json.member( "coords", coords );
@@ -211,8 +209,19 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
         json.member( "monsters", monsters );
-        json.member( "progress", progress );
         json.member( "tools", tools );
+
+        //store only new progress data or old, not both
+        if( progress.invalid() ) {
+            if( moves_total > 0 ) {
+                json.member( "moves_total", moves_total );
+            }
+            if( moves_left > 0 ) {
+                json.member( "moves_left", moves_left );
+            }
+        }
+    } else {
+        json.member( "progress", progress );
     }
     json.end_object();
 }
@@ -233,13 +242,30 @@ void player_activity::deserialize( JsonIn &jsin )
     // Handle migration of pre-activity_actor activities
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
-    if( has_actor && !data.has_member( "actor" ) ) {
-        type = activity_id( "ACT_MIGRATION_CANCEL" );
+    if( has_actor ) {
+        if( !data.has_member( "actor" ) ) {
+            type = activity_id( "ACT_MIGRATION_CANCEL" );
+        }
+        //migrate old data if possible
+        if( data.has_member( "moves_left" ) ) {
+            if( data.has_member( "moves_total" ) ) {
+                progress.emplace( "", data.get_int( "moves_total" ), data.get_int( "moves_left" ) );
+            } else {
+                progress.emplace( "", data.get_int( "moves_left" ) );
+            }
+        }
+        //use new data if possible
+        else {
+            data.read( "progress", progress );
+        }
+
+    } else {
+        //use old data (for now)
+        data.read( "moves_total", moves_total );
+        data.read( "moves_left", moves_left );
     }
 
     data.read( "actor", actor );
-    data.read( "moves_total", moves_total );
-    data.read( "moves_left", moves_left );
     data.read( "index", index );
     data.read( "position", position );
     data.read( "coords", coords );
@@ -251,7 +277,6 @@ void player_activity::deserialize( JsonIn &jsin )
     str_values = data.get_string_array( "str_values" );
     data.read( "auto_resume", auto_resume );
     data.read( "monsters", monsters );
-    data.read( "progress", progress );
     data.read( "tools", tools );
 
 }
