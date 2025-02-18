@@ -604,8 +604,8 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
 
     const auto &curammo_effects = it.ammo_effects();
     // If using an aux magazine for a gun, make the parent gun accumulate and track fouling instead of the gunmod that's doing the firing.
-    item &parent = it.parent_item() != nullptr &&
-                   it.has_flag( flag_USE_PARENT_GUN ) ? *it.parent_item() : it;
+    item &parent = ( it.parent_item() != nullptr &&
+                   it.has_flag( flag_USE_PARENT_GUN ) ) ? *it.parent_item() : it;
     const islot_gun &firing = *parent.type->gun;
     // misfire chance based on dirt accumulation. Formula is designed to make chance of jam highly unlikely at low dirt levels, but levels increase geometrically as the dirt level reaches max (10,000). The number used is just a figure I found reasonable after plugging the number into excel and changing it until the probability made sense at high, medium, and low levels of dirt.
     if( !parent.has_flag( flag_NEVER_JAMS ) &&
