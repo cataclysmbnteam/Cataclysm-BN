@@ -226,6 +226,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "count": 2,
+    "ammo_type": "components",
     "category": "chems"
   },
   {
@@ -242,6 +243,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "count": 2,
+    "ammo_type": "components",
     "category": "chems"
   },
   {
@@ -259,6 +261,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "count": 4,
+    "ammo_type": "components",
     "category": "chems"
   },
   {
@@ -277,6 +280,7 @@
     "material": "powder",
     "volume": "2 L",
     "count": 60,
+    "ammo_type": "components",
     "category": "chems"
   },
   {
@@ -435,6 +439,7 @@
     "price_postapoc": "0 cent",
     "volume": "250 ml",
     "phase": "liquid",
+    "ammo_type": "components",
     "category": "chems"
   },
   {
@@ -998,6 +1003,7 @@
     "description": "Turbid liquid from the sewers with awful stench.",
     "volume": "250 ml",
     "phase": "liquid",
+    "ammo_type": "components",
     "category": "chems"
   },
   {
@@ -1048,6 +1054,7 @@
     "price_postapoc": "1 USD",
     "volume": "250 ml",
     "phase": "liquid",
+    "ammo_type": "components",
     "category": "chems"
   },
   {
@@ -1096,6 +1103,7 @@
     "container": "bottle_glass",
     "description": "Diethyl ether largely supplanted the use of chloroform as a general anesthetic due to ether's more favorable therapeutic index, that is, a greater difference between an effective dose and a potentially toxic dose.",
     "volume": "1 ml",
+    "ammo_type": "components",
     "phase": "liquid"
   },
   {
@@ -1130,6 +1138,7 @@
     "container": "bottle_glass",
     "description": "Famous for its abilities as an illicit sedative, this substance is also a very good solvent.  In particular, it's used a lot in nuclear magnetic resonance spectroscopy.",
     "volume": "1 ml",
+    "ammo_type": "components",
     "phase": "liquid"
   },
   {
@@ -1144,6 +1153,7 @@
     "container": "bottle_glass",
     "description": "This useful stuff is a potent solvent and has a wide range of reactive applications.  It can be used to make a huge number of plastics and polymers, it can be an antiseptic, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun.  Wear gloves.",
     "volume": "1 ml",
+    "ammo_type": "components",
     "phase": "liquid"
   },
   {
