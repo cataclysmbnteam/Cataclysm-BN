@@ -836,7 +836,7 @@ static int calc_gun_volume( const item &gun )
 {
     // Inherit suppressor modifiers if relevant (e.g. KSG second mag) but still use current ammo
     const item &parent = ( gun.parent_item() != nullptr &&
-                         gun.has_flag( flag_USE_PARENT_GUN ) ) ? *gun.parent_item() : gun;
+                           gun.has_flag( flag_USE_PARENT_GUN ) ) ? *gun.parent_item() : gun;
     int noise = parent.type->gun->loudness;
     for( const auto mod : parent.gunmods() ) {
         noise += mod->type->gunmod->loudness;
@@ -1852,7 +1852,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     }
 
     item &parent = ( weap.parent_item() != nullptr &&
-                   weap.has_flag( flag_USE_PARENT_GUN ) ) ? *weap.parent_item() : weap;
+                     weap.has_flag( flag_USE_PARENT_GUN ) ) ? *weap.parent_item() : weap;
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( parent.has_flag( flag_RELOAD_EJECT ) || parent.gunmod_find( itype_brass_catcher ) ) {
