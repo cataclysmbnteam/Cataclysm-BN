@@ -236,7 +236,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "looks_like": "jack",
+    "looks_like": "f_hydraulic_press",
     "ammo": "battery",
     "charges_per_use": 20,
     "flags": [ "ALLOWS_REMOTE_USE" ],
