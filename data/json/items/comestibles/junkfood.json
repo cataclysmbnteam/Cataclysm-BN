@@ -419,7 +419,6 @@
   {
     "type": "COMESTIBLE",
     "id": "syrup",
-    "category": "cooking_ingredients",
     "name": { "str_sp": "maple syrup" },
     "weight": "21 g",
     "color": "brown",
@@ -440,7 +439,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "category": "cooking_ingredients",
     "id": "beet_syrup",
     "name": { "str_sp": "sugar beet syrup" },
     "weight": "15 g",
