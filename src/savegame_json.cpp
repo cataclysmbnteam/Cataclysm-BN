@@ -296,9 +296,10 @@ void progress_counter::deserialize( JsonIn &jsin )
     data.read( "total_tasks", total_tasks );
     auto arr = data.get_array( "targets" );
     for( JsonObject target : arr ) {
-        targets.emplace_back( target.get_string( "target_name" ),
-                              target.get_int( "moves_total" ),
-                              target.get_int( "moves_left" ) );
+        targets.emplace_back( simple_task{
+            .target_name = target.get_string( "target_name" ),
+            .moves_total = target.get_int( "moves_total" ),
+            .moves_left = target.get_int( "moves_left" ) } );
     }
 }
 

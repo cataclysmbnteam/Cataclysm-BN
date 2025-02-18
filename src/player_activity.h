@@ -39,13 +39,6 @@ struct simple_task {
     /* The number of moves remaining for this target/task to complete */
     int moves_left = 0;
 
-    simple_task( const std::string &name_, int moves_total_ )
-        : target_name( name_ ), moves_total( moves_total_ ), moves_left( moves_total_ ) {
-    }
-    simple_task( const std::string &name_, int moves_total_, int moves_left_ )
-        : target_name( name_ ), moves_total( moves_total_ ), moves_left( moves_left_ ) {
-    }
-
     inline const bool complete() const {
         return moves_left <= 0;
     }
@@ -88,13 +81,19 @@ class progress_counter
         inline void emplace( std::string name, int moves_total_ ) {
             moves_total += moves_total_;
             moves_left += moves_total_;
-            targets.emplace_back( name, moves_total_ );
+            targets.emplace_back( simple_task{
+                .target_name = name,
+                .moves_total = moves_total_,
+                .moves_left = moves_total_ } );
             total_tasks++;
         }
         inline void emplace( std::string name, int moves_total_, int moves_left_ ) {
             moves_total += moves_total_;
             moves_left += moves_left_;
-            targets.emplace_back( name, moves_total_, moves_left_ );
+            targets.emplace_back( simple_task{
+                .target_name = name,
+                .moves_total = moves_total_,
+                .moves_left = moves_left_ } );
             total_tasks++;
         }
         inline void pop() {
@@ -212,7 +211,7 @@ class player_activity
         bool interruptable_with_kb = true;
 
         activity_speed speed = activity_speed();
-        bench_l *bench = nullptr;
+        std::optional<bench_l> bench;
         std::vector<safe_reference<item>> tools;
 
         // The members in the following block are deprecated, prefer creating a new

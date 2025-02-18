@@ -435,7 +435,7 @@ void player_activity::find_best_bench( const tripoint &pos )
         }
     }
 
-    bench = &best_bench;
+    bench = best_bench;
 }
 
 void player_activity::start_or_resume( Character &who, bool resuming )
