@@ -869,18 +869,7 @@
       "//": "Variable reduction since might hit more or less material.",
       "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "75%" }
     },
-    "deconstruct": {
-      "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 2, 4 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "pipe", "count": [ 2, 4 ] },
-        { "item": "chain", "count": [ 0, 1 ] },
-        { "item": "motor_small", "count": 1 }
-      ]
-    }
+    "deconstruct": { "items": [ { "item": "hydraulic_press", "count": 1 } ] }
   },
   {
     "type": "furniture",
