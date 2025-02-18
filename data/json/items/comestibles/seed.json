@@ -831,5 +831,5 @@
     "charges": 2,
     "stack_size": 8,
     "seed_data": { "plant_name": "spurge", "fruit": "spurge", "byproducts": [ "withered" ], "grow": "14 days" }
- }
+  }
 ]
