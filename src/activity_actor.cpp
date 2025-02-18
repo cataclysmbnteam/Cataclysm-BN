@@ -409,8 +409,7 @@ void dig_activity_actor::start( player_activity &act, Character & )
 {
     map &here = get_map();
     const bool grave = here.ter( location ) == t_grave;
-    std::string name;
-    name = grave
+    const std::string name = grave
            ? "grave"
            : here.ter( location ).obj().name();
     act.progress.emplace( name, moves_total );
