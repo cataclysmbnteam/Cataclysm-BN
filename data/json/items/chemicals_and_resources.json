@@ -212,7 +212,7 @@
     "bashing": 1
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "bleach",
     "name": { "str_sp": "bleach" },
     "weight": "138 g",
@@ -225,11 +225,11 @@
     "//": "$0.67 per charge for a $10 15-charge gallon of bleach.",
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 2,
+    "count": 2,
     "category": "chems"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "ammonia",
     "name": { "str_sp": "ammonia" },
     "weight": "124 g",
@@ -241,34 +241,33 @@
     "price_postapoc": "50 cent",
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 2,
+    "count": 2,
     "category": "chems"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "fertilizer_liquid",
     "name": { "str_sp": "liquid fertilizer" },
     "weight": "67 g",
     "color": "yellow",
-    "flags": [ "FERTILIZER", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "FERTILIZER" ],
     "container": "jug_plastic",
-    "comestible_type": "DRINK",
     "symbol": "~",
     "description": "A nutrient rich elixir for plants.",
     "price": "10 USD",
     "price_postapoc": "1 USD",
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 4,
+    "count": 4,
     "category": "chems"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "fertilizer_commercial",
     "name": { "str_sp": "commercial fertilizer" },
     "weight": "350 g",
     "color": "yellow",
-    "flags": [ "FERTILIZER", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "FERTILIZER" ],
     "container": "bag_canvas",
     "symbol": "~",
     "description": "Nutrient rich granules for plants.",
@@ -277,7 +276,7 @@
     "price_postapoc": "10 USD",
     "material": "powder",
     "volume": "2 L",
-    "charges": 60,
+    "count": 60,
     "category": "chems"
   },
   {
@@ -424,7 +423,7 @@
     "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "ACID_TRAIL" ] }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "sewage",
     "name": "sewage sample",
     "weight": "280 g",
@@ -989,7 +988,7 @@
     "to_hit": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "water_sewage",
     "name": { "str_sp": "sewage water" },
     "weight": "280 g",
@@ -1037,7 +1036,7 @@
     "count": 20
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "lye",
     "name": { "str_sp": "lye" },
     "weight": "125 g",
@@ -1086,16 +1085,13 @@
     "count": 100
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "ether",
     "category": "chems",
     "price": "10 cent",
     "price_postapoc": "5 cent",
     "name": { "str_sp": "ether" },
     "symbol": "!",
-    "quench": -96,
-    "healthy": -20,
-    "fun": -20,
     "color": "white",
     "container": "bottle_glass",
     "description": "Diethyl ether largely supplanted the use of chloroform as a general anesthetic due to ether's more favorable therapeutic index, that is, a greater difference between an effective dose and a potentially toxic dose.",
@@ -1123,7 +1119,7 @@
     }
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "chem_chloroform",
     "category": "chems",
     "price": "20 cent",
@@ -1137,7 +1133,7 @@
     "phase": "liquid"
   },
   {
-    "type": "COMESTIBLE",
+    "type": "AMMO",
     "id": "chem_phenol",
     "category": "chems",
     "price": "10 cent",
