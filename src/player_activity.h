@@ -53,8 +53,6 @@ struct simple_task {
     //Json stuff
 
     void serialize( JsonOut &json ) const;
-
-    simple_task() = default;
 };
 
 /*
