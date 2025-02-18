@@ -243,26 +243,20 @@ void player_activity::deserialize( JsonIn &jsin )
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( has_actor ) {
-        if( !data.has_member( "actor" ) ) {
+        if( !data.has_member( "actor" ) || !data.has_member( "progress" ) ) {
             type = activity_id( "ACT_MIGRATION_CANCEL" );
         }
-        //migrate old data if possible
-        if( data.has_member( "moves_left" ) ) {
-            if( data.has_member( "moves_total" ) ) {
-                progress.emplace( "", data.get_int( "moves_total" ), data.get_int( "moves_left" ) );
-            } else {
-                progress.emplace( "", data.get_int( "moves_left" ) );
-            }
-        }
-        //use new data if possible
-        else {
-            data.read( "progress", progress );
-        }
+        data.read( "progress", progress );
 
     } else {
         //use old data (for now)
         data.read( "moves_total", moves_total );
-        data.read( "moves_left", moves_left );
+        int ml = data.get_int( "moves_left" );
+        if( ml <= 0 ) {
+            type = activity_id( "ACT_MIGRATION_CANCEL" );
+        } else {
+            moves_left = ml;
+        }
     }
 
     data.read( "actor", actor );
