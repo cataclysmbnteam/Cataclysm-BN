@@ -90,7 +90,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
