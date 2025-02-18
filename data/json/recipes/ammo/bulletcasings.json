@@ -107,7 +107,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 6 ] ] ]
   },
@@ -120,7 +124,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 6 ] ] ]
   },
@@ -133,7 +141,11 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 2 ] ] ]
   },
@@ -146,7 +158,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -159,7 +175,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -172,7 +192,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -185,7 +209,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -198,7 +226,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -211,7 +243,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
@@ -224,7 +260,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -237,7 +277,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -250,7 +294,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -263,7 +311,11 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 2 ] ] ]
   },
@@ -276,7 +328,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -289,7 +345,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
@@ -302,7 +362,11 @@
     "difficulty": 6,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 18 ] ] ]
   },
@@ -315,7 +379,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -328,7 +396,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 2 ] ] ]
   },
@@ -341,7 +413,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 18 ] ] ]
   },
@@ -354,7 +430,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
@@ -367,7 +447,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 6 ] ] ]
   },
@@ -380,7 +464,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 4 ] ] ]
   },
@@ -393,7 +481,11 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -406,7 +498,11 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -419,7 +515,11 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -432,7 +532,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -445,7 +549,11 @@
     "difficulty": 3,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 3 ] ] ]
   },
@@ -458,7 +566,11 @@
     "difficulty": 5,
     "time": "5 m",
     "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "hydraulic_press", 100 ] ], [ [ "forge", 50 ] ] ],
+    "tools": [
+      [ [ "hydraulic_press", 10 ] ],
+      [ [ "forging_standard", 1, "LIST" ] ],
+      [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
+    ],
     "charges": 1,
     "components": [ [ [ "cartridgebrass", 6 ] ] ]
   }
