@@ -26,7 +26,7 @@
     "color": "light_gray",
     "name": { "str_sp": "cartridge brass" },
     "category": "scrap_metal",
-    "description": "Some brass that has been made specifically to be formed into bullets.",
+    "description": "Some brass that has been made specifically to be formed into cartridge casings.",
     "price": "10 USD",
     "price_postapoc": "10 cent",
     "material": "brass",
