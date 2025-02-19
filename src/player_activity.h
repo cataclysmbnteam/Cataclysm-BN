@@ -39,7 +39,7 @@ struct simple_task {
     /* The number of moves remaining for this target/task to complete */
     int moves_left = 0;
 
-    inline const bool complete() const {
+    inline bool complete() const {
         return moves_left <= 0;
     }
 
@@ -105,25 +105,25 @@ class progress_counter
             targets.pop_front();
             idx++;
         }
-        inline const bool empty() const {
+        inline bool empty() const {
             return targets.empty();
         }
-        inline const bool complete() const {
+        inline bool complete() const {
             return total_tasks > 0 && moves_left <= 0;
         }
-        inline const bool invalid() const {
+        inline bool invalid() const {
             return total_tasks == 0 && targets.empty();
         }
-        inline const int get_index() const {
+        inline int get_index() const {
             return idx;
         }
-        inline const int get_total_tasks() const {
+        inline int get_total_tasks() const {
             return total_tasks;
         }
-        inline const int get_moves_total() const {
+        inline int get_moves_total() const {
             return moves_total;
         }
-        inline const int get_moves_left() const {
+        inline int get_moves_left() const {
             return moves_left;
         }
         inline size_t size() const {
