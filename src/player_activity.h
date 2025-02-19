@@ -136,7 +136,7 @@ class player_activity
             return type.is_null();
         }
 
-        bool get_moves_left() const {
+        int get_moves_left() const {
             if( actor ) {
                 return actor->progress.get_moves_left();
             }
