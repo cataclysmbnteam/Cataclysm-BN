@@ -2,7 +2,6 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
-    "category": "cooking_ingredients",
     "name": "red sauce",
     "weight": "64 g",
     "color": "red",
@@ -27,6 +26,7 @@
   {
     "id": "maple_sap",
     "type": "COMESTIBLE",
+    "category": "cooking_ingredients",
     "symbol": "~",
     "color": "light_cyan",
     "name": { "str_sp": "maple sap" },
@@ -50,7 +50,6 @@
   },
   {
     "id": "mayonnaise",
-    "category": "cooking_ingredients",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "white",
@@ -72,7 +71,6 @@
   },
   {
     "id": "ketchup",
-    "category": "cooking_ingredients",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "red",
@@ -94,7 +92,6 @@
   },
   {
     "id": "mustard",
-    "category": "cooking_ingredients",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "yellow",
@@ -116,7 +113,6 @@
   },
   {
     "id": "honey_bottled",
-    "category": "cooking_ingredients",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "yellow",
@@ -139,7 +135,6 @@
   },
   {
     "id": "peanutbutter",
-    "category": "cooking_ingredients",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "brown",
@@ -239,7 +234,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "category": "cooking_ingredients",
     "id": "molasses",
     "name": { "str_sp": "molasses" },
     "weight": "89 g",
@@ -263,7 +257,6 @@
   },
   {
     "id": "horseradish",
-    "category": "cooking_ingredients",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "white",
@@ -286,7 +279,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "category": "cooking_ingredients",
     "id": "coffee_syrup",
     "name": { "str_sp": "coffee syrup" },
     "weight": "32 g",
