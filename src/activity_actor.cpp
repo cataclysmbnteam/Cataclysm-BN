@@ -99,11 +99,11 @@ std::unique_ptr<aim_activity_actor> aim_activity_actor::use_mutation( detached_p
     return act;
 }
 
-void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
+void aim_activity_actor::start( player_activity &/*act*/, Character &/*who*/ )
 {
     // Time spent on aiming is determined on the go by the player
-    act.moves_total = 1;
-    act.moves_left = 1;
+    // Dummy progress task to indicate ongoing activity
+    progress.dummy();
 }
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
@@ -111,7 +111,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     if( !who.is_avatar() ) {
         debugmsg( "ACT_AIM not implemented for NPCs" );
         aborted = true;
-        act.moves_left = 0;
+        progress.pop();
         return;
     }
     avatar &you = get_avatar();
@@ -119,7 +119,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     item *weapon = get_weapon();
     if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
         aborted = true;
-        act.moves_left = 0;
+        progress.pop();
         return;
     }
 
@@ -127,7 +127,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     if( !gun->ammo_remaining() && !reload_loc && gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
-            act.moves_left = 0;
+            progress.pop();
             return;
         }
     }
@@ -147,11 +147,11 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     g->reenter_fullscreen();
 
     if( aborted ) {
-        act.moves_left = 0;
+        progress.pop();
     } else {
         if( !trajectory.empty() ) {
             fin_trajectory = trajectory;
-            act.moves_left = 0;
+            progress.pop();
         }
 
         // Allow interrupting activity only during 'aim and fire'.
@@ -226,6 +226,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "fake_weapon", fake_weapon ? *fake_weapon : null_item_reference() );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "stamina_cost_per_shot", stamina_cost_per_shot );
@@ -250,6 +251,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "fake_weapon", actor->fake_weapon );
     data.read( "bp_cost_per_shot", actor->bp_cost_per_shot );
     data.read( "stamina_cost_per_shot", actor->stamina_cost_per_shot );
@@ -345,7 +347,7 @@ void autodrive_activity_actor::start( player_activity &act, Character &who )
 
     player_vehicle = &vp->vehicle();
     player_vehicle->is_autodriving = true;
-    act.moves_left = calendar::INDEFINITELY_LONG;
+    progress.dummy();
 }
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
@@ -369,7 +371,7 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
                 who.cancel_activity();
                 break;
             case autodrive_result::finished:
-                act.progress.dummy();
+                progress.pop();
                 break;
         }
     } else {
@@ -400,12 +402,12 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & jsin)
 {
     return std::make_unique<autodrive_activity_actor>();
 }
 
-void dig_activity_actor::start( player_activity &act, Character & )
+void dig_activity_actor::start( player_activity &/*act*/, Character & )
 {
     map &here = get_map();
     ter_id ter_here = here.ter( location );
@@ -413,13 +415,13 @@ void dig_activity_actor::start( player_activity &act, Character & )
     const std::string name = grave
                              ? "grave"
                              : ter_here.obj().name();
-    act.progress.emplace( name, moves_total );
+    progress.emplace( name, moves_total );
 }
 
-void dig_activity_actor::do_turn( player_activity &act, Character & )
+void dig_activity_actor::do_turn( player_activity &/*act*/, Character & )
 {
-    if( act.progress.front().complete() ) {
-        act.progress.pop();
+    if( progress.front().complete() ) {
+        progress.pop();
         return;
     }
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
@@ -491,6 +493,7 @@ void dig_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "moves", moves_total );
     jsout.member( "location", location );
     jsout.member( "result_terrain", result_terrain );
@@ -508,6 +511,7 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "moves", actor->moves_total );
     data.read( "location", actor->location );
     data.read( "result_terrain", actor->result_terrain );
@@ -518,16 +522,16 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
     return actor;
 }
 
-void dig_channel_activity_actor::start( player_activity &act, Character & )
+void dig_channel_activity_actor::start( player_activity &/*act*/, Character & )
 {
     map &here = get_map();
-    act.progress.emplace( here.ter( location ).obj().name(), moves_total );
+    progress.emplace( here.ter( location ).obj().name(), moves_total );
 }
 
-void dig_channel_activity_actor::do_turn( player_activity &act, Character & )
+void dig_channel_activity_actor::do_turn( player_activity &/*act*/, Character & )
 {
-    if( act.progress.front().complete() ) {
-        act.progress.pop();
+    if( progress.front().complete() ) {
+        progress.pop();
         return;
     }
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
@@ -563,6 +567,7 @@ void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "moves", moves_total );
     jsout.member( "location", location );
     jsout.member( "result_terrain", result_terrain );
@@ -580,6 +585,7 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "moves", actor->moves_total );
     data.read( "location", actor->location );
     data.read( "result_terrain", actor->result_terrain );
@@ -613,12 +619,12 @@ bool disassemble_activity_actor::try_start_single( player_activity &act, Charact
     return true;
 }
 
-void disassemble_activity_actor::process_target( player_activity &act, iuse_location target )
+void disassemble_activity_actor::process_target( player_activity &/*act*/, iuse_location target )
 {
     const item &itm = *target.loc;
     const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
     int moves_needed = dis.time * target.count;
-    act.progress.emplace( itm.tname( target.count ), moves_needed );
+    progress.emplace( itm.tname( target.count ), moves_needed );
 }
 
 void disassemble_activity_actor::start( player_activity &act, Character &who )
@@ -636,7 +642,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( act.progress.front().complete() ) {
+    if( progress.front().complete() ) {
         const iuse_location &target = targets.front();
         if( !target.loc ) {
             debugmsg( "Lost target of ACT_DISASSEMBLY" );
@@ -644,8 +650,8 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
             crafting::complete_disassemble( who, target, get_map().getlocal( pos.raw() ) );
         }
         targets.erase( targets.begin() );
-        act.progress.pop();
-        if( !act.progress.empty() && !try_start_single( act, who ) ) {
+        progress.pop();
+        if( !progress.empty() && !try_start_single( act, who ) ) {
             act.set_to_null();
         }
     }
@@ -670,6 +676,7 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "targets", targets );
     jsout.member( "pos", pos );
     jsout.member( "recursive", recursive );
@@ -683,6 +690,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "targets", actor->targets );
     data.read( "pos", actor->pos );
     data.read( "recursive", actor->recursive );
@@ -699,15 +707,15 @@ drop_activity_actor::drop_activity_actor( Character &ch, const drop_locations &i
 
 void drop_activity_actor::start( player_activity &act, Character & )
 {
-    // Set moves_left to value other than zero to indicate ongoing activity
-    act.moves_total = 1;
-    act.moves_left = 1;
+    // Dummy progress task to indicate ongoing activity
+    progress.dummy();
 }
 
 void drop_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "items", items );
     jsout.member( "force_ground", force_ground );
     jsout.member( "relpos", relpos );
@@ -721,6 +729,7 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "items", actor->items );
     data.read( "force_ground", actor->force_ground );
     data.read( "relpos", actor->relpos );
@@ -778,13 +787,13 @@ void hacking_activity_actor::start( player_activity &act, Character & )
             break;
     }
 
-    act.progress.emplace( name, to_moves<int>( 5_minutes ) );
+    progress.emplace( name, to_moves<int>( 5_minutes ) );
 }
 
-void hacking_activity_actor::do_turn( player_activity &act, Character & )
+void hacking_activity_actor::do_turn( player_activity &/*act*/, Character & )
 {
-    if( act.progress.front().complete() ) {
-        act.progress.pop();
+    if( progress.front().complete() ) {
+        progress.pop();
         return;
     }
 }
@@ -897,7 +906,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 void hacking_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
+
+    jsout.member( "progress", progress );
     jsout.member( "using_bionic", using_bionic );
+
     jsout.end_object();
 }
 
@@ -912,6 +924,7 @@ std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsi
     } else {
         JsonObject jsobj = jsin.get_object();
         jsobj.read( "using_bionic", actor->using_bionic );
+        jsobj.read( "progress", actor->progress );
     }
     return actor;
 }
@@ -974,6 +987,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "target_items", target_items );
     jsout.member( "quantities", quantities );
     jsout.member( "to_vehicle", to_vehicle );
@@ -989,6 +1003,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "target_items", actor->target_items );
     data.read( "quantities", actor->quantities );
     data.read( "to_vehicle", actor->to_vehicle );
@@ -1058,6 +1073,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "target_items", target_items );
     jsout.member( "starting_pos", starting_pos );
 
@@ -1070,6 +1086,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "target_items", actor->target_items );
     data.read( "starting_pos", actor->starting_pos );
 
@@ -1089,7 +1106,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-        act.progress.emplace( furn_type->name(), to_moves<int>( furn_type->hacksaw->duration() ) );
+        progress.emplace( furn_type->name(), to_moves<int>( furn_type->hacksaw->duration() ) );
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->hacksaw->valid() ) {
@@ -1099,7 +1116,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-        act.progress.emplace( ter_type->name(), to_moves<int>( ter_type->hacksaw->duration() ) );
+        progress.emplace( ter_type->name(), to_moves<int>( ter_type->hacksaw->duration() ) );
     } else {
         if( !testing ) {
             debugmsg( "hacksaw activity called on invalid terrain" );
@@ -1111,8 +1128,8 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void hacksaw_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( act.progress.front().complete() ) {
-        act.progress.pop();
+    if( progress.front().complete() ) {
+        progress.pop();
         return;
     }
     if( tool->ammo_sufficient() ) {
@@ -1212,8 +1229,11 @@ void hacksaw_activity_actor::finish( player_activity &act, Character &who )
 void hacksaw_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
+
+    jsout.member( "progress", progress );
     jsout.member( "target", target );
     jsout.member( "tool", tool );
+
     jsout.end_object();
 }
 
@@ -1222,6 +1242,7 @@ std::unique_ptr<activity_actor> hacksaw_activity_actor::deserialize( JsonIn &jsi
     std::unique_ptr<hacksaw_activity_actor> actor( new hacksaw_activity_actor(
                 tripoint_zero, safe_reference<item>() ) );
     JsonObject data = jsin.get_object();
+    data.read( "progress", actor->progress );
     data.read( "target", actor->target );
     data.read( "tool", actor->tool );
     return actor;
@@ -1240,7 +1261,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
             act.set_to_null();
             return;
         }
-        act.progress.emplace( furn_type->name(), to_moves<int>( furn_type->boltcut->duration() ) );
+        progress.emplace( furn_type->name(), to_moves<int>( furn_type->boltcut->duration() ) );
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->boltcut->valid() ) {
@@ -1250,7 +1271,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
             act.set_to_null();
             return;
         }
-        act.progress.emplace( ter_type->name(), to_moves<int>( ter_type->boltcut->duration() ) );
+        progress.emplace( ter_type->name(), to_moves<int>( ter_type->boltcut->duration() ) );
     } else {
         if( !testing ) {
             debugmsg( "boltcut activity called on invalid terrain" );
@@ -1262,8 +1283,8 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
 
 void boltcutting_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( act.progress.front().complete() ) {
-        act.progress.pop();
+    if( progress.front().complete() ) {
+        progress.pop();
         return;
     }
     if( tool->ammo_sufficient() ) {
@@ -1367,8 +1388,11 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
 void boltcutting_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
+
+    jsout.member( "progress", progress );
     jsout.member( "target", target );
     jsout.member( "tool", tool );
+
     jsout.end_object();
 }
 
@@ -1378,6 +1402,7 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonIn 
                 tripoint_zero, safe_reference<item>() ) );
 
     JsonObject data = jsin.get_object();
+    data.read( "progress", actor->progress );
     data.read( "target", actor->target );
     data.read( "tool", actor->tool );
     return actor;
@@ -1410,7 +1435,7 @@ std::unique_ptr<lockpick_activity_actor> lockpick_activity_actor::use_bionic(
             ) );
 }
 
-void lockpick_activity_actor::start( player_activity &act, Character & )
+void lockpick_activity_actor::start( player_activity &/*act*/, Character & )
 {
     const tripoint target = g->m.getlocal( this->target );
     const ter_id ter_type = g->m.ter( target );
@@ -1421,20 +1446,20 @@ void lockpick_activity_actor::start( player_activity &act, Character & )
             debugmsg( "%s lockpick_result is null", furn_type.id().str() );
             return;
         }
-        act.progress.emplace( furn_type->name(), moves_total );
+        progress.emplace( furn_type->name(), moves_total );
     } else {
         if( ter_type->lockpick_result.is_null() ) {
             debugmsg( "%s lockpick_result is null", ter_type.id().str() );
             return;
         }
-        act.progress.emplace( ter_type->name(), moves_total );
+        progress.emplace( ter_type->name(), moves_total );
     }
 }
 
 void lockpick_activity_actor::do_turn( player_activity &act, Character & )
 {
-    if( act.progress.front().complete() ) {
-        act.progress.pop();
+    if( progress.front().complete() ) {
+        progress.pop();
         return;
     }
 }
@@ -1575,6 +1600,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "moves_total", moves_total );
     jsout.member( "lockpick", lockpick );
     jsout.member( "fake_lockpick", fake_lockpick );
@@ -1590,6 +1616,7 @@ std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &js
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "moves_total", actor->moves_total );
     data.read( "lockpick", actor->lockpick );
     data.read( "fake_lockpick", actor->fake_lockpick );
@@ -1611,7 +1638,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-        act.progress.emplace( furn_type->name(), to_moves<int>( furn_type->oxytorch->duration() ) );
+        progress.emplace( furn_type->name(), to_moves<int>( furn_type->oxytorch->duration() ) );
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->oxytorch->valid() ) {
@@ -1621,7 +1648,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
             act.set_to_null();
             return;
         }
-        act.progress.emplace( ter_type->name(), to_moves<int>( ter_type->oxytorch->duration() ) );
+        progress.emplace( ter_type->name(), to_moves<int>( ter_type->oxytorch->duration() ) );
     } else {
         if( !testing ) {
             debugmsg( "oxytorch activity called on invalid terrain" );
@@ -1631,10 +1658,10 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
     }
 }
 
-void oxytorch_activity_actor::do_turn( player_activity &act, Character &who )
+void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
-    if( act.progress.front().complete() ) {
-        act.progress.pop();
+    if( progress.front().complete() ) {
+        progress.pop();
         return;
     }
     if( tool->ammo_sufficient() ) {
@@ -1738,6 +1765,7 @@ void oxytorch_activity_actor::finish( player_activity &act, Character &who )
 void oxytorch_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
+    jsout.member( "progress", progress );
     jsout.member( "target", target );
     jsout.member( "tool", tool );
     jsout.end_object();
@@ -1748,6 +1776,7 @@ std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonIn &js
     std::unique_ptr<oxytorch_activity_actor> actor( new oxytorch_activity_actor(
                 tripoint_zero, safe_reference<item>() ) );
     JsonObject data = jsin.get_object();
+    data.read( "progress", actor->progress );
     data.read( "target", actor->target );
     data.read( "tool", actor->tool );
     return actor;
@@ -1781,22 +1810,29 @@ std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( Js
     return std::unique_ptr<migration_cancel_activity_actor>();
 }
 
-void toggle_gate_activity_actor::start( player_activity &act, Character & )
+void toggle_gate_activity_actor::start( player_activity &, Character & )
 {
-    act.moves_total = moves_total;
-    act.moves_left = moves_total;
+    progress.emplace( "gate", moves_total );
 }
 
-void toggle_gate_activity_actor::finish( player_activity &act, Character & )
+void toggle_gate_activity_actor::do_turn( player_activity &, Character & )
+{
+    if( progress.front().complete() ) {
+        progress.pop();
+        return;
+    }
+}
+
+void toggle_gate_activity_actor::finish( player_activity &, Character & )
 {
     gates::toggle_gate( placement );
-    act.set_to_null();
 }
 
 void toggle_gate_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "moves", moves_total );
     jsout.member( "placement", placement );
 
@@ -1810,16 +1846,24 @@ std::unique_ptr<activity_actor> toggle_gate_activity_actor::deserialize( JsonIn 
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "moves", actor->moves_total );
     data.read( "placement", actor->placement );
 
     return actor;
 }
 
-void wash_activity_actor::start( player_activity &act, Character & )
+void wash_activity_actor::start( player_activity &, Character & )
 {
-    act.moves_total = moves_total;
-    act.moves_left = moves_total;
+    progress.emplace( "wash", moves_total );
+}
+
+void wash_activity_actor::do_turn( player_activity &, Character & )
+{
+    if( progress.front().complete() ) {
+        progress.pop();
+        return;
+    }
 }
 
 stash_activity_actor::stash_activity_actor( Character &ch, const drop_locations &items,
@@ -1828,17 +1872,17 @@ stash_activity_actor::stash_activity_actor( Character &ch, const drop_locations 
     this->items = pickup::reorder_for_dropping( ch, items );
 }
 
-void stash_activity_actor::start( player_activity &act, Character & )
+void stash_activity_actor::start( player_activity &, Character & )
 {
-    // Set moves_left to value other than zero to indicate ongoing activity
-    act.moves_total = 1;
-    act.moves_left = 1;
+    // Dummy progress task to indicate ongoing activity
+    progress.dummy();
 }
 
 void stash_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "items", items );
     jsout.member( "relpos", relpos );
 
@@ -1851,6 +1895,7 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "items", actor->items );
     data.read( "relpos", actor->relpos );
 
@@ -1911,6 +1956,7 @@ void throw_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "target_loc", target );
     jsout.member( "blind_throw_from_pos", blind_throw_from_pos );
 
@@ -1923,6 +1969,7 @@ std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin 
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "target_loc", actor->target );
     data.read( "blind_throw_from_pos", actor->blind_throw_from_pos );
 
@@ -1933,6 +1980,7 @@ void wash_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "progress", progress );
     jsout.member( "targets", targets );
     jsout.member( "moves_total", moves_total );
 
@@ -1945,6 +1993,7 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject data = jsin.get_object();
 
+    data.read( "progress", actor->progress );
     data.read( "targets", actor->targets );
     data.read( "moves_total", actor->moves_total );
 

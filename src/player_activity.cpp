@@ -260,31 +260,33 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
          * proper use of player_activity::targets for all activities
          * must be implementated for proper work of multiple targets
          */
-        if( progress.get_total_tasks() > 0 ) {
-            if( progress.empty() ) {
-                target = string_format( _( ": %s" ), progress.front().target_name );
+        if( actor ) {
+            if( actor->progress.empty() ) {
+                target = string_format( _( ": %s" ), actor->progress.front().target_name );
                 progress_desc = "";
                 //shouldn't ever happend actually
-                debugmsg( "Progress counter is empty, despite having %s total tasks", progress.get_total_tasks() );
+                debugmsg( "Progress counter is empty, despite activity using actor, total tasks %s",
+                          actor->progress.get_total_tasks() );
             } else {
-                target = string_format( _( ": %s" ), progress.front().target_name );
-                if( progress.get_total_tasks() > 1 ) {
+                target = string_format( _( ": %s" ), actor->progress.front().target_name );
+                if( actor->progress.get_total_tasks() > 1 ) {
                     progress_desc += "\n - Total: ";
                     progress_desc += string_format( _( "%.1f%%\n" ),
-                                                    ( 1.0f - float( progress.get_moves_left() ) / progress.get_moves_total() ) * 100.0f );
-                    progress_desc += string_format( _( "  - Processing %s out of %s\n" ), progress.get_index(),
-                                                    progress.get_total_tasks() );
+                                                    ( 1.0f - float( actor->progress.get_moves_left() ) / actor->progress.get_moves_total() ) * 100.0f );
+                    progress_desc += string_format( _( "  - Processing %s out of %s\n" ), actor->progress.get_index(),
+                                                    actor->progress.get_total_tasks() );
                     progress_desc += string_format( _( "  - Estimated time: %s\n" ),
-                                                    to_string( time_duration::from_turns( progress.get_moves_left() / speed.totalMoves() ) ) );
+                                                    to_string( time_duration::from_turns( actor->progress.get_moves_left() / speed.totalMoves() ) ) );
                     progress_desc += " - Current: ";
                 }
                 progress_desc += string_format( _( "%.1f%%\n" ),
-                                                ( 1.0f - float( progress.front().moves_left ) / progress.front().moves_total ) * 100.0f );
-                if( progress.get_total_tasks() > 1 ) {
+                                                ( 1.0f - float( actor->progress.front().moves_left ) / actor->progress.front().moves_total ) *
+                                                100.0f );
+                if( actor->progress.get_total_tasks() > 1 ) {
                     progress_desc += _( "  - " );
                 }
                 progress_desc += string_format( _( "Time left: %s\n" ),
-                                                to_string( time_duration::from_turns( progress.front().moves_left / speed.totalMoves() ) ) );
+                                                to_string( time_duration::from_turns( actor->progress.front().moves_left / speed.totalMoves() ) ) );
             }
         } else {
             if( !targets.empty() ) {
@@ -532,13 +534,13 @@ void player_activity::do_turn( player &p )
             int moves_total = speed.totalMoves();
 
             //fancy new system
-            if( progress.get_total_tasks() != 0 ) {
-                if( progress.get_moves_left() >= moves_total ) {
-                    progress.mod_moves_left( - moves_total );
+            if( actor ) {
+                if( actor->progress.get_moves_left() >= moves_total ) {
+                    actor->progress.mod_moves_left( - moves_total );
                     p.moves = 0;
                 } else {
-                    p.moves -= std::round( ( moves_total - progress.get_moves_left() ) * 100.0f / moves_total );
-                    progress.mod_moves_left( - progress.get_moves_left() );
+                    p.moves -= std::round( ( moves_total - actor->progress.get_moves_left() ) * 100.0f / moves_total );
+                    actor->progress.mod_moves_left( -actor->progress.get_moves_left() );
                 }
             }
             //old one
@@ -553,13 +555,13 @@ void player_activity::do_turn( player &p )
             }
         } else {
             //fancy new system
-            if( progress.get_total_tasks() != 0 ) {
-                if( progress.get_moves_left() >= 100 ) {
-                    progress.mod_moves_left( - 100 );
+            if( actor ) {
+                if( actor->progress.get_moves_left() >= 100 ) {
+                    actor->progress.mod_moves_left( - 100 );
                     p.moves = 0;
                 } else {
-                    p.moves -= progress.get_moves_left();
-                    progress.mod_moves_left( - progress.get_moves_left() );
+                    p.moves -= actor->progress.get_moves_left();
+                    actor->progress.mod_moves_left( -actor->progress.get_moves_left() );
                 }
             }
             //old one
@@ -582,7 +584,7 @@ void player_activity::do_turn( player &p )
         type->call_do_turn( this, &p );
     }
 
-    if( *this && ( ( moves_left <= 0 && progress.invalid() ) || progress.complete() ) ) {
+    if( *this && complete() ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
         if( actor ) {

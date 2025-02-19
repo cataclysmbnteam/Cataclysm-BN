@@ -19,6 +19,131 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 
+struct simple_task {
+    // Name of the target that's being processed
+    const std::string target_name;
+    /* Total number of moves required for this target/task to complete */
+    const int moves_total = 0;
+    /* The number of moves remaining for this target/task to complete */
+    int moves_left = 0;
+
+    inline bool complete() const {
+        return moves_left <= 0;
+    }
+
+    //Json stuff
+    void serialize( JsonOut &json ) const;
+};
+
+/*
+ * Special class to track progress of current activity
+ * Outside is a queue with slighly altered functionality
+*/
+class progress_counter
+{
+    private:
+        /** Total number of moves required to complete the activity aka all the tasks */
+        int moves_total = 0;
+        /** The number of moves remaining in this activity before it is complete aka all the tasks */
+        int moves_left = 0;
+        //Index of current task - 1-based
+        int idx = 1;
+        //Counts total amount of tasks - done and in queue
+        int total_tasks = 0;
+
+        std::queue<simple_task> targets;
+
+    public:
+        inline void emplace( std::string name, int moves_total_ ) {
+            moves_total += moves_total_;
+            moves_left += moves_total_;
+            targets.emplace( simple_task {
+                .target_name = name,
+                .moves_total = moves_total_,
+                .moves_left = moves_total_
+            } );
+            total_tasks++;
+        }
+        inline void emplace( std::string name, int moves_total_, int moves_left_ ) {
+            moves_total += moves_total_;
+            moves_left += moves_left_;
+            targets.emplace( simple_task {
+                .target_name = name,
+                .moves_total = moves_total_,
+                .moves_left = moves_left_
+            } );
+            total_tasks++;
+        }
+        inline void pop() {
+            if( targets.empty() ) {
+                debugmsg( "task was popped out of empty progress queue" );
+                return;
+            }
+            moves_left -= targets.front().moves_left;
+            targets.pop();
+            idx++;
+        }
+        inline void purge() {
+            if( targets.empty() ) {
+                debugmsg( "task was purged out of empty progress queue" );
+                return;
+            }
+            moves_left -= targets.front().moves_left;
+            moves_total -= targets.front().moves_total;
+            total_tasks--;
+            targets.pop();
+        }
+        inline bool empty() const {
+            return targets.empty();
+        }
+        inline bool complete() const {
+            return total_tasks > 0 && moves_left <= 0;
+        }
+        inline bool invalid() const {
+            return total_tasks == 0 && targets.empty();
+        }
+        inline int get_index() const {
+            return idx;
+        }
+        inline int get_total_tasks() const {
+            return total_tasks;
+        }
+        inline int get_moves_total() const {
+            return moves_total;
+        }
+        inline int get_moves_left() const {
+            return moves_left;
+        }
+        inline size_t size() const {
+            return targets.size();
+        }
+        inline const simple_task front() const {
+            return targets.front();
+        }
+        inline const simple_task back() const {
+            return targets.back();
+        }
+        //Modifies move_left of the first task(and total progress)
+        inline void mod_moves_left( int moves ) {
+            moves_left += moves;
+            targets.front().moves_left += moves;
+        }
+        /*
+        * Creates a dummy task, ends it instantaneously
+        * For very certain and rare occasions, use cautiously
+        * Basically to properly process "unique" activities, like autodrive
+        */
+        inline void dummy() {
+            emplace( "If you see this it's a bug", calendar::INDEFINITELY_LONG );
+        }
+
+        //Json stuff
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
+
 struct act_progress_message {
     /**
      * Whether activity actor implements the method.
@@ -55,9 +180,10 @@ struct act_progress_message {
     }
 };
 
+
 class activity_actor
 {
-    private:
+    protected:
         /**
          * Returns true if `this` activity is resumable, and `this` and @p other
          * are "equivalent" i.e. similar enough that `this` activity
@@ -73,7 +199,9 @@ class activity_actor
 
     public:
         virtual ~activity_actor() = default;
-
+        //List of task with names of ACTUAL targets, like a wall u mine or a grave u dig
+        //Also tracks number of moves left and total
+        progress_counter progress;
         /**
          * Should return the activity id of the corresponding activity
          */
@@ -184,6 +312,6 @@ deserialize_functions;
 } // namespace activity_actors
 
 void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout );
-void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin );
+void deserialize( std::unique_ptr <activity_actor> &actor, JsonIn &jsin );
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_H

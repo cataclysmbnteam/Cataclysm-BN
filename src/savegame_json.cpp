@@ -210,18 +210,8 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "auto_resume", auto_resume );
         json.member( "monsters", monsters );
         json.member( "tools", tools );
-
-        //store only new progress data or old, not both
-        if( progress.invalid() ) {
-            if( moves_total > 0 ) {
-                json.member( "moves_total", moves_total );
-            }
-            if( moves_left > 0 ) {
-                json.member( "moves_left", moves_left );
-            }
-        }
-    } else {
-        json.member( "progress", progress );
+        json.member( "moves_total", moves_total );
+        json.member( "moves_left", moves_left );
     }
     json.end_object();
 }
@@ -243,13 +233,19 @@ void player_activity::deserialize( JsonIn &jsin )
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( has_actor ) {
-        if( !data.has_member( "actor" ) || !data.has_member( "progress" ) ) {
+        if( !data.has_member( "actor" ) ) {
             type = activity_id( "ACT_MIGRATION_CANCEL" );
+        } else {
+            if( !data.has_member( "actor_data" ) ) {
+                type = activity_id( "ACT_MIGRATION_CANCEL" );
+            } else {
+                auto a_data = data.get_object( "actor_data" );
+                if( !a_data.has_member( "progress" ) ) {
+                    type = activity_id( "ACT_MIGRATION_CANCEL" );
+                }
+            }
         }
-        data.read( "progress", progress );
-
     } else {
-        //use old data (for now)
         data.read( "moves_total", moves_total );
         int ml = data.get_int( "moves_left" );
         if( ml <= 0 ) {
@@ -296,7 +292,7 @@ void progress_counter::deserialize( JsonIn &jsin )
     data.read( "total_tasks", total_tasks );
     auto arr = data.get_array( "targets" );
     for( JsonObject target : arr ) {
-        targets.emplace_back( simple_task{
+        targets.emplace( simple_task{
             .target_name = target.get_string( "target_name" ),
             .moves_total = target.get_int( "moves_total" ),
             .moves_left = target.get_int( "moves_left" ) } );
@@ -4161,7 +4157,8 @@ void advanced_inv_pane_save_state::serialize( JsonOut &json, const std::string &
     json.member( prefix + "in_vehicle", in_vehicle );
 }
 
-void advanced_inv_pane_save_state::deserialize( const JsonObject &jo, const std::string &prefix )
+void advanced_inv_pane_save_state::deserialize( const JsonObject &jo,
+        const std::string &prefix )
 {
 
     jo.read( prefix + "sort_idx", sort_idx );
