@@ -402,7 +402,7 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & jsin)
+std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn &jsin )
 {
     return std::make_unique<autodrive_activity_actor>();
 }
