@@ -5,6 +5,7 @@
 #include <memory>
 #include <optional>
 #include <unordered_map>
+#include <deque>
 #include <vector>
 
 #include "activity_type.h"
@@ -51,13 +52,13 @@ class progress_counter
         //Counts total amount of tasks - done and in queue
         int total_tasks = 0;
 
-        std::queue<simple_task> targets;
+        std::deque<simple_task> targets;
 
     public:
         inline void emplace( std::string name, int moves_total_ ) {
             moves_total += moves_total_;
             moves_left += moves_total_;
-            targets.emplace( simple_task {
+            targets.emplace_back( simple_task {
                 .target_name = name,
                 .moves_total = moves_total_,
                 .moves_left = moves_total_
@@ -67,7 +68,7 @@ class progress_counter
         inline void emplace( std::string name, int moves_total_, int moves_left_ ) {
             moves_total += moves_total_;
             moves_left += moves_left_;
-            targets.emplace( simple_task {
+            targets.emplace_back( simple_task {
                 .target_name = name,
                 .moves_total = moves_total_,
                 .moves_left = moves_left_
@@ -80,7 +81,7 @@ class progress_counter
                 return;
             }
             moves_left -= targets.front().moves_left;
-            targets.pop();
+            targets.pop_front();
             idx++;
         }
         inline void purge() {
@@ -91,7 +92,7 @@ class progress_counter
             moves_left -= targets.front().moves_left;
             moves_total -= targets.front().moves_total;
             total_tasks--;
-            targets.pop();
+            targets.pop_front();
         }
         inline bool empty() const {
             return targets.empty();
