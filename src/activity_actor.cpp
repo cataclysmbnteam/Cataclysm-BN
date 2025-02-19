@@ -1823,9 +1823,10 @@ void toggle_gate_activity_actor::do_turn( player_activity &, Character & )
     }
 }
 
-void toggle_gate_activity_actor::finish( player_activity &, Character & )
+void toggle_gate_activity_actor::finish( player_activity &act, Character & )
 {
     gates::toggle_gate( placement );
+    act.set_to_null();
 }
 
 void toggle_gate_activity_actor::serialize( JsonOut &jsout ) const
