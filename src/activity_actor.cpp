@@ -761,7 +761,7 @@ static hack_type get_hack_type( tripoint examp )
 void hacking_activity_actor::start( player_activity &act, Character & )
 {
     hack_type type = get_hack_type( act.placement );
-    std::string name = "";
+    std::string name;
 
     switch( type ) {
         case hack_type::HACK_SAFE:
