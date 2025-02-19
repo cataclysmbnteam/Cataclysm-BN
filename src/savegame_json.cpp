@@ -254,8 +254,9 @@ void player_activity::deserialize( JsonIn &jsin )
             moves_left = ml;
         }
     }
-
-    data.read( "actor", actor );
+    if( type != activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+        data.read( "actor", actor );
+    }
     data.read( "index", index );
     data.read( "position", position );
     data.read( "coords", coords );
