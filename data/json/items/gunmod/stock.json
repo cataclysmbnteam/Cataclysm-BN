@@ -27,8 +27,8 @@
       [ "ROCKET_LAUNCHERS" ],
       [ "FLAMETHROWERS" ]
     ],
-    "dispersion_modifier": -1,
-    "handling_modifier": 3
+    "dispersion_modifier": -75,
+    "handling_modifier": 5
   },
   {
     "id": "folding_stock",
@@ -146,7 +146,7 @@
     "color": "dark_gray",
     "location": "stock",
     "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
-    "dispersion_modifier": -1,
+    "dispersion_modifier": -50,
     "handling_modifier": 5
   },
   {

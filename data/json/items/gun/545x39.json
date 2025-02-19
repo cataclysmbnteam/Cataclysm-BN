@@ -18,6 +18,7 @@
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "barrel_length": "250 ml",
     "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
+    "blackpowder_tolerance": 24,
     "flags": [ "NEVER_JAMS" ]
   },
   {

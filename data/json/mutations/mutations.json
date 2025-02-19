@@ -216,8 +216,6 @@
     "changes_to": [ "NIGHTVISION2" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
     "category": [ "BIRD", "CATTLE", "INSECT", "URSINE" ],
-    "active": true,
-    "starts_active": true,
     "night_vision_range": 2
   },
   {
@@ -1275,8 +1273,6 @@
     "changes_to": [ "NIGHTVISION3" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
     "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE", "FELINE", "URSINE" ],
-    "active": true,
-    "starts_active": true,
     "night_vision_range": 4.5
   },
   {
@@ -1290,8 +1286,6 @@
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
     "threshreq": [ "THRESH_FISH", "THRESH_TROGLOBITE", "THRESH_SPIDER", "THRESH_INSECT", "THRESH_ELFA", "THRESH_CEPHALOPOD" ],
     "category": [ "FISH", "TROGLOBITE", "SPIDER", "INSECT", "ELFA", "CEPHALOPOD" ],
-    "active": true,
-    "starts_active": true,
     "night_vision_range": 10
   },
   {

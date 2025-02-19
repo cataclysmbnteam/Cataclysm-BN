@@ -25,6 +25,7 @@
 #include "game_constants.h"
 #include "int_id.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"

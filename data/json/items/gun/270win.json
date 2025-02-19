@@ -14,7 +14,6 @@
     "color": "brown",
     "ammo": "270win",
     "dispersion": 70,
-    "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": "750 ml",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
