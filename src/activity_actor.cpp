@@ -1416,7 +1416,7 @@ void lockpick_activity_actor::start( player_activity &act, Character & )
     const ter_id ter_type = g->m.ter( target );
     const furn_id furn_type = g->m.furn( target );
 
-    if( g->m.has_furn( target ) ) {
+    if( furn_type != f_null ) {
         if( furn_type->lockpick_result.is_null() ) {
             debugmsg( "%s lockpick_result is null", furn_type.id().str() );
             return;
@@ -1462,7 +1462,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     furn_id new_furn_type = f_null;
     std::string open_message = _( "The lock opens…" );
 
-    if( g->m.has_furn( target ) ) {
+    if( furn_type != f_null ) {
         if( furn_type->lockpick_result.is_null() ) {
             debugmsg( "%s lockpick_result is null", furn_type.id().str() );
             return;
