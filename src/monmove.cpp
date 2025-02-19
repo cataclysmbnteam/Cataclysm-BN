@@ -890,7 +890,7 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            const auto &pf_settings = get_pathfinding_settings();
+            auto &pf_settings = get_pathfinding_settings();
             bool new_need_path = (
                                      path.empty() ||
                                      rl_dist( pos(), path.front() ) >= 2 ||
@@ -910,7 +910,7 @@ void monster::move()
                     route_settings.alpha = 0.8;
                     path = DijikstraPathfinding::route( pos(), goal, path_settings, route_settings );
                 } else if( pf_settings.max_dist >= rl_dist( pos(), goal ) ) {
-                    g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+                    path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
                 }
             }
 
