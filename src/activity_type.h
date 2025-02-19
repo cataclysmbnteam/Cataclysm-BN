@@ -8,7 +8,7 @@
 #include "catalua_type_operators.h"
 #include "string_id.h"
 #include "translations.h"
-#include <character_stat.h>
+#include "character_stat.h"
 #include "type_id.h"
 
 class JsonObject;

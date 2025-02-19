@@ -45,7 +45,7 @@ something that takes more than just one turn.
 - complex_moves(false):
   - if false - activity expects to have no speed calculations and do 100 moves per turn
   - if true - activity expects to have complex speed/moves calculations, based on several factors:
-    - assistable(false): activity can be assisted by other craetures;
+    - assistable(false): activity can be assisted by other creatures;
     - bench(false): activity can be done using workbench;
     - light(false): activity speed is affected by current light level;
     - skills: activity speed is affected by skills provided in by pairs `skill_name: modifier`;
