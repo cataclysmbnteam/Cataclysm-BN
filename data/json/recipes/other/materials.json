@@ -1168,6 +1168,20 @@
     "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "copper_scrap_equivalent", 40, "LIST" ] ] ]
   },
   {
+    "result": "cartridgebrass",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "charges": 100,
+    "using": [ [ "blacksmithing_intermediate", 1 ] ],
+    "components": [ [ [ "zinc_metal", 400 ] ], [ [ "copper", 35 ] ] ]
+  },
+  {
     "type": "recipe",
     "result": "tempered_glass_sheet",
     "category": "CC_OTHER",

@@ -442,8 +442,8 @@
     "category": "spare_parts",
     "name": { "str": ".410 hull" },
     "description": "An empty hull from a .410 shotgun shell.",
-    "weight": "8 g",
-    "volume": "12ml",
+    "weight": "6 g",
+    "volume": "9ml",
     "stackable": true,
     "material": "plastic",
     "symbol": "=",
@@ -458,7 +458,7 @@
     "type": "GENERIC",
     "name": { "str": ".300BLK casing" },
     "description": "An empty casing from a .300 AAC Blackout round.",
-    "weight": "6 g",
-    "volume": "9ml"
+    "weight": "5 g",
+    "volume": "5ml"
   }
 ]
