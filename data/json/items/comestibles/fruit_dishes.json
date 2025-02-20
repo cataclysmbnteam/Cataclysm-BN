@@ -131,6 +131,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lemonade_powder",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "lemonade drink mix" },
     "weight": "19 g",
     "color": "yellow",
@@ -202,7 +203,6 @@
   {
     "type": "COMESTIBLE",
     "id": "jam_fruit",
-    "category": "cooking_ingredients",
     "name": { "str_sp": "jam" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "apple %s" } },

@@ -41,6 +41,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 240,
     "min_cycle_recoil": 540,
+    "blackpowder_tolerance": 24,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "magazines": [ [ "45", [ "ump45mag", "ump45_makeshiftmag" ] ] ]
   },
@@ -63,7 +64,7 @@
     "ammo": "45",
     "durability": 7,
     "min_cycle_recoil": 540,
-    "blackpowder_tolerance": 48,
+    "blackpowder_tolerance": 24,
     "magazine_well": "250 ml",
     "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
   },
@@ -178,7 +179,6 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 620,
     "durability": 7,
-    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 5
   },
@@ -279,7 +279,7 @@
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": "45",
-    "blackpowder_tolerance": 48,
+    "blackpowder_tolerance": 24,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
     "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd" ] ] ]

@@ -84,7 +84,7 @@
     "ammo": "9mm",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "durability": 6,
-    "blackpowder_tolerance": 48,
+    "blackpowder_tolerance": 24,
     "min_cycle_recoil": 380,
     "magazine_well": "250 ml",
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
@@ -107,7 +107,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 240,
     "min_cycle_recoil": 450,
-    "blackpowder_tolerance": 32,
+    "blackpowder_tolerance": 24,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 3 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -434,7 +434,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 400,
     "durability": 9,
-    "blackpowder_tolerance": 48,
+    "blackpowder_tolerance": 24,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
     "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
@@ -482,7 +482,7 @@
     "ammo": "9mm",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "durability": 6,
-    "blackpowder_tolerance": 48,
+    "blackpowder_tolerance": 24,
     "min_cycle_recoil": 380,
     "magazine_well": "250 ml",
     "//2": "Glock 17s cannot load a 15 round magazine. See http://guns-of-fun.com/portals/0/LiveContent/Mounts/Glock-Mags-Comp.jpg and #33038",

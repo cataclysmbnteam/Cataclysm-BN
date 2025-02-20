@@ -22,10 +22,10 @@ class JsonObject;
 class building_bin
 {
     private:
-        bool finalized = false;
         weighted_int_list<overmap_special_id> buildings;
-        std::map<overmap_special_id, int> unfinalized_buildings;
     public:
+        std::map<overmap_special_id, int> unfinalized_buildings;
+        bool finalized = false;
         building_bin() = default;
         void add( const overmap_special_id &building, int weight );
         overmap_special_id pick() const;
@@ -47,10 +47,12 @@ struct city_settings {
     building_bin houses;
     building_bin shops;
     building_bin parks;
+    building_bin finales;
 
     overmap_special_id pick_house() const;
     overmap_special_id pick_shop() const;
     overmap_special_id pick_park() const;
+    overmap_special_id pick_finale() const;
 
     void finalize();
 };

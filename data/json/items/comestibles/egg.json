@@ -299,6 +299,7 @@
   {
     "type": "COMESTIBLE",
     "id": "powder_eggs",
+    "category": "cooking_ingredients",
     "name": { "str": "powdered egg" },
     "weight": "7 g",
     "color": "yellow",
