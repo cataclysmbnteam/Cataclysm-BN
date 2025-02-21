@@ -56,6 +56,8 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 
+#define dbg(x) DebugLog((x),DC::Game)
+
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
 
@@ -71,6 +73,31 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const std::string has_thievery_witness( "has_thievery_witness" );
+
+inline void progress_counter::pop()
+{
+
+    if( empty() ) {
+        dbg( DL::Error ) << "task was popped out of empty progress queue";
+        return;
+    }
+    moves_left -= targets.front().moves_left;
+    targets.pop_front();
+    idx++;
+
+}
+
+inline void progress_counter::purge()
+{
+    if( empty() ) {
+        dbg( DL::Error ) << "task was purged out of empty progress queue";
+        return;
+    }
+    moves_left -= targets.front().moves_left;
+    moves_total -= targets.front().moves_total;
+    total_tasks--;
+    targets.pop_front();
+}
 
 aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
 {

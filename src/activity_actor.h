@@ -75,25 +75,8 @@ class progress_counter
             } );
             total_tasks++;
         }
-        inline void pop() {
-            if( targets.empty() ) {
-                debugmsg( "task was popped out of empty progress queue" );
-                return;
-            }
-            moves_left -= targets.front().moves_left;
-            targets.pop_front();
-            idx++;
-        }
-        inline void purge() {
-            if( targets.empty() ) {
-                debugmsg( "task was purged out of empty progress queue" );
-                return;
-            }
-            moves_left -= targets.front().moves_left;
-            moves_total -= targets.front().moves_total;
-            total_tasks--;
-            targets.pop_front();
-        }
+        inline void pop();
+        inline void purge();
         inline bool empty() const {
             return targets.empty();
         }
@@ -101,7 +84,7 @@ class progress_counter
             return total_tasks > 0 && moves_left <= 0;
         }
         inline bool invalid() const {
-            return total_tasks == 0 && targets.empty();
+            return total_tasks == 0 && empty();
         }
         inline int get_index() const {
             return idx;
