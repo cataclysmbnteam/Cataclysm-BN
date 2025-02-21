@@ -269,7 +269,7 @@
     "time": "10 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "charges": 1,
-    "components": [ [ [ "cartridgebrass", 3 ] ], [ [ "plastic_scrap", 1 ] ] ]
+    "components": [ [ [ "cartridgebrass", 2 ] ], [ [ "plastic_scrap", 2 ] ] ]
   },
   {
     "result": "410shot_hull",

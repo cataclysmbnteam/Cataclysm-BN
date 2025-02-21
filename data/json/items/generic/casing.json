@@ -428,7 +428,7 @@
     "category": "spare_parts",
     "name": { "str": "shotgun hull" },
     "description": "An empty hull from a shotgun shell.",
-    "weight": "8 g",
+    "weight": "12 g",
     "volume": "12ml",
     "stackable": true,
     "material": "plastic",
