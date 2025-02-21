@@ -494,30 +494,6 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-    const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
-    // Activities should never excessively drain stamina.
-    // adjusted stamina because
-    // autotravel doesn't reduce stamina after do_turn()
-    // it just sets a destination, clears the activity, then moves afterwards
-    // so set stamina -1 if that is the case
-    // to simulate that the next step will surely use up some stamina anyway
-    // this is to ensure that resting will occur when traveling overburdened
-    const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
-    if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
-        if( one_in( 50 ) ) {
-            p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
-        }
-        auto_resume = true;
-        std::unique_ptr<player_activity> new_act = std::make_unique<player_activity>
-                ( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
-        new_act->values.push_back( 200 + p.get_stamina_max() / 3 );
-        p.assign_activity( std::move( new_act ) );
-        return;
-    }
-    if( *this && type->rooted() ) {
-        p.rooted();
-        character_funcs::do_pause( p );
-    }
 
     /*
      * Moves block
@@ -578,6 +554,32 @@ void player_activity::do_turn( player &p )
     } else {
         // Use the legacy turn function
         type->call_do_turn( this, &p );
+    }
+
+    const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
+    // Activities should never excessively drain stamina.
+    // adjusted stamina because
+    // autotravel doesn't reduce stamina after do_turn()
+    // it just sets a destination, clears the activity, then moves afterwards
+    // so set stamina -1 if that is the case
+    // to simulate that the next step will surely use up some stamina anyway
+    // this is to ensure that resting will occur when traveling overburdened
+    const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
+    if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
+        if( one_in( 50 ) ) {
+            p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
+        }
+        auto_resume = true;
+        std::unique_ptr<player_activity> new_act = std::make_unique<player_activity>
+                ( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
+        new_act->values.push_back( 200 + p.get_stamina_max() / 3 );
+        p.assign_activity( std::move( new_act ) );
+        return;
+    }
+
+    if( *this && type->rooted() ) {
+        p.rooted();
+        character_funcs::do_pause( p );
     }
 
     if( *this && complete() ) {
