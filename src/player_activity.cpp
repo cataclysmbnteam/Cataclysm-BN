@@ -257,7 +257,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
         /*
          * TODO progress for targets
-         * proper use of player_activity::targets for all activities
+         * proper use of activity_actor::targets for all activities
          * must be implementated for proper work of multiple targets
          */
         if( actor ) {
@@ -292,15 +292,11 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             if( !targets.empty() ) {
                 target = string_format( _( ": %s" ), targets.front()->tname( targets.front()->count() ) );
             }
-            if( moves_total <= 0 ) {
-                debugmsg( "Unexpected amount of moves for activity %s: %s", type, moves_total );
-            } else {
+            if( moves_total > 0 ) {
                 progress_desc += string_format( _( "%.1f%%\n" ),
                                                 ( 1.0f - float( moves_left ) / moves_total ) * 100.0f );
             }
-            if( moves_left <= 0 ) {
-                debugmsg( "Unexpected amount of moves left for activity %s: %s", type, moves_left );
-            } else {
+            if( moves_left > 0 ) {
                 progress_desc += string_format( _( "Time left: %s\n" ),
                                                 to_string( time_duration::from_turns( moves_left / speed.totalMoves() ) ) );
             }
