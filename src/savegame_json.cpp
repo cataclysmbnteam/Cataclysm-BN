@@ -198,7 +198,6 @@ void player_activity::serialize( JsonOut &json ) const
 
     if( !type.is_null() ) {
         json.member( "actor", actor );
-        json.member( "moves_left", moves_left );
         json.member( "index", index );
         json.member( "position", position );
         json.member( "coords", coords );
@@ -210,6 +209,9 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
         json.member( "monsters", monsters );
+        json.member( "tools", tools );
+        json.member( "moves_total", moves_total );
+        json.member( "moves_left", moves_left );
     }
     json.end_object();
 }
@@ -230,12 +232,31 @@ void player_activity::deserialize( JsonIn &jsin )
     // Handle migration of pre-activity_actor activities
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
-    if( has_actor && !data.has_member( "actor" ) ) {
-        type = activity_id( "ACT_MIGRATION_CANCEL" );
+    if( has_actor ) {
+        if( !data.has_member( "actor" ) ) {
+            type = activity_id( "ACT_MIGRATION_CANCEL" );
+        } else {
+            if( !data.has_member( "actor_data" ) ) {
+                type = activity_id( "ACT_MIGRATION_CANCEL" );
+            } else {
+                auto a_data = data.get_object( "actor_data" );
+                if( !a_data.has_member( "progress" ) ) {
+                    type = activity_id( "ACT_MIGRATION_CANCEL" );
+                }
+            }
+        }
+    } else {
+        data.read( "moves_total", moves_total );
+        int ml = data.get_int( "moves_left" );
+        if( ml <= 0 ) {
+            type = activity_id( "ACT_MIGRATION_CANCEL" );
+        } else {
+            moves_left = ml;
+        }
     }
-
-    data.read( "actor", actor );
-    data.read( "moves_left", moves_left );
+    if( type != activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+        data.read( "actor", actor );
+    }
     data.read( "index", index );
     data.read( "position", position );
     data.read( "coords", coords );
@@ -247,7 +268,45 @@ void player_activity::deserialize( JsonIn &jsin )
     str_values = data.get_string_array( "str_values" );
     data.read( "auto_resume", auto_resume );
     data.read( "monsters", monsters );
+    data.read( "tools", tools );
 
+}
+
+void progress_counter::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "moves_total", moves_total );
+    json.member( "moves_left", moves_left );
+    json.member( "idx", idx );
+    json.member( "total_tasks", total_tasks );
+    json.member( "targets", targets );
+    json.end_object();
+}
+
+void progress_counter::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
+    data.read( "moves_total", moves_total );
+    data.read( "moves_left", moves_left );
+    data.read( "idx", idx );
+    data.read( "total_tasks", total_tasks );
+    auto arr = data.get_array( "targets" );
+    for( JsonObject target : arr ) {
+        targets.emplace_back( simple_task{
+            .target_name = target.get_string( "target_name" ),
+            .moves_total = target.get_int( "moves_total" ),
+            .moves_left = target.get_int( "moves_left" ) } );
+    }
+}
+
+void simple_task::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "target_name", target_name );
+    json.member( "moves_total", moves_total );
+    json.member( "moves_left", moves_left );
+    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4099,7 +4158,8 @@ void advanced_inv_pane_save_state::serialize( JsonOut &json, const std::string &
     json.member( prefix + "in_vehicle", in_vehicle );
 }
 
-void advanced_inv_pane_save_state::deserialize( const JsonObject &jo, const std::string &prefix )
+void advanced_inv_pane_save_state::deserialize( const JsonObject &jo,
+        const std::string &prefix )
 {
 
     jo.read( prefix + "sort_idx", sort_idx );
