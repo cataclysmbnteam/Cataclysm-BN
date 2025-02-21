@@ -60,13 +60,16 @@ void activity_type::load( const JsonObject &jo )
     if( jo.has_member( "complex_moves" ) ) {
         result.complex_moves_ = true;
         auto c_moves = jo.get_object( "complex_moves" );
-        result.assistable_     = c_moves.get_bool( "assistable", false );
-        result.bench_affected_ =  c_moves.get_bool( "bench", false );
-        result.light_affected_ =  c_moves.get_bool( "light", false );
-        result.speed_affected_ =  c_moves.get_bool( "speed", false );
-        result.morale_affected_ =  c_moves.get_bool( "morale", false );
+        result.assistable_ = c_moves.get_bool( "assistable", false );
+        result.bench_affected_ = c_moves.get_bool( "bench", false );
+        result.light_affected_ = c_moves.get_bool( "light", false );
+        result.speed_affected_ = c_moves.get_bool( "speed", false );
+        result.morale_affected_ = c_moves.get_bool( "morale", false );
 
-        if( c_moves.has_array( "skills" ) ) {
+        c_moves.allow_omitted_members();
+        if( c_moves.has_bool( "skills" ) ) {
+            assign( jo, "skills", result.verbose_tooltip_, false );
+        } else if( c_moves.has_array( "skills" ) ) {
             result.skill_affected_ = true;
             for( JsonArray skillobj : c_moves.get_array( "skills" ) ) {
                 std::string skill_s = skillobj.get_string( 0 );
@@ -76,8 +79,9 @@ void activity_type::load( const JsonObject &jo )
             }
         }
 
-        if( c_moves.has_array( "qualities" ) ) {
-            result.tools_affected_ = true;
+        if( c_moves.has_bool( "qualities" ) ) {
+            assign( jo, "qualities", result.tools_affected_, false );
+        } else if( c_moves.has_array( "qualities" ) ) {
             for( JsonArray q_obj : c_moves.get_array( "qualities" ) ) {
                 std::string quality_s = q_obj.get_string( 0 );
                 auto quality = quality_id( quality_s );
@@ -86,7 +90,9 @@ void activity_type::load( const JsonObject &jo )
             }
         }
 
-        if( c_moves.has_array( "stats" ) ) {
+        if( c_moves.has_bool( "stats" ) ) {
+            assign( jo, "stats", result.stats_affected_, false );
+        } else if( c_moves.has_array( "stats" ) ) {
             result.stats_affected_ = true;
             for( JsonArray stat_obj : c_moves.get_array( "stats" ) ) {
                 int mod = stat_obj.get_int( 1 );
