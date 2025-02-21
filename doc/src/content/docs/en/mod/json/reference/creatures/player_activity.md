@@ -43,18 +43,43 @@ something that takes more than just one turn.
   compared to other activities
 
 - complex_moves(false):
-  - if false - activity expects to have no speed calculations and do 100 moves per turn
+  - if false - activity expects to have no speed calculations and do 100 moves per turn,
+    in JSON it's specified by absence of `complex_moves` block;
   - if true - activity expects to have complex speed/moves calculations, based on several factors:
     - assistable(false): activity can be assisted by other creatures;
     - bench(false): activity can be done using workbench;
     - light(false): activity speed is affected by current light level;
-    - skills: activity speed is affected by skills provided in by pairs `skill_name: modifier`;
     - speed(false): activity speed is affected by creature's speed;
-    - stats: activity speed is affected by skills provided in by pairs `stat_name: modifier`;
-    - qualities: activity speed is affected by qualities provided in by pairs `q_name: modifier`;
+    - skills: activity speed is affected by skills provided in by pairs `skill_name: modifier`
+      or `"skills": true` if u want to explicitely show that activity expects to have modifications
+      based on skills, but those will have to be determine on go (like crafting or constructing):
+      - `"skills": true`
+      - `"skills": ["fabrication", "5"]`
+    - stats: activity speed is affected by skills provided in by pairs `stat_name: modifier`
+      or `"stats": true` if u want to explicitely show that activity expects to have modifications
+      based on stats, but those will have to be determine on go (like crafting or constructing):
+      - `"stats": true`
+      - `"stats": ["DEX", "5"]`
+    - qualities: activity speed is affected by qualities provided in by pairs `q_name: modifier`
+      or `"qualities": true` if u want to explicitely show that activity expects to have modifications
+      based on qualities, but those will have to be determine on go (like crafting or constructing):
+      - `"qualities": true`
+      - `"qualities": ["CUT_FINE", "5"]`
     - morale(false): activity speed is affected by creature's current morale level.
 
-- morale_blocked(false): activity won't be performed if craeture's morale level is below certain level.
+    Example for whole block:
+      "complex_moves": {
+        "assistable": true,
+        "bench": true,
+        "light": true,
+        "speed": true,
+        "stats": true,
+        "skills": [  ], - //same as `"skills": true`
+        "qualities": [ ["CUT_FINE", "5"] ],
+        "morale": true
+      }
+
+- morale_blocked(false): activity won't be performed if creature's morale level is below certain level.
 
 - verbose_tooltip(true): activity will have an expanded progress window, showing a lot of information
 
