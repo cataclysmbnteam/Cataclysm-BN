@@ -1497,7 +1497,7 @@
     "looks_like": "t_leanto",
     "move_cost": 2,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1527,7 +1527,7 @@
         { "item": "pine_bough", "count": [ 0, 2 ] }
       ]
     },
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
+    "flags": [ "TRANSPARENT", "CONTAINER", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
   },
   {
     "id": "t_tarptent",
@@ -1554,7 +1554,7 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT", "FLAT" ]
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT", "FLAT" ]
   },
   {
     "type": "terrain",
