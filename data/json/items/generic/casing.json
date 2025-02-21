@@ -247,7 +247,7 @@
     "type": "GENERIC",
     "name": { "str": ".45-70 casing" },
     "description": "An empty casing from a .45-70 Government round.",
-    "weight": "4 g",
+    "weight": "7 g",
     "volume": "10ml"
   },
   {

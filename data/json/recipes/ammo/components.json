@@ -732,7 +732,7 @@
       [ [ "swage", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ]
     ],
     "charges": 1,
-    "components": [ [ [ "cartridgebrass", 4 ] ] ]
+    "components": [ [ [ "cartridgebrass", 7 ] ] ]
   },
   {
     "result": "46mm_casing",
