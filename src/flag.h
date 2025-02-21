@@ -339,6 +339,7 @@ extern const flag_id flag_URSINE_HONEY;
 extern const flag_id flag_USES_BIONIC_POWER;
 extern const flag_id flag_USES_GRID_POWER;
 extern const flag_id flag_USE_EAT_VERB;
+extern const flag_id flag_USE_PARENT_GUN;
 extern const flag_id flag_USE_PLAYER_ENERGY;
 extern const flag_id flag_USE_UPS;
 extern const flag_id flag_VARSIZE;

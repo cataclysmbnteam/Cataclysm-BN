@@ -1533,5 +1533,10 @@
     "type": "construction_group",
     "id": "build_light_switch",
     "name": "Install a light switch"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_hydraulic_press",
+    "name": "Install Hydraulic Press"
   }
 ]

@@ -2770,5 +2770,34 @@
     "examine_action": "toggle_lights",
     "transforms_into": "f_light_switch",
     "message": "You switched off the lights."
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydraulic_press",
+    "name": "grid hydraulic press",
+    "looks_like": "t_machinery_light",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.",
+    "symbol": "9",
+    "color": "black_red",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": 16,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ],
+      "//": "Variable reduction since might hit more or less material.",
+      "ranged": { "reduction": [ 20, 40 ], "destroy_threshold": 150, "block_unaimed_chance": "75%" }
+    },
+    "crafting_pseudo_item": [ "grid_hydraulic_press" ],
+    "deconstruct": { "items": [ { "item": "hydraulic_press", "count": 1 } ] }
   }
 ]
