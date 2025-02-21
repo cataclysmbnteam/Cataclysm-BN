@@ -68,7 +68,7 @@ void activity_type::load( const JsonObject &jo )
 
         c_moves.allow_omitted_members();
         if( c_moves.has_bool( "skills" ) ) {
-            assign( jo, "skills", result.verbose_tooltip_, false );
+            assign( jo, "skills", result.skill_affected_, false );
         } else if( c_moves.has_array( "skills" ) ) {
             result.skill_affected_ = true;
             for( JsonArray skillobj : c_moves.get_array( "skills" ) ) {
@@ -82,6 +82,7 @@ void activity_type::load( const JsonObject &jo )
         if( c_moves.has_bool( "qualities" ) ) {
             assign( jo, "qualities", result.tools_affected_, false );
         } else if( c_moves.has_array( "qualities" ) ) {
+            result.tools_affected_ = true;
             for( JsonArray q_obj : c_moves.get_array( "qualities" ) ) {
                 std::string quality_s = q_obj.get_string( 0 );
                 auto quality = quality_id( quality_s );
