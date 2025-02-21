@@ -4941,5 +4941,13 @@
     "time": "30 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "plastic_chunk",
+    "type": "uncraft",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_scrap", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
