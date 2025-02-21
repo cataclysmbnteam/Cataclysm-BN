@@ -68,16 +68,16 @@ something that takes more than just one turn.
     - morale(false): activity speed is affected by creature's current morale level.
 
     Example for whole block:
-      "complex_moves": {
-        "assistable": true,
-        "bench": true,
-        "light": true,
-        "speed": true,
-        "stats": true,
-        "skills": [  ], - //same as `"skills": true`
-        "qualities": [ ["CUT_FINE", "5"] ],
-        "morale": true
-      }
+    "complex_moves": {
+    "assistable": true,
+    "bench": true,
+    "light": true,
+    "speed": true,
+    "stats": true,
+    "skills": [ ], - //same as `"skills": true`
+    "qualities": [ ["CUT_FINE", "5"] ],
+    "morale": true
+    }
 
 - morale_blocked(false): activity won't be performed if creature's morale level is below certain level.
 
