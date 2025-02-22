@@ -10162,6 +10162,9 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
         }
     }
 
+    self->process_artifact( carrier, pos );
+    self->process_relic( *carrier );
+
     if( self->faults.contains( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( std::move( self ), carrier );
     }
