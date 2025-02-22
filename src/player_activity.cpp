@@ -408,7 +408,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
 void player_activity::find_best_bench( const tripoint &pos )
 {
-    bench_l best_bench = bench_l(
+    bench_loc best_bench = bench_loc(
                              workbench_info_wrapper(
                                  * string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
                              bench_type::ground,
@@ -418,7 +418,7 @@ void player_activity::find_best_bench( const tripoint &pos )
     for( const tripoint &adj : reachable ) {
         if( auto wb = get_map().furn( adj ).obj().workbench ) {
             if( wb->multiplier > best_bench.wb_info.multiplier ) {
-                best_bench = bench_l( workbench_info_wrapper( *wb.get() ), bench_type::furniture, adj );
+                best_bench = bench_loc( workbench_info_wrapper( *wb.get() ), bench_type::furniture, adj );
             }
         }
 
@@ -426,7 +426,7 @@ void player_activity::find_best_bench( const tripoint &pos )
                     adj ).part_with_feature( "WORKBENCH", true ) ) {
             if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                 if( wb_info->multiplier > best_bench.wb_info.multiplier ) {
-                    best_bench = bench_l( workbench_info_wrapper( wb_info.value() ), bench_type::furniture, adj );
+                    best_bench = bench_loc( workbench_info_wrapper( wb_info.value() ), bench_type::furniture, adj );
                 }
             } else {
                 debugmsg( "part '%' with WORKBENCH flag has no workbench info", vp->part().name() );
