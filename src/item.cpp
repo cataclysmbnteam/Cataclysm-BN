@@ -9409,8 +9409,9 @@ uint64_t item::make_component_hash() const
 bool item::needs_processing() const
 {
     return is_active() || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
-           ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact() || is_food();
+           ( !contents.empty() && is_container() && contents.front().needs_processing() ) ||
+           ( magazine_current() && magazine_current()->needs_processing() ) ||
+           is_artifact() || is_relic() || is_food();
 }
 
 int item::processing_speed() const
@@ -10172,6 +10173,9 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
             return std::move( self );
         }
     }
+
+    self->process_artifact( carrier, pos );
+    self->process_relic( *carrier );
 
     if( self->faults.contains( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( std::move( self ), carrier );

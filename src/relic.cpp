@@ -437,7 +437,7 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
     // If it already has ammo, increment charges of ammo inside.
     if( itm.ammo_data() ) {
         int ammo_charge = clamp( itm.ammo_remaining() + rech.rate, 0, itm.ammo_capacity() );
-        itm.magazine_integral() ? itm.charges = ammo_charge : itm.contents.front().charges = ammo_charge;
+        itm.ammo_set( itm.ammo_current(), ammo_charge );
     } else {
         // If not, either give it default ammo, or increment charges directly.
         if( !itm.ammo_types().empty() ) {
