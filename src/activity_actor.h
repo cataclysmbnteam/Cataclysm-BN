@@ -47,7 +47,7 @@ class progress_counter
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete aka all the tasks */
         int moves_left = 0;
-        //Index of current task - 1-based
+        //Index of current task - 1-based, since expected to be used only for printing
         int idx = 1;
         //Counts total amount of tasks - done and in queue
         int total_tasks = 0;
