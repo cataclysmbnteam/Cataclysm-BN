@@ -409,10 +409,10 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 void player_activity::find_best_bench( const tripoint &pos )
 {
     bench_loc best_bench = bench_loc(
-                             workbench_info_wrapper(
-                                 * string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
-                             bench_type::ground,
-                             pos );
+                               workbench_info_wrapper(
+                                   * string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
+                               bench_type::ground,
+                               pos );
     std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
     get_map().reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
     for( const tripoint &adj : reachable ) {
