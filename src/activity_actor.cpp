@@ -363,7 +363,7 @@ bool aim_activity_actor::load_RAS_weapon()
     return true;
 }
 
-void autodrive_activity_actor::start( player_activity &act, Character &who )
+void autodrive_activity_actor::start( player_activity &/* act */, Character &who )
 {
     const bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
     const optional_vpart_position vp = get_map().veh_at( who.pos() );
@@ -377,7 +377,7 @@ void autodrive_activity_actor::start( player_activity &act, Character &who )
     progress.dummy();
 }
 
-void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
+void autodrive_activity_actor::do_turn( player_activity &/* act */, Character &who )
 {
     if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
         if( who.moves <= 0 ) {
@@ -429,7 +429,7 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
 {
     return std::make_unique<autodrive_activity_actor>();
 }
@@ -623,7 +623,7 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     return actor;
 }
 
-bool disassemble_activity_actor::try_start_single( player_activity &act, Character &who )
+bool disassemble_activity_actor::try_start_single( player_activity &/* act */, Character &who )
 {
     if( targets.empty() ) {
         return false;
@@ -635,7 +635,6 @@ bool disassemble_activity_actor::try_start_single( player_activity &act, Charact
         return false;
     }
     const item &itm = *target.loc;
-    const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
 
     // Have to check here again in case we ran out of tools
     const ret_val<bool> can_do = crafting::can_disassemble( who, itm, who.crafting_inventory() );
@@ -732,7 +731,7 @@ drop_activity_actor::drop_activity_actor( Character &ch, const drop_locations &i
     this->items = pickup::reorder_for_dropping( ch, items );
 }
 
-void drop_activity_actor::start( player_activity &act, Character & )
+void drop_activity_actor::start( player_activity &/* act */, Character & )
 {
     // Dummy progress task to indicate ongoing activity
     progress.dummy();
@@ -1153,7 +1152,7 @@ void hacksaw_activity_actor::start( player_activity &act, Character &/*who*/ )
     }
 }
 
-void hacksaw_activity_actor::do_turn( player_activity &act, Character &who )
+void hacksaw_activity_actor::do_turn( player_activity &/* act */, Character &who )
 {
     if( progress.front().complete() ) {
         progress.pop();
@@ -1308,7 +1307,7 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
     }
 }
 
-void boltcutting_activity_actor::do_turn( player_activity &act, Character &who )
+void boltcutting_activity_actor::do_turn( player_activity &/* act */, Character &who )
 {
     if( progress.front().complete() ) {
         progress.pop();
@@ -1483,7 +1482,7 @@ void lockpick_activity_actor::start( player_activity &/*act*/, Character & )
     }
 }
 
-void lockpick_activity_actor::do_turn( player_activity &act, Character & )
+void lockpick_activity_actor::do_turn( player_activity &/* act */, Character & )
 {
     if( progress.front().complete() ) {
         progress.pop();
