@@ -50,7 +50,7 @@ struct activity_speed {
         }
 
         //Returns total amonut of moves based on factors
-        inline int totalMoves() const {
+        inline int total_moves() const {
             return std::roundf( total() * 100.0f );
         }
 
@@ -86,7 +86,7 @@ class player_activity
         bool interruptable_with_kb = true;
 
         activity_speed speed = activity_speed();
-        std::optional<bench_l> bench;
+        std::optional<bench_loc> bench;
         std::vector<safe_reference<item>> tools;
 
         // The members in the following block are deprecated, prefer creating a new

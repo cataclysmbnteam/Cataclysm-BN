@@ -54,8 +54,8 @@ struct workbench_info_wrapper {
     }
 };
 
-struct bench_l {
-    explicit bench_l( workbench_info_wrapper info, bench_type type, tripoint position )
+struct bench_loc {
+    explicit bench_loc( workbench_info_wrapper info, bench_type type, tripoint position )
         : wb_info( info ), type( type ), position( position ) {
     }
     workbench_info_wrapper wb_info;

@@ -229,7 +229,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
                 if( const std::optional<vpslot_workbench> &v_info = vp_info.get_workbench_info() ) {
                     wb_info = workbench_info_wrapper( *v_info );
                 } else {
-                    debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
                     return 0.0f;
                 }
             }
@@ -2396,7 +2396,7 @@ bench_location find_best_bench( const player &p, const item &craft )
                     best_loc = adj;
                 }
             } else {
-                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+                debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
             }
         }
     }

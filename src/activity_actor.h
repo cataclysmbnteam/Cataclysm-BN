@@ -101,10 +101,10 @@ class progress_counter
         inline size_t size() const {
             return targets.size();
         }
-        inline const simple_task front() const {
+        inline const simple_task &front() const {
             return targets.front();
         }
-        inline const simple_task back() const {
+        inline const simple_task &back() const {
             return targets.back();
         }
         //Modifies move_left of the first task(and total progress)
@@ -183,7 +183,7 @@ class activity_actor
 
     public:
         virtual ~activity_actor() = default;
-        //List of task with names of ACTUAL targets, like a wall u mine or a grave u dig
+        //List of task with names of ACTUAL targets, like a wall you mine or a grave you dig
         //Also tracks number of moves left and total
         progress_counter progress;
         /**

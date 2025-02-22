@@ -38,7 +38,7 @@
 #include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include <character_functions.h>
+#include "character_functions.h"
 
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -262,43 +262,44 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
          */
         if( actor ) {
             if( actor->progress.empty() ) {
-                target = string_format( _( ": %s" ), actor->progress.front().target_name );
+                target = string_format( ": %s", actor->progress.front().target_name );
                 progress_desc = "";
                 //shouldn't ever happend actually
                 debugmsg( "Progress counter is empty, despite activity using actor, total tasks %s",
                           actor->progress.get_total_tasks() );
             } else {
-                target = string_format( _( ": %s" ), actor->progress.front().target_name );
+                target = string_format( ": %s", actor->progress.front().target_name );
                 if( actor->progress.get_total_tasks() > 1 ) {
                     progress_desc += "\n - Total: ";
-                    progress_desc += string_format( _( "%.1f%%\n" ),
+                    progress_desc += string_format( "%.1f%%\n",
                                                     ( 1.0f - float( actor->progress.get_moves_left() ) / actor->progress.get_moves_total() ) * 100.0f );
                     progress_desc += string_format( _( "  - Processing %s out of %s\n" ), actor->progress.get_index(),
                                                     actor->progress.get_total_tasks() );
                     progress_desc += string_format( _( "  - Estimated time: %s\n" ),
-                                                    to_string( time_duration::from_turns( actor->progress.get_moves_left() / speed.totalMoves() ) ) );
+                                                    to_string( time_duration::from_turns( actor->progress.get_moves_left() / speed.total_moves() ) ) );
                     progress_desc += " - Current: ";
                 }
-                progress_desc += string_format( _( "%.1f%%\n" ),
+                progress_desc += string_format( "%.1f%%\n",
                                                 ( 1.0f - float( actor->progress.front().moves_left ) / actor->progress.front().moves_total ) *
                                                 100.0f );
                 if( actor->progress.get_total_tasks() > 1 ) {
-                    progress_desc += _( "  - " );
+                    progress_desc += "  - ";
                 }
                 progress_desc += string_format( _( "Time left: %s\n" ),
-                                                to_string( time_duration::from_turns( actor->progress.front().moves_left / speed.totalMoves() ) ) );
+                                                to_string( time_duration::from_turns( actor->progress.front().moves_left /
+                                                        speed.total_moves() ) ) );
             }
         } else {
             if( !targets.empty() ) {
-                target = string_format( _( ": %s" ), targets.front()->tname( targets.front()->count() ) );
+                target = string_format( ": %s", targets.front()->tname( targets.front()->count() ) );
             }
             if( moves_total > 0 ) {
-                progress_desc += string_format( _( "%.1f%%\n" ),
+                progress_desc += string_format( "%.1f%%\n",
                                                 ( 1.0f - float( moves_left ) / moves_total ) * 100.0f );
             }
             if( moves_left > 0 ) {
                 progress_desc += string_format( _( "Time left: %s\n" ),
-                                                to_string( time_duration::from_turns( moves_left / speed.totalMoves() ) ) );
+                                                to_string( time_duration::from_turns( moves_left / speed.total_moves() ) ) );
             }
             if( moves_total <= 0 && moves_left <= 0 ) {
                 progress_desc = "";
@@ -364,7 +365,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
                     const SkillLevel &skill_level = u.get_skill_level_object( skill );
                     //~ skill_name current_skill_level -> next_skill_level (% to next level)
                     extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),
-                                                skill.obj().name(),
+                                                skill->name(),
                                                 skill_level.level(),
                                                 skill_level.level() + 1,
                                                 skill_level.exercise() );
@@ -428,7 +429,7 @@ void player_activity::find_best_bench( const tripoint &pos )
                     best_bench = bench_l( workbench_info_wrapper( wb_info.value() ), bench_type::furniture, adj );
                 }
             } else {
-                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+                debugmsg( "part '%' with WORKBENCH flag has no workbench info", vp->part().name() );
             }
         }
     }
@@ -503,7 +504,7 @@ void player_activity::do_turn( player &p )
     if( !type->special() ) {
         if( type->complex_moves() ) {
             calc_moves( p );
-            int moves_total = speed.totalMoves();
+            int moves_total = speed.total_moves();
 
             //fancy new system
             if( actor ) {

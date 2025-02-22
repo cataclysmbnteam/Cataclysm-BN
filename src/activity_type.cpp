@@ -127,7 +127,7 @@ void activity_type::check_consistency()
                                    activity_handlers::do_turn_functions.end();
 
         if( pair.second.special_ && !( has_turn_func || has_actor ) ) {
-            debugmsg( "%s needs a do_turn function or activity actor if expects special behaviour.",
+            debugmsg( "%s needs a do_turn function or activity actor if it expects a special behaviour.",
                       pair.second.id_.c_str() );
         }
         for( auto &skill : pair.second.skills )

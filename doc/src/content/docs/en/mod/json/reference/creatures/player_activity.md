@@ -51,20 +51,20 @@ something that takes more than just one turn.
     - light(false): activity speed is affected by current light level;
     - speed(false): activity speed is affected by creature's speed;
     - skills: activity speed is affected by skills provided in by pairs `skill_name: modifier`
-      or `"skills": true` if u want to explicitely show that activity expects to have modifications
+      or `"skills": true` if you want to explicitely show that activity expects to have modifications
       based on skills, but those will have to be determine on go (like crafting or constructing):
       - `"skills": true`
-      - `"skills": ["fabrication", "5"]`
+      - `"skills": ["fabrication", 5]`
     - stats: activity speed is affected by skills provided in by pairs `stat_name: modifier`
-      or `"stats": true` if u want to explicitely show that activity expects to have modifications
+      or `"stats": true` if you want to explicitely show that activity expects to have modifications
       based on stats, but those will have to be determine on go (like crafting or constructing):
       - `"stats": true`
-      - `"stats": ["DEX", "5"]`
+      - `"stats": ["DEX", 5]`
     - qualities: activity speed is affected by qualities provided in by pairs `q_name: modifier`
-      or `"qualities": true` if u want to explicitely show that activity expects to have modifications
+      or `"qualities": true` if you want to explicitely show that activity expects to have modifications
       based on qualities, but those will have to be determine on go (like crafting or constructing):
       - `"qualities": true`
-      - `"qualities": ["CUT_FINE", "5"]`
+      - `"qualities": ["CUT_FINE", 5]`
     - morale(false): activity speed is affected by creature's current morale level.
 
     Example for whole block:

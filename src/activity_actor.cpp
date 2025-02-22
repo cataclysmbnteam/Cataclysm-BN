@@ -441,7 +441,7 @@ void dig_activity_actor::start( player_activity &/*act*/, Character & )
     const bool grave = ter_here == t_grave;
     const std::string name = grave
                              ? "grave"
-                             : ter_here.obj().name();
+                             : ter_here->name();
     progress.emplace( name, moves_total );
 }
 
@@ -510,7 +510,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
     } else {
         who.add_msg_if_player( m_good, _( "You finish digging the %s." ),
-                               here.ter( location ).obj().name() );
+                               here.ter( location )->name() );
     }
 
     act.set_to_null();
@@ -552,7 +552,7 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
 void dig_channel_activity_actor::start( player_activity &/*act*/, Character & )
 {
     map &here = get_map();
-    progress.emplace( here.ter( location ).obj().name(), moves_total );
+    progress.emplace( here.ter( location )->name(), moves_total );
 }
 
 void dig_channel_activity_actor::do_turn( player_activity &/*act*/, Character & )
@@ -585,7 +585,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     who.mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
     who.mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
-                           here.ter( location ).obj().name() );
+                           here.ter( location )->name() );
 
     act.set_to_null();
 }
