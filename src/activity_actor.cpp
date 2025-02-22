@@ -483,7 +483,8 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                                       location, false,
                                       calendar::turn );
         get_map().place_items( item_group_id( "grave" ), 25, location, location, false, calendar::turn );
-        get_map().place_items( item_group_id( "jewelry_front" ), 20, location, location, false, calendar::turn );
+        get_map().place_items( item_group_id( "jewelry_front" ), 20, location, location, false,
+                               calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
                 it->set_flag( flag_FILTHY );
@@ -1571,7 +1572,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
     who.practice( skill_mechanics, xp_gain );
 
-    if( !perfect && get_map().has_flag( "ALARMED", target ) && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+    if( !perfect && get_map().has_flag( "ALARMED", target ) &&
+        ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
                        true, "environment", "alarm" );
         if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
