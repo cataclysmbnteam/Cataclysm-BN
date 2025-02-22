@@ -150,6 +150,7 @@ static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
+static const bionic_id bio_electrosense_bscanner( "bio_electrosense_bscanner" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
@@ -1791,7 +1792,7 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
-    } else if( bio.id == bio_electrosense ) {
+    } else if( bio.id == bio_electrosense_bscanner ) {
         // This is a horrible mess but can't use the active iuse behavior directly
         map &here = get_map();
         for( const tripoint &pt : here.points_in_radius( pos(), PICKUP_RANGE ) ) {
@@ -1811,6 +1812,20 @@ void Character::process_bionic( bionic &bio )
                     }
                 }
 
+                units::energy enrg = cbms.size() * bio.info().power_trigger;
+                if( get_power_level() >= enrg ) {
+                    mod_power_level( -enrg );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "Your %s doesn't have enough power for the %s" ),
+                                       bio.info().name, corpse->display_name().c_str() );
+                    if( get_power_level() < bio.info().power_trigger ) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+
                 corpse->set_var( "bionics_scanned_by", getID().get_value() );
                 if( !cbms.empty() ) {
                     corpse->set_flag( flag_CBM_SCANNED );
@@ -1826,6 +1841,12 @@ void Character::process_bionic( bionic &bio )
                                        bionics_string.c_str()
                                      );
                 }
+            }
+            if( get_power_level() < bio.info().power_trigger ) {
+                add_msg_if_player( m_bad, _( "Your %s doesn't have enough power and shuts down." ),
+                                   bio.info().name );
+                deactivate_bionic( bio, true );
+                break;
             }
         }
     } else if( bio.id == bio_radscrubber ) {

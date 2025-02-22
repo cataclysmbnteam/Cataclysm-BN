@@ -277,6 +277,7 @@ static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -2249,6 +2250,8 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 // Ugly and uses variables that shouldn't be public
 int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 {
+    const bool possess = p->has_item( *it );
+
     if( !t ) {
         it->revert( p, true );
         it->deactivate();
@@ -2282,6 +2285,23 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                 }
             }
 
+            int charges = static_cast<int>( cbms.size() );
+            charges -= it->ammo_consume( charges, pos );
+            if( possess && it->has_flag( flag_USE_UPS ) ) {
+                if( p->use_charges_if_avail( itype_UPS, charges ) ) {
+                    charges = 0;
+                }
+            }
+            if( charges > 0 ) {
+                p->add_msg_if_player( m_bad, "Your %s doesn't have enough power for the %s", it->tname(),
+                                      corpse->display_name().c_str() );
+                if( it->ammo_remaining() == 0 ) {
+                    break;
+                } else {
+                    continue;
+                }
+            }
+
             corpse->set_var( "bionics_scanned_by", p->getID().get_value() );
             if( !cbms.empty() ) {
                 corpse->set_flag( flag_CBM_SCANNED );
@@ -2297,6 +2317,11 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                                       bionics_string.c_str()
                                     );
             }
+        }
+        if( it->ammo_remaining() == 0 ) {
+            it->revert( p );
+            it->deactivate();
+            return 0;
         }
     }
 
