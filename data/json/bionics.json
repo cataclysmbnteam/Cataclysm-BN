@@ -1308,7 +1308,7 @@
     "id": "bio_electrosense_bscanner",
     "type": "bionic",
     "name": { "str": "Electrosense Bionic Scanner" },
-    "description": "Activating this bionic scans nearby corpses for bionics at 750J per bionic. If you do not possess enough bionic power to scan 1 bionic, it deactivates.",
+    "description": "Activating this bionic scans nearby corpses for bionics at 750J per bionic.  If you do not possess enough bionic power to scan 1 bionic, it deactivates.",
     "flags": [ "BIONIC_TOGGLED" ],
     "trigger_cost": "750 J",
     "included": true
