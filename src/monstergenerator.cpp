@@ -1023,7 +1023,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
-    
+
     // blacklisted_specials was originally ported from DDA PRs 75716 and 75804 and thus CC-BY-SA 3.0
     std::unordered_set<std::string> blacklisted_specials {"PARROT", "PARROT_AT_DANGER", "EAT_CROP", "EAT_FOOD"};
     int special_attacks_diff = 0;
