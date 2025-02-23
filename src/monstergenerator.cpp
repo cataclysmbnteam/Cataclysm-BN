@@ -1024,7 +1024,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
     
-    std::unordered_set<std::string> blacklisted_specials {"PARROT", "PARROT_AT_DANGER"};
+    std::unordered_set<std::string> blacklisted_specials {"PARROT", "PARROT_AT_DANGER", "EAT_CROP", "EAT_FOOD"};
     int special_attacks_diff = 0;
     for( const auto &special : special_attacks ) {
         if( !blacklisted_specials.contains( special.first ) ) {
