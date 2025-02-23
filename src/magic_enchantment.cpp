@@ -170,19 +170,23 @@ void enchantment::reset()
 
 bool enchantment::is_active( const Character &guy, const item &parent ) const
 {
-    if( !&guy || !guy.has_item( parent ) ) {
+    if( &guy ) {
+        if( !guy.has_item( parent ) ) {
+            return false;
+        }
+
+        if( active_conditions.first == has::WIELD && !guy.is_wielding( parent ) ) {
+            return false;
+        }
+
+        if( active_conditions.first == has::WORN && !guy.is_worn( parent ) ) {
+            return false;
+        }
+
+        return is_active( guy, parent.is_active() );
+    } else {
         return false;
     }
-
-    if( active_conditions.first == has::WIELD && !guy.is_wielding( parent ) ) {
-        return false;
-    }
-
-    if( active_conditions.first == has::WORN && !guy.is_worn( parent ) ) {
-        return false;
-    }
-
-    return is_active( guy, parent.is_active() );
 }
 
 bool enchantment::is_active( const Character &guy, const bool active ) const
