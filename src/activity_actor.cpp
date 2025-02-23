@@ -1182,7 +1182,6 @@ void hacksaw_activity_actor::do_turn( player_activity &/* act */, Character &who
 void hacksaw_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    std::string message;
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
@@ -1332,7 +1331,6 @@ void boltcutting_activity_actor::do_turn( player_activity &/* act */, Character 
 void boltcutting_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    std::string message;
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {
@@ -1714,7 +1712,6 @@ void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who 
 void oxytorch_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    std::string message;
     const activity_data_common *data;
 
     if( here.has_furn( target ) ) {

@@ -126,7 +126,7 @@ float player_activity::calc_bench_factor() const
     return 1.0f;
 }
 
-float player_activity::calc_light_factor( const Character &who ) const
+float player_activity::calc_light_factor( const Character &/* who */ ) const
 {
     return 1.0f;
 }
@@ -164,7 +164,7 @@ float player_activity::calc_tools_factor() const
     return 1.0f;
 }
 
-float player_activity::calc_morale_factor( int morale ) const
+float player_activity::calc_morale_factor( int /* morale */ ) const
 {
     return 1.0f;
 }
