@@ -170,7 +170,7 @@ void enchantment::reset()
 
 bool enchantment::is_active( const Character &guy, const item &parent ) const
 {
-    if( !guy.has_item( parent ) ) {
+    if( !&guy || !guy.has_item( parent ) ) {
         return false;
     }
 
