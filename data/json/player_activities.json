@@ -21,7 +21,8 @@
     "rooted": true,
     "refuel_fires": true,
     "auto_needs": true,
-    "complex_moves": { "speed": true }
+    "complex_moves": { "speed": true },
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
