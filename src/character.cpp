@@ -7611,7 +7611,7 @@ bool Character::invoke_item( item *used, const std::string &method )
 
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
 {
-    if( !has_enough_charges( *used, true ) ) {
+    if( method != "TOGGLE_UPS_CHARGING" && !has_enough_charges( *used, true ) ) {
         return false;
     }
 

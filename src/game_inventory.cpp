@@ -841,7 +841,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return _( "Your biology is not compatible with that item." );
             }
 
-            if( !p.has_enough_charges( it, false ) ) {
+            if( !p.has_enough_charges( it, false ) && !uses.contains( "TOGGLE_UPS_CHARGING" ) ) {
                 return string_format(
                            vgettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),
