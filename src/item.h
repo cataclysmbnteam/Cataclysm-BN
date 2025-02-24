@@ -1229,7 +1229,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
-        void process_relic( Character &carrier );
+        void process_relic( Character *carrier );
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
@@ -2249,9 +2249,6 @@ class item : public location_visitable<item>, public game_object<item>
 
         /** Returns the type of location where the item is found */
         item_location_type where() const;
-
-        /** Returns the position where the item is found */
-        tripoint pos() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
