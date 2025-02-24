@@ -3970,7 +3970,7 @@ void map::shoot( const tripoint &origin, const tripoint &p, projectile &proj, co
     } else if( ter.bash.ranged ) {
         double range = rl_dist( origin, p );
         const bool point_blank = range <= 1;
-        const ranged_bash_info &rfi = *furn.bash.ranged;
+        const ranged_bash_info &ri = *ter.bash.ranged;
         // Damage obstacles like a crit if we're breaching at point blank range, otherwise randomize like a normal hit.
         float destroy_roll = point_blank ? dam * 1.5 : dam * rng_float( 0.9, 1.1 );
         if( !hit_items && ( !check( ri.block_unaimed_chance ) || ( ri.block_unaimed_chance < 100_pct &&
