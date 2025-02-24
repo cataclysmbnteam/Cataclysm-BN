@@ -805,6 +805,7 @@ void wash_activity_actor::finish( player_activity &act, Character &who )
         } else {
             detached_ptr<item> it2 = it.split( i.count );
             it2->item_tags.erase( flag_FILTHY );
+            who.i_add_or_drop( std::move( it2 ) );
         }
         who.on_worn_item_washed( it );
     }

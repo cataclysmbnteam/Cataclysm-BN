@@ -1023,9 +1023,18 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
+
+    // blacklisted_specials was originally ported from DDA PRs 75716 and 75804 and thus CC-BY-SA 3.0
+    std::unordered_set<std::string> blacklisted_specials {"PARROT", "PARROT_AT_DANGER", "EAT_CROP", "EAT_FOOD"};
+    int special_attacks_diff = 0;
+    for( const auto &special : special_attacks ) {
+        if( !blacklisted_specials.contains( special.first ) ) {
+            special_attacks_diff++;
+        }
+    }
     difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
-                 ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
+                 ( difficulty_base + special_attacks_diff + 8 * emit_fields.size() );
     difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
                   ( vision_day + 2 * vision_night ) * 0.01;
 }
