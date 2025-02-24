@@ -1504,7 +1504,7 @@
       "sound": "crunch.",
       "sound_fail": "brush.",
       "ter_set": "t_pit_shallow",
-      "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "pine_bough", "count": [ 6, 18 ] } ]
+      "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "pine_bough", "count": [ 6, 18 ] }, { "item": "rock", "count": [ 10, 20 ] } ]
     }
   },
   {
@@ -1524,7 +1524,8 @@
       "items": [
         { "item": "stick", "count": [ 2, 7 ] },
         { "item": "splinter", "count": [ 8, 20 ] },
-        { "item": "pine_bough", "count": [ 0, 2 ] }
+        { "item": "pine_bough", "count": [ 0, 2 ] },
+        { "item": "rock", "count": [ 10, 20 ] }
       ]
     },
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
@@ -1547,12 +1548,13 @@
       "items": [
         { "item": "stick", "count": [ 1, 2 ] },
         { "item": "splinter", "count": [ 1, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 8 ] }
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "rock", "count": [ 10, 20 ] }
       ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
+      "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 }, , { "item": "rock", "count": 20 } ]
     },
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "FIRE_CONTAINER", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT", "FLAT" ]
   },
