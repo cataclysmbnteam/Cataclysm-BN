@@ -1491,13 +1491,23 @@
     "type": "terrain",
     "id": "t_improvised_shelter",
     "name": "improvised shelter",
-    "description": "Improvised shelter providing little bit of protection, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "description": "Improvised shelter providing little bit of protection, that can be used to take refuge from the elements, or conceal you from view.",
     "symbol": "#",
     "color": "brown_green",
     "looks_like": "t_leanto",
     "move_cost": 2,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "INDOORS",
+      "MOUNTABLE",
+      "BLOCK_WIND",
+      "HIDE_PLACE"
+    ],
     "bash": {
       "str_min": 4,
       "str_max": 60,
@@ -1511,7 +1521,7 @@
     "id": "t_leanto",
     "type": "terrain",
     "name": "pine lean-to",
-    "description": "A small shelter roofed with pine leaves, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "description": "A small shelter roofed with pine leaves, that can be used to take refuge from the elements.",
     "symbol": ";",
     "color": "brown",
     "move_cost": 2,
@@ -1527,13 +1537,13 @@
         { "item": "pine_bough", "count": [ 0, 2 ] }
       ]
     },
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "BLOCK_WIND" ]
   },
   {
     "id": "t_tarptent",
     "type": "terrain",
     "name": "tarp lean-to",
-    "description": "A small shelter covered by waterproof tarp, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "description": "A small shelter covered by waterproof tarp, that can be used to take refuge from the elements.",
     "symbol": ";",
     "color": "light_blue",
     "looks_like": "t_leanto",
@@ -1554,7 +1564,7 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT", "FLAT" ]
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT", "FLAT", "BLOCK_WIND" ]
   },
   {
     "type": "terrain",
