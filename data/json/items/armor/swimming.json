@@ -107,6 +107,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 10,
+    "resistance": { "bullet": 25 },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
