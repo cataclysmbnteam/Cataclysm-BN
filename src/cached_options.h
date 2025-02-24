@@ -67,6 +67,9 @@ extern bool tile_iso;
 /** Static z level effect. */
 extern bool static_z_effect;
 
+/** Render overmap air as transparent and render tiles that are below. */
+extern bool overmap_transparency;
+
 /**
  * Whether to show the pixel minimap. Always false for ncurses build,
  * but can be toggled during game in sdl build.
