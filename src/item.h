@@ -2250,9 +2250,6 @@ class item : public location_visitable<item>, public game_object<item>
         /** Returns the type of location where the item is found */
         item_location_type where() const;
 
-        /** Returns the position where the item is found */
-        tripoint pos() const;
-
         /** Describes the item location
          *  @param ch if set description is relative to character location */
         std::string describe_location( const Character *ch = nullptr ) const;
