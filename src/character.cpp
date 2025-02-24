@@ -7525,16 +7525,21 @@ float Character::stamina_burn_cost_modifier() const
     // We no longer modify movecost with stamina, but we do modify the stamina cost
     // Convert stamina to a float first to allow for decimal place carrying
     float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-    if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
-        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        stamina_modifier *= 0.5;
-    }
-    return stamina_modifier;
+    return stamina_modifier * running_move_cost_modifier();
 }
 
+float Character::running_move_cost_modifier() const
+{
+    float movement_modifier = 1.0;
+    if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
+        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+        movement_modifier *= 2.0;
+    }
+    if( move_mode == CMM_CROUCH ) {
+        movement_modifier *= 0.5;
+    }
+    return movement_modifier;
+}
 
 void Character::update_stamina( int turns )
 {
@@ -10611,6 +10616,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
+        movecost /= running_move_cost_modifier();
 
         if( movecost < 20.0 ) {
             movecost = 20.0;
