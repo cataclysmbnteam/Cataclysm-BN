@@ -795,20 +795,5 @@
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_rabbit", 2 ] ] ],
     "flags": [ "SECRET" ]
-  },
-  {
-    "type": "recipe",
-    "result": "purifier_smart_shot",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
-    "skills_required": [ "firstaid", 6 ],
-    "difficulty": 10,
-    "time": "2 h",
-    "batch_time_factors": [ 20, 5 ],
-    "book_learn": [ [ "recipe_serum", 9 ], [ "recipe_labchem", 9 ] ],
-    "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "iv_purifier", 2 ], [ "purifier", 4 ] ] ],
-    "flags": [ "SECRET" ]
   }
 ]
