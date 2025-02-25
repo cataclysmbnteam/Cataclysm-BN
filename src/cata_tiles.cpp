@@ -1249,7 +1249,7 @@ tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string
 
     load_tile_spritelists( entry, curr_subtile.fg, "fg" );
     load_tile_spritelists( entry, curr_subtile.bg, "bg" );
-    curr_subtile.has_om_transparency = entry.get_bool("has_om_transparency", false);
+    curr_subtile.has_om_transparency = entry.get_bool( "has_om_transparency", false );
 
     return ts.create_tile_type( id, std::move( curr_subtile ) );
 }
@@ -2345,16 +2345,17 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         }
     }
 
-    //To make first layer of overlays more opaque and easy to distinguish 
-    overlay_count = overlay_count + (overlay_count > 0);
+    //To make first layer of overlays more opaque and easy to distinguish
+    overlay_count = overlay_count + ( overlay_count > 0 );
     //Overmap overlays usually have higher counts, so make them less opaque
     const int base_overlay_alpha = category == TILE_CATEGORY::C_OVERMAP_TERRAIN ? 12 : 24;
 
     //Let's branch transparent overmaps early if tranparency overlays are enabled
     //Because if tranparency is enabled then backgrounds should not be drawn
-    if (category == TILE_CATEGORY::C_OVERMAP_TERRAIN && display_tile.has_om_transparency && overmap_transparency) {
-        draw_sprite_at(display_tile, display_tile.fg, screen_pos, loc_rand, /*fg:*/ true, rota, ll,
-                apply_night_vision_goggles, height_3d, base_overlay_alpha * overlay_count);
+    if( category == TILE_CATEGORY::C_OVERMAP_TERRAIN && display_tile.has_om_transparency &&
+        overmap_transparency ) {
+        draw_sprite_at( display_tile, display_tile.fg, screen_pos, loc_rand, /*fg:*/ true, rota, ll,
+                        apply_night_vision_goggles, height_3d, base_overlay_alpha * overlay_count );
         return true;
     }
 
@@ -2375,24 +2376,27 @@ bool cata_tiles::draw_sprite_at(
                                        apply_night_vision_goggles, nullint, overlay_count );
 }
 
-void cata_tiles::draw_om_tile_recursively(const tripoint_abs_omt omp, const std::string& id, int rotation, int subtile, int base_z_offset) {
-    std::optional<tile_search_result> tt = tile_type_search(id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", subtile, rotation);
-    if (tt == std::nullopt) {
+void cata_tiles::draw_om_tile_recursively( const tripoint_abs_omt omp, const std::string &id,
+        int rotation, int subtile, int base_z_offset )
+{
+    std::optional<tile_search_result> tt = tile_type_search( id, TILE_CATEGORY::C_OVERMAP_TERRAIN,
+                                           "overmap_terrain", subtile, rotation );
+    if( tt == std::nullopt ) {
         return;
     }
 
-    if (tt->tt->has_om_transparency) {
+    if( tt->tt->has_om_transparency ) {
         //So current tile has transparent pixels, so we need to render below one first
-        const tripoint_abs_omt new_pos = omp + tripoint(0, 0, -1);
+        const tripoint_abs_omt new_pos = omp + tripoint( 0, 0, -1 );
         int new_rotation = 0, new_subtile = 0;
-        std::string new_id = get_omt_id_rotation_and_subtile(new_pos, new_rotation, new_subtile);
-        draw_om_tile_recursively(new_pos, new_id, new_rotation, new_subtile, base_z_offset + 1);
+        std::string new_id = get_omt_id_rotation_and_subtile( new_pos, new_rotation, new_subtile );
+        draw_om_tile_recursively( new_pos, new_id, new_rotation, new_subtile, base_z_offset + 1 );
     }
 
-    const lit_level ll = overmap_buffer.is_explored(omp) ? lit_level::LOW : lit_level::LIT;
+    const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
     int discarded = 0;
-    draw_from_id_string(id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
-        subtile, rotation, ll, false, discarded, base_z_offset);
+    draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
+                         subtile, rotation, ll, false, discarded, base_z_offset );
 }
 
 bool cata_tiles::draw_sprite_at(
@@ -2473,7 +2477,7 @@ bool cata_tiles::draw_sprite_at(
     auto render = [&]( const int rotation, const SDL_RendererFlip flip ) {
         int ret = sprite_tex->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
         if( !static_z_effect && overlay && overlay_alpha > 0 ) {
-            overlay->set_alpha_mod( std::min( 192, overlay_alpha));
+            overlay->set_alpha_mod( std::min( 192, overlay_alpha ) );
             overlay->render_copy_ex( renderer, &destination, rotation, nullptr, flip );
         }
         return ret;
