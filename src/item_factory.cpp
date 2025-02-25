@@ -30,6 +30,7 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "generic_readers.h"
 #include "init.h"
 #include "input.h"
 #include "item.h"
@@ -49,6 +50,7 @@
 #include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -1965,6 +1967,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
     assign( jo, "valid_mods", slot.valid_mods, strict );
+    optional(jo, slot.was_loaded, "primary_material", slot.primary_material, auto_flags_reader<material_id> {});
 
     if( jo.has_array( "armor_portion_data" ) ) {
         bool dont_add_first = false;

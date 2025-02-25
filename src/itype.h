@@ -271,6 +271,11 @@ struct islot_armor {
      */
     int thickness = 0;
     /**
+     * Primary material for a piece of armor.
+     * Gets better scaling compared to the others
+     */
+    material_id primary_material;
+    /**
      * Damage negated by this armor. Usually calculated from materials+thickness.
      */
     resistances resistance;

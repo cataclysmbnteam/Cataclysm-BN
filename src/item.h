@@ -1688,6 +1688,11 @@ class item : public location_visitable<item>, public game_object<item>
          */
         int get_thickness() const;
         /**
+         * If the armor is valid, returns the primary material
+         * Returns a material id of null for anything causing a nullpointer
+         */
+        material_id get_primary_material() const;
+        /**
          * Returns clothing layer for item.
          */
         layer_level get_layer() const;
