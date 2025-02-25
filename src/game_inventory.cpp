@@ -82,7 +82,7 @@ static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string iuse_TOGGLE_UPS_CHARGING("TOGGLE_UPS_CHARGING");
+static const std::string iuse_TOGGLE_UPS_CHARGING( "TOGGLE_UPS_CHARGING" );
 
 static const flag_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 
