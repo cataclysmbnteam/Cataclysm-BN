@@ -1985,7 +1985,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
     assign( jo, "valid_mods", slot.valid_mods, strict );
-    optional(jo, slot.was_loaded, "primary_material", slot.primary_material, auto_flags_reader<material_id> {});
+    optional(jo, slot.was_loaded, "primary_material", slot.primary_material, material_id("null"));
 
     if( jo.has_array( "armor_portion_data" ) ) {
         bool dont_add_first = false;
