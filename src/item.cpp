@@ -6367,8 +6367,8 @@ int item::get_thickness() const
 material_id item::get_primary_material() const
 {
     const islot_armor *armor = find_armor_data();
-    if (armor == nullptr) {
-        return material_id("null"); // I'm not quite sure how we want to handle pet armor in the first place
+    if( armor == nullptr ) {
+        return material_id( "null" ); // I'm not quite sure how we want to handle pet armor in the first place
     }
     return armor->primary_material;
 }
@@ -6524,22 +6524,23 @@ static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,
     const std::vector<const material_type *> mat_types = it.made_of_types();
     if( !mat_types.empty() ) {
         // multi-material armors
-        if (mat_types.size() > 1){
+        if( mat_types.size() > 1 ) {
             material_id primary_material;
-            if (it.get_primary_material() != material_id("null")) {
+            if( it.get_primary_material() != material_id( "null" ) ) {
                 primary_material = it.get_primary_material(); // Valid primary material manually specified
             } else {
-                primary_material = mat_types[0]->ident(); // Assume that the first in the list is the primary material
+                primary_material =
+                    mat_types[0]->ident(); // Assume that the first in the list is the primary material
             }
             for( const material_type *mat : mat_types ) {
-                if (mat->ident() == primary_material) {
+                if( mat->ident() == primary_material ) {
                     // 75% weight to primary material
-                    resist += (mat->*resist_getter )() * 0.75;
+                    resist += ( mat->*resist_getter )() * 0.75;
                 } else {
                     // 50% weight to non-primary materials
                     resist += ( mat->*resist_getter )() * 0.5;
                 }
-                
+
             }
         } else {
             // No weighting needed if it's monomaterial
@@ -6601,22 +6602,23 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         // but such is the way of the code.
 
         // multi-material armors
-        if (mat_types.size() > 1){
+        if( mat_types.size() > 1 ) {
             material_id primary_material;
-            if (this->get_primary_material() != material_id("null")) {
+            if( this->get_primary_material() != material_id( "null" ) ) {
                 primary_material = this->get_primary_material(); // Valid primary material manually specified
             } else {
-                primary_material = mat_types[0]->ident(); // Assume that the first in the list is the primary material
+                primary_material =
+                    mat_types[0]->ident(); // Assume that the first in the list is the primary material
             }
             for( const material_type *mat : mat_types ) {
-                if (mat->ident() == primary_material) {
+                if( mat->ident() == primary_material ) {
                     // 75% weight to primary material
-                    resist += (mat->acid_resist() ) * 0.75;
+                    resist += ( mat->acid_resist() ) * 0.75;
                 } else {
                     // 50% weight to non-primary materials
                     resist += ( mat->acid_resist() ) * 0.5;
                 }
-                
+
             }
         } else {
             // No weighting needed if it's monomaterial
@@ -6656,22 +6658,23 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         // multi-material armors
-        if (mat_types.size() > 1){
+        if( mat_types.size() > 1 ) {
             material_id primary_material;
-            if (this->get_primary_material() != material_id("null")) {
+            if( this->get_primary_material() != material_id( "null" ) ) {
                 primary_material = this->get_primary_material(); // Valid primary material manually specified
             } else {
-                primary_material = mat_types[0]->ident(); // Assume that the first in the list is the primary material
+                primary_material =
+                    mat_types[0]->ident(); // Assume that the first in the list is the primary material
             }
             for( const material_type *mat : mat_types ) {
-                if (mat->ident() == primary_material) {
+                if( mat->ident() == primary_material ) {
                     // 75% weight to primary material
-                    resist += (mat->fire_resist() ) * 0.75;
+                    resist += ( mat->fire_resist() ) * 0.75;
                 } else {
                     // 50% weight to non-primary materials
                     resist += ( mat->fire_resist() ) * 0.5;
                 }
-                
+
             }
         } else {
             // No weighting needed if it's monomaterial
