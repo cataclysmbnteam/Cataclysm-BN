@@ -38,6 +38,7 @@ struct tile_type {
     bool multitile = false;
     bool rotates = false;
     bool animated = false;
+    bool has_om_transparency = false;
     int height_3d = 0;
     point offset = point_zero;
 
@@ -450,6 +451,16 @@ class cata_tiles
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int overlay_count,
                                   bool as_independent_entity = false );
+        /**
+        * @brief Draw overmap tile, if it's transparent, then draw lower tile first
+        *
+        * @param id String id of the tile to draw.
+        * @param rotation { UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3 }
+        * @param subtile variant of the tile
+        * @param base_z_offset Z offset from given position, used to calculate overlay opacity
+        */
+        void draw_om_tile_recursively( const tripoint_abs_omt omp, const std::string &id, int rotation,
+                                       int subtile, int base_z_offset );
 
         /**
          * @brief draw_sprite_at() without height_3d
@@ -469,7 +480,7 @@ class cata_tiles
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             point, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int &height_3d, int overlay_count );
+            bool apply_night_vision_goggles, int &height_3d, int overlay_alpha );
 
         /**
          * @brief Calls draw_sprite_at() twice each for foreground and background.
