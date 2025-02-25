@@ -804,7 +804,7 @@
     "skill_used": "cooking",
     "skills_required": [ "firstaid", 6 ],
     "difficulty": 10,
-    "time": 120000,
+    "time": "2 h",
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
