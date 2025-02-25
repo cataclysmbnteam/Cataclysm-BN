@@ -999,6 +999,11 @@ class JsonObject
         template<typename T = std::string, typename Res = std::set<T>>
         Res get_tags( const std::string &name ) const;
 
+        // get_tags_vector returns empty vector if none found
+        // This exists for the rare occaison the sorting is an impediment
+        template<typename T = std::string, typename Res = std::vector<T>>
+        Res get_tags_vector( const std::string &name ) const;
+
         // TODO: some sort of get_map(), maybe
 
         // type checking

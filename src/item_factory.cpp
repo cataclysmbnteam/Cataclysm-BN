@@ -2720,7 +2720,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        for( auto &m : jo.get_tags( "material" ) ) {
+        for( auto &m : jo.get_tags_vector( "material" ) ) {
             def.materials.emplace_back( m );
         }
     }
