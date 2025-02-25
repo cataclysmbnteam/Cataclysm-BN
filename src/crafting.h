@@ -7,8 +7,10 @@
 #include <vector>
 
 #include "point.h"
+#include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include <veh_type.h>
 
 class avatar;
 class Character;
@@ -32,6 +34,31 @@ struct bench_location {
     explicit bench_location( bench_type type, tripoint position )
         : type( type ), position( position )
     {}
+    bench_type type;
+    tripoint position;
+};
+
+struct workbench_info_wrapper {
+    // Base multiplier applied for crafting here
+    float multiplier;
+    // Mass/volume allowed before a crafting speed penalty is applied
+    units::mass allowed_mass;
+    units::volume allowed_volume;
+    workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
+        allowed_mass( f_info.allowed_mass ),
+        allowed_volume( f_info.allowed_volume ) {
+    }
+    workbench_info_wrapper( vpslot_workbench v_info ) : multiplier( v_info.multiplier ),
+        allowed_mass( v_info.allowed_mass ),
+        allowed_volume( v_info.allowed_volume ) {
+    }
+};
+
+struct bench_loc {
+    explicit bench_loc( workbench_info_wrapper info, bench_type type, tripoint position )
+        : wb_info( info ), type( type ), position( position ) {
+    }
+    workbench_info_wrapper wb_info;
     bench_type type;
     tripoint position;
 };

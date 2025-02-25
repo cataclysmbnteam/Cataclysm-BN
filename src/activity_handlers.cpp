@@ -733,6 +733,7 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
 
     print_reasons();
     act.moves_left = setup.move_cost;
+    act.moves_total = setup.move_cost;
     // We have a valid target, so preform the full finish function
     // instead of just selecting the next valid target
     act.index = false;
@@ -2794,7 +2795,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                 item::nname( used_tool->ammo_current() ),
                                 used_tool->ammo_required() );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
-                                actor->used_skill.obj().name(), level );
+                                actor->used_skill->name(), level );
         title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
                                 100.0f * chance.first );
         title += string_format( _( "Damage chance: <color_light_blue>%.1f</color>%%" ),
@@ -4222,7 +4223,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
     p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
     p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 90_seconds ) ) );
-    p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
+    p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter->name() );
     act->set_to_null();
 }
 
