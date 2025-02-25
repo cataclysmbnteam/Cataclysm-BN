@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
+#include <vector>
 
 #include "addiction.h"
 #include "ammo.h"
@@ -2720,9 +2721,14 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        for( auto &m : jo.get_tags_vector( "material" ) ) {
+        if(jo.has_array("material")){
+            for( auto &m : jo.get_string_array( "material" ) ) {
             def.materials.emplace_back( m );
+            }
+        } else { // if it doesn't have an array, it's a string
+            def.materials.emplace_back(jo.get_string("material"));
         }
+        
     }
 
     if( jo.has_string( "phase" ) ) {
