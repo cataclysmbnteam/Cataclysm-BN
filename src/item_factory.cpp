@@ -606,10 +606,28 @@ void Item_factory::finalize_pre( itype &obj )
             }
             float resist = 0.0f;
             if( !obj.materials.empty() ) {
-                for( const material_id &mat : obj.materials ) {
-                    resist += resist_getter( *mat );
+                // multi-material armors
+                if (obj.materials.size() > 1){
+                    material_id primary_material;
+                    if (obj.armor->primary_material != material_id("null")) {
+                        primary_material = obj.armor->primary_material; // Valid primary material manually specified
+                    } else {
+                        primary_material = obj.materials[0]->ident(); // Assume that the first in the list is the primary material
+                    }
+                    for( const material_id &mat : obj.materials ) {
+                        if (mat->ident() == primary_material) {
+                            // 75% weight to primary material
+                            resist += resist_getter( *mat ) * 0.75;
+                        } else {
+                            // 50% weight to non-primary materials
+                            resist += resist_getter( *mat ) * 0.5;
+                        }
+                        
+                    }
+                } else {
+                    // No weighting needed if it's monomaterial
+                    resist += resist_getter(*obj.materials[0]);
                 }
-                resist /= obj.materials.size();
             }
 
             obj.armor->resistance.flat[dt] = std::lround( resist * obj.armor->thickness );
