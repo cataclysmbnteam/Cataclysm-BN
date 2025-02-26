@@ -671,7 +671,8 @@
     "verb": "trying to fall asleep",
     "rooted": true,
     "suspendable": false,
-    "complex_moves": { "speed": true }
+    "complex_moves": { "speed": true },
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_OPERATION",
