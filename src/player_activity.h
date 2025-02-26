@@ -19,6 +19,7 @@
 #include "type_id.h"
 #include "safe_reference.h"
 #include "crafting.h"
+#include "npc.h"
 
 class activity_actor;
 class Character;
@@ -38,15 +39,24 @@ struct activity_speed {
         float assist = 1.0f;
         float bench = 1.0f;
         float player_speed = 1.0f;
-        float stats = 1.0f;
         float skills = 1.0f;
         float tools = 1.0f;
         float morale = 1.0f;
         float light = 1.0f;
+        std::vector<std::pair<character_stat, float>> stats = {};
+
+        //Returns total product of all stats
+        inline float stats_total() const {
+            float acc = 1.0f;
+            for( auto &stat : stats ) {
+                acc *= stat.second;
+            }
+            return acc;
+        }
 
         //Returns total product of all factors
         inline float total() const {
-            return 1.0f * assist * bench * player_speed * stats * skills * tools * morale * light ;
+            return 1.0f * assist * bench * player_speed * stats_total() * skills * tools * morale * light ;
         }
 
         //Returns total amonut of moves based on factors
@@ -87,7 +97,8 @@ class player_activity
 
         activity_speed speed = activity_speed();
         std::optional<bench_loc> bench;
-        std::vector<safe_reference<item>> tools;
+        std::vector<safe_reference<item>> tools = {};;
+        std::vector<npc *> assistants = {};;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -225,14 +236,21 @@ class player_activity
         */
 
         void calc_moves( const Character &who );
+        void calc_moves_on_start( const Character &who );
         float calc_bench_factor() const;
         float calc_light_factor( const Character &who ) const;
         float calc_skill_factor( const Character &who ) const;
-        float calc_stats_factor( const Character &who ) const;
+        std::vector<std::pair<character_stat, float>> calc_stats_factors(
+                    const Character &who ) const;
         float calc_tools_factor() const;
         float calc_morale_factor( int morale ) const;
         void find_best_bench( const tripoint &pos );
 
+        static const float get_best_qual_mod( const requirement<quality_id> &q,
+                                              const std::vector<safe_reference<item>> &tools,
+                                              int denom );
+        std::pair<character_stat, float> calc_single_stat( const Character &who,
+                const requirement<character_stat> &stat ) const;
         /**
          * Helper that returns an activity specific progress message.
          */

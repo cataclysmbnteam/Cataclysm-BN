@@ -1934,8 +1934,8 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     } else {
         here.destroy( pos, true );
     }
-    if( !act->targets.empty() ) {
-        item &it = *act->targets.front();
+    if( !act->tools.empty() ) {
+        item &it = *act->tools.front();
         p->consume_charges( it, it.ammo_required() );
     } else {
         debugmsg( "pickaxe activity targets empty" );
@@ -2110,7 +2110,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
     static const std::string iuse_name_string( "firestarter" );
 
-    item &it = *act->targets.front();
+    item &it = *act->tools.front();
     item *used_tool = it.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for starting fire" );
@@ -2139,7 +2139,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 {
     map &here = get_map();
-    item &firestarter = *act->targets.front();
+    item &firestarter = *act->tools.front();
     // Try fueling the fire if we don't already have fuel, OR if the tool needs to look for tinder to work
     if( !here.is_flammable( act->placement ) || ( firestarter.has_flag( flag_REQUIRES_TINDER ) &&
             !here.tinder_at( act->placement ) ) ) {
@@ -2284,7 +2284,7 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // to 10 watt (suspicious claims from some manufacturers) sustained output.
     // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
     // time-based instead of speed based because it's a sustained activity
-    item &hand_crank_item = *act->targets.front();
+    item &hand_crank_item = *act->tools.front();
 
     if( calendar::once_every( 144_seconds ) ) {
         p->mod_fatigue( 1 );
@@ -2307,7 +2307,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     //Using a vibrator takes time (10 minutes), not speed
     //Linear increase in morale during action with a small boost at end
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
-    item &vibrator_item = *act->targets.front();
+    item &vibrator_item = *act->tools.front();
 
     if( p->encumb( body_part_mouth ) >= 30 ) {
         act->moves_left = 0;
@@ -2956,12 +2956,12 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
 void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    if( act->targets.size() != 2 || !act->targets[0] || !act->targets[1] ) {
+    if( act->targets.size() != 1 || !act->tools[0] || !act->targets[0] ) {
         debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
         return;
     }
-    item &tool = *act->targets[0];
-    item &mod = *act->targets[1];
+    item &tool = *act->tools[0];
+    item &mod = *act->targets[0];
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
 
@@ -3118,12 +3118,12 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
-    item &it = *act->targets.front();
+    item &rod = *act->tools.front();
     int fish_chance = 1;
     int survival_skill = p->get_skill_level( skill_survival );
-    if( it.has_flag( flag_FISH_POOR ) ) {
+    if( rod.has_flag( flag_FISH_POOR ) ) {
         survival_skill += dice( 1, 6 );
-    } else if( it.has_flag( flag_FISH_GOOD ) ) {
+    } else if( rod.has_flag( flag_FISH_GOOD ) ) {
         // Much better chances with a good fishing implement.
         survival_skill += dice( 4, 9 );
         survival_skill *= 2;

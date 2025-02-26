@@ -1493,7 +1493,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
         moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
-    p.activity->targets.emplace_back( &it );
+    p.activity->tools.emplace_back( &it );
     p.activity->values.push_back( g->natural_light_level( pos.z ) );
     p.activity->placement = pos;
     // charges to use are handled by the activity
