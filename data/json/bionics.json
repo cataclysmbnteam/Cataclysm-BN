@@ -1079,7 +1079,7 @@
     "id": "bio_jointservo",
     "type": "bionic",
     "name": { "str": "Joint Servo" },
-    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort.  When unpowered, the bionic still improves your speed slightly by balancing your gait and preventing incorrect or excessive movements.",
+    "description": "Your leg joints have been equipped with servomotors that provide power-assisted movement.  They are optimized for running, but walking also requires less effort.  When unpowered, the bionic still improves your speed slightly by balancing your gait and preventing incorrect or excessive movements, even compensating for joint problems.",
     "occupied_bodyparts": [ [ "leg_l", 12 ], [ "leg_r", 12 ] ],
     "canceled_mutations": [ "BADKNEES" ],
     "flags": [ "BIONIC_TOGGLED" ],
