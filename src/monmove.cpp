@@ -241,7 +241,7 @@ bool monster::can_reach_to( const tripoint &p ) const
 {
     map &here = get_map();
     if( p.z > pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
+        if( here.has_flag( TFLAG_RAMP_UP, p + tripoint_below ) ) {
             return true;
         }
         if( !here.has_flag( TFLAG_GOES_UP, pos() ) && !here.has_flag( TFLAG_NO_FLOOR, p ) ) {
@@ -249,6 +249,9 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
+        if( here.has_flag( TFLAG_RAMP_UP, p + tripoint_above ) ) {
+            return true;
+        }
         if( !here.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
             // can't go through the floor
             // you would fall anyway if there was no floor, so no need to check for that here
@@ -987,12 +990,15 @@ void monster::move()
             }
 
             bool via_ramp = false;
+            tripoint ramp_offset = tripoint_zero;
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
                 candidate.z += 1;
+                ramp_offset = tripoint_above;
             } else if( here.has_flag( TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
                 candidate.z -= 1;
+                ramp_offset = tripoint_below;
             }
             tripoint candidate_abs = g->m.getabs( candidate );
 
@@ -1085,7 +1091,7 @@ void monster::move()
                 }
             }
 
-            const float progress = distance_to_target - trig_dist( candidate, destination );
+            const float progress = distance_to_target - trig_dist( candidate + ramp_offset, destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
