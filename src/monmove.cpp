@@ -974,11 +974,11 @@ void monster::move()
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
                 candidate.z += 1;
-                ramp_offset = tripoint_above;
+                ramp_offset = tripoint_below;
             } else if( here.has_flag( TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
                 candidate.z -= 1;
-                ramp_offset = tripoint_below;
+                ramp_offset = tripoint_above;
             }
             tripoint candidate_abs = g->m.getabs( candidate );
 
