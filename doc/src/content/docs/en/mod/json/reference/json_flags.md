@@ -978,7 +978,7 @@ Multiple death functions can be used. Not all combinations make sense.
   from the monster id, then the prefix "broken_" is added. Example: mon_eyebot -> broken_eyebot.
 - `CONFLAGRATION` Explode in a huge fireball.
 - `DARKMAN` Sight returns to normal.
-- `DETONATE` Take them with you.
+- `DETONATE` Self destructs.
 - `DISAPPEAR` Hallucination disappears.
 - `DISINTEGRATE` Falls apart.
 - `EXPLODE` Damaging explosion.
