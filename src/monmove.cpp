@@ -247,7 +247,7 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( TFLAG_RAMP_UP, p + tripoint_above ) ) {
+        if( here.has_flag( TFLAG_RAMP_DOWN, p + tripoint_above ) ) {
             return true;
         }
         if( !here.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
