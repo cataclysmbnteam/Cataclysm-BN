@@ -41,11 +41,6 @@ bool string_id<activity_type>::is_valid() const
     return found != activity_type_all.end();
 }
 
-static const std::unordered_map< std::string, based_on_type > based_on_type_values = {
-    { "time", based_on_type::TIME },
-    { "speed", based_on_type::SPEED },
-    { "neither", based_on_type::NEITHER }
-};
 
 void activity_type::load( const JsonObject &jo )
 {
@@ -56,11 +51,62 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "verb", result.verb_, true );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
+    assign( jo, "special", result.special_, false );
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
     assign( jo, "auto_needs", result.auto_needs, false );
+    assign( jo, "morale_blocked", result.morale_blocked_, false );
+    assign( jo, "verbose_tooltip", result.verbose_tooltip_, false );
+    if( jo.has_member( "complex_moves" ) ) {
+        result.complex_moves_ = true;
+        auto c_moves = jo.get_object( "complex_moves" );
+        result.assistable_ = c_moves.get_bool( "assistable", false );
+        result.bench_affected_ = c_moves.get_bool( "bench", false );
+        result.light_affected_ = c_moves.get_bool( "light", false );
+        result.speed_affected_ = c_moves.get_bool( "speed", false );
+        result.morale_affected_ = c_moves.get_bool( "morale", false );
 
-    result.based_on_ = io::string_to_enum_look_up( based_on_type_values, jo.get_string( "based_on" ) );
+        c_moves.allow_omitted_members();
+        if( c_moves.has_bool( "skills" ) ) {
+            assign( jo, "skills", result.skill_affected_, false );
+        } else if( c_moves.has_array( "skills" ) ) {
+            result.skill_affected_ = true;
+            for( JsonArray skillobj : c_moves.get_array( "skills" ) ) {
+                std::string skill_s = skillobj.get_string( 0 );
+                auto skill = skill_id( skill_s );
+                int mod = skillobj.get_int( 1 );
+                result.skills[skill] = mod;
+            }
+        }
+
+        if( c_moves.has_bool( "qualities" ) ) {
+            assign( jo, "qualities", result.tools_affected_, false );
+        } else if( c_moves.has_array( "qualities" ) ) {
+            result.tools_affected_ = true;
+            for( JsonArray q_obj : c_moves.get_array( "qualities" ) ) {
+                std::string quality_s = q_obj.get_string( 0 );
+                auto quality = quality_id( quality_s );
+                int mod = q_obj.get_int( 1 );
+                result.qualities[quality] = mod;
+            }
+        }
+
+        if( c_moves.has_bool( "stats" ) ) {
+            assign( jo, "stats", result.stats_affected_, false );
+        } else if( c_moves.has_array( "stats" ) ) {
+            result.stats_affected_ = true;
+            for( JsonArray stat_obj : c_moves.get_array( "stats" ) ) {
+                int mod = stat_obj.get_int( 1 );
+                auto stat = io::string_to_enum_fallback( stat_obj.get_string( 0 ), character_stat::DUMMY_STAT );
+                if( stat == character_stat::DUMMY_STAT ) {
+                    debugmsg( "Unknown quality id %s", stat_obj.get_string( 0 ) );
+                } else {
+                    result.stats[stat] = mod;
+                }
+
+            }
+        }
+    }
 
     if( activity_type_all.find( result.id_ ) != activity_type_all.end() ) {
         debugmsg( "Redefinition of %s", result.id_.c_str() );
@@ -80,10 +126,19 @@ void activity_type::check_consistency()
         const bool has_turn_func = activity_handlers::do_turn_functions.find( pair.second.id_ ) !=
                                    activity_handlers::do_turn_functions.end();
 
-        if( pair.second.based_on_ == based_on_type::NEITHER && !( has_turn_func || has_actor ) ) {
-            debugmsg( "%s needs a do_turn function or activity actor if it's not based on time or speed.",
+        if( pair.second.special_ && !( has_turn_func || has_actor ) ) {
+            debugmsg( "%s needs a do_turn function or activity actor if it expects a special behaviour.",
                       pair.second.id_.c_str() );
         }
+        for( auto &skill : pair.second.skills )
+            if( !skill.first.is_valid() ) {
+                debugmsg( "Unknown skill id %s", skill.first.str() );
+            }
+
+        for( auto &quality : pair.second.qualities )
+            if( !quality.first.is_valid() ) {
+                debugmsg( "Unknown quality id %s", quality.first.str() );
+            }
     }
 
     for( const auto &pair : activity_handlers::do_turn_functions ) {
