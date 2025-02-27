@@ -1,6 +1,8 @@
 #include "pathfinding_dijikstra.h"
 
 #include <algorithm>
+#include <functional>
+#include <memory>
 #include <queue>
 
 #include "game.h"
@@ -25,114 +27,109 @@ static const std::vector<tripoint> DIRS_2D = {
     tripoint_south,
 };
 
-static const std::vector<tripoint> DIRS_3D = {
-    tripoint_north_east,
-    tripoint_north_west,
-    tripoint_south_west,
-    tripoint_south_east,
-    tripoint_east,
-    tripoint_north,
-    tripoint_west,
-    tripoint_south,
-    tripoint_below,
-    tripoint_above
-};
-
-void DijikstraPathfinding::scan_for_portals()
+void DijikstraPathfinding::scan_for_z_changes( int z_level )
 {
-    if( DijikstraPathfinding::portals.has_value() ) {
+    assert( -OVERMAP_DEPTH <= z_level && z_level <= OVERMAP_HEIGHT );
+
+    if( DijikstraPathfinding::get_is_z_level_explored( z_level ) ) {
         return;
     }
 
-    std::unordered_map<tripoint, GraphPortal> portals;
     map &map = get_map();
 
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        for( const tripoint &cur : map.points_on_zlevel( z ) ) {
-            const maptile &cur_tile = map.maptile_at( cur );
-            const auto &cur_ter = cur_tile.get_ter_t();
+    for( const tripoint &cur : map.points_on_zlevel( z_level ) ) {
+        const maptile &cur_tile = map.maptile_at( cur );
+        const auto &cur_ter = cur_tile.get_ter_t();
 
-            if( cur_ter.has_flag( TFLAG_GOES_UP ) ) {
-                // Stair bullshitery
-                const tripoint above_us = cur + tripoint_above;
+        if( cur_ter.has_flag( TFLAG_NO_FLOOR ) ) {
+            // Open air
+            const tripoint below_us = cur + tripoint_below;
 
-                if( !map.inbounds( above_us ) ) {
-                    continue;
-                }
-
-                // 10 to maintain parity with legacy A*
-                // closest_points_first will ensure stairs above us directly will be hit first
-                for( const tripoint &maybe_stairs_p : closest_points_first( above_us, 10 ) ) {
-                    const maptile &maybe_stairs_tile = map.maptile_at( maybe_stairs_p );
-                    const auto &maybe_stair_ter = maybe_stairs_tile.get_ter_t();
-
-                    if( maybe_stair_ter.has_flag( TFLAG_GOES_DOWN ) ) {
-                        GraphPortal up_portal = GraphPortal( cur, false );
-                        GraphPortal down_portal = GraphPortal( above_us, false );
-                        portals.emplace( above_us, up_portal );
-                        portals.emplace( cur, down_portal );
-                        break;
-                    }
-                }
-            } else if( cur_ter.has_flag( TFLAG_GOES_DOWN ) ) {
-                // Ditto
-                const tripoint below_us = cur + tripoint_below;
-
-                if( !map.inbounds( below_us ) ) {
-                    continue;
-                }
-
-                // 10 to maintain parity with legacy A*
-                // closest_points_first will ensure stairs below us directly will be hit first
-                for( const tripoint &maybe_stairs_p : closest_points_first( below_us, 10 ) ) {
-                    const maptile &maybe_stairs_tile = map.maptile_at( maybe_stairs_p );
-                    const auto &maybe_stairs_ter = maybe_stairs_tile.get_ter_t();
-
-                    if( maybe_stairs_ter.has_flag( TFLAG_GOES_UP ) ) {
-                        GraphPortal down_portal = GraphPortal( cur, false );
-                        GraphPortal up_portal = GraphPortal( below_us, false );
-                        portals.emplace( below_us, down_portal );
-                        portals.emplace( cur, up_portal );
-                        break;
-                    }
-                }
-            } else if( cur_ter.has_flag( TFLAG_RAMP ) || cur_ter.has_flag( TFLAG_RAMP_UP ) ) {
-                // Ramps are a magic 0-cost portal
-                const tripoint above_us = cur + tripoint_above;
-
-                const maptile &should_be_open_air = map.maptile_at( above_us );
-                const auto should_be_open_air_ter = should_be_open_air.get_ter_t();
-
-                if( !should_be_open_air_ter.has_flag( TFLAG_NO_FLOOR ) ) {
-                    // Blocked ramp
-                    continue;
-                }
-
-                GraphPortal up_portal = GraphPortal( cur, true );
-                portals.emplace( above_us, up_portal );
-            } else if( cur_ter.has_flag( TFLAG_RAMP_DOWN ) ) {
-                // Ramps are a magic 0-cost portal
-                const tripoint above_us = cur + tripoint_above;
-
-                const maptile &should_be_open_air = map.maptile_at( above_us );
-                const auto should_be_open_air_ter = should_be_open_air.get_ter_t();
-
-                if( !should_be_open_air_ter.has_flag( TFLAG_NO_FLOOR ) ) {
-                    // Inaccessible ramp
-                    continue;
-                }
-
-                GraphPortal down_portal = GraphPortal( above_us, true );
-                portals.emplace( cur, down_portal );
+            if( !map.inbounds_z( below_us.z ) ) {
+                continue;
             }
+
+            if( map.impassable_ter_furn( below_us ) ) {
+                continue;
+            };
+            // We won't do vehicle checks for simplicity
+
+            const ZLevelChange going_down = ZLevelChange{ cur, below_us, DijikstraPathfinding::ZLevelChange::Type::OPEN_AIR };
+            const ZLevelChange going_up = ZLevelChange{ below_us, cur, DijikstraPathfinding::ZLevelChange::Type::OPEN_AIR };
+
+            DijikstraPathfinding::get_z_changes( z_level - 1 ).push_back( going_down );
+            DijikstraPathfinding::get_z_changes( z_level ).push_back( going_up );
+        } else if( cur_ter.has_flag( TFLAG_GOES_UP ) ) {
+            // Stair bullshitery
+            const tripoint above_us = cur + tripoint_above;
+
+            if( !map.inbounds_z( above_us.z ) ) {
+                continue;
+            }
+
+            // 10 to maintain parity with legacy A*
+            // closest_points_first will ensure stairs above us directly will be hit first
+            for( const tripoint &maybe_stairs_p : closest_points_first( above_us, 10 ) ) {
+                const maptile &maybe_stairs_tile = map.maptile_at( maybe_stairs_p );
+                const auto &maybe_stair_ter = maybe_stairs_tile.get_ter_t();
+
+                if( maybe_stair_ter.has_flag( TFLAG_GOES_DOWN ) ) {
+                    const ZLevelChange stairs_up = ZLevelChange{ cur, above_us, DijikstraPathfinding::ZLevelChange::Type::STAIRS };
+                    const ZLevelChange stairs_down = ZLevelChange{ above_us, cur, DijikstraPathfinding::ZLevelChange::Type::STAIRS };
+                    DijikstraPathfinding::get_z_changes( z_level ).push_back( stairs_down );
+                    DijikstraPathfinding::get_z_changes( z_level + 1 ).push_back( stairs_up );
+                    break;
+                }
+            }
+        } else if( cur_ter.has_flag( TFLAG_GOES_DOWN ) ) {
+            // Ditto
+            const tripoint below_us = cur + tripoint_below;
+
+            if( !map.inbounds_z( below_us.z ) ) {
+                continue;
+            }
+
+            // 10 to maintain parity with legacy A*
+            // closest_points_first will ensure stairs below us directly will be hit first
+            for( const tripoint &maybe_stairs_p : closest_points_first( below_us, 10 ) ) {
+                const maptile &maybe_stairs_tile = map.maptile_at( maybe_stairs_p );
+                const auto &maybe_stairs_ter = maybe_stairs_tile.get_ter_t();
+
+                if( maybe_stairs_ter.has_flag( TFLAG_GOES_UP ) ) {
+                    const ZLevelChange stairs_down = ZLevelChange{ cur, below_us, DijikstraPathfinding::ZLevelChange::Type::STAIRS };
+                    const ZLevelChange stairs_up = ZLevelChange{ below_us, cur, DijikstraPathfinding::ZLevelChange::Type::STAIRS };
+                    DijikstraPathfinding::get_z_changes( z_level ).push_back( stairs_up );
+                    DijikstraPathfinding::get_z_changes( z_level - 1 ).push_back( stairs_down );
+                    break;
+                }
+            }
+        } else if( cur_ter.has_flag( TFLAG_RAMP_UP ) ) {
+            const tripoint above_us = cur + tripoint_above;
+
+            if( !map.inbounds_z( above_us.z ) ) {
+                continue;
+            }
+
+            const ZLevelChange ramp_up = ZLevelChange{ cur, above_us, DijikstraPathfinding::ZLevelChange::Type::RAMP };
+            DijikstraPathfinding::get_z_changes( z_level + 1 ).push_back( ramp_up );
+        } else if( cur_ter.has_flag( TFLAG_RAMP_DOWN ) ) {
+            const tripoint below_us = cur + tripoint_below;
+
+            if( !map.inbounds_z( below_us.z ) ) {
+                continue;
+            }
+
+            const ZLevelChange ramp_down = ZLevelChange{ cur, below_us, DijikstraPathfinding::ZLevelChange::Type::RAMP };
+            DijikstraPathfinding::get_z_changes( z_level - 1 ).push_back( ramp_down );
         }
     }
 
-    DijikstraPathfinding::portals = std::move( portals );
+    DijikstraPathfinding::get_is_z_level_explored( z_level ) = true;
 }
 
-inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route( const tripoint &from,
-        const RouteSettings &route_settings )
+inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
+            const tripoint &from,
+            const RouteSettings &route_settings )
 {
     map &map = get_map();
 
@@ -140,33 +137,28 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route( con
         return std::nullopt;
     }
 
-    //DijikstraPathfinding::scan_for_portals();
-
-    if( this->expand_up_to( from, route_settings ) != ExpansionOutcome::PATH_FOUND ) {
+    if( this->expand_2d_up_to( from, route_settings ) != ExpansionOutcome::PATH_FOUND ) {
         return std::nullopt;
     }
 
-    bool can_fly = !std::isinf( this->settings.fly_cost );
-
-    const std::vector<tripoint> &dirs = can_fly ? DIRS_3D : DIRS_2D;
+    const float euclidean_distance = rl_dist_exact( from, this->dest );
+    const float chebyshev_distance = std::max( this->dest.x - from.x, this->dest.y - from.y );
+    const float max_f = route_settings.max_path_f_coefficient * euclidean_distance;
+    const float max_s = route_settings.max_path_s_coefficient * chebyshev_distance;
 
     tripoint cur_point = from;
     float cur_cost = this->d_map.get_f_unbiased( cur_point );
+
+    if( !std::isnan( max_f ) && cur_cost > max_f ) {
+        return std::nullopt;
+    }
 
     std::vector<std::pair<float, tripoint>> candidates;
     std::vector<tripoint> result;
     result.push_back( from );
 
     while( cur_point != this->dest ) {
-        // Is there a portal to here? [such as stairs]
-        // if( this->portals.contains( cur_point ) ) {
-        //     const GraphPortal *portal = &this->portals[cur_point];
-        //     if( portal->from_cost < cur_cost ) {
-        //         candidates.emplace_back( portal->from, portal->from_cost );
-        //     }
-        // };
-
-        for( const tripoint &dir : dirs ) {
+        for( const tripoint &dir : DIRS_2D ) {
             const tripoint next_point = cur_point + dir;
             const bool is_in_bounds = map.inbounds( next_point );
             if( !is_in_bounds ) {
@@ -189,7 +181,7 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route( con
         }
 
         // This should not be likely to happen, but...
-        if( candidates.size() == 0 ) {
+        if( candidates.empty() ) {
             return std::nullopt;
         }
 
@@ -204,61 +196,72 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route( con
         cur_cost = selected_pair->first;
 
         candidates.clear();
+
+        // Path is too long in terms of steps taken
+        if( result.size() - 2 > max_s ) {
+            return std::nullopt;
+        }
     }
 
     return result;
 }
 
-static std::unordered_set<tripoint> flood_fill_to_boundary( const tripoint origin,
-        const std::unordered_set<tripoint> &boundary )
+inline bool DijikstraPathfinding::is_in_limited_domain(
+    const tripoint &start, const tripoint &p, const RouteSettings &route_settings )
+{
+    if( route_settings.is_limited_search() ) {
+        bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
+        bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
+
+        return is_in_search_radius && is_in_search_cone;
+    }
+    return true;
+}
+
+inline void DijikstraPathfinding::detect_culled_frontier(
+    const tripoint &start, const RouteSettings &route_settings, std::unordered_set<tripoint> &out )
 {
     map &map = get_map();
 
     std::unordered_set<tripoint> result;
-    result.insert( origin );
-    for( const tripoint p : boundary ) {
-        result.insert( p );
-    }
+    std::vector<tripoint> stack;
+    result.insert( start );
+    stack.push_back( start );
 
-    const tripoint DIRS[4] = {
-        tripoint_east,
-        tripoint_north,
-        tripoint_west,
-        tripoint_south
-    };
+    // This is deliberately a depth-first search in order to fail quickly upon reaching map edge
+    while( !stack.empty() ) {
+        const tripoint p = stack.back();
+        stack.pop_back();
 
-    const int max_its = 2 * boundary.size() * boundary.size();
-
-    std::vector<tripoint> open = {origin};
-
-    int it = 0;
-
-    while( open.size() > 0 ) {
-        const tripoint next = open.back();
-        open.pop_back();
-
-        for( const tripoint &offset : DIRS ) {
-            const tripoint candidate = next + offset;
-            assert( map.inbounds( candidate ) ); // Unclosed boundary assert
-            if( result.contains( candidate ) ) {
+        for( const tripoint &dir : DIRS_2D ) {
+            const tripoint next = p + dir;
+            if( !map.inbounds( next ) ) {
+                // If we reached map edge, this means we're in an unclosed area
+                return;
+            }
+            if( result.contains( next ) ) {
                 continue;
             }
-            it++;
-            open.push_back( candidate );
-            result.insert( candidate );
-        }
-
-        if( it >= max_its ) {
-            // Empty result because we probably had an unclosed boundary
-            return std::unordered_set<tripoint>();
+            // Visited area marks a boundary. This does include tiles outside search area, eventually.
+            if( this->d_map.get_state( next ) != DijikstraMap::State::UNVISITED ) {
+                continue;
+            }
+            if( !this->is_in_limited_domain( start, next, route_settings ) ) {
+                // Failed domain test means we've reached a virtual boundary
+                // Might as well make it INACCESSIBLE as well so we don't need to redo the check again
+                this->d_map.p_at( next ) = NAN;
+                continue;
+            }
+            stack.push_back( next );
+            result.insert( next );
+            break;
         }
     }
-
-    return result;
+    // We have successfully been contained
+    out = std::move( result );
 }
 
-
-inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_up_to(
+inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up_to(
     const tripoint &start,
     const RouteSettings &route_settings )
 {
@@ -274,7 +277,6 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_up_to
     culled_frontier.clear();
     biased_frontier = Frontier();
 
-    const bool can_fly = !std::isinf( this->settings.fly_cost );
     const bool rebuild_needed = !( this->domain == MapDomain::FULL &&
                                    !route_settings.is_limited_search() );
 
@@ -292,13 +294,6 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_up_to
         }
     }
 
-    const std::vector<tripoint> &dirs = can_fly ? DIRS_3D : DIRS_2D;
-
-    const float euclidean_distance = rl_dist_exact( start, this->dest );
-    const float chebyshev_distance = std::max( this->dest.x - start.x, this->dest.y - start.y );
-    const float max_f = route_settings.max_path_f_coefficient * euclidean_distance;
-    const float max_s = route_settings.max_path_s_coefficient * chebyshev_distance;
-
     map &map = get_map();
 
     ExpansionOutcome result = ExpansionOutcome::UNSET;
@@ -309,12 +304,15 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_up_to
     // Limited search requires clearing p-values, too, since they may change
     if( rebuild_needed ) {
         this->d_map.p = DijikstraPathfinding::FULL_INFINITY;
-        this->d_map.s = DijikstraPathfinding::FULL_INT_MAX;
     }
 
     this->d_map.p_at( this->dest ) = 0.0;
     this->d_map.g_at( this->dest ) = 0.0;
-    this->d_map.s_at( this->dest ) = 0;
+
+    if( start == this->dest ) {
+        // Special case where if we already are standing on the destination tile
+        return ExpansionOutcome::PATH_FOUND;
+    }
 
     if( rebuild_needed ) {
         this->unbiased_frontier.clear();
@@ -336,137 +334,25 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_up_to
     const bool care_about_mobs = this->settings.mob_presence_penalty > 0;
     const bool care_about_traps = this->settings.trap_cost > 0;
 
-    while( biased_frontier.size() > 0 ) {
+    while( !biased_frontier.empty() ) {
         // Periodically check if `start` is enclosed
         //   and cull frontier if it is
         // This is useful to prevent exploring the whole map when target is inaccessible
         if( ++it % 200 == 0 ) {
-            // First, see if any point to the of start is processed so we can wall-walk and construct a boundary
-            tripoint p = start;
-            bool found_edge = false;
-            while( map.inbounds( p ) ) {
-                if( this->d_map.get_state( p ) != DijikstraMap::State::UNVISITED ) {
-                    found_edge = true;
-                    break;
-                }
-                p += tripoint_east;
-            }
-            if( !found_edge ) {
-                goto skipped_culling;
-            }
-
-            // https://imageprocessingplace.com/downloads_V3/root_downloads/tutorials/contour_tracing_Abeer_George_Ghuneim/moore.html
-            std::vector<tripoint> polygon_vertices;
-            const tripoint anchor = p;
-
-            static const tripoint cw_offsets[8] = {
-                tripoint_north_west,
-                tripoint_north, // 1
-                tripoint_north_east,
-                tripoint_east, // 3
-                tripoint_south_east,
-                tripoint_south, // 5
-                tripoint_south_west,
-                tripoint_west // 7
-            };
-            const int BACKTRACK_LOOKUP[8] = {5, 7, 7, 1, 1, 3, 3, 5};
-            int i = 0;
-            int j = 0;
-            int si = -1;
-            while( true ) {
-                const tripoint candidate = p + cw_offsets[i];
-                if( !map.inbounds( candidate ) ) {
-                    // If we are touching the boundary of the reality bubble, there isn't a meaningful way to construct an edge, so give up
-                    goto skipped_culling;
-                }
-                if( j >= 9 ) {
-                    // HIGHLY unlikely, but this must be an isolated singular point we just hit
-                    goto skipped_culling;
-                }
-                const bool is_next = this->d_map.get_state( candidate ) !=
-                                     DijikstraMap::State::UNVISITED;
-                if( is_next ) {
-                    polygon_vertices.push_back( candidate );
-                    p = candidate;
-                    i = BACKTRACK_LOOKUP[i];
-                    j = 0;
-
-                    if( candidate == anchor ) {
-                        if( si == -1 ) {
-                            si = i;
-                        } else {
-                            break;
-                        }
-                    }
-                }
-                i++;
-                j++;
-                i %= 8;
-            }
-
-            // Discovered polygon vertices may be repeated multiple times, crossing the same points
-            // So let's normalize things
-            std::vector<tripoint> polygon;
-            std::unordered_set<tripoint> polygon_points;
-
-            for( const tripoint &vertex : polygon_vertices ) {
-                if( polygon_points.contains( vertex ) ) {
-                    continue;
-                }
-                polygon.push_back( vertex );
-                polygon_points.insert( vertex );
-            }
-
-            polygon.push_back( polygon.front() );
-
-            // Calculate winding number now to determine if `start` is inside or outside
-            int winding_number = 0;
-
-            for( size_t i = 0; i < polygon.size() - 1; i++ ) {
-                const int x_min = std::min( polygon[i].x, polygon[i + 1].x );
-                const int x_max = std::max( polygon[i].x, polygon[i + 1].x );
-                const int y_min = std::min( polygon[i].y, polygon[i + 1].y );
-                const int y_max = std::max( polygon[i].y, polygon[i + 1].y );
-                // For the purposes of winding number calc, we pretend that our start.y is offset by a tiny amount>
-                // Which means only the following configurations are considered edge crossings
-                // (L - `left`, R - `right`)
-                // ```
-                // L  |L| L|R |R| R|
-                //  R |R|R | L|L|L |
-                // ```
-                if( start.x <= x_min && start.x < x_max && y_min <= start.y && start.y < y_max ) {
-                    winding_number++;
-                }
-            }
-
-            if( winding_number % 2 == 0 ) {
-                goto skipped_culling;
-            }
-
-            unculled_area = std::move( flood_fill_to_boundary( start, polygon_points ) );
+            this->detect_culled_frontier( start, route_settings, unculled_area );
         }
-skipped_culling:
         const tripoint next_point = biased_frontier.top().second;
         biased_frontier.pop();
 
-        if( unculled_area.size() > 0 && !unculled_area.contains( next_point ) ) {
+        if( !unculled_area.empty() && !unculled_area.contains( next_point ) ) {
             culled_frontier.push_back( next_point );
             continue;
         }
 
         // These might be valid frontier points, but if they are outside of our search area, then we will not go through them this time
-        if( route_settings.is_limited_search() ) {
-            bool is_in_search_radius = route_settings.is_in_search_radius( start, next_point, this->dest );
-            bool is_in_search_cone = route_settings.is_in_search_cone( start, next_point, this->dest );
-            bool is_f_within_limit = this->d_map.get_f_unbiased( next_point ) < max_f;
-            bool is_s_within_limit = this->d_map.s_at( next_point ) < max_s;
-
-            const bool is_valid = is_in_search_radius && is_in_search_cone && is_f_within_limit &&
-                                  is_s_within_limit;
-
-            if( !is_valid ) {
-                continue;
-            };
+        if( !this->is_in_limited_domain( start, next_point, route_settings ) ) {
+            this->d_map.p_at( next_point ) = NAN; // Make the tile inaccessible [used by detect_culled_frontier]
+            continue;
         }
 
         int _;
@@ -474,11 +360,10 @@ skipped_culling:
         next_vehicle = map.veh_at_internal( next_point, _ );
 
         int i = -1;
-        for( const tripoint &dir : dirs ) {
+        for( const tripoint &dir : DIRS_2D ) {
             i++;
 
             bool is_diag = i < 4;
-            bool is_vertical = i >= 8;
 
             // It's cur_point because we're working backwards from destination
             const tripoint cur_point = next_point + dir;
@@ -486,9 +371,6 @@ skipped_culling:
             if( !map.inbounds( cur_point ) ) {
                 continue;
             }
-
-            this->d_map.s_at( cur_point ) = std::min( this->d_map.s_at( cur_point ),
-                                            this->d_map.s_at( next_point ) + 1 );
 
             if( this->d_map.get_state( cur_point ) != DijikstraMap::State::UNVISITED ) {
                 continue;
@@ -506,7 +388,7 @@ skipped_culling:
                 bool is_move_valid = true;
 
                 const bool is_valid_to_step_into = this->settings.test_move_validity ?
-                                                   map.valid_move( cur_point, next_point, true, can_fly, true ) :
+                                                   map.valid_move( cur_point, next_point, true, this->settings.can_fly, true ) :
                                                    true;
                 const bool is_valid_to_step_into_veh =
                     cur_vehicle == nullptr ?
@@ -560,19 +442,17 @@ skipped_culling:
                     cur_g += this->settings.trap_cost * is_trap;
                 }
 
+                const bool is_ledge = map.has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR );
+                if( is_ledge && !this->settings.can_fly ) {
+                    // Close ledges outright for non-fliers
+                    cur_g += INFINITY;
+                }
+
                 const bool is_passable = move_cost != 0;
                 // Calculate the cost for if the tile is impassable
                 if( !is_passable ) {
                     const bool is_climbable = terrain.has_flag( TFLAG_CLIMBABLE );
                     const bool is_door = !!terrain.open || !!furniture.open;
-
-                    const bool is_ledge = map.has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR );
-
-                    const bool does_z_level_change = ( terrain.has_flag( TFLAG_GOES_DOWN ) ||
-                                                       terrain.has_flag( TFLAG_GOES_UP ) ||
-                                                       terrain.has_flag( TFLAG_RAMP ) ||
-                                                       terrain.has_flag( TFLAG_RAMP_UP ) ||
-                                                       terrain.has_flag( TFLAG_RAMP_DOWN ) );
 
                     float secondary_g_delta = NAN;
                     if( cur_vehicle != nullptr ) {
@@ -673,7 +553,7 @@ skipped_culling:
 
     // We will be rebuilding on next search anyway if we had a limited search this time
     if( !route_settings.is_limited_search() ) {
-        while( biased_frontier.size() > 0 ) {
+        while( !biased_frontier.empty() ) {
             const tripoint p = biased_frontier.top().second;
             biased_frontier.pop();
 
@@ -720,16 +600,127 @@ std::vector<tripoint> DijikstraPathfinding::route( const tripoint &from, const t
     RouteSettings route_settings = maybe_route_settings.has_value() ? *maybe_route_settings :
                                    RouteSettings();
 
-    for( DijikstraPathfinding &map : DijikstraPathfinding::maps ) {
-        if( map.dest == to_copy && map.settings == path_settings ) {
-            auto result = map.get_route( from_copy, route_settings );
-            return result.has_value() ? *result : std::vector<tripoint>();
+    if( from_copy.z == to_copy.z ) {
+        // 2D search
+        for( auto &map : DijikstraPathfinding::maps ) {
+            if( map->dest == to_copy && map->settings == path_settings ) {
+                auto result = map->get_route_2d( from_copy, route_settings );
+                return result.has_value() ? *result : std::vector<tripoint>();
+            }
         }
+
+        std::unique_ptr<DijikstraPathfinding> d_map = std::make_unique<DijikstraPathfinding>( to_copy,
+                path_settings );
+        auto result = d_map->get_route_2d( from_copy, route_settings );
+
+        DijikstraPathfinding::maps.push_back( std::move( d_map ) );
+
+        return result.has_value() ? *result : std::vector<tripoint>();
     }
 
-    DijikstraPathfinding::maps.emplace_back( to_copy, path_settings );
 
-    auto result = DijikstraPathfinding::maps.back().get_route( from_copy, route_settings );
+    // 3D search
+    // We won't bother with complicated Z-level paths because that vastly, vastly increases the pathfinding cost
+    // Instead, we will **only** consider taking z_changes that bring us closer to target's Z level.
+    std::vector<tripoint> full_route;
 
-    return result.has_value() ? *result : std::vector<tripoint>();
+    const bool we_go_up = to_copy.z > from_copy.z;
+
+    for( int z = std::min( from_copy.z, to_copy.z ); z <= std::max( from_copy.z, to_copy.z ); z++ ) {
+        DijikstraPathfinding::scan_for_z_changes( z );
+    }
+
+    tripoint cur_to = to_copy;
+    std::unordered_set<tripoint> ramp_excluded;
+
+    while( cur_to.z != from_copy.z ) {
+        std::vector<DijikstraPathfinding::ZLevelChange> candidates;
+        for( const auto &z_change : DijikstraPathfinding::get_z_changes( cur_to.z ) ) {
+            bool can_be_taken = true;
+            switch( z_change.type ) {
+                case DijikstraPathfinding::ZLevelChange::Type::STAIRS:
+                    can_be_taken &= path_settings.can_climb_stairs || path_settings.can_fly;
+                    break;
+                case DijikstraPathfinding::ZLevelChange::Type::OPEN_AIR:
+                    can_be_taken &= path_settings.can_fly;
+                    break;
+                case DijikstraPathfinding::ZLevelChange::Type::RAMP:
+                    // Ramps can be taken by all creatures currently
+                    break;
+            }
+
+            const bool does_not_overshoot = we_go_up ? z_change.from.z >= from_copy.z : z_change.from.z <=
+                                            from_copy.z;
+            const bool leads_closer_to_from = we_go_up ?
+                                              z_change.from.z < cur_to.z :
+                                              z_change.from.z > cur_to.z;
+            if( can_be_taken && does_not_overshoot && leads_closer_to_from ) {
+                candidates.push_back( z_change );
+            }
+        }
+
+        if( candidates.empty() ) {
+            // No trivial Z-level path must exist, so go ahead and return nothing
+            return std::vector<tripoint>();
+        }
+
+        // Now, find the best next Z level
+        int best_next_z_level = to_copy.z;
+        for( const auto &z_change : candidates ) {
+            if( we_go_up ) {
+                best_next_z_level = std::min( z_change.from.z, best_next_z_level );
+            } else {
+                best_next_z_level = std::max( z_change.from.z, best_next_z_level );
+            }
+        }
+
+        float best_distance = INFINITY;
+        tripoint best_from;
+        tripoint best_to;
+        bool best_is_ramp = false;
+
+        for( const auto &z_change : candidates ) {
+            if( z_change.from.z != best_next_z_level ) {
+                continue;
+            }
+            const float dist = rl_dist_exact( cur_to, z_change.to );
+            if( dist < best_distance ) {
+                best_from = z_change.from;
+                best_to = z_change.to;
+                best_distance = dist;
+                best_is_ramp = z_change.type == DijikstraPathfinding::ZLevelChange::Type::RAMP;
+            }
+        }
+        const auto next_route = DijikstraPathfinding::route( cur_to, best_to, path_settings,
+                                route_settings );
+        if( next_route.empty() ) {
+            // No trivial Z-level path must exist, so go ahead and return nothing
+            return std::vector<tripoint>();
+        }
+
+        full_route.insert( full_route.end(), next_route.begin(), next_route.end() );
+        if( best_is_ramp && !path_settings.can_fly ) {
+            // Ramps are special in that we do not step on the last tile unless we're flying
+            ramp_excluded.insert( best_from );
+        }
+        cur_to = best_from;
+    }
+
+    // We arrived to the target Z level
+    const auto last_route = DijikstraPathfinding::route(
+                                cur_to, from_copy,
+                                path_settings, route_settings );
+    if( last_route.empty() ) {
+        // No route at the last Z level
+        return std::vector<tripoint>();
+    }
+    full_route.insert( full_route.end(), last_route.begin(), last_route.end() );
+    std::reverse( full_route.begin(), full_route.end() );
+
+    // Finally, remove ramp tiles
+    std::erase_if( full_route, [&ramp_excluded]( const tripoint & p ) {
+        return ramp_excluded.contains( p );
+    } );
+
+    return full_route;
 };

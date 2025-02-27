@@ -1,10 +1,12 @@
 #include <algorithm>
 #include <array>
-#include <cstring>
 #include <map>
+#include <memory>
 #include <optional>
 #include <queue>
 #include <set>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "cata_utility.h"
@@ -31,7 +33,7 @@ struct PathfindingSettings {
     // Cost of climbing terrain. INFINITY if we can't
     float climb_cost = INFINITY;
 
-    // Cost of moving through a trap tile, INFINITY to avoid completely
+    // Cost of moving through a trap tile, INFINITY to avoid completely. `can_fly == true` overrides this value to be 0.
     float trap_cost = 0.;
 
     // Cost of opening a door. INFINITY to never open doors, otherwise 2 to open and then move in.
@@ -43,12 +45,6 @@ struct PathfindingSettings {
     // Extra penalty for moving through sharp terrain
     float sharp_terrain_cost = 0.;
 
-    // Cost of moving up/down from any position. INFINITY if we can't fly.
-    float fly_cost = INFINITY;
-
-    // Cost of climbing stairs up and down. INFINITY if we can't.
-    float stair_movement_cost = INFINITY;
-
     // If a mob is in the way currently, add this extra cost. INFINITY to always path around other critters.
     float mob_presence_penalty = 0.;
 
@@ -56,6 +52,14 @@ struct PathfindingSettings {
     // This ensures that a returned path will be valid for the caller to take, but this is **ungodly** expensive.
     // So only use if you absolutely MUST be sure a path is move-valid.
     bool test_move_validity = true;
+
+    // Can we fly? This implies we can climb stairs (`can_climb_stairs = true`),
+    //   move over trap tiles freely (`trap_cost = 0`)
+    //   and travel over open air and go up and down from there
+    bool can_fly = false;
+
+    // Can we climb stairs? `can_fly == true` overrides this value to be true.
+    float can_climb_stairs = false;
 
     constexpr bool operator==( const PathfindingSettings &rhs ) const = default;
 };
@@ -72,8 +76,9 @@ struct RouteSettings {
     // To do so, we'll rank up all the tiles based on their cost with first one being the most optimal path and last one being a least optimal path.
     // This coefficient determines how weights are distributed among these paths
     // -1 -- always choose the longest path (why would you though...)
-    //  0 -- choose any tile with no bias
-    //  1 -- always choose the shortest path
+    //  0 -- choose any tile with no bias [very "flowy" pathing]
+    //  1 -- always choose the shortest path [on open terrain, this is just a straight line]
+    // Don't bother setting this too close to 1.0, it will just make the path linear with rare single steps away from the shortest path
     float alpha = 1.0;
 
     unsigned int rank_weighted_rng( const unsigned int n ) const {
@@ -121,7 +126,7 @@ struct RouteSettings {
 
     **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
       Additionally, limiting the search area too much might cause the destination to be inaccessible
-      which is the worst case for pathfinding as it forces a complete scan of the whole search area.
+      which is the worst case for pathfinding as it forces a complete scan of the whole search area though we have workarounds for that.
     Use only if needed.
     */
     float search_radius_coeff = INFINITY;
@@ -157,7 +162,7 @@ struct RouteSettings {
 
     **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
       Additionally, limiting the search area too much might cause the destination to be inaccessible
-      which is the worst case for pathfinding as it forces a complete scan of the whole search area.
+      which is the worst case for pathfinding as it forces a complete scan of the whole search area though we have workarounds for that.
     Use only if needed.
     */
     float search_cone_angle = 180.0;
@@ -188,33 +193,19 @@ struct RouteSettings {
         return -max_cone_angle <= deviation && deviation <= max_cone_angle;
     }
 
-    /* Limit our search area to tiles  chebyshev distance
-
-    **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
-      Additionally, limiting the search area too much might cause the destination to be inaccessible
-      which is the worst case for pathfinding as it forces a complete scan of the whole search area though we have workarounds for that.
-    Use only if needed.
+    /* Limit our search area such that a path will contain steps only up to this coefficient multiplied by chebyshev distance between start and end.
+    In other words, it limits the amount of tiles to step through for any given path.
+    Be aware this does **not** limit search domain, which means if nothing else limits it,
+      the whole map will be explored and a longer in terms of steps, but less expensive of terms of time path will be rejected even if a valid shorter path exists.
     */
     float max_path_s_coefficient = INFINITY;
 
-    /* Limit our search only to paths whose g value is less than this coefficient multiplied by the distance
-    between start and destination
-
-    **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
-      Additionally, limiting the search area too much might cause the destination to be inaccessible
-      which is the worst case for pathfinding as it forces a complete scan of the whole search area though we have workarounds for that.
-    Use only if needed.
-    */
+    /* Limit our search only to paths whose unbiased f-value is less than this coefficient multiplied by the distance between start and end */
     float max_path_f_coefficient = INFINITY;
 
     // Is the search domain limited?
     constexpr bool is_limited_search() const {
-        return !(
-                   this->search_cone_angle >= 180. &&
-                   std::isinf( this->search_radius_coeff ) &&
-                   std::isinf( this->max_path_s_coefficient ) &&
-                   std::isinf( this->max_path_f_coefficient )
-               );
+        return !( this->search_cone_angle >= 180. && std::isinf( this->search_radius_coeff ) );
     }
 };
 
@@ -225,17 +216,16 @@ class DijikstraPathfinding
         typedef std::pair<float, tripoint> val_pair;
         typedef std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> Frontier;
 
-        // Just a few preallocated array to memcpy from
+        // Just a few preallocated array to memcpys from
         inline static std::array<float, DIJIKSTRA_ARRAY_SIZE> FULL_NAN = {0};
         inline static std::array<float, DIJIKSTRA_ARRAY_SIZE> FULL_INFINITY = {0};
-        inline static std::array<int, DIJIKSTRA_ARRAY_SIZE> FULL_INT_MAX = {0};
 
         struct DijikstraMap {
             enum class State {
                 UNVISITED, // Tile has not been expanded to yet
                 ACCESSIBLE, // Tile is reachable
                 IMPASSABLE, // Tile is reachable, but cannot be gone into
-                INACCESSIBLE // Tile is completely unreachable
+                INACCESSIBLE, // Tile is completely unreachable (or outside search area)
             };
             std::array<float, DIJIKSTRA_ARRAY_SIZE> p; // Smallest adjacent DijikstraValue's f
             // Get `p`-value at `p`
@@ -255,12 +245,6 @@ class DijikstraPathfinding
                 return this->h[this->get_flat_index( p )];
             };
 
-            std::array<int, DIJIKSTRA_ARRAY_SIZE> s; // Steps from `dest`ination
-            // Get `s`-value at `p`
-            constexpr int &s_at( const tripoint &p ) {
-                return this->s[this->get_flat_index( p )];
-            };
-
             explicit DijikstraMap() {
                 if( !std::isinf( DijikstraPathfinding::FULL_INFINITY[0] ) ) {
                     DijikstraPathfinding::FULL_INFINITY.fill( INFINITY );
@@ -268,14 +252,10 @@ class DijikstraPathfinding
                 if( !std::isnan( DijikstraPathfinding::FULL_NAN[0] ) ) {
                     DijikstraPathfinding::FULL_NAN.fill( NAN );
                 }
-                if( DijikstraPathfinding::FULL_INT_MAX[0] != INT_MAX ) {
-                    DijikstraPathfinding::FULL_INT_MAX.fill( INT_MAX );
-                }
 
                 this->p = DijikstraPathfinding::FULL_INFINITY;
                 this->g = DijikstraPathfinding::FULL_NAN;
                 this->h = DijikstraPathfinding::FULL_NAN;
-                this->s = DijikstraPathfinding::FULL_INT_MAX;
             }
 
             inline static constexpr size_t get_flat_index( const tripoint &p ) {
@@ -304,14 +284,14 @@ class DijikstraPathfinding
             }
 
             inline constexpr State get_state( const tripoint &p ) {
-                if( std::isnan( this->g_at( p ) ) ) {
+                if( std::isinf( this->p_at( p ) ) ) {
                     return State::UNVISITED;
-                }
-                if( std::isinf( this->g_at( p ) ) ) {
-                    return State::IMPASSABLE;
                 }
                 if( std::isnan( this->p_at( p ) ) ) {
                     return State::INACCESSIBLE;
+                }
+                if( std::isinf( this->g_at( p ) ) ) {
+                    return State::IMPASSABLE;
                 }
                 return State::ACCESSIBLE;
             }
@@ -338,9 +318,19 @@ class DijikstraPathfinding
         // Moves we don't allow to happen
         std::set<std::pair<tripoint, tripoint>> forbidden_moves;
 
+        // Test if `p` is in our limited domain defined by `route_settings` relative to `start`
+        inline bool is_in_limited_domain( const tripoint &start, const tripoint &p,
+                                          const RouteSettings &route_settings );
+
         // See `DijikstraPathfinding::route`
-        inline std::optional<std::vector<tripoint>> get_route( const tripoint &origin,
+        inline std::optional<std::vector<tripoint>> get_route_2d( const tripoint &origin,
                 const RouteSettings &route_settings );
+
+        // Determine if `start` is surrounded by already visited tiles in `d_map` or tiles allowed by `route_settings`
+        //   and if so, clear and fill `out` with all unexplored tiles left.
+        inline void detect_culled_frontier( const tripoint &start,
+                                            const RouteSettings &route_settings,
+                                            std::unordered_set<tripoint> &out );
 
         enum class ExpansionOutcome {
             PATH_FOUND, // Path exists
@@ -350,29 +340,44 @@ class DijikstraPathfinding
             UNSET // Internal use
         };
         // Continue expanding the dijikstra map until we reach `origin` or nothing remains of the frontier. Returns whether a route is present.
-        inline ExpansionOutcome expand_up_to( const tripoint &origin, const RouteSettings &route_settings );
+        inline ExpansionOutcome expand_2d_up_to( const tripoint &origin,
+                const RouteSettings &route_settings );
 
         // Global state: memoized dijikstra maps. Clear every game turn.
-        inline static std::vector<DijikstraPathfinding> maps;
+        inline static std::vector<std::unique_ptr<DijikstraPathfinding>> maps;
 
-        struct GraphPortal {
+        // Location we can change our Z level with
+        struct ZLevelChange {
+            enum class Type {
+                STAIRS,
+                RAMP,
+                OPEN_AIR
+            };
+
             const tripoint from;
-            // Do we get teleported to destination from here upon entry or upon specific action?
-            // false for ramp-like portals, true for stairs-like portals.
-            const bool is_instant;
-            // Time to go through this portal. 0 for ramp-like portals, non-0 for stair-like portals.
-            float from_cost = NAN;
-
-            GraphPortal( const tripoint from, const bool is_instant ) :
-                from( from ), is_instant( is_instant ) {};
+            const tripoint to;
+            const Type type;
         };
 
-        // A directed graph edge representing connected non-adjacent tiles
-        // (multi-level ledges dropping down, stairs, literal distant portals etc).
-        inline static std::optional<std::unordered_map<tripoint, GraphPortal>> portals;
+        // Z-level changes that lead to specified Z level.
+        inline static std::vector<ZLevelChange> z_changes[OVERMAP_LAYERS];
+        // Bit array of already explored Z levels
+        inline static bool z_levels_explored[OVERMAP_LAYERS];
 
-        // Scan the whole map for portal-like jumps if `portals` is nullopt
-        static void scan_for_portals();
+        // Scan Z-level for Z level changes
+        static void scan_for_z_changes( int z_level );
+
+        // Get a reference to ZLevelChange
+        static std::vector<ZLevelChange> &get_z_changes( const int z ) {
+            assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
+
+            return DijikstraPathfinding::z_changes[z + OVERMAP_DEPTH];
+        }
+        static bool &get_is_z_level_explored( const int z ) {
+            assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
+
+            return DijikstraPathfinding::z_levels_explored[z + OVERMAP_DEPTH];
+        }
     public:
         explicit DijikstraPathfinding( const tripoint dest, const PathfindingSettings settings )
             : dest( dest ), settings( settings ) {};
@@ -385,6 +390,9 @@ class DijikstraPathfinding
 
         static void reset() {
             DijikstraPathfinding::maps.clear();
-            DijikstraPathfinding::portals.reset();
+            for( int z_index = 0; z_index < OVERMAP_LAYERS; z_index++ ) {
+                DijikstraPathfinding::z_changes[z_index].clear();
+                DijikstraPathfinding::z_levels_explored[z_index] = false;
+            }
         }
 };
