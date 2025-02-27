@@ -249,7 +249,7 @@ bool monster::can_reach_to( const tripoint &p ) const
             return false;
         }
     } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( TFLAG_RAMP_UP, p + tripoint_above ) ) {
+        if( here.has_flag( TFLAG_RAMP_DOWN, p + tripoint_above ) ) {
             return true;
         }
         if( !here.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
@@ -994,11 +994,11 @@ void monster::move()
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
                 candidate.z += 1;
-                ramp_offset = tripoint_above;
+                ramp_offset = tripoint_below;
             } else if( here.has_flag( TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
                 candidate.z -= 1;
-                ramp_offset = tripoint_below;
+                ramp_offset = tripoint_above;
             }
             tripoint candidate_abs = g->m.getabs( candidate );
 
