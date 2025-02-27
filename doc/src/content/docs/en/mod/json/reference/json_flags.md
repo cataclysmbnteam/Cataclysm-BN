@@ -972,7 +972,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BLOBSPLIT` Creates more blobs.
 - `BOOMER_GLOW` Explodes in glowing vomit.
 - `BOOMER` Explodes in vomit.
-- `BRAINBLOB` Frees blobs.
+- `BRAINBLOB` Spawns 2 blobs.
 - `BROKEN_AMMO` Gives a message about destroying ammo and then calls "BROKEN".
 - `BROKEN` Spawns a broken robot item, its id calculated like this: the prefix "mon_" is removed
   from the monster id, then the prefix "broken_" is added. Example: mon_eyebot -> broken_eyebot.
