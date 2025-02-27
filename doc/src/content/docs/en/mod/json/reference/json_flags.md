@@ -975,7 +975,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - `BRAINBLOB` Frees blobs.
 - `BROKEN_AMMO` Gives a message about destroying ammo and then calls "BROKEN".
 - `BROKEN` Spawns a broken robot item, its id calculated like this: the prefix "mon_" is removed
-  from the monster id, than the prefix "broken_" is added. Example: mon_eyebot -> broken_eyebot.
+  from the monster id, then the prefix "broken_" is added. Example: mon_eyebot -> broken_eyebot.
 - `CONFLAGRATION` Explode in a huge fireball.
 - `DARKMAN` Sight returns to normal.
 - `DETONATE` Take them with you.
