@@ -248,7 +248,7 @@ bool monster::can_reach_to( const tripoint &p ) const
     if( is_going_up ) {
         const bool has_up_ramp = here.has_flag( TFLAG_RAMP_UP, p + tripoint_below );
         const bool has_stairs = here.has_flag( TFLAG_GOES_UP, pos() );
-        const bool can_fly_there = this->flies() && here.has_flag( TFLAG_NO_FLOOR, this->pos() );
+        const bool can_fly_there = this->flies() && here.has_flag( TFLAG_NO_FLOOR, p );
 
         return has_up_ramp || has_stairs || can_fly_there;
     } else {
