@@ -335,6 +335,7 @@ const flag_id flag_URSINE_HONEY( "URSINE_HONEY" );
 const flag_id flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 const flag_id flag_USES_GRID_POWER( "USES_GRID_POWER" );
 const flag_id flag_USE_EAT_VERB( "USE_EAT_VERB" );
+const flag_id flag_USE_PARENT_GUN( "USE_PARENT_GUN" );
 const flag_id flag_USE_PLAYER_ENERGY( "USE_PLAYER_ENERGY" );
 const flag_id flag_USE_UPS( "USE_UPS" );
 const flag_id flag_VARSIZE( "VARSIZE" );

@@ -1621,7 +1621,7 @@ void game::process_voluntary_act_interrupt()
         return;
     }
 
-    bool has_activity = u.activity && u.activity->moves_left > 0;
+    bool has_activity = u.activity && !u.activity->complete();
     bool is_travelling = u.has_destination() && !u.omt_path.empty();
 
     if( !has_activity && !is_travelling ) {
@@ -8534,7 +8534,7 @@ void game::butcher()
                 disassembly_stacks_res.emplace_back( stack.first->typeId(), stack.second );
             }
 
-            for( int i = 0; i < disassembly_stacks_res.size(); i++ ) {
+            for( int i = 0; i < static_cast<int>( disassembly_stacks_res.size() ); i++ ) {
                 const auto dis = recipe_dictionary::get_uncraft( disassembly_stacks_res[i].first );
                 time_to_disassemble_rec += dis.time * disassembly_stacks_res[i].second;
                 //uses default craft materials to estimate recursive disassembly time

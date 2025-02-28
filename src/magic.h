@@ -241,6 +241,14 @@ class spell_type
         // max or min energy cost, based on sign of energy_increment
         int final_energy_cost = 0.0f;
 
+        // base encumbrance value for the spell to be hindered by the caster's
+        // arms. anything over this value will affect the spell.
+        int arm_encumbrance_threshold = 20;
+
+        // base encumerance value for the spell to be hindered by the caster's
+        // legs. anything over this value will affect the spell.
+        int leg_encumbrance_threshold = 20;
+
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
         trait_id spell_class;

@@ -1994,6 +1994,11 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
+    add( "OVERMAP_TRANSPARENCY", graphics, translate_marker( "Overmap air transparent" ),
+         translate_marker( "If true, overmap z levels with air are transparent, lower layers are rendered. Decreases rendering perfomance." ),
+         true, COPT_CURSES_HIDE
+       );
+
     add_empty_line();
 
     add( "PIXEL_MINIMAP", graphics, translate_marker( "Pixel minimap" ),
@@ -3447,6 +3452,7 @@ void options_manager::cache_to_globals()
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
+    overmap_transparency = ::get_option<bool>( "OVERMAP_TRANSPARENCY" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
 
     merge_comestible_mode = ( [] {

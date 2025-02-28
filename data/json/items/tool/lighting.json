@@ -91,7 +91,7 @@
   {
     "id": "candle",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
     "weight": "225 g",
@@ -117,7 +117,7 @@
   {
     "id": "candle_lit",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "candle (lit)", "str_pl": "candles (lit)" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
     "weight": "225 g",
@@ -284,7 +284,7 @@
   {
     "id": "glowstick",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "glowstick" },
     "description": "This is a small blue light glowstick.  Use it to bend the plastic and break the glass cylinder inside to start the reaction.  It will produce a small amount of light.",
     "weight": "29 g",
@@ -308,7 +308,7 @@
   {
     "id": "glowstick_dead",
     "type": "GENERIC",
-    "category": "other",
+    "category": "scrap_plastic",
     "name": { "str": "dead glowstick" },
     "description": "This is a spent glowstick.  It is essentially trash.",
     "weight": "29 g",
@@ -325,7 +325,7 @@
   {
     "id": "glowstick_lit",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "active glowstick" },
     "description": "This is an active glowstick and is producing light.  It will last for a few hours before burning out.",
     "weight": "29 g",
@@ -344,7 +344,7 @@
   {
     "id": "handflare",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "name": { "str": "flare" },
     "description": "This is a slow-burning magnesium flare.  Use it to strike the striker and light it.  It will produce a bright light for about a half hour.",
     "material": [ "plastic", "powder" ],
@@ -662,7 +662,7 @@
   {
     "id": "torch",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "weapon_category": [ "CLUBS" ],
     "name": { "str": "torch", "str_pl": "torches" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  When lit, produces a fair amount of light.  You'll need a lighter or matches to light it.",
@@ -691,7 +691,7 @@
   {
     "id": "torch_lit",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_farming",
     "weapon_category": [ "CLUBS" ],
     "name": { "str": "torch", "str_pl": "torches" },
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  It is burning, producing plenty of light.",

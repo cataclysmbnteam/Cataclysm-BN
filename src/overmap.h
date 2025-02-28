@@ -57,6 +57,9 @@ struct city {
     // location of the city (in overmap terrain coordinates)
     point_om_omt pos;
     int size;
+    int finale_counter;
+    bool finale_placed;
+    bool attempt_finale;
     std::string name;
     city( const point_om_omt &P = point_om_omt(), int S = -1 );
 
@@ -359,6 +362,7 @@ class overmap
         point_abs_om loc;
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
+        std::array<map_layer, OVERMAP_LAYERS> layer_backup;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
 
         // Records the locations where a given overmap special was placed, which
@@ -432,13 +436,14 @@ class overmap
                 const overmap *south, const overmap *west );
 
         // City Building
-        overmap_special_id pick_random_building_to_place( int town_dist ) const;
+        overmap_special_id pick_random_building_to_place( int town_dist, bool attempt_finale_place ) const;
 
         void place_cities();
-        void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town );
+        bool place_building( const tripoint_om_omt &p, om_direction::type dir, city &town,
+                             bool attempt_finale_place );
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
-                                om_direction::type dir, const city &town, std::vector<tripoint_om_omt> &sewers,
+                                om_direction::type dir, city &town, std::vector<tripoint_om_omt> &sewers,
                                 int block_width = 2 );
 
         // Connection laying

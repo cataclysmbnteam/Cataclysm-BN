@@ -61,7 +61,7 @@
   {
     "id": "rx12_injector",
     "type": "TOOL",
-    "category": "tools",
+    "category": "drugs",
     "name": { "str": "RX12 jet injector" },
     "description": "The Rivtech RX12 jet injector is a small pistol-shaped device used to inject advanced fast-healing chemicals through the skin without using a needle.  A label on the side warns against using more than two doses per hour.",
     "weight": "316 g",
@@ -101,7 +101,7 @@
   {
     "id": "smoxygen_tank",
     "type": "TOOL",
-    "category": "tools",
+    "category": "drugs",
     "name": { "str": "emergency oxygen pack" },
     "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "1134 g",
@@ -152,7 +152,7 @@
   {
     "id": "oxygen_tank",
     "type": "TOOL",
-    "category": "tools",
+    "category": "drugs",
     "name": { "str": "oxygen tank" },
     "description": "This is tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "weight": "2268 g",

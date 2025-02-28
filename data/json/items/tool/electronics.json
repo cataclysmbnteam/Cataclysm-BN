@@ -157,7 +157,7 @@
   {
     "id": "e_handcuffs",
     "type": "TOOL",
-    "category": "tools",
+    "category": "other",
     "name": { "str_sp": "electronic handcuffs" },
     "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative…",
     "weight": "2000 g",
@@ -609,7 +609,6 @@
     "color": "magenta",
     "use_action": "NOTE_BIONICS",
     "revert_to": "bionic_scanner",
-    "power_draw": 10000,
     "revert_msg": "The %s shuts down."
   }
 ]

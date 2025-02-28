@@ -2352,7 +2352,7 @@
     "type": "uncraft",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap", 1 ] ], [ [ "wire", 5 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap", 1 ] ], [ [ "wire", 5 ] ], [ [ "spring", 1 ] ] ]
   },
   {
     "result": "umbrella",
@@ -3403,17 +3403,41 @@
     "result": "can_medium_unsealed",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": "30 s",
+    "time": "20 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "can_food_big_unsealed",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": "1 m 45 s",
+    "time": "1 m 15 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
+  },
+  {
+    "result": "can_drink_unsealed",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "3 m",
+    "qualities": [ { "id": "FILE", "level": 1 } ],
+    "components": [ [ [ "chem_aluminium_powder", 5 ] ] ]
+  },
+  {
+    "result": "material_aluminium_ingot",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "1 h",
+    "qualities": [ { "id": "FILE", "level": 1 } ],
+    "components": [ [ [ "chem_aluminium_powder", 135 ] ] ]
+  },
+  {
+    "result": "aluminum_foil",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_aluminium_powder", 2 ] ] ]
   },
   {
     "result": "canister_empty",
@@ -4917,5 +4941,13 @@
     "time": "30 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "plastic_chunk",
+    "type": "uncraft",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_scrap", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

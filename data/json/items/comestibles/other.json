@@ -53,6 +53,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wax",
+    "category": "other",
     "name": { "str_pl": "waxes", "str": "wax" },
     "weight": "97 g",
     "color": "white",
@@ -71,7 +72,7 @@
     "type": "COMESTIBLE",
     "id": "royal_jelly",
     "name": { "str": "royal jelly", "str_pl": "royal jellies" },
-    "category": "food",
+    "category": "drugs",
     "weight": "150 g",
     "color": "white",
     "comestible_type": "FOOD",
@@ -163,6 +164,7 @@
   {
     "type": "COMESTIBLE",
     "id": "yeast",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "yeast" },
     "weight": "11 g",
     "color": "white",
@@ -182,6 +184,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_bone",
+    "category": "other",
     "name": { "str_sp": "bone meal" },
     "weight": "112 g",
     "color": "white",
@@ -199,6 +202,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_bone_tainted",
+    "category": "other",
     "name": { "str_sp": "tainted bone meal" },
     "weight": "112 g",
     "color": "white",
@@ -218,6 +222,7 @@
   {
     "type": "COMESTIBLE",
     "id": "meal_chitin_piece",
+    "category": "other",
     "name": { "str_sp": "chitin powder" },
     "weight": "112 g",
     "color": "brown",
@@ -276,6 +281,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_beans",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "dried beans" },
     "weight": "56 g",
     "color": "light_gray",
@@ -422,6 +428,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_lentils",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "dried lentils" },
     "weight": "132 g",
     "color": "light_gray",
@@ -462,6 +469,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lentils_cooked",
+    "category": "food",
     "name": { "str_sp": "cooked lentils" },
     "weight": "198 g",
     "copy-from": "dry_lentils",
@@ -478,6 +486,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_raw",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "coffee powder" },
     "weight": "14 g",
     "color": "brown",
@@ -554,6 +563,7 @@
   {
     "type": "COMESTIBLE",
     "id": "human_brain_embalmed",
+    "category": "other",
     "name": { "str": "embalmed human brain" },
     "weight": "56 g",
     "color": "pink",
@@ -584,6 +594,7 @@
   {
     "id": "cattlefodder",
     "type": "COMESTIBLE",
+    "category": "tools_farming",
     "comestible_type": "FOOD",
     "name": { "str_sp": "cattle fodder" },
     "description": "What cattle eat.  Mainly made of grass, silage or legumes.  It's perfect for ruminants.",
@@ -607,6 +618,7 @@
   {
     "id": "birdfood",
     "type": "COMESTIBLE",
+    "category": "tools_farming",
     "comestible_type": "FOOD",
     "name": { "str_sp": "bird food" },
     "description": "What birds eat.  Mainly made of seeds, silage or legumes.  It's perfect for small birds.",
@@ -629,6 +641,7 @@
   {
     "id": "dogfood",
     "type": "COMESTIBLE",
+    "category": "tools_farming",
     "comestible_type": "FOOD",
     "name": { "str_sp": "dog food" },
     "description": "This is food for dogs.  It smells strange, but dogs seem to love it.",
@@ -654,6 +667,7 @@
   {
     "id": "catfood",
     "type": "COMESTIBLE",
+    "category": "tools_farming",
     "comestible_type": "FOOD",
     "name": { "str_sp": "cat food" },
     "description": "This is food for cats.  It smells strange, but cats seem to love it.",

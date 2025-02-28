@@ -221,16 +221,26 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "5 m",
-    "charges": 125,
+    "difficulty": 3,
+    "time": "10 m",
+    "charges": 135,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "material_aluminium_ingot", 1 ], [ "can_drink_unsealed", 20 ], [ "aluminum_foil", 75 ] ],
-      [ [ "water", 5 ], [ "water_clean", 5 ] ],
-      [ [ "material_sand", 25 ] ]
-    ]
+    "tools": [ [ [ "angle_grinder", 90 ] ] ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ], [ "can_drink_unsealed", 27 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "from_cans",
+    "result": "chem_aluminium_powder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "25 s",
+    "charges": 5,
+    "autolearn": true,
+    "tools": [ [ [ "angle_grinder", 4 ] ] ],
+    "components": [ [ [ "can_drink_unsealed", 1 ] ] ]
   },
   {
     "type": "recipe",

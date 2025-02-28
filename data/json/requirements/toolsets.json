@@ -45,13 +45,14 @@
     "id": "blacksmithing_standard",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for basic blacksmithing.  Permits working hot metal on stone surfaces.",
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 3 } ],
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
   },
   {
     "id": "blacksmithing_intermediate",
     "type": "requirement",
     "//": "Includes forging resources as well as tools needed for mid-level blacksmithing.  Require a harder work surface for hot-cut chiseling and other uses of chisel quality.",
+    "//2": "TODO: Downgrade chisel requirement to 2 if we ever get a chisel in between stone and steel",
     "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
   },

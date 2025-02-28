@@ -3,8 +3,6 @@
 #include <sstream>
 #include <cstring>
 #include <chrono>
-#include <sqlite3.h>
-#include <zlib.h>
 
 #include "game.h"
 #include "avatar.h"
@@ -16,6 +14,8 @@
 #include "mod_manager.h"
 #include "path_info.h"
 #include "compress.h"
+#include "sqlite3.h"
+#include "zlib.h"
 
 #define dbg(x) DebugLogFL((x),DC::Main)
 static sqlite3 *open_db( const std::string &path )
