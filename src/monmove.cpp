@@ -239,26 +239,27 @@ bool monster::will_move_to( const tripoint &p ) const
 
 bool monster::can_reach_to( const tripoint &p ) const
 {
-    map &here = get_map();
-    if( p.z > pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( TFLAG_RAMP_UP, p + tripoint_below ) ) {
-            return true;
-        }
-        if( !here.has_flag( TFLAG_GOES_UP, pos() ) && !here.has_flag( TFLAG_NO_FLOOR, p ) ) {
-            // can't go through the roof
-            return false;
-        }
-    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( TFLAG_RAMP_DOWN, p + tripoint_above ) ) {
-            return true;
-        }
-        if( !here.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
-            // can't go through the floor
-            // you would fall anyway if there was no floor, so no need to check for that here
-            return false;
-        }
+    const map &here = get_map();
+
+    const bool is_z_move = p.z != pos().z;
+    if( !is_z_move ) {
+        return true;
     }
-    return true;
+
+    const bool is_going_up = p.z > pos().z;
+    if( is_going_up ) {
+        const bool has_up_ramp = here.has_flag( TFLAG_RAMP_UP, p + tripoint_below );
+        const bool has_stairs = here.has_flag( TFLAG_GOES_UP, pos() );
+        const bool can_fly_there = this->flies() && here.has_flag( TFLAG_NO_FLOOR, p );
+
+        return has_up_ramp || has_stairs || can_fly_there;
+    } else {
+        const bool has_down_ramp = here.has_flag( TFLAG_RAMP_DOWN, p + tripoint_above );
+        const bool has_stairs = here.has_flag( TFLAG_GOES_DOWN, pos() );
+        const bool can_fly_there = this->flies() && here.has_flag( TFLAG_NO_FLOOR, this->pos() );
+
+        return has_down_ramp || has_stairs || can_fly_there;
+    }
 }
 
 bool monster::can_squeeze_to( const tripoint &p ) const
