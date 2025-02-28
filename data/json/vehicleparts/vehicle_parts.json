@@ -3318,7 +3318,7 @@
         "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ]
       }
     },
-    "flags": [ "SOLAR_PANEL" ],
+    "flags": [ "SOLAR_PANEL", "FOLDABLE" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
