@@ -591,8 +591,8 @@
     "charges_per_use": 1,
     "ammo": "gasfilter_m",
     "use_action": "GASMASK",
-    "environmental_protection": 7,
-    "environmental_protection_with_filter": 16,
+    "environmental_protection": 1,
+    "environmental_protection_with_filter": 15,
     "valid_mods": [ "steel_padded", "alloy_padded" ],
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
