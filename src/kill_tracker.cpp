@@ -61,11 +61,16 @@ int kill_tracker::npc_kill_count() const
     return npc_kills.size();
 }
 
+int kill_tracker::xp_for_killing( const mtype_id &id ) const
+{
+    return id->difficulty + id->difficulty_base;
+}
+
 int kill_tracker::kill_xp() const
 {
     int ret = 0;
     for( const std::pair<const mtype_id, int> &pair : kills ) {
-        ret += ( pair.first->difficulty + pair.first->difficulty_base ) * pair.second;
+        ret += xp_for_killing( pair.first ) * pair.second;
     }
     ret += npc_kills.size() * 10;
     return ret;

@@ -961,7 +961,7 @@ class read_inventory_preset final: public inventory_selector_preset
                     return _( "martial arts" );
                 }
                 const islot_book &book = get_book( loc );
-                if( !book.skill ) {
+                if( !book.skill || get_option<bool>( "SKILLS_THROUGH_KILLS" ) ) {
                     return std::string();
                 }
 
