@@ -240,8 +240,19 @@ bool monster::can_reach_to( const tripoint &p ) const
 {
     const map &here = get_map();
 
+    // This one needs explanation
+    // Spawn logic calls `can_move_to` which calls this function.
+    // The thing with spawn logic is that it tries to move monsters that are at -500 Z level
+    //   which does not exist, to one of the existing Z levels.
+    // Because there's obviously nothing outside of reality, the Z move fails,
+    //   which leads to spawn logic failing to spawn anything.
+    // This is why this exists.
+    //                                                                   - DeltaEpsilon7787
+    // TODO: FIX THIS DUMB ASS SHIT
+    const bool is_moving_out_of_reality = !here.inbounds_z( pos().z );
+
     const bool is_z_move = p.z != pos().z;
-    if( !is_z_move ) {
+    if( !is_z_move || is_moving_out_of_reality ) {
         return true;
     }
 
