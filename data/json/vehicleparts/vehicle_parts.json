@@ -3295,7 +3295,7 @@
     "item": "pirate_flag",
     "breaks_into": [ { "item": "splinter", "count": [ 1, 5 ] }, { "item": "pirate_flag", "count": 1 } ]
   },
-   {
+  {
     "type": "vehicle_part",
     "id": "foldable_solar_panel",
     "name": { "str": "foldable solar panel" },
