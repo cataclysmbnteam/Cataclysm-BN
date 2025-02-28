@@ -64,7 +64,7 @@
     "material": [ "glass" ],
     "volume": "1 L",
     "bashing": 1,
-    "flags": [ "NO_REPAIR" ],
+    "flags": [ "NO_REPAIR", "FOLDABLE" ],
     "category": "veh_parts",
     "price": "300 USD",
     "price_postapoc": "10 USD"
