@@ -119,11 +119,6 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     return Creature::is_immune_field( fid );
 }
 
-static bool z_is_valid( int z )
-{
-    return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
-}
-
 bool monster::will_move_to( const tripoint &p ) const
 {
     if( g->m.impassable( p ) ) {
@@ -891,11 +886,9 @@ void monster::move()
     bool pathed = false;
     if( try_to_move ) {
         if( !wander() ) {
-            while( !path.empty() && path.front() == pos() ) {
-                path.erase( path.begin() );
-            }
-
-            auto &pf_settings = get_pathfinding_settings();
+            auto pf_settings = get_pathfinding_settings();
+            pf_settings.max_dist = 99999;
+            pf_settings.max_length = 99999;
             bool new_need_path = (
                                      path.empty() ||
                                      rl_dist( pos(), path.front() ) >= 2 ||
@@ -903,17 +896,23 @@ void monster::move()
                                      path.back() != goal
                                  );
 
+            std::vector<tripoint> p2;
+
             if( new_need_path ) {
-                if( pos().z == goal.z ) {
+                if( true || pos().z == goal.z ) {
                     PathfindingSettings path_settings;
                     path_settings.mob_presence_penalty = 8.0;
                     path_settings.bash_strength_val = this->bash_skill() / 10;
                     path_settings.bash_strength_quanta = 10;
 
+                    path_settings.can_climb_stairs = true;
+
                     RouteSettings route_settings;
                     route_settings.h_coeff = 0.9;
                     route_settings.alpha = 0.8;
-                    path = DijikstraPathfinding::route( pos(), goal, path_settings, route_settings );
+                    route_settings.search_cone_angle = 60.0;
+                    p2 = DijikstraPathfinding::route( pos(), goal, path_settings, route_settings );
+                    path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
                 } else if( pf_settings.max_dist >= rl_dist( pos(), goal ) ) {
                     path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
                 }
@@ -921,7 +920,9 @@ void monster::move()
 
             // Try to respect old paths, even if we can't pathfind at the moment
             if( !path.empty() && path.back() == goal ) {
-                path.erase( path.begin() );
+                while( !path.empty() && path.front() == pos() ) {
+                    path.erase( path.begin() );
+                }
                 destination = path.front();
                 moved = true;
                 pathed = true;
