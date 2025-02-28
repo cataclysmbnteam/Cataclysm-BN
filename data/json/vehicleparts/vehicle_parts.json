@@ -3294,5 +3294,36 @@
     "color": "dark_gray",
     "item": "pirate_flag",
     "breaks_into": [ { "item": "splinter", "count": [ 1, 5 ] }, { "item": "pirate_flag", "count": 1 } ]
+  },
+   {
+    "type": "vehicle_part",
+    "id": "foldable_solar_panel",
+    "name": { "str": "foldable solar panel" },
+    "symbol": "#",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A foldable solar panel.  Will very slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.",
+    "epower": 20,
+    "item": "solar_panel",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "50 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ]
+      }
+    },
+    "flags": [ "SOLAR_PANEL" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "solar_cell", "count": [ 1, 2 ] }
+    ]
   }
 ]
