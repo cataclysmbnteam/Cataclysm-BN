@@ -571,7 +571,7 @@
     "id": "helmet_scavenger",
     "type": "ARMOR",
     "name": { "str": "scavenger cowl" },
-    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator, helmet, eye and certain protection.  For dangerous scavenging ventures.",
+    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator, helmet, certain level of glare and eye protection.  For dangerous scavenging ventures.",
     "weight": "695 g",
     "volume": "2500 ml",
     "price": "550 USD",
