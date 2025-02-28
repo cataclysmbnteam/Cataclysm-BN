@@ -36,6 +36,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "pathfinding.h"
+#include "pathfinding_dijikstra.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
@@ -116,11 +117,6 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
-}
-
-static bool z_is_valid( int z )
-{
-    return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
 bool monster::will_move_to( const tripoint &p ) const
@@ -890,19 +886,43 @@ void monster::move()
     bool pathed = false;
     if( try_to_move ) {
         if( !wander() ) {
-            while( !path.empty() && path.front() == pos() ) {
-                path.erase( path.begin() );
-            }
+            auto pf_settings = get_pathfinding_settings();
+            pf_settings.max_dist = 99999;
+            pf_settings.max_length = 99999;
+            bool new_need_path = (
+                                     path.empty() ||
+                                     rl_dist( pos(), path.front() ) >= 2 ||
+                                     g->critter_at( path.front() ) != nullptr ||
+                                     path.back() != goal
+                                 );
 
-            const auto &pf_settings = get_pathfinding_settings();
-            if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
-                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
-                // We need a new path
-                path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+            std::vector<tripoint> p2;
+
+            if( new_need_path ) {
+                if( true || pos().z == goal.z ) {
+                    PathfindingSettings path_settings;
+                    path_settings.mob_presence_penalty = 8.0;
+                    path_settings.bash_strength_val = this->bash_skill() / 10;
+                    path_settings.bash_strength_quanta = 10;
+
+                    path_settings.can_climb_stairs = true;
+
+                    RouteSettings route_settings;
+                    route_settings.h_coeff = 0.9;
+                    route_settings.alpha = 0.8;
+                    route_settings.search_cone_angle = 60.0;
+                    p2 = DijikstraPathfinding::route( pos(), goal, path_settings, route_settings );
+                    path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+                } else if( pf_settings.max_dist >= rl_dist( pos(), goal ) ) {
+                    path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+                }
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
             if( !path.empty() && path.back() == goal ) {
+                while( !path.empty() && path.front() == pos() ) {
+                    path.erase( path.begin() );
+                }
                 destination = path.front();
                 moved = true;
                 pathed = true;
@@ -1475,7 +1495,7 @@ bool monster::bash_at( const tripoint &p )
     bool is_obstructed_by_ter_furn = here.impassable_ter_furn( p );
     bool is_obstructed_by_veh = here.veh_at( p ).obstacle_at_part().has_value();
     bool is_obstructed = is_obstructed_by_ter_furn || is_obstructed_by_veh;
-    bool is_flat_ground = here.has_flag( TFLAG_FLAT, p );
+    bool is_flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
 
     if( !is_obstructed && is_flat_ground ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
