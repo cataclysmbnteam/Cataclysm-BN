@@ -616,7 +616,7 @@
         [ "mask_lsurvivor", 1 ],
         [ "mask_halfsurvivor", 1 ],
         [ "mask_hsurvivor", 1 ]
-      ]
+      ],
       [ [ "glasses_bal", 1 ], [ "goggles_ski", 1 ], [ "survivor_goggles", 1 ] ],
       [ [ "kevlar_plate", 8 ], [ "helmet_army", 1 ] ],
       [ [ "plastic_chunk", 16 ] ]
