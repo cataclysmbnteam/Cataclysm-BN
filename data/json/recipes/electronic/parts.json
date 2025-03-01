@@ -719,7 +719,7 @@
   },
   {
     "type": "recipe",
-    "result": "folding_solar_panel",
+    "result": "foldable_solar_panel",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
