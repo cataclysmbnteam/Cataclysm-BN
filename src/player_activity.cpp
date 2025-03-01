@@ -131,14 +131,14 @@ void player_activity::calc_moves( const Character &who )
     }
 }
 
-void player_activity::calc_moves_on_start( const Character &who )
+void player_activity::calc_moves_on_start( Character &who )
 {
     if( is_bench_affected() ) {
         find_best_bench( who.pos() );
         speed.bench = calc_bench_factor();
     }
     if( is_tools_affected() ) {
-        speed.tools = calc_tools_factor();
+        speed.tools = calc_tools_factor( who );
     }
     if( is_skill_affected() ) {
         speed.skills = calc_skill_factor( who );
@@ -240,7 +240,7 @@ const float player_activity::get_best_qual_mod( const requirement<quality_id> &q
     return refine_factor( q.mod * q_level / ( q_level + 1.75f ), denom );
 }
 
-float player_activity::calc_tools_factor() const
+float player_activity::calc_tools_factor( Character &who ) const
 {
     float f = 1.0f;
     if( actor ) {

@@ -677,7 +677,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                       butcherable_rating::warn_cannibalism );
     }
 
-    setup.move_cost = butcher_time_to_cut( u, inv, corpse_item, action );
+    setup.move_cost = butcher_time_to_cut( corpse_item, action );
 
     return setup;
 }
@@ -732,6 +732,8 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
     }
 
     print_reasons();
+    act.tools.clear();
+    act.calc_moves_on_start( u );
     act.moves_left = setup.move_cost;
     act.moves_total = setup.move_cost;
     // We have a valid target, so preform the full finish function
@@ -744,15 +746,15 @@ static int size_factor_in_time_to_cut( creature_size size )
     switch( size ) {
         // Time (roughly) in turns to cut up the corpse
         case creature_size::tiny:
-            return 150;
+            return 15000;
         case creature_size::small:
-            return 300;
+            return 30000;
         case creature_size::medium:
-            return 450;
+            return 45000;
         case creature_size::large:
-            return 600;
+            return 60000;
         case creature_size::huge:
-            return 1800;
+            return 180000;
         default:
             debugmsg( "Invalid creature_size value for butchering corpse: %d", static_cast<int>( size ) );
             break;
@@ -760,20 +762,10 @@ static int size_factor_in_time_to_cut( creature_size size )
     return 0;
 }
 
-int butcher_time_to_cut( const Character &who, const inventory &inv, const item &corpse_item,
-                         const butcher_type action )
+int butcher_time_to_cut( const item &corpse_item, const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
-    const int initial_factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
-    // Multiplier for dissection, since it uses different "quality units"
-    const int factor = action == DISSECT ? ( initial_factor * 15 ) : initial_factor;
-
     int time_to_cut = size_factor_in_time_to_cut( corpse.size );
-    // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
-    time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 3000 ) {
-        time_to_cut = 3000;
-    }
 
     switch( action ) {
         case BUTCHER:
@@ -797,14 +789,13 @@ int butcher_time_to_cut( const Character &who, const inventory &inv, const item 
             time_to_cut = std::max( 400, time_to_cut / 10 );
             break;
         case DISSECT:
-            time_to_cut *= 7;
+            time_to_cut *= 4;
             break;
     }
 
     if( corpse_item.has_flag( flag_QUARTERED ) ) {
         time_to_cut /= 4;
     }
-    time_to_cut = time_to_cut * ( 10 - character_funcs::get_crafting_helpers( who, 3 ).size() ) / 10;
     return time_to_cut;
 }
 

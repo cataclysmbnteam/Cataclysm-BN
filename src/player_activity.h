@@ -236,13 +236,13 @@ class player_activity
         */
 
         void calc_moves( const Character &who );
-        void calc_moves_on_start( const Character &who );
+        void calc_moves_on_start( Character &who );
         float calc_bench_factor() const;
         float calc_light_factor( const Character &who ) const;
         float calc_skill_factor( const Character &who ) const;
         std::vector<std::pair<character_stat, float>> calc_stats_factors(
                     const Character &who ) const;
-        float calc_tools_factor() const;
+        float calc_tools_factor( Character &who ) const;
         float calc_morale_factor( int morale ) const;
         void find_best_bench( const tripoint &pos );
 
