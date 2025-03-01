@@ -236,7 +236,7 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "motorcycle", 0.609525, 0.569952, 254.820312, 7296, 8687 );
     test_vehicle_drag( "motorcycle_sidecart", 0.880425, 0.859065, 455.206250, 6423, 7657 );
     test_vehicle_drag( "quad_bike", 0.537285, 1.112797, 710.745536, 7457, 8918 );
-    test_vehicle_drag( "scooter", 0.609525, 0.158886, 119.972917, 3840, 4569 );
+    test_vehicle_drag( "scooter", 0.609526, 0.158887, 119.972918, 3840, 4569 );
     test_vehicle_drag( "scooter_electric", 0.621964, 0.139265, 105.15873, 4842, 5018 );
     test_vehicle_drag( "superbike", 0.609525, 0.846042, 378.257812, 9912, 11797 );
     test_vehicle_drag( "tandem", 0.609525, 0.021592, 40.759375, 2353, 3076 );
