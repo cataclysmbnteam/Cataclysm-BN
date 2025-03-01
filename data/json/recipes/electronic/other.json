@@ -8,16 +8,15 @@
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
     "difficulty": 8,
     "time": "50 m",
-    "decomp_learn": 5,
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
     "using": [ [ "soldering_standard", 35 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "byproducts": [ [ "sheet_metal_small", 8 ], [ "scrap", 8 ] ],
+    "byproducts": [ [ "sheet_metal_small", 12 ] ],
     "components": [
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
-      [ [ "solar_panel", 1 ] ],
+      [ [ "foldable_solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "rope_natural_short", 1, "LIST" ] ]

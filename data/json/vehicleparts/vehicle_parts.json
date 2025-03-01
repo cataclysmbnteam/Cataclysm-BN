@@ -3303,6 +3303,7 @@
     "color": "yellow",
     "broken_symbol": "x",
     "broken_color": "yellow",
+    "looks_like": "solar_panel",
     "damage_modifier": 10,
     "durability": 20,
     "description": "A foldable solar panel.  Will very slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.",
