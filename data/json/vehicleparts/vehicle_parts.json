@@ -3316,7 +3316,7 @@
       "repair": {
         "skills": [ [ "electronics", 6 ] ],
         "time": "50 m",
-        "using": [ [ "vehicle_screw", 1 ], [ "foldable_solar_panel", 1 ], [ "soldering_standard", 8 ] ]
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ]
       }
     },
     "flags": [ "SOLAR_PANEL", "FOLDABLE" ],
