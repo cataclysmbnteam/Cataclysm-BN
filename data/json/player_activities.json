@@ -925,7 +925,8 @@
     "complex_moves": {
       "light": true,
       "stats": [["INT"]]
-    }
+    },
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_OPERATION",

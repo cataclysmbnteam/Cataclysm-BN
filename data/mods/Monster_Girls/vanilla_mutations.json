@@ -256,7 +256,7 @@
     "id": "BADBACK",
     "copy-from": "BADBACK",
     "delete": { "category": [ "BIRD", "ELFA" ] },
-    "extend": { "category": [ "HARPY", "ELF" ] }
+    "valid": false
   },
   {
     "type": "mutation",
