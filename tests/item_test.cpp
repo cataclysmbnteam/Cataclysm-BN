@@ -281,6 +281,14 @@ TEST_CASE( "armor_override_damaged", "[item]" )
     CHECK( armor_undamaged.bullet_resist() > armor.bullet_resist() );
 }
 
+TEST_CASE("armor_material_order", "[item]")
+{
+    item iron_primary_armor("test_armor_samurai");
+    item leather_primary_armor("test_armor_plarmor");
+
+    CHECK(iron_primary_armor.cut_resist() > leather_primary_armor.cut_resist());
+}
+
 TEST_CASE( "items_have_default_attack_statblocks", "[item]" )
 {
     item sword( "test_balanced_sword" );
