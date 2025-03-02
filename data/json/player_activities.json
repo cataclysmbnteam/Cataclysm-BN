@@ -22,7 +22,7 @@
     "refuel_fires": true,
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "light": true, "speed": true, "stats": [ [ "INT", 5 ] ], "morale": true },
+    "complex_moves": { "light": true, "speed": true, "stats": [ [ "INT" ] ], "morale": true },
     "verbose_tooltip": false
   },
   {
