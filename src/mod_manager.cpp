@@ -67,7 +67,6 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
         {"misc_additions", translate_marker( "MISC ADDITIONS" )},
         {"buildings", translate_marker( "BUILDINGS MODS" )},
         {"vehicles", translate_marker( "VEHICLE MODS" )},
-        {"ai", translate_marker( "AI MODS ")},
         {"rebalance", translate_marker( "REBALANCING MODS" )},
         {"magical", translate_marker( "MAGICAL MODS" )},
         {"item_exclude", translate_marker( "ITEM EXCLUSION MODS" )},
