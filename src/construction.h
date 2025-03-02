@@ -55,8 +55,8 @@ struct construction {
         ter_str_id pre_terrain;
         furn_str_id pre_furniture;
 
-        // Final object after construction
-        ter_str_id post_terrain;
+        // Final objects after construction
+        std::vector<ter_str_id> post_terrain;
         furn_str_id post_furniture;
 
         // Item group of byproducts created by the construction on success.
@@ -100,6 +100,9 @@ struct construction {
 
         bool is_blacklisted() const;
 
+        // Checks if all terrains are valid
+        bool is_post_terrain_valid() const;
+
         // If true, the requirements are generated during finalization
         bool vehicle_start = false;
 
@@ -108,6 +111,9 @@ struct construction {
 
         // Can be built in the dark
         bool dark_craftable = false;
+
+        // Query the desired post terrain/furniture
+        int query_post_terrain_or_furniture() const;
 
     private:
         std::string get_time_string() const;
