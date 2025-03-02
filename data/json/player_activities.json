@@ -201,7 +201,7 @@
     "verb": "bleeding",
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "skills": [["survival"]] },    
+    "complex_moves": { "skills": [ [ "survival" ] ] },
     "//": "the only way to bleed corpse 'faster' is making a proper cut"
   },
   {
