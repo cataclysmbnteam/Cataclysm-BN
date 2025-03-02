@@ -6534,11 +6534,11 @@ static int phys_resist( const item &it, damage_type dt, clothing_mod_type cmt,
             }
             for( const material_type *mat : mat_types ) {
                 if( mat->ident() == primary_material ) {
-                    // 75% weight to primary material
-                    resist += ( mat->*resist_getter )() * 0.75;
+                    // 60% weight to primary material
+                    resist += ( mat->*resist_getter )() * 0.6;
                 } else {
-                    // 50% weight to non-primary materials
-                    resist += ( mat->*resist_getter )() * 0.5;
+                    // 40% weight to non-primary materials
+                    resist += ( mat->*resist_getter )() * ( 0.4 / ( mat_types.size() - 1 ) );
                 }
 
             }
@@ -6612,11 +6612,11 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
             }
             for( const material_type *mat : mat_types ) {
                 if( mat->ident() == primary_material ) {
-                    // 75% weight to primary material
-                    resist += ( mat->acid_resist() ) * 0.75;
+                    // 60% weight to primary material
+                    resist += ( mat->acid_resist() ) * 0.6;
                 } else {
-                    // 50% weight to non-primary materials
-                    resist += ( mat->acid_resist() ) * 0.5;
+                    // 40% weight to non-primary materials
+                    resist += ( mat->acid_resist() ) * ( 0.4 / ( mat_types.size() - 1 ) );
                 }
 
             }
@@ -6668,11 +6668,11 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
             }
             for( const material_type *mat : mat_types ) {
                 if( mat->ident() == primary_material ) {
-                    // 75% weight to primary material
-                    resist += ( mat->fire_resist() ) * 0.75;
+                    // 60% weight to primary material
+                    resist += ( mat->fire_resist() ) * 0.6;
                 } else {
-                    // 50% weight to non-primary materials
-                    resist += ( mat->fire_resist() ) * 0.5;
+                    // 40% weight to non-primary materials
+                    resist += ( mat->fire_resist() ) * ( 0.4 / ( mat_types.size() - 1 ) );
                 }
 
             }

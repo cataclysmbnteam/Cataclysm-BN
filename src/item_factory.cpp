@@ -618,11 +618,11 @@ void Item_factory::finalize_pre( itype &obj )
                     }
                     for( const material_id &mat : obj.materials ) {
                         if( mat->ident() == primary_material ) {
-                            // 75% weight to primary material
-                            resist += resist_getter( *mat ) * 0.75;
+                            // 60% weight to primary material
+                            resist += resist_getter( *mat ) * 0.6;
                         } else {
-                            // 50% weight to non-primary materials
-                            resist += resist_getter( *mat ) * 0.5;
+                            // 40% weight to non-primary materials
+                            resist += resist_getter( *mat ) * ( 0.4 / ( obj.materials.size() -1 ) );
                         }
 
                     }

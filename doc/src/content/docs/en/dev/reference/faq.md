@@ -92,7 +92,7 @@ constants in the example above.
 4. The above steps are repeated for each layer of armor on the body part.
 5. Armor protects against bash and cut damage. These are determined by multiplying the armor
    thickness by the material bash/cut resistance factor respectively, given in `materials.json`.
-6. If the armor is made from multiple material types, then the "primary material" (either defined in the relevant JSON field or just assumed to be the first in the list of materials) gets its values multiplied by `3/4`, whereas the other materials get theirs multiplied by `1/2`, and then the values are totaled
+6. If the armor is made from multiple material types, then the "primary material" (either defined in the relevant JSON field or just assumed to be the first in the list of materials) gets its values multiplied by `60%`, whereas the other materials get theirs multiplied by `40% / number of secondary materials`, and then the values are totaled
 7. Materials resistance factors are given relative to `PAPER` as a material (this probably needs
    some fine-tuning for balance).
 
