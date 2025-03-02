@@ -266,7 +266,7 @@ float player_activity::calc_tools_factor( Character &who ) const
 
 float player_activity::calc_morale_factor( int /* morale */ ) const
 {
-        return 1.0f;
+    return 1.0f;
 }
 
 static std::string craft_progress_message( const avatar &u, const player_activity &act )
