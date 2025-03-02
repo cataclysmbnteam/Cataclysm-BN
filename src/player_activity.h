@@ -237,17 +237,25 @@ class player_activity
 
         void calc_moves( const Character &who );
         void calc_moves_on_start( Character &who );
-        float calc_bench_factor() const;
+        void calc_moves_on_start( Character &who, const recipe &rec );
+        float calc_bench_factor( const Character &who ) const;
         float calc_light_factor( const Character &who ) const;
-        float calc_skill_factor( const Character &who ) const;
-        std::vector<std::pair<character_stat, float>> calc_stats_factors(
-                    const Character &who ) const;
-        float calc_tools_factor( Character &who ) const;
+        float calc_skill_factor( const Character &who ) const {
+            return calc_skill_factor( who, type->skills );
+        };
+        float calc_skill_factor( const Character &who,
+                                 const std::vector<requirement<skill_id>> &skill_req ) const;
+        std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;
+        float calc_tools_factor( Character &who ) const {
+            return calc_tools_factor( who, type->qualities );
+        };
+        float calc_tools_factor( Character &who,
+                                 const std::vector<requirement<quality_id>> &quality_reqs ) const;
         float calc_morale_factor( int morale ) const;
         void find_best_bench( const tripoint &pos );
 
         static float get_best_qual_mod( const requirement<quality_id> &q,
-                                        const std::vector<safe_reference<item>> &tools );
+                                        const inventory &inv );
         std::pair<character_stat, float> calc_single_stat( const Character &who,
                 const requirement<character_stat> &stat ) const;
         /**

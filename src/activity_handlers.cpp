@@ -770,13 +770,12 @@ int butcher_time_to_cut( const item &corpse_item, const butcher_type action )
     switch( action ) {
         case BUTCHER:
         case BLEED:
-            time_to_cut /= 2;
             break;
         case BUTCHER_FULL:
             if( !corpse_item.has_flag( flag_FIELD_DRESS ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) {
-                time_to_cut *= 3;
+                time_to_cut *= 6;
             } else {
-                time_to_cut *= 2;
+                time_to_cut *= 4;
             }
             break;
         case F_DRESS:

@@ -99,13 +99,17 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-inline float refine_factor( float speed, int denom = 1, float min = -75.0f, float max = 100.0f )
+inline float limit_factor( float factor, float min = 0.25f, float max = 2.0f )
 {
     //constrain speed between min and max
-    speed = std::min( max, speed );
-    speed = std::max( min, speed );
+    factor = std::min( max, factor );
+    factor = std::max( min, factor );
+    return factor;
+}
 
-    //zero-check for division
+inline float refine_factor( float speed, int denom = 1, float min = -75.0f, float max = 100.0f )
+{
+    speed = limit_factor( speed, min, max );
     denom = denom < 1.0f
             ? 1.0f
             : denom;
@@ -135,7 +139,7 @@ void player_activity::calc_moves_on_start( Character &who )
 {
     if( is_bench_affected() ) {
         find_best_bench( who.pos() );
-        speed.bench = calc_bench_factor();
+        speed.bench = calc_bench_factor( who );
     }
     if( is_tools_affected() ) {
         speed.tools = calc_tools_factor( who );
@@ -149,9 +153,45 @@ void player_activity::calc_moves_on_start( Character &who )
     calc_moves( who );
 }
 
-float player_activity::calc_bench_factor() const
+void player_activity::calc_moves_on_start( Character &who, const recipe &rec )
 {
-    return 1.0f;
+    if( is_bench_affected() ) {
+        find_best_bench( who.pos() );
+        speed.bench = calc_bench_factor( who );
+    }
+    if( is_tools_affected() ) {
+        std::vector<requirement<quality_id>> req;
+        for( auto &qual : rec.simple_requirements().get_qualities() ) {
+            req.emplace_back( qual.front().type, 10, qual.front().level );
+        }
+
+        speed.tools = calc_tools_factor( who, req );
+    }
+    if( is_skill_affected() ) {
+        std::vector<requirement<skill_id>> req;
+        for( auto &skill : rec.required_skills ) {
+            req.emplace_back( skill.first, 0, skill.second );
+        }
+
+        speed.skills = calc_skill_factor( who, req );
+    }
+    if( is_assistable() ) {
+        assistants = character_funcs::get_crafting_helpers( who );
+    }
+    calc_moves( who );
+}
+
+float player_activity::calc_bench_factor( const Character &who ) const
+{
+    float ac_f = actor ? actor->calc_bench_factor( who, bench ) : -1.0f;
+    //Any factor above 0 is valid, else - use default calc
+    if( ac_f > 0 ) {
+        return ac_f;
+    }
+
+    return bench.has_value()
+           ? bench->wb_info.multiplier
+           : 1.0f;
 }
 
 float player_activity::calc_light_factor( const Character &who ) const
@@ -166,32 +206,31 @@ float player_activity::calc_light_factor( const Character &who ) const
             character_funcs::fine_detail_vision_mod( who ) -
             character_funcs::FINE_VISION_THRESHOLD
         ) / 7.0f;
-    return refine_factor( 1.0f - darkness, 1, 0.0f, 1.0f );
+    return limit_factor( 1.0f - darkness, 0.0f );
 }
 
-float player_activity::calc_skill_factor( const Character &who ) const
+
+float player_activity::calc_skill_factor( const Character &who,
+        const std::vector<requirement<skill_id>> &skill_req ) const
 {
-    float f = 1.0f;
-    if( actor ) {
-        f = actor->calc_skill_factor( who, type->skills );
-        return f == -1.0f
-               ? 1.0f
-               : f;
+    float ac_f = actor ? actor->calc_skill_factor( who, skill_req ) : -1.0f;
+    //Any factor above 0 is valid, else - use default calc
+    if( ac_f > 0 ) {
+        return ac_f;
     }
 
-
+    float f = 1.0f;
     std::vector<float> factors;
-    for( const auto &skill : type->skills ) {
-        int who_eff_skill = who.get_skill_level(skill.req) - skill.threshold;
+    for( const auto &skill : skill_req ) {
+        int who_eff_skill = who.get_skill_level( skill.req ) - skill.threshold;
         float bonus = 0;
-        if(who_eff_skill != 0)
-        {
-            bonus = 0.02f * std::pow(who_eff_skill, 3)
-                  -  0.5f * std::pow(who_eff_skill, 2) 
-                  +  6.0f * who_eff_skill + skill.mod;
+        if( who_eff_skill != 0 ) {
+            bonus = 0.02f * std::pow( who_eff_skill, 3 )
+                    -  0.5f * std::pow( who_eff_skill, 2 )
+                    +  6.0f * who_eff_skill + skill.mod;
         }
 
-        factors.push_back(bonus);
+        factors.push_back( bonus );
     }
     std::sort( factors.begin(), factors.end(), std::greater<>() );
 
@@ -200,7 +239,7 @@ float player_activity::calc_skill_factor( const Character &who ) const
         f += refine_factor( factor, ++denom * 0.8f ) ;
     }
 
-    return refine_factor( f, 1, 0.25f, 2.0f );
+    return limit_factor( f );
 }
 
 std::pair<character_stat, float> player_activity::calc_single_stat( const Character &who,
@@ -231,12 +270,12 @@ std::pair<character_stat, float> player_activity::calc_single_stat( const Charac
 std::vector<std::pair<character_stat, float>> player_activity::calc_stats_factors(
             const Character &who ) const
 {
-    std::vector<std::pair<character_stat, float>> f;
-    if( actor ) {
-        f = actor->calc_stats_factors( who, type->stats );
-        if( !f.empty() ) {
-            return f;
-        }
+    auto f = actor
+             ? actor->calc_stats_factors( who, type->stats )
+             : std::vector<std::pair<character_stat, float>> {};
+
+    if( !f.empty() ) {
+        return f;
     }
 
     for( auto &stat : type->stats ) {
@@ -246,20 +285,22 @@ std::vector<std::pair<character_stat, float>> player_activity::calc_stats_factor
 }
 
 float player_activity::get_best_qual_mod( const requirement<quality_id> &q,
-        const std::vector<safe_reference<item>> &tools )
+        const inventory &inv )
 {
     int q_level = 0;
-    for( auto &tool : tools ) {
-        if( int new_q = tool->get_quality( q.req ) > q_level ) {
+    inv.visit_items( [&q, &q_level]( const item * itm ) {
+        int new_q = itm->get_quality( q.req );
+        if( new_q > q_level ) {
             q_level = new_q;
         }
-    }
+        return VisitResponse::NEXT;
+    } );
     q_level = q_level - q.threshold;
 
     if( q.req == qual_CUT_FINE ) {
-        float cut_fine_f =  2.0f * std::pow(q_level, 3)
-                         - 10.0f * std::pow(q_level, 2)
-                         + 32.0f * q_level + q.mod ;
+        float cut_fine_f =  2.0f * std::pow( q_level, 3 )
+                            - 10.0f * std::pow( q_level, 2 )
+                            + 32.0f * q_level + q.mod ;
         return cut_fine_f;
     }
 
@@ -274,18 +315,20 @@ float player_activity::get_best_qual_mod( const requirement<quality_id> &q,
     return  q.mod * q_level / ( q_level + 1.75f );
 }
 
-float player_activity::calc_tools_factor( Character &who ) const
+float player_activity::calc_tools_factor( Character &who,
+        const std::vector<requirement<quality_id>> &quality_reqs ) const
 {
-    float f = 1.0f;
-    if( actor ) {
-        f = actor->calc_tools_factor( type->qualities, tools );
-        return f == -1.f
-               ? 1.0f
-               : f;
+    auto &inv = who.crafting_inventory();
+    float ac_f = actor ? actor->calc_tools_factor( quality_reqs, inv ) : -1.0f;
+    //Any factor above 0 is valid, else - use default calc
+    if( ac_f > 0 ) {
+        return ac_f;
     }
+
+    float f = 1;
     std::vector<float> factors;
-    for( const auto &q : type->qualities ) {
-        factors.push_back( get_best_qual_mod( q, tools ) );
+    for( const auto &q : quality_reqs ) {
+        factors.push_back( get_best_qual_mod( q, inv ) );
     }
     std::sort( factors.begin(), factors.end(), std::greater<>() );
 
@@ -294,7 +337,7 @@ float player_activity::calc_tools_factor( Character &who ) const
         f += refine_factor( factor, ++denom * 0.8f ) ;
     }
 
-    return refine_factor( f, 1, 0.25f, 2.0f );
+    return limit_factor( f );
 }
 
 float player_activity::calc_morale_factor( int morale ) const
@@ -307,7 +350,7 @@ float player_activity::calc_morale_factor( int morale ) const
 
     //1% per 4 extra morale
     if( morale > 20 ) {
-        return 0.92f + morale / 250.0f;
+        return 0.95f + morale / 400.0f;
     }
     // 1% per 1 insuff morale
     else if( morale < -20 ) {
@@ -460,19 +503,17 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
                                                 get_verb().translated() );
         mults_desc += format_spd( speed.total(), "Total", 0, true );
         mults_desc += format_spd( speed.assist, "Assistants", 1 );
-        mults_desc += format_spd( speed.tools, "Tools", 1 );
-        mults_desc += format_spd( speed.bench, "Workbench", 1 );
         mults_desc += format_spd( speed.light, "Light", 1 );
         mults_desc += format_spd( speed.morale, "Morale", 1 );
         mults_desc += format_spd( speed.player_speed, "Speed", 1 );
         mults_desc += format_spd( speed.skills, "Skills", 1 );
-        mults_desc += format_spd( speed.stats_total(), "Skills", 1 );
+        mults_desc += format_spd( speed.tools, "Tools", 1 );
+        mults_desc += format_spd( speed.bench, "Workbench", 1 );
+        mults_desc += format_spd( speed.stats_total(), "Stats", 1 );
 
         for( auto &stat : speed.stats ) {
             mults_desc += format_spd( stat.second, get_stat_name( stat.first ), 2 );
         }
-
-        mults_desc += format_spd( speed.tools, "Tools", 1 );
 
 
 
@@ -592,10 +633,10 @@ void player_activity::find_best_bench( const tripoint &pos )
 
 void player_activity::start_or_resume( Character &who, bool resuming )
 {
+    calc_moves_on_start( who );
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
-    calc_moves_on_start( who );
     if( rooted() ) {
         who.rooted_message();
     }

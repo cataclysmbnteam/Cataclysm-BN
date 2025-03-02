@@ -13,6 +13,8 @@
 #include "type_id.h"
 #include "safe_reference.h"
 #include "item.h"
+#include "inventory.h"
+#include "crafting.h"
 
 class avatar;
 class Character;
@@ -247,6 +249,16 @@ class activity_actor
         }
 
         /*
+         * actor specific formula for speed factor based on workbench
+         * anything above 0 is a valid number
+         * anything below 0 is invalid, promting to use default formula
+        */
+        virtual float calc_bench_factor( const Character & /*who*/,
+                                         const std::optional<bench_loc> &/*bench*/ ) const {
+            return -1.0f;
+        }
+
+        /*
          * actor specific formula for speed factor based on skills
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
@@ -262,7 +274,7 @@ class activity_actor
          * anything below 0 is invalid, promting to use default formula
         */
         virtual float calc_tools_factor( const std::vector<requirement<quality_id>> &/*qualities*/,
-                                         const std::vector<safe_reference<item>> &/*tools*/ ) const {
+                                         const inventory &/*inv*/ ) const {
             return -1.0f;
         }
 

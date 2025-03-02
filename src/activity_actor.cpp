@@ -665,6 +665,9 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     for( auto target : targets ) {
         process_target( act, target );
     }
+    const item &itm = *targets.front().loc;
+    const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
+    act.calc_moves_on_start( who, dis );
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -680,6 +683,10 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         progress.pop();
         if( !progress.empty() && !try_start_single( act, who ) ) {
             act.set_to_null();
+        } else {
+            const item &itm = *target.loc;
+            const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
+            act.calc_moves_on_start( who, dis );
         }
     }
 }
@@ -687,7 +694,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 void disassemble_activity_actor::finish( player_activity &act, Character &who )
 {
     if( try_start_single( act, who ) ) {
-        debugmsg( "disassemble_activity_actor call finish function while able to start new dissasembly" );
+        debugmsg( "disassemble_activity_actor call finish function while able to start new disassembly" );
     }
     // Make a copy to avoid use-after-free
     bool recurse = this->recursive;
@@ -697,6 +704,15 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
     if( recurse ) {
         crafting::disassemble_all( *who.as_avatar(), recurse );
     }
+}
+
+float disassemble_activity_actor::calc_bench_factor( const Character &who,
+        const std::optional<bench_loc> &bench ) const
+{
+    return bench.has_value()
+           ? crafting::best_bench_here( *targets.front().loc, bench->position, true ).second
+           : crafting::best_bench_here( *targets.front().loc, who.pos(), true ).second;
+
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const

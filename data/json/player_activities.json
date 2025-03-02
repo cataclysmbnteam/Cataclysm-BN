@@ -160,7 +160,7 @@
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "DEX" ] ],
-      "qualities": true
+      "qualities": [ [ "BUTCHER" ] ]
     }
   },
   {
@@ -176,7 +176,7 @@
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "DEX" ] ],
-      "qualities": true
+      "qualities": [ [ "BUTCHER" ] ]
     }
   },
   {
@@ -192,7 +192,7 @@
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "DEX" ] ],
-      "qualities": true
+      "qualities": [ [ "BUTCHER" ] ]
     }
   },
   {
@@ -217,7 +217,7 @@
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "DEX" ] ],
-      "qualities": true
+      "qualities": [ [ "BUTCHER" ] ]
     }
   },
   {
@@ -232,7 +232,7 @@
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "STR" ] ],
-      "qualities": true
+      "qualities": [ [ "BUTCHER" ] ]
     }
   },
   {
@@ -241,7 +241,8 @@
     "verb": "dismembering",
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "speed": true, "skills": [ [ "survival" ] ], "stats": [ [ "STR" ] ], "qualities": true }
+    "complex_moves": { "assistable": true, "speed": true, "skills": [ [ "survival" ] ], "stats": [ [ "STR" ] ], 
+    "qualities": [ [ "BUTCHER" ] ] }
   },
   {
     "id": "ACT_DISSECT",

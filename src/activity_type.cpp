@@ -68,7 +68,7 @@ void activity_type::load( const JsonObject &jo )
 
         c_moves.allow_omitted_members();
         if( c_moves.has_bool( "skills" ) ) {
-            assign( jo, "skills", result.skill_affected_, false );
+            assign( c_moves, "skills", result.skill_affected_, false );
         } else if( c_moves.has_array( "skills" ) ) {
             result.skill_affected_ = true;
             for( JsonArray skillobj : c_moves.get_array( "skills" ) ) {
@@ -89,7 +89,7 @@ void activity_type::load( const JsonObject &jo )
         }
 
         if( c_moves.has_bool( "qualities" ) ) {
-            assign( jo, "qualities", result.tools_affected_, false );
+            assign( c_moves, "qualities", result.tools_affected_, false );
         } else if( c_moves.has_array( "qualities" ) ) {
             result.tools_affected_ = true;
             for( JsonArray q_obj : c_moves.get_array( "qualities" ) ) {
@@ -110,7 +110,7 @@ void activity_type::load( const JsonObject &jo )
         }
 
         if( c_moves.has_bool( "stats" ) ) {
-            assign( jo, "stats", result.stats_affected_, false );
+            assign( c_moves, "stats", result.stats_affected_, false );
         } else if( c_moves.has_array( "stats" ) ) {
             result.stats_affected_ = true;
             for( JsonArray stat_obj : c_moves.get_array( "stats" ) ) {
