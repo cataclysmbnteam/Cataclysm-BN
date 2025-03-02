@@ -4519,7 +4519,7 @@ int get_speedydex_bonus( const int dex )
     static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
     static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
     // this is the number to be multiplied by the increment
-    const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
+    const int modified_dex = dex - get_option<int>( speedydex_min_dex );
     return modified_dex * get_option<int>( speedydex_dex_speed );
 }
 
