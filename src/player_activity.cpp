@@ -99,7 +99,7 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-float refine_factor( float speed, int denom = 1, float min = -75.0f, float max = 100.0f )
+inline float refine_factor( float speed, int denom = 1, float min = -75.0f, float max = 100.0f )
 {
     //constrain speed between min and max
     speed = std::min( max, speed );
@@ -154,20 +154,53 @@ float player_activity::calc_bench_factor() const
     return 1.0f;
 }
 
-float player_activity::calc_light_factor( const Character &/* who */ ) const
+float player_activity::calc_light_factor( const Character &who ) const
 {
-    return 1.0f;
+    if( character_funcs::can_see_fine_details( who ) ) {
+        return 1.0f;
+    }
+
+    // This value whould be within [0,1]
+    const float darkness =
+        (
+            character_funcs::fine_detail_vision_mod( who ) -
+            character_funcs::FINE_VISION_THRESHOLD
+        ) / 7.0f;
+    return refine_factor( 1.0f - darkness, 1, 0.0f, 1.0f );
 }
 
 float player_activity::calc_skill_factor( const Character &who ) const
 {
+    float f = 1.0f;
     if( actor ) {
-        float f = actor->calc_skill_factor( who, type->skills );
+        f = actor->calc_skill_factor( who, type->skills );
         return f == -1.0f
                ? 1.0f
                : f;
     }
-    return 1.0f;
+
+
+    std::vector<float> factors;
+    for( const auto &skill : type->skills ) {
+        int who_eff_skill = who.get_skill_level(skill.req) - skill.threshold;
+        float bonus = 0;
+        if(who_eff_skill != 0)
+        {
+            bonus = 0.02f * std::pow(who_eff_skill, 3)
+                  -  0.5f * std::pow(who_eff_skill, 2) 
+                  +  6.0f * who_eff_skill + skill.mod;
+        }
+
+        factors.push_back(bonus);
+    }
+    std::sort( factors.begin(), factors.end(), std::greater<>() );
+
+    int denom = 0;
+    for( const auto &factor : factors ) {
+        f += refine_factor( factor, ++denom * 0.8f ) ;
+    }
+
+    return refine_factor( f, 1, 0.25f, 2.0f );
 }
 
 std::pair<character_stat, float> player_activity::calc_single_stat( const Character &who,
@@ -224,9 +257,9 @@ float player_activity::get_best_qual_mod( const requirement<quality_id> &q,
     q_level = q_level - q.threshold;
 
     if( q.req == qual_CUT_FINE ) {
-        float cut_fine_f =  2.0f * q_level * q_level * q_level
-                            - 10.0f * q_level * q_level
-                            + 32.0f * q_level + q.mod ;
+        float cut_fine_f =  2.0f * std::pow(q_level, 3)
+                         - 10.0f * std::pow(q_level, 2)
+                         + 32.0f * q_level + q.mod ;
         return cut_fine_f;
     }
 
@@ -264,9 +297,23 @@ float player_activity::calc_tools_factor( Character &who ) const
     return refine_factor( f, 1, 0.25f, 2.0f );
 }
 
-float player_activity::calc_morale_factor( int /* morale */ ) const
+float player_activity::calc_morale_factor( int morale ) const
 {
-        return 1.0f;
+    float ac_morale = actor ? actor->calc_morale_factor( morale ) : -1.0f;
+    //Any morale mod above 0 is valid, else - use default morale calc
+    if( ac_morale > 0 ) {
+        return ac_morale;
+    }
+
+    //1% per 4 extra morale
+    if( morale > 20 ) {
+        return 0.92f + morale / 250.0f;
+    }
+    // 1% per 1 insuff morale
+    else if( morale < -20 ) {
+        return 1.20f + morale / 100.0f;
+    }
+    return 1.0f;
 }
 
 static std::string craft_progress_message( const avatar &u, const player_activity &act )
@@ -606,7 +653,10 @@ void player_activity::do_turn( player &p )
     */
     if( !type->special() ) {
         if( type->complex_moves() ) {
-            calc_moves( p );
+            if( calendar::once_every( 1_minutes ) ) {
+                calc_moves( p );
+            }
+
             int moves_total = speed.total_moves();
 
             //fancy new system
