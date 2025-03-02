@@ -241,8 +241,13 @@
     "verb": "dismembering",
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "speed": true, "skills": [ [ "survival" ] ], "stats": [ [ "STR" ] ], 
-    "qualities": [ [ "BUTCHER" ] ] }
+    "complex_moves": {
+      "assistable": true,
+      "speed": true,
+      "skills": [ [ "survival" ] ],
+      "stats": [ [ "STR" ] ],
+      "qualities": [ [ "BUTCHER" ] ]
+    }
   },
   {
     "id": "ACT_DISSECT",
