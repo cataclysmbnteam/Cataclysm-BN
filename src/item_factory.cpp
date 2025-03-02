@@ -622,7 +622,7 @@ void Item_factory::finalize_pre( itype &obj )
                             resist += resist_getter( *mat ) * 0.6;
                         } else {
                             // 40% weight to non-primary materials
-                            resist += resist_getter( *mat ) * ( 0.4 / ( obj.materials.size() -1 ) );
+                            resist += resist_getter( *mat ) * ( 0.4 / ( obj.materials.size() - 1 ) );
                         }
 
                     }
