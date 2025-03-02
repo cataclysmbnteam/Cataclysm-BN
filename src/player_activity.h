@@ -246,9 +246,8 @@ class player_activity
         float calc_morale_factor( int morale ) const;
         void find_best_bench( const tripoint &pos );
 
-        static const float get_best_qual_mod( const requirement<quality_id> &q,
-                                              const std::vector<safe_reference<item>> &tools,
-                                              int denom );
+        static float get_best_qual_mod( const requirement<quality_id> &q,
+                                        const std::vector<safe_reference<item>> &tools );
         std::pair<character_stat, float> calc_single_stat( const Character &who,
                 const requirement<character_stat> &stat ) const;
         /**

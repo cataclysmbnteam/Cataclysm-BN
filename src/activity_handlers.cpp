@@ -769,18 +769,18 @@ int butcher_time_to_cut( const item &corpse_item, const butcher_type action )
 
     switch( action ) {
         case BUTCHER:
+        case BLEED:
+            time_to_cut /= 2;
             break;
         case BUTCHER_FULL:
             if( !corpse_item.has_flag( flag_FIELD_DRESS ) || corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) {
-                time_to_cut *= 6;
+                time_to_cut *= 3;
             } else {
-                time_to_cut *= 4;
+                time_to_cut *= 2;
             }
             break;
         case F_DRESS:
         case SKIN:
-        case BLEED: // Should be same with skinning?? baseless guess
-            time_to_cut *= 2;
             break;
         case QUARTER:
             time_to_cut = std::max( 1000, time_to_cut / 4 );

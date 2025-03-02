@@ -106,8 +106,8 @@ float refine_factor( float speed, int denom = 1, float min = -75.0f, float max =
     speed = std::max( min, speed );
 
     //zero-check for division
-    denom = denom == 0
-            ? 1
+    denom = denom < 1.0f
+            ? 1.0f
             : denom;
     speed /= denom;
 
@@ -163,7 +163,7 @@ float player_activity::calc_skill_factor( const Character &who ) const
 {
     if( actor ) {
         float f = actor->calc_skill_factor( who, type->skills );
-        return f == -1.f
+        return f == -1.0f
                ? 1.0f
                : f;
     }
@@ -212,8 +212,8 @@ std::vector<std::pair<character_stat, float>> player_activity::calc_stats_factor
     return f;
 }
 
-const float player_activity::get_best_qual_mod( const requirement<quality_id> &q,
-        const std::vector<safe_reference<item>> &tools, int denom = 1 )
+float player_activity::get_best_qual_mod( const requirement<quality_id> &q,
+        const std::vector<safe_reference<item>> &tools )
 {
     int q_level = 0;
     for( auto &tool : tools ) {
@@ -222,22 +222,23 @@ const float player_activity::get_best_qual_mod( const requirement<quality_id> &q
         }
     }
     q_level = q_level - q.threshold;
-    //TODO: migrate quality checks to butchery actor?
-    if( q.req == qual_BUTCHER ) {
-        return refine_factor( q_level * q.mod, denom );
-    }
+
     if( q.req == qual_CUT_FINE ) {
         float cut_fine_f =  2.0f * q_level * q_level * q_level
                             - 10.0f * q_level * q_level
                             + 32.0f * q_level + q.mod ;
-        return refine_factor( cut_fine_f, denom );
+        return cut_fine_f;
     }
 
     if( q_level == 0 ) {
         return 0.0f;
     }
 
-    return refine_factor( q.mod * q_level / ( q_level + 1.75f ), denom );
+    if( q.req == qual_BUTCHER ) {
+        return q_level * q.mod;
+    }
+
+    return  q.mod * q_level / ( q_level + 1.75f );
 }
 
 float player_activity::calc_tools_factor( Character &who ) const
@@ -249,17 +250,23 @@ float player_activity::calc_tools_factor( Character &who ) const
                ? 1.0f
                : f;
     }
+    std::vector<float> factors;
+    for( const auto &q : type->qualities ) {
+        factors.push_back( get_best_qual_mod( q, tools ) );
+    }
+    std::sort( factors.begin(), factors.end(), std::greater<>() );
 
     int denom = 0;
-    for( const auto &q : type->qualities ) {
-        f += get_best_qual_mod( q, tools, ++denom - 1 );
+    for( const auto &factor : factors ) {
+        f += refine_factor( factor, ++denom * 0.8f ) ;
     }
-    return std::min( 100.0f, f );
+
+    return refine_factor( f, 1, 0.25f, 2.0f );
 }
 
 float player_activity::calc_morale_factor( int /* morale */ ) const
 {
-    return 1.0f;
+        return 1.0f;
 }
 
 static std::string craft_progress_message( const avatar &u, const player_activity &act )

@@ -201,7 +201,8 @@
     "verb": "bleeding",
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "speed": true, "qualities": true }
+    "complex_moves": { "skills": [["survival"]] },    
+    "//": "the only way to bleed corpse 'faster' is making a proper cut"
   },
   {
     "id": "ACT_SKIN",
