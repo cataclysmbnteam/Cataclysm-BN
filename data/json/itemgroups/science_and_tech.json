@@ -503,7 +503,8 @@
     "entries": [
       { "item": "alloy_plate", "prob": 20 },
       { "item": "recharge_station", "prob": 20 },
-      { "item": "solar_panel", "prob": 10 },
+      { "item": "solar_panel", "prob": 5 },
+      { "item": "foldable_solar_panel", "prob": 5 },
       { "item": "solar_panel_v2", "prob": 20 },
       { "item": "motor_large", "prob": 5 },
       { "item": "motor_enhanced", "prob": 15 },
