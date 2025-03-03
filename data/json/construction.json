@@ -2708,13 +2708,14 @@
   },
   {
     "type": "construction",
-    "id": "constr_carpet_red",
-    "group": "carpet_floor_red",
+     "id": "constr_carpet",
+    "description": "Carpet the floor with a variety of options by using the same carpet or transmuting others.",
+    "group": "carpet_floor",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "r_carpet", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "r_carpet", 1 ],[ "p_carpet", 1 ],[ "y_carpet", 1 ],[ "g_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": ["t_carpet_red","t_carpet_purple","t_carpet_yellow","t_carpet_green"]
   },

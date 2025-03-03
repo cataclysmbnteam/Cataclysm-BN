@@ -1283,6 +1283,7 @@ static activity_reason_info find_base_construction(
         return reason_result;
     }
     //only cc failed, no pre-req
+    popup( "Fuckin funishid" );
     return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, id, ter_or_furn_idx );
 }
 

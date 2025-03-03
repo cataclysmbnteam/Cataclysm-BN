@@ -48,6 +48,8 @@ struct construction {
         construction_category_id category = construction_category_id( "OTHER" );
         // Which group does this construction belong to.
         construction_group_str_id group;
+        // Optional description to replace the terrain/furniture one
+        translation description;
         // Additional note displayed along with construction requirements.
         translation pre_note;
 
