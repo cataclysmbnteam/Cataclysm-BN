@@ -188,24 +188,23 @@ void battery_tile::load( JsonObject &jo )
     jo.read( "max_stored", max_stored );
 }
 
-int battery_tile::get_resource() const
+units::energy battery_tile::get_resource() const
 {
     return stored;
 }
 
-int battery_tile::mod_resource( int amt )
+units::energy battery_tile::mod_resource( units::energy amt )
 {
-    // TODO: Avoid int64 math if possible
-    std::int64_t sum = static_cast<std::int64_t>( stored ) + amt;
+    units::energy sum = stored + amt;
     if( sum >= max_stored ) {
         stored = max_stored;
         return sum - max_stored;
-    } else if( sum <= 0 ) {
-        stored = 0;
+    } else if( sum <= 0_J ) {
+        stored = 0_J;
         return sum - stored;
     } else {
         stored = sum;
-        return 0;
+        return 0_J;
     }
 }
 
@@ -261,16 +260,11 @@ void charger_tile::update_internal( time_point to, const tripoint_abs_ms &p,
             if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                 return VisitResponse::NEXT;
             }
-            if( n.ammo_capacity() > n.ammo_remaining() ||
-                ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+            if( n.is_battery() && n.energy_capacity() > n.energy_remaining() ) {
                 while( power >= 1000 || x_in_y( power, 1000 ) ) {
                     const int missing = grid.mod_resource( -1 );
                     if( missing == 0 ) {
-                        if( n.is_battery() ) {
-                            n.mod_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
-                        }
+                        n.mod_energy( 1_kJ );
                     }
                     power -= 1000;
                 }

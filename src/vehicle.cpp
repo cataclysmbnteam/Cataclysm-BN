@@ -3568,6 +3568,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 
     return fl;
 }
+
 int vehicle::fuel_left( const int p, bool recurse ) const
 {
     return fuel_left( parts[ p ].fuel_current(), recurse );
@@ -5290,91 +5291,117 @@ void traverse( StartPoint &start,
 
 } // namespace distribution_graph
 
-int vehicle::charge_battery( int amount, bool include_other_vehicles )
+units::energy vehicle::charge_battery( units::energy amount, bool include_other_vehicles )
 {
-    // Key parts by percentage charge level.
-    std::multimap<int, vehicle_part *> chargeable_parts;
+    // This is the reverse of discharge_battery
+    // Total the capacity of batteries that can be charged.
+    std::vector<vehicle_part *> chargeable_parts;
+    units::energy total_capacity = 0_J;
     for( vehicle_part &p : parts ) {
-        if( p.is_available() && p.is_battery() && p.ammo_capacity() > p.ammo_remaining() ) {
-            chargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity(), &p } );
-        }
-    }
-    while( amount > 0 && !chargeable_parts.empty() ) {
-        // Grab first part, charge until it reaches the next %, then re-insert with new % key.
-        auto iter = chargeable_parts.begin();
-        int charge_level = iter->first;
-        vehicle_part *p = iter->second;
-        chargeable_parts.erase( iter );
-        // Calculate number of charges to reach the next %, but insure it's at least
-        // one more than current charge.
-        int next_charge_level = ( ( charge_level + 1 ) * p->ammo_capacity() ) / 100;
-        next_charge_level = std::max( next_charge_level, p->ammo_remaining() + 1 );
-        int qty = std::min( amount, next_charge_level - p->ammo_remaining() );
-        p->ammo_set( fuel_type_battery, p->ammo_remaining() + qty );
-        amount -= qty;
-        if( p->ammo_capacity() > p->ammo_remaining() ) {
-            chargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity(), p } );
+        if( p.is_available() && p.is_battery() && p.energy_remaining() < p.energy_capacity() ) {
+            chargeable_parts.push_back( &p );
+            total_capacity += p.energy_capacity();
         }
     }
 
-    if( amount > 0 && include_other_vehicles ) {
+    // Sort so that highest charge % is in front.
+    auto comp = [&]( vehicle_part a, vehicle_part b ) -> bool {
+        // Multiply by 1.0f to prevent integer division.
+        float a_ratio = 1.0f * a.energy_remaining() / a.energy_capacity();
+        float b_ratio = 1.0f * b.energy_remaining() / b.energy_capacity();
+        return ( a_ratio > b_ratio );
+    };
+    std::stable_sort( chargeable_parts.begin(), chargeable_parts.end(), comp );
+
+    for( vehicle_part *p : chargeable_parts ) {
+        // Use a ratio of this battery's energy capacity to the total capacity to get the energy needed for
+        // the average percentage over the entire vehicle on this battery.
+        units::energy p_to_charge = amount * ( p->energy_capacity() / total_capacity );
+        // amount is reduced by p_to_charge or if that's too big, the difference between current and max energy.
+        // This is why we sorted the highest first, so if that gets filled the extra to be charged is shunted
+        // to the larger batteries, as this will increase the average percentage to be charged.
+        // If we hit the end and there is still energy left over, then all batteries are full anyway, no need to recheck.
+        amount += p->base->energy_recharge( p_to_charge );
+        // Reduce total capacity by this battery's capacity so the next part gets the appropriate ratio.
+        // ie: amount was to be spread over 6 batteries, 1 has been filled, 5 batteries left.
+        total_capacity -= p->energy_capacity();
+    }
+
+    if( total_capacity != 0_J ) {
+        debugmsg( "discharge_battery code has encountered an error." );
+    }
+
+    if( amount > 0_J && include_other_vehicles ) {
         // still a bit of charge we could send out...
         using tvr = distribution_graph::traverse_visitor_result;
         auto charge_veh = [&amount]( vehicle & veh ) {
             g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
             amount = veh.charge_battery( amount, false );
-            return amount > 0 ? tvr::continue_further : tvr::stop;
+            return amount > 0_J ? tvr::continue_further : tvr::stop;
         };
         auto charge_grid = [&amount]( distribution_grid & grid ) {
             g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
             amount = grid.mod_resource( amount, false );
-            return amount > 0 ? tvr::continue_further : tvr::stop;
+            return amount > 0_J ? tvr::continue_further : tvr::stop;
         };
         distribution_graph::traverse( *this, charge_veh, charge_grid );
     }
 
-
     return amount;
 }
 
-int vehicle::discharge_battery( int amount, bool recurse )
+units::energy vehicle::discharge_battery( units::energy amount, bool recurse )
 {
-    // Key parts by percentage charge level.
-    std::multimap<int, vehicle_part *> dischargeable_parts;
+    // Make a list of parts with energy > 0_J
+    // Total their capacity
+    std::vector<vehicle_part *> dischargeable_parts;
+    units::energy total_capacity = 0_J;
     for( vehicle_part &p : parts ) {
-        if( p.is_available() && p.is_battery() && p.ammo_remaining() > 0 ) {
-            dischargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity(), &p } );
-        }
-    }
-    while( amount > 0 && !dischargeable_parts.empty() ) {
-        // Grab first part, discharge until it reaches the next %, then re-insert with new % key.
-        auto iter = std::prev( dischargeable_parts.end() );
-        int charge_level = iter->first;
-        vehicle_part *p = iter->second;
-        dischargeable_parts.erase( iter );
-        // Calculate number of charges to reach the previous %.
-        int prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity() ) / 100;
-        prev_charge_level = std::max( 0, prev_charge_level );
-        int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level, amount );
-        p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
-        amount -= amount_to_discharge;
-        if( p->ammo_remaining() > 0 ) {
-            dischargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity(), p } );
+        if( p.is_available() && p.is_battery() && p.energy_remaining() > 0_J ) {
+            dischargeable_parts.push_back( &p );
+            total_capacity += p.energy_capacity();
         }
     }
 
-    if( amount > 0 && recurse ) {
+    // Sort so that lowest charge % is in front.
+    auto comp = [&]( vehicle_part a, vehicle_part b ) -> bool {
+        // Multiply by 1.0f to prevent integer division.
+        float a_ratio = 1.0f * a.energy_remaining() / a.energy_capacity();
+        float b_ratio = 1.0f * b.energy_remaining() / b.energy_capacity();
+        return ( a_ratio < b_ratio );
+    };
+    std::stable_sort( dischargeable_parts.begin(), dischargeable_parts.end(), comp );
+
+    for( vehicle_part *p : dischargeable_parts ) {
+        // Use a ratio of this battery's energy capacity to the total capacity to get the energy needed for
+        // the average percentage over the entire vehicle on this battery.
+        units::energy p_needed = amount * ( p->energy_capacity() / total_capacity );
+        // amount is reduced by p_needed or if that's too big, the total energy in the part.
+        // This is why we sorted the smallest first, so if that gets drained dry the extra needed is shunted
+        // to the larger batteries, as this will increase the average percentage to be consumed.
+        // If we hit the end and energy is still needed, then all batteries are dry anyway, no need to recheck.
+        amount -= p->base->energy_consume( p_needed, global_part_pos3( *p ) );
+        // Reduce total capacity by this battery's capacity so the next part gets the appropriate ratio.
+        // ie: amount was to be spread over 6 batteries, 1 has been drained, 5 batteries left.
+        total_capacity -= p->energy_capacity();
+    }
+
+    if( total_capacity != 0_J ) {
+        debugmsg( "discharge_battery code has encountered an error." );
+    }
+
+    if( amount > 0_J && recurse ) {
         // need more power!
         using tvr = distribution_graph::traverse_visitor_result;
         auto discharge_vehicle = [&amount]( vehicle & veh ) {
             g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
             amount = veh.discharge_battery( amount, false );
-            return amount > 0 ? tvr::continue_further : tvr::stop;
+            return amount > 0_J ? tvr::continue_further : tvr::stop;
         };
         auto discharge_grid = [&amount]( distribution_grid & grid ) {
             g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
             amount = -grid.mod_resource( -amount, false );
-            return amount > 0 ? tvr::continue_further : tvr::stop;
+            return amount > 0_J ? tvr::continue_further : tvr::stop;
         };
         distribution_graph::traverse( *this, discharge_vehicle, discharge_grid );
     }

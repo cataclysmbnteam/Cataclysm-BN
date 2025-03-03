@@ -94,7 +94,7 @@
     "dispersion": 80,
     "durability": 6,
     "reload": 50,
-    "ups_charges": 20,
+    "power_draw": 20,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ] ]
   },
   {
@@ -244,7 +244,7 @@
     "dispersion": 90,
     "durability": 7,
     "loudness": 8,
-    "ups_charges": 25,
+    "power_draw": 25,
     "reload": 200,
     "valid_mod_locations": [
       [ "emitter", 1 ],
