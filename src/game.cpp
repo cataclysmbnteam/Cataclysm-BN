@@ -8219,10 +8219,10 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( you, inv, *corpses[corpse], bt );
+            time_to_cut = butcher_time_to_cut( *corpses[corpse], bt );
         } else {
             for( const item * const &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( you, inv, *it, bt );
+                time_to_cut += butcher_time_to_cut( *it, bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );

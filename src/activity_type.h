@@ -22,6 +22,14 @@ using activity_id = string_id<activity_type>;
 template<>
 const activity_type &string_id<activity_type>::obj() const;
 
+
+template<typename T>
+struct requirement {
+    const T req;
+    const float mod;
+    const int threshold;
+};
+
 /** A class that stores constant information that doesn't differ between activities of the same type */
 class activity_type
 {
@@ -48,9 +56,9 @@ class activity_type
         bool verbose_tooltip_ = true;
 
     public:
-        std::unordered_map<character_stat, int> stats = {};
-        std::unordered_map<skill_id, int> skills = {};
-        std::unordered_map<quality_id, int> qualities = {};
+        std::vector<requirement<character_stat>> stats = {};
+        std::vector<requirement<skill_id>> skills = {};
+        std::vector<requirement<quality_id>> qualities = {};
 
         const activity_id &id() const {
             return id_;
