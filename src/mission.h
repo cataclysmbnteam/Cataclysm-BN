@@ -152,7 +152,7 @@ struct mission_target_params {
     bool cant_see = false;
     bool random = false;
     bool create_if_necessary = true;
-    int search_range = OMAPX;
+    int search_range = OMAPX * 14;
     std::optional<int> z;
     npc *guy = nullptr;
 };

@@ -2582,7 +2582,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
         return;
     }
 
-    static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
+    static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ), material_id( "bone_heavy" ) };
     bool fuel_present = false;
     auto items = here.i_at( examp );
     for( const item * const &i : items ) {

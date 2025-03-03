@@ -475,7 +475,8 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 4,
+    "difficulty": 3,
+    "skills_required": [ "survival", 2 ],
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
@@ -493,8 +494,8 @@
     "result": "primitive_axe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 2 ],
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
     "difficulty": 3,
     "time": "1 h",
     "reversible": true,
@@ -1014,8 +1015,8 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "pipe", 3 ] ] ]
+    "using": [ [ "forging_standard", 4 ] ],
+    "components": [ [ [ "steel_standard", 1, "LIST" ], [ "pipe", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1051,9 +1052,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
   },
   {
@@ -2604,6 +2603,17 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_advanced", 3 ], [ "steel_tiny", 3 ] ]
+  },
+  {
+    "result": "kettle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h 15 m",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_advanced", 34 ], [ "steel_tiny", 4 ] ]
   },
   {
     "result": "awl_bone",

@@ -1928,6 +1928,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_place_robobench",
+    "group": "place_workbench",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "robobench", 1 ] ] ],
+    "pre_special": "check_empty",
+    "dark_craftable": true,
+    "post_furniture": "f_robobench"
+  },
+  {
+    "type": "construction",
     "id": "constr_chair",
     "group": "build_chair",
     "category": "FURN",
@@ -3579,6 +3591,8 @@
     "qualities": [ { "id": "DIG", "level": 1 } ],
     "components": [ [ [ "rock", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "deny_flags": [ "FLAMMABLE", "FLAMMABLE_ASH", "FLAMMABLE_HARD" ],
     "dark_craftable": true,
     "post_furniture": "f_firering"
   },
@@ -5293,5 +5307,17 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_flags": [ "WALL" ],
     "post_furniture": "f_light_switch"
+  },
+  {
+    "type": "construction",
+    "id": "constr_hydraulic_press",
+    "group": "install_hydraulic_press",
+    "category": "WORKSHOP",
+    "required_skills": [  ],
+    "time": "10 m",
+    "components": [ [ [ "hydraulic_press", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_hydraulic_press"
   }
 ]

@@ -15,6 +15,19 @@
     ]
   },
   {
+    "result": "c4",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 4,
+    "time": "15 m",
+    "autolearn": true,
+    "components": [ [ [ "chem_rdx", 300 ] ], [ [ "e_scrap", 1 ] ], [ [ "cable", 10 ] ], [ [ "motor_oil", 50 ] ] ],
+    "using": [ [ "soldering_standard", 5 ] ]
+  },
+  {
     "result": "dynamite",
     "type": "recipe",
     "category": "CC_WEAPON",

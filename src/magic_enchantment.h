@@ -83,8 +83,14 @@ class enchantment
         enum condition {
             ALWAYS,
             UNDERGROUND,
+            ABOVEGROUND,
             UNDERWATER,
+            NIGHT,
+            DAY,
+            DUSK,
+            DAWN,
             ACTIVE, // the item, mutation, etc. is active
+            INACTIVE,
             NUM_CONDITION
         };
 

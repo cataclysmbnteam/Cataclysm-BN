@@ -25,6 +25,7 @@
 #include "game_constants.h"
 #include "int_id.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -237,23 +238,38 @@ bool monster::will_move_to( const tripoint &p ) const
 
 bool monster::can_reach_to( const tripoint &p ) const
 {
-    map &here = get_map();
-    if( p.z > pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
-            return true;
-        }
-        if( !here.has_flag( TFLAG_GOES_UP, pos() ) && !here.has_flag( TFLAG_NO_FLOOR, p ) ) {
-            // can't go through the roof
-            return false;
-        }
-    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( !here.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
-            // can't go through the floor
-            // you would fall anyway if there was no floor, so no need to check for that here
-            return false;
-        }
+    const map &here = get_map();
+
+    // This one needs explanation
+    // Spawn logic calls `can_move_to` which calls this function.
+    // The thing with spawn logic is that it tries to move monsters that are at -500 Z level
+    //   which does not exist, to one of the existing Z levels.
+    // Because there's obviously nothing outside of reality, the Z move fails,
+    //   which leads to spawn logic failing to spawn anything.
+    // This is why this exists.
+    //                                                                   - DeltaEpsilon7787
+    // TODO: FIX THIS DUMB ASS SHIT
+    const bool is_moving_out_of_reality = !here.inbounds_z( pos().z );
+
+    const bool is_z_move = p.z != pos().z;
+    if( !is_z_move || is_moving_out_of_reality ) {
+        return true;
     }
-    return true;
+
+    const bool is_going_up = p.z > pos().z;
+    if( is_going_up ) {
+        const bool has_up_ramp = here.has_flag( TFLAG_RAMP_UP, p + tripoint_below );
+        const bool has_stairs = here.has_flag( TFLAG_GOES_UP, pos() );
+        const bool can_fly_there = this->flies() && here.has_flag( TFLAG_NO_FLOOR, p );
+
+        return has_up_ramp || has_stairs || can_fly_there;
+    } else {
+        const bool has_down_ramp = here.has_flag( TFLAG_RAMP_DOWN, p + tripoint_above );
+        const bool has_stairs = here.has_flag( TFLAG_GOES_DOWN, pos() );
+        const bool can_fly_there = this->flies() && here.has_flag( TFLAG_NO_FLOOR, this->pos() );
+
+        return has_down_ramp || has_stairs || can_fly_there;
+    }
 }
 
 bool monster::can_squeeze_to( const tripoint &p ) const
@@ -354,6 +370,9 @@ void monster::plan()
         target = &g->u;
         if( dist <= 5 ) {
             anger += angers_hostile_near;
+            if( angers_hostile_near ) {
+                trigger_character_aggro_chance( anger, "proximity" );
+            }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0 ) {
                 bool mating_angry = false;
@@ -369,6 +388,7 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    trigger_character_aggro_chance( anger, "mating season" );
                 }
             }
         }
@@ -381,6 +401,7 @@ void monster::plan()
                         //proximity to baby; monster gets furious and less likely to flee
                         anger += angers_cub_threatened;
                         morale += angers_cub_threatened / 2;
+                        trigger_character_aggro( "threatening cub" );
                     }
                 }
             }
@@ -444,6 +465,7 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    trigger_character_aggro_chance( anger, "mating season" );
                 }
             }
         }
@@ -586,6 +608,9 @@ void monster::plan()
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
                 anger += 10 - ( hp_per / 10 );
+                if( anger <= 40 ) {
+                    trigger_character_aggro_chance( anger, "weakness" );
+                }
             }
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
@@ -958,12 +983,15 @@ void monster::move()
             }
 
             bool via_ramp = false;
+            tripoint ramp_offset = tripoint_zero;
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
                 candidate.z += 1;
+                ramp_offset = tripoint_below;
             } else if( here.has_flag( TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
                 candidate.z -= 1;
+                ramp_offset = tripoint_above;
             }
             tripoint candidate_abs = g->m.getabs( candidate );
 
@@ -1056,7 +1084,7 @@ void monster::move()
                 }
             }
 
-            const float progress = distance_to_target - trig_dist( candidate, destination );
+            const float progress = distance_to_target - trig_dist( candidate + ramp_offset, destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
@@ -1453,8 +1481,14 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
-    if( flat_ground && !g->m.is_bashable_furn( p ) ) {
+    map &here = get_map();
+
+    bool is_obstructed_by_ter_furn = here.impassable_ter_furn( p );
+    bool is_obstructed_by_veh = here.veh_at( p ).obstacle_at_part().has_value();
+    bool is_obstructed = is_obstructed_by_ter_furn || is_obstructed_by_veh;
+    bool is_flat_ground = here.has_flag( TFLAG_FLAT, p );
+
+    if( !is_obstructed && is_flat_ground ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
         bool try_bash_ter = one_in( 50 );
         if( !( can_bash_ter && try_bash_ter ) ) {

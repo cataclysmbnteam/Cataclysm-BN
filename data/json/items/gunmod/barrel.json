@@ -13,7 +13,7 @@
     "location": "barrel",
     "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "dispersion_modifier": 75,
-    "loudness_modifier": 5,
+    "loudness_modifier": 15,
     "flags": [ "IRREMOVABLE" ]
   },
   {

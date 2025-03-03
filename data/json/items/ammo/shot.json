@@ -123,7 +123,7 @@
     "range": 0,
     "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3 },
     "loudness": 80,
-    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
+    "shape": [ "cone", { "half_angle": 15, "length": 10 } ],
     "extend": { "effects": [ "NOGIB" ] }
   },
   {

@@ -112,7 +112,7 @@ TEST_CASE( "average_burst_modded", "[ranged] [balance]" )
     const std::vector<std::string> modset = {"adjustable_stock", "suppressor", "pistol_grip", "grip_mod"};
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", modset, 0 );
-    check_burst_penalty( shooter, "calico", modset, 5 );
+    check_burst_penalty( shooter, "calico", modset, 3 );
     check_burst_penalty( shooter, "m249", {"suppressor"}, 90 );
     check_burst_penalty( shooter, "m4a1", modset, 100 );
     check_burst_penalty( shooter, "ak47", {"adjustable_stock", "suppressor", "pistol_grip"}, 170 );

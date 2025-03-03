@@ -11,7 +11,6 @@
 #include <optional>
 #include <string>
 #include <tuple>
-#include <type_id.h>
 
 #include "activity_handlers.h"
 #include "addiction.h"
@@ -45,6 +44,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"

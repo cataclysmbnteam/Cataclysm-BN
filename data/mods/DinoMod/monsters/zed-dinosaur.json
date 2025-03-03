@@ -601,6 +601,20 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zoabosaurus",
+    "name": { "str_sp": "moabosaurus zombie" },
+    "copy-from": "mon_zamarasaurus",
+    "looks_like": "mon_zapatosaurus",
+    "//": "When large weights and volumes are fixed this should be similar to camarasaurus unless a better scientific assessment is available",
+    "speed": 60,
+    "attack_cost": 60,
+    "hp": 440,
+    "burn_into": "mon_zoabosaurus_scorched",
+    "fungalize_into": "mon_zoabosaurus_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zoabosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zaplocanthosaurus",
     "name": { "str_sp": "haplocanthosaurus zombie" },
     "copy-from": "mon_zapatosaurus",
@@ -751,6 +765,22 @@
     "burn_into": "mon_zrachiosaurus_scorched",
     "fungalize_into": "mon_zrachiosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zrachiosaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zastrodon",
+    "name": { "str": "astrodon zombie" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_apatosaurus",
+    "//": "When large weights and volumes are fixed this should be 20000 L and 20000 kg",
+    "speed": 45,
+    "attack_cost": 45,
+    "melee_dice": 6,
+    "hp": 475,
+    "description": "Gigantic, long-necked, four-legged dinosaur corpse with a round, bloated body.",
+    "burn_into": "mon_zastrodon_scorched",
+    "fungalize_into": "mon_zastrodon_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zastrodon_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1656,6 +1686,24 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zoabosaurus_juvenile",
+    "name": { "str": "juvenile moabosaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "burn_into": "mon_zoabosaurus_scorched",
+    "fungalize_into": "mon_zoabosaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zoabosaurus" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zaplocanthosaurus_juvenile",
+    "name": { "str": "juvenile haplocanthosaurus zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "burn_into": "mon_zaplocanthosaurus_scorched",
+    "fungalize_into": "mon_zaplocanthosaurus_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zaplocanthosaurus" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zamargasaurus_juvenile",
     "name": { "str": "juvenile sauropod zombie" },
     "copy-from": "mon_zapatosaurus_juvenile",
@@ -1754,6 +1802,18 @@
     "burn_into": "mon_zrachiosaurus_scorched",
     "fungalize_into": "mon_zrachiosaurus_fungus",
     "upgrades": { "half_life": 30, "into": "mon_zrachiosaurus" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zastrodon_juvenile",
+    "name": { "str": "juvenile sauropod zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_apatosaurus",
+    "speed": 45,
+    "melee_dice": 5,
+    "burn_into": "mon_zastrodon_scorched",
+    "fungalize_into": "mon_zastrodon_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zastrodon" }
   },
   {
     "type": "MONSTER",

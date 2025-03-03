@@ -709,6 +709,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `DANGEROUS` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies
   "NPC_THROW_NOW".
 - `DETERGENT` ... This item can be used as a detergent in a washing machine.
+- `DESTROY_ON_DECHARGE` ... This item should be destroyed if loses charges.
 - `DURABLE_MELEE` ... Item is made to hit stuff and it does it well, so it's considered to be a lot
   tougher than other weapons made of the same materials.
 - `FAKE_MILL` ... Item is a fake item, to denote a partially milled product by @ref
@@ -777,8 +778,10 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `CROSSBOW` Counts as a crossbow for the purpose of gunmod compatibility. Default behavior is to
   match the skill used by that weapon.
 - `DISABLE_SIGHTS` Prevents use of the base weapon sights
-- `FIRE_100` Uses 100 shots per firing.
+- `FIRE_20` Uses 20 shots per firing.
 - `FIRE_50` Uses 50 shots per firing.
+- `FIRE_100` Uses 100 shots per firing. See also the `ammo_to_fire` property to specify any amount
+  of ammo usage per shot desired. These flags will override `ammo_to_fire` if present.
 - `HEAVY_WEAPON_SUPPORT` Wearing this will let you hip-fire heavy weapons without needing terrain
   support, like Large or Huge mutants can.
 - `FIRE_TWOHAND` Gun can only be fired if player has two free hands.
@@ -803,6 +806,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   instead of being a strict limit like it normally would be.
 - `STR_RELOAD` Reload speed is affected by strength.
 - `UNDERWATER_GUN` Gun is optimized for usage underwater, does perform badly outside of water.
+- `USE_PARENT_GUN` For gunmods with `gun_data` meant to represent extra magazines on a gun, e.g. KSG.
+  Will make fouling apply to the gun it's installed on instead of itself, check for suppressors installed
+  on the parent item, and apply brass catcher behavior if present on parent item.
 - `WATERPROOF_GUN` Gun does not rust and can be used underwater.
 
 ### Firing modes
@@ -940,12 +946,13 @@ Flags used to describe monsters and define their properties and abilities.
 ### Anger, Fear and Placation Triggers
 
 - `FIRE` There's a fire nearby.
-- `FRIEND_ATTACKED` A monster of the same type was attacked.
-- `FRIEND_DIED` A monster of the same type died.
-- `HURT` The monster is hurt.
+- `FRIEND_ATTACKED` A monster of the same type was attacked. Always triggers character aggro.
+- `FRIEND_DIED` A monster of the same type died. Always triggers character aggro.
+- `HURT` The monster is hurt. Always triggers character aggro.
 - `MEAT` Meat or a corpse is nearby.
 - `NULL` Source use only?
-- `PLAYER_CLOSE` The player gets within a few tiles distance.
+- `PLAYER_CLOSE` The player gets within a few tiles distance. Triggers character aggro `<anger>%` of
+  the time.
 - `PLAYER_WEAK` The player is hurt.
 - `SOUND` Heard a sound.
 - `STALK` Increases when following the player.
@@ -960,30 +967,42 @@ Flags used to describe monsters and define their properties and abilities.
 
 Multiple death functions can be used. Not all combinations make sense.
 
-- `ACID` Acid instead of a body. not the same as the ACID_BLOOD flag. In most cases you want both.
+- `ACID` Acid instead of a body. Not the same as the ACID_BLOOD flag. In most cases you want both.
 - `AMIGARA` Removes hypnosis if the last one.
 - `BLOBSPLIT` Creates more blobs.
+- `BOOMER_GLOW` Explodes in glowing vomit.
 - `BOOMER` Explodes in vomit.
+- `BRAINBLOB` Spawns 2 blobs.
+- `BROKEN_AMMO` Gives a message about destroying ammo and then calls "BROKEN".
 - `BROKEN` Spawns a broken robot item, its id calculated like this: the prefix "mon_" is removed
-  from the monster id, than the prefix "broken_" is added. Example: mon_eyebot -> broken_eyebot
+  from the monster id, then the prefix "broken_" is added. Example: mon_eyebot -> broken_eyebot.
+- `CONFLAGRATION` Explode in a huge fireball.
+- `DARKMAN` Sight returns to normal.
+- `DETONATE` Self destructs.
 - `DISAPPEAR` Hallucination disappears.
 - `DISINTEGRATE` Falls apart.
 - `EXPLODE` Damaging explosion.
 - `FIREBALL` 10 percent chance to explode in a fireball.
-- `FLAME_EXPLOSION` guaranteed to explode and starts fires.
+- `FOCUSEDBEAM` Blinding ray.
+- `FUNGALBURST` Explode with a cloud of fungal haze.
 - `FUNGUS` Explodes in spores.
 - `GAMEOVER` Game over man! Game over! Defense mode.
+- `GAS` Explodes in toxic gas.
 - `GUILT` Moral penalty. There is also a flag with a similar effect.
+- `JABBERWOCKY` Snicker-snack!
+- `JACKSON` Reverts dancers.
 - `KILL_BREATHERS` All breathers die.
 - `KILL_VINES` Kill all nearby vines.
 - `MELT` Normal death, but melts.
 - `NORMAL` Drop a body, leave gibs.
+- `PREG_ROACH` Spawn some cockroach nymphs.
 - `RATKING` Cure verminitis.
 - `SMOKEBURST` Explode like a huge smoke bomb.
+- `SPLATTER` Explodes in gibs and chunks.
 - `THING` Turn into a full thing.
 - `TRIFFID_HEART` Destroys all roots.
 - `VINE_CUT` Kill adjacent vine if it's cut.
-- `WORM` Spawns 2 half-worms
+- `WORM` Spawns 2 half-worms.
 
 ### Flags
 
@@ -1102,9 +1121,11 @@ Multiple death functions can be used. Not all combinations make sense.
 
 ### Monster Defense and Attacks
 
-- `ACIDSPLASH` Splash acid on the attacker
-- `NONE` No special attack-back
-- `ZAPBACK` Shock attacker on hit
+- `ACIDSPLASH` Splash acid on the attacker.
+- `NONE` No special attack-back.
+- `RETURN_FIRE` Blind fire on unseen attacker.
+- `REVENGE_AGGRO` Make allies aggro on target.
+- `ZAPBACK` Shock attacker on hit.
 
 ### Sizes
 
@@ -1657,6 +1678,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `SEAT` A seat where the player can sit or sleep.
 - `SEATBELT` Helps prevent the player from being ejected from the vehicle during an accident. Can
   only be installed on a part with `BELTABLE` flag.
+- `SEAT_REQUIRES_BALANCE` The player may fall off once they run into something determined by a
+  strength roll. TRAIT_DEFT and TRAIT_PROF_SKATER makes it harder to be thrown from vehicle.
 - `SECURITY`
 - `SHARP` Striking a monster with this part does cutting damage instead of bashing damage, and
   prevents stunning the monster.

@@ -117,6 +117,11 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "DESTROY_ON_DECHARGE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "DIAMOND",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
@@ -262,6 +267,11 @@
     "info": "You can wear <info>only one</info>."
   },
   {
+    "id": "EXOSUIT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
+  },
+  {
     "id": "FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -285,7 +295,7 @@
     "id": "FIREWOOD",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "info": "This item can serve as a firewood."
+    "info": "This item can serve as firewood."
   },
   {
     "id": "FIX_FARSIGHT",
@@ -1860,6 +1870,12 @@
   },
   {
     "id": "RELOAD_EJECT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "USE_PARENT_GUN",
+    "//": "If this is a gunmod that can be fired, treat it as if the gun it's installed on is firing for relevant behaviors (brass catcher, installed suppressor, etc).  Used for 'second magazine' type gunmods, not just second barrel gunmods in general.",
     "type": "json_flag",
     "context": [  ]
   },

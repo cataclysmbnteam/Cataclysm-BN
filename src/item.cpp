@@ -2524,6 +2524,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
     }
 
+    if( mod->ammo_required() > 1 ) {
+        info.emplace_back( "AMMO", string_format( "Uses <stat>%i</stat> ammo per shot",
+                           mod->ammo_required() ) );
+    }
+
     if( mod->get_gun_ups_drain() > 0_J && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
                            string_format( "Uses <stat>%s</stat> of UPS per shot",
@@ -8092,7 +8097,13 @@ int item::ammo_required() const
         } else if( has_flag( flag_FIRE_20 ) ) {
             return 20;
         } else {
-            return 1;
+            int modifier = 0;
+            float multiplier = 1.0f;
+            for( const item *mod : gunmods() ) {
+                modifier += mod->type->gunmod->ammo_to_fire_modifier;
+                multiplier *= mod->type->gunmod->ammo_to_fire_multiplier;
+            }
+            return ( type->gun->ammo_to_fire * multiplier ) + modifier;
         }
     }
 
@@ -9596,8 +9607,9 @@ uint64_t item::make_component_hash() const
 bool item::needs_processing() const
 {
     return is_active() || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
-           ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact() || is_food();
+           ( !contents.empty() && is_container() && contents.front().needs_processing() ) ||
+           ( magazine_current() && magazine_current()->needs_processing() ) ||
+           is_artifact() || is_relic() || is_food();
 }
 
 int item::processing_speed() const
@@ -9761,16 +9773,18 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
     return muts;
 }
 
-void item::process_relic( Character &carrier )
+void item::process_relic( Character *carrier )
 {
     if( !is_relic() ) {
         return;
     }
     std::vector<enchantment> active_enchantments;
 
-    for( const enchantment &ench : get_enchantments() ) {
-        if( ench.is_active( carrier, *this ) ) {
-            active_enchantments.emplace_back( ench );
+    if( carrier ) {
+        for( const enchantment &ench : get_enchantments() ) {
+            if( ench.is_active( *carrier, *this ) ) {
+                active_enchantments.emplace_back( ench );
+            }
         }
     }
 
@@ -10362,6 +10376,9 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
             return std::move( self );
         }
     }
+
+    self->process_artifact( carrier, pos );
+    self->process_relic( carrier );
 
     if( self->faults.contains( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( std::move( self ), carrier );

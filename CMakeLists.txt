@@ -113,6 +113,8 @@ include(CheckCXXCompilerFlag)
 #SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
 
 find_package(PkgConfig)
+find_package(SQLite3)
+find_package(ZLIB)
 if (NOT DYNAMIC_LINKING)
     if(NOT MSVC)
         set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")

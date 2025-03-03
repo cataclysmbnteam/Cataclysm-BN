@@ -144,8 +144,8 @@ command-line.
 ## Custom clang-tidy plugin
 
 We have written our own clang-tidy checks in a custom plugin. refer to
-[clang-tidy.yml](/.github/workflows/clang-tidy.yml) for the exact steps to build the plugin on
-ubuntu 24.04.
+[clang-tidy.yml](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/.github/workflows/clang-tidy.yml)
+for the exact steps to build the plugin on ubuntu 24.04.
 
 ### Build plugin on Ubuntu 24.04
 

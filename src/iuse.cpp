@@ -277,6 +277,7 @@ static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -2309,7 +2310,6 @@ std::pair<int, units::energy> iuse::note_bionics( player *p, item *it, bool t, c
         return std::make_pair( 0, 0_J );
     }
     map &here = get_map();
-
     if( !p->has_enough_charges( *it, false ) ) {
         it->revert( p, true );
         it->deactivate();
@@ -2324,7 +2324,6 @@ std::pair<int, units::energy> iuse::note_bionics( player *p, item *it, bool t, c
                 corpse->get_var( "bionics_scanned_by", -1 ) == p->getID().get_value() ) {
                 continue;
             }
-
             std::vector<const item *> cbms;
             for( const item * const &maybe_cbm : corpse->get_components() ) {
                 if( maybe_cbm->is_bionic() ) {
@@ -2332,12 +2331,23 @@ std::pair<int, units::energy> iuse::note_bionics( player *p, item *it, bool t, c
                 }
             }
 
-            units::energy power_needed = units::from_kilojoule( static_cast<int>( cbms.size() ) );
-            power_needed -= it->energy_consume( power_needed, pos );
+            units::energy power_needed = units::from_kilojoule( cbms.size() );
+
+            if( it->energy_remaining() > power_needed ) {
+                power_needed -= it->energy_consume( power_needed, pos );
+            } else if( possess && it->has_flag( flag_USE_UPS ) &&
+                       p->use_energy_if_avail( itype_UPS, power_needed ) ) {
+                power_needed = 0_J;
+            }
+
             if( power_needed > 0_J ) {
-                it->revert( p, true );
-                it->deactivate();
-                return std::make_pair( 0, 0_J );
+                p->add_msg_if_player( m_bad, "Your %s doesn't have enough power for the %s", it->tname(),
+                                      corpse->display_name().c_str() );
+                if( it->energy_remaining() > 1_kJ ) {
+                    continue;
+                } else {
+                    break;
+                }
             }
 
             corpse->set_var( "bionics_scanned_by", p->getID().get_value() );
@@ -2355,6 +2365,11 @@ std::pair<int, units::energy> iuse::note_bionics( player *p, item *it, bool t, c
                                       bionics_string.c_str()
                                     );
             }
+        }
+        if( it->energy_remaining() < 1_kJ ) {
+            it->revert( p );
+            it->deactivate();
+            return std::make_pair( 0, 0_J );
         }
     }
 
@@ -3382,10 +3397,8 @@ std::pair<int, units::energy> iuse::throwable_extinguisher_act( player *, item *
                 g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 2 ) );
             }
         }
-        it->charges = -1;
-        return res;
+        return std::make_pair( 1, 0_J );
     }
-    it->deactivate();
     return std::make_pair( 0, 0_J );
 }
 
@@ -3669,10 +3682,14 @@ std::pair<int, units::energy> iuse::molotov_lit( player *p, item *it, bool t, co
             p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
         // If you exploded it on yourself through activation.
+        <<< <<< < HEAD
         if( it->has_position() ) {
             it->detach();
         }
         return res;
+        == == == =
+            return 1;
+        >>> >>> > upload
     } else if( p->has_item( *it ) && it->charges == 0 ) {
         return std::make_pair( 0, 0_J );
     }

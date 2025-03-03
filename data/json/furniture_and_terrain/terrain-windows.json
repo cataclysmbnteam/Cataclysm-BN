@@ -561,6 +561,12 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "PERMEABLE" ],
     "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
+    "hacksaw": {
+      "result": "t_window_empty",
+      "duration": "10 minutes",
+      "message": "You finish cutting the metal.",
+      "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
+    },
     "bash": {
       "str_min": 60,
       "str_max": 250,

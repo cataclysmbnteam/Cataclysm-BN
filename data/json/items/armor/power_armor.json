@@ -645,7 +645,7 @@
       "NO_UNLOAD",
       "NO_RELOAD",
       "BELTED",
-      "ONLY_ONE",
+      "EXOSUIT",
       "POWERARMOR_COMPATIBLE",
       "OVERSIZE",
       "ALLOWS_NATURAL_ATTACKS"
@@ -714,7 +714,7 @@
       "NO_RELOAD",
       "COMPACT",
       "BELTED",
-      "ONLY_ONE",
+      "EXOSUIT",
       "POWERARMOR_COMPATIBLE",
       "OVERSIZE",
       "ALLOWS_NATURAL_ATTACKS"

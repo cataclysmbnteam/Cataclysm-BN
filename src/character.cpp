@@ -346,6 +346,7 @@ static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WEBBED( "WEBBED" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string iuse_TOGGLE_UPS_CHARGING( "TOGGLE_UPS_CHARGING" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -3257,6 +3258,12 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     for( auto &i : worn ) {
         if( i->has_flag( flag_ONLY_ONE ) && i->typeId() == it.typeId() ) {
             return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname() );
+        }
+    }
+
+    for( auto &i : worn ) {
+        if( i->has_flag( flag_EXOSUIT ) && it.has_flag( flag_EXOSUIT ) ) {
+            return ret_val<bool>::make_failure( _( "Can't wear more than one exosuit!" ) );
         }
     }
 
@@ -7500,7 +7507,7 @@ void Character::burn_move_stamina( int moves )
     if( move_mode == CMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
+    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_burn_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -7514,19 +7521,25 @@ void Character::burn_move_stamina( int moves )
     }
 }
 
-float Character::stamina_move_cost_modifier() const
+float Character::stamina_burn_cost_modifier() const
 {
-    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    // We no longer modify movecost with stamina, but we do modify the stamina cost
     // Convert stamina to a float first to allow for decimal place carrying
     float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
+    return stamina_modifier * running_move_cost_modifier();
+}
+
+float Character::running_move_cost_modifier() const
+{
+    float movement_modifier = 1.0;
     if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
+        movement_modifier *= 2.0;
     }
     if( move_mode == CMM_CROUCH ) {
-        stamina_modifier *= 0.5;
+        movement_modifier *= 0.5;
     }
-    return stamina_modifier;
+    return movement_modifier;
 }
 
 void Character::update_stamina( int turns )
@@ -7599,7 +7612,7 @@ bool Character::invoke_item( item *used, const std::string &method )
 
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
 {
-    if( !has_enough_charges( *used, true ) ) {
+    if( method != iuse_TOGGLE_UPS_CHARGING && !has_enough_charges( *used, true ) ) {
         return false;
     }
 
@@ -7808,6 +7821,12 @@ bool Character::consume_charges( item &used, int qty )
         return false;
     }
 
+    //Destroy items with specific flag
+    if( used.has_flag( flag_DESTROY_ON_DECHARGE ) || used.get_use( "place_monster" ) != nullptr ) {
+        used.detach();
+        return true;
+    }
+
     if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
         debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
         return false;
@@ -7823,11 +7842,26 @@ bool Character::consume_charges( item &used, int qty )
         return false;
     }
 
-    if( used.is_tool() && used.units_remaining() == 0 && !used.ammo_required() ) {
-        // Tools which don't require ammo are instead destroyed.
-        // Put here cause tools may have use actions that require charges without charges_per_use
-        used.detach();
-        return true;
+    if( used.is_power_armor() ) {
+        if( used.charges >= qty ) {
+            used.ammo_consume( qty, pos() );
+        } else if( character_funcs::can_interface_armor( *this ) && has_charges( itype_bio_armor, qty ) ) {
+            use_charges( itype_bio_armor, qty );
+        } else {
+            use_charges( itype_UPS, qty );
+        }
+    }
+
+    // USE_UPS may occur on base items and is added by the UPS tool mod
+    // If an item has the flag, then it should not be consumed on use.
+    if( used.has_flag( flag_USE_UPS ) ) {
+        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
+        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
+        if( used.charges >= qty ) {
+            used.ammo_consume( qty, pos() );
+        } else {
+            use_charges( itype_UPS, qty );
+        }
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     }
@@ -8742,25 +8776,44 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !has_effect( effect_downed ) ) {
-        int rolls = 4;
-        if( worn_with_flag( flag_ROLLER_ONE ) ) {
-            rolls += 2;
-        }
-        if( has_trait( trait_PROF_SKATER ) ) {
-            rolls--;
-        }
-        if( has_trait( trait_DEFT ) ) {
-            rolls--;
-        }
 
-        if( stability_roll() < dice( rolls, 10 ) ) {
-            if( !is_player() ) {
-                if( u_see ) {
-                    add_msg( _( "%1$s loses their balance while being hit!" ), name );
+    map &here = get_map();
+    const optional_vpart_position veh_part = here.veh_at( pos() );
+    bool in_skater_vehicle = in_vehicle && veh_part.part_with_feature( "SEAT_REQUIRES_BALANCE", false );
+
+    if( ( worn_with_flag( flag_REQUIRES_BALANCE ) || in_skater_vehicle ) && !is_on_ground() ) {
+        if( worn_with_flag( flag_ROLLER_ONE ) && !in_skater_vehicle ) {
+            if( worn_with_flag( flag_REQUIRES_BALANCE ) && !has_effect( effect_downed ) ) {
+                int rolls = 4;
+                if( worn_with_flag( flag_ROLLER_ONE ) ) {
+                    rolls += 2;
+                }
+                if( has_trait( trait_PROF_SKATER ) ) {
+                    rolls--;
+                }
+                if( has_trait( trait_DEFT ) ) {
+                    rolls--;
+                }
+
+                if( stability_roll() < dice( rolls, 10 ) ) {
+                    if( !is_player() ) {
+                        if( u_see ) {
+                            add_msg( _( "%1$s loses their balance while being hit!" ), name );
+                        }
+                    } else {
+                        add_msg( m_bad, _( "You lose your balance while being hit!" ) );
+                    }
+                    if( in_skater_vehicle ) {
+                        g->fling_creature( this, rng_float( 0_degrees, 360_degrees ), 10 );
+                    }
+                    // This kind of downing is not subject to immunity.
+                    add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0, true );
                 }
             } else {
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
+            }
+            if( in_skater_vehicle ) {
+                g->fling_creature( this, rng_float( 0_degrees, 360_degrees ), 10 );
             }
             // This kind of downing is not subject to immunity.
             add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0, true );
@@ -10591,7 +10644,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
-        movecost /= stamina_move_cost_modifier();
+        movecost /= running_move_cost_modifier();
 
         if( movecost < 20.0 ) {
             movecost = 20.0;

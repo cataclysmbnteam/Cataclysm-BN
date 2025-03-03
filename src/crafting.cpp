@@ -196,32 +196,27 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
 
     const units::mass &craft_mass = craft.weight();
     const units::volume &craft_volume = craft.volume();
+    workbench_info_wrapper wb_info = workbench_info_wrapper(
+                                         * string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
 
     // The whole block below is so ugly because all the benches have different structs with same content
     map &here = get_map();
     switch( bench.type ) {
         case bench_type::hands: {
-            const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
-            multiplier = f.workbench->multiplier;
-            allowed_mass = f.workbench->allowed_mass;
-            allowed_volume = f.workbench->allowed_volume;
+            wb_info = workbench_info_wrapper(
+                          *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
         }
         break;
         case bench_type::ground: {
             // Ground - we can always use this, but it's bad
-            const furn_t &f = string_id<furn_t>( "f_ground_crafting_spot" ).obj();
-            multiplier = f.workbench->multiplier;
-            allowed_mass = f.workbench->allowed_mass;
-            allowed_volume = f.workbench->allowed_volume;
+            wb_info = workbench_info_wrapper(
+                          *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() );
         }
         break;
         case bench_type::furniture:
             if( here.furn( bench.position ).obj().workbench ) {
                 // Furniture workbench
-                const furn_t &f = here.furn( bench.position ).obj();
-                multiplier = f.workbench->multiplier;
-                allowed_mass = f.workbench->allowed_mass;
-                allowed_volume = f.workbench->allowed_volume;
+                wb_info = workbench_info_wrapper( * here.furn( bench.position ).obj().workbench.get() );
             } else {
                 return 0.0f;
             }
@@ -231,12 +226,10 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
                         bench.position ).part_with_feature( "WORKBENCH", true ) ) {
                 // Vehicle workbench
                 const vpart_info &vp_info = vp->part().info();
-                if( const std::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
-                    multiplier = wb_info->multiplier;
-                    allowed_mass = wb_info->allowed_mass;
-                    allowed_volume = wb_info->allowed_volume;
+                if( const std::optional<vpslot_workbench> &v_info = vp_info.get_workbench_info() ) {
+                    wb_info = workbench_info_wrapper( *v_info );
                 } else {
-                    debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
                     return 0.0f;
                 }
             }
@@ -246,7 +239,9 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
             return 0.0f;
     }
 
-
+    multiplier = wb_info.multiplier;
+    allowed_mass = wb_info.allowed_mass;
+    allowed_volume = wb_info.allowed_volume;
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
     multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
 
@@ -1150,6 +1145,10 @@ void complete_craft( player &p, item &craft, const bench_location & )
             food_contained.set_owner( p.get_faction()->id );
         }
 
+        // If we created a tool that spawns empty, don't preset its ammotype.
+        if( !newit->ammo_remaining() ) {
+            newit->ammo_unset();
+        }
         if( newit->made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( std::move( newit ), PICKUP_RANGE );
         } else {
@@ -2397,7 +2396,7 @@ bench_location find_best_bench( const player &p, const item &craft )
                     best_loc = adj;
                 }
             } else {
-                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+                debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
             }
         }
     }

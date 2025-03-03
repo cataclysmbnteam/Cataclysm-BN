@@ -196,8 +196,12 @@ void worldfactory::init()
         all_worlds[worldname] = std::make_unique<WORLDINFO>();
         // give the world a name
         all_worlds[worldname]->world_name = worldname;
-        // Record the world save format. Only one exists at this time.
-        all_worlds[worldname]->world_save_format = save_format::V1;
+        // Record the world save format. V2 is identified by the presence of a map.sqlite3 file.
+        if( file_exist( world_dir + "/map.sqlite3" ) ) {
+            all_worlds[worldname]->world_save_format = save_format::V2_COMPRESSED_SQLITE3;
+        } else {
+            all_worlds[worldname]->world_save_format = save_format::V1;
+        }
         // add sav files
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
@@ -1275,6 +1279,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PICK_RANDOM_WORLDNAME" );
+    ctxt.register_action( "TOGGLE_V2_SAVE_FORMAT" );
     // string input popup actions
     ctxt.register_action( "TEXT.LEFT" );
     ctxt.register_action( "TEXT.RIGHT" );
@@ -1324,6 +1329,22 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
         fold_and_print( w_confirmation, point( 2, 3 ), getmaxx( w_confirmation ) - 2, c_light_gray,
                         _( "Press [<color_yellow>%s</color>] to pick a random name for your world." ),
                         ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
+
+        if( world->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+            mvwprintz( w_confirmation, point( 2, 6 ), c_cyan,
+                       _( "Save Format: Experimental V2 save format" ) );
+        } else {
+            mvwprintz( w_confirmation, point( 2, 6 ), c_white,
+                       _( "Save Format: Standard (V1) save format" ) );
+        }
+
+        fold_and_print( w_confirmation, point( 2, 8 ), getmaxx( w_confirmation ) - 2, c_light_gray,
+                        _( "<color_cyan>[Experimental]</color> Press [<color_yellow>%s</color>] to toggle save format.\n"
+                           "<color_light_blue>The new format shrinks save files and reduces save corruption, at the cost of "
+                           "slightly slower saves. You can opt into this later by converting an existing world to V2"
+                           " from the main menu. V2 worlds cannot currently be converted back to V1.</color>" ),
+                        ctxt.get_desc( "TOGGLE_V2_SAVE_FORMAT" ) );
+
         fold_and_print( w_confirmation, point( 2, TERMY / 2 - 2 ), getmaxx( w_confirmation ) - 2,
                         c_light_gray,
                         _( "Press [<color_yellow>%s</color>] when you are satisfied with the world as it is and are ready "
@@ -1372,6 +1393,12 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
             return -1;
         } else if( action == "PICK_RANDOM_WORLDNAME" ) {
             world->world_name = worldname = pick_random_name();
+        } else if( action == "TOGGLE_V2_SAVE_FORMAT" ) {
+            if( world->world_save_format == save_format::V2_COMPRESSED_SQLITE3 ) {
+                world->world_save_format = save_format::V1;
+            } else {
+                world->world_save_format = save_format::V2_COMPRESSED_SQLITE3;
+            }
         } else if( action == "QUIT" && ( !on_quit || on_quit() ) ) {
             world->world_name = worldname;
             return -999;
@@ -1579,4 +1606,51 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
     } else {
         get_world( worldname )->world_saves.clear();
     }
+}
+
+void worldfactory::convert_to_v2( const std::string &worldname )
+{
+    // Ensure we're ready to convert
+    WORLDINFO *worldinfo = get_world( worldname );
+    if( worldinfo == nullptr ) {
+        popup( _( "Tried to convert non-existing world %s to v2" ), worldname );
+        return;
+    }
+
+    if( worldinfo->world_save_format != save_format::V1 ) {
+        popup( _( "World %s is already at savefile version 2" ), worldname );
+        return;
+    }
+
+    // Backup the world by renaming it to a new name
+    if( worldname.find( " (V2 Conversion Backup)" ) != std::string::npos ) {
+        popup( _( "World '%s' is already a backup. Rename the world before trying again." ), worldname );
+        return;
+    }
+
+    std::string backup_name = worldname + " (V2 Conversion Backup)";
+    if( has_world( backup_name ) ) {
+        popup( _( "Backup world '%s' already exists, aborting conversion" ), backup_name );
+        return;
+    }
+
+    std::unique_ptr<WORLDINFO> old_world = std::make_unique<WORLDINFO>();
+    old_world->COPY_WORLD( world_generator->get_world( worldname ) );
+    old_world->world_name = backup_name;
+
+    // Deep copy the world saves
+    std::vector<save_t> world_saves_copy( worldinfo->world_saves );
+    old_world->world_saves = worldinfo->world_saves;
+
+    // Rename the world folder perform the move
+    rename_file( worldinfo->folder_path(), old_world->folder_path() );
+    worldinfo->world_save_format = save_format::V2_COMPRESSED_SQLITE3;
+    world new_world( worldinfo );
+    new_world.convert_from_v1( old_world );
+    add_world( std::move( old_world ) );
+
+    // Save the world
+    worldinfo->save();
+
+    popup( _( "Conversion Complete!" ) );
 }

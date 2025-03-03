@@ -1097,7 +1097,8 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( g->u.is_deaf() ) {
+    // Infolink alarm is silent and works even if deaf
+    if( g->u.is_deaf() && !g->u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( u.has_alarm_clock() ) {
@@ -1456,7 +1457,7 @@ static void cast_spell()
     spell &sp = *u.magic->get_spells()[spell_index];
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
+        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) && u.primary_weapon().is_two_handed( u ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return;

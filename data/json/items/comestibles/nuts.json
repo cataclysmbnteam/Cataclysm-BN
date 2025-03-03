@@ -385,6 +385,7 @@
   {
     "type": "COMESTIBLE",
     "id": "acorns",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "acorns" },
     "weight": "30 g",
     "color": "brown",
@@ -407,6 +408,7 @@
   {
     "type": "COMESTIBLE",
     "id": "acorn_roasted",
+    "category": "food",
     "name": { "str_sp": "roasted acorns" },
     "copy-from": "acorns",
     "healthy": 1,

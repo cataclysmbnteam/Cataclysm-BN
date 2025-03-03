@@ -26,6 +26,29 @@
   },
   {
     "type": "recipe",
+    "result": "robobench",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "electronics",
+    "skills_required": [ [ "computer", 5 ], [ "fabrication", 3 ] ],
+    "difficulty": 7,
+    "time": "4 h",
+    "reversible": true,
+    "decomp_learn": 1,
+    "book_learn": [ [ "recipe_lab_elec", 6 ], [ "recipe_mil_augs", 6 ], [ "textbook_robots", 6 ] ],
+    "using": [ [ "welding_standard", 15 ], [ "soldering_standard", 40 ] ],
+    "components": [
+      [ [ "workbench", 1 ] ],
+      [ [ "plut_cell", 2 ] ],
+      [ [ "motor_small", 6 ] ],
+      [ [ "cable", 60 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "ai_module", 1 ] ],
+      [ [ "sheet_metal_small", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "pump_complex",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -869,6 +892,20 @@
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
   {
+    "result": "wheel_skateboard",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "90 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 4 ] ] ]
+  },
+  {
     "result": "mounted_spare_tire",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -1258,6 +1295,19 @@
   },
   {
     "type": "recipe",
+    "result": "frame_wood_deck",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 0 ],
+    "time": "90 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "wheel_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -1305,7 +1355,8 @@
     "reversible": true,
     "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 8 ] ]
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "steel_armor", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -1318,7 +1369,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
     "using": [ [ "welding_standard", 10 ] ],
-    "components": [ [ [ "steel_standard", 8, "LIST" ], [ "steel_plate", 1 ] ], [ [ "steel_tiny", 4, "LIST" ], [ "spike", 4 ] ] ]
+    "components": [ [ [ "steel_armor", 12 ], [ "steel_plate", 1 ] ], [ [ "steel_tiny", 4, "LIST" ], [ "spike", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1331,7 +1382,8 @@
     "time": "12 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 24 ] ]
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "hard_steel_armor", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -1577,8 +1629,8 @@
     "autolearn": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "byproducts": [ [ "steel_lump", 50 ] ],
-    "components": [ [ [ "hdframe", 3 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
+    "byproducts": [ [ "steel_lump", 20 ] ],
+    "components": [ [ [ "hdframe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1865,9 +1917,10 @@
     "skill_used": "computer",
     "difficulty": 1,
     "autolearn": true,
-    "time": "50 m",
-    "using": [ [ "3d_printing_standard", 50 ] ],
-    "components": [ [ [ "plastic_chunk", 50 ] ] ]
+    "time": "30 m",
+    "batch_time_factors": [ 60, 1 ],
+    "using": [ [ "3d_printing_standard", 30 ] ],
+    "components": [ [ [ "plastic_chunk", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -1878,8 +1931,9 @@
     "difficulty": 3,
     "time": "75 m",
     "autolearn": true,
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 75, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 50 ] ] ]
+    "batch_time_factors": [ 60, 1 ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 55, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 30 ] ] ]
   },
   {
     "result": "frame_carbon",
@@ -1889,8 +1943,23 @@
     "skill_used": "computer",
     "difficulty": 2,
     "autolearn": true,
-    "time": "30 m",
-    "using": [ [ "3d_printing_standard", 30 ] ],
-    "components": [ [ [ "carbon_fiber_filament", 300 ] ] ]
+    "time": "20 m",
+    "batch_time_factors": [ 60, 1 ],
+    "using": [ [ "3d_printing_standard", 20 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 200 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cargo_rack_carbon",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "computer",
+    "difficulty": 3,
+    "skills_required": [ "mechanics", 1 ],
+    "autolearn": true,
+    "time": "20 m",
+    "batch_time_factors": [ 60, 1 ],
+    "using": [ [ "3d_printing_standard", 20 ], [ "rope_natural", 4 ] ],
+    "components": [ [ [ "carbon_fiber_filament", 400 ], [ "frame_carbon", 2 ] ] ]
   }
 ]

@@ -20,6 +20,7 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -583,7 +584,12 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
     } else if( !mdata.spawn_item.is_empty() ) {
-        i_add_or_drop( item::spawn( mdata.spawn_item ) );
+        detached_ptr<item> granted = item::spawn( mdata.spawn_item );
+        if( granted->made_of( LIQUID ) ) {
+            liquid_handler::consume_liquid( std::move( granted ), 1 );
+        } else {
+            i_add_or_drop( std::move( granted ) );
+        }
         add_msg_if_player( mdata.spawn_item_message() );
         tdata.powered = false;
         return;
