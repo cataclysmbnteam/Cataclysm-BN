@@ -610,7 +610,7 @@ void show_armor_layers_ui( Character &who )
                 mvwprintz( w_sort_left, point( 0, drawindex + 1 ), c_yellow, ">>" );
             }
 
-            std::string worn_armor_name = ( *access_tmp_worn( itemindex ) )->tname();
+            std::string worn_armor_name = ( *access_tmp_worn( itemindex ) )->display_name();
             item_penalties const penalties =
                 get_item_penalties( access_tmp_worn( itemindex ), who, bp );
 
