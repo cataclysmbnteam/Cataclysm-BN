@@ -97,6 +97,7 @@ class gunmod_location
 };
 
 struct islot_tool {
+    bool was_loaded;
     std::set<ammotype> ammo_id;
 
     std::optional<itype_id> revert_to;
@@ -110,9 +111,10 @@ struct islot_tool {
     int charges_per_use = 0;
     int turns_per_charge = 0;
     int turns_active = 0;
-    int power_draw = 0;
 
-    std::vector<int> rand_charges;
+    units::energy max_energy = 0_kJ;
+    units::energy def_energy = 0_kJ;
+    units::energy energy_draw = 0_kJ;
 };
 
 struct islot_comestible {
@@ -513,10 +515,13 @@ struct islot_gun : common_ranged_data {
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
 
+    /** For guns with integral battery what is the capacity */
+    units::energy capacity = 0_J;
     /**
-     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
+     * If this uses energy, how much (per shot), 0_J for no UPS charges at all.
      */
-    int ups_charges = 0;
+    units::energy energy_draw = 0_J;
+
     /**
      * One in X chance for gun to require major cleanup after firing blackpowder shot.
      */
@@ -665,8 +670,13 @@ struct islot_magazine {
 };
 
 struct islot_battery {
-    /** Maximum energy the battery can store */
-    units::energy max_capacity;
+    bool was_loaded;
+
+    units::energy max_energy = 0_kJ;
+    units::energy def_energy = 0_kJ;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_ammo : common_ranged_data {
@@ -1042,6 +1052,15 @@ struct itype {
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
         units::volume magazine_well = 0_ml;
 
+        /** Batteries (if any) that can be used to reload this item */
+        std::vector<itype_id> batteries;
+
+        /** Default battery that can be used to reload this item */
+        itype_id battery_default;
+
+        /** Volume above which the battery starts to protrude from the item and add extra volume */
+        units::volume battery_well = 0_ml;
+
         layer_level layer = layer_level::MAX_CLOTHING_LAYER;
 
         /**
@@ -1089,8 +1108,10 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
-        int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+        // Picks first method or returns 0
+        std::pair<int, units::energy> invoke( player &p, item &it, const tripoint &pos ) const;
+        std::pair<int, units::energy> invoke( player &p, item &it, const tripoint &pos,
+                                              const std::string &iuse_name ) const;
         void tick( player &p, item &it, const tripoint &pos ) const;
 
         bool is_fuel() const;
