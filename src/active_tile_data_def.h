@@ -31,14 +31,14 @@ class battery_tile : public active_tile_data
         void load( JsonObject &jo ) override;
 
         units::energy get_resource() const;
-        units::energy mod_resource( int amt );
+        units::energy mod_resource( units::energy amt );
 };
 
 class charge_watcher_tile : public active_tile_data
 {
     public:
         /* In J */
-        int min_power;
+        units::energy min_power;
         active_tiles::furn_transform transform;
 
         void update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) override;

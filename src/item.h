@@ -1867,6 +1867,8 @@ class item : public location_visitable<item>, public game_object<item>
         units::energy energy_remaining() const;
         /** Maximum quantity of energy loadable for tool, gun or battery*/
         units::energy energy_capacity() const;
+        /** @param potential_capacity whether to try a default battery if necessary */
+        units::energy energy_capacity( bool potential_capacity ) const;
         /** Amount of power consumed per usage of tool or with each shot of gun */
         units::energy energy_required() const;
 

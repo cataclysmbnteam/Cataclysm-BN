@@ -2108,14 +2108,14 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item &pseudo = *item::spawn_temporary( obj );
-        if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
+        if( energy_left( true ) < pseudo.energy_required() ) {
             return false;
         }
-        auto capacity = pseudo.ammo_capacity( true );
-        auto qty = capacity - discharge_battery( capacity );
-        pseudo.ammo_set( itype_battery, qty );
+        auto capacity = pseudo.energy_capacity( true );
+        auto to_charge = capacity - discharge_battery( capacity );
+        pseudo.set_energy( to_charge );
         you.invoke_item( &pseudo );
-        charge_battery( pseudo.ammo_remaining() );
+        charge_battery( pseudo.energy_remaining() );
         return true;
     };
 

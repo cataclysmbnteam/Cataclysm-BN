@@ -4811,12 +4811,12 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 if( n.is_battery() &&  n.energy_capacity() > n.energy_remaining() ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                        const int missing = cur_veh.discharge_battery( 1, false );
-                        if( missing > 0 ) {
+                        const units::energy charged = 1_kJ - cur_veh.discharge_battery( 1_kJ, false );
+                        n.mod_energy( charged );
+                        if( charged < 1_kJ ) {
                             out_of_battery = true;
                             return VisitResponse::ABORT;
                         }
-                        n.mod_energy( 1_kJ );
                         power -= 1000;
                     }
                     return VisitResponse::ABORT;

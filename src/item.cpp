@@ -7899,19 +7899,26 @@ units::energy item::energy_remaining() const
 
 units::energy item::energy_capacity() const
 {
-    const item *mag = battery_current();
-    if( mag ) {
-        return mag->energy_capacity();
+    return energy_capacity( false );
+}
+
+units::energy item::energy_capacity( bool potential_capacity ) const
+{
+    const item *bat = battery_current();
+    if( bat ) {
+        return bat->energy_capacity();
     } else if( is_battery() ) {
         return type->battery->max_energy;
     } else if( is_tool() ) {
         units::energy res = type->tool->max_energy;
-        for( const item *e : toolmods() ) {
+        if( res == 0_J && potential_capacity ) {
+            res = type->battery_default->battery->max_energy;
         }
         return res;
     } else if( is_gun() ) {
         units::energy res = type->gun->capacity;
-        for( const item *e : gunmods() ) {
+        if( res == 0_J && potential_capacity ) {
+            res = type->battery_default->battery->max_energy;
         }
         return res;
     }

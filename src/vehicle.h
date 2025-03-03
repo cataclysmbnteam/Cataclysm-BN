@@ -946,6 +946,12 @@ class vehicle
         void power_parts();
 
         /**
+         * Returns total battery in vehicle
+         * @recurse whether this function goes over connected vehicles/grids.
+         */
+        units::energy energy_left( bool recurse ) const;
+
+        /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
          * @return amount of charge left over.
          */

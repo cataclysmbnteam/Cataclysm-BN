@@ -3528,20 +3528,6 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
     } );
 
-    if( recurse && ftype == fuel_type_battery ) {
-        using tvr = distribution_graph::traverse_visitor_result;
-        auto fuel_counting_visitor = [&fl, &ftype]( vehicle const & veh ) {
-            fl += veh.fuel_left( ftype, false );
-            return tvr::continue_further;
-        };
-        auto power_counting_visitor = [&fl]( distribution_grid const & grid ) {
-            fl += grid.get_resource( false );
-            return tvr::continue_further;
-        };
-
-        distribution_graph::traverse( *this, fuel_counting_visitor, power_counting_visitor );
-    }
-
     //muscle engines have infinite fuel
     if( ftype == fuel_type_muscle ) {
         // TODO: Allow NPCs to power those
@@ -3592,18 +3578,6 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 
 int vehicle::drain( const itype_id &ftype, int amount )
 {
-    if( ftype == fuel_type_battery ) {
-        // Batteries get special handling to take advantage of jumper
-        // cables -- discharge_battery knows how to recurse properly
-        // (including taking cable power loss into account).
-        int remnant = discharge_battery( amount, true );
-
-        // discharge_battery returns amount of charges that were not
-        // found anywhere in the power network, whereas this function
-        // returns amount of charges consumed; simple subtraction.
-        return amount - remnant;
-    }
-
     int drained = 0;
     for( auto &p : parts ) {
         if( amount <= 0 ) {
@@ -3628,7 +3602,7 @@ int vehicle::drain( const int index, int amount )
     }
     vehicle_part &pt = parts[index];
     if( pt.ammo_current() == fuel_type_battery ) {
-        return drain( fuel_type_battery, amount );
+        return drain_energy( fuel_type_battery, amount * 1000 );
     }
     if( !pt.is_tank() || !pt.ammo_remaining() ) {
         debugmsg( "Tried to drain something without any liquid: %s amount: %d ammo: %d",
@@ -4741,13 +4715,8 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
     // Consumption of battery power is done differently.
     // From all batteries at once and doesn't change mass.
     if( ftype == fuel_type_battery ) {
-        // Batteries stored in kilojoules
-        const int total_kj_to_drain = static_cast<int>( energy_j / 1000.0 );
-        if( total_kj_to_drain <= 0 ) {
-            return 0.0;
-        }
-        const int not_fulfilled = discharge_battery( total_kj_to_drain );
-        return static_cast<double>( total_kj_to_drain - not_fulfilled ) * 1000.0;
+        const units::energy not_fulfilled = discharge_battery( units::from_joule( energy_j ) );
+        return energy_j - units::to_joule( not_fulfilled );
     }
 
     double drained = 0.0f;
@@ -5290,6 +5259,30 @@ void traverse( StartPoint &start,
 }
 
 } // namespace distribution_graph
+
+units::energy vehicle::energy_left( bool recurse ) const
+{
+    units::energy el = std::accumulate( parts.begin(), parts.end(), 0_J, []( const units::energy & lhs,
+    const vehicle_part & rhs ) {
+        return lhs + rhs.energy_remaining();
+    } );
+
+    if( recurse ) {
+        using tvr = distribution_graph::traverse_visitor_result;
+        auto fuel_counting_visitor = [&el]( vehicle const & veh ) {
+            el += veh.energy_left( false );
+            return tvr::continue_further;
+        };
+        auto power_counting_visitor = [&el]( distribution_grid const & grid ) {
+            el += grid.get_resource( false );
+            return tvr::continue_further;
+        };
+
+        distribution_graph::traverse( *this, fuel_counting_visitor, power_counting_visitor );
+    }
+
+    return el;
+}
 
 units::energy vehicle::charge_battery( units::energy amount, bool include_other_vehicles )
 {

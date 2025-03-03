@@ -4087,17 +4087,20 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     };
 
     charges_type charge_type = charges_type::none;
+    fake_item.energy = 0_J;
     fake_item.charges = 0;
 
+    // If it uses grid charges it uses energy, if not it uses charges.
     if( fake_item.has_flag( flag_USES_GRID_POWER ) ) {
         const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-        fake_item.charges = grid.get_resource();
+        fake_item.energy = grid.get_resource();
         charge_type = charges_type::grid;
     } else if( ammo != itype_id::NULL_ID() ) {
         fake_item.charges = count_charges_in_list( &*ammo, m.i_at( examp ) );
         charge_type = charges_type::ammo_from_map;
     }
 
+    const units::energy original_energy = fake_item.energy;
     const int original_charges = fake_item.charges;
     p.invoke_item( &fake_item );
 
@@ -4105,23 +4108,32 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     activity_handlers::repair_activity_hack::patch_activity_for_furniture( *g->u.activity, examp,
             cur_tool.get_id() );
 
+    const units::energy discharged_energy = original_energy - fake_item.energy;
     const int discharged_ammo = original_charges - fake_item.charges;
 
-    if( discharged_ammo == 0 ) {
+    if( discharged_energy == 0_J && discharged_ammo == 0 ) {
         return;
     }
 
     switch( charge_type ) {
         case charges_type::grid: {
+            if( discharged_ammo > 0 ) {
+                debugmsg( "Fake item %s tried to discharge ammo %s from grid at %s.",
+                          cur_tool.get_id().c_str(), ammo.c_str(), abspos.to_string() );
+            }
             distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
-            const int remainder = grid.mod_resource( -discharged_ammo );
-            if( remainder != 0 ) {
+            const units::energy remainder = grid.mod_resource( -discharged_energy );
+            if( remainder != 0_J ) {
                 debugmsg( "Fake item %s discharged more charges than have in grid at %s.",
                           cur_tool.get_id().c_str(), abspos.to_string() );
             }
             return;
         }
         case charges_type::ammo_from_map: {
+            if( discharged_energy > 0_J ) {
+                debugmsg( "Fake item %s tried to discharge energy from grid at %s despite having ammo defined.",
+                          cur_tool.get_id().c_str(), abspos.to_string() );
+            }
             int by_ref = discharged_ammo;
             m.use_charges( examp, 0, ammo->get_id(), by_ref );
             if( by_ref != 0 ) {
@@ -6304,10 +6316,11 @@ void iexamine::check_power( player &, const tripoint &examp )
     tripoint_abs_ms abspos( g->m.getabs( examp ) );
     battery_tile *battery = active_tiles::furn_at<battery_tile>( abspos );
     if( battery != nullptr ) {
-        add_msg( m_info, _( "This battery stores %d kJ of electric power." ), battery->get_resource() );
+        add_msg( m_info, _( "This battery stores %s of electric power." ),
+                 units::display( battery->get_resource() ) );
     }
-    int amt = get_distribution_grid_tracker().grid_at( abspos ).get_resource();
-    add_msg( m_info, _( "This electric grid stores %d kJ of electric power." ), amt );
+    units::energy amt = get_distribution_grid_tracker().grid_at( abspos ).get_resource();
+    add_msg( m_info, _( "This electric grid stores %s of electric power." ), units::display( amt ) );
 }
 
 void iexamine::migo_nerve_cluster( player &p, const tripoint &examp )

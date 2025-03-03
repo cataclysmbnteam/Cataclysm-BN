@@ -131,7 +131,7 @@ void solar_tile::update_internal( time_point to, const tripoint_abs_ms &p, distr
                                      p.raw() ).sunlight / default_daylight_level();
     // int64 because we can have years in here
     std::int64_t produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
-    grid.mod_resource( static_cast<int>( std::min( static_cast<std::int64_t>( INT_MAX ), produced ) ) );
+    grid.mod_resource( units::from_joule( produced ) );
 }
 
 active_tile_data *solar_tile::clone() const
@@ -211,7 +211,7 @@ units::energy battery_tile::mod_resource( units::energy amt )
 void charge_watcher_tile::update_internal( time_point /*to*/, const tripoint_abs_ms &p,
         distribution_grid &grid )
 {
-    int amt_stored = grid.get_resource();
+    units::energy amt_stored = grid.get_resource();
 
     if( amt_stored >= min_power ) {
         get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
@@ -262,10 +262,8 @@ void charger_tile::update_internal( time_point to, const tripoint_abs_ms &p,
             }
             if( n.is_battery() && n.energy_capacity() > n.energy_remaining() ) {
                 while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                    const int missing = grid.mod_resource( -1 );
-                    if( missing == 0 ) {
-                        n.mod_energy( 1_kJ );
-                    }
+                    const units::energy charged = 1_kJ - grid.mod_resource( -1_kJ );
+                    n.mod_energy( charged );
                     power -= 1000;
                 }
                 return VisitResponse::ABORT;
