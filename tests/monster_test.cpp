@@ -8,6 +8,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <ranges>
 #include <utility>
 
 #include "avatar.h"
@@ -15,6 +16,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "monstergenerator.h"
 #include "options_helpers.h"
 #include "options.h"
 #include "player.h"
@@ -353,4 +355,24 @@ TEST_CASE( "monster_move_through_vehicle_holes" )
     const monster *m2 = g->critter_at<monster>( mon_origin + tripoint_north_west );
     CHECK( m2 == nullptr );
 
+}
+
+TEST_CASE( "print_monster_difficulty", "[.]" )
+{
+    const auto &mtypes = MonsterGenerator::generator().get_all_mtypes();
+    int pad_len = std::ranges::max_element( mtypes, std::ranges::less{}, []( const mtype & mt ) {
+        return mt.nname().length();
+    } )->nname().length();
+    auto mtypes_sorted = mtypes;
+    std::ranges::sort( mtypes_sorted, {}, []( const mtype & mt ) {
+        return mt.difficulty + mt.difficulty_base;
+    } );
+    for( const mtype &mt : mtypes_sorted ) {
+        printf( "%-*s %d = %d + %d\n",
+                pad_len + 1,
+                mt.nname( 1 ).c_str(),
+                mt.difficulty + mt.difficulty_base,
+                mt.difficulty,
+                mt.difficulty_base );
+    }
 }
