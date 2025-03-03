@@ -169,6 +169,7 @@ void player_activity::calc_moves_on_start( Character &who, const recipe &rec )
     }
     if( is_skill_affected() ) {
         std::vector<requirement<skill_id>> req;
+        req.emplace_back( rec.skill_used, 0, rec.difficulty );
         for( auto &skill : rec.required_skills ) {
             req.emplace_back( skill.first, 0, skill.second );
         }
