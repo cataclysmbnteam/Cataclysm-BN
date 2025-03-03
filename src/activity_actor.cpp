@@ -681,12 +681,13 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         }
         targets.erase( targets.begin() );
         progress.pop();
-        if( !progress.empty() && !try_start_single( act, who ) ) {
-            act.set_to_null();
-        } else {
-            const item &itm = *target.loc;
-            const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
-            act.calc_moves_on_start( who, dis );
+        if( !progress.empty() ) {
+            if( try_start_single( act, who ) ) {
+                const recipe &dis = recipe_dictionary::get_uncraft( targets.front().loc->typeId() );
+                act.calc_moves_on_start( who, dis );
+            } else {
+                act.set_to_null();
+            }
         }
     }
 }
