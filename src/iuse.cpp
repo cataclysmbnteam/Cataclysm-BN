@@ -3682,14 +3682,7 @@ std::pair<int, units::energy> iuse::molotov_lit( player *p, item *it, bool t, co
             p->add_msg_if_player( m_good, _( "Fire…  Good…" ) );
         }
         // If you exploded it on yourself through activation.
-        <<< <<< < HEAD
-        if( it->has_position() ) {
-            it->detach();
-        }
         return res;
-        == == == =
-            return 1;
-        >>> >>> > upload
     } else if( p->has_item( *it ) && it->charges == 0 ) {
         return std::make_pair( 0, 0_J );
     }
@@ -9542,8 +9535,9 @@ std::pair<int, units::energy> iuse::report_grid_charge( player *p, item *, bool,
     tripoint_abs_ms pos_abs( get_map().getabs( pos ) );
     const distribution_grid &gr = get_distribution_grid_tracker().grid_at( pos_abs );
 
-    int amt = gr.get_resource();
-    p->add_msg_if_player( _( "This electric grid stores %d kJ of electric power." ), amt );
+    units::energy amt = gr.get_resource();
+    p->add_msg_if_player( _( "This electric grid stores %s of electric power." ),
+                          units::display( amt ) );
 
     return std::make_pair( 0, 0_J );
 }
