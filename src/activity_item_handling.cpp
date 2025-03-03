@@ -1101,7 +1101,7 @@ static activity_reason_info find_base_construction(
         const construction &rid_build = rid.obj();
 
         if(
-            ( !rid_build.post_terrain.empty() ? rid_build.post_terrain.front().id() == ter : false ) ||
+            ( !rid_build.post_terrain.empty() && rid_build.post_terrain.front().id() == ter ) ||
             ( !rid_build.post_furniture.is_empty() && rid_build.post_furniture.id() == furn )
         ) {
             return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, rid, ter_or_furn_idx );
@@ -1132,12 +1132,15 @@ static activity_reason_info find_base_construction(
     std::priority_queue<time_con> pq;
     std::for_each( roots.begin(), roots.end(), [&]( const auto & con ) {
         // Needs to check if the root actually have the valid terrain/furniture somewhere
+        int con_ter_or_furn_idx = 0;
         auto ter = std::find( con->post_terrain.begin(), con->post_terrain.end(),
                               id->post_terrain[ter_or_furn_idx] );
         if( ter != con->post_terrain.end() ) {
-            int con_ter_or_furn_idx = std::distance( con->post_terrain.begin(), ter );
-            pq.push( { to_turns<int>( con->time ), con, con_ter_or_furn_idx } );
+            con_ter_or_furn_idx = std::distance( con->post_terrain.begin(), ter );
         };
+
+        // Push anyways because it could be empty (i curse deconstruct logic)
+        pq.push( { to_turns<int>( con->time ), con, con_ter_or_furn_idx } );
     } );
     auto is_disassembly = []( const auto & con ) -> bool {
         auto check_assembly = []( const auto & con ) -> bool {
