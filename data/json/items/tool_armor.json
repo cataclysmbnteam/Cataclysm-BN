@@ -167,14 +167,14 @@
     "encumbrance": 15,
     "coverage": 80,
     "material_thickness": 4,
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -410,14 +410,14 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -463,14 +463,14 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [ 
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -516,14 +516,14 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -569,14 +569,14 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -673,14 +673,14 @@
     "covers": [ "head" ],
     "coverage": 15,
     "material_thickness": 1,
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -727,14 +727,14 @@
     "covers": [ "head" ],
     "coverage": 20,
     "material_thickness": 1,
-    "batteries": [ 
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -1384,14 +1384,14 @@
     "encumbrance": 40,
     "coverage": 100,
     "material_thickness": 2,
-    "batteries": [ 
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -1442,14 +1442,14 @@
     "encumbrance": 40,
     "coverage": 100,
     "material_thickness": 2,
-    "batteries": [ 
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -2544,14 +2544,14 @@
     "encumbrance": 5,
     "coverage": 10,
     "material_thickness": 2,
-    "batteries": [ 
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },

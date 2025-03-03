@@ -3554,19 +3554,19 @@
       "need_charges_msg": "The vacuum pump's batteries need more charge.",
       "type": "transform"
     },
-    "batteries": [ 
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
+    "batteries": [
+      "medium_battery_cell",
+      "medium_plus_battery_cell",
+      "medium_disposable_cell",
+      "medium_atomic_battery_cell",
+      "heavy_battery_cell",
+      "heavy_plus_battery_cell",
+      "heavy_disposable_cell",
+      "heavy_atomic_battery_cell",
+      "small_storage_battery",
+      "medium_storage_battery",
+      "large_storage_battery",
+      "storage_battery"
     ]
   },
   {
@@ -3598,19 +3598,19 @@
       "need_charges_msg": "The vacuum pump's batteries need more charge.",
       "type": "transform"
     },
-    "batteries": [ 
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
+    "batteries": [
+      "medium_battery_cell",
+      "medium_plus_battery_cell",
+      "medium_disposable_cell",
+      "medium_atomic_battery_cell",
+      "heavy_battery_cell",
+      "heavy_plus_battery_cell",
+      "heavy_disposable_cell",
+      "heavy_atomic_battery_cell",
+      "small_storage_battery",
+      "medium_storage_battery",
+      "large_storage_battery",
+      "storage_battery"
     ]
   },
   {
@@ -3641,19 +3641,19 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
       "type": "transform"
     },
-    "batteries": [ 
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
+    "batteries": [
+      "medium_battery_cell",
+      "medium_plus_battery_cell",
+      "medium_disposable_cell",
+      "medium_atomic_battery_cell",
+      "heavy_battery_cell",
+      "heavy_plus_battery_cell",
+      "heavy_disposable_cell",
+      "heavy_atomic_battery_cell",
+      "small_storage_battery",
+      "medium_storage_battery",
+      "large_storage_battery",
+      "storage_battery"
     ],
     "qualities": [ [ "EXTRACT", 2 ] ]
   },
@@ -3685,19 +3685,19 @@
       "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
       "type": "transform"
     },
-    "batteries": [ 
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
+    "batteries": [
+      "medium_battery_cell",
+      "medium_plus_battery_cell",
+      "medium_disposable_cell",
+      "medium_atomic_battery_cell",
+      "heavy_battery_cell",
+      "heavy_plus_battery_cell",
+      "heavy_disposable_cell",
+      "heavy_atomic_battery_cell",
+      "small_storage_battery",
+      "medium_storage_battery",
+      "large_storage_battery",
+      "storage_battery"
     ],
     "qualities": [ [ "EXTRACT", 2 ] ]
   },
@@ -3719,19 +3719,19 @@
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
     "ammo": "battery",
     "charges_per_use": 1,
-    "batteries": [ 
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
+    "batteries": [
+      "medium_battery_cell",
+      "medium_plus_battery_cell",
+      "medium_disposable_cell",
+      "medium_atomic_battery_cell",
+      "heavy_battery_cell",
+      "heavy_plus_battery_cell",
+      "heavy_disposable_cell",
+      "heavy_atomic_battery_cell",
+      "small_storage_battery",
+      "medium_storage_battery",
+      "large_storage_battery",
+      "storage_battery"
     ],
     "use_action": {
       "target": "closed_loop_extractor_large_on",
@@ -3764,19 +3764,19 @@
     "power_draw": 1500000,
     "revert_to": "closed_loop_extractor_large",
     "charges_per_use": 1,
-    "batteries": [ 
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
-          "heavy_battery_cell",
-          "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
-          "heavy_atomic_battery_cell",
-          "small_storage_battery",
-          "medium_storage_battery",
-          "large_storage_battery",
-          "storage_battery"
+    "batteries": [
+      "medium_battery_cell",
+      "medium_plus_battery_cell",
+      "medium_disposable_cell",
+      "medium_atomic_battery_cell",
+      "heavy_battery_cell",
+      "heavy_plus_battery_cell",
+      "heavy_disposable_cell",
+      "heavy_atomic_battery_cell",
+      "small_storage_battery",
+      "medium_storage_battery",
+      "large_storage_battery",
+      "storage_battery"
     ],
     "use_action": {
       "target": "closed_loop_extractor_large",
