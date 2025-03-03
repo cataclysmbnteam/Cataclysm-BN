@@ -166,14 +166,14 @@
       "need_charges": 1,
       "need_charges_msg": "Batteries not included."
     },
-    "batteries": [ 
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+    "batteries": [
+      "light_disposable_cell",
+      "light_minus_disposable_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell"
     ],
     "battery_well": "250 ml",
     "relic_data": {

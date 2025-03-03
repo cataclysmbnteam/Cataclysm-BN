@@ -295,14 +295,14 @@
     "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WINDMETER" ],
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_disposable_cell",
-          "light_atomic_battery_cell",
-          "light_minus_battery_cell",
-          "light_minus_disposable_cell",
-          "light_minus_atomic_battery_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_disposable_cell",
+      "light_atomic_battery_cell",
+      "light_minus_battery_cell",
+      "light_minus_disposable_cell",
+      "light_minus_atomic_battery_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -377,14 +377,14 @@
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -406,14 +406,14 @@
     "color": "light_gray",
     "use_action": [ "REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS", "MODIFY_GRID_CONNECTIONS" ],
     "flags": [ "BELT_CLIP" ],
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -433,14 +433,14 @@
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -631,14 +631,14 @@
     "color": "white",
     "ammo": "battery",
     "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ] ],
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },

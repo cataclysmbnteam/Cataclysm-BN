@@ -827,14 +827,14 @@
     "color": "light_gray",
     "ammo": "battery",
     "flags": [ "TRADER_AVOID" ],
-    "batteries": [ 
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
@@ -962,14 +962,14 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "STAB", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "batteries": [ 
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+    "batteries": [
+      "light_minus_battery_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ],
     "battery_well": "250 ml"
   },
