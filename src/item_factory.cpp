@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
+#include <vector>
 
 #include "addiction.h"
 #include "ammo.h"
@@ -30,6 +31,7 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "generic_readers.h"
 #include "init.h"
 #include "input.h"
 #include "item.h"
@@ -49,6 +51,7 @@
 #include "string_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -604,10 +607,29 @@ void Item_factory::finalize_pre( itype &obj )
             }
             float resist = 0.0f;
             if( !obj.materials.empty() ) {
-                for( const material_id &mat : obj.materials ) {
-                    resist += resist_getter( *mat );
+                // multi-material armors
+                if( obj.materials.size() > 1 ) {
+                    material_id primary_material;
+                    if( obj.armor->primary_material != material_id( "null" ) ) {
+                        primary_material = obj.armor->primary_material; // Valid primary material manually specified
+                    } else {
+                        primary_material =
+                            obj.materials[0]->ident(); // Assume that the first in the list is the primary material
+                    }
+                    for( const material_id &mat : obj.materials ) {
+                        if( mat->ident() == primary_material ) {
+                            // 60% weight to primary material
+                            resist += resist_getter( *mat ) * 0.6;
+                        } else {
+                            // 40% weight to non-primary materials
+                            resist += resist_getter( *mat ) * ( 0.4 / ( obj.materials.size() - 1 ) );
+                        }
+
+                    }
+                } else {
+                    // No weighting needed if it's monomaterial
+                    resist += resist_getter( *obj.materials[0] );
                 }
-                resist /= obj.materials.size();
             }
 
             obj.armor->resistance.flat[dt] = std::lround( resist * obj.armor->thickness );
@@ -1965,6 +1987,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
     assign( jo, "valid_mods", slot.valid_mods, strict );
+    optional( jo, slot.was_loaded, "primary_material", slot.primary_material, material_id( "null" ) );
 
     if( jo.has_array( "armor_portion_data" ) ) {
         bool dont_add_first = false;
@@ -2698,9 +2721,14 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        for( auto &m : jo.get_tags( "material" ) ) {
-            def.materials.emplace_back( m );
+        if( jo.has_array( "material" ) ) {
+            for( auto &m : jo.get_string_array( "material" ) ) {
+                def.materials.emplace_back( m );
+            }
+        } else { // if it doesn't have an array, it's a string
+            def.materials.emplace_back( jo.get_string( "material" ) );
         }
+
     }
 
     if( jo.has_string( "phase" ) ) {
