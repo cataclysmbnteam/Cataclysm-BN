@@ -1,9 +1,7 @@
 #include "activity_type.h"
 
-#include <algorithm>
 #include <functional>
 #include <map>
-#include <unordered_map>
 #include <utility>
 
 #include "activity_actor.h"

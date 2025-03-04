@@ -2,25 +2,23 @@
 #ifndef CATA_SRC_ACTIVITY_ACTOR_H
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
+#include <deque>
 #include <memory>
 #include <optional>
 #include <unordered_map>
-#include <deque>
 #include <vector>
 
 #include "activity_type.h"
-#include "clone_ptr.h"
+#include "calendar.h"
 #include "type_id.h"
-#include "safe_reference.h"
-#include "item.h"
-#include "inventory.h"
-#include "crafting.h"
 
 class avatar;
 class Character;
 class JsonIn;
 class JsonOut;
 class player_activity;
+class inventory;
+struct bench_loc;
 
 struct simple_task {
     // Name of the target that's being processed

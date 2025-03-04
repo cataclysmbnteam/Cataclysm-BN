@@ -3,7 +3,6 @@
 #define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <string>

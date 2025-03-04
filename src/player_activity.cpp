@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <array>
-#include <map>
 #include <memory>
 #include <utility>
 
@@ -16,7 +15,6 @@
 #include "character.h"
 #include "character_turn.h"
 #include "color.h"
-#include "construction.h"
 #include "construction_partial.h"
 #include "crafting.h"
 #include "distraction_manager.h"
@@ -33,9 +31,7 @@
 #include "value_ptr.h"
 #include "profile.h"
 #include "veh_type.h"
-#include "vehicle.h"
 #include "vehicle_part.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "character_functions.h"
 

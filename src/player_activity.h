@@ -3,7 +3,6 @@
 #define CATA_SRC_PLAYER_ACTIVITY_H
 
 #include <climits>
-#include <cstddef>
 #include <memory>
 #include <optional>
 #include <set>
@@ -13,13 +12,14 @@
 
 #include "activity_actor.h"
 #include "clone_ptr.h"
+#include "construction.h"
+#include "crafting.h"
 #include "enums.h"
 #include "memory_fast.h"
 #include "point.h"
-#include "type_id.h"
-#include "safe_reference.h"
 #include "recipe.h"
-#include "construction.h"
+#include "safe_reference.h"
+#include "type_id.h"
 
 class activity_actor;
 class Character;

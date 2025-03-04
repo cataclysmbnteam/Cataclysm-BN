@@ -4,12 +4,15 @@
 
 #include "activity_actor.h"
 
+#include <optional>
+
 #include "coordinates.h"
+#include "crafting.h"
 #include "item_handling_util.h"
-#include "memory_fast.h"
-#include "pickup_token.h"
 #include "location_ptr.h"
 #include "locations.h"
+#include "memory_fast.h"
+#include "pickup_token.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_energy.h"

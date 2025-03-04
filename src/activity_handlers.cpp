@@ -1,14 +1,10 @@
 #include "activity_handlers.h"
 
 #include <algorithm>
-#include <array>
 #include <climits>
 #include <cmath>
-#include <cstddef>
-#include <iterator>
 #include <memory>
 #include <optional>
-#include <ostream>
 #include <queue>
 #include <set>
 #include <stdexcept>
@@ -23,7 +19,6 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_functions.h"
 #include "character_martial_arts.h"
@@ -31,7 +26,6 @@
 #include "color.h"
 #include "construction.h"
 #include "construction_partial.h"
-#include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "crafting.h"
 #include "creature.h"
@@ -47,7 +41,6 @@
 #include "field_type.h"
 #include "fstream_utils.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -59,7 +52,6 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
-#include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -67,7 +59,6 @@
 #include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -79,10 +70,8 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -94,12 +83,9 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "text_snippets.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "units.h"
-#include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_part.h"

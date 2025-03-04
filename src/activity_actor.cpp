@@ -1,7 +1,6 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 
-#include <algorithm>
 #include <cmath>
 #include <list>
 #include <memory>
@@ -12,7 +11,6 @@
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
-#include "avatar_functions.h"
 #include "calendar.h"
 #include "character.h"
 #include "character_functions.h"
@@ -38,7 +36,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "options.h"
 #include "pickup.h"
 #include "player.h"
@@ -51,9 +48,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "uistate.h"
-#include "units.h"
 #include "vehicle.h"
-#include "vehicle_part.h"
 #include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),DC::Game)
