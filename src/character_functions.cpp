@@ -466,10 +466,10 @@ std::string fmt_wielded_weapon( const Character &who )
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
-
+    } else if( ( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) ||
+               weapon.ammo_capacity() > 0 ) {
+        return string_format( "(%d) %s",
+                              weapon.is_container() ? weapon.contents.front().charges : weapon.ammo_remaining(), weapon.tname() );
     } else {
         return weapon.tname();
     }
