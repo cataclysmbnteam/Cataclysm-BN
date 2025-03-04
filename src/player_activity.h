@@ -18,8 +18,6 @@
 #include "point.h"
 #include "type_id.h"
 #include "safe_reference.h"
-#include "crafting.h"
-#include "npc.h"
 #include "recipe.h"
 #include "construction.h"
 
@@ -32,6 +30,7 @@ class monster;
 class player;
 class translation;
 class activity_ptr;
+class npc;
 
 struct activity_reqs_adapter {
     std::vector<activity_req<quality_id>> qualities;
@@ -60,7 +59,7 @@ struct activity_reqs_adapter {
 };
 
 /*
- * Struct to track activity by factors
+ * Struct to track activity speed by factors
 */
 struct activity_speed {
     public:
