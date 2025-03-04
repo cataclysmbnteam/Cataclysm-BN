@@ -802,7 +802,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "cooking",
-    "skills_required": [ "computers", 6 ],
+    "skills_required": [ "computer", 6 ],
     "difficulty": 10,
     "time": "2 h",
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "control_laptop", -1 ] ] ],
