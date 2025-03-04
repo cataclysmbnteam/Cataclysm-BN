@@ -235,7 +235,7 @@ class disassemble_activity_actor : public activity_actor
         activity_id get_type() const override {
             return activity_id( "ACT_DISASSEMBLE" );
         }
-
+        void recalc_all_moves( player_activity &act, Character &who ) override;
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;

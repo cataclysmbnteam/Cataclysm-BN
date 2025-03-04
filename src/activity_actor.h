@@ -193,6 +193,9 @@ class activity_actor
          */
         virtual activity_id get_type() const = 0;
 
+
+        virtual void recalc_all_moves( player_activity &act, Character &who );
+
         /**
          * Called once at the start of the activity.
          * This may be used to preform setup actions and/or set

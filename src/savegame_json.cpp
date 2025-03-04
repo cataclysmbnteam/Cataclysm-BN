@@ -710,6 +710,12 @@ void Character::load( const JsonObject &data )
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
     }
+
+    //cuz this one should be checked after certain other vars loaded, like skills
+    if( activity ) {
+        activity->init_all_moves( *this );
+    }
+
 }
 
 /**

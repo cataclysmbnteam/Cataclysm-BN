@@ -733,7 +733,7 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
 
     print_reasons();
     act.tools.clear();
-    act.calc_moves_on_start( u );
+    act.recalc_all_moves( u );
     act.moves_left = setup.move_cost;
     act.moves_total = setup.move_cost;
     // We have a valid target, so preform the full finish function

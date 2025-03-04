@@ -99,6 +99,11 @@ inline void progress_counter::purge()
     targets.pop_front();
 }
 
+inline void activity_actor::recalc_all_moves( player_activity &act, Character &who )
+{
+    act.recalc_all_moves( who );
+}
+
 aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
 {
     initial_view_offset = get_avatar().view_offset;
@@ -655,6 +660,13 @@ inline void disassemble_activity_actor::process_target( player_activity &/*act*/
     progress.emplace( itm.tname( target.count ), moves_needed );
 }
 
+inline void disassemble_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+{
+    auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft(
+                                           targets.front().loc->typeId() ) );
+    act.recalc_all_moves( who, reqs );
+}
+
 void disassemble_activity_actor::start( player_activity &act, Character &who )
 {
     if( !who.is_avatar() ) {
@@ -666,8 +678,6 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     for( auto &target : targets ) {
         process_target( act, target );
     }
-    auto r = activity_reqs_adapter( recipe_dictionary::get_uncraft( targets.front().loc->typeId() ) );
-    act.calc_moves_on_start( who, r );
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -683,8 +693,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         progress.pop();
         if( !progress.empty() ) {
             if( try_start_single( act, who ) ) {
-                auto r = activity_reqs_adapter( recipe_dictionary::get_uncraft( targets.front().loc->typeId() ) );
-                act.calc_moves_on_start( who,  r );
+                recalc_all_moves( act, who );
             } else {
                 act.set_to_null();
             }
@@ -2106,3 +2115,4 @@ void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin )
         }
     }
 }
+

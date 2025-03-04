@@ -262,10 +262,17 @@ class player_activity
         /*
          * Bunch of functioins to calculate speed factors based on certain conditions
         */
+        inline void init_all_moves( Character &who ) {
+            if( actor ) {
+                actor->recalc_all_moves( *this, who );
+            } else {
+                recalc_all_moves( who );
+            }
+        }
 
         void calc_moves( const Character &who );
-        void calc_moves_on_start( Character &who );
-        void calc_moves_on_start( Character &who, activity_reqs_adapter &reqs );
+        void recalc_all_moves( Character &who );
+        void recalc_all_moves( Character &who, activity_reqs_adapter &reqs );
         float calc_bench_factor( const Character &who ) const;
         float calc_light_factor( const Character &who ) const;
         float calc_skill_factor( const Character &who ) const {

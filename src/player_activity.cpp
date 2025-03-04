@@ -134,7 +134,7 @@ void player_activity::calc_moves( const Character &who )
     }
 }
 
-void player_activity::calc_moves_on_start( Character &who )
+void player_activity::recalc_all_moves( Character &who )
 {
     if( is_bench_affected() ) {
         find_best_bench( who.pos() );
@@ -152,7 +152,7 @@ void player_activity::calc_moves_on_start( Character &who )
     calc_moves( who );
 }
 
-void player_activity::calc_moves_on_start( Character &who, activity_reqs_adapter &reqs )
+void player_activity::recalc_all_moves( Character &who, activity_reqs_adapter &reqs )
 {
     if( is_bench_affected() ) {
         find_best_bench( who.pos() );
@@ -623,10 +623,10 @@ void player_activity::find_best_bench( const tripoint &pos )
 
 void player_activity::start_or_resume( Character &who, bool resuming )
 {
-    calc_moves_on_start( who );
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
+    init_all_moves( who );
     if( rooted() ) {
         who.rooted_message();
     }
