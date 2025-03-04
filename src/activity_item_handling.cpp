@@ -1029,9 +1029,9 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 
     const auto &sorted = get_sorted_tiles_by_distance( p.pos(), passable_tiles );
 
-    const auto &avoid = p.get_path_avoid();
+    const auto &avoid = p.get_legacy_path_avoid();
     for( const tripoint &tp : sorted ) {
-        auto route = here.route( p.pos(), tp, p.get_pathfinding_settings(), avoid );
+        auto route = here.route( p.pos(), tp, p.get_legacy_pathfinding_settings(), avoid );
 
         if( !route.empty() ) {
             return route;
@@ -2238,8 +2238,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     return;
                 }
                 std::vector<tripoint> route;
-                route = here.route( p.pos(), src_loc, p.get_pathfinding_settings(),
-                                    p.get_path_avoid() );
+                route = here.route( p.pos(), src_loc, p.get_legacy_pathfinding_settings(),
+                                    p.get_legacy_path_avoid() );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -2276,8 +2276,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
                 if( here.passable( src_loc ) ) {
-                    route = here.route( p.pos(), src_loc, p.get_pathfinding_settings(),
-                                        p.get_path_avoid() );
+                    route = here.route( p.pos(), src_loc, p.get_legacy_pathfinding_settings(),
+                                        p.get_legacy_path_avoid() );
                 } else {
                     // impassable source tile (locker etc.),
                     // get route to nearest adjacent tile instead

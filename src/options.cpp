@@ -155,7 +155,6 @@ constexpr auto interface = "interface";
 constexpr auto graphics = "graphics";
 constexpr auto world_default = "world_default";
 constexpr auto debug = "debug";
-constexpr auto pathfinding = "pathfinding";
 #if defined(__ANDROID__)
 constexpr auto android = "android";
 #endif
@@ -173,7 +172,6 @@ options_manager::options_manager()
 #if defined(__ANDROID__)
     pages_.emplace_back( android, to_translation( "Android" ) );
 #endif
-    pages_.emplace_back( pathfinding, to_translation( "AI navigation" ) );
 
     mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
 
@@ -291,7 +289,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMin = -FLT_MAX;
             thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
@@ -1207,7 +1205,6 @@ void options_manager::init()
     add_options_interface();
     add_options_graphics();
     add_options_debug();
-    add_options_pathfinding();
     add_options_world_default();
     add_options_android();
 
@@ -2297,6 +2294,13 @@ void options_manager::add_options_debug()
     add( "LIMITED_BAYONETS", debug, translate_marker( "New bayonet system" ),
          translate_marker( "If true, bayonets replace weapon attack instead of adding to it.  WIP feature, weakens bayonets heavily at the moment." ),
          false );
+
+    add_empty_line();
+
+    add( "USE_LEGACY_PATHFINDING", debug,
+         translate_marker( "Use legacy pathfinding" ),
+         translate_marker( "If true, opt out of new pathfinding in favor of legacy one. This makes pathfinding mods not work." ),
+         false );
 }
 
 void options_manager::add_options_world_default()
@@ -2734,63 +2738,6 @@ void options_manager::add_options_android()
        );
 
 #endif
-}
-
-void options_manager::add_options_pathfinding()
-{
-    const auto add_empty_line = [&]() {
-        this->add_empty_line( pathfinding );
-    };
-
-    this->add(
-        "PATHFINDING_MIN_SKILL", pathfinding,
-        translate_marker( "Minimum AI navigation skill" ),
-        translate_marker(
-            "All enemies will have at least this level of navigation. "
-            "Stockfish: can take complex, long paths across the whole map. "
-            "Einstein: restricted to complex paths within the area between target and enemy, but no attacks from behind. "
-            "Smart: can take complex paths within range and beyond in a search cone. "
-            "Average: can take complex paths within range. "
-            "Dumb: legacy pathfinding, simple paths within range."
-    ), {
-        {"dumb", translate_marker_context( "options: AI", "Dumb" ) },
-        {"average", translate_marker_context( "options: AI", "Average" )},
-        {"smart", translate_marker_context( "options: AI", "Smart" ) },
-        {"einstein", translate_marker_context( "options: AI", "Einstein" ) },
-        {"stockfish", translate_marker_context( "options: AI", "Stockfish" ) },
-    }, "dumb" );
-
-    this->add( "PATHFINDING_SKILL_BASED_ON_MAX_DIST", pathfinding,
-               translate_marker( "Range-dependent AI navigation skill" ),
-               translate_marker( "AI pathfinding skill depends on how far this enemy's pathfinding range extends. If false, all enemies get the minimum allowed navigation skill." ),
-               false );
-    add_empty_line();
-
-    this->add( "PATHFINDING_MOB_AVOIDANCE", pathfinding,
-               translate_marker( "Mob avoidance" ),
-               translate_marker( "Enemies will navigate around other enemies." ), false );
-    this->add( "PATHFINDING_LOW_ALPHA", pathfinding,
-               translate_marker( "Sub-optimal pathfinding" ),
-               translate_marker( "Enemies don't always take the shortest path, instead choosing to step aside every now and then. Leads to move \"flowy\", liquid-like movement." ),
-               false );
-    add_empty_line();
-
-    this->add( "PATHFINDING_MAX_DIST_MULT", pathfinding,
-               translate_marker( "Range mult." ), translate_marker( "Multiply vicinity pathfinding range by..." ),
-               1.0, 4.0, 1.0, 0.5 );
-    this->add( "PATHFINDING_MAX_LENGTH_MULT", pathfinding,
-               translate_marker( "Path complexity mult." ),
-               translate_marker( "Multiply max allowed path complexity for Dumb navigators by..." ),
-               1.0, 4.0, 1.0, 0.5 );
-    this->add( "PATHFINDING_SEARCH_CONE_ANGLE", pathfinding,
-               translate_marker( "Search cone angle" ),
-               translate_marker( "The arc angle of the search cone used by Smart navigators" ),
-               30.0, 75.0, 45.0, 5.0 );
-    this->add( "PATHFINDING_SEARCH_AREA_COEFF", pathfinding,
-               translate_marker( "Search area coeff." ),
-               translate_marker( "The overall size of the \"general area\" pathed through by Einstein navigators" ),
-               1.0, 1.5, 1.0, 0.05
-             );
 }
 
 #if defined(TILES)

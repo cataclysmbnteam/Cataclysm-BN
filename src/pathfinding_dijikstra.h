@@ -1,3 +1,6 @@
+#ifndef CATA_SRC_PATHFINDING_DIJIKSTRA_H
+#define CATA_SRC_PATHFINDING_DIJIKSTRA_H
+
 #include <algorithm>
 #include <array>
 #include <map>
@@ -59,9 +62,12 @@ struct PathfindingSettings {
     bool can_fly = false;
 
     // Can we climb stairs? `can_fly == true` overrides this value to be true.
-    float can_climb_stairs = false;
+    bool can_climb_stairs = false;
 
-    constexpr bool operator==( const PathfindingSettings &rhs ) const = default;
+    // A map of tiles that have an extra G-cost assigned to them. Used for potential fields, preclosed tiles, etc.
+    std::unordered_map<tripoint, float> extra_g_costs;
+
+    bool operator==( const PathfindingSettings &rhs ) const = default;
 };
 
 // A struct defining various coefficient used when creating/calculating a path from a dijikstra map
@@ -77,7 +83,7 @@ struct RouteSettings {
     // This coefficient determines how weights are distributed among these paths
     // -1 -- always choose the longest path (why would you though...)
     //  0 -- choose any tile with no bias [very "flowy" pathing]
-    //  1 -- always choose the shortest path [on open terrain, this is just a straight line]
+    //  1 -- always choose the shortest path [in open terrain, this is just a straight line]
     // Don't bother setting this too close to 1.0, it will just make the path linear with rare single steps away from the shortest path
     float alpha = 1.0;
 
@@ -109,7 +115,7 @@ struct RouteSettings {
      /   ---   \
     |   / |r\   |
     |  |  |  |  |
-    |--S--E--|--|
+    |--S--m--E--|
     |  |  |  |  |
     | t \ | /   |
      \   ---   /
@@ -118,13 +124,14 @@ struct RouteSettings {
         -----
      ```
     S -- `start`
+    m -- `midpoint` (middle point between `start` and `end`)
     E -- `end`
     t -- candidate `t`ile
     r -- `r`adius (euclidean distance from `S` to `E`)
     r' -- search `r`adius (`r` * `search_radius_coeff`)
-    Limit our search area to only tiles `t` that are inside circle of radius r' are valid for pathfinding.
+    Limit our search area to only tiles `t` that are inside circle of radius r'.
 
-    **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
+    **WARNING**: This necessiates rebuilding dijikstra map due to being relative domain, though g-values won't be recalculated which are generally the most expensive part.
       Additionally, limiting the search area too much might cause the destination to be inaccessible
       which is the worst case for pathfinding as it forces a complete scan of the whole search area though we have workarounds for that.
     Use only if needed.
@@ -137,9 +144,11 @@ struct RouteSettings {
             return true;
         }
 
+        const tripoint midpoint = ( end + start ) / 2;
+
         const float objective_distance = rl_dist_exact( start, end );
-        const float search_radius = objective_distance * this->search_radius_coeff;
-        const float distance_to_objective = rl_dist_exact( pos, end );
+        const float search_radius = ( objective_distance * this->search_radius_coeff ) / 2;
+        const float distance_to_objective = rl_dist_exact( pos, midpoint );
 
         return distance_to_objective <= search_radius;
     }
@@ -160,7 +169,7 @@ struct RouteSettings {
     a -- `a`ngle of tSE
     Limit our search area to only tiles `t` where `-search_cone_angle` <= `a` <= `search_cone_angle`
 
-    **WARNING**: This necessiates rebuilding dijikstra map due to being partial domain, though g-values won't be recalculated which are generally the most expensive part.
+    **WARNING**: This necessiates rebuilding dijikstra map due to being relative domain, though g-values won't be recalculated which are generally the most expensive part.
       Additionally, limiting the search area too much might cause the destination to be inaccessible
       which is the worst case for pathfinding as it forces a complete scan of the whole search area though we have workarounds for that.
     Use only if needed.
@@ -198,14 +207,26 @@ struct RouteSettings {
     Be aware this does **not** limit search domain, which means if nothing else limits it,
       the whole map will be explored and a longer in terms of steps, but less expensive of terms of time path will be rejected even if a valid shorter path exists.
     */
-    float max_path_s_coefficient = INFINITY;
+    float max_s_coeff = INFINITY;
 
-    /* Limit our search only to paths whose unbiased f-value is less than this coefficient multiplied by the distance between start and end */
-    float max_path_f_coefficient = INFINITY;
+    /* Limit our search only to paths whose unbiased f-value is less than
+    this coefficient multiplied by the distance between start and end
+    if `f_limit_based_on_max_dist` is false
+    otherwise we multiply `max_dist` value instead.
+    */
+    float max_f_coeff = INFINITY;
 
-    // Is the search domain limited?
-    constexpr bool is_limited_search() const {
-        return !( this->search_cone_angle >= 180. && std::isinf( this->search_radius_coeff ) );
+    // Don't pathfind if target is more than this distance away.
+    float max_dist = INFINITY;
+
+    // Do we use distance between start and end or do we use `max_dist`
+    //   for f-value limited search domain?
+    // Check `max_f_coeff` for more detail.
+    bool f_limit_based_on_max_dist = true;
+
+    // Does the search domain depend on start position?
+    constexpr bool is_relative_search_domain() const {
+        return !( this->search_cone_angle >= 180. || std::isinf( this->search_radius_coeff ) );
     }
 };
 
@@ -273,12 +294,12 @@ class DijikstraPathfinding
                 return index;
             }
 
-            // f0(x, y) = p + g(x, y)
+            // f0 = p + g
             inline constexpr float get_f_unbiased( const tripoint &p ) {
                 return this->p_at( p ) + this->g_at( p );
             }
 
-            // f1(x, y) = p + g(x, y) + `h_coeff` * h(x, y)
+            // f1 = p + g + `h_coeff` * h
             inline constexpr float get_f_biased( const tripoint &p, float h_coeff ) {
                 return this->get_f_unbiased( p ) + h_coeff * this->h_at( p );
             }
@@ -306,10 +327,10 @@ class DijikstraPathfinding
         DijikstraMap d_map;
 
         enum class MapDomain {
-            PARTIAL, // Map was built with limits to the search area
-            FULL // Map was built with no limits to the search area
+            RELATIVE, // Map's search domain limit includes relative limits (that is, depending on start position)
+            ABSOLUTE // Map's search domain limit is centered at the destination
         };
-        MapDomain domain = MapDomain::PARTIAL;
+        MapDomain domain = MapDomain::RELATIVE;
 
         // We don't want to calculate dijikstra of the whole map every time,
         //   so we store wave `frontier` to proceed from later if needed
@@ -334,7 +355,7 @@ class DijikstraPathfinding
 
         enum class ExpansionOutcome {
             PATH_FOUND, // Path exists
-            TARGET_INACCESSIBLE, // Although pathfinding reached the target, the target is inside some impassable location
+            TARGET_INACCESSIBLE, // Although pathfinding reached the target, the target is inside some inaccessible location
             PATH_NOT_FOUND, // The map has not been explored fully, but a path may still exist with a wider search area
             NO_PATH_EXISTS, // Map explored fully, no path exists
             UNSET // Internal use
@@ -383,7 +404,7 @@ class DijikstraPathfinding
             : dest( dest ), settings( settings ) {};
 
         // get `route` from `from` to `to` if available in accordance to `route_settings` while `path_settings` defines our capabilities, otherwise empty vector.
-        // Route will include `from` and `to`.
+        // Found route will include `from` and `to`. 
         static std::vector<tripoint> route( const tripoint &from, const tripoint &to,
                                             const std::optional<PathfindingSettings> path_settings = std::nullopt,
                                             const std::optional<RouteSettings> route_settings = std::nullopt );
@@ -396,3 +417,4 @@ class DijikstraPathfinding
             }
         }
 };
+#endif // CATA_SRC_PATHFINDING_DIJIKSTRA_H

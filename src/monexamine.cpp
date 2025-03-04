@@ -606,8 +606,8 @@ void monexamine::attach_or_remove_saddle( monster &z )
 
 bool Character::can_mount( const monster &critter ) const
 {
-    const auto &avoid = get_path_avoid();
-    auto route = get_map().route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
+    const auto &avoid = get_legacy_path_avoid();
+    auto route = get_map().route( pos(), critter.pos(), get_legacy_pathfinding_settings(), avoid );
 
     if( route.empty() ) {
         return false;

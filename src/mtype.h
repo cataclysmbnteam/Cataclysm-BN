@@ -7,6 +7,7 @@
 #include <set>
 #include <array>
 #include <string>
+#include <variant>
 #include <vector>
 
 #include "behavior.h"
@@ -17,6 +18,7 @@
 #include "enums.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
+#include "pathfinding_dijikstra.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -401,8 +403,19 @@ struct mtype {
         /** Emission sources that cycle each turn the monster remains alive */
         std::map<emit_id, time_duration> emit_fields;
 
-        pathfinding_settings path_settings;
-        pathfinding_settings path_settings_buffed;
+        pathfinding_settings legacy_path_settings;
+        pathfinding_settings legacy_path_settings_buffed;
+
+        PathfindingSettings path_settings;
+        RouteSettings route_settings;
+        PathfindingSettings path_settings_buffed;
+        RouteSettings route_settings_buffed;
+
+        // We rely on external options to construct pathfinding options
+        //   which are subject to change by rebalancing mods
+        //   thus necessiating a late load
+        std::unordered_map<std::string, std::variant<float, bool, int>> recorded_path_settings;
+        void setup_pathfinding_deferred();
 
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;

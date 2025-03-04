@@ -35,6 +35,7 @@
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "pathfinding.h"
 #include "pathfinding_dijikstra.h"
 #include "pimpl.h"
@@ -886,9 +887,7 @@ void monster::move()
     bool pathed = false;
     if( try_to_move ) {
         if( !wander() ) {
-            auto pf_settings = get_pathfinding_settings();
-            pf_settings.max_dist = 99999;
-            pf_settings.max_length = 99999;
+            auto pf_settings = get_legacy_pathfinding_settings();
             bool new_need_path = (
                                      path.empty() ||
                                      rl_dist( pos(), path.front() ) >= 2 ||
@@ -896,25 +895,12 @@ void monster::move()
                                      path.back() != goal
                                  );
 
-            std::vector<tripoint> p2;
-
             if( new_need_path ) {
-                if( true || pos().z == goal.z ) {
-                    PathfindingSettings path_settings;
-                    path_settings.mob_presence_penalty = 8.0;
-                    path_settings.bash_strength_val = this->bash_skill() / 10;
-                    path_settings.bash_strength_quanta = 10;
-
-                    path_settings.can_climb_stairs = true;
-
-                    RouteSettings route_settings;
-                    route_settings.h_coeff = 0.9;
-                    route_settings.alpha = 0.8;
-                    route_settings.search_cone_angle = 60.0;
-                    p2 = DijikstraPathfinding::route( pos(), goal, path_settings, route_settings );
-                    path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
-                } else if( pf_settings.max_dist >= rl_dist( pos(), goal ) ) {
-                    path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+                if( get_option<bool>( "USE_LEGACY_PATHFINDING" ) ) {
+                    path = g->m.route( pos(), goal, pf_settings, get_legacy_path_avoid() );
+                } else {
+                    auto pair = this->get_pathfinding_pair();
+                    path = DijikstraPathfinding::route( pos(), goal, pair.first, pair.second );
                 }
             }
 
@@ -2124,7 +2110,7 @@ bool monster::will_reach( point p )
         return false;
     }
 
-    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_legacy_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
@@ -2149,7 +2135,7 @@ bool monster::will_reach( point p )
 int monster::turns_to_reach( point p )
 {
     // HACK: This function is a(n old) temporary hack that should soon be removed
-    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_legacy_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }

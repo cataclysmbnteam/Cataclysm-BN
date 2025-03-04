@@ -133,23 +133,23 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
 {
     map &map = get_map();
 
-    if( !map.inbounds( from ) ) {
-        return std::nullopt;
-    }
-
     if( this->expand_2d_up_to( from, route_settings ) != ExpansionOutcome::PATH_FOUND ) {
         return std::nullopt;
     }
 
     const float euclidean_distance = rl_dist_exact( from, this->dest );
     const float chebyshev_distance = std::max( this->dest.x - from.x, this->dest.y - from.y );
-    const float max_f = route_settings.max_path_f_coefficient * euclidean_distance;
-    const float max_s = route_settings.max_path_s_coefficient * chebyshev_distance;
+    const float max_f = route_settings.max_f_coeff * (
+                            route_settings.f_limit_based_on_max_dist ?
+                            route_settings.max_dist :
+                            euclidean_distance
+                        );
+    const float max_s = route_settings.max_s_coeff * chebyshev_distance;
 
     tripoint cur_point = from;
     float cur_cost = this->d_map.get_f_unbiased( cur_point );
 
-    if( !std::isnan( max_f ) && cur_cost > max_f ) {
+    if( cur_cost > max_f ) {
         return std::nullopt;
     }
 
@@ -180,8 +180,10 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
             }
         }
 
-        // This should not be likely to happen, but...
+        // This should be likely to happen, but...
         if( candidates.empty() ) {
+            // Maybe instead of looking at directly adjacent points,
+            //   increase the radius until we find a gradient?
             return std::nullopt;
         }
 
@@ -209,11 +211,11 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
 inline bool DijikstraPathfinding::is_in_limited_domain(
     const tripoint &start, const tripoint &p, const RouteSettings &route_settings )
 {
-    if( route_settings.is_limited_search() ) {
+    if( route_settings.is_relative_search_domain() ) {
         bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
         bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
 
-        return is_in_search_radius && is_in_search_cone;
+        return is_in_search_radius || is_in_search_cone;
     }
     return true;
 }
@@ -277,8 +279,8 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     culled_frontier.clear();
     biased_frontier = Frontier();
 
-    const bool rebuild_needed = !( this->domain == MapDomain::FULL &&
-                                   !route_settings.is_limited_search() );
+    const bool rebuild_needed = !( this->domain == MapDomain::ABSOLUTE &&
+                                   !route_settings.is_relative_search_domain() );
 
     if( !rebuild_needed ) {
         const DijikstraMap::State state = this->d_map.get_state( start );
@@ -427,11 +429,11 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                 const bool is_rough = move_cost > 2;
                 const bool is_sharp = terrain.has_flag( TFLAG_SHARP );
 
-                cur_g += this->settings.rough_terrain_cost * is_rough;
-                cur_g += this->settings.sharp_terrain_cost * is_sharp;
+                cur_g += is_rough ? this->settings.rough_terrain_cost : 0.0;
+                cur_g += is_sharp ? this->settings.sharp_terrain_cost : 0.0;
 
                 if( care_about_mobs ) {
-                    cur_g += this->settings.mob_presence_penalty * ( g->critter_at( cur_point, true ) != nullptr );
+                    cur_g += g->critter_at( cur_point, true ) != nullptr ? this->settings.mob_presence_penalty : 0.0;
                 }
 
                 if( care_about_traps ) {
@@ -439,13 +441,18 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                     const trap &maybe_trap = maybe_ter_trap.is_benign() ? new_tile.get_trap_t() : maybe_ter_trap;
                     const bool is_trap = !maybe_trap.is_benign();
 
-                    cur_g += this->settings.trap_cost * is_trap;
+                    cur_g += is_trap ? this->settings.trap_cost : 0.0;
                 }
 
                 const bool is_ledge = map.has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR );
                 if( is_ledge && !this->settings.can_fly ) {
                     // Close ledges outright for non-fliers
                     cur_g += INFINITY;
+                }
+
+                // And finally, add a potential field extra
+                if( this->settings.extra_g_costs.contains( cur_point ) ) {
+                    cur_g += this->settings.extra_g_costs.at( cur_point );
                 }
 
                 const bool is_passable = move_cost != 0;
@@ -519,10 +526,6 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
 
                     cur_g += secondary_g_delta;
                 }
-
-                // If this fails, somebody had a negative cost somewhere
-                // We also prevent cur_g == 0 case because this may produce a saddle point
-                assert( cur_g > 0 );
             }
 
             this->d_map.g_at( cur_point ) = cur_g;
@@ -549,10 +552,10 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         }
     }
 
-    bool is_fully_explored = !route_settings.is_limited_search() && biased_frontier.size() == 0;
+    bool is_fully_explored = !route_settings.is_relative_search_domain() && biased_frontier.empty();
 
     // We will be rebuilding on next search anyway if we had a limited search this time
-    if( !route_settings.is_limited_search() ) {
+    if( !route_settings.is_relative_search_domain() ) {
         while( !biased_frontier.empty() ) {
             const tripoint p = biased_frontier.top().second;
             biased_frontier.pop();
@@ -564,7 +567,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         }
     }
 
-    this->domain = route_settings.is_limited_search() ? MapDomain::PARTIAL : MapDomain::FULL;
+    this->domain = route_settings.is_relative_search_domain() ? MapDomain::RELATIVE : MapDomain::ABSOLUTE;
 
     if( result == ExpansionOutcome::UNSET ) {
         if( is_fully_explored ) {
@@ -599,6 +602,14 @@ std::vector<tripoint> DijikstraPathfinding::route( const tripoint &from, const t
                                         PathfindingSettings();
     RouteSettings route_settings = maybe_route_settings.has_value() ? *maybe_route_settings :
                                    RouteSettings();
+
+    if( from == to ) {
+        return std::vector<tripoint> { from, to };
+    }
+
+    if( rl_dist_exact( from, to ) > route_settings.max_dist ) {
+        return std::vector<tripoint>();
+    }
 
     if( from_copy.z == to_copy.z ) {
         // 2D search
