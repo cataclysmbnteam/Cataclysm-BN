@@ -20,6 +20,8 @@
 #include "safe_reference.h"
 #include "crafting.h"
 #include "npc.h"
+#include "recipe.h"
+#include "construction.h"
 
 class activity_actor;
 class Character;
@@ -30,6 +32,32 @@ class monster;
 class player;
 class translation;
 class activity_ptr;
+
+struct reqs_adapter {
+    std::vector<requirement<quality_id>> qualities;
+    std::vector<requirement<skill_id>> skills;
+
+    reqs_adapter( const recipe &rec ) {
+        for( auto &qual : rec.simple_requirements().get_qualities() ) {
+            qualities.emplace_back( qual.front().type, 10, qual.front().level );
+        }
+
+        skills.emplace_back( rec.skill_used, 0, rec.difficulty );
+        for( auto &skill : rec.required_skills ) {
+            skills.emplace_back( skill.first, 0, skill.second );
+        }
+    }
+
+    reqs_adapter( const construction &con ) {
+        for( auto &qual : con.requirements->get_qualities() ) {
+            qualities.emplace_back( qual.front().type, 10, qual.front().level );
+        }
+
+        for( auto &skill : con.required_skills ) {
+            skills.emplace_back( skill.first, 0, skill.second );
+        }
+    }
+};
 
 /*
  * Struct to track activity by factors
@@ -237,7 +265,7 @@ class player_activity
 
         void calc_moves( const Character &who );
         void calc_moves_on_start( Character &who );
-        void calc_moves_on_start( Character &who, const recipe &rec );
+        void calc_moves_on_start( Character &who, reqs_adapter &reqs );
         float calc_bench_factor( const Character &who ) const;
         float calc_light_factor( const Character &who ) const;
         float calc_skill_factor( const Character &who ) const {

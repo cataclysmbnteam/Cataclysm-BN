@@ -24,7 +24,6 @@
 #include "itype.h"
 #include "map.h"
 #include "player.h"
-#include "recipe.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
@@ -153,28 +152,18 @@ void player_activity::calc_moves_on_start( Character &who )
     calc_moves( who );
 }
 
-void player_activity::calc_moves_on_start( Character &who, const recipe &rec )
+void player_activity::calc_moves_on_start( Character &who, reqs_adapter &reqs )
 {
     if( is_bench_affected() ) {
         find_best_bench( who.pos() );
         speed.bench = calc_bench_factor( who );
     }
     if( is_tools_affected() ) {
-        std::vector<requirement<quality_id>> req;
-        for( auto &qual : rec.simple_requirements().get_qualities() ) {
-            req.emplace_back( qual.front().type, 10, qual.front().level );
-        }
 
-        speed.tools = calc_tools_factor( who, req );
+        speed.tools = calc_tools_factor( who, reqs.qualities );
     }
     if( is_skill_affected() ) {
-        std::vector<requirement<skill_id>> req;
-        req.emplace_back( rec.skill_used, 0, rec.difficulty );
-        for( auto &skill : rec.required_skills ) {
-            req.emplace_back( skill.first, 0, skill.second );
-        }
-
-        speed.skills = calc_skill_factor( who, req );
+        speed.skills = calc_skill_factor( who, reqs.skills );
     }
     if( is_assistable() ) {
         assistants = character_funcs::get_crafting_helpers( who );
