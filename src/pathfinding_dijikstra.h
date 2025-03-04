@@ -404,7 +404,7 @@ class DijikstraPathfinding
             : dest( dest ), settings( settings ) {};
 
         // get `route` from `from` to `to` if available in accordance to `route_settings` while `path_settings` defines our capabilities, otherwise empty vector.
-        // Found route will include `from` and `to`. 
+        // Found route will include `from` and `to`.
         static std::vector<tripoint> route( const tripoint &from, const tripoint &to,
                                             const std::optional<PathfindingSettings> path_settings = std::nullopt,
                                             const std::optional<RouteSettings> route_settings = std::nullopt );
