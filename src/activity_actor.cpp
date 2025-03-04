@@ -647,7 +647,7 @@ bool disassemble_activity_actor::try_start_single( player_activity &/* act */, C
 }
 
 inline void disassemble_activity_actor::process_target( player_activity &/*act*/,
-        iuse_location target )
+        iuse_location &target )
 {
     const item &itm = *target.loc;
     const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
@@ -663,7 +663,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     } else if( !try_start_single( act, who ) ) {
         act.set_to_null();
     }
-    for( auto target : targets ) {
+    for( auto &target : targets ) {
         process_target( act, target );
     }
     auto r = reqs_adapter( recipe_dictionary::get_uncraft( targets.front().loc->typeId() ) );

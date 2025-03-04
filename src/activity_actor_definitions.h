@@ -247,7 +247,7 @@ class disassemble_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
         bool try_start_single( player_activity &act, Character &who );
-        void process_target( player_activity &act, iuse_location target );
+        void process_target( player_activity &, iuse_location &target );
 };
 
 class drop_activity_actor : public activity_actor
