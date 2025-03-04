@@ -99,6 +99,11 @@ inline void progress_counter::purge()
     targets.pop_front();
 }
 
+inline void activity_actor::recalc_all_moves( player_activity &act, Character &who )
+{
+    act.recalc_all_moves( who );
+}
+
 aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
 {
     initial_view_offset = get_avatar().view_offset;
@@ -646,12 +651,20 @@ bool disassemble_activity_actor::try_start_single( player_activity &/* act */, C
     return true;
 }
 
-void disassemble_activity_actor::process_target( player_activity &/*act*/, iuse_location target )
+inline void disassemble_activity_actor::process_target( player_activity &/*act*/,
+        iuse_location &target )
 {
     const item &itm = *target.loc;
     const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
     int moves_needed = dis.time * target.count;
     progress.emplace( itm.tname( target.count ), moves_needed );
+}
+
+inline void disassemble_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+{
+    auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft(
+                                           targets.front().loc->typeId() ) );
+    act.recalc_all_moves( who, reqs );
 }
 
 void disassemble_activity_actor::start( player_activity &act, Character &who )
@@ -662,7 +675,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     } else if( !try_start_single( act, who ) ) {
         act.set_to_null();
     }
-    for( auto target : targets ) {
+    for( auto &target : targets ) {
         process_target( act, target );
     }
 }
@@ -678,8 +691,12 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         }
         targets.erase( targets.begin() );
         progress.pop();
-        if( !progress.empty() && !try_start_single( act, who ) ) {
-            act.set_to_null();
+        if( !progress.empty() ) {
+            if( try_start_single( act, who ) ) {
+                recalc_all_moves( act, who );
+            } else {
+                act.set_to_null();
+            }
         }
     }
 }
@@ -687,7 +704,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 void disassemble_activity_actor::finish( player_activity &act, Character &who )
 {
     if( try_start_single( act, who ) ) {
-        debugmsg( "disassemble_activity_actor call finish function while able to start new dissasembly" );
+        debugmsg( "disassemble_activity_actor call finish function while able to start new disassembly" );
     }
     // Make a copy to avoid use-after-free
     bool recurse = this->recursive;
@@ -697,6 +714,15 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
     if( recurse ) {
         crafting::disassemble_all( *who.as_avatar(), recurse );
     }
+}
+
+float disassemble_activity_actor::calc_bench_factor( const Character &who,
+        const std::optional<bench_loc> &bench ) const
+{
+    return bench.has_value()
+           ? crafting::best_bench_here( *targets.front().loc, bench->position, true ).second
+           : crafting::best_bench_here( *targets.front().loc, who.pos(), true ).second;
+
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const
@@ -2089,3 +2115,4 @@ void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin )
         }
     }
 }
+
