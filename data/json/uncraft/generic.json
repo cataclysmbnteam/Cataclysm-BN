@@ -3564,12 +3564,9 @@
     "components": [
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
-      [ [ "solar_panel", 1 ] ],
+      [ [ "foldable_solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
-      [ [ "scrap", 8 ] ],
+      [ [ "sheet_metal_small", 36 ] ],
       [ [ "rope_6", 1 ] ]
     ]
   },
@@ -3586,12 +3583,9 @@
     "components": [
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
-      [ [ "solar_panel", 1 ] ],
+      [ [ "foldable_solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
-      [ [ "scrap", 8 ] ],
+      [ [ "sheet_metal_small", 36 ] ],
       [ [ "rope_6", 1 ] ]
     ]
   },
@@ -4941,5 +4935,13 @@
     "time": "30 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "plastic_chunk",
+    "type": "uncraft",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_scrap", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
