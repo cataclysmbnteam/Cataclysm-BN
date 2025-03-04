@@ -567,7 +567,8 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         }
     }
 
-    this->domain = route_settings.is_relative_search_domain() ? MapDomain::RELATIVE : MapDomain::ABSOLUTE;
+    this->domain = route_settings.is_relative_search_domain() ? MapDomain::RELATIVE :
+                   MapDomain::ABSOLUTE;
 
     if( result == ExpansionOutcome::UNSET ) {
         if( is_fully_explored ) {
