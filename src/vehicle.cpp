@@ -6850,6 +6850,66 @@ bool vehicle::explode_fuel( int p, damage_type type )
     return true;
 }
 
+unsigned int vehicle::hits_to_destroy( int p, int dmg, damage_type type ) const
+{
+    const int armor_part = part_with_feature( p, VPFLAG_ARMOR, true );
+    const bool is_armor_considered = !(
+                                         armor_part < 0 ||
+                                         part_flag( p, VPFLAG_ROOF ) ||
+                                         part_info( p ).location == "on_roof"
+                                     );
+
+
+    const int part_hp = parts[p].hp();
+    const int part_damage_reduction = part_info( p ).damage_reduction.type_resist( type );
+    const int part_threshold_damage = std::clamp( part_info( p ).durability / 10, 1, 20 );
+
+    const int part_dmg_without_armor = dmg - part_damage_reduction;
+
+    // Easiest case: part will not get destroyed, period
+    if( part_dmg_without_armor <= 0 ||
+        ( type != DT_TRUE &&
+          part_dmg_without_armor < part_threshold_damage ) ) {
+        return 0;
+    }
+
+    // Easy case: part unprotected and will be destroyed
+    if( !is_armor_considered ) {
+        const int part_htd = part_hp / part_dmg_without_armor +
+                             ( part_hp % part_dmg_without_armor > 0 );
+        return part_htd;
+    }
+
+    const int armor_hp = parts[armor_part].hp();
+    const int armor_damage_reduction = part_info( armor_part ).damage_reduction.type_resist( type );
+    const int armor_threshold_damage = std::clamp( part_info( armor_part ).durability / 10, 1, 20 );
+    const int armor_dmg = dmg - armor_damage_reduction;
+
+    // First, determine how long armor will remain for
+    const int armor_htd = armor_dmg <= 0 || ( type != DT_TRUE && armor_dmg < armor_threshold_damage ) ?
+                          INT_MAX :
+                          armor_hp / armor_dmg + ( armor_hp % armor_dmg > 0 );
+
+    const int part_dmg_with_armor = part_dmg_without_armor - armor_damage_reduction;
+    // How long will the part remain with armor unbroken?
+    const int part_htd_with_armor = ( part_dmg_with_armor <= 0 ||
+                                      ( type != DT_TRUE && part_dmg_with_armor < part_threshold_damage ) ) ?
+                                    INT_MAX :
+                                    part_hp / part_dmg_with_armor + ( part_hp % part_dmg_with_armor  > 0 );
+
+    // Part gets destroyed before armor does
+    if( part_htd_with_armor <= armor_htd ) {
+        return part_htd_with_armor;
+    }
+
+    // Armor gets destroyed before part does
+    const int part_hp_after_armor = part_hp - armor_htd * std::max( part_dmg_with_armor, 0 );
+    const int part_htd_after_armor = part_hp_after_armor / part_dmg_without_armor +
+                                     ( part_hp_after_armor % part_dmg_without_armor  > 0 );
+
+    return armor_htd + part_htd_after_armor;
+}
+
 int vehicle::damage_direct( int p, int dmg, damage_type type )
 {
     map &here = get_map();

@@ -1361,6 +1361,11 @@ class vehicle
          */
         int automatic_fire_turret( vehicle_part &pt );
 
+        // How many hits of damage `dmg` and damage type `type` to part with ID `p` to destroy it is needed?
+        // 0 if it will never destroy.
+        // Be aware this will not consider damage to more outside parts such as inner parts protected by an outer wall, only armor effects are considered
+        unsigned int hits_to_destroy( int p, int dmg, damage_type type ) const;
+
     private:
         /*
          * Find all turrets that are ready to fire.
