@@ -666,7 +666,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     for( auto &target : targets ) {
         process_target( act, target );
     }
-    auto r = reqs_adapter( recipe_dictionary::get_uncraft( targets.front().loc->typeId() ) );
+    auto r = activity_reqs_adapter( recipe_dictionary::get_uncraft( targets.front().loc->typeId() ) );
     act.calc_moves_on_start( who, r );
 }
 
@@ -683,7 +683,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         progress.pop();
         if( !progress.empty() ) {
             if( try_start_single( act, who ) ) {
-                auto r = reqs_adapter( recipe_dictionary::get_uncraft( targets.front().loc->typeId() ) );
+                auto r = activity_reqs_adapter( recipe_dictionary::get_uncraft( targets.front().loc->typeId() ) );
                 act.calc_moves_on_start( who,  r );
             } else {
                 act.set_to_null();

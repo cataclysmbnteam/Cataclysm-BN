@@ -264,7 +264,7 @@ class activity_actor
          * anything below 0 is invalid, promting to use default formula
         */
         virtual float calc_skill_factor( const Character &/*who*/,
-                                         const std::vector<requirement<skill_id>> &/*skills*/ ) const {
+                                         const std::vector<activity_req<skill_id>> &/*skills*/ ) const {
             return -1.0f;
         }
 
@@ -273,7 +273,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_tools_factor( const std::vector<requirement<quality_id>> &/*qualities*/,
+        virtual float calc_tools_factor( const std::vector<activity_req<quality_id>> &/*qualities*/,
                                          const inventory &/*inv*/ ) const {
             return -1.0f;
         }
@@ -293,7 +293,7 @@ class activity_actor
          * anything below 0 is invalid, promting to use default formula
         */
         std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &/*who*/,
-        const std::vector<requirement<character_stat>> &/*stats*/ ) const {
+        const std::vector<activity_req<character_stat>> &/*stats*/ ) const {
             return {};
         }
 };

@@ -83,7 +83,7 @@ void activity_type::load( const JsonObject &jo )
                     threshold = skillobj.get_int( 2 );
                 }
                 result.skills.emplace_back(
-                    requirement<skill_id>( skill, mod, threshold )
+                    activity_req<skill_id>( skill, mod, threshold )
                 );
             }
         }
@@ -104,7 +104,7 @@ void activity_type::load( const JsonObject &jo )
                     threshold = q_obj.get_int( 2 );
                 }
                 result.qualities.emplace_back(
-                    requirement<quality_id>( quality, mod, threshold )
+                    activity_req<quality_id>( quality, mod, threshold )
                 );
             }
         }
@@ -127,7 +127,7 @@ void activity_type::load( const JsonObject &jo )
                         threshold = stat_obj.get_int( 2 );
                     }
                     result.stats.emplace_back(
-                        requirement<character_stat>( stat, mod, threshold )
+                        activity_req<character_stat>( stat, mod, threshold )
                     );
                 }
 

@@ -24,7 +24,7 @@ const activity_type &string_id<activity_type>::obj() const;
 
 
 template<typename T>
-struct requirement {
+struct activity_req {
     const T req;
     const float mod;
     const int threshold;
@@ -56,9 +56,9 @@ class activity_type
         bool verbose_tooltip_ = true;
 
     public:
-        std::vector<requirement<character_stat>> stats = {};
-        std::vector<requirement<skill_id>> skills = {};
-        std::vector<requirement<quality_id>> qualities = {};
+        std::vector<activity_req<character_stat>> stats = {};
+        std::vector<activity_req<skill_id>> skills = {};
+        std::vector<activity_req<quality_id>> qualities = {};
 
         const activity_id &id() const {
             return id_;

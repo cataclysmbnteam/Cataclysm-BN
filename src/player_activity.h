@@ -33,11 +33,11 @@ class player;
 class translation;
 class activity_ptr;
 
-struct reqs_adapter {
-    std::vector<requirement<quality_id>> qualities;
-    std::vector<requirement<skill_id>> skills;
+struct activity_reqs_adapter {
+    std::vector<activity_req<quality_id>> qualities;
+    std::vector<activity_req<skill_id>> skills;
 
-    reqs_adapter( const recipe &rec ) {
+    activity_reqs_adapter( const recipe &rec ) {
         for( auto &qual : rec.simple_requirements().get_qualities() ) {
             qualities.emplace_back( qual.front().type, 10, qual.front().level );
         }
@@ -48,7 +48,7 @@ struct reqs_adapter {
         }
     }
 
-    reqs_adapter( const construction &con ) {
+    activity_reqs_adapter( const construction &con ) {
         for( auto &qual : con.requirements->get_qualities() ) {
             qualities.emplace_back( qual.front().type, 10, qual.front().level );
         }
@@ -265,27 +265,27 @@ class player_activity
 
         void calc_moves( const Character &who );
         void calc_moves_on_start( Character &who );
-        void calc_moves_on_start( Character &who, reqs_adapter &reqs );
+        void calc_moves_on_start( Character &who, activity_reqs_adapter &reqs );
         float calc_bench_factor( const Character &who ) const;
         float calc_light_factor( const Character &who ) const;
         float calc_skill_factor( const Character &who ) const {
             return calc_skill_factor( who, type->skills );
         };
         float calc_skill_factor( const Character &who,
-                                 const std::vector<requirement<skill_id>> &skill_req ) const;
+                                 const std::vector<activity_req<skill_id>> &skill_req ) const;
         std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;
         float calc_tools_factor( Character &who ) const {
             return calc_tools_factor( who, type->qualities );
         };
         float calc_tools_factor( Character &who,
-                                 const std::vector<requirement<quality_id>> &quality_reqs ) const;
+                                 const std::vector<activity_req<quality_id>> &quality_reqs ) const;
         float calc_morale_factor( int morale ) const;
         void find_best_bench( const tripoint &pos );
 
-        static float get_best_qual_mod( const requirement<quality_id> &q,
+        static float get_best_qual_mod( const activity_req<quality_id> &q,
                                         const inventory &inv );
         std::pair<character_stat, float> calc_single_stat( const Character &who,
-                const requirement<character_stat> &stat ) const;
+                const activity_req<character_stat> &stat ) const;
         /**
          * Helper that returns an activity specific progress message.
          */

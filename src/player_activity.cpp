@@ -152,7 +152,7 @@ void player_activity::calc_moves_on_start( Character &who )
     calc_moves( who );
 }
 
-void player_activity::calc_moves_on_start( Character &who, reqs_adapter &reqs )
+void player_activity::calc_moves_on_start( Character &who, activity_reqs_adapter &reqs )
 {
     if( is_bench_affected() ) {
         find_best_bench( who.pos() );
@@ -201,7 +201,7 @@ float player_activity::calc_light_factor( const Character &who ) const
 
 
 float player_activity::calc_skill_factor( const Character &who,
-        const std::vector<requirement<skill_id>> &skill_req ) const
+        const std::vector<activity_req<skill_id>> &skill_req ) const
 {
     float ac_f = actor ? actor->calc_skill_factor( who, skill_req ) : -1.0f;
     //Any factor above 0 is valid, else - use default calc
@@ -233,7 +233,7 @@ float player_activity::calc_skill_factor( const Character &who,
 }
 
 std::pair<character_stat, float> player_activity::calc_single_stat( const Character &who,
-        const requirement<character_stat> &stat ) const
+        const activity_req<character_stat> &stat ) const
 {
     int who_stat = 0;
     switch( stat.req ) {
@@ -274,7 +274,7 @@ std::vector<std::pair<character_stat, float>> player_activity::calc_stats_factor
     return f;
 }
 
-float player_activity::get_best_qual_mod( const requirement<quality_id> &q,
+float player_activity::get_best_qual_mod( const activity_req<quality_id> &q,
         const inventory &inv )
 {
     int q_level = 0;
@@ -306,7 +306,7 @@ float player_activity::get_best_qual_mod( const requirement<quality_id> &q,
 }
 
 float player_activity::calc_tools_factor( Character &who,
-        const std::vector<requirement<quality_id>> &quality_reqs ) const
+        const std::vector<activity_req<quality_id>> &quality_reqs ) const
 {
     auto &inv = who.crafting_inventory();
     float ac_f = actor ? actor->calc_tools_factor( quality_reqs, inv ) : -1.0f;
