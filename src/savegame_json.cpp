@@ -236,10 +236,13 @@ void player_activity::deserialize( JsonIn &jsin )
         if( !data.has_member( "actor" ) ) {
             type = activity_id( "ACT_MIGRATION_CANCEL" );
         } else {
-            if( !data.has_member( "actor_data" ) ) {
+            auto actor = data.get_object( "actor" );
+            actor.allow_omitted_members();
+            if( !actor.has_member( "actor_data" ) ) {
                 type = activity_id( "ACT_MIGRATION_CANCEL" );
             } else {
-                auto a_data = data.get_object( "actor_data" );
+                auto a_data = actor.get_object( "actor_data" );
+                a_data.allow_omitted_members();
                 if( !a_data.has_member( "progress" ) ) {
                     type = activity_id( "ACT_MIGRATION_CANCEL" );
                 }
