@@ -1203,7 +1203,7 @@ void mtype::setup_pathfinding_deferred()
     this->route_settings_buffed = buffed_route_settings;
 
     // Go ahead and move it out to drop it
-    auto _ = std::move( this->recorded_path_settings );
+    this->recorded_path_settings.clear();
 }
 
 void MonsterGenerator::load_species( const JsonObject &jo, const std::string &src )
