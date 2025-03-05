@@ -1202,7 +1202,6 @@ void mtype::setup_pathfinding_deferred()
     this->path_settings_buffed = buffed_path_settings;
     this->route_settings_buffed = buffed_route_settings;
 
-    // Go ahead and move it out to drop it
     this->recorded_path_settings.clear();
 }
 
