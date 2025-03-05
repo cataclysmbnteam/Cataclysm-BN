@@ -1087,24 +1087,25 @@ void place_construction( const construction_group_str_id &group )
     }
     g->u.assign_activity( std::make_unique<player_activity>
                           ( std::make_unique<construction_activity_actor>
-                            ( pnt ) ) );
+                            ( here.getglobal( pnt ) ) ) );
 }
 
-void complete_construction( Character &ch, tripoint &where )
+void complete_construction( Character &who, tripoint_abs_ms &where )
 {
     if( !all_constructions.is_finalized() ) {
         debugmsg( "complete_construction called before finalization" );
         return;
     }
     map &here = get_map();
-    partial_con *pc = here.partial_con_at( where );
+    auto local = here.getlocal( where );
+    partial_con *pc = here.partial_con_at( local );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( where ).loadid == tr_unfinished_construction ) {
-            here.remove_trap( where );
+        if( here.tr_at( local ).loadid == tr_unfinished_construction ) {
+            here.remove_trap( local );
         }
-        if( ch.is_npc() ) {
-            npc *guy = ch.as_npc();
+        if( who.is_npc() ) {
+            npc *guy = who.as_npc();
             guy->current_activity_id = activity_id::NULL_ID();
             guy->revert_after_activity();
             guy->set_moves( 0 );
@@ -1122,11 +1123,11 @@ void complete_construction( Character &ch, tripoint &where )
         }
     };
 
-    award_xp( *ch.as_player() );
+    award_xp( *who.as_player() );
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
-    if( ch.is_avatar() ) {
-        for( auto &elem : character_funcs::get_crafting_helpers( ch ) ) {
+    if( who.is_avatar() ) {
+        for( auto &elem : character_funcs::get_crafting_helpers( who ) ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
             } else {
@@ -1137,22 +1138,22 @@ void complete_construction( Character &ch, tripoint &where )
             award_xp( *elem );
         }
     }
-    if( here.tr_at( where ).loadid == tr_unfinished_construction ) {
-        here.remove_trap( where );
+    if( here.tr_at( local ).loadid == tr_unfinished_construction ) {
+        here.remove_trap( local );
     }
-    here.partial_con_remove( where );
+    here.partial_con_remove( local );
     // Some constructions are allowed to have items left on the tile.
     if( !built.post_flags.contains( "keep_items" ) ) {
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
-        for( const tripoint &pt : here.points_in_radius( where, 1 ) ) {
-            if( here.can_put_items( pt ) && pt != where ) {
+        for( const tripoint &pt : here.points_in_radius( local, 1 ) ) {
+            if( here.can_put_items( pt ) && pt != local ) {
                 dump_spots.push_back( pt );
             }
         }
         if( !dump_spots.empty() ) {
             tripoint dump_spot = random_entry( dump_spots );
-            map_stack items = here.i_at( where );
+            map_stack items = here.i_at( local );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
                 detached_ptr<item> dumped;
                 it = items.erase( it, &dumped );
@@ -1165,17 +1166,16 @@ void complete_construction( Character &ch, tripoint &where )
     // Make the terrain change
     if( !built.post_terrain.is_empty() ) {
         const ter_id new_ter = built.post_terrain;
-        here.ter_set( where, new_ter );
-        const tripoint above = where + tripoint_above;
+        here.ter_set( local, new_ter );
+        const tripoint above = local + tripoint_above;
         // TODO: What to do if tile above has no floor, but isn't open air?
         if( new_ter->roof && here.ter( above ) == t_open_air ) {
             here.ter_set( above, new_ter->roof );
         }
     }
     if( !built.post_furniture.is_empty() ) {
-        here.furn_set( where, built.post_furniture );
-        active_tile_data *active = active_tiles::furn_at<active_tile_data>(
-                                       tripoint_abs_ms( here.getabs( where ) ) );
+        here.furn_set( local, built.post_furniture );
+        active_tile_data *active = active_tiles::furn_at<active_tile_data>( where );
         if( active != nullptr ) {
             active->set_last_updated( calendar::turn );
         }
@@ -1185,21 +1185,21 @@ void complete_construction( Character &ch, tripoint &where )
     if( built.byproduct_item_group ) {
         std::vector<detached_ptr<item>> items_list = item_group::items_from( built.byproduct_item_group,
                                      calendar::turn );
-        here.spawn_items( ch.pos(), std::move( items_list ) );
+        here.spawn_items( who.pos(), std::move( items_list ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), ch.disp_name(), built.group->name() );
+    add_msg( m_info, _( "%s finished construction: %s." ), who.disp_name(), built.group->name() );
     // clear the activity
-    ch.activity->set_to_null();
+    who.activity->set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built.post_special( where );
+    built.post_special( local );
     // npcs will automatically resume backlog, players wont.
-    if( ch.is_avatar() && !ch.backlog.empty() &&
-        ch.backlog.front()->id() == ACT_MULTIPLE_CONSTRUCTION ) {
-        ch.backlog.clear();
-        ch.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    if( who.is_avatar() && !who.backlog.empty() &&
+        who.backlog.front()->id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        who.backlog.clear();
+        who.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
 }
 
@@ -1834,15 +1834,46 @@ void construction::finalize()
     reqs_using.clear();
 }
 
+float construction::time_scale() const
+{
+    //incorporate construction time scaling
+    if( get_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
+        return calendar::season_ratio();
+    } else {
+        return get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
+    }
+}
+
 bool construction::is_blacklisted() const
 {
     return requirements->is_blacklisted();
 }
 
+int construction::adjusted_time() const
+{
+    int final_time = to_moves<int>( time );
+    int assistants = 0;
+
+    for( auto &elem : character_funcs::get_crafting_helpers( get_player_character() ) ) {
+        if( elem->meets_skill_requirements( *this ) ) {
+            assistants++;
+        }
+    }
+
+    if( assistants >= 2 ) {
+        final_time *= 0.4f;
+    } else if( assistants == 1 ) {
+        final_time *= 0.75f;
+    }
+
+    final_time *= time_scale();
+
+    return final_time;
+}
 
 std::string construction::get_time_string() const
 {
-    const time_duration turns = time_duration::from_turns( to_moves<int>( time ) / 100 );
+    const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
     return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 

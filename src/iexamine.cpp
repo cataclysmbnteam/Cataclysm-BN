@@ -3844,7 +3844,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                 }
             } else {
                 p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
-                                   ( examp ) ) );
+                                   ( here.getglobal( examp ) ) ) );
                 return;
             }
         } else {

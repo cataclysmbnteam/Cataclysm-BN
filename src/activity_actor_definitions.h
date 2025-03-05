@@ -10,6 +10,7 @@
 #include "pickup_token.h"
 #include "location_ptr.h"
 #include "locations.h"
+#include "construction_partial.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_energy.h"
@@ -625,9 +626,10 @@ class oxytorch_activity_actor : public activity_actor
 class construction_activity_actor : public activity_actor
 {
     private:
-        tripoint target;
+        tripoint_abs_ms target;
+        partial_con *pc;
     public:
-        explicit construction_activity_actor( const tripoint &target ) : target( target ) {
+        explicit construction_activity_actor( const tripoint_abs_ms &target ) : target( target ) {
         };
 
         activity_id get_type() const override {

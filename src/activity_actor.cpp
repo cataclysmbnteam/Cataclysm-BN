@@ -2044,18 +2044,19 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
 void construction_activity_actor::start( player_activity &act, Character &who )
 {
     map &here = get_map();
-    auto *pc = here.partial_con_at( target );
+    auto local = here.getlocal( target );
+    pc = here.partial_con_at( local );
     auto &built = pc->id.obj();
 
     std::string name = "";
 
     if( pc->id == deconstruct || pc->id == deconstruct_simple ||
         built.group == advanced_object_deconstruction ) {
-        if( here.has_furn( target ) ) {
-            const furn_id furn_type = here.furn( target );
+        if( here.has_furn( local ) ) {
+            const furn_id furn_type = here.furn( local );
             name = furn_type->name();
-        } else if( !here.ter( target )->is_null() ) {
-            const ter_id ter_type = here.ter( target );
+        } else if( !here.ter( local )->is_null() ) {
+            const ter_id ter_type = here.ter( local );
             name = ter_type->name();
         }
     } else {
@@ -2067,7 +2068,7 @@ void construction_activity_actor::start( player_activity &act, Character &who )
                : built.post_terrain->name();
     }
 
-    int total_time = std::max( 1, to_moves<int>( built.time ) );
+    int total_time = std::max( 1, built.adjusted_time() );
     int left = pc->counter == 0
                ? total_time
                : total_time - pc->counter / 10'000'000.0 * total_time;
@@ -2077,8 +2078,12 @@ void construction_activity_actor::start( player_activity &act, Character &who )
 
 void construction_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    map &here = get_map();
-    auto *pc = here.partial_con_at( target );
+    // Check if pc was lost for some reason, but actually still exists on map, e.g. save/load
+    if( !pc ) {
+        map &here = get_map();
+        auto local = here.getlocal( target );
+        pc = here.partial_con_at( local );
+    }
 
     // Maybe the player and the NPC are working on the same construction at the same time or toubles during load
     if( !pc ) {
@@ -2120,7 +2125,7 @@ void construction_activity_actor::serialize( JsonOut &jsout ) const
 std::unique_ptr<activity_actor> construction_activity_actor::deserialize( JsonIn &jsin )
 {
     std::unique_ptr<construction_activity_actor> actor( new construction_activity_actor(
-                tripoint_zero ) );
+                tripoint_abs_ms( tripoint_zero ) ) );
     JsonObject data = jsin.get_object();
     data.read( "progress", actor->progress );
     data.read( "target", actor->target );
