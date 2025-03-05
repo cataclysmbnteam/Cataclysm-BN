@@ -2010,8 +2010,8 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
         p.consume_tools( it );
     }
     p.backlog.emplace_front( std::make_unique<player_activity>( activity_to_restore ) );
-                p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
-                                   ( src_loc ) ) );
+    p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                       ( src_loc ) ) );
     return true;
 }
 
@@ -2947,7 +2947,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         if( here.partial_con_at( src_loc ) ) {
             p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
             p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
-                                   ( src ) ) );
+                               ( src ) ) );
             return false;
         }
         if( construction_activity( p, zone, src_loc, act_info, act_id ) ) {
