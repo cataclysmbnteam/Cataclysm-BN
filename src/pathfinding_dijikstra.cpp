@@ -133,25 +133,23 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
 {
     map &map = get_map();
 
+    if( !this->is_in_limited_domain( from, from, route_settings ) ) {
+        // This should only fail if max f-limit is failed
+        return std::nullopt;
+    }
+
     if( this->expand_2d_up_to( from, route_settings ) != ExpansionOutcome::PATH_FOUND ) {
         return std::nullopt;
     }
 
-    const float euclidean_distance = rl_dist_exact( from, this->dest );
-    const float chebyshev_distance = std::max( this->dest.x - from.x, this->dest.y - from.y );
-    const float max_f = route_settings.max_f_coeff * (
-                            route_settings.f_limit_based_on_max_dist ?
-                            route_settings.max_dist :
-                            euclidean_distance
-                        );
+    const float chebyshev_distance = std::max(
+                                         abs( this->dest.x - from.x ),
+                                         abs( this->dest.y - from.y )
+                                     );
     const float max_s = route_settings.max_s_coeff * chebyshev_distance;
 
     tripoint cur_point = from;
     float cur_cost = this->d_map.get_f_unbiased( cur_point );
-
-    if( cur_cost > max_f ) {
-        return std::nullopt;
-    }
 
     std::vector<std::pair<float, tripoint>> candidates;
     std::vector<tripoint> result;
@@ -211,13 +209,18 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
 inline bool DijikstraPathfinding::is_in_limited_domain(
     const tripoint &start, const tripoint &p, const RouteSettings &route_settings )
 {
-    if( route_settings.is_relative_search_domain() ) {
-        bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
-        bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
+    // Could be NaN if max_f_coeff = INFINITY * 0
+    const float max_f = route_settings.max_f_coeff * (
+                            route_settings.f_limit_based_on_max_dist ?
+                            route_settings.max_dist :
+                            rl_dist_exact( start, this->dest )
+                        );
 
-        return is_in_search_radius || is_in_search_cone;
-    }
-    return true;
+    bool is_in_f_limited_area = std::isnan( max_f ) || this->d_map.get_f_unbiased( p ) <= max_f;
+    bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
+    bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
+
+    return is_in_f_limited_area || is_in_search_radius || is_in_search_cone;
 }
 
 inline void DijikstraPathfinding::detect_culled_frontier(
@@ -275,12 +278,17 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     //   to tiles outside this area
     static std::unordered_set<tripoint> unculled_area;
 
+    if( start == this->dest ) {
+        // Special case where if we already are standing on the destination tile
+        return ExpansionOutcome::PATH_FOUND;
+    }
+
     unculled_area.clear();
     culled_frontier.clear();
     biased_frontier = Frontier();
 
-    const bool rebuild_needed = !( this->domain == MapDomain::ABSOLUTE &&
-                                   !route_settings.is_relative_search_domain() );
+    const bool rebuild_needed = !route_settings.is_relative_search_domain() ||
+                                this->domain == MapDomain::RELATIVE;
 
     if( !rebuild_needed ) {
         const DijikstraMap::State state = this->d_map.get_state( start );
@@ -294,32 +302,20 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
             default:
                 break;
         }
-    }
+    } else {
+        // Limited search requires clearing p-values, too, since they may change
+        this->d_map.p = DijikstraPathfinding::FULL_INFINITY;
 
-    map &map = get_map();
+        this->unbiased_frontier.clear();
+        this->unbiased_frontier.push_back( this->dest );
+    }
 
     ExpansionOutcome result = ExpansionOutcome::UNSET;
 
     // Reset h-values for this pathfinding
     this->d_map.h = DijikstraPathfinding::FULL_NAN;
-
-    // Limited search requires clearing p-values, too, since they may change
-    if( rebuild_needed ) {
-        this->d_map.p = DijikstraPathfinding::FULL_INFINITY;
-    }
-
     this->d_map.p_at( this->dest ) = 0.0;
     this->d_map.g_at( this->dest ) = 0.0;
-
-    if( start == this->dest ) {
-        // Special case where if we already are standing on the destination tile
-        return ExpansionOutcome::PATH_FOUND;
-    }
-
-    if( rebuild_needed ) {
-        this->unbiased_frontier.clear();
-        this->unbiased_frontier.push_back( this->dest );
-    }
 
     // Drain unbiased frontier into biased_frontier
     for( const tripoint &p : this->unbiased_frontier ) {
@@ -329,12 +325,12 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     this->unbiased_frontier.clear();
 
     int it = 0; // Iteration counter
-
     const bool can_open_doors = !std::isinf( this->settings.door_open_cost );
     const bool can_bash = this->settings.bash_strength_val > 0;
     const bool can_climb = !std::isinf( this->settings.climb_cost );
     const bool care_about_mobs = this->settings.mob_presence_penalty > 0;
     const bool care_about_traps = this->settings.trap_cost > 0;
+    const map &map = get_map();
 
     while( !biased_frontier.empty() ) {
         // Periodically check if `start` is enclosed
@@ -361,20 +357,17 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         const vehicle *next_vehicle;
         next_vehicle = map.veh_at_internal( next_point, _ );
 
-        int i = -1;
         for( const tripoint &dir : DIRS_2D ) {
-            i++;
-
-            bool is_diag = i < 4;
+            bool is_diag = dir.x != 0 && dir.y != 0;
 
             // It's cur_point because we're working backwards from destination
             const tripoint cur_point = next_point + dir;
 
-            if( !map.inbounds( cur_point ) ) {
-                continue;
-            }
+            const bool is_in_bounds = map.inbounds( cur_point );
+            const bool is_unvisited = this->d_map.get_state( cur_point ) == DijikstraMap::State::UNVISITED;
+            const bool is_valid = is_in_bounds && is_unvisited;
 
-            if( this->d_map.get_state( cur_point ) != DijikstraMap::State::UNVISITED ) {
+            if( !is_valid ) {
                 continue;
             }
 
@@ -629,7 +622,6 @@ std::vector<tripoint> DijikstraPathfinding::route( const tripoint &from, const t
 
         return result.has_value() ? *result : std::vector<tripoint>();
     }
-
 
     // 3D search
     // We won't bother with complicated Z-level paths because that vastly, vastly increases the pathfinding cost

@@ -898,7 +898,6 @@ void monster::move()
     bool pathed = false;
     if( try_to_move ) {
         if( !wander() ) {
-            auto pf_settings = get_legacy_pathfinding_settings();
             bool new_need_path = (
                                      path.empty() ||
                                      rl_dist( pos(), path.front() ) >= 2 ||
@@ -908,6 +907,7 @@ void monster::move()
 
             if( new_need_path ) {
                 if( get_option<bool>( "USE_LEGACY_PATHFINDING" ) ) {
+                    auto pf_settings = get_legacy_pathfinding_settings();
                     path = g->m.route( pos(), goal, pf_settings, get_legacy_path_avoid() );
                 } else {
                     auto pair = this->get_pathfinding_pair();
