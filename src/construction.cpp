@@ -62,8 +62,8 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "activity_actor_definitions.h"
 
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
@@ -1085,23 +1085,23 @@ void place_construction( const construction_group_str_id &group )
     for( const auto &it : con.requirements->get_tools() ) {
         g->u.consume_tools( it );
     }
-    g->u.assign_activity( ACT_BUILD );
-    g->u.activity->placement = here.getabs( pnt );
+    g->u.assign_activity( std::make_unique<player_activity>
+                          ( std::make_unique<construction_activity_actor>
+                            ( pnt ) ) );
 }
 
-void complete_construction( Character &ch )
+void complete_construction( Character &ch, tripoint &where )
 {
     if( !all_constructions.is_finalized() ) {
         debugmsg( "complete_construction called before finalization" );
         return;
     }
     map &here = get_map();
-    const tripoint terp = here.getlocal( ch.activity->placement );
-    partial_con *pc = here.partial_con_at( terp );
+    partial_con *pc = here.partial_con_at( where );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
-            here.remove_trap( terp );
+        if( here.tr_at( where ).loadid == tr_unfinished_construction ) {
+            here.remove_trap( where );
         }
         if( ch.is_npc() ) {
             npc *guy = ch.as_npc();
@@ -1137,22 +1137,22 @@ void complete_construction( Character &ch )
             award_xp( *elem );
         }
     }
-    if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
-        here.remove_trap( terp );
+    if( here.tr_at( where ).loadid == tr_unfinished_construction ) {
+        here.remove_trap( where );
     }
-    here.partial_con_remove( terp );
+    here.partial_con_remove( where );
     // Some constructions are allowed to have items left on the tile.
     if( !built.post_flags.contains( "keep_items" ) ) {
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
-        for( const tripoint &pt : here.points_in_radius( terp, 1 ) ) {
-            if( here.can_put_items( pt ) && pt != terp ) {
+        for( const tripoint &pt : here.points_in_radius( where, 1 ) ) {
+            if( here.can_put_items( pt ) && pt != where ) {
                 dump_spots.push_back( pt );
             }
         }
         if( !dump_spots.empty() ) {
             tripoint dump_spot = random_entry( dump_spots );
-            map_stack items = here.i_at( terp );
+            map_stack items = here.i_at( where );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
                 detached_ptr<item> dumped;
                 it = items.erase( it, &dumped );
@@ -1165,17 +1165,17 @@ void complete_construction( Character &ch )
     // Make the terrain change
     if( !built.post_terrain.is_empty() ) {
         const ter_id new_ter = built.post_terrain;
-        here.ter_set( terp, new_ter );
-        const tripoint above = terp + tripoint_above;
+        here.ter_set( where, new_ter );
+        const tripoint above = where + tripoint_above;
         // TODO: What to do if tile above has no floor, but isn't open air?
         if( new_ter->roof && here.ter( above ) == t_open_air ) {
             here.ter_set( above, new_ter->roof );
         }
     }
     if( !built.post_furniture.is_empty() ) {
-        here.furn_set( terp, built.post_furniture );
+        here.furn_set( where, built.post_furniture );
         active_tile_data *active = active_tiles::furn_at<active_tile_data>(
-                                       tripoint_abs_ms( here.getabs( terp ) ) );
+                                       tripoint_abs_ms( here.getabs( where ) ) );
         if( active != nullptr ) {
             active->set_last_updated( calendar::turn );
         }
@@ -1194,7 +1194,7 @@ void complete_construction( Character &ch )
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built.post_special( terp );
+    built.post_special( where );
     // npcs will automatically resume backlog, players wont.
     if( ch.is_avatar() && !ch.backlog.empty() &&
         ch.backlog.front()->id() == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -1834,53 +1834,15 @@ void construction::finalize()
     reqs_using.clear();
 }
 
-int construction::print_time( const catacurses::window &w, point p, int width,
-                              nc_color col ) const
-{
-    std::string text = get_time_string();
-    return fold_and_print( w, p, width, col, text );
-}
-
-float construction::time_scale() const
-{
-    //incorporate construction time scaling
-    if( get_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
-        return calendar::season_ratio();
-    } else {
-        return get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
-    }
-}
-
 bool construction::is_blacklisted() const
 {
     return requirements->is_blacklisted();
 }
 
-int construction::adjusted_time() const
-{
-    int final_time = to_moves<int>( time );
-    int assistants = 0;
-
-    for( auto &elem : character_funcs::get_crafting_helpers( get_player_character() ) ) {
-        if( elem->meets_skill_requirements( *this ) ) {
-            assistants++;
-        }
-    }
-
-    if( assistants >= 2 ) {
-        final_time *= 0.4f;
-    } else if( assistants == 1 ) {
-        final_time *= 0.75f;
-    }
-
-    final_time *= time_scale();
-
-    return final_time;
-}
 
 std::string construction::get_time_string() const
 {
-    const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
+    const time_duration turns = time_duration::from_turns( to_moves<int>( time ) / 100 );
     return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 
