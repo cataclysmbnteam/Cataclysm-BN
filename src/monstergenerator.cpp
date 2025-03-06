@@ -993,19 +993,19 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "path_settings" ) ) {
         JsonObject jop = jo.get_object( "path_settings" );
 
-        static auto inject_int = [&jop, this]( std::string field ) {
+        const auto inject_int = [&jop, this]( std::string field ) {
             if( jop.has_member( field ) ) {
-                this->recorded_path_settings.emplace( field, jop.get_int( field ) );
+                this->recorded_path_settings.insert_or_assign( field, jop.get_int( field ) );
             }
         };
-        static auto inject_float = [&jop, this]( std::string field ) {
+        const auto inject_float = [&jop, this]( std::string field ) {
             if( jop.has_member( field ) ) {
-                this->recorded_path_settings.emplace( field, static_cast<float>( jop.get_float( field ) ) );
+                this->recorded_path_settings.insert_or_assign( field, static_cast<float>( jop.get_float( field ) ) );
             }
         };
-        static auto inject_bool = [&jop, this]( std::string field ) {
+        const auto inject_bool = [&jop, this]( std::string field ) {
             if( jop.has_member( field ) ) {
-                this->recorded_path_settings.emplace( field, jop.get_bool( field ) );
+                this->recorded_path_settings.insert_or_assign( field, jop.get_bool( field ) );
             }
         };
 
@@ -1068,13 +1068,13 @@ void mtype::setup_pathfinding_deferred()
         this->path_settings.can_fly = true;
     }
 
-    static auto extract_into = [this]<typename T>( std::string field, T & out ) {
+    const auto extract_into = [this]<typename T>( std::string field, T & out ) {
         if( this->recorded_path_settings.contains( field ) ) {
             out = std::get<T>( this->recorded_path_settings[field] );
         }
     };
 
-    static auto extract_into_with_default =
+    const auto extract_into_with_default =
     [this]<typename T>( std::string field, T & out, T default_val ) {
         if( this->recorded_path_settings.contains( field ) ) {
             out = std::get<T>( this->recorded_path_settings[field] );
