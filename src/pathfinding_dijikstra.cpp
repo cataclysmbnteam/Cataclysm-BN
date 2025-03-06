@@ -142,10 +142,7 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
         return std::nullopt;
     }
 
-    const float chebyshev_distance = std::max(
-                                         abs( this->dest.x - from.x ),
-                                         abs( this->dest.y - from.y )
-                                     );
+    const int chebyshev_distance = square_dist_fast( from, this->dest );
     const float max_s = route_settings.max_s_coeff * chebyshev_distance;
 
     tripoint cur_point = from;
@@ -363,11 +360,11 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
             // It's cur_point because we're working backwards from destination
             const tripoint cur_point = next_point + dir;
 
-            const bool is_in_bounds = map.inbounds( cur_point );
-            const bool is_unvisited = this->d_map.get_state( cur_point ) == DijikstraMap::State::UNVISITED;
-            const bool is_valid = is_in_bounds && is_unvisited;
+            if( !map.inbounds( cur_point ) ) {
+                continue;
+            }
 
-            if( !is_valid ) {
+            if( this->d_map.get_state( cur_point ) != DijikstraMap::State::UNVISITED ) {
                 continue;
             }
 
