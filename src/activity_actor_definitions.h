@@ -644,6 +644,8 @@ class construction_activity_actor : public activity_actor
             return activity_id( "ACT_BUILD" );
         }
 
+        void recalc_all_moves( player_activity &act, Character &who ) override;
+
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;

@@ -2062,6 +2062,18 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
     return actor;
 }
 
+inline void construction_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+{
+    // Check if pc was lost for some reason, but actually still exists on map, e.g. save/load
+    if( !pc ) {
+        map &here = get_map();
+        auto local = here.getlocal( target );
+        pc = here.partial_con_at( local );
+    }
+    auto reqs = activity_reqs_adapter( pc->id.obj() );
+    act.recalc_all_moves( who, reqs );
+}
+
 void construction_activity_actor::start( player_activity &act, Character &who )
 {
     map &here = get_map();
