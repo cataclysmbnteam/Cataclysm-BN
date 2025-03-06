@@ -485,8 +485,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         /*
         * Speed block
         */
-        std::string mults_desc = string_format( _( "Speed multipliers:\n" ),
-                                                get_verb().translated() );
+        std::string mults_desc = string_format( _( "Speed multipliers:\n" ) );
         mults_desc += format_spd( speed.total(), "Total", 0, true );
         mults_desc += format_spd( speed.assist, "Assistants", 1 );
         mults_desc += format_spd( speed.light, "Light", 1 );
@@ -568,16 +567,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
             const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
             extra_info = string_format( "%d%%", percentage );
-        }
-
-        if( type == activity_id( "ACT_BUILD" ) ) {
-            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity->placement ) );
-            if( pc ) {
-                int counter = std::min( pc->counter, 10000000 );
-                const int percentage = counter / 100000;
-
-                extra_info = string_format( "%d%%", percentage );
-            }
         }
     }
 

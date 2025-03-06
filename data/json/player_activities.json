@@ -284,7 +284,6 @@
   {
     "id": "ACT_BUILD",
     "type": "activity_type",
-    "special": true,
     "refuel_fires": true,
     "auto_needs": true,
     "verb": "constructing",

@@ -13,6 +13,9 @@
 #include "locations.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
+#include "location_ptr.h"
+#include "locations.h"
+#include "construction_partial.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_energy.h"
@@ -626,6 +629,27 @@ class oxytorch_activity_actor : public activity_actor
                                                    ( other );
             return actor.target == target;
         }
+};
+
+class construction_activity_actor : public activity_actor
+{
+    private:
+        tripoint_abs_ms target;
+        partial_con *pc;
+    public:
+        explicit construction_activity_actor( const tripoint_abs_ms &target ) : target( target ) {
+        };
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BUILD" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
