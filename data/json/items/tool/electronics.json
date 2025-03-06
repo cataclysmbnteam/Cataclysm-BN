@@ -472,6 +472,7 @@
       },
       "CAMERA",
       "MP3",
+      "PORTABLE_GAME",
       "TOGGLE_UPS_CHARGING"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
