@@ -19,7 +19,7 @@
     "name": "PATHFINDING_ALPHA_DEFAULT",
     "info": "If `alpha` is unspecified, it will be this: alpha coefficient is a coefficient that makes pathfinding sometimes take slightly less than most optimal tiles. 1.0 only allows taking the best tiles, 0 will pick any _better_ tile that current one, not necessarily the best one. Use it to make pathfinding more 'flowy' and to decongest routes",
     "stype": "float",
-    "value": 0.4
+    "value": 0.8
   },
   {
     "type": "EXTERNAL_OPTION",

@@ -934,9 +934,6 @@ void monster::move()
                     destination = goal;
                     moved = true;
                 } else {
-                    for( const tripoint &p : path ) {
-                        g->draw_cursor( p );
-                    }
                     while( !path_empty && path.front() == pos() ) {
                         path.erase( path.begin() );
                     }

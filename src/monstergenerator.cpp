@@ -1000,7 +1000,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         };
         const auto inject_float = [&jop, this]( std::string field ) {
             if( jop.has_member( field ) ) {
-                this->recorded_path_settings.insert_or_assign( field, static_cast<float>( jop.get_float( field ) ) );
+                this->recorded_path_settings.insert_or_assign( field,
+                        static_cast<float>( jop.get_float( field ) ) );
             }
         };
         const auto inject_bool = [&jop, this]( std::string field ) {
