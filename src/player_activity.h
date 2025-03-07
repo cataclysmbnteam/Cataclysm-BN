@@ -119,8 +119,8 @@ class player_activity
 
         activity_speed speed = activity_speed();
         std::optional<bench_loc> bench;
-        std::vector<safe_reference<item>> tools = {};;
-        std::vector<safe_reference<npc>> assistants = {};;
+        std::vector<safe_reference<item>> tools = {};
+        std::vector<safe_reference<npc>> assistants = {};
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
