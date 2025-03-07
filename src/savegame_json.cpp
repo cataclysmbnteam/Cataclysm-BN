@@ -212,6 +212,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "tools", tools );
         json.member( "moves_total", moves_total );
         json.member( "moves_left", moves_left );
+        json.member( "assistants", assistants );
     }
     json.end_object();
 }
@@ -272,6 +273,7 @@ void player_activity::deserialize( JsonIn &jsin )
     data.read( "auto_resume", auto_resume );
     data.read( "monsters", monsters );
     data.read( "tools", tools );
+    data.read( "assistants", assistants );
 
 }
 

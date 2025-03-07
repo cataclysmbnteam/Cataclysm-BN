@@ -98,11 +98,6 @@ class player_activity
 {
     private:
         activity_id type;
-        bool bench_affected;
-        bool speed_affected;
-        bool skill_affected;
-        bool tools_affected;
-        bool morale_affected;
         std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
@@ -125,7 +120,7 @@ class player_activity
         activity_speed speed = activity_speed();
         std::optional<bench_loc> bench;
         std::vector<safe_reference<item>> tools = {};;
-        std::vector<npc *> assistants = {};;
+        std::vector<safe_reference<npc>> assistants = {};;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -272,19 +267,26 @@ class player_activity
         void calc_moves( const Character &who );
         void recalc_all_moves( Character &who );
         void recalc_all_moves( Character &who, activity_reqs_adapter &reqs );
+        std::vector<safe_reference<npc>> get_assistants( const Character &who, unsigned short max ) const;
         float calc_bench_factor( const Character &who ) const;
         float calc_light_factor( const Character &who ) const;
+        std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;
+
+        float calc_assistants_factor( const Character &who ) const;
+
         float calc_skill_factor( const Character &who ) const {
             return calc_skill_factor( who, type->skills );
         };
         float calc_skill_factor( const Character &who,
                                  const std::vector<activity_req<skill_id>> &skill_req ) const;
-        std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;
+
+
         float calc_tools_factor( Character &who ) const {
             return calc_tools_factor( who, type->qualities );
         };
         float calc_tools_factor( Character &who,
                                  const std::vector<activity_req<quality_id>> &quality_reqs ) const;
+
         float calc_morale_factor( int morale ) const;
         void find_best_bench( const tripoint &pos );
 

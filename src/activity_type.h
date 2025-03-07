@@ -44,7 +44,6 @@ class activity_type
         bool auto_needs = false;
         bool special_ = false;
         bool complex_moves_ = false;
-        bool assistable_ = false;
         bool bench_affected_ = false;
         bool light_affected_ = false;
         bool skill_affected_ = false;
@@ -54,6 +53,7 @@ class activity_type
         bool morale_affected_ = false;
         bool morale_blocked_ = false;
         bool verbose_tooltip_ = true;
+        unsigned short max_assistants_ = 0;
 
     public:
         std::vector<activity_req<character_stat>> stats = {};
@@ -84,41 +84,45 @@ class activity_type
          * "Special" activities do not use basic logic
          * instead those rely on their own unique spagett
         */
-        bool special() const {
+        inline bool special() const {
             return special_;
         }
-        bool complex_moves() const {
+        inline bool complex_moves() const {
             return complex_moves_;
         }
-        bool assistable() const {
-            return assistable_;
+        inline bool assistable() const {
+            return max_assistants_ > 0;
         }
-        bool bench_affected() const {
+        inline bool bench_affected() const {
             return bench_affected_;
         }
-        bool light_affected() const {
+        inline bool light_affected() const {
             return light_affected_;
         }
-        bool skill_affected() const {
+        inline bool skill_affected() const {
             return skill_affected_;
         }
-        bool stats_affected() const {
+        inline bool stats_affected() const {
             return stats_affected_;
         }
-        bool speed_affected() const {
+        inline bool speed_affected() const {
             return speed_affected_;
         }
-        bool tools_affected() const {
+        inline bool tools_affected() const {
             return tools_affected_;
         }
-        bool morale_affected() const {
+        inline bool morale_affected() const {
             return morale_affected_;
         }
-        bool morale_blocked() const {
+        inline bool morale_blocked() const {
             return morale_blocked_;
         }
-        bool verbose_tooltip() const {
+        inline bool verbose_tooltip() const {
             return verbose_tooltip_;
+        }
+
+        inline unsigned short max_assistants() const {
+            return max_assistants_;
         }
         /**
          * If true, player will refuel one adjacent fire if there is firewood spot adjacent.

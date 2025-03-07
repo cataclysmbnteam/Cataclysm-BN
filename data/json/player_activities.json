@@ -134,7 +134,7 @@
     "refuel_fires": true,
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "bench": true, "light": true, "speed": true, "skills": true, "qualities": true, "morale": true }
+    "complex_moves": { "max_assistants": 4, "bench": true, "light": true, "speed": true, "skills": true, "qualities": true, "morale": true }
   },
   {
     "id": "ACT_DISASSEMBLE",
@@ -145,7 +145,7 @@
     "refuel_fires": true,
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "bench": true, "light": true, "speed": true, "skills": true, "qualities": true, "morale": true }
+    "complex_moves": { "max_assistants": 4, "bench": true, "light": true, "speed": true, "skills": true, "qualities": true, "morale": true }
   },
   {
     "id": "ACT_BUTCHER",
@@ -154,7 +154,7 @@
     "auto_needs": true,
     "morale_blocked": true,
     "complex_moves": {
-      "assistable": true,
+      "max_assistants": 4,
       "bench": true,
       "light": true,
       "speed": true,
@@ -170,7 +170,7 @@
     "auto_needs": true,
     "morale_blocked": true,
     "complex_moves": {
-      "assistable": true,
+      "max_assistants": 4,
       "bench": true,
       "light": true,
       "speed": true,
@@ -186,7 +186,7 @@
     "auto_needs": true,
     "morale_blocked": true,
     "complex_moves": {
-      "assistable": true,
+      "max_assistants": 2,
       "bench": true,
       "light": true,
       "speed": true,
@@ -211,7 +211,7 @@
     "auto_needs": true,
     "morale_blocked": true,
     "complex_moves": {
-      "assistable": true,
+      "max_assistants": 2,
       "bench": true,
       "light": true,
       "speed": true,
@@ -227,7 +227,7 @@
     "auto_needs": true,
     "morale_blocked": true,
     "complex_moves": {
-      "assistable": true,
+      "max_assistants": 3,
       "light": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
@@ -242,7 +242,7 @@
     "auto_needs": true,
     "morale_blocked": true,
     "complex_moves": {
-      "assistable": true,
+      "max_assistants": 8,
       "speed": true,
       "skills": [ [ "survival" ] ],
       "stats": [ [ "STR" ] ],
@@ -256,7 +256,7 @@
     "auto_needs": true,
     "morale_blocked": true,
     "complex_moves": {
-      "assistable": true,
+      "max_assistants": 3,
       "bench": true,
       "light": true,
       "speed": true,
@@ -288,7 +288,7 @@
     "auto_needs": true,
     "verb": "constructing",
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "light": true, "speed": true, "skills": true, "qualities": true }
+    "complex_moves": { "max_assistants": 8, "light": true, "speed": true, "skills": true, "qualities": true }
   },
   {
     "id": "ACT_VEHICLE",
@@ -320,7 +320,7 @@
     "id": "ACT_FIRSTAID",
     "type": "activity_type",
     "verb": "using first aid",
-    "complex_moves": { "assistable": true, "light": true, "speed": true, "skills": [ [ "firstaid" ] ] }
+    "complex_moves": { "max_assistants": 1, "light": true, "speed": true, "skills": [ [ "firstaid" ] ] }
   },
   {
     "id": "ACT_FISH",
@@ -334,7 +334,7 @@
     "id": "ACT_PICKAXE",
     "type": "activity_type",
     "verb": "mining",
-    "complex_moves": { "assistable": true, "light": true, "speed": true, "stats": [ [ "STR" ] ] }
+    "complex_moves": { "max_assistants": 4, "light": true, "speed": true, "stats": [ [ "STR" ] ] }
   },
   {
     "id": "ACT_BURROW",
@@ -372,7 +372,7 @@
     "type": "activity_type",
     "verb": "cutting tissues",
     "suspendable": false,
-    "complex_moves": { "assistable": true, "light": true, "speed": true, "skills": [ [ "survival" ] ] }
+    "complex_moves": { "max_assistants": 1, "light": true, "speed": true, "skills": [ [ "survival" ] ] }
   },
   {
     "id": "ACT_DROP",
@@ -457,7 +457,7 @@
     "no_resume": true,
     "auto_needs": true,
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "speed": true, "skills": [ [ "survival" ] ] }
+    "complex_moves": { "max_assistants": 8, "speed": true, "skills": [ [ "survival" ] ] }
   },
   {
     "id": "ACT_ADV_INVENTORY",
@@ -489,7 +489,7 @@
     "id": "ACT_TOGGLE_GATE",
     "type": "activity_type",
     "verb": "working the winch",
-    "complex_moves": { "assistable": true, "speed": true, "stats": [ [ "STR" ] ] },
+    "complex_moves": { "speed": true, "stats": [ [ "STR" ] ] },
     "verbose_tooltip": false
   },
   {
@@ -518,13 +518,13 @@
     "rooted": true,
     "no_resume": true,
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "light": true, "speed": true, "skills": [ [ "survival" ] ] }
+    "complex_moves": { "max_assistants": 2, "light": true, "speed": true, "skills": [ [ "survival" ] ] }
   },
   {
     "id": "ACT_HOTWIRE_CAR",
     "type": "activity_type",
     "verb": "hotwiring the vehicle",
-    "complex_moves": { "assistable": true, "light": true, "speed": true, "skills": [ [ "mechanics" ] ], "stats": [ [ "DEX" ] ] }
+    "complex_moves": { "max_assistants": 1, "light": true, "speed": true, "skills": [ [ "mechanics" ] ], "stats": [ [ "DEX" ] ] }
   },
   {
     "id": "ACT_AIM",
@@ -632,7 +632,7 @@
     "type": "activity_type",
     "verb": "clearing that rubble",
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "light": true, "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
+    "complex_moves": { "max_assistants": 8, "light": true, "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
   },
   {
     "id": "ACT_MEDITATE",
@@ -649,7 +649,7 @@
     "suspendable": false,
     "no_resume": true,
     "morale_blocked": true,
-    "complex_moves": { "assistable": true, "speed": true }
+    "complex_moves": { "max_assistants": 8, "speed": true }
   },
   {
     "id": "ACT_HACKSAW",

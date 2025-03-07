@@ -34,6 +34,8 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 #include "character_functions.h"
+#include "game.h"
+#include "npc.h"
 
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -44,6 +46,8 @@ static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
+
+static const skill_id stat_speech( "speech" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
@@ -143,7 +147,10 @@ void player_activity::recalc_all_moves( Character &who )
         speed.skills = calc_skill_factor( who );
     }
     if( is_assistable() ) {
-        assistants = character_funcs::get_crafting_helpers( who );
+        if( assistants.empty() ) {
+            assistants = get_assistants( who );
+        }
+        speed.assist = calc_assistants_factor( who );
     }
     calc_moves( who );
 }
@@ -155,16 +162,67 @@ void player_activity::recalc_all_moves( Character &who, activity_reqs_adapter &r
         speed.bench = calc_bench_factor( who );
     }
     if( is_tools_affected() ) {
-
         speed.tools = calc_tools_factor( who, reqs.qualities );
     }
     if( is_skill_affected() ) {
         speed.skills = calc_skill_factor( who, reqs.skills );
     }
     if( is_assistable() ) {
-        assistants = character_funcs::get_crafting_helpers( who );
+        if( assistants.empty() ) {
+            assistants = get_assistants( who );
+        }
+        speed.assist = calc_assistants_factor( who );
     }
     calc_moves( who );
+}
+
+std::vector<safe_reference<npc>> player_activity::get_assistants( const Character &who,
+                              unsigned short max = 0 ) const
+{
+    max = type->max_assistants();
+    if( max == 0 ) {
+        return {};
+    }
+    int n = 0;
+    auto npcs =  g->get_npcs_if( [&]( const npc & guy ) {
+        if( n >= max ) {
+            return false;
+        }
+        // NPCs can help craft if awake, taking orders, within pickup range and have clear path
+        bool ok = !guy.in_sleep_state() && guy.is_obeying( who ) &&
+                  rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
+                  get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        if( ok ) {
+            n += 1;
+        }
+        return ok;
+    } );
+
+    std::vector<safe_reference<npc>> ret;
+
+    for( auto npc : npcs ) {
+        ret.push_back( npc );
+    }
+
+    return ret;
+}
+
+float player_activity::calc_assistants_factor( const Character &who ) const
+{
+    int x = assistants.size();
+    if( x == 0 ) {
+        return 1.0f;
+    }
+
+    float f = 0.5f * std::pow( x, 3 )
+              - 7 * std::pow( x, 2 )
+              + 45 * x;
+
+    // range [0.8:1.2] based on speech
+    f *= 0.8f + 0.04f * who.get_skill_level( stat_speech ) ;
+    f += 100.f; //add base 100% speed
+
+    return refine_factor( + f, 1.0f, 3.0f );
 }
 
 float player_activity::calc_bench_factor( const Character &who ) const

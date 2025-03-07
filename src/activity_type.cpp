@@ -58,11 +58,17 @@ void activity_type::load( const JsonObject &jo )
     if( jo.has_member( "complex_moves" ) ) {
         result.complex_moves_ = true;
         auto c_moves = jo.get_object( "complex_moves" );
-        result.assistable_ = c_moves.get_bool( "assistable", false );
         result.bench_affected_ = c_moves.get_bool( "bench", false );
         result.light_affected_ = c_moves.get_bool( "light", false );
         result.speed_affected_ = c_moves.get_bool( "speed", false );
         result.morale_affected_ = c_moves.get_bool( "morale", false );
+
+        int jvalue = c_moves.get_int( "max_assistants", 0 );
+        if( jvalue >= 0 || jvalue > 32 ) {
+            result.max_assistants_ = jvalue;
+        } else {
+            debugmsg( "Forbidden value of max_assistants - %s. Value sould be between 0 and 32", jvalue );
+        }
 
         c_moves.allow_omitted_members();
         if( c_moves.has_bool( "skills" ) ) {
