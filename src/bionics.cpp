@@ -1843,6 +1843,7 @@ void Character::process_bionic( bionic &bio )
                 }
             }
             if( get_power_level() < bio.info().power_trigger ) {
+                bio.powered = false;
                 add_msg_if_player( m_bad, _( "Your %s doesn't have enough power and shuts down." ),
                                    bio.info().name );
                 deactivate_bionic( bio, true );
