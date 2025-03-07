@@ -267,7 +267,8 @@ class player_activity
         void calc_moves( const Character &who );
         void recalc_all_moves( Character &who );
         void recalc_all_moves( Character &who, activity_reqs_adapter &reqs );
-        std::vector<safe_reference<npc>> get_assistants( const Character &who, unsigned short max ) const;
+        std::vector<safe_reference<npc>> get_assistants( const Character &who,
+                                      unsigned short max = 0 ) const;
         float calc_bench_factor( const Character &who ) const;
         float calc_light_factor( const Character &who ) const;
         std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;

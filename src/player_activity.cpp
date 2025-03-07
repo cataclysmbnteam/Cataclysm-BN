@@ -177,7 +177,7 @@ void player_activity::recalc_all_moves( Character &who, activity_reqs_adapter &r
 }
 
 std::vector<safe_reference<npc>> player_activity::get_assistants( const Character &who,
-                              unsigned short max = 0 ) const
+                              unsigned short max ) const
 {
     max = type->max_assistants();
     if( max == 0 ) {
