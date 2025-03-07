@@ -1146,11 +1146,13 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
             return false;
         }
 
-        //We can actually deactivate now, do deactivation-y things
+        // All checks green, get the deactivation cost and print the message.
         mod_power_level( -bio.info().power_deactivate );
-        bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
+
+    // Deactivation is outwidth of the !eff_only block, as involuntary or voluntary it still needs to turn off.
+    bio.powered = false;
 
     // Deactivation effects go here
     if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
@@ -1228,7 +1230,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                    _( "Your %s runs out of fuel and turn off." ),
                                    _( "<npcname>'s %s runs out of fuel and turn off." ),
                                    bio.info().name );
-            bio.powered = false;
             deactivate_bionic( bio, true );
             return false;
         }
@@ -1279,7 +1280,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                                bio.info().name );
                     }
                 }
-                bio.powered = false;
                 deactivate_bionic( bio, true );
                 return false;
             } else {
@@ -1352,8 +1352,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                                _( "<npcname>'s %s runs out of fuel and turn off." ),
                                                bio.info().name );
                     }
-
-                    bio.powered = false;
                     deactivate_bionic( bio, true );
                     return false;
                 }
@@ -1626,7 +1624,6 @@ void Character::process_bionic( bionic &bio )
                 bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
-                    bio.powered = false;
                     add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
                     // This purposely bypasses the deactivation cost
                     deactivate_bionic( bio, true );
@@ -1843,7 +1840,6 @@ void Character::process_bionic( bionic &bio )
                 }
             }
             if( get_power_level() < bio.info().power_trigger ) {
-                bio.powered = false;
                 add_msg_if_player( m_bad, _( "Your %s doesn't have enough power and shuts down." ),
                                    bio.info().name );
                 deactivate_bionic( bio, true );
