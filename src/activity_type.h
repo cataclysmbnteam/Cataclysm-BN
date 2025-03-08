@@ -36,24 +36,24 @@ struct activity_req {
     //Somewhat balanced default values to reference
 
     activity_req( const quality_id &req, int threshold )
-        : req( req ), mod( 10 ), threshold( threshold ) {
+        : req( req ), mod( 10.0f ), threshold( threshold ) {
     }
     activity_req( const quality_id &req )
-        : req( req ), mod( 10 ), threshold( 0 ) {
+        : req( req ), mod( 10.0f ), threshold( 0 ) {
     }
 
     activity_req( const skill_id &req, int threshold )
-        : req( req ), mod( 0 ), threshold( threshold ) {
+        : req( req ), mod( 0.0f ), threshold( threshold ) {
     }
     activity_req( const skill_id &req )
-        : req( req ), mod( 0 ), threshold( 0 ) {
+        : req( req ), mod( 0.0f ), threshold( 0 ) {
     }
 
     activity_req( const character_stat &req, int threshold )
-        : req( req ), mod( 8 ), threshold( threshold ) {
+        : req( req ), mod( 1.0f ), threshold( threshold ) {
     }
     activity_req( const character_stat &req )
-        : req( req ), mod( 8 ), threshold( 0 ) {
+        : req( req ), mod( 1.0f ), threshold( 8 ) {
     }
 };
 
