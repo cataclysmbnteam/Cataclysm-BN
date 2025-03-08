@@ -753,7 +753,7 @@
     "using": [ [ "welding_standard", 15 ], [ "soldering_standard", 40 ] ],
     "components": [
       [ [ "workbench", 1 ] ],
-      [ [ "plut_cell", 2 ] ],
+      [ [ "plut_cell", 1 ] ],
       [ [ "cable", 60 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "ai_module", 1 ] ],
