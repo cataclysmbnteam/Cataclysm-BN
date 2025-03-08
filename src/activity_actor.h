@@ -194,6 +194,10 @@ class activity_actor
         virtual activity_id get_type() const = 0;
 
 
+        /**
+         * Actor specific behaviour to recalc all speed values
+         * Expected to be called once per target and on game load
+         */
         virtual void recalc_all_moves( player_activity &act, Character &who );
 
         /**

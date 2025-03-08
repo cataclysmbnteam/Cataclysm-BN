@@ -185,6 +185,8 @@ class player_activity
             }
             return moves_left <= 0;
         }
+        //Wrapper func to return assistants array properly
+        inline std::vector<npc *> &assistants();
         /*
         * Members to work with activity_actor.
         */
@@ -258,7 +260,10 @@ class player_activity
 
         /*
          * Bunch of functioins to calculate speed factors based on certain conditions
+         * Most of those are quite self-explanatory by the name
         */
+
+
         inline void init_all_moves( Character &who ) {
             if( actor ) {
                 actor->recalc_all_moves( *this, who );
@@ -267,17 +272,23 @@ class player_activity
             }
         }
 
-        inline std::vector<npc *> &assistants();
-
+        //Calculates speed factors that may change every turn
         void calc_moves( const Character &who );
+
+        //Calculates all factors
         void recalc_all_moves( Character &who );
         void recalc_all_moves( Character &who, activity_reqs_adapter &reqs );
-        void get_assistants( const Character &who,
-                             unsigned short max = 0 );
+
+        //Fills bench var
+        void find_best_bench( const tripoint &pos );
         float calc_bench_factor( const Character &who ) const;
+
         float calc_light_factor( const Character &who ) const;
         std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;
 
+        //Fills assistant vector with applicable assistants
+        void get_assistants( const Character &who,
+                             unsigned short max = 0 );
         float calc_assistants_factor( const Character &who );
 
         float calc_skill_factor( const Character &who ) const {
@@ -294,7 +305,6 @@ class player_activity
                                  const std::vector<activity_req<quality_id>> &quality_reqs ) const;
 
         float calc_morale_factor( int morale ) const;
-        void find_best_bench( const tripoint &pos );
 
         static float get_best_qual_mod( const activity_req<quality_id> &q,
                                         const inventory &inv );
