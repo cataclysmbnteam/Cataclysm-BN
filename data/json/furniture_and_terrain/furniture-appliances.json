@@ -2803,7 +2803,7 @@
         { "item": "scrap", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "element", "count": [ 2, 6 ] },
-        { "item": "broken_dissector", "count": [1, 1 ] },
+        { "item": "broken_dissector", "count": [ 1, 1 ] },
         { "item": "pipe", "count": [ 4, 6 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 12, 24 ] },

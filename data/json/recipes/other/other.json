@@ -758,7 +758,7 @@
       [ [ "sensor_module", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "sheet_metal_small", 10 ] ],
-      [ [ "broken_dissector", 1] ]
+      [ [ "broken_dissector", 1 ] ]
     ]
   }
 ]
