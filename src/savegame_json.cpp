@@ -254,7 +254,7 @@ void player_activity::deserialize( JsonIn &jsin )
         data.read( "moves_total", moves_total );
         int ml = data.get_int( "moves_left" );
         if( ml <= 0 ) {
-            type = activity_id( "ACT_MIGRATION_CANCEL" );
+            type = ACT_MIGRATION_CANCEL;
         } else {
             moves_left = ml;
         }
