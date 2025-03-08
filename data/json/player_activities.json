@@ -155,7 +155,6 @@
     "morale_blocked": true,
     "complex_moves": {
       "max_assistants": 4,
-      "bench": true,
       "light": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
@@ -171,7 +170,6 @@
     "morale_blocked": true,
     "complex_moves": {
       "max_assistants": 4,
-      "bench": true,
       "light": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
@@ -187,7 +185,6 @@
     "morale_blocked": true,
     "complex_moves": {
       "max_assistants": 2,
-      "bench": true,
       "light": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
@@ -212,7 +209,6 @@
     "morale_blocked": true,
     "complex_moves": {
       "max_assistants": 2,
-      "bench": true,
       "light": true,
       "speed": true,
       "skills": [ [ "survival" ] ],
@@ -257,7 +253,6 @@
     "morale_blocked": true,
     "complex_moves": {
       "max_assistants": 3,
-      "bench": true,
       "light": true,
       "speed": true,
       "skills": [ [ "firstaid" ] ],
@@ -699,7 +694,7 @@
     "id": "ACT_CHURN",
     "type": "activity_type",
     "verb": "churning earth",
-    "complex_moves": { "speed": true }
+    "complex_moves": { "speed": true, "stats": [ [ "STR" ] ], "qualities": [ [ "DIG" ] ] }
   },
   {
     "id": "ACT_PLANT_SEED",
@@ -751,7 +746,7 @@
     "verb": "trying to fall asleep",
     "rooted": true,
     "suspendable": false,
-    "complex_moves": { "light": true, "stats": [ [ "INT" ] ] },
+    "complex_moves": { "speed": true, "stats": [ [ "INT" ] ] },
     "verbose_tooltip": false
   },
   {
@@ -887,6 +882,6 @@
     "auto_needs": true,
     "verbose_tooltip": false,
     "verb": "assisting",
-    "//": "asistance activity for npcs"
+    "//": "assistance activity for npcs"
   }
 ]
