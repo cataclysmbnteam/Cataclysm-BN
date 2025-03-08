@@ -100,7 +100,7 @@
     "batch_time_factors": [ 90, 1 ],
     "autolearn": true,
     "using": [ [ "welding_standard", 30 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
+    "qualities": [ { "id": "SAW_M", "level": 1 } ]
   },
   {
     "type": "recipe",
