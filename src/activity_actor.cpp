@@ -2170,6 +2170,23 @@ std::unique_ptr<activity_actor> construction_activity_actor::deserialize( JsonIn
     return actor;
 }
 
+void assist_activity_actor::start( player_activity &act, Character &who )
+{
+    progress.dummy();
+}
+
+void assist_activity_actor::serialize( JsonOut &jsout ) const
+{
+    // Activity is not being saved but still provide some valid json if called.
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> assist_activity_actor::deserialize( JsonIn & )
+{
+    return std::make_unique<assist_activity_actor>();
+}
+
+
 namespace activity_actors
 {
 
@@ -2195,6 +2212,7 @@ deserialize_functions = {
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
     { activity_id( "ACT_WASH" ), &wash_activity_actor::deserialize },
+    { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

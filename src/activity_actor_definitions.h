@@ -654,4 +654,25 @@ class construction_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class assist_activity_actor : public activity_actor
+{
+    public:
+        explicit assist_activity_actor() {
+        };
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_ASSIST" );
+        }
+
+        void recalc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override {};
+        void finish( player_activity &act, Character &who ) override {};
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+};
+
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

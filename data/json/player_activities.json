@@ -878,5 +878,15 @@
     "type": "activity_type",
     "verb": "dummy activity",
     "//": "dummy activity for tests, cuz, apparently it's much harder to insert it to map"
+  },
+  {
+    "id": "ACT_ASSIST",
+    "type": "activity_type",
+    "special": true,
+    "no_resume": true,
+    "auto_needs": true,
+    "verbose_tooltip": false,
+    "verb": "assisting",
+    "//": "asistance activity for npcs"
   }
 ]

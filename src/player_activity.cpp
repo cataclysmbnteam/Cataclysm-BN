@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -41,6 +42,7 @@
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
+static const activity_id ACT_ASSIST( "ACT_ASSIST" );
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
@@ -218,15 +220,18 @@ void player_activity::get_assistants( const Character &who,
             return false;
         }
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path
-        bool ok = !guy.in_sleep_state() && guy.is_obeying( who ) &&
+        bool ok = guy.is_npc() && !guy.in_sleep_state() && guy.is_obeying( who ) &&
+                  guy.activity->id() != ACT_ASSIST &&
                   rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
                   get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
         if( ok ) {
-            n += 1;
+            n++;
         }
         return ok;
     } );
-    for( auto &guy : assistants_ ) {
+    for( Character *guy : assistants_ ) {
+        guy->assign_activity( std::make_unique<player_activity>
+                              ( std::make_unique<assist_activity_actor>() ) );
         assistants_ids_.insert( guy->getID().get_value() );
     }
 }
@@ -730,17 +735,19 @@ void player_activity::do_turn( player &p )
         }
     }
 
-    /*
-    * Stamina block
-    */
-    int previous_stamina = p.get_stamina();
-    if( p.is_npc() && p.restore_outbounds_activity() ) {
-        // npc might be operating at the edge of the reality bubble.
-        // or just now reloaded back into it, and their activity target might
-        // be still unloaded, can cause infinite loops.
-        set_to_null();
-        p.drop_invalid_inventory();
-        return;
+    if( p.is_npc() ) {
+        if( p.restore_outbounds_activity() ) {
+            // npc might be operating at the edge of the reality bubble.
+            // or just now reloaded back into it, and their activity target might
+            // be still unloaded, can cause infinite loops.
+            set_to_null();
+            p.drop_invalid_inventory();
+            return;
+        }
+        if( p.activity->id() == ACT_ASSIST ) {
+            p.moves = 0;
+            return;
+        }
     }
 
     /*
@@ -807,7 +814,10 @@ void player_activity::do_turn( player &p )
         type->call_do_turn( this, &p );
     }
 
-    const bool travel_activity = id() == ACT_TRAVELLING;
+
+    /*
+    * Stamina block
+    */
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -815,6 +825,9 @@ void player_activity::do_turn( player &p )
     // so set stamina -1 if that is the case
     // to simulate that the next step will surely use up some stamina anyway
     // this is to ensure that resting will occur when traveling overburdened
+
+    int previous_stamina = p.get_stamina();
+    const bool travel_activity = id() == ACT_TRAVELLING;
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
     if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
@@ -844,6 +857,10 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
+        for( Character *npc : assistants() ) {
+            npc->cancel_activity();
+        }
+
     }
     if( !p.activity ) {
         // Make sure data of previous activity is cleared
@@ -860,6 +877,9 @@ void player_activity::canceled( Character &who )
 {
     if( *this && actor ) {
         actor->canceled( *this, who );
+    }
+    for( Character *npc : assistants() ) {
+        npc->cancel_activity();
     }
 }
 

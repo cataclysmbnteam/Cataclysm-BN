@@ -242,7 +242,7 @@ void player_activity::deserialize( JsonIn &jsin )
             actor.allow_omitted_members();
             if( !actor.has_member( "actor_data" ) ) {
                 type = ACT_MIGRATION_CANCEL;
-            } else {
+            } else if( !actor.has_null( "actor_data" ) ) {
                 auto a_data = actor.get_object( "actor_data" );
                 a_data.allow_omitted_members();
                 if( !a_data.has_member( "progress" ) ) {
