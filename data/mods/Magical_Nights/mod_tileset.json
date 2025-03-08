@@ -1180,7 +1180,9 @@
           { "id": "overlay_wielded_black_dbone_longsword", "fg": 969, "rotates": false },
           { "id": "overlay_wielded_black_dbone_battleaxe", "fg": 970, "rotates": false },
           { "id": "overlay_wielded_black_dbone_qiang", "fg": 971, "rotates": false },
-          { "id": "overlay_wielded_black_dbone_tachi", "fg": 972, "rotates": false }
+          { "id": "overlay_wielded_black_dbone_tachi", "fg": 972, "rotates": false },
+          { "id": "animist_broadsword", "fg": 973, "rotates": false },
+          { "id": "overlay_wielded_animist_broadsword", "fg": 974, "rotates": false }
         ],
         "//": "range 513 to 1280",
         "sprite_width": 32,
