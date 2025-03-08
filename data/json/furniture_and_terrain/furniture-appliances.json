@@ -2774,7 +2774,7 @@
   {
     "type": "furniture",
     "id": "f_adv_butchery",
-    "looks_like": "robobench",
+    "looks_like": "f_scan_bed",
     "name": "advanced butchering station",
     "symbol": "#",
     "description": "An advanced butchering station connected to a electrical grid.",
