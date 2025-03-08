@@ -28,6 +28,33 @@ struct activity_req {
     const T req;
     const float mod;
     const int threshold;
+
+    activity_req( const T &req, float mod, int threshold )
+        : req( req ), mod( mod ), threshold( threshold ) {
+    }
+
+    //Somewhat balanced default values to reference
+
+    activity_req( const quality_id &req, int threshold )
+        : req( req ), mod( 10 ), threshold( threshold ) {
+    }
+    activity_req( const quality_id &req )
+        : req( req ), mod( 10 ), threshold( 0 ) {
+    }
+
+    activity_req( const skill_id &req, int threshold )
+        : req( req ), mod( 0 ), threshold( threshold ) {
+    }
+    activity_req( const skill_id &req )
+        : req( req ), mod( 0 ), threshold( 0 ) {
+    }
+
+    activity_req( const character_stat &req, int threshold )
+        : req( req ), mod( 8 ), threshold( threshold ) {
+    }
+    activity_req( const character_stat &req )
+        : req( req ), mod( 8 ), threshold( 0 ) {
+    }
 };
 
 /** A class that stores constant information that doesn't differ between activities of the same type */

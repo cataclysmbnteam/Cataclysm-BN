@@ -38,22 +38,22 @@ struct activity_reqs_adapter {
 
     activity_reqs_adapter( const recipe &rec ) {
         for( auto &qual : rec.simple_requirements().get_qualities() ) {
-            qualities.emplace_back( qual.front().type, 10, qual.front().level );
+            qualities.emplace_back( qual.front().type, qual.front().level );
         }
 
-        skills.emplace_back( rec.skill_used, 0, rec.difficulty );
+        skills.emplace_back( rec.skill_used, rec.difficulty );
         for( auto &skill : rec.required_skills ) {
-            skills.emplace_back( skill.first, 0, skill.second );
+            skills.emplace_back( skill.first, skill.second );
         }
     }
 
     activity_reqs_adapter( const construction &con ) {
         for( auto &qual : con.requirements->get_qualities() ) {
-            qualities.emplace_back( qual.front().type, 10, qual.front().level );
+            qualities.emplace_back( qual.front().type, qual.front().level );
         }
 
         for( auto &skill : con.required_skills ) {
-            skills.emplace_back( skill.first, 0, skill.second );
+            skills.emplace_back( skill.first, skill.second );
         }
     }
 };
