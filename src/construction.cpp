@@ -1453,9 +1453,9 @@ void construct::done_deconstruct( const tripoint &p )
             }
             done_deconstruct( top );
         }
-        if( t.deconstruct.ter_set != t_null ) {
-            here.ter_set( p, t.deconstruct.ter_set );
-        } else {
+        here.ter_set( p, t.deconstruct.ter_set );
+        // Interpret a result of t_null as underlying terrain if any instead of placing nothinginess
+        if( here.ter( p ) == t_null ) {
             tripoint below( p.xy(), p.z - 1 );
             here.ter_set( p, here.get_roof( below, true ) );
         }
