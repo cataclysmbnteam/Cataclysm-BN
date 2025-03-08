@@ -50,7 +50,7 @@
     "type": "GENERIC",
     "id": "adv_butchery",
     "name": { "str": "advanced butchering station" },
-    "description": "Combining a fixed dissector, workbench and some electrical magic, you've created a marvel capable butchering, dissecting and cutting like nothing else!",
+    "description": "Combining a fixed-up dissector, workbench and advanced electronics, this is a marvel capable of butchering, dissecting and cutting like nothing else!",
     "weight": "46280 g",
     "material": [ "steel", "aluminum" ],
     "bashing": 9,
