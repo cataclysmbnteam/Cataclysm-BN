@@ -1236,6 +1236,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_adv_butchery",
+    "name": "Place Advanced Butchering Station"
+  },
+  {
+    "type": "construction_group",
     "id": "place_electrolysis_kit",
     "name": "Place Electrolysis Kit"
   },

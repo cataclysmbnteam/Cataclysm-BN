@@ -45,5 +45,16 @@
     "bashing": 9,
     "price": "4000 USD",
     "copy-from": "v_table"
+  },
+  {
+    "type": "GENERIC",
+    "id": "adv_butchery",
+    "name": { "str": "advanced butchering station", "str_pl": "advanced butchering stations" },
+    "description": "Combining a fixed dissector, workbench and some electrical magic, you've created a marvel capable butchering, dissecting and cutting like nothing else!",
+    "weight": "46280 g",
+    "material": [ "steel", "aluminum" ],
+    "bashing": 9,
+    "price": "4000 USD",
+    "copy-from": "v_table"
   }
 ]
