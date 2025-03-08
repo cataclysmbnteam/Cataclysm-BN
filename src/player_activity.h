@@ -109,6 +109,10 @@ class player_activity
         /** Unlocks the activity, or deletes it if it's already gone. */
         void resolve_active();
 
+        std::vector<npc *> assistants_ = {};
+        //Cuz game code is borked
+        std::set<int> assistants_ids_ = {};
+
     public:
         /** Total number of moves required to complete the activity */
         int moves_total = 0;
@@ -120,7 +124,6 @@ class player_activity
         activity_speed speed = activity_speed();
         std::optional<bench_loc> bench;
         std::vector<safe_reference<item>> tools = {};
-        std::vector<safe_reference<npc>> assistants = {};
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -264,16 +267,18 @@ class player_activity
             }
         }
 
+        inline std::vector<npc *> &assistants();
+
         void calc_moves( const Character &who );
         void recalc_all_moves( Character &who );
         void recalc_all_moves( Character &who, activity_reqs_adapter &reqs );
-        std::vector<safe_reference<npc>> get_assistants( const Character &who,
-                                      unsigned short max = 0 ) const;
+        void get_assistants( const Character &who,
+                             unsigned short max = 0 );
         float calc_bench_factor( const Character &who ) const;
         float calc_light_factor( const Character &who ) const;
         std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;
 
-        float calc_assistants_factor( const Character &who ) const;
+        float calc_assistants_factor( const Character &who );
 
         float calc_skill_factor( const Character &who ) const {
             return calc_skill_factor( who, type->skills );

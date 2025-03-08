@@ -135,6 +135,18 @@ inline float refine_factor( float speed, int denom = 1, float min = -75.0f, floa
     return speed / 100.0f;
 }
 
+inline std::vector<npc *> &player_activity::assistants()
+{
+    if( !assistants_ids_.empty() && assistants_.empty() ) {
+        for( npc &guy : g->all_npcs() ) {
+            if( assistants_ids_.contains( guy.getID().get_value() ) ) {
+                assistants_.push_back( &guy );
+            }
+        }
+    }
+    return assistants_;
+}
+
 void player_activity::calc_moves( const Character &who )
 {
     if( is_light_affected() ) {
@@ -164,8 +176,8 @@ void player_activity::recalc_all_moves( Character &who )
         speed.skills = calc_skill_factor( who );
     }
     if( is_assistable() ) {
-        if( assistants.empty() ) {
-            assistants = get_assistants( who );
+        if( assistants().empty() ) {
+            get_assistants( who );
         }
         speed.assist = calc_assistants_factor( who );
     }
@@ -185,23 +197,23 @@ void player_activity::recalc_all_moves( Character &who, activity_reqs_adapter &r
         speed.skills = calc_skill_factor( who, reqs.skills );
     }
     if( is_assistable() ) {
-        if( assistants.empty() ) {
-            assistants = get_assistants( who );
+        if( assistants().empty() ) {
+            get_assistants( who );
         }
         speed.assist = calc_assistants_factor( who );
     }
     calc_moves( who );
 }
 
-std::vector<safe_reference<npc>> player_activity::get_assistants( const Character &who,
-                              unsigned short max ) const
+void player_activity::get_assistants( const Character &who,
+                                      unsigned short max )
 {
     max = type->max_assistants();
     if( max == 0 ) {
-        return {};
+        return;
     }
     int n = 0;
-    auto npcs =  g->get_npcs_if( [&]( const npc & guy ) {
+    assistants_ = g->get_npcs_if( [&]( const npc & guy ) {
         if( n >= max ) {
             return false;
         }
@@ -214,19 +226,14 @@ std::vector<safe_reference<npc>> player_activity::get_assistants( const Characte
         }
         return ok;
     } );
-
-    std::vector<safe_reference<npc>> ret;
-
-    for( auto npc : npcs ) {
-        ret.push_back( npc );
+    for( auto &guy : assistants_ ) {
+        assistants_ids_.insert( guy->getID().get_value() );
     }
-
-    return ret;
 }
 
-float player_activity::calc_assistants_factor( const Character &who ) const
+float player_activity::calc_assistants_factor( const Character &who )
 {
-    int x = assistants.size();
+    int x = assistants().size();
     if( x == 0 ) {
         return 1.0f;
     }
@@ -237,9 +244,8 @@ float player_activity::calc_assistants_factor( const Character &who ) const
 
     // range [0.8:1.2] based on speech
     f *= 0.8f + 0.04f * who.get_skill_level( stat_speech ) ;
-    f += 100.f; //add base 100% speed
 
-    return refine_factor( + f, 1.0f, 3.0f );
+    return 1.0f + refine_factor( f, 1, 0.0f, 200.0f );
 }
 
 float player_activity::calc_bench_factor( const Character &who ) const

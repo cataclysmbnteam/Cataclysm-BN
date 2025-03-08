@@ -2070,6 +2070,11 @@ inline void construction_activity_actor::recalc_all_moves( player_activity &act,
         auto local = here.getlocal( target );
         pc = here.partial_con_at( local );
     }
+    //if something goes terribly wrong we don't CTD
+    if( !pc ) {
+        act.set_to_null();
+        return;
+    }
     auto reqs = activity_reqs_adapter( pc->id.obj() );
     act.recalc_all_moves( who, reqs );
 }

@@ -212,13 +212,14 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "tools", tools );
         json.member( "moves_total", moves_total );
         json.member( "moves_left", moves_left );
-        json.member( "assistants", assistants );
+        json.member( "assistants_ids", assistants_ids_ );
     }
     json.end_object();
 }
 
 void player_activity::deserialize( JsonIn &jsin )
 {
+    static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "type", type );
@@ -233,19 +234,19 @@ void player_activity::deserialize( JsonIn &jsin )
     // Handle migration of pre-activity_actor activities
     // ACT_MIGRATION_CANCEL will clear the backlog and reset npc state
     // this may cause inconvenience but should avoid any lasting damage to npcs
-    if( has_actor ) {
+    if( has_actor && type != ACT_MIGRATION_CANCEL ) {
         if( !data.has_member( "actor" ) ) {
-            type = activity_id( "ACT_MIGRATION_CANCEL" );
+            type = ACT_MIGRATION_CANCEL;
         } else {
             auto actor = data.get_object( "actor" );
             actor.allow_omitted_members();
             if( !actor.has_member( "actor_data" ) ) {
-                type = activity_id( "ACT_MIGRATION_CANCEL" );
+                type = ACT_MIGRATION_CANCEL;
             } else {
                 auto a_data = actor.get_object( "actor_data" );
                 a_data.allow_omitted_members();
                 if( !a_data.has_member( "progress" ) ) {
-                    type = activity_id( "ACT_MIGRATION_CANCEL" );
+                    type = ACT_MIGRATION_CANCEL;
                 }
             }
         }
@@ -258,7 +259,7 @@ void player_activity::deserialize( JsonIn &jsin )
             moves_left = ml;
         }
     }
-    if( type != activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+    if( type != ACT_MIGRATION_CANCEL ) {
         data.read( "actor", actor );
     }
     data.read( "index", index );
@@ -273,7 +274,7 @@ void player_activity::deserialize( JsonIn &jsin )
     data.read( "auto_resume", auto_resume );
     data.read( "monsters", monsters );
     data.read( "tools", tools );
-    data.read( "assistants", assistants );
+    data.read( "assistants_ids", assistants_ids_ );
 
 }
 
@@ -712,12 +713,6 @@ void Character::load( const JsonObject &data )
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
     }
-
-    //cuz this one should be checked after certain other vars loaded, like skills
-    if( activity ) {
-        activity->init_all_moves( *this );
-    }
-
 }
 
 /**

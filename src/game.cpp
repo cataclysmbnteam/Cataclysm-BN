@@ -878,6 +878,11 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
+
+    //needs to have all npcs loaded
+    for( Character &guy : all_npcs() ) {
+        guy.activity->init_all_moves( guy );
+    }
 }
 
 void game::create_starting_npcs()
@@ -2619,6 +2624,8 @@ bool game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
+    //needs all npcs and stats loaded
+    u.activity->init_all_moves( u );
 
     cata::load_world_lua_state( get_active_world(), "lua_state.json" );
 
