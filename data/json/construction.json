@@ -4923,6 +4923,7 @@
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridkiln"
   },
