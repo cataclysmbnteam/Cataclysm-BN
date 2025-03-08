@@ -1453,7 +1453,12 @@ void construct::done_deconstruct( const tripoint &p )
             }
             done_deconstruct( top );
         }
-        here.ter_set( p, t.deconstruct.ter_set );
+        if( t.deconstruct.ter_set != t_null ) {
+            here.ter_set( p, t.deconstruct.ter_set );
+        } else {
+            tripoint below( p.xy(), p.z - 1 );
+            here.ter_set( p, here.get_roof( below, true ) );
+        }
         add_msg( _( "The %s is disassembled." ), t.name() );
         std::vector<detached_ptr<item>> items_list = item_group::items_from( t.deconstruct.drop_group,
                                      calendar::turn );
