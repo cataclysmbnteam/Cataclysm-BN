@@ -27816,7 +27816,6 @@
         { "id": "t_oil_circ_brkr_s", "fg": 14765, "bg": 9130, "rotates": false },
         { "id": "t_potential_trans", "fg": 14766, "bg": 9130, "rotates": false },
         { "id": "t_radio_controls", "fg": 14767, "rotates": false },
-        { "id": "t_recycler", "fg": 14768, "bg": 9161, "rotates": false },
         { "id": "t_rootcellar", "fg": 14769, "bg": 9131, "rotates": false },
         { "id": "t_sai_box", "fg": 14770, "bg": 9161, "rotates": false },
         { "id": "t_sai_box_damaged", "fg": 14771, "bg": 9130, "rotates": false },
