@@ -107,7 +107,7 @@
   {
     "id": "recycler_item",
     "type": "TOOL",
-    "looks_like": "t_machinery_heavy",
+    "looks_like": "t_recycler",
     "name": "metal compactor",
     "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.",
     "weight": "150 kg",

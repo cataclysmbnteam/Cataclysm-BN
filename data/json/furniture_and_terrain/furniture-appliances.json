@@ -2847,7 +2847,7 @@
     "id": "f_recycler",
     "name": "metal compactor",
     "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting. If you're very careful, you can even uninstall it to transport it elsewhere.",
-    "looks_like": "t_machinery_heavy",
+    "looks_like": "t_recycler",
     "symbol": "&",
     "color": "green",
     "move_cost_mod": -1,
