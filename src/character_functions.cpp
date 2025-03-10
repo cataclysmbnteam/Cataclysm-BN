@@ -1,5 +1,3 @@
-#pragma optimize("", off)
-
 #include "character_functions.h"
 
 #include <utility>
