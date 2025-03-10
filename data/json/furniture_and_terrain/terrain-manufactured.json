@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_recycler",
     "name": "metal compactor",
-    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting. If you're very careful, you can even uninstall it to transport it elsewhere.",
+    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.  If you're very careful, you can even uninstall it to transport it elsewhere.",
     "looks_like": "t_machinery_heavy",
     "symbol": "&",
     "color": "green",
