@@ -81,7 +81,21 @@ static constexpr int BORDER_SPACE = 2;
 bool is_mouse_enabled();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
+enum mouse_buttons { 
+    MOUSE_BUTTON_LEFT = 1,
+    MOUSE_BUTTON_LEFT_PRESSED,
+    MOUSE_BUTTON_RIGHT,
+    MOUSE_BUTTON_RIGHT_PRESSED,
+    MOUSE_BUTTON_MIDDLE_PRESSED,
+    MOUSE_BUTTON_MIDDLE_RELEASED,
+    MOUSE_BUTTON_X1_PRESSED,
+    MOUSE_BUTTON_X1_RELEASED,
+    MOUSE_BUTTON_X2_PRESSED,
+    MOUSE_BUTTON_X2_RELEASED,
+    SCROLLWHEEL_UP,
+    SCROLLWHEEL_DOWN,
+    MOUSE_MOVE
+};
 
 enum class input_event_t : int  {
     error,

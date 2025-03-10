@@ -407,7 +407,17 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_7,         translate_marker_context( "key name", "JOY_7" ) );
 
     keyname_to_keycode["MOUSE_LEFT"] = MOUSE_BUTTON_LEFT;
+    keyname_to_keycode["MOUSE_LEFT_PRESSED"] = MOUSE_BUTTON_LEFT_PRESSED;
     keyname_to_keycode["MOUSE_RIGHT"] = MOUSE_BUTTON_RIGHT;
+    keyname_to_keycode["MOUSE_RIGHT_PRESSED"] = MOUSE_BUTTON_RIGHT_PRESSED;
+    keyname_to_keycode["MOUSE_MIDDLE_PRESSED"] = MOUSE_BUTTON_MIDDLE_PRESSED;
+    keyname_to_keycode["MOUSE_MIDDLE_RELEASED"] = MOUSE_BUTTON_MIDDLE_RELEASED;
+    
+    keyname_to_keycode["MOUSE_X1_PRESSED"] = MOUSE_BUTTON_X1_PRESSED;
+    keyname_to_keycode["MOUSE_X1_RELEASED"] = MOUSE_BUTTON_X1_RELEASED;
+    keyname_to_keycode["MOUSE_X2_PRESSED"] = MOUSE_BUTTON_X2_PRESSED;
+    keyname_to_keycode["MOUSE_X2_RELEASED"] = MOUSE_BUTTON_X2_RELEASED;
+
     keyname_to_keycode["SCROLL_UP"] = SCROLLWHEEL_UP;
     keyname_to_keycode["SCROLL_DOWN"] = SCROLLWHEEL_DOWN;
     keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
@@ -456,13 +466,41 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
     } else if( inp_type == input_event_t::mouse ) {
         if( ch == MOUSE_BUTTON_LEFT ) {
             raw = translate_marker_context( "key name", "MOUSE_LEFT" );
-        } else if( ch == MOUSE_BUTTON_RIGHT ) {
+        } 
+        else if ( ch == MOUSE_BUTTON_LEFT_PRESSED ) {
+            raw = translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" );
+        } 
+        else if( ch == MOUSE_BUTTON_RIGHT ) {
             raw = translate_marker_context( "key name", "MOUSE_RIGHT" );
-        } else if( ch == SCROLLWHEEL_UP ) {
+        } 
+        else if ( ch == MOUSE_BUTTON_RIGHT_PRESSED ) {
+            raw = translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED" );
+        }
+        else if (ch == MOUSE_BUTTON_MIDDLE_PRESSED ) {
+            raw = translate_marker_context( "key name", "MOUSE_MIDDLE_PRESSED" );
+        }
+        else if ( ch == MOUSE_BUTTON_MIDDLE_RELEASED ) {
+            raw = translate_marker_context( "key name", "MOUSE_MIDDLE_RELEASED" );
+        }
+        else if ( ch == MOUSE_BUTTON_X1_PRESSED ) {
+            raw = translate_marker_context( "key name", "MOUSE_X1_PRESSED" );
+        }
+        else if ( ch == MOUSE_BUTTON_X1_RELEASED ) {
+            raw = translate_marker_context( "key name", "MOUSE_X1_RELEASED" );
+        }
+        else if (ch == MOUSE_BUTTON_X2_PRESSED) {
+            raw = translate_marker_context("key name", "MOUSE_X2_PRESSED");
+        }
+        else if (ch == MOUSE_BUTTON_X2_RELEASED) {
+            raw = translate_marker_context("key name", "MOUSE_X2_RELEASED");
+        }
+        else if( ch == SCROLLWHEEL_UP ) {
             raw = translate_marker_context( "key name", "SCROLL_UP" );
-        } else if( ch == SCROLLWHEEL_DOWN ) {
+        } 
+        else if( ch == SCROLLWHEEL_DOWN ) {
             raw = translate_marker_context( "key name", "SCROLL_DOWN" );
-        } else if( ch == MOUSE_MOVE ) {
+        } 
+        else if( ch == MOUSE_MOVE ) {
             raw = translate_marker_context( "key name", "MOUSE_MOVE" );
         }
     } else if( inp_type == input_event_t::gamepad ) {
