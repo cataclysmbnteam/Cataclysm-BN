@@ -4787,14 +4787,6 @@
   },
   {
     "type": "uncraft",
-    "result": "seatbelt",
-    "time": "30 s",
-    "components": [ [ [ "nylon", 3 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "type": "uncraft",
     "result": "engine_block_tiny",
     "skill_used": "fabrication",
     "difficulty": 1,
