@@ -718,7 +718,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 5,
-    "valid_mods": [ "steel_padded", "alloy_padded", "resized_large" ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
