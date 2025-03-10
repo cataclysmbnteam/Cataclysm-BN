@@ -420,7 +420,7 @@
     "warmth": 20,
     "material_thickness": 2,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ]
   },
   {
     "id": "gloves_light_fingerless",
