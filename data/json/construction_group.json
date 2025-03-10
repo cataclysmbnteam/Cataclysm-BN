@@ -1543,5 +1543,10 @@
     "type": "construction_group",
     "id": "install_hydraulic_press",
     "name": "Install Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_f_recycler",
+    "name": "Install Metal Compactor"
   }
 ]

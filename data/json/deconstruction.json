@@ -1242,5 +1242,33 @@
     "post_flags": [ "keep_items" ],
     "post_special": "done_deconstruct",
     "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_t_recycler",
+    "//": "Removes a metal compactor.",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 2 ], [ "electronics", 3 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "pre_terrain": "t_recycler",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_f_recycler",
+    "//": "Removes a metal compactor.",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 2 ], [ "electronics", 3 ] ],
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "pre_furniture": "f_recycler",
+    "pre_special": "check_deconstruct",
+    "post_flags": [ "keep_items" ],
+    "post_special": "done_deconstruct",
+    "group": "advanced_object_deconstruction"
   }
 ]

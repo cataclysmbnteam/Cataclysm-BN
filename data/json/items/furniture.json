@@ -103,5 +103,20 @@
     "symbol": "0",
     "color": "light_green",
     "category": "scrap_electronics"
+  },
+  {
+    "id": "recycler_item",
+    "type": "TOOL",
+    "looks_like": "t_recycler",
+    "name": "metal compactor",
+    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.",
+    "weight": "150 kg",
+    "volume": "75 L",
+    "price": "5000 USD",
+    "price_postapoc": "75 USD",
+    "material": "steel",
+    "symbol": "&",
+    "color": "green",
+    "category": "scrap_electronics"
   }
 ]
