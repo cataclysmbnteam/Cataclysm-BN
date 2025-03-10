@@ -804,7 +804,7 @@
     "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "SKINTIGHT", "COMPACT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "COMPACT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "gloves_wraps_wool",
