@@ -46,7 +46,7 @@ something that takes more than just one turn.
   - if false - activity expects to have no speed calculations and do 100 moves per turn,
     in JSON it's specified by absence of `complex_moves` block;
   - if true - activity expects to have complex speed/moves calculations, based on several factors:
-    - assistable(false): activity can be assisted by other creatures;
+    - max_assistants(0): activity can be assisted by provided maximum of other creatures(range is 0-32);
     - bench(false): activity can be done using workbench;
     - light(false): activity speed is affected by current light level;
     - speed(false): activity speed is affected by creature's speed;
@@ -69,7 +69,7 @@ something that takes more than just one turn.
 
     Example for whole block:
     "complex_moves": {
-    "assistable": true,
+    "max_assistants": 2,
     "bench": true,
     "light": true,
     "speed": true,
