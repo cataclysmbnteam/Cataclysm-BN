@@ -1936,13 +1936,11 @@ class map
         bash_results bash_ter_success( const tripoint &p, const bash_params &params );
         bash_results bash_furn_success( const tripoint &p, const bash_params &params );
 
-    private:
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air ) const;
 
-    public:
         void process_items();
     private:
         // Iterates over every item on the map, passing each item to the provided function.
