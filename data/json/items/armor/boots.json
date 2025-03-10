@@ -267,7 +267,7 @@
     "description": "A pair of customized Kevlar boots, heavily armored with superalloy and modified to provide maximum protection from harm, even when knee-deep in the dead.",
     "material": [ "kevlar", "superalloy" ],
     "color": "light_cyan",
-    "encumbrance": 27,
+    "encumbrance": 25,
     "proportional": { "weight": 0.6, "price": 2, "price_postapoc": 2 }
   },
   {
