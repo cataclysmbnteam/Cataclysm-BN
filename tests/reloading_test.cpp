@@ -32,10 +32,10 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item::spawn( "backpack", bday ) );
 
-    detached_ptr<item> det = item::spawn( "40sw", bday, item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "40sw", bday );
     item &ammo = *det;
     dummy.i_add( std::move( det ) );
-    det = item::spawn( "sw_610", bday, item::default_charges_tag{} );
+    det = item::spawn( "sw_610", bday );
     item &gun = *det;
     dummy.i_add( std::move( det ) );
     int ammo_pos = dummy.inv_position_by_item( &ammo );
@@ -58,7 +58,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item::spawn( "backpack", bday ) );
 
-    detached_ptr<item> det = item::spawn( "38_special", bday, item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "38_special", bday );
     item &ammo = *det;
     dummy.i_add( std::move( det ) );
     det = item::spawn( "38_speedloader", bday, false );
@@ -99,7 +99,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item::spawn( "backpack", bday ) );
 
-    detached_ptr<item> det = item::spawn( "9mm", bday, item::default_charges_tag{} );
+    detached_ptr<item> det = item::spawn( "9mm", bday );
     item &ammo = *det;
     dummy.i_add( std::move( det ) );
     const cata::value_ptr<islot_ammo> &ammo_type = ammo.type->ammo;
@@ -110,7 +110,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( magazine_type );
     REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
 
-    det = item::spawn( itype_glock_19, bday, item::default_charges_tag{} );
+    det = item::spawn( itype_glock_19, bday );
     item &gun = *det;
     dummy.i_add( std::move( det ) );
     REQUIRE( gun.ammo_types().count( ammo_type->type ) != 0 );
@@ -174,7 +174,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     }
 
     GIVEN( "a player armed with a revolver and ammo for it" ) {
-        detached_ptr<item> det = item::spawn( "40sw", bday, item::default_charges_tag{} );
+        detached_ptr<item> det = item::spawn( "40sw", bday );
         item &ammo = *det;
         dummy.i_add( std::move( det ) );
         REQUIRE( ammo.is_ammo() );

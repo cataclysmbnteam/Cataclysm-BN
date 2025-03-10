@@ -18,8 +18,7 @@ TEST_CASE( "item_volume", "[item]" )
 {
     // Need to pick some item here which is count_by_charges and for which each
     // charge is at least 1_ml.  Battery works for now.
-    item &i = *item::spawn_temporary( "battery", calendar::start_of_cataclysm,
-                                      item::default_charges_tag() );
+    item &i = *item::spawn_temporary( "battery", calendar::start_of_cataclysm );
     REQUIRE( i.count_by_charges() );
     // Would be better with Catch2 generators
     const units::volume big_volume = units::from_milliliter( std::numeric_limits<int>::max() / 2 );
