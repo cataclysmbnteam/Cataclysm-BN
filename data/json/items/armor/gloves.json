@@ -681,7 +681,7 @@
     "encumbrance": 15,
     "warmth": 60,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "flags": [ "VARSIZE" ]
   },
   {
     "id": "gloves_wool_fingerless",
