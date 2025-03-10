@@ -27,13 +27,12 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "soldering_standard", 100, "LIST" ] ] ],
     "components": [
-      [ [ "steel_chunk", 5 ] ],
-      [ [ "power_supply", 16 ] ],
-      [ [ "amplifier", 12 ] ],
+      [ [ "alloy_sheet", 5 ] ],
+      [ [ "power_supply", 8 ] ],
+      [ [ "amplifier", 6 ] ],
       [ [ "medium_battery_cell", 1 ] ],
-      [ [ "motor_tiny", 8 ] ],
+      [ [ "motor_tiny", 4 ] ],
       [ [ "hose", 4 ] ],
-      [ [ "alloy_sheet", 8 ] ],
       [ [ "cable", 100 ] ]
     ]
   },
