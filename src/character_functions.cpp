@@ -1177,10 +1177,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( node->is_magazine() ) {
 
                 if( !node->contents.empty() ) {
-                    for( const ammotype &at : ammo ) {
-                        if( node->contents.front().ammo_type() != at ) {
-                            return VisitResponse::SKIP;
-                        }
+                    const bool match = std::ranges::any_of( ammo, [&]( const ammotype & at ) {
+                        return node->contents.front().ammo_type() == at;
+                    } );
+                    if( !match ) {
+                        return VisitResponse::SKIP;
                     }
                 }
 
