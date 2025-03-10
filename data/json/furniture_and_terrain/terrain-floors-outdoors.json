@@ -484,7 +484,7 @@
     "color": "dark_gray",
     "looks_like": "t_elevator",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ELEVATOR" ]
+    "flags": [ "TRANSPARENT", "FLAT", "ELEVATOR", "ROAD" ]
   },
   {
     "type": "terrain",
