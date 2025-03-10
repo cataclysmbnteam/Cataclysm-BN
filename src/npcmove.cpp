@@ -2233,8 +2233,8 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
         }
     }
 
-    auto new_path = get_map().route( pos(), p, get_pathfinding_settings( no_bashing ),
-                                     get_path_avoid() );
+    auto new_path = get_map().route( pos(), p, get_legacy_pathfinding_settings( no_bashing ),
+                                     get_legacy_path_avoid() );
     if( new_path.empty() ) {
         if( !ai_cache.sound_alerts.empty() ) {
             ai_cache.sound_alerts.erase( ai_cache.sound_alerts.begin() );
@@ -4238,7 +4238,7 @@ void npc::go_to_omt_destination()
             }
         }
     }
-    path = here.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
+    path = here.route( pos(), centre_sub, get_legacy_pathfinding_settings(), get_legacy_path_avoid() );
     add_msg( m_debug, "%s going %s->%s", name, omt_pos.to_string(), goal.to_string() );
 
     if( !path.empty() ) {

@@ -289,7 +289,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMin = -FLT_MAX;
             thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
@@ -2298,6 +2298,13 @@ void options_manager::add_options_debug()
 
     add( "LIMITED_BAYONETS", debug, translate_marker( "New bayonet system" ),
          translate_marker( "If true, bayonets replace weapon attack instead of adding to it.  WIP feature, weakens bayonets heavily at the moment." ),
+         false );
+
+    add_empty_line();
+
+    add( "USE_LEGACY_PATHFINDING", debug,
+         translate_marker( "Use legacy pathfinding" ),
+         translate_marker( "If true, opt out of new pathfinding in favor of legacy one. This makes pathfinding mods not work." ),
          false );
 }
 
