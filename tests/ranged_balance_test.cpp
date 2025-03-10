@@ -268,8 +268,8 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
-    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
-    assert_encumbrance( shooter, 4 );
+    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_wool", "gloves_wraps_leather", "glasses_safety", "balclava" } );
+    assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
         arm_character( shooter, "sw_619", { "red_dot_sight" } );
