@@ -2854,7 +2854,7 @@
     "coverage": 75,
     "required_str": 20,
     "max_volume": "2000 L",
-    "flags": [ "TRANSPARENT", "NOITEM", "BLOCKSDOOR", "ADV_DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "ADV_DECONSTRUCT", "CONTAINER", "PLACE_ITEM" ],
     "examine_action": "recycle_compactor",
     "deconstruct": {
       "items": [ { "item": "recycler_item", "count": 1 }, { "item": "cable", "charges": 15 }, { "item": "power_supply", "count": 3 } ]
