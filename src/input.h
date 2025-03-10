@@ -652,6 +652,11 @@ class input_context
          */
         std::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
 
+        /**
+         * Get coordinate of text level from mouse input, difference between this and get_coordinates is that one is getting pixel level coordinate.
+         */
+        std::optional<point> get_coordinates_text( const catacurses::window& capture_win ) const;
+
         // Below here are shortcuts for registering common key combinations.
         void register_directions();
         void register_updown();

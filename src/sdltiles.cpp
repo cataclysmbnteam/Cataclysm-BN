@@ -3861,6 +3861,32 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     return tripoint( p, g->get_levz() );
 }
 
+std::optional<point> input_context::get_coordinates_text( const catacurses::window
+    & capture_win) const
+{
+#if !defined( TILES )
+    std::optional<tripoint_bub_ms> coord3d = get_coordinates( capture_win );
+    if ( coord3d.has_value() ) {
+        return coord3d->xy().raw();
+    }
+    else {
+        return std::nullopt;
+    }
+#else
+    if ( !coordinate_input_received ) {
+        return std::nullopt;
+    }
+    const window_dimensions dim = get_window_dimensions( capture_win );
+    const int& fw = dim.scaled_font_size.x;
+    const int& fh = dim.scaled_font_size.y;
+    const point& win_min = dim.window_pos_pixel;
+    const point screen_pos = coordinate - win_min;
+    const point selected( divide_round_down( screen_pos.x, fw ),
+        divide_round_down( screen_pos.y, fh ) );
+    return selected;
+#endif
+}
+
 int get_terminal_width()
 {
     return TERMINAL_WIDTH;
