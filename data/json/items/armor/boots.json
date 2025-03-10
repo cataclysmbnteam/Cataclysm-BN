@@ -1471,7 +1471,7 @@
   {
     "id": "carbon_boots",
     "type": "ARMOR",
-    "name": { "str": "pair of carbon fiber boots" },
+    "name": { "str": "pair of carbon fiber boots", "str_pl": "pairs of carbon fiber boots" },
     "description": "A custom pair of boots made out of layered carbon fiber armor made using a 3D printer.  Its rigid plates are more comparable to a suit of armor than kevlar, but it's very protective and lightweight.",
     "copy-from": "boots_plarmor",
     "encumbrance": 22,
