@@ -3193,26 +3193,26 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
+                    last_input = input_event( MouseInput::Move );
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::LeftButtonUp );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::RightButtonUp );
                         break;
                     case SDL_BUTTON_MIDDLE:
-                        last_input = input_event( MOUSE_BUTTON_MIDDLE_RELEASED, input_event_t::mouse );
+                        last_input = input_event( MouseInput::MiddleButtonUp );
                         break;
                     case SDL_BUTTON_X1:
-                        last_input = input_event( MOUSE_BUTTON_X1_RELEASED, input_event_t::mouse );
+                        last_input = input_event( MouseInput::X1ButtonUp );
                         break;
                     case SDL_BUTTON_X2:
-                        last_input = input_event( MOUSE_BUTTON_X2_RELEASED, input_event_t::mouse );
+                        last_input = input_event( MouseInput::X2ButtonUp );
                         break;
                 }
                 break;
@@ -3220,28 +3220,28 @@ static void CheckMessages()
             case SDL_MOUSEBUTTONDOWN:
                 switch (ev.button.button) {
                 case SDL_BUTTON_LEFT:
-                    last_input = input_event( MOUSE_BUTTON_LEFT_PRESSED, input_event_t::mouse );
+                    last_input = input_event( MouseInput::LeftButtonDown );
                     break;
                 case SDL_BUTTON_RIGHT:
-                    last_input = input_event( MOUSE_BUTTON_RIGHT_PRESSED, input_event_t::mouse );
+                    last_input = input_event( MouseInput::RightButtonDown );
                     break;
                 case SDL_BUTTON_MIDDLE:
-                    last_input = input_event( MOUSE_BUTTON_MIDDLE_PRESSED, input_event_t::mouse );
+                    last_input = input_event( MouseInput::MiddleButtonDown );
                     break;
                 case SDL_BUTTON_X1:
-                    last_input = input_event( MOUSE_BUTTON_X1_PRESSED, input_event_t::mouse );
+                    last_input = input_event( MouseInput::X1ButtonDown );
                     break;
                 case SDL_BUTTON_X2:
-                    last_input = input_event( MOUSE_BUTTON_X2_PRESSED, input_event_t::mouse );
+                    last_input = input_event( MouseInput::X2ButtonDown );
                     break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollUp );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollDown );
                 }
                 break;
 

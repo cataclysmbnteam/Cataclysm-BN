@@ -81,20 +81,20 @@ static constexpr int BORDER_SPACE = 2;
 bool is_mouse_enabled();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
-enum mouse_buttons { 
-    MOUSE_BUTTON_LEFT = 1,
-    MOUSE_BUTTON_LEFT_PRESSED,
-    MOUSE_BUTTON_RIGHT,
-    MOUSE_BUTTON_RIGHT_PRESSED,
-    MOUSE_BUTTON_MIDDLE_PRESSED,
-    MOUSE_BUTTON_MIDDLE_RELEASED,
-    MOUSE_BUTTON_X1_PRESSED,
-    MOUSE_BUTTON_X1_RELEASED,
-    MOUSE_BUTTON_X2_PRESSED,
-    MOUSE_BUTTON_X2_RELEASED,
-    SCROLLWHEEL_UP,
-    SCROLLWHEEL_DOWN,
-    MOUSE_MOVE
+enum class MouseInput : unsigned char {
+    LeftButtonDown = 1,
+    LeftButtonUp,
+    RightButtonDown,
+    RightButtonUp,
+    MiddleButtonDown,
+    MiddleButtonUp,
+    X1ButtonDown,
+    X1ButtonUp,
+    X2ButtonDown,
+    X2ButtonUp,
+    ScrollUp,
+    ScrollDown,
+    Move
 };
 
 enum class input_event_t : int  {
@@ -150,10 +150,22 @@ struct input_event {
 #endif
     }
 
+    input_event( MouseInput s )
+        : type(input_event_t::mouse ), edit_refresh( false ) {
+        sequence.push_back( static_cast<int>( s ) );
+#if defined(__ANDROID__)
+        shortcut_last_used_action_counter = 0;
+#endif
+    }
+
     int get_first_input() const;
 
     void add_input( const int input ) {
         sequence.push_back( input );
+    }
+
+    void add_input( const MouseInput input ) {
+        sequence.push_back( static_cast<int>( input ) );
     }
 
 #if defined(__ANDROID__)
@@ -332,6 +344,7 @@ class input_manager
         using t_key_to_name_map = std::map<int, std::string>;
         t_key_to_name_map keycode_to_keyname;
         t_key_to_name_map gamepad_keycode_to_keyname;
+        t_key_to_name_map mouse_keycode_to_keyname;
         using t_name_to_key_map = std::map<std::string, int>;
         t_name_to_key_map keyname_to_keycode;
 
@@ -343,6 +356,7 @@ class input_manager
         void init_keycode_mapping();
         void add_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
+        void add_mouse_keycode_pair( MouseInput ch, const std::string& name );
 
         /**
          * Load keybindings from a json file, override existing bindings.
