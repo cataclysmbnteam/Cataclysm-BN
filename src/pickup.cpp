@@ -95,6 +95,9 @@ static bool select_autopickup_items( const std::vector<std::list<item_stack::ite
                 //Check the Pickup Rules
                 if( get_auto_pickup().check_item( item_name ) == RULE_WHITELISTED ) {
                     do_pickup = true;
+                } else if( begin->is_container() && !begin->is_container_empty() &&
+                           get_auto_pickup().check_item( begin->get_contained().tname( 1, false ) ) == RULE_WHITELISTED ) {
+                    do_pickup = true;
                 } else if( get_auto_pickup().check_item( item_name ) != RULE_BLACKLISTED ) {
                     //No prematched pickup rule found
                     //check rules in more detail

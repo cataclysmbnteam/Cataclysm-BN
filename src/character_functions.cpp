@@ -466,10 +466,10 @@ std::string fmt_wielded_weapon( const Character &who )
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
-
+    } else if( ( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) ||
+               weapon.ammo_capacity() > 0 ) {
+        return string_format( "(%d) %s",
+                              weapon.is_container() ? weapon.contents.front().charges : weapon.ammo_remaining(), weapon.tname() );
     } else {
         return weapon.tname();
     }
@@ -772,6 +772,19 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
                       : ammo->typeId();
             const bool can_reload_with = e->can_reload_with( id );
             if( can_reload_with ) {
+                // Skip if is magazine inside gun/mod, but gun/mod can't fire it (e.g 300 Blackout on STANAG on AR-15)
+                if( e->is_magazine() && e->parent_item() ) {
+                    auto ammo_type = ( ammo->is_ammo_container() || ammo->is_container() )
+                                     ? ammo->contents.front().ammo_type()
+                                     : ammo->ammo_type();
+                    const std::set<ammotype> &supported_ammo = e->parent_item()->ammo_types();
+                    const bool gun_supports = std::ranges::any_of( supported_ammo, [&]( const ammotype & at ) {
+                        return at == ammo_type;
+                    } );
+                    if( !gun_supports ) {
+                        continue;
+                    }
+                }
                 // Speedloaders require an empty target.
                 if( include_potential || !ammo->has_flag( flag_SPEEDLOADER ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
@@ -1177,10 +1190,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( node->is_magazine() ) {
 
                 if( !node->contents.empty() ) {
-                    for( const ammotype &at : ammo ) {
-                        if( node->contents.front().ammo_type() != at ) {
-                            return VisitResponse::SKIP;
-                        }
+                    const bool match = std::ranges::any_of( ammo, [&]( const ammotype & at ) {
+                        return node->contents.front().ammo_type() == at;
+                    } );
+                    if( !match ) {
+                        return VisitResponse::SKIP;
                     }
                 }
 
