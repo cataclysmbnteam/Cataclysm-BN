@@ -4096,11 +4096,11 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
                               _( "You finish drilling." ),
                               _( "<npcname> finishes drilling." ) );
     act->set_to_null();
-    if( !act->targets.empty() ) {
-        item &it = *act->targets.front();
+    if( !act->tools.empty() ) {
+        item &it = *act->tools.front();
         p->consume_charges( it, it.ammo_required() );
     } else {
-        debugmsg( "jackhammer activity targets empty" );
+        debugmsg( "unable to find tool" );
     }
     if( resume_for_multi_activities( *p ) ) {
         for( item *&elem : here.i_at( pos ) ) {
