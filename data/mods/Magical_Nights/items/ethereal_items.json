@@ -604,5 +604,17 @@
       "POWERARMOR_COMPATIBLE"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_windrun" } ] }
+  },
+  {
+    "id": "animist_broadsword",
+    "type": "GENERIC",
+    "name": "Holy Blade",
+    "description": "A broadsword made out of concentrated magical light and glowing with holy power.  Let your blade cleave through these unholy monsters!",
+    "copy-from": "broadsword",
+    "color": "white",
+    "material": "concentrated_mana",
+    "bashing": 0,
+    "cutting": 40,
+    "extend": { "flags": [ "LIGHT_10" ] }
   }
 ]

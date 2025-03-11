@@ -38,7 +38,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
-    "effect_str": "longsword",
+    "effect_str": "animist_broadsword",
     "base_casting_time": 350,
     "base_energy_cost": 375,
     "min_duration": 480000,
