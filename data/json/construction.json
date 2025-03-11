@@ -5333,5 +5333,18 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_hydraulic_press"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridf_recycler",
+    "group": "install_f_recycler",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 2 ], [ "electronics", 3 ] ],
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "recycler_item", 1 ] ], [ [ "cable", 15 ] ], [ [ "power_supply", 3 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_recycler"
   }
 ]

@@ -2841,5 +2841,34 @@
     },
     "crafting_pseudo_item": [ "grid_hydraulic_press" ],
     "deconstruct": { "items": [ { "item": "hydraulic_press", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_recycler",
+    "name": "metal compactor",
+    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.  If you're very careful, you can even uninstall it to transport it elsewhere.",
+    "looks_like": "t_recycler",
+    "symbol": "&",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": 20,
+    "max_volume": "2000 L",
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "ADV_DECONSTRUCT", "CONTAINER", "PLACE_ITEM" ],
+    "examine_action": "recycle_compactor",
+    "deconstruct": {
+      "items": [ { "item": "recycler_item", "count": 1 }, { "item": "cable", "charges": 15 }, { "item": "power_supply", "count": 3 } ]
+    },
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 12 ] }
+      ]
+    }
   }
 ]
