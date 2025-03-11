@@ -141,10 +141,10 @@ class relic
 namespace relic_funcs
 {
 
-bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Character &carrier );
-bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &carrier );
+bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Character *carrier );
+bool process_recharge_entry( item &itm, const relic_recharge &rech, Character *carrier );
 
-void process_recharge( item &itm, Character &carrier );
+void process_recharge( item &itm, Character *carrier );
 
 } // namespace relic_funcs
 

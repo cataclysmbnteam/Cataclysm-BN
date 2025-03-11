@@ -106,7 +106,6 @@
 #include "weather.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -3844,8 +3843,8 @@ void iexamine::trap( player &p, const tripoint &examp )
                     return;
                 }
             } else {
-                p.assign_activity( ACT_BUILD );
-                p.activity->placement = here.getabs( examp );
+                p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                                   ( here.getglobal( examp ) ) ) );
                 return;
             }
         } else {

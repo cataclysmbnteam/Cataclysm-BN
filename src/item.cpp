@@ -9575,16 +9575,18 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
     return muts;
 }
 
-void item::process_relic( Character &carrier )
+void item::process_relic( Character *carrier )
 {
     if( !is_relic() ) {
         return;
     }
     std::vector<enchantment> active_enchantments;
 
-    for( const enchantment &ench : get_enchantments() ) {
-        if( ench.is_active( carrier, *this ) ) {
-            active_enchantments.emplace_back( ench );
+    if( carrier ) {
+        for( const enchantment &ench : get_enchantments() ) {
+            if( ench.is_active( *carrier, *this ) ) {
+                active_enchantments.emplace_back( ench );
+            }
         }
     }
 
@@ -10175,7 +10177,7 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
     }
 
     self->process_artifact( carrier, pos );
-    self->process_relic( *carrier );
+    self->process_relic( carrier );
 
     if( self->faults.contains( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( std::move( self ), carrier );

@@ -3,10 +3,13 @@
 #define CATA_SRC_ACTIVITY_TYPE_H
 
 #include <string>
+#include <optional>
 
 #include "catalua_type_operators.h"
 #include "string_id.h"
 #include "translations.h"
+#include "character_stat.h"
+#include "type_id.h"
 
 class JsonObject;
 class activity_type;
@@ -19,12 +22,6 @@ using activity_id = string_id<activity_type>;
 template<>
 const activity_type &string_id<activity_type>::obj() const;
 
-enum class based_on_type : int {
-    TIME = 0,
-    SPEED,
-    NEITHER
-};
-
 /** A class that stores constant information that doesn't differ between activities of the same type */
 class activity_type
 {
@@ -33,13 +30,28 @@ class activity_type
         bool rooted_ = false;
         translation verb_ = to_translation( "THIS IS A BUG" );
         bool suspendable_ = true;
-        based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
         bool multi_activity_ = false;
         bool refuel_fires = false;
         bool auto_needs = false;
+        bool special_ = false;
+        bool complex_moves_ = false;
+        bool assistable_ = false;
+        bool bench_affected_ = false;
+        bool light_affected_ = false;
+        bool skill_affected_ = false;
+        bool speed_affected_ = false;
+        bool stats_affected_ = false;
+        bool tools_affected_ = false;
+        bool morale_affected_ = false;
+        bool morale_blocked_ = false;
+        bool verbose_tooltip_ = true;
 
     public:
+        std::unordered_map<character_stat, int> stats = {};
+        std::unordered_map<skill_id, int> skills = {};
+        std::unordered_map<quality_id, int> qualities = {};
+
         const activity_id &id() const {
             return id_;
         }
@@ -53,14 +65,52 @@ class activity_type
         const translation &verb() const {
             return verb_;
         }
-        based_on_type based_on() const {
-            return based_on_;
-        }
         bool no_resume() const {
             return no_resume_;
         }
         bool multi_activity() const {
             return multi_activity_;
+        }
+
+        /*
+         * "Special" activities do not use basic logic
+         * instead those rely on their own unique spagett
+        */
+        bool special() const {
+            return special_;
+        }
+        bool complex_moves() const {
+            return complex_moves_;
+        }
+        bool assistable() const {
+            return assistable_;
+        }
+        bool bench_affected() const {
+            return bench_affected_;
+        }
+        bool light_affected() const {
+            return light_affected_;
+        }
+        bool skill_affected() const {
+            return skill_affected_;
+        }
+        bool stats_affected() const {
+            return stats_affected_;
+        }
+        bool speed_affected() const {
+            return speed_affected_;
+        }
+        bool tools_affected() const {
+            return tools_affected_;
+        }
+        bool morale_affected() const {
+            return morale_affected_;
+        }
+        bool morale_blocked() const {
+            return morale_blocked_;
+        }
+        bool verbose_tooltip() const {
+            return verbose_tooltip_;
         }
         /**
          * If true, player will refuel one adjacent fire if there is firewood spot adjacent.

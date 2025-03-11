@@ -3564,12 +3564,9 @@
     "components": [
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
-      [ [ "solar_panel", 1 ] ],
+      [ [ "foldable_solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
-      [ [ "scrap", 8 ] ],
+      [ [ "sheet_metal_small", 36 ] ],
       [ [ "rope_6", 1 ] ]
     ]
   },
@@ -3586,12 +3583,9 @@
     "components": [
       [ [ "power_supply", 2 ] ],
       [ [ "amplifier", 2 ] ],
-      [ [ "solar_panel", 1 ] ],
+      [ [ "foldable_solar_panel", 1 ] ],
       [ [ "cable", 20 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "sheet_metal_small", 4 ] ],
-      [ [ "steel_chunk", 4 ] ],
-      [ [ "scrap", 8 ] ],
+      [ [ "sheet_metal_small", 36 ] ],
       [ [ "rope_6", 1 ] ]
     ]
   },
@@ -4790,14 +4784,6 @@
       [ [ "receiver", 1 ] ],
       [ [ "plastic_chunk", 5 ] ]
     ]
-  },
-  {
-    "type": "uncraft",
-    "result": "seatbelt",
-    "time": "30 s",
-    "components": [ [ [ "nylon", 3 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "flags": [ "BLIND_HARD" ]
   },
   {
     "type": "uncraft",

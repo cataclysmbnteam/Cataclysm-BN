@@ -611,9 +611,9 @@
     "components": [
       [ [ "hat_ball", 1 ], [ "hat_boonie", 1 ] ],
       [
-        [ "mask_filter", 1 ],
         [ "mask_gas", 1 ],
         [ "mask_survivor", 1 ],
+        [ "mask_lsurvivor", 1 ],
         [ "mask_halfsurvivor", 1 ],
         [ "mask_hsurvivor", 1 ]
       ],

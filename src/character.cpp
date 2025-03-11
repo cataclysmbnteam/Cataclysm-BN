@@ -346,6 +346,7 @@ static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WEBBED( "WEBBED" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string iuse_TOGGLE_UPS_CHARGING( "TOGGLE_UPS_CHARGING" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -7525,16 +7526,21 @@ float Character::stamina_burn_cost_modifier() const
     // We no longer modify movecost with stamina, but we do modify the stamina cost
     // Convert stamina to a float first to allow for decimal place carrying
     float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
-    if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
-        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
-    }
-    if( move_mode == CMM_CROUCH ) {
-        stamina_modifier *= 0.5;
-    }
-    return stamina_modifier;
+    return stamina_modifier * running_move_cost_modifier();
 }
 
+float Character::running_move_cost_modifier() const
+{
+    float movement_modifier = 1.0;
+    if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
+        // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
+        movement_modifier *= 2.0;
+    }
+    if( move_mode == CMM_CROUCH ) {
+        movement_modifier *= 0.5;
+    }
+    return movement_modifier;
+}
 
 void Character::update_stamina( int turns )
 {
@@ -7606,7 +7612,7 @@ bool Character::invoke_item( item *used, const std::string &method )
 
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
 {
-    if( !has_enough_charges( *used, true ) ) {
+    if( method != iuse_TOGGLE_UPS_CHARGING && !has_enough_charges( *used, true ) ) {
         return false;
     }
 
@@ -10611,6 +10617,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
+        movecost /= running_move_cost_modifier();
 
         if( movecost < 20.0 ) {
             movecost = 20.0;
