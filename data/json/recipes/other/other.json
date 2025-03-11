@@ -581,7 +581,7 @@
     "time": "1 h 20 m",
     "book_learn": [ [ "sa_cryptology_key", 10 ] ],
     "tools": [
-      [ [ "software_hacking", -1 ] ],
+      [ [ "software_hacking", -1 ], [ "control_laptop", -1 ] ],
       [ [ "laptop", -1 ], [ "control_laptop", -1 ] ],
       [ [ "sa_cryptology_key", -1 ] ],
       [ [ "black_box", -1 ] ]
