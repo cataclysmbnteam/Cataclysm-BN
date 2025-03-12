@@ -1925,7 +1925,7 @@ class bionic_install_preset: public inventory_selector_preset
         std::string get_anesth_amount( const item *loc ) {
             if( !pa.cbm_needs_anesthesia() ) {
                 return std::string( "-" );
-            } 
+            }
             const int weight = 7;
             const int duration = loc->type->bionic->difficulty * 2;
             return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
