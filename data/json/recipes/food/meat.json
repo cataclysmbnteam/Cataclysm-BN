@@ -3226,9 +3226,6 @@
       [ [ "seasoning_mild", 1, "LIST" ] ]
     ]
   },
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   {
     "type": "recipe",
     "result": "kebab_meat",
@@ -3269,14 +3266,7 @@
       [ [ "seasoning_mild", 1, "LIST" ] ]
     ]
   },
-  {
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 	{
->>>>>>> Stashed changes
     "type": "recipe",
     "result": "kebab",
     "id_suffix": "metal_skewer",
@@ -3363,7 +3353,7 @@
     "result": "kebab_meat",
     "id_suffix": "metal_skewer",
     "byproducts": [ [ "scrap", 4 ] ],
-    "//": "This recipe uses a metal skewer. The byproduct is to pretend that the skewers are being reused",
+    "//": "This recipe uses a metal skewer.  The byproduct is to pretend that the skewers are being reused",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -3379,16 +3369,13 @@
       [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
       [ [ "seasoning_mild", 1, "LIST" ] ]
     ]
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   },
   {
     "type": "recipe",
     "result": "kebab_veggy",
     "id_suffix": "metal_skewer",
     "byproducts": [ [ "scrap", 4 ] ],
-    "//": "This recipe uses a metal skewer. The byproduct is to pretend that the skewers are being reused",
+    "//": "This recipe uses a metal skewer.  The byproduct is to pretend that the skewers are being reused",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -3404,11 +3391,5 @@
       [ [ "veggy_green", 1, "LIST" ] ],
       [ [ "seasoning_mild", 1, "LIST" ] ]
     ]
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
   }
 ]

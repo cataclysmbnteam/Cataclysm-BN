@@ -1579,7 +1579,7 @@
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "killer %s" } }
     ],
     "type": "COMESTIBLE",
-    "description": "Cooked meats and veggies on a stick. Popular street food originating from the Middle East and later spread to Asia and the rest of the world.",
+    "description": "Cooked meats and veggies on a stick.  Popular street food originating from the Middle East and later spread to Asia and the rest of the world.",
     "weight": "150 g",
     "volume": "150 ml",
     "color": "white",
@@ -1600,7 +1600,7 @@
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "killer %s" } }
     ],
     "type": "COMESTIBLE",
-    "description": "Cooked meats on a stick. Popular street food originating from the Middle East and later spread to Asia and the rest of the world.",
+    "description": "Cooked meats on a stick.  Popular street food originating from the Middle East and later spread to Asia and the rest of the world.",
     "weight": "150 g",
     "volume": "150 ml",
     "color": "white",
