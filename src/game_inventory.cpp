@@ -1774,6 +1774,8 @@ static item *autodoc_internal( player &u, player &patient,
             hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
         } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
+        } else if( patient.has_trait( trait_DEBUG_BIONICS ) ) {
+            hint = _( "<color_yellow>Bug-hunters don't need anesthetics to withstand pain.</color>" );
         } else {
             const inventory &crafting_inv = u.crafting_inventory();
             std::vector<item *> a_filter = crafting_inv.items_with( []( const item & it ) {
