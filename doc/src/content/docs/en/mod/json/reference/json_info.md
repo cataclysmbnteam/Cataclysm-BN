@@ -3057,6 +3057,7 @@ Current values:
 - `WALL`
 - `WATER`
 - `WOODFENCE`
+- `GUTTER`
 
 Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not
 have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection
