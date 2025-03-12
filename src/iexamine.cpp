@@ -5028,7 +5028,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     bool needs_anesthesia = cbm_needs_anesthesia( patient );
     std::vector<tool_comp> anesth_kit;
 
-    if( needs_anesthesia || amenu.ret < 2 ) {
+    if( needs_anesthesia && amenu.ret < 2 ) {
         const inventory &crafting_inv = p.crafting_inventory();
         std::vector<item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
