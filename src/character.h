@@ -1017,10 +1017,6 @@ class Character : public Creature, public location_visitable<Character>
         int get_total_bionics_slots( const bodypart_id &bp ) const;
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
-        /*Checks if Character needs anesthesia at all*/
-        bool cbm_needs_anesthesia() const;
-        /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );

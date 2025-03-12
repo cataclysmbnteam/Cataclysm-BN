@@ -5025,7 +5025,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     amenu.query();
 
-    bool needs_anesthesia = patient.cbm_needs_anesthesia();
+    bool needs_anesthesia = cbm_needs_anesthesia( patient );
     std::vector<tool_comp> anesth_kit;
 
     if( needs_anesthesia || amenu.ret < 2 ) {

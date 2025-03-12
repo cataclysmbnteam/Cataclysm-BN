@@ -1923,7 +1923,7 @@ class bionic_install_preset: public inventory_selector_preset
         }
 
         std::string get_anesth_amount( const item *loc ) {
-            if( !pa.cbm_needs_anesthesia() ) {
+            if( !cbm_needs_anesthesia( pa ) ) {
                 return std::string( "-" );
             }
             const int weight = 7;
@@ -2099,7 +2099,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
         }
 
         std::string get_anesth_amount( const item *loc ) {
-            if( !pa.cbm_needs_anesthesia() ) {
+            if( !cbm_needs_anesthesia( pa ) ) {
                 return std::string( "-" );
             }
             const int weight = 7;
