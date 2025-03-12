@@ -2692,7 +2692,7 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-bool Character::cbm_needs_anesthesia() const
+inline bool Character::cbm_needs_anesthesia() const
 {
     return !( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
               has_trait( trait_DEBUG_BIONICS ) );
