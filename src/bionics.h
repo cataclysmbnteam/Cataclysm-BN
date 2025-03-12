@@ -224,7 +224,8 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
 auto cbm_needs_anesthesia( const Character &who ) -> bool;
 
 /// Has enough anesthetic for surgery
-auto has_enough_anesthesia( const itype *cbm, const Character &doc, const Character &patient ) -> bool;
+auto has_enough_anesthesia( const itype *cbm, const Character &doc,
+                            const Character &patient ) -> bool;
 
 int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 
