@@ -3209,7 +3209,7 @@
   {
     "type": "recipe",
     "result": "kebab",
-    "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
+	  "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -3218,7 +3218,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "skewer_bone", 4 ], [ "splinter", 4 ] ],
       [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
@@ -3228,10 +3228,8 @@
   },
   {
     "type": "recipe",
-    "result": "kebab",
-    "id_suffix": "metal_skewer",
-    "byproducts": [ [ "scrap", 4 ] ],
-    "//": "This recipe uses a metal skewer. The byproduct is to pretend that the skewers are being reused",
+    "result": "kebab_meat",
+	  "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -3240,11 +3238,112 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-      [ [ "scrap", 4 ] ],
+      [ [ "skewer_bone", 4 ], [ "splinter", 4 ] ],
       [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
+      [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "kebab_veggy",
+	  "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "charges": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+      [ [ "skewer_bone", 4 ], [ "splinter", 4 ] ],
       [ [ "veggy_green", 1, "LIST" ] ],
+      [ [ "veggy_green", 1, "LIST" ] ],
+      [ [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },
+	{
+    "type": "recipe",
+    "result": "kebab",
+    "id_suffix": "metal_skewer",
+	  "byproducts": [
+        [
+          "scrap",
+          4
+        ]
+    ],
+	  "//": "This recipe uses a metal skewer. The byproduct is to pretend that the skewers are being reused",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "charges": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+	    [ [ "scrap", 4 ] ],
+      [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
+	    [ [ "veggy_green", 1, "LIST" ] ],
+      [ [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "kebab_meat",
+    "id_suffix": "metal_skewer",
+	  "byproducts": [
+        [
+          "scrap",
+          4
+        ]
+    ],
+	  "//": "This recipe uses a metal skewer. The byproduct is to pretend that the skewers are being reused",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "charges": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+	    [ [ "scrap", 4 ] ],
+      [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
+	    [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "kebab_veggy",
+    "id_suffix": "metal_skewer",
+	  "byproducts": [
+        [
+          "scrap",
+          4
+        ]
+    ],
+	  "//": "This recipe uses a metal skewer. The byproduct is to pretend that the skewers are being reused",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "charges": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 1 ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [
+	    [ [ "scrap", 4 ] ],
+      [ [ "veggy_green", 1, "LIST" ] ],
+	    [ [ "veggy_green", 1, "LIST" ] ],
       [ [ "seasoning_mild", 1, "LIST" ] ]
     ]
   }
