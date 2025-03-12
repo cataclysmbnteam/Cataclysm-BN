@@ -966,11 +966,6 @@
   },
   {
     "type": "construction_group",
-    "id": "install_glass_freezer",
-    "name": "Install Glass Freezer"
-  },
-  {
-    "type": "construction_group",
     "id": "install_minifridge",
     "name": "Install Minifridge"
   },

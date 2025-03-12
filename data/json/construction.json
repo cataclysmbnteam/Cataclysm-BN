@@ -2708,7 +2708,7 @@
   },
   {
     "type": "construction",
-     "id": "constr_carpet",
+    "id": "constr_carpet",
     "description": "Carpet the floor with a variety of options by using the same carpet or transmuting others.",
     "group": "carpet_floor",
     "category": "DECORATE",
@@ -4730,28 +4730,16 @@
   {
     "type": "construction",
     "id": "constr_gridfreezer",
+    "description": "Install a freezer either with a glass or a normal door.",
     "group": "install_freezer",
-    "category": "WORKSHOP",
+    "category": "WORKSHOP",   
     "required_skills": [  ],
     "time": "10 m",
     "qualities": [  ],
-    "components": [ [ [ "freezer", 1 ] ] ],
+    "components": [ [ [ "glass_freezer", 1 ], [ "freezer", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
-    "post_furniture": "f_freezer"
-  },
-  {
-    "type": "construction",
-    "id": "constr_gridglass_freezer",
-    "group": "install_glass_freezer",
-    "category": "WORKSHOP",
-    "required_skills": [  ],
-    "time": "10 m",
-    "qualities": [  ],
-    "components": [ [ [ "glass_freezer", 1 ] ] ],
-    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
-    "pre_special": "check_empty",
-    "post_furniture": "f_glass_freezer"
+    "post_furniture": ["f_freezer","f_glass_freezer"]
   },
   {
     "type": "construction",
