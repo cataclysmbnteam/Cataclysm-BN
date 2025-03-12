@@ -2079,7 +2079,7 @@ inline void construction_activity_actor::recalc_all_moves( player_activity &act,
     act.recalc_all_moves( who, reqs );
 }
 
-void construction_activity_actor::start( player_activity &act, Character &who )
+void construction_activity_actor::start( player_activity &/*act*/, Character &/*who*/ )
 {
     map &here = get_map();
     auto local = here.getlocal( target );
@@ -2170,7 +2170,7 @@ std::unique_ptr<activity_actor> construction_activity_actor::deserialize( JsonIn
     return actor;
 }
 
-void assist_activity_actor::start( player_activity &act, Character &who )
+void assist_activity_actor::start( player_activity &/*act*/, Character &/*who*/ )
 {
     progress.dummy();
 }
