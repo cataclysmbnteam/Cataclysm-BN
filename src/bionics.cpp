@@ -1949,24 +1949,6 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
     }
 }
 
-bool Character::has_enough_anesth( const itype *cbm, player &p )
-{
-    if( !cbm->bionic ) {
-        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
-        return false;
-    }
-
-    if( !cbm_needs_anesthesia( p ) ) {
-        return true;
-    }
-
-    const int weight = 7;
-    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                        cbm->bionic->difficulty * 2 * weight;
-
-    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
-}
-
 // bionic manipulation adjusted skill
 float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
         const skill_id &important_skill,
