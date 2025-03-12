@@ -1414,6 +1414,7 @@ void construct::done_vehicle( const tripoint &p )
 void construct::done_deconstruct( const tripoint &p )
 {
     map &here = get_map();
+    std::vector<detached_ptr<item>> items_list;
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
@@ -1430,9 +1431,8 @@ void construct::done_deconstruct( const tripoint &p )
             here.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
-        std::vector<detached_ptr<item>> items_list = item_group::items_from( f.deconstruct.drop_group,
-                                     calendar::turn );
-        here.spawn_items( p, std::move( items_list ) );
+        items_list = item_group::items_from( f.deconstruct.drop_group,
+                                             calendar::turn );
         // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -1454,10 +1454,31 @@ void construct::done_deconstruct( const tripoint &p )
             done_deconstruct( top );
         }
         here.ter_set( p, t.deconstruct.ter_set );
+        // Interpret a result of t_null as underlying terrain if any instead of placing nothinginess
+        if( here.ter( p ) == t_null ) {
+            tripoint below( p.xy(), p.z - 1 );
+            here.ter_set( p, here.get_roof( below, true ) );
+        }
         add_msg( _( "The %s is disassembled." ), t.name() );
-        std::vector<detached_ptr<item>> items_list = item_group::items_from( t.deconstruct.drop_group,
-                                     calendar::turn );
+        items_list = item_group::items_from( t.deconstruct.drop_group,
+                                             calendar::turn );
+    }
+    // Don't dump items down a hole if we created one
+    if( here.can_put_items( p ) && here.ter( p ) != t_open_air ) {
         here.spawn_items( p, std::move( items_list ) );
+    } else {
+        std::vector<tripoint> dump_spots;
+        for( const tripoint &pt : here.points_in_radius( p, 1 ) ) {
+            if( here.can_put_items( pt ) && here.ter( pt ) != t_open_air ) {
+                dump_spots.push_back( pt );
+            }
+        }
+        if( !dump_spots.empty() ) {
+            tripoint dump_spot = random_entry( dump_spots );
+            here.spawn_items( dump_spot, std::move( items_list ) );
+        } else {
+            debugmsg( "No space to displace items from construction finishing" );
+        }
     }
 }
 

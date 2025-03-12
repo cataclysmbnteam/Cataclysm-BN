@@ -331,6 +331,7 @@ enum ter_connects : int {
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
+    TERCONN_GUTTER,
     TERCONN_COUNTER,
 };
 
