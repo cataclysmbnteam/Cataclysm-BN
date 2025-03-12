@@ -2573,7 +2573,7 @@
   {
     "type": "recipe",
     "result": "kebab_veggy",
-	  "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
+    "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -2582,7 +2582,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "skewer_bone", 4 ], [ "splinter", 4 ] ],
       [ [ "veggy_green", 1, "LIST" ] ],
@@ -2594,13 +2594,8 @@
     "type": "recipe",
     "result": "kebab_veggy",
     "id_suffix": "metal_skewer",
-	  "byproducts": [
-        [
-          "scrap",
-          4
-        ]
-    ],
-	  "//": "This recipe uses a metal skewer. The byproduct is to pretend that the skewers are being reused",
+    "byproducts": [ [ "scrap", 4 ] ],
+    "//": "This recipe uses a metal skewer. The byproduct is to pretend that the skewers are being reused",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -2609,11 +2604,11 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-	    [ [ "scrap", 4 ] ],
+      [ [ "scrap", 4 ] ],
       [ [ "veggy_green", 1, "LIST" ] ],
-	    [ [ "veggy_green", 1, "LIST" ] ],
+      [ [ "veggy_green", 1, "LIST" ] ],
       [ [ "seasoning_mild", 1, "LIST" ] ]
     ]
   }
