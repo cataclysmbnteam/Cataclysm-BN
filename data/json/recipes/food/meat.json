@@ -3266,7 +3266,7 @@
       [ [ "seasoning_mild", 1, "LIST" ] ]
     ]
   },
-	{
+  {
     "type": "recipe",
     "result": "kebab",
     "id_suffix": "metal_skewer",
@@ -3291,7 +3291,7 @@
   {
     "type": "recipe",
     "result": "kebab_meat",
-	  "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
+    "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -3300,7 +3300,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "skewer_bone", 4 ], [ "splinter", 4 ] ],
       [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
@@ -3311,7 +3311,7 @@
   {
     "type": "recipe",
     "result": "kebab_meat",
-	  "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
+    "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -3320,7 +3320,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "skewer_bone", 4 ], [ "splinter", 4 ] ],
       [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
@@ -3331,7 +3331,7 @@
   {
     "type": "recipe",
     "result": "kebab_meat",
-	  "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
+    "//": "This recipe uses a wood or bone skewer, which is disposed of after eating.",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -3340,7 +3340,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-	  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "skewer_bone", 4 ], [ "splinter", 4 ] ],
       [ [ "offals_raw", 1, "LIST" ], [ "meat_nofish_raw", 1, "LIST" ], [ "curdled_blood", 1 ] ],
