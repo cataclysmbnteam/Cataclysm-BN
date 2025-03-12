@@ -2680,7 +2680,7 @@ auto cbm_needs_anesthesia( const Character &who ) -> bool
               who.has_trait( trait_DEBUG_BIONICS ) );
 }
 
-static bool has_enough_anesthesia( const itype *cbm, Character &doc, Character &patient )
+bool has_enough_anesthesia( const itype *cbm, Character &doc, const Character &patient )
 {
     if( !cbm->bionic ) {
         debugmsg( "has_enough_anesthesia( const itype *cbm ): %s is not a bionic", cbm->get_id() );
