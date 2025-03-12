@@ -772,14 +772,14 @@ void monster::move()
     // Special attack block code
     // First, from the special attack list, make a vector of usable special attacks.
     // TODO: Make code less clunky as it references both type->special_attacks and special_attacks.
-    std::vector < std::pair<const std::string, mtype_special_attack> > spec_attack_list;
+    std::vector < const std::pair< const std::string, mtype_special_attack> *> spec_attack_list;
 
     // Pacified creatures and hallucinations don't get options.
     if( !( pacified || is_hallucination() ) ) {
         for( const auto &sp_type : type->special_attacks ) {
             const auto sp_atk = special_attacks.find( sp_type.first )->second;
             if( sp_atk.enabled && sp_atk.cooldown == 0 ) {
-                spec_attack_list.push_back( sp_type );
+                spec_attack_list.push_back( &sp_type );
             }
         }
     }
@@ -792,7 +792,7 @@ void monster::move()
             int spec_iter = rng( 0, spec_attack_list.size() - 1 );
             const auto &sp_type = spec_attack_list[spec_iter];
 
-            if( sp_type.second->call( *this ) ) {
+            if( sp_type->second->call( *this ) ) {
                 sp_atk_used = true;
             } else {
                 // If not used, erase from list and try again.
@@ -803,8 +803,8 @@ void monster::move()
 
             // `special_attacks` might have changed at this point. Sadly `reset_special`
             // doesn't check the attack name, so we need to do it here.
-            if( special_attacks.contains( sp_type.first ) ) {
-                reset_special( sp_type.first );
+            if( special_attacks.contains( sp_type->first ) ) {
+                reset_special( sp_type->first );
             }
         }
     }
