@@ -2674,7 +2674,7 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-static bool cbm_needs_anesthesia( Character &who )
+auto cbm_needs_anesthesia( const Character &who ) -> bool
 {
     return !( who.has_bionic( bio_painkiller ) || who.has_trait( trait_NOPAIN ) ||
               who.has_trait( trait_DEBUG_BIONICS ) );

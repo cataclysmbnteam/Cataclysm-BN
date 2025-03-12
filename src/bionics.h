@@ -220,11 +220,11 @@ char get_free_invlet( bionic_collection &bionics );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 
-/*Checks if Character needs anesthesia at all*/
-static bool cbm_needs_anesthesia( Character &who );
+/// Checks if Character needs anesthesia at all
+auto cbm_needs_anesthesia( const Character &who ) -> bool;
 
-/**Has enough anesthetic for surgery*/
-static bool has_enough_anesth( const itype *cbm, Character &doc, Character &patient );
+/// Has enough anesthetic for surgery
+auto has_enough_anesthesia( const itype *cbm, const Character &doc, const Character &patient ) -> bool;
 
 int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 
