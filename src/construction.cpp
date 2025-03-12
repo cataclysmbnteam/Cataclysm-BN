@@ -157,7 +157,7 @@ static const deferred_color color_data = def_c_cyan; //color for data parts
 
 // These templates should only be used for post_terrain/post_furniture
 template <typename T>
-concept ter_or_furn = std::is_same_v<T, ter_str_id>;
+concept ter_or_furn = std::is_same_v<T, ter_str_id> || std::is_same_v<T, furn_str_id>;;
 // Returns a string listing all elements or names of the vector containing the post terrain/furniture
 template <ter_or_furn T> std::string list_ters_or_furns( const std::vector<T> &list,
         bool get_name = true )
@@ -180,7 +180,7 @@ template <ter_or_furn T> std::string list_ters_or_furns( const std::vector<T> &l
 }
 
 // Query the desire post terrain/furniture
-template < typename T > int query_post( const std::vector<T> &list )
+template < ter_or_furn T > int query_post( const std::vector<T> &list )
 {
     if( list.size() > 1 ) {
         // Menu
@@ -256,14 +256,12 @@ void check_consistency()
             c.pre_terrain = ter_str_id();
             did_migrate = true;
         }
-        std::for_each( c.post_terrain.begin(),
-        c.post_terrain.end(), [&]( ter_str_id & ter ) {
-            if( ter.str().starts_with( "f_" ) ) {
-                c.post_furniture = furn_str_id( ter.str() ); // Should be added to the vector instead (eventually)
-                ter = ter_str_id();
-                did_migrate = true;
-            };
-        } );
+        // Is this migration needed anymore?
+        if( !c.post_terrain.empty() && c.post_terrain.front().str().starts_with( "f_" ) ) {
+            c.post_furniture.emplace_back( furn_str_id( c.post_terrain.front().str() ) );
+            c.post_terrain.pop_back();
+            did_migrate = true;
+        };
         if( did_migrate && json_report_strict ) {
             debugmsg( "Construction '%s' uses pre_/post_terrain to set furniture id.  Use pre_/post_furniture instead.",
                       c.id );
@@ -552,38 +550,37 @@ std::optional<construction_id> construction_menu( const bool blueprint )
 
                 bool pre_is_ter_or_furn = !current_con->pre_terrain.is_empty() ||
                                           !current_con->pre_furniture.is_empty();
-                bool post_is_ter_or_furn = !current_con->post_terrain.empty() ||
-                                           !current_con->post_furniture.is_empty();
+
+                // Get recipe outputs and first element description
+                std::string result_name;
+                std::string result_descr;
+                if( !current_con->post_terrain.empty() ) {
+                    result_name = list_ters_or_furns( current_con->post_terrain );
+                    result_descr = current_con->post_terrain.front().obj().description.translated();
+                }
+                if( !current_con->post_furniture.empty() ) {
+                    result_name = list_ters_or_furns( current_con->post_furniture );
+                    result_descr = current_con->post_furniture.front().obj().description.translated();
+                }
+
+                // Replace prev description if the construction has a broader one
+                if( !current_con->description.empty() ) {
+                    result_descr = colorize( current_con->description, color_data );
+                };
 
                 // Display final product name only if more than one step or more than one output.
                 // Assume single stage constructions should be clear
                 // in their title what their result is.
-                if( post_is_ter_or_furn ) {
-                    std::string result_name;
-                    std::string result_descr;
-                    if( !current_con->post_terrain.empty() ) {
-                        result_name = list_ters_or_furns( current_con->post_terrain );
-                        result_descr = current_con->post_terrain.front().obj().description.translated();
-                    } else {
-                        result_name = current_con->post_furniture.obj().name();
-                        result_descr = current_con->post_furniture.obj().description.translated();
-                    }
-
-                    // Replace prev description if the construction has one
-                    if( !current_con->description.empty() ) {
-                        result_descr = colorize( current_con->description, color_data );
-                    };
-
-                    if( options.size() > 1 || current_con->post_terrain.size() != 1 ) {
-                        std::string current_line = string_format( _( "Stage/Variants #%d: " ), stage_counter );
-                        current_line += colorize( result_name, color_title );
-                        add_line( current_line );
-                    }
-
-                    std::string current_line = _( "Result: " );
-                    current_line += colorize( result_descr, color_data );
+                if( options.size() > 1 || current_con->post_terrain.size() != 1 ) {
+                    std::string current_line = string_format( _( "Stage/Variants #%d: " ), stage_counter );
+                    current_line += colorize( result_name, color_title );
                     add_line( current_line );
                 }
+
+                std::string current_line = _( "Result: " );
+                current_line += colorize( result_descr, color_data );
+                add_line( current_line );
+
 
                 // display required skill and difficulty
                 if( current_con->required_skills.empty() ) {
@@ -1062,8 +1059,11 @@ bool can_construct( const construction &con, const tripoint &p )
             return here.ter( p ) != ter;
         } );
     }
-    if( !con.post_furniture.is_empty() ) {
-        place_okay &= here.furn( p ) != con.post_furniture;
+    if( !con.post_furniture.empty() ) {
+        place_okay &= std::any_of( con.post_furniture.begin(),
+        con.post_furniture.end(), [&here, &p]( const furn_str_id & furn ) {
+            return here.furn( p ) != furn;
+        } );
     }
     return place_okay;
 }
@@ -1241,8 +1241,8 @@ void complete_construction( Character &ch )
             here.ter_set( above, new_ter->roof );
         }
     }
-    if( !built.post_furniture.is_empty() ) {
-        here.furn_set( terp, built.post_furniture );
+    if( !built.post_furniture.empty() ) {
+        here.furn_set( terp, built.post_furniture[ter_or_furn_idx] );
         active_tile_data *active = active_tiles::furn_at<active_tile_data>(
                                        tripoint_abs_ms( here.getabs( terp ) ) );
         if( active != nullptr ) {
@@ -1732,6 +1732,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
 
     optional( jo, was_loaded, "pre_terrain", pre_terrain );
     optional( jo, was_loaded, "pre_furniture", pre_furniture );
+    // Will check if post_terrain is an array or a single string to see how it needs to be loaded
     if( jo.has_member( "post_terrain" ) ) {
         if( jo.has_array( "post_terrain" ) ) {
             for( std::string ter : jo.get_array( "post_terrain" ) ) {
@@ -1741,7 +1742,16 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
             post_terrain.emplace_back( ter_str_id( jo.get_string( "post_terrain" ) ) );
         };
     };
-    optional( jo, was_loaded, "post_furniture", post_furniture );
+    // Will check if post_furniture is an array or a single string to see how it needs to be loaded
+    if( jo.has_member( "post_furniture" ) ) {
+        if( jo.has_array( "post_furniture" ) ) {
+            for( std::string furn : jo.get_array( "post_furniture" ) ) {
+                post_furniture.emplace_back( furn_str_id( furn ) );
+            }
+        } else {
+            post_furniture.emplace_back( furn_str_id( jo.get_string( "post_furniture" ) ) );
+        };
+    };
     assign( jo, "pre_flags", pre_flags );
     optional( jo, was_loaded, "deny_flags", deny_flags );
     optional( jo, was_loaded, "post_flags", post_flags );
@@ -1814,7 +1824,7 @@ void construction::load( const JsonObject &jo, const std::string &/*src*/ )
         if( !post_special || !s.empty() ) {
             auto it = post_special_map.find( s );
             if( it != post_special_map.end() ) {
-                if( s == "done_deconstruct" && ( !post_terrain.empty() || !post_furniture.is_empty() ) ) {
+                if( s == "done_deconstruct" && ( !post_terrain.empty() || !post_furniture.empty() ) ) {
                     jo.throw_error( "Can't use post_special function \"done_deconstruct\" alongside post_terrain/post_furniture fields",
                                     s );
                 } else {
@@ -1848,7 +1858,7 @@ void construction::check() const
     if( !pre_terrain.is_empty() && !pre_furniture.is_empty() ) {
         report.warn( "Defines both pre_terrain and pre_furniture" );
     }
-    if( !post_terrain.empty() && !post_furniture.is_empty() ) {
+    if( !post_terrain.empty() && !post_furniture.empty() ) {
         report.warn( "Defines both post_terrain and post_furniture" );
     }
 
@@ -1862,8 +1872,9 @@ void construction::check() const
         report.warn( "Defines unknown post_terrain in one of these: '%s'",
                      list_ters_or_furns( post_terrain, false ) );
     }
-    if( !post_furniture.is_empty() && !post_furniture.is_valid() ) {
-        report.warn( "Defines unknown post_furniture '%s'", post_furniture );
+    if( !post_furniture.empty() && !is_post_furniture_valid() ) {
+        report.warn( "Defines unknown post_furniture in one of these '%s'",
+                     list_ters_or_furns( post_furniture, false ) );
     }
 
     if( !report.is_empty() ) {
@@ -1947,6 +1958,19 @@ bool construction::is_post_terrain_valid() const
     return false;
 }
 
+// Checks if all elements in post_furniture are valid
+bool construction::is_post_furniture_valid() const
+{
+    if( !post_furniture.empty() ) {
+        return std::all_of( post_furniture.begin(),
+        post_furniture.end(), []( const furn_str_id & furn ) {
+            return furn.is_valid();
+        } );
+    }
+    return false;
+}
+
+// Query either the terrain or furniture to be builded, returns 0 in case both are empty
 int construction::query_post_terrain_or_furniture() const
 {
     int ret = 0;
@@ -1954,8 +1978,8 @@ int construction::query_post_terrain_or_furniture() const
     if( !post_terrain.empty() && is_post_terrain_valid() ) {
         ret = query_post( post_terrain );
     };
-    if( !post_furniture.is_empty() && post_furniture.is_valid() ) {
-        ret = 0;
+    if( !post_furniture.empty() && is_post_furniture_valid() ) {
+        ret = query_post( post_furniture );
     };
 
     return ret;

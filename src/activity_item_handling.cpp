@@ -1067,11 +1067,14 @@ static std::vector<construction_id> get_group_roots( const std::vector<construct
     std::copy_if( group_members.begin(), group_members.end(),
     std::back_inserter( ret ), [&]( auto & con ) {
         auto it = std::find_if( group_members.begin(), group_members.end(), [&]( auto & next ) {
-            // Checks if one of the avaible post terrains works as a pre-terrain?
+            // Checks if one of the avaible post terrains or furnitures works as a pre-terrain (?)
             return ( std::any_of( con->post_terrain.begin(),
             con->post_terrain.end(), [&next]( ter_str_id ter ) {
                 return ter == next->pre_terrain;
-            } ) ) &&( con->post_furniture == next->pre_furniture );
+            } ) ) || ( std::any_of( con->post_furniture.begin(),
+            con->post_furniture.end(), [&next]( furn_str_id furn ) {
+                return furn == next->pre_furniture;
+            } ) );
         } );
         return it == group_members.end();
     } );
@@ -1094,19 +1097,20 @@ static activity_reason_info find_base_construction(
     const furn_id furn = here.furn( loc );
     const ter_id ter = here.ter( loc );
 
+    // Checks if the terrain/furniture is already in the tile
+    if( !id->post_terrain.empty() ) {
+        if( id->post_terrain[ter_or_furn_idx].id() == ter ) {
+            return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, id, ter_or_furn_idx );
+        };
+    };
+    if( !id->post_furniture.empty() ) {
+        if( id->post_furniture[ter_or_furn_idx].id() == furn ) {
+            return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, id, ter_or_furn_idx );
+        };
+    };
+
     // Get roots:
     std::vector<construction_id> roots = get_group_roots( list_constructions, id );
-    // Check if any roots are completed, if so we're done here
-    for( const auto &rid : roots ) {
-        const construction &rid_build = rid.obj();
-
-        if(
-            ( !rid_build.post_terrain.empty() && rid_build.post_terrain.front().id() == ter ) ||
-            ( !rid_build.post_furniture.is_empty() && rid_build.post_furniture.id() == furn )
-        ) {
-            return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, rid, ter_or_furn_idx );
-        }
-    }
     // None of the roots are complete, so let's evaluate everything!
     std::map<ter_str_id, std::vector<construction_id>> post_ter;
     std::map<furn_str_id, std::vector<construction_id>> post_furn;
@@ -1114,7 +1118,9 @@ static activity_reason_info find_base_construction(
         if( con->group.is_empty() ) {
             continue;
         }
-        ( post_furn[con->post_furniture] ).push_back( con );
+        for( furn_str_id furn : con->post_furniture ) {
+            ( post_furn[furn] ).push_back( con );
+        };
         for( ter_str_id ter : con->post_terrain ) {
             ( post_ter[ter] ).push_back( con );
         };
@@ -1131,15 +1137,25 @@ static activity_reason_info find_base_construction(
     };
     std::priority_queue<time_con> pq;
     std::for_each( roots.begin(), roots.end(), [&]( const auto & con ) {
-        // Needs to check if the root actually have the valid terrain/furniture somewhere
+        // Needs to check where the root have the valid terrain/furniture
         int con_ter_or_furn_idx = 0;
-        auto ter = std::find( con->post_terrain.begin(), con->post_terrain.end(),
-                              id->post_terrain[ter_or_furn_idx] );
-        if( ter != con->post_terrain.end() ) {
-            con_ter_or_furn_idx = std::distance( con->post_terrain.begin(), ter );
-        };
+        // Search for terrain
+        if( !con->post_terrain.empty() ) {
+            auto ter = std::find( con->post_terrain.begin(), con->post_terrain.end(),
+                                  id->post_terrain[ter_or_furn_idx] );
+            if( ter != con->post_terrain.end() ) {
+                con_ter_or_furn_idx = std::distance( con->post_terrain.begin(), ter );
+            };
+        }
+        if( !con->post_furniture.empty() ) {
+            auto furn = std::find( con->post_furniture.begin(), con->post_furniture.end(),
+                                   id->post_furniture[ter_or_furn_idx] );
+            if( furn != con->post_furniture.end() ) {
+                con_ter_or_furn_idx = std::distance( con->post_furniture.begin(), furn );
+            };
+        }
 
-        // Push anyways because it could be empty (i curse deconstruct logic)
+        // Push anyways because both could be empty (i curse deconstruct logic)
         pq.push( { to_turns<int>( con->time ), con, con_ter_or_furn_idx } );
     } );
     auto is_disassembly = []( const auto & con ) -> bool {
@@ -1178,10 +1194,9 @@ static activity_reason_info find_base_construction(
 
         const auto &con_build = con.obj();
         const int  con_ter_or_furn_idx = cur.valid_ter_or_furn_idx;
-        //popup( std::to_string( con_ter_or_furn_idx ) ); // Testing purposes
         if(
             ( !con_build.post_terrain.empty() && con_build.post_terrain[con_ter_or_furn_idx].id() == ter ) ||
-            ( !con_build.post_furniture.is_empty() && con_build.post_furniture.id() == furn )
+            ( !con_build.post_furniture.empty() && con_build.post_furniture[con_ter_or_furn_idx].id() == furn )
         ) {
             return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, con,
                                                 con_ter_or_furn_idx );
@@ -1262,10 +1277,13 @@ static activity_reason_info find_base_construction(
                 continue;
             }
             for( const auto &next : it->second ) {
-                if( is_disassembly( con ) && !is_disassembly( next ) ) {
+                const auto furn = std::find( next->post_furniture.begin(), next->post_furniture.end(),
+                                             con->pre_furniture );
+                if( is_disassembly( con ) && !is_disassembly( next ) && furn == next->post_furniture.end() ) {
                     continue;
                 }
-                pq.push( { cur.time + to_turns<int>( next->time ), next } );
+                int furn_idx = std::distance( next->post_furniture.begin(), furn );
+                pq.push( { cur.time + to_turns<int>( next->time ), next, furn_idx } );
             }
         }
     }

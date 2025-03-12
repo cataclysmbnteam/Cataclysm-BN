@@ -195,7 +195,7 @@ construction_id blueprint_options::get_final_construction(
     std::set<construction_id> &skip_index
 )
 {
-    if( id->post_terrain.empty() && id->post_furniture.is_empty() ) {
+    if( id->post_terrain.empty() && id->post_furniture.empty() ) {
         return id;
     }
 
@@ -204,8 +204,12 @@ construction_id blueprint_options::get_final_construction(
             continue;
         }
         const construction &c = *c_id;
+        // Search if one of the terrains/furnitures works as a pre requisite
         if( id->group == c.group &&
-            ( id->post_terrain.front() == c.pre_terrain || id->post_furniture == c.pre_furniture ) ) {
+            ( std::find( id->post_terrain.begin(), id->post_terrain.end(),
+                         c.pre_terrain ) != id->post_terrain.end() )
+            || ( std::find( id->post_furniture.begin(), id->post_furniture.end(),
+                            c.pre_furniture ) != id->post_furniture.end() ) ) {
             skip_index.insert( id );
             return get_final_construction( list_constructions, c_id, skip_index );
         }
@@ -233,8 +237,13 @@ blueprint_options::query_con_result blueprint_options::query_con()
     };
 
     const construction_group_str_id &chosen_group = chosen.group;
-    const std::string &chosen_mark = chosen.post_terrain.empty() ?
-                                     chosen.post_furniture.str() : chosen.post_terrain[selected_terrain_or_furniture].str();
+    std::string chosen_mark;
+    if( !chosen.post_terrain.empty() ) {
+        chosen_mark = chosen.post_terrain[selected_terrain_or_furniture].str();
+    };
+    if( !chosen.post_furniture.empty() ) {
+        chosen_mark = chosen.post_furniture[selected_terrain_or_furniture].str();
+    };
 
     if( *con_index != index || chosen_group != group || chosen_mark != mark ||
         selected_terrain_or_furniture != ter_or_furn_idx ) {
