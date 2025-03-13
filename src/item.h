@@ -99,6 +99,16 @@ struct light_emission {
 };
 extern light_emission nolight;
 
+
+enum cable_state {
+    state_none = 0,
+    state_self,
+    state_grid,
+    state_solar_pack,
+    state_UPS,
+    state_vehicle
+};
+
 /**
  *  Value and metadata for one property of an item
  *
@@ -1208,11 +1218,12 @@ class item : public location_visitable<item>, public game_object<item>
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        std::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
+        std::pair<cable_state, tripoint>  get_cable_target( Character *p,
+                const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
-        void reset_cable( player *p );
+        void reset_cable( Character *p );
 
         /**
          * Whether the item should be processed (by calling @ref process).

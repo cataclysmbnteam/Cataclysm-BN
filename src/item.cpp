@@ -9839,24 +9839,29 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
     return std::move( self );
 }
 
-std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
+std::pair<cable_state, tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
 {
-    const std::string &state = get_var( "state" );
-    if( state != "pay_out_cable" && state != "cable_charger_link" ) {
-        return std::nullopt;
-    }
-    map &here = get_map();
-    const optional_vpart_position vp_pos = here.veh_at( pos );
-    if( vp_pos ) {
-        const std::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
-        if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
-            return pos;
+    const std::string p1_name( "p1" );
+    const std::string p2_name( "p2" );
+
+    cable_state p1 = cable_state( get_var( p1_name, 0.0 ) );
+    cable_state p2 = cable_state( get_var( p2_name, 0.0 ) );
+
+    if( p2 != cable_state::state_none && ( p1 == cable_state::state_self ||
+                                           p2 == cable_state::state_self ) ) {
+        map &here = get_map();
+        auto p1_t = get_var( "source" + p1_name, tripoint_zero );
+        auto p2_t = get_var( "source" + p2_name, tripoint_zero );
+        auto p1_local = here.getlocal( p1_t );
+        auto p2_local = here.getlocal( p2_t );
+
+        if( p1_local != tripoint_zero ) {
+            return std::make_pair( p1, p1_local );
+        } else if( p2_local != tripoint_zero ) {
+            return std::make_pair( p2, p2_local );
         }
     }
-
-    tripoint source( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z", 0 ) );
-
-    return here.getlocal( source );
+    return std::make_pair( cable_state::state_none, tripoint_zero );
 }
 
 detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carrier,
@@ -9920,10 +9925,15 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
     return std::move( self );
 }
 
-void item::reset_cable( player *p )
+void item::reset_cable( Character *p )
 {
     int max_charges = type->maximum_charges();
-
+    //erase legacy info
+    erase_var( "state" );
+    erase_var( "source_x" );
+    erase_var( "source_y" );
+    erase_var( "source_z" );
+    //erase info
     erase_var( "p1" );
     erase_var( "p2" );
     erase_var( "source_p1" );
@@ -9933,7 +9943,7 @@ void item::reset_cable( player *p )
 
     if( p != nullptr ) {
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
-        p->moves -= charges * 10;
+        p->mod_moves( -10 * charges );
     }
 }
 

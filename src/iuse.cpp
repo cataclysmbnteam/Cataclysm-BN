@@ -364,15 +364,6 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
 
-enum cable_state {
-    state_none = 0,
-    state_self,
-    state_grid,
-    state_solar_pack,
-    state_UPS,
-    state_vehicle
-};
-
 #include "iuse_software.h"
 
 
@@ -8753,7 +8744,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 static auto confirm_source_vehicle( player *who, item *cable, std::string var_name,
                                     const bool detach_if_missing )
 {
-    auto source_global = cable->get_var( var_name, tripoint_zero );
+    auto source_global = tripoint_abs_ms( cable->get_var( var_name, tripoint_zero ) );
     tripoint source_local = g->m.getlocal( source_global );
     const optional_vpart_position source_vp = g->m.veh_at( source_local );
     vehicle *const source_veh = veh_pointer_or_null( source_vp );
@@ -8763,7 +8754,7 @@ static auto confirm_source_vehicle( player *who, item *cable, std::string var_na
         }
         cable->reset_cable( who );
     }
-    return std::make_pair( source_vp, source_veh );
+    return std::make_tuple( source_global, source_vp, source_veh );
 };
 
 static bool process_map_connection( Character *who, item *cable, cable_state state,
@@ -8922,9 +8913,11 @@ int iuse::cable_attach2( player *who, item *cable, bool, const tripoint & )
                         who->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
                         break;
                     case state_vehicle:
-                        const auto source_vp = confirm_source_vehicle( who, cable, "source" + p1_name, true ).first;
-                        if( veh_pointer_or_null( source_vp ) != nullptr ) {
+                        const auto [_, _, veh] = confirm_source_vehicle( who, cable, "source" + p1_name, true );
+                        if( veh ) {
                             who->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
+                        } else {
+                            return 0;
                         }
                         break;
                     default:
@@ -8956,6 +8949,7 @@ int iuse::cable_attach2( player *who, item *cable, bool, const tripoint & )
                 if( !process_map_connection( who, cable, p2, "source_" + p2_name ) ) {
                     return 0;
                 }
+                break;
             default:
                 return 0;
         }
@@ -8967,10 +8961,8 @@ int iuse::cable_attach2( player *who, item *cable, bool, const tripoint & )
             return 0;
             //We've connected two vehicles
         } else if( p1 == cable_state::state_vehicle && p2 == cable_state::state_vehicle ) {
-            const auto [vp1, v1] = confirm_source_vehicle( who, cable, "source" + p1_name, true );
-            const auto [vp2, v2] = confirm_source_vehicle( who, cable, "source" + p2_name, true );
-
-            const optional_vpart_position target_vp = vp2;
+            const auto [v1_abs, vp1, v1] = confirm_source_vehicle( who, cable, "source" + p1_name, true );
+            const auto [v2_abs, vp2, v2] = confirm_source_vehicle( who, cable, "source" + p2_name, true );
 
             if( v1 == v2 ) {
                 who->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
@@ -8981,34 +8973,71 @@ int iuse::cable_attach2( player *who, item *cable, bool, const tripoint & )
             const vpart_id vpid( cable->typeId().str() );
 
             point vcoords = vp1->mount();
-            vehicle_part source_part( vpid, vcoords, item::spawn( *cable ), v1 );
-            source_part.target.first = g->m.getabs( vp2->pos() );
-            source_part.target.second = v2->global_square_location().raw();
-            v1->install_part( vcoords, std::move( source_part ) );
+            vehicle_part p1( vpid, vcoords, item::spawn( *cable ), v1 );
+            p1.target.first = v1_abs.raw();
+            p1.target.second = v2->global_square_location().raw();
+            v1->install_part( vcoords, std::move( p1 ) );
 
             if( vp2 ) {
                 vcoords = vp2->mount();
-                vehicle_part target_part( vpid, vcoords, item::spawn( *cable ), v2 );
-                target_part.target.first = g->m.getabs( vp1->pos() );;
-                target_part.target.second = v1->global_square_location().raw();
-                v2->install_part( vcoords, std::move( target_part ) );
+                vehicle_part p2( vpid, vcoords, item::spawn( *cable ), v2 );
+                p2.target.first = v2_abs.raw();;
+                p2.target.second = v1->global_square_location().raw();
+                v2->install_part( vcoords, std::move( p2 ) );
 
                 if( who != nullptr && who->has_item( *cable ) ) {
                     who->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
                                             v1->name, v2->name );
                 }
-                //We've connected vehicle to grid
-            } else if( p1 == cable_state::state_vehicle || p2 == cable_state::state_vehicle ) {
-                const auto [vp1, v1] = confirm_source_vehicle( who, cable, "source" + p1_name, false );
-                const auto [vp2, v2] = confirm_source_vehicle( who, cable, "source" + p2_name, false );
+            }
+            //We've connected vehicle to grid
+        } else if( p1 == cable_state::state_vehicle || p2 == cable_state::state_vehicle ) {
+            auto [p1_global, vp1, v1] = confirm_source_vehicle( who, cable, "source" + p1_name, false );
+            auto [p2_global, vp2, v2] = confirm_source_vehicle( who, cable, "source" + p2_name, false );
 
+            vehicle *v = nullptr;
+            optional_vpart_position vp( std::nullopt );
+            tripoint_abs_ms v_global;
+            tripoint_abs_ms connector;
 
+            if( v1 ) {
+                v = v1;
+                vp = vp1;
+                v_global = p1_global;
+                connector = p2_global;
+            } else if( v2 ) {
+                v = v2;
+                vp = vp2;
+                v_global = p2_global;
+                connector = p1_global;
+            } else {
+                cable->reset_cable( who );
+                debugmsg( "Something fucked up with cable connection" );
+                return 0;
+            }
 
+            vehicle_connector_tile *grid_connector = active_tiles::furn_at<vehicle_connector_tile>
+                    ( connector );
+            if( !grid_connector ) {
+                who->add_msg_if_player( _( "There's no grid connection there." ) );
+                return 0;
+            }
+
+            const vpart_id vpid( cable->typeId().str() );
+            point vcoords = vp->mount();
+            vehicle_part v_part( vpid, vcoords, item::spawn( *cable ), v );
+            v_part.target.first = v_global.raw();
+            v_part.target.second = v_global.raw();
+            v_part.set_flag( vehicle_part::targets_grid );
+            if( who && who->has_item( *cable ) ) {
+                who->add_msg_if_player( m_good, _( "You connect the %s to the electric grid." ),
+                                        v->name );
+                grid_connector->connected_vehicles.emplace_back( g->m.getabs( v->global_pos3() ) );
+                v->install_part( vcoords, std::move( v_part ) );
             }
         }
         return 1;    // Let the cable be destroyed.
     }
-
     return 0;
 }
 

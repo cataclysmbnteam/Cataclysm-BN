@@ -85,6 +85,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "active_tile_data_def.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -1414,18 +1415,25 @@ itype_id Character::find_remote_fuel( bool look_only )
     } );
 
     for( const item *cable : cables ) {
+        const auto [state, target] = cable->get_cable_target( this, pos() );
 
-        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( !target ) {
-            if( here.is_outside( pos() ) && !is_night( calendar::turn ) &&
-                cable->get_var( "state" ) == "solar_pack_link" ) {
-                if( !look_only ) {
-                    set_value( "sunlight", "1" );
+        switch( state ) {
+            case state_none:
+            case state_self:
+            default:
+                continue;
+            case state_grid:
+                //TODO grid code
+                continue;
+            case state_solar_pack:
+                if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
+                    if( !look_only ) {
+                        set_value( "sunlight", "1" );
+                    }
+                    remote_fuel = fuel_type_sun_light;
                 }
-                remote_fuel = fuel_type_sun_light;
-            }
-
-            if( cable->get_var( "state" ) == "UPS_link" ) {
+                continue;
+            case state_UPS:
                 static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
@@ -1441,20 +1449,19 @@ itype_id Character::find_remote_fuel( bool look_only )
                     }
                 }
                 remote_fuel = fuel_type_battery;
-            }
-            continue;
+                continue;
+            case state_vehicle:
+                const optional_vpart_position vp = here.veh_at( target );
+                if( vp ) {
+                    if( !look_only ) {
+                        set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
+                                   true ) ) );
+                    }
+                    remote_fuel = fuel_type_battery;
+                }
+                continue;
         }
-        const optional_vpart_position vp = here.veh_at( *target );
-        if( !vp ) {
-            continue;
-        }
-        if( !look_only ) {
-            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
-                       true ) ) );
-        }
-        remote_fuel = fuel_type_battery;
     }
-
     return remote_fuel;
 }
 
@@ -1467,13 +1474,19 @@ int Character::consume_remote_fuel( int amount )
 
     map &here = get_map();
     for( const item *cable : cables ) {
-        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( target ) {
-            const optional_vpart_position vp = here.veh_at( *target );
-            if( !vp ) {
-                continue;
+        const auto [state, target] = cable->get_cable_target( this, pos() );
+        if( state == cable_state::state_vehicle ) {
+            const optional_vpart_position vp = here.veh_at( target );
+            if( vp ) {
+                unconsumed_amount = vp->vehicle().discharge_battery( amount );
             }
-            unconsumed_amount = vp->vehicle().discharge_battery( amount );
+        } else if( state == cable_state::state_grid ) {
+            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( here.getglobal( target ) );
+            if( grid_connector ) {
+                unconsumed_amount = 0;
+                //TODO connector code?
+                //unconsumed_amount = grid_connector->;
+            }
         }
     }
 
@@ -1483,10 +1496,10 @@ int Character::consume_remote_fuel( int amount )
         };
         if( has_charges( itype_UPS_off, unconsumed_amount, used_ups ) ) {
             use_charges( itype_UPS_off, unconsumed_amount, used_ups );
-            unconsumed_amount -= 1;
+            unconsumed_amount = 0;
         } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
             use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.5 ), used_ups );
-            unconsumed_amount -= 1;
+            unconsumed_amount = 0;
         }
     }
 
