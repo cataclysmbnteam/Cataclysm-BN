@@ -362,6 +362,29 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
 
+enum cable_state {
+    none = 0,
+    self,
+    grid,
+    solar_pack,
+    UPS,
+    vehicle
+};
+
+constexpr const char *StateTStr( cable_state s ) noexcept
+{
+    switch( s ) {
+        case cable_state::none:
+            return "attach_first";
+        case cable_state::grid:
+            return "cable_charger";
+        case cable_state::solar_pack:
+            return "solar_pack_link";
+        case cable_state::UPS:
+            return "UPS";
+    }
+}
+
 #include "iuse_software.h"
 
 
@@ -8734,6 +8757,61 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 
             return 1; // Let the cable be destroyed.
         }
+    }
+
+    return 0;
+}
+
+cable_state cable_menu( Character *who, cable_state c_state )
+{
+    bool veh_nearby = false;
+    bool grid_nearby = false;
+    bool has_ups = false;
+    bool has_solar_pach = false;
+
+
+    uilist kmenu;
+    kmenu.text = _( "Using cable:" );
+    if( c_state != cable_state::none ) {
+        kmenu.addentry( cable_state::none, true, -1,
+                        _( "Detach and re-spool the cable" ) );
+    }
+    if( !who->get_remote_fueled_bionic().is_empty() )
+        kmenu.addentry( cable_state::self, true, -1,
+                        _( "Attach cable to self" ) );
+    if( veh_nearby ) {
+        kmenu.addentry( cable_state::vehicle, true, -1, _( "Attach cable to vehicle" ) );
+    }
+    if( grid_nearby ) {
+        kmenu.addentry( cable_state::grid, true, -1, _( "Attach cable to grid" ) );
+    }
+    if( has_ups ) {
+        kmenu.addentry( cable_state::UPS, true, -1, _( "Attach cable to ups" ) );
+    }
+    if( has_solar_pach ) {
+        kmenu.addentry( cable_state::solar_pack, true, -1, _( "Attach cable to ups" ) );
+    }
+
+}
+
+int iuse::cable_attach2( Character *who, item *cable, bool, const tripoint & )
+{
+    const std::string p1_name( "p1" );
+    const std::string p2_name( "p2" );
+
+    cable_state p1 = cable_state( cable->get_var( p1_name, 0.0 ) );
+    cable_state p2 = cable_state( cable->get_var( p2_name, 0.0 ) );
+
+
+    if( p1 == cable_state::none ) {
+        switch( cable_menu( who, p1 ) ) {
+
+        }
+    } else {
+        switch( cable_menu( who, p2 ) ) {
+
+        }
+
     }
 
     return 0;
