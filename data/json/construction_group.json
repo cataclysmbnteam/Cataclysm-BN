@@ -1216,6 +1216,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_adv_butchery",
+    "name": "Place Advanced Butchering Station"
+  },
+  {
+    "type": "construction_group",
     "id": "place_electrolysis_kit",
     "name": "Place Electrolysis Kit"
   },
@@ -1518,5 +1523,10 @@
     "type": "construction_group",
     "id": "install_hydraulic_press",
     "name": "Install Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_f_recycler",
+    "name": "Install Metal Compactor"
   }
 ]

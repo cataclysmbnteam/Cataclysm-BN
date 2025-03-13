@@ -111,7 +111,6 @@ static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BLEED( "ACT_BLEED" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -278,7 +277,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
-    { ACT_BUILD, build_do_turn },
     { ACT_EAT_MENU, eat_menu_do_turn },
     { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
     { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
@@ -3640,61 +3638,6 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
     resume_for_multi_activities( *p );
-}
-
-void activity_handlers::build_do_turn( player_activity *act, player *p )
-{
-    map &here = get_map();
-    partial_con *pc = here.partial_con_at( here.getlocal( act->placement ) );
-    // Maybe the player and the NPC are working on the same construction at the same time
-    if( !pc ) {
-        if( p->is_npc() ) {
-            // if player completes the work while NPC still in activity loop
-            p->activity->set_to_null();// = player_activity();
-            p->set_moves( 0 );
-        } else {
-            p->cancel_activity();
-        }
-        add_msg( m_info, _( "%s did not find an unfinished construction at the activity spot." ),
-                 p->disp_name() );
-        return;
-    }
-    // if you ( or NPC ) are finishing someone else's started construction...
-    const construction &built = pc->id.obj();
-    if( !p->has_trait( trait_DEBUG_HS ) && !p->meets_skill_requirements( built ) ) {
-        add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
-        p->cancel_activity();
-        if( p->is_npc() ) {
-            p->activity->set_to_null();// = player_activity();
-            p->set_moves( 0 );
-        }
-        return;
-    }
-    // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
-    const int old_counter = pc->counter;
-
-    // Base moves for construction with no speed modifier or assistants
-    // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, to_moves<int>( built.time ) );
-    // Current expected total moves, includes construction speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, built.adjusted_time() );
-    // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
-    // Current progress in moves
-    const double current_progress = old_counter * base_total_moves / 10000000.0 +
-                                    delta_progress;
-    // Current progress as a percent of base_total_moves to 2 decimal places
-    pc->counter = std::round( current_progress / base_total_moves * 10000000.0 );
-
-    p->set_moves( 0 );
-
-    pc->counter = std::min( pc->counter, 10000000 );
-    // If construction_progress has reached 100% or more
-    if( pc->counter >= 10000000 ) {
-        // Activity is canceled in complete_construction()
-        complete_construction( *p );
-    }
 }
 
 void activity_handlers::tidy_up_do_turn( player_activity *act, player *p )

@@ -3,14 +3,22 @@
     "type": "terrain",
     "id": "t_recycler",
     "name": "metal compactor",
-    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.",
+    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.  If you're very careful, you can even uninstall it to transport it elsewhere.",
     "looks_like": "t_machinery_heavy",
     "symbol": "&",
     "color": "green",
     "move_cost": 0,
     "max_volume": "2000 L",
-    "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE", "ADV_DECONSTRUCT" ],
     "examine_action": "recycle_compactor",
+    "deconstruct": {
+      "ter_set": "t_thconc_floor",
+      "items": [
+        { "item": "recycler_item", "charges": [ 1, 1 ] },
+        { "item": "power_supply", "charges": [ 3, 3 ] },
+        { "item": "cable", "charges": [ 15, 15 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,

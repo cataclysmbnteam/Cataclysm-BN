@@ -802,12 +802,12 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "cooking",
-    "skills_required": [ "firstaid", 6 ],
+    "skills_required": [ "computer", 6 ],
     "difficulty": 10,
     "time": "2 h",
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "control_laptop", -1 ] ] ],
     "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "components": [ [ [ "iv_purifier", 3 ] ], [ [ "slime_scrap", 5 ] ], [ [ "syringe", 1 ] ] ]
+    "components": [ [ [ "iv_purifier", 3 ] ], [ [ "slime_scrap", 1 ] ], [ [ "nanomaterial", 1 ] ], [ [ "syringe", 1 ] ] ]
   }
 ]

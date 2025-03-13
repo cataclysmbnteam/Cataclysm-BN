@@ -769,35 +769,43 @@ void monster::move()
 
     const bool pacified = has_effect( effect_pacified );
 
-    // First, use the special attack, if we can!
-    // The attack may change `monster::special_attacks` (e.g. by transforming
-    // this into another monster type). Therefore we can not iterate over it
-    // directly and instead iterate over the map from the monster type
-    // (properties of monster types should never change).
-    for( const auto &sp_type : type->special_attacks ) {
-        const std::string &special_name = sp_type.first;
-        const auto local_iter = special_attacks.find( special_name );
-        if( local_iter == special_attacks.end() ) {
-            continue;
-        }
-        mon_special_attack &local_attack_data = local_iter->second;
-        if( !local_attack_data.enabled ) {
-            continue;
-        }
+    // Special attack block code
+    // First, from the special attack list, make a vector of usable special attacks.
+    // TODO: Make code less clunky as it references both type->special_attacks and special_attacks.
+    std::vector < const std::pair< const std::string, mtype_special_attack> *> spec_attack_list;
 
-        // Cooldowns are decremented in monster::process_turn
+    // Pacified creatures and hallucinations don't get options.
+    if( !( pacified || is_hallucination() ) ) {
+        for( const auto &sp_type : type->special_attacks ) {
+            const auto sp_atk = special_attacks.find( sp_type.first )->second;
+            if( sp_atk.enabled && sp_atk.cooldown == 0 ) {
+                spec_attack_list.push_back( &sp_type );
+            }
+        }
+    }
+    // Next, if spec_attack_list is not empty, roll randomly to decide which is used.
+    if( !spec_attack_list.empty() ) {
+        bool sp_atk_used = false;
+        // If it turns out the attack can't actually be used, try again while list remains non-empty.
+        while( !sp_atk_used && !spec_attack_list.empty() ) {
+            // For size is 1 it just returns 0
+            int spec_iter = rng( 0, spec_attack_list.size() - 1 );
+            const auto &sp_type = spec_attack_list[spec_iter];
 
-        if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
-            if( !sp_type.second->call( *this ) ) {
+            if( sp_type->second->call( *this ) ) {
+                sp_atk_used = true;
+            } else {
+                // If not used, erase from list and try again.
+                // continue; used here to prevent reseting of special attack.
+                spec_attack_list.erase( spec_attack_list.begin() + spec_iter );
                 continue;
             }
 
             // `special_attacks` might have changed at this point. Sadly `reset_special`
             // doesn't check the attack name, so we need to do it here.
-            if( !special_attacks.contains( special_name ) ) {
-                continue;
+            if( special_attacks.contains( sp_type->first ) ) {
+                reset_special( sp_type->first );
             }
-            reset_special( special_name );
         }
     }
 

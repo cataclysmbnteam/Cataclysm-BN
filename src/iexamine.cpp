@@ -106,7 +106,6 @@
 #include "weather.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -3844,8 +3843,8 @@ void iexamine::trap( player &p, const tripoint &examp )
                     return;
                 }
             } else {
-                p.assign_activity( ACT_BUILD );
-                p.activity->placement = here.getabs( examp );
+                p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                                   ( here.getglobal( examp ) ) ) );
                 return;
             }
         } else {
@@ -5026,13 +5025,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     amenu.query();
 
-    bool needs_anesthesia = true;
+    bool needs_anesthesia = cbm_needs_anesthesia( patient );
     std::vector<tool_comp> anesth_kit;
 
-    if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bio_painkiller ) ||
-        amenu.ret > 1 ) {
-        needs_anesthesia = false;
-    } else {
+    if( needs_anesthesia && amenu.ret < 2 ) {
         const inventory &crafting_inv = p.crafting_inventory();
         std::vector<item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );
