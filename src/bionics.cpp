@@ -1407,6 +1407,8 @@ void Character::passive_power_gen( bionic &bio )
 
 itype_id Character::find_remote_fuel( bool look_only )
 {
+    const std::string p1_name( "p1" );
+    const std::string p2_name( "p2" );
     itype_id remote_fuel;
     map &here = get_map();
 
@@ -1415,51 +1417,66 @@ itype_id Character::find_remote_fuel( bool look_only )
     } );
 
     for( const item *cable : cables ) {
-        const auto [state, target] = cable->get_cable_target( this, pos() );
+        const auto [state1, target1] = cable->get_cable_point_info( p1_name );
+        const auto [state2, target2] = cable->get_cable_point_info( p2_name );
+        if( state2 != cable_state::state_none &&
+            ( state1 == cable_state::state_self || state2 == cable_state::state_self ) ) {
+            cable_state state;
+            tripoint target;
+            if( state1 != cable_state::state_self ) {
+                state = state1;
+                target = target1;
+            } else if( state2 != cable_state::state_self ) {
+                state = state2;
+                target = target2;
+            } else {
+                continue;
+            }
 
-        switch( state ) {
-            case state_none:
-            case state_self:
-            default:
-                continue;
-            case state_grid:
-                //TODO grid code
-                continue;
-            case state_solar_pack:
-                if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
-                    if( !look_only ) {
-                        set_value( "sunlight", "1" );
+            switch( state ) {
+                case state_none:
+                case state_self:
+                default:
+                    continue;
+                case state_grid:
+                    //TODO grid code
+                    continue;
+                case state_solar_pack:
+                    if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
+                        if( !look_only ) {
+                            set_value( "sunlight", "1" );
+                        }
+                        remote_fuel = fuel_type_sun_light;
                     }
-                    remote_fuel = fuel_type_sun_light;
-                }
-                continue;
-            case state_UPS:
-                static const item_filter used_ups = [&]( const item & itm ) {
-                    return itm.get_var( "cable" ) == "plugged_in";
-                };
-                if( !look_only ) {
-                    if( has_charges( itype_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
-                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
-                    } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
-                        set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
-                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
-                    } else {
-                        set_value( "rem_battery", std::to_string( 0 ) );
-                    }
-                }
-                remote_fuel = fuel_type_battery;
-                continue;
-            case state_vehicle:
-                const optional_vpart_position vp = here.veh_at( target );
-                if( vp ) {
+                    continue;
+                case state_UPS:
+                    static const item_filter used_ups = [&]( const item & itm ) {
+                        return itm.get_var( "cable" ) == "plugged_in";
+                    };
                     if( !look_only ) {
-                        set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
-                                   true ) ) );
+                        if( has_charges( itype_UPS_off, 1, used_ups ) ) {
+                            set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
+                                       units::to_kilojoule( max_power_level ), used_ups ) ) );
+                        } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
+                            set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
+                                       units::to_kilojoule( max_power_level ), used_ups ) ) );
+                        } else {
+                            set_value( "rem_battery", std::to_string( 0 ) );
+                        }
                     }
                     remote_fuel = fuel_type_battery;
-                }
-                continue;
+                    continue;
+                case state_vehicle:
+                    const optional_vpart_position vp = here.veh_at( target );
+                    if( vp ) {
+                        if( !look_only ) {
+                            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
+                                       true ) ) );
+                        }
+                        remote_fuel = fuel_type_battery;
+                    }
+                    continue;
+            }
         }
     }
     return remote_fuel;
@@ -1467,6 +1484,8 @@ itype_id Character::find_remote_fuel( bool look_only )
 
 int Character::consume_remote_fuel( int amount )
 {
+    const std::string p1_name( "p1" );
+    const std::string p2_name( "p2" );
     int unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
         return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
@@ -1474,14 +1493,27 @@ int Character::consume_remote_fuel( int amount )
 
     map &here = get_map();
     for( const item *cable : cables ) {
-        const auto [state, target] = cable->get_cable_target( this, pos() );
-        if( state == cable_state::state_vehicle ) {
-            const optional_vpart_position vp = here.veh_at( target );
+        const auto [state1, target1] = cable->get_cable_point_info( p1_name );
+        const auto [state2, target2] = cable->get_cable_point_info( p2_name );
+        if( state1 == cable_state::state_vehicle ) {
+            const optional_vpart_position vp = here.veh_at( target1 );
             if( vp ) {
                 unconsumed_amount = vp->vehicle().discharge_battery( amount );
             }
-        } else if( state == cable_state::state_grid ) {
-            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( here.getglobal( target ) );
+        } else if( state2 == cable_state::state_vehicle ) {
+            const optional_vpart_position vp = here.veh_at( target2 );
+            if( vp ) {
+                unconsumed_amount = vp->vehicle().discharge_battery( amount );
+            }
+        } else if( state1 == cable_state::state_grid ) {
+            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( here.getglobal( target1 ) );
+            if( grid_connector ) {
+                unconsumed_amount = 0;
+                //TODO connector code?
+                //unconsumed_amount = grid_connector->;
+            }
+        } else if( state2 == cable_state::state_grid ) {
+            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target2 ) );
             if( grid_connector ) {
                 unconsumed_amount = 0;
                 //TODO connector code?

@@ -111,6 +111,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "active_tile_data_def.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
@@ -9839,29 +9840,13 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
     return std::move( self );
 }
 
-std::pair<cable_state, tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
+//Returns cable-target and tripoint ONLY if target is map entity
+std::pair<cable_state, tripoint> item::get_cable_point_info( std::string p_name ) const
 {
-    const std::string p1_name( "p1" );
-    const std::string p2_name( "p2" );
+    cable_state p = cable_state( get_var( p_name, 0.0 ) );
+    auto p_source = get_var( "source" + p_name, tripoint_zero );
 
-    cable_state p1 = cable_state( get_var( p1_name, 0.0 ) );
-    cable_state p2 = cable_state( get_var( p2_name, 0.0 ) );
-
-    if( p2 != cable_state::state_none && ( p1 == cable_state::state_self ||
-                                           p2 == cable_state::state_self ) ) {
-        map &here = get_map();
-        auto p1_t = get_var( "source" + p1_name, tripoint_zero );
-        auto p2_t = get_var( "source" + p2_name, tripoint_zero );
-        auto p1_local = here.getlocal( p1_t );
-        auto p2_local = here.getlocal( p2_t );
-
-        if( p1_local != tripoint_zero ) {
-            return std::make_pair( p1, p1_local );
-        } else if( p2_local != tripoint_zero ) {
-            return std::make_pair( p2, p2_local );
-        }
-    }
-    return std::make_pair( cable_state::state_none, tripoint_zero );
+    return std::make_pair( p, p_source );
 }
 
 detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carrier,
@@ -9874,43 +9859,84 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
         //reset_cable( carrier );
         return std::move( self );
     }
-    std::string state = self->get_var( "state" );
-    if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            self->reset_cable( carrier );
-            return std::move( self );
-        }
+    const std::string p1_name( "p1" );
+    const std::string p2_name( "p2" );
+    const auto [state1, target1] = self->get_cable_point_info( p1_name );
+    const auto [state2, target2] = self->get_cable_point_info( p2_name );
+
+    cable_state state;
+    tripoint target;
+
+    if( ( state1 == state_none || state2 == state_none ) &&
+        ( state1 != state_self || state2 != state_self ) ) {
+        return std::move( self );
     }
 
-    static const item_filter used_ups = [&]( const item & itm ) {
-        return itm.get_var( "cable" ) == "plugged_in";
-    };
+    if( state1 != state_self ) {
+        state = state1;
+        target = target1;
+    } else if( state2 != state_self ) {
+        state = state2;
+        target = target2;
+    } else {
+        debugmsg( "How the fuck!?" );
+    }
 
-    if( state == "UPS" ) {
-        if( !carrier->has_item( *self ) || !carrier->has_item_with( used_ups ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            for( item *used : carrier->items_with( used_ups ) ) {
-                used->erase_var( "cable" );
+    switch( state ) {
+        case state_solar_pack:
+            if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
+                carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                self->reset_cable( carrier );
             }
-            self->reset_cable( carrier );
             return std::move( self );
-        }
-    }
-    const std::optional<tripoint> source = self->get_cable_target( carrier, pos );
-    if( !source ) {
-        return std::move( self );
-    }
-    map &here = get_map();
-    if( !here.veh_at( *source ) || ( source->z != g->get_levz() && !here.has_zlevels() ) ) {
-        if( carrier->has_item( *self ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-        }
-        self->reset_cable( carrier );
-        return std::move( self );
+        case state_UPS:
+            static const item_filter used_ups = [&]( const item & itm ) {
+                return itm.get_var( "cable" ) == "plugged_in";
+            };
+
+            if( !carrier->has_item( *self ) || !carrier->has_item_with( used_ups ) ) {
+                carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                for( item *used : carrier->items_with( used_ups ) ) {
+                    used->erase_var( "cable" );
+                }
+                self->reset_cable( carrier );
+            }
+            return std::move( self );
+        case state_vehicle:
+            if( target == tripoint_zero ) {
+                return std::move( self );
+            }
+            map &here = get_map();
+            if( !here.veh_at( target ) || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
+                if( carrier->has_item( *self ) ) {
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                }
+                self->reset_cable( carrier );
+                return std::move( self );
+            }
+            break;
+        case state_grid:
+            if( target == tripoint_zero ) {
+                return std::move( self );
+            }
+            map &here = get_map();
+            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
+            if( !grid_connector || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
+                if( carrier->has_item( *self ) ) {
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                }
+                self->reset_cable( carrier );
+                return std::move( self );
+            }
+            break;
+        case state_none:
+        case state_self:
+        default:
+            debugmsg( "How the fuck!?" );
+            return std::move( self );
     }
 
-    int distance = rl_dist( pos, *source );
+    int distance = rl_dist( pos, target );
     int max_charges = self->type->maximum_charges();
     self->charges = max_charges - distance;
 
@@ -9919,7 +9945,6 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
             carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
         }
         self->reset_cable( carrier );
-        return std::move( self );
     }
 
     return std::move( self );
