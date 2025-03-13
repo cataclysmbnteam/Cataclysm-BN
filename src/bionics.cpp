@@ -1439,7 +1439,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                 case state_self:
                 default:
                     continue;
-                case state_grid:
+                case state_grid: {
                     auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
                     if( !grid_connector ) {
                         if( !look_only ) {
@@ -1448,6 +1448,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                         remote_fuel = fuel_type_battery;
                     }
                     continue;
+                }
                 case state_solar_pack:
                     if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
                         if( !look_only ) {
@@ -1456,7 +1457,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                         remote_fuel = fuel_type_sun_light;
                     }
                     continue;
-                case state_UPS:
+                case state_UPS: {
                     static const item_filter used_ups = [&]( const item & itm ) {
                         return itm.get_var( "cable" ) == "plugged_in";
                     };
@@ -1473,7 +1474,8 @@ itype_id Character::find_remote_fuel( bool look_only )
                     }
                     remote_fuel = fuel_type_battery;
                     continue;
-                case state_vehicle:
+                }
+                case state_vehicle: {
                     const optional_vpart_position vp = here.veh_at( target );
                     if( vp ) {
                         if( !look_only ) {
@@ -1483,6 +1485,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                         remote_fuel = fuel_type_battery;
                     }
                     continue;
+                }
             }
         }
     }
@@ -1512,8 +1515,8 @@ int Character::consume_remote_fuel( int amount )
             if( vp ) {
                 unconsumed_amount = vp->vehicle().discharge_battery( amount );
             }
-        //Characher sucks energy from grid, but it totally should be reverse,
-        //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
+            //Characher sucks energy from grid, but it totally should be reverse,
+            //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
         } else if( state1 == cable_state::state_grid ) {
             auto pos = here.getglobal( target1 );
             auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( pos );

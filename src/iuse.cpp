@@ -8654,14 +8654,15 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                     case state_UPS:
                         who->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
                         break;
-                    case state_vehicle:
-                        const auto [_, _, veh] = confirm_source_vehicle( who, cable, "source" + p1_name, true );
+                    case state_vehicle: {
+                        const auto [_, __, veh] = confirm_source_vehicle( who, cable, "source" + p1_name, true );
                         if( veh ) {
                             who->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
                         } else {
                             return 0;
                         }
                         break;
+                    }
                     default:
                         add_msg( _( "Never mind" ) );
                         return 0;

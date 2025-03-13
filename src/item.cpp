@@ -9881,6 +9881,8 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
         debugmsg( "How the fuck!?" );
     }
 
+    map &here = get_map();
+
     switch( state ) {
         case state_solar_pack:
             if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
@@ -9888,7 +9890,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 self->reset_cable( carrier );
             }
             return std::move( self );
-        case state_UPS:
+        case state_UPS: {
             static const item_filter used_ups = [&]( const item & itm ) {
                 return itm.get_var( "cable" ) == "plugged_in";
             };
@@ -9901,11 +9903,11 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 self->reset_cable( carrier );
             }
             return std::move( self );
-        case state_vehicle:
+        }
+        case state_vehicle: {
             if( target == tripoint_zero ) {
                 return std::move( self );
             }
-            map &here = get_map();
             const auto vp_pos = here.veh_at( pos );
             if( vp_pos ) {
                 const auto seat = vp_pos.part_with_feature( "BOARDABLE", true );
@@ -9922,11 +9924,11 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 return std::move( self );
             }
             break;
-        case state_grid:
+        }
+        case state_grid: {
             if( target == tripoint_zero ) {
                 return std::move( self );
             }
-            map &here = get_map();
             auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
             if( !grid_connector ) {
                 if( carrier->has_item( *self ) ) {
@@ -9936,6 +9938,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 return std::move( self );
             }
             break;
+        }
         case state_none:
         case state_self:
         default:
