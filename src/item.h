@@ -1215,8 +1215,8 @@ class item : public location_visitable<item>, public game_object<item>
         /*@}*/
 
         /**
-         * Gets the point (vehicle tile) the cable is connected to.
-         * Returns nothing if not connected to anything.
+         * Returns cable_state and tripoint target of map entity
+         * Returns tripoint_zero if no map entity target stored
          */
         std::pair<cable_state, tripoint> get_cable_point_info( std::string p_name ) const;
         /**

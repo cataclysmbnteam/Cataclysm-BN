@@ -9840,7 +9840,6 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
     return std::move( self );
 }
 
-//Returns cable-target and tripoint ONLY if target is map entity
 std::pair<cable_state, tripoint> item::get_cable_point_info( std::string p_name ) const
 {
     cable_state p = cable_state( get_var( p_name, 0.0 ) );
@@ -9914,7 +9913,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                     target = pos;
                 }
             }
-            auto veh = here.veh_at( pos );
+            auto veh = here.veh_at( target );
             if( !veh || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
                 if( carrier->has_item( *self ) ) {
                     carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
@@ -9929,7 +9928,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
             }
             map &here = get_map();
             auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
-            if( !grid_connector || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
+            if( !grid_connector ) {
                 if( carrier->has_item( *self ) ) {
                     carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 }
@@ -9944,7 +9943,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
             return std::move( self );
     }
 
-    int distance = rl_dist( target, target );
+    int distance = rl_dist( pos, target );
     int max_charges = self->type->maximum_charges();
     self->charges = max_charges - distance;
 
@@ -9958,7 +9957,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
     return std::move( self );
 }
 
-void item::reset_cable( Character *p )
+void item::reset_cable( Character *who )
 {
     int max_charges = type->maximum_charges();
     //erase legacy info
@@ -9974,9 +9973,9 @@ void item::reset_cable( Character *p )
     deactivate();
     charges = max_charges;
 
-    if( p != nullptr ) {
-        p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
-        p->mod_moves( -10 * charges );
+    if( who != nullptr ) {
+        who->add_msg_if_player( m_info, _( "You reel in the cable." ) );
+        who->mod_moves( -10 * charges );
     }
 }
 

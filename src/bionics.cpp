@@ -86,6 +86,7 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "active_tile_data_def.h"
+#include "distribution_grid.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -1439,7 +1440,13 @@ itype_id Character::find_remote_fuel( bool look_only )
                 default:
                     continue;
                 case state_grid:
-                    //TODO grid code
+                    auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
+                    if( !grid_connector ) {
+                        if( !look_only ) {
+                            set_value( "rem_battery", "let's break smth?" );
+                        }
+                        remote_fuel = fuel_type_battery;
+                    }
                     continue;
                 case state_solar_pack:
                     if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
@@ -1505,19 +1512,21 @@ int Character::consume_remote_fuel( int amount )
             if( vp ) {
                 unconsumed_amount = vp->vehicle().discharge_battery( amount );
             }
+        //Characher sucks energy from grid, but it totally should be reverse,
+        //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
         } else if( state1 == cable_state::state_grid ) {
-            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( here.getglobal( target1 ) );
+            auto pos = here.getglobal( target1 );
+            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( pos );
             if( grid_connector ) {
-                unconsumed_amount = 0;
-                //TODO connector code?
-                //unconsumed_amount = grid_connector->;
+                auto &grid = get_distribution_grid_tracker().grid_at( pos );
+                unconsumed_amount = grid.get_resource( -amount );
             }
         } else if( state2 == cable_state::state_grid ) {
-            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target2 ) );
+            auto pos = here.getglobal( target2 );
+            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( pos );
             if( grid_connector ) {
-                unconsumed_amount = 0;
-                //TODO connector code?
-                //unconsumed_amount = grid_connector->;
+                auto &grid = get_distribution_grid_tracker().grid_at( pos );
+                unconsumed_amount = grid.get_resource( -amount );
             }
         }
     }
