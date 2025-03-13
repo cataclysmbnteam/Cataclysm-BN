@@ -9907,7 +9907,15 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 return std::move( self );
             }
             map &here = get_map();
-            if( !here.veh_at( target ) || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
+            const auto vp_pos = here.veh_at( pos );
+            if( vp_pos ) {
+                const auto seat = vp_pos.part_with_feature( "BOARDABLE", true );
+                if( seat && carrier == seat->vehicle().get_passenger( seat->part_index() ) ) {
+                    target = pos;
+                }
+            }
+            auto veh = here.veh_at( pos );
+            if( !veh || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
                 if( carrier->has_item( *self ) ) {
                     carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 }
@@ -9936,7 +9944,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
             return std::move( self );
     }
 
-    int distance = rl_dist( pos, target );
+    int distance = rl_dist( target, target );
     int max_charges = self->type->maximum_charges();
     self->charges = max_charges - distance;
 

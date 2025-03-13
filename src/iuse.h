@@ -162,7 +162,6 @@ int ehandcuffs( player *, item *, bool, const tripoint & );
 int foodperson( player *, item *, bool, const tripoint & );
 int tow_attach( player *, item *, bool, const tripoint & );
 int cable_attach( player *, item *, bool, const tripoint & );
-int cable_attach2( player *, item *, bool, const tripoint & );
 int shavekit( player *, item *, bool, const tripoint & );
 int hairkit( player *, item *, bool, const tripoint & );
 int weather_tool( player *, item *, bool, const tripoint & );
