@@ -14,7 +14,7 @@
     "material": [ "wood", "leather" ],
     "symbol": ";",
     "color": "brown",
-    "flags": ["DESTROY_ON_DECHARGE" ]
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "large_tent_kit",
@@ -41,7 +41,7 @@
       "door_opened": "f_large_canvas_door_o",
       "door_closed": "f_large_canvas_door"
     },
-    "flags": ["DESTROY_ON_DECHARGE" ]
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "shelter_kit",
@@ -67,7 +67,7 @@
       "door_opened": "f_skin_door_o",
       "door_closed": "f_skin_door"
     },
-    "flags": ["DESTROY_ON_DECHARGE" ]
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "tent_kit",
@@ -93,6 +93,6 @@
       "door_opened": "f_canvas_door_o",
       "door_closed": "f_canvas_door"
     },
-    "flags": ["DESTROY_ON_DECHARGE" ]
+    "flags": [ "DESTROY_ON_DECHARGE" ]
   }
 ]
