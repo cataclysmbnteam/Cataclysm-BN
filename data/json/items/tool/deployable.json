@@ -326,7 +326,7 @@
     "material": "wood",
     "symbol": "*",
     "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE","DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "wind_mill",
@@ -343,7 +343,7 @@
     "material": "steel",
     "symbol": "T",
     "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE","DESTROY_ON_DECHARGE" ]
   },
   {
     "id": "chair_folding",
