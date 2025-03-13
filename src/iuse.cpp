@@ -8750,6 +8750,22 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+static auto confirm_source_vehicle( player *who, item *cable, std::string var_name,
+                                    const bool detach_if_missing )
+{
+    auto source_global = cable->get_var( var_name, tripoint_zero );
+    tripoint source_local = g->m.getlocal( source_global );
+    const optional_vpart_position source_vp = g->m.veh_at( source_local );
+    vehicle *const source_veh = veh_pointer_or_null( source_vp );
+    if( detach_if_missing && source_veh == nullptr ) {
+        if( who != nullptr && who->has_item( *cable ) ) {
+            who->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+        }
+        cable->reset_cable( who );
+    }
+    return std::make_pair( source_vp, source_veh );
+};
+
 static bool process_map_connection( Character *who, item *cable, cable_state state,
                                     std::string var_name )
 {
@@ -8887,21 +8903,6 @@ int iuse::cable_attach2( player *who, item *cable, bool, const tripoint & )
         set_cable_active( who, cable, p1_name, p1 );
         return 0;
     } else {
-        const auto confirm_source_vehicle = []( player * who, item * cable, std::string var_name,
-        const bool detach_if_missing ) {
-            auto source_global = cable->get_var( var_name, tripoint_zero );
-            tripoint source_local = g->m.getlocal( source_global );
-            const optional_vpart_position source_vp = g->m.veh_at( source_local );
-            vehicle *const source_veh = veh_pointer_or_null( source_vp );
-            if( detach_if_missing && source_veh == nullptr ) {
-                if( who != nullptr && who->has_item( *cable ) ) {
-                    who->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                }
-                cable->reset_cable( who );
-            }
-            return std::make_pair( source_vp, source_veh );
-        };
-
         p2 = cable_menu( who, p2, p1 );
         switch( p2 ) {
             case state_none:
