@@ -297,7 +297,7 @@ void turret_data::post_fire( player &p, int shots )
         mode->ammo_unset();
     }
 
-    veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
+    veh->drain_energy( fuel_type_battery, units::to_joule( mode->get_gun_ups_drain() * shots ) );
 }
 
 int turret_data::fire( player &p, const tripoint &target )
