@@ -1512,8 +1512,8 @@ int Character::consume_remote_fuel( int amount )
             if( vp ) {
                 unconsumed_amount = vp->vehicle().discharge_battery( amount );
             }
-        //Characher sucks energy from grid, but it totally should be reverse,
-        //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
+            //Characher sucks energy from grid, but it totally should be reverse,
+            //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
         } else if( state1 == cable_state::state_grid ) {
             auto pos = here.getglobal( target1 );
             auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( pos );
