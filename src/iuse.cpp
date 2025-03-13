@@ -352,8 +352,6 @@ static const mtype_id mon_wasp( "mon_wasp" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_shock( "bio_shock" );
 
-static const furn_id f_cable_connector( "f_cable_connector" );
-
 // terrain/furn flags
 static const std::string flag_CURRENT( "CURRENT" );
 static const std::string flag_DIGGABLE( "DIGGABLE" );
@@ -8506,18 +8504,19 @@ static bool process_map_connection( Character *who, item *cable, cable_state sta
     if( !posp_ ) {
         return false;
     }
+    map &here = get_map();
     const tripoint posp = *posp_;
 
-    if( state == cable_state::state_grid ) {
-        const optional_vpart_position vp = g->m.veh_at( posp );
+    if( state == state_vehicle ) {
+        const optional_vpart_position vp = here.veh_at( posp );
         if( !vp ) {
             who->add_msg_if_player( _( "There's no vehicle there." ) );
             return false;
         }
     }
-    if( state == cable_state::state_vehicle ) {
-        const auto grid = g->m.furn( posp );
-        if( grid != f_cable_connector ) {
+    if( state == state_grid ) {
+        auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( posp ) );
+        if( !grid_connector ) {
             who->add_msg_if_player( _( "There's no grid connector there." ) );
             return false;
         }
@@ -8536,35 +8535,35 @@ static cable_state cable_menu( Character *who, cable_state state,
     const bool has_ups = who->has_charges( itype_UPS_off, 1 ) ||
                          who->has_charges( itype_adv_UPS_off, 1 );
 
-    const bool allow_self = !state_old || state_old.value() != cable_state::state_self;
-    const bool allow_grid = !state_old || state_old.value() != cable_state::state_grid ||
-                            state_old.value() != cable_state::state_solar_pack;
-    const bool allow_vehicle = !state_old || state_old.value() != cable_state::state_solar_pack;
-    const bool allow_ups = !state_old || state_old.value() != cable_state::state_UPS ||
-                           state_old.value() != cable_state::state_solar_pack;
-    const bool allow_solar = allow_grid || state_old.value() != cable_state::state_vehicle;
+    const bool allow_self = !state_old || state_old.value() != state_self;
+    const bool allow_grid = !state_old || state_old.value() != state_grid ||
+                            state_old.value() != state_solar_pack;
+    const bool allow_vehicle = !state_old || state_old.value() != state_solar_pack;
+    const bool allow_ups = !state_old || state_old.value() != state_UPS ||
+                           state_old.value() != state_solar_pack;
+    const bool allow_solar = allow_grid || state_old.value() != state_vehicle;
 
     uilist kmenu;
     kmenu.text = _( "Using cable:" );
-    if( state != cable_state::state_none ) {
-        kmenu.addentry( cable_state::state_none, true, -1,
+    if( state != state_none ) {
+        kmenu.addentry( state_none, true, -1,
                         _( "Detach and re-spool the cable" ) );
     }
     if( has_bio_cable && allow_self ) {
-        kmenu.addentry( cable_state::state_self, true, -1,
+        kmenu.addentry( state_self, true, -1,
                         _( "Attach cable to self" ) );
     }
     if( allow_vehicle ) {
-        kmenu.addentry( cable_state::state_vehicle, true, -1, _( "Attach cable to vehicle" ) );
+        kmenu.addentry( state_vehicle, true, -1, _( "Attach cable to vehicle" ) );
     }
     if( allow_grid ) {
-        kmenu.addentry( cable_state::state_grid, true, -1, _( "Attach cable to grid" ) );
+        kmenu.addentry( state_grid, true, -1, _( "Attach cable to grid" ) );
     }
     if( has_ups && allow_ups ) {
-        kmenu.addentry( cable_state::state_UPS, true, -1, _( "Attach cable to ups" ) );
+        kmenu.addentry( state_UPS, true, -1, _( "Attach cable to ups" ) );
     }
     if( wearing_solar_pack && allow_solar ) {
-        kmenu.addentry( cable_state::state_solar_pack, has_solar_pack_on, -1,
+        kmenu.addentry( state_solar_pack, has_solar_pack_on, -1,
                         _( "Attach cable to solar pack" ) );
     }
 
@@ -8599,7 +8598,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
     };
 
 
-    if( p1 == cable_state::state_none ) {
+    if( p1 == state_none ) {
         switch( p1 = cable_menu( who, p1 ) ) {
             case state_self:
                 who->add_msg_if_player( m_info, _( "You attach the cable to your Cable Charger System." ) );
@@ -8699,11 +8698,11 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
         set_cable_active( who, cable, p2_name, p2 );
 
         //We've connected something to Character
-        if( p1 == cable_state::state_self || p2 == cable_state::state_self ) {
+        if( p1 == state_self || p2 == state_self ) {
             who->find_remote_fuel();
             return 0;
             //We've connected two vehicles
-        } else if( p1 == cable_state::state_vehicle && p2 == cable_state::state_vehicle ) {
+        } else if( p1 == state_vehicle && p2 == state_vehicle ) {
             const auto [v1_abs, vp1, v1] = confirm_source_vehicle( who, cable, "source" + p1_name, true );
             const auto [v2_abs, vp2, v2] = confirm_source_vehicle( who, cable, "source" + p2_name, true );
 
@@ -8734,7 +8733,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 }
             }
             //We've connected vehicle to grid
-        } else if( p1 == cable_state::state_vehicle || p2 == cable_state::state_vehicle ) {
+        } else if( p1 == state_vehicle || p2 == state_vehicle ) {
             auto [p1_global, vp1, v1] = confirm_source_vehicle( who, cable, "source" + p1_name, false );
             auto [p2_global, vp2, v2] = confirm_source_vehicle( who, cable, "source" + p2_name, false );
 

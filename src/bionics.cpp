@@ -1420,14 +1420,14 @@ itype_id Character::find_remote_fuel( bool look_only )
     for( const item *cable : cables ) {
         const auto [state1, target1] = cable->get_cable_point_info( p1_name );
         const auto [state2, target2] = cable->get_cable_point_info( p2_name );
-        if( state2 != cable_state::state_none &&
-            ( state1 == cable_state::state_self || state2 == cable_state::state_self ) ) {
+        if( state2 != state_none &&
+            ( state1 == state_self || state2 == state_self ) ) {
             cable_state state;
             tripoint target;
-            if( state1 != cable_state::state_self ) {
+            if( state1 != state_self ) {
                 state = state1;
                 target = target1;
-            } else if( state2 != cable_state::state_self ) {
+            } else if( state2 != state_self ) {
                 state = state2;
                 target = target2;
             } else {
@@ -1505,26 +1505,26 @@ int Character::consume_remote_fuel( int amount )
     for( const item *cable : cables ) {
         const auto [state1, target1] = cable->get_cable_point_info( p1_name );
         const auto [state2, target2] = cable->get_cable_point_info( p2_name );
-        if( state1 == cable_state::state_vehicle ) {
+        if( state1 == state_vehicle ) {
             const optional_vpart_position vp = here.veh_at( target1 );
             if( vp ) {
                 unconsumed_amount = vp->vehicle().discharge_battery( amount );
             }
-        } else if( state2 == cable_state::state_vehicle ) {
+        } else if( state2 == state_vehicle ) {
             const optional_vpart_position vp = here.veh_at( target2 );
             if( vp ) {
                 unconsumed_amount = vp->vehicle().discharge_battery( amount );
             }
             //Characher sucks energy from grid, but it totally should be reverse,
             //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
-        } else if( state1 == cable_state::state_grid ) {
+        } else if( state1 == state_grid ) {
             auto pos = here.getglobal( target1 );
             auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( pos );
             if( grid_connector ) {
                 auto &grid = get_distribution_grid_tracker().grid_at( pos );
                 unconsumed_amount = grid.get_resource( -amount );
             }
-        } else if( state2 == cable_state::state_grid ) {
+        } else if( state2 == state_grid ) {
             auto pos = here.getglobal( target2 );
             auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( pos );
             if( grid_connector ) {
