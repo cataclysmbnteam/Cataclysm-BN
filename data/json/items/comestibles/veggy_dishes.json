@@ -1065,6 +1065,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 300,
+    "charges": 4,
     "material": [ "veggy" ],
     "fun": 5,
     "looks_like": "veggy_cooked",
