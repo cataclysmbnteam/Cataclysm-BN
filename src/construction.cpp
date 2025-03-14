@@ -62,8 +62,8 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
+#include "activity_actor_definitions.h"
 
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
@@ -1085,26 +1085,27 @@ void place_construction( const construction_group_str_id &group )
     for( const auto &it : con.requirements->get_tools() ) {
         g->u.consume_tools( it );
     }
-    g->u.assign_activity( ACT_BUILD );
-    g->u.activity->placement = here.getabs( pnt );
+    g->u.assign_activity( std::make_unique<player_activity>
+                          ( std::make_unique<construction_activity_actor>
+                            ( here.getglobal( pnt ) ) ) );
 }
 
-void complete_construction( Character &ch )
+void complete_construction( Character &who, tripoint_abs_ms &where )
 {
     if( !all_constructions.is_finalized() ) {
         debugmsg( "complete_construction called before finalization" );
         return;
     }
     map &here = get_map();
-    const tripoint terp = here.getlocal( ch.activity->placement );
-    partial_con *pc = here.partial_con_at( terp );
+    auto local = here.getlocal( where );
+    partial_con *pc = here.partial_con_at( local );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
-            here.remove_trap( terp );
+        if( here.tr_at( local ).loadid == tr_unfinished_construction ) {
+            here.remove_trap( local );
         }
-        if( ch.is_npc() ) {
-            npc *guy = ch.as_npc();
+        if( who.is_npc() ) {
+            npc *guy = who.as_npc();
             guy->current_activity_id = activity_id::NULL_ID();
             guy->revert_after_activity();
             guy->set_moves( 0 );
@@ -1122,11 +1123,11 @@ void complete_construction( Character &ch )
         }
     };
 
-    award_xp( *ch.as_player() );
+    award_xp( *who.as_player() );
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
-    if( ch.is_avatar() ) {
-        for( auto &elem : character_funcs::get_crafting_helpers( ch ) ) {
+    if( who.is_avatar() ) {
+        for( auto &elem : character_funcs::get_crafting_helpers( who ) ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
             } else {
@@ -1137,22 +1138,22 @@ void complete_construction( Character &ch )
             award_xp( *elem );
         }
     }
-    if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
-        here.remove_trap( terp );
+    if( here.tr_at( local ).loadid == tr_unfinished_construction ) {
+        here.remove_trap( local );
     }
-    here.partial_con_remove( terp );
+    here.partial_con_remove( local );
     // Some constructions are allowed to have items left on the tile.
     if( !built.post_flags.contains( "keep_items" ) ) {
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
-        for( const tripoint &pt : here.points_in_radius( terp, 1 ) ) {
-            if( here.can_put_items( pt ) && pt != terp ) {
+        for( const tripoint &pt : here.points_in_radius( local, 1 ) ) {
+            if( here.can_put_items( pt ) && pt != local ) {
                 dump_spots.push_back( pt );
             }
         }
         if( !dump_spots.empty() ) {
             tripoint dump_spot = random_entry( dump_spots );
-            map_stack items = here.i_at( terp );
+            map_stack items = here.i_at( local );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
                 detached_ptr<item> dumped;
                 it = items.erase( it, &dumped );
@@ -1165,17 +1166,16 @@ void complete_construction( Character &ch )
     // Make the terrain change
     if( !built.post_terrain.is_empty() ) {
         const ter_id new_ter = built.post_terrain;
-        here.ter_set( terp, new_ter );
-        const tripoint above = terp + tripoint_above;
+        here.ter_set( local, new_ter );
+        const tripoint above = local + tripoint_above;
         // TODO: What to do if tile above has no floor, but isn't open air?
         if( new_ter->roof && here.ter( above ) == t_open_air ) {
             here.ter_set( above, new_ter->roof );
         }
     }
     if( !built.post_furniture.is_empty() ) {
-        here.furn_set( terp, built.post_furniture );
-        active_tile_data *active = active_tiles::furn_at<active_tile_data>(
-                                       tripoint_abs_ms( here.getabs( terp ) ) );
+        here.furn_set( local, built.post_furniture );
+        active_tile_data *active = active_tiles::furn_at<active_tile_data>( where );
         if( active != nullptr ) {
             active->set_last_updated( calendar::turn );
         }
@@ -1185,21 +1185,21 @@ void complete_construction( Character &ch )
     if( built.byproduct_item_group ) {
         std::vector<detached_ptr<item>> items_list = item_group::items_from( built.byproduct_item_group,
                                      calendar::turn );
-        here.spawn_items( ch.pos(), std::move( items_list ) );
+        here.spawn_items( who.pos(), std::move( items_list ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), ch.disp_name(), built.group->name() );
+    add_msg( m_info, _( "%s finished construction: %s." ), who.disp_name(), built.group->name() );
     // clear the activity
-    ch.activity->set_to_null();
+    who.activity->set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built.post_special( terp );
+    built.post_special( local );
     // npcs will automatically resume backlog, players wont.
-    if( ch.is_avatar() && !ch.backlog.empty() &&
-        ch.backlog.front()->id() == ACT_MULTIPLE_CONSTRUCTION ) {
-        ch.backlog.clear();
-        ch.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    if( who.is_avatar() && !who.backlog.empty() &&
+        who.backlog.front()->id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        who.backlog.clear();
+        who.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
 }
 
@@ -1414,6 +1414,7 @@ void construct::done_vehicle( const tripoint &p )
 void construct::done_deconstruct( const tripoint &p )
 {
     map &here = get_map();
+    std::vector<detached_ptr<item>> items_list;
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
         const furn_t &f = here.furn( p ).obj();
@@ -1430,9 +1431,8 @@ void construct::done_deconstruct( const tripoint &p )
             here.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
-        std::vector<detached_ptr<item>> items_list = item_group::items_from( f.deconstruct.drop_group,
-                                     calendar::turn );
-        here.spawn_items( p, std::move( items_list ) );
+        items_list = item_group::items_from( f.deconstruct.drop_group,
+                                             calendar::turn );
         // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -1454,10 +1454,31 @@ void construct::done_deconstruct( const tripoint &p )
             done_deconstruct( top );
         }
         here.ter_set( p, t.deconstruct.ter_set );
+        // Interpret a result of t_null as underlying terrain if any instead of placing nothinginess
+        if( here.ter( p ) == t_null ) {
+            tripoint below( p.xy(), p.z - 1 );
+            here.ter_set( p, here.get_roof( below, true ) );
+        }
         add_msg( _( "The %s is disassembled." ), t.name() );
-        std::vector<detached_ptr<item>> items_list = item_group::items_from( t.deconstruct.drop_group,
-                                     calendar::turn );
+        items_list = item_group::items_from( t.deconstruct.drop_group,
+                                             calendar::turn );
+    }
+    // Don't dump items down a hole if we created one
+    if( here.can_put_items( p ) && here.ter( p ) != t_open_air ) {
         here.spawn_items( p, std::move( items_list ) );
+    } else {
+        std::vector<tripoint> dump_spots;
+        for( const tripoint &pt : here.points_in_radius( p, 1 ) ) {
+            if( here.can_put_items( pt ) && here.ter( pt ) != t_open_air ) {
+                dump_spots.push_back( pt );
+            }
+        }
+        if( !dump_spots.empty() ) {
+            tripoint dump_spot = random_entry( dump_spots );
+            here.spawn_items( dump_spot, std::move( items_list ) );
+        } else {
+            debugmsg( "No space to displace items from construction finishing" );
+        }
     }
 }
 
@@ -1832,13 +1853,6 @@ void construction::finalize()
 
     requirement_data::save_requirement( requirements_, requirements );
     reqs_using.clear();
-}
-
-int construction::print_time( const catacurses::window &w, point p, int width,
-                              nc_color col ) const
-{
-    std::string text = get_time_string();
-    return fold_and_print( w, p, width, col, text );
 }
 
 float construction::time_scale() const
