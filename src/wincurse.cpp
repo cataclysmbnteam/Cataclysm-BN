@@ -745,7 +745,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 }
 
 std::optional<point> input_context::get_coordinates_text( const catacurses::window
-    & capture_win ) const
+        & capture_win ) const
 {
     // TODO: implement this properly
     return std::nullopt;
