@@ -1774,6 +1774,8 @@ static item *autodoc_internal( player &u, player &patient,
             hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
         } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
+        } else if( patient.has_trait( trait_DEBUG_BIONICS ) ) {
+            hint = _( "<color_yellow>Bug-hunters don't need anesthetics to withstand pain.</color>" );
         } else {
             const inventory &crafting_inv = u.crafting_inventory();
             std::vector<item *> a_filter = crafting_inv.items_with( []( const item & it ) {
@@ -1874,7 +1876,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "CBM not compatible with patient" );
             } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
                 return _( "Max power capacity already reached" );
-            } else if( !p.has_enough_anesth( itemtype, pa ) ) {
+            } else if( !has_enough_anesthesia( itemtype, p, pa ) ) {
                 const int weight = 7;
                 const int duration = loc->type->bionic->difficulty * 2;
                 return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
@@ -1923,7 +1925,9 @@ class bionic_install_preset: public inventory_selector_preset
         }
 
         std::string get_anesth_amount( const item *loc ) {
-
+            if( !cbm_needs_anesthesia( pa ) ) {
+                return std::string( "-" );
+            }
             const int weight = 7;
             const int duration = loc->type->bionic->difficulty * 2;
             return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
@@ -2053,7 +2057,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
         std::string get_denial( const item *loc ) const override {
             const itype *itemtype = loc->type;
 
-            if( !p.has_enough_anesth( itemtype, pa ) ) {
+            if( !has_enough_anesthesia( itemtype, p, pa ) ) {
                 const int weight = 7;
                 const int duration = loc->type->bionic->difficulty * 2;
                 return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
@@ -2097,6 +2101,9 @@ class bionic_uninstall_preset : public inventory_selector_preset
         }
 
         std::string get_anesth_amount( const item *loc ) {
+            if( !cbm_needs_anesthesia( pa ) ) {
+                return std::string( "-" );
+            }
             const int weight = 7;
             const int duration = loc->type->bionic->difficulty * 2;
             return string_format( _( "%i mL" ), anesthetic_requirement( duration * weight ) );
