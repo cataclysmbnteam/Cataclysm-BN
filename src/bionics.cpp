@@ -1464,7 +1464,7 @@ itype_id Character::find_remote_fuel( bool look_only )
 
     for( item *cable : cables ) {
         auto data = cable_connection_data::make_data( cable );
-        if( !data || data->empty() || !data->character_connected() ) {
+        if( !data || !data->character_connected() ) {
             continue;
         }
 
@@ -1485,11 +1485,10 @@ itype_id Character::find_remote_fuel( bool look_only )
                 default:
                     continue;
                 case state_grid: {
-                    auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal(
-                                               nonchar.point.value() ) );
+                    auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( nonchar.point.value() );
                     if( grid_connector ) {
                         if( !look_only ) {
-                            auto &grid = get_distribution_grid_tracker().grid_at( here.getglobal( nonchar.point.value() ) );
+                            auto &grid = get_distribution_grid_tracker().grid_at( nonchar.point.value() );
                             set_value( "rem_battery", std::to_string( grid.get_resource() ) );
                         }
                         remote_fuel = fuel_type_battery;
@@ -1541,8 +1540,6 @@ itype_id Character::find_remote_fuel( bool look_only )
 
 int Character::consume_remote_fuel( int amount )
 {
-    const std::string p1_name( "p1" );
-    const std::string p2_name( "p2" );
     int unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
         return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
@@ -1550,31 +1547,29 @@ int Character::consume_remote_fuel( int amount )
 
     map &here = get_map();
     for( const item *cable : cables ) {
+        auto data = cable_connection_data::make_data( cable );
+        if( !data || !data->character_connected() ) {
+            continue;
+        }
 
-        if( state1 == state_vehicle ) {
-            const optional_vpart_position vp = here.veh_at( target1 );
+        auto nonchar = *data->non_character;
+        if( !nonchar.point.has_value() ) {
+            debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+            continue;
+        }
+
+        if( nonchar.state == state_vehicle ) {
+            const optional_vpart_position vp = here.veh_at( nonchar.point.value() );
             if( vp ) {
                 unconsumed_amount = vp->vehicle().discharge_battery( amount );
             }
-        } else if( state2 == state_vehicle ) {
-            const optional_vpart_position vp = here.veh_at( target2 );
-            if( vp ) {
-                unconsumed_amount = vp->vehicle().discharge_battery( amount );
-            }
-            //Characher sucks energy from grid, but it totally should be reverse,
-            //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
-        } else if( state1 == state_grid ) {
-            auto pos = here.getglobal( target1 );
-            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( pos );
+        }
+        //Characher sucks energy from grid, but it totally should be reverse,
+        //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
+        else if( nonchar.state  == state_grid ) {
+            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( nonchar.point.value() );
             if( grid_connector ) {
-                auto &grid = get_distribution_grid_tracker().grid_at( pos );
-                unconsumed_amount = grid.mod_resource( -amount );
-            }
-        } else if( state2 == state_grid ) {
-            auto pos = here.getglobal( target2 );
-            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( pos );
-            if( grid_connector ) {
-                auto &grid = get_distribution_grid_tracker().grid_at( pos );
+                auto &grid = get_distribution_grid_tracker().grid_at( nonchar.point.value() );
                 unconsumed_amount = grid.mod_resource( -amount );
             }
         }

@@ -8497,7 +8497,7 @@ static auto confirm_source_vehicle( player *who, item *cable, std::string var_na
     return std::make_tuple( source_global, source_vp, source_veh );
 };
 
-static std::optional<tripoint> process_map_connection( Character *who, item *cable,
+static std::optional<tripoint_abs_ms> process_map_connection( Character *who, item *cable,
         cable_state state )
 {
     const std::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable where?" ) );
@@ -8505,7 +8505,7 @@ static std::optional<tripoint> process_map_connection( Character *who, item *cab
         return std::nullopt;
     }
     map &here = get_map();
-    const tripoint posp = *posp_;
+    const auto posp = here.getglobal( *posp_ );
 
     if( state == state_vehicle ) {
         const optional_vpart_position vp = here.veh_at( posp );
@@ -8515,7 +8515,7 @@ static std::optional<tripoint> process_map_connection( Character *who, item *cab
         }
     }
     if( state == state_grid ) {
-        auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( posp ) );
+        auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( posp );
         if( !grid_connector ) {
             who->add_msg_if_player( _( "There's no grid connector there." ) );
             return std::nullopt;
@@ -8635,7 +8635,6 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
     }
     //One ends connected
     else if( data->con2.empty() ) {
-        auto p1_source = cable->get_var( source_p1_name, tripoint_zero );
         data->con2.state = cable_menu( who, data->con2.state, data->con1.state );
         switch( data->con2.state ) {
             case state_none:
@@ -8672,13 +8671,17 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 };
                 break;
             case state_grid: {
+                if( data->con1.state == state_grid ) {
+                    who->add_msg_if_player( m_info,
+                                            _( "There is no point in connecting two networks with a cable, but the idea about ​​a voltmeter flashed through your head." ) );
+                    return 0;
+                }
                 data->con2.point = process_map_connection( who, cable, data->con2.state );
                 if( !data->con2.point ) {
                     return 0;
                 }
-                if( data->con2.point == p1_source ) {
-                    who->add_msg_if_player( m_info,
-                                            _( "There is no reason to attach cable to the same connector twice." ) );
+                if( data->con2.point == data->con1.point ) {
+                    who->add_msg_if_player( m_info, _( "That would be unwise to short-circuit this grid connector." ) );
                     return 0;
                 }
                 break;

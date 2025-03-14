@@ -9851,7 +9851,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
         return std::move( self );
     }
     auto data = cable_connection_data::make_data( self.ptr );
-    if( !data || data->empty() || !data->character_connected() ) {
+    if( !data || !data->character_connected() ) {
         return std::move( self );
     }
 
@@ -9915,8 +9915,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 if( nonchar.point ) {
                     return std::move( self );
                 }
-                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal(
-                                           nonchar.point.value() ) );
+                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( nonchar.point.value() );
                 if( !grid_connector ) {
                     if( carrier->has_item( *self ) ) {
                         carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
@@ -9933,7 +9932,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 self->reset_cable( carrier );
                 return std::move( self );
         }
-        distance = rl_dist( pos, nonchar.point.value() );
+        distance = rl_dist( pos, here.getlocal( nonchar.point.value() ) );
     }
     // Only Character is connected
     //else if( data->character_connected() ) {

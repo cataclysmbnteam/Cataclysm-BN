@@ -32,6 +32,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+#include "coordinates.h"
 
 class Character;
 class JsonIn;
@@ -2499,7 +2500,7 @@ void reset();
 struct cable_connection_data {
     struct connection {
         cable_state state = state_none;
-        std::optional<tripoint> point;
+        std::optional<tripoint_abs_ms> point = std::nullopt;
 
         bool is_character() const {
             return state == state_self;
@@ -2511,8 +2512,8 @@ struct cable_connection_data {
     };
 
     connection *non_character = nullptr;
-    connection con1;
-    connection con2;
+    connection con1{};
+    connection con2{};
 
     bool empty() const {
         return con1.empty();
@@ -2529,14 +2530,14 @@ struct cable_connection_data {
     void set_vars( item *cable ) const {
         if( !con1.empty() ) {
             cable->set_var( p1_name, con1.state );
-            if( con1.point ) {
-                cable->set_var( source_p1_name, con1.point.value() );
+            if( con1.point.has_value() ) {
+                cable->set_var( source_p1_name, con1.point.value().raw() );
             }
         }
         if( !con2.empty() ) {
             cable->set_var( p2_name, con2.state );
-            if( con2.point ) {
-                cable->set_var( source_p2_name, con2.point.value() );
+            if( con2.point.has_value() ) {
+                cable->set_var( source_p2_name, con2.point.value().raw() );
             }
         }
     }
@@ -2558,12 +2559,12 @@ struct cable_connection_data {
 
         auto tmp = cable.get_var( source_p1_name, tripoint_zero );
         con1.point = tmp != tripoint_zero
-                     ? std::make_optional( tmp )
+                     ? std::make_optional( tripoint_abs_ms( tmp ) )
                      : std::nullopt;
 
         tmp = cable.get_var( source_p2_name, tripoint_zero );
         con2.point = tmp != tripoint_zero
-                     ? std::make_optional( tmp )
+                     ? std::make_optional( tripoint_abs_ms( tmp ) )
                      : std::nullopt;
 
         if( con1.is_character() ) {
