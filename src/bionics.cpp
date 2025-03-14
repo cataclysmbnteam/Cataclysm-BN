@@ -1034,47 +1034,92 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
+            const std::string p1_name( "p1" );
+            const std::string p2_name( "p2" );
             for( item *cable : cables ) {
-                const std::string state = cable->get_var( "state" );
-                if( state == "cable_charger" ) {
-                    add_msg_if_player( m_info,
-                                       _( "Cable is plugged-in to the CBM but it has to be also connected to the power source." ) );
-                }
-                if( state == "cable_charger_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
-                }
-                if( state == "solar_pack_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
-                }
-                if( state == "UPS_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
-                }
-                if( state == "solar_pack" || state == "UPS" ) {
-                    add_msg_if_player( m_info,
-                                       _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
-                }
-                if( state == "pay_out_cable" ) {
-                    add_msg_if_player( m_info,
-                                       _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
-                }
-                if( state == "attach_first" ) {
-                    free_cable = true;
-                }
-            }
+                const auto [state1, target1] = cable->get_cable_point_info( p1_name );
+                const auto [state2, target2] = cable->get_cable_point_info( p2_name );
 
-            if( free_cable ) {
-                add_msg_if_player( m_info,
-                                   _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
+                switch( state2 ) {
+                    case state_none:
+                        switch( state1 ) {
+                            case state_solar_pack:
+                            case state_UPS:
+                                add_msg_if_player( m_info,
+                                                   _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
+                                break;
+                            case state_vehicle:
+                                add_msg_if_player( m_info,
+                                                   _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
+                                break;
+                            case state_grid:
+                                add_msg_if_player( m_info,
+                                                   _( "You have a cable plugged to a grid, but you need to plug it in to the CBM." ) );
+                                break;
+                            case state_self:
+                                add_msg_if_player( m_info,
+                                                   _( "Cable is plugged-in to the CBM but it has to be also connected to the power source." ) );
+                                break;
+                            case state_none:
+                                free_cable = true;
+                                break;
+                            default:
+                                break;
+                        }
+                        continue;
+                    case state_self:
+                        switch( state1 ) {
+                            case state_grid:
+                                add_msg_if_player( m_info,
+                                                   _( "You are plugged to the grid.  It will charge you if it has some juice in it." ) );
+                                break;
+                            case state_solar_pack:
+                                add_msg_if_player( m_info,
+                                                   _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
+                                break;
+                            case state_UPS:
+                                add_msg_if_player( m_info,
+                                                   _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
+                                break;
+                            case state_vehicle:
+                                add_msg_if_player( m_info,
+                                                   _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
+                                break;
+                            case state_self:
+                            case state_none:
+                            default:
+                                debugmsg( "Unexpected cable state %s", state1 );
+                                continue;
+                        }
+                        break;
+                    case state_grid:
+                        add_msg_if_player( m_info,
+                                           _( "You are plugged to the grid.  It will charge you if it has some juice in it." ) );
+                        break;
+                    case state_solar_pack:
+                        add_msg_if_player( m_info,
+                                           _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
+                        break;
+                    case state_UPS:
+                        add_msg_if_player( m_info,
+                                           _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
+                        break;
+                    case state_vehicle:
+                        add_msg_if_player( m_info,
+                                           _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
+                        break;
+                    default:
+                        debugmsg( "Unexpected cable state %s", state2 );
+                        continue;
+                }
+                add_msg_activate();
+                success = true;
             }
+        }
+
+        if( free_cable ) {
+            add_msg_if_player( m_info,
+                               _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
         }
         if( !success ) {
             refund_power();
@@ -1441,9 +1486,10 @@ itype_id Character::find_remote_fuel( bool look_only )
                     continue;
                 case state_grid: {
                     auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
-                    if( !grid_connector ) {
+                    if( grid_connector ) {
                         if( !look_only ) {
-                            set_value( "rem_battery", "let's break smth?" );
+                            auto &grid = get_distribution_grid_tracker().grid_at( here.getglobal( target ) );
+                            set_value( "rem_battery", std::to_string( grid.get_resource() ) );
                         }
                         remote_fuel = fuel_type_battery;
                     }
@@ -1522,14 +1568,14 @@ int Character::consume_remote_fuel( int amount )
             auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( pos );
             if( grid_connector ) {
                 auto &grid = get_distribution_grid_tracker().grid_at( pos );
-                unconsumed_amount = grid.get_resource( -amount );
+                unconsumed_amount = grid.mod_resource( -amount );
             }
         } else if( state2 == state_grid ) {
             auto pos = here.getglobal( target2 );
             auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( pos );
             if( grid_connector ) {
                 auto &grid = get_distribution_grid_tracker().grid_at( pos );
-                unconsumed_amount = grid.get_resource( -amount );
+                unconsumed_amount = grid.mod_resource( -amount );
             }
         }
     }
