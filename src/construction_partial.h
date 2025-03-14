@@ -11,6 +11,7 @@
 struct partial_con {
     partial_con( tripoint loc ) : components( new partial_con_item_location( loc ) ) {};
     int counter = 0;
+    int ter_or_furn_idx = 0;
     location_vector<item> components;
     construction_id id = construction_id( -1 );
 };

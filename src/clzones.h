@@ -153,6 +153,7 @@ class blueprint_options : public zone_options, public mark_option
         std::string mark;
         construction_group_str_id group = construction_group_str_id::NULL_ID();
         construction_id index;
+        int ter_or_furn_idx;
 
         enum query_con_result {
             canceled,
@@ -169,7 +170,9 @@ class blueprint_options : public zone_options, public mark_option
         construction_id get_index() const {
             return index;
         }
-
+        int get_selected_ter_or_furn() const {
+            return ter_or_furn_idx;
+        }
         bool has_options() const override {
             return true;
         }
