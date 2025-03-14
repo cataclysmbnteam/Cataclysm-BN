@@ -4,8 +4,13 @@
 
 #include "activity_actor.h"
 
+#include <optional>
+
 #include "coordinates.h"
+#include "crafting.h"
 #include "item_handling_util.h"
+#include "location_ptr.h"
+#include "locations.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
 #include "location_ptr.h"
@@ -236,16 +241,19 @@ class disassemble_activity_actor : public activity_actor
         activity_id get_type() const override {
             return activity_id( "ACT_DISASSEMBLE" );
         }
-
+        void recalc_all_moves( player_activity &act, Character &who ) override;
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
+
+        float calc_bench_factor( const Character &who,
+                                 const std::optional<bench_loc> &bench ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
         bool try_start_single( player_activity &act, Character &who );
-        void process_target( player_activity &act, iuse_location target );
+        void process_target( player_activity &, iuse_location &target );
 };
 
 class drop_activity_actor : public activity_actor
@@ -636,12 +644,35 @@ class construction_activity_actor : public activity_actor
             return activity_id( "ACT_BUILD" );
         }
 
+        void recalc_all_moves( player_activity &act, Character &who ) override;
+
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class assist_activity_actor : public activity_actor
+{
+    public:
+        explicit assist_activity_actor() {
+        };
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_ASSIST" );
+        }
+
+        void recalc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void finish( player_activity &/*act*/, Character &/*who*/ ) override {};
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

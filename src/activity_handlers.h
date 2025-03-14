@@ -3,7 +3,6 @@
 #define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <string>
@@ -120,8 +119,7 @@ struct butchery_setup {
 };
 
 butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action );
-int butcher_time_to_cut( const Character &who, const inventory &inv, const item &corpse_item,
-                         butcher_type action );
+int butcher_time_to_cut( const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
