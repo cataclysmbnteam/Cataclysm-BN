@@ -9842,10 +9842,11 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
 
 std::pair<cable_state, tripoint> item::get_cable_point_info( std::string p_name ) const
 {
+    map &here = get_map();
     cable_state p = cable_state( get_var( p_name, 0.0 ) );
-    auto p_source = get_var( "source" + p_name, tripoint_zero );
+    auto p_source = get_var( "source_" + p_name, tripoint_zero );
 
-    return std::make_pair( p, p_source );
+    return std::make_pair( p, here.getlocal( p_source ) );
 }
 
 detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carrier,
@@ -9859,93 +9860,95 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
         return std::move( self );
     }
     const std::string p1_name( "p1" );
-    const std::string p2_name( "p2" );
-    const auto [state1, target1] = self->get_cable_point_info( p1_name );
-    const auto [state2, target2] = self->get_cable_point_info( p2_name );
+    auto [state, target] = self->get_cable_point_info( p1_name );
 
-    cable_state state;
-    tripoint target;
 
-    if( ( state1 == state_none || state2 == state_none ) &&
-        ( state1 != state_self || state2 != state_self ) ) {
+    if( state == state_none ) {
         return std::move( self );
     }
 
-    if( state1 != state_self ) {
-        state = state1;
-        target = target1;
-    } else if( state2 != state_self ) {
-        state = state2;
-        target = target2;
-    } else {
-        debugmsg( "How the fuck!?" );
-    }
+    const std::string p2_name( "p2" );
+    const auto [state2, target2] = self->get_cable_point_info( p2_name );
 
-    map &here = get_map();
 
-    switch( state ) {
-        case state_solar_pack:
-            if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-                carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                self->reset_cable( carrier );
-            }
-            return std::move( self );
-        case state_UPS: {
-            static const item_filter used_ups = [&]( const item & itm ) {
-                return itm.get_var( "cable" ) == "plugged_in";
-            };
-
-            if( !carrier->has_item( *self ) || !carrier->has_item_with( used_ups ) ) {
-                carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                for( item *used : carrier->items_with( used_ups ) ) {
-                    used->erase_var( "cable" );
-                }
-                self->reset_cable( carrier );
-            }
-            return std::move( self );
-        }
-        case state_vehicle: {
-            if( target == tripoint_zero ) {
-                return std::move( self );
-            }
-            const auto vp_pos = here.veh_at( pos );
-            if( vp_pos ) {
-                const auto seat = vp_pos.part_with_feature( "BOARDABLE", true );
-                if( seat && carrier == seat->vehicle().get_passenger( seat->part_index() ) ) {
-                    target = pos;
-                }
-            }
-            auto veh = here.veh_at( target );
-            if( !veh || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
-                if( carrier->has_item( *self ) ) {
-                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                }
-                self->reset_cable( carrier );
-                return std::move( self );
-            }
-            break;
-        }
-        case state_grid: {
-            if( target == tripoint_zero ) {
-                return std::move( self );
-            }
-            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
-            if( !grid_connector ) {
-                if( carrier->has_item( *self ) ) {
-                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                }
-                self->reset_cable( carrier );
-                return std::move( self );
-            }
-            break;
-        }
-        case state_none:
-        case state_self:
-        default:
+    if( state2 != state_none ) {
+        if( state2 != state_self ) {
+            state = state2;
+            target = target2;
+        } else {
             debugmsg( "How the fuck!?" );
+            self->reset_cable( carrier );
             return std::move( self );
-    }
+        }
 
+        map &here = get_map();
+
+        switch( state ) {
+            case state_solar_pack:
+                if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    self->reset_cable( carrier );
+                }
+                return std::move( self );
+            case state_UPS: {
+                static const item_filter used_ups = [&]( const item & itm ) {
+                    return itm.get_var( "cable" ) == "plugged_in";
+                };
+
+                if( !carrier->has_item( *self ) || !carrier->has_item_with( used_ups ) ) {
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    for( item *used : carrier->items_with( used_ups ) ) {
+                        used->erase_var( "cable" );
+                    }
+                    self->reset_cable( carrier );
+                }
+                return std::move( self );
+            }
+            case state_vehicle: {
+                if( target == tripoint_zero ) {
+                    return std::move( self );
+                }
+                const auto vp_pos = here.veh_at( pos );
+                if( vp_pos ) {
+                    const auto seat = vp_pos.part_with_feature( "BOARDABLE", true );
+                    if( seat && carrier == seat->vehicle().get_passenger( seat->part_index() ) ) {
+                        target = pos;
+                    }
+                }
+                auto veh = here.veh_at( target );
+                if( !veh || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
+                    if( carrier->has_item( *self ) ) {
+                        carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    }
+                    self->reset_cable( carrier );
+                    return std::move( self );
+                }
+                break;
+            }
+            case state_grid: {
+                if( target == tripoint_zero ) {
+                    return std::move( self );
+                }
+                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
+                if( !grid_connector ) {
+                    if( carrier->has_item( *self ) ) {
+                        carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    }
+                    self->reset_cable( carrier );
+                    return std::move( self );
+                }
+                break;
+            }
+            case state_none:
+            case state_self:
+            default:
+                debugmsg( "How the fuck!?" );
+                self->reset_cable( carrier );
+                return std::move( self );
+        }
+    } else if( state == state_self ) {
+        target = pos;
+    }
     int distance = rl_dist( pos, target );
     int max_charges = self->type->maximum_charges();
     self->charges = max_charges - distance;

@@ -8497,12 +8497,13 @@ static auto confirm_source_vehicle( player *who, item *cable, std::string var_na
     return std::make_tuple( source_global, source_vp, source_veh );
 };
 
-static bool process_map_connection( Character *who, item *cable, cable_state state,
-                                    std::string var_name )
+static std::optional<tripoint> process_map_connection( Character *who, item *cable,
+        cable_state state,
+        std::string var_name )
 {
     const std::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable where?" ) );
     if( !posp_ ) {
-        return false;
+        return std::nullopt;
     }
     map &here = get_map();
     const tripoint posp = *posp_;
@@ -8511,18 +8512,18 @@ static bool process_map_connection( Character *who, item *cable, cable_state sta
         const optional_vpart_position vp = here.veh_at( posp );
         if( !vp ) {
             who->add_msg_if_player( _( "There's no vehicle there." ) );
-            return false;
+            return std::nullopt;
         }
     }
     if( state == state_grid ) {
         auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( posp ) );
         if( !grid_connector ) {
             who->add_msg_if_player( _( "There's no grid connector there." ) );
-            return false;
+            return std::nullopt;
         }
     }
     cable->set_var( var_name, g->m.getabs( posp ) );
-    return true;
+    return posp;
 }
 
 static cable_state cable_menu( Character *who, cable_state state,
@@ -8584,6 +8585,9 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
     const std::string p1_name( "p1" );
     const std::string p2_name( "p2" );
 
+    const std::string source_p1_name( "source_" + p1_name );
+    const std::string source_p2_name( "source_" + p2_name );
+
     cable_state p1 = cable_state( cable->get_var( p1_name, 0.0 ) );
     cable_state p2 = cable_state( cable->get_var( p2_name, 0.0 ) );
 
@@ -8604,7 +8608,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 who->add_msg_if_player( m_info, _( "You attach the cable to your Cable Charger System." ) );
                 break;
             case state_grid:
-                if( !process_map_connection( who, cable, p1, "source_" + p1_name ) ) {
+                if( !process_map_connection( who, cable, p1, source_p1_name ) ) {
                     return 0;
                 }
                 break;
@@ -8624,7 +8628,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 who->add_msg_if_player( m_info, _( "You attach the cable to the UPS." ) );
                 break;
             case state_vehicle:
-                if( !process_map_connection( who, cable, p1, "source_" + p1_name ) ) {
+                if( !process_map_connection( who, cable, p1, source_p1_name ) ) {
                     return 0;
                 }
                 break;
@@ -8633,12 +8637,11 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
         }
         //Setting p1 always returns zero
         set_cable_active( who, cable, p1_name, p1 );
-        return 0;
-    } else {
+    } else if( p2 == state_none ) {
+        auto p1_source = cable->get_var( source_p1_name, tripoint_zero );
         p2 = cable_menu( who, p2, p1 );
         switch( p2 ) {
             case state_none:
-                who->reset_remote_fuel();
                 cable->reset_cable( who );
                 return 0;
             case state_self:
@@ -8654,7 +8657,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                         who->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
                         break;
                     case state_vehicle: {
-                        const auto [_, __, veh] = confirm_source_vehicle( who, cable, "source" + p1_name, true );
+                        const auto [_, __, veh] = confirm_source_vehicle( who, cable, source_p1_name, true );
                         if( veh ) {
                             who->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
                         } else {
@@ -8668,7 +8671,8 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 };
                 break;
             case state_grid:
-                if( !process_map_connection( who, cable, p2, "source_" + p2_name ) ) {
+                if( auto gr = process_map_connection( who, cable, p2, source_p2_name ); !gr ||
+                    gr.value() != p1_source ) {
                     return 0;
                 }
                 break;
@@ -8688,7 +8692,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 who->add_msg_if_player( m_info, _( "You attach the cable to the UPS." ) );
                 break;
             case state_vehicle:
-                if( !process_map_connection( who, cable, p2, "source_" + p2_name ) ) {
+                if( !process_map_connection( who, cable, p2, source_p2_name ) ) {
                     return 0;
                 }
                 break;
@@ -8703,14 +8707,14 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
             return 0;
             //We've connected two vehicles
         } else if( p1 == state_vehicle && p2 == state_vehicle ) {
-            const auto [v1_abs, vp1, v1] = confirm_source_vehicle( who, cable, "source" + p1_name, true );
-            const auto [v2_abs, vp2, v2] = confirm_source_vehicle( who, cable, "source" + p2_name, true );
+            const auto [v1_abs, vp1, v1] = confirm_source_vehicle( who, cable, source_p1_name, true );
+            const auto [v2_abs, vp2, v2] = confirm_source_vehicle( who, cable, source_p2_name, true );
 
             if( v1 == v2 ) {
                 who->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
                                         v1->name );
                 cable->erase_var( p2_name );
-                cable->erase_var( "source" + p2_name );
+                cable->erase_var( source_p2_name );
             }
             const vpart_id vpid( cable->typeId().str() );
 
@@ -8734,8 +8738,8 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
             }
             //We've connected vehicle to grid
         } else if( p1 == state_vehicle || p2 == state_vehicle ) {
-            auto [p1_global, vp1, v1] = confirm_source_vehicle( who, cable, "source" + p1_name, false );
-            auto [p2_global, vp2, v2] = confirm_source_vehicle( who, cable, "source" + p2_name, false );
+            auto [p1_global, vp1, v1] = confirm_source_vehicle( who, cable, source_p1_name, false );
+            auto [p2_global, vp2, v2] = confirm_source_vehicle( who, cable, source_p2_name, false );
 
             vehicle *v = nullptr;
             optional_vpart_position vp( std::nullopt );
@@ -8779,6 +8783,8 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
             }
         }
         return 1;    // Let the cable be destroyed.
+    } else {
+        cable->reset_cable( who );
     }
     return 0;
 }
