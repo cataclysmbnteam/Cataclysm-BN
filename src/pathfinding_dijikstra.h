@@ -21,14 +21,14 @@
 namespace
 {
 // Thanks for nothing, MVSC
-// For our MVSC builds, std::isnan and std::isinf are not constexpr
+// For our MVSC builds, std::is_nan and std::is_inf are not constexpr
 //   so we have to make our own
 
-constexpr bool isnan( float x )
+constexpr bool is_nan( float x )
 {
     return x != x;
 }
-constexpr bool isinf( float x )
+constexpr bool is_inf( float x )
 {
     return x == INFINITY;
 }
@@ -155,7 +155,7 @@ struct RouteSettings {
     // Test if `pos` is in the circle of radius distance from `start` to `end` by `search_radius_coeff` centered at `end`
     constexpr bool is_in_search_radius( const tripoint start, const tripoint pos,
                                         const tripoint end ) const {
-        if( isinf( search_radius_coeff ) ) {
+        if( is_inf( search_radius_coeff ) ) {
             return true;
         }
 
@@ -241,7 +241,7 @@ struct RouteSettings {
 
     // Does the search domain depend on start position?
     constexpr bool is_relative_search_domain() const {
-        return !( this->search_cone_angle >= 180. || isinf( this->search_radius_coeff ) );
+        return !( this->search_cone_angle >= 180. || is_inf( this->search_radius_coeff ) );
     }
 };
 
@@ -282,10 +282,10 @@ class DijikstraPathfinding
             };
 
             explicit DijikstraMap() {
-                if( !isinf( DijikstraPathfinding::FULL_INFINITY[0] ) ) {
+                if( !is_inf( DijikstraPathfinding::FULL_INFINITY[0] ) ) {
                     DijikstraPathfinding::FULL_INFINITY.fill( INFINITY );
                 }
-                if( !isnan( DijikstraPathfinding::FULL_NAN[0] ) ) {
+                if( !is_nan( DijikstraPathfinding::FULL_NAN[0] ) ) {
                     DijikstraPathfinding::FULL_NAN.fill( NAN );
                 }
 
@@ -320,13 +320,13 @@ class DijikstraPathfinding
             }
 
             inline constexpr State get_state( const tripoint &p ) {
-                if( isinf( this->p_at( p ) ) ) {
+                if( is_inf( this->p_at( p ) ) ) {
                     return State::UNVISITED;
                 }
-                if( isnan( this->p_at( p ) ) ) {
+                if( is_nan( this->p_at( p ) ) ) {
                     return State::INACCESSIBLE;
                 }
-                if( isinf( this->g_at( p ) ) ) {
+                if( is_inf( this->g_at( p ) ) ) {
                     return State::IMPASSABLE;
                 }
                 return State::ACCESSIBLE;
