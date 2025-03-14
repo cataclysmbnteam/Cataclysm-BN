@@ -18,13 +18,20 @@
 #include "point.h"
 #include "rng.h"
 
-namespace {
-    // Thanks for nothing, MVSC
-    // For our MVSC builds, std::isnan and std::isinf are not constexpr
-    //   so we have to make our own
-    
-    constexpr bool isnan(float x) { return x != x; }
-    constexpr bool isinf(float x) { return x == INFINITY; }
+namespace
+{
+// Thanks for nothing, MVSC
+// For our MVSC builds, std::isnan and std::isinf are not constexpr
+//   so we have to make our own
+
+constexpr bool isnan( float x )
+{
+    return x != x;
+}
+constexpr bool isinf( float x )
+{
+    return x == INFINITY;
+}
 }
 // A struct defining abilities of the actor and how to respond to various terrain features
 struct PathfindingSettings {
