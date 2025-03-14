@@ -18,6 +18,14 @@
 #include "point.h"
 #include "rng.h"
 
+namespace {
+    // Thanks for nothing, MVSC
+    // For our MVSC builds, std::isnan and std::isinf are not constexpr
+    //   so we have to make our own
+    
+    constexpr bool isnan(float x) { return x != x; }
+    constexpr bool isinf(float x) { return x == INFINITY; }
+}
 // A struct defining abilities of the actor and how to respond to various terrain features
 struct PathfindingSettings {
     // Our approximate bash strength is `bash_strength_val` * `bash_strength_quanta`
@@ -140,7 +148,7 @@ struct RouteSettings {
     // Test if `pos` is in the circle of radius distance from `start` to `end` by `search_radius_coeff` centered at `end`
     constexpr bool is_in_search_radius( const tripoint start, const tripoint pos,
                                         const tripoint end ) const {
-        if( std::isinf( search_radius_coeff ) ) {
+        if( isinf( search_radius_coeff ) ) {
             return true;
         }
 
@@ -226,7 +234,7 @@ struct RouteSettings {
 
     // Does the search domain depend on start position?
     constexpr bool is_relative_search_domain() const {
-        return !( this->search_cone_angle >= 180. || std::isinf( this->search_radius_coeff ) );
+        return !( this->search_cone_angle >= 180. || isinf( this->search_radius_coeff ) );
     }
 };
 
@@ -267,10 +275,10 @@ class DijikstraPathfinding
             };
 
             explicit DijikstraMap() {
-                if( !std::isinf( DijikstraPathfinding::FULL_INFINITY[0] ) ) {
+                if( !isinf( DijikstraPathfinding::FULL_INFINITY[0] ) ) {
                     DijikstraPathfinding::FULL_INFINITY.fill( INFINITY );
                 }
-                if( !std::isnan( DijikstraPathfinding::FULL_NAN[0] ) ) {
+                if( !isnan( DijikstraPathfinding::FULL_NAN[0] ) ) {
                     DijikstraPathfinding::FULL_NAN.fill( NAN );
                 }
 
@@ -305,13 +313,13 @@ class DijikstraPathfinding
             }
 
             inline constexpr State get_state( const tripoint &p ) {
-                if( std::isinf( this->p_at( p ) ) ) {
+                if( isinf( this->p_at( p ) ) ) {
                     return State::UNVISITED;
                 }
-                if( std::isnan( this->p_at( p ) ) ) {
+                if( isnan( this->p_at( p ) ) ) {
                     return State::INACCESSIBLE;
                 }
-                if( std::isinf( this->g_at( p ) ) ) {
+                if( isinf( this->g_at( p ) ) ) {
                     return State::IMPASSABLE;
                 }
                 return State::ACCESSIBLE;

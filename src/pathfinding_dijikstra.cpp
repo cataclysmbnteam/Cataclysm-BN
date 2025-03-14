@@ -35,7 +35,7 @@ void DijikstraPathfinding::scan_for_z_changes( int z_level )
         return;
     }
 
-    map &map = get_map();
+    const map &map = get_map();
 
     for( const tripoint &cur : map.points_on_zlevel( z_level ) ) {
         const maptile &cur_tile = map.maptile_at( cur );
@@ -213,7 +213,7 @@ inline bool DijikstraPathfinding::is_in_limited_domain(
                             rl_dist_exact( start, this->dest )
                         );
 
-    bool is_in_f_limited_area = std::isnan( max_f ) || this->d_map.get_f_unbiased( p ) <= max_f;
+    bool is_in_f_limited_area = isnan( max_f ) || this->d_map.get_f_unbiased( p ) <= max_f;
     bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
     bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
 
@@ -322,9 +322,9 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     this->unbiased_frontier.clear();
 
     int it = 0; // Iteration counter
-    const bool can_open_doors = !std::isinf( this->settings.door_open_cost );
+    const bool can_open_doors = !isinf( this->settings.door_open_cost );
     const bool can_bash = this->settings.bash_strength_val > 0;
-    const bool can_climb = !std::isinf( this->settings.climb_cost );
+    const bool can_climb = !isinf( this->settings.climb_cost );
     const bool care_about_mobs = this->settings.mob_presence_penalty > 0;
     const bool care_about_traps = this->settings.trap_cost > 0;
     const map &map = get_map();
@@ -368,7 +368,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                 continue;
             }
 
-            const bool h_calc_needed = std::isnan( this->d_map.h_at( cur_point ) );
+            const bool h_calc_needed = isnan( this->d_map.h_at( cur_point ) );
             float cur_h = h_calc_needed ? rl_dist_exact( start, cur_point ) : this->d_map.h_at( cur_point );
             this->d_map.h_at( cur_point ) = cur_h;
 
@@ -404,7 +404,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                 }
             }
 
-            const bool g_calc_needed = std::isnan( this->d_map.g_at( cur_point ) );
+            const bool g_calc_needed = isnan( this->d_map.g_at( cur_point ) );
             float cur_g = g_calc_needed ? 0.0 : this->d_map.g_at( cur_point );
 
             if( g_calc_needed ) {
@@ -484,10 +484,10 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                         }
                     }
 
-                    if( std::isnan( secondary_g_delta ) && is_climbable && can_climb ) {
+                    if( isnan( secondary_g_delta ) && is_climbable && can_climb ) {
                         secondary_g_delta = this->settings.climb_cost;
                     }
-                    if( std::isnan( secondary_g_delta ) && is_door && can_open_doors ) {
+                    if( isnan( secondary_g_delta ) && is_door && can_open_doors ) {
                         // Doors that can only be open from the inside
                         const bool door_opens_from_inside = terrain.has_flag( "OPENCLOSE_INSIDE" ) ||
                                                             furniture.has_flag( "OPENCLOSE_INSIDE" );
@@ -497,7 +497,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                             secondary_g_delta = this->settings.door_open_cost;
                         }
                     }
-                    if( std::isnan( secondary_g_delta ) && can_bash ) {
+                    if( isnan( secondary_g_delta ) && can_bash ) {
                         // Time to consider bashing the obstacle
                         const int rating = map.bash_rating_internal(
                                                this->settings.bash_strength_val * this->settings.bash_strength_quanta,
@@ -509,7 +509,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                                                 this->settings.bash_cost; // Extremely unlikely to take this route unless no other choice is present
                         }
                     }
-                    if( std::isnan( secondary_g_delta ) ) {
+                    if( isnan( secondary_g_delta ) ) {
                         // We can do nothing anymore, close the tile
                         secondary_g_delta = INFINITY;
                     }
@@ -522,7 +522,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
             this->d_map.p_at( cur_point ) = this->d_map.get_f_unbiased( next_point );
 
             // Reintroduce this point into frontier unless the tile is closed
-            if( !std::isinf( cur_g ) ) {
+            if( !isinf( cur_g ) ) {
                 biased_frontier.push( {this->d_map.get_f_biased( cur_point, route_settings.h_coeff ), cur_point} );
             }
 
@@ -564,7 +564,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         if( is_fully_explored ) {
             // Map must have no path to target
             for( size_t i = 0; i < DIJIKSTRA_ARRAY_SIZE; i++ ) {
-                if( std::isnan( this->d_map.g[i] ) ) {
+                if( isnan( this->d_map.g[i] ) ) {
                     this->d_map.p[i] = NAN;
                 }
             }
