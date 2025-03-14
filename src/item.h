@@ -108,6 +108,10 @@ enum cable_state {
     state_UPS,
     state_vehicle
 };
+static const std::string p1_name = "p1";
+static const std::string p2_name = "p2";
+static const std::string source_p1_name = "source_" + p1_name;
+static const std::string source_p2_name = "source_" + p2_name;
 
 /**
  *  Value and metadata for one property of an item
@@ -1213,12 +1217,6 @@ class item : public location_visitable<item>, public game_object<item>
                                            bool activate,
                                            temperature_flag flag, const weather_manager &weather_generator );
         /*@}*/
-
-        /**
-         * Returns cable_state and tripoint target of map entity
-         * Returns tripoint_zero if no map entity target stored
-         */
-        std::pair<cable_state, tripoint> get_cable_point_info( std::string p_name ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -2497,5 +2495,83 @@ namespace to_cbc_migration
 void load( const JsonObject &jo );
 void reset();
 } // namespace to_cbc_migration
+
+struct cable_connection_data {
+    struct connection {
+        cable_state state = state_none;
+        std::optional<tripoint> point;
+
+        bool is_character() const {
+            return state == state_self;
+        }
+
+        bool empty() const {
+            return state == state_none;
+        }
+    };
+
+    connection *non_character = nullptr;
+    connection con1;
+    connection con2;
+
+    bool empty() const {
+        return con1.empty();
+    }
+
+    bool complete() const {
+        return !con1.empty() && !con2.empty();
+    }
+
+    bool character_connected() const {
+        return con1.is_character() || con2.is_character();
+    }
+
+    void set_vars( item *cable ) const {
+        if( !con1.empty() ) {
+            cable->set_var( p1_name, con1.state );
+            if( con1.point ) {
+                cable->set_var( source_p1_name, con1.point.value() );
+            }
+        }
+        if( !con2.empty() ) {
+            cable->set_var( p2_name, con2.state );
+            if( con2.point ) {
+                cable->set_var( source_p2_name, con2.point.value() );
+            }
+        }
+    }
+
+    static std::optional<cable_connection_data> make_data( const item *cable ) {
+        if( cable ) {
+            return make_data( cable );
+        } else {
+            return std::nullopt;
+        }
+    }
+
+    static std::optional<cable_connection_data> make_data( const item &cable );
+
+    cable_connection_data( const item &cable ) {
+
+        con1.state = cable_state( cable.get_var( p1_name, 0.0 ) );
+        con2.state = cable_state( cable.get_var( p2_name, 0.0 ) );
+
+        auto tmp = cable.get_var( source_p1_name, tripoint_zero );
+        con1.point = tmp != tripoint_zero
+                     ? std::make_optional( tmp )
+                     : std::nullopt;
+
+        tmp = cable.get_var( source_p2_name, tripoint_zero );
+        con2.point = tmp != tripoint_zero
+                     ? std::make_optional( tmp )
+                     : std::nullopt;
+
+        if( con1.is_character() ) {
+            non_character = &con2;
+        } else if( con2.is_character() ) {
+            non_character = &con1;
+        }
+    }
+};
 
 #endif // CATA_SRC_ITEM_H

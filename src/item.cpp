@@ -9840,15 +9840,6 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
     return std::move( self );
 }
 
-std::pair<cable_state, tripoint> item::get_cable_point_info( std::string p_name ) const
-{
-    map &here = get_map();
-    cable_state p = cable_state( get_var( p_name, 0.0 ) );
-    auto p_source = get_var( "source_" + p_name, tripoint_zero );
-
-    return std::make_pair( p, here.getlocal( p_source ) );
-}
-
 detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carrier,
                                         const tripoint &pos )
 {
@@ -9859,31 +9850,25 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
         //reset_cable( carrier );
         return std::move( self );
     }
-    const std::string p1_name( "p1" );
-    auto [state, target] = self->get_cable_point_info( p1_name );
-
-
-    if( state == state_none ) {
+    auto data = cable_connection_data::make_data( self.ptr );
+    if( !data || data->empty() || !data->character_connected() ) {
         return std::move( self );
     }
 
-    const std::string p2_name( "p2" );
-    const auto [state2, target2] = self->get_cable_point_info( p2_name );
+    int distance = 0;
 
-
-    if( state2 != state_none ) {
-        if( state2 != state_self ) {
-            state = state2;
-            target = target2;
-        } else {
-            debugmsg( "How the fuck!?" );
+    //Caharacter connected to smth
+    if( data->complete() ) {
+        map &here = get_map();
+        //At this point we are sure that non_char is not empty
+        auto nonchar = *data->non_character;
+        if( !nonchar.point.has_value() ) {
+            debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             self->reset_cable( carrier );
             return std::move( self );
         }
-
-        map &here = get_map();
-
-        switch( state ) {
+        switch( nonchar.state ) {
             case state_solar_pack:
                 if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
                     carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
@@ -9896,27 +9881,28 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 };
 
                 if( !carrier->has_item( *self ) || !carrier->has_item_with( used_ups ) ) {
-                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                     for( item *used : carrier->items_with( used_ups ) ) {
                         used->erase_var( "cable" );
                     }
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                     self->reset_cable( carrier );
                 }
                 return std::move( self );
             }
             case state_vehicle: {
-                if( target == tripoint_zero ) {
+                if( nonchar.point ) {
                     return std::move( self );
                 }
+                //Sitting in vehicle shenenigans
                 const auto vp_pos = here.veh_at( pos );
                 if( vp_pos ) {
                     const auto seat = vp_pos.part_with_feature( "BOARDABLE", true );
                     if( seat && carrier == seat->vehicle().get_passenger( seat->part_index() ) ) {
-                        target = pos;
+                        distance = 0;
                     }
                 }
-                auto veh = here.veh_at( target );
-                if( !veh || ( target.z != g->get_levz() && !here.has_zlevels() ) ) {
+                auto veh = here.veh_at( nonchar.point.value() );
+                if( !veh || ( pos.z != g->get_levz() && !here.has_zlevels() ) ) {
                     if( carrier->has_item( *self ) ) {
                         carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                     }
@@ -9926,10 +9912,11 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 break;
             }
             case state_grid: {
-                if( target == tripoint_zero ) {
+                if( nonchar.point ) {
                     return std::move( self );
                 }
-                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
+                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal(
+                                           nonchar.point.value() ) );
                 if( !grid_connector ) {
                     if( carrier->has_item( *self ) ) {
                         carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
@@ -9942,14 +9929,17 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
             case state_none:
             case state_self:
             default:
-                debugmsg( "How the fuck!?" );
+                debugmsg( "Unexpected cable state %s", nonchar.state );
                 self->reset_cable( carrier );
                 return std::move( self );
         }
-    } else if( state == state_self ) {
-        target = pos;
+        distance = rl_dist( pos, nonchar.point.value() );
     }
-    int distance = rl_dist( pos, target );
+    // Only Character is connected
+    //else if( data->character_connected() ) {
+    //    distance = 0;
+    //}
+
     int max_charges = self->type->maximum_charges();
     self->charges = max_charges - distance;
 
@@ -10926,5 +10916,14 @@ int item::kill_count()
         return 0;
     } else {
         return kills->monster_kill_count() + kills->npc_kill_count();
+    }
+}
+
+std::optional<cable_connection_data> cable_connection_data::make_data( const item &cable )
+{
+    if( cable.has_flag( flag_CABLE_SPOOL ) ) {
+        return cable_connection_data( cable );
+    } else {
+        return std::nullopt;
     }
 }

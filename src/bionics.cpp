@@ -1034,15 +1034,15 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_msg_if_player( m_info,
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
-            const std::string p1_name( "p1" );
-            const std::string p2_name( "p2" );
             for( item *cable : cables ) {
-                const auto [state1, target1] = cable->get_cable_point_info( p1_name );
-                const auto [state2, target2] = cable->get_cable_point_info( p2_name );
+                auto data = cable_connection_data::make_data( cable );
+                if( !data ) {
+                    continue;
+                }
 
-                switch( state2 ) {
+                switch( data->con2.state ) {
                     case state_none:
-                        switch( state1 ) {
+                        switch( data->con1.state ) {
                             case state_solar_pack:
                             case state_UPS:
                                 add_msg_if_player( m_info,
@@ -1068,7 +1068,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                         }
                         continue;
                     case state_self:
-                        switch( state1 ) {
+                        switch( data->con1.state ) {
                             case state_grid:
                                 add_msg_if_player( m_info,
                                                    _( "You are plugged to the grid.  It will charge you if it has some juice in it." ) );
@@ -1088,7 +1088,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                             case state_self:
                             case state_none:
                             default:
-                                debugmsg( "Unexpected cable state %s", state1 );
+                                debugmsg( "Unexpected cable state %s", data->con1.state );
                                 continue;
                         }
                         break;
@@ -1109,7 +1109,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                            _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
                         break;
                     default:
-                        debugmsg( "Unexpected cable state %s", state2 );
+                        debugmsg( "Unexpected cable state %s", data->con2.state );
                         continue;
                 }
                 add_msg_activate();
@@ -1462,33 +1462,34 @@ itype_id Character::find_remote_fuel( bool look_only )
         return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
 
-    for( const item *cable : cables ) {
-        const auto [state1, target1] = cable->get_cable_point_info( p1_name );
-        const auto [state2, target2] = cable->get_cable_point_info( p2_name );
-        if( state2 != state_none &&
-            ( state1 == state_self || state2 == state_self ) ) {
-            cable_state state;
-            tripoint target;
-            if( state1 != state_self ) {
-                state = state1;
-                target = target1;
-            } else if( state2 != state_self ) {
-                state = state2;
-                target = target2;
-            } else {
+    for( item *cable : cables ) {
+        auto data = cable_connection_data::make_data( cable );
+        if( !data || data->empty() || !data->character_connected() ) {
+            continue;
+        }
+
+        if( data->complete() ) {
+
+            //At this point we are sure that non_char is not empty
+            auto nonchar = *data->non_character;
+            if( !nonchar.point.has_value() ) {
+                debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                cable->reset_cable( this );
                 continue;
             }
 
-            switch( state ) {
+            switch( nonchar.state ) {
                 case state_none:
                 case state_self:
                 default:
                     continue;
                 case state_grid: {
-                    auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal( target ) );
+                    auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( here.getglobal(
+                                               nonchar.point.value() ) );
                     if( grid_connector ) {
                         if( !look_only ) {
-                            auto &grid = get_distribution_grid_tracker().grid_at( here.getglobal( target ) );
+                            auto &grid = get_distribution_grid_tracker().grid_at( here.getglobal( nonchar.point.value() ) );
                             set_value( "rem_battery", std::to_string( grid.get_resource() ) );
                         }
                         remote_fuel = fuel_type_battery;
@@ -1522,7 +1523,7 @@ itype_id Character::find_remote_fuel( bool look_only )
                     continue;
                 }
                 case state_vehicle: {
-                    const optional_vpart_position vp = here.veh_at( target );
+                    const optional_vpart_position vp = here.veh_at( nonchar.point.value() );
                     if( vp ) {
                         if( !look_only ) {
                             set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
@@ -1549,8 +1550,7 @@ int Character::consume_remote_fuel( int amount )
 
     map &here = get_map();
     for( const item *cable : cables ) {
-        const auto [state1, target1] = cable->get_cable_point_info( p1_name );
-        const auto [state2, target2] = cable->get_cable_point_info( p2_name );
+
         if( state1 == state_vehicle ) {
             const optional_vpart_position vp = here.veh_at( target1 );
             if( vp ) {

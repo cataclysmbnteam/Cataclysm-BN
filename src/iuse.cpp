@@ -8498,8 +8498,7 @@ static auto confirm_source_vehicle( player *who, item *cable, std::string var_na
 };
 
 static std::optional<tripoint> process_map_connection( Character *who, item *cable,
-        cable_state state,
-        std::string var_name )
+        cable_state state )
 {
     const std::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable where?" ) );
     if( !posp_ ) {
@@ -8522,7 +8521,6 @@ static std::optional<tripoint> process_map_connection( Character *who, item *cab
             return std::nullopt;
         }
     }
-    cable->set_var( var_name, g->m.getabs( posp ) );
     return posp;
 }
 
@@ -8546,7 +8544,7 @@ static cable_state cable_menu( Character *who, cable_state state,
 
     uilist kmenu;
     kmenu.text = _( "Using cable:" );
-    if( state != state_none ) {
+    if( state != state_none || state_old && state_old != state_none ) {
         kmenu.addentry( state_none, true, -1,
                         _( "Detach and re-spool the cable" ) );
     }
@@ -8582,18 +8580,15 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
         return itm.has_flag( flag_IS_UPS );
     };
 
-    const std::string p1_name( "p1" );
-    const std::string p2_name( "p2" );
 
-    const std::string source_p1_name( "source_" + p1_name );
-    const std::string source_p2_name( "source_" + p2_name );
+    auto data = cable_connection_data::make_data( cable );
+    if( !data ) {
+        return 0;
+    }
 
-    cable_state p1 = cable_state( cable->get_var( p1_name, 0.0 ) );
-    cable_state p2 = cable_state( cable->get_var( p2_name, 0.0 ) );
-
-    const auto set_cable_active = []( player * who, item * it, const std::string & state_name,
-    const cable_state & state ) {
-        it->set_var( state_name, state );
+    const auto set_cable_active = []( player * who, item * it,
+    const cable_connection_data & data ) {
+        data.set_vars( it );
         it->activate();
         it->attempt_detach( [&who]( detached_ptr<item> &&e ) {
             return item::process( std::move( e ), who, who->pos(), false );
@@ -8602,13 +8597,16 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
     };
 
 
-    if( p1 == state_none ) {
-        switch( p1 = cable_menu( who, p1 ) ) {
+    //Both ends are free
+    if( data->empty() ) {
+        switch( data->con1.state = cable_menu( who, data->con1.state ) ) {
             case state_self:
                 who->add_msg_if_player( m_info, _( "You attach the cable to your Cable Charger System." ) );
                 break;
             case state_grid:
-                if( !process_map_connection( who, cable, p1, source_p1_name ) ) {
+            case state_vehicle:
+                data->con1.point = process_map_connection( who, cable, data->con1.state );
+                if( !data->con1.point ) {
                     return 0;
                 }
                 break;
@@ -8627,28 +8625,27 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 ups_loc->activate();
                 who->add_msg_if_player( m_info, _( "You attach the cable to the UPS." ) );
                 break;
-            case state_vehicle:
-                if( !process_map_connection( who, cable, p1, source_p1_name ) ) {
-                    return 0;
-                }
-                break;
+            case state_none:
             default:
+                add_msg( _( "Never mind" ) );
                 return 0;
         }
         //Setting p1 always returns zero
-        set_cable_active( who, cable, p1_name, p1 );
-    } else if( p2 == state_none ) {
+        set_cable_active( who, cable, data.value() );
+    }
+    //One ends connected
+    else if( data->con2.empty() ) {
         auto p1_source = cable->get_var( source_p1_name, tripoint_zero );
-        p2 = cable_menu( who, p2, p1 );
-        switch( p2 ) {
+        data->con2.state = cable_menu( who, data->con2.state, data->con1.state );
+        switch( data->con2.state ) {
             case state_none:
                 cable->reset_cable( who );
                 return 0;
             case state_self:
                 who->add_msg_if_player( m_info, _( "You attach the cable to the Cable Charger System." ) );
-                switch( p1 ) {
+                switch( data->con1.state ) {
                     case state_grid:
-                        who->add_msg_if_player( m_good, _( "You are now plugged to the grid backpack." ) );
+                        who->add_msg_if_player( m_good, _( "You are now plugged to the grid." ) );
                         break;
                     case state_solar_pack:
                         who->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
@@ -8665,17 +8662,27 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                         }
                         break;
                     }
+                    case state_none:
+                        //How tf?
+                        debugmsg( "Unexpected cable state %s", data->con1.state );
+                        break;
                     default:
                         add_msg( _( "Never mind" ) );
                         return 0;
                 };
                 break;
-            case state_grid:
-                if( auto gr = process_map_connection( who, cable, p2, source_p2_name ); !gr ||
-                    gr.value() != p1_source ) {
+            case state_grid: {
+                data->con2.point = process_map_connection( who, cable, data->con2.state );
+                if( !data->con2.point ) {
+                    return 0;
+                }
+                if( data->con2.point == p1_source ) {
+                    who->add_msg_if_player( m_info,
+                                            _( "There is no reason to attach cable to the same connector twice." ) );
                     return 0;
                 }
                 break;
+            }
             case state_solar_pack:
                 who->add_msg_if_player( m_info, _( "You attach the cable to the solar pack." ) );
                 break;
@@ -8692,21 +8699,22 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 who->add_msg_if_player( m_info, _( "You attach the cable to the UPS." ) );
                 break;
             case state_vehicle:
-                if( !process_map_connection( who, cable, p2, source_p2_name ) ) {
+                data->con2.point = process_map_connection( who, cable, data->con2.state );
+                if( !data->con2.point ) {
                     return 0;
                 }
                 break;
             default:
                 return 0;
         }
-        set_cable_active( who, cable, p2_name, p2 );
+        set_cable_active( who, cable, data.value() );
 
         //We've connected something to Character
-        if( p1 == state_self || p2 == state_self ) {
+        if( data->character_connected() ) {
             who->find_remote_fuel();
             return 0;
             //We've connected two vehicles
-        } else if( p1 == state_vehicle && p2 == state_vehicle ) {
+        } else if( data->con1.state == state_vehicle && data->con2.state == state_vehicle ) {
             const auto [v1_abs, vp1, v1] = confirm_source_vehicle( who, cable, source_p1_name, true );
             const auto [v2_abs, vp2, v2] = confirm_source_vehicle( who, cable, source_p2_name, true );
 
@@ -8737,7 +8745,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 }
             }
             //We've connected vehicle to grid
-        } else if( p1 == state_vehicle || p2 == state_vehicle ) {
+        } else if( data->con1.state == state_vehicle || data->con2.state == state_vehicle ) {
             auto [p1_global, vp1, v1] = confirm_source_vehicle( who, cable, source_p1_name, false );
             auto [p2_global, vp2, v2] = confirm_source_vehicle( who, cable, source_p2_name, false );
 
@@ -8783,8 +8791,17 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
             }
         }
         return 1;    // Let the cable be destroyed.
+        //Both ends connected and one is connected to Character
     } else {
-        cable->reset_cable( who );
+        uilist kmenu;
+        kmenu.text = _( "Using cable:" );
+        kmenu.addentry( state_none, true, -1,
+                        _( "Detach and re-spool the cable" ) );
+        kmenu.query();
+
+        if( kmenu.ret == state_none ) {
+            cable->reset_cable( who );
+        }
     }
     return 0;
 }
