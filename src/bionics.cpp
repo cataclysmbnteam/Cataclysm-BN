@@ -1949,25 +1949,6 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
     }
 }
 
-bool Character::has_enough_anesth( const itype *cbm, player & )
-{
-    if( !cbm->bionic ) {
-        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
-        return false;
-    }
-
-    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
-        has_trait( trait_DEBUG_BIONICS ) ) {
-        return true;
-    }
-
-    const int weight = 7;
-    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                        cbm->bionic->difficulty * 2 * weight;
-
-    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
-}
-
 // bionic manipulation adjusted skill
 float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
         const skill_id &important_skill,
@@ -2693,6 +2674,30 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
+bool cbm_needs_anesthesia( const Character &who )
+{
+    return !( who.has_bionic( bio_painkiller ) || who.has_trait( trait_NOPAIN ) ||
+              who.has_trait( trait_DEBUG_BIONICS ) );
+}
+
+bool has_enough_anesthesia( const itype *cbm, Character &doc, const Character &patient )
+{
+    if( !cbm->bionic ) {
+        debugmsg( "has_enough_anesthesia( const itype *cbm ): %s is not a bionic", cbm->get_id() );
+        return false;
+    }
+
+    if( !cbm_needs_anesthesia( patient ) ) {
+        return true;
+    }
+
+    const int weight = 7;
+    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                        cbm->bionic->difficulty * 2 * weight;
+
+    return req_anesth.can_make_with_inventory( doc.crafting_inventory(), is_crafting_component );
+}
+
 void Character::add_bionic( const bionic_id &b )
 {
     if( has_bionic( b ) ) {
@@ -3014,11 +3019,11 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
                                      _( "<npcname> sets up the operation, configuring the Autodoc to manipulate a CBM." ) );
-
-    add_msg_player_or_npc( m_info,
-                           _( "You settle into position, sliding your right wrist into the couch's strap." ),
-                           _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( needs_anesthesia ) {
+        add_msg_player_or_npc( m_info,
+                               _( "You settle into position, sliding your right wrist into the couch's strap." ),
+                               _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
+
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
@@ -3027,6 +3032,13 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
 
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+
+        //Pain junkies feel sorry about missed pain from operation.
+        if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
+            has_trait( trait_CENOBITE ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+        }
 
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
@@ -3038,13 +3050,6 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
             add_msg_if_player( m_mixed,
                                _( "You stay very, very still, intently staring off into space, as the Autodoc slices painlessly into you." ) );
         }
-    }
-
-    //Pain junkies feel sorry about missed pain from operation.
-    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-        has_trait( trait_CENOBITE ) ) {
-        add_msg_if_player( m_mixed,
-                           _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
     if( has_effect( effect_narcosis ) ) {
