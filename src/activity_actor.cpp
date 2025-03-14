@@ -17,6 +17,8 @@
 #include "character.h"
 #include "character_functions.h"
 #include "crafting.h"
+#include "construction.h"
+#include "construction_partial.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -58,6 +60,11 @@
 
 #define dbg(x) DebugLog((x),DC::Game)
 
+static const construction_str_id deconstruct_simple( "constr_deconstruct_simple" );
+static const construction_str_id deconstruct( "constr_deconstruct" );
+static const construction_group_str_id
+advanced_object_deconstruction( "advanced_object_deconstruction" );
+
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_electrohack( "electrohack" );
 
@@ -72,7 +79,15 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 static const std::string has_thievery_witness( "has_thievery_witness" );
+
+inline int simple_task::to_counter() const
+{
+    double ret = 10'000'000.0 / moves_total * ( moves_total - moves_left );
+    return std::round( ret );
+}
 
 inline void progress_counter::pop()
 {
@@ -2026,6 +2041,97 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
     return actor;
 }
 
+void construction_activity_actor::start( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    auto local = here.getlocal( target );
+    pc = here.partial_con_at( local );
+    auto &built = pc->id.obj();
+
+    std::string name = "";
+
+    if( pc->id == deconstruct || pc->id == deconstruct_simple ||
+        built.group == advanced_object_deconstruction ) {
+        if( here.has_furn( local ) ) {
+            const furn_id furn_type = here.furn( local );
+            name = furn_type->name();
+        } else if( !here.ter( local )->is_null() ) {
+            const ter_id ter_type = here.ter( local );
+            name = ter_type->name();
+        }
+    } else {
+        name = built.post_furniture.is_empty()
+               ? ""
+               : built.post_furniture->name();
+        name = built.post_terrain.is_empty()
+               ? name
+               : built.post_terrain->name();
+    }
+
+    int total_time = std::max( 1, built.adjusted_time() );
+    int left = pc->counter == 0
+               ? total_time
+               : total_time - pc->counter / 10'000'000.0 * total_time;
+
+    progress.emplace( name, total_time, left );
+}
+
+void construction_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    // Check if pc was lost for some reason, but actually still exists on map, e.g. save/load
+    if( !pc ) {
+        map &here = get_map();
+        auto local = here.getlocal( target );
+        pc = here.partial_con_at( local );
+    }
+
+    // Maybe the player and the NPC are working on the same construction at the same time or toubles during load
+    if( !pc ) {
+        act.set_to_null();
+        add_msg( m_info, _( "%s did not find an unfinished construction at the activity spot." ),
+                 who.disp_name() );
+        return;
+    }
+
+    pc->counter = progress.front().to_counter();
+
+    if( progress.front().complete() ) {
+        progress.pop();
+        return;
+    } else {
+        auto &built = pc->id.obj();
+        if( !who.has_trait( trait_DEBUG_HS ) && !who.meets_skill_requirements( built ) ) {
+            add_msg( m_info, _( "%s can't work on this construction anymore." ), who.disp_name() );
+            act.set_to_null();
+            return;
+        }
+    }
+}
+
+void construction_activity_actor::finish( player_activity &act, Character &who )
+{
+    complete_construction( who, target );
+    act.set_to_null();
+}
+
+void construction_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "progress", progress );
+    jsout.member( "target", target );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> construction_activity_actor::deserialize( JsonIn &jsin )
+{
+    std::unique_ptr<construction_activity_actor> actor( new construction_activity_actor(
+                tripoint_abs_ms( tripoint_zero ) ) );
+    JsonObject data = jsin.get_object();
+    data.read( "progress", actor->progress );
+    data.read( "target", actor->target );
+    return actor;
+}
+
 namespace activity_actors
 {
 
@@ -2035,6 +2141,7 @@ deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
     { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
+    { activity_id( "ACT_BUILD" ), &construction_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
     { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
