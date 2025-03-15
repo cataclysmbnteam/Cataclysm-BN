@@ -2670,6 +2670,11 @@
     "symbol": "+",
     "color": "cyan",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 135,
       "str_max": 375,
