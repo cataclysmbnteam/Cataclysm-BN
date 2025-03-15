@@ -36,18 +36,5 @@
     "color": "magenta",
     "active": [ "countdown", { "timer": "5 s" } ],
     "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ]
-  },
-  {
-    "type": "furniture",
-    "id": "f_jumppad_x",
-    "name": "jump pad",
-    "looks_like": "f_table",
-    "description": "A trampoline made of energy that allows you to jump up to a ledge.",
-    "move_cost_mod": 0,
-    "required_str": -1,
-    "symbol": "_",
-    "color": "magenta",
-    "active": [ "countdown", { "timer": "2 s", "transform": { "id": "f_jumppad" } } ],
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ]
   }
 ]
