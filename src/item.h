@@ -2589,7 +2589,7 @@ struct cable_connection_data {
             }
         }
     }
-    static bool ups_connected( const item * const cable );
+    static bool ups_connected( const item *const cable );
 
     static void unset_vars( item *const cable ) {
         unset_con1( cable );
