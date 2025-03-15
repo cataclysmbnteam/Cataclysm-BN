@@ -1116,12 +1116,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 success = true;
             }
         }
-
-        if( free_cable ) {
-            add_msg_if_player( m_info,
-                               _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
-        }
         if( !success ) {
+            if( free_cable ) {
+                add_msg_if_player( m_info,
+                                   _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
+            }
             refund_power();
             bio.powered = false;
             return false;

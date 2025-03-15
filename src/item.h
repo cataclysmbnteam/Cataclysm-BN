@@ -2550,7 +2550,7 @@ struct cable_connection_data {
         return con1.map_point() && con2.map_point();
     }
 
-    const connection *get_map_connection() const {
+    connection *const get_map_connection() {
         if( intermap_connection() ) {
             return nullptr;
         } else if( con1.map_point() ) {
@@ -2561,12 +2561,10 @@ struct cable_connection_data {
         return nullptr;
     }
 
-    connection *get_nonchar_connection() {
-        if( complete() && !con1.is_character() && !con2.is_character() ) {
-            return nullptr;
-        } else if( !con1.is_character() ) {
+    connection *const get_nonchar_connection() {
+        if( !con1.is_character() && !con1.empty() ) {
             return &con1;
-        } else if( !con2.is_character() ) {
+        } else if( !con2.is_character() && !con2.empty() ) {
             return &con2;
         }
         return nullptr;
@@ -2589,7 +2587,7 @@ struct cable_connection_data {
             }
         }
     }
-    static bool ups_connected( const item * const cable );
+    static bool ups_connected( const item *const cable );
 
     static void unset_vars( item *const cable ) {
         unset_con1( cable );
@@ -2600,6 +2598,13 @@ struct cable_connection_data {
             unset_con1( cable );
         } else if( con == con2 ) {
             unset_con2( cable );
+        }
+    }
+    void unset_other_con( item *const cable, connection &con ) {
+        if( con == con1 ) {
+            unset_con2( cable );
+        } else if( con == con2 ) {
+            unset_con1( cable );
         }
     }
     static void unset_con1( item *const cable ) {

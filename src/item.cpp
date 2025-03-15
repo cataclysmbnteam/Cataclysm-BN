@@ -9846,11 +9846,6 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
     if( !self ) {
         return std::move( self );
     }
-    //No need to process cable without carrier
-    if( carrier == nullptr ) {
-        //reset_cable( carrier );
-        return std::move( self );
-    }
     //No need to process cable if it' has no map connections's only connected to character
     auto data = cable_connection_data::make_data( self.ptr );
     if( !data || data->empty() ) {
@@ -9858,6 +9853,10 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
         return std::move( self );
     }
     if( data->character_only() || data->intermap_connection() ) {
+        return std::move( self );
+    }
+    if( !data->get_nonchar_connection() ) {
+        self->reset_cable( carrier );
         return std::move( self );
     }
 
@@ -9868,6 +9867,14 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
 
     //Caharacter connected to smth
     if( data->complete() ) {
+        if( !carrier ) {
+            if( auto map = data->get_map_connection() ) {
+                data->unset_other_con( self.get(), nonchar );
+            } else {
+                self->reset_cable( carrier );
+            }
+            return std::move( self );
+        }
         switch( nonchar.state ) {
             case state_solar_pack:
                 if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
@@ -9929,10 +9936,9 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
     }
     if( nonchar.map_point() ) {
         distance = rl_dist( pos, here.getlocal( nonchar.point ) );
-
         self->charges = self->type->maximum_charges() - distance;
         if( self->charges < 1 ) {
-            if( carrier->has_item( *self ) ) {
+            if( carrier ) {
                 carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
             }
             self->reset_cable( carrier );
@@ -10904,7 +10910,7 @@ int item::kill_count()
     }
 }
 
-bool cable_connection_data::ups_connected( const item * const cable )
+bool cable_connection_data::ups_connected( const item *const cable )
 {
     return cable && cable->has_flag( flag_CABLE_SPOOL ) &&
            ( cable->get_var( p1_name, 0.0 ) == state_UPS ||

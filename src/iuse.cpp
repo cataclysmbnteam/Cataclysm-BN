@@ -8424,10 +8424,10 @@ static cable_state cable_menu( Character *who, cable_state &state, cable_state &
     const bool has_ups = who->has_charges( itype_UPS_off, 1 ) ||
                          who->has_charges( itype_adv_UPS_off, 1 );
 
-    const bool allow_self = state_other != state_self;
-    const bool allow_ups =  state_other == state_self;
-    const bool allow_grid = state_other == state_self || state_other == state_vehicle ||
-                            state_other == state_grid;
+    const bool allow_self = state != state_self && state_other != state_self;
+    const bool allow_ups =  state_other == state_self ||
+                            ( state == state_none && state_other == state_none );
+    const bool allow_grid = state_other != state_UPS && state_other != state_solar_pack;
 
     // Currently those bools equal provided counterparts, feel free to change those if it's needed in future
     const bool allow_solar = allow_ups;
