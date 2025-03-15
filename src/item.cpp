@@ -10904,7 +10904,7 @@ int item::kill_count()
     }
 }
 
-bool cable_connection_data::ups_connected( const item const *cable )
+bool cable_connection_data::ups_connected( const item * const cable )
 {
     return cable && cable->has_flag( flag_CABLE_SPOOL ) &&
            ( cable->get_var( p1_name, 0.0 ) == state_UPS ||
