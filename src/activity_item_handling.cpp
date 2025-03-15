@@ -2478,7 +2478,7 @@ static bool mine_activity( player &p, const tripoint &src_loc )
         moves /= 2;
     }
     p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
-    p.activity->targets.emplace_back( chosen_item );
+    p.activity->tools.emplace_back( chosen_item );
     p.activity->placement = here.getabs( src_loc );
     return true;
 
@@ -3386,7 +3386,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         // If we specifically need tinder to start this fire, grab it the instant it's found and ignore any other fuel
         if( starting_fire ) {
             // Only track firestarter if we have an activity assigned to light a new fire, or it will implode.
-            item &firestarter = *act.targets.front();
+            item &firestarter = *act.tools.front();
             if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
                 if( it->has_flag( flag_TINDER ) ) {
                     move_item( p, *it, 1, *refuel_spot, *best_fire );
