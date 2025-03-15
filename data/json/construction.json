@@ -421,6 +421,43 @@
   },
   {
     "type": "construction",
+    "id": "constr_door_welded",
+    "group": "weld_shut_metal_door",
+    "//": "All regular openable metal doors",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "//2": "Same amount of time to cut one open, but half the oxy-ace consumption and allows arc welders",
+    "time": "14 s",
+    "using": [ [ "welding_standard", 13 ] ],
+    "pre_flags": "WELDABLE_DOOR",
+    "post_terrain": "t_door_metal_welded"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_lab",
+    "group": "weld_shut_metal_door",
+    "//": "Metal lab door",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 13 ] ],
+    "pre_terrain": "t_door_metal_lab_c",
+    "post_terrain": "t_door_metal_welded_lab"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_bars",
+    "group": "weld_shut_metal_door",
+    "//": "Bar doors",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "9 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_flags": "WELDABLE_BARS",
+    "post_terrain": "t_door_metal_welded_bars"
+  },
+  {
+    "type": "construction",
     "id": "constr_mdoor_frame",
     "group": "build_metal_door",
     "//": "step 1: door frame",
