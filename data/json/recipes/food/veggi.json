@@ -2603,10 +2603,6 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ], [ [ "scrap", -1 ], [ "spike", -1 ] ] ],
-    "components": [
-      [ [ "veggy_green", 1, "LIST" ] ],
-      [ [ "veggy_green", 1, "LIST" ] ],
-      [ [ "seasoning_mild", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "veggy_green", 1, "LIST" ] ], [ [ "veggy_green", 1, "LIST" ] ], [ [ "seasoning_mild", 1, "LIST" ] ] ]
   }
 ]
