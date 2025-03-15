@@ -55,6 +55,7 @@ Links to relevant pull requests, for content covered below:
 - Reimplemented bone armor: [#5646](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5646)
 - More tooth and bone weapons, triffid weapons:
   [#5712](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5712)
+- Treetops ported from DDA: [#5167](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5167)
 
 ## Undead People
 
@@ -128,6 +129,7 @@ Ultica are planned for the future.
 - Metal and wooden flagpoles (including with flag raised), furniture added to BN.
 - American flag displayed as a vehiclepart, specific to BN.
 - Flagpole furniture and vehiclepart for Jolly Roger, content specific to BN.
+- Treetops. Terrain ported from DDA, but which had no sprites available in UDP at present.
 
 ### alternative_mutation_tileset.png
 
