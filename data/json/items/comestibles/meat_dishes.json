@@ -1570,5 +1570,47 @@
     "material": [ "veggy", "flesh" ],
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "id": "kebab",
+    "name": { "str_sp": "kebab" },
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "donner kebab" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "killer %s" } }
+    ],
+    "type": "COMESTIBLE",
+    "description": "Cooked meats and veggies on a stick.  Popular street food originating from the Middle East and later spread to Asia and the rest of the world.",
+    "weight": "150 g",
+    "volume": "150 ml",
+    "color": "white",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 300,
+    "material": [ "veggy", "flesh" ],
+    "fun": 5,
+    "looks_like": "meat_cooked",
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "id": "kebab_meat",
+    "name": { "str_sp": "meat kebab" },
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "donner kebab" },
+      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "killer %s" } }
+    ],
+    "type": "COMESTIBLE",
+    "description": "Cooked meats on a stick.  Popular street food originating from the Middle East and later spread to Asia and the rest of the world.",
+    "weight": "150 g",
+    "volume": "150 ml",
+    "color": "white",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 450,
+    "material": [ "flesh" ],
+    "fun": 5,
+    "looks_like": "meat_cooked",
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   }
 ]
