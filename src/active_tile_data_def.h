@@ -101,4 +101,19 @@ class vehicle_connector_tile : public active_tile_data
         void load( JsonObject &jo ) override;
 };
 
+class countdown_tile : public active_tile_data
+{
+    public:
+        /* In J */
+        time_duration timer = 5_seconds;
+        active_tiles::furn_transform transform;
+        int ticks = -1;
+
+        void update_internal( time_point to, const tripoint_abs_ms &p, distribution_grid &grid ) override;
+        active_tile_data *clone() const override;
+        const std::string &get_type() const override;
+        void store( JsonOut &jsout ) const override;
+        void load( JsonObject &jo ) override;
+};
+
 #endif // CATA_SRC_ACTIVE_TILE_DATA_DEF_H

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "jump_pad",
+    "name": "Jump Pad",
+    "authors": [ "Kaylakaze" ],
+    "maintainers": [ "Kaylakaze" ],
+    "description": "Adds an item for generating jump pads (temporary ladders)",
+    "category": "items",
+    "dependencies": [ "bn" ]
+  }
+]
+
