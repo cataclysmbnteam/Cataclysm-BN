@@ -1464,74 +1464,77 @@ itype_id Character::find_remote_fuel( bool look_only )
 
     for( item *cable : cables ) {
         auto data = cable_connection_data::make_data( cable );
-        if( !data || !data->character_connected() ) {
+        if( !data || !data->character_connected() || !data->complete() ) {
             continue;
         }
 
-        if( data->complete() ) {
+        //At this point we are sure that non_char is not empty
+        auto nonchar = *data->get_nonchar_connection();
 
-            //At this point we are sure that non_char is not empty
-            auto nonchar = *data->non_character;
-            if( !nonchar.point.has_value() ) {
-                debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
-                add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                cable->reset_cable( this );
+        switch( nonchar.state ) {
+            case state_none:
+            case state_self:
+            default:
                 continue;
-            }
-
-            switch( nonchar.state ) {
-                case state_none:
-                case state_self:
-                default:
-                    continue;
-                case state_grid: {
-                    auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( nonchar.point.value() );
-                    if( grid_connector ) {
-                        if( !look_only ) {
-                            auto &grid = get_distribution_grid_tracker().grid_at( nonchar.point.value() );
-                            set_value( "rem_battery", std::to_string( grid.get_resource() ) );
-                        }
-                        remote_fuel = fuel_type_battery;
-                    }
+            case state_grid: {
+                if( !nonchar.point_valid() ) {
+                    debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                    add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    cable->reset_cable( this );
                     continue;
                 }
-                case state_solar_pack:
-                    if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
-                        if( !look_only ) {
-                            set_value( "sunlight", "1" );
-                        }
-                        remote_fuel = fuel_type_sun_light;
-                    }
-                    continue;
-                case state_UPS: {
-                    static const item_filter used_ups = [&]( const item & itm ) {
-                        return itm.get_var( "cable" ) == "plugged_in";
-                    };
+                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( nonchar.point );
+                if( grid_connector ) {
                     if( !look_only ) {
-                        if( has_charges( itype_UPS_off, 1, used_ups ) ) {
-                            set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
-                                       units::to_kilojoule( max_power_level ), used_ups ) ) );
-                        } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
-                            set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
-                                       units::to_kilojoule( max_power_level ), used_ups ) ) );
-                        } else {
-                            set_value( "rem_battery", std::to_string( 0 ) );
-                        }
+                        auto &grid = get_distribution_grid_tracker().grid_at( nonchar.point );
+                        set_value( "rem_battery", std::to_string( grid.get_resource() ) );
                     }
                     remote_fuel = fuel_type_battery;
+                }
+                continue;
+            }
+            case state_vehicle: {
+                if( !nonchar.point_valid() ) {
+                    debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                    add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    cable->reset_cable( this );
                     continue;
                 }
-                case state_vehicle: {
-                    const optional_vpart_position vp = here.veh_at( nonchar.point.value() );
-                    if( vp ) {
-                        if( !look_only ) {
-                            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
-                                       true ) ) );
-                        }
-                        remote_fuel = fuel_type_battery;
+                const optional_vpart_position vp = here.veh_at( nonchar.point );
+                if( vp ) {
+                    if( !look_only ) {
+                        set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
+                                   true ) ) );
                     }
-                    continue;
+                    remote_fuel = fuel_type_battery;
                 }
+                continue;
+            }
+            case state_solar_pack:
+                if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
+                    if( !look_only ) {
+                        set_value( "sunlight", "1" );
+                    }
+                    remote_fuel = fuel_type_sun_light;
+                }
+                continue;
+            case state_UPS: {
+                static const item_filter used_ups = [&]( const item & itm ) {
+                    return itm.get_var( "cable" ) == "plugged_in";
+                };
+                if( !look_only ) {
+                    if( has_charges( itype_UPS_off, 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( itype_UPS_off,
+                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
+                    } else if( has_charges( itype_adv_UPS_off, 1, used_ups ) ) {
+                        set_value( "rem_battery", std::to_string( charges_of( itype_adv_UPS_off,
+                                   units::to_kilojoule( max_power_level ), used_ups ) ) );
+                    } else {
+                        set_value( "rem_battery", std::to_string( 0 ) );
+                    }
+                }
+                remote_fuel = fuel_type_battery;
+                continue;
             }
         }
     }
@@ -1548,30 +1551,33 @@ int Character::consume_remote_fuel( int amount )
     map &here = get_map();
     for( const item *cable : cables ) {
         auto data = cable_connection_data::make_data( cable );
-        if( !data || !data->character_connected() ) {
+        if( !data || !data->character_connected() || !data->has_map_connection() ) {
             continue;
         }
 
-        auto nonchar = *data->non_character;
-        if( !nonchar.point.has_value() ) {
+        auto map_con = *data->get_map_connection();
+        if( !map_con.point_valid() ) {
             debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
             continue;
         }
-
-        if( nonchar.state == state_vehicle ) {
-            const optional_vpart_position vp = here.veh_at( nonchar.point.value() );
-            if( vp ) {
-                unconsumed_amount = vp->vehicle().discharge_battery( amount );
+        switch( map_con.state ) {
+            case state_vehicle: {
+                const auto vp = here.veh_at( map_con.point );
+                if( vp ) {
+                    unconsumed_amount = vp->vehicle().discharge_battery( amount );
+                }
             }
-        }
-        //Characher sucks energy from grid, but it totally should be reverse,
-        //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
-        else if( nonchar.state  == state_grid ) {
-            auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile> ( nonchar.point.value() );
-            if( grid_connector ) {
-                auto &grid = get_distribution_grid_tracker().grid_at( nonchar.point.value() );
-                unconsumed_amount = grid.mod_resource( -amount );
+            //Characher sucks energy from grid, but it totally should be reverse,
+            //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
+            case state_grid: {
+                const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( map_con.point );
+                if( grid_connector ) {
+                    auto grid = get_distribution_grid_tracker().grid_at( map_con.point );
+                    unconsumed_amount = grid.mod_resource( -amount );
+                }
             }
+            default:
+                continue;
         }
     }
 

@@ -9846,28 +9846,28 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
     if( !self ) {
         return std::move( self );
     }
+    //No need to process cable without carrier
     if( carrier == nullptr ) {
         //reset_cable( carrier );
         return std::move( self );
     }
+    //No need to process cable if it' has no map connections's only connected to character
     auto data = cable_connection_data::make_data( self.ptr );
-    if( !data || !data->character_connected() ) {
+    if( !data || data->empty() ) {
+        self->reset_cable( carrier );
+        return std::move( self );
+    }
+    if( data->character_only() || data->intermap_connection() ) {
         return std::move( self );
     }
 
     int distance = 0;
+    map &here = get_map();
+    //At this point we are sure that non_char is not empty
+    auto nonchar = *data->get_nonchar_connection();
 
     //Caharacter connected to smth
     if( data->complete() ) {
-        map &here = get_map();
-        //At this point we are sure that non_char is not empty
-        auto nonchar = *data->non_character;
-        if( !nonchar.point.has_value() ) {
-            debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            self->reset_cable( carrier );
-            return std::move( self );
-        }
         switch( nonchar.state ) {
             case state_solar_pack:
                 if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
@@ -9890,32 +9890,26 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 return std::move( self );
             }
             case state_vehicle: {
-                if( nonchar.point ) {
+                if( !here.veh_at( nonchar.point ) ) {
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has disconnected from a vehicle!" ) );
+                    data->unset_con( self.get(), nonchar );
                     return std::move( self );
                 }
                 //Sitting in vehicle shenenigans
+                //If character is sitting at vehicle - no need(and no way) to figure out cable distance and if it's the same vehicle we previously connected
+                //So we just ignore distance
                 const auto vp_pos = here.veh_at( pos );
                 if( vp_pos ) {
                     const auto seat = vp_pos.part_with_feature( "BOARDABLE", true );
                     if( seat && carrier == seat->vehicle().get_passenger( seat->part_index() ) ) {
-                        distance = 0;
+                        return std::move( self );
                     }
-                }
-                auto veh = here.veh_at( nonchar.point.value() );
-                if( !veh || ( pos.z != g->get_levz() && !here.has_zlevels() ) ) {
-                    if( carrier->has_item( *self ) ) {
-                        carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                    }
-                    self->reset_cable( carrier );
-                    return std::move( self );
                 }
                 break;
             }
             case state_grid: {
-                if( nonchar.point ) {
-                    return std::move( self );
-                }
-                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( nonchar.point.value() );
+                auto s = nonchar.point;
+                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( s );
                 if( !grid_connector ) {
                     if( carrier->has_item( *self ) ) {
                         carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
@@ -9932,21 +9926,17 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
                 self->reset_cable( carrier );
                 return std::move( self );
         }
-        distance = rl_dist( pos, here.getlocal( nonchar.point.value() ) );
     }
-    // Only Character is connected
-    //else if( data->character_connected() ) {
-    //    distance = 0;
-    //}
+    if( nonchar.map_point() ) {
+        distance = rl_dist( pos, here.getlocal( nonchar.point ) );
 
-    int max_charges = self->type->maximum_charges();
-    self->charges = max_charges - distance;
-
-    if( self->charges < 1 ) {
-        if( carrier->has_item( *self ) ) {
-            carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
+        self->charges = self->type->maximum_charges() - distance;
+        if( self->charges < 1 ) {
+            if( carrier->has_item( *self ) ) {
+                carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
+            }
+            self->reset_cable( carrier );
         }
-        self->reset_cable( carrier );
     }
 
     return std::move( self );
@@ -9961,10 +9951,7 @@ void item::reset_cable( Character *who )
     erase_var( "source_y" );
     erase_var( "source_z" );
     //erase info
-    erase_var( "p1" );
-    erase_var( "p2" );
-    erase_var( "source_p1" );
-    erase_var( "source_p2" );
+    cable_connection_data::unset_vars( this );
     deactivate();
     charges = max_charges;
 
@@ -9986,8 +9973,7 @@ detached_ptr<item> item::process_UPS( detached_ptr<item> &&self, player *carrier
         return std::move( self );
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.is_active() && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
-                it.get_var( "state" ) == "UPS" );
+        return it.is_active() && cable_connection_data::ups_connected( &it );
     } );
     if( !has_connected_cable ) {
         self->erase_var( "cable" );
@@ -10916,6 +10902,13 @@ int item::kill_count()
     } else {
         return kills->monster_kill_count() + kills->npc_kill_count();
     }
+}
+
+bool cable_connection_data::ups_connected( const item const *cable )
+{
+    return cable && cable->has_flag( flag_CABLE_SPOOL ) &&
+           ( cable->get_var( p1_name, 0.0 ) == state_UPS ||
+             cable->get_var( p2_name, 0.0 ) == state_UPS );
 }
 
 std::optional<cable_connection_data> cable_connection_data::make_data( const item &cable )
