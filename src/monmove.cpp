@@ -35,7 +35,9 @@
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "pathfinding.h"
+#include "pathfinding_dijikstra.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
@@ -116,11 +118,6 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
-}
-
-static bool z_is_valid( int z )
-{
-    return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
 bool monster::will_move_to( const tripoint &p ) const
@@ -913,22 +910,45 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            const auto &pf_settings = get_pathfinding_settings();
-            if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
-                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
-                // We need a new path
-                path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+            {
+                const bool path_empty = path.empty();
+                const bool next_not_adjacent = path_empty || square_dist_fast( pos(), path.front() ) > 1;
+                const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
+                const bool next_blocked = path_empty || g->critter_at( path.front() ) != nullptr;
+
+                bool need_new_path = path_empty || next_not_adjacent || new_goal_not_adjacent || next_blocked;
+
+                if( need_new_path ) {
+                    if( get_option<bool>( "USE_LEGACY_PATHFINDING" ) ) {
+                        auto pf_settings = get_legacy_pathfinding_settings();
+                        path = g->m.route( pos(), goal, pf_settings, get_legacy_path_avoid() );
+                    } else {
+                        auto pair = this->get_pathfinding_pair();
+                        path = DijikstraPathfinding::route( pos(), goal, pair.first, pair.second );
+                    }
+                }
             }
 
-            // Try to respect old paths, even if we can't pathfind at the moment
-            if( !path.empty() && path.back() == goal ) {
-                destination = path.front();
-                moved = true;
-                pathed = true;
-            } else {
-                // Straight line forward, probably because we can't pathfind (well enough)
-                destination = goal;
-                moved = true;
+            {
+                const bool path_empty = path.empty();
+                const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
+                const bool we_are_at_goal = pos() == goal;
+
+                const bool is_failed_pathfinding = path_empty || new_goal_not_adjacent || we_are_at_goal;
+
+                // Try to respect old paths, even if we can't pathfind at the moment
+                if( is_failed_pathfinding ) {
+                    // Straight line forward
+                    destination = goal;
+                    moved = true;
+                } else {
+                    while( !path_empty && path.front() == pos() ) {
+                        path.erase( path.begin() );
+                    }
+                    destination = path.front();
+                    moved = true;
+                    pathed = true;
+                }
             }
         }
     }
@@ -1494,7 +1514,7 @@ bool monster::bash_at( const tripoint &p )
     bool is_obstructed_by_ter_furn = here.impassable_ter_furn( p );
     bool is_obstructed_by_veh = here.veh_at( p ).obstacle_at_part().has_value();
     bool is_obstructed = is_obstructed_by_ter_furn || is_obstructed_by_veh;
-    bool is_flat_ground = here.has_flag( TFLAG_FLAT, p );
+    bool is_flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
 
     if( !is_obstructed && is_flat_ground ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
@@ -2123,7 +2143,7 @@ bool monster::will_reach( point p )
         return false;
     }
 
-    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_legacy_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
@@ -2148,7 +2168,7 @@ bool monster::will_reach( point p )
 int monster::turns_to_reach( point p )
 {
     // HACK: This function is a(n old) temporary hack that should soon be removed
-    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_legacy_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }

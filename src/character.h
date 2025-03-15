@@ -1896,8 +1896,12 @@ class Character : public Creature, public location_visitable<Character>
 
         /** Returns the player's modified base movement cost */
         int  run_cost( int base_cost, bool diag = false ) const;
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
+
+        const pathfinding_settings &get_legacy_pathfinding_settings() const override;
+        std::set<tripoint> get_legacy_path_avoid() const override;
+
+        std::pair<PathfindingSettings, RouteSettings> get_pathfinding_pair() const override;
+
         /** Route for overmap scale traveling */
         std::vector<tripoint_abs_omt> omt_path;
         /**

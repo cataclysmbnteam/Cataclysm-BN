@@ -135,6 +135,7 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "path_info.h"
+#include "pathfinding_dijikstra.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -1599,6 +1600,9 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
+    // Finally, clear pathfinding cache
+    DijikstraPathfinding::reset();
+
     return false;
 }
 
@@ -2310,8 +2314,8 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     }
 
     if( new_destination ) {
-        destination_preview = m.route( u.pos(), mouse_target, u.get_pathfinding_settings(),
-                                       u.get_path_avoid() );
+        destination_preview = m.route( u.pos(), mouse_target, u.get_legacy_pathfinding_settings(),
+                                       u.get_legacy_path_avoid() );
         return false;
     }
 
@@ -6858,7 +6862,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                 continue;
             }
 
-            auto route = m.route( u.pos(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto route = m.route( u.pos(), lp, u.get_legacy_pathfinding_settings(), u.get_legacy_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -7635,8 +7639,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
             }
-            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(),
-                                  u.get_path_avoid() );
+            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_legacy_pathfinding_settings(),
+                                  u.get_legacy_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
