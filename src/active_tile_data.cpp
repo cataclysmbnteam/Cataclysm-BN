@@ -378,7 +378,7 @@ void vehicle_connector_tile::load( JsonObject &jo )
 }
 
 void countdown_tile::update_internal( time_point to, const tripoint_abs_ms &p,
-                                      distribution_grid &grid )
+                                      distribution_grid & )
 {
     if( ticks == -1 ) {
         ticks = to_turns<int>( timer );
