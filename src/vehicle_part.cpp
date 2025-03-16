@@ -145,7 +145,6 @@ detached_ptr<item> vehicle_part::set_base( detached_ptr<item> &&new_base )
 detached_ptr<item> vehicle_part::properties_to_item() const
 {
     //TODO!: the big check
-    map &here = get_map();
     detached_ptr<item> tmp = item::spawn( *base );
     tmp->unset_flag( flag_VEHICLE );
 
