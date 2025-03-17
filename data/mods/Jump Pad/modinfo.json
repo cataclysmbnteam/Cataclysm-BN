@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "jump_pad",
+    "id": "jump_pad",
     "name": "Jump Pad",
     "authors": [ "Kaylakaze" ],
     "maintainers": [ "Kaylakaze" ],
