@@ -8353,17 +8353,10 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 }
 
 static auto confirm_source_vehicle( player *const who, item *const cable,
-                                    tripoint_abs_ms &global,
-                                    const bool detach_if_missing )
+                                    tripoint_abs_ms &global )
 {
     optional_vpart_position source_vp = g->m.veh_at( global );
     vehicle *const source_veh = veh_pointer_or_null( source_vp );
-    if( detach_if_missing && source_veh == nullptr ) {
-        if( who != nullptr && who->has_item( *cable ) ) {
-            who->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-        }
-        cable->reset_cable( who );
-    }
     return std::make_tuple( source_vp, source_veh );
 };
 
@@ -8522,8 +8515,15 @@ int iuse::tow_attach( player *who, item *cable, bool, const tripoint & )
         }
     }
     if( data->intermap_connection() ) {
-        const auto [vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point, true );
-        const auto [vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point, true );
+        const auto [vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point );
+        const auto [vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point );
+
+        if( !vp1 || !vp2 ) {
+            debugmsg( "Something went wrong with cable connection" );
+            who->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            cable->reset_cable( who );
+            return 0;
+        }
 
         if( v1 == v2 ) {
             who->add_msg_if_player( m_warning, _( "You cannot set a vehicle to tow itself!" ) );
@@ -8672,10 +8672,11 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                     who->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
                     break;
                 case state_vehicle: {
-                    const auto [_, veh] = confirm_source_vehicle( who, cable, nonchar->point, true );
+                    const auto [_, veh] = confirm_source_vehicle( who, cable, nonchar->point );
                     if( veh ) {
                         who->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
                     } else {
+                        who->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                         cable->reset_cable( who );
                         return 0;
                     }
@@ -8692,10 +8693,18 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
             };
             who->find_remote_fuel();
             return 0;
-            //We've connected two vehicles
-        } else if( data->con1.state == state_vehicle && data->con2.state == state_vehicle ) {
-            const auto [ vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point, true );
-            const auto [ vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point, true );
+        }
+        //We've connected two vehicles
+        else if( data->con1.state == state_vehicle && data->con2.state == state_vehicle ) {
+            const auto [ vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point );
+            const auto [ vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point );
+
+            if( !vp1 || !vp2 ) {
+                debugmsg( "Something went wrong with cable connection" );
+                who->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                cable->reset_cable( who );
+                return 0;
+            }
 
             if( v1 == v2 ) {
                 who->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
@@ -8705,28 +8714,29 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
             }
             const vpart_id vpid( cable->typeId().str() );
 
+            //Vehicle part1
             point vcoords = vp1->mount();
             vehicle_part p1( vpid, vcoords, item::spawn( *cable ), v1 );
             p1.target.first = data->con2.point.raw();
             p1.target.second = v2->global_square_location().raw();
             v1->install_part( vcoords, std::move( p1 ) );
 
-            if( vp2 ) {
-                vcoords = vp2->mount();
-                vehicle_part p2( vpid, vcoords, item::spawn( *cable ), v2 );
-                p2.target.first = data->con1.point.raw();
-                p2.target.second = v1->global_square_location().raw();
-                v2->install_part( vcoords, std::move( p2 ) );
+            //Vehicle part2
+            vcoords = vp2->mount();
+            vehicle_part p2( vpid, vcoords, item::spawn( *cable ), v2 );
+            p2.target.first = data->con1.point.raw();
+            p2.target.second = v1->global_square_location().raw();
+            v2->install_part( vcoords, std::move( p2 ) );
 
-                if( who != nullptr && who->has_item( *cable ) ) {
-                    who->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
-                                            v1->name, v2->name );
-                }
+            if( who != nullptr && who->has_item( *cable ) ) {
+                who->add_msg_if_player( m_good, _( "You link up the electric systems of the %1$s and the %2$s." ),
+                                        v1->name, v2->name );
             }
-            //We've connected vehicle to grid
-        } else if( data->con1.state == state_vehicle || data->con2.state == state_vehicle ) {
-            auto [vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point, false );
-            auto [vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point, false );
+        }
+        //We've connected vehicle to grid
+        else if( data->con1.state == state_vehicle || data->con2.state == state_vehicle ) {
+            auto [vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point );
+            auto [vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point );
 
             vehicle *v = nullptr;
             optional_vpart_position vp( std::nullopt );
@@ -8744,7 +8754,8 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                 v_global = data->con2.point;
                 connector = data->con1.point;
             } else {
-                debugmsg( "Something fucked up with cable connection" );
+                debugmsg( "Something went wrong with cable connection" );
+                who->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 cable->reset_cable( who );
                 return 0;
             }

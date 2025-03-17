@@ -157,16 +157,20 @@ detached_ptr<item> vehicle_part::properties_to_item() const
             tmp->reset_cable();
         } else {
             if( data->intermap_connection() ) {
-                if( data->con1.state == state_grid ) {
-                    data->unset_con2( tmp.get() );
-                } else if( data->con2.state == state_grid ) {
-                    data->unset_con1( tmp.get() );
-                } else if( data->con1.point.raw() == target.first ) {
+                if( data->con1.point.raw() == target.first ) {
                     data->unset_con2( tmp.get() );
                 } else if( data->con2.point.raw() == target.first ) {
                     data->unset_con1( tmp.get() );
                 } else {
                     tmp->reset_cable();
+                }
+                if( !has_flag( targets_grid ) ) {
+                    map &here = get_map();
+                    const tripoint local_pos = here.getlocal( target.first );
+                    if( !here.veh_at( local_pos ) ) {
+                        // That vehicle ain't there no more.
+                        tmp->set_flag( flag_NO_DROP );
+                    }
                 }
             } else if( data->character_connected() ) {
                 if( auto con = data->get_nonchar_connection() ) {
