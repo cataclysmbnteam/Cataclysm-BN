@@ -819,6 +819,7 @@ bool item::attempt_split( int qty,
         return false;
     }
     item &after_split = *det;
+    after_split.saved_loc=loc;
     int starting_charges = after_split.charges;
     det = cb( std::move( det ) );
     bool ret = true;
