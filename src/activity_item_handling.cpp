@@ -1066,7 +1066,14 @@ static std::vector<construction_id> get_group_roots( const std::vector<construct
     std::copy_if( group_members.begin(), group_members.end(),
     std::back_inserter( ret ), [&]( auto & con ) {
         auto it = std::find_if( group_members.begin(), group_members.end(), [&]( auto & next ) {
-            return con->post_terrain == next->pre_terrain && con->post_furniture == next->pre_furniture;
+            // Checks if one of the avaible post terrains or furnitures works as a pre-terrain (?)
+            return ( std::any_of( con->post_terrain.begin(),
+            con->post_terrain.end(), [&next]( ter_str_id ter ) {
+                return ter == next->pre_terrain;
+            } ) ) || ( std::any_of( con->post_furniture.begin(),
+            con->post_furniture.end(), [&next]( furn_str_id furn ) {
+                return furn == next->pre_furniture;
+            } ) );
         } );
         return it == group_members.end();
     } );
@@ -1081,6 +1088,7 @@ static activity_reason_info find_base_construction(
     const tripoint &loc,
     const std::optional<construction_id> &part_con_id,
     const construction_id id,
+    const int ter_or_furn_idx,
     bool strict = true )
 {
     //already done?
@@ -1088,18 +1096,20 @@ static activity_reason_info find_base_construction(
     const furn_id furn = here.furn( loc );
     const ter_id ter = here.ter( loc );
 
+    // Checks if the terrain/furniture is already in the tile
+    if( !id->post_terrain.empty() ) {
+        if( id->post_terrain[ter_or_furn_idx].id() == ter ) {
+            return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, id, ter_or_furn_idx );
+        };
+    };
+    if( !id->post_furniture.empty() ) {
+        if( id->post_furniture[ter_or_furn_idx].id() == furn ) {
+            return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, id, ter_or_furn_idx );
+        };
+    };
+
     // Get roots:
     std::vector<construction_id> roots = get_group_roots( list_constructions, id );
-    // Check if any roots are completed, if so we're done here
-    for( const auto &rid : roots ) {
-        const construction &rid_build = rid.obj();
-        if(
-            ( !rid_build.post_terrain.is_empty() && rid_build.post_terrain.id() == ter ) ||
-            ( !rid_build.post_furniture.is_empty() && rid_build.post_furniture.id() == furn )
-        ) {
-            return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, rid );
-        }
-    }
     // None of the roots are complete, so let's evaluate everything!
     std::map<ter_str_id, std::vector<construction_id>> post_ter;
     std::map<furn_str_id, std::vector<construction_id>> post_furn;
@@ -1107,13 +1117,18 @@ static activity_reason_info find_base_construction(
         if( con->group.is_empty() ) {
             continue;
         }
-        ( post_furn[con->post_furniture] ).push_back( con );
-        ( post_ter[con->post_terrain] ).push_back( con );
+        for( furn_str_id furn : con->post_furniture ) {
+            ( post_furn[furn] ).push_back( con );
+        };
+        for( ter_str_id ter : con->post_terrain ) {
+            ( post_ter[ter] ).push_back( con );
+        };
     }
 
     struct time_con {
         int time;
         construction_id id;
+        int valid_ter_or_furn_idx;
 
         auto operator<( const time_con &b ) const -> bool {
             return time > b.time;
@@ -1121,7 +1136,26 @@ static activity_reason_info find_base_construction(
     };
     std::priority_queue<time_con> pq;
     std::for_each( roots.begin(), roots.end(), [&]( const auto & con ) {
-        pq.push( { to_turns<int>( con->time ), con } );
+        // Needs to check where the root have the valid terrain/furniture
+        int con_ter_or_furn_idx = 0;
+        // Search for terrain
+        if( !con->post_terrain.empty() ) {
+            auto ter = std::find( con->post_terrain.begin(), con->post_terrain.end(),
+                                  id->post_terrain[ter_or_furn_idx] );
+            if( ter != con->post_terrain.end() ) {
+                con_ter_or_furn_idx = std::distance( con->post_terrain.begin(), ter );
+            };
+        }
+        if( !con->post_furniture.empty() ) {
+            auto furn = std::find( con->post_furniture.begin(), con->post_furniture.end(),
+                                   id->post_furniture[ter_or_furn_idx] );
+            if( furn != con->post_furniture.end() ) {
+                con_ter_or_furn_idx = std::distance( con->post_furniture.begin(), furn );
+            };
+        }
+
+        // Push anyways because both could be empty (i curse deconstruct logic)
+        pq.push( { to_turns<int>( con->time ), con, con_ter_or_furn_idx } );
     } );
     auto is_disassembly = []( const auto & con ) -> bool {
         auto check_assembly = []( const auto & con ) -> bool {
@@ -1142,7 +1176,7 @@ static activity_reason_info find_base_construction(
         // 0 0 Assembly
     };
     activity_reason_info reason_result = activity_reason_info::build(
-            do_activity_reason::UNKNOWN_ACTIVITY, false, id );
+            do_activity_reason::UNKNOWN_ACTIVITY, false, id, ter_or_furn_idx );
     std::set<construction_id> used;
     while( !pq.empty() ) {
         auto cur = pq.top();
@@ -1158,11 +1192,13 @@ static activity_reason_info find_base_construction(
         used.insert( con );
 
         const auto &con_build = con.obj();
+        const int  con_ter_or_furn_idx = cur.valid_ter_or_furn_idx;
         if(
-            ( !con_build.post_terrain.is_empty() && con_build.post_terrain.id() == ter ) ||
-            ( !con_build.post_furniture.is_empty() && con_build.post_furniture.id() == furn )
+            ( !con_build.post_terrain.empty() && con_build.post_terrain[con_ter_or_furn_idx].id() == ter ) ||
+            ( !con_build.post_furniture.empty() && con_build.post_furniture[con_ter_or_furn_idx].id() == furn )
         ) {
-            return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, con );
+            return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, con,
+                                                con_ter_or_furn_idx );
         }
 
         // Check to see if we can do anything with this item
@@ -1170,15 +1206,17 @@ static activity_reason_info find_base_construction(
         // partial construction here is the same as what we're evaluating
         if( part_con_id && *part_con_id == con ) {
             if( !has_skill ) {
-                return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, con );
+                return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, con,
+                                                    con_ter_or_furn_idx );
             }
-            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, con );
+            return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, con,
+                                                con_ter_or_furn_idx );
         }
 
         // we don't have the skill to do this one, but might be able to do one of the others left in PQ
         if( !has_skill ) {
-            reason_result = activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, con );
-            continue;
+            reason_result = activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, con,
+                            con_ter_or_furn_idx );
         }
         // we have the skill, but can we build?
         const bool cc = can_construct( con_build, loc ); // local conditions appropriate
@@ -1187,27 +1225,31 @@ static activity_reason_info find_base_construction(
         if( cc ) {
             if( pcb ) {
                 // can construct and can build, so let's do it
-                return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, con );
+                return activity_reason_info::build( do_activity_reason::CAN_DO_CONSTRUCTION, true, con,
+                                                    con_ter_or_furn_idx );
             }
             //can't build with current inventory. Might be able to build other options
-            reason_result = activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, con );
-            continue;
+            reason_result = activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, con,
+                            con_ter_or_furn_idx );
         }
 
         if( !pcb ) {
             // Don't have the components to construct this, but might be able to construct something else
             // so set our reason in case this is the last thing we check.
-            reason_result = activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, con );
+            reason_result = activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, con,
+                            con_ter_or_furn_idx );
         }
 
         // there are no pre-requisites.
         // so we need to potentially fetch components
         if( con_build.pre_terrain.is_empty() && con_build.pre_furniture.is_empty() &&
             con_build.pre_special( loc ) ) {
-            reason_result = activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, con );
+            reason_result = activity_reason_info::build( do_activity_reason::NO_COMPONENTS, false, con,
+                            con_ter_or_furn_idx );
             continue;
         } else if( !con_build.pre_special( loc ) ) {
-            reason_result = activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, con );
+            reason_result = activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, con,
+                            con_ter_or_furn_idx );
             continue;
         }
 
@@ -1219,10 +1261,13 @@ static activity_reason_info find_base_construction(
             }
 
             for( const auto &next : it->second ) {
-                if( is_disassembly( con ) && !is_disassembly( next ) ) {
+                const auto ter = std::find( next->post_terrain.begin(), next->post_terrain.end(),
+                                            con->pre_terrain );
+                if( is_disassembly( con ) && !is_disassembly( next ) && ter == next->post_terrain.end() ) {
                     continue;
                 }
-                pq.push( { cur.time + to_turns<int>( next->time ), next } );
+                int ter_idx = std::distance( next->post_terrain.begin(), ter );
+                pq.push( { cur.time + to_turns<int>( next->time ), next, ter_idx } );
             }
         }
         if( !con->pre_furniture.is_empty() ) {
@@ -1231,30 +1276,35 @@ static activity_reason_info find_base_construction(
                 continue;
             }
             for( const auto &next : it->second ) {
-                if( is_disassembly( con ) && !is_disassembly( next ) ) {
+                const auto furn = std::find( next->post_furniture.begin(), next->post_furniture.end(),
+                                             con->pre_furniture );
+                if( is_disassembly( con ) && !is_disassembly( next ) && furn == next->post_furniture.end() ) {
                     continue;
                 }
-                pq.push( { cur.time + to_turns<int>( next->time ), next } );
+                int furn_idx = std::distance( next->post_furniture.begin(), furn );
+                pq.push( { cur.time + to_turns<int>( next->time ), next, furn_idx } );
             }
         }
     }
     // Partial construction here that was not evaluated during prereq resolution
     if( part_con_id ) {
-        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, id );
+        return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, id, ter_or_furn_idx );
     }
     //pre-req failed?
     if( reason_result.reason != do_activity_reason::UNKNOWN_ACTIVITY ) {
         if( reason_result.reason == do_activity_reason::NO_COMPONENTS ) {
             return activity_reason_info::build( do_activity_reason::NO_COMPONENTS_PREREQ, false,
-                                                *reason_result.con_idx );
+                                                *reason_result.con_idx, *reason_result.ter_or_fur_idx );
         }
-        return activity_reason_info::build( reason_result.reason, false, *reason_result.con_idx );
+        return activity_reason_info::build( reason_result.reason, false, *reason_result.con_idx,
+                                            *reason_result.ter_or_fur_idx );
     }
     if( reason_result.reason == do_activity_reason::NO_COMPONENTS ) {
         return reason_result;
     }
     //only cc failed, no pre-req
-    return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, id );
+    popup( "Fuckin funishid" );
+    return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, id, ter_or_furn_idx );
 }
 
 static std::string random_string( size_t length )
@@ -1621,11 +1671,13 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         for( const zone_data &zone : zones ) {
             const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
             const construction_id index = options.get_index();
+            const int ter_or_furn_idx = options.get_selected_ter_or_furn();
             if( !stuff_there.empty() ) {
-                return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );
+                return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index,
+                                                    ter_or_furn_idx );
             }
             const activity_reason_info act_info = find_base_construction(
-                    constructions::get_all_sorted(), p, pre_inv, src_loc, part_con_idx, index, false );
+                    constructions::get_all_sorted(), p, pre_inv, src_loc, part_con_idx, index, ter_or_furn_idx, false );
             return act_info;
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
@@ -1990,6 +2042,7 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     // create the partial construction struct
     std::unique_ptr<partial_con> pc = std::make_unique<partial_con>( src_loc );
     pc->id = built_chosen.id;
+    pc->ter_or_furn_idx = act_info.ter_or_fur_idx.value();
     pc->counter = 0;
     map &here = get_map();
     // Set the trap that has the examine function
