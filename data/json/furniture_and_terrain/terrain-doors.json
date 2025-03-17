@@ -2038,7 +2038,11 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [
+        { "item": "steel_plate", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 3, 8 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     },
     "bash": {
       "str_min": 90,
@@ -2101,12 +2105,17 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_lab instead",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "NO_SCENT", "MINEABLE" ],
     "open": "t_door_metal_lab_o",
     "oxytorch": {
       "result": "t_mdoor_lab_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [
+        { "item": "steel_plate", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 3, 8 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     },
     "bash": {
       "str_min": 90,
@@ -2193,7 +2202,8 @@
       "byproducts": [
         { "item": "peephole", "count": [ 0, 1 ] },
         { "item": "steel_plate", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 3, 8 ] }
+        { "item": "steel_chunk", "count": [ 3, 8 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
       ]
     },
     "bash": {
@@ -2252,7 +2262,11 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [
+        { "item": "steel_plate", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 3, 8 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     },
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "bash": {
@@ -2305,7 +2319,11 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [
+        { "item": "steel_plate", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 3, 8 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     },
     "pry": {
       "success_message": "You pry open the door.",
@@ -2340,7 +2358,11 @@
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [
+        { "item": "steel_plate", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 3, 8 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
     },
     "bash": {
       "str_min": 90,
@@ -2632,16 +2654,22 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
+    "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_bulkhead instead",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_door_metal_bulkhead_o",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
-      "str_min": 90,
-      "str_max": 250,
+      "str_min": 100,
+      "str_max": 300,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
       "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ],
-      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 300 }
     }
   },
   {
@@ -2658,8 +2686,8 @@
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "close": "t_door_metal_bulkhead_c",
     "bash": {
-      "str_min": 90,
-      "str_max": 250,
+      "str_min": 100,
+      "str_max": 300,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_mdoor_frame",
@@ -2711,7 +2739,8 @@
       "byproducts": [
         { "item": "peephole", "count": [ 0, 1 ] },
         { "item": "steel_plate", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 3, 8 ] }
+        { "item": "steel_chunk", "count": [ 3, 8 ] },
+        { "item": "hinge", "count": [ 1, 3 ] }
       ]
     },
     "bash": {
@@ -2738,7 +2767,6 @@
     "name": "welded metal door",
     "symbol": "+",
     "color": "cyan",
-    "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_lab instead",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "NO_SCENT", "MINEABLE" ],
     "oxytorch": {
       "result": "t_mdoor_lab_frame",
@@ -2757,6 +2785,33 @@
         { "item": "hinge", "count": [ 1, 3 ] }
       ],
       "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_welded_bulkhead",
+    "copy-from": "t_door_metal_welded",
+    "looks_like": "t_door_metal_bulkhead_c",
+    "name": "welded bulkhead door",
+    "description": "An extremely resilient watertight door of cast metal.  Used to open using the fly wheel, it's since been welded shut.  That oughta hold 'em.",
+    "symbol": "+",
+    "color": "cyan",
+    "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_lab instead",
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "NO_SCENT", "MINEABLE" ],
+    "oxytorch": {
+      "result": "t_mdoor_lab_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 150,
+      "str_max": 450,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [ { "item": "scrap", "count": [ 12, 24 ] }, { "item": "steel_plate", "prob": 75 } ],
+      "//": "Same ballistic stats as regular bulkhead doors.",
+      "ranged": { "reduction": [ 100, 100 ], "destroy_threshold": 300 }
     }
   },
   {

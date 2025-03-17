@@ -434,18 +434,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_door_welded_lab",
-    "group": "weld_shut_metal_door",
-    "//": "Metal lab door",
-    "category": "REINFORCE",
-    "required_skills": [ [ "fabrication", 1 ] ],
-    "time": "14 s",
-    "using": [ [ "welding_standard", 13 ] ],
-    "pre_terrain": "t_door_metal_lab_c",
-    "post_terrain": "t_door_metal_welded_lab"
-  },
-  {
-    "type": "construction",
     "id": "constr_door_welded_peep",
     "group": "weld_shut_metal_door",
     "//": "Metal door with peephole",
@@ -455,6 +443,30 @@
     "using": [ [ "welding_standard", 13 ] ],
     "pre_terrain": "t_door_metal_c_peep",
     "post_terrain": "t_door_metal_welded_peephole"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_bulkhead",
+    "group": "weld_shut_metal_door",
+    "//": "Metal bulkhead door",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 13 ] ],
+    "pre_terrain": "t_door_metal_bulkhead_c",
+    "post_terrain": "t_door_metal_welded_bulkhead"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_lab",
+    "group": "weld_shut_metal_door",
+    "//": "Metal lab door",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 13 ] ],
+    "pre_terrain": "t_door_metal_lab_c",
+    "post_terrain": "t_door_metal_welded_lab"
   },
   {
     "type": "construction",
