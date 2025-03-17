@@ -2183,13 +2183,18 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND", "WELDABLE_DOOR" ],
+    "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_peephole instead",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "open": "t_door_metal_o_peep",
     "examine_action": "door_peephole",
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",
-      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+      "byproducts": [
+        { "item": "peephole", "count": [ 0, 1 ] },
+        { "item": "steel_plate", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 3, 8 ] }
+      ]
     },
     "bash": {
       "str_min": 90,
@@ -2692,12 +2697,48 @@
   },
   {
     "type": "terrain",
+    "id": "t_door_metal_welded_peephole",
+    "copy-from": "t_door_metal_welded",
+    "looks_like": "t_door_metal_c_peep",
+    "name": "welded metal door with peephole",
+    "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  It's been welded shut, that oughta hold 'em.",
+    "symbol": "+",
+    "color": "cyan",
+    "examine_action": "door_peephole",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [
+        { "item": "peephole", "count": [ 0, 1 ] },
+        { "item": "steel_plate", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 3, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 135,
+      "str_max": 375,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [
+        { "item": "peephole", "prob": 75 },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ],
+      "//": "Same ballistic stats as regular metal doors.",
+      "ranged": { "reduction": [ 90, 90 ], "destroy_threshold": 250 }
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_door_metal_welded_lab",
     "copy-from": "t_door_metal_welded",
     "looks_like": "t_door_metal_lab_c",
     "name": "welded metal door",
     "symbol": "+",
     "color": "cyan",
+    "//": "Doesn't use WELDABLE_DOOR because we want to turn it into t_door_metal_welded_lab instead",
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "NO_SCENT", "MINEABLE" ],
     "oxytorch": {
       "result": "t_mdoor_lab_frame",
@@ -2724,7 +2765,7 @@
     "copy-from": "t_door_metal_welded",
     "looks_like": "t_door_bar_locked",
     "name": "welded bar door",
-    "description": "A detention door made up of crisscrossed stainless steel bars.  It's been welded shut, that oughta hold 'em.",
+    "description": "A detention door made up of crisscrossed stainless steel bars.  It's been welded shut, that oughta hold 'em.  If you examined it more closely, you'd be able to peek through the hole.",
     "symbol": "+",
     "color": "cyan",
     "hacksaw": {
