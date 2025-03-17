@@ -285,7 +285,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     biased_frontier = Frontier();
 
     const bool rebuild_needed = !route_settings.is_relative_search_domain() ||
-                                this->domain == MapDomain::RELATIVE;
+                                this->domain == MapDomain::RELATIVE_DOMAIN;
 
     if( !rebuild_needed ) {
         const DijikstraMap::State state = this->d_map.get_state( start );
@@ -557,8 +557,8 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         }
     }
 
-    this->domain = route_settings.is_relative_search_domain() ? MapDomain::RELATIVE :
-                   MapDomain::ABSOLUTE;
+    this->domain = route_settings.is_relative_search_domain() ? MapDomain::RELATIVE_DOMAIN :
+                   MapDomain::ABSOLUTE_DOMAIN;
 
     if( result == ExpansionOutcome::UNSET ) {
         if( is_fully_explored ) {

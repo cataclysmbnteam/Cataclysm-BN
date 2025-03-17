@@ -342,10 +342,10 @@ class DijikstraPathfinding
         DijikstraMap d_map;
 
         enum class MapDomain {
-            RELATIVE, // Map's search domain limit includes relative limits (that is, depending on start position)
-            ABSOLUTE // Map's search domain limit is centered at the destination
+            RELATIVE_DOMAIN, // Map's search domain limit includes relative limits (that is, depending on start position)
+            ABSOLUTE_DOMAIN // Map's search domain limit is centered at the destination
         };
-        MapDomain domain = MapDomain::RELATIVE;
+        MapDomain domain = MapDomain::RELATIVE_DOMAIN;
 
         // We don't want to calculate dijikstra of the whole map every time,
         //   so we store wave `frontier` to proceed from later if needed
