@@ -2050,25 +2050,29 @@
     "transforms_into": "f_freezer_industrial_off",
     "prompt": "Switch off the freezer.",
     "message": "You switch off the freezer.",
-    "active": [ "charge_watcher", { "min_power": 150, "transform": { "id": "f_freezer_industrial_on", "msg": "The freezer starts up." } } ],
+    "active": [
+      "charge_watcher",
+      { "min_power": 150, "transform": { "id": "f_freezer_industrial_on", "msg": "The freezer starts up." } }
+    ],
     "move_cost_mod": -1,
     "required_str": -1,
     "coverage": 90,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
     "max_volume": "1000 L",
     "deconstruct": {
-      "items": 
-      [ { "item": "sheet_metal", "count": 36 } ,
-       { "item": "sheet_metal_small", "count": 10 } ,
-       { "item": "steel_chunk", "count": 10 } ,
-       { "item": "cable", "count": 5 } ,
-       { "item": "hose", "count": 1 } ,
-       { "item": "condensor_coil", "count": 2 } ,
-       { "item": "evaporator_coil", "count": 2 } ,
-       { "item": "refrigerant_tank", "count": 2 } ,
-       { "item": "thermostat", "count": 1 } ,
-       { "item": "light_bulb", "count": 1 } ,
-       { "item": "motor_tiny", "count": 2 } ]
+      "items": [
+        { "item": "sheet_metal", "count": 36 },
+        { "item": "sheet_metal_small", "count": 10 },
+        { "item": "steel_chunk", "count": 10 },
+        { "item": "cable", "count": 5 },
+        { "item": "hose", "count": 1 },
+        { "item": "condensor_coil", "count": 2 },
+        { "item": "evaporator_coil", "count": 2 },
+        { "item": "refrigerant_tank", "count": 2 },
+        { "item": "thermostat", "count": 1 },
+        { "item": "light_bulb", "count": 1 },
+        { "item": "motor_tiny", "count": 2 }
+      ]
     },
     "bash": {
       "str_min": 20,
@@ -2081,7 +2085,7 @@
         { "item": "steel_chunk", "count": [ 2, 10 ] },
         { "item": "scrap", "count": [ 2, 10 ] },
         { "item": "cable", "charges": [ 2, 5 ] },
-        { "item": "hose", "count": [ 1, 2 ]},
+        { "item": "hose", "count": [ 1, 2 ] },
         { "item": "cu_pipe", "count": [ 2, 8 ] },
         { "item": "scrap_copper", "count": [ 1, 4 ] },
         { "item": "motor_tiny", "count": [ 0, 2 ] }
@@ -2115,7 +2119,11 @@
     "//": "Please keep steady_consumer to 300 s or more to avoid lag.",
     "active": [
       "steady_consumer",
-      { "power": 100, "consume_every": "600 s", "transform": { "id": "f_freezer_industrial", "msg": "The freezer shuts down." } }
+      {
+        "power": 100,
+        "consume_every": "600 s",
+        "transform": { "id": "f_freezer_industrial", "msg": "The freezer shuts down." }
+      }
     ]
   },
   {
