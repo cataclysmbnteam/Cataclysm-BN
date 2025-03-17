@@ -2,7 +2,7 @@
   {
     "type": "MOD_INFO",
     "id": "skills_through_kills",
-    "name": "SkillsThroughKills",
+    "name": "Skills Through Kills",
     "authors": [ "Coolthulhu" ],
     "description": "Changes the skill experience system from \"learn by doing\" to \"spend experience from kills on skills\".",
     "category": "rebalance",
