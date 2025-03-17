@@ -4694,6 +4694,16 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         }
         return 0;
     }
+    const int fuel_requirement = it->ammo_required() * ( here.has_furn( pnt ) ? to_seconds<int>
+                                 ( here.furn( pnt )->oxytorch->duration() ) : to_seconds<int>( here.ter(
+                                         pnt )->oxytorch->duration() ) );
+
+    if( fuel_requirement > it->ammo_remaining() ) {
+        p->add_msg_if_player( m_bad,
+                              _( "Your %1$s doesn't have enough charges to cut this, %2$s required." ), it->tname(),
+                              fuel_requirement );
+        return 0;
+    }
 
     p->assign_activity( std::make_unique<player_activity>( std::make_unique<oxytorch_activity_actor>(
                             pnt, safe_reference<item>( *it )

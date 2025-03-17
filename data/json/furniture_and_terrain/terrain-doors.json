@@ -2037,7 +2037,7 @@
     "open": "t_door_metal_o",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
@@ -2236,7 +2236,7 @@
     "roof": "t_flat_roof",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
@@ -2289,7 +2289,7 @@
     "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "pry": {
@@ -2324,7 +2324,7 @@
     "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
@@ -2372,7 +2372,7 @@
     "close": "t_door_bar_locked",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
@@ -2440,7 +2440,7 @@
     "examine_action": "locked_object_pickable",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
