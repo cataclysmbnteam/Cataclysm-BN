@@ -986,6 +986,11 @@
   },
   {
     "type": "construction_group",
+    "id": "install_industrial_freezer",
+    "name": "Install Industrial Freezer"
+  },
+  {
+    "type": "construction_group",
     "id": "install_glass_freezer",
     "name": "Install Glass Freezer"
   },
