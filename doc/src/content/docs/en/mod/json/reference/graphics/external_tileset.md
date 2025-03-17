@@ -56,6 +56,7 @@ Links to relevant pull requests, for content covered below:
 - More tooth and bone weapons, triffid weapons:
   [#5712](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5712)
 - Treetops ported from DDA: [#5167](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/5167)
+- Ability to weld shut doors: [#6182](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/6182)
 
 ## Undead People
 
@@ -76,10 +77,6 @@ Ultica are planned for the future.
 - Large leather-reinforced shield, including worn and wielded. Item specific to BN.
 - Banded shield, including worn and wielded. Item specific to BN.
 - Large banded shield, including worn and wielded. Item specific to BN.
-- Swapped spring and summer sprites (the latter not depicting young berries) for blueberry bush, as
-  harvest season has been moved in BN.
-- Swapped spring and summer sprites (the latter not depicting young berries) for strawberry bush, as
-  harvest season has been moved in BN.
 - Fixed worn sprite for `woodgreatbow`, as it had a sprite error in its UDP version.
   `Note: this can be removed once UDP is updated in BN, as the fix has been published in the source repository.`
 - Overriding sprite for `compgreatbow`, as its version in BN is modeled after a composite bow
@@ -113,6 +110,9 @@ Ultica are planned for the future.
 
 - Rice paddies. Terrain specific to BN.
 - Niter beds. Terrain specific to BN.
+- Swapped spring and summer sprites (the latter not depicting young berries) for blueberry bush, as
+  harvest season has been moved in BN.
+- Welded-shut metal doors including peephole, bulkhead, lab door, and bar doors. Terrain specific to BN.
 
 ### External_Tileset_DP_Tall.png
 
