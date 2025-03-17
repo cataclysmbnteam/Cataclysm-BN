@@ -8627,7 +8627,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                         who->add_msg_if_player( m_info, _( "That would be unwise to short-circuit this grid connector." ) );
                     } else {
                         who->add_msg_if_player( m_info,
-                                                _( "There is no point in connecting two networks with a cable, but the idea about ​​a voltmeter flashed through your head." ) );
+                                                _( "To directly connect two networks together, use a voltmeter instead." ) );
                     }
                     return 0;
                 }
