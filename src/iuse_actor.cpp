@@ -1424,7 +1424,7 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
 
     // TODO: Cluster tripoints to collapse direct neighbor tiles (helipads, etc)?
 
-    auto sz = std::distance( eqRange.first, eqRange.second );
+    const auto sz = std::distance( eqRange.first, eqRange.second );
 
     // Shouldn't ever be hit, since multimap shouldn't have an entry with no overmap tiles, but
     if( sz == 0 ) {
@@ -1459,7 +1459,7 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
             auto db = trig_dist_squared( plrPos.raw(), b.second.raw() );
             return da < db;
         };
-        auto it = std::min_element( eqRange.first, eqRange.second, pred_dist );
+        const auto it = std::min_element( eqRange.first, eqRange.second, pred_dist );
         ui::omap::choose_point( it->second );
     }
 
