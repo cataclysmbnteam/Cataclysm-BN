@@ -16,7 +16,8 @@ class lua_iuse_actor : public iuse_actor
         lua_iuse_actor( const std::string &type, sol::protected_function &&luafunc );
         ~lua_iuse_actor() override;
         void load( const JsonObject &obj ) override;
-        int use( player &who, item &itm, bool tick, const tripoint &pos ) const override;
+        std::pair<int, units::energy> use( player &who, item &itm, bool tick,
+                                           const tripoint &pos ) const override;
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };

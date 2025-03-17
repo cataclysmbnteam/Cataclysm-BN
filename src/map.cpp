@@ -4808,19 +4808,14 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     return VisitResponse::NEXT;
                 }
-                if( n.ammo_capacity() > n.ammo_remaining() ||
-                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+                if( n.is_battery() &&  n.energy_capacity() > n.energy_remaining() ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                        const int missing = cur_veh.discharge_battery( 1, false );
-                        if( missing > 0 ) {
+                        const units::energy charged = 1_kJ - cur_veh.discharge_battery( 1_kJ, false );
+                        n.mod_energy( charged );
+                        if( charged < 1_kJ ) {
                             out_of_battery = true;
                             return VisitResponse::ABORT;
-                        }
-                        if( n.is_battery() ) {
-                            n.mod_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
                         }
                         power -= 1000;
                     }
