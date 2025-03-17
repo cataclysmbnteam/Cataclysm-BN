@@ -245,6 +245,53 @@ void inventory::push_back( const std::vector<item *> &newits )
     }
 }
 
+void inventory::push_back( item &newit )
+{
+    add_item( newit );
+}
+
+inventory& inventory::add_items(const inventory& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+{
+    for( size_t i = 0; i < rhs.size(); i++ ) {
+        add_items( rhs.const_stack( i ), keep_invlet, assign_invlet, should_stack );
+    }
+    return *this;
+}
+
+inventory& inventory::add_items(const std::vector<item*>& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+{
+    for( const auto &it : rhs ) {
+        add_item( *it, keep_invlet, assign_invlet, should_stack);
+    }
+    return *this;
+}
+
+inventory& inventory::add_items(const item_stack& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+{
+    for( const auto &it : rhs ) {
+        if( !it->made_of( LIQUID ) ) {
+            add_item( *it, keep_invlet, assign_invlet, should_stack );
+        }
+    }
+    return *this;
+}
+
+inventory& inventory::add_items(const location_inventory& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+{
+    for( size_t i = 0; i < rhs.size(); i++ ) {
+        add_items( rhs.const_stack( i ), keep_invlet, assign_invlet, should_stack );
+    }
+    return *this;
+}
+
+inventory& inventory::add_items(const location_vector<item>& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+{
+    for( item * const &it : rhs ) {
+        add_item( *it, keep_invlet, assign_invlet, should_stack );
+    }
+    return *this;
+}
+
 // This function keeps the invlet cache updated when a new item is added.
 void inventory::update_cache_with_item( item &newit )
 {
@@ -377,10 +424,6 @@ void inventory::add_item_keep_invlet( item &newit )
     add_item( newit, true );
 }
 
-void inventory::push_back( item &newit )
-{
-    add_item( newit );
-}
 
 #if defined(__ANDROID__)
 extern void remove_stale_inventory_quick_shortcuts();

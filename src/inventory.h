@@ -103,6 +103,7 @@ class inventory : public temp_visitable<inventory>
         inventory &operator=( inventory && ) = default;
         inventory &operator=( const inventory & ) = default;
 
+private:
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( item &rhs );
         inventory &operator+= ( const location_inventory &rhs );
@@ -112,10 +113,20 @@ class inventory : public temp_visitable<inventory>
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( item &rhs );
         inventory  operator+ ( const std::vector<item *> &rhs );
+        
+        void push_back( const std::vector<item *> &newits );
+        void push_back( item &newit );
+public:
 
         void unsort(); // flags the inventory as unsorted
         void clear();
-        void push_back( const std::vector<item *> &newits );
+
+        inventory &add_items ( const inventory &rhs, bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
+        inventory &add_items ( const std::vector<item *> &rhs, bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
+        inventory &add_items ( const item_stack &rhs , bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
+        inventory &add_items ( const location_inventory &rhs , bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
+        inventory &add_items ( const location_vector<item> &rhs , bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
+
         // returns a reference to the added item
         item &add_item( item &newit, bool keep_invlet = false, bool assign_invlet = true,
                         bool should_stack = true );
@@ -124,7 +135,6 @@ class inventory : public temp_visitable<inventory>
                                             bool assign_invlet = true,
                                             bool should_stack = true );
         void add_item_keep_invlet( item &newit );
-        void push_back( item &newit );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
