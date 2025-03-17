@@ -8352,8 +8352,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-static auto confirm_source_vehicle( player *const who, item *const cable,
-                                    tripoint_abs_ms &global )
+static auto confirm_source_vehicle(const tripoint_abs_ms &global )
 {
     optional_vpart_position source_vp = g->m.veh_at( global );
     vehicle *const source_veh = veh_pointer_or_null( source_vp );
@@ -8515,8 +8514,8 @@ int iuse::tow_attach( player *who, item *cable, bool, const tripoint & )
         }
     }
     if( data->intermap_connection() ) {
-        const auto [vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point );
-        const auto [vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point );
+        const auto [vp1, v1] = confirm_source_vehicle( data->con1.point );
+        const auto [vp2, v2] = confirm_source_vehicle(  data->con2.point );
 
         if( !vp1 || !vp2 ) {
             debugmsg( "Something went wrong with cable connection" );
@@ -8672,7 +8671,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
                     who->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
                     break;
                 case state_vehicle: {
-                    const auto [_, veh] = confirm_source_vehicle( who, cable, nonchar->point );
+                    const auto [_, veh] = confirm_source_vehicle( nonchar->point );
                     if( veh ) {
                         who->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
                     } else {
@@ -8696,8 +8695,8 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
         }
         //We've connected two vehicles
         else if( data->con1.state == state_vehicle && data->con2.state == state_vehicle ) {
-            const auto [ vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point );
-            const auto [ vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point );
+            const auto [ vp1, v1] = confirm_source_vehicle( data->con1.point );
+            const auto [ vp2, v2] = confirm_source_vehicle( data->con2.point );
 
             if( !vp1 || !vp2 ) {
                 debugmsg( "Something went wrong with cable connection" );
@@ -8735,8 +8734,8 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
         }
         //We've connected vehicle to grid
         else if( data->con1.state == state_vehicle || data->con2.state == state_vehicle ) {
-            auto [vp1, v1] = confirm_source_vehicle( who, cable, data->con1.point );
-            auto [vp2, v2] = confirm_source_vehicle( who, cable, data->con2.point );
+            auto [vp1, v1] = confirm_source_vehicle( data->con1.point );
+            auto [vp2, v2] = confirm_source_vehicle( data->con2.point );
 
             vehicle *v = nullptr;
             optional_vpart_position vp( std::nullopt );
