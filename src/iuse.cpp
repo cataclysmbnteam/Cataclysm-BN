@@ -8352,7 +8352,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-static auto confirm_source_vehicle(const tripoint_abs_ms &global )
+static auto confirm_source_vehicle( const tripoint_abs_ms &global )
 {
     optional_vpart_position source_vp = g->m.veh_at( global );
     vehicle *const source_veh = veh_pointer_or_null( source_vp );
@@ -8515,7 +8515,7 @@ int iuse::tow_attach( player *who, item *cable, bool, const tripoint & )
     }
     if( data->intermap_connection() ) {
         const auto [vp1, v1] = confirm_source_vehicle( data->con1.point );
-        const auto [vp2, v2] = confirm_source_vehicle(  data->con2.point );
+        const auto [vp2, v2] = confirm_source_vehicle( data->con2.point );
 
         if( !vp1 || !vp2 ) {
             debugmsg( "Something went wrong with cable connection" );
