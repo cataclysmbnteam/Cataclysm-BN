@@ -1912,7 +1912,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         item &it = *act->tools.front();
         p->consume_charges( it, it.ammo_required() );
     } else {
-        debugmsg( "pickaxe activity targets empty" );
+        debugmsg( "pickaxe activity has no tool" );
     }
     if( resume_for_multi_activities( *p ) ) {
         for( item *&elem : here.i_at( pos ) ) {
@@ -3945,13 +3945,13 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     act->set_to_null();
 
     // Quality of tool used and assistants can together both reduce intensity of work.
-    if( act->targets.empty() ) {
+    if( act->tools.empty() ) {
         debugmsg( "woodcutting item location not set" );
         resume_for_multi_activities( *p );
         return;
     }
 
-    safe_reference<item> &loc = act->targets[ 0 ];
+    safe_reference<item> &loc = act->tools[ 0 ];
     if( !loc ) {
         debugmsg( "woodcutting item location lost" );
         resume_for_multi_activities( *p );
@@ -4014,7 +4014,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 
     // Quality of tool used and assistants can together both reduce intensity of work.
 
-    safe_reference<item> &loc = act->targets[ 0 ];
+    safe_reference<item> &loc = act->tools[ 0 ];
     if( !loc ) {
         debugmsg( "woodcutting item location lost" );
         return;
