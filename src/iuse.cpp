@@ -8660,7 +8660,7 @@ int iuse::cable_attach( player *who, item *cable, bool, const tripoint & )
 
         //We've connected something to Character
         if( data->character_connected() ) {
-            auto nonchar = data->get_nonchar_connection();
+            auto *const nonchar = data->get_nonchar_connection();
             switch( nonchar->state ) {
                 case state_grid:
                     who->add_msg_if_player( m_good, _( "You are now plugged to the grid." ) );

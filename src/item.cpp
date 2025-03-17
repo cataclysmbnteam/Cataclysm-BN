@@ -9868,7 +9868,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
     //Caharacter connected to smth
     if( data->complete() ) {
         if( !carrier ) {
-            if( auto map = data->get_map_connection() ) {
+            if( auto *const map = data->get_map_connection() ) {
                 data->unset_other_con( self.get(), nonchar );
             } else {
                 self->reset_cable( carrier );

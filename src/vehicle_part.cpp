@@ -173,7 +173,7 @@ detached_ptr<item> vehicle_part::properties_to_item() const
                     }
                 }
             } else if( data->character_connected() ) {
-                if( auto con = data->get_nonchar_connection() ) {
+                if( auto *const con = data->get_nonchar_connection() ) {
                     data->unset_con( tmp.get(), *con );
                 } else {
                     tmp->reset_cable();

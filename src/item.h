@@ -2550,7 +2550,7 @@ struct cable_connection_data {
         return con1.map_point() && con2.map_point();
     }
 
-    connection *const get_map_connection() {
+    connection *get_map_connection() {
         if( intermap_connection() ) {
             return nullptr;
         } else if( con1.map_point() ) {
@@ -2561,7 +2561,7 @@ struct cable_connection_data {
         return nullptr;
     }
 
-    connection *const get_nonchar_connection() {
+    connection *get_nonchar_connection() {
         if( !con1.is_character() && !con1.empty() ) {
             return &con1;
         } else if( !con2.is_character() && !con2.empty() ) {
@@ -2622,7 +2622,7 @@ struct cable_connection_data {
         cable->erase_var( source_p2_name );
     }
 
-    static std::optional<cable_connection_data> make_data( const item *cable ) {
+    static std::optional<cable_connection_data> make_data( const item *const cable ) {
         if( cable ) {
             return make_data( *cable );
         } else {
