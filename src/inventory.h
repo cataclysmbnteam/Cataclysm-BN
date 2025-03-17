@@ -103,19 +103,6 @@ class inventory : public temp_visitable<inventory>
         inventory &operator=( inventory && ) = default;
         inventory &operator=( const inventory & ) = default;
 
-private:
-        inventory &operator+= ( const inventory &rhs );
-        inventory &operator+= ( item &rhs );
-        inventory &operator+= ( const location_inventory &rhs );
-        inventory &operator+= ( const location_vector<item> &rhs );
-        inventory &operator+= ( const std::vector<item *> &rhs );
-        inventory &operator+= ( const item_stack &rhs );
-        inventory  operator+ ( const inventory &rhs );
-        inventory  operator+ ( item &rhs );
-        inventory  operator+ ( const std::vector<item *> &rhs );
-        
-        void push_back( const std::vector<item *> &newits );
-        void push_back( item &newit );
 public:
 
         void unsort(); // flags the inventory as unsorted

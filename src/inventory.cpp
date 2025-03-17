@@ -157,69 +157,6 @@ size_t inventory::size() const
     return items.size();
 }
 
-inventory &inventory::operator+= ( const inventory &rhs )
-{
-    for( size_t i = 0; i < rhs.size(); i++ ) {
-        push_back( rhs.const_stack( i ) );
-    }
-    return *this;
-}
-
-inventory &inventory::operator+= ( const location_inventory &rhs )
-{
-    for( size_t i = 0; i < rhs.size(); i++ ) {
-        push_back( rhs.const_stack( i ) );
-    }
-    return *this;
-}
-
-inventory &inventory::operator+= ( const location_vector<item> &rhs )
-{
-    for( item * const &it : rhs ) {
-        add_item( *it, true );
-    }
-    return *this;
-}
-
-inventory &inventory::operator+= ( const std::vector<item *> &rhs )
-{
-    for( const auto &rh : rhs ) {
-        add_item( *rh, true );
-    }
-    return *this;
-}
-
-inventory &inventory::operator+= ( item &rhs )
-{
-    add_item( rhs );
-    return *this;
-}
-
-inventory &inventory::operator+= ( const item_stack &rhs )
-{
-    for( const auto &p : rhs ) {
-        if( !p->made_of( LIQUID ) ) {
-            add_item( *p, true );
-        }
-    }
-    return *this;
-}
-
-inventory inventory::operator+ ( const inventory &rhs )
-{
-    return inventory( *this ) += rhs;
-}
-
-inventory inventory::operator+ ( const std::vector<item *> &rhs )
-{
-    return inventory( *this ) += rhs;
-}
-
-inventory inventory::operator+ ( item &rhs )
-{
-    return inventory( *this ) += rhs;
-}
-
 void inventory::unsort()
 {
     binned = false;
@@ -236,18 +173,6 @@ void inventory::clear()
     items.clear();
     binned = false;
     items_type_cached = false;
-}
-
-void inventory::push_back( const std::vector<item *> &newits )
-{
-    for( const auto &newit : newits ) {
-        add_item( *newit, true );
-    }
-}
-
-void inventory::push_back( item &newit )
-{
-    add_item( newit );
 }
 
 inventory& inventory::add_items(const inventory& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
@@ -1440,7 +1365,7 @@ void location_inventory::push_back( std::vector<detached_ptr<item>> &newits )
         } else {
             as_p->resolve_saved_loc();
             as_p->set_location( &*loc );
-            inv.push_back( *as_p );
+            inv.add_item(*as_p, true);
         }
     }
 }
@@ -1553,7 +1478,8 @@ void location_inventory::push_back( detached_ptr<item> &&newit )
 
     as_p->resolve_saved_loc();
     as_p->set_location( &*loc );
-    return inv.push_back( *as_p );
+    
+    inv.add_item( *as_p, true );
 }
 
 void location_inventory::restack( player &p )
