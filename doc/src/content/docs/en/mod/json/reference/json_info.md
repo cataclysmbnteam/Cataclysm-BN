@@ -2439,8 +2439,8 @@ more structured function.
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["s_gun", "hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
-	"terrain_view": ["s_gun"], // (optional) ids of overmap terrain types that should be shown on a prompt after using the map (as many as you want, ideally a subset of terrain).
-	"terrain_view_exclude": ["hiway", "road"], // (optional) ids of overmap terrain types that should NOT be shown on the prompt after using the map (as many as you want, ideally a subset of terrain_view).
+    "terrain_view": ["s_gun"], // (optional) ids of overmap terrain types that should be shown on a prompt after using the map (as many as you want, ideally a subset of terrain).
+    "terrain_view_exclude": ["hiway", "road"], // (optional) ids of overmap terrain types that should NOT be shown on the prompt after using the map (as many as you want, ideally a subset of terrain_view).
     "message": "You add roads and tourist attractions to your map." // Displayed after the revelation.
 },
 "use_action": {
