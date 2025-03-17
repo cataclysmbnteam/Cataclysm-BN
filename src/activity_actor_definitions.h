@@ -10,6 +10,7 @@
 #include "pickup_token.h"
 #include "location_ptr.h"
 #include "locations.h"
+#include "construction_partial.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_energy.h"
@@ -222,7 +223,6 @@ class disassemble_activity_actor : public activity_actor
         std::vector<iuse_location> targets;
         tripoint_abs_ms pos;
         bool recursive = false;
-        int initial_num_targets = 0;
 
     public:
         disassemble_activity_actor() = default;
@@ -238,17 +238,14 @@ class disassemble_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
-        act_progress_message get_progress_message(
-            const player_activity &, const Character & ) const override;
-
         bool try_start_single( player_activity &act, Character &who );
-        int calc_num_targets() const;
+        void process_target( player_activity &act, iuse_location target );
 };
 
 class drop_activity_actor : public activity_actor
@@ -291,7 +288,7 @@ class hacking_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
         void serialize( JsonOut &jsout ) const override;
@@ -398,7 +395,7 @@ class lockpick_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
         static bool is_pickable( const tripoint &p );
@@ -481,7 +478,7 @@ class toggle_gate_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character & ) override;
 
 
@@ -588,7 +585,7 @@ class wash_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
         void serialize( JsonOut &jsout ) const override;
@@ -624,6 +621,27 @@ class oxytorch_activity_actor : public activity_actor
                                                    ( other );
             return actor.target == target;
         }
+};
+
+class construction_activity_actor : public activity_actor
+{
+    private:
+        tripoint_abs_ms target;
+        partial_con *pc;
+    public:
+        explicit construction_activity_actor( const tripoint_abs_ms &target ) : target( target ) {
+        };
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BUILD" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

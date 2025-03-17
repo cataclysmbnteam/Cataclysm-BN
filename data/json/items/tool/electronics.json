@@ -472,6 +472,7 @@
       },
       "CAMERA",
       "MP3",
+      "PORTABLE_GAME",
       "TOGGLE_UPS_CHARGING"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
@@ -609,7 +610,6 @@
     "color": "magenta",
     "use_action": "NOTE_BIONICS",
     "revert_to": "bionic_scanner",
-    "power_draw": 10000,
     "revert_msg": "The %s shuts down."
   }
 ]

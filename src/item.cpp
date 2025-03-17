@@ -9409,8 +9409,9 @@ uint64_t item::make_component_hash() const
 bool item::needs_processing() const
 {
     return is_active() || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
-           ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact() || is_food();
+           ( !contents.empty() && is_container() && contents.front().needs_processing() ) ||
+           ( magazine_current() && magazine_current()->needs_processing() ) ||
+           is_artifact() || is_relic() || is_food();
 }
 
 int item::processing_speed() const
@@ -9574,16 +9575,18 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
     return muts;
 }
 
-void item::process_relic( Character &carrier )
+void item::process_relic( Character *carrier )
 {
     if( !is_relic() ) {
         return;
     }
     std::vector<enchantment> active_enchantments;
 
-    for( const enchantment &ench : get_enchantments() ) {
-        if( ench.is_active( carrier, *this ) ) {
-            active_enchantments.emplace_back( ench );
+    if( carrier ) {
+        for( const enchantment &ench : get_enchantments() ) {
+            if( ench.is_active( *carrier, *this ) ) {
+                active_enchantments.emplace_back( ench );
+            }
         }
     }
 
@@ -10172,6 +10175,9 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
             return std::move( self );
         }
     }
+
+    self->process_artifact( carrier, pos );
+    self->process_relic( carrier );
 
     if( self->faults.contains( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( std::move( self ), carrier );

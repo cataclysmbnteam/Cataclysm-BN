@@ -107,7 +107,7 @@
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ] ] ],
+    "components": [ [ [ "nylon", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

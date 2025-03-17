@@ -1017,8 +1017,6 @@ class Character : public Creature, public location_visitable<Character>
         int get_total_bionics_slots( const bodypart_id &bp ) const;
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
-        /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
@@ -1808,7 +1806,8 @@ class Character : public Creature, public location_visitable<Character>
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
-        float stamina_move_cost_modifier() const;
+        float stamina_burn_cost_modifier() const;
+        float running_move_cost_modifier() const;
         /** Regenerates stamina */
         void update_stamina( int turns );
 

@@ -346,6 +346,7 @@ static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WEBBED( "WEBBED" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string iuse_TOGGLE_UPS_CHARGING( "TOGGLE_UPS_CHARGING" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -7506,7 +7507,7 @@ void Character::burn_move_stamina( int moves )
     if( move_mode == CMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
-    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
+    mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_burn_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -7520,19 +7521,25 @@ void Character::burn_move_stamina( int moves )
     }
 }
 
-float Character::stamina_move_cost_modifier() const
+float Character::stamina_burn_cost_modifier() const
 {
-    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    // We no longer modify movecost with stamina, but we do modify the stamina cost
     // Convert stamina to a float first to allow for decimal place carrying
     float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
+    return stamina_modifier * running_move_cost_modifier();
+}
+
+float Character::running_move_cost_modifier() const
+{
+    float movement_modifier = 1.0;
     if( move_mode == CMM_RUN && get_stamina() >= 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
-        stamina_modifier *= 2.0;
+        movement_modifier *= 2.0;
     }
     if( move_mode == CMM_CROUCH ) {
-        stamina_modifier *= 0.5;
+        movement_modifier *= 0.5;
     }
-    return stamina_modifier;
+    return movement_modifier;
 }
 
 void Character::update_stamina( int turns )
@@ -7605,7 +7612,7 @@ bool Character::invoke_item( item *used, const std::string &method )
 
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
 {
-    if( !has_enough_charges( *used, true ) ) {
+    if( method != iuse_TOGGLE_UPS_CHARGING && !has_enough_charges( *used, true ) ) {
         return false;
     }
 
@@ -10610,7 +10617,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         movecost += bonus_from_enchantments( movecost, enchant_vals::mod::MOVE_COST );
-        movecost /= stamina_move_cost_modifier();
+        movecost /= running_move_cost_modifier();
 
         if( movecost < 20.0 ) {
             movecost = 20.0;

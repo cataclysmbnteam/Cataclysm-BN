@@ -77,7 +77,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
@@ -805,6 +804,7 @@ void wash_activity_actor::finish( player_activity &act, Character &who )
         } else {
             detached_ptr<item> it2 = it.split( i.count );
             it2->item_tags.erase( flag_FILTHY );
+            who.i_add_or_drop( std::move( it2 ) );
         }
         who.on_worn_item_washed( it );
     }
@@ -2010,8 +2010,8 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
         p.consume_tools( it );
     }
     p.backlog.emplace_front( std::make_unique<player_activity>( activity_to_restore ) );
-    p.assign_activity( ACT_BUILD );
-    p.activity->placement = here.getabs( src_loc );
+    p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                       ( here.getglobal( src_loc ) ) ) );
     return true;
 }
 
@@ -2946,8 +2946,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                reason == do_activity_reason::CAN_DO_PREREQ ) {
         if( here.partial_con_at( src_loc ) ) {
             p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
-            p.assign_activity( std::make_unique<player_activity>( ACT_BUILD ) );
-            p.activity->placement = src;
+            p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                               ( tripoint_abs_ms( src ) ) ) );
             return false;
         }
         if( construction_activity( p, zone, src_loc, act_info, act_id ) ) {

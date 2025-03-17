@@ -2704,7 +2704,7 @@
     "encumbrance": 20,
     "material_thickness": 1,
     "use_action": "SOLARPACK_OFF",
-    "solar_efficiency": 0.05,
+    "solar_efficiency": 0.04,
     "valid_mods": [ "resized_large" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },

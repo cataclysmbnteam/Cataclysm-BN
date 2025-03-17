@@ -255,20 +255,6 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "smart_phone", 1 ] ], [ [ "plut_cell", 1 ] ] ]
   },
   {
-    "type": "recipe",
-    "result": "purifier_smart_shot",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
-    "skills_required": [ "firstaid", 6 ],
-    "difficulty": 10,
-    "time": 120000,
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
-  },
-  {
     "result": "plut_cell",
     "type": "recipe",
     "category": "CC_ELECTRONIC",

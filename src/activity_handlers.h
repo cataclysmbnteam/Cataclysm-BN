@@ -215,7 +215,6 @@ void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void find_mount_do_turn( player_activity *act, player *p );
 void tidy_up_do_turn( player_activity *act, player *p );
-void build_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void fertilize_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );

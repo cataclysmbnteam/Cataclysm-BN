@@ -150,6 +150,7 @@ static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
+static const bionic_id bio_electrosense_bscanner( "bio_electrosense_bscanner" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
@@ -1145,11 +1146,13 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
             return false;
         }
 
-        //We can actually deactivate now, do deactivation-y things
+        // All checks green, get the deactivation cost and print the message.
         mod_power_level( -bio.info().power_deactivate );
-        bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
+
+    // Deactivation is outwidth of the !eff_only block, as involuntary or voluntary it still needs to turn off.
+    bio.powered = false;
 
     // Deactivation effects go here
     if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
@@ -1227,7 +1230,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                    _( "Your %s runs out of fuel and turn off." ),
                                    _( "<npcname>'s %s runs out of fuel and turn off." ),
                                    bio.info().name );
-            bio.powered = false;
             deactivate_bionic( bio, true );
             return false;
         }
@@ -1278,7 +1280,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                                bio.info().name );
                     }
                 }
-                bio.powered = false;
                 deactivate_bionic( bio, true );
                 return false;
             } else {
@@ -1351,8 +1352,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                                _( "<npcname>'s %s runs out of fuel and turn off." ),
                                                bio.info().name );
                     }
-
-                    bio.powered = false;
                     deactivate_bionic( bio, true );
                     return false;
                 }
@@ -1625,7 +1624,6 @@ void Character::process_bionic( bionic &bio )
                 bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
-                    bio.powered = false;
                     add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
                     // This purposely bypasses the deactivation cost
                     deactivate_bionic( bio, true );
@@ -1791,7 +1789,7 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
-    } else if( bio.id == bio_electrosense ) {
+    } else if( bio.id == bio_electrosense_bscanner ) {
         // This is a horrible mess but can't use the active iuse behavior directly
         map &here = get_map();
         for( const tripoint &pt : here.points_in_radius( pos(), PICKUP_RANGE ) ) {
@@ -1811,6 +1809,20 @@ void Character::process_bionic( bionic &bio )
                     }
                 }
 
+                units::energy enrg = cbms.size() * bio.info().power_trigger;
+                if( get_power_level() >= enrg ) {
+                    mod_power_level( -enrg );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "Your %s doesn't have enough power for the %s" ),
+                                       bio.info().name, corpse->display_name().c_str() );
+                    if( get_power_level() < bio.info().power_trigger ) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+
                 corpse->set_var( "bionics_scanned_by", getID().get_value() );
                 if( !cbms.empty() ) {
                     corpse->set_flag( flag_CBM_SCANNED );
@@ -1826,6 +1838,12 @@ void Character::process_bionic( bionic &bio )
                                        bionics_string.c_str()
                                      );
                 }
+            }
+            if( get_power_level() < bio.info().power_trigger ) {
+                add_msg_if_player( m_bad, _( "Your %s doesn't have enough power and shuts down." ),
+                                   bio.info().name );
+                deactivate_bionic( bio, true );
+                break;
             }
         }
     } else if( bio.id == bio_radscrubber ) {
@@ -1929,25 +1947,6 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
             do_damage_for_bionic_failure( 5, difficulty * 5 );
             break;
     }
-}
-
-bool Character::has_enough_anesth( const itype *cbm, player & )
-{
-    if( !cbm->bionic ) {
-        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
-        return false;
-    }
-
-    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
-        has_trait( trait_DEBUG_BIONICS ) ) {
-        return true;
-    }
-
-    const int weight = 7;
-    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                        cbm->bionic->difficulty * 2 * weight;
-
-    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
 }
 
 // bionic manipulation adjusted skill
@@ -2675,6 +2674,30 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
+bool cbm_needs_anesthesia( const Character &who )
+{
+    return !( who.has_bionic( bio_painkiller ) || who.has_trait( trait_NOPAIN ) ||
+              who.has_trait( trait_DEBUG_BIONICS ) );
+}
+
+bool has_enough_anesthesia( const itype *cbm, Character &doc, const Character &patient )
+{
+    if( !cbm->bionic ) {
+        debugmsg( "has_enough_anesthesia( const itype *cbm ): %s is not a bionic", cbm->get_id() );
+        return false;
+    }
+
+    if( !cbm_needs_anesthesia( patient ) ) {
+        return true;
+    }
+
+    const int weight = 7;
+    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                        cbm->bionic->difficulty * 2 * weight;
+
+    return req_anesth.can_make_with_inventory( doc.crafting_inventory(), is_crafting_component );
+}
+
 void Character::add_bionic( const bionic_id &b )
 {
     if( has_bionic( b ) ) {
@@ -2996,11 +3019,11 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
                                      _( "<npcname> sets up the operation, configuring the Autodoc to manipulate a CBM." ) );
-
-    add_msg_player_or_npc( m_info,
-                           _( "You settle into position, sliding your right wrist into the couch's strap." ),
-                           _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( needs_anesthesia ) {
+        add_msg_player_or_npc( m_info,
+                               _( "You settle into position, sliding your right wrist into the couch's strap." ),
+                               _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
+
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
@@ -3009,6 +3032,13 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
 
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+
+        //Pain junkies feel sorry about missed pain from operation.
+        if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
+            has_trait( trait_CENOBITE ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+        }
 
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
@@ -3020,13 +3050,6 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
             add_msg_if_player( m_mixed,
                                _( "You stay very, very still, intently staring off into space, as the Autodoc slices painlessly into you." ) );
         }
-    }
-
-    //Pain junkies feel sorry about missed pain from operation.
-    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-        has_trait( trait_CENOBITE ) ) {
-        add_msg_if_player( m_mixed,
-                           _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
     if( has_effect( effect_narcosis ) ) {

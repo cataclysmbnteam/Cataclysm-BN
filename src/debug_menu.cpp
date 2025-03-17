@@ -107,6 +107,7 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "weighted_list.h"
+#include "game_info.h"
 
 static const mtype_id mon_generator( "mon_generator" );
 

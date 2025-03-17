@@ -33,6 +33,12 @@
 #include "translations.h"
 #include "value_ptr.h"
 #include "profile.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vehicle_part.h"
+#include "vehicle_selector.h"
+#include "vpart_position.h"
+#include "character_functions.h"
 
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
@@ -79,39 +85,88 @@ void player_activity::set_to_null()
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
 }
 
-bool player_activity::rooted() const
-{
-    return type != activity_id::NULL_ID() && type->rooted();
-}
-
-std::string player_activity::get_stop_phrase() const
-{
-    return type->stop_phrase();
-}
-
-const translation &player_activity::get_verb() const
-{
-    return type->verb();
-}
 
 int player_activity::get_value( size_t index, int def ) const
 {
     return index < values.size() ? values[index] : def;
 }
 
-bool player_activity::is_suspendable() const
-{
-    return type->suspendable();
-}
-
-bool player_activity::is_multi_type() const
-{
-    return type->multi_activity();
-}
-
 std::string player_activity::get_str_value( size_t index, const std::string &def ) const
 {
     return index < str_values.size() ? str_values[index] : def;
+}
+
+void player_activity::calc_moves( const Character &who )
+{
+    if( is_bench_affected() ) {
+        speed.bench = calc_bench_factor();
+    }
+    if( is_light_affected() ) {
+        speed.light = calc_light_factor( who );
+    }
+    if( is_speed_affected() ) {
+        speed.player_speed = who.get_speed() / 100.0f;
+    }
+    if( is_skill_affected() ) {
+        speed.skills = calc_skill_factor( who );
+    }
+    if( is_stats_affected() ) {
+        speed.stats = calc_stats_factor( who );
+    }
+    if( is_tools_affected() ) {
+        speed.tools = calc_tools_factor();
+    }
+    if( is_morale_affected() ) {
+        speed.morale = calc_morale_factor( who.get_morale_level() );
+    }
+}
+
+float player_activity::calc_bench_factor() const
+{
+    return 1.0f;
+}
+
+float player_activity::calc_light_factor( const Character &/* who */ ) const
+{
+    return 1.0f;
+}
+
+float player_activity::calc_skill_factor( const Character &who ) const
+{
+    if( actor ) {
+        float f = actor->calc_skill_factor( who, type->skills );
+        return f == -1.f
+               ? 1.0f
+               : f;
+    }
+    return 1.0f;
+}
+
+float player_activity::calc_stats_factor( const Character &who ) const
+{
+    if( actor ) {
+        float f = actor->calc_stats_factor( who, type->stats );
+        return f == -1.f
+               ? 1.0f
+               : f;
+    }
+    return 1.0f;
+}
+
+float player_activity::calc_tools_factor() const
+{
+    if( actor ) {
+        float f = actor->calc_tools_factor( type->qualities, tools );
+        return f == -1.f
+               ? 1.0f
+               : f;
+    }
+    return 1.0f;
+}
+
+float player_activity::calc_morale_factor( int /* morale */ ) const
+{
+    return 1.0f;
 }
 
 static std::string craft_progress_message( const avatar &u, const player_activity &act )
@@ -128,7 +183,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     // Ugly
     bench_type bench_t = bench_type( act.values[1] );
 
-    const bench_location bench{bench_t, bench_pos};
+    const bench_location bench{ bench_t, bench_pos };
 
     const float light_mult = lighting_crafting_speed_multiplier( u, rec );
     const float bench_mult = workbench_crafting_speed_multiplier( *craft, bench );
@@ -145,7 +200,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     std::string time_desc = string_format( _( "Time left: %s" ),
                                            to_string( time_duration::from_turns( remaining_turns ) ) );
 
-    const std::array<std::pair<float, std::string>, 6> mults_with_data = {{
+    const std::array<std::pair<float, std::string>, 6> mults_with_data = { {
             { total_mult, _( "Total" ) },
             { speed_mult, _( "Speed" ) },
             { light_mult, _( "Light" ) },
@@ -172,10 +227,105 @@ static std::string craft_progress_message( const avatar &u, const player_activit
                           mults_desc );
 }
 
+static std::string format_spd( float level, std::string name, int indent = 0,
+                               bool force_show = false )
+{
+    if( !force_show && level == 1.0f ) {
+        return "";
+    }
+    int percent = static_cast<int>( std::roundf( level * 100.0f ) );
+    nc_color col = percent == 100
+                   ? c_white
+                   : percent > 100 ? c_green : c_red;
+    std::string spaces = "";
+    std::string colorized = colorize( std::to_string( percent ) + '%', col );
+    return string_format( _( " %s- %s: %s\n" ), spaces.insert( 0, indent, ' ' ), name, colorized );
+}
+
 std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( !type || get_verb().empty() ) {
         return std::optional<std::string>();
+    }
+    if( !type->special() && is_verbose_tooltip() ) {
+
+        /*
+        * Progress block
+        */
+        std::string target = "";
+        std::string progress_desc = "Progress: ";
+
+        /*
+         * TODO progress for targets
+         * proper use of activity_actor::targets for all activities
+         * must be implementated for proper work of multiple targets
+         */
+        if( actor ) {
+            if( actor->progress.empty() ) {
+                target = string_format( ": %s", actor->progress.front().target_name );
+                progress_desc = "";
+                //shouldn't ever happend actually
+                debugmsg( "Progress counter is empty, despite activity using actor, total tasks %s",
+                          actor->progress.get_total_tasks() );
+            } else {
+                target = string_format( ": %s", actor->progress.front().target_name );
+                if( actor->progress.get_total_tasks() > 1 ) {
+                    progress_desc += "\n - Total: ";
+                    progress_desc += string_format( "%.1f%%\n",
+                                                    ( 1.0f - float( actor->progress.get_moves_left() ) / actor->progress.get_moves_total() ) * 100.0f );
+                    progress_desc += string_format( _( "  - Processing %s out of %s\n" ), actor->progress.get_index(),
+                                                    actor->progress.get_total_tasks() );
+                    progress_desc += string_format( _( "  - Estimated time: %s\n" ),
+                                                    to_string( time_duration::from_turns( actor->progress.get_moves_left() / speed.total_moves() ) ) );
+                    progress_desc += " - Current: ";
+                }
+                progress_desc += string_format( "%.1f%%\n",
+                                                ( 1.0f - float( actor->progress.front().moves_left ) / actor->progress.front().moves_total ) *
+                                                100.0f );
+                if( actor->progress.get_total_tasks() > 1 ) {
+                    progress_desc += "  - ";
+                }
+                progress_desc += string_format( _( "Time left: %s\n" ),
+                                                to_string( time_duration::from_turns( actor->progress.front().moves_left /
+                                                        speed.total_moves() ) ) );
+            }
+        } else {
+            if( !targets.empty() && targets.front().is_accessible() ) {
+                target = string_format( ": %s", targets.front()->tname( targets.front()->count() ) );
+            }
+            if( moves_total > 0 ) {
+                progress_desc += string_format( "%.1f%%\n",
+                                                ( 1.0f - float( moves_left ) / moves_total ) * 100.0f );
+            }
+            if( moves_left > 0 ) {
+                progress_desc += string_format( _( "Time left: %s\n" ),
+                                                to_string( time_duration::from_turns( moves_left / speed.total_moves() ) ) );
+            }
+            if( moves_total <= 0 && moves_left <= 0 ) {
+                progress_desc = "";
+            }
+        }
+
+        /*
+        * Speed block
+        */
+        std::string mults_desc = string_format( _( "Speed multipliers:\n" ) );
+        mults_desc += format_spd( speed.total(), "Total", 0, true );
+        mults_desc += format_spd( speed.assist, "Assistants", 1 );
+        mults_desc += format_spd( speed.tools, "Tools", 1 );
+        mults_desc += format_spd( speed.bench, "Workbench", 1 );
+        mults_desc += format_spd( speed.light, "Light", 1 );
+        mults_desc += format_spd( speed.morale, "Morale", 1 );
+        mults_desc += format_spd( speed.player_speed, "Speed", 1 );
+        mults_desc += format_spd( speed.skills, "Skills", 1 );
+        mults_desc += format_spd( speed.tools, "Tools", 1 );
+
+
+
+        return string_format( _( "%s%s\n%s\n%s" ), get_verb().translated(),
+                              target,
+                              progress_desc,
+                              mults_desc );
     }
 
     if( actor ) {
@@ -214,7 +364,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
                     const SkillLevel &skill_level = u.get_skill_level_object( skill );
                     //~ skill_name current_skill_level -> next_skill_level (% to next level)
                     extra_info = string_format( pgettext( "reading progress", "%s %d -> %d (%d%%)" ),
-                                                skill.obj().name(),
+                                                skill->name(),
                                                 skill_level.level(),
                                                 skill_level.level() + 1,
                                                 skill_level.exercise() );
@@ -238,21 +388,42 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
             extra_info = string_format( "%d%%", percentage );
         }
+    }
 
-        if( type == activity_id( "ACT_BUILD" ) ) {
-            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity->placement ) );
-            if( pc ) {
-                int counter = std::min( pc->counter, 10000000 );
-                const int percentage = counter / 100000;
+    return extra_info.empty()
+           ? string_format( _( "%s…" ), get_verb().translated() )
+           : string_format( _( "%s: %s" ), get_verb().translated(), extra_info );
+}
 
-                extra_info = string_format( "%d%%", percentage );
+void player_activity::find_best_bench( const tripoint &pos )
+{
+    bench_loc best_bench = bench_loc(
+                               workbench_info_wrapper(
+                                   * string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
+                               bench_type::ground,
+                               pos );
+    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
+    get_map().reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
+    for( const tripoint &adj : reachable ) {
+        if( auto wb = get_map().furn( adj ).obj().workbench ) {
+            if( wb->multiplier > best_bench.wb_info.multiplier ) {
+                best_bench = bench_loc( workbench_info_wrapper( *wb.get() ), bench_type::furniture, adj );
+            }
+        }
+
+        if( const std::optional<vpart_reference> vp = get_map().veh_at(
+                    adj ).part_with_feature( "WORKBENCH", true ) ) {
+            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( wb_info->multiplier > best_bench.wb_info.multiplier ) {
+                    best_bench = bench_loc( workbench_info_wrapper( wb_info.value() ), bench_type::furniture, adj );
+                }
+            } else {
+                debugmsg( "part '%' with WORKBENCH flag has no workbench info", vp->part().name() );
             }
         }
     }
 
-    return extra_info.empty() ? string_format( _( "%s…" ),
-            get_verb().translated() ) : string_format( _( "%s: %s" ),
-                    get_verb().translated(), extra_info );
+    bench = best_bench;
 }
 
 void player_activity::start_or_resume( Character &who, bool resuming )
@@ -260,6 +431,10 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
+    if( is_bench_affected() ) {
+        find_best_bench( who.pos() );
+    }
+    calc_moves( who );
     if( rooted() ) {
         who.rooted_message();
     }
@@ -273,7 +448,10 @@ void player_activity::do_turn( player &p )
         this->resolve_active();
     } );
 
-    // Should happen before activity or it may fail du to 0 moves
+    /*
+    * Auto-needs block
+    * Should happen before activity or it may fail du to 0 moves
+    */
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
     }
@@ -293,23 +471,10 @@ void player_activity::do_turn( player &p )
             }
         }
     }
-    if( type->based_on() == based_on_type::TIME ) {
-        if( moves_left >= 100 ) {
-            moves_left -= 100;
-            p.moves = 0;
-        } else {
-            p.moves -= p.moves * moves_left / 100;
-            moves_left = 0;
-        }
-    } else if( type->based_on() == based_on_type::SPEED ) {
-        if( p.moves <= moves_left ) {
-            moves_left -= p.moves;
-            p.moves = 0;
-        } else {
-            p.moves -= moves_left;
-            moves_left = 0;
-        }
-    }
+
+    /*
+    * Stamina block
+    */
     int previous_stamina = p.get_stamina();
     if( p.is_npc() && p.restore_outbounds_activity() ) {
         // npc might be operating at the edge of the reality bubble.
@@ -319,14 +484,69 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-    const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
-    // This might finish the activity (set it to null)
+
+    /*
+     * Moves block
+     * This might finish the activity (set it to null)
+     * Leave as is till full migration to actors for "NEITHER"
+    */
+    if( !type->special() ) {
+        if( type->complex_moves() ) {
+            calc_moves( p );
+            int moves_total = speed.total_moves();
+
+            //fancy new system
+            if( actor ) {
+                if( actor->progress.get_moves_left() >= moves_total ) {
+                    actor->progress.mod_moves_left( - moves_total );
+                    p.moves = 0;
+                } else {
+                    p.moves -= std::round( ( moves_total - actor->progress.get_moves_left() ) * 100.0f / moves_total );
+                    actor->progress.mod_moves_left( -actor->progress.get_moves_left() );
+                }
+            }
+            //old one
+            else {
+                if( moves_left >= moves_total ) {
+                    moves_left -= moves_total;
+                    p.moves = 0;
+                } else {
+                    p.moves -= std::round( ( moves_total - moves_left ) * 100.0f / moves_total );
+                    moves_left = 0;
+                }
+            }
+        } else {
+            //fancy new system
+            if( actor ) {
+                if( actor->progress.get_moves_left() >= 100 ) {
+                    actor->progress.mod_moves_left( - 100 );
+                    p.moves = 0;
+                } else {
+                    p.moves -= actor->progress.get_moves_left();
+                    actor->progress.mod_moves_left( -actor->progress.get_moves_left() );
+                }
+            }
+            //old one
+            else {
+                if( moves_left >= 100 ) {
+                    moves_left -= 100;
+                    p.moves = 0;
+                } else {
+                    p.moves -= moves_left;
+                    moves_left = 0;
+                }
+            }
+        }
+    }
+
     if( actor ) {
         actor->do_turn( *this, p );
     } else {
         // Use the legacy turn function
         type->call_do_turn( this, &p );
     }
+
+    const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -346,12 +566,13 @@ void player_activity::do_turn( player &p )
         p.assign_activity( std::move( new_act ) );
         return;
     }
+
     if( *this && type->rooted() ) {
         p.rooted();
         character_funcs::do_pause( p );
     }
 
-    if( *this && moves_left <= 0 ) {
+    if( *this && complete() ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
         if( actor ) {

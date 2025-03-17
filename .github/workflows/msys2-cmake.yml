@@ -58,6 +58,7 @@ jobs:
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-sqlite3
             mingw-w64-x86_64-zstd
+            mingw-w64-x86_64-sol2
 
       - name: Create build directory
         run: mkdir build

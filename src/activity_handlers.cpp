@@ -111,7 +111,6 @@ static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BLEED( "ACT_BLEED" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -278,7 +277,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
-    { ACT_BUILD, build_do_turn },
     { ACT_EAT_MENU, eat_menu_do_turn },
     { ACT_VEHICLE_DECONSTRUCTION, vehicle_deconstruction_do_turn },
     { ACT_VEHICLE_REPAIR, vehicle_repair_do_turn },
@@ -733,6 +731,7 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
 
     print_reasons();
     act.moves_left = setup.move_cost;
+    act.moves_total = setup.move_cost;
     // We have a valid target, so preform the full finish function
     // instead of just selecting the next valid target
     act.index = false;
@@ -2794,7 +2793,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                 item::nname( used_tool->ammo_current() ),
                                 used_tool->ammo_required() );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
-                                actor->used_skill.obj().name(), level );
+                                actor->used_skill->name(), level );
         title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
                                 100.0f * chance.first );
         title += string_format( _( "Damage chance: <color_light_blue>%.1f</color>%%" ),
@@ -3641,61 +3640,6 @@ void activity_handlers::plant_seed_finish( player_activity *act, player *p )
     resume_for_multi_activities( *p );
 }
 
-void activity_handlers::build_do_turn( player_activity *act, player *p )
-{
-    map &here = get_map();
-    partial_con *pc = here.partial_con_at( here.getlocal( act->placement ) );
-    // Maybe the player and the NPC are working on the same construction at the same time
-    if( !pc ) {
-        if( p->is_npc() ) {
-            // if player completes the work while NPC still in activity loop
-            p->activity->set_to_null();// = player_activity();
-            p->set_moves( 0 );
-        } else {
-            p->cancel_activity();
-        }
-        add_msg( m_info, _( "%s did not find an unfinished construction at the activity spot." ),
-                 p->disp_name() );
-        return;
-    }
-    // if you ( or NPC ) are finishing someone else's started construction...
-    const construction &built = pc->id.obj();
-    if( !p->has_trait( trait_DEBUG_HS ) && !p->meets_skill_requirements( built ) ) {
-        add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
-        p->cancel_activity();
-        if( p->is_npc() ) {
-            p->activity->set_to_null();// = player_activity();
-            p->set_moves( 0 );
-        }
-        return;
-    }
-    // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
-    const int old_counter = pc->counter;
-
-    // Base moves for construction with no speed modifier or assistants
-    // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, to_moves<int>( built.time ) );
-    // Current expected total moves, includes construction speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, built.adjusted_time() );
-    // Delta progress in moves adjusted for current crafting speed
-    const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
-    // Current progress in moves
-    const double current_progress = old_counter * base_total_moves / 10000000.0 +
-                                    delta_progress;
-    // Current progress as a percent of base_total_moves to 2 decimal places
-    pc->counter = std::round( current_progress / base_total_moves * 10000000.0 );
-
-    p->set_moves( 0 );
-
-    pc->counter = std::min( pc->counter, 10000000 );
-    // If construction_progress has reached 100% or more
-    if( pc->counter >= 10000000 ) {
-        // Activity is canceled in complete_construction()
-        complete_construction( *p );
-    }
-}
-
 void activity_handlers::tidy_up_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
@@ -4222,7 +4166,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
     p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
     p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 90_seconds ) ) );
-    p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
+    p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter->name() );
     act->set_to_null();
 }
 

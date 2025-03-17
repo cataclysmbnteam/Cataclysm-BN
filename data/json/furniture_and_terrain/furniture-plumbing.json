@@ -184,7 +184,6 @@
     "symbol": "W",
     "color": "light_blue",
     "keg_capacity": 75,
-    "flags": [ "ADV_DECONSTRUCT" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -225,7 +224,6 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "ADV_DECONSTRUCT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },

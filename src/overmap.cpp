@@ -2944,6 +2944,10 @@ void overmap::init_layers()
                 layer[k].visible[i][j] = false;
                 layer[k].explored[i][j] = false;
                 layer[k].path[i][j] = false;
+                layer_backup[k].terrain[i][j] = tid;
+                layer_backup[k].visible[i][j] = false;
+                layer_backup[k].explored[i][j] = false;
+                layer_backup[k].path[i][j] = false;
             }
         }
     }
@@ -4632,7 +4636,7 @@ void overmap::place_cities()
         return;
     }
     int op_city_spacing = get_option<int>( "CITY_SPACING" );
-
+    const city_settings &city_spec = settings->city_spec;
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
     // spacing | % of map |  2  |  4  |  8  |  12 |  16
@@ -4662,54 +4666,81 @@ void overmap::place_cities()
     // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMTPS = approx. 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMTPS=OMAPX * OMAPY
     const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
     int placement_attempts = 0;
-
+    int finale_distance = 1;
     // place a seed for NUM_CITIES cities, and maybe one more
     while( cities.size() < static_cast<size_t>( NUM_CITIES ) &&
            placement_attempts < MAX_PLACEMENT_ATTEMTPS ) {
         placement_attempts++;
-
+        city tmp;
         // randomly make some cities smaller or larger
+        // guarantee placement of a finale/vault tile in large/huge cities
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
+            tmp.attempt_finale = false;
             size = 1;
         } else if( one_in( 2 ) ) { // 33% small
+            tmp.attempt_finale = false;
             size = size * 2 / 3;
         } else if( one_in( 2 ) ) { // 17% large
+            tmp.attempt_finale = true;
             size = size * 3 / 2;
+            finale_distance = 5;
         } else {                 // 17% huge
+            tmp.attempt_finale = true;
             size = size * 2;
+            finale_distance = 15;
+        }
+        //also avoid a finale if the city spec has none
+        if( !city_spec.finales.finalized ) {
+            tmp.attempt_finale = false;
         }
         size = std::max( size, 1 );
 
         // TODO: put cities closer to the edge when they can span overmaps
         // don't draw cities across the edge of the map, they will get clipped
         const tripoint_om_omt p{ rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ), 0 };
+        //make a backup of the map
+        std::copy( std::begin( layer ), std::end( layer ), std::begin( layer_backup ) );
+        tmp.finale_placed = false;
+        int finale_attempts = 0;
+        int finale_max_tries = 1500;
+        //attempt to generate a city with a finale if it's not tiny. If it's tiny just run once via a do while.
+        do  {
+            //std::unordered_map<tripoint_om_omt, std::string> oter_id_migrations;
+            if( ter( p ) == settings->default_oter ) {
+                placement_attempts = 0;
+                ter_set( p, oter_id( "road_nesw_manhole" ) ); // every city starts with an intersection
+                ter_set( p + tripoint_below, oter_id( "sewer_isolated" ) );
+                tmp.pos = p.xy();
+                tmp.size = size;
+                ;
+                tmp.finale_counter = rng( 0, finale_distance );
+                cities.push_back( tmp );
 
-        if( ter( p ) == settings->default_oter ) {
-            placement_attempts = 0;
-            ter_set( p, oter_id( "road_nesw_manhole" ) ); // every city starts with an intersection
-            ter_set( p + tripoint_below, oter_id( "sewer_isolated" ) );
-            city tmp;
-            tmp.pos = p.xy();
-            tmp.size = size;
-            cities.push_back( tmp );
+                const auto start_dir = om_direction::random();
+                auto cur_dir = start_dir;
+                std::vector<tripoint_om_omt> sewers;
 
-            const auto start_dir = om_direction::random();
-            auto cur_dir = start_dir;
-            std::vector<tripoint_om_omt> sewers;
+                do {
+                    build_city_street( local_road, tmp.pos, size, cur_dir, tmp, sewers );
+                } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
+                for( const tripoint_om_omt &p : sewers ) {
+                    build_connection( tmp.pos, p.xy(), p.z(), *sewer_tunnel, false );
+                }
 
-            do {
-                build_city_street( local_road, tmp.pos, size, cur_dir, tmp, sewers );
-            } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
-
-            for( const tripoint_om_omt &p : sewers ) {
-                build_connection( tmp.pos, p.xy(), p.z(), *sewer_tunnel, false );
+                //if the city finale failed to place, restore from last backup and try again at the top of the loop
+                if( !tmp.finale_placed  && tmp.attempt_finale && finale_attempts < finale_max_tries ) {
+                    std::copy( std::begin( layer_backup ), std::end( layer_backup ), std::begin( layer ) );
+                }
             }
-        }
+            finale_attempts++;
+        } while( ( tmp.attempt_finale && !tmp.finale_placed &&
+                   finale_attempts < finale_max_tries ) );
     }
 }
 
-overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
+overmap_special_id overmap::pick_random_building_to_place( int town_dist,
+        bool attempt_finale_place ) const
 {
     const city_settings &city_spec = settings->city_spec;
     int shop_radius = city_spec.shop_radius;
@@ -4726,7 +4757,11 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     int park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ),
                                 park_radius );
 
-    if( shop_normal > town_dist ) {
+    if( attempt_finale_place ) {
+        //return overmap_special_id("Military Outpost");
+        //return overmap_special_id( "megastore" );
+        return city_spec.pick_finale();
+    } else if( shop_normal > town_dist ) {
         return city_spec.pick_shop();
     } else if( park_normal > town_dist ) {
         return city_spec.pick_park();
@@ -4735,7 +4770,8 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     }
 }
 
-void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town )
+bool overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, city &town,
+                              bool attempt_finale_place )
 {
     const tripoint_om_omt building_pos = p + om_direction::displace( dir );
     const om_direction::type building_dir = om_direction::opposite( dir );
@@ -4743,18 +4779,21 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir, 
     const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
-        const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
+        const overmap_special_id building_tid = pick_random_building_to_place( town_dist,
+                                                attempt_finale_place );
 
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             place_special( *building_tid, building_pos, building_dir, town, false, false );
+            return( true );
             break;
         }
     }
+    return( false );
 }
-
+//city passed by reference as it's modified by the function, which calls itself recursively
 void overmap::build_city_street(
     const overmap_connection &connection, const point_om_omt &p, int cs,
-    om_direction::type dir, const city &town, std::vector<tripoint_om_omt> &sewers,
+    om_direction::type dir, city &town, std::vector<tripoint_om_omt> &sewers,
     int block_width )
 {
     int c = cs;
@@ -4810,12 +4849,39 @@ void overmap::build_city_street(
                 sewers.push_back( rp + tripoint_below );
             }
         }
-
-        if( !one_in( BUILDINGCHANCE ) ) {
-            place_building( rp, om_direction::turn_left( dir ), town );
+        bool attempt_finale_place = false;
+        // place a finale somewhere within the first 15 buildings
+        if( town.finale_counter == 0 && !town.finale_placed && town.attempt_finale ) {
+            attempt_finale_place = true;
+        } else {
+            town.finale_counter--;
         }
         if( !one_in( BUILDINGCHANCE ) ) {
-            place_building( rp, om_direction::turn_right( dir ), town );
+            if( attempt_finale_place && !town.finale_placed ) {
+                //attempt to place a finale, confirm that it was placed.
+                if( place_building( rp, om_direction::turn_left( dir ), town, true ) ) {
+                    town.finale_placed = true;
+                } else { // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
+                    attempt_finale_place = false;
+                    town.finale_counter = -1;
+                }
+            } else {
+                place_building( rp, om_direction::turn_left( dir ), town, false );
+            }
+        }
+        if( !one_in( BUILDINGCHANCE ) ) {
+
+            if( attempt_finale_place && !town.finale_placed ) {
+                //attempt to place a finale, confirm that it was placed.
+                if( place_building( rp, om_direction::turn_left( dir ), town, true ) ) {
+                    town.finale_placed = true;
+                } else { // if the finale fails to place stop trying. This prevents the finale getting placed at the edge of town.
+                    attempt_finale_place = false;
+                    town.finale_counter = -1;
+                }
+            } else {
+                place_building( rp, om_direction::turn_right( dir ), town, false );
+            }
         }
     }
 
