@@ -1484,6 +1484,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_good, "%s", _( message ) );
     }
     it.mark_as_used_by_player( p );
+    show_revealed( plrPos, mapPos );
     return 0;
 }
 
