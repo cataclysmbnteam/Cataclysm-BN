@@ -1346,8 +1346,7 @@ void reveal_map_actor::load( const JsonObject &obj )
     };
 }
 
-void reveal_map_actor::reveal_targets( const tripoint_abs_omt &plr,
-                                       const tripoint_abs_omt &map ) const
+void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
 {
     omt_find_params params{};
     params.search_range = radius;
@@ -1363,8 +1362,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &plr,
     }
 }
 
-void reveal_map_actor::show_revealed( const tripoint_abs_omt &plr,
-                                      const tripoint_abs_omt &map ) const
+void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_omt &center ) const
 {
     omt_find_params params{};
     params.search_range = radius;
@@ -1390,7 +1388,7 @@ void reveal_map_actor::show_revealed( const tripoint_abs_omt &plr,
 
     std::vector<tripoint_abs_omt> places ;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        const auto tmp = overmap_buffer.find_all( tripoint_abs_omt( map.xy(), z ), params );
+        const auto tmp = overmap_buffer.find_all( tripoint_abs_omt( center.xy(), z ), params );
         std::copy_if( tmp.cbegin(), tmp.cend(), std::back_inserter( places ), should_show );
     }
 
@@ -1401,6 +1399,11 @@ void reveal_map_actor::show_revealed( const tripoint_abs_omt &plr,
         auto desc = overmap_buffer.ter( place ).id().obj().get_name();
         mm.insert( { desc, place } );
         utypes.insert( desc );
+    }
+
+    if( utypes.empty() ) {
+        p.add_msg_if_player( _( "There isn't anything new on the %s." ), item.tname() );
+        return;
     }
 
     // Show selector for each group
@@ -1416,11 +1419,12 @@ void reveal_map_actor::show_revealed( const tripoint_abs_omt &plr,
         return;
     }
 
-    auto it = mm.equal_range( otypes[ui.ret] );
+    const tripoint_abs_omt plrPos = p.global_omt_location();
+    auto eqRange = mm.equal_range( otypes[ui.ret] );
 
     // TODO: Cluster tripoints to collapse direct neighbor tiles (helipads, etc)?
 
-    auto sz = std::distance( it.first, it.second );
+    auto sz = std::distance( eqRange.first, eqRange.second );
 
     // Shouldn't ever be hit, since multimap shouldn't have an entry with no overmap tiles, but
     if( sz == 0 ) {
@@ -1429,7 +1433,7 @@ void reveal_map_actor::show_revealed( const tripoint_abs_omt &plr,
 
     // Only one overmap tile of type
     if( sz == 1 ) {
-        ui::omap::choose_point( it.first->second );
+        ui::omap::choose_point( eqRange.first->second );
         return;
     }
 
@@ -1444,19 +1448,19 @@ void reveal_map_actor::show_revealed( const tripoint_abs_omt &plr,
 
     if( ui.ret == 1 ) {
         // Pick random
-        auto iter = it.first;
-        std::advance( iter, rng( 0, sz - 1 ) );
-        ui::omap::choose_point( iter->second );
+        auto it = eqRange.first;
+        std::advance( it, rng( 0, sz - 1 ) );
+        ui::omap::choose_point( it->second );
     } else {
         // Pick closest
         const auto pred_dist = [&]( const std::pair<std::string, tripoint_abs_omt> &a,
         const std::pair<std::string, tripoint_abs_omt> &b ) {
-            auto da = trig_dist_squared( plr.raw(), a.second.raw() );
-            auto db = trig_dist_squared( plr.raw(), b.second.raw() );
+            auto da = trig_dist_squared( plrPos.raw(), a.second.raw() );
+            auto db = trig_dist_squared( plrPos.raw(), b.second.raw() );
             return da < db;
         };
-        auto iter = std::min_element( it.first, it.second, pred_dist );
-        ui::omap::choose_point( iter->second );
+        auto it = std::min_element( eqRange.first, eqRange.second, pred_dist );
+        ui::omap::choose_point( it->second );
     }
 
 }
@@ -1471,20 +1475,21 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
+
     const tripoint_abs_omt plrPos = p.global_omt_location();
     const tripoint_abs_omt mapPos( it.get_var( "reveal_map_center_omt", plrPos.raw() ) );
 
     if( it.already_used_by_player( p ) ) {
-        show_revealed( plrPos, mapPos );
+        show_revealed( p, it, mapPos );
         return 0;
     }
 
-    reveal_targets( plrPos, mapPos );
+    reveal_targets( mapPos );
     if( !message.empty() ) {
         p.add_msg_if_player( m_good, "%s", _( message ) );
     }
     it.mark_as_used_by_player( p );
-    show_revealed( plrPos, mapPos );
+    show_revealed( p, it, mapPos );
     return 0;
 }
 

@@ -500,9 +500,9 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( const tripoint_abs_omt &plr, const tripoint_abs_omt &map ) const;
+        void reveal_targets( const tripoint_abs_omt &map ) const;
 
-        void show_revealed( const tripoint_abs_omt &plr, const tripoint_abs_omt &map ) const;
+        void show_revealed( player &plr, item &, const tripoint_abs_omt &map ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
