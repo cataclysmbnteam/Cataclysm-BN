@@ -1417,34 +1417,6 @@ item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&new
     as_p->set_location( &*loc );
     return inv.add_item_by_items_type_cache( *as_p, keep_invlet, assign_invlet, should_stack );
 }
-void location_inventory::add_item_keep_invlet( detached_ptr<item> &&newit )
-{
-    if( !newit ) {
-        return;
-    }
-    item *as_p = &*newit;
-    if( &*loc == as_p->saved_loc ) {
-        newit.release();
-        as_p->saved_loc = nullptr;
-        as_p->set_location( &*loc );
-        return;
-    }
-
-    as_p->resolve_saved_loc();
-    for( auto &elem : inv.items ) {
-        item *&it = *elem.begin();
-        // NOLINTNEXTLINE(bugprone-use-after-move)
-        if( it->stacks_with( *newit ) ) {
-            if( it->merge_charges( std::move( newit ) ) ) {
-                return;
-            }
-        }
-    }
-
-    newit.release();
-    as_p->set_location( &*loc );
-    inv.add_item( *as_p, true );
-}
 
 void location_inventory::restack( player &p )
 {

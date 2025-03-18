@@ -2865,7 +2865,7 @@ bool npc::dispose_item( item &obj, const std::string & )
             item_handling_cost( obj ),
             [this, &obj] {
                 moves -= item_handling_cost( obj );
-                inv.add_item_keep_invlet( obj.detach() );
+                inv.add_item( obj.detach(), true );
                 inv.unsort();
             }
         } );
