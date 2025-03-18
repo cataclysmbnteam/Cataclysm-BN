@@ -8,6 +8,7 @@
 #include <map>
 #include <optional>
 #include <queue>
+#include <execution>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -51,7 +52,6 @@ class map_extra;
 overmapbuffer overmap_buffer;
 
 overmapbuffer::overmapbuffer()
-    : last_requested_overmap( nullptr )
 {
 }
 
@@ -67,38 +67,31 @@ omt_find_params::~omt_find_params() = default;
 
 omt_route_params::~omt_route_params() = default;
 
-
 overmap &overmapbuffer::get( const point_abs_om &p )
 {
-    if( last_requested_overmap != nullptr && last_requested_overmap->pos() == p ) {
-        return *last_requested_overmap;
-    }
-
     const auto it = overmaps.find( p );
     if( it != overmaps.end() ) {
-        return *( last_requested_overmap = it->second.get() );
+        return *it->second.get();
     }
 
-    // That constructor loads an existing overmap or creates a new one.
-    overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
-    new_om.populate();
+    overmap* new_om;
+    {
+        std::lock_guard guard(mutex);
+        // That constructor loads an existing overmap or creates a new one.
+        new_om = (overmaps[p] = std::make_unique<overmap>(p)).get();
+        new_om->populate();
+    }
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
-    fix_mongroups( new_om );
-    fix_npcs( new_om );
+    fix_mongroups( *new_om );
+    fix_npcs( *new_om );
 
-    last_requested_overmap = &new_om;
-    return new_om;
+    return *new_om;
 }
 
 void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_special_batch &specials )
-{
-    if( last_requested_overmap != nullptr ) {
-        auto om_iter = overmaps.find( p );
-        if( om_iter != overmaps.end() && om_iter->second.get() == last_requested_overmap ) {
-            last_requested_overmap = nullptr;
-        }
-    }
+{   
+    std::lock_guard guard(mutex);
     overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
     new_om.populate( specials );
 }
@@ -197,11 +190,12 @@ void overmapbuffer::save()
 }
 
 void overmapbuffer::clear()
-{
+{    
+    std::lock_guard guard(mutex);
+
     overmaps.clear();
     known_non_existing.clear();
     placed_unique_specials.clear();
-    last_requested_overmap = nullptr;
 }
 
 const regional_settings &overmapbuffer::get_settings( const tripoint_abs_omt &p )
@@ -248,12 +242,9 @@ void overmapbuffer::delete_extra( const tripoint_abs_omt &p )
 
 overmap *overmapbuffer::get_existing( const point_abs_om &p )
 {
-    if( last_requested_overmap && last_requested_overmap->pos() == p ) {
-        return last_requested_overmap;
-    }
     const auto it = overmaps.find( p );
     if( it != overmaps.end() ) {
-        return last_requested_overmap = it->second.get();
+        return it->second.get();
     }
     if( known_non_existing.contains( p ) ) {
         // This overmap does not exist on disk (this has already been
@@ -271,7 +262,10 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
     // return early.
     // If the overmap had been created in the mean time, the previous
     // loop would have found and returned it.
-    known_non_existing.insert( p );
+    {
+        std::lock_guard guard(mutex);
+        known_non_existing.insert(p);
+    }
     return nullptr;
 }
 
@@ -1011,8 +1005,6 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
 
     return true;
 }
-
-
 
 tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         const omt_find_params &params )

@@ -494,6 +494,7 @@ class overmapbuffer
                             int min_radius, int max_radius );
 
     private:
+        std::recursive_mutex mutex;
         /**
          * Common function used by the find_closest/all/random to determine if the location is
          * findable based on the specified criteria.
@@ -508,8 +509,6 @@ class overmapbuffer
          * to not exist on disk. See @ref get_existing for usage.
          */
         mutable std::set<point_abs_om> known_non_existing;
-        // Cached result of previous call to overmapbuffer::get_existing
-        overmap mutable *last_requested_overmap;
 
         // Set of globally unique overmap specials that have already been placed
         std::unordered_set<overmap_special_id> placed_unique_specials;
