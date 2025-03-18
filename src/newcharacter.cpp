@@ -588,19 +588,19 @@ bool avatar::create( character_type type, const std::string &tempname )
         // TODO: debugmsg if food that isn't a seed is inedible
         if( it->has_flag( json_flag_no_auto_equip ) ) {
             it->unset_flag( json_flag_no_auto_equip );
-            inv.add_item( std::move( it ) );
+            inv.add_item( std::move( it ), false );
         } else if( it->has_flag( json_flag_auto_wield ) ) {
             it->unset_flag( json_flag_auto_wield );
             if( !is_armed() ) {
                 wield( std::move( it ) );
             } else {
-                inv.add_item( std::move( it ) );
+                inv.add_item( std::move( it ), false );
             }
         } else if( it->is_armor() ) {
             // TODO: debugmsg if wearing fails
             wear_item( std::move( it ), false );
         } else {
-            inv.add_item( std::move( it ) );
+            inv.add_item( std::move( it ), false );
         }
     }
 

@@ -1774,7 +1774,7 @@ void npc::shop_restock()
         for( map_cursor &cursor : map_selector( pos(), 0 ) ) {
             cursor.remove_top_items_with( [this]( detached_ptr<item> &&it ) {
                 if( it->is_owned_by( *this ) ) {
-                    inv.add_item( std::move( it ) );
+                    inv.add_item( std::move( it ), false );
                     return detached_ptr<item>();
                 } else {
                     return std::move( it );
@@ -1786,7 +1786,7 @@ void npc::shop_restock()
         // clear out inventory and add in restocked items
         has_new_items = true;
         inv.clear();
-        inv.add_items( ret );
+        inv.add_items( ret, false );
     }
 }
 

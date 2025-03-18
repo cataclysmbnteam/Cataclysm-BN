@@ -8206,10 +8206,10 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
             const time_point bday = calendar::start_of_cataclysm;
 
-            crafting_inv.add_item( *item::spawn_temporary( "hotplate", bday ) ); //hotplate inside
-            crafting_inv.add_item( *item::spawn_temporary( "tongs", bday ) ); //some recipes requires tongs
-            crafting_inv.add_item( *item::spawn_temporary( "toolset", bday ) ); //toolset with CUT and other qualities inside
-            crafting_inv.add_item( *item::spawn_temporary( "pot", bday ) ); //good COOK, BOIL, CONTAIN qualities inside
+            crafting_inv.add_item( *item::spawn_temporary( "hotplate", bday ), false ); //hotplate inside
+            crafting_inv.add_item( *item::spawn_temporary( "tongs", bday ), false ); //some recipes requires tongs
+            crafting_inv.add_item( *item::spawn_temporary( "toolset", bday ), false ); //toolset with CUT and other qualities inside
+            crafting_inv.add_item( *item::spawn_temporary( "pot", bday ), false ); //good COOK, BOIL, CONTAIN qualities inside
 
             int counter = 0;
 
