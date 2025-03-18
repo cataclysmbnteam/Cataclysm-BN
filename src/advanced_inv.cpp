@@ -1481,7 +1481,7 @@ void advanced_inventory::display()
             filter_edit = true;
             if( ui ) {
                 spopup = std::make_unique<string_input_popup>();
-                spopup->max_length( 256 ).text( filter );
+                spopup->max_length( 256 ).text( filter ).identifier( "adv_inv" );
                 ui->mark_resize();
             }
 
