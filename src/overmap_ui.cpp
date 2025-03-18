@@ -1548,6 +1548,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
     std::string term = string_input_popup()
                        .title( _( "Search term:" ) )
                        .description( _( "Multiple entries separated with comma (,). Excludes starting with hyphen (-)." ) )
+                       .identifier( "overmap" )
                        .query_string();
     if( term.empty() ) {
         return false;
