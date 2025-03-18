@@ -1302,13 +1302,23 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     werase( w );
     // display location
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
+    tripoint_abs_omt coord = u.global_omt_location();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
     wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
+    // display coordinates
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "X,Y,Z: " ) );
-    wprintz( w, c_white, string_format( "%d, %d, %d", u.global_omt_location().x(),
-                                        u.global_omt_location().y(),
-                                        u.global_omt_location().z() ) );
+    if( get_option<std::string>( "OVERMAP_COORDINATE_FORMAT" ) == "subdivided" ) {
+        point_abs_om abs_coord;
+        tripoint_om_omt rel_coord;
+        std::tie( abs_coord, rel_coord ) = project_remain<coords::om>( coord );
+        wprintz( w, c_white, string_format( "%d'%d, %d'%d, %d", abs_coord.x(), rel_coord.x(), abs_coord.y(),
+                                            rel_coord.y(),
+                                            u.global_omt_location().z() ) );
+    } else {
+        wprintz( w, c_white, string_format( "%d, %d, %d", coord.x(), coord.y(), coord.z() ) );
+    }
+
     // display weather
     if( g->get_levz() < 0 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
