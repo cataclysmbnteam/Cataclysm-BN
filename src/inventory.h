@@ -108,11 +108,14 @@ public:
         void unsort(); // flags the inventory as unsorted
         void clear();
 
-        inventory &add_items ( const inventory &rhs, bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
-        inventory &add_items ( const std::vector<item *> &rhs, bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
-        inventory &add_items ( const item_stack &rhs , bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
-        inventory &add_items ( const location_inventory &rhs , bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
-        inventory &add_items ( const location_vector<item> &rhs , bool keep_invlet = true, bool assign_invlet = true, bool should_stack = true );
+        // --- Currently Unused - Kept since there was an add-assign overload before
+        inventory &add_items ( const inventory &rhs, bool keep_invlet, bool assign_invlet = true, bool should_stack = true ); 
+        inventory &add_items ( const item_stack &rhs , bool keep_invlet, bool assign_invlet = true, bool should_stack = true ); 
+        // ---
+
+        inventory &add_items ( const location_inventory &rhs , bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
+        inventory &add_items ( const std::vector<item *> &rhs, bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
+        inventory &add_items ( const location_vector<item> &rhs , bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
 
         // returns a reference to the added item
         item &add_item( item &newit, bool keep_invlet = false, bool assign_invlet = true,

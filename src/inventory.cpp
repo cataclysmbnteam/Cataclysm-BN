@@ -183,20 +183,20 @@ inventory& inventory::add_items(const inventory& rhs, bool keep_invlet, bool ass
     return *this;
 }
 
-inventory& inventory::add_items(const std::vector<item*>& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
-{
-    for( const auto &it : rhs ) {
-        add_item( *it, keep_invlet, assign_invlet, should_stack);
-    }
-    return *this;
-}
-
 inventory& inventory::add_items(const item_stack& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
 {
     for( const auto &it : rhs ) {
         if( !it->made_of( LIQUID ) ) {
             add_item( *it, keep_invlet, assign_invlet, should_stack );
         }
+    }
+    return *this;
+}
+
+inventory& inventory::add_items(const std::vector<item*>& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+{
+    for( const auto &it : rhs ) {
+        add_item( *it, keep_invlet, assign_invlet, should_stack);
     }
     return *this;
 }
