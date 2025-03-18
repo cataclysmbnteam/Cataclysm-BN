@@ -288,59 +288,62 @@ namespace
     }
 }
 
-item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+template<bool IsCached>
+item& inventory::add_item_internal(item& newit, bool keep_invlet, bool assign_invlet, bool should_stack)
 {
     binned = false;
-    items_type_cached = false;
 
-    if( should_stack ) {
-        // See if we can't stack this item.
-        for( auto &elem : items ) {
-            item* ex{};
-            if (add_item_stack_helper(*this, newit, elem, keep_invlet, assign_invlet, ex)) {
-                return *ex;
+    itype_id type = newit.typeId();
+    if constexpr (IsCached) {
+        if( !items_type_cached ) {
+            debugmsg( "Tried to add item to inventory using cache without building the items_type_cache." );
+            build_items_type_cache();
+        }
+        if( should_stack ) {
+            // See if we can't stack this item.
+            for( auto &elem : items_type_cache[type] ) {
+                item* ex{};
+                if (::add_item_stack_helper(*this, newit, *elem, keep_invlet, assign_invlet, ex)) {
+                    return *ex;
+                }
+            }
+        }
+    } else {
+        items_type_cached = false;
+        if( should_stack ) {
+            // See if we can't stack this item.
+            for( auto &elem : items ) {
+                item* ex{};
+                if (::add_item_stack_helper(*this, newit, elem, keep_invlet, assign_invlet, ex)) {
+                    return *ex;
+                }
             }
         }
     }
 
-    // Couldn't stack the item, proceed.
+     // Couldn't stack the item, proceed.
     if( !keep_invlet ) {
         update_invlet( newit, assign_invlet );
     }
     update_cache_with_item( newit );
 
     items.push_back( {&newit} );
+
+    if constexpr (IsCached) {
+        items_type_cache[type].push_back(&items.back());
+    }
+
     return *items.back().back();
+}
+
+item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+{
+    return add_item_internal<false>(newit, keep_invlet, assign_invlet, should_stack);
 }
 
 item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
-    binned = false;
-    if( !items_type_cached ) {
-        debugmsg( "Tried to add item to inventory using cache without building the items_type_cache." );
-        build_items_type_cache();
-    }
-
-    itype_id type = newit.typeId();
-    if( should_stack ) {
-        // See if we can't stack this item.
-        for( auto &elem : items_type_cache[type] ) {
-            item* ex{};
-            if (add_item_stack_helper(*this, newit, *elem, keep_invlet, assign_invlet, ex)) {
-                return *ex;
-            }
-        }
-    }
-
-    // Couldn't stack the item, proceed.
-    if( !keep_invlet ) {
-        update_invlet( newit, assign_invlet );
-    }
-    update_cache_with_item( newit );
-
-    items.push_back( {&newit} );
-    items_type_cache[type].push_back( &items.back() );
-    return *items.back().back();
+    return add_item_internal<true>(newit, keep_invlet, assign_invlet, should_stack);
 }
 
 #if defined(__ANDROID__)
@@ -1345,7 +1348,6 @@ void location_inventory::clear()
     return inv.clear();
 }
 
-
 void location_inventory::add_items(std::vector<detached_ptr<item>>& newits, bool keep_invlet, bool assign_invlet, bool should_stack)
 {
     for( detached_ptr<item> &it : newits ) {
@@ -1353,7 +1355,8 @@ void location_inventory::add_items(std::vector<detached_ptr<item>>& newits, bool
     }
 }
 
-item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+template<bool IsCached>
+item& location_inventory::add_item_internal( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     if( !newit ) {
         return null_item_reference();
@@ -1383,38 +1386,22 @@ item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet
 
     newit.release();
     as_p->set_location( &*loc );
-    return inv.add_item( *as_p, keep_invlet, assign_invlet, should_stack );
+
+    if constexpr (IsCached) {
+        return inv.add_item_by_items_type_cache( *as_p, keep_invlet, assign_invlet, should_stack );
+    } else {
+        return inv.add_item( *as_p, keep_invlet, assign_invlet, should_stack );
+    }
 }
-item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&newit,
-        bool keep_invlet, bool assign_invlet, bool should_stack )
+
+item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
-    if( !newit ) {
-        return null_item_reference();
-    }
-    item *as_p = &*newit;
-    if( &*loc == as_p->saved_loc ) {
-        newit.release();
-        as_p->saved_loc = nullptr;
-        as_p->set_location( &*loc );
-        return *as_p;
-    }
+    return add_item_internal<false>(std::move(newit), keep_invlet, assign_invlet, should_stack);
+}
 
-    as_p->resolve_saved_loc();
-    if( should_stack ) {
-        for( auto &elem : inv.items ) {
-            item *&it = *elem.begin();
-            // NOLINTNEXTLINE(bugprone-use-after-move)
-            if( it->stacks_with( *newit ) ) {
-                if( it->merge_charges( std::move( newit ) ) ) {
-                    return null_item_reference();
-                }
-            }
-        }
-    }
-
-    newit.release();
-    as_p->set_location( &*loc );
-    return inv.add_item_by_items_type_cache( *as_p, keep_invlet, assign_invlet, should_stack );
+item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+{
+    return add_item_internal<true>(std::move(newit), keep_invlet, assign_invlet, should_stack);
 }
 
 void location_inventory::restack( player &p )

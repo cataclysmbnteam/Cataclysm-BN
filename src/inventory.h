@@ -89,6 +89,10 @@ class invlet_favorites
 
 class inventory : public temp_visitable<inventory>
 {
+    private:
+        template<bool IsCached>
+        item& add_item_internal(item &newit, bool keep_invlet, bool assign_invlet, bool should_stack);
+
     public:
         const_invslice const_slice() const;
         const std::vector<item *> &const_stack( int i ) const;
@@ -252,6 +256,9 @@ class location_inventory : public location_visitable<location_inventory>
 
         friend location_visitable<location_inventory>;
         friend visitable<location_inventory>;
+
+        template<bool IsCached>
+        item& add_item_internal(detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack);
     public:
 
         const_invslice const_slice() const;
