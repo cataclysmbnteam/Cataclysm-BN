@@ -95,17 +95,18 @@ void mission_start::kill_horde_master( mission *miss )
     // Npc joins you
     p->set_attitude( NPCATT_FOLLOW );
     // Pick one of the below locations for the horde to haunt
+
+    omt_find_params find_params{};
+    find_params.types.emplace_back("office_tower_1", ot_match_type::type);
+    find_params.types.emplace_back("hotel_tower_1_8", ot_match_type::type);
+    find_params.types.emplace_back("school_5", ot_match_type::type);
+    find_params.types.emplace_back("forest_thick", ot_match_type::type);
+    find_params.search_range = { 0,0 };
+    find_params.search_layers = omt_find_all_layers;
+
     const tripoint_abs_omt center = p->global_omt_location();
-    tripoint_abs_omt site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "hotel_tower_1_8", 0, false );
-    }
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "school_5", 0, false );
-    }
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( center, "forest_thick", 0, false );
-    }
+    tripoint_abs_omt site = overmap_buffer.find_closest( center, find_params );
+
     miss->target = site;
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
@@ -213,7 +214,12 @@ void mission_start::place_npc_software( mission *miss )
     if( type == "house" ) {
         place = mission_util::random_house_in_closest_city();
     } else {
-        place = overmap_buffer.find_closest( dev->global_omt_location(), type, 0, false );
+        omt_find_params find_params{};
+        find_params.types.emplace_back(type, ot_match_type::type);
+        find_params.search_range = { 0,0 };
+        find_params.search_layers = omt_find_all_layers;
+
+        place = overmap_buffer.find_closest( dev->global_omt_location(), find_params );
     }
     miss->target = place;
     overmap_buffer.reveal( place, 6 );
@@ -266,11 +272,14 @@ void mission_start::place_deposit_box( mission *miss )
     }
     // Npc joins you
     p->set_attitude( NPCATT_FOLLOW );
-    tripoint_abs_omt site =
-        overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
-    if( site == overmap::invalid_tripoint ) {
-        site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
-    }
+
+    omt_find_params find_params{};
+    find_params.types.emplace_back("bank", ot_match_type::type);
+    find_params.types.emplace_back("office_tower_1", ot_match_type::type);
+    find_params.search_range = { 0,0 };
+    find_params.search_layers = omt_find_all_layers;
+
+    tripoint_abs_omt site = overmap_buffer.find_closest( p->global_omt_location(), find_params);
 
     if( site == overmap::invalid_tripoint ) {
         site = p->global_omt_location();
@@ -627,10 +636,13 @@ void mission_start::reveal_refugee_center( mission *miss )
         return;
     }
 
-    const tripoint_abs_omt source_road = overmap_buffer.find_closest(
-            get_player_character().global_omt_location(), "road",
-            3, false );
-    const tripoint_abs_omt dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
+    omt_find_params find_params{};
+    find_params.types.emplace_back("road", ot_match_type::type);
+    find_params.search_range = { 0, 3 };
+    find_params.search_layers = omt_find_all_layers;
+
+    const tripoint_abs_omt source_road = overmap_buffer.find_closest(get_player_character().global_omt_location(), find_params);
+    const tripoint_abs_omt dest_road = overmap_buffer.find_closest( *target_pos, find_params );
 
     omt_route_params params;
     params.radius = 1;
@@ -676,7 +688,13 @@ void mission_start::create_lab_console( mission *miss )
     // Pick a lab that has spaces on z = -1: e.g., in hidden labs.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -1;
-    const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "lab", 0, false );
+
+    omt_find_params find_params{};
+    find_params.types.emplace_back("lab", ot_match_type::type);
+    find_params.search_range = { 0,0 };
+    find_params.search_layers = omt_find_all_layers;
+
+    const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );
 
     create_lab_consoles( miss, place, "lab", 2, translate_marker( "Workstation" ),
                          translate_marker( "Download Memory Contents" ) );
@@ -710,7 +728,13 @@ void mission_start::create_ice_lab_console( mission *miss )
     // Pick an ice lab with spaces on z = -4.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -4;
-    const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "ice_lab", 0, false );
+
+    omt_find_params find_params{};
+    find_params.types.emplace_back("ice_lab", ot_match_type::type);
+    find_params.search_range = { 0,0 };
+    find_params.search_layers = omt_find_all_layers;
+
+    const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );
 
     create_lab_consoles( miss, place, "ice_lab", 3, translate_marker( "Durable Storage Archive" ),
                          translate_marker( "Download Archives" ) );
@@ -726,7 +750,13 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     // Find and prepare lab location.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -4;  // tunnels are at z = -4
-    const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "lab_train_depot", 0, false );
+
+    omt_find_params find_params{};
+    find_params.types.emplace_back("lab_train_depot", ot_match_type::type);
+    find_params.search_range = { 0,0 };
+    find_params.search_layers = omt_find_all_layers;
+
+    const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );
 
     tinymap compmap;
     compmap.load( project_to<coords::sm>( place ), false );

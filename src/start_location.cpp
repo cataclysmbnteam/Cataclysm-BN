@@ -250,9 +250,13 @@ tripoint_abs_omt start_location::find_player_initial_location() const
             const tripoint_abs_omt abs_mid = project_combine( omp, om_mid );
             if( overmap_buffer.place_special( special.id, abs_mid, 0, OMAPX / 2 ) ) {
 
+                omt_find_params find_params{};
+                find_params.types.emplace_back(loc.first, loc.second);
+                find_params.search_range = { 0, OMAPX / 2 };
+                find_params.search_layers = omt_find_all_layers;
+
                 // Now try to find what we spawned
-                const tripoint_abs_omt start = overmap_buffer.find_closest( abs_mid, loc.first,
-                                               OMAPX / 2, false, loc.second );
+                const tripoint_abs_omt start = overmap_buffer.find_closest( abs_mid, find_params );
                 if( start != overmap::invalid_tripoint ) {
                     return start;
                 }

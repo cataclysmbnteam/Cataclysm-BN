@@ -959,13 +959,8 @@ static omt_find_params assign_params(
     const std::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
-    std::vector<std::pair<std::string, ot_match_type>> temp_types;
-    std::pair<std::string, ot_match_type> temp_pair;
-    temp_pair.first = type;
-    temp_pair.second = match_type;
-    temp_types.push_back( temp_pair );
-    params.types = temp_types;
-    params.search_range = radius;
+    params.types.emplace_back(type, match_type);
+    params.search_range = { 0,radius };
     params.must_see = must_be_seen;
     params.existing_only = existing_overmaps_only;
     params.om_special = om_special;
@@ -1017,21 +1012,13 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
     return true;
 }
 
-tripoint_abs_omt overmapbuffer::find_closest(
-    const tripoint_abs_omt &origin, const std::string &type, int const radius, bool must_be_seen,
-    ot_match_type match_type, bool existing_overmaps_only,
-    const std::optional<overmap_special_id> &om_special )
-{
-    const omt_find_params params = assign_params( type, radius, must_be_seen, match_type,
-                                   existing_overmaps_only, om_special );
-    return find_closest( origin, params );
-}
+
 
 tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         const omt_find_params &params )
 {
     // Check the origin before searching adjacent tiles!
-    if( params.min_distance == 0 && is_findable_location( origin, params ) ) {
+    if( params.search_range.first == 0 && is_findable_location( origin, params ) ) {
         return origin;
     }
 
@@ -1050,8 +1037,8 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     // See overmap::place_specials for how we attempt to insure specials are placed within this
     // range.  The actual number is 5 because 1 covers the current overmap,
     // and each additional one expends the search to the next concentric circle of overmaps.
-    const int min_dist = params.min_distance;
-    const int max_dist = params.search_range ? params.search_range : OMAPX * 5;
+    const int min_dist = params.search_range.first;
+    const int max_dist = params.search_range.second ? params.search_range.second : OMAPX * 5;
 
     std::vector<tripoint_abs_omt> result;
     std::optional<int> found_dist;
@@ -1091,13 +1078,13 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     return random_entry( result, overmap::invalid_tripoint );
 }
 
-std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,
+std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin, 
         const omt_find_params &params )
 {
     std::vector<tripoint_abs_omt> result;
     // dist == 0 means search a whole overmap diameter.
-    const int min_dist = params.min_distance;
-    const int max_dist = params.search_range ? params.search_range : OMAPX;
+    const int min_dist = params.search_range.first;
+    const int max_dist = params.search_range.second ? params.search_range.second : OMAPX;
 
     size_t num_overmaps = overmaps.size();
     size_t counter = 0;
@@ -1118,30 +1105,10 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
     return result;
 }
 
-std::vector<tripoint_abs_omt> overmapbuffer::find_all(
-    const tripoint_abs_omt &origin, const std::string &type, int dist, bool must_be_seen,
-    ot_match_type match_type, bool existing_overmaps_only,
-    const std::optional<overmap_special_id> &om_special )
-{
-    const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
-                                   existing_overmaps_only, om_special );
-    return find_all( origin, params );
-}
-
 tripoint_abs_omt overmapbuffer::find_random( const tripoint_abs_omt &origin,
         const omt_find_params &params )
 {
     return random_entry( find_all( origin, params ), overmap::invalid_tripoint );
-}
-
-tripoint_abs_omt overmapbuffer::find_random(
-    const tripoint_abs_omt &origin, const std::string &type, int dist, bool must_be_seen,
-    ot_match_type match_type, bool existing_overmaps_only,
-    const std::optional<overmap_special_id> &om_special )
-{
-    const omt_find_params params = assign_params( type, dist, must_be_seen, match_type,
-                                   existing_overmaps_only, om_special );
-    return find_random( origin, params );
 }
 
 shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )

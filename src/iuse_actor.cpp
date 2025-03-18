@@ -1349,9 +1349,9 @@ void reveal_map_actor::load( const JsonObject &obj )
 void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
 {
     omt_find_params params{};
-    params.search_range = radius;
+    params.search_range = { 0, radius };
+    params.search_layers = std::nullopt;
     params.types = omt_types;
-    params.must_see = false;
     params.existing_only = false;
 
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
@@ -1365,9 +1365,9 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
 void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_omt &center ) const
 {
     omt_find_params params{};
-    params.search_range = radius;
+    params.search_range = { 0, radius };
+    params.search_layers = std::nullopt;
     params.types = omt_types_view;
-    params.must_see = false;
     params.existing_only = true;
 
     const auto should_show = [&]( const tripoint_abs_omt & pt ) {
