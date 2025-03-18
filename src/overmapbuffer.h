@@ -168,6 +168,11 @@ class overmapbuffer
         void create_custom_overmap( const point_abs_om &, overmap_special_batch &specials );
 
         /**
+        * Generates overmap tiles, if missing
+        */
+        void generate(const std::vector<point_abs_om>& locs);
+
+        /**
          * Returns the overmap terrain at the given OMT coordinates.
          * Creates a new overmap if necessary.
          */

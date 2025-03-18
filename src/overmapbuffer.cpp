@@ -96,6 +96,41 @@ void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_specia
     new_om.populate( specials );
 }
 
+void overmapbuffer::generate(const std::vector<point_abs_om>& locs)
+{
+#if 1
+    struct generate_data
+    {
+        point_abs_om pos;
+        std::unique_ptr<overmap> map;
+    };
+
+    std::vector<generate_data> to_gen;
+    to_gen.reserve(locs.size());
+    for (auto& p : locs) {
+        if (!overmap_buffer.has(p))
+            to_gen.emplace_back(p);
+    }
+
+    std::for_each(std::execution::par_unseq, to_gen.begin(), to_gen.end(), [](generate_data& m)
+        {
+            m.map = std::make_unique<overmap>(m.pos);
+            m.map->populate();
+        });
+
+    {
+        std::lock_guard guard(mutex);
+        for (auto& m : to_gen) {
+            overmaps[m.pos] = std::move(m.map);
+        }
+    }
+#else
+    for (auto& p : locs) {
+        overmap_buffer.get(p);
+    }
+#endif
+}
+
 void overmapbuffer::fix_mongroups( overmap &new_overmap )
 {
     for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
