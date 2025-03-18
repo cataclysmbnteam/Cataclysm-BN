@@ -1222,7 +1222,7 @@ class item : public location_visitable<item>, public game_object<item>
         /**
          * Helper to bring a cable back to its initial state.
          */
-        void reset_cable( Character *p = nullptr );
+        void reset_cable( Character *who = nullptr );
 
         /**
          * Whether the item should be processed (by calling @ref process).

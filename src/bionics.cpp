@@ -1452,8 +1452,6 @@ void Character::passive_power_gen( bionic &bio )
 
 itype_id Character::find_remote_fuel( bool look_only )
 {
-    const std::string p1_name( "p1" );
-    const std::string p2_name( "p2" );
     itype_id remote_fuel;
     map &here = get_map();
 
@@ -1565,15 +1563,15 @@ int Character::consume_remote_fuel( int amount )
                 if( vp ) {
                     unconsumed_amount = vp->vehicle().discharge_battery( amount );
                 }
+                break;
             }
-            //Characher sucks energy from grid, but it totally should be reverse,
-            //Grid should pour nrg to Cahracter. But we have no infrastructure for that yet.
             case state_grid: {
                 const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( map_con.point );
                 if( grid_connector ) {
                     auto grid = get_distribution_grid_tracker().grid_at( map_con.point );
                     unconsumed_amount = grid.mod_resource( -amount );
                 }
+                break;
             }
             default:
                 continue;

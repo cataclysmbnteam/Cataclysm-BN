@@ -8412,7 +8412,7 @@ static cable_state cable_menu( Character *who, cable_state &state, cable_state &
     const bool has_bio_cable = !who->get_remote_fueled_bionic().is_empty();
     const bool has_solar_pack = who->worn_with_flag( flag_SOLARPACK );
     const bool has_solar_pack_on = who->worn_with_flag( flag_SOLARPACK_ON );
-    const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
+    //const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
     const bool has_ups = who->has_charges( itype_UPS_off, 1 ) ||
                          who->has_charges( itype_adv_UPS_off, 1 );
 
