@@ -1296,7 +1296,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
         if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv.add_item_keep_invlet(*elem);
+        temp_inv.add_item(*elem, true);
     }
     map &here = get_map();
     for( const tripoint &elem : loot_spots ) {
@@ -1323,7 +1323,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     continue;
                 }
             }
-            temp_inv.add_item_keep_invlet(*elem2);
+            temp_inv.add_item(*elem2, true);
         }
         if( !in_loot_zones ) {
             if( const std::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
@@ -1331,7 +1331,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
                 for( auto &it : src_veh.get_items( src_part ) ) {
-                    temp_inv.add_item_keep_invlet(*it);
+                    temp_inv.add_item(*it, true);
                 }
             }
         }

@@ -1,4 +1,3 @@
-#pragma optimize("", off)
 #include "inventory.h"
 
 #include <climits>
@@ -344,12 +343,6 @@ item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bo
     items_type_cache[type].push_back( &items.back() );
     return *items.back().back();
 }
-
-void inventory::add_item_keep_invlet( item &newit )
-{
-    add_item( newit, true );
-}
-
 
 #if defined(__ANDROID__)
 extern void remove_stale_inventory_quick_shortcuts();
@@ -1450,7 +1443,7 @@ void location_inventory::add_item_keep_invlet( detached_ptr<item> &&newit )
 
     newit.release();
     as_p->set_location( &*loc );
-    return inv.add_item_keep_invlet( *as_p );
+    inv.add_item( *as_p, true );
 }
 
 void location_inventory::restack( player &p )

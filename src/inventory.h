@@ -121,7 +121,6 @@ public:
         item &add_item_by_items_type_cache( item &newit, bool keep_invlet = false,
                                             bool assign_invlet = true,
                                             bool should_stack = true );
-        void add_item_keep_invlet( item &newit );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
