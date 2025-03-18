@@ -251,6 +251,43 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
     return 0;
 }
 
+void inventory::build_items_type_cache()
+{
+    items_type_cache.clear();
+    for( auto &elem : items ) {
+        itype_id type = elem.front()->typeId();
+        items_type_cache[type].push_back( &elem );
+    }
+    items_type_cached = true;
+}
+
+namespace
+{
+    inline static bool add_item_stack_helper(inventory& inv, item& newit, std::vector<item*>& elem, bool keep_invlet, bool assign_invlet, item*& existing)
+    {
+        item*& it = *elem.begin();
+        if (it->stacks_with(newit)) {
+            if (it->invlet == '\0') {
+                if (!keep_invlet) {
+                    inv.update_invlet(newit, assign_invlet);
+                }
+                inv.update_cache_with_item(newit);
+                it->invlet = newit.invlet;
+            } else {
+                newit.invlet = it->invlet;
+            }
+            elem.push_back(&newit);
+            existing = elem.back();
+            return true;
+        } else if (keep_invlet && assign_invlet && it->invlet == newit.invlet &&
+            it->invlet != '\0') {
+            // If keep_invlet is true, we'll be forcing other items out of their current invlet.
+            inv.assign_empty_invlet(*it, g->u);
+        }
+        return false;
+    }
+}
+
 item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     binned = false;
@@ -259,23 +296,9 @@ item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bo
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items ) {
-            item *&it = *elem.begin();
-            if( it->stacks_with( newit ) ) {
-                if( it->invlet == '\0' ) {
-                    if( !keep_invlet ) {
-                        update_invlet( newit, assign_invlet );
-                    }
-                    update_cache_with_item( newit );
-                    it->invlet = newit.invlet;
-                } else {
-                    newit.invlet = it->invlet;
-                }
-                elem.push_back( &newit );
-                return *elem.back();
-            } else if( keep_invlet && assign_invlet && it->invlet == newit.invlet &&
-                       it->invlet != '\0' ) {
-                // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-                assign_empty_invlet( *it, g->u );
+            item* ex{};
+            if (add_item_stack_helper(*this, newit, elem, keep_invlet, assign_invlet, ex)) {
+                return *ex;
             }
         }
     }
@@ -290,45 +313,21 @@ item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bo
     return *items.back().back();
 }
 
-void inventory::build_items_type_cache()
-{
-    items_type_cache.clear();
-    for( auto &elem : items ) {
-        itype_id type = elem.front()->typeId();
-        items_type_cache[type].push_back( &elem );
-    }
-    items_type_cached = true;
-}
-
-item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bool assign_invlet,
-        bool should_stack )
+item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     binned = false;
     if( !items_type_cached ) {
         debugmsg( "Tried to add item to inventory using cache without building the items_type_cache." );
         build_items_type_cache();
     }
+
     itype_id type = newit.typeId();
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items_type_cache[type] ) {
-            auto it_ref = *elem->begin();
-            if( it_ref->stacks_with( newit, false, true ) ) {
-                if( it_ref->invlet == '\0' ) {
-                    if( !keep_invlet ) {
-                        update_invlet( newit, assign_invlet );
-                    }
-                    update_cache_with_item( newit );
-                    it_ref->invlet = newit.invlet;
-                } else {
-                    newit.invlet = it_ref->invlet;
-                }
-                elem->push_back( &newit );
-                return *elem->back();
-            } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet &&
-                       it_ref->invlet != '\0' ) {
-                // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-                assign_empty_invlet( *it_ref, g->u );
+            item* ex{};
+            if (add_item_stack_helper(*this, newit, *elem, keep_invlet, assign_invlet, ex)) {
+                return *ex;
             }
         }
     }

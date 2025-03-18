@@ -103,8 +103,6 @@ class inventory : public temp_visitable<inventory>
         inventory &operator=( inventory && ) = default;
         inventory &operator=( const inventory & ) = default;
 
-public:
-
         void unsort(); // flags the inventory as unsorted
         void clear();
 
