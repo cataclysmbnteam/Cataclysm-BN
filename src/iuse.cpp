@@ -8207,9 +8207,12 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             const time_point bday = calendar::start_of_cataclysm;
 
             crafting_inv.add_item( *item::spawn_temporary( "hotplate", bday ), false ); //hotplate inside
-            crafting_inv.add_item( *item::spawn_temporary( "tongs", bday ), false ); //some recipes requires tongs
-            crafting_inv.add_item( *item::spawn_temporary( "toolset", bday ), false ); //toolset with CUT and other qualities inside
-            crafting_inv.add_item( *item::spawn_temporary( "pot", bday ), false ); //good COOK, BOIL, CONTAIN qualities inside
+            crafting_inv.add_item( *item::spawn_temporary( "tongs", bday ),
+                                   false ); //some recipes requires tongs
+            crafting_inv.add_item( *item::spawn_temporary( "toolset", bday ),
+                                   false ); //toolset with CUT and other qualities inside
+            crafting_inv.add_item( *item::spawn_temporary( "pot", bday ),
+                                   false ); //good COOK, BOIL, CONTAIN qualities inside
 
             int counter = 0;
 

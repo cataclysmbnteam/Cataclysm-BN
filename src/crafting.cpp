@@ -553,18 +553,20 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         return cached_crafting_inventory;
     }
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
-    cached_crafting_inventory.add_items(inv, true);
-    cached_crafting_inventory.add_item(primary_weapon(), true);
-    cached_crafting_inventory.add_items(worn, true);
+    cached_crafting_inventory.add_items( inv, true );
+    cached_crafting_inventory.add_item( primary_weapon(), true );
+    cached_crafting_inventory.add_items( worn, true );
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
-        if( ( !bio_data.has_flag( flag_BIONIC_TOGGLED ) || bio.powered ) && !bio_data.fake_item.is_empty() ) {
-            cached_crafting_inventory.add_item(*item::spawn_temporary(bio.info().fake_item, calendar::turn, units::to_kilojoule(get_power_level())), true);
+        if( ( !bio_data.has_flag( flag_BIONIC_TOGGLED ) || bio.powered ) &&
+            !bio_data.fake_item.is_empty() ) {
+            cached_crafting_inventory.add_item( *item::spawn_temporary( bio.info().fake_item, calendar::turn,
+                                                units::to_kilojoule( get_power_level() ) ), true );
         }
     }
     if( has_trait( trait_BURROW ) ) {
-        cached_crafting_inventory.add_item(*item::spawn_temporary("pickaxe", calendar::turn), true);
-        cached_crafting_inventory.add_item(*item::spawn_temporary("shovel", calendar::turn), true);
+        cached_crafting_inventory.add_item( *item::spawn_temporary( "pickaxe", calendar::turn ), true );
+        cached_crafting_inventory.add_item( *item::spawn_temporary( "shovel", calendar::turn ), true );
     }
 
     cached_moves = moves;

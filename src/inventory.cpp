@@ -175,7 +175,8 @@ void inventory::clear()
     items_type_cached = false;
 }
 
-inventory& inventory::add_items(const inventory& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+inventory &inventory::add_items( const inventory &rhs, bool keep_invlet, bool assign_invlet,
+                                 bool should_stack )
 {
     for( size_t i = 0; i < rhs.size(); i++ ) {
         add_items( rhs.const_stack( i ), keep_invlet, assign_invlet, should_stack );
@@ -183,7 +184,8 @@ inventory& inventory::add_items(const inventory& rhs, bool keep_invlet, bool ass
     return *this;
 }
 
-inventory& inventory::add_items(const item_stack& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+inventory &inventory::add_items( const item_stack &rhs, bool keep_invlet, bool assign_invlet,
+                                 bool should_stack )
 {
     for( const auto &it : rhs ) {
         if( !it->made_of( LIQUID ) ) {
@@ -193,15 +195,17 @@ inventory& inventory::add_items(const item_stack& rhs, bool keep_invlet, bool as
     return *this;
 }
 
-inventory& inventory::add_items(const std::vector<item*>& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+inventory &inventory::add_items( const std::vector<item *> &rhs, bool keep_invlet,
+                                 bool assign_invlet, bool should_stack )
 {
     for( const auto &it : rhs ) {
-        add_item( *it, keep_invlet, assign_invlet, should_stack);
+        add_item( *it, keep_invlet, assign_invlet, should_stack );
     }
     return *this;
 }
 
-inventory& inventory::add_items(const location_inventory& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+inventory &inventory::add_items( const location_inventory &rhs, bool keep_invlet,
+                                 bool assign_invlet, bool should_stack )
 {
     for( size_t i = 0; i < rhs.size(); i++ ) {
         add_items( rhs.const_stack( i ), keep_invlet, assign_invlet, should_stack );
@@ -209,7 +213,8 @@ inventory& inventory::add_items(const location_inventory& rhs, bool keep_invlet,
     return *this;
 }
 
-inventory& inventory::add_items(const location_vector<item>& rhs, bool keep_invlet, bool assign_invlet, bool should_stack)
+inventory &inventory::add_items( const location_vector<item> &rhs, bool keep_invlet,
+                                 bool assign_invlet, bool should_stack )
 {
     for( item * const &it : rhs ) {
         add_item( *it, keep_invlet, assign_invlet, should_stack );
@@ -263,38 +268,40 @@ void inventory::build_items_type_cache()
 
 namespace
 {
-    inline static bool add_item_stack_helper(inventory& inv, item& newit, std::vector<item*>& elem, bool keep_invlet, bool assign_invlet, item*& existing)
-    {
-        item*& it = *elem.begin();
-        if (it->stacks_with(newit)) {
-            if (it->invlet == '\0') {
-                if (!keep_invlet) {
-                    inv.update_invlet(newit, assign_invlet);
-                }
-                inv.update_invlet_cache_with_item(newit);
-                it->invlet = newit.invlet;
-            } else {
-                newit.invlet = it->invlet;
+inline static bool add_item_stack_helper( inventory &inv, item &newit, std::vector<item *> &elem,
+        bool keep_invlet, bool assign_invlet, item *&existing )
+{
+    item *&it = *elem.begin();
+    if( it->stacks_with( newit ) ) {
+        if( it->invlet == '\0' ) {
+            if( !keep_invlet ) {
+                inv.update_invlet( newit, assign_invlet );
             }
-            elem.push_back(&newit);
-            existing = elem.back();
-            return true;
-        } else if (keep_invlet && assign_invlet && it->invlet == newit.invlet &&
-            it->invlet != '\0') {
-            // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-            inv.assign_empty_invlet(*it, g->u);
+            inv.update_invlet_cache_with_item( newit );
+            it->invlet = newit.invlet;
+        } else {
+            newit.invlet = it->invlet;
         }
-        return false;
+        elem.push_back( &newit );
+        existing = elem.back();
+        return true;
+    } else if( keep_invlet && assign_invlet && it->invlet == newit.invlet &&
+               it->invlet != '\0' ) {
+        // If keep_invlet is true, we'll be forcing other items out of their current invlet.
+        inv.assign_empty_invlet( *it, g->u );
     }
+    return false;
+}
 }
 
 template<bool IsCached>
-item& inventory::add_item_internal(item& newit, bool keep_invlet, bool assign_invlet, bool should_stack)
+item &inventory::add_item_internal( item &newit, bool keep_invlet, bool assign_invlet,
+                                    bool should_stack )
 {
     binned = false;
 
     itype_id type = newit.typeId();
-    if constexpr (IsCached) {
+    if constexpr( IsCached ) {
         if( !items_type_cached ) {
             debugmsg( "Tried to add item to inventory using cache without building the items_type_cache." );
             build_items_type_cache();
@@ -302,8 +309,8 @@ item& inventory::add_item_internal(item& newit, bool keep_invlet, bool assign_in
         if( should_stack ) {
             // See if we can't stack this item.
             for( auto &elem : items_type_cache[type] ) {
-                item* ex{};
-                if (::add_item_stack_helper(*this, newit, *elem, keep_invlet, assign_invlet, ex)) {
+                item *ex{};
+                if( ::add_item_stack_helper( *this, newit, *elem, keep_invlet, assign_invlet, ex ) ) {
                     return *ex;
                 }
             }
@@ -313,15 +320,15 @@ item& inventory::add_item_internal(item& newit, bool keep_invlet, bool assign_in
         if( should_stack ) {
             // See if we can't stack this item.
             for( auto &elem : items ) {
-                item* ex{};
-                if (::add_item_stack_helper(*this, newit, elem, keep_invlet, assign_invlet, ex)) {
+                item *ex{};
+                if( ::add_item_stack_helper( *this, newit, elem, keep_invlet, assign_invlet, ex ) ) {
                     return *ex;
                 }
             }
         }
     }
 
-     // Couldn't stack the item, proceed.
+    // Couldn't stack the item, proceed.
     if( !keep_invlet ) {
         update_invlet( newit, assign_invlet );
     }
@@ -329,8 +336,8 @@ item& inventory::add_item_internal(item& newit, bool keep_invlet, bool assign_in
 
     items.push_back( {&newit} );
 
-    if constexpr (IsCached) {
-        items_type_cache[type].push_back(&items.back());
+    if constexpr( IsCached ) {
+        items_type_cache[type].push_back( &items.back() );
     }
 
     return *items.back().back();
@@ -338,12 +345,13 @@ item& inventory::add_item_internal(item& newit, bool keep_invlet, bool assign_in
 
 item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
-    return add_item_internal<false>(newit, keep_invlet, assign_invlet, should_stack);
+    return add_item_internal<false>( newit, keep_invlet, assign_invlet, should_stack );
 }
 
-item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bool assign_invlet,
+        bool should_stack )
 {
-    return add_item_internal<true>(newit, keep_invlet, assign_invlet, should_stack);
+    return add_item_internal<true>( newit, keep_invlet, assign_invlet, should_stack );
 }
 
 #if defined(__ANDROID__)
@@ -1348,15 +1356,17 @@ void location_inventory::clear()
     return inv.clear();
 }
 
-void location_inventory::add_items(std::vector<detached_ptr<item>>& newits, bool keep_invlet, bool assign_invlet, bool should_stack)
+void location_inventory::add_items( std::vector<detached_ptr<item>> &newits, bool keep_invlet,
+                                    bool assign_invlet, bool should_stack )
 {
     for( detached_ptr<item> &it : newits ) {
-        add_item(std::move(it), keep_invlet, assign_invlet, should_stack);
+        add_item( std::move( it ), keep_invlet, assign_invlet, should_stack );
     }
 }
 
 template<bool IsCached>
-item& location_inventory::add_item_internal( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+item &location_inventory::add_item_internal( detached_ptr<item> &&newit, bool keep_invlet,
+        bool assign_invlet, bool should_stack )
 {
     if( !newit ) {
         return null_item_reference();
@@ -1387,21 +1397,23 @@ item& location_inventory::add_item_internal( detached_ptr<item> &&newit, bool ke
     newit.release();
     as_p->set_location( &*loc );
 
-    if constexpr (IsCached) {
+    if constexpr( IsCached ) {
         return inv.add_item_by_items_type_cache( *as_p, keep_invlet, assign_invlet, should_stack );
     } else {
         return inv.add_item( *as_p, keep_invlet, assign_invlet, should_stack );
     }
 }
 
-item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet,
+                                    bool assign_invlet, bool should_stack )
 {
-    return add_item_internal<false>(std::move(newit), keep_invlet, assign_invlet, should_stack);
+    return add_item_internal<false>( std::move( newit ), keep_invlet, assign_invlet, should_stack );
 }
 
-item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack )
+item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&newit,
+        bool keep_invlet, bool assign_invlet, bool should_stack )
 {
-    return add_item_internal<true>(std::move(newit), keep_invlet, assign_invlet, should_stack);
+    return add_item_internal<true>( std::move( newit ), keep_invlet, assign_invlet, should_stack );
 }
 
 void location_inventory::restack( player &p )

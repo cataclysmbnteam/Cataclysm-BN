@@ -91,7 +91,7 @@ class inventory : public temp_visitable<inventory>
 {
     private:
         template<bool IsCached>
-        item& add_item_internal(item &newit, bool keep_invlet, bool assign_invlet, bool should_stack);
+        item &add_item_internal( item &newit, bool keep_invlet, bool assign_invlet, bool should_stack );
 
     public:
         const_invslice const_slice() const;
@@ -111,18 +111,25 @@ class inventory : public temp_visitable<inventory>
         void clear();
 
         // --- Currently Unused - Kept since there was an add-assign overload before
-        inventory &add_items ( const inventory &rhs, bool keep_invlet, bool assign_invlet = true, bool should_stack = true ); 
-        inventory &add_items ( const item_stack &rhs , bool keep_invlet, bool assign_invlet = true, bool should_stack = true ); 
+        inventory &add_items( const inventory &rhs, bool keep_invlet, bool assign_invlet = true,
+                              bool should_stack = true );
+        inventory &add_items( const item_stack &rhs, bool keep_invlet, bool assign_invlet = true,
+                              bool should_stack = true );
         // ---
 
-        inventory &add_items ( const location_inventory &rhs , bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
-        inventory &add_items ( const std::vector<item *> &rhs, bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
-        inventory &add_items ( const location_vector<item> &rhs , bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
+        inventory &add_items( const location_inventory &rhs, bool keep_invlet, bool assign_invlet = true,
+                              bool should_stack = true );
+        inventory &add_items( const std::vector<item *> &rhs, bool keep_invlet, bool assign_invlet = true,
+                              bool should_stack = true );
+        inventory &add_items( const location_vector<item> &rhs, bool keep_invlet, bool assign_invlet = true,
+                              bool should_stack = true );
 
         // returns a reference to the added item
-        item &add_item( item &newit, bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
+        item &add_item( item &newit, bool keep_invlet, bool assign_invlet = true,
+                        bool should_stack = true );
         // use item type cache to speed up, remember to run build_items_type_cache() before using it
-        item &add_item_by_items_type_cache( item &newit, bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
+        item &add_item_by_items_type_cache( item &newit, bool keep_invlet, bool assign_invlet = true,
+                                            bool should_stack = true );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
@@ -255,7 +262,8 @@ class location_inventory : public location_visitable<location_inventory>
         friend visitable<location_inventory>;
 
         template<bool IsCached>
-        item& add_item_internal(detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack);
+        item &add_item_internal( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet,
+                                 bool should_stack );
     public:
 
         const_invslice const_slice() const;
@@ -275,11 +283,14 @@ class location_inventory : public location_visitable<location_inventory>
         void unsort();
         void clear();
 
-        void add_items( std::vector<detached_ptr<item>> &newits, bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
+        void add_items( std::vector<detached_ptr<item>> &newits, bool keep_invlet,
+                        bool assign_invlet = true, bool should_stack = true );
         // returns a reference to the added item
-        item &add_item( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
+        item &add_item( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet = true,
+                        bool should_stack = true );
         // use item type cache to speed up, remember to run build_items_type_cache() before using it
-        item &add_item_by_items_type_cache( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet = true, bool should_stack = true );
+        item &add_item_by_items_type_cache( detached_ptr<item> &&newit, bool keep_invlet,
+                                            bool assign_invlet = true, bool should_stack = true );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
