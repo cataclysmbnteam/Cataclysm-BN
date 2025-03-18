@@ -766,7 +766,8 @@ TEST_CASE( "tool selection ui", "[crafting][ui]" )
         tool_comp too_little( itype_id( "test_soldering_iron" ), 200 );
         tool_comp enough( itype_id( "test_battery_tool" ), 100 );
         tools = {too_little, enough};
-        map_inv.add_item( *item::spawn_temporary( too_little.type, calendar::start_of_cataclysm, 100 ), false );
+        map_inv.add_item( *item::spawn_temporary( too_little.type, calendar::start_of_cataclysm, 100 ),
+                          false );
         map_inv.add_item( *item::spawn_temporary( enough.type, calendar::start_of_cataclysm, 100 ), false );
 
         comp_selection<tool_comp> result = crafting::select_tool_component( tools, 1, map_inv,
