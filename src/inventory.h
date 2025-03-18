@@ -270,16 +270,15 @@ class location_inventory : public location_visitable<location_inventory>
 
         void unsort();
         void clear();
-        void push_back( std::vector<detached_ptr<item>> &newits );
+
+        void add_items( std::vector<detached_ptr<item>> &newits, bool keep_invlet = false, bool assign_invlet = true, bool should_stack = true );
         // returns a reference to the added item
-        item &add_item( detached_ptr<item> &&newit, bool keep_invlet = false, bool assign_invlet = true,
-                        bool should_stack = true );
+        item &add_item( detached_ptr<item> &&newit, bool keep_invlet = false, bool assign_invlet = true, bool should_stack = true );
         // use item type cache to speed up, remember to run build_items_type_cache() before using it
         item &add_item_by_items_type_cache( detached_ptr<item> &&newit, bool keep_invlet = false,
                                             bool assign_invlet = true,
                                             bool should_stack = true );
         void add_item_keep_invlet( detached_ptr<item> &&newit );
-        void push_back( detached_ptr<item> &&newit );
 
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with

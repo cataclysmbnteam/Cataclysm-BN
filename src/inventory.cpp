@@ -1,3 +1,4 @@
+#pragma optimize("", off)
 #include "inventory.h"
 
 #include <climits>
@@ -1352,26 +1353,15 @@ void location_inventory::clear()
     return inv.clear();
 }
 
-void location_inventory::push_back( std::vector<detached_ptr<item>> &newits )
+
+void location_inventory::add_items(std::vector<detached_ptr<item>>& newits, bool keep_invlet, bool assign_invlet, bool should_stack)
 {
     for( detached_ptr<item> &it : newits ) {
-        if( !it ) {
-            continue;
-        }
-        item *as_p = it.release();
-        if( &*loc == as_p->saved_loc ) {
-            as_p->saved_loc = nullptr;
-            as_p->set_location( &*loc );
-        } else {
-            as_p->resolve_saved_loc();
-            as_p->set_location( &*loc );
-            inv.add_item(*as_p, true);
-        }
+        add_item(std::move(it), keep_invlet, assign_invlet, should_stack);
     }
 }
 
-item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet,
-                                    bool assign_invlet, bool should_stack )
+item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet, bool assign_invlet, bool should_stack )
 {
     if( !newit ) {
         return null_item_reference();
@@ -1461,25 +1451,6 @@ void location_inventory::add_item_keep_invlet( detached_ptr<item> &&newit )
     newit.release();
     as_p->set_location( &*loc );
     return inv.add_item_keep_invlet( *as_p );
-}
-
-void location_inventory::push_back( detached_ptr<item> &&newit )
-{
-    if( !newit ) {
-        return;
-    }
-
-    item *as_p = newit.release();
-    if( &*loc == as_p->saved_loc ) {
-        as_p->saved_loc = nullptr;
-        as_p->set_location( &*loc );
-        return;
-    }
-
-    as_p->resolve_saved_loc();
-    as_p->set_location( &*loc );
-    
-    inv.add_item( *as_p, true );
 }
 
 void location_inventory::restack( player &p )
