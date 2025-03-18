@@ -2400,7 +2400,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     to_wear.on_wear( *this );
 
     inv.update_invlet( to_wear );
-    inv.update_cache_with_item( to_wear );
+    inv.update_invlet_cache_with_item( to_wear );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -2418,7 +2418,7 @@ void Character::add_worn( detached_ptr<item> &&wear )
     worn.insert( pos, std::move( wear ) );
     to_wear.on_wear( *this );
     inv.update_invlet( to_wear );
-    inv.update_cache_with_item( to_wear );
+    inv.update_invlet_cache_with_item( to_wear );
     recalc_sight_limits();
     reset_encumbrance();
 }
@@ -2666,9 +2666,9 @@ void Character::inv_update_invlet( item &it )
     inv.update_invlet( it );
 }
 
-void Character::inv_update_cache_with_item( item &it )
+void Character::inv_update_invlet_cache_with_item( item &it )
 {
-    inv.update_cache_with_item( it );
+    inv.update_invlet_cache_with_item( it );
 }
 
 std::map<char, itype_id> &Character::inv_assigned_invlet()

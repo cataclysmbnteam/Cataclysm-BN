@@ -212,7 +212,7 @@ class inventory : public temp_visitable<inventory>
          */
         const itype_bin &get_binned_items() const;
 
-        void update_cache_with_item( item &newit );
+        void update_invlet_cache_with_item( item &newit );
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
@@ -379,7 +379,7 @@ class location_inventory : public location_visitable<location_inventory>
          */
         const itype_bin &get_binned_items() const;
 
-        void update_cache_with_item( item &newit );
+        void update_invlet_cache_with_item( item &newit );
 
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;

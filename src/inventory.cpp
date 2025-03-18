@@ -218,7 +218,7 @@ inventory& inventory::add_items(const location_vector<item>& rhs, bool keep_invl
 }
 
 // This function keeps the invlet cache updated when a new item is added.
-void inventory::update_cache_with_item( item &newit )
+void inventory::update_invlet_cache_with_item( item &newit )
 {
     // This function does two things:
     // 1. It adds newit's invlet to the list of favorite letters for newit's item type.
@@ -271,7 +271,7 @@ namespace
                 if (!keep_invlet) {
                     inv.update_invlet(newit, assign_invlet);
                 }
-                inv.update_cache_with_item(newit);
+                inv.update_invlet_cache_with_item(newit);
                 it->invlet = newit.invlet;
             } else {
                 newit.invlet = it->invlet;
@@ -325,7 +325,7 @@ item& inventory::add_item_internal(item& newit, bool keep_invlet, bool assign_in
     if( !keep_invlet ) {
         update_invlet( newit, assign_invlet );
     }
-    update_cache_with_item( newit );
+    update_invlet_cache_with_item( newit );
 
     items.push_back( {&newit} );
 
@@ -1215,7 +1215,7 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
         invlet_cache.erase( it.invlet );
     }
     it.invlet = invlet;
-    update_cache_with_item( it );
+    update_invlet_cache_with_item( it );
 }
 
 void inventory::update_invlet( item &newit, bool assign_invlet )
@@ -1545,9 +1545,9 @@ const itype_bin &location_inventory::get_binned_items() const
     return inv.get_binned_items();
 }
 
-void location_inventory::update_cache_with_item( item &newit )
+void location_inventory::update_invlet_cache_with_item( item &newit )
 {
-    return inv.update_cache_with_item( newit );
+    return inv.update_invlet_cache_with_item( newit );
 }
 
 enchantment location_inventory::get_active_enchantment_cache( const Character &owner ) const

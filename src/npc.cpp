@@ -1241,7 +1241,7 @@ detached_ptr<item> npc::wield( detached_ptr<item> &&target )
 
 
     inv.update_invlet( obj );
-    inv.update_cache_with_item( obj );
+    inv.update_invlet_cache_with_item( obj );
     return detached_ptr<item>();
 }
 
