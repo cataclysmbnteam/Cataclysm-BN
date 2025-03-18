@@ -929,7 +929,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Map Defaulting to level 0",
+    "name": "Toggle Map Defaulting to Level 0",
     "category": "OVERMAP",
     "id": "TOGGLE_DEFAULT_0",
     "bindings": [ { "input_method": "keyboard", "key": "." } ]
