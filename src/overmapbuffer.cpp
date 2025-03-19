@@ -290,6 +290,7 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
     if( it != overmaps.end() ) {
         return it->second.get();
     }
+
     if( known_non_existing.contains( p ) ) {
         // This overmap does not exist on disk (this has already been
         // checked in a previous call of this function).
@@ -1053,10 +1054,10 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
 }
 
 tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
-        const omt_find_params &params )
+        const omt_find_params &pp )
 {
     // Check the origin before searching adjacent tiles!
-    if( params.search_range.first == 0 && is_findable_location( origin, params ) ) {
+    if( pp.search_range.first == 0 && is_findable_location( origin, pp ) ) {
         return origin;
     }
 
@@ -1075,45 +1076,44 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     // See overmap::place_specials for how we attempt to insure specials are placed within this
     // range.  The actual number is 5 because 1 covers the current overmap,
     // and each additional one expends the search to the next concentric circle of overmaps.
-    const int min_dist = params.search_range.first;
-    const int max_dist = params.search_range.second ? params.search_range.second : OMAPX * 5;
 
-    std::vector<tripoint_abs_omt> result;
+    omt_find_params params = pp;
+    if (params.search_range.second == 0)
+        params.search_range.second = OMAPX * 5;
+    if (!params.results_per_layer.has_value())
+        params.results_per_layer = 10;
+
+    std::vector<tripoint_abs_omt> near_points;
     std::optional<int> found_dist;
 
+    std::multimap<int, tripoint_abs_omt> points_by_dist;
+
+    auto scan_result = find_all(origin, params);
+    if (scan_result.size() == 0)
+        return overmap::invalid_tripoint;
+    
     size_t num_overmaps = overmaps.size();
     size_t counter = 0;
-
-    for( const point_abs_omt &loc_xy : closest_points_first( origin.xy(), min_dist, max_dist ) ) {
-        const int dist_xy = square_dist( origin.xy(), loc_xy );
-
-        if( found_dist && *found_dist < dist_xy ) {
-            break;
-        }
-
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            const tripoint_abs_omt loc( loc_xy, z );
-            const int dist = square_dist( origin, loc );
-
-            if( found_dist && *found_dist < dist ) {
-                continue;
-            }
-
-            if( is_findable_location( loc, params ) ) {
-                found_dist = dist;
-                result.push_back( loc );
-            }
-
-            counter += 1;
-            if( params.popup && ( num_overmaps != overmaps.size() || counter == 512 ) ) {
-                params.popup->refresh();
-                num_overmaps = overmaps.size();
-                counter = 0;
-            }
+    for (auto& p : scan_result) {
+        const int dist = square_dist(origin, p);
+        points_by_dist.insert({ dist, p });
+        
+        counter += 1;
+        if( params.popup && ( num_overmaps != overmaps.size() || counter == 512 ) ) {
+            params.popup->refresh();
+            num_overmaps = overmaps.size();
+            counter = 0;
         }
     }
 
-    return random_entry( result, overmap::invalid_tripoint );
+    auto min_key = points_by_dist.begin()->first;
+    auto min_range = points_by_dist.equal_range(min_key);
+
+    auto num_results = std::distance(min_range.first, min_range.second);
+    auto it = min_range.first;
+    std::advance(it, rng(0, num_results));
+
+    return it->second;
 }
 
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin, 
@@ -1146,7 +1146,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
 tripoint_abs_omt overmapbuffer::find_random( const tripoint_abs_omt &origin,
         const omt_find_params &params )
 {
-    return random_entry( find_all( origin, params ), overmap::invalid_tripoint );
+    auto found = find_all(origin, params);
+    return random_entry(found , overmap::invalid_tripoint );
 }
 
 shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
