@@ -513,7 +513,7 @@ class overmapbuffer
          * Set of overmap coordinates of overmaps that are known
          * to not exist on disk. See @ref get_existing for usage.
          */
-        mutable std::set<point_abs_om> known_non_existing;
+        std::unordered_set<point_abs_om> known_non_existing;
 
         // Set of globally unique overmap specials that have already been placed
         std::unordered_set<overmap_special_id> placed_unique_specials;
