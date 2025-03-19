@@ -1354,6 +1354,52 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
     params.types = omt_types;
     params.existing_only = false;
 
+    point_abs_om origin_om_pos;
+    point_om_omt origin_local;
+    std::tie( origin_om_pos, origin_local ) = project_remain<coords::om>( map.xy() );
+
+    int max_dist = 0;
+    std::unordered_set<point_abs_om> visited;
+    std::multimap<int, point_abs_om> by_dist;
+
+    /*
+    * Collect all unique overmap locations, grouped by manhattan distance
+    */
+    for( auto &p : closest_point_generator( map.raw().xy(), 0, radius ) ) {
+        const tripoint tp( p, map.z() );
+        const tripoint_abs_omt w( tp );
+
+        point_abs_om om_pos;
+        point_om_omt local;
+        std::tie( om_pos, local ) = project_remain<coords::om>( w.xy() );
+        auto dist = manhattan_dist( origin_om_pos, om_pos );
+        max_dist = std::max( max_dist, dist );
+        if( visited.insert( om_pos ).second ) {
+            by_dist.emplace( dist, om_pos );
+        }
+    }
+
+    /*
+    * Stagger parallel map generation starting from center (0), outwards
+    * so the generated maps have a neighbor to latch onto when generating roads/rivers
+    * 5 4 3 2 3 4 5
+    * 4 3 2 1 2 3 4
+    * 3 2 1 0 1 2 3
+    * 4 3 2 1 2 3 4
+    * 5 4 3 2 3 4 5
+    */
+
+    std::vector<point_abs_om> to_gen;
+    for( int i = 0; i <= max_dist; i++ ) {
+        to_gen.clear();
+        auto range = by_dist.equal_range( i );
+        std::transform( range.first, range.second,
+        std::back_inserter( to_gen ), []( const std::pair<int, point_abs_om> &x ) {
+            return x.second;
+        } );
+        overmap_buffer.generate( to_gen );
+    }
+
     const auto places = overmap_buffer.find_all( map, params );
     for( auto &place : places ) {
         overmap_buffer.reveal( place, 0 );
