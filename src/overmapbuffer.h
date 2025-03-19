@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <mutex>
 
 #include "coordinates.h"
 #include "enums.h"
