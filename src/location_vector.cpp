@@ -410,7 +410,7 @@ void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_
     }
     for( auto it = contents.begin(); it != contents.end(); ) {
         location<T> *saved_loc = ( *it )->loc;
-        (*it)->saved_loc=saved_loc;
+        ( *it )->saved_loc = saved_loc;
         ( *it )->remove_location();
         detached_ptr<T> original( *it );
         detached_ptr<T> n = cb( std::move( original ) );

@@ -819,7 +819,7 @@ bool item::attempt_split( int qty,
         return false;
     }
     item &after_split = *det;
-    after_split.saved_loc=loc;
+    after_split.saved_loc = loc;
     int starting_charges = after_split.charges;
     det = cb( std::move( det ) );
     bool ret = true;
@@ -839,7 +839,7 @@ bool item::attempt_split( int qty,
     } else {
         changed = true;
     }
-    after_split.saved_loc=nullptr;
+    after_split.saved_loc = nullptr;
     if( changed ) {
         contents_item_location *contents_loc = dynamic_cast<contents_item_location *>( &*loc );
         if( contents_loc ) {
