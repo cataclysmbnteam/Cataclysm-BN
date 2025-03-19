@@ -8,7 +8,6 @@
 #include <map>
 #include <optional>
 #include <queue>
-#include <execution>
 #include <future>
 
 #include "avatar.h"
@@ -116,14 +115,12 @@ void overmapbuffer::generate( const std::vector<point_abs_om> &locs )
             continue;
         }
 
-        async_data.push_back(
-        std::async( std::launch::async, [&]() {
+        auto gen_func = [&]() {
             auto map = std::make_unique<overmap>( loc );
             map->populate();
             return std::make_pair( loc, std::move( map ) );
-        }
-                      )
-        );
+        };
+        async_data.push_back( std::async( std::launch::async, gen_func ) );
     }
 
     auto popup = make_shared_fast<throbber_popup>( _( "Please wait..." ) );
@@ -1160,7 +1157,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
     std::deque<std::future<std::vector<tripoint_abs_omt>>> tasks;
 
     std::vector<tripoint_abs_omt> find_result;
-    int free_tasks = 8;// std::thread::hardware_concurrency() - 1;
+    int free_tasks = std::thread::hardware_concurrency() - 1;
 
     auto try_finish_task = []( std::future<std::vector<tripoint_abs_omt>> &task,
     std::vector<tripoint_abs_omt> &dst, omt_find_params params ) -> bool {
@@ -1197,7 +1194,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
                 ++free_tasks;
             }
             if( params.max_results.has_value() &&
-                find_result.size() >= params.max_results.value() )                 {
+                find_result.size() >= params.max_results.value() ) {
                 break;
             }
         }
