@@ -1,7 +1,6 @@
 #include "activity_actor.h"
 #include "activity_actor_definitions.h"
 
-#include <algorithm>
 #include <cmath>
 #include <list>
 #include <memory>
@@ -12,7 +11,6 @@
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
-#include "avatar_functions.h"
 #include "calendar.h"
 #include "character.h"
 #include "character_functions.h"
@@ -40,7 +38,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "options.h"
 #include "pickup.h"
 #include "player.h"
@@ -53,9 +50,7 @@
 #include "timed_event.h"
 #include "translations.h"
 #include "uistate.h"
-#include "units.h"
 #include "vehicle.h"
-#include "vehicle_part.h"
 #include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),DC::Game)
@@ -112,6 +107,11 @@ inline void progress_counter::purge()
     moves_total -= targets.front().moves_total;
     total_tasks--;
     targets.pop_front();
+}
+
+inline void activity_actor::recalc_all_moves( player_activity &act, Character &who )
+{
+    act.recalc_all_moves( who );
 }
 
 aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
@@ -661,12 +661,20 @@ bool disassemble_activity_actor::try_start_single( player_activity &/* act */, C
     return true;
 }
 
-void disassemble_activity_actor::process_target( player_activity &/*act*/, iuse_location target )
+inline void disassemble_activity_actor::process_target( player_activity &/*act*/,
+        iuse_location &target )
 {
     const item &itm = *target.loc;
     const recipe &dis = recipe_dictionary::get_uncraft( itm.typeId() );
     int moves_needed = dis.time * target.count;
     progress.emplace( itm.tname( target.count ), moves_needed );
+}
+
+inline void disassemble_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+{
+    auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft(
+                                           targets.front().loc->typeId() ) );
+    act.recalc_all_moves( who, reqs );
 }
 
 void disassemble_activity_actor::start( player_activity &act, Character &who )
@@ -677,7 +685,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     } else if( !try_start_single( act, who ) ) {
         act.set_to_null();
     }
-    for( auto target : targets ) {
+    for( auto &target : targets ) {
         process_target( act, target );
     }
 }
@@ -693,8 +701,12 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         }
         targets.erase( targets.begin() );
         progress.pop();
-        if( !progress.empty() && !try_start_single( act, who ) ) {
-            act.set_to_null();
+        if( !progress.empty() ) {
+            if( try_start_single( act, who ) ) {
+                recalc_all_moves( act, who );
+            } else {
+                act.set_to_null();
+            }
         }
     }
 }
@@ -702,7 +714,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 void disassemble_activity_actor::finish( player_activity &act, Character &who )
 {
     if( try_start_single( act, who ) ) {
-        debugmsg( "disassemble_activity_actor call finish function while able to start new dissasembly" );
+        debugmsg( "disassemble_activity_actor call finish function while able to start new disassembly" );
     }
     // Make a copy to avoid use-after-free
     bool recurse = this->recursive;
@@ -712,6 +724,15 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
     if( recurse ) {
         crafting::disassemble_all( *who.as_avatar(), recurse );
     }
+}
+
+float disassemble_activity_actor::calc_bench_factor( const Character &who,
+        const std::optional<bench_loc> &bench ) const
+{
+    return bench.has_value()
+           ? crafting::best_bench_here( *targets.front().loc, bench->position, true ).second
+           : crafting::best_bench_here( *targets.front().loc, who.pos(), true ).second;
+
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const
@@ -2041,7 +2062,24 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
     return actor;
 }
 
-void construction_activity_actor::start( player_activity &act, Character &who )
+inline void construction_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+{
+    // Check if pc was lost for some reason, but actually still exists on map, e.g. save/load
+    if( !pc ) {
+        map &here = get_map();
+        auto local = here.getlocal( target );
+        pc = here.partial_con_at( local );
+    }
+    //if something goes terribly wrong we don't CTD
+    if( !pc ) {
+        act.set_to_null();
+        return;
+    }
+    auto reqs = activity_reqs_adapter( pc->id.obj() );
+    act.recalc_all_moves( who, reqs );
+}
+
+void construction_activity_actor::start( player_activity &/*act*/, Character &/*who*/ )
 {
     map &here = get_map();
     auto local = here.getlocal( target );
@@ -2132,6 +2170,23 @@ std::unique_ptr<activity_actor> construction_activity_actor::deserialize( JsonIn
     return actor;
 }
 
+void assist_activity_actor::start( player_activity &/*act*/, Character &/*who*/ )
+{
+    progress.dummy();
+}
+
+void assist_activity_actor::serialize( JsonOut &jsout ) const
+{
+    // Activity is not being saved but still provide some valid json if called.
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> assist_activity_actor::deserialize( JsonIn & )
+{
+    return std::make_unique<assist_activity_actor>();
+}
+
+
 namespace activity_actors
 {
 
@@ -2157,6 +2212,7 @@ deserialize_functions = {
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
     { activity_id( "ACT_WASH" ), &wash_activity_actor::deserialize },
+    { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
 };
 } // namespace activity_actors
 
@@ -2196,3 +2252,4 @@ void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin )
         }
     }
 }
+
