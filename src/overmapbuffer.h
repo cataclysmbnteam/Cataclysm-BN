@@ -115,9 +115,11 @@ struct overmap_with_local_coords {
  * @param search_range The [minimum, maximum] search distance. If maximum is 0, a function specific default is used.
  * @param search_layers If set, overrides the search layers to this range. Layer from search origin otherwise.
  * @param min_distance Matches within min_distance are ignored.
- * @param must_see If true, only terrain seen by the player should be searched.
- * @param cant_see If true, only terrain not seen by the player should be searched
- * @param existing_overmaps_only If true, will restrict searches to existing overmaps only. This
+ * @param seen If true, only terrain seen by the player should be searched. 
+ * If false, only terrain not seen by the player should be searched.
+ * @param explored If true, only terrain marked as explored by the player should be searched. 
+ * If false, only terrain not marked as explored by the player should be searched.
+ * @param existing_only If true, will restrict searches to existing overmaps only. This
  * is particularly useful if we want to attempt to add a missing overmap special to an existing
  * overmap rather than creating many overmaps in an attempt to find it.
  * @param om_special If set, the terrain must be part of the specified overmap special.
@@ -132,8 +134,8 @@ struct omt_find_params {
     std::vector<std::pair<std::string, ot_match_type>> exclude_types;
     std::pair<int, int> search_range = { 0,0 };
     std::optional<std::pair<int, int>> search_layers = std::nullopt;
-    bool must_see = false;
-    bool cant_see = false;
+    std::optional<bool> seen = std::nullopt;
+    std::optional<bool> explored = std::nullopt;
     bool existing_only = false;
     std::optional<overmap_special_id> om_special = std::nullopt;
     shared_ptr_fast<throbber_popup> popup = nullptr;

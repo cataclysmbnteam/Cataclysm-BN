@@ -102,7 +102,7 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
     find_params.types.emplace_back(omter, ot_match_type::type);
     find_params.search_range = { 0, 0 };
     find_params.search_layers = omt_find_all_layers;
-    find_params.must_see = must_see;
+    find_params.seen = must_see ? std::make_optional(true) : std::nullopt;
 
     // Missions are normally on z-level 0, but allow an optional argument.
     tripoint_abs_omt loc = get_player_character().global_omt_location();
@@ -185,8 +185,11 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     omt_find_params find_params;
     find_params.types.emplace_back(params.overmap_terrain, params.overmap_terrain_match_type);
     find_params.search_range = { params.min_distance, params.search_range };
-    find_params.must_see = params.must_see;
-    find_params.cant_see = params.cant_see;
+    find_params.seen = params.must_see 
+        ? std::make_optional(true) 
+        : params.cant_see 
+            ? std::make_optional(false) 
+            : std::nullopt;
     find_params.existing_only = true;
     find_params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
@@ -202,8 +205,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 
         // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
         // have to see the location beforehand, then we can attempt to create the new terrain.
-        if( target_pos == overmap::invalid_tripoint && params.create_if_necessary &&
-            !params.must_see ) {
+        if( target_pos == overmap::invalid_tripoint && params.create_if_necessary && !params.must_see ) {
             // If this terrain is part of an overmap special...
             if( params.overmap_special ) {
                 // ...then attempt to place the whole special.
@@ -212,13 +214,13 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
                 // If we succeeded in placing the special, then try and find the particular location
                 // we're interested in.
                 if( placed ) {
-                    find_params.must_see = false;
+                    find_params.seen = std::nullopt;
                     target_pos = overmap_buffer.find_closest( origin_pos, find_params );
                 }
             } else if( params.replaceable_overmap_terrain ) {
                 // This terrain wasn't part of an overmap special, but we do have a replacement
                 // terrain specified. Find a random location of that replacement type.
-                find_params.must_see = false;
+                find_params.seen = std::nullopt;
                 find_params.types.front().first = *params.replaceable_overmap_terrain;
                 find_params.search_layers = std::nullopt;
                 target_pos = overmap_buffer.find_random( origin_pos, find_params );

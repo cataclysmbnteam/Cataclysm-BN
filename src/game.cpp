@@ -782,8 +782,6 @@ vehicle *game::place_vehicle_nearby(
         // TODO: Pull-up find_params and use that scan result instead
         // find nearest road
         omt_find_params find_params;
-        find_params.must_see = false;
-        find_params.cant_see = false;
         find_params.types.emplace_back( search_type, ot_match_type::type );
         find_params.search_range = { min_distance, max_distance };
         find_params.search_layers = std::nullopt;

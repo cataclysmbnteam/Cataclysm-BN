@@ -1000,7 +1000,7 @@ static omt_find_params assign_params(
     omt_find_params params;
     params.types.emplace_back(type, match_type);
     params.search_range = { 0,radius };
-    params.must_see = must_be_seen;
+    params.seen = must_be_seen ? std::make_optional(true) : std::nullopt;
     params.existing_only = existing_overmaps_only;
     params.om_special = om_special;
     return params;
@@ -1025,10 +1025,12 @@ bool overmapbuffer::is_findable_location(const overmap_with_local_coords& om_loc
         return false;
 
     const auto is_seen = om_loc.om->seen(om_loc.local);
-    if( params.must_see && !is_seen ) {
+    if( params.seen.has_value() && params.seen.value() != is_seen) {
         return false;
     }
-    if( params.cant_see && is_seen ) {
+
+    const auto is_explored = om_loc.om->explored(om_loc.local);
+    if( params.explored.has_value() && params.explored.value() != is_explored) {
         return false;
     }
 
