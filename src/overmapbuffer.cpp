@@ -1009,7 +1009,6 @@ static omt_find_params assign_params(
 bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
         const omt_find_params &params )
 {
-    bool type_matches = false;
     overmap_with_local_coords om_loc;
     if( params.existing_only ) {
         om_loc = get_existing_om_global( location );
@@ -1017,34 +1016,46 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
         om_loc = get_om_global( location );
     }
 
+    return is_findable_location(om_loc, params);
+}
+
+bool overmapbuffer::is_findable_location(const overmap_with_local_coords& om_loc, const omt_find_params& params)
+{
     if (om_loc.om == nullptr)
         return false;
 
-    for (const std::pair<std::string, ot_match_type>& elem : params.types) {
-        type_matches = om_loc.om->check_ot(elem.first, elem.second, om_loc.local);
-        if (type_matches) {
+    const auto is_seen = om_loc.om->seen(om_loc.local);
+    if( params.must_see && !is_seen ) {
+        return false;
+    }
+    if( params.cant_see && is_seen ) {
+        return false;
+    }
+
+    bool is_excluded = false;
+    for (const std::pair<std::string, ot_match_type>& elem : params.exclude_types) {
+        is_excluded = om_loc.om->check_ot(elem.first, elem.second, om_loc.local);
+        if (is_excluded) {
             break;
         }
     }   
-
-    if( !type_matches ) {
+    if( is_excluded ) {
         return false;
     }
 
-    if( params.must_see && !seen( location ) ) {
-        return false;
-    }
-    if( params.cant_see && seen( location ) ) {
+    bool is_included = false;
+    for (const std::pair<std::string, ot_match_type>& elem : params.types) {
+        is_included = om_loc.om->check_ot(elem.first, elem.second, om_loc.local);
+        if (is_included) {
+            break;
+        }
+    }   
+    if( !is_included ) {
         return false;
     }
 
     if( params.om_special ) {
-        bool meets_om_special = false;
-        if( params.existing_only ) {
-            meets_om_special = check_overmap_special_type_existing( *params.om_special, location );
-        } else {
-            meets_om_special = check_overmap_special_type( *params.om_special, location );
-        }
+        bool meets_om_special = om_loc.om->check_overmap_special_type( *params.om_special, om_loc.local );       
         if( !meets_om_special ) {
             return false;
         }

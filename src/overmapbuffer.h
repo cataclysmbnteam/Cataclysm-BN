@@ -509,6 +509,7 @@ class overmapbuffer
          * see omt_find_params for definitions of the terms
          */
         bool is_findable_location( const tripoint_abs_omt &location, const omt_find_params &params );
+        bool is_findable_location( const overmap_with_local_coords& map_loc, const omt_find_params &params );
 
         std::unordered_map< point_abs_om, std::unique_ptr< overmap > > overmaps;
         /**
