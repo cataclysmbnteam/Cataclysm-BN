@@ -36,10 +36,10 @@ static tripoint_abs_omt reveal_destination( const std::string &type )
 
     omt_find_params params{};
     params.types.emplace_back( type, ot_match_type::type );
-    params.search_range = { 0, rng(40, 80) };
+    params.search_range = { 0, rng( 40, 80 ) };
     params.search_layers = std::nullopt;
-    
-    const tripoint_abs_omt center_pos = overmap_buffer.find_random(your_pos, params);
+
+    const tripoint_abs_omt center_pos = overmap_buffer.find_random( your_pos, params );
 
     if( center_pos != overmap::invalid_tripoint ) {
         overmap_buffer.reveal( center_pos, 2 );
@@ -79,7 +79,7 @@ bool mission_util::reveal_road( const tripoint_abs_omt &source, const tripoint_a
                                 overmapbuffer &omb )
 {
     omt_find_params find_params{};
-    find_params.types.emplace_back("road", ot_match_type::type);
+    find_params.types.emplace_back( "road", ot_match_type::type );
     find_params.search_range = { 0, 3 };
     find_params.search_layers = omt_find_all_layers;
 
@@ -99,10 +99,10 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
         bool must_see, int target_z )
 {
     omt_find_params find_params{};
-    find_params.types.emplace_back(omter, ot_match_type::type);
+    find_params.types.emplace_back( omter, ot_match_type::type );
     find_params.search_range = { 0, 0 };
     find_params.search_layers = omt_find_all_layers;
-    find_params.seen = must_see ? std::make_optional(true) : std::nullopt;
+    find_params.seen = must_see ? std::make_optional( true ) : std::nullopt;
 
     // Missions are normally on z-level 0, but allow an optional argument.
     tripoint_abs_omt loc = get_player_character().global_omt_location();
@@ -149,8 +149,8 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
     const tripoint_abs_omt &origin, int reveal_rad, mission *miss )
 {
     omt_find_params find_params;
-    find_params.types.emplace_back("lab_stairs", ot_match_type::contains);
-    find_params.search_range = { 0,0 };
+    find_params.types.emplace_back( "lab_stairs", ot_match_type::contains );
+    find_params.search_range = { 0, 0 };
     find_params.search_layers = omt_find_all_layers;
 
     tripoint_abs_omt testpoint = origin;
@@ -160,7 +160,7 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
 
     testpoint.z() = -1;
     find_params.types[0].first = "hidden_lab_stairs";
-    tripoint_abs_omt underground = overmap_buffer.find_closest(testpoint, find_params);
+    tripoint_abs_omt underground = overmap_buffer.find_closest( testpoint, find_params );
     underground.z() = 0; // ???
 
     tripoint_abs_omt closest;
@@ -183,13 +183,13 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     tripoint_abs_omt target_pos = overmap::invalid_tripoint;
 
     omt_find_params find_params;
-    find_params.types.emplace_back(params.overmap_terrain, params.overmap_terrain_match_type);
+    find_params.types.emplace_back( params.overmap_terrain, params.overmap_terrain_match_type );
     find_params.search_range = { params.min_distance, params.search_range };
-    find_params.seen = params.must_see 
-        ? std::make_optional(true) 
-        : params.cant_see 
-            ? std::make_optional(false) 
-            : std::nullopt;
+    find_params.seen = params.must_see
+                       ? std::make_optional( true )
+                       : params.cant_see
+                       ? std::make_optional( false )
+                       : std::nullopt;
     find_params.existing_only = true;
     find_params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
@@ -353,7 +353,7 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
     }
 
     omt_find_params find_params{};
-    find_params.types.emplace_back(omter, ot_match_type::type);
+    find_params.types.emplace_back( omter, ot_match_type::type );
     find_params.search_range = { 0, range };
     find_params.search_layers = std::nullopt;
 

@@ -1346,14 +1346,14 @@ void reveal_map_actor::load( const JsonObject &obj )
     };
 }
 
-void reveal_map_actor::reveal_targets(const tripoint_abs_omt& map) const
+void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
 {
     omt_find_params params{};
     params.search_range = { 0, radius };
     params.search_layers = omt_find_all_layers;
     params.types = omt_types;
     params.existing_only = false;
-    
+
     const auto places = overmap_buffer.find_all( map, params );
     for( auto &place : places ) {
         overmap_buffer.reveal( place, 0 );
@@ -1369,7 +1369,7 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
     params.existing_only = true;
     params.search_layers = omt_find_all_layers;
     params.explored = false;
-   
+
     const auto places = overmap_buffer.find_all( center, params );
 
     // Group tiles by name

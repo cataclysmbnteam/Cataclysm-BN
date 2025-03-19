@@ -115,9 +115,9 @@ struct overmap_with_local_coords {
  * @param search_range The [minimum, maximum] search distance. If maximum is 0, a function specific default is used.
  * @param search_layers If set, overrides the search layers to this range. Layer from search origin otherwise.
  * @param min_distance Matches within min_distance are ignored.
- * @param seen If true, only terrain seen by the player should be searched. 
+ * @param seen If true, only terrain seen by the player should be searched.
  * If false, only terrain not seen by the player should be searched.
- * @param explored If true, only terrain marked as explored by the player should be searched. 
+ * @param explored If true, only terrain marked as explored by the player should be searched.
  * If false, only terrain not marked as explored by the player should be searched.
  * @param existing_only If true, will restrict searches to existing overmaps only. This
  * is particularly useful if we want to attempt to add a missing overmap special to an existing
@@ -132,7 +132,7 @@ struct omt_find_params {
 
     std::vector<std::pair<std::string, ot_match_type>> types;
     std::vector<std::pair<std::string, ot_match_type>> exclude_types;
-    std::pair<int, int> search_range = { 0,0 };
+    std::pair<int, int> search_range = { 0, 0 };
     std::optional<std::pair<int, int>> search_layers = std::nullopt;
     std::optional<bool> seen = std::nullopt;
     std::optional<bool> explored = std::nullopt;
@@ -140,7 +140,8 @@ struct omt_find_params {
     std::optional<overmap_special_id> om_special = std::nullopt;
     shared_ptr_fast<throbber_popup> popup = nullptr;
     std::optional<int> results_per_layer = std::nullopt;
-    std::function<bool(const tripoint_abs_omt&,const overmap_with_local_coords&)> post_filter = nullptr;
+    std::function<bool( const tripoint_abs_omt &, const overmap_with_local_coords & )> post_filter =
+        nullptr;
 };
 
 constexpr const std::pair<int, int> omt_find_all_layers = { -OVERMAP_DEPTH, OVERMAP_HEIGHT };
@@ -176,7 +177,7 @@ class overmapbuffer
         /**
         * Generates overmap tiles, if missing
         */
-        void generate(const std::vector<point_abs_om>& locs);
+        void generate( const std::vector<point_abs_om> &locs );
 
         /**
          * Returns the overmap terrain at the given OMT coordinates.
@@ -511,7 +512,8 @@ class overmapbuffer
          * see omt_find_params for definitions of the terms
          */
         bool is_findable_location( const tripoint_abs_omt &location, const omt_find_params &params );
-        bool is_findable_location( const overmap_with_local_coords& map_loc, const omt_find_params &params );
+        bool is_findable_location( const overmap_with_local_coords &map_loc,
+                                   const omt_find_params &params );
 
         std::unordered_map< point_abs_om, std::unique_ptr< overmap > > overmaps;
         /**

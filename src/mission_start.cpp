@@ -97,11 +97,11 @@ void mission_start::kill_horde_master( mission *miss )
     // Pick one of the below locations for the horde to haunt
 
     omt_find_params find_params{};
-    find_params.types.emplace_back("office_tower_1", ot_match_type::type);
-    find_params.types.emplace_back("hotel_tower_1_8", ot_match_type::type);
-    find_params.types.emplace_back("school_5", ot_match_type::type);
-    find_params.types.emplace_back("forest_thick", ot_match_type::type);
-    find_params.search_range = { 0,0 };
+    find_params.types.emplace_back( "office_tower_1", ot_match_type::type );
+    find_params.types.emplace_back( "hotel_tower_1_8", ot_match_type::type );
+    find_params.types.emplace_back( "school_5", ot_match_type::type );
+    find_params.types.emplace_back( "forest_thick", ot_match_type::type );
+    find_params.search_range = { 0, 0 };
     find_params.search_layers = omt_find_all_layers;
 
     const tripoint_abs_omt center = p->global_omt_location();
@@ -215,8 +215,8 @@ void mission_start::place_npc_software( mission *miss )
         place = mission_util::random_house_in_closest_city();
     } else {
         omt_find_params find_params{};
-        find_params.types.emplace_back(type, ot_match_type::type);
-        find_params.search_range = { 0,0 };
+        find_params.types.emplace_back( type, ot_match_type::type );
+        find_params.search_range = { 0, 0 };
         find_params.search_layers = omt_find_all_layers;
 
         place = overmap_buffer.find_closest( dev->global_omt_location(), find_params );
@@ -274,12 +274,12 @@ void mission_start::place_deposit_box( mission *miss )
     p->set_attitude( NPCATT_FOLLOW );
 
     omt_find_params find_params{};
-    find_params.types.emplace_back("bank", ot_match_type::type);
-    find_params.types.emplace_back("office_tower_1", ot_match_type::type);
-    find_params.search_range = { 0,0 };
+    find_params.types.emplace_back( "bank", ot_match_type::type );
+    find_params.types.emplace_back( "office_tower_1", ot_match_type::type );
+    find_params.search_range = { 0, 0 };
     find_params.search_layers = omt_find_all_layers;
 
-    tripoint_abs_omt site = overmap_buffer.find_closest( p->global_omt_location(), find_params);
+    tripoint_abs_omt site = overmap_buffer.find_closest( p->global_omt_location(), find_params );
 
     if( site == overmap::invalid_tripoint ) {
         site = p->global_omt_location();
@@ -637,11 +637,12 @@ void mission_start::reveal_refugee_center( mission *miss )
     }
 
     omt_find_params find_params{};
-    find_params.types.emplace_back("road", ot_match_type::type);
+    find_params.types.emplace_back( "road", ot_match_type::type );
     find_params.search_range = { 0, 3 };
     find_params.search_layers = omt_find_all_layers;
 
-    const tripoint_abs_omt source_road = overmap_buffer.find_closest(get_player_character().global_omt_location(), find_params);
+    const tripoint_abs_omt source_road = overmap_buffer.find_closest(
+            get_player_character().global_omt_location(), find_params );
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( *target_pos, find_params );
 
     omt_route_params params;
@@ -690,8 +691,8 @@ void mission_start::create_lab_console( mission *miss )
     loc.z() = -1;
 
     omt_find_params find_params{};
-    find_params.types.emplace_back("lab", ot_match_type::type);
-    find_params.search_range = { 0,0 };
+    find_params.types.emplace_back( "lab", ot_match_type::type );
+    find_params.search_range = { 0, 0 };
     find_params.search_layers = omt_find_all_layers;
 
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );
@@ -730,8 +731,8 @@ void mission_start::create_ice_lab_console( mission *miss )
     loc.z() = -4;
 
     omt_find_params find_params{};
-    find_params.types.emplace_back("ice_lab", ot_match_type::type);
-    find_params.search_range = { 0,0 };
+    find_params.types.emplace_back( "ice_lab", ot_match_type::type );
+    find_params.search_range = { 0, 0 };
     find_params.search_layers = omt_find_all_layers;
 
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );
@@ -752,8 +753,8 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     loc.z() = -4;  // tunnels are at z = -4
 
     omt_find_params find_params{};
-    find_params.types.emplace_back("lab_train_depot", ot_match_type::type);
-    find_params.search_range = { 0,0 };
+    find_params.types.emplace_back( "lab_train_depot", ot_match_type::type );
+    find_params.search_range = { 0, 0 };
     find_params.search_layers = omt_find_all_layers;
 
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );

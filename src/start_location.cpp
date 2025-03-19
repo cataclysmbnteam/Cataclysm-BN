@@ -251,7 +251,7 @@ tripoint_abs_omt start_location::find_player_initial_location() const
             if( overmap_buffer.place_special( special.id, abs_mid, 0, OMAPX / 2 ) ) {
 
                 omt_find_params find_params{};
-                find_params.types.emplace_back(loc.first, loc.second);
+                find_params.types.emplace_back( loc.first, loc.second );
                 find_params.search_range = { 0, OMAPX / 2 };
                 find_params.search_layers = omt_find_all_layers;
 

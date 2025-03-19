@@ -607,11 +607,12 @@ void talk_function::morale_chat_activity( npc &p )
 void talk_function::buy_10_logs( npc &p )
 {
     omt_find_params find_params{};
-    find_params.types.emplace_back("ranch_camp_67", ot_match_type::type);
-    find_params.search_range = { 0,1 };
+    find_params.types.emplace_back( "ranch_camp_67", ot_match_type::type );
+    find_params.search_range = { 0, 1 };
     find_params.search_layers = std::nullopt;
 
-    std::vector<tripoint_abs_omt> places = overmap_buffer.find_all(get_player_character().global_omt_location(), find_params);
+    std::vector<tripoint_abs_omt> places = overmap_buffer.find_all(
+            get_player_character().global_omt_location(), find_params );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
@@ -637,12 +638,12 @@ void talk_function::buy_10_logs( npc &p )
 void talk_function::buy_100_logs( npc &p )
 {
     omt_find_params find_params{};
-    find_params.types.emplace_back("ranch_camp_67", ot_match_type::type);
-    find_params.search_range = { 0,1 };
+    find_params.types.emplace_back( "ranch_camp_67", ot_match_type::type );
+    find_params.search_range = { 0, 1 };
     find_params.search_layers = std::nullopt;
 
     std::vector<tripoint_abs_omt> places =
-        overmap_buffer.find_all(get_player_character().global_omt_location(), find_params);
+        overmap_buffer.find_all( get_player_character().global_omt_location(), find_params );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
