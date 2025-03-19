@@ -15,6 +15,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include <optional>
 
 #else
 
@@ -307,6 +308,52 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
 
 std::vector<point> closest_points_first( point center, int max_dist );
 std::vector<point> closest_points_first( point center, int min_dist, int max_dist );
+
+class closest_point_generator
+{
+    private:
+        const point center;
+        const int min_dist;
+        const int max_dist;
+        const int min_edge;
+        const int max_edge;
+        const int n;
+        const bool is_center_included;
+    public:
+        class iterator
+        {
+                friend class closest_point_generator;
+            private:
+                const closest_point_generator &g;
+                int i;
+                int x, y;
+                int dx, dy;
+                point p;
+            public:
+                using value_type = point;
+                using difference_type = std::ptrdiff_t;
+                using pointer = value_type *;
+                using reference = value_type &;
+                using iterator_category = std::forward_iterator_tag;
+
+                iterator( const closest_point_generator &_g );
+                explicit operator bool() const;
+                iterator &operator++();
+
+                const point &operator*() const;
+
+                bool operator!=( const iterator &other ) const;
+                bool operator==( const iterator &other ) const;
+        };
+
+        closest_point_generator( point center, int min_dist, int max_dist );
+        iterator begin() const;
+        iterator end() const;
+
+        bool operator!=( const closest_point_generator &other ) const;
+        bool operator==( const closest_point_generator &other ) const;
+};
+
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };

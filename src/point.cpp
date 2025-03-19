@@ -114,3 +114,95 @@ std::vector<point> closest_points_first( point center, int min_dist, int max_dis
 
     return result;
 }
+
+closest_point_generator::closest_point_generator( point center, int min_dist, int max_dist )
+    : center( center )
+    , min_dist( min_dist )
+    , max_dist( max_dist )
+    , min_edge( min_dist * 2 + 1 )
+    , max_edge( max_dist * 2 + 1 )
+    , n( ( max_edge * max_edge ) - ( min_edge - 2 ) * ( min_edge - 2 ) )
+    , is_center_included( min_dist == 0 )
+{
+
+}
+
+closest_point_generator::iterator closest_point_generator::begin() const
+{
+    return iterator( *this );
+}
+
+closest_point_generator::iterator closest_point_generator::end() const
+{
+    auto it = iterator( *this );
+    it.i = n;
+    return it;
+}
+
+bool closest_point_generator::operator!=( const closest_point_generator &other ) const
+{
+    return center != other.center
+           || min_dist != other.min_dist
+           || max_dist != other.max_dist;
+}
+
+bool closest_point_generator::operator==( const closest_point_generator &other ) const
+{
+    return !( *this != other );
+}
+
+closest_point_generator::iterator::iterator( const closest_point_generator &_g )
+    : g( _g )
+{
+    i = g.is_center_included ? -1 : 0;
+    x = std::max( g.min_dist, 1 );
+    y = 1 - x;
+    dx = 1;
+    dy = 0;
+
+    p = g.is_center_included
+        ? g.center
+        : g.center + point{ x, y };
+}
+
+
+closest_point_generator::iterator::operator bool() const
+{
+    return i >= g.n;
+}
+
+closest_point_generator::iterator &closest_point_generator::iterator::operator++()
+{
+    if( i >= g.n ) {
+        return *this;
+    }
+
+    p = g.center + point{ x, y };
+
+    if( x == y || ( x < 0 && x == -y ) || ( x > 0 && x == 1 - y ) ) {
+        std::swap( dx, dy );
+        dx = -dx;
+    }
+
+    x += dx;
+    y += dy;
+    i++;
+
+    return *this;
+}
+
+const point &closest_point_generator::iterator::operator*() const
+{
+    return p;
+}
+
+bool closest_point_generator::iterator::operator!=( const iterator &other ) const
+{
+    return ( g != other.g ) || ( i != other.i );
+}
+
+
+bool closest_point_generator::iterator::operator==( const iterator &other ) const
+{
+    return !( *this != other );
+}
