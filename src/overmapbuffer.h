@@ -125,7 +125,7 @@ struct overmap_with_local_coords {
  * overmap rather than creating many overmaps in an attempt to find it.
  * @param om_special If set, the terrain must be part of the specified overmap special.
  * @param popup If set, the popup will be periodically updated to indicate ongoing search.
- * @param results_per_layer, If set, limits the search result for each layer to the n closest matches
+ * @param max_results, If set, limits the search result to at most n entries
  * @param post_filter If set, will filter the final output vector coordinates
 */
 struct omt_find_params {
@@ -140,8 +140,8 @@ struct omt_find_params {
     bool existing_only = false;
     std::optional<overmap_special_id> om_special = std::nullopt;
     shared_ptr_fast<throbber_popup> popup = nullptr;
-    std::optional<int> results_per_layer = std::nullopt;
-    std::function<bool( const tripoint_abs_omt &, const overmap_with_local_coords & )> post_filter =
+    std::optional<int> max_results = std::nullopt;
+    std::function<bool( const tripoint_abs_omt & )> post_filter =
         nullptr;
 };
 
@@ -521,7 +521,7 @@ class overmapbuffer
          * Set of overmap coordinates of overmaps that are known
          * to not exist on disk. See @ref get_existing for usage.
          */
-        std::unordered_set<point_abs_om> known_non_existing;
+        std::set<point_abs_om> known_non_existing;
 
         // Set of globally unique overmap specials that have already been placed
         std::unordered_set<overmap_special_id> placed_unique_specials;
