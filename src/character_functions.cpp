@@ -580,7 +580,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
 
     who.set_primary_weapon( internal_item->detach() );
     who.inv_update_invlet( *internal_item );
-    who.inv_update_cache_with_item( *internal_item );
+    who.inv_update_invlet_cache_with_item( *internal_item );
     who.last_item = internal_item->typeId();
 
     /**

@@ -1029,9 +1029,9 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 
     const auto &sorted = get_sorted_tiles_by_distance( p.pos(), passable_tiles );
 
-    const auto &avoid = p.get_path_avoid();
+    const auto &avoid = p.get_legacy_path_avoid();
     for( const tripoint &tp : sorted ) {
-        auto route = here.route( p.pos(), tp, p.get_pathfinding_settings(), avoid );
+        auto route = here.route( p.pos(), tp, p.get_legacy_pathfinding_settings(), avoid );
 
         if( !route.empty() ) {
             return route;
@@ -1296,7 +1296,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
         if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv += *elem;
+        temp_inv.add_item( *elem, true );
     }
     map &here = get_map();
     for( const tripoint &elem : loot_spots ) {
@@ -1323,7 +1323,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     continue;
                 }
             }
-            temp_inv += *elem2;
+            temp_inv.add_item( *elem2, true );
         }
         if( !in_loot_zones ) {
             if( const std::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
@@ -1331,7 +1331,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
                 for( auto &it : src_veh.get_items( src_part ) ) {
-                    temp_inv += *it;
+                    temp_inv.add_item( *it, true );
                 }
             }
         }
@@ -1347,12 +1347,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     item *welder = item::spawn_temporary( itype_welder, calendar::start_of_cataclysm );
                     welder->charges = veh.fuel_left( itype_battery, true );
                     welder->set_flag( flag_PSEUDO );
-                    temp_inv.add_item( *welder );
+                    temp_inv.add_item( *welder, false );
                     item *soldering_iron = item::spawn_temporary( itype_soldering_iron,
                                            calendar::start_of_cataclysm );
                     soldering_iron->charges = veh.fuel_left( itype_battery, true );
                     soldering_iron->set_flag( flag_PSEUDO );
-                    temp_inv.add_item( *soldering_iron );
+                    temp_inv.add_item( *soldering_iron, false );
                 }
             }
         }
@@ -2238,8 +2238,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     return;
                 }
                 std::vector<tripoint> route;
-                route = here.route( p.pos(), src_loc, p.get_pathfinding_settings(),
-                                    p.get_path_avoid() );
+                route = here.route( p.pos(), src_loc, p.get_legacy_pathfinding_settings(),
+                                    p.get_legacy_path_avoid() );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -2276,8 +2276,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
                 if( here.passable( src_loc ) ) {
-                    route = here.route( p.pos(), src_loc, p.get_pathfinding_settings(),
-                                        p.get_path_avoid() );
+                    route = here.route( p.pos(), src_loc, p.get_legacy_pathfinding_settings(),
+                                        p.get_legacy_path_avoid() );
                 } else {
                     // impassable source tile (locker etc.),
                     // get route to nearest adjacent tile instead

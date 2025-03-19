@@ -2400,7 +2400,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     to_wear.on_wear( *this );
 
     inv.update_invlet( to_wear );
-    inv.update_cache_with_item( to_wear );
+    inv.update_invlet_cache_with_item( to_wear );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -2418,7 +2418,7 @@ void Character::add_worn( detached_ptr<item> &&wear )
     worn.insert( pos, std::move( wear ) );
     to_wear.on_wear( *this );
     inv.update_invlet( to_wear );
-    inv.update_cache_with_item( to_wear );
+    inv.update_invlet_cache_with_item( to_wear );
     recalc_sight_limits();
     reset_encumbrance();
 }
@@ -2666,9 +2666,9 @@ void Character::inv_update_invlet( item &it )
     inv.update_invlet( it );
 }
 
-void Character::inv_update_cache_with_item( item &it )
+void Character::inv_update_invlet_cache_with_item( item &it )
 {
-    inv.update_cache_with_item( it );
+    inv.update_invlet_cache_with_item( it );
 }
 
 std::map<char, itype_id> &Character::inv_assigned_invlet()
@@ -3396,7 +3396,7 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
         ( *iter )->on_takeoff( *this );
         detached_ptr<item> det;
         worn.erase( iter, &det );
-        inv.add_item_keep_invlet( std::move( det ) );
+        inv.add_item( std::move( det ), true );
     } else {
         ( *iter )->on_takeoff( *this );
         detached_ptr<item> det;
@@ -3927,15 +3927,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( item::spawn( itype_string_36, calendar::start_of_cataclysm ) );
-        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_string_36, calendar::start_of_cataclysm ), false );
+        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ), false );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( item::spawn( itype_rope_6, calendar::start_of_cataclysm ) );
-        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_rope_6, calendar::start_of_cataclysm ), false );
+        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ), false );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( item::spawn( itype_beartrap, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_beartrap, calendar::start_of_cataclysm ), false );
     }
     mission::on_creature_death( *this );
 }
@@ -7673,7 +7673,7 @@ detached_ptr<item> Character::dispose_item( detached_ptr<item> &&obj, const std:
             }
 
             moves -= item_handling_cost( *obj );
-            inv.add_item_keep_invlet( std::move( obj ) );
+            inv.add_item( std::move( obj ), true );
             inv.unsort();
             return detached_ptr<item>();
         }
@@ -10459,7 +10459,7 @@ int Character::adjust_for_focus( int amount ) const
     return roll_remainder( tmp );
 }
 
-std::set<tripoint> Character::get_path_avoid() const
+std::set<tripoint> Character::get_legacy_path_avoid() const
 {
     std::set<tripoint> ret;
     for( npc &guy : g->all_npcs() ) {
@@ -10473,9 +10473,43 @@ std::set<tripoint> Character::get_path_avoid() const
     return ret;
 }
 
-const pathfinding_settings &Character::get_pathfinding_settings() const
+const pathfinding_settings &Character::get_legacy_pathfinding_settings() const
 {
     return *path_settings;
+}
+
+std::pair<PathfindingSettings, RouteSettings> Character::get_pathfinding_pair() const
+{
+    PathfindingSettings path_settings;
+
+    path_settings.door_open_cost = 2.0;
+    path_settings.mob_presence_penalty = 16.0;
+    path_settings.rough_terrain_cost = 0.0;
+    path_settings.sharp_terrain_cost = INFINITY;
+    path_settings.trap_cost = INFINITY;
+    path_settings.can_climb_stairs = true;
+    path_settings.bash_strength_val = 0;
+
+    const int climb = std::min( 20, get_dex() );
+    if( climb <= 1 ) {
+        path_settings.climb_cost = INFINITY;
+    } else {
+        const float climb_success_prob = 1.0 - 1.0 / climb;
+        path_settings.climb_cost = 5 / climb_success_prob;
+    }
+
+    RouteSettings route_settings;
+    // TODO: Make it assign a stockfish preset instead
+    route_settings.alpha = 1.0;
+    route_settings.h_coeff = 1.0;
+    route_settings.max_dist = INFINITY;
+    route_settings.max_f_coeff = INFINITY;
+    route_settings.max_s_coeff = INFINITY;
+    route_settings.f_limit_based_on_max_dist = false;
+    route_settings.search_cone_angle = 180.0;
+    route_settings.search_radius_coeff = INFINITY;
+
+    return { path_settings, route_settings };
 }
 
 float Character::power_rating() const

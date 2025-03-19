@@ -191,7 +191,8 @@
               { "id": "end_piece", "fg": [ 173, 174, 175, 176 ] },
               { "id": "unconnected", "fg": 181 }
             ]
-          }
+          },
+          { "id": "t_door_metal_welded_lab", "fg": 182 }
         ],
         "sprite_width": 32,
         "sprite_height": 32

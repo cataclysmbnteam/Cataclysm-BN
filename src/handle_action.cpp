@@ -1805,8 +1805,8 @@ bool game::handle_action()
                                                               u.posz() );
                             destination_preview = m.route( u.pos(),
                                                            auto_travel_destination,
-                                                           u.get_pathfinding_settings(),
-                                                           u.get_path_avoid() );
+                                                           u.get_legacy_pathfinding_settings(),
+                                                           u.get_legacy_path_avoid() );
                             if( !destination_preview.empty() ) {
                                 destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
                                 u.set_destination( destination_preview );

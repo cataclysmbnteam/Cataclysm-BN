@@ -875,7 +875,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
             .description( description )
             .desc_color( c_light_gray )
             .identifier( "craft_recipe_filter" )
-            .hist_use_uilist( false )
+            .hist_use_uilist( true )
             .edit( filterstring );
             recalc = true;
         } else if( action == "QUIT" ) {

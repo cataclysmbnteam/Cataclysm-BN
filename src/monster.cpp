@@ -3441,15 +3441,24 @@ void monster::on_load()
              name(), to_turns<int>( dt ), healed, healed_speed );
 }
 
-const pathfinding_settings &monster::get_pathfinding_settings() const
+const pathfinding_settings &monster::get_legacy_pathfinding_settings() const
 {
     return !effect_cache[PATHFINDING_OVERRIDE] ?
-           type->path_settings
-           : type->path_settings_buffed;
+           type->legacy_path_settings
+           : type->legacy_path_settings_buffed;
 
 }
 
-std::set<tripoint> monster::get_path_avoid() const
+std::pair<PathfindingSettings, RouteSettings> monster::get_pathfinding_pair()
+const
+{
+    return !effect_cache[PATHFINDING_OVERRIDE] ?
+           std::make_pair( type->path_settings, type->route_settings ) :
+           std::make_pair( type->path_settings_buffed, type->route_settings_buffed );
+
+}
+
+std::set<tripoint> monster::get_legacy_path_avoid() const
 {
     return std::set<tripoint>();
 }

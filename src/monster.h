@@ -569,8 +569,11 @@ class monster : public Creature, public location_visitable<monster>
          */
         void on_load();
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
+        const pathfinding_settings &get_legacy_pathfinding_settings() const override;
+        std::set<tripoint> get_legacy_path_avoid() const override;
+
+        std::pair<PathfindingSettings, RouteSettings> get_pathfinding_pair() const override;
+
         // summoned monsters via spells
         void set_summon_time( const time_duration &length );
         // handles removing the monster if the timer runs out
