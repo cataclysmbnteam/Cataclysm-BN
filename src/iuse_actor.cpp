@@ -62,7 +62,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "omdata.h"
+#include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -1346,19 +1346,17 @@ void reveal_map_actor::load( const JsonObject &obj )
     };
 }
 
-void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
+void reveal_map_actor::reveal_targets(const tripoint_abs_omt& map) const
 {
     omt_find_params params{};
     params.search_range = { 0, radius };
-    params.search_layers = std::nullopt;
+    params.search_layers = omt_find_all_layers;
     params.types = omt_types;
     params.existing_only = false;
-
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        const auto places = overmap_buffer.find_all( tripoint_abs_omt( map.xy(), z ), params );
-        for( auto &place : places ) {
-            overmap_buffer.reveal( place, 0 );
-        }
+    
+    const auto places = overmap_buffer.find_all( map, params );
+    for( auto &place : places ) {
+        overmap_buffer.reveal( place, 0 );
     }
 }
 
@@ -1366,31 +1364,13 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
 {
     omt_find_params params{};
     params.search_range = { 0, radius };
-    params.search_layers = std::nullopt;
     params.types = omt_types_view;
+    params.exclude_types = omt_types_view_exclude;
     params.existing_only = true;
-
-    const auto should_show = [&]( const tripoint_abs_omt & pt ) {
-        if( overmap_buffer.is_explored( pt ) ) {
-            return false;
-        }
-
-        const auto pred = [&]( const std::pair<std::string, ot_match_type> &x ) {
-            return overmap_buffer.check_ot_existing( x.first, x.second, pt );
-        };
-
-        if( std::any_of( omt_types_view_exclude.cbegin(), omt_types_view_exclude.cend(), pred ) ) {
-            return false;
-        }
-
-        return true;
-    };
-
-    std::vector<tripoint_abs_omt> places ;
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        const auto tmp = overmap_buffer.find_all( tripoint_abs_omt( center.xy(), z ), params );
-        std::copy_if( tmp.cbegin(), tmp.cend(), std::back_inserter( places ), should_show );
-    }
+    params.search_layers = omt_find_all_layers;
+    params.explored = false;
+   
+    const auto places = overmap_buffer.find_all( center, params );
 
     // Group tiles by name
     std::multimap<std::string, tripoint_abs_omt> mm;

@@ -9,6 +9,7 @@
 #include <optional>
 #include <queue>
 #include <execution>
+#include <future>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -1132,27 +1133,76 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin, 
         const omt_find_params &params )
 {
-    std::vector<tripoint_abs_omt> result;
-    // dist == 0 means search a whole overmap diameter.
+    // max_dist == 0 means search a whole overmap diameter.
     const int min_dist = params.search_range.first;
     const int max_dist = params.search_range.second ? params.search_range.second : OMAPX;
 
-    size_t num_overmaps = overmaps.size();
-    size_t counter = 0;
+    // empty search_layers means origin.z
+    const auto search_layers = params.search_layers.value_or(std::make_pair(origin.z(), origin.z()));
+    const int min_layer = search_layers.first;
+    const int max_layer = search_layers.second;
+    const int num_layers = -min_layer + max_layer + 1;
 
-    for( const tripoint_abs_omt &loc : closest_points_first( origin, min_dist, max_dist ) ) {
-        if( is_findable_location( loc, params ) ) {
-            result.push_back( loc );
-        }
+    std::atomic_size_t num_overmaps = overmaps.size();
+    std::atomic_size_t counter = 0;
 
-        counter += 1;
-        if( params.popup && ( num_overmaps != overmaps.size() || counter == 512 ) ) {
-            params.popup->refresh();
-            num_overmaps = overmaps.size();
-            counter = 0;
+    auto find_in_layer = [&](int layer)
+        {
+            auto center = tripoint_abs_omt(origin.xy(), layer);
+            std::vector<tripoint_abs_omt> result;
+            
+            for (const tripoint_abs_omt& loc : closest_points_first(center, min_dist, max_dist)) {
+                if (is_findable_location(loc, params)) {
+                    result.push_back(loc);
+                }
+                if (params.results_per_layer.has_value() && result.size() == params.results_per_layer.value()) {
+                    break;
+                }
+            }
+            return result;
+        };
+
+    struct find_data
+    {
+        int layer;
+        std::vector<tripoint_abs_omt> places;
+    };
+
+    std::vector<find_data> layers;
+    layers.resize(num_layers);
+    for (int i = 0; i < num_layers; ++i)
+        layers[i].layer = min_layer + i;
+
+    std::vector<std::future<void>> async_data;
+    for (auto& d : layers) {
+        async_data.push_back(
+            std::async(std::launch::async, [&]()
+                {
+                    d.places = find_in_layer(d.layer);
+                })
+        );
+    }
+
+    for (auto& f : async_data) {
+        while (f.wait_for(std::chrono::milliseconds(50)) != std::future_status::ready) {
+            if (params.popup)
+                params.popup->refresh();
         }
     }
 
+    std::vector<tripoint_abs_omt> result; 
+    bool hasFilter = params.post_filter != nullptr;
+    for (auto& layer : layers) {
+        if (hasFilter) {
+            std::copy_if(layer.places.begin(), layer.places.end(), std::back_inserter(result), [&](const tripoint_abs_omt& p)
+                {
+                    auto q = get_om_global(p);                    
+                    return params.post_filter(p, q);
+                });
+        } else {
+            std::copy(layer.places.begin(), layer.places.end(), std::back_inserter(result));
+        }
+    }
     return result;
 }
 
