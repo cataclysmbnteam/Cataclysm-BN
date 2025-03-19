@@ -77,12 +77,21 @@ overmap &overmapbuffer::get( const point_abs_om &p )
     overmap* new_om;
     {
         std::lock_guard guard(mutex);
+        // Search for it again, but now with a lock since another thread could've loaded this overmap tile first
+        const auto it = overmaps.find( p );
+        if( it != overmaps.end() ) {
+            return *it->second.get();
+        }
+
         // That constructor loads an existing overmap or creates a new one.
-        new_om = (overmaps[p] = std::make_unique<overmap>(p)).get();
+        assert(overmaps.find(p) == overmaps.end());
+        overmaps[p] = std::make_unique<overmap>(p);
+        new_om = overmaps[p].get();
         new_om->populate();
     }
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
+    
     fix_mongroups( *new_om );
     fix_npcs( *new_om );
 
@@ -1000,21 +1009,23 @@ bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
         const omt_find_params &params )
 {
     bool type_matches = false;
+    overmap_with_local_coords om_loc;
     if( params.existing_only ) {
-        for( const std::pair<std::string, ot_match_type> &elem : params.types ) {
-            type_matches = check_ot_existing( elem.first, elem.second, location );
-            if( type_matches ) {
-                break;
-            }
-        }
+        om_loc = get_existing_om_global( location );
     } else {
-        for( const std::pair<std::string, ot_match_type> &elem : params.types ) {
-            type_matches = check_ot( elem.first, elem.second, location );
-            if( type_matches ) {
-                break;
-            }
-        }
+        om_loc = get_om_global( location );
     }
+
+    if (om_loc.om == nullptr)
+        return false;
+
+    for (const std::pair<std::string, ot_match_type>& elem : params.types) {
+        type_matches = om_loc.om->check_ot(elem.first, elem.second, om_loc.local);
+        if (type_matches) {
+            break;
+        }
+    }   
+
     if( !type_matches ) {
         return false;
     }

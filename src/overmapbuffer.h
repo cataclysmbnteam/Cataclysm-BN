@@ -112,7 +112,7 @@ struct overmap_with_local_coords {
  * @param origin Location of search
  * @param types vector of Terrain type/matching rule to use to find the type
  * @param exclude_types vector of Terrain type/matching rule to use to find the type
- * @param search_range The [minimum, maximum] search distance. If maximum is 0, OMAPX is used.
+ * @param search_range The [minimum, maximum] search distance. If maximum is 0, a function specific default is used.
  * @param search_layers If set, overrides the search layers to this range. Layer from search origin otherwise.
  * @param min_distance Matches within min_distance are ignored.
  * @param must_see If true, only terrain seen by the player should be searched.
@@ -122,6 +122,8 @@ struct overmap_with_local_coords {
  * overmap rather than creating many overmaps in an attempt to find it.
  * @param om_special If set, the terrain must be part of the specified overmap special.
  * @param popup If set, the popup will be periodically updated to indicate ongoing search.
+ * @param results_per_layer, If set, limits the search result for each layer to the n closest matches
+ * @param post_filter If set, will filter the final output vector coordinates
 */
 struct omt_find_params {
     ~omt_find_params();
@@ -135,6 +137,8 @@ struct omt_find_params {
     bool existing_only = false;
     std::optional<overmap_special_id> om_special = std::nullopt;
     shared_ptr_fast<throbber_popup> popup = nullptr;
+    std::optional<int> results_per_layer = std::nullopt;
+    std::function<bool(const tripoint_abs_omt&,const overmap_with_local_coords&)> post_filter = nullptr;
 };
 
 constexpr const std::pair<int, int> omt_find_all_layers = { -OVERMAP_DEPTH, OVERMAP_HEIGHT };
@@ -311,8 +315,6 @@ class overmapbuffer
 
         /**
          * Find all places with the specific overmap terrain type.
-         * The function only searches on the z-level indicated by
-         * origin.
          * This function may create a new overmap if needed.
          * @param origin Location of search
          * see omt_find_params for definitions of the terms
