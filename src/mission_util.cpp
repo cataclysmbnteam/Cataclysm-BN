@@ -182,24 +182,37 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
 {
     tripoint_abs_omt target_pos = overmap::invalid_tripoint;
 
-    omt_find_params find_params;
-    find_params.types.emplace_back( params.overmap_terrain, params.overmap_terrain_match_type );
-    find_params.search_range = { params.min_distance, params.search_range };
-    find_params.seen = params.must_see
-                       ? std::make_optional( true )
-                       : params.cant_see
-                       ? std::make_optional( false )
-                       : std::nullopt;
-    find_params.existing_only = true;
-    find_params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
+    auto make_find_params = [&]( bool existing_only ) {
+        omt_find_params find_params;
+        find_params.types.emplace_back( params.overmap_terrain, params.overmap_terrain_match_type );
+        find_params.search_range = { params.min_distance, params.search_range };
+        find_params.existing_only = existing_only;
+        find_params.seen = params.must_see
+                           ? std::make_optional( true )
+                           : params.cant_see
+                           ? std::make_optional( false )
+                           : std::nullopt;
+        find_params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
+        if( params.z.has_value() ) {
+            find_params.search_layers = std::make_pair( params.z.value(), params.z.value() );
+        } else {
+            if( params.random ) {
+                find_params.search_layers = std::nullopt;
+            } else {
+                find_params.search_layers = omt_find_all_layers;
+            }
+        }
+        return find_params;
+    };
+
+    omt_find_params find_params = make_find_params( true );
 
     auto get_target_position = [&]() {
+
         // Either find a random or closest match, based on the criteria.
         if( params.random ) {
-            find_params.search_layers = std::nullopt;
             target_pos = overmap_buffer.find_random( origin_pos, find_params );
         } else {
-            find_params.search_layers = omt_find_all_layers;
             target_pos = overmap_buffer.find_closest( origin_pos, find_params );
         }
 
@@ -222,7 +235,6 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
                 // terrain specified. Find a random location of that replacement type.
                 find_params.seen = std::nullopt;
                 find_params.types.front().first = *params.replaceable_overmap_terrain;
-                find_params.search_layers = std::nullopt;
                 target_pos = overmap_buffer.find_random( origin_pos, find_params );
 
                 // We didn't find it, so allow this search to create new overmaps and try again.
@@ -246,7 +258,7 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
     if( target_pos == overmap::invalid_tripoint ) {
         // If it's invalid, then that means we couldn't find it or create it (if allowed) on
         // our current overmap. We'll now go ahead and try again but allow it to create new overmaps.
-        find_params.existing_only = false;
+        find_params = make_find_params( false );
         get_target_position();
     }
 
