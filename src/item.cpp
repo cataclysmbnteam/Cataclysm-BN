@@ -839,6 +839,7 @@ bool item::attempt_split( int qty,
     } else {
         changed = true;
     }
+    after_split.saved_loc=nullptr;
     if( changed ) {
         contents_item_location *contents_loc = dynamic_cast<contents_item_location *>( &*loc );
         if( contents_loc ) {
