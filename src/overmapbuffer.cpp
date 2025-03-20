@@ -1159,7 +1159,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
     std::deque<std::future<std::vector<tripoint_abs_omt>>> tasks;
 
     std::vector<tripoint_abs_omt> find_result;
-    int free_tasks = std::thread::hardware_concurrency() - 1;
+    int free_tasks = std::max( 1u, std::thread::hardware_concurrency() - 1 );
 
     auto try_finish_task = []( std::future<std::vector<tripoint_abs_omt>> &task,
     std::vector<tripoint_abs_omt> &dst, omt_find_params params ) -> bool {
