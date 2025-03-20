@@ -333,6 +333,17 @@ class spiral_generator_impl
 
         bool operator==( const spiral_generator_impl &other ) const;
 };
+
+template<typename _Point, int _Dim = _Point::dimension>
+_Point convert_point( point p, _Point ref )
+{
+    if constexpr( _Dim == 3 ) {
+        return _Point{ p.x, p.y, point_traits<_Point>::z( ref ) };
+    } else {
+        return _Point{ p.x, p.y };
+    }
+}
+
 }
 
 template<typename _Point>
@@ -404,6 +415,7 @@ inline spiral_generator<_Point>::iterator::iterator( const spiral_generator &g, 
     : generator( detail::spiral_generator_impl::exhausted( point{ point_traits<_Point>::x( g.center ), point_traits<_Point>::y( g.center ) },
                  g.min_dist, g.max_dist ) )
     , origin( g.center )
+    , current( detail::convert_point( generator.current(), g.center ) )
 {
 }
 
@@ -412,6 +424,7 @@ inline spiral_generator<_Point>::iterator::iterator( const spiral_generator &g )
     : generator( point{ point_traits<_Point>::x( g.center ), point_traits<_Point>::y( g.center ) },
                  g.min_dist, g.max_dist )
     , origin( g.center )
+    , current( detail::convert_point( generator.current(), g.center ) )
 {
 
 }
@@ -426,12 +439,7 @@ template<typename _Point>
 inline spiral_generator<_Point>::iterator &spiral_generator<_Point>::iterator::operator++()
 {
     if( generator.next() ) {
-        auto p = generator.current();
-        if constexpr( _Point::dimension == 3 ) {
-            current = _Point{ p.x, p.y, point_traits<_Point>::z( origin ) };
-        } else {
-            current = _Point{ p.x, p.y };
-        }
+        current = detail::convert_point( generator.current(), origin );
     }
     return *this;
 }
