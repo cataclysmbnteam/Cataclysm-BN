@@ -1711,6 +1711,10 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         return;
     }
 
+    if( here.ter( examp )->open.is_null() && here.furn( examp )->open.is_null() ) {
+        g->peek( examp );
+        p.add_msg_if_player( _( "You peek through the peephole." ) );
+    } else {
     // Peek through the peephole, or open the door.
     const int choice = uilist( _( "Do what with the door?" ), {
         _( "Peek through peephole." ),
@@ -1725,6 +1729,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         p.add_msg_if_player( _( "You open the door." ) );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
+    }
     }
 }
 
