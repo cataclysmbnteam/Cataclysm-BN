@@ -226,6 +226,8 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
 
 void overmapbuffer::save()
 {
+    std::lock_guard guard( mutex );
+
     for( auto &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
         omp.second->save();
