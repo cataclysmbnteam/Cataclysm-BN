@@ -2268,6 +2268,9 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
         it->deactivate();
         return 0;
     }
+
+    // Try to minimize the use of has_enough_charges() because it's kind of expensive.
+    bool no_charges = false;
     for( const tripoint &pt : here.points_in_radius( pos, PICKUP_RANGE ) ) {
         if( !here.has_items( pt ) || !p->sees( pt ) ) {
             continue;
@@ -2292,10 +2295,11 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                     charges = 0;
                 }
             }
-            if( charges > 0 ) {
+            if( charges ) {
                 p->add_msg_if_player( m_bad, "Your %s doesn't have enough power for the %s", it->tname(),
                                       corpse->display_name().c_str() );
-                if( it->ammo_remaining() == 0 ) {
+                if( !p->has_enough_charges( *it, false ) ) {
+                    no_charges = true;
                     break;
                 } else {
                     continue;
@@ -2318,7 +2322,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
                                     );
             }
         }
-        if( it->ammo_remaining() == 0 ) {
+        if( no_charges ) {
             it->revert( p );
             it->deactivate();
             return 0;
