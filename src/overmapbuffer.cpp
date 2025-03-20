@@ -993,20 +993,6 @@ bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) cons
     return placed_unique_specials.contains( id );
 }
 
-static omt_find_params assign_params(
-    const std::string &type, int const radius, bool must_be_seen,
-    ot_match_type match_type, bool existing_overmaps_only,
-    const std::optional<overmap_special_id> &om_special )
-{
-    omt_find_params params;
-    params.types.emplace_back( type, match_type );
-    params.search_range = { 0, radius };
-    params.seen = must_be_seen ? std::make_optional( true ) : std::nullopt;
-    params.existing_only = existing_overmaps_only;
-    params.om_special = om_special;
-    return params;
-}
-
 bool overmapbuffer::is_findable_location( const tripoint_abs_omt &location,
         const omt_find_params &params )
 {
@@ -1114,7 +1100,6 @@ struct find_task_generator {
         std::vector<std::pair<tripoint_abs_omt, tripoint_om_omt>> v;
         v.reserve( _max_coords );
         point_abs_om om_loc = _current.first;
-        int n = 0;
 
         for( int n = 0; n < _n_steps; n++ ) {
             auto &p = *_it;
@@ -1149,10 +1134,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
                                origin.z() ) );
     const int min_layer = search_layers.first;
     const int max_layer = search_layers.second;
-    const int num_layers = -min_layer + max_layer + 1;
-
-    std::atomic_size_t num_overmaps = overmaps.size();
-    std::atomic_size_t counter = 0;
+    const int num_layers = max_layer - min_layer + 1;
 
     find_task_generator gen( origin.raw().xy(), min_dist, max_dist, min_layer, max_layer, 256 );
 
@@ -1205,14 +1187,14 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
             continue;
         }
 
-        auto grp = gen();
-        if( !grp.has_value() ) {
+        auto task_data = gen();
+        if( !task_data.has_value() ) {
             break;
         }
 
-        auto &v = grp.value();
+        auto& [ task_om, task_omts] = task_data.value();
 
-        if( params.existing_only && !has( v.first ) ) {
+        if( params.existing_only && !has( task_om ) ) {
             continue;
         }
 
@@ -1243,7 +1225,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
             return result;
         };
 
-        auto task = std::async( std::launch::async, task_func, v.first, std::move( v.second ) );
+        auto task = std::async( std::launch::async, task_func, task_om, std::move( task_omts ) );
 
         tasks.push_back( std::move( task ) );
 

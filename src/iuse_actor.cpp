@@ -68,6 +68,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "popup.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -1353,6 +1354,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
     params.search_layers = omt_find_all_layers;
     params.types = omt_types;
     params.existing_only = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
     const auto [ origin_om_pos, origin_local ] = project_remain<coords::om>( map.xy() );
 
@@ -1412,8 +1414,12 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
     // TODO: Add support for variable reveal z-range to reveal_map iuse_action JSON
     params.search_layers = omt_find_all_layers;
     params.explored = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
     const auto places = overmap_buffer.find_all( center, params );
+
+    // Delete popup after search is done, before showing uilist
+    params.popup = nullptr;
 
     // Group tiles by name
     std::multimap<std::string, tripoint_abs_omt> mm;
