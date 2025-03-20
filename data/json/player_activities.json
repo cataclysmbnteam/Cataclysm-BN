@@ -549,7 +549,8 @@
     "id": "ACT_OXYTORCH",
     "type": "activity_type",
     "verb": "welding",
-    "complex_moves": { "light": true, "speed": true, "skills": [ [ "fabrication" ] ] }
+    "//": "Doesn't factor in speed as oxytorch_activity_actor::do_turn eats charges every turn, minute variation in speed would make it consume varying and uneven amounts of charges per terrain cut.",
+    "verbose_tooltip": false
   },
   {
     "id": "ACT_CRACKING",
