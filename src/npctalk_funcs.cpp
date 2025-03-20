@@ -609,7 +609,7 @@ void talk_function::buy_10_logs( npc &p )
     omt_find_params find_params{};
     find_params.types.emplace_back( "ranch_camp_67", ot_match_type::type );
     find_params.search_range = { 0, 1 };
-    find_params.search_layers = std::nullopt;
+    find_params.search_layers = { 0, 0 };
 
     std::vector<tripoint_abs_omt> places = overmap_buffer.find_all(
             get_player_character().global_omt_location(), find_params );
@@ -640,7 +640,7 @@ void talk_function::buy_100_logs( npc &p )
     omt_find_params find_params{};
     find_params.types.emplace_back( "ranch_camp_67", ot_match_type::type );
     find_params.search_range = { 0, 1 };
-    find_params.search_layers = std::nullopt;
+    find_params.search_layers = { 0, 0 };
 
     std::vector<tripoint_abs_omt> places =
         overmap_buffer.find_all( get_player_character().global_omt_location(), find_params );

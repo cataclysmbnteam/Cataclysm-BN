@@ -81,7 +81,7 @@ bool mission_util::reveal_road( const tripoint_abs_omt &source, const tripoint_a
     omt_find_params find_params{};
     find_params.types.emplace_back( "road", ot_match_type::type );
     find_params.search_range = { 0, 3 };
-    find_params.search_layers = omt_find_all_layers;
+    find_params.search_layers = { 0, 0 };
 
     const tripoint_abs_omt source_road = overmap_buffer.find_closest( source, find_params );
     const tripoint_abs_omt dest_road = overmap_buffer.find_closest( dest, find_params );
@@ -101,6 +101,7 @@ tripoint_abs_omt mission_util::reveal_om_ter( const std::string &omter, int reve
     omt_find_params find_params{};
     find_params.types.emplace_back( omter, ot_match_type::type );
     find_params.search_range = { 0, 0 };
+    // TODO: Determine if search_layers can be safely constrained to { target_z, target_z }
     find_params.search_layers = omt_find_all_layers;
     find_params.seen = must_see ? std::make_optional( true ) : std::nullopt;
 
@@ -151,17 +152,15 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
     omt_find_params find_params;
     find_params.types.emplace_back( "lab_stairs", ot_match_type::contains );
     find_params.search_range = { 0, 0 };
-    find_params.search_layers = omt_find_all_layers;
+    find_params.search_layers = std::nullopt;
 
-    tripoint_abs_omt testpoint = origin;
     // Get the surface locations for labs and for spaces above hidden lab stairs.
-    testpoint.z() = 0;
-    tripoint_abs_omt surface = overmap_buffer.find_closest( testpoint, find_params );
+    tripoint_abs_omt surface = overmap_buffer.find_closest( tripoint_abs_omt( origin.xy(), 0 ),
+                               find_params );
 
-    testpoint.z() = -1;
-    find_params.types[0].first = "hidden_lab_stairs";
-    tripoint_abs_omt underground = overmap_buffer.find_closest( testpoint, find_params );
-    underground.z() = 0; // ???
+    find_params.types.front().first = "hidden_lab_stairs";
+    tripoint_abs_omt underground = overmap_buffer.find_closest( tripoint_abs_omt( origin.xy(), -1 ),
+                                   find_params );
 
     tripoint_abs_omt closest;
     if( square_dist( surface.xy(), origin.xy() ) <= square_dist( underground.xy(), origin.xy() ) ) {
@@ -170,7 +169,13 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
         closest = underground;
     }
 
-    if( closest != overmap::invalid_tripoint && reveal_rad >= 0 ) {
+    if( closest == overmap::invalid_tripoint ) {
+        return closest;
+    }
+
+    // Reveal / Target surface regardless
+    closest = tripoint_abs_omt( closest.xy(), 0 );
+    if( reveal_rad >= 0 ) {
         overmap_buffer.reveal( closest, reveal_rad );
     }
     miss->set_target( closest );
@@ -196,11 +201,8 @@ static std::optional<tripoint_abs_omt> find_or_create_om_terrain(
         if( params.z.has_value() ) {
             find_params.search_layers = std::make_pair( params.z.value(), params.z.value() );
         } else {
-            if( params.random ) {
-                find_params.search_layers = std::nullopt;
-            } else {
-                find_params.search_layers = omt_find_all_layers;
-            }
+            // TODO: Change to omt_find_all_layers if things don't work as expected
+            find_params.search_layers = std::nullopt;
         }
         return find_params;
     };

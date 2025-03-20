@@ -1293,7 +1293,8 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         params.search_range.second = OMAPX * 5;
     }
     if( !params.max_results.has_value() ) {
-        params.max_results = 10;
+        // Limit potential random sample size, scaling with number of terrain types
+        params.max_results = 10 * pp.types.size();
     }
 
     std::vector<tripoint_abs_omt> near_points;
