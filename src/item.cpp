@@ -4969,7 +4969,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        tagtext += string_format( " (%s)", nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
+        itype_id item = itype_id( get_var( "NANOFAB_ITEM_ID" ) );
+        tagtext += string_format( " (%s [%d])", nname( item ), std::max( 1, item->volume / 250_ml ) * 5 );
     }
 
     if( has_flag( flag_RADIO_MOD ) ) {
