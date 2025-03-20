@@ -99,10 +99,11 @@ void mission_start::kill_horde_master( mission *miss )
     omt_find_params find_params{};
     find_params.types.emplace_back( "office_tower_1", ot_match_type::type );
     find_params.types.emplace_back( "hotel_tower_1_8", ot_match_type::type );
-    find_params.types.emplace_back( "school_5", ot_match_type::type );
+    // TODO: 'school_5' tile type doesn't seem to exist, and certainly not on z-layer 0
+    // find_params.types.emplace_back( "school_5", ot_match_type::type );
     find_params.types.emplace_back( "forest_thick", ot_match_type::type );
     find_params.search_range = { 0, 0 };
-    find_params.search_layers = omt_find_all_layers;
+    find_params.search_layers = { 0, 0 };
 
     const tripoint_abs_omt center = p->global_omt_location();
     tripoint_abs_omt site = overmap_buffer.find_closest( center, find_params );
@@ -202,7 +203,6 @@ void mission_start::place_npc_software( mission *miss )
         miss->item_id = itype_software_hacking;
     } else if( dev->myclass == NC_DOCTOR ) {
         miss->item_id = itype_software_medical;
-        type = "s_pharm";
         miss->follow_up = mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
     } else if( dev->myclass == NC_SCIENTIST ) {
         miss->item_id = itype_software_math;
@@ -215,9 +215,9 @@ void mission_start::place_npc_software( mission *miss )
         place = mission_util::random_house_in_closest_city();
     } else {
         omt_find_params find_params{};
-        find_params.types.emplace_back( type, ot_match_type::type );
+        find_params.types.emplace_back( "s_pharm", ot_match_type::type );
         find_params.search_range = { 0, 0 };
-        find_params.search_layers = omt_find_all_layers;
+        find_params.search_layers = { 0, 0 };
 
         place = overmap_buffer.find_closest( dev->global_omt_location(), find_params );
     }
@@ -277,7 +277,7 @@ void mission_start::place_deposit_box( mission *miss )
     find_params.types.emplace_back( "bank", ot_match_type::type );
     find_params.types.emplace_back( "office_tower_1", ot_match_type::type );
     find_params.search_range = { 0, 0 };
-    find_params.search_layers = omt_find_all_layers;
+    find_params.search_layers = { 0, 0 };
 
     tripoint_abs_omt site = overmap_buffer.find_closest( p->global_omt_location(), find_params );
 
@@ -639,7 +639,7 @@ void mission_start::reveal_refugee_center( mission *miss )
     omt_find_params find_params{};
     find_params.types.emplace_back( "road", ot_match_type::type );
     find_params.search_range = { 0, 3 };
-    find_params.search_layers = omt_find_all_layers;
+    find_params.search_layers = { 0, 0 };
 
     const tripoint_abs_omt source_road = overmap_buffer.find_closest(
             get_player_character().global_omt_location(), find_params );
@@ -693,7 +693,7 @@ void mission_start::create_lab_console( mission *miss )
     omt_find_params find_params{};
     find_params.types.emplace_back( "lab", ot_match_type::type );
     find_params.search_range = { 0, 0 };
-    find_params.search_layers = omt_find_all_layers;
+    find_params.search_layers = std::nullopt;
 
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );
 
@@ -733,7 +733,7 @@ void mission_start::create_ice_lab_console( mission *miss )
     omt_find_params find_params{};
     find_params.types.emplace_back( "ice_lab", ot_match_type::type );
     find_params.search_range = { 0, 0 };
-    find_params.search_layers = omt_find_all_layers;
+    find_params.search_layers = std::nullopt;
 
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );
 
@@ -755,7 +755,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     omt_find_params find_params{};
     find_params.types.emplace_back( "lab_train_depot", ot_match_type::type );
     find_params.search_range = { 0, 0 };
-    find_params.search_layers = omt_find_all_layers;
+    find_params.search_layers = std::nullopt;
 
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, find_params );
 

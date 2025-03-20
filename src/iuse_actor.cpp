@@ -1368,7 +1368,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
         const tripoint_abs_omt w( tp );
 
         const auto [ om_pos, local ] = project_remain<coords::om>( w.xy() );
-        auto dist = manhattan_dist( origin_om_pos, om_pos );
+        const auto dist = manhattan_dist( origin_om_pos, om_pos );
         max_dist = std::max( max_dist, dist );
         if( visited.insert( om_pos ).second ) {
             by_dist.emplace( dist, om_pos );
@@ -1409,6 +1409,7 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
     params.types = omt_types_view;
     params.exclude_types = omt_types_view_exclude;
     params.existing_only = true;
+    // TODO: Add support for variable reveal z-range to reveal_map iuse_action JSON
     params.search_layers = omt_find_all_layers;
     params.explored = false;
 
