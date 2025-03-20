@@ -1354,9 +1354,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
     params.types = omt_types;
     params.existing_only = false;
 
-    point_abs_om origin_om_pos;
-    point_om_omt origin_local;
-    std::tie( origin_om_pos, origin_local ) = project_remain<coords::om>( map.xy() );
+    const auto [ origin_om_pos, origin_local ] = project_remain<coords::om>( map.xy() );
 
     int max_dist = 0;
     std::unordered_set<point_abs_om> visited;
@@ -1369,9 +1367,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
         const tripoint tp( p, map.z() );
         const tripoint_abs_omt w( tp );
 
-        point_abs_om om_pos;
-        point_om_omt local;
-        std::tie( om_pos, local ) = project_remain<coords::om>( w.xy() );
+        const auto [ om_pos, local ] = project_remain<coords::om>( w.xy() );
         auto dist = manhattan_dist( origin_om_pos, om_pos );
         max_dist = std::max( max_dist, dist );
         if( visited.insert( om_pos ).second ) {
@@ -1393,7 +1389,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
     for( int i = 0; i <= max_dist; i++ ) {
         to_gen.clear();
         auto range = by_dist.equal_range( i );
-        std::transform( range.first, range.second,
+        std::ranges::transform( range,
         std::back_inserter( to_gen ), []( const std::pair<int, point_abs_om> &x ) {
             return x.second;
         } );
