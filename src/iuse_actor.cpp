@@ -1389,7 +1389,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
     for( int i = 0; i <= max_dist; i++ ) {
         to_gen.clear();
         auto range = by_dist.equal_range( i );
-        std::ranges::transform( range,
+        std::transform( range.first, range.second,
         std::back_inserter( to_gen ), []( const std::pair<int, point_abs_om> &x ) {
             return x.second;
         } );
