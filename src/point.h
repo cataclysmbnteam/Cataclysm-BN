@@ -29,6 +29,8 @@ class ostream;
 
 #endif // CATA_NO_STL
 
+#include "point_traits.h"
+
 class JsonIn;
 class JsonOut;
 
@@ -303,13 +305,10 @@ struct sphere {
  * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
  * Credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
  */
-std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist );
-std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist );
 
-std::vector<point> closest_points_first( point center, int max_dist );
-std::vector<point> closest_points_first( point center, int min_dist, int max_dist );
-
-class closest_point_generator
+namespace detail
+{
+class spiral_generator_impl
 {
     private:
         const point center;
@@ -319,40 +318,153 @@ class closest_point_generator
         const int max_edge;
         const int n;
         const bool is_center_included;
+
+        int i;
+        int x, y;
+        int dx, dy;
+        point p;
+    public:
+        spiral_generator_impl( point center, int min_dist, int max_dist );
+        static spiral_generator_impl exhausted( point center, int min_dist, int max_dist );
+
+        explicit operator bool() const noexcept;
+        bool next();
+        const point &current() const;
+
+        bool operator==( const spiral_generator_impl &other ) const;
+};
+}
+
+template<typename _Point>
+class spiral_generator
+{
+    private:
+        const _Point center;
+        const int min_dist;
+        const int max_dist;
     public:
         class iterator
         {
-                friend class closest_point_generator;
+                friend class spiral_generator;
             private:
-                const closest_point_generator &g;
-                int i;
-                int x, y;
-                int dx, dy;
-                point p;
+                detail::spiral_generator_impl generator;
+                const _Point origin;
+                _Point current;
             public:
-                using value_type = point;
+                using value_type = _Point;
                 using difference_type = std::ptrdiff_t;
                 using pointer = value_type *;
                 using reference = value_type &;
                 using iterator_category = std::forward_iterator_tag;
 
-                iterator( const closest_point_generator &_g );
-                explicit operator bool() const;
+                iterator( const spiral_generator &g, bool );
+                iterator( const spiral_generator &g );
+                explicit operator bool() const noexcept;
                 iterator &operator++();
 
-                const point &operator*() const;
+                const _Point &operator*() const;
 
-                bool operator!=( const iterator &other ) const;
                 bool operator==( const iterator &other ) const;
         };
 
-        closest_point_generator( point center, int min_dist, int max_dist );
+        spiral_generator( _Point center, int min_dist, int max_dist );
         iterator begin() const;
         iterator end() const;
 
-        bool operator!=( const closest_point_generator &other ) const;
-        bool operator==( const closest_point_generator &other ) const;
 };
+
+template<typename _Point>
+inline spiral_generator<_Point> closest_points_generator( _Point center, int min_dist,
+        int max_dist )
+{
+    return spiral_generator<_Point>( center, min_dist, max_dist );
+}
+
+template<typename _Point>
+inline std::vector<_Point> closest_points_first( _Point center, int min_dist, int max_dist )
+{
+    auto gen = closest_points_generator( center, min_dist, max_dist );
+    return std::vector( gen.begin(), gen.end() );
+}
+
+template<typename _Point>
+inline spiral_generator<_Point> closest_points_generator( _Point center, int max_dist )
+{
+    return closest_points_generator( center, 0, max_dist );
+}
+
+template<typename _Point>
+inline std::vector<_Point> closest_points_first( _Point center, int max_dist )
+{
+    return closest_points_first( center, 0, max_dist );
+}
+
+template<typename _Point>
+inline spiral_generator<_Point>::iterator::iterator( const spiral_generator &g, bool )
+    : generator( detail::spiral_generator_impl::exhausted( point{ point_traits<_Point>::x( g.center ), point_traits<_Point>::y( g.center ) },
+                 g.min_dist, g.max_dist ) )
+    , origin( g.center )
+{
+}
+
+template<typename _Point>
+inline spiral_generator<_Point>::iterator::iterator( const spiral_generator &g )
+    : generator( point{ point_traits<_Point>::x( g.center ), point_traits<_Point>::y( g.center ) },
+                 g.min_dist, g.max_dist )
+    , origin( g.center )
+{
+
+}
+
+template<typename _Point>
+inline spiral_generator<_Point>::iterator::operator bool() const noexcept
+{
+    return static_cast<bool>( generator );
+}
+
+template<typename _Point>
+inline spiral_generator<_Point>::iterator &spiral_generator<_Point>::iterator::operator++()
+{
+    if( generator.next() ) {
+        auto p = generator.current();
+        if constexpr( _Point::dimension == 3 ) {
+            current = _Point{ p.x, p.y, point_traits<_Point>::z( origin ) };
+        } else {
+            current = _Point{ p.x, p.y };
+        }
+    }
+    return *this;
+}
+
+template<typename _Point>
+inline bool spiral_generator<_Point>::iterator::operator==( const iterator &other ) const
+{
+    return  generator == other.generator;
+}
+
+template<typename _Point>
+inline spiral_generator<_Point>::spiral_generator( _Point center, int min_dist, int max_dist )
+    : center( center ), min_dist( min_dist ), max_dist( max_dist )
+{
+}
+
+template<typename _Point>
+inline spiral_generator<_Point>::iterator spiral_generator<_Point>::begin() const
+{
+    return iterator( *this );
+}
+
+template<typename _Point>
+inline spiral_generator<_Point>::iterator spiral_generator<_Point>::end() const
+{
+    return iterator( *this, false );
+}
+
+template<typename _Point>
+inline const _Point &spiral_generator<_Point>::iterator::operator*() const
+{
+    return current;
+}
 
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };

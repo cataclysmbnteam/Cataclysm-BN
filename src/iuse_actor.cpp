@@ -1365,11 +1365,8 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
     /*
     * Collect all unique overmap locations, grouped by manhattan distance
     */
-    for( auto &p : closest_point_generator( map.raw().xy(), 0, radius ) ) {
-        const tripoint tp( p, map.z() );
-        const tripoint_abs_omt w( tp );
-
-        const auto [ om_pos, local ] = project_remain<coords::om>( w.xy() );
+    for( auto &tp : closest_points_generator( map, 0, radius ) ) {
+        const auto [ om_pos, local ] = project_remain<coords::om>( tp.xy() );
         const auto dist = manhattan_dist( origin_om_pos, om_pos );
         max_dist = std::max( max_dist, dist );
         if( visited.insert( om_pos ).second ) {

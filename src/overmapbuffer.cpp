@@ -1061,13 +1061,13 @@ using find_task = std::pair
                   <point_abs_om, std::vector<std::pair<tripoint_abs_omt, tripoint_om_omt>>>;
 
 struct find_task_generator {
-    const closest_point_generator _gen;
+    const spiral_generator<point> _gen;
     const int _min_z;
     const int _max_z;
     const int _max_coords;
     const int _n_steps;
-    closest_point_generator::iterator _it;
-    const closest_point_generator::iterator _end;
+    spiral_generator<point>::iterator _it;
+    const spiral_generator<point>::iterator _end;
     std::pair<point_abs_om, point_om_omt> _current;
     bool _done;
 
