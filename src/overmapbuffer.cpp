@@ -1256,6 +1256,7 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
 
     // By default search overmaps within a radius of 4,
     // i.e. C = current overmap, X = overmaps searched:
+    //
     // XXXXXXXXX
     // XXXXXXXXX
     // XXXXXXXXX
