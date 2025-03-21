@@ -1289,18 +1289,9 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         return overmap::invalid_tripoint;
     }
 
-    size_t num_overmaps = overmaps.size();
-    size_t counter = 0;
     for( auto &p : scan_result ) {
         const int dist = square_dist( origin, p );
         points_by_dist.insert( { dist, p } );
-
-        counter += 1;
-        if( params.popup && ( num_overmaps != overmaps.size() || counter == 512 ) ) {
-            params.popup->refresh();
-            num_overmaps = overmaps.size();
-            counter = 0;
-        }
     }
 
     auto min_key = points_by_dist.begin()->first;
