@@ -185,7 +185,7 @@
       },
       {
         "distribution": [
-          { "group": "p320mag_17rd_9x19mm", "prob": 5, "count": [ 1, 2 ] },
+          { "item": "p320mag_17rd_9x19mm", "prob": 5, "count": [ 1, 2 ] },
           { "group": "nested_m9_mag", "prob": 5, "count": [ 1, 2 ] },
           { "group": "nested_m1911_mag", "prob": 5, "count": [ 1, 2 ] },
           { "group": "on_hand_shot", "prob": 10, "count": [ 2, 3 ] },
