@@ -166,7 +166,7 @@
     "//": "40% food and drugs (with an extra nudge towards basic first aid supplies), 20% assorted accessories/wearables, 20% explosives (weighted a bit towards standard frag grenades), 20% magazines matching the kinds used in guns_rifle_milspec",
     "ammo": 100,
     "entries": [
-      { "distribution": [ { "group": "mil_food", "prob": 90 }, { "group": "drugs_soldier", "prob": 10 } ], "prob": 40 },
+      { "distribution": [ { "group": "mil_food", "prob": 80 }, { "group": "drugs_soldier", "prob": 20 } ], "prob": 40 },
       {
         "distribution": [
           { "group": "mil_accessories", "prob": 50 },
