@@ -757,26 +757,7 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         m.furn_set( p->xy(), f_crate_c );
         std::vector<std::string> item_groups;
         for( int i = 0; i < 4; i++ ) {
-            switch( rng( 1, 10 ) ) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    item_groups.push_back( "mil_food" );
-                    break;
-                case 5:
-                case 6:
-                case 7:
-                    item_groups.push_back( "grenades" );
-                    break;
-                case 8:
-                case 9:
-                    item_groups.push_back( "mil_armor" );
-                    break;
-                case 10:
-                    item_groups.push_back( "guns_rifle_milspec" );
-                    break;
-            }
+            item_groups.push_back( "map_extra_supplydrop" );
         }
         int items_created = 0;
         for( int i = 0; i < 4; i++ ) {
