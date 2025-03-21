@@ -1847,7 +1847,7 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     detached_ptr<item> harvest = item::spawn( itemid );
-    if( !force_drop && p.can_pick_volume( *harvest ) &&
+    if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
 
         p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
@@ -1916,8 +1916,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
 
     here.furn_set( examp, f_null );
 
-    handle_harvest( p, "poppy_bud", false );
-    handle_harvest( p, "withered", false );
+    handle_harvest( p, "poppy_bud", true );
+    handle_harvest( p, "withered", true );
 }
 
 /**
@@ -1981,7 +1981,7 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         handle_harvest( p, "dahlia_root", false );
     }
     handle_harvest( p, "seed_dahlia", false );
-    handle_harvest( p, "withered", false );
+    handle_harvest( p, "withered", true );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -2115,7 +2115,7 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
     }
     here.furn_set( examp, f_null );
     here.spawn_item( p.pos(), itype_marloss_seed, 1, 3, calendar::turn );
-    handle_harvest( p, "withered", false );
+    handle_harvest( p, "withered", true );
 }
 
 /**
