@@ -197,10 +197,10 @@
           { "group": "nested_scar_h_mag", "prob": 5, "count": [ 1, 2 ] },
           { "item": "m107a1mag", "ammo-group": "on_hand_50", "prob": 5, "count": [ 1, 2 ] },
           { "item": "tac50mag", "ammo-group": "on_hand_50", "prob": 5, "count": [ 1, 2 ] },
-          { "item": "m2010mag", "ammo-group": "on_hand_300", "prob": 5, "count": [ 1, 2 ] }
+          { "item": "m2010mag", "ammo-group": "on_hand_300", "prob": 5, "count": [ 1, 2 ] },
           { "item": "belt223", "ammo-group": "on_hand_223", "charges": 5, "prob": 25 },
           { "item": "belt308", "ammo-group": "on_hand_308", "charges": 3, "prob": 40 },
-          { "item": "belt50", "ammo-group": "on_hand_50", "charges": 2, "prob": 20 },
+          { "item": "belt50", "ammo-group": "on_hand_50", "charges": 2, "prob": 20 }
         ],
         "prob": 20
       }
