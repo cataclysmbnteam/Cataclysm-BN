@@ -118,6 +118,8 @@ void overmapbuffer::generate( const std::vector<point_abs_om> &locs )
         auto gen_func = [&]() {
             auto map = std::make_unique<overmap>( loc );
             map->populate();
+            fix_mongroups( *map );
+            fix_npcs( *map );
             return std::make_pair( loc, std::move( map ) );
         };
         async_data.push_back( std::async( std::launch::async, gen_func ) );
