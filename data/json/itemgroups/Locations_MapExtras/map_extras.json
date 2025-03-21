@@ -193,7 +193,7 @@
           { "group": "nested_rm103a_mag", "prob": 15, "count": [ 1, 2 ] },
           { "group": "nested_rm298_mag", "prob": 10, "count": [ 1, 2 ] },
           { "group": "nested_rm51_mag", "prob": 25, "count": [ 1, 2 ] },
-          { "group": "nested_rm614_lmg", "prob": 10, "count": [ 1, 2 ] },
+          { "group": "nested_rm298_mag", "prob": 10, "count": [ 1, 2 ] },
           { "group": "nested_rm298_mag", "prob": 10, "count": [ 1, 2 ] },
           { "group": "nested_rm51_mag", "prob": 25, "count": [ 1, 2 ] },
           { "item": "belt223", "ammo-group": "on_hand_223", "charges": 100, "prob": 25 },
