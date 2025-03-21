@@ -185,21 +185,22 @@
       },
       {
         "distribution": [
-          { "group": "nested_stanag_mag", "prob": 250, "count": [ 1, 2 ] },
-          { "group": "nested_stanag_mag_300", "prob": 15, "count": [ 1, 2 ] },
-          { "group": "nested_hk417_13_mag", "prob": 50, "count": [ 1, 2 ] },
-          { "group": "nested_m14_mag", "prob": 10, "count": [ 1, 2 ] },
-          { "group": "nested_scar_h_mag", "prob": 50, "count": [ 1, 2 ] },
-          { "group": "p320mag_17rd_9x19mm", "prob": 20, "count": [ 1, 2 ] },
-          { "group": "nested_m9_mag", "prob": 20, "count": [ 1, 2 ] },
-          { "group": "nested_m1911_mag", "prob": 10, "count": [ 1, 2 ] },
-          { "group": "on_hand_shot", "prob": 50, "count": [ 2, 3 ] },
-          { "item": "belt223", "ammo-group": "on_hand_223", "charges": 100, "prob": 25 },
-          { "item": "belt308", "ammo-group": "on_hand_308", "charges": 100, "prob": 40 },
-          { "item": "belt50", "ammo-group": "on_hand_50", "charges": 100, "prob": 20 },
-          { "item": "m107a1mag", "ammo-group": "on_hand_50", "prob": 30, "count": [ 1, 2 ] },
+          { "group": "p320mag_17rd_9x19mm", "prob": 5, "count": [ 1, 2 ] },
+          { "group": "nested_m9_mag", "prob": 5, "count": [ 1, 2 ] },
+          { "group": "nested_m1911_mag", "prob": 5, "count": [ 1, 2 ] },
+          { "group": "on_hand_shot", "prob": 10, "count": [ 2, 3 ] },
+          { "group": "nested_stanag_mag", "prob": 25, "count": [ 1, 2 ] },
+          { "group": "nested_mp5_mag", "prob": 5, "count": [ 1, 2 ] },
+          { "group": "nested_stanag_mag_300", "prob": 5, "count": [ 1, 2 ] },
+          { "group": "nested_hk417_13_mag", "prob": 5, "count": [ 1, 2 ] },
+          { "group": "nested_m14_mag", "prob": 5, "count": [ 1, 2 ] },
+          { "group": "nested_scar_h_mag", "prob": 5, "count": [ 1, 2 ] },
+          { "item": "m107a1mag", "ammo-group": "on_hand_50", "prob": 5, "count": [ 1, 2 ] },
           { "item": "tac50mag", "ammo-group": "on_hand_50", "prob": 5, "count": [ 1, 2 ] },
-          { "item": "m2010mag", "ammo-group": "on_hand_300", "prob": 20, "count": [ 1, 2 ] }
+          { "item": "m2010mag", "ammo-group": "on_hand_300", "prob": 5, "count": [ 1, 2 ] }
+          { "item": "belt223", "ammo-group": "on_hand_223", "charges": 5, "prob": 25 },
+          { "item": "belt308", "ammo-group": "on_hand_308", "charges": 3, "prob": 40 },
+          { "item": "belt50", "ammo-group": "on_hand_50", "charges": 2, "prob": 20 },
         ],
         "prob": 20
       }
