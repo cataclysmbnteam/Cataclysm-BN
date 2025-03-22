@@ -162,9 +162,9 @@ struct RouteSettings {
 
         const point midpoint = ( end + start ) / 2;
 
-        const float objective_distance = rl_dist_exact( tripoint(start, 0), tripoint(end, 0) );
+        const float objective_distance = rl_dist_exact( tripoint( start, 0 ), tripoint( end, 0 ) );
         const float search_radius = ( objective_distance * this->search_radius_coeff ) / 2;
-        const float distance_to_objective = rl_dist_exact( tripoint(pos, 0), tripoint(midpoint, 0) );
+        const float distance_to_objective = rl_dist_exact( tripoint( pos, 0 ), tripoint( midpoint, 0 ) );
 
         return distance_to_objective <= search_radius;
     }
