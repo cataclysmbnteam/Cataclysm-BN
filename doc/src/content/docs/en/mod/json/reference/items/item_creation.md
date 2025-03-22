@@ -1125,4 +1125,3 @@ One can also put the snippets directly in the item definition:
 
 This will automatically create a snippet category specific to that item and populate that category
 with the given snippets. The format also support snippet ids like above.
-

@@ -88,6 +88,7 @@ Multiple lines of items may share the same X and Y values.
   ["road_roller", 300]
 ]
 ```
+
 ### Vehicle Placement
 
 ```json
@@ -118,4 +119,3 @@ Multiple lines of items may share the same X and Y values.
   "status" : 1  // The status of the new vehicles.
 } } ]
 ```
-
