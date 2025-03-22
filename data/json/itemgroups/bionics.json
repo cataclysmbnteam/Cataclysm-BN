@@ -401,7 +401,7 @@
       [ "bio_weight", 20 ],
       [ "bio_shock_absorber", 20 ],
       [ "bio_soporific", 20 ],
-      [ "bio_electrosense", 5 ],      
+      [ "bio_electrosense", 5 ],
       [ "bio_cable_mkII", 5 ]
     ]
   },
@@ -549,7 +549,7 @@
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "bio_reactor", 10 ],
-      [ "bio_reactor_upgrade", 10 ],      
+      [ "bio_reactor_upgrade", 10 ],
       [ "bio_cable_mkII", 10 ],
       [ "bio_cable_upgrade", 10 ]
     ]
