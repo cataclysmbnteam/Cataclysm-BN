@@ -37,7 +37,7 @@
     "ammo": "22",
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 90,
-    "blackpowder_tolerance": 56,
+    "blackpowder_tolerance": 72,
     "clip_size": 19,
     "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
     "flags": [ "RELOAD_ONE" ]
@@ -89,6 +89,7 @@
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": "22",
+    "blackpowder_tolerance": 96,
     "barrel_length": "500 ml"
   },
   {

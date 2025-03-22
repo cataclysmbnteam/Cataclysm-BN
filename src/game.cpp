@@ -135,6 +135,7 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "path_info.h"
+#include "pathfinding_dijikstra.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -878,6 +879,11 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
+
+    //needs to have all npcs loaded
+    for( Character &guy : all_npcs() ) {
+        guy.activity->init_all_moves( guy );
+    }
 }
 
 void game::create_starting_npcs()
@@ -1599,6 +1605,9 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
+    // Finally, clear pathfinding cache
+    DijikstraPathfinding::reset();
+
     return false;
 }
 
@@ -1621,7 +1630,7 @@ void game::process_voluntary_act_interrupt()
         return;
     }
 
-    bool has_activity = u.activity && u.activity->moves_left > 0;
+    bool has_activity = u.activity && !u.activity->complete();
     bool is_travelling = u.has_destination() && !u.omt_path.empty();
 
     if( !has_activity && !is_travelling ) {
@@ -2310,8 +2319,8 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     }
 
     if( new_destination ) {
-        destination_preview = m.route( u.pos(), mouse_target, u.get_pathfinding_settings(),
-                                       u.get_path_avoid() );
+        destination_preview = m.route( u.pos(), mouse_target, u.get_legacy_pathfinding_settings(),
+                                       u.get_legacy_path_avoid() );
         return false;
     }
 
@@ -2619,6 +2628,8 @@ bool game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
+    //needs all npcs and stats loaded
+    u.activity->init_all_moves( u );
 
     cata::load_world_lua_state( get_active_world(), "lua_state.json" );
 
@@ -6858,7 +6869,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                 continue;
             }
 
-            auto route = m.route( u.pos(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto route = m.route( u.pos(), lp, u.get_legacy_pathfinding_settings(), u.get_legacy_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -7635,8 +7646,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
             }
-            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(),
-                                  u.get_path_avoid() );
+            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_legacy_pathfinding_settings(),
+                                  u.get_legacy_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -8219,10 +8230,10 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( you, inv, *corpses[corpse], bt );
+            time_to_cut = butcher_time_to_cut( *corpses[corpse], bt );
         } else {
             for( const item * const &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( you, inv, *it, bt );
+                time_to_cut += butcher_time_to_cut( *it, bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -8534,7 +8545,7 @@ void game::butcher()
                 disassembly_stacks_res.emplace_back( stack.first->typeId(), stack.second );
             }
 
-            for( int i = 0; i < disassembly_stacks_res.size(); i++ ) {
+            for( int i = 0; i < static_cast<int>( disassembly_stacks_res.size() ); i++ ) {
                 const auto dis = recipe_dictionary::get_uncraft( disassembly_stacks_res[i].first );
                 time_to_disassemble_rec += dis.time * disassembly_stacks_res[i].second;
                 //uses default craft materials to estimate recursive disassembly time

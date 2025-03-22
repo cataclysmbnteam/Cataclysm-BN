@@ -31,6 +31,11 @@
   },
   {
     "type": "construction_group",
+    "id": "weld_shut_metal_door",
+    "name": "Weld Shut Metal Door"
+  },
+  {
+    "type": "construction_group",
     "id": "build_a_bellow",
     "name": "Build a bellow"
   },
@@ -981,6 +986,11 @@
   },
   {
     "type": "construction_group",
+    "id": "install_industrial_freezer",
+    "name": "Install Industrial Freezer"
+  },
+  {
+    "type": "construction_group",
     "id": "install_glass_freezer",
     "name": "Install Glass Freezer"
   },
@@ -1233,6 +1243,11 @@
     "type": "construction_group",
     "id": "place_electric_kiln",
     "name": "Place Electric Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_adv_butchery",
+    "name": "Place Advanced Butchering Station"
   },
   {
     "type": "construction_group",
@@ -1533,5 +1548,15 @@
     "type": "construction_group",
     "id": "build_light_switch",
     "name": "Install a light switch"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_hydraulic_press",
+    "name": "Install Hydraulic Press"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_f_recycler",
+    "name": "Install Metal Compactor"
   }
 ]

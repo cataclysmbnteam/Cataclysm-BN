@@ -766,5 +766,48 @@
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_raptor", 2 ] ] ],
     "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutagen_rabbit",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "cooking",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 10,
+    "time": "12 m",
+    "book_learn": [ [ "recipe_animal", 9 ] ],
+    "using": [ [ "mutagen_production_standard", 31 ] ],
+    "components": [ [ [ "mutagen", 1 ] ], [ [ "carrot", 3 ], [ "irradiated_carrot", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "iv_mutagen_rabbit",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "cooking",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 10,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_animal", 9 ] ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "mutagen_rabbit", 2 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "purifier_smart_shot",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "cooking",
+    "skills_required": [ "computer", 6 ],
+    "difficulty": 10,
+    "time": "2 h",
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "control_laptop", -1 ] ] ],
+    "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "components": [ [ [ "iv_purifier", 3 ] ], [ [ "slime_scrap", 1 ] ], [ [ "nanomaterial", 1 ] ], [ [ "syringe", 1 ] ] ]
   }
 ]

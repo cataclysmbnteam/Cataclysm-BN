@@ -25,6 +25,7 @@
 #include "game_constants.h"
 #include "int_id.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -34,7 +35,9 @@
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
+#include "options.h"
 #include "pathfinding.h"
+#include "pathfinding_dijikstra.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
@@ -115,11 +118,6 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     }
     // No specific immunity was found, so fall upwards
     return Creature::is_immune_field( fid );
-}
-
-static bool z_is_valid( int z )
-{
-    return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
 }
 
 bool monster::will_move_to( const tripoint &p ) const
@@ -237,23 +235,38 @@ bool monster::will_move_to( const tripoint &p ) const
 
 bool monster::can_reach_to( const tripoint &p ) const
 {
-    map &here = get_map();
-    if( p.z > pos().z && z_is_valid( pos().z ) ) {
-        if( here.has_flag( TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
-            return true;
-        }
-        if( !here.has_flag( TFLAG_GOES_UP, pos() ) && !here.has_flag( TFLAG_NO_FLOOR, p ) ) {
-            // can't go through the roof
-            return false;
-        }
-    } else if( p.z < pos().z && z_is_valid( pos().z ) ) {
-        if( !here.has_flag( TFLAG_GOES_DOWN, pos() ) ) {
-            // can't go through the floor
-            // you would fall anyway if there was no floor, so no need to check for that here
-            return false;
-        }
+    const map &here = get_map();
+
+    // This one needs explanation
+    // Spawn logic calls `can_move_to` which calls this function.
+    // The thing with spawn logic is that it tries to move monsters that are at -500 Z level
+    //   which does not exist, to one of the existing Z levels.
+    // Because there's obviously nothing outside of reality, the Z move fails,
+    //   which leads to spawn logic failing to spawn anything.
+    // This is why this exists.
+    //                                                                   - DeltaEpsilon7787
+    // TODO: FIX THIS DUMB ASS SHIT
+    const bool is_moving_out_of_reality = !here.inbounds_z( pos().z );
+
+    const bool is_z_move = p.z != pos().z;
+    if( !is_z_move || is_moving_out_of_reality ) {
+        return true;
     }
-    return true;
+
+    const bool is_going_up = p.z > pos().z;
+    if( is_going_up ) {
+        const bool has_up_ramp = here.has_flag( TFLAG_RAMP_UP, p + tripoint_below );
+        const bool has_stairs = here.has_flag( TFLAG_GOES_UP, pos() );
+        const bool can_fly_there = this->flies() && here.has_flag( TFLAG_NO_FLOOR, p );
+
+        return has_up_ramp || has_stairs || can_fly_there;
+    } else {
+        const bool has_down_ramp = here.has_flag( TFLAG_RAMP_DOWN, p + tripoint_above );
+        const bool has_stairs = here.has_flag( TFLAG_GOES_DOWN, pos() );
+        const bool can_fly_there = this->flies() && here.has_flag( TFLAG_NO_FLOOR, this->pos() );
+
+        return has_down_ramp || has_stairs || can_fly_there;
+    }
 }
 
 bool monster::can_squeeze_to( const tripoint &p ) const
@@ -753,35 +766,43 @@ void monster::move()
 
     const bool pacified = has_effect( effect_pacified );
 
-    // First, use the special attack, if we can!
-    // The attack may change `monster::special_attacks` (e.g. by transforming
-    // this into another monster type). Therefore we can not iterate over it
-    // directly and instead iterate over the map from the monster type
-    // (properties of monster types should never change).
-    for( const auto &sp_type : type->special_attacks ) {
-        const std::string &special_name = sp_type.first;
-        const auto local_iter = special_attacks.find( special_name );
-        if( local_iter == special_attacks.end() ) {
-            continue;
-        }
-        mon_special_attack &local_attack_data = local_iter->second;
-        if( !local_attack_data.enabled ) {
-            continue;
-        }
+    // Special attack block code
+    // First, from the special attack list, make a vector of usable special attacks.
+    // TODO: Make code less clunky as it references both type->special_attacks and special_attacks.
+    std::vector < const std::pair< const std::string, mtype_special_attack> *> spec_attack_list;
 
-        // Cooldowns are decremented in monster::process_turn
+    // Pacified creatures and hallucinations don't get options.
+    if( !( pacified || is_hallucination() ) ) {
+        for( const auto &sp_type : type->special_attacks ) {
+            const auto sp_atk = special_attacks.find( sp_type.first )->second;
+            if( sp_atk.enabled && sp_atk.cooldown == 0 ) {
+                spec_attack_list.push_back( &sp_type );
+            }
+        }
+    }
+    // Next, if spec_attack_list is not empty, roll randomly to decide which is used.
+    if( !spec_attack_list.empty() ) {
+        bool sp_atk_used = false;
+        // If it turns out the attack can't actually be used, try again while list remains non-empty.
+        while( !sp_atk_used && !spec_attack_list.empty() ) {
+            // For size is 1 it just returns 0
+            int spec_iter = rng( 0, spec_attack_list.size() - 1 );
+            const auto &sp_type = spec_attack_list[spec_iter];
 
-        if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
-            if( !sp_type.second->call( *this ) ) {
+            if( sp_type->second->call( *this ) ) {
+                sp_atk_used = true;
+            } else {
+                // If not used, erase from list and try again.
+                // continue; used here to prevent reseting of special attack.
+                spec_attack_list.erase( spec_attack_list.begin() + spec_iter );
                 continue;
             }
 
             // `special_attacks` might have changed at this point. Sadly `reset_special`
             // doesn't check the attack name, so we need to do it here.
-            if( !special_attacks.contains( special_name ) ) {
-                continue;
+            if( special_attacks.contains( sp_type->first ) ) {
+                reset_special( sp_type->first );
             }
-            reset_special( special_name );
         }
     }
 
@@ -889,22 +910,45 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            const auto &pf_settings = get_pathfinding_settings();
-            if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
-                ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
-                // We need a new path
-                path = g->m.route( pos(), goal, pf_settings, get_path_avoid() );
+            {
+                const bool path_empty = path.empty();
+                const bool next_not_adjacent = path_empty || square_dist_fast( pos(), path.front() ) > 1;
+                const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
+                const bool next_blocked = path_empty || g->critter_at( path.front() ) != nullptr;
+
+                bool need_new_path = path_empty || next_not_adjacent || new_goal_not_adjacent || next_blocked;
+
+                if( need_new_path ) {
+                    if( get_option<bool>( "USE_LEGACY_PATHFINDING" ) ) {
+                        auto pf_settings = get_legacy_pathfinding_settings();
+                        path = g->m.route( pos(), goal, pf_settings, get_legacy_path_avoid() );
+                    } else {
+                        auto pair = this->get_pathfinding_pair();
+                        path = DijikstraPathfinding::route( pos(), goal, pair.first, pair.second );
+                    }
+                }
             }
 
-            // Try to respect old paths, even if we can't pathfind at the moment
-            if( !path.empty() && path.back() == goal ) {
-                destination = path.front();
-                moved = true;
-                pathed = true;
-            } else {
-                // Straight line forward, probably because we can't pathfind (well enough)
-                destination = goal;
-                moved = true;
+            {
+                const bool path_empty = path.empty();
+                const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
+                const bool we_are_at_goal = pos() == goal;
+
+                const bool is_failed_pathfinding = path_empty || new_goal_not_adjacent || we_are_at_goal;
+
+                // Try to respect old paths, even if we can't pathfind at the moment
+                if( is_failed_pathfinding ) {
+                    // Straight line forward
+                    destination = goal;
+                    moved = true;
+                } else {
+                    while( !path_empty && path.front() == pos() ) {
+                        path.erase( path.begin() );
+                    }
+                    destination = path.front();
+                    moved = true;
+                    pathed = true;
+                }
             }
         }
     }
@@ -967,12 +1011,15 @@ void monster::move()
             }
 
             bool via_ramp = false;
+            tripoint ramp_offset = tripoint_zero;
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
                 candidate.z += 1;
+                ramp_offset = tripoint_below;
             } else if( here.has_flag( TFLAG_RAMP_DOWN, candidate ) ) {
                 via_ramp = true;
                 candidate.z -= 1;
+                ramp_offset = tripoint_above;
             }
             tripoint candidate_abs = g->m.getabs( candidate );
 
@@ -1065,7 +1112,7 @@ void monster::move()
                 }
             }
 
-            const float progress = distance_to_target - trig_dist( candidate, destination );
+            const float progress = distance_to_target - trig_dist( candidate + ramp_offset, destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
@@ -1462,8 +1509,14 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
-    if( flat_ground && !g->m.is_bashable_furn( p ) ) {
+    map &here = get_map();
+
+    bool is_obstructed_by_ter_furn = here.impassable_ter_furn( p );
+    bool is_obstructed_by_veh = here.veh_at( p ).obstacle_at_part().has_value();
+    bool is_obstructed = is_obstructed_by_ter_furn || is_obstructed_by_veh;
+    bool is_flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
+
+    if( !is_obstructed && is_flat_ground ) {
         bool can_bash_ter = g->m.is_bashable_ter( p );
         bool try_bash_ter = one_in( 50 );
         if( !( can_bash_ter && try_bash_ter ) ) {
@@ -2090,7 +2143,7 @@ bool monster::will_reach( point p )
         return false;
     }
 
-    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_legacy_pathfinding_settings() );
     if( path.empty() ) {
         return false;
     }
@@ -2115,7 +2168,7 @@ bool monster::will_reach( point p )
 int monster::turns_to_reach( point p )
 {
     // HACK: This function is a(n old) temporary hack that should soon be removed
-    auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );
+    auto path = g->m.route( pos(), tripoint( p, posz() ), get_legacy_pathfinding_settings() );
     if( path.empty() ) {
         return 999;
     }

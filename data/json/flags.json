@@ -1874,6 +1874,12 @@
     "context": [  ]
   },
   {
+    "id": "USE_PARENT_GUN",
+    "//": "If this is a gunmod that can be fired, treat it as if the gun it's installed on is firing for relevant behaviors (brass catcher, installed suppressor, etc).  Used for 'second magazine' type gunmods, not just second barrel gunmods in general.",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "RELOAD_ONE",
     "type": "json_flag",
     "context": [  ]

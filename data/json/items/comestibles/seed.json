@@ -662,7 +662,7 @@
     "type": "COMESTIBLE",
     "id": "coffee_pod",
     "name": { "str": "Kentucky coffee pod" },
-    "category": "other",
+    "category": "cooking_ingredients",
     "weight": "26 g",
     "color": "light_green",
     "comestible_type": "FOOD",
@@ -710,7 +710,7 @@
     "type": "COMESTIBLE",
     "id": "roasted_coffee_bean",
     "copy-from": "coffee_bean",
-    "category": "other",
+    "category": "cooking_ingredients",
     "container": "bag_plastic",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
@@ -820,5 +820,16 @@
     "use_action": "MYCUS",
     "seed_data": { "plant_name": "mycus fruit", "required_terrain_flag": "MUSHROOM_PLANTABLE", "fruit": "mycus_fruit", "grow": "7 days" },
     "extend": { "flags": [ "MYCUS_OK", "CAN_PLANT_UNDERGROUND" ] }
+  },
+  {
+    "id": "seed_spurge",
+    "copy-from": "seed",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "spurge seeds" },
+    "description": "Some spurge seeds.",
+    "price": "160 cent",
+    "charges": 2,
+    "stack_size": 8,
+    "seed_data": { "plant_name": "spurge", "fruit": "spurge", "byproducts": [ "withered" ], "grow": "14 days" }
   }
 ]

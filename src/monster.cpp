@@ -361,6 +361,11 @@ void monster::poly( const mtype_id &id )
     faction = type->default_faction;
     upgrades = type->upgrades;
     reproduces = type->reproduces;
+
+    // HACK: We should know if the monster is in the bubble instead of checking it like this
+    if( g->critter_tracker->temporary_id( *this ) >= 0 ) {
+        g->critter_tracker->update_faction( *this );
+    }
 }
 
 bool monster::can_upgrade() const
@@ -3436,15 +3441,24 @@ void monster::on_load()
              name(), to_turns<int>( dt ), healed, healed_speed );
 }
 
-const pathfinding_settings &monster::get_pathfinding_settings() const
+const pathfinding_settings &monster::get_legacy_pathfinding_settings() const
 {
     return !effect_cache[PATHFINDING_OVERRIDE] ?
-           type->path_settings
-           : type->path_settings_buffed;
+           type->legacy_path_settings
+           : type->legacy_path_settings_buffed;
 
 }
 
-std::set<tripoint> monster::get_path_avoid() const
+std::pair<PathfindingSettings, RouteSettings> monster::get_pathfinding_pair()
+const
+{
+    return !effect_cache[PATHFINDING_OVERRIDE] ?
+           std::make_pair( type->path_settings, type->route_settings ) :
+           std::make_pair( type->path_settings_buffed, type->route_settings_buffed );
+
+}
+
+std::set<tripoint> monster::get_legacy_path_avoid() const
 {
     return std::set<tripoint>();
 }

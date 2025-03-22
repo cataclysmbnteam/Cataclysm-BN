@@ -1097,7 +1097,8 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( g->u.is_deaf() ) {
+    // Infolink alarm is silent and works even if deaf
+    if( g->u.is_deaf() && !g->u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( u.has_alarm_clock() ) {
@@ -1804,8 +1805,8 @@ bool game::handle_action()
                                                               u.posz() );
                             destination_preview = m.route( u.pos(),
                                                            auto_travel_destination,
-                                                           u.get_pathfinding_settings(),
-                                                           u.get_path_avoid() );
+                                                           u.get_legacy_pathfinding_settings(),
+                                                           u.get_legacy_path_avoid() );
                             if( !destination_preview.empty() ) {
                                 destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
                                 u.set_destination( destination_preview );

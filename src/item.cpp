@@ -111,6 +111,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "active_tile_data_def.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
@@ -2513,6 +2514,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( mod->ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
         info.emplace_back( "AMMO", _( "Ammunition: " ), string_format( "<stat>%s</stat>",
                            mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
+    }
+
+    if( mod->ammo_required() > 1 ) {
+        info.emplace_back( "AMMO", string_format( "Uses <stat>%i</stat> ammo per shot",
+                           mod->ammo_required() ) );
     }
 
     if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
@@ -4963,7 +4969,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     if( has_var( "NANOFAB_ITEM_ID" ) ) {
-        tagtext += string_format( " (%s)", nname( itype_id( get_var( "NANOFAB_ITEM_ID" ) ) ) );
+        itype_id item = itype_id( get_var( "NANOFAB_ITEM_ID" ) );
+        tagtext += string_format( " (%s [%d])", nname( item ), std::max( 1, item->volume / 250_ml ) * 5 );
     }
 
     if( has_flag( flag_RADIO_MOD ) ) {
@@ -5070,6 +5077,7 @@ std::string item::display_name( unsigned int quantity ) const
             break;
     }
     avatar &you = get_avatar();
+    static const itype_id itype_battery( "battery" );
     int amount = 0;
     int max_amount = 0;
     bool has_item = is_container() && contents.num_item_stacks() == 1;
@@ -5117,7 +5125,28 @@ std::string item::display_name( unsigned int quantity ) const
             }
 
             if( max_amount != 0 ) {
-                amt = string_format( " (%i/%i%s)", amount, max_amount, ammotext );
+                if( !contains ) {
+                    int percentage = ( static_cast<float>( amount ) / max_amount ) * 100;
+                    nc_color color = c_green;
+                    if( percentage >= 100 ) {
+                        color = c_green;
+                    } else if( percentage >= 75 ) {
+                        color = c_light_green;
+                    } else if( percentage >= 50 ) {
+                        color = c_yellow;
+                    } else if( percentage >= 25 ) {
+                        color = c_light_red;
+                    } else if( percentage > 0 ) {
+                        color = c_red;
+                    } else if( percentage <= 0 ) {
+                        color = c_light_gray;
+                    }
+                    amt = colorize( string_format( " (%i/%i%s)", amount, max_amount, ammotext ),
+                                    color );
+                } else {
+                    amt = string_format( " (%i/%i%s)", amount, max_amount, ammotext );
+                }
+
             } else {
                 amt = string_format( " (%i%s)", amount, ammotext );
             }
@@ -7906,7 +7935,13 @@ int item::ammo_required() const
         } else if( has_flag( flag_FIRE_20 ) ) {
             return 20;
         } else {
-            return 1;
+            int modifier = 0;
+            float multiplier = 1.0f;
+            for( const item *mod : gunmods() ) {
+                modifier += mod->type->gunmod->ammo_to_fire_modifier;
+                multiplier *= mod->type->gunmod->ammo_to_fire_multiplier;
+            }
+            return ( type->gun->ammo_to_fire * multiplier ) + modifier;
         }
     }
 
@@ -9398,8 +9433,9 @@ uint64_t item::make_component_hash() const
 bool item::needs_processing() const
 {
     return is_active() || has_flag( flag_RADIO_ACTIVATION ) || has_flag( flag_ETHEREAL_ITEM ) ||
-           ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
-           is_artifact() || is_food();
+           ( !contents.empty() && is_container() && contents.front().needs_processing() ) ||
+           ( magazine_current() && magazine_current()->needs_processing() ) ||
+           is_artifact() || is_relic() || is_food();
 }
 
 int item::processing_speed() const
@@ -9563,16 +9599,18 @@ std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
     return muts;
 }
 
-void item::process_relic( Character &carrier )
+void item::process_relic( Character *carrier )
 {
     if( !is_relic() ) {
         return;
     }
     std::vector<enchantment> active_enchantments;
 
-    for( const enchantment &ench : get_enchantments() ) {
-        if( ench.is_active( carrier, *this ) ) {
-            active_enchantments.emplace_back( ench );
+    if( carrier ) {
+        for( const enchantment &ench : get_enchantments() ) {
+            if( ench.is_active( *carrier, *this ) ) {
+                active_enchantments.emplace_back( ench );
+            }
         }
     }
 
@@ -9825,101 +9863,130 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
     return std::move( self );
 }
 
-std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
-{
-    const std::string &state = get_var( "state" );
-    if( state != "pay_out_cable" && state != "cable_charger_link" ) {
-        return std::nullopt;
-    }
-    map &here = get_map();
-    const optional_vpart_position vp_pos = here.veh_at( pos );
-    if( vp_pos ) {
-        const std::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
-        if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
-            return pos;
-        }
-    }
-
-    tripoint source( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z", 0 ) );
-
-    return here.getlocal( source );
-}
-
 detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carrier,
                                         const tripoint &pos )
 {
     if( !self ) {
         return std::move( self );
     }
-    if( carrier == nullptr ) {
-        //reset_cable( carrier );
+    //No need to process cable if it' has no map connections's only connected to character
+    auto data = cable_connection_data::make_data( self.ptr );
+    if( !data || data->empty() ) {
+        self->reset_cable( carrier );
         return std::move( self );
     }
-    std::string state = self->get_var( "state" );
-    if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            self->reset_cable( carrier );
-            return std::move( self );
-        }
+    if( data->character_only() || data->intermap_connection() ) {
+        return std::move( self );
+    }
+    if( !data->get_nonchar_connection() ) {
+        self->reset_cable( carrier );
+        return std::move( self );
     }
 
-    static const item_filter used_ups = [&]( const item & itm ) {
-        return itm.get_var( "cable" ) == "plugged_in";
-    };
+    int distance = 0;
+    map &here = get_map();
+    //At this point we are sure that non_char is not empty
+    auto nonchar = *data->get_nonchar_connection();
 
-    if( state == "UPS" ) {
-        if( !carrier->has_item( *self ) || !carrier->has_item_with( used_ups ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            for( item *used : carrier->items_with( used_ups ) ) {
-                used->erase_var( "cable" );
+    //Caharacter connected to smth
+    if( data->complete() ) {
+        if( !carrier ) {
+            if( auto *const map = data->get_map_connection() ) {
+                data->unset_other_con( self.get(), nonchar );
+            } else {
+                self->reset_cable( carrier );
+            }
+            return std::move( self );
+        }
+        switch( nonchar.state ) {
+            case state_solar_pack:
+                if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    self->reset_cable( carrier );
+                }
+                return std::move( self );
+            case state_UPS: {
+                static const item_filter used_ups = [&]( const item & itm ) {
+                    return itm.get_var( "cable" ) == "plugged_in";
+                };
+
+                if( !carrier->has_item( *self ) || !carrier->has_item_with( used_ups ) ) {
+                    for( item *used : carrier->items_with( used_ups ) ) {
+                        used->erase_var( "cable" );
+                    }
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    self->reset_cable( carrier );
+                }
+                return std::move( self );
+            }
+            case state_vehicle: {
+                if( !here.veh_at( nonchar.point ) ) {
+                    carrier->add_msg_if_player( m_bad, _( "You notice the cable has disconnected from a vehicle!" ) );
+                    data->unset_con( self.get(), nonchar );
+                    return std::move( self );
+                }
+                //Sitting in vehicle shenenigans
+                //If character is sitting at vehicle - no need(and no way) to figure out cable distance and if it's the same vehicle we previously connected
+                //So we just ignore distance
+                const auto vp_pos = here.veh_at( pos );
+                if( vp_pos ) {
+                    const auto seat = vp_pos.part_with_feature( "BOARDABLE", true );
+                    if( seat && carrier == seat->vehicle().get_passenger( seat->part_index() ) ) {
+                        return std::move( self );
+                    }
+                }
+                break;
+            }
+            case state_grid: {
+                auto s = nonchar.point;
+                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( s );
+                if( !grid_connector ) {
+                    if( carrier->has_item( *self ) ) {
+                        carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    }
+                    self->reset_cable( carrier );
+                    return std::move( self );
+                }
+                break;
+            }
+            case state_none:
+            case state_self:
+            default:
+                debugmsg( "Unexpected cable state %s", nonchar.state );
+                self->reset_cable( carrier );
+                return std::move( self );
+        }
+    }
+    if( nonchar.map_point() ) {
+        distance = rl_dist( pos, here.getlocal( nonchar.point ) );
+        self->charges = self->type->maximum_charges() - distance;
+        if( self->charges < 1 ) {
+            if( carrier ) {
+                carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
             }
             self->reset_cable( carrier );
-            return std::move( self );
         }
-    }
-    const std::optional<tripoint> source = self->get_cable_target( carrier, pos );
-    if( !source ) {
-        return std::move( self );
-    }
-    map &here = get_map();
-    if( !here.veh_at( *source ) || ( source->z != g->get_levz() && !here.has_zlevels() ) ) {
-        if( carrier->has_item( *self ) ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-        }
-        self->reset_cable( carrier );
-        return std::move( self );
-    }
-
-    int distance = rl_dist( pos, *source );
-    int max_charges = self->type->maximum_charges();
-    self->charges = max_charges - distance;
-
-    if( self->charges < 1 ) {
-        if( carrier->has_item( *self ) ) {
-            carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
-        }
-        self->reset_cable( carrier );
-        return std::move( self );
     }
 
     return std::move( self );
 }
 
-void item::reset_cable( player *p )
+void item::reset_cable( Character *who )
 {
     int max_charges = type->maximum_charges();
-
-    set_var( "state", "attach_first" );
+    //erase legacy info
+    erase_var( "state" );
     erase_var( "source_x" );
     erase_var( "source_y" );
     erase_var( "source_z" );
+    //erase info
+    cable_connection_data::unset_vars( this );
     deactivate();
     charges = max_charges;
 
-    if( p != nullptr ) {
-        p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
-        p->moves -= charges * 10;
+    if( who != nullptr ) {
+        who->add_msg_if_player( m_info, _( "You reel in the cable." ) );
+        who->mod_moves( -10 * charges );
     }
 }
 
@@ -9935,8 +10002,7 @@ detached_ptr<item> item::process_UPS( detached_ptr<item> &&self, player *carrier
         return std::move( self );
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.is_active() && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
-                it.get_var( "state" ) == "UPS" );
+        return it.is_active() && cable_connection_data::ups_connected( &it );
     } );
     if( !has_connected_cable ) {
         self->erase_var( "cable" );
@@ -10161,6 +10227,9 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
             return std::move( self );
         }
     }
+
+    self->process_artifact( carrier, pos );
+    self->process_relic( carrier );
 
     if( self->faults.contains( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( std::move( self ), carrier );
@@ -10861,5 +10930,21 @@ int item::kill_count()
         return 0;
     } else {
         return kills->monster_kill_count() + kills->npc_kill_count();
+    }
+}
+
+bool cable_connection_data::ups_connected( const item *const cable )
+{
+    return cable && cable->has_flag( flag_CABLE_SPOOL ) &&
+           ( cable_state( cable->get_var( p1_name, 0.0 ) ) == state_UPS ||
+             cable_state( cable->get_var( p2_name, 0.0 ) ) == state_UPS );
+}
+
+std::optional<cable_connection_data> cable_connection_data::make_data( const item &cable )
+{
+    if( cable.has_flag( flag_CABLE_SPOOL ) ) {
+        return cable_connection_data( cable );
+    } else {
+        return std::nullopt;
     }
 }

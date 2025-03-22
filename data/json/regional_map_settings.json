@@ -1020,6 +1020,19 @@
         "homeless_shelter": 100,
         "parking_garage": 200,
         "afs_augmentation_clinic_1": 200
+      },
+      "finales": {
+        "s_electronics_2": 200,
+        "s_gun_2": 200,
+        "megastore": 200,
+        "town_hall": 200,
+        "police_1": 200,
+        "s_gun_1": 200,
+        "fire_station": 100,
+        "hospital": 100,
+        "house_prepper": 50,
+        "office_tower_hiddenlab": 50,
+        "pawn_pf": 50
       }
     },
     "weather": {

@@ -87,6 +87,7 @@
   {
     "type": "COMESTIBLE",
     "id": "kernels",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "popcorn kernels" },
     "weight": "32 g",
     "color": "brown",

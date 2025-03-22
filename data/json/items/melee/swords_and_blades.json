@@ -69,7 +69,7 @@
   {
     "id": "switchblade",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "switchblade" },
     "description": "This is a long and thin knife with a spring-loaded blade that rests inside the handle while not in use.",
@@ -89,7 +89,7 @@
   {
     "id": "knife_folding",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "folding knife", "str_pl": "folding knives" },
     "description": "This is a small folding knife, with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
@@ -158,7 +158,7 @@
   {
     "id": "knife_hunting",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "hunting knife", "str_pl": "hunting knives" },
     "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
@@ -226,7 +226,7 @@
   {
     "id": "knife_swissarmy",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "name": { "str": "Swiss Army knife", "str_pl": "Swiss Army knives" },
     "//": "The swiss army knife is a bit more of a knife than a toolkit.",
     "description": "An iconic pocket knife imported from Europe.  Its red plastic handle conceals many small tools.",
@@ -266,7 +266,7 @@
   {
     "id": "makeshift_knife",
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
@@ -287,7 +287,7 @@
     "id": "bone_knife",
     "name": { "str": "bone shiv" },
     "type": "TOOL",
-    "category": "tools",
+    "category": "tools_workshop",
     "weapon_category": [ "KNIVES" ],
     "description": "A femur or other bone, at least 30 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
@@ -364,7 +364,7 @@
     "id": "machete_gimmick",
     "name": { "str": "machete multitool" },
     "type": "TOOL",
-    "category": "tools",
+    "category": "weapons",
     "weapon_category": [ "SHORT_SWORDS" ],
     "description": "A thin, wobbly steel blade with sawteeth on one side and a flat chisel tip for digging.  A jack of many trades and a master of none.",
     "symbol": "/",

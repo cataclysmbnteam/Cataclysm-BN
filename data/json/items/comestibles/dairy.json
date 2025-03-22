@@ -207,6 +207,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_powder",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "powdered milk" },
     "weight": "30 g",
     "color": "white",

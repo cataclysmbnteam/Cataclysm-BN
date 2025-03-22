@@ -1091,9 +1091,12 @@ class npc : public player
 
         void set_movement_mode( character_movemode mode ) override;
 
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
-        std::set<tripoint> get_path_avoid() const override;
+        const pathfinding_settings &get_legacy_pathfinding_settings() const override;
+        const pathfinding_settings &get_legacy_pathfinding_settings( bool no_bashing ) const;
+        std::set<tripoint> get_legacy_path_avoid() const override;
+
+        std::pair<PathfindingSettings, RouteSettings> get_pathfinding_pair() const override;
+        std::pair<PathfindingSettings, RouteSettings> get_pathfinding_pair( bool no_bashing ) const;
 
         // Item discovery and fetching
 

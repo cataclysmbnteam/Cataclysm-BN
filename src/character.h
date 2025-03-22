@@ -1017,8 +1017,6 @@ class Character : public Creature, public location_visitable<Character>
         int get_total_bionics_slots( const bodypart_id &bp ) const;
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
-        /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype *cbm, player &patient );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
@@ -1243,7 +1241,7 @@ class Character : public Creature, public location_visitable<Character>
 
         int inv_position_by_item( item *it ) const;
 
-        void inv_update_cache_with_item( item &it );
+        void inv_update_invlet_cache_with_item( item &it );
 
         int inv_invlet_to_position( char invlet ) const;
 
@@ -1808,7 +1806,8 @@ class Character : public Creature, public location_visitable<Character>
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
         void burn_move_stamina( int moves );
-        float stamina_move_cost_modifier() const;
+        float stamina_burn_cost_modifier() const;
+        float running_move_cost_modifier() const;
         /** Regenerates stamina */
         void update_stamina( int turns );
 
@@ -1897,8 +1896,12 @@ class Character : public Creature, public location_visitable<Character>
 
         /** Returns the player's modified base movement cost */
         int  run_cost( int base_cost, bool diag = false ) const;
-        const pathfinding_settings &get_pathfinding_settings() const override;
-        std::set<tripoint> get_path_avoid() const override;
+
+        const pathfinding_settings &get_legacy_pathfinding_settings() const override;
+        std::set<tripoint> get_legacy_path_avoid() const override;
+
+        std::pair<PathfindingSettings, RouteSettings> get_pathfinding_pair() const override;
+
         /** Route for overmap scale traveling */
         std::vector<tripoint_abs_omt> omt_path;
         /**

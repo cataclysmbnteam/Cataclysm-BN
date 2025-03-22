@@ -37,7 +37,7 @@
   {
     "type": "AMMO",
     "id": "aluminum_foil",
-    "category": "spare_parts",
+    "category": "scrap_metal",
     "price": "648 cent",
     "price_postapoc": "10 cent",
     "name": { "str": "aluminum foil" },
@@ -155,7 +155,7 @@
   {
     "type": "AMMO",
     "id": "duct_tape",
-    "category": "tools_workshop",
+    "category": "other",
     "price": "20 USD",
     "price_postapoc": "250 cent",
     "name": { "str": "duct tape" },
@@ -225,7 +225,7 @@
   {
     "type": "AMMO",
     "id": "plut_slurry_dense",
-    "category": "spare_parts",
+    "category": "other",
     "price": "250 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "plutonium slurry" },
@@ -243,7 +243,7 @@
   {
     "type": "AMMO",
     "id": "plut_slurry",
-    "category": "spare_parts",
+    "category": "other",
     "price": "250 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "watery plutonium slurry" },
@@ -290,6 +290,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A handful of pebbles, useful as ammunition for slings or slingshots.",
+    "category": "rocks",
     "material": "stone",
     "volume": "250 ml",
     "weight": "5 g",
@@ -333,6 +334,7 @@
     "color": "light_gray",
     "looks_like": "pebble",
     "description": "A handful of glass marbles, useful as ammunition for slings or slingshots.",
+    "category": "scrap_glass",
     "material": "glass",
     "volume": "250 ml",
     "weight": "3 g",
@@ -354,6 +356,7 @@
     "color": "dark_gray",
     "looks_like": "pebble",
     "description": "A box of ball bearings, useful as ammunition for slings or slingshots.",
+    "category": "scrap_metal",
     "material": "steel",
     "volume": "250 ml",
     "weight": "10 g",
@@ -659,7 +662,7 @@
   {
     "type": "AMMO",
     "id": "chunk_rubber",
-    "category": "spare_parts",
+    "category": "scrap_plastic",
     "price": "75 cent",
     "name": { "str": "chunk of rubber", "str_pl": "chunks of rubber" },
     "symbol": "*",
@@ -718,7 +721,7 @@
   {
     "type": "AMMO",
     "id": "charcoal",
-    "category": "spare_parts",
+    "category": "fuel",
     "price": "2 USD",
     "price_postapoc": "50 cent",
     "name": { "str_sp": "charcoal" },
@@ -757,7 +760,7 @@
   {
     "type": "AMMO",
     "id": "coal_lump",
-    "category": "spare_parts",
+    "category": "fuel",
     "price": "2 USD",
     "price_postapoc": "1 USD",
     "name": { "str": "coal" },
@@ -889,7 +892,7 @@
   {
     "id": "fish_bait",
     "type": "AMMO",
-    "category": "spare_parts",
+    "category": "other",
     "name": { "str": "fish bait" },
     "description": "A bait used in traps to lure fish.",
     "weight": "1 g",
@@ -963,7 +966,7 @@
   {
     "type": "AMMO",
     "id": "unfinished_charcoal",
-    "category": "spare_parts",
+    "category": "scrap_wood",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "unfinished charcoal" },
@@ -978,7 +981,7 @@
   {
     "type": "AMMO",
     "id": "unfinished_cac2",
-    "category": "spare_parts",
+    "category": "rocks",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "name": { "str_sp": "unfinished calcium carbide" },

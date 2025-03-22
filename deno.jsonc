@@ -13,9 +13,10 @@
   "lint": { "include": ["scripts"] },
   "fmt": {
     "exclude": ["doc/dist", "doc/.astro", "doc/pnpm-lock.yaml"],
-    "include": ["scripts", "doc", "*.md"],
+    "include": ["scripts", "doc", "*.md", ".github"],
     "semiColons": false,
-    "lineWidth": 100
+    "lineWidth": 100,
+    "proseWrap": "preserve"
   },
   "imports": {
     "$asynciter/": "https://deno.land/x/asynciter@0.0.18/",

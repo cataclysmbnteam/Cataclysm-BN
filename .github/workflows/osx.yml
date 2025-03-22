@@ -15,8 +15,9 @@ on:
       - "tools/**"
       - "!tools/format/**"
       - "utilities/**"
-      - 'scripts/**'
-
+      - "scripts/**"
+      - "**.md"
+      - "**.mdx"
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
   group: osx-build-${{ github.event.pull_request.number || github.ref_name }}
@@ -63,13 +64,13 @@ jobs:
 
     env:
       ZSTD_CLEVEL: 17
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-        
+
       - name: Install runtime dependencies
         uses: BrettDong/setup-sdl2-frameworks@v1
         with:
@@ -77,7 +78,7 @@ jobs:
           sdl2-ttf: 2.24.0
           sdl2-image: 2.8.4
           sdl2-mixer: 2.8.0
-        
+
       - name: Install build dependencies
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel llvm astyle sqlite3 zlib

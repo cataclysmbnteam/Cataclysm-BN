@@ -85,6 +85,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "active_tile_data_def.h"
+#include "distribution_grid.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -150,6 +152,7 @@ static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
 static const bionic_id bio_blood_filter( "bio_blood_filter" );
+static const bionic_id bio_electrosense_bscanner( "bio_electrosense_bscanner" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
@@ -1032,48 +1035,92 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                                _( "You need a jumper cable connected to a power source to drain power from it." ) );
         } else {
             for( item *cable : cables ) {
-                const std::string state = cable->get_var( "state" );
-                if( state == "cable_charger" ) {
-                    add_msg_if_player( m_info,
-                                       _( "Cable is plugged-in to the CBM but it has to be also connected to the power source." ) );
+                auto data = cable_connection_data::make_data( cable );
+                if( !data ) {
+                    continue;
                 }
-                if( state == "cable_charger_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
-                }
-                if( state == "solar_pack_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
-                }
-                if( state == "UPS_link" ) {
-                    add_msg_activate();
-                    success = true;
-                    add_msg_if_player( m_info,
-                                       _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
-                }
-                if( state == "solar_pack" || state == "UPS" ) {
-                    add_msg_if_player( m_info,
-                                       _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
-                }
-                if( state == "pay_out_cable" ) {
-                    add_msg_if_player( m_info,
-                                       _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
-                }
-                if( state == "attach_first" ) {
-                    free_cable = true;
-                }
-            }
 
+                switch( data->con2.state ) {
+                    case state_none:
+                        switch( data->con1.state ) {
+                            case state_solar_pack:
+                            case state_UPS:
+                                add_msg_if_player( m_info,
+                                                   _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
+                                break;
+                            case state_vehicle:
+                                add_msg_if_player( m_info,
+                                                   _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
+                                break;
+                            case state_grid:
+                                add_msg_if_player( m_info,
+                                                   _( "You have a cable plugged to a grid, but you need to plug it in to the CBM." ) );
+                                break;
+                            case state_self:
+                                add_msg_if_player( m_info,
+                                                   _( "Cable is plugged-in to the CBM but it has to be also connected to the power source." ) );
+                                break;
+                            case state_none:
+                                free_cable = true;
+                                break;
+                            default:
+                                break;
+                        }
+                        continue;
+                    case state_self:
+                        switch( data->con1.state ) {
+                            case state_grid:
+                                add_msg_if_player( m_info,
+                                                   _( "You are plugged to the grid.  It will charge you if it has some juice in it." ) );
+                                break;
+                            case state_solar_pack:
+                                add_msg_if_player( m_info,
+                                                   _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
+                                break;
+                            case state_UPS:
+                                add_msg_if_player( m_info,
+                                                   _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
+                                break;
+                            case state_vehicle:
+                                add_msg_if_player( m_info,
+                                                   _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
+                                break;
+                            case state_self:
+                            case state_none:
+                            default:
+                                debugmsg( "Unexpected cable state %s", data->con1.state );
+                                continue;
+                        }
+                        break;
+                    case state_grid:
+                        add_msg_if_player( m_info,
+                                           _( "You are plugged to the grid.  It will charge you if it has some juice in it." ) );
+                        break;
+                    case state_solar_pack:
+                        add_msg_if_player( m_info,
+                                           _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
+                        break;
+                    case state_UPS:
+                        add_msg_if_player( m_info,
+                                           _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
+                        break;
+                    case state_vehicle:
+                        add_msg_if_player( m_info,
+                                           _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
+                        break;
+                    default:
+                        debugmsg( "Unexpected cable state %s", data->con2.state );
+                        continue;
+                }
+                add_msg_activate();
+                success = true;
+            }
+        }
+        if( !success ) {
             if( free_cable ) {
                 add_msg_if_player( m_info,
                                    _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
             }
-        }
-        if( !success ) {
             refund_power();
             bio.powered = false;
             return false;
@@ -1145,11 +1192,13 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
             return false;
         }
 
-        //We can actually deactivate now, do deactivation-y things
+        // All checks green, get the deactivation cost and print the message.
         mod_power_level( -bio.info().power_deactivate );
-        bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
+
+    // Deactivation is outwidth of the !eff_only block, as involuntary or voluntary it still needs to turn off.
+    bio.powered = false;
 
     // Deactivation effects go here
     if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
@@ -1227,7 +1276,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                    _( "Your %s runs out of fuel and turn off." ),
                                    _( "<npcname>'s %s runs out of fuel and turn off." ),
                                    bio.info().name );
-            bio.powered = false;
             deactivate_bionic( bio, true );
             return false;
         }
@@ -1278,7 +1326,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                                bio.info().name );
                     }
                 }
-                bio.powered = false;
                 deactivate_bionic( bio, true );
                 return false;
             } else {
@@ -1351,8 +1398,6 @@ bool Character::burn_fuel( bionic &bio, bool start )
                                                _( "<npcname>'s %s runs out of fuel and turn off." ),
                                                bio.info().name );
                     }
-
-                    bio.powered = false;
                     deactivate_bionic( bio, true );
                     return false;
                 }
@@ -1414,19 +1459,63 @@ itype_id Character::find_remote_fuel( bool look_only )
         return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
 
-    for( const item *cable : cables ) {
+    for( item *cable : cables ) {
+        auto data = cable_connection_data::make_data( cable );
+        if( !data || !data->character_connected() || !data->complete() ) {
+            continue;
+        }
 
-        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( !target ) {
-            if( here.is_outside( pos() ) && !is_night( calendar::turn ) &&
-                cable->get_var( "state" ) == "solar_pack_link" ) {
-                if( !look_only ) {
-                    set_value( "sunlight", "1" );
+        //At this point we are sure that non_char is not empty
+        auto nonchar = *data->get_nonchar_connection();
+
+        switch( nonchar.state ) {
+            case state_none:
+            case state_self:
+            default:
+                continue;
+            case state_grid: {
+                if( !nonchar.point_valid() ) {
+                    debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                    add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    cable->reset_cable( this );
+                    continue;
                 }
-                remote_fuel = fuel_type_sun_light;
+                auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( nonchar.point );
+                if( grid_connector ) {
+                    if( !look_only ) {
+                        auto &grid = get_distribution_grid_tracker().grid_at( nonchar.point );
+                        set_value( "rem_battery", std::to_string( grid.get_resource() ) );
+                    }
+                    remote_fuel = fuel_type_battery;
+                }
+                continue;
             }
-
-            if( cable->get_var( "state" ) == "UPS_link" ) {
+            case state_vehicle: {
+                if( !nonchar.point_valid() ) {
+                    debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                    add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+                    cable->reset_cable( this );
+                    continue;
+                }
+                const optional_vpart_position vp = here.veh_at( nonchar.point );
+                if( vp ) {
+                    if( !look_only ) {
+                        set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
+                                   true ) ) );
+                    }
+                    remote_fuel = fuel_type_battery;
+                }
+                continue;
+            }
+            case state_solar_pack:
+                if( here.is_outside( pos() ) && !is_night( calendar::turn ) ) {
+                    if( !look_only ) {
+                        set_value( "sunlight", "1" );
+                    }
+                    remote_fuel = fuel_type_sun_light;
+                }
+                continue;
+            case state_UPS: {
                 static const item_filter used_ups = [&]( const item & itm ) {
                     return itm.get_var( "cable" ) == "plugged_in";
                 };
@@ -1442,20 +1531,10 @@ itype_id Character::find_remote_fuel( bool look_only )
                     }
                 }
                 remote_fuel = fuel_type_battery;
+                continue;
             }
-            continue;
         }
-        const optional_vpart_position vp = here.veh_at( *target );
-        if( !vp ) {
-            continue;
-        }
-        if( !look_only ) {
-            set_value( "rem_battery", std::to_string( vp->vehicle().fuel_left( fuel_type_battery,
-                       true ) ) );
-        }
-        remote_fuel = fuel_type_battery;
     }
-
     return remote_fuel;
 }
 
@@ -1468,13 +1547,34 @@ int Character::consume_remote_fuel( int amount )
 
     map &here = get_map();
     for( const item *cable : cables ) {
-        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( target ) {
-            const optional_vpart_position vp = here.veh_at( *target );
-            if( !vp ) {
-                continue;
+        auto data = cable_connection_data::make_data( cable );
+        if( !data || !data->character_connected() || !data->has_map_connection() ) {
+            continue;
+        }
+
+        auto map_con = *data->get_map_connection();
+        if( !map_con.point_valid() ) {
+            debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+            continue;
+        }
+        switch( map_con.state ) {
+            case state_vehicle: {
+                const auto vp = here.veh_at( map_con.point );
+                if( vp ) {
+                    unconsumed_amount = vp->vehicle().discharge_battery( amount );
+                }
+                break;
             }
-            unconsumed_amount = vp->vehicle().discharge_battery( amount );
+            case state_grid: {
+                const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( map_con.point );
+                if( grid_connector ) {
+                    auto grid = get_distribution_grid_tracker().grid_at( map_con.point );
+                    unconsumed_amount = grid.mod_resource( -amount );
+                }
+                break;
+            }
+            default:
+                continue;
         }
     }
 
@@ -1484,10 +1584,10 @@ int Character::consume_remote_fuel( int amount )
         };
         if( has_charges( itype_UPS_off, unconsumed_amount, used_ups ) ) {
             use_charges( itype_UPS_off, unconsumed_amount, used_ups );
-            unconsumed_amount -= 1;
+            unconsumed_amount = 0;
         } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
             use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.5 ), used_ups );
-            unconsumed_amount -= 1;
+            unconsumed_amount = 0;
         }
     }
 
@@ -1625,7 +1725,6 @@ void Character::process_bionic( bionic &bio )
                 bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
-                    bio.powered = false;
                     add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
                     // This purposely bypasses the deactivation cost
                     deactivate_bionic( bio, true );
@@ -1791,7 +1890,7 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
-    } else if( bio.id == bio_electrosense ) {
+    } else if( bio.id == bio_electrosense_bscanner ) {
         // This is a horrible mess but can't use the active iuse behavior directly
         map &here = get_map();
         for( const tripoint &pt : here.points_in_radius( pos(), PICKUP_RANGE ) ) {
@@ -1811,6 +1910,20 @@ void Character::process_bionic( bionic &bio )
                     }
                 }
 
+                units::energy enrg = cbms.size() * bio.info().power_trigger;
+                if( get_power_level() >= enrg ) {
+                    mod_power_level( -enrg );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "Your %s doesn't have enough power for the %s" ),
+                                       bio.info().name, corpse->display_name().c_str() );
+                    if( get_power_level() < bio.info().power_trigger ) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+
                 corpse->set_var( "bionics_scanned_by", getID().get_value() );
                 if( !cbms.empty() ) {
                     corpse->set_flag( flag_CBM_SCANNED );
@@ -1826,6 +1939,12 @@ void Character::process_bionic( bionic &bio )
                                        bionics_string.c_str()
                                      );
                 }
+            }
+            if( get_power_level() < bio.info().power_trigger ) {
+                add_msg_if_player( m_bad, _( "Your %s doesn't have enough power and shuts down." ),
+                                   bio.info().name );
+                deactivate_bionic( bio, true );
+                break;
             }
         }
     } else if( bio.id == bio_radscrubber ) {
@@ -1929,25 +2048,6 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
             do_damage_for_bionic_failure( 5, difficulty * 5 );
             break;
     }
-}
-
-bool Character::has_enough_anesth( const itype *cbm, player & )
-{
-    if( !cbm->bionic ) {
-        debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm->get_id() );
-        return false;
-    }
-
-    if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
-        has_trait( trait_DEBUG_BIONICS ) ) {
-        return true;
-    }
-
-    const int weight = 7;
-    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
-                                        cbm->bionic->difficulty * 2 * weight;
-
-    return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
 }
 
 // bionic manipulation adjusted skill
@@ -2675,6 +2775,30 @@ int Character::get_free_bionics_slots( const bodypart_id &bp ) const
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
+bool cbm_needs_anesthesia( const Character &who )
+{
+    return !( who.has_bionic( bio_painkiller ) || who.has_trait( trait_NOPAIN ) ||
+              who.has_trait( trait_DEBUG_BIONICS ) );
+}
+
+bool has_enough_anesthesia( const itype *cbm, Character &doc, const Character &patient )
+{
+    if( !cbm->bionic ) {
+        debugmsg( "has_enough_anesthesia( const itype *cbm ): %s is not a bionic", cbm->get_id() );
+        return false;
+    }
+
+    if( !cbm_needs_anesthesia( patient ) ) {
+        return true;
+    }
+
+    const int weight = 7;
+    const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                        cbm->bionic->difficulty * 2 * weight;
+
+    return req_anesth.can_make_with_inventory( doc.crafting_inventory(), is_crafting_component );
+}
+
 void Character::add_bionic( const bionic_id &b )
 {
     if( has_bionic( b ) ) {
@@ -2996,11 +3120,11 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
     installer.add_msg_player_or_npc( m_info,
                                      _( "You set up the operation step-by-step, configuring the Autodoc to manipulate a CBM." ),
                                      _( "<npcname> sets up the operation, configuring the Autodoc to manipulate a CBM." ) );
-
-    add_msg_player_or_npc( m_info,
-                           _( "You settle into position, sliding your right wrist into the couch's strap." ),
-                           _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( needs_anesthesia ) {
+        add_msg_player_or_npc( m_info,
+                               _( "You settle into position, sliding your right wrist into the couch's strap." ),
+                               _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
+
         //post-threshold medical mutants do not fear operations.
         if( has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
@@ -3009,6 +3133,13 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
 
         add_msg_if_player( m_mixed,
                            _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+
+        //Pain junkies feel sorry about missed pain from operation.
+        if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
+            has_trait( trait_CENOBITE ) ) {
+            add_msg_if_player( m_mixed,
+                               _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
+        }
 
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
@@ -3020,13 +3151,6 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
             add_msg_if_player( m_mixed,
                                _( "You stay very, very still, intently staring off into space, as the Autodoc slices painlessly into you." ) );
         }
-    }
-
-    //Pain junkies feel sorry about missed pain from operation.
-    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-        has_trait( trait_CENOBITE ) ) {
-        add_msg_if_player( m_mixed,
-                           _( "As your consciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
     if( has_effect( effect_narcosis ) ) {

@@ -32,6 +32,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
+#include "coordinates.h"
 
 class Character;
 class JsonIn;
@@ -98,6 +99,21 @@ struct light_emission {
     short direction;
 };
 extern light_emission nolight;
+
+
+enum cable_state {
+    state_none = 0,
+    state_self,
+    state_grid,
+    state_solar_pack,
+    state_UPS,
+    state_vehicle
+};
+static const std::string p1_name = "p1";
+static const std::string p2_name = "p2";
+static const std::string source_p1_name = "source_" + p1_name;
+static const std::string source_p2_name = "source_" + p2_name;
+static const tripoint_abs_ms tripoint_abs_ms_min( tripoint_min );
 
 /**
  *  Value and metadata for one property of an item
@@ -1203,16 +1219,10 @@ class item : public location_visitable<item>, public game_object<item>
                                            bool activate,
                                            temperature_flag flag, const weather_manager &weather_generator );
         /*@}*/
-
-        /**
-         * Gets the point (vehicle tile) the cable is connected to.
-         * Returns nothing if not connected to anything.
-         */
-        std::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
-        void reset_cable( player *p );
+        void reset_cable( Character *who = nullptr );
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -1229,7 +1239,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
-        void process_relic( Character &carrier );
+        void process_relic( Character *carrier );
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
@@ -2250,9 +2260,6 @@ class item : public location_visitable<item>, public game_object<item>
         /** Returns the type of location where the item is found */
         item_location_type where() const;
 
-        /** Returns the position where the item is found */
-        tripoint pos() const;
-
         /** Describes the item location
          *  @param ch if set description is relative to character location */
         std::string describe_location( const Character *ch = nullptr ) const;
@@ -2490,5 +2497,152 @@ namespace to_cbc_migration
 void load( const JsonObject &jo );
 void reset();
 } // namespace to_cbc_migration
+
+struct cable_connection_data {
+    struct connection {
+        cable_state state = state_none;
+        tripoint_abs_ms point = tripoint_abs_ms_min;
+
+        bool is_character() const {
+            return state == state_self;
+        }
+
+        bool empty() const {
+            return state == state_none;
+        }
+
+        bool map_point() const {
+            return state == state_grid || state == state_vehicle;
+        }
+
+        bool point_valid() {
+            return point != tripoint_abs_ms_min;
+        }
+
+        bool operator==( const connection &other ) const {
+            return state == other.state && point == other.point;
+        }
+    };
+    connection con1{};
+    connection con2{};
+
+    bool empty() const {
+        return con1.empty() && con2.empty();
+    }
+
+    bool complete() const {
+        return !con1.empty() && !con2.empty();
+    }
+
+    bool character_only() const {
+        return !complete() && character_connected();
+    }
+
+    bool character_connected() const {
+        return con1.is_character() || con2.is_character();
+    }
+
+    bool has_map_connection() const {
+        return con1.map_point() || con2.map_point();
+    }
+
+    bool intermap_connection() const {
+        return con1.map_point() && con2.map_point();
+    }
+
+    connection *get_map_connection() {
+        if( intermap_connection() ) {
+            return nullptr;
+        } else if( con1.map_point() ) {
+            return &con1;
+        } else if( con2.map_point() ) {
+            return &con2;
+        }
+        return nullptr;
+    }
+
+    connection *get_nonchar_connection() {
+        if( !con1.is_character() && !con1.empty() ) {
+            return &con1;
+        } else if( !con2.is_character() && !con2.empty() ) {
+            return &con2;
+        }
+        return nullptr;
+    }
+
+    void set_vars( item *const cable ) const {
+        if( !cable ) {
+            return;
+        }
+        if( !con1.empty() ) {
+            cable->set_var( p1_name, con1.state );
+            if( con1.point != tripoint_abs_ms_min ) {
+                cable->set_var( source_p1_name, con1.point.raw() );
+            }
+        }
+        if( !con2.empty() ) {
+            cable->set_var( p2_name, con2.state );
+            if( con2.point != tripoint_abs_ms_min ) {
+                cable->set_var( source_p2_name, con2.point.raw() );
+            }
+        }
+    }
+    static bool ups_connected( const item *const cable );
+
+    static void unset_vars( item *const cable ) {
+        unset_con1( cable );
+        unset_con2( cable );
+    }
+    void unset_con( item *const cable, connection &con ) {
+        if( con == con1 ) {
+            unset_con1( cable );
+        } else if( con == con2 ) {
+            unset_con2( cable );
+        }
+    }
+    void unset_other_con( item *const cable, connection &con ) {
+        if( con == con1 ) {
+            unset_con2( cable );
+        } else if( con == con2 ) {
+            unset_con1( cable );
+        }
+    }
+    static void unset_con1( item *const cable ) {
+        if( !cable ) {
+            return;
+        }
+        cable->erase_var( p1_name );
+        cable->erase_var( source_p1_name );
+    }
+    static void unset_con2( item *const cable ) {
+        if( !cable ) {
+            return;
+        }
+        cable->erase_var( p2_name );
+        cable->erase_var( source_p2_name );
+    }
+
+    static std::optional<cable_connection_data> make_data( const item *const cable ) {
+        if( cable ) {
+            return make_data( *cable );
+        } else {
+            return std::nullopt;
+        }
+    }
+
+    static std::optional<cable_connection_data> make_data( const item &cable );
+
+    cable_connection_data( const item &cable ) {
+
+        con1.state = cable_state( cable.get_var( p1_name, 0.0 ) );
+        con2.state = cable_state( cable.get_var( p2_name, 0.0 ) );
+
+        auto tmp = cable.get_var( source_p1_name, tripoint_min );
+        con1.point = tripoint_abs_ms( tmp );
+
+        tmp = cable.get_var( source_p2_name, tripoint_min );
+        con2.point = tripoint_abs_ms( tmp );
+    }
+};
 
 #endif // CATA_SRC_ITEM_H

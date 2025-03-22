@@ -56,8 +56,8 @@
       [ "GATLING_GUNS" ],
       [ "SHOTGUNS" ]
     ],
-    "dispersion_modifier": -20,
-    "handling_modifier": 2,
+    "dispersion_modifier": -25,
+    "handling_modifier": 5,
     "min_skills": [ [ "weapon", 1 ] ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
@@ -68,7 +68,7 @@
     "name": { "str": "diffracting lens", "str_pl": "diffracting lenses" },
     "description": "A set of optics made to fit on laser weapons, which will diffract the laser beam into several lower powered beams.  This slightly increases point-blank damage and makes it difficult to not hit, but reduces range.",
     "range_modifier": -7,
-    "damage_modifier": { "damage_type": "stab", "amount": 2 },
+    "damage_modifier": { "damage_type": "heat", "amount": 5 },
     "ammo_effects": [ "SHOT" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "mod_target_category": [

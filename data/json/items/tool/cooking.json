@@ -508,7 +508,7 @@
   {
     "id": "heatpack",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_cooking",
     "name": { "str": "heat pack" },
     "description": "This is a chemical heat pack.  It's used to treat sports injuries and heat food.  It is usable only once.",
     "weight": "226 g",
@@ -937,7 +937,7 @@
   {
     "id": "retort_clay",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "tools_chemistry",
     "name": { "str": "clay retort" },
     "description": "This is a primitive distillation tool made from clay, with a long neck that acts as a condenser.",
     "weight": "500 g",

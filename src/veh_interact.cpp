@@ -170,7 +170,9 @@ std::unique_ptr<player_activity> veh_interact::serialize_activity()
     res->values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res->values.push_back( q.z );   // values[7]
     res->str_values.push_back( vp->get_id().str() );
-    res->targets.emplace_back( target );
+    if( target ) {
+        res->targets.emplace_back( target );
+    }
 
     return res;
 }

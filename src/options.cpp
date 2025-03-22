@@ -289,7 +289,7 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMin = -FLT_MAX;
             thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
@@ -1994,6 +1994,11 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
+    add( "OVERMAP_TRANSPARENCY", graphics, translate_marker( "Overmap air transparent" ),
+         translate_marker( "If true, overmap z levels with air are transparent, lower layers are rendered. Decreases rendering perfomance." ),
+         true, COPT_CURSES_HIDE
+       );
+
     add_empty_line();
 
     add( "PIXEL_MINIMAP", graphics, translate_marker( "Pixel minimap" ),
@@ -2293,6 +2298,13 @@ void options_manager::add_options_debug()
 
     add( "LIMITED_BAYONETS", debug, translate_marker( "New bayonet system" ),
          translate_marker( "If true, bayonets replace weapon attack instead of adding to it.  WIP feature, weakens bayonets heavily at the moment." ),
+         false );
+
+    add_empty_line();
+
+    add( "USE_LEGACY_PATHFINDING", debug,
+         translate_marker( "Use legacy pathfinding" ),
+         translate_marker( "If true, opt out of new pathfinding in favor of legacy one. This makes pathfinding mods not work." ),
          false );
 }
 
@@ -3447,6 +3459,7 @@ void options_manager::cache_to_globals()
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     static_z_effect = ::get_option<bool>( "STATICZEFFECT" );
+    overmap_transparency = ::get_option<bool>( "OVERMAP_TRANSPARENCY" );
     PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
 
     merge_comestible_mode = ( [] {

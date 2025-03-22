@@ -20,6 +20,25 @@
     "stackable": true
   },
   {
+    "type": "GENERIC",
+    "id": "cartridgebrass",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "scrap_bronze",
+    "name": { "str_sp": "brass" },
+    "category": "scrap_metal",
+    "description": "Some brass scraps, if you have the right tools they could be formed into cartridge casings.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": "brass",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "bashing": 1,
+    "to_hit": -2,
+    "flags": [ "NO_SALVAGE" ],
+    "stackable": true
+  },
+  {
     "id": "scrap",
     "type": "AMMO",
     "category": "scrap_metal",

@@ -53,7 +53,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     const auto aoe_permeable = [&here]( const tripoint & p ) {
         return here.passable( p ) ||
                // Necessary evil. TODO: Make map::shoot not evil.
-               ( here.is_transparent( p ) && here.has_flag_furn( TFLAG_PERMEABLE, p ) );
+               ( here.is_transparent( p ) && here.has_flag_ter( TFLAG_PERMEABLE, p ) );
     };
     const tripoint &origin = sh.get_origin();
     std::priority_queue<tripoint_distance> queue;
@@ -179,7 +179,7 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
         double current_coverage = parent_coverage;
         if( here.passable( p ) ||
             // Necessary evil. TODO: Make map::shoot not evil.
-            ( here.is_transparent( p ) && here.has_flag_furn( TFLAG_PERMEABLE, p ) ) ) {
+            ( here.is_transparent( p ) && here.has_flag_ter( TFLAG_PERMEABLE, p ) ) ) {
             // noop
         } else {
             int bash_str = here.bash_strength( p );

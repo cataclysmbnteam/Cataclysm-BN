@@ -50,6 +50,7 @@
 #include "ui.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
+#include "game_info.h"
 
 enum class main_menu_opts : int {
     MOTD = 0,
@@ -503,7 +504,7 @@ void main_menu::init_strings()
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Convert to V2 Save Format" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<= Return" ) );
 
-    vWorldHotkeys = { 'm', 'e', 's', 't', 'r', 'd', 'q' };
+    vWorldHotkeys = { 'm', 'e', 's', 't', 'r', 'd', 'f', 'q' };
 
     vSettingsSubItems.clear();
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );

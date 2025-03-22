@@ -528,10 +528,10 @@ class map
 
         maptile maptile_at( const tripoint &p ) const;
         maptile maptile_at( const tripoint &p );
-    private:
-        // Versions of the above that don't do bounds checks
         maptile maptile_at_internal( const tripoint &p ) const;
         maptile maptile_at_internal( const tripoint &p );
+    private:
+        // Versions of the above that don't do bounds checks
         std::pair<tripoint, maptile> maptile_has_bounds( const tripoint &p, bool bounds_checked );
         std::array<std::pair<tripoint, maptile>, 8> get_neighbors( const tripoint &p );
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
@@ -561,6 +561,12 @@ class map
         int move_cost( point p, const vehicle *ignored_vehicle = nullptr ) const {
             return move_cost( tripoint( p, abs_sub.z ), ignored_vehicle );
         }
+        /**
+         * Internal versions of public functions to avoid checking same variables multiple times.
+         * They lack safety checks, because their callers already do those.
+         */
+        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
+                                const vehicle *veh, int vpart ) const;
         bool impassable( const tripoint &p ) const;
         bool impassable( point p ) const {
             return !passable( p );
@@ -995,6 +1001,10 @@ class map
         int bash_rating( const int str, point p ) const {
             return bash_rating( str, tripoint( p, abs_sub.z ) );
         }
+        int bash_rating_internal( int str, const furn_t &furniture,
+                                  const ter_t &terrain, bool allow_floor,
+                                  const vehicle *veh, int part ) const;
+
 
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
@@ -1888,16 +1898,6 @@ class map
         void invalidate_max_populated_zlev( int zlev );
 
         /**
-         * Internal versions of public functions to avoid checking same variables multiple times.
-         * They lack safety checks, because their callers already do those.
-         */
-        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
-                                const vehicle *veh, int vpart ) const;
-        int bash_rating_internal( int str, const furn_t &furniture,
-                                  const ter_t &terrain, bool allow_floor,
-                                  const vehicle *veh, int part ) const;
-
-        /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
@@ -1936,13 +1936,11 @@ class map
         bash_results bash_ter_success( const tripoint &p, const bash_params &params );
         bash_results bash_furn_success( const tripoint &p, const bash_params &params );
 
-    private:
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
         ter_id get_roof( const tripoint &p, bool allow_air ) const;
 
-    public:
         void process_items();
     private:
         // Iterates over every item on the map, passing each item to the provided function.

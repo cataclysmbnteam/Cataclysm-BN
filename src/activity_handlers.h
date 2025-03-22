@@ -3,7 +3,6 @@
 #define CATA_SRC_ACTIVITY_HANDLERS_H
 
 #include <functional>
-#include <list>
 #include <map>
 #include <optional>
 #include <string>
@@ -120,8 +119,7 @@ struct butchery_setup {
 };
 
 butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action );
-int butcher_time_to_cut( const Character &who, const inventory &inv, const item &corpse_item,
-                         butcher_type action );
+int butcher_time_to_cut( const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -215,7 +213,6 @@ void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
 void find_mount_do_turn( player_activity *act, player *p );
 void tidy_up_do_turn( player_activity *act, player *p );
-void build_do_turn( player_activity *act, player *p );
 void fill_pit_do_turn( player_activity *act, player *p );
 void fertilize_plot_do_turn( player_activity *act, player *p );
 void try_sleep_do_turn( player_activity *act, player *p );

@@ -26,6 +26,7 @@
   {
     "id": "maple_sap",
     "type": "COMESTIBLE",
+    "category": "cooking_ingredients",
     "symbol": "~",
     "color": "light_cyan",
     "name": { "str_sp": "maple sap" },
@@ -165,6 +166,7 @@
   {
     "type": "COMESTIBLE",
     "id": "vinegar",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "vinegar" },
     "weight": "15 g",
     "color": "white",
@@ -184,6 +186,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cooking_oil",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "vegetable cooking oil" },
     "weight": "15 g",
     "color": "yellow",
@@ -207,6 +210,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cooking_oil2",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "animal cooking oil" },
     "//": "Can't copy-from the vegetable oil because it extends vitamins instead of overwriting them",
     "weight": "15 g",

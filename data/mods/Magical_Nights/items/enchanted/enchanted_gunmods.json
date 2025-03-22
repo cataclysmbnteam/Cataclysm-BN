@@ -16,10 +16,10 @@
     "location": "muzzle",
     "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "//install_time": "20 s",
-    "handling_modifier": 2,
+    "handling_modifier": 5,
     "consume_chance": 220,
     "consume_divisor": 242,
-    "loudness_modifier": -33,
+    "loudness_modifier": -90,
     "flags": [ "CONSUMABLE" ]
   },
   {
