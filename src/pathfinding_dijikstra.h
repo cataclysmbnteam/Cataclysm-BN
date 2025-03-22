@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cstring>
 #include <map>
 #include <memory>
 #include <optional>
@@ -80,7 +81,7 @@ struct PathfindingSettings {
     bool can_climb_stairs = false;
 
     // A map of tiles that have an extra G-cost assigned to them. Used for potential fields, preclosed tiles, etc.
-    std::unordered_map<tripoint, float> extra_g_costs;
+    std::unordered_map<point, float> extra_g_costs;
 
     bool operator==( const PathfindingSettings &rhs ) const = default;
 };
@@ -153,17 +154,17 @@ struct RouteSettings {
     */
     float search_radius_coeff = INFINITY;
     // Test if `pos` is in the circle of radius distance from `start` to `end` by `search_radius_coeff` centered at `end`
-    constexpr bool is_in_search_radius( const tripoint start, const tripoint pos,
-                                        const tripoint end ) const {
+    constexpr bool is_in_search_radius( const point start, const point pos,
+                                        const point end ) const {
         if( is_inf( search_radius_coeff ) ) {
             return true;
         }
 
-        const tripoint midpoint = ( end + start ) / 2;
+        const point midpoint = ( end + start ) / 2;
 
-        const float objective_distance = rl_dist_exact( start, end );
+        const float objective_distance = rl_dist_exact( tripoint(start, 0), tripoint(end, 0) );
         const float search_radius = ( objective_distance * this->search_radius_coeff ) / 2;
-        const float distance_to_objective = rl_dist_exact( pos, midpoint );
+        const float distance_to_objective = rl_dist_exact( tripoint(pos, 0), tripoint(midpoint, 0) );
 
         return distance_to_objective <= search_radius;
     }
@@ -191,8 +192,8 @@ struct RouteSettings {
     */
     float search_cone_angle = 180.0;
     // Test if `pos` is in the cone of `search_cone_angle` projected from `start` to `end`
-    constexpr bool is_in_search_cone( const tripoint start, const tripoint pos,
-                                      const tripoint end ) const {
+    constexpr bool is_in_search_cone( const point start, const point pos,
+                                      const point end ) const {
         assert( 0.0 <= this->search_cone_angle );
 
         if( this->search_cone_angle >= 180. ) {
@@ -206,10 +207,10 @@ struct RouteSettings {
 
         const units::angle max_cone_angle = units::from_degrees( this->search_cone_angle );
 
-        const point objective_delta = end.xy() - start.xy();
+        const point objective_delta = end - start;
         const units::angle objective_angle = units::atan2( objective_delta.y, objective_delta.x );
 
-        const point conic_delta = pos.xy() - start.xy();
+        const point conic_delta = pos - start;
         const units::angle conic_angle = units::atan2( conic_delta.y, conic_delta.x );
 
         const units::angle deviation = conic_angle - objective_angle;
@@ -248,8 +249,8 @@ struct RouteSettings {
 class DijikstraPathfinding
 {
     private:
-        const static size_t DIJIKSTRA_ARRAY_SIZE = OVERMAP_LAYERS * MAPSIZE_Y * MAPSIZE_X;
-        typedef std::pair<float, tripoint> val_pair;
+        const static size_t DIJIKSTRA_ARRAY_SIZE = MAPSIZE_Y * MAPSIZE_X;
+        typedef std::pair<float, point> val_pair;
         typedef std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> Frontier;
 
         // Just a few preallocated array to memcpys from
@@ -265,19 +266,19 @@ class DijikstraPathfinding
             };
             std::array<float, DIJIKSTRA_ARRAY_SIZE> p; // Smallest adjacent DijikstraValue's f
             // Get `p`-value at `p`
-            constexpr float &p_at( const tripoint &p ) {
+            constexpr float &p_at( const point &p ) {
                 return this->p[this->get_flat_index( p )];
             };
 
             std::array<float, DIJIKSTRA_ARRAY_SIZE> g; // Associated tile's g cost [movement, bashing down...]
             // Get `g`-value at `p`
-            constexpr float &g_at( const tripoint &p ) {
+            constexpr float &g_at( const point &p ) {
                 return this->g[this->get_flat_index( p )];
             };
 
             std::array<float, DIJIKSTRA_ARRAY_SIZE> h; // Heurestic to start [manhattan distance]
             // Get `h`-value at `p`
-            constexpr float &h_at( const tripoint &p ) {
+            constexpr float &h_at( const point &p ) {
                 return this->h[this->get_flat_index( p )];
             };
 
@@ -294,32 +295,29 @@ class DijikstraPathfinding
                 this->h = DijikstraPathfinding::FULL_NAN;
             }
 
-            inline static constexpr size_t get_flat_index( const tripoint &p ) {
+            inline static constexpr size_t get_flat_index( const point &p ) {
                 assert( 0 <= p.x &&
                         0 <= p.y &&
-                        -OVERMAP_DEPTH <= p.z &&
                         p.x < MAPSIZE_X &&
-                        p.y < MAPSIZE_Y &&
-                        p.z <= OVERMAP_HEIGHT );
+                        p.y < MAPSIZE_Y );
                 size_t index = 0;
                 index += p.x;
                 index += p.y * MAPSIZE_X;
-                index += ( p.z + OVERMAP_DEPTH ) * MAPSIZE_Y * MAPSIZE_X;
 
                 return index;
             }
 
             // f0 = p + g
-            inline constexpr float get_f_unbiased( const tripoint &p ) {
+            inline constexpr float get_f_unbiased( const point &p ) {
                 return this->p_at( p ) + this->g_at( p );
             }
 
             // f1 = p + g + `h_coeff` * h
-            inline constexpr float get_f_biased( const tripoint &p, float h_coeff ) {
+            inline constexpr float get_f_biased( const point &p, float h_coeff ) {
                 return this->get_f_unbiased( p ) + h_coeff * this->h_at( p );
             }
 
-            inline constexpr State get_state( const tripoint &p ) {
+            inline constexpr State get_state( const point &p ) {
                 if( is_inf( this->p_at( p ) ) ) {
                     return State::UNVISITED;
                 }
@@ -333,8 +331,10 @@ class DijikstraPathfinding
             }
         };
 
-        // `dest`ination of this map
-        const tripoint dest;
+        // `dest`ination of this map [2D]
+        const point dest;
+        // `z` level of this map
+        const int z;
         // `settings` which were used to spawn this map
         const PathfindingSettings settings;
 
@@ -349,24 +349,24 @@ class DijikstraPathfinding
 
         // We don't want to calculate dijikstra of the whole map every time,
         //   so we store wave `frontier` to proceed from later if needed
-        std::vector<tripoint> unbiased_frontier;
+        std::vector<point> unbiased_frontier;
 
         // Moves we don't allow to happen
-        std::set<std::pair<tripoint, tripoint>> forbidden_moves;
+        std::set<std::pair<point, point>> forbidden_moves;
 
         // Test if `p` is in our limited domain defined by `route_settings` relative to `start`
-        inline bool is_in_limited_domain( const tripoint &start, const tripoint &p,
+        inline bool is_in_limited_domain( const point &start, const point &p,
                                           const RouteSettings &route_settings );
 
         // See `DijikstraPathfinding::route`
-        inline std::optional<std::vector<tripoint>> get_route_2d( const tripoint &origin,
+        inline std::optional<std::vector<tripoint>> get_route_2d( const point &origin,
                 const RouteSettings &route_settings );
 
         // Determine if `start` is surrounded by already visited tiles in `d_map` or tiles allowed by `route_settings`
         //   and if so, clear and fill `out` with all unexplored tiles left.
-        inline void detect_culled_frontier( const tripoint &start,
+        inline void detect_culled_frontier( const point &start,
                                             const RouteSettings &route_settings,
-                                            std::unordered_set<tripoint> &out );
+                                            std::unordered_set<point> &out );
 
         enum class ExpansionOutcome {
             PATH_FOUND, // Path exists
@@ -376,7 +376,7 @@ class DijikstraPathfinding
             UNSET // Internal use
         };
         // Continue expanding the dijikstra map until we reach `origin` or nothing remains of the frontier. Returns whether a route is present.
-        inline ExpansionOutcome expand_2d_up_to( const tripoint &origin,
+        inline ExpansionOutcome expand_2d_up_to( const point &origin,
                 const RouteSettings &route_settings );
 
         // Global state: memoized dijikstra maps. Clear every game turn.
@@ -416,7 +416,7 @@ class DijikstraPathfinding
         }
     public:
         explicit DijikstraPathfinding( const tripoint dest, const PathfindingSettings settings )
-            : dest( dest ), settings( settings ) {};
+            : dest( dest.xy() ), z( dest.z ), settings( settings ) {};
 
         // get `route` from `from` to `to` if available in accordance to `route_settings` while `path_settings` defines our capabilities, otherwise empty vector.
         // Found route will include `from` and `to`.
