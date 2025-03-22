@@ -11,6 +11,7 @@
   },
   "test": { "include": ["scripts"] },
   "lint": { "include": ["scripts"] },
+  "unstable": ["raw-imports", "fmt-component", "temporal"],
   "fmt": {
     "exclude": ["doc/dist", "doc/.astro", "doc/pnpm-lock.yaml"],
     "include": ["scripts", "doc", "docs", "*.md", ".github"],
