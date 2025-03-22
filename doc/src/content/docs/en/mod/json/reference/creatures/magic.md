@@ -46,6 +46,9 @@ In `data/json/debug_spells.json` there is a template spell, copied here for your
   "min_range": 1, // range of the spell
   "max_range": 10,
   "range_increment": 2,
+  "min_accuracy": 50, // percentage "accuracy" of the spell. used for determining which body part was hit
+  "max_accuracy": 70,
+  "accuracy_increment": 2,
   "min_dot": 0, // damage over time (currently not implemented)
   "max_dot": 2,
   "dot_increment": 0.1,
