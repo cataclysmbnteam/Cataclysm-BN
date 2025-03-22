@@ -296,7 +296,8 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "weight_capacity_modifier", weight_capacity_modifier, strict, 1.0f );
     assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, strict, 0_gram );
     assign_map_from_array( jsobj, "stat_bonus", stat_bonus, strict );
-    assign( jsobj, "is_remote_fueled", is_remote_fueled, strict );
+    assign( jsobj, "remote_fuel_draw", remote_fuel_draw, strict, 0_kJ );
+    is_remote_fueled = remote_fuel_draw > 0_kJ;
     assign( jsobj, "fuel_options", fuel_opts, strict );
     assign( jsobj, "fuel_capacity", fuel_capacity, strict, 0 );
     assign( jsobj, "fuel_efficiency", fuel_efficiency, strict, 0.0f );
@@ -1361,16 +1362,21 @@ bool Character::burn_fuel( bionic &bio, bool start )
                             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                         }
                     } else if( is_cable_powered ) {
-                        int to_consume = 1;
+                        //Ugly
+                        int to_consume = bio.info().remote_fuel_draw.value();
                         if( get_power_level() >= get_max_power_level() ) {
                             to_consume = 0;
                         }
                         const int unconsumed = consume_remote_fuel( to_consume );
-                        if( unconsumed == 0 && to_consume == 1 ) {
-                            mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
-                            current_fuel_stock -= 1;
-                        } else if( to_consume == 1 ) {
-                            current_fuel_stock = 0;
+                        // we don't check if to_consume != unconsumed cuz we wouldn't get there otherwise
+                        if( to_consume > 0 ) {
+                            if( unconsumed == 0 ) {
+                                mod_power_level( bio.info().remote_fuel_draw * effective_efficiency );
+                                current_fuel_stock -= to_consume;
+                            } else {
+                                mod_power_level( units::from_joule( to_consume - unconsumed ) * effective_efficiency );
+                                current_fuel_stock = 0;
+                            }
                         }
                         set_value( "rem_" + fuel.str(), std::to_string( current_fuel_stock ) );
                     } else {
