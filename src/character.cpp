@@ -3794,7 +3794,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
 
     if( !level.can_train() && !in_sleep_state() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything
-        // This also checks if your skill level is maxed out at the cap of 10.
+        // This also checks if your skill level is maxed out.
         return;
     }
 
