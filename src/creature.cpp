@@ -786,7 +786,7 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
     if( targetted_crit_allowed || magic ) { //default logic for selecting bodypart
         if( goodhit < accuracy_critical && hit_value <= 0.2 ) {
             bp_hit = bodypart_str_id( "head" );
-        } else if( hit_value <= 0.4 || magic ) {
+        } else if( hit_value <= 0.4 ) {
             bp_hit = bodypart_str_id( "torso" );
         } else if( one_in( 4 ) ) {
             if( one_in( 2 ) ) {
