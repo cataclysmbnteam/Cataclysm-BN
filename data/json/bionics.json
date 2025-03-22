@@ -175,7 +175,7 @@
     "id": "bio_cable_mkII",
     "type": "bionic",
     "name": { "str": "Cable Charger System Mk. II" },
-    "description": "This is a military-grade electronic port and power converter system which are surgically mounted above your hip, it has ten times higher throughput than basic version. While active, it will recharge bionic power when connected to a power source via cable.",
+    "description": "This is a military-grade electronic port and power converter system which are surgically mounted above your hip, it has ten times higher throughput than basic version.  While active, it will recharge bionic power when connected to a power source via cable.",
     "occupied_bodyparts": [ [ "torso", 12 ] ],
     "remote_fuel_draw": "10 kJ",
     "time": 1,

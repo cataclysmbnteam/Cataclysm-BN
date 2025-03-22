@@ -221,7 +221,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Cable Charger System CBM Mk. II" },
     "looks_like": "bio_int_enhancer",
-    "description": "This is a military-grade electronic port and power converter system which are surgically mounted above your hip, it has ten times higher throughput than basic version. While active, it will recharge bionic power when connected to a power source via cable.",
+    "description": "This is a military-grade electronic port and power converter system which are surgically mounted above your hip, it has ten times higher throughput than basic version.  While active, it will recharge bionic power when connected to a power source via cable.",
     "price": "8000 USD",
     "weight": "500 g",
     "difficulty": 9
