@@ -62,12 +62,13 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "omdata.h"
+#include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "popup.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -1349,48 +1350,73 @@ void reveal_map_actor::load( const JsonObject &obj )
 void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
 {
     omt_find_params params{};
-    params.search_range = radius;
+    params.search_range = { 0, radius };
+    params.search_layers = omt_find_all_layers;
     params.types = omt_types;
-    params.must_see = false;
     params.existing_only = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        const auto places = overmap_buffer.find_all( tripoint_abs_omt( map.xy(), z ), params );
-        for( auto &place : places ) {
-            overmap_buffer.reveal( place, 0 );
+    const auto [ origin_om_pos, origin_local ] = project_remain<coords::om>( map.xy() );
+
+    int max_dist = 0;
+    std::unordered_set<point_abs_om> visited;
+    std::multimap<int, point_abs_om> by_dist;
+
+    /*
+    * Collect all unique overmap locations, grouped by manhattan distance
+    */
+    for( auto &tp : closest_points_generator( map, 0, radius ) ) {
+        const auto [ om_pos, local ] = project_remain<coords::om>( tp.xy() );
+        const auto dist = manhattan_dist( origin_om_pos, om_pos );
+        max_dist = std::max( max_dist, dist );
+        if( visited.insert( om_pos ).second ) {
+            by_dist.emplace( dist, om_pos );
         }
+    }
+
+    /*
+    * Stagger parallel map generation starting from center (0), outwards
+    * so the generated maps have a neighbor to latch onto when generating roads/rivers
+    * 5 4 3 2 3 4 5
+    * 4 3 2 1 2 3 4
+    * 3 2 1 0 1 2 3
+    * 4 3 2 1 2 3 4
+    * 5 4 3 2 3 4 5
+    */
+
+    std::vector<point_abs_om> to_gen;
+    for( int i = 0; i <= max_dist; i++ ) {
+        to_gen.clear();
+        auto range = by_dist.equal_range( i );
+        std::transform( range.first, range.second,
+        std::back_inserter( to_gen ), []( const std::pair<int, point_abs_om> &x ) {
+            return x.second;
+        } );
+        overmap_buffer.generate( to_gen );
+    }
+
+    const auto places = overmap_buffer.find_all( map, params );
+    for( auto &place : places ) {
+        overmap_buffer.reveal( place, 0 );
     }
 }
 
 void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_omt &center ) const
 {
     omt_find_params params{};
-    params.search_range = radius;
+    params.search_range = { 0, radius };
     params.types = omt_types_view;
-    params.must_see = false;
+    params.exclude_types = omt_types_view_exclude;
     params.existing_only = true;
+    // TODO: Add support for variable reveal z-range to reveal_map iuse_action JSON
+    params.search_layers = omt_find_all_layers;
+    params.explored = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
-    const auto should_show = [&]( const tripoint_abs_omt & pt ) {
-        if( overmap_buffer.is_explored( pt ) ) {
-            return false;
-        }
+    const auto places = overmap_buffer.find_all( center, params );
 
-        const auto pred = [&]( const std::pair<std::string, ot_match_type> &x ) {
-            return overmap_buffer.check_ot_existing( x.first, x.second, pt );
-        };
-
-        if( std::any_of( omt_types_view_exclude.cbegin(), omt_types_view_exclude.cend(), pred ) ) {
-            return false;
-        }
-
-        return true;
-    };
-
-    std::vector<tripoint_abs_omt> places ;
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        const auto tmp = overmap_buffer.find_all( tripoint_abs_omt( center.xy(), z ), params );
-        std::copy_if( tmp.cbegin(), tmp.cend(), std::back_inserter( places ), should_show );
-    }
+    // Delete popup after search is done, before showing uilist
+    params.popup = nullptr;
 
     // Group tiles by name
     std::multimap<std::string, tripoint_abs_omt> mm;
