@@ -109,6 +109,7 @@ class uistatedata
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
+        bool overmap_default_0 = false;
         bool overmap_visible_weather = false;
         bool overmap_debug_weather = false;
         // draw monster groups on the overmap.
