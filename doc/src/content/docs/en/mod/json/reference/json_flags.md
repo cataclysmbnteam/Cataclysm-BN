@@ -631,6 +631,10 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   smashed instead of destroying the tile beneath it.
 - `WALL` This terrain is an upright obstacle. Used for fungal conversion, and also implies
   `CONNECT_TO_WALL`.
+- `WELDABLE_DOOR` The "weld shut metal door" construction will convert this terrain into `t_door_metal_welded`.
+- `WELDABLE_BARS` As above, but converts to `t_door_metal_welded_bars` instead. If you want it to convert
+  into specific terrain instead, add a separate construction entry to the `weld_shut_metal_door` construction
+  group that uses `pre_terrain` instead of `pre_flags`.
 - `WINDOW` This terrain is a window, though it may be closed, broken, or covered up. Used by teh
   tiles code to align furniture sprites away from the window.
 

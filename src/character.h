@@ -1241,7 +1241,7 @@ class Character : public Creature, public location_visitable<Character>
 
         int inv_position_by_item( item *it ) const;
 
-        void inv_update_cache_with_item( item &it );
+        void inv_update_invlet_cache_with_item( item &it );
 
         int inv_invlet_to_position( char invlet ) const;
 

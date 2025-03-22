@@ -87,14 +87,15 @@ void complete_craft( player &p, item &craft, const bench_location &bench );
 
 namespace crafting
 {
-
+std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
+        bool can_lift );
 /**
- * Returns the set of book types in crafting_inv that provide the
- * given recipe.
- * @param c Character whose skills are used to limit the available recipes
- * @param crafting_inv Current available items that may contain readable books
- * @param r Recipe to search for in the available books
- */
+* Returns the set of book types in crafting_inv that provide the
+* given recipe.
+* @param c Character whose skills are used to limit the available recipes
+* @param crafting_inv Current available items that may contain readable books
+* @param r Recipe to search for in the available books
+*/
 std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,
         const recipe *r );
 

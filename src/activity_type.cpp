@@ -1,9 +1,7 @@
 #include "activity_type.h"
 
-#include <algorithm>
 #include <functional>
 #include <map>
-#include <unordered_map>
 #include <utility>
 
 #include "activity_actor.h"
@@ -60,48 +58,81 @@ void activity_type::load( const JsonObject &jo )
     if( jo.has_member( "complex_moves" ) ) {
         result.complex_moves_ = true;
         auto c_moves = jo.get_object( "complex_moves" );
-        result.assistable_ = c_moves.get_bool( "assistable", false );
         result.bench_affected_ = c_moves.get_bool( "bench", false );
         result.light_affected_ = c_moves.get_bool( "light", false );
         result.speed_affected_ = c_moves.get_bool( "speed", false );
         result.morale_affected_ = c_moves.get_bool( "morale", false );
 
+        int jvalue = c_moves.get_int( "max_assistants", 0 );
+        if( jvalue >= 0 || jvalue > 32 ) {
+            result.max_assistants_ = jvalue;
+        } else {
+            debugmsg( "Forbidden value of max_assistants - %s. Value sould be between 0 and 32", jvalue );
+        }
+
         c_moves.allow_omitted_members();
         if( c_moves.has_bool( "skills" ) ) {
-            assign( jo, "skills", result.skill_affected_, false );
+            assign( c_moves, "skills", result.skill_affected_, false );
         } else if( c_moves.has_array( "skills" ) ) {
             result.skill_affected_ = true;
             for( JsonArray skillobj : c_moves.get_array( "skills" ) ) {
                 std::string skill_s = skillobj.get_string( 0 );
                 auto skill = skill_id( skill_s );
-                int mod = skillobj.get_int( 1 );
-                result.skills[skill] = mod;
+                float mod = 1.0f;
+                int threshold = 0;
+                if( skillobj.size() > 1 ) {
+                    mod = skillobj.get_float( 1 );
+                }
+                if( skillobj.size() > 2 ) {
+                    threshold = skillobj.get_int( 2 );
+                }
+                result.skills.emplace_back(
+                    activity_req<skill_id>( skill, mod, threshold )
+                );
             }
         }
 
         if( c_moves.has_bool( "qualities" ) ) {
-            assign( jo, "qualities", result.tools_affected_, false );
+            assign( c_moves, "qualities", result.tools_affected_, false );
         } else if( c_moves.has_array( "qualities" ) ) {
             result.tools_affected_ = true;
             for( JsonArray q_obj : c_moves.get_array( "qualities" ) ) {
                 std::string quality_s = q_obj.get_string( 0 );
                 auto quality = quality_id( quality_s );
-                int mod = q_obj.get_int( 1 );
-                result.qualities[quality] = mod;
+                int mod = 10;
+                int threshold = 0;
+                if( q_obj.size() > 1 ) {
+                    mod = q_obj.get_float( 1 );
+                }
+                if( q_obj.size() > 2 ) {
+                    threshold = q_obj.get_int( 2 );
+                }
+                result.qualities.emplace_back(
+                    activity_req<quality_id>( quality, mod, threshold )
+                );
             }
         }
 
         if( c_moves.has_bool( "stats" ) ) {
-            assign( jo, "stats", result.stats_affected_, false );
+            assign( c_moves, "stats", result.stats_affected_, false );
         } else if( c_moves.has_array( "stats" ) ) {
             result.stats_affected_ = true;
             for( JsonArray stat_obj : c_moves.get_array( "stats" ) ) {
-                int mod = stat_obj.get_int( 1 );
                 auto stat = io::string_to_enum_fallback( stat_obj.get_string( 0 ), character_stat::DUMMY_STAT );
                 if( stat == character_stat::DUMMY_STAT ) {
-                    debugmsg( "Unknown quality id %s", stat_obj.get_string( 0 ) );
+                    debugmsg( "Unknown stat %s", stat_obj.get_string( 0 ) );
                 } else {
-                    result.stats[stat] = mod;
+                    float mod = 1.0f;
+                    int threshold = 8;
+                    if( stat_obj.size() > 1 ) {
+                        mod = stat_obj.get_float( 1 );
+                    }
+                    if( stat_obj.size() > 2 ) {
+                        threshold = stat_obj.get_int( 2 );
+                    }
+                    result.stats.emplace_back(
+                        activity_req<character_stat>( stat, mod, threshold )
+                    );
                 }
 
             }
@@ -131,13 +162,13 @@ void activity_type::check_consistency()
                       pair.second.id_.c_str() );
         }
         for( auto &skill : pair.second.skills )
-            if( !skill.first.is_valid() ) {
-                debugmsg( "Unknown skill id %s", skill.first.str() );
+            if( !skill.req.is_valid() ) {
+                debugmsg( "Unknown skill id %s", skill.req.str() );
             }
 
         for( auto &quality : pair.second.qualities )
-            if( !quality.first.is_valid() ) {
-                debugmsg( "Unknown quality id %s", quality.first.str() );
+            if( !quality.req.is_valid() ) {
+                debugmsg( "Unknown quality id %s", quality.req.str() );
             }
     }
 
