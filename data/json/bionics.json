@@ -163,12 +163,25 @@
     "id": "bio_cable",
     "type": "bionic",
     "name": { "str": "Cable Charger System" },
-    "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
+    "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via cable.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "is_remote_fueled": true,
+    "remote_fuel_draw": "1 kJ",
     "time": 1,
     "fuel_efficiency": 1,
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "available_upgrades": [ "bio_cable_mkII" ]
+  },
+  {
+    "id": "bio_cable_mkII",
+    "type": "bionic",
+    "name": { "str": "Cable Charger System Mk. II" },
+    "description": "This is a military-grade electronic port and power converter system which are surgically mounted above your hip, it has ten times higher throughput than basic version.  While active, it will recharge bionic power when connected to a power source via cable.",
+    "occupied_bodyparts": [ [ "torso", 12 ] ],
+    "remote_fuel_draw": "10 kJ",
+    "time": 1,
+    "fuel_efficiency": 1,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ],
+    "upgraded_bionic": "bio_cable"
   },
   {
     "id": "bio_carbon",
