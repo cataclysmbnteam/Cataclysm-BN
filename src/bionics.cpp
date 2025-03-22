@@ -1362,19 +1362,18 @@ bool Character::burn_fuel( bionic &bio, bool start )
                             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                         }
                     } else if( is_cable_powered ) {
-                        //Ugly
-                        int to_consume = bio.info().remote_fuel_draw.value();
+                        auto to_consume = bio.info().remote_fuel_draw;
                         if( get_power_level() >= get_max_power_level() ) {
-                            to_consume = 0;
+                            to_consume = 0_kJ;
                         }
-                        const int unconsumed = consume_remote_fuel( to_consume );
+                        const auto unconsumed = consume_remote_fuel( to_consume );
                         // we don't check if to_consume != unconsumed cuz we wouldn't get there otherwise
-                        if( to_consume > 0 ) {
-                            if( unconsumed == 0 ) {
+                        if( to_consume > 0_kJ ) {
+                            if( unconsumed == 0_kJ ) {
                                 mod_power_level( bio.info().remote_fuel_draw * effective_efficiency );
-                                current_fuel_stock -= to_consume;
+                                current_fuel_stock -= units::to_kilojoule( to_consume );
                             } else {
-                                mod_power_level( units::from_joule( to_consume - unconsumed ) * effective_efficiency );
+                                mod_power_level( ( to_consume - unconsumed ) * effective_efficiency );
                                 current_fuel_stock = 0;
                             }
                         }
@@ -1544,9 +1543,10 @@ itype_id Character::find_remote_fuel( bool look_only )
     return remote_fuel;
 }
 
-int Character::consume_remote_fuel( int amount )
+units::energy Character::consume_remote_fuel( units::energy amount )
 {
-    int unconsumed_amount = amount;
+    int amount_kj = units::to_kilojoule( amount );
+    units::energy unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
         return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
@@ -1554,46 +1554,50 @@ int Character::consume_remote_fuel( int amount )
     map &here = get_map();
     for( const item *cable : cables ) {
         auto data = cable_connection_data::make_data( cable );
-        if( !data || !data->character_connected() || !data->has_map_connection() ) {
+        if( !data || !data->character_connected() && !data->complete() ) {
             continue;
         }
 
-        auto map_con = *data->get_map_connection();
-        if( !map_con.point_valid() ) {
-            debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
-            continue;
-        }
-        switch( map_con.state ) {
+        auto non_char = *data->get_nonchar_connection();
+        switch( non_char.state ) {
             case state_vehicle: {
-                const auto vp = here.veh_at( map_con.point );
+                if( !non_char.point_valid() ) {
+                    debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                    continue;
+                }
+                const auto vp = here.veh_at( non_char.point );
                 if( vp ) {
-                    unconsumed_amount = vp->vehicle().discharge_battery( amount );
+                    unconsumed_amount = units::from_kilojoule( vp->vehicle().discharge_battery( amount_kj ) );
                 }
                 break;
             }
             case state_grid: {
-                const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( map_con.point );
+                if( !non_char.point_valid() ) {
+                    debugmsg( "Cable_data was not properly initialized or cable map points were not set" );
+                    continue;
+                }
+                const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( non_char.point );
                 if( grid_connector ) {
-                    auto grid = get_distribution_grid_tracker().grid_at( map_con.point );
-                    unconsumed_amount = grid.mod_resource( -amount );
+                    auto grid = get_distribution_grid_tracker().grid_at( non_char.point );
+                    unconsumed_amount = units::from_joule( grid.mod_resource( -amount.value() ) );
+                }
+                break;
+            }
+            case state_UPS: {
+                static const item_filter used_ups = [&]( const item & itm ) {
+                    return itm.get_var( "cable" ) == "plugged_in";
+                };
+                if( has_charges( itype_UPS_off, amount_kj, used_ups ) ) {
+                    use_charges( itype_UPS_off, amount_kj, used_ups );
+                    unconsumed_amount = 0_kJ;
+                } else if( has_charges( itype_adv_UPS_off, amount_kj, used_ups ) ) {
+                    use_charges( itype_adv_UPS_off, roll_remainder( amount_kj * 0.5 ), used_ups );
+                    unconsumed_amount = 0_kJ;
                 }
                 break;
             }
             default:
                 continue;
-        }
-    }
-
-    if( unconsumed_amount > 0 ) {
-        static const item_filter used_ups = [&]( const item & itm ) {
-            return itm.get_var( "cable" ) == "plugged_in";
-        };
-        if( has_charges( itype_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_UPS_off, unconsumed_amount, used_ups );
-            unconsumed_amount = 0;
-        } else if( has_charges( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
-            use_charges( itype_adv_UPS_off, roll_remainder( unconsumed_amount * 0.5 ), used_ups );
-            unconsumed_amount = 0;
         }
     }
 
