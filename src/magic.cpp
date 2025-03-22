@@ -553,15 +553,16 @@ std::string spell::aoe_string() const
 int spell::accuracy() const
 {
     // default detection for special case
-    if (type->min_accuracy == -1) {
+    if( type->min_accuracy == -1 ) {
         return -1;
     }
-    
-    const int leveled_accuracy = type->min_accuracy + std::round( get_level() * type->accuracy_increment );
-    if (type-> max_accuracy >= type->min_accuracy) {
-        return std::min(leveled_accuracy, type->max_accuracy);
+
+    const int leveled_accuracy = type->min_accuracy + std::round( get_level() *
+                                 type->accuracy_increment );
+    if( type-> max_accuracy >= type->min_accuracy ) {
+        return std::min( leveled_accuracy, type->max_accuracy );
     } else {
-        return std::max(leveled_accuracy, type->max_accuracy);
+        return std::max( leveled_accuracy, type->max_accuracy );
     }
 }
 
