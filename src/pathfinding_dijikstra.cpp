@@ -283,7 +283,6 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     }
 
     const tripoint start_with_z = tripoint( start, this->z );
-    const tripoint dest_with_z = tripoint( this->dest, this->z );
 
     unculled_area.clear();
     culled_frontier.clear();
