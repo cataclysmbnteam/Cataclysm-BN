@@ -294,6 +294,11 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "damage_increment", damage_increment, 0.0f );
     optional( jo, was_loaded, "max_damage", max_damage, 0 );
 
+    // minimum is defaulted to -1 for default detection reasons
+    optional( jo, was_loaded, "min_accuracy", min_accuracy, -1 );
+    optional( jo, was_loaded, "accuracy_increment", accuracy_increment, 0.0f );
+    optional( jo, was_loaded, "max_accuracy", max_accuracy, 100 );
+
     optional( jo, was_loaded, "min_range", min_range, 0 );
     optional( jo, was_loaded, "range_increment", range_increment, 0.0f );
     optional( jo, was_loaded, "max_range", max_range, 0 );
@@ -542,6 +547,21 @@ std::string spell::aoe_string() const
         return string_format( "%d-%d", min_leveled_aoe(), type->max_aoe );
     } else {
         return string_format( "%d", aoe() );
+    }
+}
+
+int spell::accuracy() const
+{
+    // default detection for special case
+    if (type->min_accuracy == -1) {
+        return -1;
+    }
+    
+    const int leveled_accuracy = type->min_accuracy + std::round( get_level() * type->accuracy_increment );
+    if (type-> max_accuracy >= type->min_accuracy) {
+        return std::min(leveled_accuracy, type->max_accuracy);
+    } else {
+        return std::max(leveled_accuracy, type->max_accuracy);
     }
 }
 
