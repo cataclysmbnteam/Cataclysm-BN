@@ -65,7 +65,7 @@ struct bionic_data {
     /**This bionic draws power through a cable*/
     bool is_remote_fueled = false;
     /**This bionic draws power through a cable*/
-    units::energy remote_fuel_draw = 0_kJ;
+    units::energy remote_fuel_draw = 0_J;
     /**Fuel types that can be used by this bionic*/
     std::vector<itype_id> fuel_opts;
     /**How much fuel this bionic can hold*/

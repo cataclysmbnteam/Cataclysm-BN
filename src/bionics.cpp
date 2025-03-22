@@ -296,8 +296,8 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "weight_capacity_modifier", weight_capacity_modifier, strict, 1.0f );
     assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, strict, 0_gram );
     assign_map_from_array( jsobj, "stat_bonus", stat_bonus, strict );
-    assign( jsobj, "remote_fuel_draw", remote_fuel_draw, strict, 0_kJ );
-    is_remote_fueled = remote_fuel_draw > 0_kJ;
+    assign( jsobj, "remote_fuel_draw", remote_fuel_draw, strict, 0_J );
+    is_remote_fueled = remote_fuel_draw > 0_J;
     assign( jsobj, "fuel_options", fuel_opts, strict );
     assign( jsobj, "fuel_capacity", fuel_capacity, strict, 0 );
     assign( jsobj, "fuel_efficiency", fuel_efficiency, strict, 0.0f );
@@ -1364,12 +1364,12 @@ bool Character::burn_fuel( bionic &bio, bool start )
                     } else if( is_cable_powered ) {
                         auto to_consume = bio.info().remote_fuel_draw;
                         if( get_power_level() >= get_max_power_level() ) {
-                            to_consume = 0_kJ;
+                            to_consume = 0_J;
                         }
                         const auto unconsumed = consume_remote_fuel( to_consume );
                         // we don't check if to_consume != unconsumed cuz we wouldn't get there otherwise
-                        if( to_consume > 0_kJ ) {
-                            if( unconsumed == 0_kJ ) {
+                        if( to_consume > 0_J ) {
+                            if( unconsumed == 0_J ) {
                                 mod_power_level( bio.info().remote_fuel_draw * effective_efficiency );
                                 current_fuel_stock -= units::to_kilojoule( to_consume );
                             } else {
@@ -1589,10 +1589,10 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 };
                 if( has_charges( itype_UPS_off, amount_kj, used_ups ) ) {
                     use_charges( itype_UPS_off, amount_kj, used_ups );
-                    unconsumed_amount = 0_kJ;
+                    unconsumed_amount = 0_J;
                 } else if( has_charges( itype_adv_UPS_off, amount_kj, used_ups ) ) {
                     use_charges( itype_adv_UPS_off, roll_remainder( amount_kj * 0.5 ), used_ups );
-                    unconsumed_amount = 0_kJ;
+                    unconsumed_amount = 0_J;
                 }
                 break;
             }
