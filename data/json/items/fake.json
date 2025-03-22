@@ -457,5 +457,22 @@
     "type": "TOOL",
     "name": { "str": "installed advanced butchering station" },
     "qualities": [ [ "BUTCHER", 50 ], [ "CUT", 3 ], [ "CUT_FINE", 5 ] ]
+  },
+  {
+    "id": "translocation_caster_spell",
+    "type": "SPELL",
+    "name": { "str": "Translocate Self" },
+    "description": "Translocates the user to an attuned gate.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "effect": "translocate",
+    "flags": [ "SILENT", "NO_LEGS", "NO_EXPLOSION_VFX", "NO_HANDS" ]
+  },
+  {
+    "id": "translocation_caster",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str_sp": "local gateway" },
+    "use_action": { "type": "cast_spell", "spell_id": "translocation_caster_spell", "no_fail": true, "level": 0 }
   }
 ]
