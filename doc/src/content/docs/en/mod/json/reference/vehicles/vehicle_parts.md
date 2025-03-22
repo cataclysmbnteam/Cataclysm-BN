@@ -81,7 +81,7 @@ Vehicle components when installed on a vehicle.
 
 ### Vehicles
 
-See also VEHICLE_JSON.md
+See also `vehicles_spawning.md`
 
 ```json
 "id": "shopping_cart",                     // Internally-used name.
