@@ -2,7 +2,7 @@
 title: Mutations & Traits
 ---
 
-::note
+:::note
 
 This page is currently under-construction and was recently split off from `JSON INFO`
 

@@ -2,7 +2,7 @@
 title: Item Creation / Types
 ---
 
-::note
+:::note
 
 This page is currently under-construction and was recently split off from `JSON INFO`
 
