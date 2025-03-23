@@ -588,7 +588,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
             for( size_t y = 0; y < MAPSIZE_Y; y++ ) {
                 for( size_t x = 0; x < MAPSIZE_X; x++ ) {
                     if( this->d_map.tile_state[y][x] == DijikstraMap::State::UNVISITED ) {
-                        this->d_map.tile_state[y][x] == DijikstraMap::State::INACCESSIBLE;
+                        this->d_map.tile_state[y][x] = DijikstraMap::State::INACCESSIBLE;
                     }
                 }
             }
