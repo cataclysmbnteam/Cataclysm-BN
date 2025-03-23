@@ -880,7 +880,7 @@ static void wait()
     map &here = get_map();
 
     if( u.controlling_vehicle && ( here.veh_at( u.pos() )->vehicle().velocity ||
-                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
+                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) && u.pos().z < 4 ) {
         popup( _( "You can't pass time while controlling a moving vehicle." ) );
         return;
     }
@@ -929,6 +929,11 @@ static void wait()
         add_menu_item( 5, '5', "", 3_hours );
         add_menu_item( 6, '6', "", 6_hours );
         as_m.addentry( 13, true, 'c', _( "Custom input" ) );
+        if( u.controlling_vehicle && u.pos().z > 3 ) {
+            add_menu_item( 14, 'a', "", 10_seconds );
+            add_menu_item( 15, 'b', "", 30_seconds );
+            add_menu_item( 16, 'c', "", 1_minutes );
+        }
     }
 
     if( g->get_levz() >= 0 || has_watch ) {
