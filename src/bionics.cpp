@@ -1579,7 +1579,7 @@ units::energy Character::consume_remote_fuel( units::energy amount )
                 const auto *grid_connector = active_tiles::furn_at<vehicle_connector_tile>( non_char.point );
                 if( grid_connector ) {
                     auto grid = get_distribution_grid_tracker().grid_at( non_char.point );
-                    unconsumed_amount = units::from_joule( grid.mod_resource( -amount.value() ) );
+                    unconsumed_amount = units::from_kilojoule( grid.mod_resource( -amount_kj ) );
                 }
                 break;
             }
