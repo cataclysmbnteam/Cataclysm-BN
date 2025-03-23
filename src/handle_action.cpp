@@ -928,12 +928,12 @@ static void wait()
         add_menu_item( 4, '4', "", 2_hours );
         add_menu_item( 5, '5', "", 3_hours );
         add_menu_item( 6, '6', "", 6_hours );
-        as_m.addentry( 13, true, 'c', _( "Custom input" ) );
         if( u.controlling_vehicle && u.pos().z > 3 ) {
-            add_menu_item( 14, 'a', "", 10_seconds );
-            add_menu_item( 15, 'b', "", 30_seconds );
-            add_menu_item( 16, 'c', "", 1_minutes );
+            add_menu_item( 14, 'x', "", 10_seconds );
+            add_menu_item( 15, 'y', "", 30_seconds );
+            add_menu_item( 16, 'z', "", 1_minutes );
         }
+        as_m.addentry( 13, true, 'c', _( "Custom input" ) );
     }
 
     if( g->get_levz() >= 0 || has_watch ) {
