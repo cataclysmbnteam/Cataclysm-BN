@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <array>
-#include <cstring>
 #include <map>
 #include <memory>
 #include <optional>
@@ -14,6 +13,7 @@
 #include <vector>
 
 #include "cata_utility.h"
+#include "coordinates.h"
 #include "game_constants.h"
 #include "line.h"
 #include "point.h"
@@ -253,10 +253,6 @@ class DijikstraPathfinding
         typedef std::pair<float, point> val_pair;
         typedef std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> Frontier;
 
-        // Just a few preallocated array to memcpys from
-        inline static std::array<float, DIJIKSTRA_ARRAY_SIZE> FULL_NAN = {0};
-        inline static std::array<float, DIJIKSTRA_ARRAY_SIZE> FULL_INFINITY = {0};
-
         struct DijikstraMap {
             enum class State {
                 UNVISITED, // Tile has not been expanded to yet
@@ -264,82 +260,79 @@ class DijikstraPathfinding
                 IMPASSABLE, // Tile is reachable, but cannot be gone into
                 INACCESSIBLE, // Tile is completely unreachable (or outside search area)
             };
-            std::array<float, DIJIKSTRA_ARRAY_SIZE> p; // Smallest adjacent DijikstraValue's f
+            std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> p; // Smallest adjacent DijikstraValue's f
             // Get `p`-value at `p`
-            constexpr float &p_at( const point &p ) {
-                return this->p[this->get_flat_index( p )];
+            float &p_at( const point &p ) {
+                return this->p[p.y][p.x];
             };
 
-            std::array<float, DIJIKSTRA_ARRAY_SIZE> g; // Associated tile's g cost [movement, bashing down...]
+            std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y>
+            g; // Associated tile's g cost [movement, bashing down...]
             // Get `g`-value at `p`
-            constexpr float &g_at( const point &p ) {
-                return this->g[this->get_flat_index( p )];
+            float &g_at( const point &p ) {
+                return this->g[p.y][p.x];
             };
 
-            std::array<float, DIJIKSTRA_ARRAY_SIZE> h; // Heurestic to start [manhattan distance]
+            std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> h; // Heurestic to start [manhattan distance]
             // Get `h`-value at `p`
-            constexpr float &h_at( const point &p ) {
-                return this->h[this->get_flat_index( p )];
+            float &h_at( const point &p ) {
+                return this->h[p.y][p.x];
             };
 
-            explicit DijikstraMap() {
-                if( !is_inf( DijikstraPathfinding::FULL_INFINITY[0] ) ) {
-                    DijikstraPathfinding::FULL_INFINITY.fill( INFINITY );
-                }
-                if( !is_nan( DijikstraPathfinding::FULL_NAN[0] ) ) {
-                    DijikstraPathfinding::FULL_NAN.fill( NAN );
-                }
+            std::array<std::array<State, MAPSIZE_X>, MAPSIZE_Y> tile_state;
 
-                this->p = DijikstraPathfinding::FULL_INFINITY;
-                this->g = DijikstraPathfinding::FULL_NAN;
-                this->h = DijikstraPathfinding::FULL_NAN;
-            }
+            void reset() {
+                this->p[0].fill( 0 );
+                this->p.fill( p[0] );
+                this->g[0].fill( 0 );
+                this->g.fill( g[0] );
+                this->h[0].fill( 0 );
+                this->h.fill( h[0] );
 
-            inline static constexpr size_t get_flat_index( const point &p ) {
-                assert( 0 <= p.x &&
-                        0 <= p.y &&
-                        p.x < MAPSIZE_X &&
-                        p.y < MAPSIZE_Y );
-                size_t index = 0;
-                index += p.x;
-                index += p.y * MAPSIZE_X;
-
-                return index;
+                this->tile_state[0].fill( State::UNVISITED );
+                this->tile_state.fill( this->tile_state[0] );
             }
 
             // f0 = p + g
-            inline constexpr float get_f_unbiased( const point &p ) {
+            inline float get_f_unbiased( const point &p ) {
                 return this->p_at( p ) + this->g_at( p );
             }
 
             // f1 = p + g + `h_coeff` * h
-            inline constexpr float get_f_biased( const point &p, float h_coeff ) {
+            inline float get_f_biased( const point &p, float h_coeff ) {
                 return this->get_f_unbiased( p ) + h_coeff * this->h_at( p );
-            }
-
-            inline constexpr State get_state( const point &p ) {
-                if( is_inf( this->p_at( p ) ) ) {
-                    return State::UNVISITED;
-                }
-                if( is_nan( this->p_at( p ) ) ) {
-                    return State::INACCESSIBLE;
-                }
-                if( is_inf( this->g_at( p ) ) ) {
-                    return State::IMPASSABLE;
-                }
-                return State::ACCESSIBLE;
             }
         };
 
         // `dest`ination of this map [2D]
-        const point dest;
+        point dest;
         // `z` level of this map
-        const int z;
+        int z;
         // `settings` which were used to spawn this map
-        const PathfindingSettings settings;
+        PathfindingSettings settings;
 
-        // 1D array containing our map
+        // Have we been set up since last reset?
+        bool is_setup;
+
+        // Struct with our map triplet
         DijikstraMap d_map;
+
+        static void take_unused_map( point dest, int z, PathfindingSettings settings ) {
+            if( DijikstraPathfinding::unused_maps.empty() ) {
+                std::unique_ptr<DijikstraPathfinding> d_map = std::make_unique<DijikstraPathfinding>();
+                DijikstraPathfinding::unused_maps.push_back( std::move( d_map ) );
+            }
+
+            std::unique_ptr<DijikstraPathfinding> d_map = std::move( DijikstraPathfinding::unused_maps.back() );
+            DijikstraPathfinding::unused_maps.pop_back();
+
+            d_map->dest = dest;
+            d_map->z = z;
+            d_map->settings = settings;
+            d_map->is_setup = true;
+
+            DijikstraPathfinding::maps.push_back( std::move( d_map ) );
+        }
 
         enum class MapDomain {
             RELATIVE_DOMAIN, // Map's search domain limit includes relative limits (that is, depending on start position)
@@ -379,7 +372,10 @@ class DijikstraPathfinding
         inline ExpansionOutcome expand_2d_up_to( const point &origin,
                 const RouteSettings &route_settings );
 
-        // Global state: memoized dijikstra maps. Clear every game turn.
+        // Global state: allocated dijikstra maps. Pull to `maps` from here.
+        inline static std::vector<std::unique_ptr<DijikstraPathfinding>> unused_maps;
+
+        // Global state: memoized dijikstra maps. Transfer to `unused_maps` every game turn.
         inline static std::vector<std::unique_ptr<DijikstraPathfinding>> maps;
 
         // Location we can change our Z level with
@@ -390,8 +386,8 @@ class DijikstraPathfinding
                 OPEN_AIR
             };
 
-            const tripoint from;
-            const tripoint to;
+            const tripoint_abs_ms from;
+            const tripoint_abs_ms to;
             const Type type;
         };
 
@@ -414,18 +410,27 @@ class DijikstraPathfinding
 
             return DijikstraPathfinding::z_levels_explored[z + OVERMAP_DEPTH];
         }
-    public:
-        explicit DijikstraPathfinding( const tripoint dest, const PathfindingSettings settings )
-            : dest( dest.xy() ), z( dest.z ), settings( settings ) {};
 
+
+    public:
         // get `route` from `from` to `to` if available in accordance to `route_settings` while `path_settings` defines our capabilities, otherwise empty vector.
         // Found route will include `from` and `to`.
         static std::vector<tripoint> route( const tripoint &from, const tripoint &to,
                                             const std::optional<PathfindingSettings> path_settings = std::nullopt,
                                             const std::optional<RouteSettings> route_settings = std::nullopt );
 
+        // Transfer all maps back into unused maps
         static void reset() {
+            for( auto &map : DijikstraPathfinding::maps ) {
+                map->d_map.reset();
+                map->is_setup = false;
+                DijikstraPathfinding::unused_maps.push_back( std::move( map ) );
+            }
             DijikstraPathfinding::maps.clear();
+        }
+
+        // Reset Z-level information
+        static void z_reset() {
             for( int z_index = 0; z_index < OVERMAP_LAYERS; z_index++ ) {
                 DijikstraPathfinding::z_changes[z_index].clear();
                 DijikstraPathfinding::z_levels_explored[z_index] = false;
