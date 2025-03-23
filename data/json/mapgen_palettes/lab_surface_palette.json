@@ -88,6 +88,8 @@
       "*": "t_region_shrub_decorative",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
+      "↑": "t_ladder_up",
+      "↓": "t_ladder_down",
       "e": "t_elevator",
       "@": "t_elevator_control_off",
       "V": "t_radio_tower"
