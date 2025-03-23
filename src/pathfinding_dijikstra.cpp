@@ -171,10 +171,11 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
 
             const float cost = this->d_map.get_f_unbiased( next_point );
 
-            const bool has_valid_f_cost = std::isfinite( cost );
+            const bool is_accessible = this->d_map.tile_state[next_point.y][next_point.x] ==
+                                       DijikstraMap::State::ACCESSIBLE;
             const bool is_not_forbidden = !this->forbidden_moves.contains( {cur_point, next_point} );
 
-            const bool is_valid = has_valid_f_cost && is_not_forbidden;
+            const bool is_valid = is_accessible && is_not_forbidden;
             if( !is_valid ) {
                 continue;
             };
@@ -313,6 +314,8 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         // Limited search requires clearing p-values, too, since they may change
         this->d_map.p[0].fill( 0 );
         this->d_map.p.fill( this->d_map.p[0] );
+        this->d_map.tile_state[0].fill( DijikstraMap::State::UNVISITED );
+        this->d_map.tile_state.fill( this->d_map.tile_state[0] );
 
         this->unbiased_frontier.clear();
         this->unbiased_frontier.push_back( this->dest );
@@ -323,6 +326,8 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     // Reset h-values for this pathfinding
     this->d_map.h[0].fill( 0 );
     this->d_map.h.fill( this->d_map.h[0] );
+    // Naturally
+    this->d_map.tile_state[this->dest.y][this->dest.x] = DijikstraMap::State::ACCESSIBLE;
     this->d_map.p_at( this->dest ) = 0.0;
     this->d_map.g_at( this->dest ) = 0.0;
 
