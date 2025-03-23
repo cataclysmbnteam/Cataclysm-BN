@@ -1,5 +1,5 @@
 ---
-Title: Plants
+title: Plants
 ---
 
 :::note
