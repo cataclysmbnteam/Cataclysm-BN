@@ -5077,6 +5077,7 @@ std::string item::display_name( unsigned int quantity ) const
             break;
     }
     avatar &you = get_avatar();
+    static const itype_id itype_battery( "battery" );
     int amount = 0;
     int max_amount = 0;
     bool has_item = is_container() && contents.num_item_stacks() == 1;
@@ -5124,7 +5125,28 @@ std::string item::display_name( unsigned int quantity ) const
             }
 
             if( max_amount != 0 ) {
-                amt = string_format( " (%i/%i%s)", amount, max_amount, ammotext );
+                if( !contains ) {
+                    int percentage = ( static_cast<float>( amount ) / max_amount ) * 100;
+                    nc_color color = c_green;
+                    if( percentage >= 100 ) {
+                        color = c_green;
+                    } else if( percentage >= 75 ) {
+                        color = c_light_green;
+                    } else if( percentage >= 50 ) {
+                        color = c_yellow;
+                    } else if( percentage >= 25 ) {
+                        color = c_light_red;
+                    } else if( percentage > 0 ) {
+                        color = c_red;
+                    } else if( percentage <= 0 ) {
+                        color = c_light_gray;
+                    }
+                    amt = colorize( string_format( " (%i/%i%s)", amount, max_amount, ammotext ),
+                                    color );
+                } else {
+                    amt = string_format( " (%i/%i%s)", amount, max_amount, ammotext );
+                }
+
             } else {
                 amt = string_format( " (%i%s)", amount, ammotext );
             }
