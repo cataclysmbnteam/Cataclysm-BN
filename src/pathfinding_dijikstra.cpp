@@ -16,15 +16,15 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 
-static const std::vector<tripoint> DIRS_2D = {
-    tripoint_north_east,
-    tripoint_north_west,
-    tripoint_south_west,
-    tripoint_south_east,
-    tripoint_east,
-    tripoint_north,
-    tripoint_west,
-    tripoint_south,
+static const std::vector<point> DIRS_2D = {
+    point_north_east,
+    point_north_west,
+    point_south_west,
+    point_south_east,
+    point_east,
+    point_north,
+    point_west,
+    point_south,
 };
 
 void DijikstraPathfinding::scan_for_z_changes( int z_level )
@@ -128,7 +128,7 @@ void DijikstraPathfinding::scan_for_z_changes( int z_level )
 }
 
 inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
-            const tripoint &from,
+            const point &from,
             const RouteSettings &route_settings )
 {
     map &map = get_map();
@@ -142,19 +142,21 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
         return std::nullopt;
     }
 
-    const int chebyshev_distance = square_dist_fast( from, this->dest );
+    const int chebyshev_distance = square_dist_fast(
+                                       tripoint( from, this->z ),
+                                       tripoint( this->dest, this->z ) );
     const float max_s = route_settings.max_s_coeff * chebyshev_distance;
 
-    tripoint cur_point = from;
+    point cur_point = from;
     float cur_cost = this->d_map.get_f_unbiased( cur_point );
 
-    std::vector<std::pair<float, tripoint>> candidates;
+    std::vector<std::pair<float, point>> candidates;
     std::vector<tripoint> result;
-    result.push_back( from );
+    result.push_back( tripoint( from, this->z ) );
 
     while( cur_point != this->dest ) {
-        for( const tripoint &dir : DIRS_2D ) {
-            const tripoint next_point = cur_point + dir;
+        for( const point &dir : DIRS_2D ) {
+            const point next_point = cur_point + dir;
             const bool is_in_bounds = map.inbounds( next_point );
             if( !is_in_bounds ) {
                 continue;
@@ -188,7 +190,7 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
 
         const auto selected_pair = &candidates[route_settings.rank_weighted_rng( candidates.size() )];
 
-        result.push_back( selected_pair->second );
+        result.push_back( tripoint( selected_pair->second, this->z ) );
         cur_point = selected_pair->second;
         cur_cost = selected_pair->first;
 
@@ -204,13 +206,13 @@ inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
 }
 
 inline bool DijikstraPathfinding::is_in_limited_domain(
-    const tripoint &start, const tripoint &p, const RouteSettings &route_settings )
+    const point &start, const point &p, const RouteSettings &route_settings )
 {
     // Could be NaN if max_f_coeff = INFINITY * 0
     const float max_f = route_settings.max_f_coeff * (
                             route_settings.f_limit_based_on_max_dist ?
                             route_settings.max_dist :
-                            rl_dist_exact( start, this->dest )
+                            rl_dist_exact( tripoint( start, this->z ), tripoint( this->dest, this->z ) )
                         );
 
     bool is_in_f_limited_area = is_nan( max_f ) || this->d_map.get_f_unbiased( p ) <= max_f;
@@ -221,22 +223,22 @@ inline bool DijikstraPathfinding::is_in_limited_domain(
 }
 
 inline void DijikstraPathfinding::detect_culled_frontier(
-    const tripoint &start, const RouteSettings &route_settings, std::unordered_set<tripoint> &out )
+    const point &start, const RouteSettings &route_settings, std::unordered_set<point> &out )
 {
     map &map = get_map();
 
-    std::unordered_set<tripoint> result;
-    std::vector<tripoint> stack;
+    std::unordered_set<point> result;
+    std::vector<point> stack;
     result.insert( start );
     stack.push_back( start );
 
     // This is deliberately a depth-first search in order to fail quickly upon reaching map edge
     while( !stack.empty() ) {
-        const tripoint p = stack.back();
+        const point p = stack.back();
         stack.pop_back();
 
-        for( const tripoint &dir : DIRS_2D ) {
-            const tripoint next = p + dir;
+        for( const point &dir : DIRS_2D ) {
+            const point next = p + dir;
             if( !map.inbounds( next ) ) {
                 // If we reached map edge, this means we're in an unclosed area
                 return;
@@ -264,21 +266,23 @@ inline void DijikstraPathfinding::detect_culled_frontier(
 }
 
 inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up_to(
-    const tripoint &start,
+    const point &start,
     const RouteSettings &route_settings )
 {
     // We'll store h-coeff biased data here
     static Frontier biased_frontier;
     // If we happen to cull our search area, we'll store culled points here
-    static std::vector<tripoint> culled_frontier;
+    static std::vector<point> culled_frontier;
     // If this is not empty, we have encircled our target so don't bother expanding
     //   to tiles outside this area
-    static std::unordered_set<tripoint> unculled_area;
+    static std::unordered_set<point> unculled_area;
 
     if( start == this->dest ) {
         // Special case where if we already are standing on the destination tile
         return ExpansionOutcome::PATH_FOUND;
     }
+
+    const tripoint start_with_z = tripoint( start, this->z );
 
     unculled_area.clear();
     culled_frontier.clear();
@@ -315,8 +319,8 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     this->d_map.g_at( this->dest ) = 0.0;
 
     // Drain unbiased frontier into biased_frontier
-    for( const tripoint &p : this->unbiased_frontier ) {
-        this->d_map.h_at( p ) = rl_dist_exact( start, p );
+    for( const point &p : this->unbiased_frontier ) {
+        this->d_map.h_at( p ) = rl_dist_exact( start_with_z, tripoint( p, this->z ) );
         biased_frontier.emplace( this->d_map.get_f_biased( p, route_settings.h_coeff ), p );
     }
     this->unbiased_frontier.clear();
@@ -336,7 +340,9 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         if( ++it % 200 == 0 ) {
             this->detect_culled_frontier( start, route_settings, unculled_area );
         }
-        const tripoint next_point = biased_frontier.top().second;
+        const point next_point = biased_frontier.top().second;
+        const tripoint next_point_with_z = tripoint( next_point, this->z );
+
         biased_frontier.pop();
 
         if( !unculled_area.empty() && !unculled_area.contains( next_point ) ) {
@@ -352,13 +358,14 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
 
         int _;
         const vehicle *next_vehicle;
-        next_vehicle = map.veh_at_internal( next_point, _ );
+        next_vehicle = map.veh_at_internal( next_point_with_z, _ );
 
-        for( const tripoint &dir : DIRS_2D ) {
+        for( const point &dir : DIRS_2D ) {
             bool is_diag = dir.x != 0 && dir.y != 0;
 
             // It's cur_point because we're working backwards from destination
-            const tripoint cur_point = next_point + dir;
+            const point cur_point = next_point + dir;
+            const tripoint cur_point_with_z = tripoint( cur_point, this->z );
 
             if( !map.inbounds( cur_point ) ) {
                 continue;
@@ -369,30 +376,32 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
             }
 
             const bool h_calc_needed = is_nan( this->d_map.h_at( cur_point ) );
-            float cur_h = h_calc_needed ? rl_dist_exact( start, cur_point ) : this->d_map.h_at( cur_point );
+            float cur_h = h_calc_needed ?
+                          rl_dist_exact( tripoint( start, this->z ), cur_point_with_z ) :
+                          this->d_map.h_at( cur_point );
             this->d_map.h_at( cur_point ) = cur_h;
 
             int cur_vehicle_part;
             const vehicle *cur_vehicle;
-            cur_vehicle = map.veh_at_internal( cur_point, cur_vehicle_part );
+            cur_vehicle = map.veh_at_internal( cur_point_with_z, cur_vehicle_part );
 
             {
                 bool is_move_valid = true;
 
                 const bool is_valid_to_step_into = this->settings.test_move_validity ?
-                                                   map.valid_move( cur_point, next_point, true, this->settings.can_fly, true ) :
+                                                   map.valid_move( cur_point_with_z, next_point_with_z, true, this->settings.can_fly, true ) :
                                                    true;
                 const bool is_valid_to_step_into_veh =
                     cur_vehicle == nullptr ?
                     true :
-                    cur_vehicle->allowed_move( cur_vehicle->tripoint_to_mount( cur_point ),
-                                               cur_vehicle->tripoint_to_mount( next_point ) );
+                    cur_vehicle->allowed_move( cur_vehicle->tripoint_to_mount( cur_point_with_z ),
+                                               cur_vehicle->tripoint_to_mount( next_point_with_z ) );
 
                 const bool is_valid_to_step_out_of_veh =
                     next_vehicle == nullptr ?
                     true :
-                    next_vehicle->allowed_move( next_vehicle->tripoint_to_mount( cur_point ),
-                                                next_vehicle->tripoint_to_mount( next_point ) );
+                    next_vehicle->allowed_move( next_vehicle->tripoint_to_mount( cur_point_with_z ),
+                                                next_vehicle->tripoint_to_mount( next_point_with_z ) );
 
                 is_move_valid &= is_valid_to_step_into;
                 is_move_valid &= is_valid_to_step_into_veh;
@@ -408,7 +417,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
             float cur_g = g_calc_needed ? 0.0 : this->d_map.g_at( cur_point );
 
             if( g_calc_needed ) {
-                const maptile &new_tile = map.maptile_at( cur_point );
+                const maptile &new_tile = map.maptile_at( cur_point_with_z );
                 const auto &terrain = new_tile.get_ter_t();
                 const auto &furniture = new_tile.get_furn_t();
                 const int move_cost = map.move_cost_internal( furniture, terrain, cur_vehicle, cur_vehicle_part );
@@ -423,7 +432,8 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                 cur_g += is_sharp ? this->settings.sharp_terrain_cost : 0.0;
 
                 if( care_about_mobs ) {
-                    cur_g += g->critter_at( cur_point, true ) != nullptr ? this->settings.mob_presence_penalty : 0.0;
+                    cur_g += g->critter_at( cur_point_with_z,
+                                            true ) != nullptr ? this->settings.mob_presence_penalty : 0.0;
                 }
 
                 if( care_about_traps ) {
@@ -462,7 +472,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                             int dummy;
                             const bool part_is_door = cur_vehicle->part_flag( obstacle_part, VPFLAG_OPENABLE );
                             const bool part_opens_from_inside = cur_vehicle->part_flag( obstacle_part, "OPENCLOSE_INSIDE" );
-                            const bool is_cur_point_inside = map.veh_at_internal( cur_point, dummy ) == cur_vehicle;
+                            const bool is_cur_point_inside = map.veh_at_internal( cur_point_with_z, dummy ) == cur_vehicle;
                             const bool valid_to_open = part_is_door && ( part_opens_from_inside ? is_cur_point_inside : true );
 
                             if( can_open_doors && valid_to_open ) {
@@ -547,12 +557,12 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     // We will be rebuilding on next search anyway if we had a limited search this time
     if( !route_settings.is_relative_search_domain() ) {
         while( !biased_frontier.empty() ) {
-            const tripoint p = biased_frontier.top().second;
+            const point p = biased_frontier.top().second;
             biased_frontier.pop();
 
             this->unbiased_frontier.push_back( p );
         }
-        for( const tripoint &p : culled_frontier ) {
+        for( const point &p : culled_frontier ) {
             this->unbiased_frontier.push_back( p );
         }
     }
@@ -605,15 +615,15 @@ std::vector<tripoint> DijikstraPathfinding::route( const tripoint &from, const t
     if( from_copy.z == to_copy.z ) {
         // 2D search
         for( auto &map : DijikstraPathfinding::maps ) {
-            if( map->dest == to_copy && map->settings == path_settings ) {
-                auto result = map->get_route_2d( from_copy, route_settings );
+            if( map->dest == to_copy.xy() && map->z == to_copy.z && map->settings == path_settings ) {
+                auto result = map->get_route_2d( from_copy.xy(), route_settings );
                 return result.has_value() ? *result : std::vector<tripoint>();
             }
         }
 
-        std::unique_ptr<DijikstraPathfinding> d_map = std::make_unique<DijikstraPathfinding>( to_copy,
-                path_settings );
-        auto result = d_map->get_route_2d( from_copy, route_settings );
+        std::unique_ptr<DijikstraPathfinding> d_map = std::make_unique<DijikstraPathfinding>(
+                    to_copy, path_settings );
+        auto result = d_map->get_route_2d( from_copy.xy(), route_settings );
 
         DijikstraPathfinding::maps.push_back( std::move( d_map ) );
 

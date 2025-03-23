@@ -197,6 +197,13 @@ class spell_type
         // max range this spell can achieve
         int max_range = 0;
 
+        // minimum "accuracy" of a spell
+        int min_accuracy = 0;
+        // amount of "accuracy" change per level
+        float accuracy_increment = 0.0f;
+        // maximum "accuracy"
+        int max_accuracy = 0;
+
         // minimum area of effect of a spell (radius)
         // 0 means the spell only affects the target
         int min_aoe = 0;
@@ -365,6 +372,8 @@ class spell
         damage_instance get_damage_instance() const;
         // how big is the spell's radius
         int aoe() const;
+        // "accuracy" of spells (used for determining body part hit)
+        int accuracy() const;
         // distance spell can be cast
         int range() const;
         // how much energy does the spell cost

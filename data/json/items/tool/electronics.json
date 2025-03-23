@@ -610,6 +610,7 @@
     "color": "magenta",
     "use_action": "NOTE_BIONICS",
     "revert_to": "bionic_scanner",
-    "revert_msg": "The %s shuts down."
+    "revert_msg": "The %s shuts down.",
+    "flags": [ "SLEEP_IGNORE" ]
   }
 ]
