@@ -2104,7 +2104,9 @@
     "description": "An industrial grade freezer, capable preserving huge amounts of food, as long as it's powered.  It is switched off.",
     "transforms_into": "f_freezer_industrial_on",
     "prompt": "Switch on the freezer.",
-    "message": "You switch on the freezer."
+    "message": "You switch on the freezer.",
+    "//": "Removes autostart action",
+    "active": [ null ]
   },
   {
     "type": "furniture",
