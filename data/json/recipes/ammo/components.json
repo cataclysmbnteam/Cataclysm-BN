@@ -1077,7 +1077,7 @@
     "skill_used": "mechanics",
     "difficulty": 8,
     "autolearn": [ [ "fabrication", 6 ] ],
-    "time": "5 m",
+    "time": "10 m",
     "reversible": true,
     "decomp_learn": 9,
     "book_learn": [ [ "manual_traps_mil", 6 ], [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
