@@ -922,17 +922,17 @@ static void wait()
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
         }
+        if( u.controlling_vehicle && u.pos().z > 3 ) {
+            add_menu_item( 14, 'x', "", 10_seconds );
+            add_menu_item( 15, 'y', "", 30_seconds );
+            add_menu_item( 16, 'z', "", 1_minutes );
+        }
         add_menu_item( 1, '1', "", 5_minutes );
         add_menu_item( 2, '2', "", 30_minutes );
         add_menu_item( 3, '3', "", 1_hours );
         add_menu_item( 4, '4', "", 2_hours );
         add_menu_item( 5, '5', "", 3_hours );
         add_menu_item( 6, '6', "", 6_hours );
-        if( u.controlling_vehicle && u.pos().z > 3 ) {
-            add_menu_item( 14, 'x', "", 10_seconds );
-            add_menu_item( 15, 'y', "", 30_seconds );
-            add_menu_item( 16, 'z', "", 1_minutes );
-        }
         as_m.addentry( 13, true, 'c', _( "Custom input" ) );
     }
 
