@@ -325,6 +325,12 @@ class overmapbuffer
          */
         std::vector<tripoint_abs_omt> find_all( const tripoint_abs_omt &origin,
                                                 const omt_find_params &params );
+    private:
+        std::vector<tripoint_abs_omt> find_all_async( const tripoint_abs_omt &origin,
+                const omt_find_params &params );
+        std::vector<tripoint_abs_omt> find_all_sync( const tripoint_abs_omt &origin,
+                const omt_find_params &params );
+    public:
 
         /**
          * Returns a random point of specific terrain type among those found in certain search

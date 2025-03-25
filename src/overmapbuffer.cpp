@@ -1127,6 +1127,73 @@ struct find_task_generator {
 std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &origin,
         const omt_find_params &params )
 {
+    const auto concurrency = std::max( 1u, std::thread::hardware_concurrency() - 1 );
+    if( concurrency == 1 ) {
+        return find_all_sync( origin, params );
+    } else {
+        return find_all_async( origin, params );
+    }
+}
+
+std::vector<tripoint_abs_omt> overmapbuffer::find_all_sync( const tripoint_abs_omt &origin,
+        const omt_find_params &params )
+{
+    // max_dist == 0 means search a whole overmap diameter.
+    const int min_dist = params.search_range.first;
+    const int max_dist = params.search_range.second ? params.search_range.second : OMAPX;
+
+    // empty search_layers means origin.z
+    const auto search_layers = params.search_layers.value_or( std::make_pair( origin.z(),
+                               origin.z() ) );
+    const int min_layer = search_layers.first;
+    const int max_layer = search_layers.second;
+    const int num_layers = max_layer - min_layer + 1;
+
+    find_task_generator gen( origin.raw().xy(), min_dist, max_dist, min_layer, max_layer, 256 );
+
+    std::vector<tripoint_abs_omt> find_result;
+    find_result.reserve( params.max_results.value_or( 256 ) );
+    while( true ) {
+
+        if( params.popup ) {
+            params.popup->refresh();
+        }
+
+        auto task_data = gen();
+        if( !task_data.has_value() ) {
+            break;
+        }
+
+        auto& [task_om, task_omts] = task_data.value();
+        if( params.existing_only && !has( task_om ) ) {
+            continue;
+        }
+
+        overmap *om_loc = &get( task_om );
+
+        bool done = false;
+        for( const auto &loc : task_omts ) {
+            overmap_with_local_coords q{ om_loc, loc.second };
+            if( is_findable_location( q, params ) ) {
+                find_result.push_back( loc.first );
+            }
+            if( params.max_results.has_value() && find_result.size() == params.max_results.value() ) {
+                done = true;
+                break;
+            }
+        }
+
+        if( done ) {
+            break;
+        }
+    }
+
+    return find_result;
+}
+
+std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_omt &origin,
+        const omt_find_params &params )
+{
     // max_dist == 0 means search a whole overmap diameter.
     const int min_dist = params.search_range.first;
     const int max_dist = params.search_range.second ? params.search_range.second : OMAPX;
@@ -1144,7 +1211,6 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
 
     std::vector<tripoint_abs_omt> find_result;
     int free_tasks = std::max( 1u, std::thread::hardware_concurrency() - 1 );
-
     auto try_finish_task = []( std::future<std::vector<tripoint_abs_omt>> &task,
     std::vector<tripoint_abs_omt> &dst, omt_find_params params ) -> bool {
         if( task.wait_for( std::chrono::milliseconds( 0 ) ) == std::future_status::ready )
@@ -1194,7 +1260,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
             break;
         }
 
-        auto& [ task_om, task_omts] = task_data.value();
+        auto& [task_om, task_omts] = task_data.value();
 
         if( params.existing_only && !has( task_om ) ) {
             continue;
@@ -1247,6 +1313,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all( const tripoint_abs_omt &o
 
     return find_result;
 }
+
 
 tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         const omt_find_params &pp )
