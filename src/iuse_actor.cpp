@@ -1356,24 +1356,6 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
     params.existing_only = false;
     params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
-    const auto [ origin_om_pos, origin_local ] = project_remain<coords::om>( map.xy() );
-
-    int max_dist = 0;
-    std::unordered_set<point_abs_om> visited;
-    std::multimap<int, point_abs_om> by_dist;
-
-    /*
-    * Collect all unique overmap locations, grouped by manhattan distance
-    */
-    for( auto &tp : closest_points_generator( map, 0, radius ) ) {
-        const auto [ om_pos, local ] = project_remain<coords::om>( tp.xy() );
-        const auto dist = manhattan_dist( origin_om_pos, om_pos );
-        max_dist = std::max( max_dist, dist );
-        if( visited.insert( om_pos ).second ) {
-            by_dist.emplace( dist, om_pos );
-        }
-    }
-
     /*
     * Stagger parallel map generation starting from center (0), outwards
     * so the generated maps have a neighbor to latch onto when generating roads/rivers
@@ -1384,14 +1366,28 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
     * 5 4 3 2 3 4 5
     */
 
-    std::vector<point_abs_om> to_gen;
-    for( int i = 0; i <= max_dist; i++ ) {
-        to_gen.clear();
-        auto range = by_dist.equal_range( i );
-        std::transform( range.first, range.second,
-        std::back_inserter( to_gen ), []( const std::pair<int, point_abs_om> &x ) {
-            return x.second;
-        } );
+    const point_abs_om origin_om_pos = project_to<coords::om>( map.xy() );
+
+    // Generate a Square fitting the requested map radius
+    const point_abs_omt omt_bb_min = map.xy() - point_rel_omt{ radius, radius };
+    const point_abs_omt omt_bb_max = map.xy() + point_rel_omt{ radius, radius };
+
+    // OM Corners of bounding box
+    const point_abs_om om_bb_min = project_to<coords::om>( omt_bb_min );
+    const point_abs_om om_bb_max = project_to<coords::om>( omt_bb_max );
+
+    // Iterate through range [om_bb_min, om_bb_max] to get the OM we want, then sort by manhattan distance
+    std::map<int, std::vector<point_abs_om>> om_to_generate;
+    for( int x = om_bb_min.x(); x <= om_bb_max.x(); ++x ) {
+        for( int y = om_bb_min.y(); y <= om_bb_max.y(); ++y ) {
+            auto dist = manhattan_dist( origin_om_pos, { x, y } );
+            auto &vec =
+                om_to_generate[dist]; // if the vector for this distance doesn't exist it will be created empty
+            vec.emplace_back( x, y );
+        }
+    }
+
+    for( const auto& [_, to_gen] : om_to_generate ) {
         overmap_buffer.generate( to_gen );
     }
 
