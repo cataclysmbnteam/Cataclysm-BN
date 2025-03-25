@@ -151,9 +151,9 @@ detached_ptr<item> vehicle_part::properties_to_item() const
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     // Except grid-connected ones, for now.
-    if( tmp->has_flag( flag_CABLE_SPOOL ) && !tmp->has_flag( flag_TOW_CABLE ) ) {
+    if( tmp->has_flag( flag_CABLE_SPOOL ) ) {
         auto data = cable_connection_data::make_data( *tmp );
-        if( !data ) {
+        if( !data || tmp->has_flag( flag_TOW_CABLE ) ) {
             tmp->reset_cable();
         } else {
             if( data->intermap_connection() ) {
