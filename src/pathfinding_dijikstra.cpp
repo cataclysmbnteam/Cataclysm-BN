@@ -215,10 +215,10 @@ void Pathfinding::detect_culled_frontier(
 {
     const map &here = get_map();
 
-    std::unordered_set<point> result;
+    std::unordered_set<point> flood_fill;
     std::vector<point> stack;
-    result.insert( start );
 
+    flood_fill.insert( start );
     stack.push_back( start );
 
     // This is deliberately a depth-first search in order to fail quickly upon reaching map edge
@@ -232,7 +232,7 @@ void Pathfinding::detect_culled_frontier(
                 // If we reached map edge, this means we're in an unclosed area
                 return;
             }
-            if( result.contains( next ) ) {
+            if( flood_fill.contains( next ) ) {
                 continue;
             }
             // Visited area marks a boundary. This does include tiles outside search area, eventually.
@@ -246,19 +246,21 @@ void Pathfinding::detect_culled_frontier(
                 continue;
             }
             stack.push_back( next );
-            result.insert( next );
+            flood_fill.insert( next );
             break;
         }
     }
 
     // We have successfully been contained
-    out = std::move( result );
+    out = std::move( flood_fill );
 }
 
 Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
     const point &start,
     const RouteSettings &route_settings )
 {
+    typedef std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> Frontier;
+
     if( start == this->dest ) {
         // Special case where if we already are standing on the destination tile
         return ExpansionOutcome::PATH_FOUND;
@@ -313,7 +315,7 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
     //   to tiles outside this area
     std::unordered_set<point> unculled_area;
     // If we happen to cull our search area, we'll store culled points here
-    std::vector<point> culled_frontier;
+    std::unordered_set<point> culled_frontier;
     ExpansionOutcome result = ExpansionOutcome::UNSET;
 
     const bool can_open_doors = !is_inf( this->settings.door_open_cost );
@@ -327,7 +329,7 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
         // Periodically check if `start` is enclosed
         //   and cull frontier if it is
         // This is useful to prevent exploring the whole map when target is inaccessible
-        if( ++it % 200 == 0 ) {
+        if( ++it % 400 == 0 ) {
             this->detect_culled_frontier( start, route_settings, unculled_area );
         }
         const point next_point = biased_frontier.top().second;
@@ -336,7 +338,7 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
         biased_frontier.pop();
 
         if( !unculled_area.empty() && !unculled_area.contains( next_point ) ) {
-            culled_frontier.push_back( next_point );
+            culled_frontier.insert( next_point );
             continue;
         }
 

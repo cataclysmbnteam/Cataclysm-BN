@@ -250,7 +250,6 @@ class Pathfinding
     private:
         const static size_t DIJIKSTRA_ARRAY_SIZE = MAPSIZE_Y * MAPSIZE_X;
         typedef std::pair<float, point> val_pair;
-        typedef std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> Frontier;
 
         enum class State {
             UNVISITED, // Tile has not been expanded to yet

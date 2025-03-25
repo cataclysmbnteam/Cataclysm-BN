@@ -924,7 +924,7 @@ void monster::move()
                         path = g->m.route( pos(), goal, pf_settings, get_legacy_path_avoid() );
                     } else {
                         auto pair = this->get_pathfinding_pair();
-                        path = DijikstraPathfinding::route( pos(), goal, pair.first, pair.second );
+                        path = Pathfinding::route( pos(), goal, pair.first, pair.second );
                     }
                 }
             }
