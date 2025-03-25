@@ -49,6 +49,11 @@
 
 class map_extra;
 
+template<typename _Mutex>
+using write_lock = std::unique_lock< _Mutex >;
+template<typename _Mutex>
+using read_lock = std::shared_lock< _Mutex >;
+
 overmapbuffer overmap_buffer;
 
 overmapbuffer::overmapbuffer()
@@ -69,14 +74,17 @@ omt_route_params::~omt_route_params() = default;
 
 overmap &overmapbuffer::get( const point_abs_om &p )
 {
-    const auto it = overmaps.find( p );
-    if( it != overmaps.end() ) {
-        return *it->second.get();
+    {
+        read_lock<std::shared_mutex> _l( mutex );
+        const auto it = overmaps.find( p );
+        if( it != overmaps.end() ) {
+            return *it->second.get();
+        }
     }
 
     overmap *new_om;
     {
-        std::lock_guard guard( mutex );
+        write_lock<std::shared_mutex> _l( mutex );
         // Search for it again, but now with a lock since another thread could've loaded this overmap tile first
         const auto it = overmaps.find( p );
         if( it != overmaps.end() ) {
