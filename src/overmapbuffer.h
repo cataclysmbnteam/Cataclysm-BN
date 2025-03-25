@@ -12,7 +12,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
-#include <shared_mutex>
+#include <mutex>
 
 #include "coordinates.h"
 #include "enums.h"
@@ -511,7 +511,7 @@ class overmapbuffer
                             int min_radius, int max_radius );
 
     private:
-        std::shared_mutex mutex;
+        std::recursive_mutex mutex;
         /**
          * Common function used by the find_closest/all/random to determine if the location is
          * findable based on the specified criteria.
