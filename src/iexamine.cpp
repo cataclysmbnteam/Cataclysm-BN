@@ -373,15 +373,12 @@ void iexamine::translocator( player &, const tripoint &examp )
         g->u.translocators->activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
     } else {
-
-
         const int choice = uilist( _( "Do what with Translocator?" ), {
             _( "Visit another gate." ),
             _( "Deactivate." )
         } );
         if( choice == 0 ) {
-            item *vtm;
-            vtm = item::spawn_temporary( "translocation_caster", calendar::start_of_cataclysm );
+            item *vtm = item::spawn_temporary( "translocation_caster", calendar::start_of_cataclysm );
             player_character.invoke_item( vtm );
         } else if( choice == 1 ) {
             if( query_yn( _( "Deactivate this Translocator?" ) ) ) {
