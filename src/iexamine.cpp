@@ -1711,7 +1711,7 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         return;
     }
 
-    if( here.ter( examp )->open.is_null() && here.furn( examp )->open.is_null() ) {
+    if( here.open_door( examp, true, true ) ) {
         g->peek( examp );
         p.add_msg_if_player( _( "You peek through the peephole." ) );
     } else {
