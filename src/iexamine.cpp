@@ -1917,8 +1917,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
 
     here.furn_set( examp, f_null );
 
-    handle_harvest( p, "poppy_bud", true );
-    handle_harvest( p, "withered", true );
+    handle_harvest( p, "poppy_bud", false );
+    handle_harvest( p, "withered", false );
 }
 
 /**
@@ -1982,7 +1982,7 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         handle_harvest( p, "dahlia_root", false );
     }
     handle_harvest( p, "seed_dahlia", false );
-    handle_harvest( p, "withered", true );
+    handle_harvest( p, "withered", false );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -2116,7 +2116,7 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
     }
     here.furn_set( examp, f_null );
     here.spawn_item( p.pos(), itype_marloss_seed, 1, 3, calendar::turn );
-    handle_harvest( p, "withered", true );
+    handle_harvest( p, "withered", false );
 }
 
 /**
