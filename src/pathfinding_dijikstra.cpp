@@ -5,6 +5,7 @@
 #include <memory>
 #include <queue>
 
+#include "coordinates.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -16,7 +17,7 @@
 #include "vehicle_part.h"
 #include "vpart_position.h"
 
-static const std::vector<point> DIRS_2D = {
+static constexpr std::array<point, 8> DIRS_2D = {
     point_north_east,
     point_north_west,
     point_south_west,
@@ -27,193 +28,172 @@ static const std::vector<point> DIRS_2D = {
     point_south,
 };
 
-void DijikstraPathfinding::scan_for_z_changes( int z_level )
-{
-    assert( -OVERMAP_DEPTH <= z_level && z_level <= OVERMAP_HEIGHT );
+decltype( Pathfinding::d_maps_store ) Pathfinding::d_maps_store =
+    decltype( Pathfinding::d_maps_store )();
+decltype( Pathfinding::d_maps ) Pathfinding::d_maps =
+    decltype( Pathfinding::d_maps )();
+decltype( Pathfinding::z_area ) Pathfinding::z_area =
+    decltype( Pathfinding::z_area )();
+decltype( Pathfinding::z_caches ) Pathfinding::z_caches =
+    decltype( Pathfinding::z_caches )();
 
-    if( DijikstraPathfinding::get_is_z_level_explored( z_level ) ) {
+void Pathfinding::produce_d_map( point dest, int z, PathfindingSettings settings )
+{
+    if( Pathfinding::d_maps_store.empty() ) {
+        std::unique_ptr<Pathfinding> d_map = std::make_unique<Pathfinding>();
+        Pathfinding::d_maps_store.push_back( std::move( d_map ) );
+    }
+
+    std::unique_ptr<Pathfinding> d_map = std::move( Pathfinding::d_maps_store.back() );
+    Pathfinding::d_maps_store.pop_back();
+
+    d_map->dest = dest;
+    d_map->z = z;
+    d_map->settings = settings;
+
+    Pathfinding::d_maps.push_back( std::move( d_map ) );
+}
+
+void Pathfinding::update_z_caches()
+{
+    const map &here = get_map();
+
+    point cur_z_area = here.get_abs_sub().xy();
+    sm_to_ms( cur_z_area );
+
+    if( cur_z_area == Pathfinding::z_area ) {
         return;
     }
 
-    const map &map = get_map();
+    const point anti_shift = Pathfinding::z_area - cur_z_area;
+    // This cuboid will contain negative values, it's fine
+    half_open_cuboid<tripoint> prev_z_volume_local(
+        tripoint( here.getlocal( Pathfinding::z_area ), -OVERMAP_DEPTH ),
+        tripoint( here.getlocal( Pathfinding::z_area + point( MAPSIZE_X, MAPSIZE_Y ) ), OVERMAP_HEIGHT + 1 )
+    );
 
-    for( const tripoint &cur : map.points_on_zlevel( z_level ) ) {
-        const tripoint_abs_ms cur_global = map.getglobal( cur );
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        std::vector<Pathfinding::ZLevelChange> &target = Pathfinding::get_z_cache( z );
 
-        const maptile &cur_tile = map.maptile_at( cur );
-        const auto &cur_ter = cur_tile.get_ter_t();
+        // Shift Z-changes to match new coordinate system
+        for( ZLevelChange &c : target ) {
+            c.from += anti_shift;
+            c.to += anti_shift;
+        }
 
-        if( cur_ter.has_flag( TFLAG_NO_FLOOR ) ) {
-            // Open air
-            const tripoint below_us = cur + tripoint_below;
-            const tripoint_abs_ms below_us_global = map.getglobal( below_us );
-
-            if( !map.inbounds_z( below_us.z ) ) {
-                continue;
-            }
-
-            if( map.impassable_ter_furn( below_us ) ) {
-                continue;
-            };
-            // We won't do vehicle checks for simplicity
-
-            const ZLevelChange going_down = ZLevelChange{ cur_global, below_us_global, DijikstraPathfinding::ZLevelChange::Type::OPEN_AIR };
-            const ZLevelChange going_up = ZLevelChange{ below_us_global, cur_global, DijikstraPathfinding::ZLevelChange::Type::OPEN_AIR };
-
-            DijikstraPathfinding::get_z_changes( z_level - 1 ).push_back( going_down );
-            DijikstraPathfinding::get_z_changes( z_level ).push_back( going_up );
-        } else if( cur_ter.has_flag( TFLAG_GOES_UP ) ) {
-            // Stair bullshitery
-            const tripoint above_us = cur + tripoint_above;
-            const tripoint_abs_ms above_us_global = map.getglobal( above_us );
-
-            if( !map.inbounds_z( above_us.z ) ) {
-                continue;
-            }
-
-            // 10 to maintain parity with legacy A*
-            // closest_points_first will ensure stairs above us directly will be hit first
-            for( const tripoint &maybe_stairs_p : closest_points_first( above_us, 10 ) ) {
-                const maptile &maybe_stairs_tile = map.maptile_at( maybe_stairs_p );
-                const auto &maybe_stair_ter = maybe_stairs_tile.get_ter_t();
-
-                if( maybe_stair_ter.has_flag( TFLAG_GOES_DOWN ) ) {
-                    const ZLevelChange stairs_up = ZLevelChange{ cur_global, above_us_global, DijikstraPathfinding::ZLevelChange::Type::STAIRS };
-                    const ZLevelChange stairs_down = ZLevelChange{ above_us_global, cur_global, DijikstraPathfinding::ZLevelChange::Type::STAIRS };
-                    DijikstraPathfinding::get_z_changes( z_level ).push_back( stairs_down );
-                    DijikstraPathfinding::get_z_changes( z_level + 1 ).push_back( stairs_up );
-                    break;
+        // Remove Z-level changes that have gone out of bounds into unloaded regions
+        // Be aware this uses swap to back and pop_back, which does not preserve order, but is VERY fast
+        {
+            auto it = target.begin();
+            while( it != target.end() ) {
+                if( !here.inbounds( it->to ) ) {
+                    std::swap( *it, target.back() );
+                    target.pop_back();
+                } else {
+                    ++it;
                 }
             }
-        } else if( cur_ter.has_flag( TFLAG_GOES_DOWN ) ) {
-            // Ditto
-            const tripoint below_us = cur + tripoint_below;
-            const tripoint_abs_ms below_us_global = map.getglobal( below_us );
+        }
+    }
 
-            if( !map.inbounds_z( below_us.z ) ) {
+    // Finally, append newly loaded points
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        for( const tripoint &cur : here.points_on_zlevel( z ) ) {
+            if( prev_z_volume_local.contains( cur ) ) {
                 continue;
             }
 
-            // 10 to maintain parity with legacy A*
-            // closest_points_first will ensure stairs below us directly will be hit first
-            for( const tripoint &maybe_stairs_p : closest_points_first( below_us, 10 ) ) {
-                const maptile &maybe_stairs_tile = map.maptile_at( maybe_stairs_p );
-                const auto &maybe_stairs_ter = maybe_stairs_tile.get_ter_t();
+            const maptile &cur_tile = here.maptile_at( cur );
+            const auto &cur_ter = cur_tile.get_ter_t();
 
-                if( maybe_stairs_ter.has_flag( TFLAG_GOES_UP ) ) {
-                    const ZLevelChange stairs_down = ZLevelChange{ cur_global, below_us_global, DijikstraPathfinding::ZLevelChange::Type::STAIRS };
-                    const ZLevelChange stairs_up = ZLevelChange{ below_us_global, cur_global, DijikstraPathfinding::ZLevelChange::Type::STAIRS };
-                    DijikstraPathfinding::get_z_changes( z_level ).push_back( stairs_up );
-                    DijikstraPathfinding::get_z_changes( z_level - 1 ).push_back( stairs_down );
-                    break;
+            if( cur_ter.has_flag( TFLAG_NO_FLOOR ) ) {
+                // Open air
+                const tripoint below_us = cur + tripoint_below;
+
+                if( !here.inbounds_z( below_us.z ) ) {
+                    continue;
                 }
+
+                if( here.impassable_ter_furn( below_us ) ) {
+                    continue;
+                };
+                // We won't do vehicle checks for simplicity
+
+                const ZLevelChange going_down = ZLevelChange{ cur, below_us, Pathfinding::ZLevelChange::Type::OPEN_AIR };
+                const ZLevelChange going_up = ZLevelChange{ below_us, cur, Pathfinding::ZLevelChange::Type::OPEN_AIR };
+
+                Pathfinding::get_z_cache( z - 1 ).push_back( going_down );
+                Pathfinding::get_z_cache( z ).push_back( going_up );
+            } else if( cur_ter.has_flag( TFLAG_GOES_UP ) ) {
+                // Stair bullshitery
+                const tripoint above_us = cur + tripoint_above;
+
+                if( !here.inbounds_z( above_us.z ) ) {
+                    continue;
+                }
+
+                // 10 to maintain parity with legacy A*
+                // closest_points_first will ensure stairs above us directly will be hit first
+                for( const tripoint &maybe_stairs_p : closest_points_first( above_us, 10 ) ) {
+                    const maptile &maybe_stairs_tile = here.maptile_at( maybe_stairs_p );
+                    const auto &maybe_stair_ter = maybe_stairs_tile.get_ter_t();
+
+                    if( maybe_stair_ter.has_flag( TFLAG_GOES_DOWN ) ) {
+                        const ZLevelChange stairs_up = ZLevelChange{ cur, above_us, Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_down = ZLevelChange{ above_us, cur, Pathfinding::ZLevelChange::Type::STAIRS };
+                        Pathfinding::get_z_cache( z ).push_back( stairs_down );
+                        Pathfinding::get_z_cache( z + 1 ).push_back( stairs_up );
+                        break;
+                    }
+                }
+            } else if( cur_ter.has_flag( TFLAG_GOES_DOWN ) ) {
+                // Ditto
+                const tripoint below_us = cur + tripoint_below;
+
+                if( !here.inbounds_z( below_us.z ) ) {
+                    continue;
+                }
+
+                // 10 to maintain parity with legacy A*
+                // closest_points_first will ensure stairs below us directly will be hit first
+                for( const tripoint &maybe_stairs_p : closest_points_first( below_us, 10 ) ) {
+                    const maptile &maybe_stairs_tile = here.maptile_at( maybe_stairs_p );
+                    const auto &maybe_stairs_ter = maybe_stairs_tile.get_ter_t();
+
+                    if( maybe_stairs_ter.has_flag( TFLAG_GOES_UP ) ) {
+                        const ZLevelChange stairs_down = ZLevelChange{ cur, below_us, Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_up = ZLevelChange{ below_us, cur, Pathfinding::ZLevelChange::Type::STAIRS };
+                        Pathfinding::get_z_cache( z ).push_back( stairs_up );
+                        Pathfinding::get_z_cache( z - 1 ).push_back( stairs_down );
+                        break;
+                    }
+                }
+            } else if( cur_ter.has_flag( TFLAG_RAMP_UP ) ) {
+                const tripoint above_us = cur + tripoint_above;
+
+                if( !here.inbounds_z( above_us.z ) ) {
+                    continue;
+                }
+
+                const ZLevelChange ramp_up = ZLevelChange{ cur, above_us, Pathfinding::ZLevelChange::Type::RAMP };
+                Pathfinding::get_z_cache( z + 1 ).push_back( ramp_up );
+            } else if( cur_ter.has_flag( TFLAG_RAMP_DOWN ) ) {
+                const tripoint below_us = cur + tripoint_below;
+
+                if( !here.inbounds_z( below_us.z ) ) {
+                    continue;
+                }
+
+                const ZLevelChange ramp_down = ZLevelChange{ cur, below_us, Pathfinding::ZLevelChange::Type::RAMP };
+                Pathfinding::get_z_cache( z - 1 ).push_back( ramp_down );
             }
-        } else if( cur_ter.has_flag( TFLAG_RAMP_UP ) ) {
-            const tripoint above_us = cur + tripoint_above;
-            const tripoint_abs_ms above_us_global = map.getglobal( above_us );
-
-            if( !map.inbounds_z( above_us.z ) ) {
-                continue;
-            }
-
-            const ZLevelChange ramp_up = ZLevelChange{ cur_global, above_us_global, DijikstraPathfinding::ZLevelChange::Type::RAMP };
-            DijikstraPathfinding::get_z_changes( z_level + 1 ).push_back( ramp_up );
-        } else if( cur_ter.has_flag( TFLAG_RAMP_DOWN ) ) {
-            const tripoint below_us = cur + tripoint_below;
-            const tripoint_abs_ms below_us_global = map.getglobal( below_us );
-
-            if( !map.inbounds_z( below_us.z ) ) {
-                continue;
-            }
-
-            const ZLevelChange ramp_down = ZLevelChange{ cur_global, below_us_global, DijikstraPathfinding::ZLevelChange::Type::RAMP };
-            DijikstraPathfinding::get_z_changes( z_level - 1 ).push_back( ramp_down );
         }
     }
 
-    DijikstraPathfinding::get_is_z_level_explored( z_level ) = true;
+    Pathfinding::z_area = cur_z_area;
 }
 
-inline std::optional<std::vector<tripoint>> DijikstraPathfinding::get_route_2d(
-            const point &from,
-            const RouteSettings &route_settings )
-{
-    map &map = get_map();
-
-    if( !this->is_in_limited_domain( from, from, route_settings ) ) {
-        // This should only fail if max f-limit is failed
-        return std::nullopt;
-    }
-
-    if( this->expand_2d_up_to( from, route_settings ) != ExpansionOutcome::PATH_FOUND ) {
-        return std::nullopt;
-    }
-
-    const int chebyshev_distance = square_dist_fast(
-                                       tripoint( from, this->z ),
-                                       tripoint( this->dest, this->z ) );
-    const float max_s = route_settings.max_s_coeff * chebyshev_distance;
-
-    point cur_point = from;
-    float cur_cost = this->d_map.get_f_unbiased( cur_point );
-
-    std::vector<std::pair<float, point>> candidates;
-    std::vector<tripoint> result;
-    result.push_back( tripoint( from, this->z ) );
-
-    while( cur_point != this->dest ) {
-        for( const point &dir : DIRS_2D ) {
-            const point next_point = cur_point + dir;
-            const bool is_in_bounds = map.inbounds( next_point );
-            if( !is_in_bounds ) {
-                continue;
-            }
-
-            const float cost = this->d_map.get_f_unbiased( next_point );
-
-            const bool is_accessible = this->d_map.tile_state[next_point.y][next_point.x] ==
-                                       DijikstraMap::State::ACCESSIBLE;
-            const bool is_not_forbidden = !this->forbidden_moves.contains( {cur_point, next_point} );
-
-            const bool is_valid = is_accessible && is_not_forbidden;
-            if( !is_valid ) {
-                continue;
-            };
-
-            if( cost < cur_cost ) {
-                candidates.emplace_back( cost, next_point );
-            }
-        }
-
-        // This should be likely to happen, but...
-        if( candidates.empty() ) {
-            // Maybe instead of looking at directly adjacent points,
-            //   increase the radius until we find a gradient?
-            return std::nullopt;
-        }
-
-        std::sort( candidates.begin(), candidates.end(), []( auto & p1, auto & p2 ) {
-            return p1.first < p2.first;
-        } );
-
-        const auto selected_pair = &candidates[route_settings.rank_weighted_rng( candidates.size() )];
-
-        result.push_back( tripoint( selected_pair->second, this->z ) );
-        cur_point = selected_pair->second;
-        cur_cost = selected_pair->first;
-
-        candidates.clear();
-
-        // Path is too long in terms of steps taken
-        if( result.size() - 2 > max_s ) {
-            return std::nullopt;
-        }
-    }
-
-    return result;
-}
-
-inline bool DijikstraPathfinding::is_in_limited_domain(
+bool Pathfinding::is_in_limited_domain(
     const point &start, const point &p, const RouteSettings &route_settings )
 {
     // Could be NaN if max_f_coeff = INFINITY * 0
@@ -223,21 +203,22 @@ inline bool DijikstraPathfinding::is_in_limited_domain(
                             rl_dist_exact( tripoint( start, this->z ), tripoint( this->dest, this->z ) )
                         );
 
-    bool is_in_f_limited_area = is_nan( max_f ) || this->d_map.get_f_unbiased( p ) <= max_f;
-    bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
-    bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
+    const bool is_in_f_limited_area = is_nan( max_f ) || this->get_f_unbiased( p ) <= max_f;
+    const bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
+    const bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
 
     return is_in_f_limited_area || is_in_search_radius || is_in_search_cone;
 }
 
-inline void DijikstraPathfinding::detect_culled_frontier(
+void Pathfinding::detect_culled_frontier(
     const point &start, const RouteSettings &route_settings, std::unordered_set<point> &out )
 {
-    map &map = get_map();
+    const map &here = get_map();
 
     std::unordered_set<point> result;
     std::vector<point> stack;
     result.insert( start );
+
     stack.push_back( start );
 
     // This is deliberately a depth-first search in order to fail quickly upon reaching map edge
@@ -247,7 +228,7 @@ inline void DijikstraPathfinding::detect_culled_frontier(
 
         for( const point &dir : DIRS_2D ) {
             const point next = p + dir;
-            if( !map.inbounds( next ) ) {
+            if( !here.inbounds( next ) ) {
                 // If we reached map edge, this means we're in an unclosed area
                 return;
             }
@@ -255,13 +236,13 @@ inline void DijikstraPathfinding::detect_culled_frontier(
                 continue;
             }
             // Visited area marks a boundary. This does include tiles outside search area, eventually.
-            if( this->d_map.tile_state[next.y][next.x] != DijikstraMap::State::UNVISITED ) {
+            if( this->tile_state[next.y][next.x] != Pathfinding::State::UNVISITED ) {
                 continue;
             }
             if( !this->is_in_limited_domain( start, next, route_settings ) ) {
                 // Failed domain test means we've reached a virtual boundary
                 // Might as well make it INACCESSIBLE as well so we don't need to redo the check again
-                this->d_map.tile_state[next.y][next.x] = DijikstraMap::State::INACCESSIBLE;
+                this->tile_state[next.y][next.x] = Pathfinding::State::INACCESSIBLE;
                 continue;
             }
             stack.push_back( next );
@@ -269,22 +250,15 @@ inline void DijikstraPathfinding::detect_culled_frontier(
             break;
         }
     }
+
     // We have successfully been contained
     out = std::move( result );
 }
 
-inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up_to(
+Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
     const point &start,
     const RouteSettings &route_settings )
 {
-    // We'll store h-coeff biased data here
-    static Frontier biased_frontier;
-    // If we happen to cull our search area, we'll store culled points here
-    static std::vector<point> culled_frontier;
-    // If this is not empty, we have encircled our target so don't bother expanding
-    //   to tiles outside this area
-    static std::unordered_set<point> unculled_area;
-
     if( start == this->dest ) {
         // Special case where if we already are standing on the destination tile
         return ExpansionOutcome::PATH_FOUND;
@@ -292,59 +266,62 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
 
     const tripoint start_with_z = tripoint( start, this->z );
 
-    unculled_area.clear();
-    culled_frontier.clear();
-    biased_frontier = Frontier();
-
     const bool rebuild_needed = !route_settings.is_relative_search_domain() ||
                                 this->domain == MapDomain::RELATIVE_DOMAIN;
 
     if( !rebuild_needed ) {
-        switch( this->d_map.tile_state[start.y][start.x] ) {
-            case DijikstraMap::State::ACCESSIBLE:
+        switch( this->tile_state[start.y][start.x] ) {
+            case Pathfinding::State::ACCESSIBLE:
                 return ExpansionOutcome::PATH_FOUND;
-            case DijikstraMap::State::IMPASSABLE:
+            case Pathfinding::State::IMPASSABLE:
                 return ExpansionOutcome::TARGET_INACCESSIBLE;
-            case DijikstraMap::State::INACCESSIBLE:
+            case Pathfinding::State::INACCESSIBLE:
                 return ExpansionOutcome::NO_PATH_EXISTS;
             default:
                 break;
         }
     } else {
         // Limited search requires clearing p-values, too, since they may change
-        this->d_map.p[0].fill( 0 );
-        this->d_map.p.fill( this->d_map.p[0] );
-        this->d_map.tile_state[0].fill( DijikstraMap::State::UNVISITED );
-        this->d_map.tile_state.fill( this->d_map.tile_state[0] );
+        this->p_map[0].fill( 0 );
+        this->p_map.fill( this->p_map[0] );
+        this->tile_state[0].fill( Pathfinding::State::UNVISITED );
+        this->tile_state.fill( this->tile_state[0] );
 
         this->unbiased_frontier.clear();
         this->unbiased_frontier.push_back( this->dest );
     }
 
-    ExpansionOutcome result = ExpansionOutcome::UNSET;
-
     // Reset h-values for this pathfinding
-    this->d_map.h[0].fill( 0 );
-    this->d_map.h.fill( this->d_map.h[0] );
+    this->h_map[0].fill( 0 );
+    this->h_map.fill( this->h_map[0] );
     // Naturally
-    this->d_map.tile_state[this->dest.y][this->dest.x] = DijikstraMap::State::ACCESSIBLE;
-    this->d_map.p_at( this->dest ) = 0.0;
-    this->d_map.g_at( this->dest ) = 0.0;
+    this->tile_state[this->dest.y][this->dest.x] = Pathfinding::State::ACCESSIBLE;
+    this->p_at( this->dest ) = 0.0;
+    this->g_at( this->dest ) = 0.0;
 
-    // Drain unbiased frontier into biased_frontier
+    // We'll store h-coeff biased data here
+    Frontier biased_frontier;
     for( const point &p : this->unbiased_frontier ) {
-        this->d_map.h_at( p ) = rl_dist_exact( start_with_z, tripoint( p, this->z ) );
-        biased_frontier.emplace( this->d_map.get_f_biased( p, route_settings.h_coeff ), p );
+        this->h_at( p ) = rl_dist_exact( start_with_z, tripoint( p, this->z ) );
+        biased_frontier.emplace( this->get_f_biased( p, route_settings.h_coeff ), p );
     }
     this->unbiased_frontier.clear();
 
-    int it = 0; // Iteration counter
+    int it = 0;
+
+    // If this is not empty, we have encircled our target so don't bother expanding
+    //   to tiles outside this area
+    std::unordered_set<point> unculled_area;
+    // If we happen to cull our search area, we'll store culled points here
+    std::vector<point> culled_frontier;
+    ExpansionOutcome result = ExpansionOutcome::UNSET;
+
     const bool can_open_doors = !is_inf( this->settings.door_open_cost );
     const bool can_bash = this->settings.bash_strength_val > 0;
     const bool can_climb = !is_inf( this->settings.climb_cost );
     const bool care_about_mobs = this->settings.mob_presence_penalty > 0;
     const bool care_about_traps = this->settings.trap_cost > 0;
-    const map &map = get_map();
+    const map &here = get_map();
 
     while( !biased_frontier.empty() ) {
         // Periodically check if `start` is enclosed
@@ -366,13 +343,13 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
         // These might be valid frontier points, but if they are outside of our search area, then we will not go through them this time
         if( !this->is_in_limited_domain( start, next_point, route_settings ) ) {
             // used by `detect_culled_frontier`
-            this->d_map.tile_state[next_point.y][next_point.x] = DijikstraMap::State::INACCESSIBLE;
+            this->tile_state[next_point.y][next_point.x] = Pathfinding::State::INACCESSIBLE;
             continue;
         }
 
         int _;
         const vehicle *next_vehicle;
-        next_vehicle = map.veh_at_internal( next_point_with_z, _ );
+        next_vehicle = here.veh_at_internal( next_point_with_z, _ );
 
         for( const point &dir : DIRS_2D ) {
             bool is_diag = dir.x != 0 && dir.y != 0;
@@ -381,26 +358,23 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
             const point cur_point = next_point + dir;
             const tripoint cur_point_with_z = tripoint( cur_point, this->z );
 
-            if( !map.inbounds( cur_point ) ) {
+            if( !here.inbounds( cur_point ) ) {
                 continue;
             }
 
-            if( this->d_map.tile_state[cur_point.y][cur_point.x] != DijikstraMap::State::UNVISITED ) {
+            if( this->tile_state[cur_point.y][cur_point.x] != Pathfinding::State::UNVISITED ) {
                 continue;
             }
 
-            this->d_map.h_at( cur_point ) = rl_dist_exact( tripoint( start, this->z ), cur_point_with_z );
+            this->h_at( cur_point ) = rl_dist_exact( tripoint( start, this->z ), cur_point_with_z );
 
             int cur_vehicle_part;
             const vehicle *cur_vehicle;
-            cur_vehicle = map.veh_at_internal( cur_point_with_z, cur_vehicle_part );
+            cur_vehicle = here.veh_at_internal( cur_point_with_z, cur_vehicle_part );
 
             {
                 bool is_move_valid = true;
 
-                const bool is_valid_to_step_into = this->settings.test_move_validity ?
-                                                   map.valid_move( cur_point_with_z, next_point_with_z, true, this->settings.can_fly, true ) :
-                                                   true;
                 const bool is_valid_to_step_into_veh =
                     cur_vehicle == nullptr ?
                     true :
@@ -413,7 +387,6 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                     next_vehicle->allowed_move( next_vehicle->tripoint_to_mount( cur_point_with_z ),
                                                 next_vehicle->tripoint_to_mount( next_point_with_z ) );
 
-                is_move_valid &= is_valid_to_step_into;
                 is_move_valid &= is_valid_to_step_into_veh;
                 is_move_valid &= is_valid_to_step_out_of_veh;
 
@@ -423,10 +396,10 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                 }
             }
 
-            const maptile &new_tile = map.maptile_at( cur_point_with_z );
+            const maptile &new_tile = here.maptile_at( cur_point_with_z );
             const auto &terrain = new_tile.get_ter_t();
             const auto &furniture = new_tile.get_furn_t();
-            const int move_cost = map.move_cost_internal( furniture, terrain, cur_vehicle, cur_vehicle_part );
+            const int move_cost = here.move_cost_internal( furniture, terrain, cur_vehicle, cur_vehicle_part );
 
             float cur_g = 0.0;
             cur_g += is_diag ? 0.75 * move_cost : 0.5 * move_cost;
@@ -452,7 +425,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                 cur_g += is_trap ? this->settings.trap_cost : 0.0;
             }
 
-            const bool is_ledge = map.has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR );
+            const bool is_ledge = here.has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR );
             if( is_ledge && !this->settings.can_fly ) {
                 // Close ledges outright for non-fliers
                 cur_g += INFINITY;
@@ -480,7 +453,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                         int dummy;
                         const bool part_is_door = cur_vehicle->part_flag( obstacle_part, VPFLAG_OPENABLE );
                         const bool part_opens_from_inside = cur_vehicle->part_flag( obstacle_part, "OPENCLOSE_INSIDE" );
-                        const bool is_cur_point_inside = map.veh_at_internal( cur_point_with_z, dummy ) == cur_vehicle;
+                        const bool is_cur_point_inside = here.veh_at_internal( cur_point_with_z, dummy ) == cur_vehicle;
                         const bool valid_to_open = part_is_door && ( part_opens_from_inside ? is_cur_point_inside : true );
 
                         if( can_open_doors && valid_to_open ) {
@@ -513,7 +486,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                     // Doors that can only be open from the inside
                     const bool door_opens_from_inside = terrain.has_flag( "OPENCLOSE_INSIDE" ) ||
                                                         furniture.has_flag( "OPENCLOSE_INSIDE" );
-                    const bool is_cur_point_inside = !map.is_outside( cur_point );
+                    const bool is_cur_point_inside = !here.is_outside( cur_point );
                     const bool valid_to_open = door_opens_from_inside ? is_cur_point_inside : true;
                     if( valid_to_open ) {
                         obstacle_g = this->settings.door_open_cost;
@@ -522,7 +495,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                 }
                 if( can_bash ) {
                     // Time to consider bashing the obstacle
-                    const int rating = map.bash_rating_internal(
+                    const int rating = here.bash_rating_internal(
                                            this->settings.bash_strength_val * this->settings.bash_strength_quanta,
                                            furniture, terrain, false, cur_vehicle, cur_vehicle_part );
                     if( rating > 1 ) {
@@ -530,7 +503,7 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
                         break;
                     } else if( rating == 1 ) {
                         // Extremely unlikely to take this route unless no other choice is present
-                        obstacle_g = 100.0 * this->settings.bash_cost;
+                        obstacle_g = 1000000.0 * this->settings.bash_cost;
                         break;
                     }
                 }
@@ -541,20 +514,20 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
 
             cur_g += obstacle_g;
 
-            this->d_map.g_at( cur_point ) = cur_g;
-            this->d_map.p_at( cur_point ) = this->d_map.get_f_unbiased( next_point );
+            this->g_at( cur_point ) = cur_g;
+            this->p_at( cur_point ) = this->get_f_unbiased( next_point );
 
             // Reintroduce this point into frontier unless the tile is closed
             if( is_inf( cur_g ) ) {
-                this->d_map.tile_state[cur_point.y][cur_point.x] = DijikstraMap::State::IMPASSABLE;
+                this->tile_state[cur_point.y][cur_point.x] = Pathfinding::State::IMPASSABLE;
             } else {
-                this->d_map.tile_state[cur_point.y][cur_point.x] = DijikstraMap::State::ACCESSIBLE;
-                biased_frontier.push( {this->d_map.get_f_biased( cur_point, route_settings.h_coeff ), cur_point} );
+                this->tile_state[cur_point.y][cur_point.x] = Pathfinding::State::ACCESSIBLE;
+                biased_frontier.push( {this->get_f_biased( cur_point, route_settings.h_coeff ), cur_point} );
             }
 
             if( cur_point == start ) {
                 // We have reached the target
-                if( this->d_map.tile_state[cur_point.y][cur_point.x] == DijikstraMap::State::ACCESSIBLE ) {
+                if( this->tile_state[cur_point.y][cur_point.x] == Pathfinding::State::ACCESSIBLE ) {
                     result = ExpansionOutcome::PATH_FOUND;
                 } else {
                     result = ExpansionOutcome::TARGET_INACCESSIBLE;
@@ -592,8 +565,8 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
             // Map must have no path to target
             for( size_t y = 0; y < MAPSIZE_Y; y++ ) {
                 for( size_t x = 0; x < MAPSIZE_X; x++ ) {
-                    if( this->d_map.tile_state[y][x] == DijikstraMap::State::UNVISITED ) {
-                        this->d_map.tile_state[y][x] = DijikstraMap::State::INACCESSIBLE;
+                    if( this->tile_state[y][x] == Pathfinding::State::UNVISITED ) {
+                        this->tile_state[y][x] = Pathfinding::State::INACCESSIBLE;
                     }
                 }
             }
@@ -606,164 +579,252 @@ inline DijikstraPathfinding::ExpansionOutcome DijikstraPathfinding::expand_2d_up
     return result;
 }
 
-std::vector<tripoint> DijikstraPathfinding::route( const tripoint &from, const tripoint &to,
-        const std::optional<PathfindingSettings> maybe_path_settings,
-        const std::optional<RouteSettings> maybe_route_settings )
+
+std::vector<tripoint> Pathfinding::get_route_2d(
+    const point from, const point to, const int z,
+    const PathfindingSettings path_settings,
+    const RouteSettings route_settings )
 {
-    const map &map = get_map();
+    if( from == to ) {
+        return std::vector<tripoint> { tripoint( from, z ), tripoint( to, z ) };
+    }
 
-    tripoint from_copy = from;
-    tripoint to_copy = to;
+    auto d_map_it = std::find_if(
+                        Pathfinding::d_maps.begin(), Pathfinding::d_maps.end(),
+    [&to, &path_settings, z]( auto & map ) {
+        return map->dest == to && map->z == z && map->settings == path_settings;
+    } );
 
-    map.clip_to_bounds( from_copy );
-    map.clip_to_bounds( to_copy );
+    Pathfinding *d_map;
+    if( d_map_it == Pathfinding::d_maps.end() ) {
+        Pathfinding::produce_d_map( to, z, path_settings );
+        d_map = Pathfinding::d_maps.back().get();
+    } else {
+        d_map = d_map_it->get();
+    }
+
+    if( !d_map->is_in_limited_domain( from, from, route_settings ) ) {
+        // This should only fail if max f-limit is failed
+        return std::vector<tripoint>();
+    }
+
+    if( d_map->expand_2d_up_to( from, route_settings ) != ExpansionOutcome::PATH_FOUND ) {
+        return std::vector<tripoint>();
+    }
+
+    const map &here = get_map();
+    const int chebyshev_distance = square_dist_fast(
+                                       tripoint( from, d_map->z ),
+                                       tripoint( d_map->dest, d_map->z ) );
+    const float max_s = route_settings.max_s_coeff * chebyshev_distance;
+
+    std::vector<tripoint> result;
+    result.push_back( tripoint( from, d_map->z ) );
+
+    point cur_point = from;
+    float cur_cost = d_map->get_f_unbiased( cur_point );
+
+    while( cur_point != d_map->dest ) {
+        std::vector<std::pair<float, point>> candidates;
+
+        for( const point &dir : DIRS_2D ) {
+            const point next_point = cur_point + dir;
+            const bool is_in_bounds = here.inbounds( next_point );
+            if( !is_in_bounds ) {
+                continue;
+            }
+
+            const float cost = d_map->get_f_unbiased( next_point );
+
+            const bool is_accessible = d_map->tile_state[next_point.y][next_point.x] ==
+                                       Pathfinding::State::ACCESSIBLE;
+            const bool is_not_forbidden = !d_map->forbidden_moves.contains( {cur_point, next_point} );
+
+            const bool is_valid = is_accessible && is_not_forbidden;
+            if( !is_valid ) {
+                continue;
+            };
+
+            if( cost < cur_cost ) {
+                candidates.emplace_back( cost, next_point );
+            }
+        }
+
+        // This should not be likely to happen, but...
+        if( candidates.empty() ) {
+            // Maybe instead of looking at directly adjacent points,
+            //   increase the radius until we find a gradient?
+            result.clear();
+            return result;
+        }
+
+        std::sort( candidates.begin(), candidates.end(), []( auto & p1, auto & p2 ) {
+            return p1.first < p2.first;
+        } );
+
+        const auto selected_pair = &candidates[route_settings.rank_weighted_rng( candidates.size() )];
+
+        result.push_back( tripoint( selected_pair->second, d_map->z ) );
+        cur_point = selected_pair->second;
+        cur_cost = selected_pair->first;
+
+        candidates.clear();
+
+        // Path is too long in terms of steps taken
+        if( result.size() - 2 > max_s ) {
+            result.clear();
+            return result;
+        }
+    }
+
+    return result;
+}
+
+std::vector<tripoint> Pathfinding::get_route_3d(
+    const tripoint from, const tripoint to,
+    const PathfindingSettings path_settings,
+    const RouteSettings route_settings )
+{
+    // We won't bother with complicated Z-level paths because that vastly, vastly increases the pathfinding cost
+    // Instead, we will **only** consider taking z_changes that bring us closer to target's Z level.
+    const bool we_go_up = to.z > from.z;
+
+    Pathfinding::update_z_caches();
+
+    // Determine our Z-path
+    std::vector<ZLevelChange> z_path;
+    {
+        tripoint cur_origin = to;
+        while( cur_origin.z != from.z ) {
+            std::vector<Pathfinding::ZLevelChange> candidates;
+
+            for( const Pathfinding::ZLevelChange &z_change : Pathfinding::get_z_cache( cur_origin.z ) ) {
+                bool can_be_taken = true;
+                switch( z_change.type ) {
+                    case Pathfinding::ZLevelChange::Type::STAIRS:
+                        can_be_taken &= path_settings.can_climb_stairs || path_settings.can_fly;
+                        break;
+                    case Pathfinding::ZLevelChange::Type::OPEN_AIR:
+                        can_be_taken &= path_settings.can_fly;
+                        break;
+                    case Pathfinding::ZLevelChange::Type::RAMP:
+                        // Ramps can be taken by all creatures currently
+                        break;
+                }
+
+                const bool does_not_overshoot = we_go_up ?
+                                                z_change.from.z >= from.z :
+                                                z_change.from.z <= from.z;
+                const bool leads_closer_to_from = we_go_up ?
+                                                  z_change.from.z < cur_origin.z :
+                                                  z_change.from.z > cur_origin.z;
+                if( can_be_taken && does_not_overshoot && leads_closer_to_from ) {
+                    candidates.push_back( z_change );
+                }
+            }
+
+            if( candidates.empty() ) {
+                // No trivial Z path exists, give up
+                return std::vector<tripoint>();
+            }
+
+            // Now, find the best next Z level
+            int best_next_z_level = to.z;
+            for( const Pathfinding::ZLevelChange &z_change : candidates ) {
+                if( we_go_up ) {
+                    best_next_z_level = std::min( z_change.from.z, best_next_z_level );
+                } else {
+                    best_next_z_level = std::max( z_change.from.z, best_next_z_level );
+                }
+            }
+
+            float best_distance = INFINITY;
+            Pathfinding::ZLevelChange best_z_change;
+
+            for( const auto &z_change : candidates ) {
+                if( z_change.from.z != best_next_z_level ) {
+                    continue;
+                }
+                const float dist = rl_dist_exact( cur_origin, z_change.to );
+                if( dist < best_distance ) {
+                    best_z_change = z_change;
+                    best_distance = dist;
+                }
+            }
+
+            z_path.push_back( best_z_change );
+            cur_origin = best_z_change.from;
+        }
+    }
+
+    std::unordered_set<tripoint> ramp_excluded;
+    std::vector<tripoint> result;
+    // Now try to construct path
+    {
+        point cur_pos = from.xy();
+        while( !z_path.empty() ) {
+            const Pathfinding::ZLevelChange next = z_path.back();
+
+            const std::vector<tripoint> path_segment = Pathfinding::get_route_2d(
+                        cur_pos, next.from.xy(), next.from.z,
+                        path_settings, route_settings );
+            if( path_segment.empty() ) {
+                // Give up early based on our inability to path to that z-change
+                result.clear();
+                return result;
+            }
+
+            result.insert( result.end(), path_segment.begin(), path_segment.end() );
+            // Ramps are special in that we do not step on the last tile unless we're flying
+            const bool is_ramp_like = !path_settings.can_fly &&
+                                      next.type == Pathfinding::ZLevelChange::Type::RAMP;
+            if( is_ramp_like ) {
+                ramp_excluded.insert( next.from );
+            }
+            cur_pos = next.to.xy();
+            z_path.pop_back();
+        }
+
+        // We arrived to final Z level
+        const std::vector<tripoint> final_segment = Pathfinding::get_route_2d(
+                    cur_pos, to.xy(), to.z,
+                    path_settings, route_settings );
+        if( final_segment.empty() ) {
+            result.clear();
+            return result;
+        }
+        result.insert( result.end(), final_segment.begin(), final_segment.end() );
+
+        // Finally, remove ramp tiles
+        std::erase_if( result, [&ramp_excluded]( const tripoint & p ) {
+            return ramp_excluded.contains( p );
+        } );
+    }
+    return result;
+}
+
+std::vector<tripoint> Pathfinding::route(
+    tripoint from, tripoint to,
+    const std::optional<PathfindingSettings> maybe_path_settings,
+    const std::optional<RouteSettings> maybe_route_settings )
+{
+    const map &here = get_map();
+
+    here.clip_to_bounds( from );
+    here.clip_to_bounds( to );
 
     PathfindingSettings path_settings = maybe_path_settings.has_value() ? *maybe_path_settings :
                                         PathfindingSettings();
     RouteSettings route_settings = maybe_route_settings.has_value() ? *maybe_route_settings :
                                    RouteSettings();
 
-    if( from == to ) {
-        return std::vector<tripoint> { from, to };
-    }
-
     if( rl_dist_exact( from, to ) > route_settings.max_dist ) {
         return std::vector<tripoint>();
     }
 
-    if( from_copy.z == to_copy.z ) {
-        // 2D search
-        for( auto &map : DijikstraPathfinding::maps ) {
-            if( map->dest == to_copy.xy() && map->z == to_copy.z && map->settings == path_settings ) {
-                auto result = map->get_route_2d( from_copy.xy(), route_settings );
-                return result.has_value() ? *result : std::vector<tripoint>();
-            }
-        }
-
-        DijikstraPathfinding::take_unused_map( to_copy.xy(), to_copy.z, path_settings );
-
-        return DijikstraPathfinding::route( from, to, maybe_path_settings, maybe_route_settings );
+    if( from.z == to.z ) {
+        return Pathfinding::get_route_2d( from.xy(), to.xy(), from.z,
+                                          path_settings, route_settings );
     }
-
-    // 3D search
-    // We won't bother with complicated Z-level paths because that vastly, vastly increases the pathfinding cost
-    // Instead, we will **only** consider taking z_changes that bring us closer to target's Z level.
-    std::vector<tripoint> full_route;
-
-    const bool we_go_up = to_copy.z > from_copy.z;
-
-    // Request Z scans in advance
-    for( int z = std::min( from_copy.z, to_copy.z ); z <= std::max( from_copy.z, to_copy.z ); z++ ) {
-        DijikstraPathfinding::scan_for_z_changes( z );
-    }
-
-    tripoint_abs_ms cur_to_global = map.getglobal( to_copy );
-
-    std::unordered_set<tripoint> ramp_excluded;
-
-    while( cur_to_global.z() != from_copy.z ) {
-        std::vector<DijikstraPathfinding::ZLevelChange> candidates;
-        for( const auto &z_change : DijikstraPathfinding::get_z_changes( cur_to_global.z() ) ) {
-            bool can_be_taken = true;
-            switch( z_change.type ) {
-                case DijikstraPathfinding::ZLevelChange::Type::STAIRS:
-                    can_be_taken &= path_settings.can_climb_stairs || path_settings.can_fly;
-                    break;
-                case DijikstraPathfinding::ZLevelChange::Type::OPEN_AIR:
-                    can_be_taken &= path_settings.can_fly;
-                    break;
-                case DijikstraPathfinding::ZLevelChange::Type::RAMP:
-                    // Ramps can be taken by all creatures currently
-                    break;
-            }
-
-            const bool does_not_overshoot = we_go_up ?
-                                            z_change.from.z() >= from_copy.z :
-                                            z_change.from.z() <= from_copy.z;
-            const bool leads_closer_to_from = we_go_up ?
-                                              z_change.from.z() < cur_to_global.z() :
-                                              z_change.from.z() > cur_to_global.z();
-            if( can_be_taken && does_not_overshoot && leads_closer_to_from ) {
-                candidates.push_back( z_change );
-            }
-        }
-
-        if( candidates.empty() ) {
-            // No trivial Z-level path must exist, so go ahead and return nothing
-            return std::vector<tripoint>();
-        }
-
-        // Now, find the best next Z level
-        int best_next_z_level = to_copy.z;
-        for( const auto &z_change : candidates ) {
-            if( we_go_up ) {
-                best_next_z_level = std::min( z_change.from.z(), best_next_z_level );
-            } else {
-                best_next_z_level = std::max( z_change.from.z(), best_next_z_level );
-            }
-        }
-
-        float best_distance = INFINITY;
-        tripoint_abs_ms best_from_global;
-        tripoint_abs_ms best_to_global;
-        bool best_is_ramp = false;
-
-        for( const auto &z_change : candidates ) {
-            if( z_change.from.z() != best_next_z_level ) {
-                continue;
-            }
-            const float dist = rl_dist_exact( cur_to_global.raw(), z_change.to.raw() );
-            if( dist < best_distance ) {
-                best_from_global = z_change.from;
-                best_to_global = z_change.to;
-                best_distance = dist;
-                best_is_ramp = z_change.type == DijikstraPathfinding::ZLevelChange::Type::RAMP;
-            }
-        }
-
-        const tripoint cur_to = map.getlocal( cur_to_global );
-        const tripoint best_from = map.getlocal( best_from_global );
-        const tripoint best_to = map.getlocal( best_to_global );
-
-        const bool is_still_valid = map.inbounds( map.getlocal( best_from_global ) ) &&
-                                    map.inbounds( map.getlocal( best_to_global ) );
-        if( !is_still_valid ) {
-            // Avatar must have gone a significant distance away, go ahead and reset Z-changes and redo everything
-            DijikstraPathfinding::z_reset();
-            return DijikstraPathfinding::route( from, to, maybe_path_settings, maybe_route_settings );
-        }
-
-        const auto next_route = DijikstraPathfinding::route(
-                                    cur_to, best_to,
-                                    path_settings, route_settings );
-        if( next_route.empty() ) {
-            // No trivial Z-level path must exist, so go ahead and return nothing
-            return std::vector<tripoint>();
-        }
-
-        full_route.insert( full_route.end(), next_route.begin(), next_route.end() );
-        if( best_is_ramp && !path_settings.can_fly ) {
-            // Ramps are special in that we do not step on the last tile unless we're flying
-            ramp_excluded.insert( best_from );
-        }
-        cur_to_global = best_from_global;
-    }
-
-    // We arrived to the target Z level
-    const auto last_route = DijikstraPathfinding::route(
-                                map.getlocal( cur_to_global ), from_copy,
-                                path_settings, route_settings );
-    if( last_route.empty() ) {
-        // No route at the last Z level
-        return std::vector<tripoint>();
-    }
-    full_route.insert( full_route.end(), last_route.begin(), last_route.end() );
-    std::reverse( full_route.begin(), full_route.end() );
-
-    // Finally, remove ramp tiles
-    std::erase_if( full_route, [&ramp_excluded]( const tripoint & p ) {
-        return ramp_excluded.contains( p );
-    } );
-
-    return full_route;
+    return Pathfinding::get_route_3d( from, to, path_settings, route_settings );
 };

@@ -1606,7 +1606,7 @@ bool game::do_turn()
     u.volume = 0;
 
     // Finally, clear pathfinding cache
-    DijikstraPathfinding::reset();
+    Pathfinding::clear_d_maps();
 
     return false;
 }

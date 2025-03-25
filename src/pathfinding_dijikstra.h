@@ -37,11 +37,11 @@ constexpr bool is_inf( float x )
 // A struct defining abilities of the actor and how to respond to various terrain features
 struct PathfindingSettings {
     // Our approximate bash strength is `bash_strength_val` * `bash_strength_quanta`
-    // We quantize bash strength to reduce the amount of maps created for different mob types, considering the actual bash strength
+    // We quantize bash strength to reduce the amount of d_maps created for different mob types, considering the actual bash strength
     //   does not change g-values much
     int bash_strength_val = 0;
     // Our approximate bash strength is `bash_strength_val` * `bash_strength_quanta`
-    // We quantize bash strength to reduce the amount of maps created for different mob types, considering the actual bash strength
+    // We quantize bash strength to reduce the amount of d_maps created for different mob types, considering the actual bash strength
     //   does not change g-values much.
     int bash_strength_quanta = 10;
 
@@ -66,11 +66,6 @@ struct PathfindingSettings {
 
     // If a mob is in the way currently, add this extra cost. INFINITY to always path around other critters.
     float mob_presence_penalty = 0.;
-
-    // Whether we proactively test if taking a move is valid or not for every single direction.
-    // This ensures that a returned path will be valid for the caller to take, but this is **ungodly** expensive.
-    // So only use if you absolutely MUST be sure a path is move-valid.
-    bool test_move_validity = true;
 
     // Can we fly? This implies we can climb stairs (`can_climb_stairs = true`),
     //   move over trap tiles freely (`trap_cost = 0`)
@@ -120,7 +115,11 @@ struct RouteSettings {
         }
 
         const float r = rng_float( 0.0, 1.0 );
-        return static_cast<unsigned int>( n * powf( r, ( 1. + this->alpha ) / ( 1. - this->alpha ) ) );
+        const float exp = ( 1. + this->alpha ) / ( 1. - this->alpha );
+        const unsigned int selected_n = static_cast<unsigned int>( n * powf( r, exp ) );
+        // DO NOT remove the modulo.
+        // `selected_n` may sometimes be == n due to floating point stuff rounding rarely causing r^exp being >= 1 if alpha is low enough
+        return selected_n % n;
     }
 
     /*
@@ -246,121 +245,23 @@ struct RouteSettings {
     }
 };
 
-class DijikstraPathfinding
+class Pathfinding
 {
     private:
         const static size_t DIJIKSTRA_ARRAY_SIZE = MAPSIZE_Y * MAPSIZE_X;
         typedef std::pair<float, point> val_pair;
         typedef std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> Frontier;
 
-        struct DijikstraMap {
-            enum class State {
-                UNVISITED, // Tile has not been expanded to yet
-                ACCESSIBLE, // Tile is reachable
-                IMPASSABLE, // Tile is reachable, but cannot be gone into
-                INACCESSIBLE, // Tile is completely unreachable (or outside search area)
-            };
-            std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> p; // Smallest adjacent DijikstraValue's f
-            // Get `p`-value at `p`
-            float &p_at( const point &p ) {
-                return this->p[p.y][p.x];
-            };
-
-            std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y>
-            g; // Associated tile's g cost [movement, bashing down...]
-            // Get `g`-value at `p`
-            float &g_at( const point &p ) {
-                return this->g[p.y][p.x];
-            };
-
-            std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> h; // Heurestic to start [manhattan distance]
-            // Get `h`-value at `p`
-            float &h_at( const point &p ) {
-                return this->h[p.y][p.x];
-            };
-
-            std::array<std::array<State, MAPSIZE_X>, MAPSIZE_Y> tile_state;
-
-            void reset() {
-                this->p[0].fill( 0 );
-                this->p.fill( p[0] );
-                this->g[0].fill( 0 );
-                this->g.fill( g[0] );
-                this->h[0].fill( 0 );
-                this->h.fill( h[0] );
-
-                this->tile_state[0].fill( State::UNVISITED );
-                this->tile_state.fill( this->tile_state[0] );
-            }
-
-            // f0 = p + g
-            inline float get_f_unbiased( const point &p ) {
-                return this->p_at( p ) + this->g_at( p );
-            }
-
-            // f1 = p + g + `h_coeff` * h
-            inline float get_f_biased( const point &p, float h_coeff ) {
-                return this->get_f_unbiased( p ) + h_coeff * this->h_at( p );
-            }
+        enum class State {
+            UNVISITED, // Tile has not been expanded to yet
+            ACCESSIBLE, // Tile is reachable
+            IMPASSABLE, // Tile is reachable, but cannot be gone into
+            INACCESSIBLE, // Tile is completely unreachable (or outside search area)
         };
-
-        // `dest`ination of this map [2D]
-        point dest;
-        // `z` level of this map
-        int z;
-        // `settings` which were used to spawn this map
-        PathfindingSettings settings;
-
-        // Have we been set up since last reset?
-        bool is_setup;
-
-        // Struct with our map triplet
-        DijikstraMap d_map;
-
-        static void take_unused_map( point dest, int z, PathfindingSettings settings ) {
-            if( DijikstraPathfinding::unused_maps.empty() ) {
-                std::unique_ptr<DijikstraPathfinding> d_map = std::make_unique<DijikstraPathfinding>();
-                DijikstraPathfinding::unused_maps.push_back( std::move( d_map ) );
-            }
-
-            std::unique_ptr<DijikstraPathfinding> d_map = std::move( DijikstraPathfinding::unused_maps.back() );
-            DijikstraPathfinding::unused_maps.pop_back();
-
-            d_map->dest = dest;
-            d_map->z = z;
-            d_map->settings = settings;
-            d_map->is_setup = true;
-
-            DijikstraPathfinding::maps.push_back( std::move( d_map ) );
-        }
-
         enum class MapDomain {
             RELATIVE_DOMAIN, // Map's search domain limit includes relative limits (that is, depending on start position)
             ABSOLUTE_DOMAIN // Map's search domain limit is centered at the destination
         };
-        MapDomain domain = MapDomain::RELATIVE_DOMAIN;
-
-        // We don't want to calculate dijikstra of the whole map every time,
-        //   so we store wave `frontier` to proceed from later if needed
-        std::vector<point> unbiased_frontier;
-
-        // Moves we don't allow to happen
-        std::set<std::pair<point, point>> forbidden_moves;
-
-        // Test if `p` is in our limited domain defined by `route_settings` relative to `start`
-        inline bool is_in_limited_domain( const point &start, const point &p,
-                                          const RouteSettings &route_settings );
-
-        // See `DijikstraPathfinding::route`
-        inline std::optional<std::vector<tripoint>> get_route_2d( const point &origin,
-                const RouteSettings &route_settings );
-
-        // Determine if `start` is surrounded by already visited tiles in `d_map` or tiles allowed by `route_settings`
-        //   and if so, clear and fill `out` with all unexplored tiles left.
-        inline void detect_culled_frontier( const point &start,
-                                            const RouteSettings &route_settings,
-                                            std::unordered_set<point> &out );
-
         enum class ExpansionOutcome {
             PATH_FOUND, // Path exists
             TARGET_INACCESSIBLE, // Although pathfinding reached the target, the target is inside some inaccessible location
@@ -368,15 +269,6 @@ class DijikstraPathfinding
             NO_PATH_EXISTS, // Map explored fully, no path exists
             UNSET // Internal use
         };
-        // Continue expanding the dijikstra map until we reach `origin` or nothing remains of the frontier. Returns whether a route is present.
-        inline ExpansionOutcome expand_2d_up_to( const point &origin,
-                const RouteSettings &route_settings );
-
-        // Global state: allocated dijikstra maps. Pull to `maps` from here.
-        inline static std::vector<std::unique_ptr<DijikstraPathfinding>> unused_maps;
-
-        // Global state: memoized dijikstra maps. Transfer to `unused_maps` every game turn.
-        inline static std::vector<std::unique_ptr<DijikstraPathfinding>> maps;
 
         // Location we can change our Z level with
         struct ZLevelChange {
@@ -386,54 +278,147 @@ class DijikstraPathfinding
                 OPEN_AIR
             };
 
-            const tripoint_abs_ms from;
-            const tripoint_abs_ms to;
-            const Type type;
+            tripoint from;
+            tripoint to;
+            Type type;
         };
 
-        // Z-level changes that lead to specified Z level.
-        inline static std::vector<ZLevelChange> z_changes[OVERMAP_LAYERS];
-        // Bit array of already explored Z levels
-        inline static bool z_levels_explored[OVERMAP_LAYERS];
+        // Global state: allocated dijikstra d_maps. Pull to `d_maps` from here.
+        static std::vector<std::unique_ptr<Pathfinding>> d_maps_store;
 
-        // Scan Z-level for Z level changes
-        static void scan_for_z_changes( int z_level );
+        // Global state: memoized dijikstra d_maps. Transfer to `d_maps_store` every game turn.
+        static std::vector<std::unique_ptr<Pathfinding>> d_maps;
 
-        // Get a reference to ZLevelChange
-        static std::vector<ZLevelChange> &get_z_changes( const int z ) {
+        // We store the area covered by last Z-scan (in global coords, top left loaded submap)
+        // ```
+        // -----
+        // |1  |
+        // | --+---
+        // | | |  |
+        // --+--  |
+        //   |   2|
+        //   ------
+        // ```
+        // If we moved our area from square 1 to square 2, then
+        // `ZLevelChange`s that only remain in 1 will be removed
+        // `ZLevelChange`s that remain in both 1 and 2 will be shifted so their local coords match square 2
+        // and points that are only in 2 will be scanned for new Z-changes.
+        static point z_area;
+
+        // Global state: Z-level transitions for each z-level
+        static std::array<std::vector<ZLevelChange>, OVERMAP_LAYERS> z_caches;
+
+        // Smallest adjacent f
+        std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> p_map;
+        // Associated tile's g cost [movement, bashing down...]
+        std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> g_map;
+        // Heurestic to start
+        std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> h_map;
+        // Tile overall state
+        std::array<std::array<State, MAPSIZE_X>, MAPSIZE_Y> tile_state;
+
+        // `dest`ination of this map [2D]
+        point dest;
+        // `z` level of this map
+        int z;
+        // `settings` which were used to spawn this map
+        PathfindingSettings settings;
+
+        MapDomain domain = MapDomain::RELATIVE_DOMAIN;
+
+        // We don't want to calculate dijikstra of the whole map every time,
+        //   so we store wave `frontier` to proceed from later if needed
+        std::vector<point> unbiased_frontier;
+
+        // Moves we don't allow to happen
+        std::set<std::pair<point, point>> forbidden_moves;
+
+        // Possibly shift or move all Z-changes if our `z_areas` moved in all Z changes
+        //   and scan for new changes
+        static void update_z_caches();
+
+        // Get a reference to ZCache for this level
+        static std::vector<ZLevelChange> &get_z_cache( const int z ) {
             assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
 
-            return DijikstraPathfinding::z_changes[z + OVERMAP_DEPTH];
-        }
-        static bool &get_is_z_level_explored( const int z ) {
-            assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
-
-            return DijikstraPathfinding::z_levels_explored[z + OVERMAP_DEPTH];
+            return Pathfinding::z_caches[z + OVERMAP_DEPTH];
         }
 
+        static void produce_d_map( point dest, int z, PathfindingSettings settings );
 
+        // Get `p`-value at `p`
+        float &p_at( const point &p ) {
+            return this->p_map[p.y][p.x];
+        };
+        // Get `g`-value at `p`
+        float &g_at( const point &p ) {
+            return this->g_map[p.y][p.x];
+        };
+        // Get `h`-value at `p`
+        float &h_at( const point &p ) {
+            return this->h_map[p.y][p.x];
+        };
+        // f0 = p + g
+        float get_f_unbiased( const point &p ) {
+            return this->p_at( p ) + this->g_at( p );
+        }
+        // f1 = p + g + `h_coeff` * h
+        float get_f_biased( const point &p, float h_coeff ) {
+            return this->get_f_unbiased( p ) + h_coeff * this->h_at( p );
+        }
+
+        // Determine if `start` is surrounded by already visited tiles in `d_map` or tiles allowed by `route_settings`
+        //   and if so, clear and fill `out` with all unexplored tiles left.
+        void detect_culled_frontier( const point &start,
+                                     const RouteSettings &route_settings,
+                                     std::unordered_set<point> &out );
+
+        // Test if `p` is in our limited domain defined by `route_settings` relative to `start`
+        bool is_in_limited_domain( const point &start, const point &p,
+                                   const RouteSettings &route_settings );
+
+        // See `Pathfinding::route`
+        static std::vector<tripoint> get_route_2d(
+            const point from, const point to, const int z,
+            const PathfindingSettings path_settings,
+            const RouteSettings route_settings );
+        // See `Pathfinding::route`
+        static std::vector<tripoint> get_route_3d(
+            const tripoint from, const tripoint to,
+            const PathfindingSettings path_settings,
+            const RouteSettings route_settings
+        );
+
+        // Continue expanding the dijikstra map until we reach `origin` or nothing remains of the frontier. Returns whether a route is present.
+        ExpansionOutcome expand_2d_up_to( const point &origin, const RouteSettings &route_settings );
     public:
         // get `route` from `from` to `to` if available in accordance to `route_settings` while `path_settings` defines our capabilities, otherwise empty vector.
         // Found route will include `from` and `to`.
-        static std::vector<tripoint> route( const tripoint &from, const tripoint &to,
+        static std::vector<tripoint> route( tripoint from, tripoint to,
                                             const std::optional<PathfindingSettings> path_settings = std::nullopt,
                                             const std::optional<RouteSettings> route_settings = std::nullopt );
 
-        // Transfer all maps back into unused maps
-        static void reset() {
-            for( auto &map : DijikstraPathfinding::maps ) {
-                map->d_map.reset();
-                map->is_setup = false;
-                DijikstraPathfinding::unused_maps.push_back( std::move( map ) );
+        //
+        static void clear_d_maps() {
+            for( auto &map : Pathfinding::d_maps ) {
+                map->p_map[0].fill( 0 );
+                map->p_map.fill( map->p_map[0] );
+                map->g_map[0].fill( 0 );
+                map->g_map.fill( map->g_map[0] );
+                map->h_map[0].fill( 0 );
+                map->h_map.fill( map->h_map[0] );
+                map->tile_state[0].fill( State::UNVISITED );
+                map->tile_state.fill( map->tile_state[0] );
+                Pathfinding::d_maps_store.push_back( std::move( map ) );
             }
-            DijikstraPathfinding::maps.clear();
+            Pathfinding::d_maps.clear();
         }
 
-        // Reset Z-level information
-        static void z_reset() {
-            for( int z_index = 0; z_index < OVERMAP_LAYERS; z_index++ ) {
-                DijikstraPathfinding::z_changes[z_index].clear();
-                DijikstraPathfinding::z_levels_explored[z_index] = false;
+        // Reset Z-level information. Should only be done when new Z-level changes could have appeared
+        //   such as change in terrain
+        static void clear_z_caches() {
+            for( int z_level = -OVERMAP_DEPTH; z_level <= OVERMAP_HEIGHT; z_level++ ) {
+                Pathfinding::z_caches[z_level + OVERMAP_DEPTH].clear();
             }
         }
 };
