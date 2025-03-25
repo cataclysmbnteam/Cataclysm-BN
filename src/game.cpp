@@ -135,7 +135,7 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "path_info.h"
-#include "pathfinding_dijikstra.h"
+#include "pathfinding.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"

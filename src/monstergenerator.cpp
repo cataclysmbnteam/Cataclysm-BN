@@ -28,7 +28,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "options.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "rng.h"
 #include "string_id.h"
 #include "translations.h"
