@@ -1847,7 +1847,8 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     detached_ptr<item> harvest = item::spawn( itemid );
-    if( !force_drop && p.can_pick_volume( *harvest ) &&
+    // Drop items that're exceed available space and things that aren't comestibles
+    if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
 
         p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
