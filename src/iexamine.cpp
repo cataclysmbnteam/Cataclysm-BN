@@ -387,9 +387,6 @@ void iexamine::translocator( player &, const tripoint &examp )
         } else {
             add_msg( _( "Never mind." ) );
         }
-
-
-
     }
 }
 
