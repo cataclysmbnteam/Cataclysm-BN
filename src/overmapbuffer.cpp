@@ -95,11 +95,10 @@ overmap &overmapbuffer::get( const point_abs_om &p )
         assert( overmaps.find( p ) == overmaps.end() );
         overmaps[p] = std::make_unique<overmap>( p );
         new_om = overmaps[p].get();
-        new_om->populate();
     }
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
-
+    new_om->populate();
     fix_mongroups( *new_om );
     fix_npcs( *new_om );
 
@@ -108,7 +107,7 @@ overmap &overmapbuffer::get( const point_abs_om &p )
 
 void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_special_batch &specials )
 {
-    std::lock_guard guard( mutex );
+    write_lock<std::shared_mutex> _l( mutex );
     overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
     new_om.populate( specials );
 }
@@ -141,7 +140,7 @@ void overmapbuffer::generate( const std::vector<point_abs_om> &locs )
     }
 
     {
-        std::lock_guard guard( mutex );
+        write_lock<std::shared_mutex> _l( mutex );
         for( auto &m : async_data ) {
             auto result = m.get();
             overmaps[result.first] = std::move( result.second );
@@ -236,7 +235,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
 
 void overmapbuffer::save()
 {
-    std::lock_guard guard( mutex );
+    write_lock<std::shared_mutex> _l( mutex );
 
     for( auto &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
@@ -246,7 +245,7 @@ void overmapbuffer::save()
 
 void overmapbuffer::clear()
 {
-    std::lock_guard guard( mutex );
+    write_lock<std::shared_mutex> _l( mutex );
 
     overmaps.clear();
     known_non_existing.clear();
@@ -319,7 +318,7 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
     // If the overmap had been created in the mean time, the previous
     // loop would have found and returned it.
     {
-        std::lock_guard guard( mutex );
+        write_lock<std::shared_mutex> _l( mutex );
         known_non_existing.insert( p );
     }
     return nullptr;
