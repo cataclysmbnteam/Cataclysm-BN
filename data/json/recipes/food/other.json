@@ -1253,8 +1253,6 @@
         [ "seed_raw_dandelion", 10 ],
         [ "seed_raw_burdock", 10 ],
         [ "seed_rhubarb", 10 ],
-        [ "seed_mushroom", 10 ],
-        [ "seed_mushroom_morel", 10 ],
         [ "seed_celery", 10 ],
         [ "seed_oats", 10 ],
         [ "seed_wheat", 10 ],
