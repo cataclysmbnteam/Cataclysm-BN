@@ -344,7 +344,7 @@ _Point convert_point( point p, _Point ref )
     }
 }
 
-}
+} // namespace detail
 
 template<typename _Point>
 class spiral_generator

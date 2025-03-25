@@ -118,4 +118,4 @@ bool spiral_generator_impl::operator==( const spiral_generator_impl &other ) con
            && min_dist == other.min_dist
            && max_dist == other.max_dist;
 }
-}
+} // namespace detail
