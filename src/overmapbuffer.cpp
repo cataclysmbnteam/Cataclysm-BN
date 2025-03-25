@@ -49,6 +49,11 @@
 
 class map_extra;
 
+template<typename _Mutex>
+using write_lock = std::unique_lock< _Mutex >;
+template<typename _Mutex>
+using read_lock = std::shared_lock< _Mutex >;
+
 overmapbuffer overmap_buffer;
 
 overmapbuffer::overmapbuffer()
@@ -69,14 +74,17 @@ omt_route_params::~omt_route_params() = default;
 
 overmap &overmapbuffer::get( const point_abs_om &p )
 {
-    const auto it = overmaps.find( p );
-    if( it != overmaps.end() ) {
-        return *it->second.get();
+    {
+        read_lock<std::shared_mutex> _l( mutex );
+        const auto it = overmaps.find( p );
+        if( it != overmaps.end() ) {
+            return *it->second.get();
+        }
     }
 
     overmap *new_om;
     {
-        std::lock_guard guard( mutex );
+        write_lock<std::shared_mutex> _l( mutex );
         // Search for it again, but now with a lock since another thread could've loaded this overmap tile first
         const auto it = overmaps.find( p );
         if( it != overmaps.end() ) {
@@ -87,11 +95,10 @@ overmap &overmapbuffer::get( const point_abs_om &p )
         assert( overmaps.find( p ) == overmaps.end() );
         overmaps[p] = std::make_unique<overmap>( p );
         new_om = overmaps[p].get();
-        new_om->populate();
     }
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
-
+    new_om->populate();
     fix_mongroups( *new_om );
     fix_npcs( *new_om );
 
@@ -100,9 +107,13 @@ overmap &overmapbuffer::get( const point_abs_om &p )
 
 void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_special_batch &specials )
 {
-    std::lock_guard guard( mutex );
-    overmap &new_om = *( overmaps[ p ] = std::make_unique<overmap>( p ) );
-    new_om.populate( specials );
+    overmap *new_om;
+    {
+        write_lock<std::shared_mutex> _l( mutex );
+        overmaps[p] = std::make_unique<overmap>( p );
+        new_om = overmaps[p].get();
+    }
+    new_om->populate( specials );
 }
 
 void overmapbuffer::generate( const std::vector<point_abs_om> &locs )
@@ -133,7 +144,7 @@ void overmapbuffer::generate( const std::vector<point_abs_om> &locs )
     }
 
     {
-        std::lock_guard guard( mutex );
+        write_lock<std::shared_mutex> _l( mutex );
         for( auto &m : async_data ) {
             auto result = m.get();
             overmaps[result.first] = std::move( result.second );
@@ -228,7 +239,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
 
 void overmapbuffer::save()
 {
-    std::lock_guard guard( mutex );
+    read_lock<std::shared_mutex> _l( mutex );
 
     for( auto &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
@@ -238,7 +249,7 @@ void overmapbuffer::save()
 
 void overmapbuffer::clear()
 {
-    std::lock_guard guard( mutex );
+    write_lock<std::shared_mutex> _l( mutex );
 
     overmaps.clear();
     known_non_existing.clear();
@@ -289,15 +300,18 @@ void overmapbuffer::delete_extra( const tripoint_abs_omt &p )
 
 overmap *overmapbuffer::get_existing( const point_abs_om &p )
 {
-    const auto it = overmaps.find( p );
-    if( it != overmaps.end() ) {
-        return it->second.get();
-    }
+    {
+        read_lock<std::shared_mutex> _l( mutex );
+        const auto it = overmaps.find( p );
+        if( it != overmaps.end() ) {
+            return it->second.get();
+        }
 
-    if( known_non_existing.contains( p ) ) {
-        // This overmap does not exist on disk (this has already been
-        // checked in a previous call of this function).
-        return nullptr;
+        if( known_non_existing.contains( p ) ) {
+            // This overmap does not exist on disk (this has already been
+            // checked in a previous call of this function).
+            return nullptr;
+        }
     }
     if( g->get_active_world() && g->get_active_world()->overmap_exists( p ) ) {
         // File exists, load it normally (the get function
@@ -311,7 +325,7 @@ overmap *overmapbuffer::get_existing( const point_abs_om &p )
     // If the overmap had been created in the mean time, the previous
     // loop would have found and returned it.
     {
-        std::lock_guard guard( mutex );
+        write_lock<std::shared_mutex> _l( mutex );
         known_non_existing.insert( p );
     }
     return nullptr;
