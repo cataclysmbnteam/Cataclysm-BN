@@ -79,6 +79,9 @@ struct PathfindingSettings {
     std::unordered_map<point, float> extra_g_costs;
 
     bool operator==( const PathfindingSettings &rhs ) const = default;
+    int z_move_type() const {
+        return ( this->can_fly & ( 1 << 1 ) ) | ( this->can_climb_stairs & ( 1 << 0 ) );
+    }
 };
 
 // A struct defining various coefficient used when creating/calculating a path from a dijikstra map
@@ -281,6 +284,10 @@ class Pathfinding
             tripoint to;
             Type type;
         };
+        struct ZLevelChangeOpenAirPair {
+            std::optional<ZLevelChange> going_down;
+            std::optional<ZLevelChange> going_up;
+        };
 
         // Global state: allocated dijikstra d_maps. Pull to `d_maps` from here.
         static std::vector<std::unique_ptr<Pathfinding>> d_maps_store;
@@ -304,8 +311,13 @@ class Pathfinding
         // and points that are only in 2 will be scanned for new Z-changes.
         static point z_area;
 
-        // Global state: Z-level transitions for each z-level
+        // Global state: Z-level transitions for each z-level (does not include OPEN_AIR due to being numerous, requiring a different approach)
         static std::array<std::vector<ZLevelChange>, OVERMAP_LAYERS> z_caches;
+        // Global state: OPEN_AIR type z-level transitions for each z-level
+        static std::array<std::unordered_map<tripoint, ZLevelChangeOpenAirPair>, OVERMAP_LAYERS>
+        z_caches_open_air;
+        // Global state: We cache `z_path` information taken to prevent multiple iterations for the same target
+        static std::map<std::pair<int, tripoint>, ZLevelChange> cached_closest_z_changes;
 
         // Smallest adjacent f
         std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> p_map;
@@ -325,6 +337,9 @@ class Pathfinding
 
         MapDomain domain = MapDomain::RELATIVE_DOMAIN;
 
+        // Is the map already fully explored? UNVISITED tiles become INACCESSIBLE in that case.
+        bool is_explored = false;
+
         // We don't want to calculate dijikstra of the whole map every time,
         //   so we store wave `frontier` to proceed from later if needed
         std::vector<point> unbiased_frontier;
@@ -332,15 +347,22 @@ class Pathfinding
         // Moves we don't allow to happen
         std::set<std::pair<point, point>> forbidden_moves;
 
-        // Possibly shift or move all Z-changes if our `z_areas` moved in all Z changes
-        //   and scan for new changes
-        static void update_z_caches();
+        // Possibly shift or move all Z-changes if our `z_area` moved
+        //   and scan for new changes.
+        // Only process OPEN_AIR changes if `update_open_air` is true. OPEN_AIR tiles are numerous on higher Z levels
+        //   so they're expensive to go over and update. Do only for fliers.
+        static void update_z_caches( bool update_open_air );
 
         // Get a reference to ZCache for this level
         static std::vector<ZLevelChange> &get_z_cache( const int z ) {
             assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
 
             return Pathfinding::z_caches[z + OVERMAP_DEPTH];
+        }
+        static std::unordered_map<tripoint, ZLevelChangeOpenAirPair> &get_z_cache_open_air( const int z ) {
+            assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
+
+            return Pathfinding::z_caches_open_air[z + OVERMAP_DEPTH];
         }
 
         static void produce_d_map( point dest, int z, PathfindingSettings settings );
@@ -408,9 +430,12 @@ class Pathfinding
                 map->h_map.fill( map->h_map[0] );
                 map->tile_state[0].fill( State::UNVISITED );
                 map->tile_state.fill( map->tile_state[0] );
+                map->domain = Pathfinding::MapDomain::RELATIVE_DOMAIN;
+                map->is_explored = false;
                 Pathfinding::d_maps_store.push_back( std::move( map ) );
             }
             Pathfinding::d_maps.clear();
+            Pathfinding::cached_closest_z_changes.clear();
         }
 
         // Reset Z-level information. Should only be done when new Z-level changes could have appeared
@@ -418,7 +443,9 @@ class Pathfinding
         static void clear_z_caches() {
             for( int z_level = -OVERMAP_DEPTH; z_level <= OVERMAP_HEIGHT; z_level++ ) {
                 Pathfinding::z_caches[z_level + OVERMAP_DEPTH].clear();
+                Pathfinding::z_caches_open_air[z_level + OVERMAP_DEPTH].clear();
             }
+            Pathfinding::cached_closest_z_changes.clear();
         }
 };
 #endif // CATA_SRC_PATHFINDING_DIJIKSTRA_H
