@@ -248,8 +248,6 @@ bool Pathfinding::is_in_limited_domain(
 void Pathfinding::detect_culled_frontier(
     const point &start, const RouteSettings &route_settings, std::unordered_set<point> &out )
 {
-    const map &here = get_map();
-
     std::unordered_set<point> flood_fill;
     std::vector<point> stack;
 
@@ -263,7 +261,7 @@ void Pathfinding::detect_culled_frontier(
 
         for( const point &dir : DIRS_2D ) {
             const point next = p + dir;
-            if( !here.inbounds( next ) ) {
+            if( !this->in_bounds( next ) ) {
                 // If we reached map edge, this means we're in an unclosed area
                 return;
             }
@@ -271,13 +269,13 @@ void Pathfinding::detect_culled_frontier(
                 continue;
             }
             // Visited area marks a boundary. This does include tiles outside search area, eventually.
-            if( this->tile_state[next.y][next.x] != Pathfinding::State::UNVISITED ) {
+            if( this->get_tile_state( next ) != Pathfinding::State::UNVISITED ) {
                 continue;
             }
             if( !this->is_in_limited_domain( start, next, route_settings ) ) {
                 // Failed domain test means we've reached a virtual boundary
                 // Might as well make it INACCESSIBLE as well so we don't need to redo the check again
-                this->tile_state[next.y][next.x] = Pathfinding::State::INACCESSIBLE;
+                this->get_tile_state( next ) = Pathfinding::State::INACCESSIBLE;
                 continue;
             }
             stack.push_back( next );
@@ -307,7 +305,7 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
                                 this->domain == MapDomain::RELATIVE_DOMAIN;
 
     if( !rebuild_needed ) {
-        switch( this->tile_state[start.y][start.x] ) {
+        switch( this->get_tile_state( start ) ) {
             case Pathfinding::State::ACCESSIBLE:
                 return ExpansionOutcome::PATH_FOUND;
             case Pathfinding::State::IMPASSABLE:
@@ -315,27 +313,25 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
             case Pathfinding::State::INACCESSIBLE:
                 return ExpansionOutcome::NO_PATH_EXISTS;
             case Pathfinding::State::UNVISITED:
-                if (this->is_explored) {
+                if( this->is_explored ) {
                     return ExpansionOutcome::NO_PATH_EXISTS;
                 }
                 break;
+            case Pathfinding::State::BOUNDS:
+                // Should not occur ever
+                return ExpansionOutcome::NO_PATH_EXISTS;
         }
     } else {
         // Limited search requires clearing p-values, too, since they may change
-        this->p_map[0].fill( 0 );
-        this->p_map.fill( this->p_map[0] );
-        this->tile_state[0].fill( Pathfinding::State::UNVISITED );
-        this->tile_state.fill( this->tile_state[0] );
+        this->reset_map( this->p_map );
+        this->reset_tile_state();
 
         this->unbiased_frontier.clear();
         this->unbiased_frontier.push_back( this->dest );
     }
 
-    // Reset h-values for this pathfinding
-    this->h_map[0].fill( 0 );
-    this->h_map.fill( this->h_map[0] );
-    // Naturally
-    this->tile_state[this->dest.y][this->dest.x] = Pathfinding::State::ACCESSIBLE;
+    this->reset_map( this->h_map );
+    this->get_tile_state( this->dest ) = Pathfinding::State::ACCESSIBLE;
     this->p_at( this->dest ) = 0.0;
     this->g_at( this->dest ) = 0.0;
 
@@ -383,7 +379,7 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
         // These might be valid frontier points, but if they are outside of our search area, then we will not go through them this time
         if( !this->is_in_limited_domain( start, next_point, route_settings ) ) {
             // used by `detect_culled_frontier`
-            this->tile_state[next_point.y][next_point.x] = Pathfinding::State::INACCESSIBLE;
+            this->get_tile_state( next_point ) = Pathfinding::State::INACCESSIBLE;
             continue;
         }
 
@@ -398,11 +394,11 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
             const point cur_point = next_point + dir;
             const tripoint cur_point_with_z = tripoint( cur_point, this->z );
 
-            if( !here.inbounds( cur_point ) ) {
+            if( !this->in_bounds( cur_point ) ) {
                 continue;
             }
 
-            if( this->tile_state[cur_point.y][cur_point.x] != Pathfinding::State::UNVISITED ) {
+            if( this->get_tile_state( cur_point ) != Pathfinding::State::UNVISITED ) {
                 continue;
             }
 
@@ -559,15 +555,15 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
 
             // Reintroduce this point into frontier unless the tile is closed
             if( is_inf( cur_g ) ) {
-                this->tile_state[cur_point.y][cur_point.x] = Pathfinding::State::IMPASSABLE;
+                this->get_tile_state( cur_point ) = Pathfinding::State::IMPASSABLE;
             } else {
-                this->tile_state[cur_point.y][cur_point.x] = Pathfinding::State::ACCESSIBLE;
+                this->get_tile_state( cur_point ) = Pathfinding::State::ACCESSIBLE;
                 biased_frontier.push( {this->get_f_biased( cur_point, route_settings.h_coeff ), cur_point} );
             }
 
             if( cur_point == start ) {
                 // We have reached the target
-                if( this->tile_state[cur_point.y][cur_point.x] == Pathfinding::State::ACCESSIBLE ) {
+                if( this->get_tile_state( cur_point ) == Pathfinding::State::ACCESSIBLE ) {
                     result = ExpansionOutcome::PATH_FOUND;
                 } else {
                     result = ExpansionOutcome::TARGET_INACCESSIBLE;
@@ -644,7 +640,6 @@ std::vector<tripoint> Pathfinding::get_route_2d(
         return std::vector<tripoint>();
     }
 
-    const map &here = get_map();
     const int chebyshev_distance = square_dist_fast(
                                        tripoint( from, d_map->z ),
                                        tripoint( d_map->dest, d_map->z ) );
@@ -661,14 +656,14 @@ std::vector<tripoint> Pathfinding::get_route_2d(
 
         for( const point &dir : DIRS_2D ) {
             const point next_point = cur_point + dir;
-            const bool is_in_bounds = here.inbounds( next_point );
+            const bool is_in_bounds = d_map->in_bounds( next_point );
             if( !is_in_bounds ) {
                 continue;
             }
 
             const float cost = d_map->get_f_unbiased( next_point );
 
-            const bool is_accessible = d_map->tile_state[next_point.y][next_point.x] ==
+            const bool is_accessible = d_map->get_tile_state( next_point ) ==
                                        Pathfinding::State::ACCESSIBLE;
             const bool is_not_forbidden = !d_map->forbidden_moves.contains( {cur_point, next_point} );
 

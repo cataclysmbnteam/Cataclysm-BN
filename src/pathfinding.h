@@ -251,7 +251,6 @@ struct RouteSettings {
 class Pathfinding
 {
     private:
-        const static size_t DIJIKSTRA_ARRAY_SIZE = MAPSIZE_Y * MAPSIZE_X;
         typedef std::pair<float, point> val_pair;
 
         enum class State {
@@ -259,6 +258,7 @@ class Pathfinding
             ACCESSIBLE, // Tile is reachable
             IMPASSABLE, // Tile is reachable, but cannot be gone into
             INACCESSIBLE, // Tile is completely unreachable (or outside search area)
+            BOUNDS, // Value used to define map edges
         };
         enum class MapDomain {
             RELATIVE_DOMAIN, // Map's search domain limit includes relative limits (that is, depending on start position)
@@ -325,8 +325,8 @@ class Pathfinding
         std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> g_map;
         // Heurestic to start
         std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> h_map;
-        // Tile overall state
-        std::array<std::array<State, MAPSIZE_X>, MAPSIZE_Y> tile_state;
+        // Tile overall state [padded on all sides by 1 tile for bounds checking]
+        std::array < std::array < State, MAPSIZE_X + 2 >, MAPSIZE_Y + 2 > tile_state;
 
         // `dest`ination of this map [2D]
         point dest;
@@ -388,6 +388,31 @@ class Pathfinding
             return this->get_f_unbiased( p ) + h_coeff * this->h_at( p );
         }
 
+        void reset_map( std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> &target ) {
+            target[0].fill( 0 );
+            target.fill( target[0] );
+        }
+        void reset_tile_state() {
+            this->tile_state[0].fill( State::UNVISITED );
+            this->tile_state.fill( this->tile_state[0] );
+
+            for( int y = 0; y < MAPSIZE_Y + 2; y++ ) {
+                this->tile_state[y][0] = State::BOUNDS;
+                this->tile_state[y][MAPSIZE_Y + 1] = State::BOUNDS;
+            }
+            for( int x = 0; x < MAPSIZE_X + 2; x++ ) {
+                this->tile_state[0][x] = State::BOUNDS;
+                this->tile_state[MAPSIZE_Y + 1][x] = State::BOUNDS;
+            }
+        }
+        State &get_tile_state( const point &p ) {
+            return this->tile_state[p.y + 1][p.x + 1];
+        }
+        bool in_bounds( const point &p ) {
+            // Specialized for pathfinding
+            return this->get_tile_state( p ) != State::BOUNDS;
+        }
+
         // Determine if `start` is surrounded by already visited tiles in `d_map` or tiles allowed by `route_settings`
         //   and if so, clear and fill `out` with all unexplored tiles left.
         void detect_culled_frontier( const point &start,
@@ -422,14 +447,11 @@ class Pathfinding
         //
         static void clear_d_maps() {
             for( auto &map : Pathfinding::d_maps ) {
-                map->p_map[0].fill( 0 );
-                map->p_map.fill( map->p_map[0] );
-                map->g_map[0].fill( 0 );
-                map->g_map.fill( map->g_map[0] );
-                map->h_map[0].fill( 0 );
-                map->h_map.fill( map->h_map[0] );
-                map->tile_state[0].fill( State::UNVISITED );
-                map->tile_state.fill( map->tile_state[0] );
+                map->reset_map(map->p_map);
+                map->reset_map(map->g_map);
+                map->reset_map(map->h_map);
+                map->reset_tile_state();
+
                 map->domain = Pathfinding::MapDomain::RELATIVE_DOMAIN;
                 map->is_explored = false;
                 Pathfinding::d_maps_store.push_back( std::move( map ) );
