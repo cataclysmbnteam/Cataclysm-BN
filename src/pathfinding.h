@@ -447,9 +447,9 @@ class Pathfinding
         //
         static void clear_d_maps() {
             for( auto &map : Pathfinding::d_maps ) {
-                map->reset_map(map->p_map);
-                map->reset_map(map->g_map);
-                map->reset_map(map->h_map);
+                map->reset_map( map->p_map );
+                map->reset_map( map->g_map );
+                map->reset_map( map->h_map );
                 map->reset_tile_state();
 
                 map->domain = Pathfinding::MapDomain::RELATIVE_DOMAIN;
