@@ -315,7 +315,7 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
             case Pathfinding::State::INACCESSIBLE:
                 return ExpansionOutcome::NO_PATH_EXISTS;
             case Pathfinding::State::UNVISITED:
-                if (this->is_explored) {
+                if( this->is_explored ) {
                     return ExpansionOutcome::NO_PATH_EXISTS;
                 }
                 break;
