@@ -477,7 +477,7 @@ std::string vehicle_base_item_location::describe( const Character *, const item 
 
 detached_ptr<item> contents_item_location::detach( item *it )
 {
-	
+
     detached_ptr<item> ret = container->contents.remove_top( it );
     container->on_contents_changed();
     return ret;
