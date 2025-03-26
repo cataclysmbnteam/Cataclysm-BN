@@ -8552,8 +8552,10 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( rng( 1, 100 ) > armor.get_coverage( bp ) ) {
         return false;
     }
-
-    // TODO: add some check for power armor
+    // If the attack has already been negated by other armor, don't bother.
+    if( du.amount <= 0 ) {
+        return false;
+    }
     armor.mitigate_damage( du );
 
     // We want armor's own resistance to this type, not the resistance it grants
@@ -8581,9 +8583,9 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
             return false;
         }
     } else {
-        // Sturdy items and power armors never take chip damage.
-        // Other armors have 0.5% of getting damaged from hits below their armor value.
-        if( armor.has_flag( flag_STURDY ) || !one_in( 200 ) ) {
+        // 0.5% chance of getting damaged from hits below their armor value.
+        // Sturdy items take chip damage 5x less often.
+        if( ( armor.has_flag( flag_STURDY ) && one_in( 5 ) ) || !one_in( 200 ) ) {
             return false;
         }
     }
