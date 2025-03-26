@@ -31,7 +31,7 @@ class location_vector
     private:
         std::unique_ptr<location<T>> loc;
         std::vector<T *> contents;
-        T* currently_detached=nullptr;
+        T *currently_detached = nullptr;
         bool destroyed = false;
 
         template<typename U>
