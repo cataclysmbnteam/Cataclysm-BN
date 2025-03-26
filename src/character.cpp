@@ -8557,6 +8557,10 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
         return false;
     }
     armor.mitigate_damage( du );
+    // We're indestructible, bail out here.
+    if( armor.has_flag( flag_UNBREAKABLE ) ) {
+        return false;
+    }
 
     // We want armor's own resistance to this type, not the resistance it grants
     const int armors_own_resist = armor.damage_resist( du.type, true );
