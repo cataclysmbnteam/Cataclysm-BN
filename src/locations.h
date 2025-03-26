@@ -199,7 +199,6 @@ class contents_item_location :  public item_location
 {
     protected:
         item *container;
-        item *iterated;
     public:
         contents_item_location( item *cont ) : container( cont ) {}
         detached_ptr<item> detach( item *it ) override;
