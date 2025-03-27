@@ -284,11 +284,11 @@ class Pathfinding
         static void produce_d_map( point dest, int z, PathfindingSettings settings );
 
         // Get `p`-value at `p`
-        float &p_at(const point &p);
+        float &p_at( const point &p );
         // Get `g`-value at `p`
-        float &g_at(const point &p);
+        float &g_at( const point &p );
         // f0 = p + g
-        float get_f_unbiased(const point &p);
+        float get_f_unbiased( const point &p );
         // f1 = p + g + `h_coeff` * [manhattan distance between `start` and `p`]
         float get_f_biased( const point &p, const point &start, float h_coeff );
 
