@@ -742,7 +742,7 @@ bool main_menu::opening_screen()
                 }
             }
         } else if ( action == "MOUSE_LEFT_DOWN" ) {
-            // do not redraw screen by default on mouse move input
+            // do not redraw screen by default on mouse click input
             // this later can be redefined if we figure out mouse movement
             // affected some UI element (like hovering over something)
             skip_next_redraw_ = true;
