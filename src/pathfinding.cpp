@@ -1,12 +1,10 @@
 #include "pathfinding.h"
 
 #include <algorithm>
-#include <functional>
 #include <memory>
 #include <optional>
 #include <queue>
 
-#include "coordinates.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -42,6 +40,151 @@ decltype( Pathfinding::z_caches_open_air ) Pathfinding::z_caches_open_air =
 decltype( Pathfinding::cached_closest_z_changes ) Pathfinding::cached_closest_z_changes =
     decltype( Pathfinding::cached_closest_z_changes )();
 
+// Thanks for nothing, MVSC
+// For our MVSC builds, std::is_nan and std::is_inf are not constexpr
+//   so we have to make our own
+static constexpr bool is_nan( float x )
+{
+    return x != x;
+}
+static constexpr bool is_inf( float x )
+{
+    return x == INFINITY;
+}
+
+// PathfindingSettings impls
+int PathfindingSettings::z_move_type() const
+{
+    int result = 0;
+    result += this->can_fly ? 1 << 0 : 0;
+    result += this->can_climb_stairs ? 1 << 1 : 0;
+    return result;
+}
+// RouteSettings impls
+constexpr bool RouteSettings::is_relative_search_domain() const
+{
+    return !( this->search_cone_angle >= 180. ||
+              is_inf( this->search_radius_coeff ) );
+}
+constexpr bool RouteSettings::is_in_search_cone( const point start,
+        const point pos,
+        const point end ) const
+{
+    assert( 0.0 <= this->search_cone_angle );
+
+    if( this->search_cone_angle >= 180. ) {
+        return true;
+    }
+
+    // A couple special cases for boundaries
+    if( start == pos || start == end ) {
+        return true;
+    }
+
+    const units::angle max_cone_angle =
+        units::from_degrees( this->search_cone_angle );
+
+    const point objective_delta = end - start;
+    const units::angle objective_angle =
+        units::atan2( objective_delta.y, objective_delta.x );
+
+    const point conic_delta = pos - start;
+    const units::angle conic_angle = units::atan2( conic_delta.y, conic_delta.x );
+
+    const units::angle deviation = conic_angle - objective_angle;
+
+    return -max_cone_angle <= deviation && deviation <= max_cone_angle;
+}
+constexpr bool RouteSettings::is_in_search_radius( const point start,
+        const point pos,
+        const point end ) const
+{
+    if( is_inf( search_radius_coeff ) ) {
+        return true;
+    }
+
+    const point midpoint = ( end + start ) / 2;
+
+    const float objective_distance =
+        rl_dist_exact( tripoint( start, 0 ), tripoint( end, 0 ) );
+    const float search_radius =
+        ( objective_distance * this->search_radius_coeff ) / 2;
+    const float distance_to_objective =
+        rl_dist_exact( tripoint( pos, 0 ), tripoint( midpoint, 0 ) );
+
+    return distance_to_objective <= search_radius;
+}
+unsigned int RouteSettings::rank_weighted_rng( const unsigned int n ) const
+{
+    assert( -1. <= this->alpha && this->alpha <= 1. );
+
+    // Trivial cases
+    if( this->alpha >= 1. ) {
+        return 0;
+    }
+
+    if( this->alpha <= -1. ) {
+        return n - 1;
+    }
+
+    if( this->alpha == 0. ) {
+        return rng( 0, n - 1 );
+    }
+
+    const float r = rng_float( 0.0, 1.0 );
+    const float exp = ( 1. + this->alpha ) / ( 1. - this->alpha );
+    const unsigned int selected_n = static_cast<unsigned int>( n * powf( r, exp ) );
+    // DO NOT remove the modulo.
+    // `selected_n` may sometimes be == n due to floating point stuff rounding
+    // rarely causing r^exp being >= 1 if alpha is low enough
+    return selected_n % n;
+}
+/// Pathfinding: verifications
+bool Pathfinding::in_bounds( const point &p )
+{
+    // Specialized for pathfinding
+    return this->tile_state_at( p ) != State::BOUNDS;
+}
+bool Pathfinding::is_in_limited_domain(
+    const point &start, const point &p, const RouteSettings &route_settings )
+{
+    // Could be NaN if max_f_coeff = INFINITY * 0
+    const float max_f = route_settings.max_f_coeff * (
+                            route_settings.f_limit_based_on_max_dist ?
+                            route_settings.max_dist :
+                            rl_dist_exact( tripoint( start, this->z ), tripoint( this->dest, this->z ) )
+                        );
+
+    const bool is_in_f_limited_area = is_nan( max_f ) || this->get_f_unbiased( p ) <= max_f;
+    const bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
+    const bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
+
+    return is_in_f_limited_area || is_in_search_radius || is_in_search_cone;
+}
+
+/// Pathfinding: map indexing
+float &Pathfinding::p_at( const point &p )
+{
+    return this->p_map[p.y][p.x];
+};
+float &Pathfinding::g_at( const point &p )
+{
+    return this->g_map[p.y][p.x];
+};
+float Pathfinding::get_f_unbiased( const point &p )
+{
+    return this->p_at( p ) + this->g_at( p );
+}
+float Pathfinding::get_f_biased( const point &p, const point &start,
+                                 float h_coeff )
+{
+    return this->get_f_unbiased( p ) + ( h_coeff * manhattan_dist( p, start ) );
+}
+Pathfinding::State &Pathfinding::tile_state_at( const point &p )
+{
+    return this->tile_state[p.y + 1][p.x + 1];
+}
+/// Pathfinding: d-map wide changes
 void Pathfinding::produce_d_map( point dest, int z, PathfindingSettings settings )
 {
     if( Pathfinding::d_maps_store.empty() ) {
@@ -58,7 +201,72 @@ void Pathfinding::produce_d_map( point dest, int z, PathfindingSettings settings
 
     Pathfinding::d_maps.push_back( std::move( d_map ) );
 }
+void Pathfinding::clear_d_maps()
+{
+    for( auto &map : Pathfinding::d_maps ) {
+        map->reset_maps();
+        map->reset_tile_state();
+        map->unbiased_frontier.clear();
+        map->forbidden_moves.clear();
+        map->domain = Pathfinding::MapDomain::RELATIVE_DOMAIN;
+        map->is_explored = false;
+        Pathfinding::d_maps_store.push_back( std::move( map ) );
+    }
+    Pathfinding::d_maps.clear();
+    Pathfinding::cached_closest_z_changes.clear();
+}
+void Pathfinding::clear_z_caches()
+{
+    for( int z_level = -OVERMAP_DEPTH; z_level <= OVERMAP_HEIGHT; z_level++ ) {
+        Pathfinding::z_caches[z_level + OVERMAP_DEPTH].clear();
+        Pathfinding::z_caches_open_air[z_level + OVERMAP_DEPTH].clear();
+    }
+    Pathfinding::cached_closest_z_changes.clear();
+}
+void Pathfinding::reset_maps()
+{
+    this->p_at( this->dest ) = 0.0;
+    this->g_at( this->dest ) = 0.0;
 
+    for( const point &p : this->map_modify_set ) {
+        this->p_at( p ) = 0.0;
+        this->g_at( p ) = 0.0;
+    }
+    this->map_modify_set.clear();
+}
+void Pathfinding::reset_tile_state()
+{
+    this->tile_state_at( this->dest ) = State::UNVISITED;
+
+    for( const point &p : this->tile_state_modify_set ) {
+        this->tile_state_at( p ) = State::UNVISITED;
+    }
+
+    this->tile_state_modify_set.clear();
+
+    for( int y = 0; y < MAPSIZE_Y + 2; y++ ) {
+        this->tile_state[y][0] = State::BOUNDS;
+        this->tile_state[y][MAPSIZE_Y + 1] = State::BOUNDS;
+    }
+    for( int x = 0; x < MAPSIZE_X + 2; x++ ) {
+        this->tile_state[0][x] = State::BOUNDS;
+        this->tile_state[MAPSIZE_Y + 1][x] = State::BOUNDS;
+    }
+}
+/// Pathfinding: Z-levels
+std::unordered_map<tripoint, Pathfinding::ZLevelChangeOpenAirPair>
+&Pathfinding::get_z_cache_open_air( const int z )
+{
+    assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
+
+    return Pathfinding::z_caches_open_air[z + OVERMAP_DEPTH];
+}
+std::vector<Pathfinding::ZLevelChange> &Pathfinding::get_z_cache( const int z )
+{
+    assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
+
+    return Pathfinding::z_caches[z + OVERMAP_DEPTH];
+}
 void Pathfinding::update_z_caches( bool update_open_air )
 {
     const map &here = get_map();
@@ -148,8 +356,8 @@ void Pathfinding::update_z_caches( bool update_open_air )
                 };
                 // We won't do vehicle checks for simplicity
 
-                const ZLevelChange going_down = ZLevelChange{ cur, below_us, Pathfinding::ZLevelChange::Type::OPEN_AIR };
-                const ZLevelChange going_up = ZLevelChange{ below_us, cur, Pathfinding::ZLevelChange::Type::OPEN_AIR };
+                const ZLevelChange going_down = ZLevelChange{ .from = cur, .to = below_us, .type = Pathfinding::ZLevelChange::Type::OPEN_AIR };
+                const ZLevelChange going_up = ZLevelChange{ .from = below_us, .to = cur, .type = Pathfinding::ZLevelChange::Type::OPEN_AIR };
 
                 // This is stored separately from other changes because it requires a different type of processing
                 Pathfinding::get_z_cache_open_air( z ).emplace( cur, Pathfinding::ZLevelChangeOpenAirPair{ .going_down = going_down, .going_up = std::nullopt } );
@@ -174,8 +382,8 @@ void Pathfinding::update_z_caches( bool update_open_air )
                     const auto &maybe_stair_ter = maybe_stairs_tile.get_ter_t();
 
                     if( maybe_stair_ter.has_flag( TFLAG_GOES_DOWN ) ) {
-                        const ZLevelChange stairs_up = ZLevelChange{ cur, above_us, Pathfinding::ZLevelChange::Type::STAIRS };
-                        const ZLevelChange stairs_down = ZLevelChange{ above_us, cur, Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_up = ZLevelChange{ .from = cur, .to = above_us, .type = Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_down = ZLevelChange{ .from = above_us, .to = cur, .type = Pathfinding::ZLevelChange::Type::STAIRS };
                         Pathfinding::get_z_cache( z ).push_back( stairs_down );
                         Pathfinding::get_z_cache( z + 1 ).push_back( stairs_up );
                         break;
@@ -196,8 +404,8 @@ void Pathfinding::update_z_caches( bool update_open_air )
                     const auto &maybe_stairs_ter = maybe_stairs_tile.get_ter_t();
 
                     if( maybe_stairs_ter.has_flag( TFLAG_GOES_UP ) ) {
-                        const ZLevelChange stairs_down = ZLevelChange{ cur, below_us, Pathfinding::ZLevelChange::Type::STAIRS };
-                        const ZLevelChange stairs_up = ZLevelChange{ below_us, cur, Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_down = ZLevelChange{ .from = cur, .to = below_us, .type = Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_up = ZLevelChange{ .from = below_us, .to = cur, .type = Pathfinding::ZLevelChange::Type::STAIRS };
                         Pathfinding::get_z_cache( z ).push_back( stairs_up );
                         Pathfinding::get_z_cache( z - 1 ).push_back( stairs_down );
                         break;
@@ -210,7 +418,7 @@ void Pathfinding::update_z_caches( bool update_open_air )
                     continue;
                 }
 
-                const ZLevelChange ramp_up = ZLevelChange{ cur, above_us, Pathfinding::ZLevelChange::Type::RAMP };
+                const ZLevelChange ramp_up = ZLevelChange{ .from = cur, .to = above_us, .type = Pathfinding::ZLevelChange::Type::RAMP };
                 Pathfinding::get_z_cache( z + 1 ).push_back( ramp_up );
             } else if( cur_ter.has_flag( TFLAG_RAMP_DOWN ) ) {
                 const tripoint below_us = cur + tripoint_below;
@@ -219,7 +427,7 @@ void Pathfinding::update_z_caches( bool update_open_air )
                     continue;
                 }
 
-                const ZLevelChange ramp_down = ZLevelChange{ cur, below_us, Pathfinding::ZLevelChange::Type::RAMP };
+                const ZLevelChange ramp_down = ZLevelChange{ .from = cur, .to = below_us, .type = Pathfinding::ZLevelChange::Type::RAMP };
                 Pathfinding::get_z_cache( z - 1 ).push_back( ramp_down );
             }
         }
@@ -227,24 +435,7 @@ void Pathfinding::update_z_caches( bool update_open_air )
 
     Pathfinding::z_area = cur_z_area;
 }
-
-bool Pathfinding::is_in_limited_domain(
-    const point &start, const point &p, const RouteSettings &route_settings )
-{
-    // Could be NaN if max_f_coeff = INFINITY * 0
-    const float max_f = route_settings.max_f_coeff * (
-                            route_settings.f_limit_based_on_max_dist ?
-                            route_settings.max_dist :
-                            rl_dist_exact( tripoint( start, this->z ), tripoint( this->dest, this->z ) )
-                        );
-
-    const bool is_in_f_limited_area = is_nan( max_f ) || this->get_f_unbiased( p ) <= max_f;
-    const bool is_in_search_radius = route_settings.is_in_search_radius( start, p, this->dest );
-    const bool is_in_search_cone = route_settings.is_in_search_cone( start, p, this->dest );
-
-    return is_in_f_limited_area || is_in_search_radius || is_in_search_cone;
-}
-
+/// Pathfinding: main loops
 void Pathfinding::detect_culled_frontier(
     const point &start, const RouteSettings &route_settings, std::unordered_set<point> &out )
 {
@@ -269,13 +460,14 @@ void Pathfinding::detect_culled_frontier(
                 continue;
             }
             // Visited area marks a boundary. This does include tiles outside search area, eventually.
-            if( this->get_tile_state( next ) != Pathfinding::State::UNVISITED ) {
+            if( this->tile_state_at( next ) != Pathfinding::State::UNVISITED ) {
                 continue;
             }
             if( !this->is_in_limited_domain( start, next, route_settings ) ) {
                 // Failed domain test means we've reached a virtual boundary
                 // Might as well make it INACCESSIBLE as well so we don't need to redo the check again
-                this->get_tile_state( next ) = Pathfinding::State::INACCESSIBLE;
+                this->tile_state_at( next ) = Pathfinding::State::INACCESSIBLE;
+                this->tile_state_modify_set.push_back( next );
                 continue;
             }
             stack.push_back( next );
@@ -292,20 +484,28 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
     const point &start,
     const RouteSettings &route_settings )
 {
-    typedef std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first> Frontier;
+    using Frontier = std::priority_queue<val_pair, std::vector<val_pair>, pair_greater_cmp_first>;
 
     if( start == this->dest ) {
         // Special case where if we already are standing on the destination tile
         return ExpansionOutcome::PATH_FOUND;
     }
 
-    const tripoint start_with_z = tripoint( start, this->z );
+    const bool rebuild_needed = this->domain == MapDomain::ABSOLUTE_DOMAIN ?
+                                // Do not rebuild only if and only if
+                                //   cur domain is absolute and we are searching in absolute domain as well
+                                route_settings.is_relative_search_domain() :
+                                true;
 
-    const bool rebuild_needed = !route_settings.is_relative_search_domain() ||
-                                this->domain == MapDomain::RELATIVE_DOMAIN;
+    this->domain = route_settings.is_relative_search_domain() ?
+                   MapDomain::RELATIVE_DOMAIN :
+                   MapDomain::ABSOLUTE_DOMAIN;
+
+    // We'll store h-coeff biased data here
+    Frontier biased_frontier;
 
     if( !rebuild_needed ) {
-        switch( this->get_tile_state( start ) ) {
+        switch( this->tile_state_at( start ) ) {
             case Pathfinding::State::ACCESSIBLE:
                 return ExpansionOutcome::PATH_FOUND;
             case Pathfinding::State::IMPASSABLE:
@@ -316,31 +516,25 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
                 if( this->is_explored ) {
                     return ExpansionOutcome::NO_PATH_EXISTS;
                 }
+                for( const point &p : this->unbiased_frontier ) {
+                    biased_frontier.emplace( this->get_f_biased( p, start, route_settings.h_coeff ), p );
+                }
                 break;
             case Pathfinding::State::BOUNDS:
                 // Should not occur ever
                 return ExpansionOutcome::NO_PATH_EXISTS;
         }
     } else {
-        // Limited search requires clearing p-values, too, since they may change
-        this->reset_map( this->p_map );
+        // Only reset tile state, we will reuse already calculated g-values
         this->reset_tile_state();
 
-        this->unbiased_frontier.clear();
-        this->unbiased_frontier.push_back( this->dest );
+        biased_frontier.emplace( this->get_f_biased( this->dest, start, route_settings.h_coeff ),
+                                 this->dest );
     }
 
-    this->reset_map( this->h_map );
-    this->get_tile_state( this->dest ) = Pathfinding::State::ACCESSIBLE;
+    this->tile_state_at( this->dest ) = Pathfinding::State::ACCESSIBLE;
     this->p_at( this->dest ) = 0.0;
     this->g_at( this->dest ) = 0.0;
-
-    // We'll store h-coeff biased data here
-    Frontier biased_frontier;
-    for( const point &p : this->unbiased_frontier ) {
-        this->h_at( p ) = rl_dist_exact( start_with_z, tripoint( p, this->z ) );
-        biased_frontier.emplace( this->get_f_biased( p, route_settings.h_coeff ), p );
-    }
     this->unbiased_frontier.clear();
 
     int it = 0;
@@ -363,11 +557,10 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
         // Periodically check if `start` is enclosed
         //   and cull frontier if it is
         // This is useful to prevent exploring the whole map when target is inaccessible
-        if( ++it % 400 == 0 ) {
+        if( ++it % 200 == 0 ) {
             this->detect_culled_frontier( start, route_settings, unculled_area );
         }
         const point next_point = biased_frontier.top().second;
-        const tripoint next_point_with_z = tripoint( next_point, this->z );
 
         biased_frontier.pop();
 
@@ -379,17 +572,18 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
         // These might be valid frontier points, but if they are outside of our search area, then we will not go through them this time
         if( !this->is_in_limited_domain( start, next_point, route_settings ) ) {
             // used by `detect_culled_frontier`
-            this->get_tile_state( next_point ) = Pathfinding::State::INACCESSIBLE;
+            this->tile_state_at( next_point ) = Pathfinding::State::INACCESSIBLE;
+            this->tile_state_modify_set.push_back( next_point );
             continue;
         }
+
+        const tripoint next_point_with_z = tripoint( next_point, this->z );
 
         int _;
         const vehicle *next_vehicle;
         next_vehicle = here.veh_at_internal( next_point_with_z, _ );
 
         for( const point &dir : DIRS_2D ) {
-            bool is_diag = dir.x != 0 && dir.y != 0;
-
             // It's cur_point because we're working backwards from destination
             const point cur_point = next_point + dir;
             const tripoint cur_point_with_z = tripoint( cur_point, this->z );
@@ -398,11 +592,9 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
                 continue;
             }
 
-            if( this->get_tile_state( cur_point ) != Pathfinding::State::UNVISITED ) {
+            if( this->tile_state_at( cur_point ) != Pathfinding::State::UNVISITED ) {
                 continue;
             }
-
-            this->h_at( cur_point ) = rl_dist_exact( tripoint( start, this->z ), cur_point_with_z );
 
             int cur_vehicle_part;
             const vehicle *cur_vehicle;
@@ -432,138 +624,148 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
                 }
             }
 
-            const maptile &new_tile = here.maptile_at( cur_point_with_z );
+            const maptile &new_tile = here.maptile_at_internal( cur_point_with_z );
             const auto &terrain = new_tile.get_ter_t();
             const auto &furniture = new_tile.get_furn_t();
             const int move_cost = here.move_cost_internal( furniture, terrain, cur_vehicle, cur_vehicle_part );
 
-            float cur_g = 0.0;
-            cur_g += is_diag ? 0.75 * move_cost : 0.5 * move_cost;
+            float cur_g = this->g_at( cur_point );
+            // May be false for relative search, so we'll reuse g-values there
+            const bool is_g_calc_needed = cur_g == 0.0;
 
-            // First, check for trivial cost modifiers
-            const bool is_rough = move_cost > 2;
-            const bool is_sharp = terrain.has_flag( TFLAG_SHARP );
+            if( is_g_calc_needed ) {
+                bool is_diag = dir.x != 0 && dir.y != 0;
+                cur_g += is_diag ? 0.75 * move_cost : 0.5 * move_cost;
 
-            cur_g += is_rough ? this->settings.rough_terrain_cost : 0.0;
-            cur_g += is_sharp ? this->settings.sharp_terrain_cost : 0.0;
+                // First, check for trivial cost modifiers
+                const bool is_rough = move_cost > 2;
+                const bool is_sharp = terrain.has_flag( TFLAG_SHARP );
 
-            if( care_about_mobs ) {
-                cur_g += g->critter_at( cur_point_with_z, true ) != nullptr ?
-                         this->settings.mob_presence_penalty :
-                         0.0;
-            }
+                cur_g += is_rough ? this->settings.rough_terrain_cost : 0.0;
+                cur_g += is_sharp ? this->settings.sharp_terrain_cost : 0.0;
 
-            if( care_about_traps ) {
-                const trap &maybe_ter_trap = terrain.trap.obj();
-                const trap &maybe_trap = maybe_ter_trap.is_benign() ? new_tile.get_trap_t() : maybe_ter_trap;
-                const bool is_trap = !maybe_trap.is_benign();
+                if( care_about_mobs && !std::isinf( cur_g ) ) {
+                    cur_g += g->critter_at( cur_point_with_z, true ) != nullptr ?
+                             this->settings.mob_presence_penalty :
+                             0.0;
+                }
 
-                cur_g += is_trap ? this->settings.trap_cost : 0.0;
-            }
+                if( care_about_traps && !std::isinf( cur_g ) ) {
+                    const trap &maybe_ter_trap = terrain.trap.obj();
+                    const trap &maybe_trap = maybe_ter_trap.is_benign() ? new_tile.get_trap_t() : maybe_ter_trap;
+                    const bool is_trap = !maybe_trap.is_benign();
 
-            const bool is_ledge = here.has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR );
-            if( is_ledge && !this->settings.can_fly ) {
-                // Close ledges outright for non-fliers
-                cur_g += INFINITY;
-            }
+                    cur_g += is_trap ? this->settings.trap_cost : 0.0;
+                }
 
-            // And finally, add a potential field extra
-            if( this->settings.extra_g_costs.contains( cur_point ) ) {
-                cur_g += this->settings.extra_g_costs.at( cur_point );
-            }
+                const bool is_ledge = here.has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR );
+                if( is_ledge && !this->settings.can_fly ) {
+                    // Close ledges outright for non-fliers
+                    cur_g += INFINITY;
+                }
 
-            const bool is_passable = move_cost != 0;
-            float obstacle_g = 0;
-            // Calculate the cost for if the tile is impassable
-            while( !is_passable ) {
-                const bool is_climbable = terrain.has_flag( TFLAG_CLIMBABLE );
-                const bool is_door = !!terrain.open || !!furniture.open;
+                // And finally, add a potential field extra
+                if( !std::isinf( cur_g ) && this->settings.extra_g_costs.contains( cur_point ) ) {
+                    cur_g += this->settings.extra_g_costs.at( cur_point );
+                }
 
-                if( cur_vehicle != nullptr ) {
-                    // Do processing for possible vehicle first
-                    const auto vpobst = vpart_position( const_cast<vehicle &>( *cur_vehicle ),
-                                                        cur_vehicle_part ).obstacle_at_part();
-                    const int obstacle_part = vpobst ? vpobst->part_index() : -1;
+                const bool is_passable = move_cost != 0;
+                float obstacle_g = 0;
+                // Calculate the cost for if the tile is impassable
+                while( !std::isinf( cur_g ) && !is_passable ) {
+                    const bool is_climbable = terrain.has_flag( TFLAG_CLIMBABLE );
+                    const bool is_door = !!terrain.open || !!furniture.open;
 
-                    if( obstacle_part >= 0 ) {
-                        int dummy;
-                        const bool part_is_door = cur_vehicle->part_flag( obstacle_part, VPFLAG_OPENABLE );
-                        const bool part_opens_from_inside = cur_vehicle->part_flag( obstacle_part, "OPENCLOSE_INSIDE" );
-                        const bool is_cur_point_inside = here.veh_at_internal( cur_point_with_z, dummy ) == cur_vehicle;
-                        const bool valid_to_open = part_is_door && ( part_opens_from_inside ? is_cur_point_inside : true );
+                    if( cur_vehicle != nullptr ) {
+                        // Do processing for possible vehicle first
+                        const auto vpobst = vpart_position( const_cast<vehicle &>( *cur_vehicle ),
+                                                            cur_vehicle_part ).obstacle_at_part();
+                        const int obstacle_part = vpobst ? vpobst->part_index() : -1;
 
-                        if( can_open_doors && valid_to_open ) {
-                            obstacle_g = this->settings.door_open_cost;
-                        } else if( can_bash ) {
-                            const int htd = cur_vehicle->hits_to_destroy( obstacle_part,
-                                            this->settings.bash_strength_val * this->settings.bash_strength_quanta,
-                                            DT_BASH );
-                            if( htd == 0 ) {
-                                // We cannot bash down this part
+                        if( obstacle_part >= 0 ) {
+                            int dummy;
+                            const bool part_is_door = cur_vehicle->part_flag( obstacle_part, VPFLAG_OPENABLE );
+                            const bool part_opens_from_inside = cur_vehicle->part_flag( obstacle_part, "OPENCLOSE_INSIDE" );
+                            const bool is_cur_point_inside = here.veh_at_internal( cur_point_with_z, dummy ) == cur_vehicle;
+                            const bool valid_to_open = part_is_door && ( part_opens_from_inside ? is_cur_point_inside : true );
+
+                            if( can_open_doors && valid_to_open ) {
+                                obstacle_g = this->settings.door_open_cost;
+                            } else if( can_bash ) {
+                                const int htd = cur_vehicle->hits_to_destroy( obstacle_part,
+                                                this->settings.bash_strength_val * this->settings.bash_strength_quanta,
+                                                DT_BASH );
+                                if( htd == 0 ) {
+                                    // We cannot bash down this part
+                                    obstacle_g = INFINITY;
+                                    break;
+                                } else {
+                                    obstacle_g = this->settings.bash_cost * htd;
+                                    break;
+                                }
+                            } else {
+                                // Nothing can be done here. Don't bother with other checks since vehicles take priority.
                                 obstacle_g = INFINITY;
                                 break;
-                            } else {
-                                obstacle_g = this->settings.bash_cost * htd;
-                                break;
                             }
-                        } else {
-                            // Nothing can be done here. Don't bother with other checks since vehicles take priority.
-                            obstacle_g = INFINITY;
+                        }
+                    }
+
+                    if( is_climbable && can_climb ) {
+                        obstacle_g = this->settings.climb_cost;
+                        break;
+                    }
+                    if( is_door && can_open_doors ) {
+                        // Doors that can only be open from the inside
+                        const bool door_opens_from_inside = terrain.has_flag( "OPENCLOSE_INSIDE" ) ||
+                                                            furniture.has_flag( "OPENCLOSE_INSIDE" );
+                        const bool is_cur_point_inside = !here.is_outside( cur_point );
+                        const bool valid_to_open = door_opens_from_inside ? is_cur_point_inside : true;
+                        if( valid_to_open ) {
+                            obstacle_g = this->settings.door_open_cost;
                             break;
                         }
                     }
-                }
-
-                if( is_climbable && can_climb ) {
-                    obstacle_g = this->settings.climb_cost;
+                    if( can_bash ) {
+                        // Time to consider bashing the obstacle
+                        const int rating = here.bash_rating_internal(
+                                               this->settings.bash_strength_val * this->settings.bash_strength_quanta,
+                                               furniture, terrain, false, cur_vehicle, cur_vehicle_part );
+                        if( rating > 1 ) {
+                            obstacle_g = ( 10. / rating ) * this->settings.bash_cost;
+                            break;
+                        } else if( rating == 1 ) {
+                            // Extremely unlikely to take this route unless no other choice is present
+                            obstacle_g = 1000000.0 * this->settings.bash_cost;
+                            break;
+                        }
+                    }
+                    // We can do nothing anymore, close the tile
+                    obstacle_g = INFINITY;
                     break;
                 }
-                if( is_door && can_open_doors ) {
-                    // Doors that can only be open from the inside
-                    const bool door_opens_from_inside = terrain.has_flag( "OPENCLOSE_INSIDE" ) ||
-                                                        furniture.has_flag( "OPENCLOSE_INSIDE" );
-                    const bool is_cur_point_inside = !here.is_outside( cur_point );
-                    const bool valid_to_open = door_opens_from_inside ? is_cur_point_inside : true;
-                    if( valid_to_open ) {
-                        obstacle_g = this->settings.door_open_cost;
-                        break;
-                    }
-                }
-                if( can_bash ) {
-                    // Time to consider bashing the obstacle
-                    const int rating = here.bash_rating_internal(
-                                           this->settings.bash_strength_val * this->settings.bash_strength_quanta,
-                                           furniture, terrain, false, cur_vehicle, cur_vehicle_part );
-                    if( rating > 1 ) {
-                        obstacle_g = ( 10. / rating ) * this->settings.bash_cost;
-                        break;
-                    } else if( rating == 1 ) {
-                        // Extremely unlikely to take this route unless no other choice is present
-                        obstacle_g = 1000000.0 * this->settings.bash_cost;
-                        break;
-                    }
-                }
-                // We can do nothing anymore, close the tile
-                obstacle_g = INFINITY;
-                break;
+
+                cur_g += obstacle_g;
+
+                this->g_at( cur_point ) = cur_g;
             }
 
-            cur_g += obstacle_g;
-
-            this->g_at( cur_point ) = cur_g;
             this->p_at( cur_point ) = this->get_f_unbiased( next_point );
 
             // Reintroduce this point into frontier unless the tile is closed
             if( is_inf( cur_g ) ) {
-                this->get_tile_state( cur_point ) = Pathfinding::State::IMPASSABLE;
+                this->tile_state_at( cur_point ) = Pathfinding::State::IMPASSABLE;
             } else {
-                this->get_tile_state( cur_point ) = Pathfinding::State::ACCESSIBLE;
-                biased_frontier.push( {this->get_f_biased( cur_point, route_settings.h_coeff ), cur_point} );
+                this->tile_state_at( cur_point ) = Pathfinding::State::ACCESSIBLE;
+                biased_frontier.push( {this->get_f_biased( cur_point, start, route_settings.h_coeff ), cur_point} );
             }
+
+            this->map_modify_set.push_back( cur_point );
+            this->tile_state_modify_set.push_back( cur_point );
 
             if( cur_point == start ) {
                 // We have reached the target
-                if( this->get_tile_state( cur_point ) == Pathfinding::State::ACCESSIBLE ) {
+                if( this->tile_state_at( cur_point ) == Pathfinding::State::ACCESSIBLE ) {
                     result = ExpansionOutcome::PATH_FOUND;
                 } else {
                     result = ExpansionOutcome::TARGET_INACCESSIBLE;
@@ -579,8 +781,8 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
 
     bool is_fully_explored = !route_settings.is_relative_search_domain() && biased_frontier.empty();
 
-    // We will be rebuilding on next search anyway if we had a limited search this time
-    if( !route_settings.is_relative_search_domain() ) {
+    // We will be rebuilding on next search anyway if we had a relative search this time
+    if( this->domain == MapDomain::ABSOLUTE_DOMAIN ) {
         while( !biased_frontier.empty() ) {
             const point p = biased_frontier.top().second;
             biased_frontier.pop();
@@ -591,10 +793,6 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
             this->unbiased_frontier.push_back( p );
         }
     }
-
-    this->domain = route_settings.is_relative_search_domain() ?
-                   MapDomain::RELATIVE_DOMAIN :
-                   MapDomain::ABSOLUTE_DOMAIN;
 
     if( result == ExpansionOutcome::UNSET ) {
         if( is_fully_explored ) {
@@ -617,8 +815,8 @@ std::vector<tripoint> Pathfinding::get_route_2d(
         return std::vector<tripoint> { tripoint( from, z ), tripoint( to, z ) };
     }
 
-    auto d_map_it = std::find_if(
-                        Pathfinding::d_maps.begin(), Pathfinding::d_maps.end(),
+    auto d_map_it = std::ranges::find_if(
+                        Pathfinding::d_maps,
     [&to, &path_settings, z]( auto & map ) {
         return map->dest == to && map->z == z && map->settings == path_settings;
     } );
@@ -663,7 +861,7 @@ std::vector<tripoint> Pathfinding::get_route_2d(
 
             const float cost = d_map->get_f_unbiased( next_point );
 
-            const bool is_accessible = d_map->get_tile_state( next_point ) ==
+            const bool is_accessible = d_map->tile_state_at( next_point ) ==
                                        Pathfinding::State::ACCESSIBLE;
             const bool is_not_forbidden = !d_map->forbidden_moves.contains( {cur_point, next_point} );
 
@@ -685,7 +883,7 @@ std::vector<tripoint> Pathfinding::get_route_2d(
             return result;
         }
 
-        std::sort( candidates.begin(), candidates.end(), []( auto & p1, auto & p2 ) {
+        std::ranges::sort( candidates, []( auto & p1, auto & p2 ) {
             return p1.first < p2.first;
         } );
 
@@ -778,14 +976,13 @@ std::vector<tripoint> Pathfinding::get_route_3d(
                     }
                 }
 
-                // Open air processing seeks to
+                // Open air processing
                 if( path_settings.can_fly ) {
                     std::unordered_map<tripoint, ZLevelChangeOpenAirPair> &target =
                         Pathfinding::get_z_cache_open_air( cur_origin.z );
 
                     for( tripoint &p : closest_points_first( cur_origin, static_cast<int>( best_distance ) ) ) {
                         // Are we considering open airs that are already beyond our best known move?
-                        // Multiplied by 2 because closest_points_first uses square distance, so 1.5 is close enough to >sqrt(2)
                         if( square_dist( cur_origin, p ) > best_distance ) {
                             break;
                         }

@@ -912,11 +912,9 @@ void monster::move()
                 }
 
                 const bool path_empty = path.empty();
-                const bool next_not_adjacent = path_empty || square_dist_fast( pos(), path.front() ) > 1;
                 const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
-                const bool next_blocked = path_empty || g->critter_at( path.front() ) != nullptr;
 
-                bool need_new_path = path_empty || next_not_adjacent || new_goal_not_adjacent || next_blocked;
+                bool need_new_path = path_empty || new_goal_not_adjacent;
 
                 if( need_new_path ) {
                     if( get_option<bool>( "USE_LEGACY_PATHFINDING" ) ) {
@@ -1144,6 +1142,7 @@ void monster::move()
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
+            path.clear(); // Repath if we failed to do anything
         }
         if( has_effect( effect_dragging ) && dragged_foe != nullptr ) {
 
