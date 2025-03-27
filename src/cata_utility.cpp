@@ -48,17 +48,16 @@ double round_up( double val, unsigned int dp )
     return std::ceil( denominator * val ) / denominator;
 }
 
-int divide_round_down(int a, int b)
+int divide_round_down( int a, int b )
 {
-    if (b < 0) {
+    if( b < 0 ) {
         a = -a;
         b = -b;
     }
-    if (a >= 0) {
+    if( a >= 0 ) {
         return a / b;
-    }
-    else {
-        return -((-a + b - 1) / b);
+    } else {
+        return -( ( -a + b - 1 ) / b );
     }
 }
 

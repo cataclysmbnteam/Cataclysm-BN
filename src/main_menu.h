@@ -71,7 +71,7 @@ class main_menu
         input_context ctxt;
         // what main menu item is currently activated
         // activated item can be drawn differently (higlighted)
-        // "activate" means "do the action this menu is about" 
+        // "activate" means "do the action this menu is about"
         int activated_menu_item_ = 1;
         int sel2 = 1;
         // color constants
@@ -83,7 +83,7 @@ class main_menu
         // Used to optimise mouse input handling
         // if set to true - do not redraw UI next cycle
         // Will be reset back to "false" after redraw happened
-        // Mouse cursor movement generates a lot of input per second, 
+        // Mouse cursor movement generates a lot of input per second,
         // each input is usually followed by UI redraw with lots of recalculations
         // But most of the time mouse movement changes nothing on the screen
         // so there is no point calculating and redrawing the same thing if nothing was changed
