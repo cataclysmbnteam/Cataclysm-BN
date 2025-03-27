@@ -178,7 +178,8 @@ float Pathfinding::get_f_unbiased( const point &p )
 float Pathfinding::get_f_biased( const point &p, const point &start,
                                  float h_coeff )
 {
-    return this->get_f_unbiased( p ) + ( h_coeff * manhattan_dist( p, start ) );
+    return this->get_f_unbiased( p ) + ( h_coeff * rl_dist_exact(
+            tripoint( p, 0 ), tripoint( start, 0 ) ) );
 }
 Pathfinding::State &Pathfinding::tile_state_at( const point &p )
 {

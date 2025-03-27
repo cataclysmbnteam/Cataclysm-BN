@@ -289,7 +289,7 @@ class Pathfinding
         float &g_at( const point &p );
         // f0 = p + g
         float get_f_unbiased( const point &p );
-        // f1 = p + g + `h_coeff` * [manhattan distance between `start` and `p`]
+        // f1 = p + g + `h_coeff` * [distance between `start` and `p`]
         float get_f_biased( const point &p, const point &start, float h_coeff );
 
         void reset_maps();
