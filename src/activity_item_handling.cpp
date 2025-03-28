@@ -2498,12 +2498,12 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( flag_TREE, src_loc ) ) {
         p.assign_activity( ACT_CHOP_TREE, moves, -1, p.get_item_position( best_qual ) );
-        p.activity->targets.emplace_back( best_qual );
+        p.activity->tools.emplace_back( best_qual );
         p.activity->placement = here.getabs( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
         p.assign_activity( ACT_CHOP_LOGS, moves, -1, p.get_item_position( best_qual ) );
-        p.activity->targets.emplace_back( best_qual );
+        p.activity->tools.emplace_back( best_qual );
         p.activity->placement = here.getabs( src_loc );
         return true;
     }

@@ -1630,6 +1630,41 @@
   },
   {
     "type": "vehicle_part",
+    "id": "v_shutter",
+    "copy-from": "v_curtain",
+    "name": { "str": "shutter" },
+    "durability": 250,
+    "description": "Sheet metal shutters to protect a window, which can be opened or closed.",
+    "item": "sheet_metal",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_small_metal", 3 ] ]
+      }
+    },
+    "breaks_into": "ig_vp_sheet_metal",
+    "damage_reduction": { "all": 28 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "v_hdshutter",
+    "copy-from": "v_shutter",
+    "name": { "str": "heavy duty shutter" },
+    "durability": 500,
+    "description": "Strong metal shutters to armor a window, which can be opened or closed.",
+    "item": "steel_plate",
+    "requirements": {
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 1 ] ] }
+    },
+    "breaks_into": "ig_vp_steel_plate",
+    "damage_reduction": { "all": 75 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "aisle_curtain",
     "name": { "str": "aisle curtain" },
     "symbol": "\"",
