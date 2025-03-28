@@ -5889,7 +5889,7 @@
     "threshold": true,
     "mutagen_target_modifier": 10
   },
-   {
+  {
     "type": "mutation",
     "id": "THRESH_RABBIT",
     "name": { "str": "Lagomorph" },
