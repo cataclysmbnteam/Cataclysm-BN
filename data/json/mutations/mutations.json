@@ -5889,6 +5889,30 @@
     "threshold": true,
     "mutagen_target_modifier": 10
   },
+   {
+    "type": "mutation",
+    "id": "THRESH_RABBIT",
+    "name": { "str": "Lagomorph" },
+    "points": 1,
+    "description": "You really want to eat some carrots.  Welcome to the Lagomorpha family.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true,
+    "mutagen_target_modifier": 10
+  },
+  {
+    "type": "mutation",
+    "id": "RABBIT_EARS",
+    "name": { "str": "Rabbit Ears" },
+    "points": 1,
+    "visibility": 9,
+    "ugliness": -1,
+    "description": "Your ears have grown into tall, flexible and pretty rabbit ears.  They're are slender and enhance your hearing beyond the normal range.",
+    "valid": false,
+    "types": [ "EARS" ],
+    "category": [ "RABBIT" ],
+    "hearing_modifier": 1.8
+  },
   {
     "type": "mutation",
     "id": "THRESH_MARLOSS",
