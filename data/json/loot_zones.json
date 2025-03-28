@@ -340,5 +340,11 @@
     "type": "LOOT_ZONE",
     "name": "NPC Investigation Area",
     "description": "Friendly NPCs will investigate unseen sounds only if they come from inside this area."
+  },
+  {
+    "id": "LOOT_DUMP",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Dump",
+    "description": "Any item not otherwise sorted will be placed here if this zone is specified."
   }
 ]
