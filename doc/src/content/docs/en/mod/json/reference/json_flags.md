@@ -765,6 +765,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
   firestarter.
 - `TRADER_AVOID` ... NPCs will not start with this item. Use this for active items (e.g. flashlight
   (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
+- `UNBREAKABLE` ... Armor with this flag will never take damage when taking hits for the wearer.
 - `UNBREAKABLE_MELEE` ... Does never get damaged when used as melee weapon.
 - `UNRECOVERABLE` ... Cannot be recovered from a disassembly.
 
