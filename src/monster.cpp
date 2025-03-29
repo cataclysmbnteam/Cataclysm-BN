@@ -965,6 +965,14 @@ std::string monster::extended_description() const
         }
     }
 
+    if( ( debug_mode || g->get_kill_tracker().kill_count( type->id ) > 0 ) &&
+        g->get_kill_tracker().option_xp() ) {
+        ss += "\n";
+        ss += string_format( _( "Killing it will increase your experience points by: <stat>%d</stat>" ),
+                             g->get_kill_tracker().xp_for_killing( type->id ) );
+        ss += "\n";
+    }
+
     return replace_colors( ss );
 }
 
