@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATALUA_LUNA_DOC_H
-#define CATA_SRC_CATALUA_LUNA_DOC_H
 
 #include "catalua_luna.h"
 #include "type_id.h"
@@ -178,4 +176,4 @@ LUNA_ENUM( npc_need, "NpcNeed" )
 LUNA_ENUM( sfx::channel, "SfxChannel" )
 
 
-#endif // CATA_SRC_CATALUA_LUNA_DOC_H
+

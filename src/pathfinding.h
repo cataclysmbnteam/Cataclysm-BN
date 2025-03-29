@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_PATHFINDING_H
-#define CATA_SRC_PATHFINDING_H
 
 #include "game_constants.h"
 
@@ -73,4 +71,4 @@ struct pathfinding_settings {
     pathfinding_settings &operator = ( const pathfinding_settings & ) = default;
 };
 
-#endif // CATA_SRC_PATHFINDING_H
+

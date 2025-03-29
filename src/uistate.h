@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UISTATE_H
-#define CATA_SRC_UISTATE_H
 
 #include <list>
 #include <map>
@@ -168,4 +166,4 @@ class uistatedata
 };
 extern uistatedata uistate;
 
-#endif // CATA_SRC_UISTATE_H
+

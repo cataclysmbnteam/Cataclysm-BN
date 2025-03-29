@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_PATH_INFO_H
-#define CATA_SRC_PATH_INFO_H
 
 #include <string>
 
@@ -74,4 +72,4 @@ void set_motd( const std::string &motd );
 
 } // namespace PATH_INFO
 
-#endif // CATA_SRC_PATH_INFO_H
+

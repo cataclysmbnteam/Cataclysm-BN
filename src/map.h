@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAP_H
-#define CATA_SRC_MAP_H
 
 #include <array>
 #include <bitset>
@@ -2101,4 +2099,4 @@ class fake_map : public tinymap
                   int fake_map_z );
         ~fake_map() override;
 };
-#endif // CATA_SRC_MAP_H
+

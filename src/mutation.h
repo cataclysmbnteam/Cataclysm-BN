@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MUTATION_H
-#define CATA_SRC_MUTATION_H
 
 #include <map>
 #include <memory>
@@ -528,4 +526,4 @@ mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool stro
 
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
 
-#endif // CATA_SRC_MUTATION_H
+

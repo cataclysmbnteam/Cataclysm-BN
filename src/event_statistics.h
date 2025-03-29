@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_EVENT_STATISTICS_H
-#define CATA_SRC_EVENT_STATISTICS_H
 
 #include <memory>
 #include <string>
@@ -111,4 +109,4 @@ class score
         string_id<event_statistic> stat_;
 };
 
-#endif // CATA_SRC_EVENT_STATISTICS_H
+

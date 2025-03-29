@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CRAFTING_H
-#define CATA_SRC_CRAFTING_H
 
 #include <list>
 #include <set>
@@ -155,4 +153,4 @@ void complete_disassemble( Character &who, const iuse_location &target, const tr
 
 } // namespace crafting
 
-#endif // CATA_SRC_CRAFTING_H
+
