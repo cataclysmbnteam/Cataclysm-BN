@@ -2037,7 +2037,7 @@
     "open": "t_door_metal_o",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "steel_plate", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 3, 8 ] },
@@ -2110,7 +2110,7 @@
     "open": "t_door_metal_lab_o",
     "oxytorch": {
       "result": "t_mdoor_lab_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "steel_plate", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 3, 8 ] },
@@ -2198,7 +2198,7 @@
     "examine_action": "door_peephole",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "peephole", "count": [ 0, 1 ] },
         { "item": "steel_plate", "count": [ 0, 1 ] },
@@ -2261,7 +2261,7 @@
     "roof": "t_flat_roof",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "steel_plate", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 3, 8 ] },
@@ -2318,7 +2318,7 @@
     "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "steel_plate", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 3, 8 ] },
@@ -2357,7 +2357,7 @@
     "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "steel_plate", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 3, 8 ] },
@@ -2409,7 +2409,7 @@
     "close": "t_door_bar_locked",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "9 seconds",
+      "duration": "10 seconds",
       "byproducts": [ { "item": "pipe", "count": 12 }, { "item": "hinge", "count": 2 } ]
     },
     "bash": {
@@ -2477,7 +2477,7 @@
     "examine_action": "locked_object_pickable",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "9 seconds",
+      "duration": "10 seconds",
       "byproducts": [ { "item": "pipe", "count": 12 }, { "item": "hinge", "count": 2 } ]
     },
     "bash": {
@@ -2659,7 +2659,7 @@
     "open": "t_door_metal_bulkhead_o",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
@@ -2705,7 +2705,7 @@
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "MINEABLE", "NO_SCENT", "BLOCK_WIND" ],
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "steel_plate", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 3, 8 ] },
@@ -2739,7 +2739,7 @@
     "examine_action": "door_peephole",
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "peephole", "count": [ 0, 1 ] },
         { "item": "steel_plate", "count": [ 0, 1 ] },
@@ -2774,7 +2774,7 @@
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "NO_SCENT", "MINEABLE" ],
     "oxytorch": {
       "result": "t_mdoor_lab_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "steel_plate", "count": [ 0, 1 ] },
         { "item": "steel_chunk", "count": [ 3, 8 ] },
@@ -2808,7 +2808,7 @@
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "NO_SCENT", "MINEABLE" ],
     "oxytorch": {
       "result": "t_mdoor_lab_frame",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
     },
     "bash": {
@@ -2840,7 +2840,7 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "oxytorch": {
       "result": "t_mdoor_frame",
-      "duration": "9 seconds",
+      "duration": "10 seconds",
       "byproducts": [ { "item": "pipe", "count": 12 }, { "item": "hinge", "count": 2 } ]
     },
     "bash": {

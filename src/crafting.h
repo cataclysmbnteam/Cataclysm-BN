@@ -10,7 +10,7 @@
 #include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include <veh_type.h>
+#include "veh_type.h"
 
 class avatar;
 class Character;

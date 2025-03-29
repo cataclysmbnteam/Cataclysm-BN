@@ -428,7 +428,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "//2": "Same amount of time to cut one open, but half the oxy-ace consumption and allows arc welders",
     "time": "14 s",
-    "using": [ [ "welding_standard", 13 ] ],
+    "using": [ [ "welding_standard", 8 ] ],
     "pre_flags": "WELDABLE_DOOR",
     "post_terrain": "t_door_metal_welded"
   },
@@ -440,7 +440,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "14 s",
-    "using": [ [ "welding_standard", 13 ] ],
+    "using": [ [ "welding_standard", 8 ] ],
     "pre_terrain": "t_door_metal_c_peep",
     "post_terrain": "t_door_metal_welded_peephole"
   },
@@ -452,7 +452,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "14 s",
-    "using": [ [ "welding_standard", 13 ] ],
+    "using": [ [ "welding_standard", 8 ] ],
     "pre_terrain": "t_door_metal_bulkhead_c",
     "post_terrain": "t_door_metal_welded_bulkhead"
   },
@@ -464,7 +464,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "14 s",
-    "using": [ [ "welding_standard", 13 ] ],
+    "using": [ [ "welding_standard", 8 ] ],
     "pre_terrain": "t_door_metal_lab_c",
     "post_terrain": "t_door_metal_welded_lab"
   },
@@ -476,7 +476,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "9 s",
-    "using": [ [ "welding_standard", 8 ] ],
+    "using": [ [ "welding_standard", 5 ] ],
     "pre_flags": "WELDABLE_BARS",
     "post_terrain": "t_door_metal_welded_bars"
   },

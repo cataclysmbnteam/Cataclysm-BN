@@ -502,7 +502,14 @@ static void damage_targets( const spell &sp, Creature &caster,
         atk.end_point = target;
         atk.hit_critter = cr;
         atk.proj = bolt;
-        atk.missed_by = 0.0;
+        if( sp.accuracy() == -1 ) {
+            // defaults to either great odds of hitting the head if it's the player or more reasonable accuracy if not
+            atk.missed_by = ( caster.is_player() ) ? 0.0 : 0.4;
+        } else {
+            // accuracy is an int and is meant to represent % to hit, so have to reverse it and divide
+            atk.missed_by = static_cast<double>( 100 - sp.accuracy() ) / 100.0;
+        }
+
         if( !sp.effect_data().empty() ) {
             add_effect_to_target( target, sp );
         }

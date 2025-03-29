@@ -906,11 +906,11 @@ void monster::move()
     bool pathed = false;
     if( try_to_move ) {
         if( !wander() ) {
-            while( !path.empty() && path.front() == pos() ) {
-                path.erase( path.begin() );
-            }
-
             {
+                while( !path.empty() && path.front() == pos() ) {
+                    path.erase( path.begin() );
+                }
+
                 const bool path_empty = path.empty();
                 const bool next_not_adjacent = path_empty || square_dist_fast( pos(), path.front() ) > 1;
                 const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
@@ -930,6 +930,10 @@ void monster::move()
             }
 
             {
+                while( !path.empty() && path.front() == pos() ) {
+                    path.erase( path.begin() );
+                }
+
                 const bool path_empty = path.empty();
                 const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
                 const bool we_are_at_goal = pos() == goal;
@@ -942,9 +946,6 @@ void monster::move()
                     destination = goal;
                     moved = true;
                 } else {
-                    while( !path_empty && path.front() == pos() ) {
-                        path.erase( path.begin() );
-                    }
                     destination = path.front();
                     moved = true;
                     pathed = true;

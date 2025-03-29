@@ -1722,10 +1722,7 @@ void oxytorch_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
-    if( progress.front().complete() ) {
-        progress.pop();
-        return;
-    }
+    // We check available charges when first starting the cut, but this prevents abnormal behavior if torch status changes mid-activity.
     if( tool->ammo_sufficient() ) {
         tool->ammo_consume( tool->ammo_required(), tool->position() );
         sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( target ) );
@@ -1742,6 +1739,9 @@ void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who 
             }
         }
         who.cancel_activity();
+    }
+    if( progress.front().complete() ) {
+        progress.pop();
     }
 }
 

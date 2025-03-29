@@ -753,7 +753,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": "weldgas",
-    "charges_per_use": 4,
+    "charges_per_use": 2,
     "use_action": "OXYTORCH",
     "qualities": [ [ "WELD", 2 ] ],
     "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ],
