@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_MASS_H
-#define CATA_SRC_UNITS_MASS_H
 
 #include <cstdint>
 #include <algorithm>
@@ -131,4 +129,4 @@ constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _newt
 
 
 
-#endif // CATA_SRC_UNITS_MASS_H
+

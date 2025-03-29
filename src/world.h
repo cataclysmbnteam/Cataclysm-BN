@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_WORLD_H
-#define CATA_SRC_WORLD_H
 
 #include <functional>
 #include <string>
@@ -182,4 +180,4 @@ class world
         sqlite3 *get_player_db();
 };
 
-#endif // CATA_SRC_WORLD_H
+

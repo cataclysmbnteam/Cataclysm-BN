@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_IEXAMINE_H
-#define CATA_SRC_IEXAMINE_H
 
 #include <list>
 #include <optional>
@@ -144,4 +142,4 @@ void practice_survival_while_foraging( player *p );
 using iexamine_function = void ( * )( player &, const tripoint & );
 iexamine_function iexamine_function_from_string( const std::string &function_name );
 
-#endif // CATA_SRC_IEXAMINE_H
+

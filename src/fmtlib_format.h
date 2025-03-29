@@ -31,8 +31,7 @@
  without including the above copyright and permission notices.
  */
 
-#ifndef CATA_SRC_FMTLIB_FORMAT_H
-#define CATA_SRC_FMTLIB_FORMAT_H
+#pragma once
 
 #include <algorithm>
 #include <cerrno>
@@ -4482,4 +4481,4 @@ FMT_END_NAMESPACE
 
 #  define FMT_FUNC
 
-#endif  // CATA_SRC_FMTLIB_FORMAT_H
+

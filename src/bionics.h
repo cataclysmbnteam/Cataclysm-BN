@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_BIONICS_H
-#define CATA_SRC_BIONICS_H
 
 #include <cstddef>
 #include <map>
@@ -234,4 +232,4 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty );
 std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &bios,
         const trait_id &tid );
 
-#endif // CATA_SRC_BIONICS_H
+

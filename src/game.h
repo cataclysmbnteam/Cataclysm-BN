@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_GAME_H
-#define CATA_SRC_GAME_H
 
 #include <array>
 #include <chrono>
@@ -1096,4 +1094,4 @@ namespace cata_event_dispatch
 void avatar_moves( const avatar &u, const map &m, const tripoint &p );
 } // namespace cata_event_dispatch
 
-#endif // CATA_SRC_GAME_H
+

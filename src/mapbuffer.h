@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAPBUFFER_H
-#define CATA_SRC_MAPBUFFER_H
 
 #include <list>
 #include <map>
@@ -86,4 +84,4 @@ class mapbuffer
 
 extern mapbuffer MAPBUFFER;
 
-#endif // CATA_SRC_MAPBUFFER_H
+

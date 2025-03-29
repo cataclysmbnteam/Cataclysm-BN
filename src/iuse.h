@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_IUSE_H
-#define CATA_SRC_IUSE_H
 
 #include <memory>
 #include <string>
@@ -311,4 +309,4 @@ struct use_function {
         void dump_info( const item &, std::vector<iteminfo> & ) const;
 };
 
-#endif // CATA_SRC_IUSE_H
+

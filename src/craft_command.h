@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CRAFT_COMMAND_H
-#define CATA_SRC_CRAFT_COMMAND_H
 
 #include <string>
 #include <vector>
@@ -130,4 +128,4 @@ class craft_command
                              const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
 
-#endif // CATA_SRC_CRAFT_COMMAND_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ITEM_H
-#define CATA_SRC_ITEM_H
 
 #include <climits>
 #include <cstdint>
@@ -2645,4 +2643,4 @@ struct cable_connection_data {
     }
 };
 
-#endif // CATA_SRC_ITEM_H
+

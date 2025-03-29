@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ITEM_CATEGORY_H
-#define CATA_SRC_ITEM_CATEGORY_H
 
 #include <optional>
 #include <string>
@@ -81,5 +79,5 @@ class item_category
         void load( const JsonObject &jo, const std::string & );
 };
 
-#endif // CATA_SRC_ITEM_CATEGORY_H
+
 

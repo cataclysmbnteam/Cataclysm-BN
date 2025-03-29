@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CHARACTER_H
-#define CATA_SRC_CHARACTER_H
 
 #include <array>
 #include <bitset>
@@ -2399,4 +2397,4 @@ bool has_psy_protection( const Character &c, int partial_chance );
 /** Returns value of speedydex bonus if enabled */
 int get_speedydex_bonus( const int dex );
 
-#endif // CATA_SRC_CHARACTER_H
+

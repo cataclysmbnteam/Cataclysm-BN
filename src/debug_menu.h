@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_DEBUG_MENU_H
-#define CATA_SRC_DEBUG_MENU_H
 
 #include <optional>
 #include <string>
@@ -85,4 +83,4 @@ std::string iterable_to_string( const Container &values, const std::string_view 
 
 } // namespace debug_menu
 
-#endif // CATA_SRC_DEBUG_MENU_H
+

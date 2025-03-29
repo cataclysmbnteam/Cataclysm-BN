@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VEHICLE_H
-#define CATA_SRC_VEHICLE_H
 
 #include <array>
 #include <climits>
@@ -1785,4 +1783,4 @@ namespace rot
 temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part );
 } // namespace rot
 
-#endif // CATA_SRC_VEHICLE_H
+

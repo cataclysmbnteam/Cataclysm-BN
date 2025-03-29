@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATALUA_H
-#define CATA_SRC_CATALUA_H
 
 #include "type_id.h"
 
@@ -48,4 +46,4 @@ void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory );
 
 } // namespace cata
 
-#endif // CATA_SRC_CATALUA_H
+

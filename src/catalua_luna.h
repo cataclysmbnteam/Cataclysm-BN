@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATALUA_LUNA_H
-#define CATA_SRC_CATALUA_LUNA_H
 
 #include <array>
 #include <functional>
@@ -669,4 +667,4 @@ inline void doc( std::string_view doc )
 
 } // namespace luna
 
-#endif // CATA_SRC_CATALUA_LUNA_H
+

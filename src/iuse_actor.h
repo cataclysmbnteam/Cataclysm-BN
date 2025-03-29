@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_IUSE_ACTOR_H
-#define CATA_SRC_IUSE_ACTOR_H
 
 #include <climits>
 #include <map>
@@ -1273,4 +1271,4 @@ class heat_food_actor : public iuse_actor
         ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
-#endif // CATA_SRC_IUSE_ACTOR_H
+

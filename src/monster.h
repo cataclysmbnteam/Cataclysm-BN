@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MONSTER_H
-#define CATA_SRC_MONSTER_H
 
 #include <bitset>
 #include <climits>
@@ -651,4 +649,4 @@ class monster : public Creature, public location_visitable<monster>
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif // CATA_SRC_MONSTER_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CHARACTER_ENCUMBRANCE_H
-#define CATA_SRC_CHARACTER_ENCUMBRANCE_H
 
 #include <array>
 #include <vector>
@@ -52,4 +50,4 @@ struct char_encumbrance_data {
     std::map<bodypart_str_id, encumbrance_data> elems;
 };
 
-#endif // CATA_SRC_CHARACTER_ENCUMBRANCE_H
+

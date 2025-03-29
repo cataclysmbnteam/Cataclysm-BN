@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
-#define CATA_SRC_CHARACTER_FUNCTIONS_H
 
 #include "type_id.h"
 
@@ -235,4 +233,4 @@ void show_skill_capped_notice( const Character &who, const skill_id &id );
 
 } // namespace character_funcs
 
-#endif // CATA_SRC_CHARACTER_FUNCTIONS_H
+

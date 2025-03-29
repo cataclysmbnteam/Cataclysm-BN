@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_DEBUG_H
-#define CATA_SRC_DEBUG_H
 
 /**
  *      debugmsg(msg, ...)
@@ -268,4 +266,4 @@ void debug_write_backtrace( std::ostream &out );
 #endif
 
 // vim:tw=72:sw=4:fdm=marker:fdl=0:
-#endif // CATA_SRC_DEBUG_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_NPC_H
-#define CATA_SRC_NPC_H
 
 #include <algorithm>
 #include <array>
@@ -1410,4 +1408,4 @@ static constexpr int density_search_radius = 120;
 double spawn_chance_in_hour( int current_npc_count, double density );
 } // namespace npc_overmap
 
-#endif // CATA_SRC_NPC_H
+
