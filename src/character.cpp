@@ -76,7 +76,7 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "player_activity.h"
 #include "profession.h"

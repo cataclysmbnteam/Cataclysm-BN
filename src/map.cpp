@@ -74,7 +74,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "point_float.h"
 #include "projectile.h"
