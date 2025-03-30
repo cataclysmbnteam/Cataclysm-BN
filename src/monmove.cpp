@@ -936,7 +936,10 @@ void monster::move()
             pathed_to_goal = true;
         }
 
-        have_destination = true;
+        // Verify next step is viable, unless a Z-move, then anything goes because unaligned stairs are bullshit
+        const bool viable_dest = destination.z != this->posz() ? true : square_dist( this->pos(),
+                                 destination ) <= 1;
+        have_destination = viable_dest;
     } else {
         this->path.clear();
     }
