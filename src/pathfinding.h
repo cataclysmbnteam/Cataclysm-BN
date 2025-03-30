@@ -25,7 +25,10 @@ struct PathfindingSettings {
     // Our approximate bash strength is `bash_strength_val` * `bash_strength_quanta`
     // We quantize bash strength to reduce the amount of d_maps created for different mob types, considering the actual bash strength
     //   does not change g-values much.
-    int bash_strength_quanta = 10;
+    int bash_strength_quanta = 1;
+
+    // Mulitplier of just raw move cost. 2.0 would mean just movement alone takes 2x time.
+    float move_cost_coeff = 1.0;
 
     // Even if we can bash, multiply time needed to do it by this
     // >1 to make bashes less attractive, <1 to make them more attractive. Do not use negative values.
@@ -238,7 +241,7 @@ class Pathfinding
         static std::array<std::unordered_map<tripoint, ZLevelChangeOpenAirPair>, OVERMAP_LAYERS>
         z_caches_open_air;
         // Global state: We cache `z_path` information taken to prevent multiple iterations for the same target
-        static std::map<std::pair<int, tripoint>, ZLevelChange> cached_closest_z_changes;
+        static std::map<std::tuple<bool, int, tripoint>, ZLevelChange> cached_closest_z_changes;
 
         // Smallest adjacent f
         std::array<std::array<float, MAPSIZE_X>, MAPSIZE_Y> p_map;

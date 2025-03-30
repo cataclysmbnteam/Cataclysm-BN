@@ -4,6 +4,7 @@
 #include <memory>
 #include <optional>
 #include <queue>
+#include <vector>
 
 #include "game.h"
 #include "map.h"
@@ -296,18 +297,9 @@ void Pathfinding::update_z_caches( bool update_open_air )
         }
 
         // Remove Z-level changes that have gone out of bounds into unloaded regions
-        // Be aware this uses swap to back and pop_back, which does not preserve order, but is VERY fast
-        {
-            auto it = target.begin();
-            while( it != target.end() ) {
-                if( !here.inbounds( it->to ) ) {
-                    std::swap( *it, target.back() );
-                    target.pop_back();
-                } else {
-                    ++it;
-                }
-            }
-        }
+        std::erase_if( target, [&here]( const auto & pair ) {
+            return !here.inbounds( pair.to );
+        } );
 
         if( update_open_air ) {
             std::unordered_map<tripoint, Pathfinding::ZLevelChangeOpenAirPair> &open_air_target =
@@ -383,8 +375,8 @@ void Pathfinding::update_z_caches( bool update_open_air )
                     const auto &maybe_stair_ter = maybe_stairs_tile.get_ter_t();
 
                     if( maybe_stair_ter.has_flag( TFLAG_GOES_DOWN ) ) {
-                        const ZLevelChange stairs_up = ZLevelChange{ .from = cur, .to = above_us, .type = Pathfinding::ZLevelChange::Type::STAIRS };
-                        const ZLevelChange stairs_down = ZLevelChange{ .from = above_us, .to = cur, .type = Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_up = ZLevelChange{ .from = cur, .to = maybe_stairs_p, .type = Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_down = ZLevelChange{ .from = maybe_stairs_p, .to = cur, .type = Pathfinding::ZLevelChange::Type::STAIRS };
                         Pathfinding::get_z_cache( z ).push_back( stairs_down );
                         Pathfinding::get_z_cache( z + 1 ).push_back( stairs_up );
                         break;
@@ -405,8 +397,8 @@ void Pathfinding::update_z_caches( bool update_open_air )
                     const auto &maybe_stairs_ter = maybe_stairs_tile.get_ter_t();
 
                     if( maybe_stairs_ter.has_flag( TFLAG_GOES_UP ) ) {
-                        const ZLevelChange stairs_down = ZLevelChange{ .from = cur, .to = below_us, .type = Pathfinding::ZLevelChange::Type::STAIRS };
-                        const ZLevelChange stairs_up = ZLevelChange{ .from = below_us, .to = cur, .type = Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_down = ZLevelChange{ .from = cur, .to = maybe_stairs_p, .type = Pathfinding::ZLevelChange::Type::STAIRS };
+                        const ZLevelChange stairs_up = ZLevelChange{ .from = maybe_stairs_p, .to = cur, .type = Pathfinding::ZLevelChange::Type::STAIRS };
                         Pathfinding::get_z_cache( z ).push_back( stairs_up );
                         Pathfinding::get_z_cache( z - 1 ).push_back( stairs_down );
                         break;
@@ -637,6 +629,7 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
             if( is_g_calc_needed ) {
                 bool is_diag = dir.x != 0 && dir.y != 0;
                 cur_g += is_diag ? 0.75 * move_cost : 0.5 * move_cost;
+                cur_g *= this->settings.move_cost_coeff;
 
                 // First, check for trivial cost modifiers
                 const bool is_rough = move_cost > 2;
@@ -736,10 +729,13 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
                             obstacle_g = ( 10. / rating ) * this->settings.bash_cost;
                             break;
                         } else if( rating == 1 ) {
-                            // Extremely unlikely to take this route unless no other choice is present
-                            obstacle_g = 1000000.0 * this->settings.bash_cost;
+                            // Rating == 1 implies it will take at least 10 turns to take this down
+                            //   which is a very unattractive target
+                            //   so we'll penalize this target a lot
+                            obstacle_g = 30.0 * this->settings.bash_cost * this->settings.bash_cost * this->settings.bash_cost;
                             break;
                         }
+
                     }
                     // We can do nothing anymore, close the tile
                     obstacle_g = INFINITY;
@@ -923,7 +919,7 @@ std::vector<tripoint> Pathfinding::get_route_3d(
         tripoint cur_origin = to;
         while( cur_origin.z != from.z ) {
             Pathfinding::ZLevelChange best_z_change;
-            std::pair<int, tripoint> cache_pair{ path_settings.z_move_type(), cur_origin };
+            std::tuple<bool, int, tripoint> cache_pair{ we_go_up, path_settings.z_move_type(), cur_origin };
 
             if( Pathfinding::cached_closest_z_changes.contains( cache_pair ) ) {
                 best_z_change = Pathfinding::cached_closest_z_changes[cache_pair];
