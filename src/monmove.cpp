@@ -883,7 +883,7 @@ void monster::move()
     if( !is_wandering() ) {
         if( goal == g->u.pos() ) {
             current_attitude = attitude( &g->u );
-        } else {    
+        } else {
             for( const npc &guy : g->all_npcs() ) {
                 if( goal == guy.pos() ) {
                     current_attitude = attitude( &guy );
