@@ -1161,7 +1161,6 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_sync( const tripoint_abs_o
                                origin.z() ) );
     const int min_layer = search_layers.first;
     const int max_layer = search_layers.second;
-    const int num_layers = max_layer - min_layer + 1;
 
     find_task_generator gen( origin.raw().xy(), min_dist, max_dist, min_layer, max_layer, 256 );
 
@@ -1191,7 +1190,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_sync( const tripoint_abs_o
             if( is_findable_location( q, params ) ) {
                 find_result.push_back( loc.first );
             }
-            if( params.max_results.has_value() && find_result.size() == params.max_results.value() ) {
+            if( params.max_results.has_value() &&
+                find_result.size() == static_cast<size_t>( params.max_results.value() ) ) {
                 done = true;
                 break;
             }
@@ -1231,7 +1231,8 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
         {
             auto task_result = task.get();
 
-            if( !params.max_results.has_value() || dst.size() < params.max_results.value() ) {
+            if( !params.max_results.has_value() ||
+                dst.size() < static_cast<size_t>( params.max_results.value() ) ) {
                 if( params.post_filter ) {
                     std::copy_if( task_result.begin(), task_result.end(), std::back_inserter( dst ),
                                   params.post_filter );
