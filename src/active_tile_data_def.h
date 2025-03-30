@@ -20,7 +20,7 @@ struct furn_transform {
 class battery_tile : public active_tile_data
 {
     public:
-        /* In J */
+        /* In kJ */
         int stored;
         int max_stored;
 

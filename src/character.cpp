@@ -359,6 +359,8 @@ static const trait_flag_str_id flag_NO_THIRST( "NO_THIRST" );
 static const trait_flag_str_id flag_NO_RADIATION( "NO_RADIATION" );
 static const trait_flag_str_id flag_NON_THRESH( "NON_THRESH" );
 
+static const activity_id ACT_ASSIST( "ACT_ASSIST" );
+
 namespace io
 {
 
@@ -9677,9 +9679,11 @@ void Character::assign_activity( std::unique_ptr<player_activity> act, bool allo
     if( is_npc() ) {
         cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
-        guy->set_attitude( NPCATT_ACTIVITY );
-        guy->set_mission( NPC_MISSION_ACTIVITY );
         guy->current_activity_id = activity->id();
+        if( activity->id() != ACT_ASSIST ) {
+            guy->set_attitude( NPCATT_ACTIVITY );
+            guy->set_mission( NPC_MISSION_ACTIVITY );
+        }
     }
 }
 
