@@ -370,6 +370,7 @@ tripoint_abs_omt mission_util::target_om_ter_random( const std::string &omter, i
     find_params.types.emplace_back( omter, ot_match_type::type );
     find_params.search_range = { 0, range };
     find_params.search_layers = std::nullopt;
+    find_params.seen = must_see ? std::make_optional( true ) : std::nullopt;
 
     auto places = overmap_buffer.find_all( loc, find_params );
     if( places.empty() ) {
