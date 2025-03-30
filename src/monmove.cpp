@@ -931,15 +931,25 @@ void monster::move()
         if( this->path.empty() ) {
             // No prior path, no successful pathing, go in a straight line
             destination = goal;
+            have_destination = true;
         } else {
             destination = this->path.front();
             pathed_to_goal = true;
+            
+            // Verify next step is viable, unless a Z-move, then anything goes because unaligned stairs are bullshit
+            const bool viable_dest = destination.z != this->posz() ? true : square_dist( this->pos(),
+                                     destination ) <= 1;
+            if( !viable_dest ) {
+                // Should not _usually_ occur, but...
+                this->path.clear();
+                this->repath_requested = true;
+                have_destination = false;
+            } else {
+                have_destination = true;
+            }
         }
+        
 
-        // Verify next step is viable, unless a Z-move, then anything goes because unaligned stairs are bullshit
-        const bool viable_dest = destination.z != this->posz() ? true : square_dist( this->pos(),
-                                 destination ) <= 1;
-        have_destination = viable_dest;
     } else {
         this->path.clear();
     }
