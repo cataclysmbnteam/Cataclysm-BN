@@ -872,8 +872,9 @@ void monster::move()
     if( !this->is_wandering() ) {
         monster *maybe_friend = g->critter_at<monster>( this->goal );
         if( maybe_friend != nullptr && maybe_friend->goal == this->goal && this->sees( this->goal ) ) {
-            // Percolate our goal a bit
-            this->set_goal( this->goal + point( rng( -1, 1 ), rng( -1, 1 ) ) );
+            // Give up on that target and fast-wander instead off
+            this->unset_dest();
+            wandf += 10;
         }
     }
 
@@ -882,7 +883,7 @@ void monster::move()
     if( !is_wandering() ) {
         if( goal == g->u.pos() ) {
             current_attitude = attitude( &g->u );
-        } else {
+        } else {    
             for( const npc &guy : g->all_npcs() ) {
                 if( goal == guy.pos() ) {
                     current_attitude = attitude( &guy );
