@@ -1323,7 +1323,6 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
     return find_result;
 }
 
-
 tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         const omt_find_params &pp )
 {
@@ -1358,29 +1357,30 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
         params.max_results = 10 * pp.types.size();
     }
 
-    std::vector<tripoint_abs_omt> near_points;
-    std::optional<int> found_dist;
-
-    std::multimap<int, tripoint_abs_omt> points_by_dist;
-
     auto scan_result = find_all( origin, params );
-    if( scan_result.size() == 0 ) {
+
+    if( scan_result.empty() ) {
         return overmap::invalid_tripoint;
     }
 
+    std::vector<tripoint_abs_omt> near_points;
+    int min_dist = INT_MAX;
+
+    // Only care about the absolute nearest points, so only keep those points
     for( auto &p : scan_result ) {
-        const int dist = square_dist( origin, p );
-        points_by_dist.insert( { dist, p } );
+        int dist = square_dist( origin, p );
+        if( dist < min_dist ) {
+            near_points.clear();
+            min_dist = dist;
+        } else if( dist > min_dist ) {
+            continue;
+        }
+        near_points.emplace_back( p );
     }
 
-    auto min_key = points_by_dist.begin()->first;
-    auto min_range = points_by_dist.equal_range( min_key );
-
-    auto num_results = std::distance( min_range.first, min_range.second );
-    auto it = min_range.first;
-    std::advance( it, rng( 0, num_results ) );
-
-    return it->second;
+    // rng is inclusive
+    auto random_idx = rng( 0, near_points.size() - 1 );
+    return near_points[random_idx];
 }
 
 tripoint_abs_omt overmapbuffer::find_random( const tripoint_abs_omt &origin,
