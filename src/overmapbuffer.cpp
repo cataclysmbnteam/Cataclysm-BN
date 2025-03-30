@@ -1233,13 +1233,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::find_all_async( const tripoint_abs_
 
             if( !params.max_results.has_value() ||
                 dst.size() < static_cast<size_t>( params.max_results.value() ) ) {
-                if( params.post_filter ) {
-                    std::copy_if( task_result.begin(), task_result.end(), std::back_inserter( dst ),
-                                  params.post_filter );
-                } else {
-                    std::copy( task_result.begin(), task_result.end(), std::back_inserter( dst ) );
-                }
-
+                std::copy( task_result.begin(), task_result.end(), std::back_inserter( dst ) );
                 if( params.max_results.has_value() && dst.size() > params.max_results.value() ) {
                     dst.resize( params.max_results.value() );
                 }

@@ -126,7 +126,6 @@ struct overmap_with_local_coords {
  * @param om_special If set, the terrain must be part of the specified overmap special.
  * @param popup If set, the popup will be periodically updated to indicate ongoing search.
  * @param max_results, If set, limits the search result to at most n entries
- * @param post_filter If set, will filter the final output vector coordinates
 */
 struct omt_find_params {
     ~omt_find_params();
@@ -141,8 +140,6 @@ struct omt_find_params {
     std::optional<overmap_special_id> om_special = std::nullopt;
     shared_ptr_fast<throbber_popup> popup = nullptr;
     std::optional<int> max_results = std::nullopt;
-    std::function<bool( const tripoint_abs_omt & )> post_filter =
-        nullptr;
 };
 
 constexpr const std::pair<int, int> omt_find_all_layers = { -OVERMAP_DEPTH, OVERMAP_HEIGHT };
