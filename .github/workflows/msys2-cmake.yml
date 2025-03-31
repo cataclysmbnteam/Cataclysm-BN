@@ -58,7 +58,6 @@ jobs:
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-sqlite3
             mingw-w64-x86_64-zstd
-            mingw-w64-x86_64-sol2
 
       - name: Create build directory
         run: mkdir build
@@ -69,7 +68,7 @@ jobs:
           cmake.exe \
             -DTILES=ON \
             -DSOUND=ON \
-            -DLUA=ON \
+            -DLUA=OFF \
             -DTESTS=ON \
             -DDYNAMIC_LINKING=ON \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
