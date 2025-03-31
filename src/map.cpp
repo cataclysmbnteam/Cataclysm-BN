@@ -1851,11 +1851,12 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     }
 
     invalidate_max_populated_zlev( p.z );
-
     set_memory_seen_cache_dirty( p );
 
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
+
+    Pathfinding::clear_z_caches();
 
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
