@@ -929,6 +929,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Map Defaulting to Level 0",
+    "category": "OVERMAP",
+    "id": "TOGGLE_DEFAULT_0",
+    "bindings": [ { "input_method": "keyboard", "key": "." } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ROTATE",
     "category": "OVERMAP_EDITOR",
     "name": "Rotate",
