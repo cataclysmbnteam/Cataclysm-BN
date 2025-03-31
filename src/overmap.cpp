@@ -4663,7 +4663,8 @@ void overmap::place_cities()
     const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
     int placement_attempts = 0;
     int finale_distance = 1;
-    std::unique_ptr<std::array<map_layer, OVERMAP_LAYERS>> layer_backup_p( new std::array<map_layer, OVERMAP_LAYERS>() );
+    std::unique_ptr<std::array<map_layer, OVERMAP_LAYERS>> layer_backup_p(
+                new std::array<map_layer, OVERMAP_LAYERS>() );
     std::array<map_layer, 21UL> &layer_backup = *layer_backup_p;
 
     // place a seed for NUM_CITIES cities, and maybe one more
