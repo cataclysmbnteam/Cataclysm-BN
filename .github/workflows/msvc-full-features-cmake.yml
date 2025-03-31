@@ -75,7 +75,7 @@ jobs:
           echo $env:PATH
 
       - name: Install stable CMake
-        uses: lukka/get-cmake@latest
+        uses: lukka/get-cmake@v3.31.6
 
       - name: Install vcpkg
         uses: lukka/run-vcpkg@main

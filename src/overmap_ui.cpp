@@ -1420,6 +1420,7 @@ static void draw_om_sidebar(
         print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
         print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERMAP_WEATHER", uistate.overmap_visible_weather ? c_pink : c_magenta );
+        print_hint( "TOGGLE_DEFAULT_0", uistate.overmap_default_0 ? c_pink : c_magenta );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
@@ -1989,6 +1990,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "TOGGLE_OVERMAP_WEATHER" );
     ictxt.register_action( "TOGGLE_FOREST_TRAILS" );
     ictxt.register_action( "MISSIONS" );
+    ictxt.register_action( "TOGGLE_DEFAULT_0" );
 
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
@@ -2003,7 +2005,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     std::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     grids_draw_data grids_data;
-
+    if( uistate.overmap_default_0 ) {
+        curs.z() = 0;
+    }
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
         draw( ui, curs, orig, uistate.overmap_show_overlays,
@@ -2011,6 +2015,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     } );
 
     do {
+
         ui_manager::redraw();
 #if (defined TILES || defined _WIN32 || defined WINDOWS )
         int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
@@ -2131,6 +2136,13 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             fast_scroll = !fast_scroll;
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {
             uistate.overmap_show_forest_trails = !uistate.overmap_show_forest_trails;
+        } else if( action == "TOGGLE_DEFAULT_0" ) {
+            if( uistate.overmap_default_0 ) {
+                curs.z() = orig.z();
+            } else {
+                curs.z() = 0;
+            }
+            uistate.overmap_default_0 = !uistate.overmap_default_0;
         } else if( action == "SEARCH" ) {
             if( !search( ui, curs, orig ) ) {
                 continue;

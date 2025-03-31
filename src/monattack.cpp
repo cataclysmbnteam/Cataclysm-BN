@@ -3375,12 +3375,20 @@ void mattack::taze( monster *z, Creature *target )
 {
     // It takes a while
     z->moves -= 200;
+    // Uncanny dodge prints its own message when it triggers, to return here instead of below.
     if( target == nullptr || target->uncanny_dodge() ) {
         return;
     }
+    if( dodge_check( z, target ) ) {
+        target->add_msg_player_or_npc( _( "The %s tries to shock you, but you dodge." ),
+                                       _( "The %s tries to shock <npcname>, but they dodge." ),
+                                       z->name() );
+        return;
+    }
 
-    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_ELECTRIC, rng( 1,
-                                   5 ) ) ).total_damage();
+    int dam = target->deal_damage( z, target->get_random_body_part(), damage_instance( DT_ELECTRIC,
+                                   rng( 1,
+                                        5 ) ) ).total_damage();
     if( dam == 0 ) {
         target->add_msg_player_or_npc( _( "The %s unsuccessfully attempts to shock you." ),
                                        _( "The %s unsuccessfully attempts to shock <npcname>." ),
