@@ -321,8 +321,7 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Erase all variables" );
         luna::set_fx( ut, "clear_vars", &item::clear_vars );
 
-        DOC( "Get item charges" );
-        luna::set_fx( ut, "get_charges", &item::get_charges );
+        luna::set( ut, "charges", &item::charges );
 
         DOC( "Get item energy" );
         luna::set_fx( ut, "energy_remaining", &item::energy_remaining );

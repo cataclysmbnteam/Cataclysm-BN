@@ -1513,8 +1513,6 @@ class item : public location_visitable<item>, public game_object<item>
         void add_item( const std::string &itype, int count );
         /** Checks if this item contains an item with itype. */
         bool has_item( const itype_id &ammo ) const;
-        /** Gets the number of charges this item has left. */
-        int get_charges();
         /*@}*/
 
         /**

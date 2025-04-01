@@ -1275,11 +1275,6 @@ bool item::has_item( const itype_id &itm_id ) const
     return false;
 }
 
-int item::get_charges()
-{
-    return charges;
-}
-
 // TODO: Get rid of, handle multiple types gracefully
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
