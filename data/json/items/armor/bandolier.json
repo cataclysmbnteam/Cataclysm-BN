@@ -43,7 +43,7 @@
       ],
       "draw_cost": 20
     },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "OVERSIZE", "FANCY" ]
   },
   {
     "id": "bandolier_rifle",
@@ -84,7 +84,7 @@
       ],
       "draw_cost": 20
     },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "OVERSIZE" ]
   },
   {
     "id": "bandolier_shotgun",
@@ -104,7 +104,7 @@
     "encumbrance": 2,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "410shot", "shot", "20x66mm", "signal_flare" ], "draw_cost": 25 },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "OVERSIZE" ]
   },
   {
     "id": "torso_bandolier_shotgun",
@@ -282,7 +282,7 @@
     "encumbrance": 1,
     "material_thickness": 1,
     "use_action": { "type": "bandolier", "capacity": 12, "ammo": [ "40x46mm", "40x53mm" ], "draw_cost": 20 },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "OVERSIZE" ]
   },
   {
     "id": "bandolier_knife",
@@ -312,6 +312,6 @@
       "draw_cost": 50,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "COMPACT", "OVERSIZE" ]
   }
 ]
