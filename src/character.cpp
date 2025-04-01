@@ -10054,6 +10054,23 @@ int Character::temp_corrected_by_climate_control( int temperature ) const
     return temperature;
 }
 
+void Character::add_item_with_id( const itype_id &itype, int count )
+{
+    detached_ptr<item> new_item = item::spawn( itype, calendar::turn, count );
+    i_add( std::move( new_item ), true );
+}
+
+bool Character::has_item_with_id( const itype_id &item_id, bool need_charges ) const
+{
+    return has_item_with( [&item_id, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.typeId() == item_id &&
+                   it.type->tool->max_charges ? it.charges > 0 : it.typeId() == item_id;
+        }
+        return it.typeId() == item_id;
+    } );
+}
+
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges]( const item & it ) {

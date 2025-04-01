@@ -667,6 +667,10 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( is_hauling, bool() const );
 
+        SET_FX_T( add_item_with_id, void( const itype_id & itype, int count ) );
+
+        SET_FX_T( has_item_with_id, bool( const itype_id & itype, bool need_charges ) const );
+
         SET_FX_T( has_item_with_flag, bool( const flag_id & flag, bool need_charges ) const );
         SET_FX_T( all_items_with_flag,
                   std::vector<item *>( const flag_id & flag ) const );
