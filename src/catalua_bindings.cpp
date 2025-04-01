@@ -371,6 +371,14 @@ void cata::detail::reg_map( sol::state &lua )
             return m.getmapsize() * SEEX;
         } );
 
+        DOC( "Creates a new item(s) at a position on the map." );
+        luna::set_fx( ut, "create_item", []( map & m, const tripoint & p, const std::string & itype,
+        int count ) -> void {
+            detached_ptr<item> new_item = item::spawn( itype_id( itype ), calendar::turn, count );
+            m.add_item_or_charges( p, std::move( new_item ) );
+        } );
+
+
         luna::set_fx( ut, "has_items_at", &map::has_items );
         luna::set_fx( ut, "get_items_at", []( map & m, const tripoint & p ) -> std::unique_ptr<map_stack> {
             return std::make_unique<map_stack>( m.i_at( p ) );
