@@ -672,10 +672,10 @@ Pathfinding::ExpansionOutcome Pathfinding::expand_2d_up_to(
                         const int obstacle_part = vpobst ? vpobst->part_index() : -1;
 
                         if( obstacle_part >= 0 ) {
-                            int dummy;
+                            int _;
                             const bool part_is_door = cur_vehicle->part_flag( obstacle_part, VPFLAG_OPENABLE );
                             const bool part_opens_from_inside = cur_vehicle->part_flag( obstacle_part, "OPENCLOSE_INSIDE" );
-                            const bool is_cur_point_inside = here.veh_at_internal( cur_point_with_z, dummy ) == cur_vehicle;
+                            const bool is_cur_point_inside = here.veh_at_internal( cur_point_with_z, _ ) == next_vehicle;
                             const bool valid_to_open = part_is_door && ( part_opens_from_inside ? is_cur_point_inside : true );
 
                             if( can_open_doors && valid_to_open ) {
