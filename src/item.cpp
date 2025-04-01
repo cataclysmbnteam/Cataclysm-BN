@@ -1257,6 +1257,24 @@ void item::clear_vars()
     item_vars.clear();
 }
 
+void item::add_item( const std::string &itype, int count )
+{
+    detached_ptr<item> new_item = item::spawn( itype_id( itype ), calendar::turn, count );
+    contents.insert_item( std::move( new_item ) );
+}
+
+bool item::has_item( const itype_id &itm_id ) const
+{
+    // shouldn't need to check any deeper than top-level
+    std::vector<item *> item_contents = contents.all_items_top();
+    for( item *itm : item_contents ) {
+        if( itm->typeId() == itm_id ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int item::get_charges()
 {
     return charges;

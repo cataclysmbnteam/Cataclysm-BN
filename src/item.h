@@ -1509,6 +1509,10 @@ class item : public location_visitable<item>, public game_object<item>
         void erase_var( const std::string &name );
         /** Removes all item variables. */
         void clear_vars();
+        /** Adds child items to the contents of this one. */
+        void add_item( const std::string &itype, int count );
+        /** Checks if this item contains an item with itype. */
+        bool has_item( const itype_id &ammo ) const;
         /** Gets the number of charges this item has left. */
         int get_charges();
         /*@}*/

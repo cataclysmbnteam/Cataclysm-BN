@@ -323,7 +323,13 @@ void cata::detail::reg_item( sol::state &lua )
 
         DOC( "Get item charges" );
         luna::set_fx( ut, "get_charges", &item::get_charges );
-        
+
+        DOC( "Adds an item(s) to contents" );
+        luna::set_fx( ut, "add_item", &item::add_item );
+
+        DOC( "Checks item contents for an ITypeId" );
+        luna::set_fx( ut, "has_item", &item::has_item );
+
         DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
                       sol::resolve<std::string( const std::string &, const std::string & ) const>
