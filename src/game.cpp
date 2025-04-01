@@ -779,13 +779,13 @@ vehicle *game::place_vehicle_nearby(
         }
     }
     for( const std::string &search_type : search_types ) {
-        omt_find_params find_params;
-        find_params.must_see = false;
-        find_params.cant_see = false;
-        find_params.types.emplace_back( search_type, ot_match_type::type );
+        // TODO: Pull-up find_params and use that scan result instead
         // find nearest road
-        find_params.min_distance = min_distance;
-        find_params.search_range = max_distance;
+        omt_find_params find_params;
+        find_params.types.emplace_back( search_type, ot_match_type::type );
+        find_params.search_range = { min_distance, max_distance };
+        find_params.search_layers = std::nullopt;
+
         // if player spawns underground, park their car on the surface.
         const tripoint_abs_omt omt_origin( origin, 0 );
         for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
@@ -6992,7 +6992,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
 
     for( int i = 1; i <= range; i++ ) {
         int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
-        for( auto &points_p_it : closest_points_first( {u.pos().xy(), z}, iRadius ) ) {
+        for( auto &points_p_it : closest_points_first<tripoint>( {u.pos().xy(), z}, iRadius ) ) {
             if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
                 u.sees( points_p_it ) &&
                 m.sees_some_items( points_p_it, u ) ) {
