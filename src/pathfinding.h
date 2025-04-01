@@ -209,8 +209,8 @@ class Pathfinding
             Type type;
         };
         struct ZLevelChangeOpenAirPair {
-            std::optional<ZLevelChange> going_down;
-            std::optional<ZLevelChange> going_up;
+            std::optional<ZLevelChange> reach_from_below;
+            std::optional<ZLevelChange> reach_from_above;
         };
 
         // Global state: allocated dijikstra d_maps. Pull to `d_maps` from here.
@@ -238,7 +238,7 @@ class Pathfinding
         // Global state: Z-level transitions for each z-level (does not include OPEN_AIR due to being numerous, requiring a different approach)
         static std::array<std::vector<ZLevelChange>, OVERMAP_LAYERS> z_caches;
         // Global state: OPEN_AIR type z-level transitions for each z-level
-        static std::array<std::unordered_map<tripoint, ZLevelChangeOpenAirPair>, OVERMAP_LAYERS>
+        static std::array<std::unordered_map<point, ZLevelChangeOpenAirPair>, OVERMAP_LAYERS>
         z_caches_open_air;
         // Global state: We cache `z_path` information taken to prevent multiple iterations for the same target
         static std::map<std::tuple<bool, int, tripoint>, ZLevelChange> cached_closest_z_changes;
@@ -282,7 +282,7 @@ class Pathfinding
 
         // Get a reference to ZCache for this level
         static std::vector<ZLevelChange> &get_z_cache( const int z );
-        static std::unordered_map<tripoint, ZLevelChangeOpenAirPair> &get_z_cache_open_air( const int z );
+        static std::unordered_map<point, ZLevelChangeOpenAirPair> &get_z_cache_open_air( const int z );
 
         static void produce_d_map( point dest, int z, PathfindingSettings settings );
 
@@ -336,6 +336,6 @@ class Pathfinding
 
         // Reset Z-level information. Should only be done when new Z-level changes could have appeared
         //   such as change in terrain
-        static void clear_z_caches();
+        static void mark_dirty_z_cache();
 };
 #endif // CATA_SRC_PATHFINDING_DIJIKSTRA_H

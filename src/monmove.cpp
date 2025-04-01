@@ -872,7 +872,7 @@ void monster::move()
     if( !this->is_wandering() ) {
         monster *maybe_friend = g->critter_at<monster>( this->goal );
         if( maybe_friend != nullptr && maybe_friend->goal == this->goal && this->sees( this->goal ) ) {
-            // Give up on that target and fast-wander instead off
+            // Give up on that target and fast-wander off instead
             this->unset_dest();
             wandf += 10;
         }
@@ -934,22 +934,17 @@ void monster::move()
             have_destination = true;
         } else {
             destination = this->path.front();
-            pathed_to_goal = true;
-            
-            // Verify next step is viable, unless a Z-move, then anything goes because unaligned stairs are bullshit
-            const bool viable_dest = destination.z != this->posz() ? true : square_dist( this->pos(),
-                                     destination ) <= 1;
-            if( !viable_dest ) {
+
+            const bool is_viable_dest = here.valid_move( this->pos(), destination, true, true, true );
+            pathed_to_goal = is_viable_dest;
+            have_destination = is_viable_dest;
+
+            if( !is_viable_dest ) {
                 // Should not _usually_ occur, but...
                 this->path.clear();
                 this->repath_requested = true;
-                have_destination = false;
-            } else {
-                have_destination = true;
             }
         }
-        
-
     } else {
         this->path.clear();
     }
@@ -997,14 +992,13 @@ void monster::move()
         }
     }
 
-    tripoint next_step;
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     const bool is_stumbling = has_flag( MF_STUMBLES );
+
+    tripoint next_step;
+    bool has_next_step = false;
+
     if( have_destination ) {
-        // Implement both avoiding obstacles and staggering.
-        have_destination = false;
-        float switch_chance = 0.0;
-        const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
@@ -1032,10 +1026,10 @@ void monster::move()
                 candidate.z -= 1;
                 ramp_offset = tripoint_above;
             }
-            tripoint candidate_abs = g->m.getabs( candidate );
 
             bool can_z_move = true;
-            if( candidate.z != posz() ) {
+            const bool is_z_move = candidate.z != posz();
+            if( is_z_move ) {
                 bool can_z_attack = fov_3d;
                 if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
@@ -1068,6 +1062,10 @@ void monster::move()
                 }
             }
 
+            if( !can_z_move ) {
+                continue;
+            }
+
             // A flag to allow non-stumbling critters to stumble when the most direct choice is bad.
             bool bad_choice = false;
 
@@ -1076,8 +1074,8 @@ void monster::move()
                 const Attitude att = attitude_to( *target );
                 if( att == Attitude::A_HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
-                    have_destination = true;
-                    next_step = candidate_abs;
+                    next_step = candidate;
+                    has_next_step = true;
                     break;
                 } else if( att == Attitude::A_FRIENDLY && ( target->is_player() || target->is_npc() ) ) {
                     continue; // Friendly firing the player or an NPC is illegal for gameplay reasons
@@ -1089,22 +1087,20 @@ void monster::move()
                 bad_choice = true;
             }
 
-            if( !can_z_move ) {
-                continue;
-            }
-
             map &here = g->m;
             // is there an openable door?
             if( can_open_doors &&
                 here.open_door( candidate, !here.is_outside( pos() ), true ) ) {
-                have_destination = true;
-                next_step = candidate_abs;
+                next_step = candidate;
+                has_next_step = true;
                 continue;
             }
 
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
+
             // Bail out if we can't move there and we can't bash.
+            const bool can_bash = bash_skill() > 0;
             if( !pathed_to_goal && ( !can_move_to( candidate ) || !can_squeeze_to( candidate ) ) ) {
                 if( !can_bash ) {
                     continue;
@@ -1123,14 +1119,16 @@ void monster::move()
                 }
             }
 
+            // Implement both avoiding obstacles and staggering.
+            float switch_chance = 0.0;
             const float progress = distance_to_target - trig_dist( candidate + ramp_offset, destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
             // Randomly pick one of the viable squares to move to weighted by distance.
-            if( progress > 0 && ( !have_destination || x_in_y( progress, switch_chance ) ) ) {
-                have_destination = true;
-                next_step = candidate_abs;
+            if( progress > 0 && ( !has_next_step || x_in_y( progress, switch_chance ) ) ) {
+                next_step = candidate;
+                has_next_step = true;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 // Except if the direct path is bad, then check others
@@ -1142,15 +1140,14 @@ void monster::move()
         }
     }
     // Finished logic section.  By this point, we should have chosen a square to
-    //  move to (moved = true).
-    const tripoint local_next_step = g->m.getlocal( next_step );
-    if( have_destination ) { // Actual effects of moving to the square we've chosen
+    //  move to (have_destination = true).
+    if( has_next_step ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
-            ( !pacified && attack_at( local_next_step ) ) ||
-            ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||
-            ( !pacified && bash_at( local_next_step ) ) ||
-            ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination, local_next_step ) );
+            ( !pacified && attack_at( next_step ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
+            ( !pacified && bash_at( next_step ) ) ||
+            ( !pacified && push_to( next_step, 0, 0 ) ) ||
+            move_to( next_step, false, false, get_stagger_adjust( pos(), destination, next_step ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
@@ -1168,6 +1165,10 @@ void monster::move()
     } else {
         moves -= 100;
         stumble();
+        if( !this->is_wandering() ) {
+            this->path.clear();
+            this->repath_requested = true;
+        }
     }
 
     if( has_effect( effect_led_by_leash ) ) {

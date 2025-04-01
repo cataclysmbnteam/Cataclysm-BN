@@ -217,14 +217,6 @@ void Pathfinding::clear_d_maps()
     Pathfinding::d_maps.clear();
     Pathfinding::cached_closest_z_changes.clear();
 }
-void Pathfinding::clear_z_caches()
-{
-    for( int z_level = -OVERMAP_DEPTH; z_level <= OVERMAP_HEIGHT; z_level++ ) {
-        Pathfinding::z_caches[z_level + OVERMAP_DEPTH].clear();
-        Pathfinding::z_caches_open_air[z_level + OVERMAP_DEPTH].clear();
-    }
-    Pathfinding::cached_closest_z_changes.clear();
-}
 void Pathfinding::reset_maps()
 {
     this->p_at( this->dest ) = 0.0;
@@ -256,7 +248,7 @@ void Pathfinding::reset_tile_state()
     }
 }
 /// Pathfinding: Z-levels
-std::unordered_map<tripoint, Pathfinding::ZLevelChangeOpenAirPair>
+std::unordered_map<point, Pathfinding::ZLevelChangeOpenAirPair>
 &Pathfinding::get_z_cache_open_air( const int z )
 {
     assert( -OVERMAP_DEPTH <= z && z <= OVERMAP_HEIGHT );
@@ -298,29 +290,29 @@ void Pathfinding::update_z_caches( bool update_open_air )
 
         // Remove Z-level changes that have gone out of bounds into unloaded regions
         std::erase_if( target, [&here]( const auto & pair ) {
-            return !here.inbounds( pair.to );
+            return !( here.inbounds( pair.from ) && here.inbounds( pair.to ) );
         } );
 
         if( update_open_air ) {
-            std::unordered_map<tripoint, Pathfinding::ZLevelChangeOpenAirPair> &open_air_target =
+            std::unordered_map<point, Pathfinding::ZLevelChangeOpenAirPair> &open_air_target =
                 Pathfinding::get_z_cache_open_air( z );
-            std::unordered_map<tripoint, Pathfinding::ZLevelChangeOpenAirPair> new_z_cache_open_air;
+            std::unordered_map<point, Pathfinding::ZLevelChangeOpenAirPair> new_z_cache_open_air;
             for( auto pair : open_air_target ) {
-                tripoint shifted = pair.first + anti_shift;
+                point shifted = pair.first + anti_shift;
                 // Remove open air Z-level changes that have gone out of bounds into unloaded regions
                 if( !here.inbounds( shifted ) ) {
                     continue;
                 }
-                if( pair.second.going_up.has_value() ) {
-                    pair.second.going_up->from += anti_shift;
-                    pair.second.going_up->to += anti_shift;
+                if( pair.second.reach_from_above.has_value() ) {
+                    pair.second.reach_from_above->from += anti_shift;
+                    pair.second.reach_from_above->to += anti_shift;
                 }
-                if( pair.second.going_down.has_value() ) {
-                    pair.second.going_down->from += anti_shift;
-                    pair.second.going_down->to += anti_shift;
+                if( pair.second.reach_from_below.has_value() ) {
+                    pair.second.reach_from_below->from += anti_shift;
+                    pair.second.reach_from_below->to += anti_shift;
                 }
 
-                new_z_cache_open_air.emplace( pair.first, pair.second );
+                new_z_cache_open_air.emplace( shifted, pair.second );
             }
             open_air_target.swap( new_z_cache_open_air );
         }
@@ -336,6 +328,8 @@ void Pathfinding::update_z_caches( bool update_open_air )
             const maptile &cur_tile = here.maptile_at( cur );
             const auto &cur_ter = cur_tile.get_ter_t();
 
+            const point cur_point = cur.xy();
+
             if( update_open_air && cur_ter.has_flag( TFLAG_NO_FLOOR ) ) {
                 // Open air
                 const tripoint below_us = cur + tripoint_below;
@@ -349,16 +343,17 @@ void Pathfinding::update_z_caches( bool update_open_air )
                 };
                 // We won't do vehicle checks for simplicity
 
-                const ZLevelChange going_down = ZLevelChange{ .from = cur, .to = below_us, .type = Pathfinding::ZLevelChange::Type::OPEN_AIR };
-                const ZLevelChange going_up = ZLevelChange{ .from = below_us, .to = cur, .type = Pathfinding::ZLevelChange::Type::OPEN_AIR };
+                const ZLevelChange going_to_below = ZLevelChange{ .from = cur, .to = below_us, .type = Pathfinding::ZLevelChange::Type::OPEN_AIR };
+                const ZLevelChange reach_from_below = ZLevelChange{ .from = below_us, .to = cur, .type = Pathfinding::ZLevelChange::Type::OPEN_AIR };
 
                 // This is stored separately from other changes because it requires a different type of processing
-                Pathfinding::get_z_cache_open_air( z ).emplace( cur, Pathfinding::ZLevelChangeOpenAirPair{ .going_down = going_down, .going_up = std::nullopt } );
+                Pathfinding::get_z_cache_open_air( z ).emplace( cur_point, Pathfinding::ZLevelChangeOpenAirPair{ .reach_from_below = reach_from_below, .reach_from_above = std::nullopt } );
+
                 auto &lower_level = Pathfinding::get_z_cache_open_air( z - 1 );
-                if( lower_level.contains( cur ) ) {
-                    lower_level[cur].going_up = going_up;
+                if( lower_level.contains( cur_point ) ) {
+                    lower_level[cur_point].reach_from_above = going_to_below;
                 } else {
-                    lower_level.emplace( cur,  Pathfinding::ZLevelChangeOpenAirPair{ .going_down = std::nullopt, .going_up = going_up } );
+                    lower_level.emplace( cur_point,  Pathfinding::ZLevelChangeOpenAirPair{ .reach_from_below = std::nullopt, .reach_from_above = going_to_below } );
                 }
             } else if( cur_ter.has_flag( TFLAG_GOES_UP ) ) {
                 // Stair bullshitery
@@ -917,12 +912,14 @@ std::vector<tripoint> Pathfinding::get_route_3d(
     std::vector<ZLevelChange> z_path;
     {
         tripoint cur_origin = to;
+        point cur_origin_point = to.xy();
+
         while( cur_origin.z != from.z ) {
             Pathfinding::ZLevelChange best_z_change;
             std::tuple<bool, int, tripoint> cache_pair{ we_go_up, path_settings.z_move_type(), cur_origin };
 
             if( Pathfinding::cached_closest_z_changes.contains( cache_pair ) ) {
-                best_z_change = Pathfinding::cached_closest_z_changes[cache_pair];
+                best_z_change = Pathfinding::cached_closest_z_changes.at( cache_pair );
             } else {
                 std::vector<Pathfinding::ZLevelChange> candidates;
 
@@ -975,28 +972,43 @@ std::vector<tripoint> Pathfinding::get_route_3d(
 
                 // Open air processing
                 if( path_settings.can_fly ) {
-                    std::unordered_map<tripoint, ZLevelChangeOpenAirPair> &target =
+                    std::unordered_map<point, ZLevelChangeOpenAirPair> &target =
                         Pathfinding::get_z_cache_open_air( cur_origin.z );
 
-                    for( tripoint &p : closest_points_first( cur_origin, static_cast<int>( best_distance ) ) ) {
+                    // There's a rare case where no valid non-open-air way exists to this Z-level
+                    //   in which case `closest_points_first` would return a INT_MAX radius of points
+                    //   causing an oopsie
+                    // If that's the case, we have to iterate over open airs directly instead
+                    std::vector<point> source;
+                    const bool source_is_closest_points = !std::isinf( best_distance );
+                    if( source_is_closest_points ) {
+                        source = closest_points_first( cur_origin_point, static_cast<int>( best_distance ) );
+                    } else {
+                        for( const auto &pair : target ) {
+                            source.push_back( pair.first );
+                        }
+                    }
+
+                    for( const point &p : source ) {
                         // Are we considering open airs that are already beyond our best known move?
-                        if( square_dist( cur_origin, p ) > best_distance ) {
+                        //   only valid for closest_point movement since they're ordered
+                        if( source_is_closest_points && square_dist( cur_origin_point, p ) > best_distance ) {
                             break;
                         }
-                        if( !target.contains( p ) ) {
+                        if( source_is_closest_points && !target.contains( p ) ) {
                             continue;
                         }
                         Pathfinding::ZLevelChangeOpenAirPair z_pair = target[p];
-                        if( we_go_up && z_pair.going_up.has_value() ) {
-                            const float dist = rl_dist_exact( cur_origin, p );
+                        if( we_go_up && z_pair.reach_from_below.has_value() ) {
+                            const float dist = rl_dist_exact( tripoint( cur_origin_point, 0 ), tripoint( p, 0 ) );
                             if( dist < best_distance ) {
-                                best_z_change = *z_pair.going_up;
+                                best_z_change = *z_pair.reach_from_below;
                                 best_distance = dist;
                             }
-                        } else if( !we_go_up && z_pair.going_down.has_value() ) {
-                            const float dist = rl_dist_exact( cur_origin, p );
+                        } else if( !we_go_up && z_pair.reach_from_above.has_value() ) {
+                            const float dist = rl_dist_exact( tripoint( cur_origin_point, 0 ), tripoint( p, 0 ) );
                             if( dist < best_distance ) {
-                                best_z_change = *z_pair.going_down;
+                                best_z_change = *z_pair.reach_from_above;
                                 best_distance = dist;
                             }
                         }
@@ -1008,7 +1020,7 @@ std::vector<tripoint> Pathfinding::get_route_3d(
                     return std::vector<tripoint>();
                 }
 
-                Pathfinding::cached_closest_z_changes.emplace( cache_pair, best_z_change );
+                Pathfinding::cached_closest_z_changes.insert_or_assign( cache_pair, best_z_change );
             }
 
             z_path.push_back( best_z_change );

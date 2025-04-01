@@ -1856,8 +1856,6 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     // TODO: Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
-    Pathfinding::clear_z_caches();
-
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
