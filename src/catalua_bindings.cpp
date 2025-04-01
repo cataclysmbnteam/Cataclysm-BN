@@ -324,6 +324,9 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Get item charges" );
         luna::set_fx( ut, "get_charges", &item::get_charges );
 
+        DOC( "Get item energy" );
+        luna::set_fx( ut, "energy_remaining", &item::energy_remaining );
+
         DOC( "Adds an item(s) to contents" );
         luna::set_fx( ut, "add_item", &item::add_item );
 
