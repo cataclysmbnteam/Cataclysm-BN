@@ -1,5 +1,4 @@
-#ifndef CATA_SRC_RANGED_H
-#define CATA_SRC_RANGED_H
+#pragma once
 
 #include <map>
 #include <optional>
@@ -207,4 +206,4 @@ auto throw_item( Character &who, const tripoint &target,
 
 } // namespace ranged
 
-#endif // CATA_SRC_RANGED_H
+

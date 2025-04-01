@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_BODYPART_H
-#define CATA_SRC_BODYPART_H
 
 #include <array>
 #include <bitset>
@@ -401,4 +399,4 @@ body_part opposite_body_part( body_part bp );
 /** Returns the matching body_part token from the corresponding body_part string. */
 body_part get_body_part_token( const std::string &id );
 
-#endif // CATA_SRC_BODYPART_H
+

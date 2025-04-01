@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CALENDAR_H
-#define CATA_SRC_CALENDAR_H
 
 #include <string>
 #include <utility>
@@ -619,4 +617,4 @@ enum class weekdays : int {
 
 weekdays day_of_week( const time_point &p );
 
-#endif // CATA_SRC_CALENDAR_H
+

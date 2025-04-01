@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_AUTO_NOTE_H
-#define CATA_SRC_AUTO_NOTE_H
 
 #include <string>
 #include <unordered_map>
@@ -84,4 +82,4 @@ class auto_note_settings
 
 auto_notes::auto_note_settings &get_auto_notes_settings();
 
-#endif // CATA_SRC_AUTO_NOTE_H
+

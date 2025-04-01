@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_INIT_H
-#define CATA_SRC_INIT_H
 
 #include <functional>
 #include <list>
@@ -221,4 +219,4 @@ bool check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opts );
 
 } // namespace init
 
-#endif // CATA_SRC_INIT_H
+

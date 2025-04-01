@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_INVENTORY_H
-#define CATA_SRC_INVENTORY_H
 
 #include <array>
 #include <bitset>
@@ -405,4 +403,4 @@ class location_inventory : public location_visitable<location_inventory>
         const inventory &as_inventory() const;
 };
 
-#endif // CATA_SRC_INVENTORY_H
+

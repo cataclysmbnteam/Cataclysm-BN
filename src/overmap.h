@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_OVERMAP_H
-#define CATA_SRC_OVERMAP_H
 
 #include <algorithm>
 #include <array>
@@ -559,4 +557,4 @@ const std::string &oter_get_rotation_string( const oter_id &oter );
  * Determine whether provided tile belongs to overmap connection.
  */
 bool belongs_to_connection( const overmap_connection_id &id, const oter_id &oter );
-#endif // CATA_SRC_OVERMAP_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CONSTRUCTION_H
-#define CATA_SRC_CONSTRUCTION_H
 
 #include <functional>
 #include <list>
@@ -132,4 +130,4 @@ bool can_construct( const construction &con, const tripoint &p );
 bool player_can_build( Character &ch, const inventory &inv, const construction &con );
 
 
-#endif // CATA_SRC_CONSTRUCTION_H
+

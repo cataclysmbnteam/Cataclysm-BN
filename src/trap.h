@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_TRAP_H
-#define CATA_SRC_TRAP_H
 
 #include <cstddef>
 #include <functional>
@@ -313,4 +311,4 @@ tr_shadow,
 tr_drain,
 tr_snake;
 
-#endif // CATA_SRC_TRAP_H
+

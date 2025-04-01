@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_RELIC_H
-#define CATA_SRC_RELIC_H
 
 #include <string>
 #include <vector>
@@ -148,4 +146,4 @@ void process_recharge( item &itm, Character *carrier );
 
 } // namespace relic_funcs
 
-#endif // CATA_SRC_RELIC_H
+

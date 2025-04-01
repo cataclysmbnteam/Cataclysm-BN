@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_PLAYER_H
-#define CATA_SRC_PLAYER_H
 
 #include <climits>
 #include <functional>
@@ -282,4 +280,4 @@ class player : public Character
         void load( const JsonObject &data );
 };
 
-#endif // CATA_SRC_PLAYER_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATA_ALGO_H
-#define CATA_SRC_CATA_ALGO_H
 
 #include <algorithm>
 #include <map>
@@ -161,4 +159,4 @@ auto group_by( const C &c, F && selector )
 
 } // namespace cata
 
-#endif // CATA_SRC_CATA_ALGO_H
+

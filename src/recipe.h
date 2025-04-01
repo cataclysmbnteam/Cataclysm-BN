@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_RECIPE_H
-#define CATA_SRC_RECIPE_H
 
 #include <cstddef>
 #include <functional>
@@ -224,4 +222,4 @@ class recipe
 
 };
 
-#endif // CATA_SRC_RECIPE_H
+

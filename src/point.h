@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_POINT_H
-#define CATA_SRC_POINT_H
 
 // The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
 // can include this header when compiling with -nostdinc++
@@ -564,4 +562,4 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
 
 #endif // CATA_NO_STL
 
-#endif // CATA_SRC_POINT_H
+

@@ -1,5 +1,4 @@
-#ifndef CATA_SRC_PATHFINDING_DIJIKSTRA_H
-#define CATA_SRC_PATHFINDING_DIJIKSTRA_H
+#pragma once
 
 #include <algorithm>
 #include <array>
@@ -432,4 +431,4 @@ class DijikstraPathfinding
             }
         }
 };
-#endif // CATA_SRC_PATHFINDING_DIJIKSTRA_H
+

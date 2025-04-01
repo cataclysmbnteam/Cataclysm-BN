@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_VOLUME_H
-#define CATA_SRC_UNITS_VOLUME_H
 
 #include <algorithm>
 
@@ -76,4 +74,3 @@ constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _l
 }
 
 
-#endif // CATA_SRC_UNITS_VOLUME_H

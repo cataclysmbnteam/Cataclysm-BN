@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATALUA_BINDINGS_UTILS_H
-#define CATA_SRC_CATALUA_BINDINGS_UTILS_H
 
 #include "catalua_luna.h"
 #include "json.h"
@@ -36,4 +34,4 @@ void reg_serde_functions( sol::usertype<T> &ut )
 #define SET_FX_N_T(func_name, lua_name_str, func_type) luna::set_fx( ut, lua_name_str, \
         sol::resolve< func_type >( &UT_CLASS::func_name))
 
-#endif // CATA_SRC_CATALUA_BINDINGS_UTILS_H
+

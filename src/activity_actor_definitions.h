@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
-#define CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
 
 #include "activity_actor.h"
 
@@ -675,4 +673,3 @@ class assist_activity_actor : public activity_actor
 
 };
 
-#endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

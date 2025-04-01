@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_GAME_INFO_H
-#define CATA_SRC_GAME_INFO_H
 
 #include <optional>
 #include <string>
@@ -27,4 +25,4 @@ auto game_report() -> std::string;
 auto save_file_version() -> std::string;
 } // namespace game_info
 
-#endif // CATA_SRC_GAME_INFO_H
+

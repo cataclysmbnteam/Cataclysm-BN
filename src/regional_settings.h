@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_REGIONAL_SETTINGS_H
-#define CATA_SRC_REGIONAL_SETTINGS_H
 
 #include <map>
 #include <memory>
@@ -255,4 +253,4 @@ void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );
 void apply_region_overlay( const JsonObject &jo, regional_settings &region );
 
-#endif // CATA_SRC_REGIONAL_SETTINGS_H
+

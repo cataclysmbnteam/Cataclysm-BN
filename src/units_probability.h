@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_PROBABILITY_H
-#define CATA_SRC_UNITS_PROBABILITY_H
 
 #include "units_def.h"
 
@@ -64,4 +62,4 @@ constexpr units::probability operator"" _pct( const long double v )
 }
 
 
-#endif // CATA_SRC_UNITS_PROBABILITY_H
+

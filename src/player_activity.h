@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_PLAYER_ACTIVITY_H
-#define CATA_SRC_PLAYER_ACTIVITY_H
 
 #include <climits>
 #include <memory>
@@ -349,4 +347,4 @@ class player_activity
         void inherit_distractions( const player_activity & );
 };
 
-#endif // CATA_SRC_PLAYER_ACTIVITY_H
+
