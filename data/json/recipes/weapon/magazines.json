@@ -539,11 +539,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [
-      [ [ "hk_g80", -1 ] ],
-      [ [ "12mm", -1 ], [ "12mm_makeshift", -1 ] ],
-      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
-    ],
+    "tools": [ [ [ "12mm", -1 ], [ "12mm_makeshift", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
   }
