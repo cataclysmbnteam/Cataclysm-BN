@@ -327,7 +327,7 @@ void monster::setpos( const tripoint &p )
         return;
     }
 
-    bool wandering = wander();
+    bool wandering = is_wandering();
     g->update_zombie_pos( *this, p );
     position = p;
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
@@ -1122,16 +1122,48 @@ bool monster::made_of( phase_id p ) const
 
 void monster::set_goal( const tripoint &p )
 {
+    const map &here = get_map();
+    if( !here.inbounds( p ) ) {
+        return;
+    }
+
+    if( p != this->goal && p != this->pos() ) {
+        this->repath_requested = true;
+    }
     goal = p;
 }
 
 void monster::shift( point sm_shift )
 {
+    const map &here = get_map();
+
     const point ms_shift = sm_to_ms_copy( sm_shift );
     position -= ms_shift;
-    goal -= ms_shift;
     if( wandf > 0 ) {
         wander_pos -= ms_shift;
+    }
+
+    // Pathfinding shifts, we bypass `set_dest` to prevent repathing
+    this->goal -= ms_shift;
+    if( !here.inbounds( this->goal ) ) {
+        // May accidentally occur during long-teleports
+        this->goal = pos();
+        this->path.clear();
+        return;
+    }
+
+    // Shift our found paths too, but also validate them
+    if( !this->path.empty() ) {
+        for( tripoint &p : this->path ) {
+            p -= ms_shift;
+
+            if( !here.inbounds( p ) ) {
+                // Path started going through OoB regions, so...
+                this->path.clear();
+                this->repath_requested = true;
+                break;
+            }
+        }
     }
 }
 
@@ -1232,7 +1264,7 @@ tripoint monster::move_target()
 
 Creature *monster::attack_target()
 {
-    if( wander() ) {
+    if( is_wandering() ) {
         return nullptr;
     }
 

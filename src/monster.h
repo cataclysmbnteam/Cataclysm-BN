@@ -192,7 +192,7 @@ class monster : public Creature, public location_visitable<monster>
         void shift( point sm_shift ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
         // Updates current pos AND our plans
-        bool wander(); // Returns true if we have no plans
+        bool is_wandering(); // Returns true if we have no plans
 
         /**
          * Checks whether we can move to/through p. This does not account for bashing.
@@ -630,6 +630,7 @@ class monster : public Creature, public location_visitable<monster>
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
+        bool repath_requested = false;
         std::bitset<NUM_MEFF> effect_cache;
         std::optional<time_duration> summon_time_limit = std::nullopt;
 
