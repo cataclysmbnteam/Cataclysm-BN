@@ -1509,6 +1509,8 @@ class item : public location_visitable<item>, public game_object<item>
         void erase_var( const std::string &name );
         /** Removes all item variables. */
         void clear_vars();
+        /** Gets the number of charges this item has left. */
+        int get_charges();
         /*@}*/
 
         /**

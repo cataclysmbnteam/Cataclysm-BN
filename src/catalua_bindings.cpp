@@ -321,6 +321,9 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Erase all variables" );
         luna::set_fx( ut, "clear_vars", &item::clear_vars );
 
+        DOC( "Get item charges" );
+        luna::set_fx( ut, "get_charges", &item::get_charges );
+        
         DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
                       sol::resolve<std::string( const std::string &, const std::string & ) const>
