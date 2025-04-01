@@ -28,18 +28,12 @@ static constexpr std::array<point, 8> DIRS_2D = {
     point_south,
 };
 
-decltype( Pathfinding::d_maps_store ) Pathfinding::d_maps_store =
-    decltype( Pathfinding::d_maps_store )();
-decltype( Pathfinding::d_maps ) Pathfinding::d_maps =
-    decltype( Pathfinding::d_maps )();
-decltype( Pathfinding::z_area ) Pathfinding::z_area =
-    decltype( Pathfinding::z_area )();
-decltype( Pathfinding::z_caches ) Pathfinding::z_caches =
-    decltype( Pathfinding::z_caches )();
-decltype( Pathfinding::z_caches_open_air ) Pathfinding::z_caches_open_air =
-    decltype( Pathfinding::z_caches_open_air )();
-decltype( Pathfinding::cached_closest_z_changes ) Pathfinding::cached_closest_z_changes =
-    decltype( Pathfinding::cached_closest_z_changes )();
+decltype( Pathfinding::d_maps_store ) Pathfinding::d_maps_store = {};
+decltype( Pathfinding::d_maps ) Pathfinding::d_maps = {};
+decltype( Pathfinding::z_area ) Pathfinding::z_area = {};
+decltype( Pathfinding::z_caches ) Pathfinding::z_caches = {};
+decltype( Pathfinding::z_caches_open_air ) Pathfinding::z_caches_open_air = {};
+decltype( Pathfinding::cached_closest_z_changes ) Pathfinding::cached_closest_z_changes = {};
 
 // Thanks for nothing, MVSC
 // For our MVSC builds, std::is_nan and std::is_inf are not constexpr
