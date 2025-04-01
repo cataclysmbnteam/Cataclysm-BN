@@ -327,10 +327,10 @@ void cata::detail::reg_item( sol::state &lua )
         luna::set_fx( ut, "energy_remaining", &item::energy_remaining );
 
         DOC( "Adds an item(s) to contents" );
-        luna::set_fx( ut, "add_item", &item::add_item );
+        luna::set_fx( ut, "add_item_with_id", &item::add_item_with_id );
 
         DOC( "Checks item contents for an ITypeId" );
-        luna::set_fx( ut, "has_item", &item::has_item );
+        luna::set_fx( ut, "has_item_with_id", &item::has_item_with_id );
 
         DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
@@ -372,9 +372,9 @@ void cata::detail::reg_map( sol::state &lua )
         } );
 
         DOC( "Creates a new item(s) at a position on the map." );
-        luna::set_fx( ut, "create_item", []( map & m, const tripoint & p, const std::string & itype,
+        luna::set_fx( ut, "create_item_at", []( map & m, const tripoint & p, const itype_id & itype,
         int count ) -> void {
-            detached_ptr<item> new_item = item::spawn( itype_id( itype ), calendar::turn, count );
+            detached_ptr<item> new_item = item::spawn( itype, calendar::turn, count );
             m.add_item_or_charges( p, std::move( new_item ) );
         } );
 

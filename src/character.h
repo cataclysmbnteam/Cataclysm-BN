@@ -1688,6 +1688,12 @@ class Character : public Creature, public location_visitable<Character>
         void stop_hauling();
         bool is_hauling() const;
 
+        // Adds item(s) to inventory
+        void add_item_with_id( const itype_id &itype, int count );
+
+        // Has a weapon, inventory item or worn item with id
+        bool has_item_with_id( const itype_id &item_id, bool need_charges = false ) const;
+
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
         /**

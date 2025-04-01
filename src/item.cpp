@@ -1257,18 +1257,18 @@ void item::clear_vars()
     item_vars.clear();
 }
 
-void item::add_item( const std::string &itype, int count )
+void item::add_item_with_id( const itype_id &itype, int count )
 {
     detached_ptr<item> new_item = item::spawn( itype_id( itype ), calendar::turn, count );
     contents.insert_item( std::move( new_item ) );
 }
 
-bool item::has_item( const itype_id &itm_id ) const
+bool item::has_item_with_id( const itype_id &itype ) const
 {
     // shouldn't need to check any deeper than top-level
     std::vector<item *> item_contents = contents.all_items_top();
     for( item *itm : item_contents ) {
-        if( itm->typeId() == itm_id ) {
+        if( itm->typeId() == itype ) {
             return true;
         }
     }
