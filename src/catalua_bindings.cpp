@@ -339,6 +339,9 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Checks if this item is ammo" );
         luna::set_fx( ut, "is_ammo", &item::is_ammo );
 
+        DOC( "Checks if this item is magazine" );
+        luna::set_fx( ut, "is_magazine", &item::is_magazine );
+
         DOC( "Checks if this item is a comestible" );
         luna::set_fx( ut, "is_comestible", &item::is_comestible );
 
@@ -376,18 +379,14 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Gets maximum volume this item can hold (liquids, ammo, etc)" );
         luna::set_fx( ut, "total_capacity", &item::get_total_capacity );
 
-        DOC( "Gets an item contained by this one" );
-        luna::set_fx( ut, "get_contained", &item::get_contained );
-
         DOC( "Gets the current magazine" );
         luna::set_fx( ut, "current_magazine",
                       sol::resolve<const item*() const> ( &item::magazine_current ) );
 
-        DOC( "Gets charges of this item, or stack size for unchargeable items" );
-        luna::set( ut, "charges", &item::charges );
-
-        DOC( "Add or remove energy from a battery" );
-        luna::set_fx( ut, "mod_energy", &item::mod_energy );
+        DOC( "Gets the maximum capacity of a magazine" );
+        luna::set_fx( ut, "ammo_capacity",
+                      sol::resolve<int( const bool ) const>
+                      ( &item::ammo_capacity ) );
 
         DOC( "Get remaining ammo, works with batteries & stuff too" );
         luna::set_fx( ut, "ammo_remaining", &item::ammo_remaining );
