@@ -1517,7 +1517,7 @@ class item : public location_visitable<item>, public game_object<item>
         /** Removes all item variables. */
         void clear_vars();
         /** Adds child items to the contents of this one. */
-        void add_item_with_id( const itype_id &itype, int count );
+        void add_item_with_id( const itype_id &itype, int count = 1 );
         /** Checks if this item contains an item with itype. */
         bool has_item_with_id( const itype_id &itype ) const;
         /*@}*/
