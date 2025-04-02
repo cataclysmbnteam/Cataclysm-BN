@@ -30,4 +30,11 @@ void to_overmap_font_dimension( int &, int & )
     return;
 }
 
+std::optional<point> input_context::get_coordinates_text(const catacurses::window
+    & capture_win) const
+{
+    // ncurses build lways returns "no mouse"
+    return std::nullopt;
+}
+
 #endif
