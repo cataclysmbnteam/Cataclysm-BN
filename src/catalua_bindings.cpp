@@ -467,6 +467,13 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Checks if the item covers a bodypart" );
         luna::set_fx( ut, "covers", &item::covers );
 
+        luna::set_fx( ut, "set_flag", &item::set_flag );
+        luna::set_fx( ut, "unset_flag", &item::unset_flag );
+        luna::set_fx( ut, "has_flag", &item::has_flag );
+        luna::set_fx( ut, "has_own_flag", &item::has_own_flag );
+        luna::set_fx( ut, "set_flag_recursive", &item::set_flag_recursive );
+        luna::set_fx( ut, "unset_flags", &item::unset_flags );
+
         DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
                       sol::resolve<std::string( const std::string &, const std::string & ) const>
