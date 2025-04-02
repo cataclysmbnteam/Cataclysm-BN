@@ -314,9 +314,6 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "get_type", &item::typeId );
 
-        DOC( "Translated item name without prefixes" );
-        luna::set_fx( ut, "nname", &item::nname );
-
         DOC( "Translated item name with prefixes" );
         luna::set_fx( ut, "tname", &item::tname );
 
