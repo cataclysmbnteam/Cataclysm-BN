@@ -779,8 +779,8 @@ void cata::detail::reg_game_api( sol::state &lua )
         hooks.push_back( on_every_x_hooks{ interval, vec } );
     } );
 
-    luna::set_fx( lib, "create_item", []( const itype_id & itype, int count ) -> detached_ptr<item> {
-        return item::spawn( itype, calendar::turn, count );
+    luna::set_fx( lib, "create_item", []( const itype_id & itype, int count ) -> item {
+        return item( itype, calendar::turn, count );
     } );
 
     luna::set_fx( lib, "get_creature_at", []( const tripoint & p,
