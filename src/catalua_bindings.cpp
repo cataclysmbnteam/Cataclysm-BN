@@ -442,6 +442,14 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Get remaining ammo, works with batteries & stuff too" );
         luna::set_fx( ut, "ammo_remaining", &item::ammo_remaining );
 
+        luna::set_fx( ut, "ammo_data", &item::ammo_data );
+        luna::set_fx( ut, "ammo_required", &item::ammo_required );
+        luna::set_fx( ut, "ammo_current", &item::ammo_current );
+
+        luna::set_fx( ut, "ammo_consume", &item::ammo_consume );
+        luna::set_fx( ut, "ammo_set", &item::ammo_set );
+        luna::set_fx( ut, "ammo_unset", &item::ammo_unset );
+
         luna::set_fx( ut, "get_reload_time", &item::get_reload_time );
 
         DOC( "Adds an item(s) to contents" );
