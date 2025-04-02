@@ -1496,6 +1496,12 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns the first worn item with a given flag. */
         const item *item_worn_with_flag( const flag_id &flag,
                                          const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
+        /** Returns true if the player is wearing an item with the given id. */
+        bool worn_with_id( const itype_id &item_id,
+                           const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
+        /** Returns the first worn item with a given id. */
+        const item *item_worn_with_id( const itype_id &item_id,
+                                       const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
 
         // drawing related stuff
         /**
@@ -1688,6 +1694,9 @@ class Character : public Creature, public location_visitable<Character>
         void stop_hauling();
         bool is_hauling() const;
 
+        // Gets item in inventory with id
+        const item *get_item_with_id( const itype_id &item_id, bool need_charges = false ) const;
+
         // Adds item(s) to inventory
         void add_item_with_id( const itype_id &itype, int count );
 
@@ -1699,7 +1708,16 @@ class Character : public Creature, public location_visitable<Character>
         /**
          * All items that have the given flag (@ref item::has_flag).
          */
-        std::vector<item *> all_items_with_flag( const flag_id &flag ) const;
+        std::vector<item *> all_items_with_flag( const flag_id &flag, bool need_charges = false ) const;
+
+        // All items that have the given id
+        std::vector<item *> all_items_with_id( const itype_id &item_id, bool need_charges = false ) const;
+
+        /**
+         * All items in the character's inventory.
+         */
+        std::vector<item *> all_items( bool need_charges = false ) const;
+
 
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;

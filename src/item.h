@@ -575,6 +575,9 @@ class item : public location_visitable<item>, public game_object<item>
         /** Burns the item. Returns true if the item was destroyed. */
         bool burn( fire_data &frd );
 
+        // Returns the category id of this item as a string.
+        const std::string &get_category_id() const;
+
         // Returns the category of this item.
         const item_category &get_category() const;
 
@@ -815,6 +818,10 @@ class item : public location_visitable<item>, public game_object<item>
                                                std::string *err = nullptr ) const;
         int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                std::string *err = nullptr ) const;
+        /**
+         * How many charges of a given item id this container can hold.
+         */
+        int get_remaining_capacity_for_id( const itype_id &liquid, bool allow_bucket ) const;
         /**
          * It returns the total capacity (volume) of the container for liquids.
          */

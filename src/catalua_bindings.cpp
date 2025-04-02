@@ -314,6 +314,15 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "get_type", &item::typeId );
 
+        DOC( "Translated item name without prefixes" );
+        luna::set_fx( ut, "nname", &item::nname );
+
+        DOC( "Translated item name with prefixes" );
+        luna::set_fx( ut, "tname", &item::tname );
+
+        DOC( "Display name with all bells and whistles like ammo and prefixes" );
+        luna::set_fx( ut, "display_name", &item::display_name );
+
         DOC( "Check for variable of any type" );
         luna::set_fx( ut, "has_var", &item::has_var );
         DOC( "Erase variable" );
@@ -321,15 +330,75 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Erase all variables" );
         luna::set_fx( ut, "clear_vars", &item::clear_vars );
 
+        DOC( "Checks if this item is a tool" );
+        luna::set_fx( ut, "is_tool", &item::is_tool );
+
+        DOC( "Checks if this item is a container" );
+        luna::set_fx( ut, "is_container", &item::is_container );
+
+        DOC( "Checks if this item is a watertight container" );
+        luna::set_fx( ut, "is_watertight", &item::is_watertight_container );
+
+        DOC( "Checks if this item is ammo" );
+        luna::set_fx( ut, "is_ammo", &item::is_ammo );
+
+        DOC( "Checks if this item is a comestible" );
+        luna::set_fx( ut, "is_comestible", &item::is_comestible );
+
+        DOC( "Checks if this item is an empty container" );
+        luna::set_fx( ut, "is_empty", &item::is_container_empty );
+
+        DOC( "Checks if this item is a full container" );
+        luna::set_fx( ut, "is_full", &item::is_container_full );
+
+        DOC( "Checks if this item is food" );
+        luna::set_fx( ut, "is_food", &item::is_food );
+
+        DOC( "Gets the TimeDuration until this item rots" );
+        luna::set_fx( ut, "get_rot_time", &item::get_rot );
+
+        DOC( "Gets the category id this item is in" );
+        luna::set_fx( ut, "get_category_id", &item::get_category_id );
+
+        DOC( "Gets the faction id that owns this item" );
+        luna::set_fx( ut, "get_owner", &item::get_owner );
+
+        DOC( "Checks if this item can contain another" );
+        luna::set_fx( ut, "can_contain",
+                      sol::resolve<bool( const item & ) const>
+                      ( &item::can_contain ) );
+
+        DOC( "Checks if this item owned by a character" );
+        luna::set_fx( ut, "is_owned_by",
+                      sol::resolve<bool( const Character &, const bool ) const>
+                      ( &item::is_owned_by ) );
+
+        DOC( "Gets the remaining space available for a type of liquid" );
+        luna::set_fx( ut, "remaining_capacity_for_id", &item::get_remaining_capacity_for_id );
+
+        DOC( "Gets maximum volume this item can hold (liquids, ammo, etc)" );
+        luna::set_fx( ut, "total_capacity", &item::get_total_capacity );
+
+        DOC( "Gets an item contained by this one" );
+        luna::set_fx( ut, "get_contained", &item::get_contained );
+
+        DOC( "Gets the current magazine" );
+        luna::set_fx( ut, "current_magazine",
+                      sol::resolve<const item*() const> ( &item::magazine_current ) );
+
+        DOC( "Gets charges of this item, or stack size for unchargeable items" );
         luna::set( ut, "charges", &item::charges );
 
-        DOC( "Get item energy" );
-        luna::set_fx( ut, "energy_remaining", &item::energy_remaining );
+        DOC( "Add or remove energy from a battery" );
+        luna::set_fx( ut, "mod_energy", &item::mod_energy );
+
+        DOC( "Get remaining ammo, works with batteries & stuff too" );
+        luna::set_fx( ut, "ammo_remaining", &item::ammo_remaining );
 
         DOC( "Adds an item(s) to contents" );
         luna::set_fx( ut, "add_item_with_id", &item::add_item_with_id );
 
-        DOC( "Checks item contents for an ITypeId" );
+        DOC( "Checks item contents for a given item id" );
         luna::set_fx( ut, "has_item_with_id", &item::has_item_with_id );
 
         DOC( "Get variable as string" );
@@ -648,6 +717,10 @@ void cata::detail::reg_game_api( sol::state &lua )
         std::vector<sol::protected_function> vec;
         vec.push_back( f );
         hooks.push_back( on_every_x_hooks{ interval, vec } );
+    } );
+
+    luna::set_fx( lib, "create_item", []( const itype_id & itype, int count ) -> detached_ptr<item> {
+        return item::spawn( itype, calendar::turn, count );
     } );
 
     luna::set_fx( lib, "get_creature_at", []( const tripoint & p,
