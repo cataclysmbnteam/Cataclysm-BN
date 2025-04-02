@@ -393,6 +393,12 @@ void cata::detail::reg_item( sol::state &lua )
 
         luna::set_fx( ut, "conductive", &item::conductive );
 
+        luna::set( ut, "charges", &item::charges );
+
+        luna::set_fx( ut, "energy_remaining", &item::energy_remaining );
+
+        luna::set_fx( ut, "has_infinite_charges", &item::has_infinite_charges );
+
         luna::set_fx( ut, "mod_charges", &item::mod_charges );
 
         DOC( "Gets the TimeDuration until this item rots" );
