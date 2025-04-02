@@ -391,8 +391,12 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "DEPRECATED: Is this a battery? (spoiler: it isn't)" );
         luna::set_fx( ut, "is_battery", &item::is_battery );
 
+        luna::set_fx( ut, "conductive", &item::conductive );
+
+        luna::set_fx( ut, "mod_charges", &item::mod_charges );
+
         DOC( "Gets the TimeDuration until this item rots" );
-        luna::set_fx( ut, "get_rot_time", &item::get_rot );
+        luna::set_fx( ut, "get_rot", &item::get_rot );
 
         DOC( "Gets the category id this item is in" );
         luna::set_fx( ut, "get_category_id", &item::get_category_id );
@@ -400,15 +404,25 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Gets the faction id that owns this item" );
         luna::set_fx( ut, "get_owner", &item::get_owner );
 
+        DOC( "Sets the ownership of this item to a faction" );
+        luna::set_fx( ut, "set_owner",
+                      sol::resolve<void( const faction_id & )>
+                      ( &item::set_owner ) );
+
+        DOC( "Sets the ownership of this item to a character" );
+        luna::set_fx( ut, "set_owner",
+                      sol::resolve<void( const Character & )>
+                      ( &item::set_owner ) );
+
+        luna::set_fx( ut, "get_owner_name", &item::get_owner_name );
+
+        DOC( "Checks if this item owned by a character" );
+        luna::set_fx( ut, "is_owned_by", &item::is_owned_by );
+
         DOC( "Checks if this item can contain another" );
         luna::set_fx( ut, "can_contain",
                       sol::resolve<bool( const item & ) const>
                       ( &item::can_contain ) );
-
-        DOC( "Checks if this item owned by a character" );
-        luna::set_fx( ut, "is_owned_by",
-                      sol::resolve<bool( const Character &, const bool ) const>
-                      ( &item::is_owned_by ) );
 
         DOC( "Gets the remaining space available for a type of liquid" );
         luna::set_fx( ut, "remaining_capacity_for_id", &item::get_remaining_capacity_for_id );
@@ -428,11 +442,16 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Get remaining ammo, works with batteries & stuff too" );
         luna::set_fx( ut, "ammo_remaining", &item::ammo_remaining );
 
+        luna::set_fx( ut, "get_reload_time", &item::get_reload_time );
+
         DOC( "Adds an item(s) to contents" );
         luna::set_fx( ut, "add_item_with_id", &item::add_item_with_id );
 
         DOC( "Checks item contents for a given item id" );
         luna::set_fx( ut, "has_item_with_id", &item::has_item_with_id );
+
+        DOC( "Checks if the item covers a bodypart" );
+        luna::set_fx( ut, "covers", &item::covers );
 
         DOC( "Get variable as string" );
         luna::set_fx( ut, "get_var_str",
