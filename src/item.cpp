@@ -7051,7 +7051,7 @@ bool item::is_magazine() const
 
 bool item::is_battery() const
 {
-    return !!type->battery;
+    return !!type->magazine && get_category().id == item_category_id( "battery" );
 }
 
 bool item::is_ammo_belt() const
