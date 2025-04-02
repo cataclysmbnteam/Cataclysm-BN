@@ -327,32 +327,69 @@ void cata::detail::reg_item( sol::state &lua )
         DOC( "Erase all variables" );
         luna::set_fx( ut, "clear_vars", &item::clear_vars );
 
-        DOC( "Checks if this item is a tool" );
-        luna::set_fx( ut, "is_tool", &item::is_tool );
-
-        DOC( "Checks if this item is a container" );
-        luna::set_fx( ut, "is_container", &item::is_container );
-
-        DOC( "Checks if this item is a watertight container" );
-        luna::set_fx( ut, "is_watertight", &item::is_watertight_container );
-
-        DOC( "Checks if this item is ammo" );
+        luna::set_fx( ut, "is_null", &item::is_null );
+        luna::set_fx( ut, "is_unarmed_weapon", &item::is_unarmed_weapon );
+        luna::set_fx( ut, "is_sided", &item::is_sided );
+        luna::set_fx( ut, "is_power_armor", &item::is_power_armor );
+        luna::set_fx( ut, "is_money", &item::is_money );
+        luna::set_fx( ut, "is_gun", &item::is_gun );
+        luna::set_fx( ut, "is_firearm", &item::is_firearm );
+        luna::set_fx( ut, "is_silent", &item::is_silent );
+        luna::set_fx( ut, "is_gunmod", &item::is_gunmod );
+        luna::set_fx( ut, "is_bionic", &item::is_bionic );
+        luna::set_fx( ut, "is_ammo_belt", &item::is_ammo_belt );
+        luna::set_fx( ut, "is_bandolier", &item::is_bandolier );
+        luna::set_fx( ut, "is_holster", &item::is_holster );
         luna::set_fx( ut, "is_ammo", &item::is_ammo );
+        luna::set_fx( ut, "is_comestible", &item::is_comestible );
+        luna::set_fx( ut, "is_food", &item::is_food );
+        luna::set_fx( ut, "is_medication", &item::is_medication );
+        luna::set_fx( ut, "is_brewable", &item::is_brewable );
+        luna::set_fx( ut, "is_food_container", &item::is_food_container );
+        luna::set_fx( ut, "is_med_container", &item::is_med_container );
+        luna::set_fx( ut, "is_corpse", &item::is_corpse );
+        luna::set_fx( ut, "is_ammo_container", &item::is_ammo_container );
+        luna::set_fx( ut, "is_armor", &item::is_armor );
+        luna::set_fx( ut, "is_book", &item::is_book );
+        luna::set_fx( ut, "is_map", &item::is_map );
+        luna::set_fx( ut, "is_container", &item::is_container );
+        luna::set_fx( ut, "is_watertight_container", &item::is_watertight_container );
+        luna::set_fx( ut, "is_non_resealable_container", &item::is_non_resealable_container );
+        luna::set_fx( ut, "is_bucket", &item::is_bucket );
+        luna::set_fx( ut, "is_bucket_nonempty", &item::is_bucket_nonempty );
+        luna::set_fx( ut, "is_engine", &item::is_engine );
+        luna::set_fx( ut, "is_wheel", &item::is_wheel );
+        luna::set_fx( ut, "is_fuel", &item::is_fuel );
+        luna::set_fx( ut, "is_toolmod", &item::is_toolmod );
+        luna::set_fx( ut, "is_faulty", &item::is_faulty );
+        luna::set_fx( ut, "is_irremovable", &item::is_irremovable );
+        luna::set_fx( ut, "is_container_empty", &item::is_container_empty );
+        luna::set_fx( ut, "is_salvageable", &item::is_salvageable );
+        luna::set_fx( ut, "is_craft", &item::is_craft );
+        luna::set_fx( ut, "is_emissive", &item::is_emissive );
+        luna::set_fx( ut, "is_deployable", &item::is_deployable );
+        luna::set_fx( ut, "is_tool", &item::is_tool );
+        luna::set_fx( ut, "is_transformable", &item::is_transformable );
+        luna::set_fx( ut, "is_artifact", &item::is_artifact );
+        luna::set_fx( ut, "is_relic", &item::is_relic );
+        luna::set_fx( ut, "is_seed", &item::is_seed );
+        luna::set_fx( ut, "is_dangerous", &item::is_dangerous );
+        luna::set_fx( ut, "is_tainted", &item::is_tainted );
+        luna::set_fx( ut, "is_soft", &item::is_soft );
+        luna::set_fx( ut, "is_reloadable", &item::is_reloadable );
+        luna::set_fx( ut, "is_filthy", &item::is_filthy );
+        luna::set_fx( ut, "is_active", &item::is_active );
+        luna::set_fx( ut, "is_upgrade", &item::is_upgrade );
 
-        DOC( "Checks if this item is magazine" );
+        DOC( "Is this item an effective melee weapon for the given damage type?" );
+        luna::set_fx( ut, "is_melee", sol::resolve<bool( damage_type ) const>
+                      ( &item::is_melee ) );
+
+        DOC( "Is this a magazine? (batteries are magazines)" );
         luna::set_fx( ut, "is_magazine", &item::is_magazine );
 
-        DOC( "Checks if this item is a comestible" );
-        luna::set_fx( ut, "is_comestible", &item::is_comestible );
-
-        DOC( "Checks if this item is an empty container" );
-        luna::set_fx( ut, "is_empty", &item::is_container_empty );
-
-        DOC( "Checks if this item is a full container" );
-        luna::set_fx( ut, "is_full", &item::is_container_full );
-
-        DOC( "Checks if this item is food" );
-        luna::set_fx( ut, "is_food", &item::is_food );
+        DOC( "DEPRECATED: Is this a battery? (spoiler: it isn't)" );
+        luna::set_fx( ut, "is_battery", &item::is_battery );
 
         DOC( "Gets the TimeDuration until this item rots" );
         luna::set_fx( ut, "get_rot_time", &item::get_rot );
