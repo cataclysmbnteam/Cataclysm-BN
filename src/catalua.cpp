@@ -391,19 +391,27 @@ void run_on_every_x_hooks( lua_state &state )
 {
     std::vector<cata::on_every_x_hooks> &master_table =
         state.lua["game"]["cata_internal"]["on_every_x_hooks"];
-    for( const auto &entry : master_table ) {
+    for( auto &entry : master_table ) {
         if( calendar::once_every( entry.interval ) ) {
-            for( auto &func : entry.functions ) {
+            entry.functions.erase(
+                std::remove_if(
+                    entry.functions.begin(), entry.functions.end(),
+            [&entry]( auto & func ) {
                 try {
                     sol::protected_function_result res = func();
                     check_func_result( res );
+                    return !res.get<bool>(); // erase function if result is false
                 } catch( std::runtime_error &e ) {
                     debugmsg(
                         "Failed to run hook on_every_x(interval = %s): %s",
                         to_string( entry.interval ), e.what()
                     );
                 }
+                return false;
             }
+                ),
+            entry.functions.end()
+            );
         }
     }
 }
