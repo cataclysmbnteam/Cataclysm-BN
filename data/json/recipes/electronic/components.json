@@ -453,7 +453,7 @@
     "difficulty": 5,
     "time": "6 m",
     "autolearn": [ [ "electronics", 7 ] ],
-    "book_learn": [ [ "textbook_atomic", 5 ] ],
+    "book_learn": [ [ "textbook_atomic_lab", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "soldering_standard", 10 ] ],
     "components": [
