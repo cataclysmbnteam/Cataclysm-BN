@@ -252,9 +252,9 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( change_orders, true, 'O', _( "Order to ignore enemies and follow" ), pet_name );
         }
     }
-    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) && !z.has_flag( MF_PAY_BOT ) ) {
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_PAY_BOT ) ) {
         if( z.has_effect( effect_has_bag ) || z.has_effect( effect_monster_armor ) ||
-            z.has_effect( effect_leashed ) || z.has_effect( effect_saddled ) ) {
+            z.has_effect( effect_leashed ) || z.has_effect( effect_saddled ) || z.get_battery_item() ) {
             amenu.addentry( disable_pet, true, 'D', _( "Remove items and deactivate the %s" ), pet_name );
         } else {
             amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
@@ -552,7 +552,7 @@ bool monexamine::mfriend_menu( monster &z )
             amenu.addentry( change_orders, true, 'O', _( "Order to ignore enemies and follow" ), pet_name );
         }
     }
-    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) && !z.has_flag( MF_PAY_BOT ) ) {
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_PAY_BOT ) ) {
         amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
     }
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
@@ -971,6 +971,9 @@ void monexamine::deactivate_pet( monster &z )
     }
     if( z.has_effect( effect_saddled ) ) {
         attach_or_remove_saddle( z );
+    }
+    if( z.get_battery_item() ) {
+        remove_battery( z );
     }
     map &here = get_map();
     here.add_item_or_charges( z.pos(), z.to_item() );
