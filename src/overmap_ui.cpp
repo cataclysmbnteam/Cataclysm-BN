@@ -1003,6 +1003,9 @@ static void draw_ascii( ui_adaptor &ui,
             } else if( blink && overmap_buffer.is_path( omp ) ) {
                 ter_color = c_light_blue;
                 ter_sym = "!";
+            } else if( blink && uistate.overmap_highlighted_omts.contains( omp ) ) {
+                ter_color = c_pink;
+                ter_sym = "&";
             } else if( blink && showhordes && los &&
                        overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
                 // Display Hordes only when within player line-of-sight
@@ -2129,6 +2132,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             uistate.overmap_show_city_labels = !uistate.overmap_show_city_labels;
         } else if( action == "TOGGLE_EXPLORED" ) {
             overmap_buffer.toggle_explored( curs );
+            uistate.overmap_highlighted_omts.erase( curs );
         } else if( action == "TOGGLE_MARK_PATH" ) {
             overmap_buffer.toggle_path( curs );
         } else if( action == "TOGGLE_OVERMAP_WEATHER" ) {

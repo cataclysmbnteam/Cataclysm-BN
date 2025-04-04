@@ -81,6 +81,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "uistate.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -1399,6 +1400,8 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
 
 void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_omt &center ) const
 {
+    uistate.overmap_highlighted_omts.clear();
+
     omt_find_params params{};
     params.search_range = { 0, radius };
     params.types = omt_types_view;
@@ -1468,6 +1471,11 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
         return;
     }
 
+    std::transform(
+        eqRange.first, eqRange.second,
+        std::inserter( uistate.overmap_highlighted_omts, uistate.overmap_highlighted_omts.end() ),
+        []( const auto & e ) -> tripoint_abs_omt { return e.second; } );
+
     if( ui.ret == 1 ) {
         // Pick random
         auto it = eqRange.first;
@@ -1484,7 +1492,6 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
         const auto it = std::min_element( eqRange.first, eqRange.second, pred_dist );
         ui::omap::choose_point( it->second );
     }
-
 }
 
 int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
