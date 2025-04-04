@@ -1554,7 +1554,7 @@ units::energy Character::consume_remote_fuel( units::energy amount )
     map &here = get_map();
     for( const item *cable : cables ) {
         auto data = cable_connection_data::make_data( cable );
-        if( !data || !data->character_connected() && !data->complete() ) {
+        if( !data || ( !data->character_connected() && !data->complete() ) ) {
             continue;
         }
 
