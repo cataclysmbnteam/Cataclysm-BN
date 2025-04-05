@@ -1587,7 +1587,8 @@ void Character::consume( item &target )
         // in the case that the consumable was in a container, but the container is now empty (no more charges)
         // the invlet is lost
         // so we find try to find a new container with a consumable of the same type, and re-assign to it
-        if( !target.is_favorite && was_in_container && comest.count_by_charges() && comest.charges == 0 ) {
+        if( was_in_container && !target.is_favorite && comest.count_by_charges() && comest.charges == 0 &&
+            !is_wearing( target ) ) {
             auto &cont_type = target.typeId();
             auto &item_type = comest.typeId();
 
