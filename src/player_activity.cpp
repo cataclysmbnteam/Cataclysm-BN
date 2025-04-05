@@ -117,7 +117,7 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-inline float limit_factor( float factor, float min = 0.25f, float max = 2.0f )
+inline static float limit_factor( float factor, float min = 0.25f, float max = 2.0f )
 {
     //constrain speed between min and max
     factor = std::min( max, factor );
@@ -125,7 +125,8 @@ inline float limit_factor( float factor, float min = 0.25f, float max = 2.0f )
     return factor;
 }
 
-inline float refine_factor( float speed, int denom = 1, float min = -75.0f, float max = 100.0f )
+inline static float refine_factor( float speed, int denom = 1, float min = -75.0f,
+                                   float max = 100.0f )
 {
     speed = limit_factor( speed, min, max );
     denom = denom < 1.0f
@@ -149,27 +150,27 @@ inline std::vector<npc *> &player_activity::assistants()
     return assistants_;
 }
 
-void player_activity::calc_moves( const Character &who )
+void player_activity::calc_moves( const Character &who, activity_speed &speed, activity_id &type )
 {
-    if( is_light_affected() ) {
-        speed.light = calc_light_factor( who );
+    if( type->light_affected() ) {
+        calc_light_factor( who, speed );
     }
-    if( is_speed_affected() ) {
+    if( type->speed_affected() ) {
         speed.player_speed = who.get_speed() / 100.0f;
     }
-    if( is_stats_affected() ) {
-        speed.stats = calc_stats_factors( who );
+    if( type->stats_affected() ) {
+        calc_stats_factors( who, speed );
     }
-    if( is_morale_affected() ) {
-        speed.morale = calc_morale_factor( who.get_morale_level() );
+    if( type->morale_affected() ) {
+        calc_morale_factor( who, speed );
     }
 }
 
-void player_activity::recalc_all_moves( Character &who )
+void player_activity::calc_all_moves( Character &who )
 {
     if( is_bench_affected() ) {
         find_best_bench( who.pos() );
-        speed.bench = calc_bench_factor( who );
+        calc_bench_factor( who, speed, bench );
     }
     if( is_tools_affected() ) {
         speed.tools = calc_tools_factor( who );
@@ -186,11 +187,11 @@ void player_activity::recalc_all_moves( Character &who )
     calc_moves( who );
 }
 
-void player_activity::recalc_all_moves( Character &who, activity_reqs_adapter &reqs )
+void player_activity::calc_all_moves( Character &who, activity_reqs_adapter &reqs )
 {
     if( is_bench_affected() ) {
         find_best_bench( who.pos() );
-        speed.bench = calc_bench_factor( who );
+        calc_bench_factor( who, speed, bench );
     }
     if( is_tools_affected() ) {
         speed.tools = calc_tools_factor( who, reqs.qualities );
@@ -207,15 +208,15 @@ void player_activity::recalc_all_moves( Character &who, activity_reqs_adapter &r
     calc_moves( who );
 }
 
-void player_activity::get_assistants( const Character &who,
-                                      unsigned short max )
+std::vector<npc *> player_activity::get_assistants( const Character &who,
+        const std::function <bool( bool, const npc & )> &filter,
+        unsigned short max )
 {
-    max = type->max_assistants();
-    if( max == 0 ) {
-        return;
+    if( max < 1 ) {
+        return {};
     }
     int n = 0;
-    assistants_ = g->get_npcs_if( [&]( const npc & guy ) {
+    return g->get_npcs_if( [&]( const npc & guy ) {
         if( n >= max ) {
             return false;
         }
@@ -224,11 +225,31 @@ void player_activity::get_assistants( const Character &who,
                   guy.activity->id() != ACT_ASSIST &&
                   rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
                   get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        ok = filter( ok, guy );
         if( ok ) {
             n++;
         }
         return ok;
     } );
+}
+
+void player_activity::get_assistants( const Character &who )
+{
+    unsigned short max = type->max_assistants();
+    std::function<bool( bool, const npc & )> filter;
+
+    if( actor ) {
+        filter = [&]( bool ok, const npc & guy ) {
+            return ok && actor->assistant_capable( guy );
+        };
+    } else {
+        filter = []( bool ok, const npc & guy ) {
+            return ok;
+        };
+    }
+
+
+    assistants_ = get_assistants( who, filter, max );
     for( Character *guy : assistants_ ) {
         guy->assign_activity( std::make_unique<player_activity>
                               ( std::make_unique<assist_activity_actor>() ) );
@@ -253,23 +274,19 @@ float player_activity::calc_assistants_factor( const Character &who )
     return 1.0f + refine_factor( f, 1, 0.0f, 200.0f );
 }
 
-float player_activity::calc_bench_factor( const Character &who ) const
+void calc_bench_factor( const Character &who, activity_speed &speed,
+                        std::optional<bench_location> bench )
 {
-    float ac_f = actor ? actor->calc_bench_factor( who, bench ) : -1.0f;
-    //Any factor above 0 is valid, else - use default calc
-    if( ac_f > 0 ) {
-        return ac_f;
-    }
-
-    return bench.has_value()
-           ? bench->wb_info.multiplier
-           : 1.0f;
+    speed.bench = bench
+                  ? bench->wb_info.multiplier_adjusted
+                  : 1.0f;
 }
 
-float player_activity::calc_light_factor( const Character &who ) const
+void player_activity::calc_light_factor( const Character &who, activity_speed &speed )
 {
     if( character_funcs::can_see_fine_details( who ) ) {
-        return 1.0f;
+        speed.light = 1.0f;
+        return;
     }
 
     // This value whould be within [0,1]
@@ -278,9 +295,8 @@ float player_activity::calc_light_factor( const Character &who ) const
             character_funcs::fine_detail_vision_mod( who ) -
             character_funcs::FINE_VISION_THRESHOLD
         ) / 7.0f;
-    return limit_factor( 1.0f - darkness, 0.0f );
+    speed.light = limit_factor( 1.0f - darkness, 0.0f );
 }
-
 
 float player_activity::calc_skill_factor( const Character &who,
         const std::vector<activity_req<skill_id>> &skill_req ) const
@@ -338,22 +354,62 @@ std::pair<character_stat, float> player_activity::calc_single_stat( const Charac
     return std::pair<character_stat, float>( stat.req, f );
 }
 
+bool player_activity::fails_conditions( player &who )
+{
+    if( type->light_affected() ) {
+        if( speed.light <= 0.0f ) {
+            who.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+            return true;
+        } else if( calendar::once_every( 1_hours ) ) {
+            if( speed.light <= 0.5f ) {
+                who.add_msg_if_player( m_bad, _( "You can't hardly see and are working really slow." ) );
+            } else if( speed.light <= 0.75f ) {
+                who.add_msg_if_player( m_bad, _( "You can't see well and are working slowly." ) );
+            }
+        }
+    }
+    if( type->bench_affected() ) {
+        if( speed.bench <= 0.33f ) {
+            who.add_msg_if_player( m_bad,
+                                   _( "The %s is too large and/or heavy to work on.  You may want to use a workbench or a smaller batch size" ) );
+            return true;
+        }
+        if( speed.bench <= 0.75f ) {
+            who.add_msg_if_player( m_bad,
+                                   _( "The %s is to large and/or heavy to work on comfortably.  You are working slowly." ) );
+        }
+    }
+    if( type->morale_affected() ) {
+        if( speed.morale <= type->morale_blocked() ) {
+            who.add_msg_if_player( m_bad, _( "You are too frustrated to continue crafting." ) );
+            return true;
+        } else if( calendar::once_every( 1_hours ) ) {
+            if( speed.morale <= 0.5f ) {
+                who.add_msg_if_player( m_bad,
+                                       _( "You hardly can concentrate on your work, due to really bad mood" ) );
+            } else if( speed.morale <= 0.75f ) {
+                who.add_msg_if_player( m_bad, _( "You are working slowly because you are unhappy." ) );
+            }
+        }
+    }
 
-std::vector<std::pair<character_stat, float>> player_activity::calc_stats_factors(
-            const Character &who ) const
+    return false;
+}
+
+
+void player_activity::calc_stats_factors( const Character &who, activity_speed &speed )
 {
     auto f = actor
              ? actor->calc_stats_factors( who, type->stats )
              : std::vector<std::pair<character_stat, float>> {};
 
     if( !f.empty() ) {
-        return f;
+        return;
     }
 
     for( auto &stat : type->stats ) {
-        f.emplace_back( calc_single_stat( who, stat ) );
+        speed.stats.emplace_back( calc_single_stat( who, stat ) );
     }
-    return f;
 }
 
 float player_activity::get_best_qual_mod( const activity_req<quality_id> &q,
@@ -412,81 +468,25 @@ float player_activity::calc_tools_factor( Character &who,
     return limit_factor( f );
 }
 
-float player_activity::calc_morale_factor( int morale ) const
+void player_activity::calc_morale_factor( const Character &who, activity_speed &speed )
 {
-    float ac_morale = actor ? actor->calc_morale_factor( morale ) : -1.0f;
+    const int morale = who.get_morale_level();
+    float ac_morale = actor ? actor->calc_morale_factor( who ) : -1.0f;
     //Any morale mod above 0 is valid, else - use default morale calc
     if( ac_morale > 0 ) {
-        return ac_morale;
+        speed.morale = ac_morale;
+        return ;
     }
 
     //1% per 4 extra morale
     if( morale > 20 ) {
-        return 0.95f + morale / 400.0f;
+        speed.morale = 0.95f + morale / 400.0f;
     }
     // 1% per 1 insuff morale
     else if( morale < -20 ) {
-        return 1.20f + morale / 100.0f;
+        speed.morale = 1.20f + morale / 100.0f;
     }
-    return 1.0f;
-}
-
-static std::string craft_progress_message( const avatar &u, const player_activity &act )
-{
-    const item *craft = &*act.targets.front();
-    if( craft == nullptr ) {
-        // Should never happen (?)
-        return string_format( _( "%s…" ), act.get_verb().translated() );
-    }
-
-    // Horrid copypaste warning! TODO: Functions
-    const recipe &rec = craft->get_making();
-    const tripoint bench_pos = act.coords.front();
-    // Ugly
-    bench_type bench_t = bench_type( act.values[1] );
-
-    const bench_location bench{ bench_t, bench_pos };
-
-    const float light_mult = lighting_crafting_speed_multiplier( u, rec );
-    const float bench_mult = workbench_crafting_speed_multiplier( *craft, bench );
-    const float morale_mult = morale_crafting_speed_multiplier( u, rec );
-    const int assistants = u.available_assistant_count( craft->get_making() );
-    const float base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
-    const float assist_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, assistants ) );
-    const float assist_mult = base_total_moves / assist_total_moves;
-    const float speed_mult = u.get_speed() / 100.0f;
-    const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult;
-
-    const double remaining_percentage = 1.0 - craft->item_counter / 10'000'000.0;
-    int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
-    std::string time_desc = string_format( _( "Time left: %s" ),
-                                           to_string( time_duration::from_turns( remaining_turns ) ) );
-
-    const std::array<std::pair<float, std::string>, 6> mults_with_data = { {
-            { total_mult, _( "Total" ) },
-            { speed_mult, _( "Speed" ) },
-            { light_mult, _( "Light" ) },
-            { bench_mult, _( "Workbench" ) },
-            { morale_mult, _( "Morale" ) },
-            { assist_mult, _( "Assistants" ) },
-        }
-    };
-    std::string mults_desc = _( "Crafting speed multipliers:\n" );
-    // Hack to make sure total always shows
-    bool first = true;
-    for( const std::pair<float, std::string> &p : mults_with_data ) {
-        int percent = static_cast<int>( p.first * 100 );
-        if( first || percent != 100 ) {
-            nc_color col = percent > 100 ? c_green : c_red;
-            std::string colorized = colorize( std::to_string( percent ) + '%', col );
-            mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
-        }
-        first = false;
-    }
-
-    return string_format( _( "%s: %s\n\n%s\n\n%s" ), act.get_verb().translated(), craft->tname(),
-                          time_desc,
-                          mults_desc );
+    speed.morale = 1.0f;
 }
 
 static std::string format_spd( float level, std::string name, int indent = 0,
@@ -619,9 +619,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     }
 
     std::string extra_info;
-    if( type == ACT_CRAFT ) {
-        return craft_progress_message( u, *this );
-    } else if( type == ACT_READ ) {
+    if( type == ACT_READ ) {
         if( const item *book = &*targets.front() ) {
             if( const auto &reading = book->type->book ) {
                 const skill_id &skill = reading->skill;
@@ -663,25 +661,26 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
 void player_activity::find_best_bench( const tripoint &pos )
 {
-    bench_loc best_bench = bench_loc(
-                               workbench_info_wrapper(
-                                   * string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
-                               bench_type::ground,
-                               pos );
+    map &here = get_map();
+    bench_location best_bench = bench_location(
+                                    workbench_info_wrapper(
+                                        *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
+                                    pos );
     std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    get_map().reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
+    here.reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
     for( const tripoint &adj : reachable ) {
-        if( auto wb = get_map().furn( adj ).obj().workbench ) {
+        if( auto wb = here.furn( adj ).obj().workbench ) {
             if( wb->multiplier > best_bench.wb_info.multiplier ) {
-                best_bench = bench_loc( workbench_info_wrapper( *wb.get() ), bench_type::furniture, adj );
+                best_bench = bench_location( workbench_info_wrapper( *wb.get() ), adj );
             }
         }
 
-        if( const std::optional<vpart_reference> vp = get_map().veh_at(
+        if( const std::optional<vpart_reference> vp = here.veh_at(
                     adj ).part_with_feature( "WORKBENCH", true ) ) {
             if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                 if( wb_info->multiplier > best_bench.wb_info.multiplier ) {
-                    best_bench = bench_loc( workbench_info_wrapper( wb_info.value() ), bench_type::furniture, adj );
+                    best_bench = bench_location( workbench_info_wrapper( wb_info.value() ),
+                                                 adj );
                 }
             } else {
                 debugmsg( "part '%' with WORKBENCH flag has no workbench info", vp->part().name() );
@@ -755,6 +754,13 @@ void player_activity::do_turn( player &p )
      * This might finish the activity (set it to null)
      * Leave as is till full migration to actors for "NEITHER"
     */
+    if( fails_conditions( p ) ) {
+        // If the activity fails, we need to cancel it.
+        p.cancel_activity();
+        return;
+    }
+
+
     if( !type->special() ) {
         if( type->complex_moves() ) {
             if( calendar::once_every( 1_minutes ) ) {

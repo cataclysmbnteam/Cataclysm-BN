@@ -122,7 +122,7 @@ class player_activity
         bool interruptable_with_kb = true;
 
         activity_speed speed = activity_speed();
-        std::optional<bench_loc> bench;
+        std::optional<bench_location> bench;
         std::vector<safe_reference<item>> tools = {};
 
         // The members in the following block are deprecated, prefer creating a new
@@ -206,7 +206,7 @@ class player_activity
             return type->multi_activity();
         }
         bool is_assistable() const {
-            return type->light_affected();
+            return type->assistable();
         }
         bool is_bench_affected() const {
             return type->bench_affected();
@@ -266,29 +266,34 @@ class player_activity
 
         inline void init_all_moves( Character &who ) {
             if( actor ) {
-                actor->recalc_all_moves( *this, who );
+                actor->calc_all_moves( *this, who );
             } else {
-                recalc_all_moves( who );
+                calc_all_moves( who );
             }
         }
 
         //Calculates speed factors that may change every turn
-        void calc_moves( const Character &who );
+        void calc_moves( const Character &who ) {
+            calc_moves( who, speed, type );
+        }
+        static void calc_moves( const Character &who, activity_speed &speed, activity_id &type );
 
         //Calculates all factors
-        void recalc_all_moves( Character &who );
-        void recalc_all_moves( Character &who, activity_reqs_adapter &reqs );
+        void calc_all_moves( Character &who );
+        void calc_all_moves( Character &who, activity_reqs_adapter &reqs );
+
+        //Fills assistant vector with applicable assistants
+        void get_assistants( const Character &who );
+        static std::vector<npc *> get_assistants( const Character &who,
+                const std::function<bool( bool, const npc & )> &filter, unsigned short max = 0 );
 
         //Fills bench var
         void find_best_bench( const tripoint &pos );
-        float calc_bench_factor( const Character &who ) const;
+        static void calc_bench_factor( const Character &who, activity_speed &speed,
+                                       std::optional<bench_location> bench );
+        static void calc_light_factor( const Character &who, activity_speed &speed );
+        static void calc_stats_factors( const Character &who, activity_speed &speed );
 
-        float calc_light_factor( const Character &who ) const;
-        std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;
-
-        //Fills assistant vector with applicable assistants
-        void get_assistants( const Character &who,
-                             unsigned short max = 0 );
         float calc_assistants_factor( const Character &who );
 
         float calc_skill_factor( const Character &who ) const {
@@ -304,12 +309,14 @@ class player_activity
         float calc_tools_factor( Character &who,
                                  const std::vector<activity_req<quality_id>> &quality_reqs ) const;
 
-        float calc_morale_factor( int morale ) const;
+        static void calc_morale_factor( const Character &who, activity_speed &speed ) ;
 
         static float get_best_qual_mod( const activity_req<quality_id> &q,
                                         const inventory &inv );
         std::pair<character_stat, float> calc_single_stat( const Character &who,
                 const activity_req<character_stat> &stat ) const;
+
+        bool fails_conditions( player &p );
         /**
          * Helper that returns an activity specific progress message.
          */
