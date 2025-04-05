@@ -1585,22 +1585,6 @@ void Character::consume( item &target )
         inv.restack( *this->as_player() );
 
         if( !target.is_favorite ) {
-            // at this point, target *may* not have an invlet if it was split-off from a stack of items
-            // the main stack of items may have it instead
-            // in that case, re-assign
-
-            if( old_invlet != target.invlet ) {
-                auto oldStack = inv.items_with( [ = ]( const item & i ) {
-                    return i.invlet == old_invlet;
-                } );
-                auto &newStack = was_in_container ? *comest.parent_item() : comest;
-
-                for( auto i : oldStack ) {
-                    inv_reassign_item( *i, 0, true );
-                }
-                inv_reassign_item( newStack, old_invlet, true );
-            }
-
             // it may also be the case that the item was in a container, but the container is now empty
             // and the invlet is assigned to the now empty container
             // so we find try to find a new container with a consumable of the same type, and re-assign to it

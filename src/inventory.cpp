@@ -371,6 +371,10 @@ void inventory::restack( player &p )
     int idx = 0;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx ) {
         std::vector<item *> &stack = *iter;
+        // Sort the inner stack itself, so the most recently used item is at front and keeps the invlet
+        std::sort( stack.begin(), stack.end(), []( auto * lhs, auto * rhs ) {
+            return *lhs < *rhs;
+        } );
         item &topmost = *stack.front();
 
         const item *invlet_item = p.invlet_to_item( topmost.invlet );
