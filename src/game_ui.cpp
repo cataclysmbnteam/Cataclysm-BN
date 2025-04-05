@@ -1,4 +1,8 @@
+#include <optional>
 #include "game_ui.h"
+#include "input.h"
+#include "point.h"
+#include "cursesdef.h"
 
 #if !defined(TILES)
 
@@ -33,7 +37,8 @@ void to_overmap_font_dimension( int &, int & )
 std::optional<point> input_context::get_coordinates_text(const catacurses::window
     & capture_win) const
 {
-    // ncurses build lways returns "no mouse"
+    // ncurses does not support mouse currently
+    // curses build always returns "no mouse"
     return std::nullopt;
 }
 
