@@ -6,6 +6,7 @@
 
 #include <optional>
 
+#include "construction_partial.h"
 #include "coordinates.h"
 #include "crafting.h"
 #include "item_handling_util.h"
@@ -13,10 +14,8 @@
 #include "locations.h"
 #include "memory_fast.h"
 #include "pickup_token.h"
-#include "location_ptr.h"
-#include "locations.h"
-#include "construction_partial.h"
 #include "point.h"
+#include "recipe.h"
 #include "type_id.h"
 #include "units_energy.h"
 
@@ -106,6 +105,41 @@ class autodrive_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override;
         void canceled( player_activity &, Character & ) override;
         void finish( player_activity &act, Character & ) override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class crafting_activity_actor : public activity_actor
+{
+    private:
+        iuse_location target_;
+        recipe recipe_;
+        bool is_long = false;
+
+    public:
+        crafting_activity_actor() = default;
+        crafting_activity_actor(
+            iuse_location &&target,
+            bool is_long
+        ) : target_( std::move( target ) ), is_long( is_long ) {
+        }
+        ~crafting_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CRAFT" );
+        }
+        void calc_all_moves( player_activity &act, Character &who ) override;
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        float calc_bench_factor( const Character &who,
+                                 const std::optional<bench_location> &bench ) const override;
+
+        float calc_morale_factor( const Character &who ) const override;
+        bool assistant_capable( const Character &who ) const override;
+        static bool assistant_capable( const Character &who, const recipe &recipe );
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -241,13 +275,13 @@ class disassemble_activity_actor : public activity_actor
         activity_id get_type() const override {
             return activity_id( "ACT_DISASSEMBLE" );
         }
-        void recalc_all_moves( player_activity &act, Character &who ) override;
+        void calc_all_moves( player_activity &act, Character &who ) override;
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
         float calc_bench_factor( const Character &who,
-                                 const std::optional<bench_loc> &bench ) const override;
+                                 const std::optional<bench_location> &bench ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -644,7 +678,7 @@ class construction_activity_actor : public activity_actor
             return activity_id( "ACT_BUILD" );
         }
 
-        void recalc_all_moves( player_activity &act, Character &who ) override;
+        void calc_all_moves( player_activity &act, Character &who ) override;
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
@@ -664,7 +698,7 @@ class assist_activity_actor : public activity_actor
             return activity_id( "ACT_ASSIST" );
         }
 
-        void recalc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
+        void calc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};

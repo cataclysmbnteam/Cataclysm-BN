@@ -51,6 +51,8 @@
 #include "translations.h"
 #include "uistate.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
+#include "veh_type.h"
 #include "vpart_position.h"
 
 #define dbg(x) DebugLog((x),DC::Game)
@@ -109,9 +111,9 @@ inline void progress_counter::purge()
     targets.pop_front();
 }
 
-inline void activity_actor::recalc_all_moves( player_activity &act, Character &who )
+inline void activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
-    act.recalc_all_moves( who );
+    act.calc_all_moves( who );
 }
 
 aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
@@ -449,6 +451,198 @@ std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & 
     return std::make_unique<autodrive_activity_actor>();
 }
 
+
+inline void crafting_activity_actor::calc_all_moves( player_activity &act, Character &who )
+{
+    auto reqs = activity_reqs_adapter( recipe_ );
+    act.calc_all_moves( who, reqs );
+}
+
+void crafting_activity_actor::start( player_activity &act, Character &who )
+{
+    item *craft = &*target_.loc;
+
+    int total_time = std::max( 1, recipe_.batch_time() );
+    int left = craft->item_counter == 0
+               ? total_time
+               : total_time - craft->item_counter / 10'000'000.0 * total_time;
+
+    progress.emplace( craft->tname( craft->count() ), total_time, left );
+
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !craft ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the in progress craft in your possession.  "
+               "You stop crafting.  "
+               "Reactivate the in progress craft to continue crafting." ),
+            _( "<npcname> no longer has the in progress craft in their possession.  "
+               "<npcname> stops crafting." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    if( !craft->is_craft() ) {
+        debugmsg( "ACT_CRAFT target '%s' is not a craft.  Aborting ACT_CRAFT.", craft->tname() );
+        who.cancel_activity();
+        return;
+    }
+    if( !who.craft_consume_tools( *craft, five_percent_steps, false ) ) {
+        // So we don't skip over any tool comsuption
+        craft->item_counter -= craft->item_counter % 500000 + 1;
+        who.cancel_activity();
+        return;
+    }
+}
+
+void crafting_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    item *craft = &*target_.loc;
+
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !craft ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the in progress craft in your possession.  "
+               "You stop crafting.  "
+               "Reactivate the in progress craft to continue crafting." ),
+            _( "<npcname> no longer has the in progress craft in their possession.  "
+               "<npcname> stops crafting." ) );
+        who.cancel_activity();
+        return;
+    }
+
+    if( !who.can_continue_craft( *craft ) ) {
+        who.cancel_activity();
+        return;
+    }
+
+    const bool is_long = act.values[0];
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    craft->item_counter = progress.front().to_counter();
+    if( five_percent_steps > 0 ) {
+        who.craft_skill_gain( *craft, five_percent_steps );
+    }
+
+    if( craft->item_counter >= craft->get_next_failure_point() ) {
+        bool destroy = craft->handle_craft_failure( who );
+        // If the craft needs to be destroyed, do it and stop crafting.
+        if( destroy ) {
+            who.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                       _( "There is nothing left of the %s <npcname> was crafting." ), craft->tname() );
+            act.targets.front()->detach();
+            who.cancel_activity();
+        }
+    }
+}
+
+void crafting_activity_actor::finish( player_activity &act, Character &who )
+{
+    item *craft = &*target_.loc;
+    //TODO!: CHEEKY check
+    item *craft_copy = craft;
+    who.cancel_activity();
+    complete_craft( who, *craft_copy );
+    target_.loc->detach();
+    if( is_long ) {
+        if( who.making_would_work( recipe_.ident(), craft_copy->charges ) ) {
+            who.last_craft->execute( bench_pos );
+        }
+    }
+}
+
+float crafting_activity_actor::calc_bench_factor( const Character &who,
+        const std::optional<bench_location> &bench ) const
+{
+    float multiplier = 0.0f;
+    units::mass allowed_mass;
+    units::volume allowed_volume;
+
+    auto craft = target_.loc;
+    const units::mass &craft_mass = craft->weight();
+    const units::volume &craft_volume = craft->volume();
+    workbench_info_wrapper wb_info = workbench_info_wrapper(
+                                         *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
+
+    // The whole block below is so ugly because all the benches have different structs with same content
+    map &here = get_map();
+    switch( bench->wb_info.type ) {
+        case bench_type::hands: {
+            wb_info = workbench_info_wrapper(
+                          *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
+        }
+        break;
+        case bench_type::ground: {
+            // Ground - we can always use this, but it's bad
+            wb_info = workbench_info_wrapper(
+                          *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() );
+        }
+        break;
+        case bench_type::furniture:
+            if( here.furn( bench->position ).obj().workbench ) {
+                // Furniture workbench
+                wb_info = workbench_info_wrapper( *here.furn( bench->position ).obj().workbench.get() );
+            } else {
+                return 0.0f;
+            }
+            break;
+        case bench_type::vehicle:
+            if( const std::optional<vpart_reference> vp = here.veh_at(
+                        bench->position ).part_with_feature( "WORKBENCH", true ) ) {
+                // Vehicle workbench
+                const vpart_info &vp_info = vp->part().info();
+                if( const std::optional<vpslot_workbench> &v_info = vp_info.get_workbench_info() ) {
+                    wb_info = workbench_info_wrapper( *v_info );
+                } else {
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+                    return 0.0f;
+                }
+            }
+            break;
+        default:
+            debugmsg( "Invalid workbench type %d", static_cast<int>( bench->wb_info.type ) );
+            return 0.0f;
+    }
+
+    multiplier = wb_info.multiplier;
+    allowed_mass = wb_info.allowed_mass;
+    allowed_volume = wb_info.allowed_volume;
+    multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
+    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
+
+    return multiplier;
+}
+
+float crafting_activity_actor::calc_morale_factor( const Character &who ) const
+{
+    const int morale = who.get_morale_level();
+    if( morale >= 0 ) {
+        // No bonus for being happy yet
+        return 1.0f;
+    }
+
+    // Harder jobs are more frustrating, even when skilled
+    // For each skill where skill=difficulty, multiply effective morale by 200%
+    float morale_mult = std::max( 1.0f, 2.0f * recipe_.difficulty / std::max( 1,
+                                  who.get_skill_level( recipe_.skill_used ) ) );
+    for( const std::pair<const skill_id, int> &pr : recipe_.required_skills ) {
+        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, who.get_skill_level( pr.first ) ) );
+    }
+
+    // Halve speed at -50 effective morale, quarter at -150
+    float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
+
+    return 1.0f / morale_effect;
+}
+
+bool crafting_activity_actor::assistant_capable( const Character &who ) const
+{
+    return assistant_capable( who, recipe_ );
+}
+
+bool crafting_activity_actor::assistant_capable( const Character &who, const recipe &recipe )
+{
+    return who.get_skill_level( recipe.skill_used ) >= recipe.difficulty;
+}
+
 void dig_activity_actor::start( player_activity &/*act*/, Character & )
 {
     map &here = get_map();
@@ -670,11 +864,11 @@ inline void disassemble_activity_actor::process_target( player_activity &/*act*/
     progress.emplace( itm.tname( target.count ), moves_needed );
 }
 
-inline void disassemble_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+inline void disassemble_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
     auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft(
                                            targets.front().loc->typeId() ) );
-    act.recalc_all_moves( who, reqs );
+    act.calc_all_moves( who, reqs );
 }
 
 void disassemble_activity_actor::start( player_activity &act, Character &who )
@@ -703,7 +897,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         progress.pop();
         if( !progress.empty() ) {
             if( try_start_single( act, who ) ) {
-                recalc_all_moves( act, who );
+                calc_all_moves( act, who );
             } else {
                 act.set_to_null();
             }
@@ -727,11 +921,11 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
 }
 
 float disassemble_activity_actor::calc_bench_factor( const Character &who,
-        const std::optional<bench_loc> &bench ) const
+        const std::optional<bench_location> &bench ) const
 {
-    return bench.has_value()
-           ? crafting::best_bench_here( *targets.front().loc, bench->position, true ).second
-           : crafting::best_bench_here( *targets.front().loc, who.pos(), true ).second;
+    return bench
+           ? crafting::best_bench_here( *targets.front().loc, bench->position, true ).multiplier_adjusted
+           : crafting::best_bench_here( *targets.front().loc, who.pos(), true ).multiplier_adjusted;
 
 }
 
@@ -2062,7 +2256,7 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
     return actor;
 }
 
-inline void construction_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+inline void construction_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
     // Check if pc was lost for some reason, but actually still exists on map, e.g. save/load
     if( !pc ) {
@@ -2076,7 +2270,7 @@ inline void construction_activity_actor::recalc_all_moves( player_activity &act,
         return;
     }
     auto reqs = activity_reqs_adapter( pc->id.obj() );
-    act.recalc_all_moves( who, reqs );
+    act.calc_all_moves( who, reqs );
 }
 
 void construction_activity_actor::start( player_activity &/*act*/, Character &/*who*/ )

@@ -30,37 +30,36 @@ enum class bench_type : int {
     vehicle
 };
 
-struct bench_location {
-    explicit bench_location( bench_type type, tripoint position )
-        : type( type ), position( position )
-    {}
-    bench_type type;
-    tripoint position;
-};
-
 struct workbench_info_wrapper {
     // Base multiplier applied for crafting here
     float multiplier;
+    float multiplier_adjusted = multiplier;
     // Mass/volume allowed before a crafting speed penalty is applied
+    bench_type type;
     units::mass allowed_mass;
     units::volume allowed_volume;
     workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
         allowed_mass( f_info.allowed_mass ),
-        allowed_volume( f_info.allowed_volume ) {
+        allowed_volume( f_info.allowed_volume ), type( bench_type::furniture ) {
     }
     workbench_info_wrapper( vpslot_workbench v_info ) : multiplier( v_info.multiplier ),
         allowed_mass( v_info.allowed_mass ),
-        allowed_volume( v_info.allowed_volume ) {
+        allowed_volume( v_info.allowed_volume ), type( bench_type::vehicle ) {
+    }
+    workbench_info_wrapper( float multiplier, const units::mass &allowed_mass,
+                            const units::volume &allowed_volume, const bench_type &type )
+        : multiplier( multiplier ), allowed_mass( allowed_mass ), allowed_volume( allowed_volume ),
+          type( type ) {
     }
 };
 
-struct bench_loc {
-    explicit bench_loc( workbench_info_wrapper info, bench_type type, tripoint position )
-        : wb_info( info ), type( type ), position( position ) {
-    }
+struct bench_location {
     workbench_info_wrapper wb_info;
-    bench_type type;
     tripoint position;
+
+    explicit bench_location( workbench_info_wrapper info, tripoint position )
+        : wb_info( info ), position( position ) {
+    }
 };
 
 template<typename Type>
@@ -75,20 +74,18 @@ void remove_ammo( item &dis_item, Character &who );
  */
 void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
-bench_location find_best_bench( const player &p, const item &craft );
+bench_location find_best_bench( const Character &p, const item &craft );
 
-float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench );
-float morale_crafting_speed_multiplier( const Character &who, const recipe &rec );
-float lighting_crafting_speed_multiplier( const Character &who, const recipe &rec );
-float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress );
-float crafting_speed_multiplier( const Character &who, const item &craft,
-                                 const bench_location &bench );
-void complete_craft( player &p, item &craft, const bench_location &bench );
+std::optional<workbench_info_wrapper> make_workbench_info( item craft, bench_type type,
+        tripoint &location );
+void complete_craft( Character &p, item &craft );
 
 namespace crafting
 {
-std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
-        bool can_lift );
+
+std::optional<workbench_info_wrapper> best_bench_loc( const item &craft, const tripoint &loc );
+workbench_info_wrapper best_bench_here( const item &craft, const tripoint &loc,
+                                        bool can_lift );
 /**
 * Returns the set of book types in crafting_inv that provide the
 * given recipe.

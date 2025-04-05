@@ -18,7 +18,7 @@ class JsonIn;
 class JsonOut;
 class player_activity;
 class inventory;
-struct bench_loc;
+struct bench_location;
 
 struct simple_task {
     // Name of the target that's being processed
@@ -198,7 +198,7 @@ class activity_actor
          * Actor specific behaviour to recalc all speed values
          * Expected to be called once per target and on game load
          */
-        virtual void recalc_all_moves( player_activity &act, Character &who );
+        virtual void calc_all_moves( player_activity &act, Character &who );
 
         /**
          * Called once at the start of the activity.
@@ -255,13 +255,21 @@ class activity_actor
             return msg;
         }
 
+
+        /*
+        * Checks if provided character is capable of assisting
+        */
+        virtual bool assistant_capable( const Character &who ) const {
+            return true;
+        }
+
         /*
          * actor specific formula for speed factor based on workbench
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
         virtual float calc_bench_factor( const Character & /*who*/,
-                                         const std::optional<bench_loc> &/*bench*/ ) const {
+                                         const std::optional<bench_location> &/*bench*/ ) const {
             return -1.0f;
         }
 
@@ -290,7 +298,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_morale_factor( int /*morale*/ ) const {
+        virtual float calc_morale_factor( const Character &/*who*/ ) const {
             return -1.0f;
         }
 

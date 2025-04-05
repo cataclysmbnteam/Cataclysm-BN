@@ -96,237 +96,13 @@ static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 
-static bool crafting_allowed( const Character &who, const recipe &rec )
-{
-    if( morale_crafting_speed_multiplier( who, rec ) <= 0.0f ) {
-        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
-        return false;
-    }
-
-    if( lighting_crafting_speed_multiplier( who, rec ) <= 0.0f ) {
-        add_msg( m_info, _( "You can't see to craft!" ) );
-        return false;
-    }
-
-    if( rec.category == "CC_BUILDING" ) {
-        add_msg( m_info, _( "Overmap terrain building recipes are not implemented yet!" ) );
-        return false;
-    }
-    return true;
-}
-
-float lighting_crafting_speed_multiplier( const Character &who, const recipe &rec )
-{
-    if( character_funcs::can_see_fine_details( who ) ) {
-        return 1.0f;
-    }
-
-    const SkillLevelMap &char_skills = who.get_all_skills();
-    int skill_bonus = char_skills.exceeds_recipe_requirements( rec );
-
-    // This value whould be within [0,1]
-    const float darkness =
-        (
-            character_funcs::fine_detail_vision_mod( who ) -
-            character_funcs::FINE_VISION_THRESHOLD
-        ) / 7.0f;
-
-    if( rec.has_flag( flag_BLIND_EASY ) ) {
-        // 100% speed in well lit area at skill+0
-        // 25% speed in pitch black at skill+0
-        // skill+2 removes speed penalty
-        return 1.0f - darkness * 0.75f * std::max( 0, 2 - skill_bonus ) / 2.0f;
-    } else if( rec.has_flag( flag_BLIND_HARD ) && skill_bonus >= 2 ) {
-        // 100% speed in well lit area at skill+2
-        // 25% speed in pitch black at skill+2
-        // skill+8 removes speed penalty
-        return 1.0f - darkness * 0.75f * std::max( 0, 8 - skill_bonus ) / 6.0f;
-    } else {
-        // Needs proper vision or the character is not skilled enough
-        return 0.0f;
-    }
-}
-
-float morale_crafting_speed_multiplier( const Character &who, const recipe &rec )
-{
-    int morale = who.get_morale_level();
-    if( morale >= 0 ) {
-        // No bonus for being happy yet
-        return 1.0f;
-    }
-
-    // Harder jobs are more frustrating, even when skilled
-    // For each skill where skill=difficulty, multiply effective morale by 200%
-    float morale_mult = std::max( 1.0f, 2.0f * rec.difficulty / std::max( 1,
-                                  who.get_skill_level( rec.skill_used ) ) );
-    for( const std::pair<const skill_id, int> &pr : rec.required_skills ) {
-        morale_mult *= std::max( 1.0f, 2.0f * pr.second / std::max( 1, who.get_skill_level( pr.first ) ) );
-    }
-
-    // Halve speed at -50 effective morale, quarter at -150
-    float morale_effect = 1.0f + ( morale_mult * morale ) / -50.0f;
-
-    return 1.0f / morale_effect;
-}
-
-template<typename T>
-static float lerped_multiplier( const T &value, const T &low, const T &high )
-{
-    // No effect if less than allowed value
-    if( value < low ) {
-        return 1.0f;
-    }
-    // Bottom out at 25% speed
-    if( value > high ) {
-        return 0.25f;
-    }
-    // Linear interpolation between high and low
-    // y = y0 + ( x - x0 ) * ( y1 - y0 ) / ( x1 - x0 )
-    return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
-}
-
-float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench )
-{
-    float multiplier = 0.0f;
-    units::mass allowed_mass;
-    units::volume allowed_volume;
-
-    const units::mass &craft_mass = craft.weight();
-    const units::volume &craft_volume = craft.volume();
-    workbench_info_wrapper wb_info = workbench_info_wrapper(
-                                         * string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
-
-    // The whole block below is so ugly because all the benches have different structs with same content
-    map &here = get_map();
-    switch( bench.type ) {
-        case bench_type::hands: {
-            wb_info = workbench_info_wrapper(
-                          *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
-        }
-        break;
-        case bench_type::ground: {
-            // Ground - we can always use this, but it's bad
-            wb_info = workbench_info_wrapper(
-                          *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() );
-        }
-        break;
-        case bench_type::furniture:
-            if( here.furn( bench.position ).obj().workbench ) {
-                // Furniture workbench
-                wb_info = workbench_info_wrapper( * here.furn( bench.position ).obj().workbench.get() );
-            } else {
-                return 0.0f;
-            }
-            break;
-        case bench_type::vehicle:
-            if( const std::optional<vpart_reference> vp = here.veh_at(
-                        bench.position ).part_with_feature( "WORKBENCH", true ) ) {
-                // Vehicle workbench
-                const vpart_info &vp_info = vp->part().info();
-                if( const std::optional<vpslot_workbench> &v_info = vp_info.get_workbench_info() ) {
-                    wb_info = workbench_info_wrapper( *v_info );
-                } else {
-                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
-                    return 0.0f;
-                }
-            }
-            break;
-        default:
-            debugmsg( "Invalid workbench type %d", static_cast<int>( bench.type ) );
-            return 0.0f;
-    }
-
-    multiplier = wb_info.multiplier;
-    allowed_mass = wb_info.allowed_mass;
-    allowed_volume = wb_info.allowed_volume;
-    multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
-    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
-
-    return multiplier;
-}
-
-float crafting_speed_multiplier( const Character &who, const recipe &rec, bool in_progress )
-{
-    const float result = morale_crafting_speed_multiplier( who, rec ) *
-                         lighting_crafting_speed_multiplier( who, rec );
-    // Can't start if we'd need 300% time, but we can still finish the job
-    if( !in_progress && result < 0.33f ) {
-        return 0.0f;
-    }
-    // If we're working below 10% speed, just give up
-    if( result < 0.1f ) {
-        return 0.0f;
-    }
-
-    return result;
-}
-
-float crafting_speed_multiplier( const Character &who, const item &craft,
-                                 const bench_location &bench )
-{
-    if( !craft.is_craft() ) {
-        debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
-        return 1.0f;
-    }
-
-    const recipe &rec = craft.get_making();
-
-    const float light_multi = lighting_crafting_speed_multiplier( who, rec );
-    const float bench_multi = workbench_crafting_speed_multiplier( craft, bench );
-    const float morale_multi = morale_crafting_speed_multiplier( who, rec );
-
-    const float total_multi = light_multi * bench_multi * morale_multi;
-
-    if( light_multi <= 0.0f ) {
-        who.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
-        return 0.0f;
-    }
-    if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
-        who.add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
-                                         " use a workbench or a smaller batch size" ), craft.tname() );
-        return 0.0f;
-    }
-    if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {
-        who.add_msg_if_player( m_bad, _( "Your morale is too low to continue crafting." ) );
-        return 0.0f;
-    }
-
-    // If we're working below 20% speed, just give up
-    if( total_multi <= 0.2f ) {
-        who.add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
-        return 0.0f;
-    }
-
-    if( calendar::once_every( 1_hours ) && total_multi < 0.75f ) {
-        if( light_multi <= 0.5f ) {
-            who.add_msg_if_player( m_bad, _( "You can't see well and are working slowly." ) );
-        }
-        if( bench_multi <= 0.5f ) {
-            who.add_msg_if_player( m_bad,
-                                   _( "The %s is to large and/or heavy to work on comfortably.  You are"
-                                      " working slowly." ), craft.tname() );
-        }
-        if( morale_multi <= 0.5f ) {
-            who.add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
-        }
-    }
-
-    return total_multi;
-}
-
-bool Character::has_morale_to_craft() const
-{
-    return get_morale_level() >= -50;
-}
 
 void player::craft( const tripoint &loc )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if( rec ) {
-        if( crafting_allowed( *this, *rec ) ) {
-            make_craft( rec->ident(), batch_size, loc );
-        }
+        make_craft( rec->ident(), batch_size, loc );
     }
 }
 
@@ -344,20 +120,18 @@ void player::long_craft( const tripoint &loc )
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if( rec ) {
-        if( crafting_allowed( *this, *rec ) ) {
-            make_all_craft( rec->ident(), batch_size, loc );
-        }
+        make_all_craft( rec->ident(), batch_size, loc );
     }
 }
 
-bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
+bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
     const auto &making = *id_to_make;
-    if( !( making && crafting_allowed( *this, making ) ) ) {
+    if( !making ) {
         return false;
     }
 
-    if( !can_make( &making, batch_size ) ) {
+    if( !can_make( making, batch_size ) ) {
         std::string buffer = _( "You can no longer make that craft!" );
         buffer += "\n";
         buffer += making.simple_requirements().list_missing();
@@ -368,31 +142,20 @@ bool player::making_would_work( const recipe_id &id_to_make, int batch_size )
     return check_eligible_containers_for_crafting( making, batch_size );
 }
 
-int player::available_assistant_count( const recipe &rec ) const
-{
-    // NPCs around you should assist in batch production if they have the skills
-    // TODO: Cache them in activity, include them in modifier calculations
-    const auto helpers = character_funcs::get_crafting_helpers( *this );
-    return std::count_if( helpers.begin(), helpers.end(),
-    [&]( const npc * np ) {
-        return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
-    } );
-}
-
-int player::base_time_to_craft( const recipe &rec, int batch_size ) const
+int Character::base_time_to_craft( const recipe &rec, int batch_size ) const
 {
     const size_t assistants = available_assistant_count( rec );
     return rec.batch_time( batch_size, 1.0f, assistants );
 }
 
-int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
+int Character::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( *this, rec, in_progress );
     return rec.batch_time( batch_size, modifier, assistants );
 }
 
-bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
+bool Character::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
 {
     std::vector<const item *> conts = get_eligible_containers_for_crafting();
     std::vector<detached_ptr<item>> all = rec.create_results( batch_size );
@@ -459,7 +222,7 @@ static bool is_container_eligible_for_crafting( const item &cont, bool allow_buc
     return false;
 }
 
-std::vector<const item *> player::get_eligible_containers_for_crafting() const
+std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
 
@@ -509,19 +272,22 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
     return conts;
 }
 
-bool player::can_make( const recipe *r, int batch_size )
+bool Character::can_make( const recipe &r, int batch_size )
 {
     const inventory &crafting_inv = crafting_inventory();
+    static auto filter = [&]( bool ok, const npc & guy ) {
+        return ok && crafting_activity_actor::assistant_capable( guy, r );
+    };
 
-    if( has_recipe( r, crafting_inv, character_funcs::get_crafting_helpers( *this ) ) < 0 ) {
+    if( has_recipe( r, crafting_inv, player_activity::get_assistants( *this, filter ) ) < 0 ) {
         return false;
     }
 
-    return r->deduped_requirements().can_make_with_inventory(
-               crafting_inv, r->get_component_filter(), batch_size );
+    return r.deduped_requirements().can_make_with_inventory(
+               crafting_inv, r.get_component_filter(), batch_size );
 }
 
-bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
+bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
 {
     if( !rec ) {
         return false;
@@ -653,7 +419,7 @@ static void set_item_map( const tripoint &loc, detached_ptr<item> &&newit )
 /**
  * Set an item on the map or in a vehicle and return the new location
  */
-static void set_item_map_or_vehicle( const player &p, const tripoint &loc,
+static void set_item_map_or_vehicle( const Character &p, const tripoint &loc,
                                      detached_ptr<item> &&newit )
 {
     if( !newit ) {
@@ -698,7 +464,7 @@ static void set_item_map_or_vehicle( const player &p, const tripoint &loc,
     }
 }
 
-static void set_item_inventory( player &p, detached_ptr<item> &&newit )
+static void set_item_inventory( Character &p, detached_ptr<item> &&newit )
 {
     p.inv_assign_empty_invlet( *newit );
     // We might not have space for the item
@@ -731,25 +497,14 @@ item *player::start_craft( craft_command &command, const tripoint & )
         reset_encumbrance();
     }
 
-    bench_location bench = find_best_bench( *this, *craft );
-    std::pair<bench_type, float> best_found_bench = crafting::best_bench_here( *craft, bench.position,
-            bench.type == bench_type::hands );
-    if( best_found_bench.second < 1.0f ) {
-        add_msg_if_player( m_info, pgettext( "in progress craft",
-                                             "You can't hold %s in your hands and there is no good work surface nearby." ), craft->tname() );
-    }
-
     // Regardless of whether a workbench exists or not,
     // we still craft in inventory or under player, because QoL.
     item *craft_in_world = &*craft;
     set_item_inventory( *this, std::move( craft ) );
 
-    assign_activity( ACT_CRAFT );
-    activity->targets.emplace_back( craft_in_world );
-    activity->coords.push_back( bench.position );
-    activity->values.push_back( command.is_long() );
-    // Ugly
-    activity->values.push_back( static_cast<int>( bench.type ) );
+    assign_activity( std::make_unique<player_activity>( std::make_unique<crafting_activity_actor>
+                     ( craft_in_world, command.is_long() ) ) );
+
 
     add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
@@ -758,7 +513,7 @@ item *player::start_craft( craft_command &command, const tripoint & )
     return craft_in_world;
 }
 
-void player::craft_skill_gain( const item &craft, const int &multiplier )
+void Character::craft_skill_gain( const item &craft, const int &multiplier )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_skill_check() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -814,7 +569,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
     }
 }
 
-double player::crafting_success_roll( const recipe &making ) const
+double Character::crafting_success_roll( const recipe &making ) const
 {
     int secondary_dice = 0;
     int secondary_difficulty = 0;
@@ -898,7 +653,7 @@ int item::get_next_failure_point() const
     return craft_data_->next_failure_point >= 0 ? craft_data_->next_failure_point : INT_MAX;
 }
 
-void item::set_next_failure_point( const player &crafter )
+void item::set_next_failure_point( const Character &crafter )
 {
     if( !is_craft() ) {
         debugmsg( "set_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
@@ -911,7 +666,7 @@ void item::set_next_failure_point( const player &crafter )
     craft_data_->next_failure_point = item_counter + failure_point_delta;
 }
 
-static void destroy_random_component( item &craft, const player &crafter )
+static void destroy_random_component( item &craft, const Character &crafter )
 {
     if( craft.get_components().empty() ) {
         debugmsg( "destroy_random_component() called on craft with no components!  Aborting" );
@@ -924,7 +679,7 @@ static void destroy_random_component( item &craft, const player &crafter )
                                    _( "<npcname> messes up and destroys the %s" ), destroyed->tname() );
 }
 
-bool item::handle_craft_failure( player &crafter )
+bool item::handle_craft_failure( Character &crafter )
 {
     if( !is_craft() ) {
         debugmsg( "handle_craft_failure() called on non-craft '%s.'  Aborting.", tname() );
@@ -1013,7 +768,75 @@ void item::inherit_flags( const std::vector<item *> &parents, const recipe &maki
     }
 }
 
-void complete_craft( player &p, item &craft, const bench_location & )
+template<typename T>
+static float lerped_multiplier( const T &value, const T &low, const T &high )
+{
+    // No effect if less than allowed value
+    if( value < low ) {
+        return 1.0f;
+    }
+    // Bottom out at 25% speed
+    if( value > high ) {
+        return 0.25f;
+    }
+    // Linear interpolation between high and low
+    // y = y0 + ( x - x0 ) * ( y1 - y0 ) / ( x1 - x0 )
+    return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
+}
+
+static void adjust_multiplier( const item &craft, workbench_info_wrapper &wb )
+{
+    wb.multiplier_adjusted *= lerped_multiplier( craft.weight(), wb.allowed_mass, 1000_kilogram );
+    wb.multiplier_adjusted *= lerped_multiplier( craft.volume(), wb.allowed_volume, 1000_liter );
+}
+
+std::optional<workbench_info_wrapper> make_workbench_info( item craft, bench_type type,
+        const tripoint &location )
+{
+    std::optional<workbench_info_wrapper> ret = std::nullopt;
+    map &here = get_map();
+    switch( type ) {
+        case bench_type::hands:
+            ret = workbench_info_wrapper(
+                      *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
+            break;
+        case bench_type::ground:
+            // Ground - we can always use this, but it's bad
+            ret = workbench_info_wrapper(
+                      *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() );
+            break;
+        case bench_type::furniture:
+            if( here.furn( location ).obj().workbench ) {
+                // Furniture workbench
+                ret = workbench_info_wrapper( *here.furn( location ).obj().workbench.get() );
+            } else {
+                return std::nullopt;
+            }
+            break;
+        case bench_type::vehicle:
+            if( const std::optional<vpart_reference> vp = here.veh_at(
+                        location ).part_with_feature( "WORKBENCH", true ) ) {
+                // Vehicle workbench
+                const vpart_info &vp_info = vp->part().info();
+                if( const std::optional<vpslot_workbench> &v_info = vp_info.get_workbench_info() ) {
+                    ret = workbench_info_wrapper( *v_info );
+                } else {
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+                    return std::nullopt;
+                }
+            }
+            break;
+        default:
+            debugmsg( "Invalid workbench type %d", static_cast<int>( type ) );
+            return std::nullopt;
+    }
+    if( ret ) {
+        adjust_multiplier( craft, *ret );
+    }
+    return ret;
+}
+
+void complete_craft( Character &p, item &craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -1050,7 +873,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
         if( first ) {
             first = false;
             // TODO: reconsider recipe memorization
-            if( p.knows_recipe( &making ) ) {
+            if( p.knows_recipe( making ) ) {
                 add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
                 add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
@@ -1061,7 +884,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = p.has_recipe( &making, p.crafting_inventory(),
+                int difficulty = p.has_recipe( making, p.crafting_inventory(),
                                                character_funcs::get_crafting_helpers( p ) );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
@@ -1069,7 +892,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
                     std::max( p.get_int(), 1 );
                 const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
                 if( x_in_y( making.time, time_to_learn ) ) {
-                    p.learn_recipe( &making );
+                    p.learn_recipe( making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              making.result_name() );
                 }
@@ -1172,7 +995,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
     p.inv_restack( );
 }
 
-bool player::can_continue_craft( item &craft )
+bool Character::can_continue_craft( item &craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -1294,7 +1117,7 @@ bool player::can_continue_craft( item &craft )
 
     return true;
 }
-const requirement_data *player::select_requirements(
+const requirement_data *Character::select_requirements(
     const std::vector<const requirement_data *> &alternatives, int batch, const inventory &inv,
     const std::function<bool( const item & )> &filter ) const
 {
@@ -1327,7 +1150,8 @@ const requirement_data *player::select_requirements(
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
-comp_selection<item_comp> player::select_item_component( const std::vector<item_comp> &components,
+comp_selection<item_comp> Character::select_item_component( const std::vector<item_comp>
+        &components,
         int batch, inventory &map_inv, bool can_cancel,
         const std::function<bool( const item & )> &filter, bool player_inv )
 {
@@ -1509,7 +1333,7 @@ static void drop_or_handle( detached_ptr<item> &&newit, Character &who )
 
 // Prompts player to empty all newly-unsealed containers in inventory
 // Called after something that might have opened containers (making them buckets) but not emptied them
-static void empty_buckets( player &p )
+static void empty_buckets( Character &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     std::vector<detached_ptr<item>> buckets;
@@ -1528,14 +1352,15 @@ static void empty_buckets( player &p )
     }
 }
 
-std::vector<detached_ptr<item>> player::consume_items( const comp_selection<item_comp> &is,
+std::vector<detached_ptr<item>> Character::consume_items( const comp_selection<item_comp> &is,
                              int batch,
                              const std::function<bool( const item & )> &filter )
 {
     return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE );
 }
 
-std::vector<detached_ptr<item>> player::consume_items( map &m, const comp_selection<item_comp> &is,
+std::vector<detached_ptr<item>> Character::consume_items( map &m,
+                             const comp_selection<item_comp> &is,
                              int batch,
                              const std::function<bool( const item & )> &filter,
                              const tripoint &origin, int radius )
@@ -1607,7 +1432,7 @@ std::vector<detached_ptr<item>> player::consume_items( map &m, const comp_select
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
-std::vector<detached_ptr<item>> player::consume_items( const std::vector<item_comp> &components,
+std::vector<detached_ptr<item>> Character::consume_items( const std::vector<item_comp> &components,
                              int batch,
                              const std::function<bool( const item & )> &filter )
 {
@@ -1790,7 +1615,7 @@ select_tool_component( const std::vector<tool_comp> &tools, int batch, const inv
 
 } // namespace crafting
 
-bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -1879,14 +1704,14 @@ bool player::craft_consume_tools( item &craft, int mulitplier, bool start_craft 
     return true;
 }
 
-void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
+void Character::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 {
     consume_tools( get_map(), tool, batch, pos(), PICKUP_RANGE );
 }
 
 /* we use this if we selected the tool earlier */
-void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin, int radius )
+void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                               const tripoint &origin, int radius )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
@@ -1906,8 +1731,8 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
 In that case, consider using select_tool_component with 1 pre-created map inventory, and then passing the results
 to consume_tools */
-void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
-                            const std::string &hotkeys )
+void Character::consume_tools( const std::vector<tool_comp> &tools, int batch,
+                               const std::string &hotkeys )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
@@ -1922,11 +1747,6 @@ ret_val<bool> crafting::can_disassemble( const Character &who, const item &obj,
 
     if( !r || obj.has_flag( flag_ETHEREAL_ITEM ) ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
-    }
-
-    // check sufficient light
-    if( lighting_crafting_speed_multiplier( who, r ) == 0.0f ) {
-        return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
 
     // refuse to disassemble rotten items
@@ -2273,14 +2093,14 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
 
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate, drop_items );
 
-    if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( &dis ) ) {
+    if( !dis.learn_by_disassembly.empty() && !who.knows_recipe( dis ) ) {
         if( who.can_learn_by_disassembly( dis ) ) {
             const SkillLevelMap &char_skills = who.get_all_skills();
             float skill_bonus = ( 1.0f + char_skills.exceeds_recipe_requirements( dis ) ) * std::max( 1.0f,
                                 0.9f + ( who.int_cur * 0.025f ) );
             if( x_in_y( skill_bonus, 4.0 ) ) {
                 // TODO: change to forward an id or a reference
-                who.learn_recipe( &dis.ident().obj() );
+                who.learn_recipe( dis.ident().obj() );
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname() );
             } else {
@@ -2334,74 +2154,76 @@ void remove_ammo( item &dis_item, Character &who )
     }
 }
 
-bench_location find_best_bench( const player &p, const item &craft )
+bench_location find_best_bench( const Character &who, const item &craft )
 {
-    bool can_lift = p.can_wield( craft ).success() && p.weight_capacity() >= craft.weight();
-    std::pair<bench_type, float> bench_here = crafting::best_bench_here( craft, p.pos(), can_lift );
-    bench_type best_type = bench_here.first;
-    float best_bench_multi = bench_here.second;
-    tripoint best_loc = p.pos();
-    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    g->m.reachable_flood_steps( reachable, p.pos(), PICKUP_RANGE, 1, 100 );
-    for( const tripoint &adj : reachable ) {
-        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
-            if( wb->multiplier > best_bench_multi ) {
-                best_type = bench_type::furniture;
-                best_bench_multi = wb->multiplier;
-                best_loc = adj;
-            }
-        }
+    map &here = get_map();
+    bool can_lift = who.can_wield( craft ).success() && who.weight_capacity() >= craft.weight();
+    auto best_bench = crafting::best_bench_here( craft, who.pos(), can_lift );
 
-        if( const std::optional<vpart_reference> vp = g->m.veh_at(
-                    adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
-                if( wb_info->multiplier > best_bench_multi ) {
-                    best_type = bench_type::vehicle;
-                    best_bench_multi = wb_info->multiplier;
-                    best_loc = adj;
-                }
-            } else {
-                debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+    tripoint best_loc = who.pos();
+    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
+    here.reachable_flood_steps( reachable, who.pos(), PICKUP_RANGE, 1, 100 );
+
+    for( const tripoint &adj : reachable ) {
+        if( auto loc_bench = crafting::best_bench_loc( craft, adj ) ) {
+            if( loc_bench->multiplier_adjusted > best_bench.multiplier_adjusted ) {
+                best_bench = *loc_bench;
+                best_loc = adj;
             }
         }
     }
 
-    return bench_location{best_type, best_loc};
+    return bench_location{ best_bench, best_loc};
 }
 
 namespace crafting
 {
 
-std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
-        bool can_lift )
+std::optional<workbench_info_wrapper> best_bench_loc( const item &craft, const tripoint &loc )
 {
-    bench_type best_type = bench_type::ground;
-    float best_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::ground, loc } );
+    std::optional<workbench_info_wrapper> furn;
+    std::optional<workbench_info_wrapper> veh;
+
+    if( const auto info = g->m.furn( loc ).obj().workbench ) {
+        furn = make_workbench_info( craft, bench_type::furniture, loc );
+    }
+    if( const auto vp = g->m.veh_at( loc ).part_with_feature( "WORKBENCH", true ) ) {
+        veh = make_workbench_info( craft, bench_type::vehicle, loc );
+    }
+
+    if( furn ) {
+        if( veh ) {
+            if( furn->multiplier > veh->multiplier ) {
+                return *furn;
+            } else {
+                return *veh;
+            }
+        } else {
+            return *furn;
+        }
+    }
+    return std::nullopt;
+}
+
+workbench_info_wrapper best_bench_here( const item &craft, const tripoint &loc,
+                                        bool can_lift )
+{
+    auto best_bench = *make_workbench_info( craft, bench_type::ground, loc );
+    std::optional<workbench_info_wrapper> tmp;
+
+
     if( can_lift ) {
-        float hands_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::hands, loc } );
-        if( hands_mult > best_mult ) {
-            best_type = bench_type::hands;
-            best_mult = hands_mult;
+        tmp = make_workbench_info( craft, bench_type::hands, loc );
+        if( tmp && tmp->multiplier_adjusted > best_bench.multiplier_adjusted ) {
+            best_bench = *tmp;
         }
     }
-
-    if( g->m.furn( loc ).obj().workbench ) {
-        float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::furniture, loc } );
-        if( furn_mult > best_mult ) {
-            best_type = bench_type::furniture;
-            best_mult = furn_mult;
+    if( auto best_loc = best_bench_loc( craft, loc ) ) {
+        if( best_loc->multiplier_adjusted > best_bench.multiplier_adjusted ) {
+            best_bench = *best_loc;
         }
     }
-
-    if( const std::optional<vpart_reference> vp = g->m.veh_at(
-                loc ).part_with_feature( "WORKBENCH", true ) ) {
-        float veh_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::vehicle, loc } );
-        if( veh_mult > best_mult ) {
-            best_type = bench_type::vehicle;
-            best_mult = veh_mult;
-        }
-    }
-    return std::make_pair( best_type, best_mult );
+    return best_bench;
 }
 
 std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,

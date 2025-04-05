@@ -2140,8 +2140,8 @@ class Character : public Creature, public location_visitable<Character>
         /** Returns all known recipes. */
         const recipe_subset &get_learned_recipes() const;
 
-        bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
+        bool knows_recipe( const recipe &rec ) const;
+        void learn_recipe( const recipe &rec );
         bool can_learn_by_disassembly( const recipe &rec ) const;
 
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
@@ -2382,6 +2382,94 @@ class Character : public Creature, public location_visitable<Character>
         void clear_npc_ai_info_cache( npc_ai_info key ) const;
         void set_npc_ai_info_cache( npc_ai_info key, double val ) const;
         std::optional<double> get_npc_ai_info_cache( npc_ai_info key ) const;
+
+    public:
+        // Checks crafting inventory for books providing the requested recipe.
+        // Then checks nearby NPCs who could provide it too.
+        // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
+        int has_recipe( const recipe &r, const inventory &crafting_inv,
+                        const std::vector<npc *> &helpers ) const;
+        bool has_recipe_requirements( const recipe &rec ) const;
+
+        bool studied_all_recipes( const itype &book ) const;
+
+        /** Returns all recipes that are known from the books (either in inventory or nearby). */
+        recipe_subset get_recipes_from_books( const inventory &crafting_inv,
+                                              const recipe_filter &filter = nullptr ) const;
+        /**
+          * Returns all available recipes (from books and npc companions)
+          * @param crafting_inv Current available items to craft
+          * @param helpers List of NPCs that could help with crafting.
+          * @param filter If set, will return only recipes that match the filter (should be much faster).
+          */
+        recipe_subset get_available_recipes( const inventory &crafting_inv,
+                                             const std::vector<npc *> *helpers = nullptr,
+                                             recipe_filter filter = nullptr ) const;
+        /** Consume tools for the next multiplier * 5% progress of the craft */
+        bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
+        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
+        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
+                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
+                            const std::string &hotkeys = DEFAULT_HOTKEYS );
+        /**
+         * Calculate a value representing the success of the player at crafting the given recipe,
+         * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
+         * @param making the recipe for which to calculate
+         * @return a value >= 0.0 with >= 1.0 representing unequivocal success
+         */
+        double crafting_success_roll( const recipe &making ) const;
+        /**
+         * Check if the player meets the requirements to continue the in progress craft and if
+         * unable to continue print messages explaining the reason.
+         * If the craft is missing components due to messing up, prompt to consume new ones to
+         * allow the craft to be continued.
+         * @param craft the currently in progress craft
+         * @return if the craft can be continued
+         */
+        bool can_continue_craft( item &craft );
+        /**
+         * Handle skill gain for player and followers during crafting
+         * @param craft the currently in progress craft
+         * @param multiplier what factor to multiply the base skill gain by.  This is used to apply
+         * multiple steps of incremental skill gain simultaneously if needed.
+         */
+        void craft_skill_gain( const item &craft, const int &multiplier );
+        /**
+         * Time to craft not including speed multiplier
+         */
+        int base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        /**
+         * Expected time to craft a recipe, with assumption that multipliers stay constant.
+         */
+        int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
+        std::vector<const item *> get_eligible_containers_for_crafting() const;
+        bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
+        bool can_make( const recipe &r, int batch_size = 1 ); // have components?
+        /**
+         * Returns true if the player can start crafting the recipe with the given batch size
+         * The player is not required to have enough tool charges to finish crafting, only to
+         * complete the first step (total / 20 + total % 20 charges)
+         */
+        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
+        bool making_would_work( const recipe_id &id_to_make, int batch_size );
+
+        const requirement_data *select_requirements(
+            const std::vector<const requirement_data *> &, int batch, const inventory &,
+            const std::function<bool( const item & )> &filter ) const;
+        comp_selection<item_comp>
+        select_item_component( const std::vector<item_comp> &components,
+                               int batch, inventory &map_inv, bool can_cancel = false,
+                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
+        std::vector<detached_ptr<item>> consume_items( const comp_selection<item_comp> &is, int batch,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+        std::vector<detached_ptr<item>> consume_items( map &m, const comp_selection<item_comp> &is,
+                                     int batch,
+                                     const std::function<bool( const item & )> &filter = return_true<item>,
+                                     const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
+        std::vector<detached_ptr<item>> consume_items( const std::vector<item_comp> &components,
+                                     int batch = 1,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
 };
 
