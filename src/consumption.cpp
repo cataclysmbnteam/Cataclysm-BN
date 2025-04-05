@@ -1584,52 +1584,55 @@ void Character::consume( item &target )
     if( inv_item ) {
         inv.restack( *this->as_player() );
 
-        // at this point, target *may* not have an invlet if it was split-off from a stack of items
-        // the main stack of items may have it instead
-        // in that case, re-assign
-        if( old_invlet != target.invlet ) {
-            auto oldStack = inv.items_with( [ = ]( const item & i ) {
-                return i.invlet == old_invlet;
-            } );
-            auto &newStack = was_in_container ? *comest.parent_item() : comest;
+        if( !target.is_favorite ) {
+            // at this point, target *may* not have an invlet if it was split-off from a stack of items
+            // the main stack of items may have it instead
+            // in that case, re-assign
 
-            for( auto i : oldStack ) {
-                inv_reassign_item( *i, 0, true );
-            }
-            inv_reassign_item( newStack, old_invlet, true );
-        }
+            if( old_invlet != target.invlet ) {
+                auto oldStack = inv.items_with( [ = ]( const item & i ) {
+                    return i.invlet == old_invlet;
+                } );
+                auto &newStack = was_in_container ? *comest.parent_item() : comest;
 
-        // it may also be the case that the item was in a container, but the container is now empty
-        // and the invlet is assigned to the now empty container
-        // so we find try to find a new container with a consumable of the same type, and re-assign to it
-        if( was_in_container && comest.count_by_charges() && comest.charges == 0 ) {
-            auto &cont_type = target.typeId();
-            auto &item_type = comest.typeId();
-
-            auto stacks = inv.const_slice();
-            const std::vector<item *> *next_stack = nullptr;
-            // find a non-empty container of the same type, with the same content type
-            for( auto &stack : stacks ) {
-                auto &c = stack->front();
-                if( c->typeId() != cont_type ) {
-                    continue;
+                for( auto i : oldStack ) {
+                    inv_reassign_item( *i, 0, true );
                 }
-                if( !c->is_container() || c->contents.empty() ) {
-                    continue;
-                }
-                if( c->contents.front().typeId() != item_type ) {
-                    continue;
-                }
-                next_stack = stack;
-                break;
+                inv_reassign_item( newStack, old_invlet, true );
             }
 
-            // remove the assignment from the now-empty container regardless,
-            // and assign it to the next container if found
-            inv_reassign_item( target, 0, true );
-            if( next_stack ) {
-                for( auto s : *next_stack ) {
-                    inv_reassign_item( *s, old_invlet, true );
+            // it may also be the case that the item was in a container, but the container is now empty
+            // and the invlet is assigned to the now empty container
+            // so we find try to find a new container with a consumable of the same type, and re-assign to it
+            if( was_in_container && comest.count_by_charges() && comest.charges == 0 ) {
+                auto &cont_type = target.typeId();
+                auto &item_type = comest.typeId();
+
+                auto stacks = inv.const_slice();
+                const std::vector<item *> *next_stack = nullptr;
+                // find a non-empty container of the same type, with the same content type
+                for( auto &stack : stacks ) {
+                    auto &c = stack->front();
+                    if( c->typeId() != cont_type ) {
+                        continue;
+                    }
+                    if( !c->is_container() || c->contents.empty() ) {
+                        continue;
+                    }
+                    if( c->contents.front().typeId() != item_type ) {
+                        continue;
+                    }
+                    next_stack = stack;
+                    break;
+                }
+
+                // remove the assignment from the now-empty container regardless,
+                // and assign it to the next container if found
+                inv_reassign_item( target, 0, true );
+                if( next_stack ) {
+                    for( auto s : *next_stack ) {
+                        inv_reassign_item( *s, old_invlet, true );
+                    }
                 }
             }
         }
