@@ -8975,7 +8975,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         units::mass carried_weight = crit->get_carried_weight() + u.get_weight();
         units::mass max_carry_weight = crit->weight_capacity();
         units::mass weight_overload = std::max( 0_gram, carried_weight - max_carry_weight );
-        const double encumb_moves = weight_overload / 4800.0_gram;
+        const double encumb_moves = weight_overload / 5_kilogram;
 
         u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( CMM_WALK ) ) {
