@@ -1226,6 +1226,16 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
     if( remove_old && it.invlet ) {
         invlet_cache.erase( it.invlet );
     }
+
+    // Remove invlet from other items beforehand, since restack may assign it to other items in the same stack.
+    auto fn = [ = ]( item * ii ) {
+        if( ii->invlet == invlet ) {
+            ii->invlet = 0;
+        }
+        return VisitResponse::SKIP;
+    };
+    visit_items( fn );
+
     it.invlet = invlet;
     update_invlet_cache_with_item( it );
 }
