@@ -109,9 +109,9 @@ inline void progress_counter::purge()
     targets.pop_front();
 }
 
-inline void activity_actor::recalc_all_moves( player_activity &act, Character &who )
+inline void activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
-    act.recalc_all_moves( who );
+    act.speed.calc_all_moves( who );
 }
 
 aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
@@ -670,11 +670,11 @@ inline void disassemble_activity_actor::process_target( player_activity &/*act*/
     progress.emplace( itm.tname( target.count ), moves_needed );
 }
 
-inline void disassemble_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+inline void disassemble_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
     auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft(
                                            targets.front().loc->typeId() ) );
-    act.recalc_all_moves( who, reqs );
+    act.speed.calc_all_moves( who, reqs );
 }
 
 void disassemble_activity_actor::start( player_activity &act, Character &who )
@@ -703,7 +703,7 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         progress.pop();
         if( !progress.empty() ) {
             if( try_start_single( act, who ) ) {
-                recalc_all_moves( act, who );
+                calc_all_moves( act, who );
             } else {
                 act.set_to_null();
             }
@@ -729,7 +729,7 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
 float disassemble_activity_actor::calc_bench_factor( const Character &who,
         const std::optional<bench_loc> &bench ) const
 {
-    return bench.has_value()
+    return bench
            ? crafting::best_bench_here( *targets.front().loc, bench->position, true ).second
            : crafting::best_bench_here( *targets.front().loc, who.pos(), true ).second;
 
@@ -2062,7 +2062,7 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
     return actor;
 }
 
-inline void construction_activity_actor::recalc_all_moves( player_activity &act, Character &who )
+inline void construction_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
     // Check if pc was lost for some reason, but actually still exists on map, e.g. save/load
     if( !pc ) {
@@ -2076,7 +2076,7 @@ inline void construction_activity_actor::recalc_all_moves( player_activity &act,
         return;
     }
     auto reqs = activity_reqs_adapter( pc->id.obj() );
-    act.recalc_all_moves( who, reqs );
+    act.speed.calc_all_moves( who, reqs );
 }
 
 void construction_activity_actor::start( player_activity &/*act*/, Character &/*who*/ )

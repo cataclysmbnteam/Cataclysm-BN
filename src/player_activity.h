@@ -9,13 +9,12 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_speed.h"
 #include "clone_ptr.h"
-#include "construction.h"
 #include "crafting.h"
 #include "enums.h"
 #include "memory_fast.h"
 #include "point.h"
-#include "recipe.h"
 #include "safe_reference.h"
 #include "type_id.h"
 
@@ -29,68 +28,6 @@ class player;
 class translation;
 class activity_ptr;
 class npc;
-
-struct activity_reqs_adapter {
-    std::vector<activity_req<quality_id>> qualities;
-    std::vector<activity_req<skill_id>> skills;
-
-    activity_reqs_adapter( const recipe &rec ) {
-        for( auto &qual : rec.simple_requirements().get_qualities() ) {
-            qualities.emplace_back( qual.front().type, qual.front().level );
-        }
-
-        skills.emplace_back( rec.skill_used, rec.difficulty );
-        for( auto &skill : rec.required_skills ) {
-            skills.emplace_back( skill.first, skill.second );
-        }
-    }
-
-    activity_reqs_adapter( const construction &con ) {
-        for( auto &qual : con.requirements->get_qualities() ) {
-            qualities.emplace_back( qual.front().type, qual.front().level );
-        }
-
-        for( auto &skill : con.required_skills ) {
-            skills.emplace_back( skill.first, skill.second );
-        }
-    }
-};
-
-/*
- * Struct to track activity speed by factors
-*/
-struct activity_speed {
-    public:
-        float assist = 1.0f;
-        float bench = 1.0f;
-        float player_speed = 1.0f;
-        float skills = 1.0f;
-        float tools = 1.0f;
-        float morale = 1.0f;
-        float light = 1.0f;
-        std::vector<std::pair<character_stat, float>> stats = {};
-
-        //Returns total product of all stats
-        inline float stats_total() const {
-            float acc = 1.0f;
-            for( auto &stat : stats ) {
-                acc *= stat.second;
-            }
-            return acc;
-        }
-
-        //Returns total product of all factors
-        inline float total() const {
-            return 1.0f * assist * bench * player_speed * stats_total() * skills * tools * morale * light ;
-        }
-
-        //Returns total amonut of moves based on factors
-        inline int total_moves() const {
-            return std::roundf( total() * 100.0f );
-        }
-
-        activity_speed() = default;
-};
 
 class player_activity
 {
@@ -119,8 +56,9 @@ class player_activity
         /** Controls whether this activity can be cancelled with 'pause' action */
         bool interruptable_with_kb = true;
 
-        activity_speed speed = activity_speed();
-        std::optional<bench_loc> bench;
+        activity_speed speed{
+            .type = type,
+        };
         std::vector<safe_reference<item>> tools = {};
 
         // The members in the following block are deprecated, prefer creating a new
@@ -263,51 +201,26 @@ class player_activity
 
 
         inline void init_all_moves( Character &who ) {
+            get_assistants( who );
+            speed.assistant_count = assistants().size();
             if( actor ) {
-                actor->recalc_all_moves( *this, who );
+                actor->calc_all_moves( *this, who );
             } else {
-                recalc_all_moves( who );
+                speed.calc_all_moves( who );
             }
         }
 
         //Calculates speed factors that may change every turn
-        void calc_moves( const Character &who );
-
-        //Calculates all factors
-        void recalc_all_moves( Character &who );
-        void recalc_all_moves( Character &who, activity_reqs_adapter &reqs );
-
-        //Fills bench var
-        void find_best_bench( const tripoint &pos );
-        float calc_bench_factor( const Character &who ) const;
-
-        float calc_light_factor( const Character &who ) const;
-        std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &who ) const;
+        void calc_moves( const Character &who ) {
+            speed.calc_moves( who );
+        }
 
         //Fills assistant vector with applicable assistants
-        void get_assistants( const Character &who,
-                             unsigned short max = 0 );
-        float calc_assistants_factor( const Character &who );
+        void get_assistants( const Character &who );
+        static std::vector<npc *> get_assistants( const Character &who, unsigned short max );
 
-        float calc_skill_factor( const Character &who ) const {
-            return calc_skill_factor( who, type->skills );
-        };
-        float calc_skill_factor( const Character &who,
-                                 const std::vector<activity_req<skill_id>> &skill_req ) const;
+        bench_loc find_best_bench( const tripoint &pos );
 
-
-        float calc_tools_factor( Character &who ) const {
-            return calc_tools_factor( who, type->qualities );
-        };
-        float calc_tools_factor( Character &who,
-                                 const std::vector<activity_req<quality_id>> &quality_reqs ) const;
-
-        float calc_morale_factor( int morale ) const;
-
-        static float get_best_qual_mod( const activity_req<quality_id> &q,
-                                        const inventory &inv );
-        std::pair<character_stat, float> calc_single_stat( const Character &who,
-                const activity_req<character_stat> &stat ) const;
         /**
          * Helper that returns an activity specific progress message.
          */

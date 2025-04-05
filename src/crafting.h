@@ -39,26 +39,33 @@ struct bench_location {
 struct workbench_info_wrapper {
     // Base multiplier applied for crafting here
     float multiplier;
+    float multiplier_adjusted = multiplier;
     // Mass/volume allowed before a crafting speed penalty is applied
+    bench_type type;
     units::mass allowed_mass;
     units::volume allowed_volume;
     workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
         allowed_mass( f_info.allowed_mass ),
-        allowed_volume( f_info.allowed_volume ) {
+        allowed_volume( f_info.allowed_volume ), type( bench_type::furniture ) {
     }
     workbench_info_wrapper( vpslot_workbench v_info ) : multiplier( v_info.multiplier ),
         allowed_mass( v_info.allowed_mass ),
-        allowed_volume( v_info.allowed_volume ) {
+        allowed_volume( v_info.allowed_volume ), type( bench_type::vehicle ) {
+    }
+    workbench_info_wrapper( float multiplier, const units::mass &allowed_mass,
+                            const units::volume &allowed_volume, const bench_type &type )
+        : multiplier( multiplier ), allowed_mass( allowed_mass ), allowed_volume( allowed_volume ),
+          type( type ) {
     }
 };
 
 struct bench_loc {
-    explicit bench_loc( workbench_info_wrapper info, bench_type type, tripoint position )
-        : wb_info( info ), type( type ), position( position ) {
-    }
     workbench_info_wrapper wb_info;
-    bench_type type;
     tripoint position;
+
+    explicit bench_loc( workbench_info_wrapper info, tripoint position )
+        : wb_info( info ), position( position ) {
+    }
 };
 
 template<typename Type>
