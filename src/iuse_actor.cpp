@@ -1431,7 +1431,7 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
     // Show selector for each group
     std::vector<std::string> otypes( utypes.begin(), utypes.end() );
     uilist ui;
-    for( auto i = 0; i < otypes.size(); ++i ) {
+    for( uint64_t i = 0; i < otypes.size(); ++i ) {
         auto &desc = otypes[i];
         ui.addentry( i, true, MENU_AUTOASSIGN, string_format( "%s (%d)", desc, mm.count( desc ) ) );
     }
