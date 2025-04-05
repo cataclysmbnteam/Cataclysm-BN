@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <generic_readers.h>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -1348,6 +1349,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+    optional(jo, was_loaded, "nail_pull_result", nail_pull_result, ter_str_id::NULL_ID());
+    optional( jo, was_loaded, "nail_pull_items", nail_pull_items, {0, 0} );
 
     oxytorch = cata::make_value<activity_data_ter>();
     if( jo.has_object( "oxytorch" ) ) {
