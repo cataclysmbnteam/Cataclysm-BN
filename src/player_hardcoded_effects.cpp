@@ -1073,6 +1073,11 @@ void Character::hardcoded_effects( effect &it )
         }
 
         if( get_fatigue() <= 10 && !has_effect( effect_narcosis ) && !is_hibernating() ) {
+            // Mycus folks upgrade once per night of sleep.
+            if( has_trait( trait_THRESH_MYCUS ) ) {
+                mutate_category( mutation_category_id( "MYCUS" ) );
+            }
+
             // Check mutation category strengths to see if we're mutated enough to get a dream
             mutation_category_id highcat = get_highest_category();
             int highest = mutation_category_level[highcat];
@@ -1137,14 +1142,6 @@ void Character::hardcoded_effects( effect &it )
             if( has_trait( trait_WATERSLEEP ) ) {
                 mod_fatigue( -3 ); // Fish sleep less in water
             }
-        }
-
-        // Mycus folks upgrade in their sleep.
-        if( has_trait( trait_THRESH_MYCUS ) && calendar::once_every( 2_hours ) && one_in( 10 ) ) {
-            mutate_category( mutation_category_id( "MYCUS" ) );
-            mod_stored_nutr( 10 );
-            mod_thirst( 10 );
-            mod_fatigue( 5 );
         }
 
         bool woke_up = false;
