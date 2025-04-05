@@ -1456,6 +1456,11 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
         return;
     }
 
+    std::transform(
+        eqRange.first, eqRange.second,
+        std::inserter( uistate.overmap_highlighted_omts, uistate.overmap_highlighted_omts.end() ),
+        []( const auto & e ) -> tripoint_abs_omt { return e.second; } );
+
     // Only one overmap tile of type
     if( sz == 1 ) {
         ui::omap::choose_point( eqRange.first->second );
@@ -1470,11 +1475,6 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
     if( ui.ret < 0 ) {
         return;
     }
-
-    std::transform(
-        eqRange.first, eqRange.second,
-        std::inserter( uistate.overmap_highlighted_omts, uistate.overmap_highlighted_omts.end() ),
-        []( const auto & e ) -> tripoint_abs_omt { return e.second; } );
 
     if( ui.ret == 1 ) {
         // Pick random
