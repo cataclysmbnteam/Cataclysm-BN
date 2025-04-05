@@ -57,7 +57,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"

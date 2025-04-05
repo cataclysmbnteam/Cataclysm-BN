@@ -36,8 +36,8 @@
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
+#include "legacy_pathfinding.h"
 #include "pathfinding.h"
-#include "pathfinding_dijikstra.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
@@ -84,7 +84,7 @@ enum {
     MONSTER_FOLLOW_DIST = 8
 };
 
-bool monster::wander()
+bool monster::is_wandering()
 {
     return ( goal == pos() );
 }
@@ -283,13 +283,12 @@ bool monster::can_move_to( const tripoint &p ) const
 
 void monster::set_dest( const tripoint &p )
 {
-    goal = p;
+    this->set_goal( p );
 }
 
 void monster::unset_dest()
 {
-    goal = pos();
-    path.clear();
+    this->set_goal( pos() );
 }
 
 // Move towards p for f more turns--generally if we hear a sound there
@@ -867,9 +866,21 @@ void monster::move()
     } else if( !harness_part && has_effect( effect_harnessed ) ) {
         remove_effect( effect_harnessed );
     }
+
+    // A measure to prevent zombies endlessly pathing towards the same goal ineffectively which is already occupied by other zombies
+    //   sharing the same goal, preventing "balling up behavior"
+    if( !this->is_wandering() ) {
+        monster *maybe_friend = g->critter_at<monster>( this->goal );
+        if( maybe_friend != nullptr && maybe_friend->goal == this->goal && this->sees( this->goal ) ) {
+            // Give up on that target and fast-wander off instead
+            this->unset_dest();
+            wandf += 10;
+        }
+    }
+
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
-    if( !wander() ) {
+    if( !is_wandering() ) {
         if( goal == g->u.pos() ) {
             current_attitude = attitude( &g->u );
         } else {
@@ -888,86 +899,73 @@ void monster::move()
         return;
     }
 
-    bool moved = false;
     tripoint destination;
+    bool have_destination = false;
+    bool pathed_to_goal = this->path.empty() ? false : this->path.back() == goal;
 
-    bool try_to_move = false;
-    for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() ) {
-            if( can_move_to( dest ) && can_squeeze_to( dest ) &&
-                g->critter_at( dest, true ) == nullptr ) {
-                try_to_move = true;
-                break;
+    if( !this->is_wandering() ) {
+        if( this->repath_requested ) {
+            std::vector<tripoint> maybe_new_path;
+
+            if( get_option<bool>( "USE_LEGACY_PATHFINDING" ) ) {
+                auto pf_settings = get_legacy_pathfinding_settings();
+                maybe_new_path = g->m.route( this->pos(), this->goal, pf_settings, this->get_legacy_path_avoid() );
+            } else {
+                auto pair = this->get_pathfinding_pair();
+                maybe_new_path = Pathfinding::route( this->pos(), this->goal, pair.first, pair.second );
+            }
+
+            const bool is_pathfinding_successful = !maybe_new_path.empty();
+            assert( is_pathfinding_successful ? maybe_new_path.back() == this->goal : true );
+
+            if( is_pathfinding_successful ) {
+                // Path will be retained even if we are unsuccessful this time
+                this->path = maybe_new_path;
             }
         }
-    }
 
-    // If true, don't try to greedily avoid locally bad paths
-    bool pathed = false;
-    if( try_to_move ) {
-        if( !wander() ) {
-            {
-                while( !path.empty() && path.front() == pos() ) {
-                    path.erase( path.begin() );
-                }
+        while( !this->path.empty() && this->path.front() == this->pos() ) {
+            this->path.erase( this->path.begin() );
+        }
 
-                const bool path_empty = path.empty();
-                const bool next_not_adjacent = path_empty || square_dist_fast( pos(), path.front() ) > 1;
-                const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
-                const bool next_blocked = path_empty || g->critter_at( path.front() ) != nullptr;
+        if( this->path.empty() ) {
+            // No prior path, no successful pathing, go in a straight line
+            destination = goal;
+            have_destination = true;
+        } else {
+            destination = this->path.front();
 
-                bool need_new_path = path_empty || next_not_adjacent || new_goal_not_adjacent || next_blocked;
+            const bool is_viable_dest = here.valid_move( this->pos(), destination, true, true, true );
+            pathed_to_goal = is_viable_dest;
+            have_destination = is_viable_dest;
 
-                if( need_new_path ) {
-                    if( get_option<bool>( "USE_LEGACY_PATHFINDING" ) ) {
-                        auto pf_settings = get_legacy_pathfinding_settings();
-                        path = g->m.route( pos(), goal, pf_settings, get_legacy_path_avoid() );
-                    } else {
-                        auto pair = this->get_pathfinding_pair();
-                        path = DijikstraPathfinding::route( pos(), goal, pair.first, pair.second );
-                    }
-                }
-            }
-
-            {
-                while( !path.empty() && path.front() == pos() ) {
-                    path.erase( path.begin() );
-                }
-
-                const bool path_empty = path.empty();
-                const bool new_goal_not_adjacent = path_empty || square_dist_fast( path.back(), goal ) > 1;
-                const bool we_are_at_goal = pos() == goal;
-
-                const bool is_failed_pathfinding = path_empty || new_goal_not_adjacent || we_are_at_goal;
-
-                // Try to respect old paths, even if we can't pathfind at the moment
-                if( is_failed_pathfinding ) {
-                    // Straight line forward
-                    destination = goal;
-                    moved = true;
-                } else {
-                    destination = path.front();
-                    moved = true;
-                    pathed = true;
-                }
+            if( !is_viable_dest ) {
+                // Should not _usually_ occur, but...
+                this->path.clear();
+                this->repath_requested = true;
             }
         }
+    } else {
+        this->path.clear();
     }
-    if( !moved && has_flag( MF_SMELLS ) ) {
+    this->repath_requested = false;
+
+    if( !have_destination && has_flag( MF_SMELLS ) ) {
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
         //  solid, square of terrain).  Fall back to smell if we have it.
         unset_dest();
         tripoint tmp = scent_move();
         if( tmp.x != -1 ) {
             destination = tmp;
-            moved = true;
+            have_destination = true;
         }
     }
-    if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
+    if( wandf > 0 && !have_destination &&
+        friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
         unset_dest();
         if( wander_pos != pos() ) {
             destination = wander_pos;
-            moved = true;
+            have_destination = true;
         }
     }
 
@@ -994,18 +992,24 @@ void monster::move()
         }
     }
 
-    tripoint next_step;
     const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
-    const bool staggers = has_flag( MF_STUMBLES );
-    if( moved ) {
-        // Implement both avoiding obstacles and staggering.
-        moved = false;
-        float switch_chance = 0.0;
-        const bool can_bash = bash_skill() > 0;
+    const bool is_stumbling = has_flag( MF_STUMBLES );
+
+    tripoint next_step;
+    bool has_next_step = false;
+
+    if( have_destination ) {
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
-        for( tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+        std::vector<tripoint> candidates;
+        if( pathed_to_goal ) {
+            candidates.push_back( destination );
+        } else {
+            candidates = squares_closer_to( pos(), destination );
+        }
+
+        for( tripoint &candidate : candidates ) {
             // rare scenario when monster is on the border of the map and it's goal is outside of the map
             if( !here.inbounds( candidate ) ) {
                 continue;
@@ -1022,10 +1026,10 @@ void monster::move()
                 candidate.z -= 1;
                 ramp_offset = tripoint_above;
             }
-            tripoint candidate_abs = g->m.getabs( candidate );
 
             bool can_z_move = true;
-            if( candidate.z != posz() ) {
+            const bool is_z_move = candidate.z != posz();
+            if( is_z_move ) {
                 bool can_z_attack = fov_3d;
                 if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
@@ -1058,6 +1062,10 @@ void monster::move()
                 }
             }
 
+            if( !can_z_move ) {
+                continue;
+            }
+
             // A flag to allow non-stumbling critters to stumble when the most direct choice is bad.
             bool bad_choice = false;
 
@@ -1066,8 +1074,8 @@ void monster::move()
                 const Attitude att = attitude_to( *target );
                 if( att == Attitude::A_HOSTILE ) {
                     // When attacking an adjacent enemy, we're direct.
-                    moved = true;
-                    next_step = candidate_abs;
+                    next_step = candidate;
+                    has_next_step = true;
                     break;
                 } else if( att == Attitude::A_FRIENDLY && ( target->is_player() || target->is_npc() ) ) {
                     continue; // Friendly firing the player or an NPC is illegal for gameplay reasons
@@ -1079,28 +1087,26 @@ void monster::move()
                 bad_choice = true;
             }
 
-            if( !can_z_move ) {
-                continue;
-            }
-
             map &here = g->m;
             // is there an openable door?
             if( can_open_doors &&
                 here.open_door( candidate, !here.is_outside( pos() ), true ) ) {
-                moved = true;
-                next_step = candidate_abs;
+                next_step = candidate;
+                has_next_step = true;
                 continue;
             }
 
             // Try to shove vehicle out of the way
             shove_vehicle( destination, candidate );
+
             // Bail out if we can't move there and we can't bash.
-            if( !pathed && ( !can_move_to( candidate ) || !can_squeeze_to( candidate ) ) ) {
+            const bool can_bash = bash_skill() > 0;
+            if( !pathed_to_goal && ( !can_move_to( candidate ) || !can_squeeze_to( candidate ) ) ) {
                 if( !can_bash ) {
                     continue;
                 }
                 // Don't bash if we're just tracking a noise.
-                if( wander() && destination == wander_pos ) {
+                if( is_wandering() && destination == wander_pos ) {
                     continue;
                 }
                 const int estimate = here.bash_rating( bash_estimate(), candidate );
@@ -1113,40 +1119,41 @@ void monster::move()
                 }
             }
 
+            // Implement both avoiding obstacles and staggering.
+            float switch_chance = 0.0;
             const float progress = distance_to_target - trig_dist( candidate + ramp_offset, destination );
             // The x2 makes the first (and most direct) path twice as likely,
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
             // Randomly pick one of the viable squares to move to weighted by distance.
-            if( progress > 0 && ( !moved || x_in_y( progress, switch_chance ) ) ) {
-                moved = true;
-                next_step = candidate_abs;
+            if( progress > 0 && ( !has_next_step || x_in_y( progress, switch_chance ) ) ) {
+                next_step = candidate;
+                has_next_step = true;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 // Except if the direct path is bad, then check others
                 // Or if the path is given by pathfinder
-                if( !staggers && ( !bad_choice || pathed ) ) {
+                if( !is_stumbling && ( !bad_choice || pathed_to_goal ) ) {
                     break;
                 }
             }
         }
     }
     // Finished logic section.  By this point, we should have chosen a square to
-    //  move to (moved = true).
-    const tripoint local_next_step = g->m.getlocal( next_step );
-    if( moved ) { // Actual effects of moving to the square we've chosen
+    //  move to (have_destination = true).
+    if( has_next_step ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
-            ( !pacified && attack_at( local_next_step ) ) ||
-            ( !pacified && can_open_doors && g->m.open_door( local_next_step, !g->m.is_outside( pos() ) ) ) ||
-            ( !pacified && bash_at( local_next_step ) ) ||
-            ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination, local_next_step ) );
+            ( !pacified && attack_at( next_step ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
+            ( !pacified && bash_at( next_step ) ) ||
+            ( !pacified && push_to( next_step, 0, 0 ) ) ||
+            move_to( next_step, false, false, get_stagger_adjust( pos(), destination, next_step ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
+            this->repath_requested = true;
         }
         if( has_effect( effect_dragging ) && dragged_foe != nullptr ) {
-
             if( !dragged_foe->has_effect( effect_grabbed ) ) {
                 dragged_foe = nullptr;
                 remove_effect( effect_dragging );
@@ -1158,7 +1165,10 @@ void monster::move()
     } else {
         moves -= 100;
         stumble();
-        path.clear();
+        if( !this->is_wandering() ) {
+            this->path.clear();
+            this->repath_requested = true;
+        }
     }
 
     if( has_effect( effect_led_by_leash ) ) {

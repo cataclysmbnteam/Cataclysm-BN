@@ -152,6 +152,7 @@
           "kevlar",
           "neoprene",
           "gutskin",
+          "scute",
           "black_dragon_hide",
           "demon_chitin"
         ],
@@ -162,9 +163,34 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "scute",
+          "kevlar_rigid"
+        ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": [
+          "leather_padded",
+          "steel_padded",
+          "kevlar_padded",
+          "furred",
+          "resized_large",
+          "pocketed",
+          "nomex_padded",
+          "wooled",
+          "owlbear_furred",
+          "demonchitin_padded",
+          "blackdragon_coated"
+        ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
