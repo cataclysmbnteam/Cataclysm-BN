@@ -1593,7 +1593,6 @@ void Character::consume( item &target )
             auto &item_type = comest.typeId();
 
             auto stacks = inv.const_slice();
-            const std::vector<item *> *next_stack = nullptr;
             // find a non-empty container of the same type, with the same content type
             for( auto &stack : stacks ) {
                 auto &c = stack->front();
