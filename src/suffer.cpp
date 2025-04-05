@@ -297,12 +297,21 @@ void Character::suffer_from_addictions()
 
 void Character::suffer_while_awake( const int current_stim )
 {
-    if( !has_trait( trait_DEBUG_STORAGE ) &&
-        ( weight_carried() > 4 * weight_capacity() ) ) {
-        if( has_effect( effect_downed ) ) {
-            add_effect( effect_downed, 1_turns, bodypart_str_id::NULL_ID(), 0 );
-        } else {
-            add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0 );
+    if( !has_trait( trait_DEBUG_STORAGE ) ) {
+        auto w_carry = weight_carried();
+        auto w_cap = weight_capacity();
+        if( is_mounted() ) {
+            auto &m = *mounted_creature;
+            w_carry += m.get_carried_weight();
+            w_cap = m.weight_capacity();
+        }
+
+        if( w_carry > 4 * w_cap ) {
+            if( has_effect( effect_downed ) ) {
+                add_effect( effect_downed, 1_turns, bodypart_str_id::NULL_ID(), 0 );
+            } else {
+                add_effect( effect_downed, 2_turns, bodypart_str_id::NULL_ID(), 0 );
+            }
         }
     }
     if( has_trait( trait_CHEMIMBALANCE ) ) {
