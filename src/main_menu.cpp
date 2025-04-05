@@ -139,7 +139,7 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
 
         nc_color menu_item_color { menu_item_default_color_ };
         nc_color shortcut_color { shortcut_character_default_color_ };
-        if ( iSel == i ) {
+        if( iSel == i ) {
             menu_item_color = hilite( menu_item_color );
             shortcut_color  = hilite( shortcut_color );
         }
@@ -668,7 +668,7 @@ bool main_menu::opening_screen()
 
     bool start_new = false;
     while( !start ) {
-        if ( !skip_next_redraw_ ) {
+        if( !skip_next_redraw_ ) {
             ui_manager::redraw();
         } else {
             // reset redraw flag
@@ -717,23 +717,23 @@ bool main_menu::opening_screen()
         }
 
         // handle mouse input
-        if ( action == "MOUSE_MOVE" ) {
+        if( action == "MOUSE_MOVE" ) {
             // do not redraw screen by default on mouse move input
             // this later can be redefined if we figure out mouse movement
             // affected some UI element (like hovering over something)
             skip_next_redraw_ = true;
-            if ( const auto r = isMouseOverMenuItem(); r ) {
+            if( const auto r = isMouseOverMenuItem(); r ) {
                 // do not trigger this menu actions if it was already triggered
-                if ( activated_menu_item_ != r.value() ) {
+                if( activated_menu_item_ != r.value() ) {
                     activated_menu_item_ = r.value();
                     on_move();
                     // force redraw next cycle because UI has been changed
                     // (user hovered over UI element)
                     skip_next_redraw_ = false;
                 }
-            } else if ( const auto r = isMouseOverSubmenuItem(); r ) {
+            } else if( const auto r = isMouseOverSubmenuItem(); r ) {
                 // do not trigger this submenu actions if it was already triggered
-                if ( sel2 != r.value() ) {
+                if( sel2 != r.value() ) {
                     sel2 = r.value();
                     on_move();
                     // force redraw next cycle because UI has been changed
@@ -741,25 +741,25 @@ bool main_menu::opening_screen()
                     skip_next_redraw_ = false;
                 }
             }
-        } else if ( action == "MOUSE_LEFT_DOWN" ) {
+        } else if( action == "MOUSE_LEFT_DOWN" ) {
             // do not redraw screen by default on mouse click input
             // this later can be redefined if we figure out mouse movement
             // affected some UI element (like hovering over something)
             skip_next_redraw_ = true;
-            if ( const auto r = isMouseOverSubmenuItem(); r ) {
+            if( const auto r = isMouseOverSubmenuItem(); r ) {
                 sel2 = r.value();
                 action = "CONFIRM";
                 // force redraw next cycle because UI has been changed
                 // (user clicked on UI element)
                 skip_next_redraw_ = false;
-            } else if ( const auto r = isMouseOverMenuItem(); r ) {
+            } else if( const auto r = isMouseOverMenuItem(); r ) {
                 activated_menu_item_ = r.value();
-                if ( r.value() == getopt( main_menu_opts::HELP ) ) {
+                if( r.value() == getopt( main_menu_opts::HELP ) ) {
                     action = "CONFIRM";
                     // force redraw next cycle because UI has been changed
                     // (user clicked UI element)
                     skip_next_redraw_ = false;
-                } else if ( r.value() == getopt( main_menu_opts::QUIT ) ) {
+                } else if( r.value() == getopt( main_menu_opts::QUIT ) ) {
                     action = "QUIT";
                     // force redraw next cycle because UI has been changed
                     // (user clicked UI element)
@@ -774,7 +774,7 @@ bool main_menu::opening_screen()
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
-        } else if ( action == "LEFT" || action == "PREV_TAB" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" ) {
             sel_line = 0;
             if( activated_menu_item_ > 0 ) {
                 activated_menu_item_--;
@@ -1233,16 +1233,17 @@ std::string main_menu::halloween_graves()
     return graves;
 }
 
-std::optional<int> main_menu::isMouseOverMenuItem() const {
+std::optional<int> main_menu::isMouseOverMenuItem() const
+{
 
     const auto mouse_pos = ctxt.get_coordinates_text( catacurses::stdscr );
     // return early if there is no mouse coordinate
-    if ( !mouse_pos ) {
+    if( !mouse_pos ) {
         return std::nullopt;
     }
     // check if mouse overlaps with any screen area of main menu item
-    for ( const auto& d : main_menu_button_map ) {
-        if ( d.first.contains( mouse_pos.value() ) ) {
+    for( const auto &d : main_menu_button_map ) {
+        if( d.first.contains( mouse_pos.value() ) ) {
             // menu creen areas do not overlap, so return the first found
             return d.second;
         }
@@ -1251,16 +1252,17 @@ std::optional<int> main_menu::isMouseOverMenuItem() const {
     return std::nullopt;
 }
 
-std::optional<int> main_menu::isMouseOverSubmenuItem() const {
-    
+std::optional<int> main_menu::isMouseOverSubmenuItem() const
+{
+
     const auto mouse_pos = ctxt.get_coordinates_text( catacurses::stdscr );
     // return early if there is no mouse coordinate
-    if ( !mouse_pos ) {
+    if( !mouse_pos ) {
         return std::nullopt;
     }
     // check if mouse overlaps with any screen area of submenu item
-    for ( const auto& d : main_menu_sub_button_map ) {
-        if ( d.first.contains( mouse_pos.value() ) ) {
+    for( const auto &d : main_menu_sub_button_map ) {
+        if( d.first.contains( mouse_pos.value() ) ) {
             return d.second.second;
         }
     }

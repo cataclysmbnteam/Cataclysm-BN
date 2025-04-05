@@ -34,8 +34,8 @@ void to_overmap_font_dimension( int &, int & )
     return;
 }
 
-std::optional<point> input_context::get_coordinates_text(const catacurses::window
-    & capture_win) const
+std::optional<point> input_context::get_coordinates_text( const catacurses::window
+        & capture_win ) const
 {
     // ncurses does not support mouse currently
     // curses build always returns "no mouse"

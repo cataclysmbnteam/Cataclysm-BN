@@ -1,7 +1,7 @@
 [
   {
     "type": "keybinding",
-    "id": "MOUSE_LEFT_DOWN", 
+    "id": "MOUSE_LEFT_DOWN",
     "name": "Left mouse button pressed",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT_PRESSED" } ]
   },

@@ -151,7 +151,7 @@ struct input_event {
     }
 
     input_event( MouseInput s )
-        : type(input_event_t::mouse ), edit_refresh( false ) {
+        : type( input_event_t::mouse ), edit_refresh( false ) {
         sequence.push_back( static_cast<int>( s ) );
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
@@ -356,7 +356,7 @@ class input_manager
         void init_keycode_mapping();
         void add_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
-        void add_mouse_keycode_pair( MouseInput ch, const std::string& name );
+        void add_mouse_keycode_pair( MouseInput ch, const std::string &name );
 
         /**
          * Load keybindings from a json file, override existing bindings.
@@ -669,7 +669,7 @@ class input_context
         /**
          * Get coordinate of text level from mouse input, difference between this and get_coordinates is that one is getting pixel level coordinate.
          */
-        std::optional<point> get_coordinates_text( const catacurses::window& capture_win ) const;
+        std::optional<point> get_coordinates_text( const catacurses::window &capture_win ) const;
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();

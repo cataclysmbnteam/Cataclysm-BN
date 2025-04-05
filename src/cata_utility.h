@@ -53,7 +53,7 @@ inline int fast_floor( double v )
  */
 double round_up( double val, unsigned int dp );
 
-int divide_round_down(int a, int b);
+int divide_round_down( int a, int b );
 
 
 /** Divide @p num by @p den, rounding up
