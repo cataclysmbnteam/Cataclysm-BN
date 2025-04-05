@@ -3810,7 +3810,7 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     const ter_id type = here.ter( pnt );
 
     p->add_msg_if_player( _( "You pry out the nails from the terrain." ) );
-    
+
     p->practice( skill_fabrication, 1, 1 );
     here.spawn_item( p->pos(), itype_nail, 1, type->nail_pull_items[0] );
     here.spawn_item( p->pos(), itype_2x4, type->nail_pull_items[1] );

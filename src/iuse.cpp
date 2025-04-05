@@ -2361,7 +2361,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
         }
         const ter_id ter = g->m.ter( pnt );
 
-        return (ter->nail_pull_result != ter_str_id::NULL_ID());
+        return ( ter->nail_pull_result != ter_str_id::NULL_ID() );
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
