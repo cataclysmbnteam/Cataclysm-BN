@@ -3133,7 +3133,7 @@ void monster::add_msg_player_or_npc( const game_message_params &params,
     }
 }
 
-units::mass monster::get_carried_weight()
+units::mass monster::get_carried_weight() const
 {
     units::mass total_weight = 0_gram;
     if( tack_item ) {
@@ -3151,7 +3151,7 @@ units::mass monster::get_carried_weight()
     return total_weight;
 }
 
-units::volume monster::get_carried_volume()
+units::volume monster::get_carried_volume() const
 {
     units::volume total_volume = 0_ml;
     for( const item * const &it : inv ) {
