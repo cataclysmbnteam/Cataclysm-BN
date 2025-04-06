@@ -52,7 +52,7 @@
       "radius": 180,
       "message": "You add the regional transportation systems to your map.",
       "terrain": [
-        "subway",
+        "sub_station",
         "runway_start",
         "runway_end",
         "runway_fuel",
