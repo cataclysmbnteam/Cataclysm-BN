@@ -551,7 +551,7 @@
     "type": "TOOL",
     "category": "tools_workshop",
     "name": { "str": "gunsmith repair kit" },
-    "description": "This is a complete toolkit made to repair damaged firearms, disassemble ammunition and manufacture firearm modifications. Powered by standard batteries, it can tackle any armory work when coupled with a hand press. It requires 25 charges of battery power per use.",
+    "description": "This is a complete toolkit made to repair damaged firearms, disassemble ammunition and manufacture firearm modifications.  Powered by standard batteries, it can tackle any armory work when coupled with a hand press.  It requires 25 charges of battery power per use.",
     "weight": "6000 g",
     "volume": "3500 ml",
     "price": 3000,
