@@ -192,6 +192,8 @@ it for the purpose of surgery.
   "open": "t_foo_open",
   "lockpick_result": "t_door_unlocked",
   "lockpick_message": "With a click, you unlock the door.",
+  "nail_pull_result": "t_fence_post", // terrain ID to transform into when you use a hammer to pull the nails out
+  "nail_pull_items": [8, 5], // nails and planks (respectively) to drop as a result of pulling nails with a hammer. Defaults to 0,0 and thus technically optional even if you add a nail_pull_result.
   "bash": "TODO",
   "deconstruct": "TODO",
   "harvestable": "blueberries",
