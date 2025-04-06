@@ -241,7 +241,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ "sanding", -1, "LIST" ] ],
+    "using": [ [ "sanding", -1, "LIST" ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -338,7 +338,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ "sanding", -1, "LIST" ] ],
+    "using": [ [ "sanding", -1, "LIST" ] ],
     "components": [
       [ [ "stick_long", 1 ] ],
       [
@@ -491,10 +491,10 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ "sanding", -1, "LIST" ] ],
+    "using": [ [ "sanding", -1, "LIST" ] ],
     "components": [
       [ [ "shillelagh", 1 ], [ "bat", 1 ], [ "cudgel", 1 ], [ "wood_structural_small", 1, "LIST" ] ],
-      [ [ "steel_tiny", 2 ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
+      [ [ "steel_tiny", 2, "LIST" ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
     ]
