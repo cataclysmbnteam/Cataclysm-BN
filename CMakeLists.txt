@@ -15,6 +15,7 @@ set(CMAKE_TLS_VERIFY ON)
 
 # Build options
 include(CMakeDependentOption)
+include(ExternalProject)
 option(TILES "Build graphical tileset version." "OFF")
 option(CURSES "Build curses version." "ON")
 option(SOUND "Support for in-game sounds & music." "OFF")
@@ -389,7 +390,52 @@ endif ()
 
 if (BACKTRACE)
     add_definitions(-DBACKTRACE)
-    if (LIBBACKTRACE)
+    if (LIBBACKTRACE AND NOT MSVC)
+        message(STATUS "Integrating libbacktrace build using ExternalProject")
+
+        set(LIBBACKTRACE_GIT_REPO https://github.com/ianlancetaylor/libbacktrace.git)
+        set(LIBBACKTRACE_GIT_TAG master)
+
+        set(LIBBACKTRACE_INSTALL_DIR "${CMAKE_BINARY_DIR}/libbacktrace/install")
+        SET(LIBBACKTRACE_LIBRARY "${LIBBACKTRACE_INSTALL_DIR}/lib/libbacktrace.a")
+
+        include(ProcessorCount)
+        ProcessorCount(NCPU)
+        if(NCPU EQUAL 0)
+            set(NCPU 1)
+        endif()
+
+        ExternalProject_Add(
+            libbacktrace_external
+            GIT_REPOSITORY ${LIBBACKTRACE_GIT_REPO}
+            GIT_TAG ${LIBBACKTRACE_GIT_TAG}
+            GIT_SHALLOW TRUE
+
+            SOURCE_DIR "${CMAKE_BINARY_DIR}/libbacktrace/src"
+            BINARY_DIR "${CMAKE_BINARY_DIR}/libbacktrace/build"
+
+            CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${LIBBACKTRACE_INSTALL_DIR}
+
+            BUILD_COMMAND make -j${NCPU}
+
+            INSTALL_COMMAND make install
+
+            INSTALL_DIR ${LIBBACKTRACE_INSTALL_DIR}
+            BUILD_BYPRODUCTS <INSTALL_DIR>/lib/libbacktrace.a
+
+            UPDATE_DISCONNECTED 1
+        )
+
+        add_library(backtrace SHARED IMPORTED)
+        set_target_properties(backtrace
+            PROPERTIES IMPORTED_LOCATION ${LIBBACKTRACE_LIBRARY}
+        )
+        # Hack to make it work, otherwise INTERFACE_INCLUDE_DIRECTORIES will not be propagated
+        file(MAKE_DIRECTORY "${LIBBACKTRACE_INSTALL_DIR}/include")
+        target_include_directories(backtrace INTERFACE
+            "${LIBBACKTRACE_INSTALL_DIR}/include"
+        )
+        add_dependencies(backtrace libbacktrace_external)
         add_definitions(-DLIBBACKTRACE)
     endif ()
 endif ()
