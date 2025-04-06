@@ -15,7 +15,7 @@
     "symbol": "\\",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE" ]
   },
   {
     "id": "2h_flail_wood",
@@ -33,7 +33,7 @@
     "symbol": "\\",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
   },
   {
     "id": "bat",
@@ -317,7 +317,7 @@
     "color": "brown",
     "symbol": "/",
     "material": [ "wood", "steel" ],
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE", "SWEEP" ],
     "volume": "1250 ml",
     "bashing": 50,
@@ -471,7 +471,7 @@
     "description": "This is a versatile polearm with a spiked hammer head, a spike, and a hook attached to a long stick.",
     "price": "500 USD",
     "material": [ "wood", "steel" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "ALWAYS_TWOHAND", "STAB" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "SPEAR", "STAB" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SWEEP" ],
     "weight": "3200 g",
     "volume": "3750 ml",
@@ -717,12 +717,12 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "quarterstaff", "str_pl": "quarterstaves" },
-    "description": "A smooth and sturdy staff with a leather-wrapped grip.  Light and well-balanced, it is surprisingly easy to handle.",
+    "description": "A smooth and sturdy staff that was finely oiled and sanded for durability.  Light and well-balanced, it is surprisingly easy to handle.  Also sometimes referred to as a bō in Japan.",
     "price": "40 USD",
     "price_postapoc": "10 USD",
     "material": "wood",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
     "weight": "1250 g",
     "volume": "1750 ml",
     "bashing": 20,
@@ -968,7 +968,7 @@
     "name": { "str": "extendable quarterstaff (extended)", "str_pl": "extendable quarterstaves (extended)" },
     "description": "A custom-made telescoping steel quarterstaff, capable of shrinking down to the size of a baton for easy storage.  Its hollow nature makes it more lightweight but less sturdy than a more traditional staff.  It is currently extended.",
     "volume": "1750 ml",
-    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "SHEATH_SPEAR" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "bashing": 30,
     "to_hit": 3,
@@ -1003,5 +1003,26 @@
     "description": "This hefty bludgeon is carved from sturdy bones mounted on a wooden haft, capable of bashing faces in with swiftness and efficiency.",
     "material": [ "bone_heavy", "wood" ],
     "proportional": { "weight": 0.8, "bashing": 0.9 }
+  },
+  {
+    "id": "club_trench",
+    "type": "GENERIC",
+    "copy-from": "club_spiked",
+    "weapon_category": [ "CLUBS" ],
+    "name": "survivor club",
+    "description": "During World War 1, soldiers would commonly make makeshift-yet-sturdy clubs or maces using a chunk of wood, scrap metal, and sturdy nails or pieces of thick wire in order to perform nighttime raids relatively quietly.  Your ancestors will salute you for continuing that tradition during your darkest hour.",
+    "bashing": 29,
+    "cutting": 11
+  },
+  {
+    "id": "spike_staff",
+    "type": "GENERIC",
+    "copy-from": "i_staff",
+    "name": "survivor staff",
+    "description": "A wooden staff with metal bands or a length of wire wrapped onto both ends and various nails or spikes attached to it.  Makeshift weapons have a long history throughout warfare, from the trench clubs of World War 1 to the staffs used by medieval peasants, and hopefully it will help you survive too.",
+    "weapon_category": [ "QUARTERSTAVES", "2H_HAMMERS", "SPEARS" ],
+    "bashing": 22,
+    "cutting": 10,
+    "extend": { "flags": [ "STAB", "REACH_ATTACK", "SPEAR" ] }
   }
 ]
