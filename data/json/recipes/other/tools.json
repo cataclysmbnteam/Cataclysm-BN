@@ -868,12 +868,7 @@
     "difficulty": 1,
     "time": "2 m",
     "reversible": true,
-    "book_learn": [
-      [ "manual_gun", 4 ],
-      [ "textbook_mechanics", 1 ],
-      [ "mag_mechanics", 2 ],
-      [ "mag_rifle", 2 ]
-    ],
+    "book_learn": [ [ "manual_gun", 4 ], [ "textbook_mechanics", 1 ], [ "mag_mechanics", 2 ], [ "mag_rifle", 2 ] ],
     "components": [
       [ [ "small_repairkit", 1 ] ],
       [ [ "solder", 5 ] ],
