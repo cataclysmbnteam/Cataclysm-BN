@@ -61,7 +61,7 @@
 #include "name.h"
 #include "npc.h"
 #include "output.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -3375,10 +3375,11 @@ void mattack::taze( monster *z, Creature *target )
 {
     // It takes a while
     z->moves -= 200;
-    if( target == nullptr ) {
+    // Uncanny dodge prints its own message when it triggers, to return here instead of below.
+    if( target == nullptr || target->uncanny_dodge() ) {
         return;
     }
-    if( target->uncanny_dodge() || dodge_check( z, target ) ) {
+    if( dodge_check( z, target ) ) {
         target->add_msg_player_or_npc( _( "The %s tries to shock you, but you dodge." ),
                                        _( "The %s tries to shock <npcname>, but they dodge." ),
                                        z->name() );

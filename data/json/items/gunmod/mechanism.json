@@ -158,5 +158,23 @@
     "install_time": "5 m",
     "reload_modifier": -80,
     "ups_charges_modifier": 40
+  },
+  {
+    "id": "mod_makeshift_capacitor",
+    "type": "GUNMOD",
+    "name": { "str": "handmade coil capacitor" },
+    "description": "This particular modification is a handmade, but by no means crude, capacitor bank designed to increase transferrance efficiency as well as utilizing an atomic battery to reduce, but not eliminate, the power draw.  It was even rarer to see than the makeshift railgun weapons and firearm conversions during the protests before the Cataclysm, if only because of the sheer rarity of particular materials.  It unfortunately cannot effect makeshift accelerators thanks to them lacking the proper internal components.",
+    "looks_like": "high_density_capacitor",
+    "weight": "820 g",
+    "volume": "250 ml",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "steel", "copper" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "mechanism",
+    "install_time": "5 m",
+    "blacklist_mod": "emitter",
+    "ups_charges_multiplier": 0.5
   }
 ]

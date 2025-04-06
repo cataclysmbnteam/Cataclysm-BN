@@ -385,6 +385,8 @@
       "AUTO_WALL_SYMBOL",
       "BURROWABLE"
     ],
+    "nail_pull_result": "t_fence_post",
+    "nail_pull_items": [ 8, 5 ],
     "connects_to": "WOODFENCE",
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 5 }, { "item": "nail", "charges": 8 } ] },
     "bash": {

@@ -74,7 +74,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "point_float.h"
 #include "projectile.h"
@@ -1851,7 +1851,6 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     }
 
     invalidate_max_populated_zlev( p.z );
-
     set_memory_seen_cache_dirty( p );
 
     // TODO: Limit to changes that affect move cost, traps and stairs

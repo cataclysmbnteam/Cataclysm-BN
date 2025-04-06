@@ -7,7 +7,7 @@
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "600 g",
     "volume": "250 ml",
-    "price": "1 cent",
+    "price": "0 cent",
     "to_hit": 1,
     "bashing": 20,
     "material": [ "superalloy" ],
@@ -25,7 +25,7 @@
     "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 0,
+    "price": "0 cent",
     "symbol": ",",
     "color": "yellow",
     "use_action": [
@@ -55,7 +55,7 @@
     "weight": "1 g",
     "volume": "250 ml",
     "material": "concentrated_mana",
-    "price": "1 cent",
+    "price": "0 cent",
     "to_hit": -2,
     "bashing": 1,
     "symbol": ",",
@@ -72,7 +72,7 @@
     "weight": "1 g",
     "volume": "250 ml",
     "material": "concentrated_mana",
-    "price": "1 cent",
+    "price": "0 cent",
     "to_hit": -2,
     "bashing": 1,
     "symbol": ",",
@@ -118,7 +118,7 @@
     "description": "A lightweight but tough shield crafted entirely of magical ice.",
     "weight": "1 kg",
     "volume": "5 L",
-    "price": "1 cent",
+    "price": "0 cent",
     "to_hit": 1,
     "bashing": 14,
     "material": [ "steel" ],
@@ -129,7 +129,7 @@
     "encumbrance": 15,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ]
   },
   {
     "id": "ice_gliders",
@@ -138,7 +138,7 @@
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
     "volume": "250 ml",
-    "price": "1 cent",
+    "price": "0 cent",
     "to_hit": -2,
     "bashing": 6,
     "material": [ "steel" ],
@@ -151,7 +151,7 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ]
   },
   {
     "type": "GENERIC",
@@ -214,6 +214,7 @@
     "weight": "1 g",
     "bashing": 10,
     "//electric": 15,
+    "price": "0 cent",
     "flags": [
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",
@@ -236,6 +237,7 @@
     "description": "A long, writhing, tentacle covered in sharp bonelike blades and spikey protrusions.",
     "weight": "2460 g",
     "volume": "1500 ml",
+    "price": "0 cent",
     "material": [ "iron", "leather" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [
@@ -274,12 +276,12 @@
       "COMPACT",
       "TRADER_AVOID",
       "WATERPROOF",
-      "STURDY",
       "NO_UNWIELD",
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "POWERARMOR_COMPATIBLE"
+      "POWERARMOR_COMPATIBLE",
+      "UNBREAKABLE"
     ]
   },
   {
@@ -306,6 +308,7 @@
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": "2175 g",
     "volume": "2500 ml",
+    "price": "0 cent",
     "bashing": 16,
     "cutting": 36,
     "to_hit": 2
@@ -336,6 +339,7 @@
     "skill": "archery",
     "min_strength": 9,
     "weight": "540 g",
+    "price": "0 cent",
     "bashing": 12,
     "to_hit": 1,
     "reload_noise_volume": 3,
@@ -351,6 +355,7 @@
     "id": "druid_seed",
     "name": { "str": "seed of purification", "str_pl": "seeds of purification" },
     "weight": "1 g",
+    "price": "0 cent",
     "color": "white",
     "use_action": {
       "type": "transform",
@@ -371,7 +376,7 @@
     "description": "This fine dust glows with a growing intensity",
     "weight": "1 g",
     "volume": "30 ml",
-    "price": 0,
+    "price": "0 cent",
     "symbol": "!",
     "color": "white",
     "initial_charges": 15,
@@ -386,7 +391,7 @@
     "weight": "1g",
     "volume": "1ml",
     "material": "concentrated_mana",
-    "price": "3646 cent",
+    "price": "0 cent",
     "symbol": "o",
     "color": "white",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
@@ -410,7 +415,7 @@
     "material": "concentrated_mana",
     "weight": "1g",
     "volume": "1ml",
-    "price": "3646 cent",
+    "price": "0 cent",
     "symbol": "o",
     "color": "green",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
@@ -436,7 +441,7 @@
     "material": "concentrated_mana",
     "weight": "1g",
     "volume": "1ml",
-    "price": "3646 cent",
+    "price": "0 cent",
     "symbol": "o",
     "color": "green",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
@@ -462,6 +467,7 @@
     "description": "A thin layer of magical ice, covering the entire body.",
     "weight": "5000 g",
     "volume": "5 L",
+    "price": "0 cent",
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
@@ -471,7 +477,7 @@
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ]
   },
   {
     "id": "aura_stoneskin",
@@ -482,6 +488,7 @@
     "weight": "10200 g",
     "volume": "25 L",
     "material": [ "stone" ],
+    "price": "0 cent",
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
@@ -490,7 +497,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ]
   },
   {
     "id": "overcharge_burn_scar",
@@ -513,6 +520,7 @@
     "material": "concentrated_mana",
     "description": "An all-encompassing, invisible layer of magical aura that protects you from the environment.",
     "weight": "1 g",
+    "price": "0 cent",
     "volume": "1 ml",
     "symbol": "o",
     "color": "blue",
@@ -538,6 +546,7 @@
     "name": { "str": "Flamesword" },
     "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
+    "price": "0 cent",
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_10", "FIRESTARTER", "FIRE" ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "weight": "1 kg",
@@ -574,6 +583,7 @@
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "weight": "700 g",
     "volume": "800 ml",
+    "price": "0 cent",
     "to_hit": 3,
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 8 } ] } ]
@@ -589,7 +599,7 @@
     "weight": "1g",
     "volume": "1ml",
     "material": "concentrated_mana",
-    "price": "3646 cent",
+    "price": "0 cent",
     "symbol": "o",
     "color": "light_gray",
     "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
@@ -611,6 +621,7 @@
     "name": "Holy Blade",
     "description": "A broadsword made out of concentrated magical light and glowing with holy power.  Let your blade cleave through these unholy monsters!",
     "copy-from": "broadsword",
+    "price": "0 cent",
     "color": "white",
     "material": "concentrated_mana",
     "bashing": 0,

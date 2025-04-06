@@ -204,7 +204,7 @@ class player_activity
             return type->multi_activity();
         }
         bool is_assistable() const {
-            return type->light_affected();
+            return type->assistable();
         }
         bool is_bench_affected() const {
             return type->bench_affected();

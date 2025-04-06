@@ -371,6 +371,10 @@ void inventory::restack( player &p )
     int idx = 0;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx ) {
         std::vector<item *> &stack = *iter;
+        // Sort the inner stack itself, so the most recently used item is at front and keeps the invlet
+        std::sort( stack.begin(), stack.end(), []( auto * lhs, auto * rhs ) {
+            return *lhs < *rhs;
+        } );
         item &topmost = *stack.front();
 
         const item *invlet_item = p.invlet_to_item( topmost.invlet );
@@ -1222,6 +1226,16 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
     if( remove_old && it.invlet ) {
         invlet_cache.erase( it.invlet );
     }
+
+    // Remove invlet from other items beforehand, since restack may assign it to other items in the same stack.
+    auto fn = [ = ]( item * ii ) {
+        if( ii->invlet == invlet ) {
+            ii->invlet = 0;
+        }
+        return VisitResponse::SKIP;
+    };
+    visit_items( fn );
+
     it.invlet = invlet;
     update_invlet_cache_with_item( it );
 }

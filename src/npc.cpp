@@ -56,7 +56,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "ranged.h"

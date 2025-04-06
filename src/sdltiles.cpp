@@ -65,6 +65,7 @@
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_utils.h"
 #include "sdl_font.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
@@ -941,6 +942,16 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                                      subtile, rotation, ll, false, height_3d, 0 );
             }
 
+            if( blink && uistate.overmap_highlighted_omts.contains( omp ) ) {
+                if( tile_iso ) {
+                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
+                } else {
+                    SDL_Color c = curses_color_to_SDL( c_pink );
+                    c.a = c.a >> 1;
+                    auto p = player_to_screen( omp.raw().xy() );
+                    draw_color_at( c, p, SDL_BLENDMODE_BLEND );
+                }
+            }
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {

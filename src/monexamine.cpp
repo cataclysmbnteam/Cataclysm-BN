@@ -202,22 +202,27 @@ bool monexamine::pet_menu( monster &z )
     }
 
     if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( z.has_flag( MF_PET_MOUNTABLE ) && you.can_mount( z ) ) {
-            if( z.has_effect( effect_tied ) ) {
-                amenu.addentry( mount, true, 'r', _( "Untie and mount %s" ), pet_name );
+        if( z.has_flag( MF_PET_MOUNTABLE ) ) {
+            auto status = you.get_mountable_status( z );
+            if( status.can_mount() ) {
+                const auto msg = z.has_effect( effect_tied )
+                                 ? _( "Untie and mount %s" )
+                                 : _( "Mount %s" );
+                amenu.addentry( mount, true, 'r', msg, pet_name );
+            } else if( !status.size ) {
+                amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
+            } else if( !status.carry_weight ) {
+                amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
+            } else if( !status.skills && you.get_skill_level( skill_survival ) < 1 ) {
+                amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
+            } else if( !status.skills && you.get_skill_level( skill_survival ) < 4 &&
+                       !z.has_effect( effect_saddled ) ) {
+                amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
             } else {
-                amenu.addentry( mount, true, 'r', _( "Mount %s" ), pet_name );
+                amenu.addentry( mount, false, 'r', _( "%s cannot be mounted right now" ), pet_name );
             }
-        } else if( !z.has_flag( MF_PET_MOUNTABLE ) ) {
+        } else {
             amenu.addentry( mount, false, 'r', _( "%s cannot be mounted" ), pet_name );
-        } else if( z.get_size() <= you.get_size() ) {
-            amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
-        } else if( you.get_skill_level( skill_survival ) < 1 ) {
-            amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
-        } else if( you.get_weight() >= z.get_weight() * z.get_mountable_weight_ratio() ) {
-            amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
-        } else if( !z.has_effect( effect_saddled ) && you.get_skill_level( skill_survival ) < 4 ) {
-            amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
         }
     } else {
         const itype &type = *z.type->mech_battery;
@@ -252,9 +257,9 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( change_orders, true, 'O', _( "Order to ignore enemies and follow" ), pet_name );
         }
     }
-    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) && !z.has_flag( MF_PAY_BOT ) ) {
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_PAY_BOT ) ) {
         if( z.has_effect( effect_has_bag ) || z.has_effect( effect_monster_armor ) ||
-            z.has_effect( effect_leashed ) || z.has_effect( effect_saddled ) ) {
+            z.has_effect( effect_leashed ) || z.has_effect( effect_saddled ) || z.get_battery_item() ) {
             amenu.addentry( disable_pet, true, 'D', _( "Remove items and deactivate the %s" ), pet_name );
         } else {
             amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
@@ -552,7 +557,7 @@ bool monexamine::mfriend_menu( monster &z )
             amenu.addentry( change_orders, true, 'O', _( "Order to ignore enemies and follow" ), pet_name );
         }
     }
-    if( !mon_item_id.is_empty() && !z.has_flag( MF_RIDEABLE_MECH ) && !z.has_flag( MF_PAY_BOT ) ) {
+    if( !mon_item_id.is_empty() && !z.has_flag( MF_PAY_BOT ) ) {
         amenu.addentry( disable_pet, true, 'D', _( "Deactivate the %s" ), pet_name );
     }
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
@@ -606,17 +611,33 @@ void monexamine::attach_or_remove_saddle( monster &z )
 
 bool Character::can_mount( const monster &critter ) const
 {
+    auto status = get_mountable_status( critter );
+    return status.can_mount();
+}
+
+mountable_status Character::get_mountable_status( const monster &critter ) const
+{
     const auto &avoid = get_legacy_path_avoid();
     auto route = get_map().route( pos(), critter.pos(), get_legacy_pathfinding_settings(), avoid );
 
     if( route.empty() ) {
-        return false;
+        return {};
     }
-    return ( critter.has_flag( MF_PET_MOUNTABLE ) && critter.friendly == -1 &&
-             !critter.has_effect( effect_ridden ) ) &&
-           ( ( critter.has_effect( effect_saddled ) && get_skill_level( skill_survival ) >= 1 ) ||
-             get_skill_level( skill_survival ) >= 4 ) && ( critter.get_size() >= ( get_size() + 1 ) &&
-                     get_weight() <= critter.get_weight() * critter.get_mountable_weight_ratio() );
+
+    mountable_status status{};
+    status.mountable = critter.has_flag( MF_PET_MOUNTABLE )
+                       && critter.friendly == -1
+                       && !critter.has_effect( effect_ridden );
+    status.skills = (
+                        critter.has_effect( effect_saddled )
+                        && get_skill_level( skill_survival ) >= 1
+                    )
+                    || get_skill_level( skill_survival ) >= 4;
+    status.size = critter.get_size() >= ( get_size() + 1 );
+    status.carry_weight = ( get_weight() + critter.get_carried_weight() ) <=
+                          ( 4 * critter.weight_capacity() );
+
+    return status;
 }
 
 void monexamine::mount_pet( monster &z )
@@ -971,6 +992,9 @@ void monexamine::deactivate_pet( monster &z )
     }
     if( z.has_effect( effect_saddled ) ) {
         attach_or_remove_saddle( z );
+    }
+    if( z.get_battery_item() ) {
+        remove_battery( z );
     }
     map &here = get_map();
     here.add_item_or_charges( z.pos(), z.to_item() );
