@@ -43,7 +43,7 @@
     "copy-from": "abstractmap",
     "type": "GENERIC",
     "name": { "str": "regional transport map" },
-    "description": "This is a printed guide to the local regional transportation systems. This one specifically seems to show bus stations, airports, and entrances to subways.",
+    "description": "This is a printed guide to the local regional transportation systems.  This one specifically seems to show bus stations, airports, and entrances to subways.",
     "color": "pink",
     "volume": "10 ml",
     "weight": "10 g",
