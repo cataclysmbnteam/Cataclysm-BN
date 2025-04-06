@@ -108,6 +108,7 @@
         "nomex",
         "kevlar",
         "gutskin",
+        "scute",
         "demon_chitin",
         "black_dragon_hide"
       ],
@@ -137,6 +138,7 @@
           "kevlar",
           "neoprene",
           "gutskin",
+          "scute",
           "black_dragon_hide",
           "demon_chitin"
         ],
@@ -158,6 +160,7 @@
           "kevlar",
           "neoprene",
           "gutskin",
+          "scute",
           "plastic",
           "kevlar_rigid"
         ],
@@ -168,6 +171,9 @@
           "kevlar_padded",
           "furred",
           "wooled",
+          "resized_large",
+          "pocketed",
+          "nomex_padded",
           "owlbear_furred",
           "demonchitin_padded",
           "blackdragon_coated"
