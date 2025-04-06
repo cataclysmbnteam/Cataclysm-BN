@@ -2545,6 +2545,24 @@ bool cata_tiles::draw_tile_at(
     return true;
 }
 
+bool cata_tiles::draw_color_at( const SDL_Color &color, point pos, SDL_BlendMode blend_mode )
+{
+    SDL_Rect rect{
+        pos.x,
+        pos.y,
+        tile_width,
+        tile_height
+    };
+
+    SDL_BlendMode old_blend_mode;
+    GetRenderDrawBlendMode( renderer, old_blend_mode );
+    SetRenderDrawBlendMode( renderer, blend_mode );
+    SetRenderDrawColor( renderer, color.r, color.g, color.b, color.a );
+    RenderFillRect( renderer, &rect );
+    SetRenderDrawBlendMode( renderer, old_blend_mode );
+    return true;
+}
+
 bool cata_tiles::would_apply_vision_effects( const visibility_type visibility ) const
 {
     return visibility != VIS_CLEAR;

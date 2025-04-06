@@ -114,6 +114,7 @@ class uistatedata
         bool overmap_debug_weather = false;
         // draw monster groups on the overmap.
         bool overmap_debug_mongroup = false;
+        std::set<tripoint_abs_omt> overmap_highlighted_omts;
 
         // V Menu Stuff
         int list_item_sort = 0;
