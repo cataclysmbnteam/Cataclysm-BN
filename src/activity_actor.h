@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_ACTOR_H
-#define CATA_SRC_ACTIVITY_ACTOR_H
 
 #include <deque>
 #include <memory>
@@ -317,4 +315,3 @@ deserialize_functions;
 void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout );
 void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin );
 
-#endif // CATA_SRC_ACTIVITY_ACTOR_H

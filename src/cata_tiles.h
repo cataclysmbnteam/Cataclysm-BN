@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CATA_TILES_H
-#define CATA_SRC_CATA_TILES_H
 
 #include <cstddef>
 #include <map>
@@ -820,4 +818,4 @@ class cata_tiles
         std::string memory_map_mode = "color_pixel_sepia";
 };
 
-#endif // CATA_SRC_CATA_TILES_H
+
