@@ -596,6 +596,7 @@
       [ "manual_zui_quan", 20 ],
       [ "howto_computer", 20 ],
       [ "touristmap", 25 ],
+      [ "regionaltransportmap", 25 ],
       [ "restaurantmap", 25 ],
       [ "roadmap", 25 ],
       [ "trailmap", 25 ],
