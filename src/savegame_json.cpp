@@ -4247,6 +4247,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_city_labels", overmap_show_city_labels );
     json.member( "overmap_show_hordes", overmap_show_hordes );
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
+    json.member( "overmap_highlighted_omts", overmap_highlighted_omts );
     json.member( "vmenu_show_items", vmenu_show_items );
     json.member( "list_item_sort", list_item_sort );
     json.member( "list_item_filter_active", list_item_filter_active );
@@ -4302,6 +4303,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_show_city_labels", overmap_show_city_labels );
     jo.read( "overmap_show_hordes", overmap_show_hordes );
     jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
+    jo.read( "overmap_highlighted_omts", overmap_highlighted_omts );
     jo.read( "hidden_recipes", hidden_recipes );
     jo.read( "favorite_recipes", favorite_recipes );
     jo.read( "recent_recipes", recent_recipes );

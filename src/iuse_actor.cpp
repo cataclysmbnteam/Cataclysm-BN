@@ -62,12 +62,13 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "omdata.h"
+#include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "popup.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -80,6 +81,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "uistate.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -1349,48 +1351,71 @@ void reveal_map_actor::load( const JsonObject &obj )
 void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
 {
     omt_find_params params{};
-    params.search_range = radius;
+    params.search_range = { 0, radius };
+    params.search_layers = omt_find_all_layers;
     params.types = omt_types;
-    params.must_see = false;
     params.existing_only = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        const auto places = overmap_buffer.find_all( tripoint_abs_omt( map.xy(), z ), params );
-        for( auto &place : places ) {
-            overmap_buffer.reveal( place, 0 );
+    /*
+    * Stagger parallel map generation starting from center (0), outwards
+    * so the generated maps have a neighbor to latch onto when generating roads/rivers
+    * 5 4 3 2 3 4 5
+    * 4 3 2 1 2 3 4
+    * 3 2 1 0 1 2 3
+    * 4 3 2 1 2 3 4
+    * 5 4 3 2 3 4 5
+    */
+
+    const point_abs_om origin_om_pos = project_to<coords::om>( map.xy() );
+
+    // Generate a Square fitting the requested map radius
+    const point_abs_omt omt_bb_min = map.xy() - point_rel_omt{ radius, radius };
+    const point_abs_omt omt_bb_max = map.xy() + point_rel_omt{ radius, radius };
+
+    // OM Corners of bounding box
+    const point_abs_om om_bb_min = project_to<coords::om>( omt_bb_min );
+    const point_abs_om om_bb_max = project_to<coords::om>( omt_bb_max );
+
+    // Iterate through range [om_bb_min, om_bb_max] to get the OM we want, then sort by manhattan distance
+    std::map<int, std::vector<point_abs_om>> om_to_generate;
+    for( int x = om_bb_min.x(); x <= om_bb_max.x(); ++x ) {
+        for( int y = om_bb_min.y(); y <= om_bb_max.y(); ++y ) {
+            auto dist = manhattan_dist( origin_om_pos, { x, y } );
+            auto &vec =
+                om_to_generate[dist]; // if the vector for this distance doesn't exist it will be created empty
+            vec.emplace_back( x, y );
         }
+    }
+
+    for( const auto& [_, to_gen] : om_to_generate ) {
+        overmap_buffer.generate( to_gen );
+    }
+
+    const auto places = overmap_buffer.find_all( map, params );
+    for( auto &place : places ) {
+        overmap_buffer.reveal( place, 0 );
     }
 }
 
 void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_omt &center ) const
 {
+    uistate.overmap_highlighted_omts.clear();
+
     omt_find_params params{};
-    params.search_range = radius;
+    params.search_range = { 0, radius };
     params.types = omt_types_view;
-    params.must_see = false;
+    params.exclude_types = omt_types_view_exclude;
     params.existing_only = true;
+    // TODO: Add support for variable reveal z-range to reveal_map iuse_action JSON
+    params.search_layers = omt_find_all_layers;
+    params.explored = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
-    const auto should_show = [&]( const tripoint_abs_omt & pt ) {
-        if( overmap_buffer.is_explored( pt ) ) {
-            return false;
-        }
+    const auto places = overmap_buffer.find_all( center, params );
 
-        const auto pred = [&]( const std::pair<std::string, ot_match_type> &x ) {
-            return overmap_buffer.check_ot_existing( x.first, x.second, pt );
-        };
-
-        if( std::any_of( omt_types_view_exclude.cbegin(), omt_types_view_exclude.cend(), pred ) ) {
-            return false;
-        }
-
-        return true;
-    };
-
-    std::vector<tripoint_abs_omt> places ;
-    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        const auto tmp = overmap_buffer.find_all( tripoint_abs_omt( center.xy(), z ), params );
-        std::copy_if( tmp.cbegin(), tmp.cend(), std::back_inserter( places ), should_show );
-    }
+    // Delete popup after search is done, before showing uilist
+    params.popup = nullptr;
 
     // Group tiles by name
     std::multimap<std::string, tripoint_abs_omt> mm;
@@ -1409,7 +1434,7 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
     // Show selector for each group
     std::vector<std::string> otypes( utypes.begin(), utypes.end() );
     uilist ui;
-    for( auto i = 0; i < otypes.size(); ++i ) {
+    for( uint64_t i = 0; i < otypes.size(); ++i ) {
         auto &desc = otypes[i];
         ui.addentry( i, true, MENU_AUTOASSIGN, string_format( "%s (%d)", desc, mm.count( desc ) ) );
     }
@@ -1430,6 +1455,11 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
     if( sz == 0 ) {
         return;
     }
+
+    std::transform(
+        eqRange.first, eqRange.second,
+        std::inserter( uistate.overmap_highlighted_omts, uistate.overmap_highlighted_omts.end() ),
+        []( const auto & e ) -> tripoint_abs_omt { return e.second; } );
 
     // Only one overmap tile of type
     if( sz == 1 ) {
@@ -1462,7 +1492,6 @@ void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_
         const auto it = std::min_element( eqRange.first, eqRange.second, pred_dist );
         ui::omap::choose_point( it->second );
     }
-
 }
 
 int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const

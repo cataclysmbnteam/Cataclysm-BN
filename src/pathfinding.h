@@ -337,3 +337,4 @@ class Pathfinding
         //   such as change in terrain
         static void mark_dirty_z_cache();
 };
+

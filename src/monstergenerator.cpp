@@ -2,6 +2,7 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <optional>
 #include <set>
@@ -28,7 +29,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "options.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "rng.h"
 #include "string_id.h"
 #include "translations.h"
@@ -1133,10 +1134,11 @@ void mtype::setup_pathfinding_deferred()
                 // multiplied by 0.5 because legacy pathfinding's max_length is scaled by 2.
                 this->route_settings.max_f_coeff = 0.5 *
                                                    static_cast<float>( max_length ) /
-                                                   static_cast<float>( this->route_settings.max_dist );
+                                                   this->route_settings.max_dist;
             }
         }
     }
+    this->path_settings.move_cost_coeff = this->speed != 0 ? 1.0 / this->speed : INFINITY;
 
     // Entirely new settings that are not present in legacy pathfinding
     {

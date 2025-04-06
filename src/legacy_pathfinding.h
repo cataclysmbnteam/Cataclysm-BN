@@ -70,5 +70,3 @@ struct pathfinding_settings {
           avoid_sharp( as ) {}
     pathfinding_settings &operator = ( const pathfinding_settings & ) = default;
 };
-
-
