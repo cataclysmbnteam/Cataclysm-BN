@@ -870,12 +870,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_gun", 4 ], [ "textbook_mechanics", 1 ], [ "mag_mechanics", 2 ], [ "mag_rifle", 2 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
-    "components": [
-      [ [ "small_repairkit", 1 ] ],
-      [ [ "plastic_chunk", 3 ] ],
-      [ [ "puller", 1 ] ],
-      [ [ "cordless_drill", 1 ] ]
-    ]
+    "components": [ [ [ "small_repairkit", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "puller", 1 ] ], [ [ "cordless_drill", 1 ] ] ]
   },
   {
     "type": "recipe",
