@@ -241,7 +241,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "rock", -1 ], [ "sponge", -1 ], [ "material_sand", -1 ], [ "steel_chunk", -1 ], [ "steel_lump", -1 ] ] ],
+    "tools": [ [ "sanding", -1, "LIST" ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -338,7 +338,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "rock", -1 ], [ "sponge", -1 ], [ "material_sand", -1 ], [ "steel_chunk", -1 ], [ "steel_lump", -1 ] ] ],
+    "tools": [ [ "sanding", -1, "LIST" ] ],
     "components": [
       [ [ "stick_long", 1 ] ],
       [
@@ -491,8 +491,13 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "steel_tiny", 2 ] ],
-    "components": [ [ [ "log", 1 ], [ "shillelagh", 1 ], [ "bat", 1 ] ], [ [ "spike", 4 ], [ "steel_chunk", 4 ] ] ]
+    "tools": [ [ "sanding", -1, "LIST" ] ],
+    "components": [
+      [ [ "shillelagh", 1 ], [ "bat", 1 ], [ "cudgel", 1 ], [ "wood_structural_small", 1, "LIST" ] ],
+      [ [ "steel_tiny", 2 ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
+      [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
+      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -515,38 +520,6 @@
         [ "filament", 100, "LIST" ]
       ],
       [ [ "bone_heavy", 4 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "club_trench",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_BASHING",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "melee", 2 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CUT", "level": 1 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "DRILL", "level": 1 }
-    ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
-    "components": [
-      [
-        [ "log", 1 ],
-        [ "shillelagh", 1 ],
-        [ "bat", 1 ],
-        [ "wood_structural_small", 1, "LIST" ],
-        [ "club_spiked", 1 ],
-        [ "pipe", 1 ]
-      ],
-      [ [ "steel_standard", 1, "LIST" ], [ "canister_empty", 1 ] ],
-      [ [ "wire", 1 ], [ "wire_barbed", 1 ] ],
-      [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
-      [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
     ]
   },
   {
