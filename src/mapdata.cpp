@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <generic_readers.h>
 #include <iterator>
 #include <map>
 #include <memory>
