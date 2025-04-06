@@ -717,7 +717,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "quarterstaff", "str_pl": "quarterstaves" },
-    "description": "A smooth and sturdy staff that was finely oiled and sanded for durability.  Light and well-balanced, it is surprisingly easy to handle.  Also sometimes referred to as a bō in Japan.",
+    "description": "A smooth and sturdy staff that was finely oiled and sanded for durability.  Light and well-balanced, it is surprisingly easy to handle.  Also sometimes referred to as a bō in Japan and Okinawan martial arts.",
     "price": "40 USD",
     "price_postapoc": "10 USD",
     "material": "wood",
@@ -871,7 +871,7 @@
     "type": "GENERIC",
     "copy-from": "tonfa",
     "name": { "str": "wooden tonfa" },
-    "description": "A stout wooden truncheon of the sort commonly employed by police.  Originally an Okinawan weapon, it consists of a stick with a perpendicular handle attached a third of the way down its length.",
+    "description": "A stout wooden truncheon of the sort commonly employed by police.  Originally an Okinawan weapon, it consists of a carved stick with a perpendicular handle attached a third of the way down its length.",
     "weight": "921 g",
     "color": "brown",
     "material": [ "wood" ]
@@ -1013,6 +1013,7 @@
     "description": "During World War 1, soldiers would commonly make makeshift-yet-sturdy clubs or maces using a chunk of wood, scrap metal, and sturdy nails or pieces of thick wire in order to perform nighttime raids relatively quietly.  Your ancestors will salute you for continuing that tradition during your darkest hour.",
     "bashing": 29,
     "cutting": 11,
+    "material": [ "steel", "wood" ],
     "weight": "1450 g"
   },
   {
@@ -1022,9 +1023,9 @@
     "name": "survivor staff",
     "description": "A wooden staff with metal bands or a length of wire wrapped onto both ends and various nails or spikes attached to it.  Makeshift weapons have a long history throughout warfare, from the trench clubs of World War 1 to the staffs used by medieval peasants, and hopefully it will help you survive too.",
     "weapon_category": [ "QUARTERSTAVES", "2H_HAMMERS", "SPEARS" ],
-    "bashing": 30,
     "cutting": 10,
     "weight": "1525 g",
+    "material": [ "steel", "wood" ],
     "extend": { "flags": [ "STAB", "REACH_ATTACK", "SPEAR" ] }
   }
 ]

@@ -236,11 +236,12 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "skills_required": [ "melee", 1 ],
-    "difficulty": 4,
+    "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "rock", -1 ], [ "sponge", -1 ], [ "material_sand", -1 ], [ "steel_chunk", -1 ], [ "steel_lump", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -333,6 +334,7 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 2,
+    "skills_required": [ "melee", 1 ],
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -341,7 +343,7 @@
       [ [ "stick_long", 1 ] ],
       [
         [ "any_tallow", 1, "LIST" ],
-        [ "edible_lard", 2, "LIST" ],
+        [ "edible_lard", 1, "LIST" ],
         [ "cooking_oil", 8 ],
         [ "cooking_oil2", 8 ],
         [ "lamp_oil", 100 ],
