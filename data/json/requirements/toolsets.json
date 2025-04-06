@@ -280,5 +280,11 @@
         [ "wood_sheet", -1 ]
       ]
     ]
+  },
+  {
+    "id": "sanding",
+    "type": "requirement",
+    "//": "Any kind of tool or material that could be used to sand wood.",
+    "tools": [ [ [ "rock", -1 ], [ "sponge", -1 ], [ "material_sand", -1 ], [ "steel_chunk", -1 ], [ "steel_lump", -1 ] ] ]
   }
 ]
