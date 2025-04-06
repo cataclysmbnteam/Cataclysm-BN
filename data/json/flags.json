@@ -2191,6 +2191,11 @@
     "context": [  ]
   },
   {
+    "id": "UNBREAKABLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "UNBREAKABLE_MELEE",
     "type": "json_flag",
     "context": [  ]

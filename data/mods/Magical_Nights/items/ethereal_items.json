@@ -129,7 +129,7 @@
     "encumbrance": 15,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ]
   },
   {
     "id": "ice_gliders",
@@ -151,7 +151,7 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ]
   },
   {
     "type": "GENERIC",
@@ -276,12 +276,12 @@
       "COMPACT",
       "TRADER_AVOID",
       "WATERPROOF",
-      "STURDY",
       "NO_UNWIELD",
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "POWERARMOR_COMPATIBLE"
+      "POWERARMOR_COMPATIBLE",
+      "UNBREAKABLE"
     ]
   },
   {
@@ -477,7 +477,7 @@
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ]
   },
   {
     "id": "aura_stoneskin",
@@ -497,7 +497,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "POWERARMOR_COMPATIBLE", "UNBREAKABLE" ]
   },
   {
     "id": "overcharge_burn_scar",
