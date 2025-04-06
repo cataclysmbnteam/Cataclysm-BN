@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_ANGLE_H
-#define CATA_SRC_UNITS_ANGLE_H
 
 #include <algorithm>
 
@@ -111,4 +109,4 @@ constexpr units::angle operator"" _arcmin( const unsigned long long v )
     return units::from_arcmin( v );
 }
 
-#endif // CATA_SRC_UNITS_ANGLE_H
+

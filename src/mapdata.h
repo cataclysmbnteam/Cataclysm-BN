@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAPDATA_H
-#define CATA_SRC_MAPDATA_H
 
 #include <array>
 #include <bitset>
@@ -812,4 +810,4 @@ extern furn_id f_null,
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();
 
-#endif // CATA_SRC_MAPDATA_H
+
