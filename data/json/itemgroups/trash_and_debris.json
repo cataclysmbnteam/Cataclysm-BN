@@ -149,6 +149,7 @@
       { "item": "thermos", "prob": 2, "count": [ 1, 2 ] },
       { "item": "tinder", "prob": 1, "count": [ 1, 2 ] },
       { "item": "touristmap", "prob": 1 },
+      { "item": "regionaltransportmap", "prob": 1 },
       { "item": "trailmap", "prob": 1 },
       { "item": "withered", "prob": 10, "count": [ 1, 10 ] },
       { "item": "wrapper", "prob": 70, "count": [ 1, 6 ] }
