@@ -542,7 +542,7 @@
     "components": [
       [ [ "stick_long", 1 ], [ "q_staff", 1 ], [ "i_staff", 1 ], [ "pool_cue", 1 ], [ "broom", 1 ] ],
       [ [ "steel_standard", 1, "LIST" ], [ "canister_empty", 1 ] ],
-      [ [ "wire", 1 ], [ "wire_barbed", 1 ] ],
+      [ [ "steel_tiny", 2, "LIST" ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
     ]
