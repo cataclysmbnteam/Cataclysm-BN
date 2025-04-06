@@ -336,15 +336,12 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [
-      [ [ "rock", -1 ], [ "sponge", -1 ], [ "sand", -1 ], [ "steel_standard", -1 ] ],
-      [ [ "fabric_standard", -1 ], [ "fabric_hides_any", -1 ] ]
-    ],
+    "tools": [ [ [ "rock", -1 ], [ "sponge", -1 ], [ "material_sand", -1 ], [ "steel_chunk", -1 ], [ "steel_lump", -1 ] ] ],
     "components": [
       [ [ "stick_long", 1 ] ],
       [
-        [ "any_tallow", 1 ],
-        [ "edible_lard", 2 ],
+        [ "any_tallow", 1, "LIST" ],
+        [ "edible_lard", 2, "LIST" ],
         [ "cooking_oil", 8 ],
         [ "cooking_oil2", 8 ],
         [ "lamp_oil", 100 ],
@@ -536,9 +533,16 @@
     ],
     "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
     "components": [
-      [ [ "log", 1 ], [ "shillelagh", 1 ], [ "bat", 1 ], [ "wood_structural_small", 1 ], [ "club_spiked", 1 ], [ "pipe", 1 ] ],
-      [ [ "steel_standard", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "cordage_superior_short", 2 ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
+      [
+        [ "log", 1 ],
+        [ "shillelagh", 1 ],
+        [ "bat", 1 ],
+        [ "wood_structural_small", 1, "LIST" ],
+        [ "club_spiked", 1 ],
+        [ "pipe", 1 ]
+      ],
+      [ [ "steel_standard", 1, "LIST" ], [ "canister_empty", 1 ] ],
+      [ [ "wire", 1 ], [ "wire_barbed", 1 ] ],
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
     ]
@@ -561,9 +565,9 @@
     ],
     "tools": [ [ [ "boltcutters", -1 ], [ "pliers", -1 ], [ "toolset", -1 ], [ "multitool", -1 ] ] ],
     "components": [
-      [ [ "stick_long", 1 ], [ "q_staff", 1 ], [ "i_staff", 1 ], [ "pool_cue" ], [ "broom", 1 ] ],
-      [ [ "steel_standard", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "cordage_superior_short", 2 ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
+      [ [ "stick_long", 1 ], [ "q_staff", 1 ], [ "i_staff", 1 ], [ "pool_cue", 1 ], [ "broom", 1 ] ],
+      [ [ "steel_standard", 1, "LIST" ], [ "canister_empty", 1 ] ],
+      [ [ "wire", 1 ], [ "wire_barbed", 1 ] ],
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
     ]

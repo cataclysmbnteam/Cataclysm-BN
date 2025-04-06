@@ -1012,7 +1012,8 @@
     "name": "survivor club",
     "description": "During World War 1, soldiers would commonly make makeshift-yet-sturdy clubs or maces using a chunk of wood, scrap metal, and sturdy nails or pieces of thick wire in order to perform nighttime raids relatively quietly.  Your ancestors will salute you for continuing that tradition during your darkest hour.",
     "bashing": 29,
-    "cutting": 11
+    "cutting": 11,
+    "weight": "1450 g"
   },
   {
     "id": "spike_staff",
@@ -1021,8 +1022,9 @@
     "name": "survivor staff",
     "description": "A wooden staff with metal bands or a length of wire wrapped onto both ends and various nails or spikes attached to it.  Makeshift weapons have a long history throughout warfare, from the trench clubs of World War 1 to the staffs used by medieval peasants, and hopefully it will help you survive too.",
     "weapon_category": [ "QUARTERSTAVES", "2H_HAMMERS", "SPEARS" ],
-    "bashing": 22,
+    "bashing": 30,
     "cutting": 10,
+    "weight": "1525 g",
     "extend": { "flags": [ "STAB", "REACH_ATTACK", "SPEAR" ] }
   }
 ]
