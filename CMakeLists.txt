@@ -421,7 +421,7 @@ if (BACKTRACE)
             INSTALL_COMMAND make install
 
             INSTALL_DIR ${LIBBACKTRACE_INSTALL_DIR}
-            BUILD_BYPRODUCTS <INSTALL_DIR>/lib/libbacktrace.a
+            BUILD_BYPRODUCTS ${LIBBACKTRACE_LIBRARY}
 
             UPDATE_DISCONNECTED 1
         )
