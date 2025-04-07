@@ -436,6 +436,8 @@ if (BACKTRACE)
             "${LIBBACKTRACE_INSTALL_DIR}/include"
         )
         add_dependencies(backtrace libbacktrace_external)
+    endif ()
+    if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
     endif ()
 endif ()
