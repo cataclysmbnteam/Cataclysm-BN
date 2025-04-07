@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_EXAMINE_ITEM_MENU_H
-#define CATA_SRC_EXAMINE_ITEM_MENU_H
 
 #include <functional>
 
@@ -48,4 +46,4 @@ hint_rating rate_action_disassemble( avatar &you, const item &it );
 
 } // namespace examine_item_menu
 
-#endif // CATA_SRC_EXAMINE_ITEM_MENU_H
+
