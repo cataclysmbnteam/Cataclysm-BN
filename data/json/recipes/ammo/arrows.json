@@ -152,18 +152,11 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [
-        [ "stick", 1 ],
-        [ "broom", 1 ],
-        [ "2x4", 1 ],
-        [ "bee_sting", 1 ],
-        [ "arrow_fire_hardened_fletched", 10 ],
-        { "id": "SANDING", "level": 1 }
-      ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "arrow_fire_hardened_fletched", 10 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ],
     "delete_flags": [ "FILTHY" ],

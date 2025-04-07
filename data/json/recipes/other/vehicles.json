@@ -11,15 +11,9 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "qualities": [
-      { "id": "SCREW", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 2 },
-      { "id": "SANDING", "level": 1 }
-    ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "2x4", 25 ], [ "frame_wood", 4 ] ],
-      [ [ "varnish", 12, "LIST" ] ],
       [ [ "sheet_metal_small", 3 ] ],
       [ [ "nail_glue", 100, "LIST" ] ],
       [ [ "pipe", 4 ] ],
@@ -395,13 +389,11 @@
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 2 },
-      { "id": "SAW_W", "level": 2 },
-      { "id": "SANDING", "level": 1 }
+      { "id": "SAW_W", "level": 2 }
     ],
     "components": [
       [ [ "2x4", 15 ], [ "frame_wood", 3 ] ],
       [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ],
-      [ [ "varnish", 20, "LIST" ] ],
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "nail_glue", 100, "LIST" ] ],
       [ [ "pipe", 8 ] ],
@@ -1898,12 +1890,10 @@
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 2 },
-      { "id": "SAW_W", "level": 2 },
-      { "id": "SANDING", "level": 1 }
+      { "id": "SAW_W", "level": 2 }
     ],
     "components": [
       [ [ "2x4", 20 ], [ "frame_wood", 4 ], [ "wood_panel", 4 ] ],
-      [ [ "varnish", 10, "LIST" ] ],
       [ [ "sheet_metal_small", 10 ] ],
       [ [ "nail_glue", 20, "LIST" ] ],
       [ [ "pipe", 5 ] ],
