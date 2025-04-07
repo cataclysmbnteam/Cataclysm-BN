@@ -454,7 +454,6 @@
     "name": { "str": "iron javelin" },
     "description": "An iron-tipped wooden throwing spear.  The grip area has been carved and covered for better grip.",
     "weight": "1 kg",
-    "to_hit": -1,
     "color": "light_gray",
     "material": [ "wood", "iron" ],
     "bashing": 5,

@@ -328,7 +328,7 @@
   {
     "id": "varnish",
     "type": "requirement",
-    "//": "Any kind of item that can be used for the purpose of oiling wood.",
+    "//": "Any kind of item that can be used for the purpose of varnishing wood.",
     "components": [
       [
         [ "any_tallow", 1, "LIST" ],
@@ -337,15 +337,18 @@
         [ "cooking_oil2", 8 ],
         [ "lamp_oil", 100 ],
         [ "motor_oil", 100 ],
-        [ "r_paint", 50 ],
-        [ "b_paint", 50 ],
-        [ "w_paint", 50 ],
-        [ "g_paint", 50 ],
-        [ "p_paint", 50 ],
-        [ "y_paint", 50 ],
-        [ "bone_glue", 5 ],
+        [ "r_paint", 10 ],
+        [ "b_paint", 10 ],
+        [ "w_paint", 10 ],
+        [ "g_paint", 10 ],
+        [ "p_paint", 10 ],
+        [ "y_paint", 10 ],
+        [ "bone_glue", 1 ],
+        [ "superglue", 1 ],
+        [ "wax", 1 ],
         [ "soap", 1 ],
         [ "soap_flakes", 1 ],
+        [ "detergent", 1 ],
         [ "shimmer", 1 ]
       ]
     ]

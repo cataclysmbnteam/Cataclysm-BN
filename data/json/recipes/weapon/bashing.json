@@ -9,8 +9,8 @@
     "time": "40 m",
     "autolearn": true,
     "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail_glue", 5, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nail_glue", 5, "LIST" ] ], [ [ "varnish", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -22,9 +22,9 @@
     "difficulty": 3,
     "time": "360 m",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 100 ] ] ],
-    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "edible_lard", 4, "LIST" ] ] ]
+    "components": [ [ [ "log", 1 ] ], [ [ "varnish", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -132,7 +132,7 @@
     "skill_used": "fabrication",
     "time": "25 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
@@ -241,7 +241,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -275,7 +275,8 @@
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
-    "components": [ [ [ "scrap", 24 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "scrap", 24 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -287,11 +288,11 @@
     "difficulty": 7,
     "time": "5 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "//": "Bokken is a single piece of wood, and the heavy stick just isn't large enough.",
     "components": [
       [ [ "log", 1 ] ],
-      [ [ "varnish", 1, "LIST" ] ],
+      [ [ "varnish", 2, "LIST" ] ],
       [ [ "fabric_hides_any", 2, "LIST" ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
@@ -305,8 +306,9 @@
     "difficulty": 4,
     "time": "3 h",
     "book_learn": [ [ "textbook_weapwest", 3 ], [ "recipe_melee", 4 ] ],
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_standard", 3 ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -317,8 +319,9 @@
     "difficulty": 6,
     "time": "4 h",
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "using": [ [ "blacksmithing_advanced", 16 ], [ "steel_standard", 4 ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ] ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -331,7 +334,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "varnish", 1, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "varnish", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -355,8 +358,9 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "varnish", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -382,8 +386,9 @@
     "difficulty": 7,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "varnish", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -396,8 +401,8 @@
     "time": "32 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 5, "LIST" ] ], [ [ "varnish", 3, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -471,6 +476,7 @@
     ],
     "components": [
       [ [ "shillelagh", 1 ], [ "bat", 1 ], [ "cudgel", 1 ], [ "wood_structural_small", 1, "LIST" ] ],
+      [ [ "varnish", 1, "LIST" ] ],
       [ [ "steel_tiny", 2, "LIST" ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
       [ [ "fabric_standard", 1, "LIST" ], [ "felt_patch", 1 ], [ "fabric_hides_any", 1, "LIST" ] ]
@@ -517,7 +523,7 @@
     ],
     "components": [
       [ [ "stick_long", 1 ], [ "q_staff", 1 ], [ "i_staff", 1 ], [ "pool_cue", 1 ], [ "broom", 1 ] ],
-      [ [ "varnish", 1, "LIST" ] ],
+      [ [ "varnish", 3, "LIST" ] ],
       [ [ "steel_standard", 1, "LIST" ], [ "canister_empty", 1 ] ],
       [ [ "steel_tiny", 2, "LIST" ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
