@@ -634,8 +634,8 @@
     "time": "1 h",
     "autolearn": true,
     "result_mult": 3,
-    "using": [ [ "blacksmithing_intermediate", 3 ], [ "steel_tiny", 3 ], { "id": "SANDING", "level": 1 } ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "blacksmithing_intermediate", 3 ], [ "steel_tiny", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
