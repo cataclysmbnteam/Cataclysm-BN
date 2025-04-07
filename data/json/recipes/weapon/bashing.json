@@ -240,8 +240,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "sanding", 1, "LIST" ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -292,13 +291,7 @@
     "//": "Bokken is a single piece of wood, and the heavy stick just isn't large enough.",
     "components": [
       [ [ "log", 1 ] ],
-      [
-        [ "any_tallow", 2, "LIST" ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ],
-        [ "lamp_oil", 250 ],
-        [ "motor_oil", 250 ]
-      ],
+      [ [ "varnish", 1, "LIST" ] ],
       [ [ "fabric_hides_any", 2, "LIST" ] ],
       [ [ "duct_tape", 20 ], [ "filament", 20, "LIST" ] ]
     ]
@@ -337,19 +330,8 @@
     "skills_required": [ "melee", 1 ],
     "time": "45 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "sanding", 1, "LIST" ] ] ],
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [
-        [ "any_tallow", 1, "LIST" ],
-        [ "edible_lard", 1, "LIST" ],
-        [ "cooking_oil", 8 ],
-        [ "cooking_oil2", 8 ],
-        [ "lamp_oil", 100 ],
-        [ "motor_oil", 100 ]
-      ]
-    ]
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -387,18 +369,9 @@
     "time": "5 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 4 ] ],
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
-    "components": [
-      [ [ "wood_beam", 1 ] ],
-      [
-        [ "any_tallow", 4, "LIST" ],
-        [ "cooking_oil", 32 ],
-        [ "cooking_oil2", 32 ],
-        [ "lamp_oil", 500 ],
-        [ "motor_oil", 500 ]
-      ]
-    ]
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "varnish", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -490,8 +463,12 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "sanding", 1, "LIST" ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "components": [
       [ [ "shillelagh", 1 ], [ "bat", 1 ], [ "cudgel", 1 ], [ "wood_structural_small", 1, "LIST" ] ],
       [ [ "steel_tiny", 2, "LIST" ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
@@ -532,10 +509,15 @@
     "skills_required": [ [ "melee", 2 ] ],
     "time": "45 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "sanding", 1, "LIST" ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SANDING", "level": 1 }
+    ],
     "components": [
       [ [ "stick_long", 1 ], [ "q_staff", 1 ], [ "i_staff", 1 ], [ "pool_cue", 1 ], [ "broom", 1 ] ],
+      [ [ "varnish", 1, "LIST" ] ],
       [ [ "steel_standard", 1, "LIST" ], [ "canister_empty", 1 ] ],
       [ [ "steel_tiny", 2, "LIST" ], [ "wire", 1 ], [ "wire_barbed", 1 ] ],
       [ [ "wire", 1 ], [ "wire_barbed", 1 ], [ "spike", 4 ], [ "nail", 20 ] ],
