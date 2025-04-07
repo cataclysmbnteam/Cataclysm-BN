@@ -104,7 +104,6 @@ class vehicle_connector_tile : public active_tile_data
 class countdown_tile : public active_tile_data
 {
     public:
-        /* In J */
         time_duration timer = 5_seconds;
         active_tiles::furn_transform transform;
         int ticks = -1;
