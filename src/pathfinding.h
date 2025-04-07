@@ -1,5 +1,4 @@
-#ifndef CATA_SRC_PATHFINDING_DIJIKSTRA_H
-#define CATA_SRC_PATHFINDING_DIJIKSTRA_H
+#pragma once
 
 #include <array>
 #include <cstring>
@@ -338,4 +337,4 @@ class Pathfinding
         //   such as change in terrain
         static void mark_dirty_z_cache();
 };
-#endif // CATA_SRC_PATHFINDING_DIJIKSTRA_H
+
