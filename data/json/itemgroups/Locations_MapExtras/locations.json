@@ -1563,6 +1563,7 @@
       { "item": "razor_blade", "prob": 20 },
       { "item": "soap", "prob": 5 },
       { "item": "detergent", "prob": 5 },
+      { "item": "shimmer", "prob": 3 },
       { "item": "knitting_needles", "prob": 1 },
       { "group": "auto_sears", "prob": 5 },
       { "item": "survnote", "prob": 2 }

@@ -345,7 +345,8 @@
         [ "y_paint", 50 ],
         [ "bone_glue", 5 ],
         [ "soap", 1 ],
-        [ "soap_flakes", 1 ]
+        [ "soap_flakes", 1 ],
+        [ "shimmer", 1 ]
       ]
     ]
   }
