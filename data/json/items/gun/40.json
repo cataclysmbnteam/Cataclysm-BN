@@ -320,7 +320,7 @@
     "min_cycle_recoil": 320,
     "blackpowder_tolerance": 24,
     "built_in_mods": [ "folding_stock" ],
-    "modes": [ [ "DEFAULT", "semi", 1 ],[ "BURST", "burst", 2 ], [ "AUTO", "auto", 6 ] ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 6 ] ],
     "magazine_well": "500 ml",
     "magazines": [ [ "40", [ "kriss_vector40_mag", "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   }
