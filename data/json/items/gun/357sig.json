@@ -76,7 +76,7 @@
     "looks_like": "kriss_vector",
     "type": "GUN",
     "name": { "str": "KRISS Vector .357 SIG" },
-    "description": "A submachine gun with a sleek in-line design. It features a 2-round burst mode to make the least out of its unique recoil mitigation system alongside a blistering full-auto mode. This one is chambered in .357 SIG and uses Glock 31 magazines.",
+    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to make the most out of its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in .357 SIG and uses Glock 31 magazines.",
     "weight": "3400 g",
     "volume": "1750 ml",
     "barrel_length": "150 ml",
