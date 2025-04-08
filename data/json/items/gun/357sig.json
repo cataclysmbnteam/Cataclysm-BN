@@ -27,7 +27,7 @@
     "volume": "443 ml",
     "price_postapoc": "2250 cent",
     "ammo": "357sig",
-    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd", "kriss_vector40_mag" ] ] ]
+    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd", "kriss_mag" ] ] ]
   },
   {
     "id": "p320_357sig",
@@ -68,7 +68,7 @@
     "dispersion": 170,
     "durability": 10,
     "min_cycle_recoil": 400,
-    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd", "kriss_vector40_mag" ] ] ]
+    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd", "kriss_mag" ] ] ]
   },
   {
     "id": "kriss_vector357",
@@ -94,6 +94,6 @@
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 6 ] ],
     "magazine_well": "500 ml",
-    "magazines": [ [ "357sig", [ "kriss_vector40_mag", "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
+    "magazines": [ [ "357sig", [ "kriss_mag", "glock40mag", "glock40bigmag", "glock40drum50rd" ] ] ]
   }
 ]

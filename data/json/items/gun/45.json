@@ -3,9 +3,9 @@
     "id": "TDI",
     "copy-from": "smg_base",
     "type": "GUN",
-    "name": { "str": "TDI Vector" },
-    "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
-    "weight": "3100 g",
+    "name": { "str": "Kriss Vector .45ACP" },
+    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to make the most out of its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in .45ACP and uses Glock 21 magazines.",
+    "weight": "3400 g",
     "volume": "1750 ml",
     "barrel_length": "150 ml",
     "price": "3100 USD",
@@ -15,11 +15,12 @@
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "ammo": "45",
-    "dispersion": 280,
-    "durability": 7,
-    "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
-    "magazine_well": "500 ml",
+    "dispersion": 250,
+    "durability": 10,
+    "min_cycle_recoil": 380,
+    "blackpowder_tolerance": 24,
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 6 ] ],
     "magazines": [ [ "45", [ "tdi_mag", "glock_21mag", "glock_21mag26", "glock21drum40rd" ] ] ]
   },
   {
@@ -282,7 +283,7 @@
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd", "kriss_vector45_mag" ] ] ]
+    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd", "tdi_mag" ] ] ]
   },
   {
     "id": "mkg_guard",
@@ -304,31 +305,6 @@
     "dispersion": 170,
     "durability": 10,
     "min_cycle_recoil": 400,
-    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd", "kriss_vector45_mag" ] ] ]
-  },
-  {
-    "id": "kriss_vector45",
-    "copy-from": "smg_base",
-    "type": "GUN",
-    "looks_like": "TDI",
-    "name": { "str": "Kriss Vector .45ACP" },
-    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to make the most out of its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in .45ACP and uses Glock 21 magazines.",
-    "weight": "3400 g",
-    "volume": "1750 ml",
-    "barrel_length": "150 ml",
-    "price": "3100 USD",
-    "price_postapoc": "35 USD",
-    "to_hit": -2,
-    "bashing": 9,
-    "material": [ "steel", "plastic" ],
-    "color": "dark_gray",
-    "ammo": "45",
-    "dispersion": 250,
-    "durability": 10,
-    "min_cycle_recoil": 380,
-    "blackpowder_tolerance": 24,
-    "built_in_mods": [ "folding_stock" ],
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 6 ] ],
-    "magazines": [ [ "45", [ "kriss_vector45_mag", "glock_21mag", "glock_21mag26", "glock21drum40rd" ] ] ]
+    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26", "glock21drum40rd", "tdi_mag" ] ] ]
   }
 ]

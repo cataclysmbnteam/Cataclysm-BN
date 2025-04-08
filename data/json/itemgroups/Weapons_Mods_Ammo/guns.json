@@ -300,7 +300,7 @@
     "items": [
       { "group": "nested_american_180", "prob": 20 },
       { "group": "nested_hk_mp5_semi_pistol", "prob": 70 },
-      { "group": "nested_kriss_vector45", "prob": 20 },
+      { "group": "nested_TDI", "prob": 20 },
       { "group": "nested_kriss_vector10", "prob": 20 },
       { "group": "nested_mac_10", "prob": 40 },
       { "group": "nested_mac_11", "prob": 20 },
@@ -317,7 +317,7 @@
     "items": [
       { "group": "everyday_american_180", "prob": 20 },
       { "group": "everyday_hk_mp5_semi_pistol", "prob": 70 },
-      { "group": "everyday_kriss_vector45", "prob": 20 },
+      { "group": "everyday_tdi", "prob": 20 },
       { "group": "everyday_kriss_vector10", "prob": 20 },
       { "group": "everyday_mac_10", "prob": 40 },
       { "group": "everyday_mac_11", "prob": 20 },
@@ -334,7 +334,7 @@
     "items": [
       { "item": "american_180", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_mp5_semi_pistol", "prob": 70, "charges-min": 0, "charges-max": 0 },
-      { "item": "kriss_vector45", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "TDI", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "kriss_vector9", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "kriss_vector10", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "mac_10", "prob": 40, "charges-min": 0, "charges-max": 0 },
@@ -356,7 +356,7 @@
       { "group": "nested_hk_mp5sd", "prob": 10 },
       { "group": "nested_hk_mp7", "prob": 60 },
       { "group": "nested_hk_ump45", "prob": 30 },
-      { "group": "nested_kriss_vector40", "prob": 20 },
+      { "group": "nested_kriss_vector", "prob": 20 },
       { "group": "nested_kriss_vector357", "prob": 40 }
     ]
   },
@@ -371,7 +371,7 @@
       { "group": "everyday_hk_mp5sd", "prob": 10 },
       { "group": "everyday_hk_mp7", "prob": 60 },
       { "group": "everyday_hk_ump45", "prob": 30 },
-      { "group": "everyday_kriss_vector40", "prob": 20 },
+      { "group": "everyday_kriss_vector", "prob": 20 },
       { "group": "everyday_kriss_vector357", "prob": 40 }
     ]
   },

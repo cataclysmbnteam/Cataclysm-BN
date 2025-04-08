@@ -82,7 +82,7 @@
       [ "ppq40mag_12rd", 1 ],
       [ "ppq40mag_14rd", 1 ],
       [ "ppq45mag", 1 ],
-      [ "kriss_vector40_mag", 20 ]
+      [ "kriss_mag", 20 ]
     ]
   },
   {
@@ -103,7 +103,7 @@
       [ "usp9mag", 10 ],
       [ "as50mag", 2 ],
       [ "hk417mag_20rd", 20 ],
-      [ "kriss_vector40_mag", 20 ]
+      [ "kriss_mag", 20 ]
     ]
   },
   {
@@ -202,7 +202,7 @@
     "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
       [ "a180mag", 20 ],
-      [ "kriss_vector45_mag", 40 ],
+      [ "tdi_mag", 40 ],
       [ "kriss_vector10_mag", 40 ],
       [ "mac10mag", 40 ],
       [ "mac11mag", 20 ],
