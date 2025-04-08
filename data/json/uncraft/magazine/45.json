@@ -14,6 +14,20 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
+    "result": "tdi_mag",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "kriss_mag",
+    "type": "uncraft",
+    "copy-from": "metal_magazine",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
     "result": "kriss_vector45_mag",
     "type": "uncraft",
     "copy-from": "metal_magazine",
