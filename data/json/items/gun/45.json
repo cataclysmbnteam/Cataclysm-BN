@@ -312,7 +312,7 @@
     "type": "GUN",
     "looks_like": "TDI",
     "name": { "str": "Kriss Vector .45ACP" },
-    "description": "A submachine gun with a sleek in-line design. It features a 2-round burst mode to make the least out of its unique recoil mitigation system alongside a blistering full-auto mode. This one is chambered in .45ACP and uses Glock 21 magazines.",
+    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to make the most out of its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in .45ACP and uses Glock 21 magazines.",
     "weight": "3400 g",
     "volume": "1750 ml",
     "barrel_length": "150 ml",

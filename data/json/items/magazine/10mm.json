@@ -38,7 +38,7 @@
     "price": "25 USD",
     "price_postapoc": "950 cent",
     "ammo_type": "10mm"
-  }
+  },
   {
     "id": "kriss_vector10_mag",
     "looks_like": "tdi_mag",
