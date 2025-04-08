@@ -69,7 +69,7 @@
     "durability": 10,
     "min_cycle_recoil": 400,
     "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag", "glock40drum50rd", "kriss_vector40_mag" ] ] ]
-  }
+  },
   {
     "id": "kriss_vector357",
     "copy-from": "smg_base",
