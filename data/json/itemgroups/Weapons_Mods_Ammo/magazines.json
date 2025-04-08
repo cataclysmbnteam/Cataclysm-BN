@@ -35,7 +35,8 @@
       [ "stanag100", 2 ],
       [ "hk417mag_20rd", 30 ],
       [ "hk417mag_10rd", 20 ],
-      [ "p320mag_17rd_9x19mm", 60 ]
+      [ "p320mag_17rd_9x19mm", 60 ],
+      [ "kriss_vector9_mag", 20 ]
     ]
   },
   {
@@ -80,7 +81,8 @@
       [ "ppq40mag_10rd", 1 ],
       [ "ppq40mag_12rd", 1 ],
       [ "ppq40mag_14rd", 1 ],
-      [ "ppq45mag", 1 ]
+      [ "ppq45mag", 1 ],
+      [ "kriss_vector40_mag", 20 ] //shares with 357 variant
     ]
   },
   {
@@ -100,7 +102,8 @@
       [ "usp45mag", 10 ],
       [ "usp9mag", 10 ],
       [ "as50mag", 2 ],
-      [ "hk417mag_20rd", 20 ]
+      [ "hk417mag_20rd", 20 ],
+      [ "kriss_vector40_mag", 20 ] //shares with 357 variant
     ]
   },
   {
@@ -199,9 +202,7 @@
     "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
       [ "a180mag", 20 ],
-      [ "kriss_vector40_mag", 50 ], //shared with 357 variant
       [ "kriss_vector45_mag", 40 ],
-      [ "kriss_vector9_mag", 40 ],
       [ "kriss_vector10_mag", 40 ],
       [ "mac10mag", 40 ],
       [ "mac11mag", 20 ],
@@ -209,7 +210,8 @@
       [ "stenmag", 100 ],
       [ "tec9mag", 20 ],
       [ "thompson_mag", 70 ],
-      [ "uzimag", 100 ]
+      [ "uzimag", 100 ],
+      [ "kriss_vector9_mag", 10 ]
     ]
   },
   {
