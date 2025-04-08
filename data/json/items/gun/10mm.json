@@ -51,7 +51,7 @@
     "type": "GUN",
     "looks_like": "TDI",
     "name": { "str": "Kriss Vector 10mm Auto" },
-    "description": "A submachine gun with a sleek in-line design. It features a 2-round burst mode to make the least out of its unique recoil mitigation system alongside a blistering full-auto mode. This one is chambered in 10mm Auto and uses Glock 20 magazines.",
+    "description": "A submachine gun with a sleek in-line design.  It features a 2-round burst mode to make the most out of its unique recoil mitigation system alongside a blistering full-auto mode.  This one is chambered in 10mm Auto and uses Glock 20 magazines.",
     "weight": "3400 g",
     "volume": "1750 ml",
     "barrel_length": "150 ml",
