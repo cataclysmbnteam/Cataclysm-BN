@@ -37,14 +37,14 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "kriss_vector45_mag",
-    "looks_like": "tdi_mag",
+    "id": "tdi_mag",
+    "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "Kriss Vector .45ACP magazine" },
-    "description": "A 30-round modified Glock 21 magazine with a +17 MagEx kit installed, intended to be used with a KRISS Vector .45ACP. Can also fit in a Glock 21.",
-    "weight": "200 g",
+    "name": { "str": "TDI Vector magazine" },
+    "description": "A 30-round steel box magazine for use with the TDI Vector",
+    "weight": "210 g",
     "volume": "500 ml",
-    "price": "60 USD",
+    "price": "18 USD",
     "price_postapoc": "1 USD",
     "material": "steel",
     "symbol": "#",
@@ -244,5 +244,23 @@
     "price_postapoc": "1000 cent",
     "ammo_type": "45",
     "capacity": 40
+  },
+  {
+    "id": "kriss_vector45_mag",
+    "looks_like": "tdi_mag",
+    "type": "MAGAZINE",
+    "name": { "str": "Kriss Vector .45ACP magazine" },
+    "description": "A 30-round modified Glock 21 magazine with a +17 MagEx kit installed, intended to be used with a KRISS Vector .45ACP. Can also fit in a Glock 21.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": "60 USD",
+    "price_postapoc": "1 USD",
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "45",
+    "capacity": 30,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]
