@@ -222,7 +222,7 @@
     ]
   },
   {
-    "id": "nested_kriss_mag",
+    "id": "nested_kriss_vector_mag",
     "type": "item_group",
     "subtype": "distribution",
     "ammo": 100,
