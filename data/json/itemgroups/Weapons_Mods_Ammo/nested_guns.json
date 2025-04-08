@@ -1122,28 +1122,64 @@
     ]
   },
   {
-    "id": "nested_TDI",
+    "id": "nested_kriss_vector45",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "TDI", "ammo-group": "on_hand_45", "charges": [ 0, 30 ] },
-      { "group": "nested_TDI_mag" },
-      { "group": "nested_TDI_mag", "prob": 50 },
+      { "item": "kriss_vector45", "ammo-group": "on_hand_45", "charges": [ 0, 30 ] },
+      { "group": "nested_kriss_vector45_mag" },
+      { "group": "nested_kriss_vector45_mag", "prob": 50 },
       { "group": "on_hand_45" }
     ]
   },
   {
-    "id": "nested_kriss_vector",
+    "id": "nested_kriss_vector40",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-      { "item": "kriss_vector", "ammo-group": "on_hand_40", "charges": [ 0, 30 ] },
-      { "group": "nested_kriss_vector_mag", "charges-min": 0 },
-      { "group": "nested_kriss_vector_mag", "charges-min": 0, "prob": 50 },
+      { "item": "kriss_vector40", "ammo-group": "on_hand_40", "charges": [ 0, 30 ] },
+      { "group": "nested_kriss_vector40_mag", "charges-min": 0 },
+      { "group": "nested_kriss_vector40_mag", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_40" }
+    ]
+  },
+  {
+    "id": "nested_kriss_vector9",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "kriss_vector9", "ammo-group": "on_hand_9mm", "charges": [ 0, 30 ] },
+      { "group": "nested_kriss_vector9_mag", "charges-min": 0 },
+      { "group": "nested_kriss_vector9_mag", "charges-min": 0, "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_kriss_vector10",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "kriss_vector10", "ammo-group": "on_hand_10mm", "charges": [ 0, 30 ] },
+      { "group": "nested_kriss_vector10_mag", "charges-min": 0 },
+      { "group": "nested_kriss_vector10_mag", "charges-min": 0, "prob": 50 },
+      { "group": "on_hand_10mm" }
+    ]
+  },
+  {
+    "id": "nested_kriss_vector357",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "kriss_vector40", "ammo-group": "on_hand_357sig", "charges": [ 0, 30 ] },
+      { "group": "nested_kriss_vector40_mag", "charges-min": 0 },
+      { "group": "nested_kriss_vector40_mag", "charges-min": 0, "prob": 50 },
+      { "group": "on_hand_357sig" }
     ]
   },
   {

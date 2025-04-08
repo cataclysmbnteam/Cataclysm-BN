@@ -199,12 +199,14 @@
     "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
       [ "a180mag", 20 ],
-      [ "kriss_mag", 40 ],
+      [ "kriss_vector40_mag", 50 ], //shared with 357 variant
+      [ "kriss_vector45_mag", 40 ],
+      [ "kriss_vector9_mag", 40 ],
+      [ "kriss_vector10_mag", 40 ],
       [ "mac10mag", 40 ],
       [ "mac11mag", 20 ],
       [ "mp5mag", 90 ],
       [ "stenmag", 100 ],
-      [ "tdi_mag", 40 ],
       [ "tec9mag", 20 ],
       [ "thompson_mag", 70 ],
       [ "uzimag", 100 ]
