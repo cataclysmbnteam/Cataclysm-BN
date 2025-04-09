@@ -867,17 +867,6 @@ void monster::move()
         remove_effect( effect_harnessed );
     }
 
-    // A measure to prevent zombies endlessly pathing towards the same goal ineffectively which is already occupied by other zombies
-    //   sharing the same goal, preventing "balling up behavior"
-    if( !this->is_wandering() ) {
-        monster *maybe_friend = g->critter_at<monster>( this->goal );
-        if( maybe_friend != nullptr && maybe_friend->goal == this->goal && this->sees( this->goal ) ) {
-            // Give up on that target and fast-wander off instead
-            this->unset_dest();
-            wandf += 10;
-        }
-    }
-
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !is_wandering() ) {
