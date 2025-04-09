@@ -41,7 +41,7 @@
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": "Kriss Vector .45ACP magazine" },
-    "description": "A 30-round modified Glock 21 magazine with a +17 MagEx kit installed, intended to be used with a KRISS Vector .45ACP. Can also fit in a Glock 21.",
+    "description": "A 30-round modified Glock 21 magazine with a +17 MagEx kit installed, intended to be used with a KRISS Vector .45ACP.  Can also fit in a Glock 21.",
     "weight": "200 g",
     "volume": "500 ml",
     "price": "60 USD",

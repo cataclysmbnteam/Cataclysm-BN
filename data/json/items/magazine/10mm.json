@@ -44,7 +44,7 @@
     "looks_like": "tdi_mag",
     "type": "MAGAZINE",
     "name": { "str": "Kriss Vector 10mm Auto magazine" },
-    "description": "A 33-round modified Glock 20 magazine with a +18 MagEx kit installed, intended to be used with a KRISS Vector 10mm Auto. Can also fit in a Glock 20.",
+    "description": "A 33-round modified Glock 20 magazine with a +18 MagEx kit installed, intended to be used with a KRISS Vector 10mm Auto.  Can also fit in a Glock 20.",
     "weight": "200 g",
     "volume": "500 ml",
     "price": "60 USD",

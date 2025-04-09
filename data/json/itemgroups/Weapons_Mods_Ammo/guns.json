@@ -317,7 +317,7 @@
     "items": [
       { "group": "everyday_american_180", "prob": 20 },
       { "group": "everyday_hk_mp5_semi_pistol", "prob": 70 },
-      { "group": "everyday_tdi", "prob": 20 },
+      { "group": "everyday_TDI", "prob": 20 },
       { "group": "everyday_kriss_vector10", "prob": 20 },
       { "group": "everyday_mac_10", "prob": 40 },
       { "group": "everyday_mac_11", "prob": 20 },
@@ -357,6 +357,7 @@
       { "group": "nested_hk_mp7", "prob": 60 },
       { "group": "nested_hk_ump45", "prob": 30 },
       { "group": "nested_kriss_vector", "prob": 20 },
+      { "group": "nested_TDI", "prob": 20 },
       { "group": "nested_kriss_vector357", "prob": 40 }
     ]
   },
@@ -372,6 +373,7 @@
       { "group": "everyday_hk_mp7", "prob": 60 },
       { "group": "everyday_hk_ump45", "prob": 30 },
       { "group": "everyday_kriss_vector", "prob": 20 },
+      { "group": "nested_TDI", "prob": 20 },
       { "group": "everyday_kriss_vector357", "prob": 40 }
     ]
   },
@@ -386,6 +388,7 @@
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5k", "prob": 10 },
       { "group": "nested_hk_mp5sd", "prob": 5 },
+      { "group": "nested_TDI", "prob": 20 },
       { "group": "nested_kriss_vector9", "prob": 20 }
     ]
   },

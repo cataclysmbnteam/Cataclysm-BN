@@ -239,7 +239,7 @@
     "looks_like": "tdi_mag",
     "type": "MAGAZINE",
     "name": { "str": "KRISS Vector .40 S&W/.357 SIG magazine" },
-    "description": "A 32-round modified Glock 22 magazine with a +17 MagEx kit installed, intended to be used with a KRISS Vector in .40 S&W or .357 SIG. Can also fit in a Glock 22 or a Glock 31.",
+    "description": "A 32-round modified Glock 22 magazine with a +17 MagEx kit installed, intended to be used with a KRISS Vector in .40 S&W or .357 SIG.  Can also fit in a Glock 22 or a Glock 31.",
     "ammo_type": [ "40", "357sig" ],
     "weight": "200 g",
     "volume": "500 ml",
@@ -248,7 +248,6 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "40",
     "capacity": 32,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
