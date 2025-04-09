@@ -1051,6 +1051,7 @@
       [ "morningstar", 2 ],
       [ "morningstar_fake", 3 ],
       [ "morningstar_inferior", 4 ],
+      [ "club_spiked", 3 ],
       [ "warhammer", 2 ],
       [ "scythe_war", 2 ],
       [ "pike", 2 ],
@@ -1562,6 +1563,7 @@
       { "item": "razor_blade", "prob": 20 },
       { "item": "soap", "prob": 5 },
       { "item": "detergent", "prob": 5 },
+      { "item": "shimmer", "prob": 3 },
       { "item": "knitting_needles", "prob": 1 },
       { "group": "auto_sears", "prob": 5 },
       { "item": "survnote", "prob": 2 }

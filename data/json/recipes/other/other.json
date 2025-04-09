@@ -253,9 +253,11 @@
     "time": "1 h",
     "book_learn": [ [ "scots_cookbook", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
+    "qualities": [ { "id": "SANDING", "level": 1 } ],
     "components": [
       [ [ "large_stomach_sealed", 1 ], [ "leather", 10 ], [ "fur", 10 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "varnish", 1, "LIST" ] ],
       [ [ "fabric_standard", 3, "LIST" ] ],
       [ [ "adhesive", 1, "LIST" ] ]
     ]
@@ -330,8 +332,8 @@
     "time": "1 h 30 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "varnish", 2, "LIST" ] ], [ [ "nail_glue", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   },
   {
     "result": "fish_bait",
