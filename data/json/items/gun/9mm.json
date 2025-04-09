@@ -716,7 +716,7 @@
     "bashing": 9,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": "45",
+    "ammo": "9mm",
     "dispersion": 250,
     "durability": 10,
     "min_cycle_recoil": 300,

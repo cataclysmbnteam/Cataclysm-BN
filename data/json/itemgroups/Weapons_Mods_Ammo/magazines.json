@@ -202,7 +202,7 @@
     "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
       [ "a180mag", 20 ],
-      [ "TDI_mag", 40 ],
+      [ "tdi_mag", 40 ],
       [ "kriss_vector10_mag", 40 ],
       [ "mac10mag", 40 ],
       [ "mac11mag", 20 ],

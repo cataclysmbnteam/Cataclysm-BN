@@ -86,7 +86,7 @@
     "bashing": 9,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": "40",
+    "ammo": "357sig",
     "dispersion": 210,
     "durability": 10,
     "min_cycle_recoil": 350,

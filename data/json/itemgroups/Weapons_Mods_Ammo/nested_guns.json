@@ -1129,8 +1129,8 @@
     "ammo": 100,
     "entries": [
       { "item": "TDI", "ammo-group": "on_hand_45", "charges": [ 0, 30 ] },
-      { "group": "nested_TDI_mag" },
-      { "group": "nested_TDI_mag", "prob": 50 },
+      { "group": "nested_tdi_mag" },
+      { "group": "nested_tdi_mag", "prob": 50 },
       { "group": "on_hand_45" }
     ]
   },
