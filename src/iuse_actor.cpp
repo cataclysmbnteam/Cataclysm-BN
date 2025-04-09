@@ -62,10 +62,13 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
+#include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "popup.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -78,6 +81,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "uistate.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -311,7 +315,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         p.update_bodytemp( get_map(), get_weather() );
         p.on_item_wear( it );
     }
-    p.inv_update_cache_with_item( it );
+    p.inv_update_invlet_cache_with_item( it );
     // Update luminosity as object is "added"
     get_map().update_lum( it, true );
     it.item_counter = countdown > 0 ? countdown : it.type->countdown_interval;
@@ -1305,25 +1309,194 @@ void reveal_map_actor::load( const JsonObject &obj )
         }
         omt_types.emplace_back( ter, ter_match_type );
     }
+    if( obj.has_array( "terrain_view" ) ) {
+        for( const JsonValue entry : obj.get_array( "terrain_view" ) ) {
+            if( entry.test_string() ) {
+                ter = entry.get_string();
+                ter_match_type = ot_match_type::contains;
+            } else {
+                JsonObject jo = entry.get_object();
+                ter = jo.get_string( "om_terrain" );
+                ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                 ot_match_type::contains );
+            }
+            omt_types_view.emplace_back( ter, ter_match_type );
+        }
+    } else {
+        omt_types_view = omt_types;
+    }
+    if( obj.has_array( "terrain_view_exclude" ) ) {
+        for( const JsonValue entry : obj.get_array( "terrain_view_exclude" ) ) {
+            if( entry.test_string() ) {
+                ter = entry.get_string();
+                ter_match_type = ot_match_type::contains;
+            } else {
+                JsonObject jo = entry.get_object();
+                ter = jo.get_string( "om_terrain" );
+                ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                 ot_match_type::contains );
+            }
+            omt_types_view_exclude.emplace_back( ter, ter_match_type );
+        }
+    } else {
+        omt_types_view_exclude.emplace_back( "subway", ot_match_type::contains );
+        omt_types_view_exclude.emplace_back( "hiway", ot_match_type::contains );
+        omt_types_view_exclude.emplace_back( "road", ot_match_type::contains );
+        omt_types_view_exclude.emplace_back( "forest_trail", ot_match_type::contains );
+        omt_types_view_exclude.emplace_back( "bridge", ot_match_type::contains );
+        omt_types_view_exclude.emplace_back( "roof", ot_match_type::contains );
+    };
 }
 
-void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
-                                       const std::pair<std::string, ot_match_type> &target,
-                                       int reveal_distance ) const
+void reveal_map_actor::reveal_targets( const tripoint_abs_omt &map ) const
 {
-    const auto places = overmap_buffer.find_all( center, target.first, radius, false,
-                        target.second );
+    omt_find_params params{};
+    params.search_range = { 0, radius };
+    params.search_layers = omt_find_all_layers;
+    params.types = omt_types;
+    params.existing_only = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
+
+    /*
+    * Stagger parallel map generation starting from center (0), outwards
+    * so the generated maps have a neighbor to latch onto when generating roads/rivers
+    * 5 4 3 2 3 4 5
+    * 4 3 2 1 2 3 4
+    * 3 2 1 0 1 2 3
+    * 4 3 2 1 2 3 4
+    * 5 4 3 2 3 4 5
+    */
+
+    const point_abs_om origin_om_pos = project_to<coords::om>( map.xy() );
+
+    // Generate a Square fitting the requested map radius
+    const point_abs_omt omt_bb_min = map.xy() - point_rel_omt{ radius, radius };
+    const point_abs_omt omt_bb_max = map.xy() + point_rel_omt{ radius, radius };
+
+    // OM Corners of bounding box
+    const point_abs_om om_bb_min = project_to<coords::om>( omt_bb_min );
+    const point_abs_om om_bb_max = project_to<coords::om>( omt_bb_max );
+
+    // Iterate through range [om_bb_min, om_bb_max] to get the OM we want, then sort by manhattan distance
+    std::map<int, std::vector<point_abs_om>> om_to_generate;
+    for( int x = om_bb_min.x(); x <= om_bb_max.x(); ++x ) {
+        for( int y = om_bb_min.y(); y <= om_bb_max.y(); ++y ) {
+            auto dist = manhattan_dist( origin_om_pos, { x, y } );
+            auto &vec =
+                om_to_generate[dist]; // if the vector for this distance doesn't exist it will be created empty
+            vec.emplace_back( x, y );
+        }
+    }
+
+    for( const auto& [_, to_gen] : om_to_generate ) {
+        overmap_buffer.generate( to_gen );
+    }
+
+    const auto places = overmap_buffer.find_all( map, params );
     for( auto &place : places ) {
-        overmap_buffer.reveal( place, reveal_distance );
+        overmap_buffer.reveal( place, 0 );
+    }
+}
+
+void reveal_map_actor::show_revealed( player &p, item &item, const tripoint_abs_omt &center ) const
+{
+    uistate.overmap_highlighted_omts.clear();
+
+    omt_find_params params{};
+    params.search_range = { 0, radius };
+    params.types = omt_types_view;
+    params.exclude_types = omt_types_view_exclude;
+    params.existing_only = true;
+    // TODO: Add support for variable reveal z-range to reveal_map iuse_action JSON
+    params.search_layers = omt_find_all_layers;
+    params.explored = false;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
+
+    const auto places = overmap_buffer.find_all( center, params );
+
+    // Delete popup after search is done, before showing uilist
+    params.popup = nullptr;
+
+    // Group tiles by name
+    std::multimap<std::string, tripoint_abs_omt> mm;
+    std::set<std::string> utypes;
+    for( auto &place : places ) {
+        auto desc = overmap_buffer.ter( place ).id().obj().get_name();
+        mm.insert( { desc, place } );
+        utypes.insert( desc );
+    }
+
+    if( utypes.empty() ) {
+        p.add_msg_if_player( _( "There isn't anything new on the %s." ), item.tname() );
+        return;
+    }
+
+    // Show selector for each group
+    std::vector<std::string> otypes( utypes.begin(), utypes.end() );
+    uilist ui;
+    for( uint64_t i = 0; i < otypes.size(); ++i ) {
+        auto &desc = otypes[i];
+        ui.addentry( i, true, MENU_AUTOASSIGN, string_format( "%s (%d)", desc, mm.count( desc ) ) );
+    }
+    ui.query();
+
+    if( ui.ret < 0 ) {
+        return;
+    }
+
+    const tripoint_abs_omt plrPos = p.global_omt_location();
+    auto eqRange = mm.equal_range( otypes[ui.ret] );
+
+    // TODO: Cluster tripoints to collapse direct neighbor tiles (helipads, etc)?
+
+    const auto sz = std::distance( eqRange.first, eqRange.second );
+
+    // Shouldn't ever be hit, since multimap shouldn't have an entry with no overmap tiles, but
+    if( sz == 0 ) {
+        return;
+    }
+
+    std::transform(
+        eqRange.first, eqRange.second,
+        std::inserter( uistate.overmap_highlighted_omts, uistate.overmap_highlighted_omts.end() ),
+        []( const auto & e ) -> tripoint_abs_omt { return e.second; } );
+
+    // Only one overmap tile of type
+    if( sz == 1 ) {
+        ui::omap::choose_point( eqRange.first->second );
+        return;
+    }
+
+    ui.reset();
+    ui.addentry( 0, true, 'c', _( "Closest" ) );
+    ui.addentry( 1, true, 'r', _( "Random" ) );
+    ui.query();
+
+    if( ui.ret < 0 ) {
+        return;
+    }
+
+    if( ui.ret == 1 ) {
+        // Pick random
+        auto it = eqRange.first;
+        std::advance( it, rng( 0, sz - 1 ) );
+        ui::omap::choose_point( it->second );
+    } else {
+        // Pick closest
+        const auto pred_dist = [&]( const std::pair<std::string, tripoint_abs_omt> &a,
+        const std::pair<std::string, tripoint_abs_omt> &b ) {
+            auto da = trig_dist_squared( plrPos.raw(), a.second.raw() );
+            auto db = trig_dist_squared( plrPos.raw(), b.second.raw() );
+            return da < db;
+        };
+        const auto it = std::min_element( eqRange.first, eqRange.second, pred_dist );
+        ui::omap::choose_point( it->second );
     }
 }
 
 int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    if( it.already_used_by_player( p ) ) {
-        p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
-        return 0;
-    } else if( g->get_levz() < 0 ) {
+    if( !it.already_used_by_player( p ) && g->get_levz() < 0 ) {
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname() );
         return 0;
@@ -1331,17 +1504,21 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
-    const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
-                                   p.global_omt_location().raw() ) );
-    for( auto &omt : omt_types ) {
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            reveal_targets( tripoint_abs_omt( center.xy(), z ), omt, 0 );
-        }
+
+    const tripoint_abs_omt plrPos = p.global_omt_location();
+    const tripoint_abs_omt mapPos( it.get_var( "reveal_map_center_omt", plrPos.raw() ) );
+
+    if( it.already_used_by_player( p ) ) {
+        show_revealed( p, it, mapPos );
+        return 0;
     }
+
+    reveal_targets( mapPos );
     if( !message.empty() ) {
         p.add_msg_if_player( m_good, "%s", _( message ) );
     }
     it.mark_as_used_by_player( p );
+    show_revealed( p, it, mapPos );
     return 0;
 }
 
@@ -1493,7 +1670,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
         moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
-    p.activity->targets.emplace_back( &it );
+    p.activity->tools.emplace_back( &it );
     p.activity->values.push_back( g->natural_light_level( pos.z ) );
     p.activity->placement = pos;
     // charges to use are handled by the activity

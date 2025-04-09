@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVE_TILE_DATA_DEF_H
-#define CATA_SRC_ACTIVE_TILE_DATA_DEF_H
 
 #include "active_tile_data.h"
 #include "point.h"
@@ -20,7 +18,7 @@ struct furn_transform {
 class battery_tile : public active_tile_data
 {
     public:
-        /* In J */
+        /* In kJ */
         int stored;
         int max_stored;
 
@@ -114,5 +112,3 @@ class countdown_tile : public active_tile_data
         void store( JsonOut &jsout ) const override;
         void load( JsonObject &jo ) override;
 };
-
-#endif // CATA_SRC_ACTIVE_TILE_DATA_DEF_H

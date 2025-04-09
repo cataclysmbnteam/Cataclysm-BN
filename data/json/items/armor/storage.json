@@ -359,7 +359,7 @@
     "storage": "3 L",
     "material_thickness": 1,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "fanny",
@@ -382,7 +382,7 @@
     "storage": "3 L",
     "material_thickness": 1,
     "valid_mods": [ "resized_large" ],
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": [ "WAIST", "COMPACT", "WATER_FRIENDLY" ]
   },
   {
     "id": "golf_bag",

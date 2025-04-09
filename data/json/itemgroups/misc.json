@@ -261,7 +261,12 @@
   {
     "type": "item_group",
     "id": "maps",
-    "items": [ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
+    "items": [
+      { "item": "roadmap", "prob": 25 },
+      { "item": "touristmap", "prob": 25 },
+      { "item": "regionaltransportmap", "prob": 25 },
+      { "item": "survivormap", "prob": 25 }
+    ]
   },
   {
     "type": "item_group",

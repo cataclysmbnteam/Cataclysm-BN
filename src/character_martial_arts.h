@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
-#define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
 #include <string>
 #include <vector>
@@ -104,4 +102,4 @@ class character_martial_arts
         std::string selected_style_name( const Character &owner ) const;
 };
 
-#endif // CATA_SRC_CHARACTER_MARTIAL_ARTS_H
+

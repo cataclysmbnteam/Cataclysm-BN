@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_MONEY_H
-#define CATA_SRC_UNITS_MONEY_H
 
 #include <algorithm>
 
@@ -94,4 +92,3 @@ constexpr units::quantity<double, units::money_in_cent_tag> operator"" _kUSD(
 }
 
 
-#endif // CATA_SRC_UNITS_MONEY_H

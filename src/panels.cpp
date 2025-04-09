@@ -1302,38 +1302,52 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     werase( w );
     // display location
     const oter_id &cur_ter = overmap_buffer.ter( u.global_omt_location() );
+    tripoint_abs_omt coord = u.global_omt_location();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
     wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
+    // display coordinates
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "X,Y,Z: " ) );
+    if( get_option<std::string>( "OVERMAP_COORDINATE_FORMAT" ) == "subdivided" ) {
+        point_abs_om abs_coord;
+        tripoint_om_omt rel_coord;
+        std::tie( abs_coord, rel_coord ) = project_remain<coords::om>( coord );
+        wprintz( w, c_white, string_format( "%d'%d, %d'%d, %d", abs_coord.x(), rel_coord.x(), abs_coord.y(),
+                                            rel_coord.y(),
+                                            u.global_omt_location().z() ) );
+    } else {
+        wprintz( w, c_white, string_format( "%d, %d, %d", coord.x(), coord.y(), coord.z() ) );
+    }
+
     // display weather
     if( g->get_levz() < 0 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  : Underground" ) );
+        mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Sky  : Underground" ) );
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
+        mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Sky  :" ) );
         wprintz( w, get_weather().weather_id->color, " %s", get_weather().weather_id->name.translated() );
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
                 character_funcs::fine_detail_vision_mod( get_avatar() ) );
-    mvwprintz( w, point( 1, 2 ), c_light_gray, "%s ", _( "Light:" ) );
+    mvwprintz( w, point( 1, 3 ), c_light_gray, "%s ", _( "Light:" ) );
     wprintz( w, ll.second, ll.first );
 
     // display date
-    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Date : %s, day %d" ),
+    mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Date : %s, day %d" ),
                calendar::name_season( season_of_year( calendar::turn ) ),
                day_of_season<int>( calendar::turn ) + 1 );
 
     // display time
     if( u.has_watch() ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ),
+        mvwprintz( w, point( 1, 5 ), c_light_gray, _( "Time : %s" ),
                    to_string_time_of_day( calendar::turn ) );
     } else if( g->get_levz() >= 0 ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
+        mvwprintz( w, point( 1, 5 ), c_light_gray, _( "Time : %s" ), time_approx() );
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
+        mvwprintz( w, point( 1, 5 ), c_light_gray, _( "Time : ???" ) );
     }
     if( minimap ) {
         const int offset = getmaxx( w ) - 6;
@@ -2221,7 +2235,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                       spell_panel );
     ret.emplace_back( draw_stat_narrow, translate_marker( "Stats" ), 3, 32, true );
     ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true );
-    ret.emplace_back( draw_loc_narrow, translate_marker( "Location" ), 5, 32, true );
+    ret.emplace_back( draw_loc_narrow, translate_marker( "Location" ), 6, 32, true );
     ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false );
     ret.emplace_back( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true );
     ret.emplace_back( draw_weightvolume_narrow, translate_marker( "Wgt/Vol" ), 2, 32,
@@ -2257,9 +2271,9 @@ static std::vector<window_panel> initialize_default_label_panels()
                       spell_panel );
     ret.emplace_back( draw_stat_wide, translate_marker( "Stats" ), 2, 44, true );
     ret.emplace_back( draw_veh_padding, translate_marker( "Vehicle" ), 1, 44, true );
-    ret.emplace_back( draw_loc_wide_map, translate_marker( "Location" ), 5, 44, true );
+    ret.emplace_back( draw_loc_wide_map, translate_marker( "Location" ), 6, 44, true );
     ret.emplace_back( draw_wind_padding, translate_marker( "Wind" ), 1, 44, false );
-    ret.emplace_back( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false );
+    ret.emplace_back( draw_loc_wide, translate_marker( "Location Alt" ), 6, 44, false );
     ret.emplace_back( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true );
     ret.emplace_back( draw_weightvolume_labels, translate_marker( "Wgt/Vol" ), 1, 44,
                       true );

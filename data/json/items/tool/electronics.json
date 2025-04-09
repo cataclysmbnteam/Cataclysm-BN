@@ -597,12 +597,10 @@
   },
   {
     "id": "bionic_scanner_on",
+    "copy-from": "bionic_scanner",
     "type": "TOOL",
-    "category": "electronics",
     "name": { "str": "bionic scanner (on)" },
     "description": "A small metal scanner specialized in detecting bionic hardware.  While in use it will steadily drain power, automatically scanning corpses near you for bionics.",
-    "weight": "141 g",
-    "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "50 USD",
     "material": [ "plastic", "aluminum" ],
@@ -610,6 +608,7 @@
     "color": "magenta",
     "use_action": "NOTE_BIONICS",
     "revert_to": "bionic_scanner",
-    "revert_msg": "The %s shuts down."
+    "revert_msg": "The %s shuts down.",
+    "flags": [ "SLEEP_IGNORE" ]
   }
 ]

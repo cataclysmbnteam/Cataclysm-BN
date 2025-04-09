@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_ENERGY_H
-#define CATA_SRC_UNITS_ENERGY_H
 
 #include <algorithm>
 
@@ -73,4 +71,3 @@ constexpr units::quantity<double, units::energy_in_joule_tag> operator"" _kJ(
 }
 
 
-#endif // CATA_SRC_UNITS_ENERGY_H
