@@ -66,6 +66,7 @@
     "durability": 10,
     "min_cycle_recoil": 400,
     "blackpowder_tolerance": 24,
+    "handling": 20,
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 6 ] ],
     "magazines": [ [ "10mm", [ "kriss_vector10_mag", "glock20mag", "glock20bigmag", "glock20drum50rd" ] ] ]

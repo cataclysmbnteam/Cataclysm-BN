@@ -91,6 +91,7 @@
     "durability": 10,
     "min_cycle_recoil": 350,
     "blackpowder_tolerance": 24,
+    "handling": 20,
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 6 ] ],
     "magazine_well": "500 ml",
