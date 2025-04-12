@@ -190,10 +190,11 @@
     "difficulty": 3,
     "time": "1 m",
     "reversible": true,
+    "autolearn": [ [ "tailor", 6 ] ],
     "decomp_learn": 3,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
     "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "The tailoring kit is an expanded sewing kit, so a bone/wood needle is inappropriate.",
     "components": [
       [ [ "sewing_kit", 1 ] ],
@@ -2663,7 +2664,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "varnish", 1, "LIST" ] ] ]
   },
@@ -2673,12 +2674,11 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 7,
+    "difficulty": 4,
     "time": "150 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_advanced", 4 ] ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "using": [ [ "blacksmithing_standard", 4 ] ],
+    "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "fishing_rod_professional",

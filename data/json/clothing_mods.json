@@ -7,10 +7,10 @@
     "implement_prompt": "Pad with leather",
     "destroy_prompt": "Destroy leather padding",
     "mod_value": [
-      { "type": "bash", "value": 1, "proportion": [ "thickness" ] },
-      { "type": "cut", "value": 1, "proportion": [ "thickness" ] },
-      { "type": "bullet", "value": 1, "proportion": [ "thickness" ] },
-      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "bash", "value": 0.4, "proportion": [ "volume", "coverage" ] },
+      { "type": "cut", "value": 0.4, "proportion": [ "volume", "coverage" ] },
+      { "type": "bullet", "value": 0.4, "proportion": [ "volume", "coverage" ] },
+      { "type": "encumbrance", "value": 0.4, "round_up": true, "proportion": [ "volume" ] }
     ]
   },
   {
@@ -22,10 +22,10 @@
     "destroy_prompt": "Destroy steel padding",
     "restricted": true,
     "mod_value": [
-      { "type": "bash", "value": 3, "proportion": [ "thickness" ] },
-      { "type": "cut", "value": 3, "proportion": [ "thickness" ] },
-      { "type": "bullet", "value": 2.5, "proportion": [ "thickness" ] },
-      { "type": "encumbrance", "value": 5, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "bash", "value": 1, "proportion": [ "volume", "coverage" ] },
+      { "type": "cut", "value": 1.5, "proportion": [ "volume", "coverage" ] },
+      { "type": "bullet", "value": 1.7, "proportion": [ "volume", "coverage" ] },
+      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "volume" ] }
     ]
   },
   {
@@ -37,10 +37,10 @@
     "destroy_prompt": "Destroy superalloy padding",
     "restricted": true,
     "mod_value": [
-      { "type": "bash", "value": 3, "proportion": [ "thickness" ] },
-      { "type": "cut", "value": 3, "proportion": [ "thickness" ] },
-      { "type": "bullet", "value": 2.5, "proportion": [ "thickness" ] },
-      { "type": "encumbrance", "value": 4, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "bash", "value": 1.5, "proportion": [ "volume", "coverage" ] },
+      { "type": "cut", "value": 1.5, "proportion": [ "volume", "coverage" ] },
+      { "type": "bullet", "value": 1.7, "proportion": [ "volume", "coverage" ] },
+      { "type": "encumbrance", "value": 1, "round_up": true, "proportion": [ "volume" ] }
     ]
   },
   {
@@ -51,10 +51,10 @@
     "implement_prompt": "Pad with Kevlar",
     "destroy_prompt": "Destroy Kevlar padding",
     "mod_value": [
-      { "type": "bash", "value": 1, "proportion": [ "thickness" ] },
-      { "type": "cut", "value": 2, "proportion": [ "thickness" ] },
-      { "type": "bullet", "value": 3, "proportion": [ "thickness" ] },
-      { "type": "encumbrance", "value": 3, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "bash", "value": 0.4, "proportion": [ "volume", "coverage" ] },
+      { "type": "cut", "value": 0.5, "proportion": [ "volume", "coverage" ] },
+      { "type": "bullet", "value": 0.6, "proportion": [ "volume", "coverage" ] },
+      { "type": "encumbrance", "value": 0.6, "round_up": true, "proportion": [ "volume" ] }
     ]
   },
   {
@@ -66,7 +66,7 @@
     "destroy_prompt": "Destroy fur lining",
     "mod_value": [
       { "type": "encumbrance", "value": 1 },
-      { "type": "encumbrance", "value": 4, "proportion": [ "coverage" ] },
+      { "type": "encumbrance", "value": 0.4, "proportion": [ "coverage" ] },
       { "type": "warmth", "value": 35, "proportion": [ "coverage" ] }
     ]
   },
@@ -79,7 +79,7 @@
     "destroy_prompt": "Destroy wool lining",
     "mod_value": [
       { "type": "encumbrance", "value": 1 },
-      { "type": "encumbrance", "value": 3, "proportion": [ "coverage" ] },
+      { "type": "encumbrance", "value": 0.3, "proportion": [ "coverage" ] },
       { "type": "warmth", "value": 20, "proportion": [ "coverage" ] }
     ]
   },
@@ -91,7 +91,7 @@
     "implement_prompt": "Resize to fit abnormally large mutated anatomy",
     "destroy_prompt": "Undo resizing for mutated anatomy",
     "restricted": true,
-    "mod_value": [ { "type": "encumbrance", "value": 10, "proportion": [ "coverage" ] } ]
+    "mod_value": [ { "type": "encumbrance", "value": 0.3, "proportion": [ "coverage" ] } ]
   },
   {
     "type": "clothing_mod",
@@ -101,8 +101,8 @@
     "implement_prompt": "Pad with Nomex",
     "destroy_prompt": "Destroy Nomex padding",
     "mod_value": [
-      { "type": "fire", "value": 3, "proportion": [ "thickness" ] },
-      { "type": "encumbrance", "value": 0.5, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+      { "type": "fire", "value": 3, "proportion": [ "volume", "coverage" ] },
+      { "type": "encumbrance", "value": 0.3, "round_up": true, "proportion": [ "volume" ] }
     ]
   },
   {
@@ -113,8 +113,22 @@
     "implement_prompt": "Add pockets",
     "destroy_prompt": "Remove pockets",
     "mod_value": [
-      { "type": "encumbrance", "value": 1, "round_up": true, "proportion": [ "volume", "coverage" ] },
-      { "type": "storage", "value": 1, "round_up": true, "proportion": [ "volume" ] }
+      { "type": "encumbrance", "value": 0.6, "round_up": true, "proportion": [ "volume" ] },
+      { "type": "storage", "value": 2, "round_up": true, "proportion": [ "volume" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "plastic_padded",
+    "flag": "plastic_padded",
+    "item": "plastic_chunk",
+    "implement_prompt": "Pad with plastic",
+    "destroy_prompt": "Destroy plastic padding",
+    "mod_value": [
+      { "type": "bash", "value": 0.5, "proportion": [ "volume", "coverage" ] },
+      { "type": "cut", "value": 0.5, "proportion": [ "volume", "coverage" ] },
+      { "type": "bullet", "value": 0.5, "proportion": [ "volume", "coverage" ] },
+      { "type": "encumbrance", "value": 0.6, "round_up": true, "proportion": [ "volume" ] }
     ]
   }
 ]
