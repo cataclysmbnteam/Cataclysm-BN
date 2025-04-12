@@ -16,7 +16,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "10mm", "40" ]
+    "ammo": [ "10mm", "40" ],
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 570,
     "magazines": [ [ "10mm", [ "glock20mag", "glock20bigmag", "glock20drum50rd", "kriss_vector10_mag" ] ] ]
@@ -61,7 +61,7 @@
     "bashing": 9,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": [ "10mm", "40" ]
+    "ammo": [ "10mm", "40" ],
     "dispersion": 240,
     "durability": 10,
     "min_cycle_recoil": 400,

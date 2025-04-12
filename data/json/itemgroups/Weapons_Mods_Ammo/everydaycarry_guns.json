@@ -822,8 +822,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "TDI", "ammo-group": "on_hand_45", "charges": [ 0, 30 ] },
-      { "group": "nested_tdi_mag", "charges-min": 0, "prob": 80 },
-      { "group": "nested_tdi_mag", "charges-min": 0, "prob": 50 },
+      { "group": "nested_TDI_mag", "charges-min": 0, "prob": 80 },
+      { "group": "nested_TDI_mag", "charges-min": 0, "prob": 50 },
       { "group": "on_hand_45", "prob": 25, "charges": [ 10, 20 ], "count": [ 1, 2 ] }
     ]
   },

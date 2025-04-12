@@ -210,7 +210,7 @@
     ]
   },
   {
-    "id": "nested_tdi_mag",
+    "id": "nested_TDI_mag",
     "type": "item_group",
     "subtype": "distribution",
     "ammo": 100,
