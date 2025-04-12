@@ -52,7 +52,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "10mm", "40" ]
+    "ammo_type": [ "10mm", "40" ],
     "capacity": 33,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
