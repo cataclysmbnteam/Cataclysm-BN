@@ -5007,7 +5007,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
         charges_built_up += additional_charges_per_tile;
     }
 
-    if( 1 + it.ammo_remaining() / additional_charges_per_tile > charges_built_up ) {
+    if( 1 + it.ammo_remaining() < charges_built_up ) {
         p.add_msg_if_player( m_info, _( "Requires %.1f charges, but only %d remaining." ),
                              charges_built_up, it.ammo_remaining() - 1 );
         return 1;
