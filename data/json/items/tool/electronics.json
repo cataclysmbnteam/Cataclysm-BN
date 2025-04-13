@@ -559,6 +559,36 @@
     "magazine_well": "250 ml"
   },
   {
+    "id": "gps_device",
+    "type": "TOOL",
+    "category": "electronics",
+    "name": { "str": "gps device" },
+    "description": "Durable handheld GPS unit built for outdoor navigation. Activate to acquire satellite lock and search the database.",
+    "weight": "230 g",
+    "volume": "350 ml",
+    "price": "100 USD",
+    "price_postapoc": "50 USD",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": "battery",
+    "use_action": { "type": "gps_device", "radius": 70, "additional_charges_per_tile": 0.1  },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_disposable_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
+  },
+  {
     "id": "bionic_scanner",
     "type": "TOOL",
     "category": "electronics",
