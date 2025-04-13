@@ -562,7 +562,8 @@
     "id": "gps_device",
     "type": "TOOL",
     "category": "electronics",
-    "name": { "str": "gps device" },
+    "looks_like": "cell_phone",
+    "name": { "str": "gps pinpointer" },
     "description": "Durable handheld GPS unit built for outdoor navigation. Activate to acquire satellite lock and search the database.",
     "weight": "230 g",
     "volume": "350 ml",
@@ -572,7 +573,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": "battery",
-    "use_action": { "type": "gps_device", "radius": 70, "additional_charges_per_tile": 0.1  },
+    "use_action": { "type": "gps_device", "radius": 40, "additional_charges_per_tile": 0.1  },
     "magazines": [
       [
         "battery",
@@ -585,6 +586,20 @@
           "light_atomic_battery_cell",
           "light_minus_atomic_battery_cell"
         ]
+      ]
+    ]
+  },
+  {
+    "id": "mil_gps_device",
+    "type": "TOOL",
+    "copy-from": "gps_device",
+    "name": { "str": "military gps pinpointer" },
+    "description": "Durable handheld GPS unit built for outdoor navigation. Activate to acquire satellite lock and search the database. This one has encrpytion keys for military-grade sattelites, allowing a much greater search range.",
+    "use_action": { "type": "gps_device", "radius": 120, "additional_charges_per_tile": 0.1  },
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ]
   },

@@ -1240,7 +1240,6 @@ class weigh_self_actor : public iuse_actor
 class gps_device_actor : public iuse_actor
 {
     public:
-        // max weight this device can handle before showing "error"
         float additional_charges_per_tile;
         int radius;
 

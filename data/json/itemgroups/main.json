@@ -38,6 +38,7 @@
       { "item": "plasma_rifle", "prob": 35 },
       { "item": "plut_cell", "prob": 100 },
       { "item": "portal", "prob": 20 },
+      { "item": "mil_gps_device", "prob": 50},
       { "item": "power_armor_basic", "prob": 50 },
       { "item": "power_armor_frame", "prob": 40 },
       { "item": "power_armor_heavy", "prob": 30 },

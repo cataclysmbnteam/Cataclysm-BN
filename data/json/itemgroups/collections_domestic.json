@@ -133,6 +133,7 @@
       { "item": "thermometer", "prob": 3 },
       { "item": "hygrometer", "prob": 3 },
       { "item": "barometer", "prob": 3 },
+      { "item": "gps_device", "prob": 3, "charges-min": 10, "charges-max": 95},
       { "item": "smart_lamp", "prob": 3 },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
       {

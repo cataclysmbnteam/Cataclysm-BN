@@ -4944,6 +4944,9 @@ void gps_device_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
+    float charges_built_up = 1.0;
+    const tripoint_abs_omt center = p.global_omt_location();
+    
     std::string query = string_input_popup()
                             .title( _( "Search for location:" ) )
                             .width( 40 )
@@ -4953,9 +4956,6 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "Please enter at least 3 characters." ) );
         return 0;
     }
-
-    float charges_built_up = 1.0;
-    const tripoint_abs_omt center = p.global_omt_location();
 
     // Exclude natural terrain types. This item should NOT obsolete other items, just be useful for the player.
     // This helps with that philosophy, since to actually properly survey the area you still need to get to high ground.
@@ -4969,10 +4969,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     for( const oter_t &oter : overmap_terrains::get_all() ) {
         // get_name() returns the human‐readable display name
         if( lcmatch( oter.get_name(), query ) ) {
-            // oter.id.id() is an oter_type_id; .str() gives the raw string ID
             matching_ids.push_back( oter.get_mapgen_id() );
-            //p.add_msg_if_player( oter.get_name() );
-            //p.add_msg_if_player( oter.get_mapgen_id() );
         }
     }
 
@@ -5003,9 +5000,9 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::multimap<std::string, tripoint_abs_omt> grouped;
     std::set<std::string> unique_names;
     for( const auto &pt : places ) {
-        //if( overmap_buffer.is_explored( pt ) ) {
-        //    continue;
-        //}
+        if( overmap_buffer.is_explored( pt ) ) {
+            continue;
+        }
 
         const std::string name = overmap_buffer.ter( pt ).obj().get_name();
         grouped.insert( { name, pt } );
