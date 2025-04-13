@@ -220,5 +220,56 @@
       "type": "transform"
     },
     "flags": [ "LIGHT_5", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "bulette_45_bag",
+    "type": "TOOL",
+    "name": { "str": "bulette 45 acp bag" },
+    "description": "An ammo bag enchanted to slowly produce ammo over time.  In this case, it's tuned to .45 ACP.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": "1 kUSD",
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "red",
+    "ammo": "bulette_45_acp",
+    "initial_charges": 6,
+    "max_charges": 60,
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "1 h", "rate": 1 } ] }
+  },
+  {
+    "id": "bulette_357_bag",
+    "type": "TOOL",
+    "name": { "str": "bulette 357 magnum bag" },
+    "description": "An ammo bag enchanted to slowly produce ammo over time.  In this case, it's tuned to .357 magnum.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": "1 kUSD",
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "red",
+    "ammo": "bulette_357mag",
+    "initial_charges": 6,
+    "max_charges": 60,
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "1 h", "rate": 1 } ] }
+  },
+  {
+    "id": "bulette_40_bag",
+    "type": "TOOL",
+    "name": { "str": "bulette 40 S&W bag" },
+    "description": "An ammo bag enchanted to slowly produce ammo over time.  In this case, it's tuned to .40 S&W.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": "1 kUSD",
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "red",
+    "ammo": "bulette_40fmj",
+    "initial_charges": 6,
+    "max_charges": 60,
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "1 h", "rate": 1 } ] }
   }
 ]
