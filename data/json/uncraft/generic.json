@@ -3272,6 +3272,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "eclipse_glasses",
+    "type": "uncraft",
+    "time": "6 s",
+    "components": [ [ [ "cardboard", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "survivormap",
     "type": "uncraft",
     "time": "30 s",
