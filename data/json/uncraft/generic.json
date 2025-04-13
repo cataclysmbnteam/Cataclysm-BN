@@ -1906,6 +1906,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "evac_pamphlet",
+    "type": "uncraft",
+    "time": "6 s",
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "scorecard",
     "type": "uncraft",
     "time": "6 s",
@@ -3691,6 +3698,13 @@
   },
   {
     "result": "regionaltransportmap",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "subwaymap",
     "type": "uncraft",
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
