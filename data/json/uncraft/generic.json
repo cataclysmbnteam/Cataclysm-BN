@@ -523,6 +523,13 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "matches",
+    "type": "uncraft",
+    "time": "6 s",
+    "components": [ [ [ "cardboard", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "broken_EMP_hack",
     "type": "uncraft",
     "skill_used": "electronics",
