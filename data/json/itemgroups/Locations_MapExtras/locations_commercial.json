@@ -601,7 +601,7 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "bionic_scanner", 5 ],
-      [ "gps_device", 5],
+      [ "gps_device", 5 ],
       { "group": "tinware", "prob": 10 },
       [ "shield_riot", 5 ],
       [ "pirate_flag", 5 ]

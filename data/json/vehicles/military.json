@@ -159,6 +159,7 @@
     ],
     "items": [
       { "x": 3, "y": -1, "chance": 2, "items": [ "id_military" ] },
+      { "x": 3, "y": -1, "chance": 2, "items": [ "mil_gps_device" ] },
       { "x": 3, "y": -1, "chance": 20, "item_groups": [ "tools_survival" ] },
       { "x": 3, "y": 1, "chance": 50, "items": [ "ear_plugs" ] },
       { "x": -1, "y": -1, "chance": 20, "item_groups": [ "ammo_milspec" ] },
@@ -244,8 +245,7 @@
       { "y": 2, "x": -3, "parts": [ { "fuel": "jp8", "part": "external_tank" } ] },
       { "y": -2, "x": -3, "parts": [ { "fuel": "jp8", "part": "external_tank" } ] }
     ],
-    "items": [ { "y": -1, "x": 3, "chance": 2, "items": [ "id_military" ] } , 
-    { "x": -1, "y": 3, "chance": 2, "items": [ "mil_gps_device" ] } ]
+    "items": [ { "y": -1, "x": 3, "chance": 2, "items": [ "id_military" ] } ]
   },
   {
     "id": "apc-gl",
@@ -465,6 +465,7 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
+      { "x": 0, "y": 0, "chance": 2, "items": [ "mil_gps_device" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "fuel_diesel" ] }
     ]
   },

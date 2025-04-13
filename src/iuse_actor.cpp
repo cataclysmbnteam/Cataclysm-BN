@@ -4938,7 +4938,7 @@ std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 void gps_device_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     dump.emplace_back( "DESCRIPTION",
-        string_format( _( "This item uses up (%f) additional charges per tile revealed." ),
+        string_format( _( "This item uses up (%.2f) additional charges per tile revealed." ),
                        additional_charges_per_tile ) );
 }
 
@@ -4946,7 +4946,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     float charges_built_up = 1.0;
     const tripoint_abs_omt center = p.global_omt_location();
-    
+
     std::string query = string_input_popup()
                             .title( _( "Search for location:" ) )
                             .width( 40 )
