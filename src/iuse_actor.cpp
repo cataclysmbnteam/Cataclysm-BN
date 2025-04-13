@@ -4938,8 +4938,8 @@ std::unique_ptr<iuse_actor> weigh_self_actor::clone() const
 void gps_device_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     dump.emplace_back( "DESCRIPTION",
-        string_format( _( "This item uses up (%.2f) additional charges per tile revealed." ),
-                       additional_charges_per_tile ) );
+                       string_format( _( "This item uses up (%.2f) additional charges per tile revealed." ),
+                                      additional_charges_per_tile ) );
 }
 
 int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
@@ -4948,9 +4948,9 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     const tripoint_abs_omt center = p.global_omt_location();
 
     std::string query = string_input_popup()
-                            .title( _( "Search for location:" ) )
-                            .width( 40 )
-                            .query_string();
+                        .title( _( "Search for location:" ) )
+                        .width( 40 )
+                        .query_string();
 
     if( query.size() < 3 ) {
         p.add_msg_if_player( m_info, _( "Please enter at least 3 characters." ) );
@@ -5009,10 +5009,10 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
         unique_names.insert( name );
         charges_built_up += additional_charges_per_tile;
     }
-    
+
     if( it.ammo_remaining() < charges_built_up ) {
         p.add_msg_if_player( m_info, _( "Requires %.1f charges, but only %d remaining." ),
-                     charges_built_up, it.ammo_remaining() );
+                             charges_built_up, it.ammo_remaining() );
         return 1;
     }
 
@@ -5050,10 +5050,12 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     // Highlight all matching points
     std::transform( range.first, range.second,
-        std::inserter( uistate.overmap_highlighted_omts,
-                       uistate.overmap_highlighted_omts.end() ),
-        []( const auto &e ) { return e.second; }
-    );
+                    std::inserter( uistate.overmap_highlighted_omts,
+                                   uistate.overmap_highlighted_omts.end() ),
+    []( const auto & e ) {
+        return e.second;
+    }
+                  );
 
     if( count == 1 ) {
         ui::omap::choose_point( range.first->second );
@@ -5074,7 +5076,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
         std::advance( it, rng( 0, count - 1 ) );
         ui::omap::choose_point( it->second );
     } else {
-        const auto cmp = [&]( const auto &a, const auto &b ) {
+        const auto cmp = [&]( const auto & a, const auto & b ) {
             return trig_dist_squared( plr_pos.raw(), a.second.raw() ) <
                    trig_dist_squared( plr_pos.raw(), b.second.raw() );
         };
