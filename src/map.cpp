@@ -5262,7 +5262,7 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
         const std::optional<vpart_reference> kpart = vp.part_with_feature( "FAUCET", true );
         const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
         const std::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
-		const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
+        const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
         const std::optional<vpart_reference> forgepart = vp.part_with_feature( "FORGE", true );
         const std::optional<vpart_reference> kilnpart = vp.part_with_feature( "KILN", true );
         const std::optional<vpart_reference> chempart = vp.part_with_feature( "CHEMLAB", true );
@@ -5334,15 +5334,15 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
                 return ret;
             }
         }
-		
-		if( butcherpart ) {// we have a butchery station, now to see what to drain
-			itype_id ftype = itype_id::NULL_ID();
-			
-			if ( type == itype_butchery) {
-				ftype = itype_battery;
-			}
-			
-			// TODO: add a sane birthday arg
+
+        if( butcherpart ) {// we have a butchery station, now to see what to drain
+            itype_id ftype = itype_id::NULL_ID();
+
+            if( type == itype_butchery ) {
+                ftype = itype_battery;
+            }
+
+            // TODO: add a sane birthday arg
             detached_ptr<item> tmp = item::spawn( type, calendar::start_of_cataclysm );
             tmp->charges = forgepart->vehicle().drain( ftype, quantity );
             quantity -= tmp->charges;
@@ -5351,7 +5351,7 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
             if( quantity == 0 ) {
                 return ret;
             }
-		}
+        }
 
         if( forgepart ) { // we have a veh_forge, now to see what to drain
             itype_id ftype = itype_id::NULL_ID();

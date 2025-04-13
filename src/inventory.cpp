@@ -563,7 +563,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         //Adds faucet to kitchen stuff; may be horribly wrong to do such....
         //ShouldBreak into own variable
         const std::optional<vpart_reference> kpart = vp.part_with_feature( "KITCHEN", true );
-		const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
+        const std::optional<vpart_reference> butcherpart = vp.part_with_feature( "BUTCHER_EQ", true );
         const std::optional<vpart_reference> faupart = vp.part_with_feature( "FAUCET", true );
         const std::optional<vpart_reference> weldpart = vp.part_with_feature( "WELDRIG", true );
         const std::optional<vpart_reference> craftpart = vp.part_with_feature( "CRAFTRIG", true );
@@ -593,7 +593,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         static const flag_id flag_PSEUDO( "PSEUDO" );
         static const flag_id flag_HEATS_FOOD( "HEATS_FOOD" );
-		static const flag_id flag_FLATSURF( "FLAT_SURFACE" );
+        static const flag_id flag_FLATSURF( "FLAT_SURFACE" );
 
         if( kpart && !found_parts.contains( &*kpart ) ) {
             item &hotplate = *item::spawn_temporary( "hotplate", bday );
@@ -611,15 +611,16 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item_by_items_type_cache( pan, false );
             found_parts.insert( &*kpart );
         }
-		if( butcherpart && !found_parts.contains( &*butcherpart ) ) { //copy n paste code moment(this will go wrong)
-			item &butchery = *item::spawn_temporary( "fake_adv_butchery", bday );
-			butchery.charges = veh->fuel_left( itype_battery, true );
-			butchery.item_tags.insert( flag_PSEUDO );
-			//A very hacky way to make game take vehicle part into the account for flat surface
-			butchery.item_tags.insert( flag_FLATSURF );
+        if( butcherpart &&
+            !found_parts.contains( &*butcherpart ) ) { //copy n paste code moment(this will go wrong)
+            item &butchery = *item::spawn_temporary( "fake_adv_butchery", bday );
+            butchery.charges = veh->fuel_left( itype_battery, true );
+            butchery.item_tags.insert( flag_PSEUDO );
+            //A very hacky way to make game take vehicle part into the account for flat surface
+            butchery.item_tags.insert( flag_FLATSURF );
             add_item_by_items_type_cache( butchery, false );
-			found_parts.insert( &*butcherpart );
-		}	
+            found_parts.insert( &*butcherpart );
+        }
         if( weldpart && !found_parts.contains( &*weldpart ) ) {
             item &welder = *item::spawn_temporary( "welder", bday );
             welder.charges = veh->fuel_left( itype_battery, true );

@@ -197,7 +197,7 @@
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
-        }
+      }
     },
     "size": "50 L",
     "symbol": "&",

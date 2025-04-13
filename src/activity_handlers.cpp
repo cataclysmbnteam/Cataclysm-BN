@@ -567,17 +567,17 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
         if( here.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
             b_rack_present = true;
             break;
-        } 
-		//vehicle part 
-		const optional_vpart_position vp = here.veh_at( pt );
-		if ( !vp ) {
-			continue;
-		}
-		vp->vehicle();
-		if(vp.part_with_feature( "BUTCHER_EQ", true )) {
-			b_rack_present = true;
+        }
+        //vehicle part
+        const optional_vpart_position vp = here.veh_at( pt );
+        if( !vp ) {
+            continue;
+        }
+        vp->vehicle();
+        if( vp.part_with_feature( "BUTCHER_EQ", true ) ) {
+            b_rack_present = true;
             break;
-		}
+        }
     }
     if( !b_rack_present ) {
         b_rack_present = inv.has_item_with( []( const item & it ) {
