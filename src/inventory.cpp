@@ -593,6 +593,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         static const flag_id flag_PSEUDO( "PSEUDO" );
         static const flag_id flag_HEATS_FOOD( "HEATS_FOOD" );
+		static const flag_id flag_FLATSURF( "FLAT_SURFACE" );
 
         if( kpart && !found_parts.contains( &*kpart ) ) {
             item &hotplate = *item::spawn_temporary( "hotplate", bday );
@@ -614,6 +615,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 			item &butchery = *item::spawn_temporary( "fake_adv_butchery", bday );
 			butchery.charges = veh->fuel_left( itype_battery, true );
 			butchery.item_tags.insert( flag_PSEUDO );
+			//A very hacky way to make game take vehicle part into the account for flat surface
+			butchery.item_tags.insert( flag_FLATSURF );
             add_item_by_items_type_cache( butchery, false );
 			found_parts.insert( &*butcherpart );
 		}	
