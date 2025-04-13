@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+    <id>io.github.cataclysmbnteam.Cataclysm-BN</id>
+
+    <name>Cataclysm-BN</name>
+    <summary>A graphical post-apocalyptic roguelike that focuses on gameplay over realism</summary>
+
+    <metadata_license>CC-BY-SA-4.0</metadata_license>
+    <project_license>CC-BY-SA-3.0</project_license>
+
+    <description>
+        <p>
+            Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world.
+        </p>
+        <p>
+            While some have described it as a &quot;zombie game&quot;, there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of there.
+        </p>
+        <p>
+            Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have.
+        </p>
+        <p>
+            Find a way to stop the Cataclysm ... or become one of its strongest monsters.
+        </p>
+        <p>
+            Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead.
+        </p>
+    </description>
+
+    <launchable type="desktop-id">io.github.cataclysmbnteam.Cataclysm-BN.desktop</launchable>
+    <screenshots>
+        <screenshot type="default">
+            <image>https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/doc/src/content/docs/en/contribute/img/readme-title.png</image>
+        </screenshot>
+    </screenshots>
+</component>
