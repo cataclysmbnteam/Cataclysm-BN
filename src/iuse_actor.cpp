@@ -4961,7 +4961,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     // This helps with that philosophy, since to actually properly survey the area you still need to get to high ground.
     static const std::vector<std::string> natural_terrains = {
         "air", "forest", "forest_thick", "forest_water", "field", "lake_surface", "lake_shore",
-        "swamp", "stream", "stream_corner", "river_center", "river_shore", "river_bank", "deep_water", "shallow_water"
+        "swamp", "stream", "stream_corner", "stream_end", "river_center", "river_shore", "river_bank", "deep_water", "shallow_water"
     };
 
     // Build list of matching terrain IDs whose display name matches the query
@@ -4986,6 +4986,7 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     params.existing_only  = false;
     params.search_layers  = omt_find_above_ground_layer;
     params.explored       = false;
+    params.max_results = static_cast<size_t>( 1 + it.ammo_remaining() / additional_charges_per_tile );
     params.popup          = make_shared_fast<throbber_popup>( _( "Searching…" ) );
 
     const auto places = overmap_buffer.find_all( center, params );
@@ -5000,19 +5001,15 @@ int gps_device_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::multimap<std::string, tripoint_abs_omt> grouped;
     std::set<std::string> unique_names;
     for( const auto &pt : places ) {
-        if( overmap_buffer.is_explored( pt ) ) {
-            continue;
-        }
-
         const std::string name = overmap_buffer.ter( pt ).obj().get_name();
         grouped.insert( { name, pt } );
         unique_names.insert( name );
         charges_built_up += additional_charges_per_tile;
     }
 
-    if( it.ammo_remaining() < charges_built_up ) {
+    if( 1 + it.ammo_remaining() / additional_charges_per_tile > charges_built_up ) {
         p.add_msg_if_player( m_info, _( "Requires %.1f charges, but only %d remaining." ),
-                             charges_built_up, it.ammo_remaining() );
+                             charges_built_up, it.ammo_remaining() - 1 );
         return 1;
     }
 
