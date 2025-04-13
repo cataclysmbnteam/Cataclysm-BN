@@ -1512,7 +1512,7 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
         // sanity check to prevent things getting too far out of control.
         // The worst case in the core game currently is chainmail_suit_faraday
         // with 63 alternatives.
-        static constexpr size_t max_alternatives = 100;
+        static constexpr size_t max_alternatives = 50000000;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
                       "The recipe %s should be simplified.  See the Recipe section in "
