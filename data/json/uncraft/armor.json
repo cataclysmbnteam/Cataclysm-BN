@@ -566,6 +566,7 @@
     "result": "armguard_paper",
     "type": "uncraft",
     "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "paper", 60 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -573,6 +574,7 @@
     "result": "legguard_paper",
     "type": "uncraft",
     "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "paper", 60 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
