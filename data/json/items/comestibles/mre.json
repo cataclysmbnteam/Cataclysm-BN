@@ -263,7 +263,7 @@
     "type": "GENERIC",
     "copy-from": "mre_box",
     "name": { "str": "MRE - Cheese Omelette", "str_pl": "MREs - Cheese Omelette" },
-    "description": "A vintage MRE, still perfectly preserved and edible... or is it?  The contents are individually packed and will remain sealed after you open this box.  Activate or disassemble it to get to its contents.  If you dare.",
+    "description": "A vintage MRE, still perfectly preserved and edible.  Or is it?  The contents are individually packed and will remain sealed after you open this box.  Activate or disassemble it to get to its contents.  If you dare.",
     "price": "1 USD",
     "looks_like": "mre_veggy_box"
   },
