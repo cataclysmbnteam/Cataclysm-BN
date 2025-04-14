@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-    <id>io.github.cataclysmbnteam.Cataclysm-BN</id>
+    <id>org.cataclysmbn.CataclysmBN</id>
 
     <name>Cataclysm-BN</name>
     <summary>A graphical post-apocalyptic roguelike that focuses on gameplay over realism</summary>
@@ -26,7 +26,7 @@
         </p>
     </description>
 
-    <launchable type="desktop-id">io.github.cataclysmbnteam.Cataclysm-BN.desktop</launchable>
+    <launchable type="desktop-id">org.cataclysmbn.CataclysmBN.desktop</launchable>
     <screenshots>
         <screenshot type="default">
             <image>https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/doc/src/content/docs/en/contribute/img/readme-title.png</image>
