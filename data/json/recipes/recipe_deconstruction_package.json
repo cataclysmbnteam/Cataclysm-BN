@@ -221,5 +221,13 @@
     "components": [ [ [ "mre_hotdog", 1 ] ] ],
     "using": [ [ "mre_accessory_list", 1 ], [ "mre_dessert_list", 1 ], [ "mre_extras_list", 1 ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_omelette_box",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "mre_omelette", 1 ] ] ],
+    "using": [ [ "mre_accessory_list", 1 ], [ "mre_dessert_list", 1 ], [ "mre_extras_list", 1 ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
