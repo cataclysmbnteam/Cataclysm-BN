@@ -24,7 +24,7 @@
     "id": "mre_dessert_list",
     "type": "requirement",
     "//": "Was previously mre_dessert comestible, merged to reduce clutter",
-    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "chocolate", 1 ] ], [ [ "candy2", 1 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "candy2", 1 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
   },
   {
     "id": "mre_extras_list",
