@@ -199,7 +199,7 @@
     "container": "wrapper",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 250,
+    "calories": 450,
     "description": "Chocolate isn't very healthy, but it does make a delicious treat.",
     "price": "130 cent",
     "price_postapoc": "2 USD",
