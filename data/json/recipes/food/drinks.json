@@ -486,7 +486,7 @@
   {
     "type": "recipe",
     "result": "crispycran",
-    "result_mult": 2,
+    "result_mult": 2, 
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -592,7 +592,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "grapes", 1 ], ["irradiated_grapes", 1] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ], [ [ "plutonium_slurry", 1 ] ] ]
+    "components": [ [ [ "grapes", 1 ], ["irradiated_grapes", 1] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -606,7 +606,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "coca_leaf", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ], [ [ "plutonium_slurry", 1 ] ] ]
+    "components": [ [ [ "hickory_root", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
