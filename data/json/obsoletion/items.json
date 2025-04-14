@@ -3090,6 +3090,7 @@
       [ [ "gummy_vitamins", 1 ] ],
       [ [ "coffee_raw", 1 ] ],
       [ [ "lemonade_powder", 1 ] ],
+      [ [ "crackers", 1 ] ],
       [ [ "matches", 1 ] ],
       [ [ "gum", 2 ] ],
       [ [ "paper", 8 ] ],
@@ -3101,7 +3102,7 @@
     "result": "mre_dessert",
     "type": "uncraft",
     "time": "4 s",
-    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "chocolate", 1 ] ], [ [ "candy2", 1 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
+    "components": [ [ [ "dry_fruit", 1 ] ], [ [ "candy2", 1 ] ], [ [ "cookies", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
