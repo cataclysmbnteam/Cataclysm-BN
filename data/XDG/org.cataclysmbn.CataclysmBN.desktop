@@ -6,6 +6,6 @@ Name=Cataclysm-BN
 Comment=A graphical post-apocalyptic roguelike that focuses on gameplay over realism
 Categories=Game;RolePlaying;
 
-Icon=io.github.cataclysmbnteam.Cataclysm-BN
+Icon=org.cataclysmbn.CataclysmBN
 Exec=cataclysm-bn-tiles
 Terminal=false
