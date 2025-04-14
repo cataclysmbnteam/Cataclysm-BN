@@ -95,6 +95,24 @@
     "color": "light_gray"
   },
   {
+    "id": [ "s_vending_park" ],
+    "type": "overmap_terrain",
+    "looks_like": "skate_park",
+    "copy-from": "generic_city_building",
+    "name": "vending park",
+    "sym": "V",
+    "color": "light_gray"
+  },
+  {
+    "id": [ "s_vending_park_roof" ],
+    "type": "overmap_terrain",
+    "looks_like": "skate_park",
+    "copy-from": "generic_city_building",
+    "name": "vending park roof",
+    "sym": "V",
+    "color": "light_gray"
+  },
+  {
     "id": "small_wooded_trail",
     "type": "overmap_terrain",
     "copy-from": "generic_city_building",
