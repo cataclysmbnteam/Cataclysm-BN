@@ -48,6 +48,22 @@
         <content_attribute id="language-discrimination">intense</content_attribute>
     </content_rating>
     <releases>
+        <release version="0.7.1" date="2025-03-18">
+            <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.7.1</url>
+            <description>
+                <p>Notable Changes</p>
+                <ul>
+                    <li>Obsoleted No Hope and Generic Guns</li>
+                    <li>Stamina affects dodge rating and melee damage instead of movecost</li>
+                    <li>Audited basic-tier blacksmithing</li>
+                    <li>JSONized activity movecost and modifiers</li>
+                    <li>More bionics cancel out bad traits</li>
+                    <li>Fixed some accidental cannibalism nutrients in food</li>
+                    <li>Prevent item shortcuts in the inventory resetting</li>
+                    <li>Rest of the changes can be found in the github repo</li>
+                </ul>
+            </description>
+        </release>
         <release version="0.7" date="2025-01-18">
             <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.7.0</url>
             <description>
