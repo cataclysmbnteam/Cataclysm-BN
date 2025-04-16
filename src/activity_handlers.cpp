@@ -130,7 +130,6 @@ static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
-static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
 static const activity_id ACT_MAKE_ZLAVE( "ACT_MAKE_ZLAVE" );
 static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
@@ -321,7 +320,6 @@ activity_handlers::finish_functions = {
     { ACT_FISH, fish_finish },
     { ACT_FORAGE, forage_finish },
     { ACT_HOTWIRE_CAR, hotwire_finish },
-    { ACT_LONGSALVAGE, longsalvage_finish },
     { ACT_MAKE_ZLAVE, make_zlave_finish },
     { ACT_PICKAXE, pickaxe_finish },
     { ACT_RELOAD, reload_finish },
@@ -1767,42 +1765,6 @@ void activity_handlers::hotwire_finish( player_activity *act, player *p )
     } else {
         debugmsg( "process_activity ACT_HOTWIRE_CAR: vehicle not found" );
     }
-    act->set_to_null();
-}
-
-void activity_handlers::longsalvage_finish( player_activity *act, player *p )
-{
-    static const std::string salvage_string = "salvage";
-    item &main_tool = p->i_at( act->index );
-    map &here = get_map();
-    map_stack items = here.i_at( p->pos() );
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
-        debugmsg( "Lost tool used for long salvage" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = salvage_tool->get_use( salvage_string );
-    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-    item *target = nullptr;
-    for( item *&it : items ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            target = it;
-        }
-    }
-
-    if( target ) {
-        actor->cut_up( *p, *salvage_tool, *target );
-        return;
-    }
-
-    add_msg( _( "You finish salvaging." ) );
     act->set_to_null();
 }
 
