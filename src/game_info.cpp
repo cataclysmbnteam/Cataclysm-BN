@@ -75,7 +75,7 @@ static auto shell_exec( const std::string &command ) -> std::string
     std::string output;
     struct file_closer_deleter {
         void operator()( FILE *f ) const {
-            (void)pclose( f );
+            ( void )pclose( f );
         }
     };
     try {
