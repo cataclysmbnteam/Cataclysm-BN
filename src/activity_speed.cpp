@@ -1,20 +1,22 @@
 #include "activity_speed.h"
 
 #include <optional>
+#include <utility>
+#include <vector>
 
+#include "activity_type.h"
 #include "character.h"
 #include "character_functions.h"
-#include "crafting.h"
+#include "character_stat.h"
 #include "construction.h"
+#include "crafting.h"
 #include "recipe.h"
-
+#include "type_id.h"
 
 static const skill_id stat_speech( "speech" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
-
-
 
 inline static float limit_factor( float factor, float min = 0.25f, float max = 2.0f )
 {
@@ -105,7 +107,6 @@ void activity_speed::calc_light_factor( const Character &who )
     light = limit_factor( 1.0f - darkness, 0.0f );
 }
 
-
 void activity_speed::calc_skill_factor( const Character &who,
                                         const std::vector<activity_req<skill_id>> &skill_req )
 {
@@ -181,18 +182,16 @@ void activity_speed::calc_assistants_factor( const Character &who )
 }
 
 
-void activity_speed::calc_bench_factor( const Character &who )
+void activity_speed::calc_bench_factor( const Character &/*who*/ )
 {
     bench_factor = bench
                    ? bench->wb_info.multiplier_adjusted
                    : 1.0f;
 }
 
-
-
 void activity_speed::calc_stats_factors( const Character &who )
 {
-    auto f = ( who, type->stats );
+    auto f = stats_factor_custom_formula( who, type->stats );
 
     if( !f.empty() ) {
         return;

@@ -44,9 +44,9 @@ class player_activity
         /** Unlocks the activity, or deletes it if it's already gone. */
         void resolve_active();
 
-        std::vector<npc *> assistants_ = {};
+        std::vector<npc *> assistants_;
         //Cuz game code is borked
-        std::set<int> assistants_ids_ = {};
+        std::set<int> assistants_ids_;
 
     public:
         /** Total number of moves required to complete the activity */
@@ -56,10 +56,8 @@ class player_activity
         /** Controls whether this activity can be cancelled with 'pause' action */
         bool interruptable_with_kb = true;
 
-        activity_speed speed{
-            .type = type,
-        };
-        std::vector<safe_reference<item>> tools = {};
+        activity_speed speed;
+        std::vector<safe_reference<item>> tools;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -137,40 +135,10 @@ class player_activity
             return type->suspendable();
         }
 
-
         bool is_multi_type() const {
             return type->multi_activity();
         }
-        bool is_assistable() const {
-            return type->assistable();
-        }
-        bool is_bench_affected() const {
-            return type->bench_affected();
-        }
-        bool is_light_affected() const {
-            return type->light_affected();
-        }
-        bool is_skill_affected() const {
-            return type->skill_affected();
-        }
-        bool is_stats_affected() const {
-            return type->stats_affected();
-        }
-        bool is_speed_affected() const {
-            return type->speed_affected();
-        }
-        bool is_tools_affected() const {
-            return type->tools_affected();
-        }
-        bool is_morale_affected() const {
-            return type->morale_affected();
-        }
-        bool is_morale_blocked() const {
-            return type->morale_blocked();
-        }
-        bool is_verbose_tooltip() const {
-            return type->verbose_tooltip();
-        }
+
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
 
@@ -199,19 +167,10 @@ class player_activity
          * Most of those are quite self-explanatory by the name
         */
 
-
-        inline void init_all_moves( Character &who ) {
-            get_assistants( who );
-            speed.assistant_count = assistants().size();
-            if( actor ) {
-                actor->calc_all_moves( *this, who );
-            } else {
-                speed.calc_all_moves( who );
-            }
-        }
+        void init_all_moves( Character &who );
 
         //Calculates speed factors that may change every turn
-        void calc_moves( const Character &who ) {
+        inline void calc_moves( const Character &who ) {
             speed.calc_moves( who );
         }
 

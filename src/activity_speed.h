@@ -1,20 +1,18 @@
 #pragma once
-#ifndef _ACTIVITY_SPEED_H
-#define _ACTIVITY_SPEED_H
+#ifndef ACTIVITY_SPEED_H
+#define ACTIVITY_SPEED_H
 
+#include <optional>
+#include <utility>
 #include <vector>
 
-#include "character_stat.h"
 #include "activity_type.h"
+#include "character_stat.h"
+#include "crafting.h"
+#include "type_id.h"
 
-
-static const activity_id ACT_NULL = activity_id::NULL_ID();
-
-struct bench_loc;
 class Character;
 class inventory;
-
-
 
 struct activity_reqs_adapter {
     std::vector<activity_req<quality_id>> qualities;
@@ -25,38 +23,35 @@ struct activity_reqs_adapter {
     activity_reqs_adapter( const construction &con );
 };
 
+using q_reqs = std::vector<activity_req<quality_id>>;
+using stat_reqs = std::vector<activity_req<character_stat>>;
+using stat_factors = std::vector<std::pair<character_stat, float>>;
+using skill_reqs = std::vector<activity_req<skill_id>>;
+
+using morale_factor_fn = std::function<float( const Character & )>;
+using tools_factor_fn = std::function<float( const q_reqs &, const inventory & )>;
+using stats_factor_fn = std::function<stat_factors( const Character &, const stat_reqs & )>;
+using skills_factor_fn = std::function<float( const Character &, const skill_reqs & )>;
+
 /*
  * Struct to track activity speed by factors
 */
 class activity_speed
 {
     public:
-        const activity_id &type = ACT_NULL;
-        std::optional<bench_loc> bench = std::nullopt;
+        activity_id type = activity_id::NULL_ID();
+        std::optional<bench_loc> bench;
         int assistant_count = 0;
-        const std::function<float( const Character & )> morale_factor_custom_formula = [](
-        const Character & ) {
+        morale_factor_fn morale_factor_custom_formula = []( const Character & ) {
             return -1.f;
         };
-
-        const std::function<float( const std::vector<activity_req<quality_id>>&,
-                                   const inventory & )> tools_factor_custom_formula = []( const std::vector<activity_req<quality_id>>
-        &, const inventory & ) {
+        tools_factor_fn tools_factor_custom_formula = []( const q_reqs &, const inventory & ) {
             return -1.f;
         };
-
-
-        const std::function<std::vector<std::pair<character_stat, float>>( const Character &,
-                const std::vector<activity_req<character_stat>>& )> stats_factor_custom_formula = [](
-                            const Character &,
-        const std::vector<activity_req<character_stat>> & ) {
-            return std::vector<std::pair<character_stat, float>> {};
+        stats_factor_fn stats_factor_custom_formula = []( const Character &, const stat_reqs & ) {
+            return stat_factors{};
         };
-
-        const std::function<float( const Character &,
-                                   const std::vector<activity_req<skill_id>>& )> skills_factor_custom_formula = [](
-                                               const Character &,
-        const std::vector<activity_req<skill_id>> & ) {
+        skills_factor_fn skills_factor_custom_formula = []( const Character &, const skill_reqs & ) {
             return -1.f;
         };
 
@@ -115,4 +110,4 @@ class activity_speed
                                         const inventory &inv );
 };
 
-#endif // CATA_SRC_PLAYER_ACTIVITY_H
+#endif // ACTIVITY_SPEED_H

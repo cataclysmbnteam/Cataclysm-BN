@@ -38,12 +38,12 @@ struct bench_location {
 
 struct workbench_info_wrapper {
     // Base multiplier applied for crafting here
-    float multiplier;
+    float multiplier = 1.0f;
     float multiplier_adjusted = multiplier;
     // Mass/volume allowed before a crafting speed penalty is applied
-    bench_type type;
-    units::mass allowed_mass;
-    units::volume allowed_volume;
+    bench_type type = bench_type::ground;
+    units::mass allowed_mass = 0_gram;
+    units::volume allowed_volume = 0_ml;
     workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
         allowed_mass( f_info.allowed_mass ),
         allowed_volume( f_info.allowed_volume ), type( bench_type::furniture ) {

@@ -76,19 +76,9 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 {
 }
 
-player_activity::player_activity( std::unique_ptr<activity_actor> &&actor ) : type(
-        actor->get_type() ),
-    actor( std::move( actor ) ), moves_total( 0 ), moves_left( 0 ),
-    speed{
-    .type = type,
-    .morale_factor_custom_formula = [ & actor]( const Character & who ) {return actor->calc_morale_factor( who ); },
-    .tools_factor_custom_formula = [ & actor]( const std::vector<activity_req<quality_id>> & reqs,
-            const inventory & inv ) {return actor->calc_tools_factor( reqs, inv ); },
-    .stats_factor_custom_formula = [ & actor]( const Character & who,
-            const std::vector<activity_req<character_stat>> & reqs ) {return actor->calc_stats_factors( who, reqs ); },
-    .skills_factor_custom_formula = [ & actor]( const Character & who,
-            const std::vector<activity_req<skill_id>> & reqs ) {return actor->calc_skill_factor( who, reqs ); },
-}
+player_activity::player_activity( std::unique_ptr<activity_actor> &&actor_ ) : type(
+        actor_->get_type() ),
+    actor( std::move( actor_ ) ), moves_total( 0 ), moves_left( 0 )
 {
 }
 
@@ -119,6 +109,40 @@ int player_activity::get_value( size_t index, int def ) const
 std::string player_activity::get_str_value( size_t index, const std::string &def ) const
 {
     return index < str_values.size() ? str_values[index] : def;
+}
+
+void player_activity::init_all_moves( Character &who )
+{
+    speed = activity_speed();
+    speed.type = type;
+    if( type->assistable() ) {
+        get_assistants( who );
+        speed.assistant_count = assistants().size();
+    }
+    if( type->bench_affected() ) {
+        speed.bench = find_best_bench( who.pos() );
+    }
+    if( actor ) {
+        speed.morale_factor_custom_formula = [&]( const Character & who ) {
+            return actor->calc_morale_factor( who );
+        };
+        speed.tools_factor_custom_formula = [&]( const q_reqs & reqs,
+        const inventory & inv ) {
+            return actor->calc_tools_factor( reqs, inv );
+        };
+        speed.stats_factor_custom_formula = [&]( const Character & who,
+        const stat_reqs & reqs ) {
+            return actor->calc_stats_factors( who, reqs );
+        };
+        speed.skills_factor_custom_formula = [&]( const Character & who,
+        const skill_reqs & reqs ) {
+            return actor->calc_skill_factor( who, reqs );
+        };
+
+        actor->calc_all_moves( *this, who );
+    } else {
+        speed.calc_all_moves( who );
+    }
 }
 
 inline std::vector<npc *> &player_activity::assistants()
@@ -191,7 +215,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     if( !type || get_verb().empty() ) {
         return std::optional<std::string>();
     }
-    if( !type->special() && is_verbose_tooltip() ) {
+    if( !type->special() && type->verbose_tooltip() ) {
 
         /*
         * Progress block
