@@ -73,8 +73,13 @@ static auto shell_exec( const std::string &command ) -> std::string
 {
     std::vector<char> buffer( 512 );
     std::string output;
+    struct file_closer_deleter {
+        void operator()( FILE *f ) const {
+            (void)pclose( f );
+        }
+    };
     try {
-        std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( command.c_str(), "r" ), pclose );
+        std::unique_ptr<FILE, file_closer_deleter> pipe( popen( command.c_str(), "r" ) );
         if( pipe ) {
             while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
                 output += buffer.data();
