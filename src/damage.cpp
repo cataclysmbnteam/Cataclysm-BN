@@ -53,6 +53,7 @@ const std::string damage_unit::get_name() const
         case NUM_DT:
             return std::to_string( NUM_DT );
     }
+    return std::to_string( NUM_DT );
 }
 
 damage_instance::damage_instance() = default;

@@ -2027,7 +2027,7 @@ void throw_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin )
 {
-    std::unique_ptr<throw_activity_actor> actor;
+    std::unique_ptr<throw_activity_actor> actor( new throw_activity_actor() );
 
     JsonObject data = jsin.get_object();
 
