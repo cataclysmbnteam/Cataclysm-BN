@@ -443,6 +443,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_lake_bed",
+    "name": "Lake Bed",
+    "terrain": [ "lake_bed" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_gas_station",
     "name": "Gas Station",
     "terrain": [ "s_gas_rural" ]

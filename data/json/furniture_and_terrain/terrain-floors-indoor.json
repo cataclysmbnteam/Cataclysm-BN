@@ -237,6 +237,54 @@
   },
   {
     "type": "terrain",
+    "id": "t_metal_floor_underwater_no_roof",
+    "looks_like": "t_metal_floor",
+    "name": "metal floor",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a matching roof.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_water_cube",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_underwater",
+    "looks_like": "t_metal_floor",
+    "name": "metal floor",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a matching roof.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_water_cube",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_floor",
     "name": "wooden floor",
     "description": "Interlocking wooden tiles that are more than likely treated against fire, with wooden posts and beams supporting a roof.",

@@ -918,6 +918,20 @@
   },
   {
     "type": "profession",
+    "id": "professional_diver",
+    "name": "Professional Diver",
+    "description": "You spent a large part of your time exploring lakes and diving in the New England region, giving you lots of knowledge about the waters in the local area.",
+    "points": 3,
+    "skills": [ { "level": 4, "name": "swimming" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "wetsuit", "wetsuit_hood", "dive_bag", "diving_watch", "goggles_swim", "small_scuba_tank", "swim_fins" ],
+        "entries": [ { "group": "charged_flashlight" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "id": "soldier",
     "name": "Military Rifleman",
     "description": "You were hoping to see some action, only to get more than you bargained for deployed stateside responding to a national emergency.  As far as you can tell, military command abandoned you to this hellhole.",

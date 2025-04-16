@@ -33,6 +33,17 @@
   },
   {
     "type": "scenario",
+    "id": "lakebed",
+    "name": "Lake Bed",
+    "points": 1,
+    "description": "You appear at the bottom of a lake, alone.",
+    "allowed_locs": [ "sloc_lake_bed" ],
+    "professions": [ "professional_diver" ],
+    "start_name": "Lake Bed",
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "largebuilding",
     "name": "Large Building",
     "points": -2,
