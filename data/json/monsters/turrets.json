@@ -363,14 +363,14 @@
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_turret_antimateriel",
-    "starting_ammo": { "50": 50 },
+    "starting_ammo": { "50bmg": 50 },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "m2browning_turret_fake",
-        "ammo_type": "50",
+        "ammo_type": "50bmg",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_str": 16,
         "fake_dex": 12,
