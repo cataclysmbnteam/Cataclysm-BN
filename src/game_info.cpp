@@ -383,6 +383,7 @@ auto game_info::save_file_version() -> std::string
         case save_format::V2_COMPRESSED_SQLITE3:
             return "V2 (compressed with sqlite 3)";
     }
+    return "No save format";
 }
 
 auto game_info::mods_loaded() -> std::string
