@@ -127,7 +127,7 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_BRAWLER("BRAWLER");
+static const trait_id trait_BRAWLER( "BRAWLER" );
 
 static const std::string flag_LOCKED( "LOCKED" );
 
@@ -1449,10 +1449,10 @@ static void cast_spell()
         }
     }
 
-    if (u.has_trait(trait_BRAWLER)) {
+    if( u.has_trait( trait_BRAWLER ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-            _( "Pfft, magic is for COWARDS." ) );
-            return;
+                 _( "Pfft, magic is for COWARDS." ) );
+        return;
     }
 
     if( !can_cast_spells ) {
@@ -1467,7 +1467,7 @@ static void cast_spell()
     }
 
     spell &sp = *u.magic->get_spells()[spell_index];
-    
+
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) && u.primary_weapon().is_two_handed( u ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
