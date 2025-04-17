@@ -1,6 +1,7 @@
 #include "active_tile_data.h"
 #include "active_tile_data_def.h"
 
+#include "assign.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "distribution_grid.h"
@@ -152,8 +153,7 @@ void solar_tile::store( JsonOut &jsout ) const
 
 void solar_tile::load( JsonObject &jo )
 {
-    // Can't use generic_factory because we don't have unique ids
-    jo.read( "power", power );
+    assign( jo, "power", power );
     // TODO: Remove all of this, it's a hack around a mistake
     int dummy;
     jo.read( "stored_energy", dummy, false );
@@ -185,7 +185,7 @@ void battery_tile::store( JsonOut &jsout ) const
 void battery_tile::load( JsonObject &jo )
 {
     jo.read( "stored", stored );
-    jo.read( "max_stored", max_stored );
+    assign( jo, "max_stored", max_stored );
 }
 
 units::energy battery_tile::get_resource() const
@@ -237,7 +237,7 @@ void charge_watcher_tile::store( JsonOut &jsout ) const
 
 void charge_watcher_tile::load( JsonObject &jo )
 {
-    jo.read( "min_power", min_power );
+    assign( jo, "min_power", min_power );
     jo.read( "transform", transform );
 }
 
@@ -292,7 +292,7 @@ void charger_tile::store( JsonOut &jsout ) const
 
 void charger_tile::load( JsonObject &jo )
 {
-    jo.read( "power", power );
+    assign( jo, "power", power );
 }
 
 void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms &p,
@@ -337,7 +337,7 @@ void steady_consumer_tile::store( JsonOut &jsout ) const
 
 void steady_consumer_tile::load( JsonObject &jo )
 {
-    jo.read( "power", power );
+    assign( jo, "power", power );
     jo.read( "consume_every", consume_every );
     jo.read( "transform", transform );
 }
