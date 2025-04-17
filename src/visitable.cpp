@@ -1174,7 +1174,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
         qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
         if( p && p->has_active_bionic( bio_ups ) ) {
-            qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
+            qty = sum_no_wrap( qty, units::to_kilojoule<int>( p->get_power_level() ) );
         }
         if( p && p->is_mounted() ) {
             auto mons = p->mounted_creature.get();
@@ -1187,7 +1187,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
 
     if( what == itype_toolset ) {
         if( p && p->has_active_bionic( bio_tools ) ) {
-            return std::min( units::to_kilojoule( p->get_power_level() ), limit );
+            return std::min( units::to_kilojoule<int>( p->get_power_level() ), limit );
         } else {
             return 0;
         }
@@ -1195,7 +1195,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
 
     if( what == itype_voltmeter_bionic ) {
         if( p && p->has_bionic( bio_electrosense_voltmeter ) ) {
-            return std::min( units::to_kilojoule( p->get_power_level() ), limit );
+            return std::min( units::to_kilojoule<int>( p->get_power_level() ), limit );
         } else {
             return 0;
         }

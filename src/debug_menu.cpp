@@ -2142,9 +2142,9 @@ void debug()
             if( !popup.canceled() ) {
                 vehicle &veh = v_part_pos->vehicle();
                 if( amount >= 0 ) {
-                    veh.charge_battery( amount, false );
+                    veh.charge_battery( units::from_kilojoule( amount ), false );
                 } else {
-                    veh.discharge_battery( -amount, false );
+                    veh.discharge_battery( -units::from_kilojoule( amount ), false );
                 }
             }
             break;

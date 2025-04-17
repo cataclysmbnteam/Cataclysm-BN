@@ -1295,7 +1295,8 @@ int ammo_count_for( const Character &who, const item &gun )
 
     if( ammo_drain > 0 && energy_drain > 0_J ) {
         // Both UPS and ammo, lower is limiting.
-        return std::min( total_ammo / ammo_drain, power / energy_drain );
+        // Unless the player is carrying enough ammo to kill God the static cast shouldn't be a problem.
+        return std::min( total_ammo / ammo_drain, static_cast<int>( power / energy_drain ) );
     } else if( energy_drain > 0_J ) {
         //Only one of the two, it is limiting.
         return power / energy_drain;

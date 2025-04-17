@@ -5177,13 +5177,11 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
         if( itt.has_flag( json_flag_USES_GRID_POWER ) ) {
             const tripoint_abs_ms abspos( m->getabs( p ) );
             auto &grid = get_distribution_grid_tracker().grid_at( abspos );
-            detached_ptr<item> furn_item = item::spawn( itt.get_id(), calendar::start_of_cataclysm,
+            detached_ptr<item> furn_item = item::spawn( itt.get_id(), calendar::start_of_cataclysm, 0,
                                            grid.get_resource() );
-            int initial_quantity = quantity;
             if( filter( *furn_item ) ) {
-                item::use_charges( std::move( furn_item ), type, quantity, ret, p );
-                // That quantity math thing is atrocious. Punishment for the int& "argument".
-                grid.mod_resource( quantity - initial_quantity );
+                // Use up resources up to current available, or energy required.
+                grid.mod_resource( std::min( grid.get_resource(), furn_item->energy_required() * quantity ) );
             }
         } else if( itt.tool && !itt.tool->ammo_id.empty() ) {
             const itype_id ammo = ammotype( *itt.tool->ammo_id.begin() )->default_ammotype();

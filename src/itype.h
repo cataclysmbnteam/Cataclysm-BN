@@ -1097,6 +1097,8 @@ struct itype {
          */
         int charges_per_volume( const units::volume &vol ) const;
 
+        units::energy energy_to_use() const;
+
         bool has_use() const;
 
         bool has_flag( const flag_id &flag ) const;

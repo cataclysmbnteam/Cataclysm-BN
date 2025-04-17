@@ -78,7 +78,7 @@ class steady_consumer_tile : public active_tile_data
 {
     public:
         /* In J */
-        int power;
+        units::energy power;
         time_duration consume_every = 1_seconds;
         active_tiles::furn_transform transform;
 

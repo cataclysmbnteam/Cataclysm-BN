@@ -414,7 +414,7 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        int power_to_energy_bat( int power_w, const time_duration &d ) const;
+        units::energy power_to_energy_bat( int power_w, const time_duration &d ) const;
 
         // convert vhp to watts.
         static int vhp_to_watts( int power );
@@ -945,11 +945,14 @@ class vehicle
         // taken from batteries.
         void power_parts();
 
+        // Returns total energy capacity in vehicle
+        units::energy energy_capacity() const;
+
         /**
          * Returns total battery in vehicle
          * @recurse whether this function goes over connected vehicles/grids.
          */
-        units::energy energy_left( bool recurse ) const;
+        units::energy energy_left( bool recurse = false ) const;
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.

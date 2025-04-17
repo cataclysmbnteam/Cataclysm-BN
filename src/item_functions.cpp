@@ -54,7 +54,7 @@ int shots_remaining( const Character &who, const item &it )
 
     if( ammo_drain > 0 && energy_drain > 0_J ) {
         // Both UPS and ammo, lower is limiting.
-        return std::min( it.ammo_remaining() / ammo_drain, power / energy_drain );
+        return std::min( it.ammo_remaining() / ammo_drain, static_cast<int>( power / energy_drain ) );
     } else if( energy_drain > 0_J ) {
         //Only one of the two, it is limiting.
         return power / energy_drain;

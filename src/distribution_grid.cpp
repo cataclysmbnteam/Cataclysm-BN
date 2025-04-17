@@ -162,7 +162,7 @@ units::energy distribution_grid::get_resource( bool recurse ) const
 
     // TODO: Giga ugly. We only charge the first vehicle to get it to use its recursive graph traversal because it's inaccessible from here due to being a template method
     if( !connected_vehicles.empty() ) {
-        res = connected_vehicles.front()->fuel_left( itype_battery, true );
+        res = connected_vehicles.front()->energy_left( true );
     }
     if( !recurse ) {
         cached_amount_here = res;

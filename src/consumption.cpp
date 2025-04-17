@@ -1316,7 +1316,7 @@ bool Character::feed_furnace_with( item &it )
             it.tname() );
     } else {
         const int profitable_energy = std::min( energy,
-                                                units::to_kilojoule( get_max_power_level() - get_power_level() ) );
+                                                units::to_kilojoule<int>( get_max_power_level() - get_power_level() ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
                                    vgettext( "You digest %d %s and recharge %d point of energy.",

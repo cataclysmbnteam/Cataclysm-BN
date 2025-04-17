@@ -439,7 +439,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
             units = _( "mL" );
         }
         if( fuel_type == itype_id( "battery" ) ) {
-            rate += power_to_energy_bat( net_battery_charge_rate_w(), 1_hours );
+            rate += units::to_kilojoule( power_to_energy_bat( net_battery_charge_rate_w(), 1_hours ) );
             units = _( "kJ" );
         }
         if( rate != 0 ) {

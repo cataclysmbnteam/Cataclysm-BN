@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_UNITS_ENERGY_H
 #define CATA_SRC_UNITS_ENERGY_H
 
+#include <cstdint>
 #include <algorithm>
 
 #include "units_def.h"
@@ -13,7 +14,7 @@ class energy_in_joule_tag
 {
 };
 
-using energy = quantity<int, energy_in_joule_tag>;
+using energy = quantity<std::int64_t, energy_in_joule_tag>;
 
 const energy energy_min = units::energy( std::numeric_limits<units::energy::value_type>::min(),
                           units::energy::unit_type{} );

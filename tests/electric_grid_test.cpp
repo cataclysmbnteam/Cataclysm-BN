@@ -237,8 +237,8 @@ static void test_steady_consumer( grid_setup_consumer &setup )
     REQUIRE( consumer.consume_every > 1_seconds );
 
     WHEN( "the battery is fully charged" ) {
-        int excess = battery.mod_resource( battery.max_stored );
-        REQUIRE( excess == 0 );
+        units::energy excess = battery.mod_resource( battery.max_stored );
+        REQUIRE( excess == 0_J );
         REQUIRE( battery.get_resource() == battery.max_stored );
         REQUIRE( grid.get_resource() == battery.get_resource() );
 

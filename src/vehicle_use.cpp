@@ -1082,10 +1082,10 @@ bool vehicle::start_engine( const int e )
             return false;
         }
         // TODO: start_moves is in moves, but it's an integer, convert it to some time class
-        const int start_draw_bat = power_to_energy_bat( engine_power *
-                                   ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
-                                   1_turns * start_moves / 100 );
-        if( discharge_battery( start_draw_bat, true ) != 0 ) {
+        const units::energy start_draw_bat = power_to_energy_bat( engine_power *
+                                             ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
+                                             1_turns * start_moves / 100 );
+        if( discharge_battery( start_draw_bat, true ) != 0_J ) {
             sounds::sound( pos, noise, sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
                            "engine_multi_click_fail" );
@@ -2196,8 +2196,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
                              get_all_colors().get_name( itype_water->color ) );
             auto &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
-                double cost = itype_water_purifier->charges_to_use();
-                if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost ) {
+                units::energy cost = itype_water_purifier->energy_to_use();
+                if( energy_left( true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
                              name, tank.name() );

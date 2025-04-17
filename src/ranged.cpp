@@ -889,8 +889,8 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
     // cap our maximum burst size by the amount of UPS power left
     if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0_J ) {
-        shots = std::min( shots, ( gun.energy_available( who ) /
-                                   gun.get_gun_ups_drain() ) );
+        shots = std::min( shots, static_cast<int>( gun.energy_available( who ) /
+                          gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -3873,8 +3873,8 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
                    ( you.has_active_bionic( bio_ups ) &&
                      you.get_power_level() >= ups_drain ) ) ) {
                 messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
-                                        gmode->tname(), ups_drain ) );
+                                        _( "You need a UPS with at least %2$s charges to fire the %1$s!" ),
+                                        gmode->tname(), units::display( ups_drain ) ) );
                 result = false;
             }
         } else {

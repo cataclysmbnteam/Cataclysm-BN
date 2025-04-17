@@ -119,6 +119,14 @@ int itype::charges_to_use() const
     return 1;
 }
 
+units::energy itype::energy_to_use() const
+{
+    if( tool ) {
+        return tool->energy_draw;
+    }
+    return 0_J;
+}
+
 int itype::charge_factor() const
 {
     return tool ? tool->charge_factor : 1;

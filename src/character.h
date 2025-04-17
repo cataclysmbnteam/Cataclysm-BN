@@ -1079,7 +1079,7 @@ class Character : public Creature, public location_visitable<Character>
         /**Find fuel used by remote powered bionic*/
         itype_id find_remote_fuel( bool look_only = false );
         /**Consume fuel used by remote powered bionic, return amount of request unfulfilled (0 if totally successful).*/
-        int consume_remote_fuel( int amount );
+        units::energy consume_remote_fuel( units::energy amount );
         void reset_remote_fuel();
         /**Handle heat from exothermic power generation*/
         void heat_emission( bionic &bio, int fuel_energy );

@@ -1315,15 +1315,12 @@ bool Character::burn_fuel( bionic &bio, bool start )
                             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                         }
                     } else if( is_cable_powered ) {
-                        int to_consume = 1;
-                        if( get_power_level() >= get_max_power_level() ) {
-                            to_consume = 0;
-                        }
-                        const int unconsumed = consume_remote_fuel( to_consume );
-                        if( unconsumed == 0 && to_consume == 1 ) {
+                        units::energy to_consume = std::min( 1_kJ, get_max_power_level() - get_power_level() );
+                        const units::energy to_recharge = to_consume - consume_remote_fuel( to_consume );
+                        if( to_recharge >= 0_J ) {
                             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_efficiency );
                             current_fuel_stock -= 1;
-                        } else if( to_consume == 1 ) {
+                        } else if( to_consume >= 0_J ) {
                             current_fuel_stock = 0;
                         }
                         set_value( "rem_" + fuel.str(), std::to_string( current_fuel_stock ) );
@@ -1460,9 +1457,9 @@ itype_id Character::find_remote_fuel( bool look_only )
     return remote_fuel;
 }
 
-int Character::consume_remote_fuel( int amount )
+units::energy Character::consume_remote_fuel( units::energy amount )
 {
-    int unconsumed_amount = amount;
+    units::energy unconsumed_amount = amount;
     const std::vector<item *> cables = items_with( []( const item & it ) {
         return it.is_active() && it.has_flag( flag_CABLE_SPOOL );
     } );
@@ -1479,14 +1476,14 @@ int Character::consume_remote_fuel( int amount )
         }
     }
 
-    if( unconsumed_amount > 0 ) {
+    if( unconsumed_amount > 0_J ) {
         static const item_filter used_ups = [&]( const item & itm ) {
             return itm.get_var( "cable" ) == "plugged_in";
         };
-        if( use_charges_if_avail( itype_UPS_off, unconsumed_amount, used_ups ) ) {
-            unconsumed_amount -= 1;
-        } else if( use_charges_if_avail( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
-            unconsumed_amount -= 1;
+        if( use_energy_if_avail( itype_UPS_off, unconsumed_amount, used_ups ) ) {
+            unconsumed_amount = 0_J;
+        } else if( use_energy_if_avail( itype_adv_UPS_off, unconsumed_amount, used_ups ) ) {
+            unconsumed_amount = 0_J;
         }
     }
 

@@ -303,10 +303,10 @@ void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms
         return;
     }
 
-    std::int64_t power = this->power * ticks;
-    int missing = grid.mod_resource( -power );
+    units::energy power = this->power * ticks;
+    units::energy missing = grid.mod_resource( -power );
 
-    if( missing == 0 ) {
+    if( missing == 0_J ) {
         return;
     }
 
