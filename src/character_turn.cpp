@@ -876,15 +876,7 @@ void Character::process_items()
         }
     }
 
-    static const item_filter is_ups = [&]( const item & itm ) {
-        return itm.has_flag( flag_IS_UPS );
-    };
-
-    units::energy ch_UPS = energy_of( itype_id( "any" ), units::energy_max, is_ups );
-
-    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += get_power_level();
-    }
+    units::energy ch_UPS = energy_of( itype_UPS, units::energy_max );
 
     units::energy ch_UPS_used = 0_J;
 

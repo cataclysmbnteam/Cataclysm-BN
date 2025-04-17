@@ -10092,23 +10092,7 @@ bool Character::has_energy( const itype_id &it, units::energy amount,
 {
     if( it == itype_UPS ) {
         units::energy UPS_needed = amount;
-        if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
-            auto mons = mounted_creature.get();
-            UPS_needed -= std::min( mons->get_battery_item()->energy_remaining(), UPS_needed );
-            if( UPS_needed == 0_J ) {
-                return true;
-            }
-        }
-        if( has_power() && has_active_bionic( bio_ups ) ) {
-            UPS_needed -= std::min( get_power_level(), UPS_needed );
-            if( UPS_needed == 0_J ) {
-                return true;
-            }
-        }
-        static const item_filter is_ups = [&]( const item & itm ) {
-            return itm.has_flag( flag_IS_UPS );
-        };
-        return energy_of( itype_id( "any" ), UPS_needed, is_ups ) == UPS_needed;
+        return energy_of( itype_UPS, UPS_needed ) == UPS_needed;
     }
     if( it == itype_bio_armor ) {
         units::energy mod_power = 0_J;

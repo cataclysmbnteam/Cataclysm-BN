@@ -16,6 +16,8 @@ class item;
 template<typename T>
 class detached_ptr;
 
+using item_filter = std::function<bool( const item & )>;
+
 enum class VisitResponse {
     ABORT, // Stop processing after this node
     NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling

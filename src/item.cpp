@@ -166,6 +166,7 @@ static const species_id ROBOT( "ROBOT" );
 
 static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 
+static const bionic_id bio_ups( "bio_ups" );
 static const bionic_id bio_digestion( "bio_digestion" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -7901,7 +7902,7 @@ units::energy item::energy_available( const Character &ch, units::energy limit )
             } else {
                 res += ch.energy_of( itype_UPS, limit - res );
             }
-        } else if( res < limit && has_flag( flag_USE_UPS ) ) {
+        } else if( has_flag( flag_USE_UPS ) ) {
             res += ch.energy_of( itype_UPS, limit - res );
         }
     }

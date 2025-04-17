@@ -488,7 +488,6 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
     "batteries": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ],
     "battery_well": "2000 ml",
     "flags": [ "IS_UPS" ]

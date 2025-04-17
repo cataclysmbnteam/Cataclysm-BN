@@ -755,7 +755,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
     }
 
     if( total_UPS_charges_used > 0 &&
-        total_UPS_charges_used > crafting_inv.charges_of( itype_UPS ) ) {
+        units::from_kilojoule( total_UPS_charges_used ) > crafting_inv.energy_of( itype_UPS ) ) {
         return false;
     }
     return retval;

@@ -46,6 +46,7 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_electrosense_voltmeter( "bio_electrosense_voltmeter" );
 static const bionic_id bio_ups( "bio_ups" );
 
+static const flag_id flag_IS_UPS( "IS_UPS" );
 static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 
 /** @relates visitable */
@@ -973,7 +974,6 @@ static units::energy energy_of_internal( const T &self, const M &main, const ity
     } );
 
     if( power_found < limit && found_tool_with_UPS ) {
-        power_found += main.energy_of( itype_UPS, limit - power_found );
         if( visitor ) {
             visitor( power_found );
         }
@@ -1043,6 +1043,24 @@ units::energy visitable<Character>::energy_of( const itype_id &what, units::ener
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
+
+    if( what == itype_UPS ) {
+        units::energy enrg = 0_J;
+        if( p->has_power() && p->has_active_bionic( bio_ups ) ) {
+            enrg += p->get_power_level();
+        }
+        if( p->is_mounted() ) {
+            auto mons = p->mounted_creature.get();
+            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
+                enrg += mons->get_battery_item()->energy_remaining();
+            }
+        }
+        static const item_filter is_ups = [&]( const item & itm ) {
+            return itm.has_flag( flag_IS_UPS );
+        };
+        return std::min( limit, enrg + energy_of( itype_id( "any" ), limit, is_ups ) );
+    }
+
     if( what == itype_toolset ) {
         if( p && p->has_active_bionic( bio_tools ) ) {
             return std::min( p->get_power_level(), limit );
@@ -1104,7 +1122,6 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     } );
 
     if( qty < limit && found_tool_with_UPS ) {
-        qty += main.charges_of( itype_UPS, limit - qty );
         if( visitor ) {
             visitor( qty );
         }
@@ -1128,12 +1145,6 @@ int visitable<inventory>::charges_of( const itype_id &what, int limit,
                                       const std::function<bool( const item & )> &filter,
                                       std::function<void( int )> visitor ) const
 {
-    if( what == itype_UPS ) {
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
-        return std::min( qty, limit );
-    }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() ) {
@@ -1168,22 +1179,6 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
-
-    if( what == itype_UPS ) {
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.5 ) );
-        if( p && p->has_active_bionic( bio_ups ) ) {
-            qty = sum_no_wrap( qty, units::to_kilojoule<int>( p->get_power_level() ) );
-        }
-        if( p && p->is_mounted() ) {
-            auto mons = p->mounted_creature.get();
-            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
-                qty = sum_no_wrap( qty, mons->get_battery_item()->ammo_remaining() );
-            }
-        }
-        return std::min( qty, limit );
-    }
 
     if( what == itype_toolset ) {
         if( p && p->has_active_bionic( bio_tools ) ) {
