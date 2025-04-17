@@ -802,8 +802,10 @@ void Creature::deal_projectile_attack( Creature *source, item *source_weapon,
             }
         }
     } else { // no crit logic for selecting bodypart
-        if( hit_value <= 0.4 && !one_in( 4 ) ) {
-            bp_hit = one_in( 3 ) ? bodypart_str_id( "head" ) : bodypart_str_id( "torso" );
+        if( goodhit < accuracy_critical && hit_value <= 0.2 && one_in( 2 ) ) {
+            bp_hit = bodypart_str_id( "head" );
+        } else if( hit_value <= 0.4 && !one_in( 4 ) ) {
+            bp_hit = bodypart_str_id( "torso" );
         } else if( one_in( 4 ) ) {
             if( one_in( 2 ) ) {
                 bp_hit = bodypart_str_id( "leg_l" );
