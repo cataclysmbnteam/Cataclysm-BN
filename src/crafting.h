@@ -19,6 +19,8 @@ class recipe;
 struct iuse_location;
 struct tool_comp;
 
+using metric = std::pair<units::mass, units::volume>;
+
 enum class cost_adjustment : int;
 
 enum class bench_type : int {
@@ -57,6 +59,8 @@ struct workbench_info_wrapper {
         : multiplier( multiplier ), allowed_mass( allowed_mass ), allowed_volume( allowed_volume ),
           type( type ) {
     }
+
+    void adjust_multiplier( const std::pair<units::mass, units::volume> &metrics );
 };
 
 struct bench_loc {

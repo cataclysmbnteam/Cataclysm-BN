@@ -10,6 +10,7 @@
 #include "avatar_action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
+#include "activity_speed.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
@@ -112,6 +113,11 @@ inline void progress_counter::purge()
 inline void activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
     act.speed.calc_all_moves( who );
+}
+
+inline void activity_actor::adjust_bench_multiplier( bench_loc &bench, const metric & ) const
+{
+    bench.wb_info.multiplier_adjusted = bench.wb_info.multiplier;
 }
 
 aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location() )
@@ -672,8 +678,9 @@ inline void disassemble_activity_actor::process_target( player_activity &/*act*/
 
 inline void disassemble_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
-    auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft(
-                                           targets.front().loc->typeId() ) );
+    const auto &target = targets.front().loc;
+    auto reqs = activity_reqs_adapter( recipe_dictionary::get_uncraft( target->typeId() ),
+                                       target->weight(), target->volume() );
     act.speed.calc_all_moves( who, reqs );
 }
 
@@ -726,13 +733,10 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
     }
 }
 
-float disassemble_activity_actor::calc_bench_factor( const Character &who,
-        const std::optional<bench_loc> &bench, item &target )
+void disassemble_activity_actor::adjust_bench_multiplier( bench_loc &bench,
+        const metric &metrics ) const
 {
-    return bench
-           ? crafting::best_bench_here( target, bench->position, true ).second
-           : crafting::best_bench_here( target, who.pos(), true ).second;
-
+    bench.wb_info.adjust_multiplier( metrics );
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const
@@ -818,8 +822,8 @@ static hack_type get_hack_type( tripoint examp )
 {
     hack_type type = HACK_NULL;
     const map &here = get_map();
-    const furn_t &xfurn_t = here.furn( examp ).obj();
-    const ter_t &xter_t = here.ter( examp ).obj();
+    const furn_t &xfurn_t = *here.furn( examp );
+    const ter_t &xter_t = *here.ter( examp );
     if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
         type = HACK_GAS;
     } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
@@ -2075,7 +2079,7 @@ inline void construction_activity_actor::calc_all_moves( player_activity &act, C
         act.set_to_null();
         return;
     }
-    auto reqs = activity_reqs_adapter( pc->id.obj() );
+    auto reqs = activity_reqs_adapter( *pc->id );
     act.speed.calc_all_moves( who, reqs );
 }
 
@@ -2084,7 +2088,7 @@ void construction_activity_actor::start( player_activity &/*act*/, Character &/*
     map &here = get_map();
     auto local = here.getlocal( target );
     pc = here.partial_con_at( local );
-    auto &built = pc->id.obj();
+    auto &built = *pc->id;
 
     std::string name;
 
@@ -2137,7 +2141,7 @@ void construction_activity_actor::do_turn( player_activity &act, Character &who 
         progress.pop();
         return;
     } else {
-        auto &built = pc->id.obj();
+        auto &built = *pc->id;
         if( !who.has_trait( trait_DEBUG_HS ) && !who.meets_skill_requirements( built ) ) {
             add_msg( m_info, _( "%s can't work on this construction anymore." ), who.disp_name() );
             act.set_to_null();

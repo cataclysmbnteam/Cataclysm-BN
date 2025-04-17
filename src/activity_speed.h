@@ -12,11 +12,15 @@
 class Character;
 class inventory;
 
+using metric = std::pair<units::mass, units::volume>;
+
 struct activity_reqs_adapter {
     std::vector<activity_req<quality_id>> qualities;
     std::vector<activity_req<skill_id>> skills;
+    metric metrics = std::make_pair( 0_milligram, 0_ml );
 
-    activity_reqs_adapter( const recipe &rec );
+    activity_reqs_adapter( const recipe &rec, units::mass mass,
+                           units::volume volume );
 
     activity_reqs_adapter( const construction &con );
 };
@@ -30,6 +34,7 @@ using morale_factor_fn = std::function<float( const Character & )>;
 using tools_factor_fn = std::function<float( const q_reqs &, const inventory & )>;
 using stats_factor_fn = std::function<stat_factors( const Character &, const stat_reqs & )>;
 using skills_factor_fn = std::function<float( const Character &, const skill_reqs & )>;
+using bench_factor_fn = std::function<void( bench_loc &, const metric & )>;
 
 /*
  * Struct to track activity speed by factors
@@ -40,6 +45,9 @@ class activity_speed
         activity_id type = activity_id::NULL_ID();
         std::optional<bench_loc> bench;
         int assistant_count = 0;
+        bench_factor_fn bench_factor_custom_formula = []( bench_loc &bench, const metric & ) {
+            bench.wb_info.multiplier_adjusted = bench.wb_info.multiplier;
+        };
         morale_factor_fn morale_factor_custom_formula = []( const Character & ) {
             return -1.f;
         };
@@ -62,7 +70,7 @@ class activity_speed
         float tools = 1.0f;
         float morale = 1.0f;
         float light = 1.0f;
-        std::vector<std::pair<character_stat, float>> stats = {};
+        std::vector<std::pair<character_stat, float>> stats;
 
         //Returns total product of all stats
         inline float stats_total() const {
@@ -93,6 +101,7 @@ class activity_speed
 
         void calc_assistants_factor( const Character &who );
         void calc_bench_factor( const Character &who );
+        void find_best_bench( const tripoint &pos, metric metrics = std::make_pair( 0_milligram, 0_ml ) );
         void calc_light_factor( const Character &who );
         void calc_morale_factor( const Character &who );
         void calc_skill_factor( const Character &who,

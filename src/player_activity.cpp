@@ -26,17 +26,15 @@
 #include "npc.h"
 #include "player.h"
 #include "profile.h"
+#include "recipe.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-#include "value_ptr.h"
-#include "veh_type.h"
-#include "vehicle_part.h"
-#include "vpart_position.h"
 
+using metric = std::pair<units::mass, units::volume>;
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
@@ -119,7 +117,7 @@ void player_activity::init_all_moves( Character &who )
         speed.assistant_count = assistants().size();
     }
     if( type->bench_affected() ) {
-        speed.bench = find_best_bench( who.pos() );
+        speed.find_best_bench( who.pos() );
     }
     if( actor ) {
         speed.morale_factor_custom_formula = [&]( const Character & who ) {
@@ -136,6 +134,9 @@ void player_activity::init_all_moves( Character &who )
         speed.skills_factor_custom_formula = [&]( const Character & who,
         const skill_reqs & reqs ) {
             return actor->calc_skill_factor( who, reqs );
+        };
+        speed.bench_factor_custom_formula = [&]( bench_loc & bench, const metric & metrics ) {
+            actor->adjust_bench_multiplier( bench, metrics );
         };
 
         actor->calc_all_moves( *this, who );
@@ -422,38 +423,6 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
     return extra_info.empty()
            ? string_format( _( "%s…" ), get_verb().translated() )
            : string_format( _( "%s: %s" ), get_verb().translated(), extra_info );
-}
-
-bench_loc player_activity::find_best_bench( const tripoint &pos )
-{
-    map &here = get_map();
-    auto best_bench = bench_loc(
-                          workbench_info_wrapper(
-                              *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() ),
-                          pos );
-    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
-    here.reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
-    for( const tripoint &adj : reachable ) {
-        if( auto wb = here.furn( adj ).obj().workbench ) {
-            if( wb->multiplier > best_bench.wb_info.multiplier ) {
-                best_bench = bench_loc( workbench_info_wrapper( *wb.get() ), adj );
-            }
-        }
-
-        if( const std::optional<vpart_reference> vp = here.veh_at(
-                    adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
-                if( wb_info->multiplier > best_bench.wb_info.multiplier ) {
-                    best_bench = bench_loc( workbench_info_wrapper( wb_info.value() ),
-                                            adj );
-                }
-            } else {
-                debugmsg( "part '%' with WORKBENCH flag has no workbench info", vp->part().name() );
-            }
-        }
-    }
-
-    return best_bench;
 }
 
 void player_activity::start_or_resume( Character &who, bool resuming )

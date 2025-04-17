@@ -178,8 +178,6 @@ class player_activity
         void get_assistants( const Character &who );
         static std::vector<npc *> get_assistants( const Character &who, unsigned short max );
 
-        bench_loc find_best_bench( const tripoint &pos );
-
         /**
          * Helper that returns an activity specific progress message.
          */

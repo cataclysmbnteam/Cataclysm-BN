@@ -10,8 +10,13 @@
 #include "character_stat.h"
 #include "construction.h"
 #include "crafting.h"
+#include "game.h"
+#include "map.h"
 #include "recipe.h"
 #include "type_id.h"
+#include "veh_type.h"
+#include "vehicle_part.h"
+#include "vpart_position.h"
 
 static const skill_id stat_speech( "speech" );
 
@@ -73,6 +78,7 @@ void activity_speed::calc_all_moves( Character &who )
 void activity_speed::calc_all_moves( Character &who, activity_reqs_adapter &reqs )
 {
     if( type->bench_affected() ) {
+        find_best_bench( who.pos(), reqs.metrics );
         calc_bench_factor( who );
     }
     if( type->tools_affected() ) {
@@ -278,7 +284,41 @@ void activity_speed::calc_morale_factor( const Character &who )
     morale = 1.0f;
 }
 
-activity_reqs_adapter::activity_reqs_adapter( const recipe &rec )
+void activity_speed::find_best_bench( const tripoint &pos, const metric metrics )
+{
+    map &here = get_map();
+    std::optional<bench_loc> bench_tmp;
+    bench = bench_loc(
+                workbench_info_wrapper(
+                    *string_id<furn_t>( "f_ground_crafting_spot" )->workbench ),
+                pos );
+    bench_factor_custom_formula( *bench, metrics );
+
+    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
+    here.reachable_flood_steps( reachable, pos, PICKUP_RANGE, 1, 100 );
+    for( const tripoint &adj : reachable ) {
+        if( const auto &wb = here.furn( adj )->workbench ) {
+            bench_tmp = bench_loc( workbench_info_wrapper( *wb ), adj );
+            bench_factor_custom_formula( *bench_tmp, metrics );
+            if( bench_tmp->wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
+                bench = bench_tmp;
+            }
+        } else if( const auto &vp = here.veh_at( adj ).part_with_feature( "WORKBENCH", true ) ) {
+            if( const auto &wb_info = vp->part().info().get_workbench_info() ) {
+                bench_tmp = bench_loc( workbench_info_wrapper( *wb_info ), adj );
+                bench_factor_custom_formula( *bench_tmp, metrics );
+                if( bench_tmp->wb_info.multiplier_adjusted > bench->wb_info.multiplier_adjusted ) {
+                    bench = bench_tmp;
+                }
+            } else {
+                debugmsg( "part '%' with WORKBENCH flag has no workbench info", vp->part().name() );
+            }
+        }
+    }
+}
+
+activity_reqs_adapter::activity_reqs_adapter( const recipe &rec, units::mass mass,
+        units::volume volume )
 {
     for( auto &qual : rec.simple_requirements().get_qualities() ) {
         qualities.emplace_back( qual.front().type, qual.front().level );
@@ -288,6 +328,8 @@ activity_reqs_adapter::activity_reqs_adapter( const recipe &rec )
     for( auto &skill : rec.required_skills ) {
         skills.emplace_back( skill.first, skill.second );
     }
+
+    metrics = std::make_pair( mass, volume );
 }
 
 activity_reqs_adapter::activity_reqs_adapter( const construction &con )

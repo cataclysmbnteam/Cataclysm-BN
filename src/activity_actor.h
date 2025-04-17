@@ -9,6 +9,7 @@
 #include "activity_type.h"
 #include "calendar.h"
 #include "type_id.h"
+#include "units.h"
 
 class avatar;
 class Character;
@@ -17,6 +18,8 @@ class JsonOut;
 class player_activity;
 class inventory;
 struct bench_loc;
+
+using metric = std::pair<units::mass, units::volume>;
 
 struct simple_task {
     // Name of the target that's being processed
@@ -253,15 +256,7 @@ class activity_actor
             return msg;
         }
 
-        /*
-         * actor specific formula for speed factor based on workbench
-         * anything above 0 is a valid number
-         * anything below 0 is invalid, promting to use default formula
-        */
-        virtual float calc_bench_factor( const Character & /*who*/,
-                                         const std::optional<bench_loc> &/*bench*/ ) const {
-            return -1.0f;
-        }
+        virtual void adjust_bench_multiplier( bench_loc &bench, const metric & ) const;
 
         /*
          * actor specific formula for speed factor based on skills
