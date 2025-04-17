@@ -188,7 +188,7 @@
     "flags": [ "CARGO", "OBSTACLE", "BUTCHER_EQ", "TRANSPARENT", "FLAT_SURF" ],
     "item": "adv_butchery",
     "location": "center",
-    "looks_like": "f_scan_bed",
+    "looks_like": "vp_autodoc",
     "name": { "str": "advanced butchering station" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
