@@ -170,7 +170,7 @@ class player_activity
         void init_all_moves( Character &who );
 
         //Calculates speed factors that may change every turn
-        inline void calc_moves( const Character &who ) {
+        void calc_moves( const Character &who ) {
             speed.calc_moves( who );
         }
 

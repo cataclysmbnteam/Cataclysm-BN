@@ -21,9 +21,7 @@ static const quality_id qual_CUT_FINE( "CUT_FINE" );
 inline static float limit_factor( float factor, float min = 0.25f, float max = 2.0f )
 {
     //constrain speed between min and max
-    factor = std::min( max, factor );
-    factor = std::max( min, factor );
-    return factor;
+    return clamp<float>( factor, min, max );
 }
 
 inline static float refine_factor( float speed, int denom = 1, float min = -75.0f,

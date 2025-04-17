@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ACTIVITY_SPEED_H
-#define ACTIVITY_SPEED_H
 
 #include <optional>
 #include <utility>
@@ -109,5 +107,3 @@ class activity_speed
         static float get_best_qual_mod( const activity_req<quality_id> &q,
                                         const inventory &inv );
 };
-
-#endif // ACTIVITY_SPEED_H

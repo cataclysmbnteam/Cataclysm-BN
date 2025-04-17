@@ -41,9 +41,9 @@ struct workbench_info_wrapper {
     float multiplier = 1.0f;
     float multiplier_adjusted = multiplier;
     // Mass/volume allowed before a crafting speed penalty is applied
-    bench_type type = bench_type::ground;
     units::mass allowed_mass = 0_gram;
     units::volume allowed_volume = 0_ml;
+    bench_type type = bench_type::ground;
     workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
         allowed_mass( f_info.allowed_mass ),
         allowed_volume( f_info.allowed_volume ), type( bench_type::furniture ) {
@@ -159,5 +159,3 @@ bool disassemble_all( avatar &you, bool recursively );
 void complete_disassemble( Character &who, const iuse_location &target, const tripoint &pos );
 
 } // namespace crafting
-
-
