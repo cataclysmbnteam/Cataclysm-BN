@@ -2186,47 +2186,6 @@ std::unique_ptr<activity_actor> assist_activity_actor::deserialize( JsonIn & )
     return std::make_unique<assist_activity_actor>();
 }
 
-
-
-void salvage_activity_actor::start( player_activity &act, Character &who )
-{
-    map &here = get_map();
-    for( auto &it : targets ) {
-        if( actor->valid_to_cut_up( *it ) ) {
-            target = it;
-        }
-    }
-
-}
-
-void salvage_activity_actor::finish( player_activity &act, Character &who )
-{
-    map &here = get_map();
-    item *salvage_tool = main_tool.get_usable_item( salvage_string );
-    if( salvage_tool == nullptr ) {
-        debugmsg( "Lost tool used for long salvage" );
-        act->set_to_null();
-        return;
-    }
-
-    const use_function *use_fun = salvage_tool->get_use( salvage_string );
-    const salvage_actor *actor = dynamic_cast<const salvage_actor *>( use_fun->get_actor_ptr() );
-    if( actor == nullptr ) {
-        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-        act->set_to_null();
-        return;
-    }
-    item *target = nullptr;
-
-    if( target ) {
-        actor->cut_up( *p, *salvage_tool, *target );
-        return;
-    }
-
-    add_msg( _( "You finish salvaging." ) );
-    act.set_to_null();
-}
-
 namespace activity_actors
 {
 

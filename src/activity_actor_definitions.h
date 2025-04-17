@@ -679,8 +679,13 @@ class salvage_activity_actor : public activity_actor
         std::vector<iuse_location> targets;
         tripoint_abs_ms pos;
     public:
-        explicit salvage_activity_actor() {
-        };
+        salvage_activity_actor() = default;
+        salvage_activity_actor(
+            std::vector<iuse_location> &&targets,
+            tripoint_abs_ms pos
+        ) : targets( std::move( targets ) ), pos( pos ) {}
+        
+        ~salvage_activity_actor() = default;
 
         activity_id get_type() const override {
             return activity_id( "ACT_LONGSALVAGE" );
