@@ -140,8 +140,13 @@
     {
       "type": "item_group",
       "id": "vending_items_useful",
-      "items": [ { "item": "umbrella", "prob": 10 }, { "item": "teleumbrella", "prob": 10 }, { "group": "home_hw", "prob": 10 }, { "group": "tools_common", "prob": 10 },
-        { "group": "cleaning", "prob": 30 }, { "group": "petstore_shelves", "prob": 10 }, { "group": "petstore_misc", "prob": 20 }, { "group": "animalshelter_toys", "prob": 10 } ]
+      "items": [ { "item": "umbrella", "prob": 10 }, { "item": "teleumbrella", "prob": 10 }, { "group": "home_hw", "prob": 50 }, { "group": "tools_common", "prob": 50 },
+        { "group": "cleaning", "prob": 30 } ]
+    },
+    {
+      "type": "item_group",
+      "id": "vending_items_pet",
+      "items": [ { "group": "petstore_shelves", "prob": 100 }, { "group": "petstore_misc", "prob": 100 }, { "group": "animalshelter_toys", "prob": 100 } ]
     },
     {
       "type": "item_group",
@@ -225,18 +230,27 @@
         { "group": "vending_items_useful", "prob": 100 },
         { "group": "vending_items_useful", "prob": 100 },
         { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
-        { "group": "vending_items_useful", "prob": 100 },
         { "group": "vending_items_useful", "prob": 100 }
+      ]
+    },
+    {
+      "type": "item_group",
+      "subtype": "collection",
+      "id": "vending_pet",
+      "entries": [
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 },
+        { "group": "vending_items_pet", "prob": 100 }
       ]
     },
     {
@@ -283,10 +297,6 @@
       "entries": [
         { "group": "crate_toys", "prob": 100 },
         { "group": "crate_toys", "prob": 100 },
-        { "group": "crate_toys", "prob": 100 },
-        { "group": "crate_toys", "prob": 100 },
-        { "group": "games", "prob": 100 },
-        { "group": "games", "prob": 100 },
         { "group": "games", "prob": 100 },
         { "group": "games", "prob": 100 }
       ]
@@ -354,7 +364,7 @@
         { "group": "bionics_common", "prob": 100 },
         { "group": "bionics_common", "prob": 100 },
         { "group": "tools_robotics", "prob": 50 },
-        { "group": "bionics", "prob": 10 }
+        { "group": "bionics", "prob": 20 }
       ]
     },
     {
@@ -364,8 +374,7 @@
       "entries": [
         { "group": "donated_clothes", "prob": 100 },
         { "group": "hatstore_hats", "prob": 100 },
-        { "group": "hatstore_accessories", "prob": 100 },
-        { "group": "donated_clothes", "prob": 100 }
+        { "group": "hatstore_accessories", "prob": 100 }
       ]
     }
 ]

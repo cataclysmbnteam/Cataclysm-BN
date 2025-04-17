@@ -97,7 +97,7 @@
   {
     "id": [ "s_vending_park" ],
     "type": "overmap_terrain",
-    "looks_like": "skate_park",
+    "looks_like": "small_storage_units",
     "copy-from": "generic_city_building",
     "name": "vending park",
     "sym": "V",
@@ -106,7 +106,7 @@
   {
     "id": [ "s_vending_park_roof" ],
     "type": "overmap_terrain",
-    "looks_like": "skate_park",
+    "looks_like": "small_storage_units",
     "copy-from": "generic_city_building",
     "name": "vending park roof",
     "sym": "V",
