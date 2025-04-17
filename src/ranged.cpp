@@ -1000,7 +1000,8 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
             units::energy power_con = gun.get_gun_ups_drain();
-            power_con -= gun.energy_consume( gun.get_gun_ups_drain(), who.pos() );
+            units::energy power_con_test = gun.energy_consume( gun.get_gun_ups_drain(), who.pos() );
+            power_con -= power_con_test;
             if( power_con > 0_J  && !who.use_energy_if_avail( itype_UPS, power_con ) ) {
                 debugmsg( "Unexpected shortage of energy whilst firing %s", gun.tname() );
             }
@@ -3869,11 +3870,9 @@ auto ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_energy( itype_UPS_off, ups_drain ) ||
-                   ( you.has_active_bionic( bio_ups ) &&
-                     you.get_power_level() >= ups_drain ) ) ) {
+            if( !gmode->energy_sufficient( you ) ) {
                 messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$s charges to fire the %1$s!" ),
+                                        _( "You need at least %2$s of battery/UPS charge to fire the %1$s!" ),
                                         gmode->tname(), units::display( ups_drain ) ) );
                 result = false;
             }

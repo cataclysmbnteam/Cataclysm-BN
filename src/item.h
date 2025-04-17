@@ -1986,6 +1986,21 @@ class item : public location_visitable<item>, public game_object<item>
         item *magazine_current();
         const item *magazine_current() const;
 
+        /** Get the default battery type (if any) for this item.
+         *  @param conversion whether to include the effect of any flags or mods which change battery compatibility
+         *  @return battery id or "null" if item has integral battery
+         */
+        itype_id battery_default( bool conversion = true ) const;
+
+        /** Get compatible batteries(if any) for this item.
+         * @param conversion whether to include the effect of any flags or mods which change battery compatibility
+         * @return compatible batteries, always empty if item has integral battery
+         * @see item::battery_integral
+         */
+        std::set<itype_id> battery_compatible( bool conversion = true ) const;
+
+        // Checks if a supplied item is
+
         /** Currently loaded battery (if any)
          *  @return current battery or nullptr if either no battery loaded or item has internal battery
          *  @see item::battery_integral

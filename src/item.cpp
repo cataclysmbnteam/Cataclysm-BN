@@ -2513,10 +2513,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
             }
         }
     } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
-        info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( mod->ammo_types().begin(),
-        mod->ammo_types().end(), []( const ammotype & at ) {
-            return at->name();
-        }, enumeration_conjunction::none ) );
+        if( !mod->ammo_types().empty() ) {
+            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( mod->ammo_types().begin(),
+            mod->ammo_types().end(), []( const ammotype & at ) {
+                return at->name();
+            }, enumeration_conjunction::none ) );
+        }
     }
 
     if( mod->ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
@@ -2529,9 +2531,21 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            mod->ammo_required() ) );
     }
 
+    if( mod->battery_integral() || mod->battery_current() ) {
+        if( mod->battery_current() && parts->test( iteminfo_parts::GUN_BATTERY ) ) {
+            info.emplace_back( "GUN", _( "Battery: " ),
+                               string_format( "<stat>%s</stat>",
+                                              mod->battery_current()->tname() ) );
+        }
+        if( mod->energy_capacity() > 0_J && parts->test( iteminfo_parts::AMMO_ENERGY_REMAINING ) ) {
+            info.emplace_back( "AMMO", _( "Power remaining: " ), string_format( "<stat>%s/%s</stat>",
+                               units::display( mod->energy_remaining() ), units::display( mod->energy_capacity() ) ) );
+        }
+    }
+
     if( mod->get_gun_ups_drain() > 0_J && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
-                           string_format( "Uses <stat>%s</stat> of UPS per shot",
+                           string_format( "Uses <stat>%s</stat> of power per shot",
                                           units::display( mod->get_gun_ups_drain() ) ) );
     }
 
@@ -2582,6 +2596,15 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         if( !compat.empty() ) {
             insert_separation_line( info );
             info.emplace_back( "DESCRIPTION", _( "<bold>Compatible magazines</bold>: " )
+                               + enumerate_as_string( compat, ::nname ) );
+        }
+    }
+
+    if( !battery_integral() && parts->test( iteminfo_parts::GUN_ALLOWED_BATTERIES ) ) {
+        const auto &compat = battery_compatible();
+        if( !compat.empty() ) {
+            insert_separation_line( info );
+            info.emplace_back( "DESCRIPTION", _( "<bold>Compatible batteries</bold>: " )
                                + enumerate_as_string( compat, ::nname ) );
         }
     }
@@ -3212,9 +3235,9 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                            units::display( energy_remaining() ), units::display( energy_capacity() ) ) );
     }
 
-    if( !type->batteries.empty() && parts->test( iteminfo_parts::TOOL_BATTERIES ) ) {
+    if( !battery_compatible().empty() && parts->test( iteminfo_parts::TOOL_BATTERIES ) ) {
         info.emplace_back( "TOOL", _( "Compatible batteries: " ),
-        enumerate_as_string( type->batteries.begin(), type->batteries.end(), []( const itype_id & id ) {
+        enumerate_as_string( battery_compatible(), []( const itype_id & id ) {
             return item::nname( id );
         } ) );
     }
@@ -3225,8 +3248,10 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         int tick_length = type->tool->turns_per_charge > 0 ? type->tool->turns_per_charge : 1;
         std::string time_string = tick_length == 1 ? _( "turn" ) : string_format( _( "%d turns" ),
                                   tick_length );
-        info.emplace_back( "TOOL", string_format(
-                               _( "<bold>Charge usage</bold>: %d charges every %s" ), charges_per_tick, time_string ) );
+        info.emplace_back( "TOOL", string_format( vgettext(
+                               _( "<bold>Charge usage</bold>: %d charge every %s" ),
+                               _( "<bold>Charge usage</bold>: %d charges every %s" ), charges_per_tick )
+                           , charges_per_tick, time_string ) );
     }
 
     if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {
@@ -7380,8 +7405,6 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         } else {
             return now ? ( is_container_empty() || contents.front().typeId() == ammo ) : true;
         }
-    } else if( !type->batteries.empty() ) {
-        return std::count( type->batteries.begin(), type->batteries.end(), ammo );
     } else if( magazine_integral() ) {
         if( !ammo.is_empty() ) {
             if( now && ammo_data() ) {
@@ -7398,7 +7421,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
         }
         return now ? ( ammo_remaining() < ammo_capacity() ) : true;
     } else {
-        return magazine_compatible().count( ammo );
+        return ( magazine_compatible().count( ammo ) || battery_compatible().count( ammo ) );
     }
 }
 
@@ -7912,13 +7935,13 @@ units::energy item::energy_capacity( bool potential_capacity ) const
     } else if( is_tool() ) {
         units::energy res = type->tool->max_energy;
         if( res == 0_J && potential_capacity ) {
-            res = type->battery_default->battery->max_energy;
+            res = battery_default()->battery->max_energy;
         }
         return res;
     } else if( is_gun() ) {
         units::energy res = type->gun->capacity;
         if( res == 0_J && potential_capacity ) {
-            res = type->battery_default->battery->max_energy;
+            res = battery_default()->battery->max_energy;
         }
         return res;
     }
@@ -7970,7 +7993,7 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
     if( is_battery() ) {
         units::energy need = std::min( energy_remaining(), power );
         mod_energy( -need );
-        return power - need;
+        return need;
     } else if( is_tool() || is_gun() ) {
         if( has_flag( flag_USES_BIONIC_POWER ) ) {
             avatar &you = get_avatar();
@@ -8376,6 +8399,27 @@ item *item::magazine_current()
 const item *item::magazine_current() const
 {
     return const_cast<item *>( this )->magazine_current();
+}
+
+itype_id item::battery_default( bool conversion ) const
+{
+    if( !battery_integral() ) {
+        return *( battery_compatible().begin() );
+    }
+    return itype_id::NULL_ID();
+}
+
+std::set<itype_id> item::battery_compatible( bool conversion ) const
+{
+    // mods that define battery_adaptor may override the items usual batteries
+    const std::vector<const item *> &mods = is_gun() ? gunmods() : toolmods();
+    for( const item *m : mods ) {
+        if( !m->type->mod->battery_adaptor.empty() ) {
+            return m->type->mod->battery_adaptor;
+        }
+    }
+
+    return type->batteries;
 }
 
 item *item::battery_current()
@@ -10622,7 +10666,8 @@ bool item::is_reloadable() const
     } else if( is_magazine() && !ammo_types().empty() ) {
         return true;
 
-    } else if( ( is_gun() || is_tool() ) && ( !ammo_types().empty() || !type->batteries.empty() ) ) {
+    } else if( ( is_gun() || is_tool() ) && ( !ammo_types().empty() ||
+               !battery_compatible().empty() ) ) {
         return true;
     }
 

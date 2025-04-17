@@ -69,8 +69,10 @@ enum class iteminfo_parts : size_t {
     GUN_CAPACITY,
     GUN_TYPE,
     GUN_MAGAZINE,
+    GUN_BATTERY,
 
     AMMO_REMAINING,
+    AMMO_ENERGY_REMAINING,
     AMMO_UPSCOST,
 
     GUN_DEFAULT_AMMO,
@@ -104,6 +106,7 @@ enum class iteminfo_parts : size_t {
 
     GUN_FIRE_MODES,
     GUN_ALLOWED_MAGAZINES,
+    GUN_ALLOWED_BATTERIES,
 
     DESCRIPTION_GUN_MODS,
     DESCRIPTION_GUN_CASINGS,

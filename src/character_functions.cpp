@@ -1177,12 +1177,12 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
     }
-    if( !obj.magazine_compatible().empty() || !obj.type->batteries.empty() ) {
+    if( !obj.magazine_compatible().empty() || !obj.battery_compatible().empty() ) {
         const std::set<ammotype> &ammo = obj.ammo_types();
         const itype_id cur_battery = obj.battery_current() ? obj.battery_current()->typeId() :
                                      itype_id::NULL_ID();
         const std::set<itype_id> mags = obj.magazine_compatible();
-        const std::vector<itype_id> bats = obj.type->batteries;
+        const std::set<itype_id> bats = obj.battery_compatible();
 
         src.visit_items( [&nested, &out, mags, bats, empty, &ammo, &cur_battery]( item * node ) {
             if( node->is_gun() || node->is_tool() ) {
@@ -1205,8 +1205,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                 if( cur_battery == node->typeId() ) {
                     VisitResponse::SKIP;
                 }
-                if( std::count( bats.begin(), bats.end(), node->typeId() ) && ( node->energy_remaining() > 0_J ||
-                        empty ) ) {
+                if( bats.contains( node->typeId() ) && ( node->energy_remaining() > 0_J || empty ) ) {
                     out = node;
                 }
                 return VisitResponse::SKIP;
@@ -1242,7 +1241,7 @@ std::vector<item *> find_reloadables( Character &who )
     who.visit_items( [&]( item * node ) {
         bool reloadable = false;
         if( node->is_gun() ) {
-            if( !node->magazine_compatible().empty() || !node->type->batteries.empty() ) {
+            if( !node->magazine_compatible().empty() || !node->battery_compatible().empty() ) {
                 reloadable = true;
             }
             if( ( node->ammo_remaining() < node->ammo_capacity() ||

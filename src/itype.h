@@ -417,6 +417,9 @@ struct islot_mod {
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 
+    /** If non-empty replaces the compatible magazines for the parent item */
+    std::set<itype_id> battery_adaptor;
+
     /** Proportional adjustment of parent item ammo capacity */
     float capacity_multiplier = 1.0;
 };
@@ -1053,10 +1056,7 @@ struct itype {
         units::volume magazine_well = 0_ml;
 
         /** Batteries (if any) that can be used to reload this item */
-        std::vector<itype_id> batteries;
-
-        /** Default battery that can be used to reload this item */
-        itype_id battery_default;
+        std::set<itype_id> batteries;
 
         /** Volume above which the battery starts to protrude from the item and add extra volume */
         units::volume battery_well = 0_ml;

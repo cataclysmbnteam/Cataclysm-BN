@@ -1462,6 +1462,12 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
+
+            for( const auto &e : type->mod->battery_adaptor ) {
+                if( !e->battery ) {
+                    msg += string_format( "invalid battery %s in battery adapter\n", e.str() );
+                }
+            }
         }
         if( type->magazine ) {
             for( const ammotype &at : type->magazine->type ) {
@@ -2145,6 +2151,15 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
             slot.magazine_adaptor[ ammo ].insert( itype_id( line ) );
         }
     }
+
+    JsonArray bats = jo.get_array( "battery_adaptor" );
+    if( !bats.empty() ) {
+        slot.battery_adaptor.clear();
+    }
+    for( const JsonValue arr : bats ) {
+        slot.battery_adaptor.insert( itype_id( arr.get_string() ) );
+    }
+
 }
 
 void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
@@ -2752,11 +2767,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 
     bool assigned_batteries = assign( jo, "batteries", def.batteries );
-    if( assigned_batteries ) {
-        def.batteries.erase( std::unique( def.batteries.begin(), def.batteries.end() ),
-                             def.batteries.end() );
-        def.battery_default = def.batteries[0];
-    }
 
     JsonArray jarr = jo.get_array( "min_skills" );
     if( !jarr.empty() ) {

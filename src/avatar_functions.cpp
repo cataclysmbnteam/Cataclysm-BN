@@ -726,7 +726,7 @@ bool unload_item( avatar &you, item &loc )
     // Next check for any reasons why the item cannot be unloaded
     // First: It has no ammo type, cannot contain ammo or has no suitable batteries.
     if( ( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) &&
-        target->type->batteries.empty() ) {
+        target->battery_compatible().empty() ) {
         add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
         return false;
     }
