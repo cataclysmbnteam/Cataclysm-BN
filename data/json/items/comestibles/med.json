@@ -1375,6 +1375,31 @@
     "use_action": "FLUSLEEP"
   },
   {
+    "id": "sizzurp",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "sizzurp lean" },
+    "description": "An extremely common polysubstance street-drug that almost anyone can make out of soda, candy, cough syrup and opiates.  Many argue that it's not the real thing if not made with a list of specific ingredients, however, most of them are gone now.  Very euphoric but once you pick up the cup, it will be hard to put it down.",
+    "weight": "300 g",
+    "volume": "250 ml",
+    "price": "50 USD",
+    "price_postapoc": "100 USD",
+    "charges": 2,
+    "symbol": "~",
+    "color": "pink",
+    "phase": "liquid",
+    "container": "styrofoam_cup",
+    "fun": 35,
+    "healthy": -1,
+    "addiction_potential": 45,
+    "addiction_type": "opiate",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take a sip of purple.",
+      "effects": [ { "id": "pkill2", "duration": 1200 }, { "id": "cough_suppress", "duration": 1200 } ]
+    }
+  },
+  {
     "id": "prozac",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
