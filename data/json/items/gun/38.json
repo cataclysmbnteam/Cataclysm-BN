@@ -192,6 +192,7 @@
     "material": [ "iron", "wood" ],
     "color": "brown",
     "ammo": [ "357mag", "38" ],
+    "handling": 30,
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 160,
     "clip_size": 9,

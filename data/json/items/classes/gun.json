@@ -9,7 +9,7 @@
     "to_hit": -1,
     "color": "light_gray",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "handling": 15
+    "handling": 10
   },
   {
     "abstract": "flamethrower_base",
@@ -27,7 +27,8 @@
     "ammo_to_fire": 100,
     "flags": [ "NEVER_JAMS", "FIRESTARTER", "PYROMANIAC_WEAPON" ],
     "use_action": { "type": "firestarter", "moves": 200 },
-    "faults": [  ]
+    "faults": [  ],
+    "handling": 10
   },
   {
     "abstract": "launcher_base",
@@ -42,7 +43,8 @@
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "handling": 10
   },
   {
     "abstract": "rocket_base",
@@ -76,7 +78,8 @@
       [ "sights", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "handling": 10
   },
   {
     "abstract": "pistol_backup",
@@ -149,7 +152,7 @@
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
     "blackpowder_tolerance": 72,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
   },
   {
     "abstract": "pistol_energy",
@@ -268,7 +271,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "handling": 10,
   },
   {
     "abstract": "rifle_energy",
@@ -368,7 +372,7 @@
     "bashing": 12,
     "looks_like": "remington_870",
     "ammo": "shot",
-    "handling": 30,
+    "handling": 20,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -461,7 +465,7 @@
     "to_hit": -4,
     "bashing": 18,
     "reload": 400,
-    "handling": 40
+    "handling": 30
   },
   {
     "abstract": "gatling_base",
@@ -475,7 +479,7 @@
     "skill": "rifle",
     "dispersion": 300,
     "reload": 400,
-    "handling": 60,
+    "handling": 10,
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "flags": [ "MOUNTED_GUN" ],
     "blackpowder_tolerance": 48,
@@ -489,7 +493,7 @@
     "name": { "str": "energy gatling gun" },
     "bashing": 8,
     "reload": 200,
-    "handling": 40,
+    "handling": 10,
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING" ],
     "valid_mod_locations": [ [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "faults": [  ]
@@ -505,6 +509,7 @@
     "skill": "launcher",
     "ammo": "chemical_spray",
     "ammo_to_fire": 50,
+    "handling": 10,
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
