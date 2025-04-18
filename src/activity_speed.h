@@ -8,9 +8,11 @@
 #include "character_stat.h"
 #include "crafting.h"
 #include "type_id.h"
+#include "safe_reference.h"
 
 class Character;
 class inventory;
+class item;
 
 using metric = std::pair<units::mass, units::volume>;
 
@@ -23,6 +25,8 @@ struct activity_reqs_adapter {
                            units::volume volume );
 
     activity_reqs_adapter( const construction &con );
+
+    activity_reqs_adapter() = default;
 };
 
 using q_reqs = std::vector<activity_req<quality_id>>;
@@ -31,7 +35,8 @@ using stat_factors = std::vector<std::pair<character_stat, float>>;
 using skill_reqs = std::vector<activity_req<skill_id>>;
 
 using morale_factor_fn = std::function<float( const Character & )>;
-using tools_factor_fn = std::function<float( const q_reqs &, const inventory & )>;
+using tools_factor_fn =
+    std::function<float( const q_reqs &, inventory & )>;
 using stats_factor_fn = std::function<stat_factors( const Character &, const stat_reqs & )>;
 using skills_factor_fn = std::function<float( const Character &, const skill_reqs & )>;
 using bench_factor_fn = std::function<void( bench_loc &, const metric & )>;
@@ -51,7 +56,7 @@ class activity_speed
         morale_factor_fn morale_factor_custom_formula = []( const Character & ) {
             return -1.f;
         };
-        tools_factor_fn tools_factor_custom_formula = []( const q_reqs &, const inventory & ) {
+        tools_factor_fn tools_factor_custom_formula = []( const q_reqs &, inventory & ) {
             return -1.f;
         };
         stats_factor_fn stats_factor_custom_formula = []( const Character &, const stat_reqs & ) {
@@ -115,4 +120,11 @@ class activity_speed
                                 const std::vector<activity_req<quality_id>> &quality_reqs );
         static float get_best_qual_mod( const activity_req<quality_id> &q,
                                         const inventory &inv );
+        static float calc_quality_factor( const activity_req<quality_id> &q, int q_level );
+        static float calc_quality_factor( std::pair<quality_id, int> &q ) {
+            return calc_quality_factor( activity_req<quality_id>( q.first ), q.second );
+        }
+        static float calc_quality_factor( std::pair<const quality_id, int> &q ) {
+            return calc_quality_factor( activity_req<quality_id>( q.first ), q.second );
+        }
 };

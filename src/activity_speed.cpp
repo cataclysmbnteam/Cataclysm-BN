@@ -206,17 +206,8 @@ void activity_speed::calc_stats_factors( const Character &who )
     }
 }
 
-float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
-        const inventory &inv )
+float activity_speed::calc_q_factor( const activity_req<quality_id> &q, int q_level )
 {
-    int q_level = 0;
-    inv.visit_items( [&q, &q_level]( const item * itm ) {
-        int new_q = itm->get_quality( q.req );
-        if( new_q > q_level ) {
-            q_level = new_q;
-        }
-        return VisitResponse::NEXT;
-    } );
     q_level = q_level - q.threshold;
 
     if( q.req == qual_CUT_FINE ) {
@@ -235,6 +226,20 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
     }
 
     return  q.mod * q_level / ( q_level + 1.75f );
+}
+float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
+        const inventory &inv )
+{
+    int q_level = 0;
+    inv.visit_items( [&q, &q_level]( const item * itm ) {
+        int new_q = itm->get_quality( q.req );
+        if( new_q > q_level ) {
+            q_level = new_q;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    return calc_q_factor( q, q_level );
 }
 
 void activity_speed::calc_tools_factor( Character &who,

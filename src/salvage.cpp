@@ -4,8 +4,31 @@
 
 #include "iuse_actor.cpp"
 
+std::unordered_map<quality_id, salvage_quality> salvage_quality_dictionary;
 std::unordered_map<material_id, std::set<quality_id>> salvage_material_dictionary;
 std::set<material_id> salvagable_materials;
+
+
+// Helper to find smallest sub-component of an item.
+static std::set<material_id> can_salvage_materials( const item &it )
+{
+    std::set<material_id> salvagable_materials;
+    for( auto quality : it.get_qualities() ) {
+        auto mats = salvage_quality_dictionary[quality.first].salvagable_materials;
+        salvagable_materials.insert( mats.begin(), mats.end() );
+    }
+    return salvagable_materials;
+}
+
+// Helper to find smallest sub-component of an item.
+static units::mass minimal_weight_to_cut( const item &it )
+{
+    units::mass min_weight = units::mass_max;
+    visit_salvage_products( it, [&min_weight]( const item & exemplar ) {
+        min_weight = std::min( min_weight, exemplar.weight() );
+    } );
+    return min_weight;
+}
 
 // It is used to check if an item can be salvaged or not.
 bool try_salvage( Character &who, item &it, bool mute = true )
@@ -73,34 +96,34 @@ bool try_salvage( Character &who, item &it, bool mute = true )
     return true;
 }
 
+std::vector<std::pair< material_type *, float>> get_salvagable_materials( const item &target )
+{
+    auto materials = target.made_of_types();
+    std::vector<std::pair< material_type *, float>> salvagable_materials;
+    //For now we assume that proportions for all materials are equal
+    for( auto &material : materials ) {
+        salvagable_materials.emplace_back( material, 1.0f / materials.size() );
+    }
+    return salvagable_materials;
+}
 
-// function returns charges from it during the cutting process of the *cut.
-// it cuts
-// cut gets cut
-void cut_up( Character &who, item &cut )
+void salvage( Character &who, item &cut, tripoint pos )
 {
     const bool filthy = cut.is_filthy();
-    // This is the value that tracks progress, as we cut pieces off, we reduce this number.
-    units::mass remaining_weight = cut.weight();
+    float salvagable_percent = 1.0f;
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - who.get_skill_level( skill_fabrication ) );
-    // What material components can we get back?
-    std::vector<material_id> cut_material_components = cut.made_of();
-    // What materials do we salvage (ids and counts).
-    std::map<itype_id, int> materials_salvaged;
-
     // Not much practice, and you won't get very far ripping things up.
     who.practice( skill_fabrication, rng( 0, 5 ), 1 );
-
     // Higher fabrication, less chance of entropy, but still a chance.
     if( rng( 1, 10 ) <= entropy_threshold ) {
-        remaining_weight *= 0.99;
+        salvagable_percent *= 0.99;
     }
     // Fail dex roll, potentially lose more parts.
     /** @EFFECT_DEX randomly reduces component loss when cutting items up */
     if( dice( 3, 4 ) > who.dex_cur ) {
-        remaining_weight *= 0.95;
+        salvagable_percent *= 0.95;
     }
     // If more than 1 material component can still be salvaged,
     // chance of losing more components if the item is damaged.
@@ -108,38 +131,12 @@ void cut_up( Character &who, item &cut )
     if( cut.damage() > 0 ) {
         float component_success_chance = std::min( std::pow( 0.8, cut.damage_level( 4 ) ),
                                          1.0 );
-        remaining_weight *= component_success_chance;
+        salvagable_percent *= component_success_chance;
     }
 
-    // Essentially we round-robbin through the components subtracting mass as we go.
-    std::map<units::mass, itype_id> weight_to_item_map;
-    for( const material_id &material : cut_material_components ) {
-        if( const std::optional<itype_id> id = material->salvaged_into() ) {
-            materials_salvaged[*id] = 0;
-            weight_to_item_map[( **id ).weight] = *id;
-        }
-    }
-    while( remaining_weight > 0_gram && !weight_to_item_map.empty() ) {
-        units::mass components_weight = std::accumulate( weight_to_item_map.begin(),
-                                        weight_to_item_map.end(), 0_gram, []( const units::mass & a,
-        const std::pair<units::mass, itype_id> &b ) {
-            return a + b.first;
-        } );
-        if( components_weight > 0_gram && components_weight <= remaining_weight ) {
-            int count = remaining_weight / components_weight;
-            for( std::pair<units::mass, itype_id> mat_pair : weight_to_item_map ) {
-                materials_salvaged[mat_pair.second] += count;
-            }
-            remaining_weight -= components_weight * count;
-        }
-        weight_to_item_map.erase( std::prev( weight_to_item_map.end() ) );
-    }
+    auto materials = get_salvagable_materials( cut );
 
-    add_msg( m_info, _( "You try to salvage materials from the %s." ),
-             cut.tname() );
-
-    item_location_type cut_type = cut.where();
-    tripoint pos = cut.position();
+    add_msg( m_info, _( "You try to salvage materials from the %s." ), cut.tname() );
 
     // Clean up before removing the item.
     remove_ammo( cut, who );
@@ -149,50 +146,48 @@ void cut_up( Character &who, item &cut )
     who.reset_encumbrance();
 
     map &here = get_map();
-    for( const auto &salvaged : materials_salvaged ) {
-        itype_id mat_name = salvaged.first;
-        int amount = salvaged.second;
-        item &result = *item::spawn_temporary( mat_name, calendar::turn );
-        if( amount > 0 ) {
-            // Time based on number of components.
-            add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
-                     amount, result.display_name( amount ) );
-            if( filthy ) {
-                result.set_flag( flag_FILTHY );
-            }
-            if( cut_type == item_location_type::character ) {
-                while( amount-- ) {
-                    who.i_add_or_drop( item::spawn( result ) );
+    auto cut_type = cut.where();
+    for( const auto &salvaged : materials ) {
+        if( salvagable_materials.contains( salvaged.first->id ) ) {
+            auto salvaged_into = *salvaged.first->salvaged_into();
+            int amount = std::floor( salvaged_into->weight /
+                                     ( cut.weight() * salvaged.second * salvagable_percent ) );
+            if( amount > 0 ) {
+                item &result = *item::spawn_temporary( salvaged_into, calendar::turn );
+                // Time based on number of components.
+                add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
+                         amount, result.display_name( amount ) );
+                if( filthy ) {
+                    result.set_flag( flag_FILTHY );
+                }
+                for( amount; amount > 0; --amount ) {
+                    if( cut_type == item_location_type::character ) {
+                        who.i_add_or_drop( item::spawn( result ) );
+                    } else {
+
+                        here.add_item_or_charges( pos, item::spawn( result ) );
+                    }
                 }
             } else {
-                for( int i = 0; i < amount; i++ ) {
-                    here.add_item_or_charges( pos, item::spawn( result ) );
-                }
+                add_msg( m_bad, _( "Could not salvage a %s." ), salvaged_into->nname( 1 ) );
             }
-        } else {
-            add_msg( m_bad, _( "Could not salvage a %s." ), result.display_name() );
         }
     }
 }
 
-int time_to_cut_up( const item &it )
+int moves_to_salvage( const item &target )
 {
-    units::mass total_material_weight;
-    int num_materials = 0;
-    visit_salvage_products( it, [&total_material_weight, &num_materials]( const item & exemplar ) {
-        total_material_weight += exemplar.weight();
-        num_materials += 1;
-    } );
-    if( num_materials == 0 ) {
-        return 0;
+    int time = 0;
+    for( auto material : get_salvagable_materials( target ) ) {
+        if( material.first ) {
+            //based on density, weight and proportion of material
+            time += 2 * material.first->density() * units::to_gram( target.weight() ) * material.second;
+        }
     }
-    units::mass average_material_weight = total_material_weight / num_materials;
-    int count = it.weight() / average_material_weight;
-    //TODO proper use
-    return 25 * count;
+    return time;
 }
 
-bool has_salvage_tools( const inventory &inv, item &item, bool check_charges = false )
+bool has_salvage_tools( inventory &inv, item &item, bool check_charges = false )
 {
     bool has_tools = false;
     for( auto &material : item.made_of_types() ) {
@@ -217,16 +212,24 @@ bool has_salvage_tools( const inventory &inv, item &item, bool check_charges = f
     return true;
 }
 
+void salvage_activity_actor::calc_all_moves( player_activity &act, Character &who )
+{
+    const auto &target = targets.front().loc;
+    activity_reqs_adapter reqs;
+    reqs.skills = get_type()->skills;
+    reqs.metrics = std::make_pair( target->weight(), target->volume() );
+
+    act.speed.calc_all_moves( who, reqs );
+}
+
 void salvage_activity_actor::start( player_activity &act, Character &who )
 {
-    map &here = get_map();
-    auto inv = who.crafting_inventory();
     for( auto &target : targets ) {
         if( !target.loc ) {
             debugmsg( "Lost target of ACT_DISASSEMBLY" );
             act.set_to_null();
         } else {
-            progress.emplace( target.loc->tname( target.loc->count() ), time_to_cut_up( *target.loc ) );
+            progress.emplace( target.loc->tname(), moves_to_salvage( *target.loc ) );
         }
     }
 }
@@ -239,7 +242,7 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
             debugmsg( "Lost target of ACT_DISASSEMBLY" );
             act.set_to_null();
         } else {
-            cut_up( who, *target.loc );
+            salvage( who, *target.loc, pos );
         }
         targets.erase( targets.begin() );
         progress.pop();
@@ -251,7 +254,7 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
                 act.set_to_null();
             } else {
                 if( try_salvage( who, *target.loc ) ) {
-                    recalc_all_moves( act, who );
+                    calc_all_moves( act, who );
                 } else {
                     act.set_to_null();
                 }

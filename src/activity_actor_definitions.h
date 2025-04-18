@@ -674,6 +674,7 @@ class salvage_activity_actor : public activity_actor
 {
     private:
         std::vector<iuse_location> targets;
+        std::vector<item &, std::set<std::pair<quality_id, int>>> target_and_tools;
         tripoint_abs_ms pos;
     public:
         salvage_activity_actor() = default;
@@ -688,7 +689,13 @@ class salvage_activity_actor : public activity_actor
             return activity_id( "ACT_LONGSALVAGE" );
         }
 
-        void recalc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override {};
+        void calc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override;
+        float calc_tools_factor( const std::vector<safe_reference<item>> tools,
+                                 const std::vector<activity_req<quality_id>> &/*qualities*/,
+                                 inventory &/*inv*/ ) const override;
+
+        void process_target( item &target, player_activity &act, Character &who );
+
 
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &/*act*/, Character &/*who*/ ) override;
