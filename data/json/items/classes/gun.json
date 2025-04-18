@@ -27,8 +27,7 @@
     "ammo_to_fire": 100,
     "flags": [ "NEVER_JAMS", "FIRESTARTER", "PYROMANIAC_WEAPON" ],
     "use_action": { "type": "firestarter", "moves": 200 },
-    "faults": [  ],
-    "handling": 10
+    "faults": [  ]
   },
   {
     "abstract": "launcher_base",
@@ -43,8 +42,7 @@
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "handling": 10
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "abstract": "rocket_base",
@@ -272,7 +270,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "handling": 10,
+    "handling": 10
   },
   {
     "abstract": "rifle_energy",
