@@ -974,6 +974,7 @@ static units::energy energy_of_internal( const T &self, const M &main, const ity
     } );
 
     if( power_found < limit && found_tool_with_UPS ) {
+        power_found += main.energy_of( itype_UPS, limit - power_found );
         if( visitor ) {
             visitor( power_found );
         }
@@ -1096,16 +1097,12 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 {
     int qty = 0;
 
-    bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
         if( filter( *e ) ) {
             if( e->is_tool() ) {
                 if( e->typeId() == id ) {
                     // includes charges from any included magazine.
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
-                        found_tool_with_UPS = true;
-                    }
                 }
                 return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
 
@@ -1120,12 +1117,6 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
         // recurse through any nested containers
         return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
-
-    if( qty < limit && found_tool_with_UPS ) {
-        if( visitor ) {
-            visitor( qty );
-        }
-    }
 
     return std::min( qty, limit );
 }

@@ -2133,7 +2133,7 @@ void debug()
                 break;
             }
 
-            int amount = 0;
+            long long amount = 0;
             string_input_popup popup;
             popup
             .title( _( "By how much?  (in kJ, negative to discharge)" ) )

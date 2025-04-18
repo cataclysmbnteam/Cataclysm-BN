@@ -8012,7 +8012,7 @@ units::energy item::energy_consume( const units::energy power, const tripoint &p
 
 units::energy item::energy_recharge( const units::energy power )
 {
-    if( power > 0_J ) {
+    if( power < 0_J ) {
         debugmsg( "Cannot charge negative power for %s", tname() );
         return 0_J;
     }
@@ -9257,11 +9257,6 @@ bool item::allow_crafting_component() const
 {
     if( is_toolmod() && is_irremovable() ) {
         return false;
-    }
-
-    // vehicle batteries are implemented as magazines of charge
-    if( is_magazine() && ammo_types().contains( ammo_battery ) ) {
-        return true;
     }
 
     // fixes #18886 - turret installation may require items with irremovable mods

@@ -869,7 +869,8 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         return 0;
     }
 
-    if( gun.energy_required() > 0_J && !gun.energy_sufficient( who ) ) {
+    if( gun.energy_required() > 0_J && !gun.has_flag( flag_VEHICLE ) &&
+        !gun.energy_sufficient( who ) ) {
         debugmsg( "%s's gun %s does not have enough energy.", who.name,
                   gun.tname() );
         return 0;
