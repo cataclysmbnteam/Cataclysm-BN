@@ -292,7 +292,7 @@ item::item( const itype *type, time_point turn, const int charge,
     }
 
     if( power >= 0_kJ ) {
-        energy = power;
+        energy = std::min( power, energy_capacity() );
     } else if( is_battery() && type->battery->def_energy > 0_kJ ) {
         energy = type->battery->def_energy;
     }

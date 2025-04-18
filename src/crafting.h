@@ -107,6 +107,10 @@ int charges_for_complete( int full_charges );
 int charges_for_starting( int full_charges );
 int charges_for_continuing( int full_charges );
 
+units::energy energy_for_complete( units::energy full_energy );
+units::energy energy_for_starting( units::energy full_energy );
+units::energy energy_for_continuing( units::energy full_energy );
+
 /**
  * Returns selected tool component that matches one of the expected ones.
  * @param tools tools to match

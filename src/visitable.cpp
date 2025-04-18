@@ -962,8 +962,7 @@ static units::energy energy_of_internal( const T &self, const M &main, const ity
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
         if( ( e->typeId() == id || id == itype_id( "any" ) ) && filter( *e ) ) {
-            power_found = units::from_joule( sum_no_wrap( units::to_joule( power_found ),
-                                             units::to_joule( e->energy_remaining() ) ) );
+            power_found = sum_no_wrap( power_found, e->energy_remaining() );
             if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                 found_tool_with_UPS = true;
             }
@@ -1008,7 +1007,8 @@ units::energy visitable<inventory>::energy_of( const itype_id &what, units::ener
     if( what == itype_id( "any" ) ) {
         for( const auto &kv : binned ) {
             for( const item *it : kv.second ) {
-                res = sum_no_wrap( res, energy_of_internal( *it, *this, what, limit, filter, visitor ) );
+                res = sum_no_wrap( res, energy_of_internal( *it, *this, what, limit, filter,
+                                   visitor ) );
                 if( res >= limit ) {
                     break;
                 }
@@ -1044,24 +1044,6 @@ units::energy visitable<Character>::energy_of( const itype_id &what, units::ener
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
-
-    if( what == itype_UPS ) {
-        units::energy enrg = 0_J;
-        if( p->has_power() && p->has_active_bionic( bio_ups ) ) {
-            enrg += p->get_power_level();
-        }
-        if( p->is_mounted() ) {
-            auto mons = p->mounted_creature.get();
-            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
-                enrg += mons->get_battery_item()->energy_remaining();
-            }
-        }
-        static const item_filter is_ups = [&]( const item & itm ) {
-            return itm.has_flag( flag_IS_UPS );
-        };
-        return std::min( limit, enrg + energy_of( itype_id( "any" ), limit, is_ups ) );
-    }
-
     if( what == itype_toolset ) {
         if( p && p->has_active_bionic( bio_tools ) ) {
             return std::min( p->get_power_level(), limit );
@@ -1085,6 +1067,23 @@ units::energy visitable<Character>::energy_of( const itype_id &what, units::ener
         power_charges = self->as_player()->get_power_level() * efficiency;
 
         return std::min( power_charges, limit );
+    }
+
+    if( what == itype_UPS ) {
+        units::energy enrg = 0_J;
+        if( p->has_power() && p->has_active_bionic( bio_ups ) ) {
+            enrg += p->get_power_level();
+        }
+        if( p->is_mounted() ) {
+            auto mons = p->mounted_creature.get();
+            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->get_battery_item() ) {
+                enrg += mons->get_battery_item()->energy_remaining();
+            }
+        }
+        static const item_filter is_ups = [&]( const item & itm ) {
+            return itm.has_flag( flag_IS_UPS );
+        };
+        return std::min( limit, enrg + energy_of( itype_id( "any" ), limit, is_ups ) );
     }
 
     return energy_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );

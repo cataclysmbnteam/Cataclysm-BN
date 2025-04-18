@@ -561,7 +561,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         if( ( !bio_data.has_flag( flag_BIONIC_TOGGLED ) || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
             cached_crafting_inventory += *item::spawn_temporary( bio.info().fake_item,
-                                         calendar::turn, units::to_kilojoule( get_power_level() ) );
+                                         calendar::turn, 0, get_power_level() );
         }
     }
     if( has_trait( trait_BURROW ) ) {
@@ -2443,6 +2443,19 @@ int charges_for_starting( int full_charges )
 int charges_for_continuing( int full_charges )
 {
     return full_charges / 20;
+}
+
+units::energy energy_for_complete( units::energy full_energy )
+{
+    return full_energy;
+}
+units::energy energy_for_starting( units::energy full_energy )
+{
+    return full_energy / 20 + full_energy % 20;
+}
+units::energy energy_for_continuing( units::energy full_energy )
+{
+    return full_energy / 20;
 }
 
 } // namespace crafting
