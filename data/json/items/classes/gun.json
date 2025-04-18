@@ -150,7 +150,7 @@
     "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
     "blackpowder_tolerance": 72,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "rail", 1 ], [ "sights", 1 ] ]
   },
   {
     "abstract": "pistol_energy",
