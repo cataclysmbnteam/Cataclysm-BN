@@ -949,7 +949,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "battery",
-    "charges_per_use": 1,
+    "power_draw": "1 kJ",
     "use_action": [
       {
         "type": "repair_item",

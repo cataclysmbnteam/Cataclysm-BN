@@ -174,17 +174,22 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
 
         std::string partname = vp.name();
 
+        if( vp.is_battery() ) {
+            if( detail ) {
+                partname += string_format( _( " (%s/%s)" ), units::display( vp.energy_remaining() ),
+                                           units::display( vp.energy_capacity() ) );
+            } else {
+                partname += string_format( " (%s)", units::display( vp.energy_remaining() ) );
+            }
+        }
+
         if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
             if( detail ) {
-                if( vp.ammo_current() == itype_battery ) {
-                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
-                } else {
-                    const itype *pt_ammo_cur = &*vp.ammo_current();
-                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                    partname += string_format( _( " (%.1fL %s)" ),
-                                               round_up( units::to_liter( vp.ammo_remaining() * stack ),
-                                                         1 ), item::nname( vp.ammo_current() ) );
-                }
+                const itype *pt_ammo_cur = &*vp.ammo_current();
+                auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
+                partname += string_format( _( " (%.1fL %s)" ),
+                                           round_up( units::to_liter( vp.ammo_remaining() * stack ),
+                                                     1 ), item::nname( vp.ammo_current() ) );
             } else {
                 partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
             }
@@ -326,6 +331,8 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
     for( const auto &pt : parts ) {
         if( pt.is_fuel_store() && !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
+        } else if( pt.is_battery() ) {
+            opts.emplace( itype_battery );
         }
     }
 
@@ -411,8 +418,10 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, point p,
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
-    int cap = fuel_capacity( fuel_type );
-    int f_left = fuel_left( fuel_type );
+    int cap = fuel_type == itype_battery ? units::to_kilojoule( energy_capacity() )
+              : fuel_capacity( fuel_type );
+    int f_left = fuel_type == itype_battery ? units::to_kilojoule( energy_left() ) :
+                 fuel_left( fuel_type );
     nc_color f_color = fuel_type->color;
     // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
