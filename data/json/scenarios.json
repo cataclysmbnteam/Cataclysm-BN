@@ -48,7 +48,7 @@
       "sloc_convention_center_rooftop"
     ],
     "start_name": "In Large Building",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -75,7 +75,7 @@
       "sloc_town_hall"
     ],
     "start_name": "In Town",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70 ] ],
     "flags": [ "CITY_START", "LONE_START" ]
   },
   {
@@ -357,7 +357,7 @@
       "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70 ] ],
     "flags": [ "WIN_START", "LONE_START" ],
     "add_professions": true,
     "professions": [
