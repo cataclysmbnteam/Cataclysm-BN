@@ -936,6 +936,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SET_CUSTOM_WAYPOINT",
+    "category": "OVERMAP",
+    "name": "Toggle Custom Waypoint",
+    "bindings": [ { "input_method": "keyboard", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ROTATE",
     "category": "OVERMAP_EDITOR",
     "name": "Rotate",

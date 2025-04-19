@@ -690,13 +690,18 @@ void clear_window_area( const catacurses::window &win_ )
 static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
 {
-    if( get_avatar().get_active_mission() == nullptr ) {
+    const auto *mission = get_avatar().get_active_mission();
+    const bool custom_waypoint_valid = get_avatar().get_custom_mission_target() !=
+                                       overmap::invalid_tripoint;
+    if( mission == nullptr && !custom_waypoint_valid ) {
         return std::nullopt;
     }
-    if( !get_avatar().get_active_mission()->has_target() ) {
+    if( ( mission == nullptr || !mission->has_target() ) && !custom_waypoint_valid ) {
         return std::nullopt;
     }
-    const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
+    tripoint_abs_omt mission_target = custom_waypoint_valid
+                                      ? get_avatar().get_custom_mission_target()
+                                      : get_avatar().get_active_mission_target();  // Safe here because mission is non-null
 
     std::string mission_arrow_variant;
     if( overmap_area.contains( mission_target.raw() ) ) {
