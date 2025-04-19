@@ -87,7 +87,6 @@
     "id": "clothing",
     "type": "ITEM_CATEGORY",
     "name": { "str": "CLOTHING" },
-    "priority_zones": [ { "id": "LOOT_FCLOTHING", "filthy": true } ],
     "zone": "LOOT_CLOTHING",
     "sort_rank": -6
   },

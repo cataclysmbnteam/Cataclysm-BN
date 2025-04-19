@@ -113,7 +113,7 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "IMMOBILE", "GUILT", "POISON", "REVIVES" ]
   },
   {
     "id": "mon_breather",
@@ -223,7 +223,7 @@
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "POISON", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "POISON", "REVIVES" ]
   },
   {
     "id": "mon_dog_thing",
@@ -311,7 +311,7 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "FLIES", "POISON", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "FLIES", "POISON", "REVIVES" ]
   },
   {
     "id": "mon_flying_polyp",
@@ -466,7 +466,7 @@
     "armor_bullet": 2,
     "harvest": "zombie_leather",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "REVIVES", "CLIMBS", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "REVIVES", "CLIMBS" ]
   },
   {
     "id": "mon_hound_tindalos",

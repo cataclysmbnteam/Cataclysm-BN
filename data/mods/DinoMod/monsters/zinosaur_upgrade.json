@@ -1627,7 +1627,6 @@
       "DESTROYS",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "WARM",
       "SWIMS",
       "NIGHT_INVISIBILITY"
@@ -1676,7 +1675,6 @@
       "DESTROYS",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "WARM",
       "NIGHT_INVISIBILITY"
     ],
@@ -1702,19 +1700,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "BASHES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "WARM", "NIGHT_INVISIBILITY" ]
   },
   {
     "type": "MONSTER",
@@ -1903,7 +1889,6 @@
       "DESTROYS",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "WARM",
       "NIGHT_INVISIBILITY"
     ],
@@ -1950,7 +1935,6 @@
       "STUMBLES",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "WARM",
       "NIGHT_INVISIBILITY"
     ],
@@ -2066,19 +2050,7 @@
     ],
     "burn_into": "mon_zeinonychus_scorched",
     "fungalize_into": "mon_zeinonychus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "KEENNOSE",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM", "NIGHT_INVISIBILITY" ],
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ]
   },
@@ -2133,7 +2105,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES", "NIGHT_INVISIBILITY" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "BASHES", "NIGHT_INVISIBILITY" ],
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ]
   },
@@ -2561,7 +2533,7 @@
     "vision_night": 3,
     "upgrades": { "half_life": 15, "into": "mon_silophosaurus_brute" },
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ],
+    "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "HARDTOSHOOT" ],
     "harvest": "mr_bones_heavy",
     "categories": [ "DINOSAUR" ]
   },
@@ -2608,7 +2580,7 @@
     "melee_dice_sides": 10,
     "melee_cut": 16,
     "upgrades": { "half_life": 15, "into": "mon_sorvosaurus_brute" },
-    "flags": [ "SEES", "HEARS", "POISON", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "POISON", "BASHES", "NO_BREATHE", "REVIVES", "HARDTOSHOOT" ]
   },
   {
     "type": "MONSTER",
@@ -4723,7 +4695,6 @@
       "ACID_BLOOD",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "PUSH_MON",
       "WARM"
     ]
@@ -4773,7 +4744,6 @@
       "ACID_BLOOD",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "PUSH_MON",
       "WARM",
       "SWIMS"
