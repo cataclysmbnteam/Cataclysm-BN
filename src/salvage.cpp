@@ -382,7 +382,7 @@ void salvage_activity_actor::serialize( JsonOut &jsout ) const
 
 namespace
 {
-generic_factory<salvage_quality> salvage_quality_factory( "tool quality" );
+generic_factory<salvage_quality> salvage_quality_factory( "salvage quality" );
 } // namespace
 
 void salvage_quality::reset()
