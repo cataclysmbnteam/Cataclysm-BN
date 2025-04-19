@@ -17,7 +17,7 @@
     "durability": 10,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 23,
-    "power_draw": 60,
+    "ups_charges": 60,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
@@ -47,7 +47,7 @@
     "ranged_damage": { "damage_type": "heat", "amount": 40, "armor_penetration": 5 },
     "dispersion": 100,
     "loudness": 12,
-    "power_draw": 50,
+    "ups_charges": 50,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "burst", 5 ], [ "AUTO", "auto", 10 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "extend": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] }
@@ -60,7 +60,7 @@
     "description": "A rapid-fire weapon system stripped from a combat mech, modified for handheld use.  While less efficient and too bulky to fire without proper support, its rotating-barrel laser system can still spray death downrange with ease.",
     "weight": "40 kg",
     "dispersion": 200,
-    "power_draw": 80,
+    "ups_charges": 80,
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] }
   },
@@ -83,7 +83,7 @@
     "ranged_damage": { "damage_type": "heat", "amount": 80, "armor_penetration": 10 },
     "dispersion": 15,
     "loudness": 1,
-    "power_draw": 100,
+    "ups_charges": 100,
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "extend": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] }
   },
@@ -95,7 +95,7 @@
     "description": "A long-range weapon system stripped from a recon mech, modified for handheld use.  While less efficient and too bulky to fire without proper support, it's still a quiet and relatively accurate marksman laser rifle.",
     "weight": "13 kg",
     "dispersion": 30,
-    "power_draw": 160,
+    "ups_charges": 160,
     "extend": { "flags": [ "MOUNTED_GUN" ] },
     "delete": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] }
   },
@@ -117,7 +117,7 @@
     "dispersion": 90,
     "durability": 7,
     "loudness": 8,
-    "power_draw": 25,
+    "ups_charges": 25,
     "valid_mod_locations": [
       [ "emitter", 1 ],
       [ "lens", 1 ],
@@ -154,7 +154,7 @@
     "dispersion": 10,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
     "loudness": 12,
-    "power_draw": 40,
+    "ups_charges": 40,
     "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
@@ -173,7 +173,7 @@
     "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 4 },
     "dispersion": 180,
     "loudness": 7,
-    "power_draw": 10,
+    "ups_charges": 10,
     "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {
@@ -194,7 +194,7 @@
     "dispersion": 150,
     "durability": 6,
     "loudness": 14,
-    "power_draw": 30,
+    "ups_charges": 30,
     "ammo_effects": [ "LASER", "INCENDIARY" ]
   },
   {

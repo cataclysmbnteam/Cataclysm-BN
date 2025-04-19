@@ -153,33 +153,40 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
+    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "target": "electric_lantern_on",
       "active": true,
+      "transform_charges": 1,
       "msg": "You turn the lamp on.",
+      "need_charges": 1,
       "need_charges_msg": "The lantern has no batteries."
     },
     "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
-    "batteries": [
-      "light_minus_battery_cell",
-      "light_minus_disposable_cell",
-      "light_minus_atomic_battery_cell",
-      "light_battery_cell",
-      "light_disposable_cell",
-      "light_plus_battery_cell",
-      "light_atomic_battery_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
+          "light_minus_atomic_battery_cell",
+          "light_battery_cell",
+          "light_disposable_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell"
+        ]
+      ]
     ],
-    "battery_well": "500 ml"
+    "magazine_well": "500 ml"
   },
   {
     "id": "electric_lantern_on",
     "copy-from": "electric_lantern",
     "type": "TOOL",
     "name": { "str": "electric lantern (on)", "str_pl": "electric lanterns (on)" },
-    "power_draw": "3 J",
+    "power_draw": 3500,
     "revert_to": "electric_lantern",
-    "revert_msg": "The lamp runs out of power.",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
     "flags": [ "RADIO_MODABLE", "LIGHT_20", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
@@ -207,16 +214,21 @@
       "need_charges": 1,
       "need_charges_msg": "The flashlight's batteries are dead."
     },
-    "batteries": [
-      "light_disposable_cell",
-      "light_minus_disposable_cell",
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
     ],
-    "battery_well": "100 ml"
+    "magazine_well": "100 ml"
   },
   {
     "id": "flashlight_on",
@@ -392,16 +404,21 @@
       "need_charges": 1,
       "need_charges_msg": "The heavy duty flashlight's batteries are dead."
     },
-    "batteries": [
-      "light_disposable_cell",
-      "light_minus_disposable_cell",
-      "light_plus_battery_cell",
-      "light_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "heavy_flashlight_on",
@@ -460,14 +477,19 @@
       "need_charges": 1,
       "type": "transform"
     },
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ]
   },
   {
@@ -569,8 +591,8 @@
       "need_charges_msg": "The reading light winks out.",
       "type": "transform"
     },
-    "batteries": [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ],
-    "battery_well": "100 ml"
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
+    "magazine_well": "100 ml"
   },
   {
     "id": "reading_light_on",
@@ -609,16 +631,21 @@
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "smart_lamp_on",

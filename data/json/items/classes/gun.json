@@ -159,7 +159,7 @@
     "name": { "str": "energy pistol" },
     "looks_like": "v29",
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "USE_UPS", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "emitter", 1 ],
@@ -278,7 +278,7 @@
     "name": { "str": "energy rifle" },
     "looks_like": "laser_rifle",
     "//": "No conventional faults because it uses non-conventional systems.",
-    "flags": [ "USE_UPS", "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "emitter", 1 ],
@@ -490,7 +490,7 @@
     "bashing": 8,
     "reload": 200,
     "handling": 40,
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING" ],
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING" ],
     "valid_mod_locations": [ [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "faults": [  ]
   },

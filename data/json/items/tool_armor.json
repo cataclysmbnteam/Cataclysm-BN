@@ -167,16 +167,21 @@
     "encumbrance": 15,
     "coverage": 80,
     "material_thickness": 4,
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "miner_hat_on",
@@ -410,16 +415,21 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_socks_on",
@@ -463,16 +473,21 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [
-      "light_plus_battery_cell",
-      "light_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_suit_on",
@@ -516,16 +531,21 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_gloves_on",
@@ -569,16 +589,21 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "thermal_mask_on",
@@ -673,16 +698,21 @@
     "covers": [ "head" ],
     "coverage": 15,
     "material_thickness": 1,
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "wearable_light_on",
@@ -727,16 +757,21 @@
     "covers": [ "head" ],
     "coverage": 20,
     "material_thickness": 1,
-    "batteries": [
-      "light_plus_battery_cell",
-      "light_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "survivor_light_on",
@@ -1384,16 +1419,21 @@
     "encumbrance": 40,
     "coverage": 100,
     "material_thickness": 2,
-    "batteries": [
-      "light_plus_battery_cell",
-      "light_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "goggles_nv_on",
@@ -1442,16 +1482,21 @@
     "encumbrance": 40,
     "coverage": 100,
     "material_thickness": 2,
-    "batteries": [
-      "light_plus_battery_cell",
-      "light_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "goggles_ir_on",
@@ -1655,7 +1700,7 @@
     "coverage": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "COMPACT", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "batteries": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },
   {
     "id": "hairpin",
@@ -2187,8 +2232,13 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "battery_well": "500 ml"
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "thermal_outfit_on",
@@ -2544,16 +2594,21 @@
     "encumbrance": 5,
     "coverage": 10,
     "material_thickness": 2,
-    "batteries": [
-      "light_plus_battery_cell",
-      "light_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "powered_earmuffs_on",
@@ -2852,8 +2907,13 @@
       "need_charges_msg": "The blanket's batteries are dead."
     },
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "battery_well": "500 ml"
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "electric_blanket_on",
@@ -2900,8 +2960,13 @@
       "need_charges": 1,
       "need_charges_msg": "The mask's batteries are dead."
     },
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "battery_well": "500 ml",
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml",
     "valid_mods": [ "resized_large" ],
     "flags": [ "OUTER", "SUN_GLASSES" ]
   },

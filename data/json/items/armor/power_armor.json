@@ -573,7 +573,8 @@
     "warmth": 20,
     "material_thickness": 6,
     "environmental_protection": 3,
-    "max_power": "500 kJ",
+    "max_charges": 500,
+    "ammo": "battery",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] },
     "use_action": {
       "type": "transform",
@@ -619,7 +620,8 @@
     "storage": "7 L",
     "warmth": 10,
     "material_thickness": 8,
-    "max_power": "500 kJ",
+    "max_charges": 500,
+    "ammo": "battery",
     "relic_data": {
       "passive_effects": [
         {
@@ -687,7 +689,8 @@
     "storage": "15 L",
     "warmth": 10,
     "material_thickness": 8,
-    "max_power": "500 kJ",
+    "max_charges": 500,
+    "ammo": "battery",
     "relic_data": {
       "passive_effects": [
         {

@@ -28,8 +28,7 @@
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
     "flags": [ "TRADER_AVOID" ],
-    "max_power": "10000 kJ",
-    "power_draw": "1 kJ",
+    "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
       [ "HOSE", 1 ],

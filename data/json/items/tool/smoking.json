@@ -17,16 +17,21 @@
     "charges_per_use": 1,
     "power_draw": 7500,
     "use_action": "ECIG",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_disposable_cell",
-      "light_minus_disposable_cell",
-      "light_minus_atomic_battery_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
     ],
-    "battery_well": "250 ml"
+    "magazine_well": "250 ml"
   },
   {
     "id": "crackpipe",

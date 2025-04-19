@@ -15,14 +15,19 @@
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": { "type": "firestarter", "moves": 50 },
-    "batteries": [
-      "light_battery_cell",
-      "light_minus_battery_cell",
-      "light_plus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
     ],
     "flags": [ "FIRESTARTER" ],
     "category": "tools_cooking"
@@ -98,6 +103,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
+    "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 50 },
@@ -269,6 +275,6 @@
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 50 },
     "magazine_well": "50 ml",
-    "batteries": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   }
 ]

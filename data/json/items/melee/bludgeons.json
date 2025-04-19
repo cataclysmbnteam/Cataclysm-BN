@@ -427,7 +427,8 @@
     "material": [ "superalloy", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "power_draw": "1 kJ",
+    "ammo": "battery",
+    "charges_per_use": 1,
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "use_action": {
       "target": "l-stick_on",
@@ -438,8 +439,13 @@
       "type": "transform"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "batteries": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "battery_well": "500 ml"
+    "magazines": [
+      [
+        "battery",
+        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "l-stick_on",
@@ -452,7 +458,7 @@
     "power_draw": 10000,
     "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ],
-    "battery_well": "500 ml"
+    "magazine_well": "500 ml"
   },
   {
     "id": "lucern_hammer",
@@ -746,6 +752,7 @@
     "volume": "1750 ml",
     "price": "80 USD",
     "price_postapoc": "45 USD",
+    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You press a button and the staff crackles with electricity.",
@@ -754,8 +761,13 @@
       "need_charges_msg": "The %s's batteries are dead.",
       "target": "shock_staff_on"
     },
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "battery_well": "500 ml"
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "shock_staff_on",
@@ -767,8 +779,8 @@
     "revert_msg": "The %s's batteries run dry.",
     "use_action": { "type": "transform", "msg": "You press a button and the staff turns off.", "target": "shock_staff" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
-    "power_draw": "5 kJ",
-    "battery_well": "500 ml"
+    "power_draw": 5000000,
+    "magazine_well": "500 ml"
   },
   {
     "id": "rock_sock",
@@ -875,6 +887,7 @@
     "price": "170 USD",
     "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
+    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You press a button and the tonfa crackles with electricity.",
@@ -884,8 +897,13 @@
       "target": "shocktonfa_on"
     },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-    "battery_well": "500 ml"
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "shocktonfa_on",
@@ -897,8 +915,8 @@
     "revert_msg": "The %s's batteries run dry.",
     "use_action": { "type": "transform", "msg": "You press a button and the tonfa turns off.", "target": "shocktonfa_off" },
     "extend": { "flags": [ "TRADER_AVOID", "SHOCKING" ] },
-    "power_draw": "5 kJ",
-    "battery_well": "500 ml"
+    "power_draw": 5000000,
+    "magazine_well": "500 ml"
   },
   {
     "id": "warhammer",

@@ -44,16 +44,7 @@
     "dispersion": 180,
     "loudness": 5,
     "durability": 5,
-    "power_draw": "20 kJ",
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail", 1 ],
-      [ "underbarrel", 1 ]
-    ],
+    "ups_charges": 20,
     "magazines": [ [ "nail", [ "nailmag" ] ] ]
   },
   {

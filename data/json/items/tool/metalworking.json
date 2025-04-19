@@ -216,8 +216,10 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ],
-    "battery_well": "1000 ml"
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": "1000 ml"
   },
   {
     "id": "hydraulic_press",
