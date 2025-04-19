@@ -1158,9 +1158,14 @@ class Character : public Creature, public location_visitable<Character>
 
         /**
          * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
          */
         bool has_enough_charges( const item &it, bool show_msg ) const;
+
+        /**
+         * Has the item enough charges to invoke its use function?
+         * Also checks if UPS from this player is used instead of item charges.
+        */
+        bool has_enough_power( const item &it, bool show_msg ) const;
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges
@@ -1729,18 +1734,30 @@ class Character : public Creature, public location_visitable<Character>
         std::vector<item *> all_items( bool need_charges = false ) const;
 
 
+        // has_charges works ONLY for charges.
+        // has_energy wokrs ONLY for energy
+
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        bool has_energy( const itype_id &it, units::energy amount,
+                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
-        // has_amount works ONLY for quantity.
-        // has_charges works ONLY for charges.
         std::vector<detached_ptr<item>> use_amount( itype_id it, int quantity,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
         // Uses up charges
-        bool use_charges_if_avail( const itype_id &it, int quantity );
+        bool use_charges_if_avail( const itype_id &it, int quantity,
+                                   const std::function<bool( const item & )> &filter = return_true<item> );
 
         // Uses up charges
         std::vector<detached_ptr<item>> use_charges( const itype_id &what, int qty,
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
+
+        // Uses up energy if enough is found, if not, returns false and uses no energy
+        bool use_energy_if_avail( const itype_id &it, units::energy amount,
+                                  const std::function<bool( const item & )> &filter = return_true<item> );
+
+        // Uses up energy
+        std::vector<detached_ptr<item>> use_energy( const itype_id &what, const units::energy amount,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_fire( int quantity ) const;

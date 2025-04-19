@@ -832,7 +832,7 @@ bool Character::eat( item &food, bool force )
     int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "PETFOOD" ) ) {
-            charges_used = food.type->invoke( *this->as_player(), food, pos() );
+            charges_used = food.type->invoke( *this->as_player(), food, pos() ).first;
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1316,7 +1316,7 @@ bool Character::feed_furnace_with( item &it )
             it.tname() );
     } else {
         const int profitable_energy = std::min( energy,
-                                                units::to_kilojoule( get_max_power_level() - get_power_level() ) );
+                                                units::to_kilojoule<int>( get_max_power_level() - get_power_level() ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
                                    vgettext( "You digest %d %s and recharge %d point of energy.",
@@ -1674,7 +1674,7 @@ bool Character::consume_med( item &target )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( *this->as_player(), target, pos() );
+        amount_used = target.type->invoke( *this->as_player(), target, pos() ).first;
         if( amount_used <= 0 ) {
             return false;
         }

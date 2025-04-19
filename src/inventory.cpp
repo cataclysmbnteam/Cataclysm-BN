@@ -495,7 +495,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     if( furn_item.has_flag( flag_USES_GRID_POWER ) ) {
                         // TODO: The grid tracker should correspond to map!
                         auto &grid = get_distribution_grid_tracker().grid_at( tripoint_abs_ms( m.getabs( p ) ) );
-                        furn_item.charges = grid.get_resource();
+                        furn_item.energy = grid.get_resource();
                     } else {
                         furn_item.charges = ammo ? count_charges_in_list( &*ammo, m.i_at( p ) ) : 0;
                     }
@@ -921,6 +921,12 @@ bool inventory::has_charges( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter ) const
 {
     return ( charges_of( it, INT_MAX, filter ) >= quantity );
+}
+
+bool inventory::has_energy( const itype_id &it, units::energy quantity,
+                            const std::function<bool( const item & )> &filter ) const
+{
+    return ( energy_of( it, units::energy_max, filter ) >= quantity );
 }
 
 int inventory::leak_level( const flag_id &flag ) const
