@@ -114,14 +114,14 @@
     "type": "tool_quality",
     "id": "SAW_M",
     "name": { "str": "metal sawing" },
-    "usages": [ [ 2, [  "HACKSAW", "saw_barrel" ] ] ],
+    "usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ],
     "salvagable_materials": [ "steel", "budget_steel", "tin", "silver", "gold", "copper", "iron" ]
   },
   {
     "type": "tool_quality",
     "id": "SAW_M_FINE",
     "name": { "str": "fine metal sawing" },
-    "salvagable_materials": [ "steel", "budget_steel", "tin", "silver", "gold", "copper", "iron","hardsteel" ]
+    "salvagable_materials": [ "steel", "budget_steel", "tin", "silver", "gold", "copper", "iron", "hardsteel" ]
   },
   {
     "type": "tool_quality",
