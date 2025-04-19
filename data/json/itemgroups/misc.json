@@ -273,8 +273,8 @@
       { "item": "mre_hashbrownbacon_box", "count": 3 },
       { "item": "mre_macaronimarinara_box", "count": 3 },
       { "item": "mre_meatball_box", "count": 3 },
-      { "item": "water_clean", "count": 6, "charges": 2, "container-item": "bottle_plastic" }
-      { "item": "pur_tablets", "count": 10 },
+      { "item": "water_clean", "count": 6, "charges": 2, "container-item": "bottle_plastic" },
+      { "item": "pur_tablets", "count": 10 }
     ]
   },
   {
