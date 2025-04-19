@@ -310,14 +310,6 @@
     "info": "This gear <good>corrects nearsightedness</good>."
   },
   {
-    "id": "FILTHY",
-    "type": "json_flag",
-    "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
-    "craft_inherit": true,
-    "info": "This item is <bad>filthy</bad>."
-  },
-  {
     "id": "FLAMMABLE",
     "type": "json_flag",
     "context": [ "GENERIC" ]
