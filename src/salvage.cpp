@@ -5,6 +5,7 @@
 #include "character.h"
 #include "flag.h"
 #include "game.h"
+#include "json.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
@@ -13,12 +14,9 @@
 #include "recipe_dictionary.h"
 #include "itype.h"
 #include "type_id.h"
+#include "generic_factory.h"
 
 const skill_id skill_fabrication( "fabrication" );
-
-std::unordered_map<quality_id, salvage_quality> salvage_quality_dictionary;
-std::unordered_map<material_id, std::set<quality_id>> salvage_material_dictionary;
-std::set<material_id> salvagable_materials;
 
 namespace salvage
 {
@@ -53,7 +51,7 @@ bool valid_to_salvage( const item &it )
     if( !it.is_salvageable() ) {
         return false;
     }
-    if( !it.only_made_of( salvagable_materials ) ) {
+    if( !it.only_made_of( all_salvagable_materials ) ) {
         return false;
     }
     if( !it.contents.empty() ) {
@@ -97,7 +95,7 @@ bool try_salvage( Character &who, item &it, bool mute )
         return false;
     }
 
-    if( !it.only_made_of( salvagable_materials ) ) {
+    if( !it.only_made_of( all_salvagable_materials ) ) {
         if( !mute ) {
             add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
         }
@@ -196,7 +194,7 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
     auto pos_here = here.getlocal( pos );
     auto cut_type = cut.where();
     for( const auto &salvaged : materials ) {
-        if( salvagable_materials.contains( salvaged.first->id ) ) {
+        if( all_salvagable_materials.contains( salvaged.first->id ) ) {
             auto salvaged_into = *salvaged.first->salvaged_into();
             int amount = std::floor( salvaged_into->weight /
                                      ( cut.weight() * salvaged.second * salvagable_percent ) );
@@ -380,4 +378,32 @@ void salvage_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "pos", pos );
 
     jsout.end_object();
+}
+
+namespace
+{
+generic_factory<salvage_quality> salvage_quality_factory( "tool quality" );
+} // namespace
+
+void salvage_quality::reset()
+{
+    salvage_quality_factory.reset();
+}
+
+void salvage_quality::load_static( const JsonObject &jo, const std::string &src )
+{
+    salvage_quality_factory.load( jo, src );
+}
+
+void salvage_quality::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "quality", id );
+    jo.read( "salvagable_materials", salvagable_materials );
+    jo.read( "quality_id", id );
+
+    salvage::salvage_quality_dictionary[id] = *this;
+    for( auto &material : salvagable_materials ) {
+        salvage::salvage_material_dictionary[material].emplace( id );
+    }
+    salvage::all_salvagable_materials.emplace( salvagable_materials );
 }

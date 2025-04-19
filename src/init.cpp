@@ -109,6 +109,7 @@
 #if defined(TILES)
 #  include "mod_tileset.h"
 #endif
+#include "salvage.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -390,6 +391,7 @@ void DynamicDataLoader::initialize()
     add( "uncraft", &recipe_dictionary::load_uncraft );
     add( "recipe_group",  &recipe_group::load );
 
+    add( "salvage_quality", &salvage_quality::load_static );
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
     add( "weapon_category", &weapon_category::load_weapon_categories );
