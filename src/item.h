@@ -486,6 +486,9 @@ class item : public location_visitable<item>, public game_object<item>
          */
         std::string display_name( unsigned int quantity = 1 ) const;
 
+        // returns the appropriate color for the percentage provided (for charges/energy)
+        nc_color color_percentage( int pct ) const;
+
         /** Returns the name that will be used when referring to the object in error messages */
         std::string debug_name() const override;
 
