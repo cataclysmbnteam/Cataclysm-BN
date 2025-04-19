@@ -27,6 +27,8 @@ struct salvage_quality {
 
         void load( const JsonObject &jo, const std::string &src );
 
+        void finalize() const;
+
         static void reset();
         static void load_static( const JsonObject &jo, const std::string &src );
 };

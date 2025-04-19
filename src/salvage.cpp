@@ -400,7 +400,10 @@ void salvage_quality::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "quality", id );
     jo.read( "salvagable_materials", salvagable_materials );
     jo.read( "quality_id", id );
+}
 
+void salvage_quality::finalize() const
+{
     salvage::salvage_quality_dictionary[id] = *this;
     for( auto &material : salvagable_materials ) {
         salvage::salvage_material_dictionary[material].emplace( id );
