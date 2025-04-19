@@ -861,21 +861,6 @@
   },
   {
     "type": "item_action",
-    "id": "WASH_SOFT_ITEMS",
-    "name": { "str": "Wash soft items" }
-  },
-  {
-    "type": "item_action",
-    "id": "WASH_HARD_ITEMS",
-    "name": { "str": "Wash hard items" }
-  },
-  {
-    "type": "item_action",
-    "id": "WASH_ALL_ITEMS",
-    "name": { "str": "Wash items" }
-  },
-  {
-    "type": "item_action",
     "id": "WATER_PURIFIER",
     "name": { "str": "Purify some water" }
   },

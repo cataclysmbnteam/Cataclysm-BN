@@ -45,7 +45,7 @@
     "burn_into": "mon_zeratosaurus_scorched",
     "fungalize_into": "mon_zeratosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zeratosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "SWIMS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM", "SWIMS" ]
   },
   {
     "type": "MONSTER",
@@ -86,7 +86,6 @@
       "DESTROYS",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "WARM",
       "SWIMS"
     ],
@@ -124,7 +123,7 @@
     "burn_into": "mon_zorvosaurus_scorched",
     "fungalize_into": "mon_zorvosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zorvosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_toothy_leather",
     "categories": [ "DINOSAUR" ]
@@ -151,7 +150,7 @@
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zallosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -175,7 +174,7 @@
     "burn_into": "mon_zacrocanthosaurus_scorched",
     "fungalize_into": "mon_zacrocanthosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zacrocanthosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -199,7 +198,7 @@
     "burn_into": "mon_ziats_scorched",
     "fungalize_into": "mon_ziats_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ziats_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -287,7 +286,7 @@
     "burn_into": "mon_zianzhousaurus_scorched",
     "fungalize_into": "mon_zianzhousaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zianzhousaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -318,7 +317,7 @@
     "burn_into": "mon_zaspletosaurus_scorched",
     "fungalize_into": "mon_zaspletosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zaspletosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -360,7 +359,6 @@
       "DESTROYS",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "WARM"
     ],
     "vision_night": 3,
@@ -407,7 +405,7 @@
     "burn_into": "mon_zallimimus_scorched",
     "fungalize_into": "mon_zallimimus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zallimimus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ]
@@ -518,7 +516,7 @@
     "burn_into": "mon_zeinonychus_scorched",
     "fungalize_into": "mon_zeinonychus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zeinonychus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM" ],
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "zed_dino_feather",
@@ -597,7 +595,7 @@
       { "type": "bite", "cooldown": 10 },
       { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
     ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -650,7 +648,7 @@
     "burn_into": "mon_zamargasaurus_scorched",
     "fungalize_into": "mon_zamargasaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zamargasaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -995,7 +993,7 @@
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zankylosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ]
@@ -1057,7 +1055,7 @@
     "burn_into": "mon_zenontosaurus_scorched",
     "fungalize_into": "mon_zenontosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zenontosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ]
@@ -1091,7 +1089,7 @@
     "burn_into": "mon_zryosaurus_scorched",
     "fungalize_into": "mon_zryosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zryosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ]
@@ -1125,7 +1123,7 @@
     "burn_into": "mon_zamptosaurus_scorched",
     "fungalize_into": "mon_zamptosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zamptosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ]
@@ -1347,7 +1345,7 @@
     "burn_into": "mon_zachycephalosaurus_scorched",
     "fungalize_into": "mon_zachycephalosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zachycephalosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ]
@@ -1516,7 +1514,7 @@
     "fungalize_into": "mon_zosmoceratops_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zosmoceratops_UPGRADE" },
     "special_attacks": [ { "id": "impale" }, [ "stretch_horn_DinoMod", 7 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES" ]
   },
   {
     "type": "MONSTER",
@@ -1621,7 +1619,6 @@
       "STUMBLES",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "WARM",
       "BASHES",
       "FLIES",
@@ -1680,7 +1677,6 @@
       "STUMBLES",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY",
       "HIT_AND_RUN"
     ]
   },
@@ -1744,7 +1740,7 @@
     "burn_into": "mon_zapatosaurus_scorched",
     "fungalize_into": "mon_zapatosaurus_fungus",
     "upgrades": { "half_life": 30, "into": "mon_zapatosaurus" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "BASHES" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM", "BASHES" ],
     "vision_night": 3,
     "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR" ]

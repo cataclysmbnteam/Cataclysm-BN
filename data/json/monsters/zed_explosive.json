@@ -41,8 +41,7 @@
       "REVIVES",
       "BILE_BLOOD",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
-      "FILTHY"
+      "PATH_AVOID_DANGER_1"
     ]
   },
   {
@@ -89,8 +88,7 @@
       "REVIVES",
       "BILE_BLOOD",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
-      "FILTHY"
+      "PATH_AVOID_DANGER_1"
     ]
   },
   {
@@ -132,8 +130,7 @@
       "POISON",
       "NO_BREATHE",
       "DRIPS_GASOLINE",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -165,7 +162,7 @@
     "death_drops": "default_zombie_items",
     "death_function": [ "GAS" ],
     "fungalize_into": "mon_zombie_gasbag_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES" ]
   },
   {
     "//": "Heads up: these zombies are pending removal sometime before 0.E.",
@@ -212,8 +209,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -264,8 +260,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   }
 ]

@@ -29,7 +29,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -80,8 +80,7 @@
       "POISON",
       "GUILT",
       "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
+      "REVIVES"
     ]
   },
   {
@@ -125,8 +124,7 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "CLIMBS",
-      "FILTHY"
+      "CLIMBS"
     ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
@@ -172,8 +170,7 @@
       "BASHES",
       "POISON",
       "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
+      "REVIVES"
     ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   },
@@ -208,7 +205,7 @@
     "death_function": [ "BOOMER" ],
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES" ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   },
   {
@@ -252,8 +249,7 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "CLIMBS",
-      "FILTHY"
+      "CLIMBS"
     ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
   },
@@ -301,8 +297,7 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
-      "HARDTOSHOOT",
-      "FILTHY"
+      "HARDTOSHOOT"
     ],
     "//": "GUILT because it still looks enough like a child to evoke pity"
   }

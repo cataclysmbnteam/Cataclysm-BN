@@ -47,8 +47,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -103,8 +102,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "NIGHT_INVISIBILITY",
-      "FILTHY"
+      "NIGHT_INVISIBILITY"
     ]
   },
   {
@@ -242,8 +240,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -295,8 +292,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -345,8 +341,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "NOHEAD",
-      "FILTHY"
+      "NOHEAD"
     ]
   },
   {
@@ -396,8 +391,7 @@
       "REVIVES",
       "BLEED",
       "PUSH_MON",
-      "DRIPS_NAPALM",
-      "FILTHY"
+      "DRIPS_NAPALM"
     ]
   },
   {
@@ -434,7 +428,7 @@
     "death_drops": "mon_zombie_armored_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES" ]
   },
   {
     "id": "mon_zombie_bio_op",
@@ -485,8 +479,7 @@
       "ACIDPROOF",
       "ELECTRIC",
       "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
+      "REVIVES"
     ]
   },
   {

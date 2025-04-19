@@ -45,7 +45,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY",
       "NO_FUNG_DMG"
     ]
   },
@@ -91,8 +90,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -143,8 +141,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -189,8 +186,7 @@
       "POISON",
       "BLEED",
       "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
+      "REVIVES"
     ]
   },
   {
@@ -225,7 +221,7 @@
     "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_zombie_fungus",
     "regenerates": 50,
-    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "POISON" ]
   },
   {
     "id": "mon_zombie_fat",
@@ -273,8 +269,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -324,7 +319,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY",
       "NO_FUNG_DMG"
     ]
   },
@@ -372,7 +366,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY",
       "NO_FUNG_DMG"
     ]
   },
@@ -418,8 +411,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -470,8 +462,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
@@ -521,8 +512,7 @@
       "BLEED",
       "NO_BREATHE",
       "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
+      "PUSH_MON"
     ]
   },
   {
