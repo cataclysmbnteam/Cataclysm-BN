@@ -1677,43 +1677,6 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     return 0;
 }
 
-std::unique_ptr<iuse_actor> salvage_actor::clone() const
-{
-    return std::make_unique<salvage_actor>( *this );
-}
-
-int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
-{
-    if( t ) {
-        return 0;
-    }
-
-    auto item_loc = game_menus::inv::salvage( p, this );
-    if( !item_loc ) {
-        add_msg( _( "Never mind." ) );
-        return 0;
-    }
-
-    if( !try_to_cut_up( p, *item_loc ) ) {
-        // Messages should have already been displayed.
-        return 0;
-    }
-
-    return cut_up( p, it, *item_loc );
-}
-
-// Helper to visit instances of all the sub-materials of an item.
-static void visit_salvage_products( const item &it,
-                                    const std::function<void( const item & )> &func )
-{
-    for( const material_id &material : it.made_of() ) {
-        if( const std::optional<itype_id> id = material->salvaged_into() ) {
-            item *tmp = item::spawn_temporary( *id );
-            func( *tmp );
-        }
-    }
-}
-
 void inscribe_actor::load( const JsonObject &obj )
 {
     assign( obj, "cost", cost );

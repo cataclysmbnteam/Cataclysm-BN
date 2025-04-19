@@ -36,7 +36,7 @@ using skill_reqs = std::vector<activity_req<skill_id>>;
 
 using morale_factor_fn = std::function<float( const Character & )>;
 using tools_factor_fn =
-    std::function<float( const q_reqs &, inventory & )>;
+    std::function<float( const q_reqs &, const inventory & )>;
 using stats_factor_fn = std::function<stat_factors( const Character &, const stat_reqs & )>;
 using skills_factor_fn = std::function<float( const Character &, const skill_reqs & )>;
 using bench_factor_fn = std::function<void( bench_loc &, const metric & )>;
@@ -56,7 +56,7 @@ class activity_speed
         morale_factor_fn morale_factor_custom_formula = []( const Character & ) {
             return -1.f;
         };
-        tools_factor_fn tools_factor_custom_formula = []( const q_reqs &, inventory & ) {
+        tools_factor_fn tools_factor_custom_formula = []( const q_reqs &, const inventory & ) {
             return -1.f;
         };
         stats_factor_fn stats_factor_custom_formula = []( const Character &, const stat_reqs & ) {

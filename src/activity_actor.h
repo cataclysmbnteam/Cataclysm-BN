@@ -8,6 +8,7 @@
 
 #include "activity_type.h"
 #include "calendar.h"
+#include "safe_reference.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -276,7 +277,7 @@ class activity_actor
         */
         virtual float calc_tools_factor( const std::vector<safe_reference<item>> /*tools*/,
                                          const std::vector<activity_req<quality_id>> &/*qualities*/,
-                                         inventory &/*inv*/ ) const {
+                                         const inventory &/*inv*/ ) const {
             return -1.0f;
         }
 

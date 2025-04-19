@@ -1,16 +1,72 @@
-#include "salvage.h"
 #include "activity_actor_definitions.h"
+#include "salvage.h"
 
+#include "activity_speed.h"
+#include "character.h"
+#include "flag.h"
+#include "game.h"
+#include "map.h"
+#include "material.h"
+#include "messages.h"
+#include "output.h"
+#include "player_activity.h"
+#include "recipe_dictionary.h"
+#include "itype.h"
+#include "type_id.h"
 
-#include "iuse_actor.cpp"
+const skill_id skill_fabrication( "fabrication" );
 
 std::unordered_map<quality_id, salvage_quality> salvage_quality_dictionary;
 std::unordered_map<material_id, std::set<quality_id>> salvage_material_dictionary;
 std::set<material_id> salvagable_materials;
 
 
+// Helper to visit instances of all the sub-materials of an item.
+void visit_salvage_products( const item &it,
+                             const std::function<void( const item & )> &func )
+{
+    for( const material_id &material : it.made_of() ) {
+        if( const std::optional<itype_id> id = material->salvaged_into() ) {
+            item *tmp = item::spawn_temporary( *id );
+            func( *tmp );
+        }
+    }
+}
+
 // Helper to find smallest sub-component of an item.
-static std::set<material_id> can_salvage_materials( const item &it )
+units::mass minimal_weight_to_cut( const item &it )
+{
+    units::mass min_weight = units::mass_max;
+    visit_salvage_products( it, [&min_weight]( const item & exemplar ) {
+        min_weight = std::min( min_weight, exemplar.weight() );
+    } );
+    return min_weight;
+}
+
+bool valid_to_salvage( const item &it )
+{
+    if( it.is_null() ) {
+        return false;
+    }
+    // There must be some historical significance to these items.
+    if( !it.is_salvageable() ) {
+        return false;
+    }
+    if( !it.only_made_of( salvagable_materials ) ) {
+        return false;
+    }
+    if( !it.contents.empty() ) {
+        return false;
+    }
+    if( it.weight() < minimal_weight_to_cut( it ) ) {
+        return false;
+    }
+
+    return true;
+}
+
+// Helper to find smallest sub-component of an item.
+std::set<material_id> can_salvage_materials( const item &it )
 {
     std::set<material_id> salvagable_materials;
     for( auto quality : it.get_qualities() ) {
@@ -20,18 +76,8 @@ static std::set<material_id> can_salvage_materials( const item &it )
     return salvagable_materials;
 }
 
-// Helper to find smallest sub-component of an item.
-static units::mass minimal_weight_to_cut( const item &it )
-{
-    units::mass min_weight = units::mass_max;
-    visit_salvage_products( it, [&min_weight]( const item & exemplar ) {
-        min_weight = std::min( min_weight, exemplar.weight() );
-    } );
-    return min_weight;
-}
-
 // It is used to check if an item can be salvaged or not.
-bool try_salvage( Character &who, item &it, bool mute = true )
+bool try_salvage( Character &who, item &it, bool mute )
 {
     if( it.is_null() ) {
         if( !mute ) {
@@ -107,7 +153,7 @@ std::vector<std::pair< material_type *, float>> get_salvagable_materials( const 
     return salvagable_materials;
 }
 
-void salvage( Character &who, item &cut, tripoint pos )
+void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
 {
     const bool filthy = cut.is_filthy();
     float salvagable_percent = 1.0f;
@@ -146,6 +192,7 @@ void salvage( Character &who, item &cut, tripoint pos )
     who.reset_encumbrance();
 
     map &here = get_map();
+    auto pos_here = here.getlocal( pos );
     auto cut_type = cut.where();
     for( const auto &salvaged : materials ) {
         if( salvagable_materials.contains( salvaged.first->id ) ) {
@@ -165,7 +212,7 @@ void salvage( Character &who, item &cut, tripoint pos )
                         who.i_add_or_drop( item::spawn( result ) );
                     } else {
 
-                        here.add_item_or_charges( pos, item::spawn( result ) );
+                        here.add_item_or_charges( pos_here, item::spawn( result ) );
                     }
                 }
             } else {
@@ -187,7 +234,7 @@ int moves_to_salvage( const item &target )
     return time;
 }
 
-bool has_salvage_tools( inventory &inv, item &item, bool check_charges = false )
+bool has_salvage_tools( const inventory &inv, item &item, bool check_charges )
 {
     bool has_tools = false;
     for( auto &material : item.made_of_types() ) {
@@ -214,7 +261,7 @@ bool has_salvage_tools( inventory &inv, item &item, bool check_charges = false )
 
 void salvage_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
-    const auto &target = targets.front().loc;
+    const auto target = targets.front();
     activity_reqs_adapter reqs;
     reqs.skills = get_type()->skills;
     reqs.metrics = std::make_pair( target->weight(), target->volume() );
@@ -225,11 +272,10 @@ void salvage_activity_actor::calc_all_moves( player_activity &act, Character &wh
 void salvage_activity_actor::start( player_activity &act, Character &who )
 {
     for( auto &target : targets ) {
-        if( !target.loc ) {
-            debugmsg( "Lost target of ACT_DISASSEMBLY" );
-            act.set_to_null();
+        if( !target ) {
+            debugmsg( "Lost target of ", get_type() );
         } else {
-            progress.emplace( target.loc->tname(), moves_to_salvage( *target.loc ) );
+            progress.emplace( target->tname(), moves_to_salvage( *target ) );
         }
     }
 }
@@ -237,23 +283,22 @@ void salvage_activity_actor::start( player_activity &act, Character &who )
 void salvage_activity_actor::do_turn( player_activity &act, Character &who )
 {
     if( progress.front().complete() ) {
-        iuse_location &target = targets.front();
-        if( !target.loc ) {
-            debugmsg( "Lost target of ACT_DISASSEMBLY" );
-            act.set_to_null();
+        auto target = targets.front();
+        if( !target ) {
+            debugmsg( "Lost target of ", get_type() );
         } else {
-            salvage( who, *target.loc, pos );
+            complete_salvage( who, *target, pos );
         }
         targets.erase( targets.begin() );
         progress.pop();
 
         if( !progress.empty() ) {
             target = targets.front();
-            if( !target.loc ) {
-                debugmsg( "Lost target of ACT_DISASSEMBLY" );
+            if( !target ) {
+                debugmsg( "Lost target of ", get_type() );
                 act.set_to_null();
             } else {
-                if( try_salvage( who, *target.loc ) ) {
+                if( try_salvage( who, *target, false ) ) {
                     calc_all_moves( act, who );
                 } else {
                     act.set_to_null();

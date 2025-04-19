@@ -206,7 +206,7 @@ void activity_speed::calc_stats_factors( const Character &who )
     }
 }
 
-float activity_speed::calc_q_factor( const activity_req<quality_id> &q, int q_level )
+float activity_speed::calc_quality_factor( const activity_req<quality_id> &q, int q_level )
 {
     q_level = q_level - q.threshold;
 
@@ -239,7 +239,7 @@ float activity_speed::get_best_qual_mod( const activity_req<quality_id> &q,
         return VisitResponse::NEXT;
     } );
 
-    return calc_q_factor( q, q_level );
+    return calc_quality_factor( q, q_level );
 }
 
 void activity_speed::calc_tools_factor( Character &who,

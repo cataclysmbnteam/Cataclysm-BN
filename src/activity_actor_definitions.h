@@ -673,13 +673,12 @@ class assist_activity_actor : public activity_actor
 class salvage_activity_actor : public activity_actor
 {
     private:
-        std::vector<iuse_location> targets;
-        std::vector<item &, std::set<std::pair<quality_id, int>>> target_and_tools;
+        std::vector<item *> targets;
         tripoint_abs_ms pos;
     public:
         salvage_activity_actor() = default;
         salvage_activity_actor(
-            std::vector<iuse_location> &&targets,
+            std::vector<item *> &&targets,
             tripoint_abs_ms pos
         ) : targets( std::move( targets ) ), pos( pos ) {}
 
@@ -690,11 +689,9 @@ class salvage_activity_actor : public activity_actor
         }
 
         void calc_all_moves( player_activity & /*act*/, Character &/*who*/ ) override;
-        float calc_tools_factor( const std::vector<safe_reference<item>> tools,
-                                 const std::vector<activity_req<quality_id>> &/*qualities*/,
-                                 inventory &/*inv*/ ) const override;
-
-        void process_target( item &target, player_activity &act, Character &who );
+        //float calc_tools_factor( const std::vector<safe_reference<item>> tools,
+        //                         const std::vector<activity_req<quality_id>> &/*qualities*/,
+        //                         const inventory &/*inv*/ ) const override;
 
 
         void start( player_activity &act, Character &who ) override;

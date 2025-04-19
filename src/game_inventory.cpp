@@ -58,6 +58,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "salvage.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -1416,13 +1417,13 @@ class salvage_inventory_preset: public inventory_selector_preset
             actor( actor ) {
 
             append_cell( [ actor ]( const item * loc ) {
-                return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
+                return to_string_clipped( time_duration::from_turns( moves_to_salvage(
                                               *loc ) / 100 ) );
             }, _( "TIME" ) );
         }
 
         bool is_shown( const item *loc ) const override {
-            return actor->valid_to_cut_up( *loc );
+            return valid_to_salvage( *loc );
         }
 
     private:
