@@ -81,9 +81,9 @@ class activity_type
         unsigned short max_assistants_ = 0;
 
     public:
-        std::vector<activity_req<character_stat>> stats = {};
-        std::vector<activity_req<skill_id>> skills = {};
-        std::vector<activity_req<quality_id>> qualities = {};
+        std::vector<activity_req<character_stat>> stats;
+        std::vector<activity_req<skill_id>> skills;
+        std::vector<activity_req<quality_id>> qualities;
 
         const activity_id &id() const {
             return id_;

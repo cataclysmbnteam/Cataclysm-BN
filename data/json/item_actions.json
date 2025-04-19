@@ -146,7 +146,7 @@
   },
   {
     "type": "item_action",
-    "id": "salvage",
+    "id": "SALVAGE",
     "name": { "str": "Cut up an item" }
   },
   {

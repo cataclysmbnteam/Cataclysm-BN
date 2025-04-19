@@ -3,13 +3,13 @@
     "type": "tool_quality",
     "id": "CUT",
     "name": { "str": "cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+    "usages": [ [ 1, [ "inscribe", "cauterize" ] ] ]
   },
   {
     "type": "tool_quality",
     "id": "CUT_FINE",
     "name": { "str": "fine cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ] ]
+    "usages": [ [ 1, [ "inscribe", "cauterize", "enzlave" ] ] ]
   },
   {
     "type": "tool_quality",

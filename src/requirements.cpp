@@ -30,6 +30,7 @@
 #include "output.h"
 #include "player.h"
 #include "point.h"
+#include "salvage.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_utils.h"
@@ -98,6 +99,9 @@ void quality::load( const JsonObject &jo, const std::string & )
         for( const std::string line : levels.get_array( 1 ) ) {
             usages.emplace_back( level, line );
         }
+    }
+    if( salvage::salvage_quality_dictionary.contains( id ) ) {
+        usages.emplace_back( 1, "salvage" );
     }
 }
 
