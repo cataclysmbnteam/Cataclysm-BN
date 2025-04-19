@@ -1698,7 +1698,7 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
 
                 if( !charge_satisfied && player_with_inv->has_charges( type, count_charge ) ) {
                     charge_satisfied = true;
-                    int total_charges = player_with_inv->charges_of( type );
+                    total_charges = player_with_inv->charges_of( type );
                 }
                 if( !energy_satisfied && player_with_inv->has_energy( type, count_energy ) ) {
                     energy_satisfied = true;
@@ -1734,7 +1734,7 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
         } else if( ( player_with_inv && player_with_inv->has_amount( type, 1 ) )
                    || map_inv.has_tools( type, 1 ) ) {
             comp_selection<tool_comp> sel( usage_from::none, *it );
-            available_tools.emplace_back( sel, 0, 0 );
+            available_tools.emplace_back( sel, 0, 0, 0_J, 0_J );
         }
     }
 
@@ -1793,8 +1793,8 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
         const itype_id &comp_type = tool.comp.comp.type;
         if( tool.ideal_charges > 1 || tool.ideal_energy > 0_J ) {
             const char *format = tool.comp.use_from == usage_from::map
-                                 ? _( "%1$s (%2$snearby)" )
-                                 : _( "%1$s (%2$son person)" );
+                                 ? _( "%1$s (%2$s%3$snearby)" )
+                                 : _( "%1$s (%2$s%3$son person)" );
             std::string charge_count = tool.ideal_charges > 1 ?
                                        string_format( "%1$d/%2$d Charges ", tool.ideal_charges, tool.charges ) : "";
             std::string energy_count = tool.ideal_energy > 0_J ?
@@ -1940,20 +1940,20 @@ bool player::craft_consume_tools( item &craft, int multiplier, bool start_craft 
                                   cost_adjustment::continue_only;
         // craft.charges being batch number and mult being additional progress if in progress craft
         // This will be attenuated by start craft in the actual function
-        consume_tools( cost_ad, to_consume, craft.charges * start_craft ? 1 : multiplier );
+        consume_tools( to_consume, craft.charges * start_craft ? 1 : multiplier, cost_ad );
     }
     return true;
 }
 
-void player::consume_tools( cost_adjustment cost_ad, const comp_selection<tool_comp> &tool,
-                            int batch )
+void player::consume_tools( const comp_selection<tool_comp> &tool,
+                            int batch, cost_adjustment cost_ad )
 {
-    consume_tools( cost_ad, get_map(), tool, batch, pos(), PICKUP_RANGE );
+    consume_tools( get_map(), tool, batch, pos(), PICKUP_RANGE, cost_ad );
 }
 
 /* we use this if we selected the tool earlier */
-void player::consume_tools( cost_adjustment cost_ad, map &m, const comp_selection<tool_comp> &tool,
-                            int batch, const tripoint &origin, int radius )
+void player::consume_tools( map &m, const comp_selection<tool_comp> &tool,
+                            int batch, const tripoint &origin, int radius, cost_adjustment cost_ad )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
@@ -1977,6 +1977,7 @@ void player::consume_tools( cost_adjustment cost_ad, map &m, const comp_selectio
                 enrg = crafting::energy_for_continuing( enrg );
                 break;
             default:
+                break;
         }
     };
 
@@ -1999,13 +2000,13 @@ void player::consume_tools( cost_adjustment cost_ad, map &m, const comp_selectio
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
 In that case, consider using select_tool_component with 1 pre-created map inventory, and then passing the results
 to consume_tools */
-void player::consume_tools( cost_adjustment cost_ad, const std::vector<tool_comp> &tools, int batch,
-                            const std::string &hotkeys )
+void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
+                            const std::string &hotkeys, cost_adjustment cost_ad )
 {
     inventory map_inv;
     map_inv.form_from_map( pos(), PICKUP_RANGE, this );
-    consume_tools( cost_ad, crafting::select_tool_component( tools, batch, map_inv, this,
-                   false, hotkeys, cost_adjustment::none ), batch );
+    consume_tools( crafting::select_tool_component( tools, batch, map_inv, this,
+                   false, hotkeys, cost_adjustment::none ), batch, cost_ad );
 }
 
 ret_val<bool> crafting::can_disassemble( const Character &who, const item &obj,

@@ -10198,7 +10198,7 @@ bool Character::has_energy( const itype_id &it, units::energy amount,
         mod_power = amount / efficiency;
         return ( has_power() && get_power_level() >= mod_power );
     }
-    return false;
+    return energy_of( it, amount, filter ) == amount;
 }
 
 std::vector<detached_ptr<item>> Character::use_amount( itype_id it, int quantity,

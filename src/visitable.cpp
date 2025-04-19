@@ -1170,14 +1170,6 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
-    if( what == itype_toolset ) {
-        if( p && p->has_active_bionic( bio_tools ) ) {
-            return std::min( units::to_kilojoule<int>( p->get_power_level() ), limit );
-        } else {
-            return 0;
-        }
-    }
-
     if( what == itype_voltmeter_bionic ) {
         if( p && p->has_bionic( bio_electrosense_voltmeter ) ) {
             return std::min( units::to_kilojoule<int>( p->get_power_level() ), limit );
