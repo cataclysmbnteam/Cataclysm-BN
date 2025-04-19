@@ -148,7 +148,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CBM_OP: return "CBM_OP";
         case MF_CBM_TECH: return "CBM_TECH";
         case MF_CBM_SUBS: return "CBM_SUBS";
-        case MF_FILTHY: return "FILTHY";
         case MF_SWARMS: return "SWARMS";
         case MF_CLIMBS: return "CLIMBS";
         case MF_GROUP_MORALE: return "GROUP_MORALE";
