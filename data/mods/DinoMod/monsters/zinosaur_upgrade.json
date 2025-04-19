@@ -1700,18 +1700,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "BASHES",
-      "NO_BREATHE",
-      "REVIVES",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "WARM", "NIGHT_INVISIBILITY" ]
   },
   {
     "type": "MONSTER",
@@ -2061,18 +2050,7 @@
     ],
     "burn_into": "mon_zeinonychus_scorched",
     "fungalize_into": "mon_zeinonychus_fungus",
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "KEENNOSE",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "WARM",
-      "NIGHT_INVISIBILITY"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM", "NIGHT_INVISIBILITY" ],
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ]
   },

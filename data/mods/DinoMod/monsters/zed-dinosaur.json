@@ -76,19 +76,7 @@
     "burn_into": "mon_zpinosaurus_scorched",
     "fungalize_into": "mon_zpinosaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zpinosaurus_UPGRADE" },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "BASHES",
-      "DESTROYS",
-      "NO_BREATHE",
-      "REVIVES",
-      "WARM",
-      "SWIMS"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "WARM", "SWIMS" ],
     "vision_night": 3,
     "harvest": "zed_dino_toothy_leather",
     "categories": [ "DINOSAUR" ]
@@ -1611,19 +1599,7 @@
     "burn_into": "mon_zteranodon_scorched",
     "fungalize_into": "mon_zteranodon_fungus",
     "upgrades": { "half_life": 30, "into": "mon_zteranodon_brute" },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "WARM",
-      "BASHES",
-      "FLIES",
-      "HIT_AND_RUN"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "WARM", "BASHES", "FLIES", "HIT_AND_RUN" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
     "categories": [ "DINOSAUR" ]

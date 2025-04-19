@@ -251,19 +251,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "KEENNOSE",
-      "BLEED",
-      "BASHES",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ],
     "//": "1d8->2d5, minor bonus over 1d9"
   },
   {

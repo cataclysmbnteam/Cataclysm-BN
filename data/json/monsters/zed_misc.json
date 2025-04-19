@@ -894,17 +894,7 @@
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "WARM",
-      "BASHES",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE",
-      "PATH_AVOID_DANGER_2",
-      "PRIORITIZE_TARGETS"
-    ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "BLEED", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_zombie_shrieker",
@@ -938,19 +928,7 @@
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 10, "into": "mon_zombie_screecher" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON" ]
   },
   {
     "id": "mon_zombie_skull",
