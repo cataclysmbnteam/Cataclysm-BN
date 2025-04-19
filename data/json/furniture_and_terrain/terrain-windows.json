@@ -403,6 +403,8 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "nail_pull_result": "t_window_frame",
+    "nail_pull_items": [ 8, 4 ],
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -427,6 +429,8 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "nail_pull_result": "t_window_empty",
+    "nail_pull_items": [ 8, 4 ],
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -451,6 +455,8 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "NO_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "nail_pull_result": "t_window_boarded",
+    "nail_pull_items": [ 16, 8 ],
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -473,6 +479,8 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "nail_pull_result": "t_window_boarded_noglass",
+    "nail_pull_items": [ 16, 8 ],
     "bash": {
       "str_min": 12,
       "str_max": 30,

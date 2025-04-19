@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_GATES_H
-#define CATA_SRC_GATES_H
 
 #include <string>
 
@@ -35,4 +33,4 @@ void close_door( map &m, Character &who, const tripoint &closep );
 
 } // namespace doors
 
-#endif // CATA_SRC_GATES_H
+

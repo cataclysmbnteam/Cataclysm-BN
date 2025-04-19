@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_DEF_H
-#define CATA_SRC_UNITS_DEF_H
 
 #include <compare>
 #include <type_traits>
@@ -307,4 +305,4 @@ constexpr quantity<V, U> sum_no_wrap( quantity<V, U> a, quantity<V, U> b )
 /**@}*/
 } // namespace units
 
-#endif // CATA_SRC_UNITS_DEF_H
+

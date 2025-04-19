@@ -300,7 +300,7 @@ void cata::detail::reg_monster( sol::state &lua )
         SET_FX_T( swims, bool() const );
 
         SET_FX_T( move_target, tripoint() );
-        SET_FX_N_T( wander, "is_wandering", bool() );
+        SET_FX_N_T( is_wandering, "is_wandering", bool() );
 
         SET_FX_T( wander_to, void( const tripoint & p, int f ) );
         SET_FX_T( move_to, bool( const tripoint & p, bool force, bool step_on_critter,
@@ -619,8 +619,13 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( worn_with_flag, bool( const flag_id &, const bodypart_id & ) const );
 
+        SET_FX_T( worn_with_id, bool( const itype_id &, const bodypart_id & ) const );
+
         SET_FX_T( item_worn_with_flag,
                   const item * ( const flag_id &, const bodypart_id & ) const );
+
+        SET_FX_T( item_worn_with_id,
+                  const item * ( const itype_id &, const bodypart_id & ) const );
 
         SET_FX_T( get_skill_level, int( const skill_id & ) const );
 
@@ -667,9 +672,24 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( is_hauling, bool() const );
 
+        DOC( "Adds an item with the given id and amount" );
+        SET_FX_T( add_item_with_id, void( const itype_id & itype, int count ) );
+
+        DOC( "Checks for an item with the given id" );
+        SET_FX_T( has_item_with_id, bool( const itype_id & itype, bool need_charges ) const );
+
+        DOC( "Gets the first occurrence of an item with the given id" );
+        SET_FX_T( get_item_with_id, const item * ( const itype_id & itype, bool need_charges ) const );
+
+        DOC( "Checks for an item with the given flag" );
         SET_FX_T( has_item_with_flag, bool( const flag_id & flag, bool need_charges ) const );
+
+        DOC( "Gets all items with the given flag" );
         SET_FX_T( all_items_with_flag,
-                  std::vector<item *>( const flag_id & flag ) const );
+                  std::vector<item *>( const flag_id & flag, bool need_charges ) const );
+
+        DOC( "Gets all items" );
+        SET_FX_T( all_items, std::vector<item *>( bool need_charges ) const );
 
         SET_FX_T( assign_activity,
                   void( const activity_id &, int, int, int, const std::string & ) );

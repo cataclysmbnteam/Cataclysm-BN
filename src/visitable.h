@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VISITABLE_H
-#define CATA_SRC_VISITABLE_H
 
 #include <climits>
 #include <functional>
@@ -172,4 +170,4 @@ class location_visitable : public visitable<T>
         detached_ptr<item> remove_item( item &it );
 };
 
-#endif // CATA_SRC_VISITABLE_H
+

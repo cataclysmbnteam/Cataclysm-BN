@@ -1,12 +1,11 @@
 #pragma once
-#ifndef CATA_SRC_MTYPE_H
-#define CATA_SRC_MTYPE_H
 
 #include <map>
 #include <optional>
 #include <set>
 #include <array>
 #include <string>
+#include <variant>
 #include <vector>
 
 #include "behavior.h"
@@ -16,6 +15,7 @@
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
+#include "legacy_pathfinding.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
@@ -401,8 +401,19 @@ struct mtype {
         /** Emission sources that cycle each turn the monster remains alive */
         std::map<emit_id, time_duration> emit_fields;
 
-        pathfinding_settings path_settings;
-        pathfinding_settings path_settings_buffed;
+        pathfinding_settings legacy_path_settings;
+        pathfinding_settings legacy_path_settings_buffed;
+
+        PathfindingSettings path_settings;
+        RouteSettings route_settings;
+        PathfindingSettings path_settings_buffed;
+        RouteSettings route_settings_buffed;
+
+        // We rely on external options to construct pathfinding options
+        //   which are subject to change by rebalancing mods
+        //   thus necessiating a late load
+        std::unordered_map<std::string, std::variant<float, bool, int>> recorded_path_settings;
+        void setup_pathfinding_deferred();
 
         // Used to fetch the properly pluralized monster type name
         std::string nname( unsigned int quantity = 1 ) const;
@@ -437,4 +448,4 @@ struct mtype {
 
 mon_effect_data load_mon_effect_data( const JsonObject &e );
 
-#endif // CATA_SRC_MTYPE_H
+

@@ -421,6 +421,67 @@
   },
   {
     "type": "construction",
+    "id": "constr_door_welded",
+    "group": "weld_shut_metal_door",
+    "//": "All regular openable metal doors",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "//2": "Same amount of time to cut one open, but half the oxy-ace consumption and allows arc welders",
+    "time": "14 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_flags": "WELDABLE_DOOR",
+    "post_terrain": "t_door_metal_welded"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_peep",
+    "group": "weld_shut_metal_door",
+    "//": "Metal door with peephole",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_terrain": "t_door_metal_c_peep",
+    "post_terrain": "t_door_metal_welded_peephole"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_bulkhead",
+    "group": "weld_shut_metal_door",
+    "//": "Metal bulkhead door",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_terrain": "t_door_metal_bulkhead_c",
+    "post_terrain": "t_door_metal_welded_bulkhead"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_lab",
+    "group": "weld_shut_metal_door",
+    "//": "Metal lab door",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "14 s",
+    "using": [ [ "welding_standard", 8 ] ],
+    "pre_terrain": "t_door_metal_lab_c",
+    "post_terrain": "t_door_metal_welded_lab"
+  },
+  {
+    "type": "construction",
+    "id": "constr_door_welded_bars",
+    "group": "weld_shut_metal_door",
+    "//": "Bar doors",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "9 s",
+    "using": [ [ "welding_standard", 5 ] ],
+    "pre_flags": "WELDABLE_BARS",
+    "post_terrain": "t_door_metal_welded_bars"
+  },
+  {
+    "type": "construction",
     "id": "constr_mdoor_frame",
     "group": "build_metal_door",
     "//": "step 1: door frame",
@@ -654,6 +715,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_window_boarded_noglass_empty_domestic",
+    "group": "board_up_window",
+    "//": "Board up empty window",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "pre_terrain": "t_window_empty_domestic",
+    "post_terrain": "t_window_boarded_noglass"
+  },
+  {
+    "type": "construction",
     "id": "constr_window_boarded_noglass_frame",
     "group": "board_up_window",
     "//": "Board up window frame only",
@@ -663,6 +737,19 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
     "pre_terrain": "t_window_frame",
+    "post_terrain": "t_window_boarded_noglass"
+  },
+  {
+    "type": "construction",
+    "id": "constr_window_boarded_noglass_frame_domestic",
+    "group": "board_up_window",
+    "//": "Board up window frame only",
+    "category": "REINFORCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "pre_terrain": "t_window_frame_domestic",
     "post_terrain": "t_window_boarded_noglass"
   },
   {
@@ -4777,6 +4864,33 @@
   },
   {
     "type": "construction",
+    "id": "constr_industrial_freezer",
+    "group": "install_industrial_freezer",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 6 ], [ "mechanics", 2 ], [ "electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 50 ], [ "welding_standard", 100 ] ],
+    "time": "120 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_freezer_industrial",
+    "components": [
+      [ [ "sheet_metal", 36 ] ],
+      [ [ "sheet_metal_small", 10 ] ],
+      [ [ "steel_chunk", 10 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "condensor_coil", 2 ] ],
+      [ [ "evaporator_coil", 2 ] ],
+      [ [ "refrigerant_tank", 2 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "light_bulb", 1 ] ],
+      [ [ "motor_tiny", 2 ] ]
+    ]
+  },
+  {
+    "type": "construction",
     "id": "constr_gridglass_freezer",
     "group": "install_glass_freezer",
     "category": "WORKSHOP",
@@ -4898,6 +5012,20 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_forgerig"
+  },
+  {
+    "type": "construction",
+    "id": "constr_adv_butchery",
+    "group": "place_adv_butchery",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "adv_butchery", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_adv_butchery"
   },
   {
     "type": "construction",
@@ -5319,5 +5447,18 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_hydraulic_press"
+  },
+  {
+    "type": "construction",
+    "id": "constr_gridf_recycler",
+    "group": "install_f_recycler",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "fabrication", 2 ], [ "electronics", 3 ] ],
+    "time": "20 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "PRY", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "recycler_item", 1 ] ], [ [ "cable", 15 ] ], [ [ "power_supply", 3 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_furniture": "f_recycler"
   }
 ]

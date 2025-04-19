@@ -567,7 +567,7 @@ void toolmod_add( avatar &you, item &tool, item &mod )
     }
 
     you.assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
-    you.activity->targets.emplace_back( &tool );
+    you.activity->tools.emplace_back( &tool );
     you.activity->targets.emplace_back( &mod );
 }
 

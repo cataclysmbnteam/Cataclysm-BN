@@ -1001,6 +1001,7 @@ void veh_interact::do_install()
                part.has_flag( VPFLAG_FRIDGE ) ||
                part.has_flag( VPFLAG_FREEZER ) ||
                part.has_flag( "KITCHEN" ) ||
+               part.has_flag( "BUTCHER_EQ" ) ||
                part.has_flag( "WELDRIG" ) ||
                part.has_flag( "CRAFTRIG" ) ||
                part.has_flag( "CHEMLAB" ) ||

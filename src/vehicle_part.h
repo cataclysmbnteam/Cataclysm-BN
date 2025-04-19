@@ -1,7 +1,6 @@
 #pragma once
 
-#ifndef CATA_SRC_VEHICLE_PART_H
-#define CATA_SRC_VEHICLE_PART_H
+#pragma once
 
 #include <stack>
 #include <set>
@@ -352,4 +351,4 @@ struct vehicle_part {
         std::vector<detached_ptr<item>> pieces_for_broken_part() const;
 };
 
-#endif // CATA_SRC_VEHICLE_PART_H
+

@@ -1,24 +1,25 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVITY_ACTOR_H
-#define CATA_SRC_ACTIVITY_ACTOR_H
 
+#include <deque>
 #include <memory>
 #include <optional>
 #include <unordered_map>
-#include <deque>
 #include <vector>
 
 #include "activity_type.h"
-#include "clone_ptr.h"
+#include "calendar.h"
 #include "type_id.h"
-#include "safe_reference.h"
-#include "item.h"
+#include "units.h"
 
 class avatar;
 class Character;
 class JsonIn;
 class JsonOut;
 class player_activity;
+class inventory;
+struct bench_loc;
+
+using metric = std::pair<units::mass, units::volume>;
 
 struct simple_task {
     // Name of the target that's being processed
@@ -31,6 +32,8 @@ struct simple_task {
     inline bool complete() const {
         return moves_left <= 0;
     }
+
+    inline int to_counter() const;
 
     //Json stuff
     void serialize( JsonOut &json ) const;
@@ -191,6 +194,13 @@ class activity_actor
          */
         virtual activity_id get_type() const = 0;
 
+
+        /**
+         * Actor specific behaviour to recalc all speed values
+         * Expected to be called once per target and on game load
+         */
+        virtual void calc_all_moves( player_activity &act, Character &who );
+
         /**
          * Called once at the start of the activity.
          * This may be used to preform setup actions and/or set
@@ -246,13 +256,15 @@ class activity_actor
             return msg;
         }
 
+        virtual void adjust_bench_multiplier( bench_loc &bench, const metric & ) const;
+
         /*
          * actor specific formula for speed factor based on skills
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
         virtual float calc_skill_factor( const Character &/*who*/,
-                                         const std::unordered_map<skill_id, int> /*skills*/ ) const {
+                                         const std::vector<activity_req<skill_id>> &/*skills*/ ) const {
             return -1.0f;
         }
 
@@ -261,8 +273,8 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_tools_factor( const std::unordered_map<quality_id, int> /*qualities*/,
-                                         std::vector<safe_reference<item>> /*tools*/ ) const {
+        virtual float calc_tools_factor( const std::vector<activity_req<quality_id>> &/*qualities*/,
+                                         const inventory &/*inv*/ ) const {
             return -1.0f;
         }
 
@@ -271,7 +283,7 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        virtual float calc_morale_factor( int /*morale*/ ) const {
+        virtual float calc_morale_factor( const Character &/*who*/ ) const {
             return -1.0f;
         }
 
@@ -280,9 +292,9 @@ class activity_actor
          * anything above 0 is a valid number
          * anything below 0 is invalid, promting to use default formula
         */
-        float calc_stats_factor( const Character &/*who*/,
-                                 const std::unordered_map<character_stat, int> /*stats*/ ) const {
-            return -1.0f;
+        std::vector<std::pair<character_stat, float>> calc_stats_factors( const Character &/*who*/,
+        const std::vector<activity_req<character_stat>> &/*stats*/ ) const {
+            return {};
         }
 };
 
@@ -298,4 +310,3 @@ deserialize_functions;
 void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout );
 void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin );
 
-#endif // CATA_SRC_ACTIVITY_ACTOR_H

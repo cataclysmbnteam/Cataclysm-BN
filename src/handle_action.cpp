@@ -880,7 +880,7 @@ static void wait()
     map &here = get_map();
 
     if( u.controlling_vehicle && ( here.veh_at( u.pos() )->vehicle().velocity ||
-                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
+                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) && u.pos().z < 4 ) {
         popup( _( "You can't pass time while controlling a moving vehicle." ) );
         return;
     }
@@ -921,6 +921,11 @@ static void wait()
         if( g->u.get_stamina() < g->u.get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
+        }
+        if( u.controlling_vehicle && u.pos().z > 3 ) {
+            add_menu_item( 14, 'x', "", 10_seconds );
+            add_menu_item( 15, 'y', "", 30_seconds );
+            add_menu_item( 16, 'z', "", 1_minutes );
         }
         add_menu_item( 1, '1', "", 5_minutes );
         add_menu_item( 2, '2', "", 30_minutes );
@@ -1805,8 +1810,8 @@ bool game::handle_action()
                                                               u.posz() );
                             destination_preview = m.route( u.pos(),
                                                            auto_travel_destination,
-                                                           u.get_pathfinding_settings(),
-                                                           u.get_path_avoid() );
+                                                           u.get_legacy_pathfinding_settings(),
+                                                           u.get_legacy_path_avoid() );
                             if( !destination_preview.empty() ) {
                                 destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
                                 u.set_destination( destination_preview );

@@ -172,7 +172,6 @@ cataclysm.a
 
 # clang tooling
 compile_commands.json
-.clangd
 
 # IDA database
 Cataclysm.i64
@@ -227,3 +226,6 @@ test/Output
 test/.lit_test_times.txt
 affected_files.txt
 clang-tidy-trace
+
+CMakeFiles/
+CMakeCache.txt

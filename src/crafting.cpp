@@ -96,9 +96,6 @@ static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 
-static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
-        bool can_lift );
-
 static bool crafting_allowed( const Character &who, const recipe &rec )
 {
     if( morale_crafting_speed_multiplier( who, rec ) <= 0.0f ) {
@@ -197,26 +194,26 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
     const units::mass &craft_mass = craft.weight();
     const units::volume &craft_volume = craft.volume();
     workbench_info_wrapper wb_info = workbench_info_wrapper(
-                                         * string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
+                                         *string_id<furn_t>( "f_fake_bench_hands" )->workbench );
 
     // The whole block below is so ugly because all the benches have different structs with same content
     map &here = get_map();
     switch( bench.type ) {
         case bench_type::hands: {
             wb_info = workbench_info_wrapper(
-                          *string_id<furn_t>( "f_fake_bench_hands" ).obj().workbench.get() );
+                          *string_id<furn_t>( "f_fake_bench_hands" )->workbench );
         }
         break;
         case bench_type::ground: {
             // Ground - we can always use this, but it's bad
             wb_info = workbench_info_wrapper(
-                          *string_id<furn_t>( "f_ground_crafting_spot" ).obj().workbench.get() );
+                          *string_id<furn_t>( "f_ground_crafting_spot" )->workbench );
         }
         break;
         case bench_type::furniture:
-            if( here.furn( bench.position ).obj().workbench ) {
+            if( here.furn( bench.position )->workbench ) {
                 // Furniture workbench
-                wb_info = workbench_info_wrapper( * here.furn( bench.position ).obj().workbench.get() );
+                wb_info = workbench_info_wrapper( *here.furn( bench.position )->workbench );
             } else {
                 return 0.0f;
             }
@@ -553,20 +550,20 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         return cached_crafting_inventory;
     }
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
-    cached_crafting_inventory += inv;
-    cached_crafting_inventory += primary_weapon();
-    cached_crafting_inventory += worn;
+    cached_crafting_inventory.add_items( inv, true );
+    cached_crafting_inventory.add_item( primary_weapon(), true );
+    cached_crafting_inventory.add_items( worn, true );
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.has_flag( flag_BIONIC_TOGGLED ) || bio.powered ) &&
             !bio_data.fake_item.is_empty() ) {
-            cached_crafting_inventory += *item::spawn_temporary( bio.info().fake_item,
-                                         calendar::turn, 0, get_power_level() );
+            cached_crafting_inventory.add_item( *item::spawn_temporary( bio.info().fake_item, calendar::turn,
+                                                0, get_power_level() ), true );
         }
     }
     if( has_trait( trait_BURROW ) ) {
-        cached_crafting_inventory += *item::spawn_temporary( "pickaxe", calendar::turn );
-        cached_crafting_inventory += *item::spawn_temporary( "shovel", calendar::turn );
+        cached_crafting_inventory.add_item( *item::spawn_temporary( "pickaxe", calendar::turn ), true );
+        cached_crafting_inventory.add_item( *item::spawn_temporary( "shovel", calendar::turn ), true );
     }
 
     cached_moves = moves;
@@ -686,7 +683,7 @@ static void set_item_map_or_vehicle( const player &p, const tripoint &loc,
 
     } else {
         if( here.has_furn( loc ) ) {
-            const furn_t &workbench = here.furn( loc ).obj();
+            const furn_t &workbench = *here.furn( loc );
             p.add_msg_player_or_npc(
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
@@ -735,7 +732,7 @@ item *player::start_craft( craft_command &command, const tripoint & )
     }
 
     bench_location bench = find_best_bench( *this, *craft );
-    std::pair<bench_type, float> best_found_bench = best_bench_here( *craft, bench.position,
+    std::pair<bench_type, float> best_found_bench = crafting::best_bench_here( *craft, bench.position,
             bench.type == bench_type::hands );
     if( best_found_bench.second < 1.0f ) {
         add_msg_if_player( m_info, pgettext( "in progress craft",
@@ -784,7 +781,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         practice( making.skill_used, base_practice, skill_cap, true );
         // Subskills gain half the experience as primary skill
         for( const auto &pr : making.required_skills ) {
-            if( pr.first != making.skill_used && !pr.first.obj().is_combat_skill() ) {
+            if( pr.first != making.skill_used && !pr.first->is_combat_skill() ) {
                 const int secondary_practice = roll_remainder( ( get_skill_level( pr.first ) * 15 + 10 ) *
                                                batch_mult /
                                                20.0 ) * multiplier / 2.0;
@@ -2283,7 +2280,7 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
                                 0.9f + ( who.int_cur * 0.025f ) );
             if( x_in_y( skill_bonus, 4.0 ) ) {
                 // TODO: change to forward an id or a reference
-                who.learn_recipe( &dis.ident().obj() );
+                who.learn_recipe( &*dis.ident() );
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname() );
             } else {
@@ -2337,49 +2334,17 @@ void remove_ammo( item &dis_item, Character &who )
     }
 }
 
-static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
-        bool can_lift )
-{
-    bench_type best_type = bench_type::ground;
-    float best_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::ground, loc} );
-    if( can_lift ) {
-        float hands_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::hands, loc} );
-        if( hands_mult > best_mult ) {
-            best_type = bench_type::hands;
-            best_mult = hands_mult;
-        }
-    }
-
-    if( g->m.furn( loc ).obj().workbench ) {
-        float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::furniture, loc} );
-        if( furn_mult > best_mult ) {
-            best_type = bench_type::furniture;
-            best_mult = furn_mult;
-        }
-    }
-
-    if( const std::optional<vpart_reference> vp = g->m.veh_at(
-                loc ).part_with_feature( "WORKBENCH", true ) ) {
-        float veh_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::vehicle, loc} );
-        if( veh_mult > best_mult ) {
-            best_type = bench_type::vehicle;
-            best_mult = veh_mult;
-        }
-    }
-    return std::make_pair( best_type, best_mult );
-}
-
 bench_location find_best_bench( const player &p, const item &craft )
 {
     bool can_lift = p.can_wield( craft ).success() && p.weight_capacity() >= craft.weight();
-    std::pair<bench_type, float> bench_here = best_bench_here( craft, p.pos(), can_lift );
+    std::pair<bench_type, float> bench_here = crafting::best_bench_here( craft, p.pos(), can_lift );
     bench_type best_type = bench_here.first;
     float best_bench_multi = bench_here.second;
     tripoint best_loc = p.pos();
     std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
     g->m.reachable_flood_steps( reachable, p.pos(), PICKUP_RANGE, 1, 100 );
     for( const tripoint &adj : reachable ) {
-        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
+        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj )->workbench ) {
             if( wb->multiplier > best_bench_multi ) {
                 best_type = bench_type::furniture;
                 best_bench_multi = wb->multiplier;
@@ -2406,6 +2371,38 @@ bench_location find_best_bench( const player &p, const item &craft )
 
 namespace crafting
 {
+
+std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
+        bool can_lift )
+{
+    bench_type best_type = bench_type::ground;
+    float best_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::ground, loc } );
+    if( can_lift ) {
+        float hands_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::hands, loc } );
+        if( hands_mult > best_mult ) {
+            best_type = bench_type::hands;
+            best_mult = hands_mult;
+        }
+    }
+
+    if( g->m.furn( loc )->workbench ) {
+        float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::furniture, loc } );
+        if( furn_mult > best_mult ) {
+            best_type = bench_type::furniture;
+            best_mult = furn_mult;
+        }
+    }
+
+    if( const std::optional<vpart_reference> vp = g->m.veh_at(
+                loc ).part_with_feature( "WORKBENCH", true ) ) {
+        float veh_mult = workbench_crafting_speed_multiplier( craft, bench_location{ bench_type::vehicle, loc } );
+        if( veh_mult > best_mult ) {
+            best_type = bench_type::vehicle;
+            best_mult = veh_mult;
+        }
+    }
+    return std::make_pair( best_type, best_mult );
+}
 
 std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,
         const recipe *r )
@@ -2459,3 +2456,10 @@ units::energy energy_for_continuing( units::energy full_energy )
 }
 
 } // namespace crafting
+
+void workbench_info_wrapper::adjust_multiplier( const metric
+        &metrics )
+{
+    multiplier_adjusted *= lerped_multiplier( metrics.first, allowed_mass, 1000_kilogram );
+    multiplier_adjusted *= lerped_multiplier( metrics.second, allowed_volume, 1000_liter );
+}

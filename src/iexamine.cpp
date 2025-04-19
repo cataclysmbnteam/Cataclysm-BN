@@ -106,7 +106,6 @@
 #include "weather.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
@@ -374,8 +373,19 @@ void iexamine::translocator( player &, const tripoint &examp )
         g->u.translocators->activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
     } else {
-        if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
-            g->u.translocators->deactivate_teleporter( omt_loc, examp );
+        const int choice = uilist( _( "Do what with Translocator?" ), {
+            _( "Visit another gate." ),
+            _( "Deactivate." )
+        } );
+        if( choice == 0 ) {
+            item *vtm = item::spawn_temporary( "translocation_caster", calendar::start_of_cataclysm );
+            player_character.invoke_item( vtm );
+        } else if( choice == 1 ) {
+            if( query_yn( _( "Deactivate this Translocator?" ) ) ) {
+                g->u.translocators->deactivate_teleporter( omt_loc, examp );
+            }
+        } else {
+            add_msg( _( "Never mind." ) );
         }
     }
 }
@@ -1712,20 +1722,25 @@ void iexamine::door_peephole( player &p, const tripoint &examp )
         return;
     }
 
-    // Peek through the peephole, or open the door.
-    const int choice = uilist( _( "Do what with the door?" ), {
-        _( "Peek through peephole." ),
-        _( "Open door." )
-    } );
-    if( choice == 0 ) {
-        // Peek
+    if( here.open_door( examp, true, true ) ) {
         g->peek( examp );
         p.add_msg_if_player( _( "You peek through the peephole." ) );
-    } else if( choice == 1 ) {
-        here.open_door( examp, true, false );
-        p.add_msg_if_player( _( "You open the door." ) );
     } else {
-        p.add_msg_if_player( _( "Never mind." ) );
+        // Peek through the peephole, or open the door.
+        const int choice = uilist( _( "Do what with the door?" ), {
+            _( "Peek through peephole." ),
+            _( "Open door." )
+        } );
+        if( choice == 0 ) {
+            // Peek
+            g->peek( examp );
+            p.add_msg_if_player( _( "You peek through the peephole." ) );
+        } else if( choice == 1 ) {
+            here.open_door( examp, true, false );
+            p.add_msg_if_player( _( "You open the door." ) );
+        } else {
+            p.add_msg_if_player( _( "Never mind." ) );
+        }
     }
 }
 
@@ -1848,7 +1863,8 @@ static bool drink_nectar( player &p )
 static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     detached_ptr<item> harvest = item::spawn( itemid );
-    if( !force_drop && p.can_pick_volume( *harvest ) &&
+    // Drop items that're exceed available space and things that aren't comestibles
+    if( !force_drop && harvest->get_comestible() && p.can_pick_volume( *harvest ) &&
         p.can_pick_weight( *harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
 
         p.add_msg_if_player( _( "You harvest: %s." ), harvest->tname() );
@@ -3845,8 +3861,8 @@ void iexamine::trap( player &p, const tripoint &examp )
                     return;
                 }
             } else {
-                p.assign_activity( ACT_BUILD );
-                p.activity->placement = here.getabs( examp );
+                p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                                   ( here.getglobal( examp ) ) ) );
                 return;
             }
         } else {
@@ -5039,13 +5055,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     amenu.query();
 
-    bool needs_anesthesia = true;
+    bool needs_anesthesia = cbm_needs_anesthesia( patient );
     std::vector<tool_comp> anesth_kit;
 
-    if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bio_painkiller ) ||
-        amenu.ret > 1 ) {
-        needs_anesthesia = false;
-    } else {
+    if( needs_anesthesia && amenu.ret < 2 ) {
         const inventory &crafting_inv = p.crafting_inventory();
         std::vector<item *> a_filter = crafting_inv.items_with( []( const item & it ) {
             return it.has_quality( qual_ANESTHESIA );

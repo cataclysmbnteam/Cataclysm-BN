@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ITYPE_H
-#define CATA_SRC_ITYPE_H
 
 #include <array>
 #include <iosfwd>
@@ -1120,4 +1118,4 @@ struct itype {
         bool is_seed() const;
 };
 
-#endif // CATA_SRC_ITYPE_H
+

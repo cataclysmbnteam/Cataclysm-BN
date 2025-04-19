@@ -57,7 +57,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
@@ -1252,7 +1252,7 @@ bool avatar::wield( item &target )
     target.on_wield( *this, mv );
 
     inv.update_invlet( target );
-    inv.update_cache_with_item( target );
+    inv.update_invlet_cache_with_item( target );
 
     return true;
 }
@@ -1281,7 +1281,7 @@ detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
 
 
     inv.update_invlet( obj );
-    inv.update_cache_with_item( obj );
+    inv.update_invlet_cache_with_item( obj );
     return detached_ptr<item>();
 }
 

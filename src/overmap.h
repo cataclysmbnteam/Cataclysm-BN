@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_OVERMAP_H
-#define CATA_SRC_OVERMAP_H
 
 #include <algorithm>
 #include <array>
@@ -362,7 +360,6 @@ class overmap
         point_abs_om loc;
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
-        std::array<map_layer, OVERMAP_LAYERS> layer_backup;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
 
         // Records the locations where a given overmap special was placed, which
@@ -560,4 +557,4 @@ const std::string &oter_get_rotation_string( const oter_id &oter );
  * Determine whether provided tile belongs to overmap connection.
  */
 bool belongs_to_connection( const overmap_connection_id &id, const oter_id &oter );
-#endif // CATA_SRC_OVERMAP_H
+

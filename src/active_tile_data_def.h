@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ACTIVE_TILE_DATA_DEF_H
-#define CATA_SRC_ACTIVE_TILE_DATA_DEF_H
 
 #include "active_tile_data.h"
 #include "point.h"
@@ -101,4 +99,3 @@ class vehicle_connector_tile : public active_tile_data
         void load( JsonObject &jo ) override;
 };
 
-#endif // CATA_SRC_ACTIVE_TILE_DATA_DEF_H

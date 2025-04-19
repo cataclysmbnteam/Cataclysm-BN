@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_UNITS_TEMPERATURE_H
-#define CATA_SRC_UNITS_TEMPERATURE_H
 
 #include <algorithm>
 
@@ -158,4 +156,4 @@ constexpr units::temperature operator"" _f( const unsigned long long v )
     return units::from_fahrenheit<int>( v );
 }
 
-#endif // CATA_SRC_UNITS_TEMPERATURE_H
+

@@ -1294,7 +1294,7 @@
     "examine_action": "vending",
     "oxytorch": {
       "result": "f_vending_o",
-      "duration": "14 seconds",
+      "duration": "15 seconds",
       "byproducts": [
         { "item": "glass_sheet", "count": 1 },
         { "item": "sheet_metal", "count": [ 1, 2 ] },

@@ -130,7 +130,7 @@
     "type": "GENERIC",
     "category": "tools_workshop",
     "name": { "str": "sponge" },
-    "description": "A sponge is a tool or cleaning aid made of soft, porous material.  Typically used for cleaning impervious surfaces.",
+    "description": "A sponge is a tool or cleaning aid made of soft, porous material.  Typically used for cleaning impervious surfaces, it can also be used for sanding wood when dried.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": "0 cent",
@@ -139,6 +139,7 @@
     "symbol": "s",
     "color": "yellow",
     "use_action": "WASH_HARD_ITEMS",
+    "qualities": [ [ "SANDING", 1 ] ],
     "flags": [ "NO_SALVAGE" ]
   },
   {

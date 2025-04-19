@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CRAFTING_H
-#define CATA_SRC_CRAFTING_H
 
 #include <list>
 #include <set>
@@ -10,7 +8,7 @@
 #include "mapdata.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include <veh_type.h>
+#include "veh_type.h"
 
 class avatar;
 class Character;
@@ -20,6 +18,8 @@ class player;
 class recipe;
 struct iuse_location;
 struct tool_comp;
+
+using metric = std::pair<units::mass, units::volume>;
 
 enum class cost_adjustment : int;
 
@@ -40,27 +40,36 @@ struct bench_location {
 
 struct workbench_info_wrapper {
     // Base multiplier applied for crafting here
-    float multiplier;
+    float multiplier = 1.0f;
+    float multiplier_adjusted = multiplier;
     // Mass/volume allowed before a crafting speed penalty is applied
-    units::mass allowed_mass;
-    units::volume allowed_volume;
+    units::mass allowed_mass = 0_gram;
+    units::volume allowed_volume = 0_ml;
+    bench_type type = bench_type::ground;
     workbench_info_wrapper( furn_workbench_info f_info ) : multiplier( f_info.multiplier ),
         allowed_mass( f_info.allowed_mass ),
-        allowed_volume( f_info.allowed_volume ) {
+        allowed_volume( f_info.allowed_volume ), type( bench_type::furniture ) {
     }
     workbench_info_wrapper( vpslot_workbench v_info ) : multiplier( v_info.multiplier ),
         allowed_mass( v_info.allowed_mass ),
-        allowed_volume( v_info.allowed_volume ) {
+        allowed_volume( v_info.allowed_volume ), type( bench_type::vehicle ) {
     }
+    workbench_info_wrapper( float multiplier, const units::mass &allowed_mass,
+                            const units::volume &allowed_volume, const bench_type &type )
+        : multiplier( multiplier ), allowed_mass( allowed_mass ), allowed_volume( allowed_volume ),
+          type( type ) {
+    }
+
+    void adjust_multiplier( const std::pair<units::mass, units::volume> &metrics );
 };
 
 struct bench_loc {
-    explicit bench_loc( workbench_info_wrapper info, bench_type type, tripoint position )
-        : wb_info( info ), type( type ), position( position ) {
-    }
     workbench_info_wrapper wb_info;
-    bench_type type;
     tripoint position;
+
+    explicit bench_loc( workbench_info_wrapper info, tripoint position )
+        : wb_info( info ), position( position ) {
+    }
 };
 
 template<typename Type>
@@ -87,14 +96,15 @@ void complete_craft( player &p, item &craft, const bench_location &bench );
 
 namespace crafting
 {
-
+std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
+        bool can_lift );
 /**
- * Returns the set of book types in crafting_inv that provide the
- * given recipe.
- * @param c Character whose skills are used to limit the available recipes
- * @param crafting_inv Current available items that may contain readable books
- * @param r Recipe to search for in the available books
- */
+* Returns the set of book types in crafting_inv that provide the
+* given recipe.
+* @param c Character whose skills are used to limit the available recipes
+* @param crafting_inv Current available items that may contain readable books
+* @param r Recipe to search for in the available books
+*/
 std::set<itype_id> get_books_for_recipe( const Character &c, const inventory &crafting_inv,
         const recipe *r );
 
@@ -157,5 +167,3 @@ bool disassemble_all( avatar &you, bool recursively );
 void complete_disassemble( Character &who, const iuse_location &target, const tripoint &pos );
 
 } // namespace crafting
-
-#endif // CATA_SRC_CRAFTING_H

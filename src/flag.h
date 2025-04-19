@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_FLAG_H
-#define CATA_SRC_FLAG_H
 
 #include <set>
 #include <string>
@@ -330,6 +328,7 @@ extern const flag_id flag_TRADER_KEEP;
 extern const flag_id flag_TRADER_KEEP_EQUIPPED;
 extern const flag_id flag_TWO_WAY_RADIO;
 extern const flag_id flag_UNARMED_WEAPON;
+extern const flag_id flag_UNBREAKABLE;
 extern const flag_id flag_UNBREAKABLE_MELEE;
 extern const flag_id flag_UNDERSIZE;
 extern const flag_id flag_UNDERWATER_GUN;
@@ -457,4 +456,4 @@ class json_flag
         static void reset();
 };
 
-#endif // CATA_SRC_FLAG_H
+

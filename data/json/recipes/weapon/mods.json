@@ -436,10 +436,12 @@
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 2 },
       { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SANDING", "level": 1 }
     ],
     "components": [
       [ [ "2x4", 1 ], [ "stick", 2 ] ],
+      [ [ "varnish", 1, "LIST" ] ],
       [ [ "cordage_superior_short", 1, "LIST" ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 4 ] ],
@@ -457,8 +459,8 @@
     "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SANDING", "level": 1 } ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "varnish", 1, "LIST" ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "arredondo_chute",
@@ -1001,6 +1003,31 @@
       [ [ "circuit", 1 ] ],
       [ [ "lens", 1 ] ],
       [ [ "amplifier", 1 ] ]
+    ]
+  },
+  {
+    "result": "mod_makeshift_capacitor",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "skills_required": [ [ "fabrication", 4 ], [ "gun", 2 ] ],
+    "time": "1 h",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "textbook_robots", 6 ], [ "textbook_anarch", 3 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "tools": [ [ [ "electrolysis_kit", 750 ] ] ],
+    "components": [
+      [ [ "e_scrap", 4 ] ],
+      [ [ "cable", 50 ] ],
+      [ [ "plut_cell", 2 ] ],
+      [ [ "light_minus_battery_cell", 1 ], [ "light_battery_cell", 1 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "amplifier", 5 ] ],
+      [ [ "RAM", 2 ] ]
     ]
   }
 ]

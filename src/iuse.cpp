@@ -1821,7 +1821,7 @@ std::pair<int, units::energy> iuse::fishing_rod( player *p, item *it, bool, cons
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
-    p->activity->targets.emplace_back( it );
+    p->activity->tools.emplace_back( it );
     p->activity->coord_set = g->get_fishable_locations( 60, *found );
     return std::make_pair( 0, 0_J );
 }
@@ -2315,6 +2315,9 @@ std::pair<int, units::energy> iuse::note_bionics( player *p, item *it, bool t, c
         it->deactivate();
         return std::make_pair( 0, 0_J );
     }
+
+    // Try to minimize the use of has_enough_charges() because it's kind of expensive.
+    bool no_charges = false;
     for( const tripoint &pt : here.points_in_radius( pos, PICKUP_RANGE ) ) {
         if( !here.has_items( pt ) || !p->sees( pt ) ) {
             continue;
@@ -2400,28 +2403,14 @@ std::pair<int, units::energy> iuse::hammer( player *p, item *it, bool, const tri
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return std::make_pair( 0, 0_J );
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_fence,
-        t_window_reinforced,
-        t_window_reinforced_noglass,
-        t_window_boarded,
-        t_window_boarded_noglass,
-        t_door_boarded,
-        t_door_boarded_damaged,
-        t_door_boarded_peep,
-        t_door_boarded_damaged_peep,
-        t_rdoor_boarded,
-        t_rdoor_boarded_damaged
-    };
 
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
         if( pnt == g->u.pos() ) {
             return false;
         }
         const ter_id ter = g->m.ter( pnt );
 
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
-        return is_allowed;
+        return ( ter->nail_pull_result != ter_str_id::NULL_ID() );
     };
 
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -2430,7 +2419,6 @@ std::pair<int, units::energy> iuse::hammer( player *p, item *it, bool, const tri
         return std::make_pair( 0, 0_J );
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = g->m.ter( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( _( "You try to hit yourself with the hammer." ) );
@@ -2439,13 +2427,7 @@ std::pair<int, units::energy> iuse::hammer( player *p, item *it, bool, const tri
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
         }
         return std::make_pair( 0, 0_J );
-    }
-
-    if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
-        type == t_window_reinforced || type == t_window_reinforced_noglass ||
-        type == t_door_boarded || type == t_door_boarded_damaged ||
-        type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-        type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
+    } else {
         // pry action
         std::unique_ptr<player_activity> act = std::make_unique<player_activity>( ACT_PRY_NAILS,
                                                to_moves<int>( 30_seconds ),
@@ -2453,8 +2435,6 @@ std::pair<int, units::energy> iuse::hammer( player *p, item *it, bool, const tri
         act->placement = pnt;
         p->assign_activity( std::move( act ) );
         return res;
-    } else {
-        return std::make_pair( 0, 0_J );
     }
 }
 
@@ -3056,7 +3036,7 @@ std::pair<int, units::energy> iuse::jackhammer( player *p, item *it, bool, const
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_JACKHAMMER, moves );
-    p->activity->targets.emplace_back( it );
+    p->activity->tools.emplace_back( it );
     p->activity->placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -3150,7 +3130,7 @@ std::pair<int, units::energy> iuse::pickaxe( player *p, item *it, bool, const tr
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
-    p->activity->targets.emplace_back( it );
+    p->activity->tools.emplace_back( it );
     p->activity->placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -4281,7 +4261,7 @@ std::pair<int, units::energy> iuse::hand_crank( player *p, item *it, bool, const
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
             p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
-            p->activity->targets.emplace_back( it );
+            p->activity->tools.emplace_back( it );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), battery->tname() );
@@ -4330,7 +4310,7 @@ std::pair<int, units::energy> iuse::vibe( player *p, item *it, bool, const tripo
                                   it->tname() );
         }
         p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
-        p->activity->targets.emplace_back( it );
+        p->activity->tools.emplace_back( it );
     }
     return res;
 }
@@ -4669,7 +4649,7 @@ std::pair<int, units::energy> iuse::chop_tree( player *p, item *it, bool t, cons
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
-    p->activity->targets.emplace_back( it );
+    p->activity->tools.emplace_back( it );
     p->activity->placement = g->m.getabs( pnt );
 
     return res;
@@ -4718,13 +4698,16 @@ std::pair<int, units::energy> iuse::chop_logs( player *p, item *it, bool t, cons
 
     p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
     p->activity->placement = g->m.getabs( pnt );
-    p->activity->targets.emplace_back( it );
+    p->activity->tools.emplace_back( it );
 
     return res;
 }
 
 std::pair<int, units::energy> iuse::oxytorch( player *p, item *it, bool, const tripoint & )
 {
+    std::pair<int, units::energy> res( it->type->charges_to_use(), it->energy_required() );
+    auto [chrg, enrg] = res;
+
     if( p->is_npc() ) {
         // Long action
         return std::make_pair( 0, 0_J );
@@ -4764,6 +4747,25 @@ std::pair<int, units::energy> iuse::oxytorch( player *p, item *it, bool, const t
         } else {
             p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         }
+        return std::make_pair( 0, 0_J );
+    }
+    const int fuel_requirement = chrg * ( here.has_furn( pnt ) ? to_seconds<int>( here.furn(
+            pnt )->oxytorch->duration() ) : to_seconds<int>( here.ter( pnt )->oxytorch->duration() ) );
+    const units::energy energy_requirement = enrg * ( here.has_furn( pnt ) ? to_seconds<int>( here.furn(
+                pnt )->oxytorch->duration() ) : to_seconds<int>( here.ter( pnt )->oxytorch->duration() ) );
+
+    if( fuel_requirement > it->ammo_remaining() || energy_requirement > it->energy_available( *p ) ) {
+        std::vector<std::string> reqs;
+        if( fuel_requirement ) {
+            reqs.push_back( string_format( vgettext( "%d charge", "%d charges", fuel_requirement ),
+                                           fuel_requirement ) );
+        }
+        if( energy_requirement > 0_J ) {
+            reqs.push_back( units::display( energy_requirement ) );
+        }
+        p->add_msg_if_player( m_bad,
+                              _( "Your %1$s needs %2$s." ), it->tname(),
+                              enumerate_as_string( reqs, enumeration_conjunction::none ) );
         return std::make_pair( 0, 0_J );
     }
 
@@ -8325,12 +8327,13 @@ std::pair<int, units::energy> iuse::multicooker( player *p, item *it, bool t, co
             //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
             const time_point bday = calendar::start_of_cataclysm;
 
-            crafting_inv.push_back( *item::spawn_temporary( "hotplate", bday ) ); //hotplate inside
-            crafting_inv.push_back( *item::spawn_temporary( "tongs", bday ) ); //some recipes requires tongs
-            crafting_inv.push_back( *item::spawn_temporary( "toolset",
-                                    bday ) ); //toolset with CUT and other qualities inside
-            crafting_inv.push_back( *item::spawn_temporary( "pot",
-                                    bday ) ); //good COOK, BOIL, CONTAIN qualities inside
+            crafting_inv.add_item( *item::spawn_temporary( "hotplate", bday ), false ); //hotplate inside
+            crafting_inv.add_item( *item::spawn_temporary( "tongs", bday ),
+                                   false ); //some recipes requires tongs
+            crafting_inv.add_item( *item::spawn_temporary( "toolset", bday ),
+                                   false ); //toolset with CUT and other qualities inside
+            crafting_inv.add_item( *item::spawn_temporary( "pot", bday ),
+                                   false ); //good COOK, BOIL, CONTAIN qualities inside
 
             int counter = 0;
 

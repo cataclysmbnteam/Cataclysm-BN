@@ -76,7 +76,7 @@
 #include "output.h"
 #include "overlay_ordering.h"
 #include "overmapbuffer.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "player_activity.h"
 #include "profession.h"
@@ -358,6 +358,8 @@ static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
 static const trait_flag_str_id flag_NO_THIRST( "NO_THIRST" );
 static const trait_flag_str_id flag_NO_RADIATION( "NO_RADIATION" );
 static const trait_flag_str_id flag_NON_THRESH( "NON_THRESH" );
+
+static const activity_id ACT_ASSIST( "ACT_ASSIST" );
 
 namespace io
 {
@@ -2400,7 +2402,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     to_wear.on_wear( *this );
 
     inv.update_invlet( to_wear );
-    inv.update_cache_with_item( to_wear );
+    inv.update_invlet_cache_with_item( to_wear );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -2418,7 +2420,7 @@ void Character::add_worn( detached_ptr<item> &&wear )
     worn.insert( pos, std::move( wear ) );
     to_wear.on_wear( *this );
     inv.update_invlet( to_wear );
-    inv.update_cache_with_item( to_wear );
+    inv.update_invlet_cache_with_item( to_wear );
     recalc_sight_limits();
     reset_encumbrance();
 }
@@ -2666,9 +2668,9 @@ void Character::inv_update_invlet( item &it )
     inv.update_invlet( it );
 }
 
-void Character::inv_update_cache_with_item( item &it )
+void Character::inv_update_invlet_cache_with_item( item &it )
 {
-    inv.update_cache_with_item( it );
+    inv.update_invlet_cache_with_item( it );
 }
 
 std::map<char, itype_id> &Character::inv_assigned_invlet()
@@ -3396,7 +3398,7 @@ bool Character::takeoff( item &it, std::vector<detached_ptr<item>> *res )
         ( *iter )->on_takeoff( *this );
         detached_ptr<item> det;
         worn.erase( iter, &det );
-        inv.add_item_keep_invlet( std::move( det ) );
+        inv.add_item( std::move( det ), true );
     } else {
         ( *iter )->on_takeoff( *this );
         detached_ptr<item> det;
@@ -3639,6 +3641,25 @@ const item *Character::item_worn_with_flag( const flag_id &flag, const bodypart_
     for( const item * const &it : worn ) {
         if( it->has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                       it->covers( bp ) ) ) {
+            return it;
+        }
+    }
+    return nullptr;
+}
+
+bool Character::worn_with_id( const itype_id &item_id, const bodypart_id &bp ) const
+{
+    return std::any_of( worn.begin(), worn.end(), [&item_id, bp]( const item * const & it ) {
+        return it->typeId() == item_id && ( bp == bodypart_str_id::NULL_ID() ||
+                                            it->covers( bp ) );
+    } );
+}
+
+const item *Character::item_worn_with_id( const itype_id &item_id, const bodypart_id &bp ) const
+{
+    for( const item * const &it : worn ) {
+        if( it->typeId() == item_id && ( bp == bodypart_str_id::NULL_ID() ||
+                                         it->covers( bp ) ) ) {
             return it;
         }
     }
@@ -3927,15 +3948,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( item::spawn( itype_string_36, calendar::start_of_cataclysm ) );
-        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_string_36, calendar::start_of_cataclysm ), false );
+        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ), false );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( item::spawn( itype_rope_6, calendar::start_of_cataclysm ) );
-        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_rope_6, calendar::start_of_cataclysm ), false );
+        inv.add_item( item::spawn( itype_snare_trigger, calendar::start_of_cataclysm ), false );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( item::spawn( itype_beartrap, calendar::start_of_cataclysm ) );
+        inv.add_item( item::spawn( itype_beartrap, calendar::start_of_cataclysm ), false );
     }
     mission::on_creature_death( *this );
 }
@@ -7669,7 +7690,7 @@ detached_ptr<item> Character::dispose_item( detached_ptr<item> &&obj, const std:
             }
 
             moves -= item_handling_cost( *obj );
-            inv.add_item_keep_invlet( std::move( obj ) );
+            inv.add_item( std::move( obj ), true );
             inv.unsort();
             return detached_ptr<item>();
         }
@@ -8561,9 +8582,15 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     if( rng( 1, 100 ) > armor.get_coverage( bp ) ) {
         return false;
     }
-
-    // TODO: add some check for power armor
+    // If the attack has already been negated by other armor, don't bother.
+    if( du.amount <= 0 ) {
+        return false;
+    }
     armor.mitigate_damage( du );
+    // We're indestructible, bail out here.
+    if( armor.has_flag( flag_UNBREAKABLE ) ) {
+        return false;
+    }
 
     // We want armor's own resistance to this type, not the resistance it grants
     const int armors_own_resist = armor.damage_resist( du.type, true );
@@ -9688,9 +9715,11 @@ void Character::assign_activity( std::unique_ptr<player_activity> act, bool allo
     if( is_npc() ) {
         cancel_stashed_activity();
         npc *guy = dynamic_cast<npc *>( this );
-        guy->set_attitude( NPCATT_ACTIVITY );
-        guy->set_mission( NPC_MISSION_ACTIVITY );
         guy->current_activity_id = activity->id();
+        if( activity->id() != ACT_ASSIST ) {
+            guy->set_attitude( NPCATT_ACTIVITY );
+            guy->set_mission( NPC_MISSION_ACTIVITY );
+        }
     }
 }
 
@@ -10061,6 +10090,54 @@ int Character::temp_corrected_by_climate_control( int temperature ) const
     return temperature;
 }
 
+const item *Character::get_item_with_id( const itype_id &item_id, bool need_charges ) const
+{
+    const item *ret = nullptr;
+
+    inv.visit_items( [&ret, &item_id, &need_charges]( const item * it ) {
+        if( it->typeId() == item_id ) {
+            if( it->is_tool() && need_charges ) {
+                if( it->type->tool->max_charges && it->charges <= 0 ) {
+                    return VisitResponse::SKIP;
+                }
+            }
+            ret = it;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    return ret;
+}
+
+void Character::add_item_with_id( const itype_id &item_id, int count )
+{
+    detached_ptr<item> new_item = item::spawn( item_id, calendar::turn, count );
+    i_add( std::move( new_item ), true );
+}
+
+bool Character::has_item_with_id( const itype_id &item_id, bool need_charges ) const
+{
+    return has_item_with( [&item_id, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.typeId() == item_id &&
+                   it.type->tool->max_charges ? it.charges > 0 : it.typeId() == item_id;
+        }
+        return it.typeId() == item_id;
+    } );
+}
+
+std::vector<item *> Character::all_items_with_id( const itype_id &item_id, bool need_charges ) const
+{
+    return items_with( [&item_id, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.typeId() == item_id &&
+                   it.type->tool->max_charges ? it.charges > 0 : it.typeId() == item_id;
+        }
+        return it.typeId() == item_id;
+    } );
+}
+
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges]( const item & it ) {
@@ -10071,10 +10148,23 @@ bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) con
     } );
 }
 
-std::vector<item *> Character::all_items_with_flag( const flag_id &flag ) const
+std::vector<item *> Character::all_items_with_flag( const flag_id &flag, bool need_charges ) const
 {
-    return items_with( [&flag]( const item & it ) {
+    return items_with( [&flag, &need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+        }
         return it.has_flag( flag );
+    } );
+}
+
+std::vector<item *> Character::all_items( bool need_charges ) const
+{
+    return items_with( [&need_charges]( const item & it ) {
+        if( it.is_tool() && need_charges ) {
+            return it.type->tool->max_charges ? it.charges > 0 : true;
+        }
+        return true;
     } );
 }
 
@@ -10470,7 +10560,7 @@ int Character::adjust_for_focus( int amount ) const
     return roll_remainder( tmp );
 }
 
-std::set<tripoint> Character::get_path_avoid() const
+std::set<tripoint> Character::get_legacy_path_avoid() const
 {
     std::set<tripoint> ret;
     for( npc &guy : g->all_npcs() ) {
@@ -10484,9 +10574,43 @@ std::set<tripoint> Character::get_path_avoid() const
     return ret;
 }
 
-const pathfinding_settings &Character::get_pathfinding_settings() const
+const pathfinding_settings &Character::get_legacy_pathfinding_settings() const
 {
     return *path_settings;
+}
+
+std::pair<PathfindingSettings, RouteSettings> Character::get_pathfinding_pair() const
+{
+    PathfindingSettings path_settings;
+
+    path_settings.door_open_cost = 2.0;
+    path_settings.mob_presence_penalty = 16.0;
+    path_settings.rough_terrain_cost = 0.0;
+    path_settings.sharp_terrain_cost = INFINITY;
+    path_settings.trap_cost = INFINITY;
+    path_settings.can_climb_stairs = true;
+    path_settings.bash_strength_val = 0;
+
+    const int climb = std::min( 20, get_dex() );
+    if( climb <= 1 ) {
+        path_settings.climb_cost = INFINITY;
+    } else {
+        const float climb_success_prob = 1.0 - 1.0 / climb;
+        path_settings.climb_cost = 5 / climb_success_prob;
+    }
+
+    RouteSettings route_settings;
+    // TODO: Make it assign a stockfish preset instead
+    route_settings.alpha = 1.0;
+    route_settings.h_coeff = 1.0;
+    route_settings.max_dist = INFINITY;
+    route_settings.max_f_coeff = INFINITY;
+    route_settings.max_s_coeff = INFINITY;
+    route_settings.f_limit_based_on_max_dist = false;
+    route_settings.search_cone_angle = 180.0;
+    route_settings.search_radius_coeff = INFINITY;
+
+    return { path_settings, route_settings };
 }
 
 float Character::power_rating() const
