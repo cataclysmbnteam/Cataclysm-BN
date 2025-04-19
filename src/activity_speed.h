@@ -21,12 +21,14 @@ struct activity_reqs_adapter {
     std::vector<activity_req<skill_id>> skills;
     metric metrics = std::make_pair( 0_milligram, 0_ml );
 
+    activity_reqs_adapter() = default;
+    activity_reqs_adapter( const construction &con );
     activity_reqs_adapter( const recipe &rec, units::mass mass,
                            units::volume volume );
-
-    activity_reqs_adapter( const construction &con );
-
-    activity_reqs_adapter() = default;
+    activity_reqs_adapter( const std::vector<activity_req<quality_id>> &qualities,
+                           const std::vector<activity_req<skill_id>> &skills, const metric &metrics )
+        : qualities( qualities ), skills( skills ), metrics( metrics ) {
+    }
 };
 
 using q_reqs = std::vector<activity_req<quality_id>>;

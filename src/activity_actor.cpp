@@ -7,17 +7,17 @@
 #include <string>
 #include <utility>
 
-#include "avatar_action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
-#include "advanced_inv.h"
 #include "activity_speed.h"
+#include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "calendar.h"
 #include "character.h"
 #include "character_functions.h"
-#include "crafting.h"
 #include "construction.h"
 #include "construction_partial.h"
+#include "crafting.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -2190,6 +2190,19 @@ std::unique_ptr<activity_actor> assist_activity_actor::deserialize( JsonIn & )
     return std::make_unique<assist_activity_actor>();
 }
 
+std::unique_ptr<activity_actor> salvage_activity_actor::deserialize( JsonIn &jsin )
+{
+    std::unique_ptr<salvage_activity_actor> actor( new salvage_activity_actor() );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "progress", actor->progress );
+    data.read( "targets", actor->targets );
+    data.read( "pos", actor->pos );
+
+    return actor;
+}
+
 namespace activity_actors
 {
 
@@ -2216,6 +2229,7 @@ deserialize_functions = {
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
     { activity_id( "ACT_WASH" ), &wash_activity_actor::deserialize },
     { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
+    { activity_id( "ACT_SALVAGE" ), &salvage_activity_actor::deserialize }
 };
 } // namespace activity_actors
 

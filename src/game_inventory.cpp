@@ -1417,13 +1417,13 @@ class salvage_inventory_preset: public inventory_selector_preset
             actor( actor ) {
 
             append_cell( [ actor ]( const item * loc ) {
-                return to_string_clipped( time_duration::from_turns( moves_to_salvage(
+                return to_string_clipped( time_duration::from_turns( salvage::moves_to_salvage(
                                               *loc ) / 100 ) );
             }, _( "TIME" ) );
         }
 
         bool is_shown( const item *loc ) const override {
-            return valid_to_salvage( *loc );
+            return salvage::valid_to_salvage( *loc );
         }
 
     private:

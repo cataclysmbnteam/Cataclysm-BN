@@ -20,7 +20,8 @@ std::unordered_map<quality_id, salvage_quality> salvage_quality_dictionary;
 std::unordered_map<material_id, std::set<quality_id>> salvage_material_dictionary;
 std::set<material_id> salvagable_materials;
 
-
+namespace salvage
+{
 // Helper to visit instances of all the sub-materials of an item.
 void visit_salvage_products( const item &it,
                              const std::function<void( const item & )> &func )
@@ -142,12 +143,12 @@ bool try_salvage( Character &who, item &it, bool mute )
     return true;
 }
 
-std::vector<std::pair< material_type *, float>> get_salvagable_materials( const item &target )
+std::vector<std::pair< const material_type *, float>> get_salvagable_materials( const item &target )
 {
     auto materials = target.made_of_types();
-    std::vector<std::pair< material_type *, float>> salvagable_materials;
+    std::vector<std::pair< const material_type *, float>> salvagable_materials;
     //For now we assume that proportions for all materials are equal
-    for( auto &material : materials ) {
+    for( auto material : materials ) {
         salvagable_materials.emplace_back( material, 1.0f / materials.size() );
     }
     return salvagable_materials;
@@ -259,12 +260,64 @@ bool has_salvage_tools( const inventory &inv, item &item, bool check_charges )
     return true;
 }
 
+bool salvage::salvage_single( Character &who, item &target )
+{
+    map &here = get_map();
+
+    if( !try_salvage( who, target, false ) ) {
+        return false;
+    }
+
+    iuse_location loc;
+    loc.loc = target;
+
+
+    who.assign_activity( std::make_unique<player_activity>(
+                             std::make_unique<salvage_activity_actor>(
+                                 iuse_locations{ loc }, here.getglobal( who.pos() ) ) ) );
+
+    return true;
+}
+
+bool salvage::salvage_all( Character &who )
+{
+
+    std::vector<iuse_location> targets;
+
+    tripoint pos = who.pos();
+
+    for( auto target : get_map().i_at( pos ) ) {
+        if( try_salvage( who, *target, false ) ) {
+            iuse_location loc;
+            loc.loc = target;
+            targets.push_back( std::move( loc ) );
+        }
+    }
+
+    if( !targets.empty() ) {
+        tripoint_abs_ms pos_abs( get_map().getabs( who.pos() ) );
+
+        who.assign_activity( std::make_unique<player_activity>
+                             ( std::make_unique<salvage_activity_actor>( std::move(
+                                         targets ), pos_abs ) ) );
+        return true;
+    } else {
+        return false;
+    }
+}
+} // namespace salvage
+
+
 void salvage_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
     const auto target = targets.front();
     activity_reqs_adapter reqs;
-    reqs.skills = get_type()->skills;
-    reqs.metrics = std::make_pair( target->weight(), target->volume() );
+    if( act.tools.empty() )
+        reqs = activity_reqs_adapter( {}, get_type()->skills,
+                                      std::make_pair( target.loc->weight(), target.loc->volume() ) );
+    else
+        reqs = activity_reqs_adapter( {}, get_type()->skills,
+                                      std::make_pair( target.loc->weight(), target.loc->volume() ) );
 
     act.speed.calc_all_moves( who, reqs );
 }
@@ -272,10 +325,10 @@ void salvage_activity_actor::calc_all_moves( player_activity &act, Character &wh
 void salvage_activity_actor::start( player_activity &act, Character &who )
 {
     for( auto &target : targets ) {
-        if( !target ) {
+        if( !target.loc ) {
             debugmsg( "Lost target of ", get_type() );
         } else {
-            progress.emplace( target->tname(), moves_to_salvage( *target ) );
+            progress.emplace( target.loc->tname(), salvage::moves_to_salvage( *target.loc ) );
         }
     }
 }
@@ -284,21 +337,21 @@ void salvage_activity_actor::do_turn( player_activity &act, Character &who )
 {
     if( progress.front().complete() ) {
         auto target = targets.front();
-        if( !target ) {
+        if( !target.loc ) {
             debugmsg( "Lost target of ", get_type() );
         } else {
-            complete_salvage( who, *target, pos );
+            salvage::complete_salvage( who, *target.loc, pos );
         }
         targets.erase( targets.begin() );
         progress.pop();
 
         if( !progress.empty() ) {
             target = targets.front();
-            if( !target ) {
+            if( !target.loc ) {
                 debugmsg( "Lost target of ", get_type() );
                 act.set_to_null();
             } else {
-                if( try_salvage( who, *target, false ) ) {
+                if( salvage::try_salvage( who, *target.loc, false ) ) {
                     calc_all_moves( act, who );
                 } else {
                     act.set_to_null();
@@ -315,4 +368,16 @@ void salvage_activity_actor::finish( player_activity &act, Character &who )
     }
     add_msg( _( "You finish salvaging." ) );
     act.set_to_null();
+}
+
+void salvage_activity_actor::serialize( JsonOut &jsout ) const
+{
+
+    jsout.start_object();
+
+    jsout.member( "progress", progress );
+    jsout.member( "targets", targets );
+    jsout.member( "pos", pos );
+
+    jsout.end_object();
 }

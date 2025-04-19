@@ -673,12 +673,12 @@ class assist_activity_actor : public activity_actor
 class salvage_activity_actor : public activity_actor
 {
     private:
-        std::vector<item *> targets;
+        iuse_locations targets;
         tripoint_abs_ms pos;
     public:
         salvage_activity_actor() = default;
         salvage_activity_actor(
-            std::vector<item *> &&targets,
+            iuse_locations &&targets,
             tripoint_abs_ms pos
         ) : targets( std::move( targets ) ), pos( pos ) {}
 

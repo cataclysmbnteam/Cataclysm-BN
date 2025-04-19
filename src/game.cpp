@@ -8185,7 +8185,7 @@ static void add_salvagables( uilist &menu,
             const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
-                               to_string_clipped( time_duration::from_turns( moves_to_salvage( it ) / 100 ) ) );
+                               to_string_clipped( time_duration::from_turns( salvage::moves_to_salvage( it ) / 100 ) ) );
             hotkey = -1;
         }
     }
@@ -8436,7 +8436,7 @@ void game::butcher()
         if( ( *it )->is_corpse() ) {
             corpses.push_back( *it );
         } else {
-            if( try_salvage( u, **it ) ) {
+            if( salvage::try_salvage( u, **it ) ) {
                 salvageables.push_back( *it );
             }
             if( crafting::can_disassemble( u, **it, crafting_inv ).success() ) {
@@ -8548,7 +8548,7 @@ void game::butcher()
         if( salvageables.size() > 1 ) {
             int time_to_salvage = 0;
             for( const auto &stack : salvage_stacks ) {
-                time_to_salvage += moves_to_salvage( *stack.first ) * stack.second;
+                time_to_salvage += salvage::moves_to_salvage( *stack.first ) * stack.second;
             }
 
             kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
@@ -8598,9 +8598,7 @@ void game::butcher()
         case BUTCHER_OTHER:
             switch( indexer_index ) {
                 case MULTISALVAGE:
-                    u.assign_activity( std::make_unique <player_activity>(
-                                           std::make_unique<salvage_activity_actor>( std::move( salvageables ),
-                                                   here.getglobal( u.pos() ) ) ) );
+                    salvage::salvage_all( u );
                     break;
                 case MULTIBUTCHER:
                     butcher_submenu( corpses );
@@ -8632,9 +8630,7 @@ void game::butcher()
         break;
         case BUTCHER_SALVAGE: {
             item *const target = disassembly_stacks[indexer_index].first;
-            u.assign_activity( std::make_unique <player_activity>(
-                                   std::make_unique<salvage_activity_actor>( std::vector<item *> { target }, here.getglobal(
-                                               u.pos() ) ) ) );
+            salvage::salvage_single( u, *target );
 
         }
         break;
