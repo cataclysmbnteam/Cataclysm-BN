@@ -834,7 +834,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
       }
     },
-    "flags": [ "CARGO", "OBSTACLE", "WASHING_MACHINE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
@@ -868,7 +868,7 @@
         "using": [ [ "welding_standard", 5 ], [ "vehicle_repair_electronics", 2 ] ]
       }
     },
-    "flags": [ "CARGO", "OBSTACLE", "DISHWASHER", "COVERED", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
