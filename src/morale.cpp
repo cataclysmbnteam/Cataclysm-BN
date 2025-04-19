@@ -1019,9 +1019,6 @@ void player_morale::set_worn( const item &it, bool worn )
     if( fancy || super_fancy ) {
         update_stylish_bonus();
     }
-    if( filthy_gear ) {
-        update_squeamish_penalty();
-    }
     update_constrained_penalty();
 }
 
@@ -1129,21 +1126,6 @@ void player_morale::update_constrained_penalty()
     set_permanent( MORALE_PERM_CONSTRAINED, -std::min( pen, 10 ) );
 }
 
-void player_morale::update_squeamish_penalty()
-{
-    if( !get_option<bool>( "FILTHY_MORALE" ) ) {
-        set_permanent( MORALE_PERM_FILTHY, 0 );
-        return;
-    }
-    int penalty = 0;
-    for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
-        if( bpt.second.filthy > 0 ) {
-            penalty += bpt.first->squeamish_penalty;
-        }
-    }
-    penalty += 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 );
-    set_permanent( MORALE_PERM_FILTHY, -penalty );
-}
 
 // For some reason, moving this to header breaks things
 player_morale::morale_subtype::morale_subtype() = default;
