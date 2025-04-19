@@ -845,7 +845,7 @@
       { "item": "banjo", "prob": 5 },
       { "item": "ukulele", "prob": 15 },
       { "item": "guitar_electric", "prob": 20 },
-      { "item": "gobag", "prob": 5 },
+      { "item": "personal_gobag", "prob": 1 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       { "item": "bb", "prob": 8 },
       { "item": "bbgun", "prob": 10 },
