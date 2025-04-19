@@ -5185,7 +5185,7 @@ std::string item::display_name( unsigned int quantity ) const
         powertext = string_format( " (%s/%s)", units::display( energy_remaining() ),
                                    units::display( energy_capacity() ) );
         powertext = colorize( powertext,
-                              color_percentage( 1.0f * energy_remaining() / energy_capacity() * 100 ) )
+                              color_percentage( 1.0f * energy_remaining() / energy_capacity() * 100 ) );
     }
 
     std::string ammotext;

@@ -923,6 +923,12 @@ bool inventory::has_charges( const itype_id &it, int quantity,
     return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
+bool inventory::has_energy( const itype_id &it, units::energy quantity,
+                            const std::function<bool( const item & )> &filter ) const
+{
+    return ( energy_of( it, units::energy_max, filter ) >= quantity );
+}
+
 int inventory::leak_level( const flag_id &flag ) const
 {
     int ret = 0;

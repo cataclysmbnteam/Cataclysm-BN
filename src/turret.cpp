@@ -292,7 +292,7 @@ void turret_data::post_fire( player &p, int shots )
 
     auto mode = base().gun_current_mode();
 
-    // handle draining of vehicle tanks and UPS charges, if applicable
+    // handle draining of vehicle tanks
     if( part->info().has_flag( "USE_TANKS" ) ) {
         veh->drain( ammo_current(), mode->ammo_required() * shots );
         mode->ammo_unset();

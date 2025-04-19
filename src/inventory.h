@@ -177,6 +177,8 @@ class inventory : public temp_visitable<inventory>
                              const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        bool has_energy( const itype_id &it, units::energy quantity,
+                         const std::function <bool( const item & )> &filter = return_true<item> ) const;
 
         int leak_level( const flag_id &flag ) const; // level of leaked bad stuff from items
 

@@ -10257,6 +10257,54 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
 
     }
 
+    tripoint p = pos();
+    remove_items_with( [&qty, filter, &what, &res, &p]( detached_ptr<item> &&e ) {
+        if( qty == 0 ) {
+            // found sufficient charges
+            return VisitResponse::ABORT;
+        }
+        if( !filter( *e ) ) {
+            return VisitResponse::NEXT;
+        }
+        if( e->is_tool() ) {
+            if( e->typeId() == what ) {
+                int n = std::min( e->ammo_remaining(), qty );
+                qty -= n;
+
+                if( n == e->ammo_remaining() ) {
+                    res.push_back( item::spawn( *e ) );
+                    e->ammo_consume( n, p );
+                } else {
+                    detached_ptr<item> split = item::spawn( *e );
+                    split->ammo_set( e->ammo_current(), n );
+                    e->ammo_consume( n, p );
+                    res.push_back( std::move( split ) );
+                }
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == what ) {
+                if( e->charges > qty ) {
+                    e->charges -= qty;
+                    detached_ptr<item> split = item::spawn( *e );
+                    split->charges = qty;
+                    res.push_back( std::move( split ) );
+                    qty = 0;
+                    return VisitResponse::ABORT;
+                } else {
+                    qty -= e->charges;
+                    res.push_back( std::move( e ) );
+                }
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
+        }
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
+
     return res;
 }
 
