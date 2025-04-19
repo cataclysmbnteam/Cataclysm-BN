@@ -174,10 +174,7 @@
       "entries": [
         { "group": "clothing_watch", "prob": 100 },
         { "group": "dental_grills", "prob": 100 },
-        { "group": "suits", "prob": 100 },
-        { "group": "jewelry_front", "prob": 100 },
-        { "group": "clothing_watch", "prob": 100 },
-        { "group": "dental_grills", "prob": 100 },
+        { "group": "accesories_personal_unisex", "prob": 100 },
         { "group": "suits", "prob": 100 },
         { "group": "jewelry_front", "prob": 100 }
       ]
@@ -251,6 +248,42 @@
         { "group": "vending_items_pet", "prob": 100 },
         { "group": "vending_items_pet", "prob": 100 },
         { "group": "vending_items_pet", "prob": 100 }
+      ]
+    },
+    {
+      "type": "item_group",
+      "subtype": "collection",
+      "id": "vending_fishing",
+      "entries": [
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 },
+        { "group": "fishing_items", "prob": 100 }
+      ]
+    },
+    {
+      "type": "item_group",
+      "subtype": "collection",
+      "id": "vending_sports",
+      "entries": [
+        { "group": "sports", "prob": 100 },
+        { "group": "allsporting", "prob": 100 },
+        { "group": "sports", "prob": 100 },
+        { "group": "allsporting", "prob": 100 },
+        { "group": "sports", "prob": 100 },
+        { "group": "allsporting", "prob": 100 },
+        { "group": "sports", "prob": 100 },
+        { "group": "allsporting", "prob": 100 },
+        { "group": "sports", "prob": 100 },
+        { "group": "allsporting", "prob": 100 },
+        { "group": "sports", "prob": 100 },
+        { "group": "allsporting", "prob": 100 }
       ]
     },
     {

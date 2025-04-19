@@ -5015,8 +5015,10 @@
     "id": "vending_park",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "s_vending_park_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "s_vending_park_roof_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "vending_park_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "vending_park_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "vending_park_roof_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "vending_park_roof_2_north" }
     ]
   }
 ]
