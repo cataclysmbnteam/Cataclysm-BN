@@ -137,9 +137,14 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         }
         ret.push_back( utf8_width_notags( text.c_str() ) );
 
-        std::string temp = shortcut_text( iSel == i ? hilite( c_yellow ) : c_yellow, vItems[i] );
-        text += string_format( "[%s]", colorize( temp,
-                               iSel == i ? hilite( c_light_gray ) : c_light_gray ) );
+        nc_color menu_item_color { menu_item_default_color_ };
+        nc_color shortcut_color { shortcut_character_default_color_ };
+        if( iSel == i ) {
+            menu_item_color = hilite( menu_item_color );
+            shortcut_color  = hilite( shortcut_color );
+        }
+        std::string temp = shortcut_text( shortcut_color, vItems[i] );
+        text += string_format( "[%s]", colorize( temp, menu_item_color ) );
     }
 
     int text_width = utf8_width_notags( text.c_str() );
@@ -359,6 +364,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     const point p_offset( catacurses::getbegx( w_open ), catacurses::getbegy( w_open ) );
 
     display_sub_menu( iSel, p_offset + point( offsets[iSel], offset.y - 3 ), sel_line );
+
 }
 
 std::vector<std::string> main_menu::load_file( const std::string &path,
@@ -629,6 +635,8 @@ bool main_menu::opening_screen()
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "MOUSE_LEFT_DOWN" );
     ctxt.register_action( "QUIT" );
 
     // for the menu shortcuts
@@ -642,7 +650,7 @@ bool main_menu::opening_screen()
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->all_worldnames().empty() ) {
-        sel1 = getopt( main_menu_opts::LOADCHAR );
+        activated_menu_item_ = getopt( main_menu_opts::LOADCHAR );
         sel2 = world_generator->get_world_index( world_generator->last_world_name );
     }
 
@@ -650,7 +658,7 @@ bool main_menu::opening_screen()
 
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        print_menu( w_open, sel1, menu_offset, sel_line );
+        print_menu( w_open, activated_menu_item_, menu_offset, sel_line );
     } );
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
         init_windows();
@@ -660,7 +668,12 @@ bool main_menu::opening_screen()
 
     bool start_new = false;
     while( !start ) {
-        ui_manager::redraw();
+        if( !skip_next_redraw_ ) {
+            ui_manager::redraw();
+        } else {
+            // reset redraw flag
+            skip_next_redraw_ = false;
+        }
         // Refresh in case player created new world or deleted old world
         // Since this is an index for a mutable array, it should always be regenerated instead of modified.
         const size_t last_world_pos = world_generator->get_world_index( world_generator->last_world_name );
@@ -670,8 +683,8 @@ bool main_menu::opening_screen()
         // check automatic menu shortcuts
         for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size(); ++i ) {
             for( const std::string &hotkey : vMenuHotkeys[i] ) {
-                if( sInput.text == hotkey && sel1 != i ) {
-                    sel1 = i;
+                if( sInput.text == hotkey && activated_menu_item_ != i ) {
+                    activated_menu_item_ = i;
                     sel2 = i == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
                     sel_line = 0;
                     if( i == getopt( main_menu_opts::HELP ) ) {
@@ -682,7 +695,7 @@ bool main_menu::opening_screen()
                 }
             }
         }
-        if( sel1 == getopt( main_menu_opts::SETTINGS ) ) {
+        if( activated_menu_item_ == getopt( main_menu_opts::SETTINGS ) ) {
             for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vSettingsHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
@@ -692,13 +705,65 @@ bool main_menu::opening_screen()
                 }
             }
         }
-        if( sel1 == getopt( main_menu_opts::NEWCHAR ) ) {
+        if( activated_menu_item_ == getopt( main_menu_opts::NEWCHAR ) ) {
             for( int i = 0; static_cast<size_t>( i ) < vNewGameSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vNewGameHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
                     }
+                }
+            }
+        }
+
+        // handle mouse input
+        if( action == "MOUSE_MOVE" ) {
+            // do not redraw screen by default on mouse move input
+            // this later can be redefined if we figure out mouse movement
+            // affected some UI element (like hovering over something)
+            skip_next_redraw_ = true;
+            if( const auto r = isMouseOverMenuItem(); r ) {
+                // do not trigger this menu actions if it was already triggered
+                if( activated_menu_item_ != r.value() ) {
+                    activated_menu_item_ = r.value();
+                    on_move();
+                    // force redraw next cycle because UI has been changed
+                    // (user hovered over UI element)
+                    skip_next_redraw_ = false;
+                }
+            } else if( const auto r = isMouseOverSubmenuItem(); r ) {
+                // do not trigger this submenu actions if it was already triggered
+                if( sel2 != r.value() ) {
+                    sel2 = r.value();
+                    on_move();
+                    // force redraw next cycle because UI has been changed
+                    // (user hovered over UI element)
+                    skip_next_redraw_ = false;
+                }
+            }
+        } else if( action == "MOUSE_LEFT_DOWN" ) {
+            // do not redraw screen by default on mouse click input
+            // this later can be redefined if we figure out mouse movement
+            // affected some UI element (like hovering over something)
+            skip_next_redraw_ = true;
+            if( const auto r = isMouseOverSubmenuItem(); r ) {
+                sel2 = r.value();
+                action = "CONFIRM";
+                // force redraw next cycle because UI has been changed
+                // (user clicked on UI element)
+                skip_next_redraw_ = false;
+            } else if( const auto r = isMouseOverMenuItem(); r ) {
+                activated_menu_item_ = r.value();
+                if( r.value() == getopt( main_menu_opts::HELP ) ) {
+                    action = "CONFIRM";
+                    // force redraw next cycle because UI has been changed
+                    // (user clicked UI element)
+                    skip_next_redraw_ = false;
+                } else if( r.value() == getopt( main_menu_opts::QUIT ) ) {
+                    action = "QUIT";
+                    // force redraw next cycle because UI has been changed
+                    // (user clicked UI element)
+                    skip_next_redraw_ = false;
                 }
             }
         }
@@ -711,28 +776,28 @@ bool main_menu::opening_screen()
             }
         } else if( action == "LEFT" || action == "PREV_TAB" ) {
             sel_line = 0;
-            if( sel1 > 0 ) {
-                sel1--;
+            if( activated_menu_item_ > 0 ) {
+                activated_menu_item_--;
             } else {
-                sel1 = max_menu_opts;
+                activated_menu_item_ = max_menu_opts;
             }
-            sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
+            sel2 = activated_menu_item_ == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
         } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
-            if( sel1 < max_menu_opts ) {
-                sel1++;
+            if( activated_menu_item_ < max_menu_opts ) {
+                activated_menu_item_++;
             } else {
-                sel1 = 0;
+                activated_menu_item_ = 0;
             }
-            sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
+            sel2 = activated_menu_item_ == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
         } else if( action == "UP" || action == "DOWN" ||
                    action == "PAGE_UP" || action == "PAGE_DOWN" ||
                    action == "SCROLL_UP" || action == "SCROLL_DOWN" ) {
             int max_item_count = 0;
             int min_item_val = 0;
-            main_menu_opts opt = static_cast<main_menu_opts>( sel1 );
+            main_menu_opts opt = static_cast<main_menu_opts>( activated_menu_item_ );
             switch( opt ) {
                 case main_menu_opts::MOTD:
                 case main_menu_opts::CREDITS:
@@ -781,7 +846,7 @@ bool main_menu::opening_screen()
                 on_move();
             }
         } else if( action == "CONFIRM" ) {
-            switch( static_cast<main_menu_opts>( sel1 ) ) {
+            switch( static_cast<main_menu_opts>( activated_menu_item_ ) ) {
                 case main_menu_opts::HELP:
                     get_help().display_help();
                     break;
@@ -1166,4 +1231,42 @@ std::string main_menu::halloween_graves()
         ";   ;  |     | ,'---',"; // NOLINT(cata-text-style)
 
     return graves;
+}
+
+std::optional<int> main_menu::isMouseOverMenuItem() const
+{
+
+    const auto mouse_pos = ctxt.get_coordinates_text( catacurses::stdscr );
+    // return early if there is no mouse coordinate
+    if( !mouse_pos ) {
+        return std::nullopt;
+    }
+    // check if mouse overlaps with any screen area of main menu item
+    for( const auto &d : main_menu_button_map ) {
+        if( d.first.contains( mouse_pos.value() ) ) {
+            // menu creen areas do not overlap, so return the first found
+            return d.second;
+        }
+    }
+    // no area overlaps mouse cursor, return "not found"
+    return std::nullopt;
+}
+
+std::optional<int> main_menu::isMouseOverSubmenuItem() const
+{
+
+    const auto mouse_pos = ctxt.get_coordinates_text( catacurses::stdscr );
+    // return early if there is no mouse coordinate
+    if( !mouse_pos ) {
+        return std::nullopt;
+    }
+    // check if mouse overlaps with any screen area of submenu item
+    for( const auto &d : main_menu_sub_button_map ) {
+        if( d.first.contains( mouse_pos.value() ) ) {
+            return d.second.second;
+        }
+    }
+    // no area overlaps mouse cursor, return  "not found"
+    return std::nullopt;
+
 }

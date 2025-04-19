@@ -10,6 +10,7 @@
 #include "point.h"
 #include "worldfactory.h"
 #include "enums.h"
+#include "color.h"
 
 class main_menu
 {
@@ -66,8 +67,28 @@ class main_menu
         // These variables are shared between @opening_screen and the tab functions.
         // TODO: But this is an ugly short-term solution.
         input_context ctxt;
-        int sel1 = 1;
+        // what main menu item is currently activated
+        // activated item can be drawn differently (higlighted)
+        // "activate" means "do the action this menu is about"
+        int activated_menu_item_ = 1;
         int sel2 = 1;
+        // color constants
+        // default main menu item color (not highlighted, not selected/activated)
+        const nc_color menu_item_default_color_ { c_light_gray };
+        // default color for shortcut character used in menu item text
+        const nc_color shortcut_character_default_color_ { c_yellow };
+
+        // Used to optimise mouse input handling
+        // if set to true - do not redraw UI next cycle
+        // Will be reset back to "false" after redraw happened
+        // Mouse cursor movement generates a lot of input per second,
+        // each input is usually followed by UI redraw with lots of recalculations
+        // But most of the time mouse movement changes nothing on the screen
+        // so there is no point calculating and redrawing the same thing if nothing was changed
+        // If mouse input handling logic detects there was no change in UI - it sets
+        // this variable to "true" to skip unnesesary redrawing
+        bool skip_next_redraw_{ false };
+
         point LAST_TERM;
         catacurses::window w_open;
         point menu_offset;
@@ -106,6 +127,11 @@ class main_menu
         void display_sub_menu( int sel, const point &bottom_left, int sel_line );
 
         void init_windows();
+
+        // checks if mouse cursor is over one on the main menu item
+        std::optional<int> isMouseOverMenuItem() const;
+        // checks if mouse cursor is over one of the submenu item
+        std::optional<int> isMouseOverSubmenuItem() const;
 
         holiday get_holiday_from_time();
 
