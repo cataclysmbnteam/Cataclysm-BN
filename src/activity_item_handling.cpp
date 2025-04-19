@@ -105,7 +105,6 @@ static const efftype_id effect_nausea( "nausea" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_log( "log" );
-static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -764,67 +763,6 @@ void activity_on_turn_wear( player_activity &act, player &p )
     }
 }
 
-void wash_activity_actor::finish( player_activity &act, Character &who )
-{
-    // Check again that we have enough water and soap incase the amount in our inventory changed somehow
-    // Consume the water and soap
-    units::volume total_volume = 0_ml;
-    for( const auto &it : targets ) {
-        total_volume += it.loc->volume() * it.count / it.loc->count();
-    }
-    washing_requirements required = washing_requirements_for_volume( total_volume );
-
-    const auto is_liquid_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) ||
-                                                it.contents_made_of( LIQUID ) );
-    };
-    const inventory &crafting_inv = who.crafting_inventory();
-    if( !crafting_inv.has_charges( itype_water, required.water, is_liquid_crafting_component ) &&
-        !crafting_inv.has_charges( itype_water_clean, required.water, is_liquid_crafting_component ) ) {
-        who.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
-                               required.water );
-        act.set_to_null();
-        return;
-    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) ) {
-        who.add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
-                               required.cleanser );
-        act.set_to_null();
-        return;
-    }
-
-    for( auto &i : targets ) {
-        item &it = *i.loc;
-        if( i.count >= it.count() ) {
-            if( i.count > it.count() ) {
-                debugmsg( "Invalid item count to wash: tried %d, max %d", i.count, it.count() );
-            }
-            it.item_tags.erase( flag_FILTHY );
-        } else {
-            detached_ptr<item> it2 = it.split( i.count );
-            it2->item_tags.erase( flag_FILTHY );
-            who.i_add_or_drop( std::move( it2 ) );
-        }
-        who.on_worn_item_washed( it );
-    }
-
-    std::vector<item_comp> comps;
-    comps.emplace_back( itype_water, required.water );
-    comps.emplace_back( itype_water_clean, required.water );
-    who.as_player()->consume_items( comps, 1, is_liquid_crafting_component );
-
-    std::vector<item_comp> comps1;
-    comps1.emplace_back( itype_soap, required.cleanser );
-    comps1.emplace_back( itype_detergent, required.cleanser );
-    who.as_player()->consume_items( comps1 );
-
-    who.add_msg_if_player( m_good, _( "You washed your items." ) );
-
-    // Make sure newly washed components show up as available if player attempts to craft immediately
-    who.invalidate_crafting_inventory();
-
-    act.set_to_null();
-}
 
 void stash_activity_actor::do_turn( player_activity &, Character &who )
 {

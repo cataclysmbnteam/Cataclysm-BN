@@ -945,26 +945,6 @@ void player_morale::on_item_takeoff( const item &it )
     set_worn( it, false );
 }
 
-void player_morale::on_worn_item_washed( const item &it )
-{
-    const auto update_body_part = [&]( body_part_data & bp_data ) {
-        bp_data.filthy -= 1;
-    };
-
-    const body_part_set covered( it.get_covered_body_parts() );
-
-    if( covered.any() ) {
-        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
-            if( covered.test( bp.id() ) ) {
-                update_body_part( body_parts[bp] );
-            }
-        }
-    } else {
-        update_body_part( no_body_part );
-    }
-
-    update_squeamish_penalty();
-}
 
 void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
         const bodypart_str_id &bp_id )

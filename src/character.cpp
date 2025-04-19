@@ -10441,12 +10441,6 @@ void Character::use_fire( const int quantity )
     }
 }
 
-void Character::on_worn_item_washed( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_washed( it );
-    }
-}
 
 void Character::on_item_wear( const item &it )
 {
