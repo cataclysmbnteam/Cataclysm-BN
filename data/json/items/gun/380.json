@@ -11,6 +11,7 @@
     "price_postapoc": "25 USD",
     "bashing": 5,
     "ammo": "380",
+    "handling": 25,
     "min_cycle_recoil": 270,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
     "magazines": [ [ "380", [ "mac11mag" ] ] ]
@@ -120,6 +121,7 @@
     "ammo": "380",
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 250,
+    "handling": 30,
     "range": 15,
     "min_cycle_recoil": 180,
     "barrel_length": "500 ml",
