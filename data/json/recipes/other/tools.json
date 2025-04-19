@@ -3126,7 +3126,7 @@
     "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "hammer", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "material_sand", 1 ], [ "glass_shard", 1 ] ], [ [ "paper", 1 ], [ "rag", 1 ] ] ]
   }
 ]
