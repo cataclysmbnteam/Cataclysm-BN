@@ -643,7 +643,7 @@ wake up for the first time after 24 hours into the game.
     {
       "drop": "bionics_sci",
       "type": "bionic_group",
-      "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+      "flags": [ "NO_STERILE", "NO_PACKED" ],
       "faults": [ "fault_bionic_salvaged" ]
     },
     { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
