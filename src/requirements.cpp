@@ -100,9 +100,14 @@ void quality::load( const JsonObject &jo, const std::string & )
             usages.emplace_back( level, line );
         }
     }
-    if( salvage::salvage_quality_dictionary.contains( id ) ) {
-        usages.emplace_back( 1, "salvage" );
+    for( auto material : jo.get_array( "salvagable_materials" ) ) {
+        const material_id mat( material.get_string() );
+        if( !mat.is_valid() ) {
+            material.throw_error( "Invalid material" );
+        }
+        salvagable_materials.push_back( mat );
     }
+    populate_salvage_materials( *this );
 }
 
 /** @relates string_id */

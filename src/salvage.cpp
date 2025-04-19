@@ -18,6 +18,9 @@
 
 const skill_id skill_fabrication( "fabrication" );
 
+static std::unordered_map<material_id, std::set<quality_id>> salvage_material_dictionary;
+static std::set<material_id> all_salvagable_materials;
+
 namespace salvage
 {
 // Helper to visit instances of all the sub-materials of an item.
@@ -68,9 +71,9 @@ bool valid_to_salvage( const item &it )
 std::set<material_id> can_salvage_materials( const item &it )
 {
     std::set<material_id> salvagable_materials;
-    for( auto quality : it.get_qualities() ) {
-        auto mats = salvage_quality_dictionary[quality.first].salvagable_materials;
-        salvagable_materials.insert( mats.begin(), mats.end() );
+    for( auto &quality : it.get_qualities() ) {
+        std::copy( quality.first->salvagable_materials.begin(), quality.first->salvagable_materials.end(),
+                   std::inserter( salvagable_materials, salvagable_materials.end() ) );
     }
     return salvagable_materials;
 }
@@ -141,10 +144,10 @@ bool try_salvage( Character &who, item &it, bool mute )
     return true;
 }
 
-std::vector<std::pair< const material_type *, float>> get_salvagable_materials( const item &target )
+std::vector<std::pair< material_id, float>> get_salvagable_materials( const item &target )
 {
-    auto materials = target.made_of_types();
-    std::vector<std::pair< const material_type *, float>> salvagable_materials;
+    auto materials = target.made_of();
+    std::vector<std::pair< material_id, float>> salvagable_materials;
     //For now we assume that proportions for all materials are equal
     for( auto material : materials ) {
         salvagable_materials.emplace_back( material, 1.0f / materials.size() );
@@ -179,8 +182,6 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
         salvagable_percent *= component_success_chance;
     }
 
-    auto materials = get_salvagable_materials( cut );
-
     add_msg( m_info, _( "You try to salvage materials from the %s." ), cut.tname() );
 
     // Clean up before removing the item.
@@ -192,12 +193,11 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
 
     map &here = get_map();
     auto pos_here = here.getlocal( pos );
-    auto cut_type = cut.where();
-    for( const auto &salvaged : materials ) {
-        if( all_salvagable_materials.contains( salvaged.first->id ) ) {
-            auto salvaged_into = *salvaged.first->salvaged_into();
-            int amount = std::floor( salvaged_into->weight /
-                                     ( cut.weight() * salvaged.second * salvagable_percent ) );
+    for( const auto &salvaged : get_salvagable_materials( cut ) ) {
+        if( all_salvagable_materials.contains( salvaged.first ) ) {
+            auto salvaged_into = salvaged.first->salvaged_into().value();
+            int amount = std::floor( ( cut.weight() * salvaged.second * salvagable_percent ) /
+                                     salvaged_into->weight );
             if( amount > 0 ) {
                 item &result = *item::spawn_temporary( salvaged_into, calendar::turn );
                 // Time based on number of components.
@@ -206,13 +206,8 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
                 if( filthy ) {
                     result.set_flag( flag_FILTHY );
                 }
-                for( amount; amount > 0; --amount ) {
-                    if( cut_type == item_location_type::character ) {
-                        who.i_add_or_drop( item::spawn( result ) );
-                    } else {
-
-                        here.add_item_or_charges( pos_here, item::spawn( result ) );
-                    }
+                for( ; amount > 0; --amount ) {
+                    here.add_item_or_charges( pos_here, item::spawn( result ) );
                 }
             } else {
                 add_msg( m_bad, _( "Could not salvage a %s." ), salvaged_into->nname( 1 ) );
@@ -224,10 +219,11 @@ void complete_salvage( Character &who, item &cut, tripoint_abs_ms pos )
 int moves_to_salvage( const item &target )
 {
     int time = 0;
-    for( auto material : get_salvagable_materials( target ) ) {
+    for( auto &material : get_salvagable_materials( target ) ) {
         if( material.first ) {
             //based on density, weight and proportion of material
-            time += 2 * material.first->density() * units::to_gram( target.weight() ) * material.second;
+            time += 100.0f * material.first->density() * units::to_kilogram( target.weight() ) *
+                    material.second;
         }
     }
     return time;
@@ -308,7 +304,7 @@ bool salvage::salvage_all( Character &who )
 
 void salvage_activity_actor::calc_all_moves( player_activity &act, Character &who )
 {
-    const auto target = targets.front();
+    const auto &target = targets.front();
     activity_reqs_adapter reqs;
     if( act.tools.empty() )
         reqs = activity_reqs_adapter( {}, get_type()->skills,
@@ -334,7 +330,7 @@ void salvage_activity_actor::start( player_activity &act, Character &who )
 void salvage_activity_actor::do_turn( player_activity &act, Character &who )
 {
     if( progress.front().complete() ) {
-        auto target = targets.front();
+        auto &target = targets.front();
         if( !target.loc ) {
             debugmsg( "Lost target of ", get_type() );
         } else {
@@ -380,33 +376,11 @@ void salvage_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-namespace
+void populate_salvage_materials( quality &q )
 {
-generic_factory<salvage_quality> salvage_quality_factory( "salvage quality" );
-} // namespace
-
-void salvage_quality::reset()
-{
-    salvage_quality_factory.reset();
-}
-
-void salvage_quality::load_static( const JsonObject &jo, const std::string &src )
-{
-    salvage_quality_factory.load( jo, src );
-}
-
-void salvage_quality::load( const JsonObject &jo, const std::string & )
-{
-    mandatory( jo, was_loaded, "quality", id );
-    jo.read( "salvagable_materials", salvagable_materials );
-    jo.read( "quality_id", id );
-}
-
-void salvage_quality::finalize() const
-{
-    salvage::salvage_quality_dictionary[id] = *this;
-    for( auto &material : salvagable_materials ) {
-        salvage::salvage_material_dictionary[material].emplace( id );
+    for( auto &material : q.salvagable_materials ) {
+        salvage_material_dictionary[material].emplace( q.id );
     }
-    salvage::all_salvagable_materials.emplace( salvagable_materials );
+    std::copy( q.salvagable_materials.begin(), q.salvagable_materials.end(),
+               std::inserter( all_salvagable_materials, all_salvagable_materials.end() ) );
 }
