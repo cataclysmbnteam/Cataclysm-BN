@@ -94,7 +94,8 @@
       [ "multi_cooker", 5 ],
       [ "char_smoker", 5 ],
       [ "can_sealer", 2 ],
-      [ "atomic_coffeepot", 1 ]
+      [ "atomic_coffeepot", 1 ],
+      [ "atomic_soda_machine", 1 ]
     ]
   },
   {

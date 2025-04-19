@@ -477,6 +477,7 @@
       [ "atomic_light", 1 ],
       [ "atomic_lamp", 1 ],
       [ "atomic_coffeepot", 1 ],
+      [ "atomic_soda_machine", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
       [ "rm120c", 2 ],
@@ -1596,7 +1597,8 @@
       [ "dehydrator", 30 ],
       [ "vac_sealer", 45 ],
       [ "forge", 5 ],
-      [ "atomic_coffeepot", 2 ]
+      [ "atomic_coffeepot", 2 ],
+      [ "atomic_soda_machine", 2 ]
     ]
   },
   {
