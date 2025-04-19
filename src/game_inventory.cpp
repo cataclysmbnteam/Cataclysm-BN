@@ -1410,33 +1410,6 @@ class saw_stock_inventory_preset : public weapon_inventory_preset
         const saw_stock_actor &actor;
 };
 
-class salvage_inventory_preset: public inventory_selector_preset
-{
-    public:
-        salvage_inventory_preset( const salvage_actor *actor ) :
-            actor( actor ) {
-
-            append_cell( [ actor ]( const item * loc ) {
-                return to_string_clipped( time_duration::from_turns( salvage::moves_to_salvage(
-                                              *loc ) / 100 ) );
-            }, _( "TIME" ) );
-        }
-
-        bool is_shown( const item *loc ) const override {
-            return salvage::valid_to_salvage( *loc );
-        }
-
-    private:
-        const salvage_actor *actor;
-};
-
-item *game_menus::inv::salvage( player &p, const salvage_actor *actor )
-{
-    return inv_internal( p, salvage_inventory_preset( actor ),
-                         _( "Cut up what?" ), 1,
-                         _( "You have nothing to cut up." ) );
-}
-
 class repair_inventory_preset: public inventory_selector_preset
 {
     public:

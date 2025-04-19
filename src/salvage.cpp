@@ -45,28 +45,6 @@ units::mass minimal_weight_to_cut( const item &it )
     return min_weight;
 }
 
-bool valid_to_salvage( const item &it )
-{
-    if( it.is_null() ) {
-        return false;
-    }
-    // There must be some historical significance to these items.
-    if( !it.is_salvageable() ) {
-        return false;
-    }
-    if( !it.only_made_of( all_salvagable_materials ) ) {
-        return false;
-    }
-    if( !it.contents.empty() ) {
-        return false;
-    }
-    if( it.weight() < minimal_weight_to_cut( it ) ) {
-        return false;
-    }
-
-    return true;
-}
-
 // Helper to find smallest sub-component of an item.
 std::set<material_id> can_salvage_materials( const item &it )
 {
@@ -93,20 +71,16 @@ bool try_salvage( Character &who, item &it, bool mute )
             add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
             if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
                 add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
+            } else if( !it.only_made_of( all_salvagable_materials ) ) {
+                add_msg( m_info, _( "The %s is made entirely of material that cannot be salvaged up." ),
+                         it.tname() );
             }
-        }
-        return false;
-    }
-
-    if( !it.only_made_of( all_salvagable_materials ) ) {
-        if( !mute ) {
-            add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
         }
         return false;
     }
     if( !it.contents.empty() ) {
         if( !mute ) {
-            add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
+            add_msg( m_info, _( "Please empty the %s before salvaged it up." ), it.tname() );
         }
         return false;
     }
@@ -122,7 +96,6 @@ bool try_salvage( Character &who, item &it, bool mute )
         }
         return false;
     }
-
 
     // Softer warnings at the end so we don't ask permission and then tell them no.
     if( !mute ) {
@@ -146,10 +119,10 @@ bool try_salvage( Character &who, item &it, bool mute )
 
 std::vector<std::pair< material_id, float>> get_salvagable_materials( const item &target )
 {
-    auto materials = target.made_of();
+    auto &materials = target.made_of();
     std::vector<std::pair< material_id, float>> salvagable_materials;
     //For now we assume that proportions for all materials are equal
-    for( auto material : materials ) {
+    for( auto &material : materials ) {
         salvagable_materials.emplace_back( material, 1.0f / materials.size() );
     }
     return salvagable_materials;
@@ -383,4 +356,17 @@ void populate_salvage_materials( quality &q )
     }
     std::copy( q.salvagable_materials.begin(), q.salvagable_materials.end(),
                std::inserter( all_salvagable_materials, all_salvagable_materials.end() ) );
+}
+
+bool item::is_salvageable() const
+{
+    if( is_null() ) {
+        return false;
+    }
+    for( auto &mat : made_of() ) {
+        if( all_salvagable_materials.contains( mat ) ) {
+            return !has_flag( flag_NO_SALVAGE );
+        }
+    }
+    return false;
 }

@@ -18,8 +18,6 @@ void populate_salvage_materials( quality &q );
 namespace salvage
 {
 
-bool valid_to_salvage( const item &it );
-
 bool try_salvage( Character &who, item &it, bool mute = true );
 
 std::set<material_id> can_salvage_materials( const item &it );
