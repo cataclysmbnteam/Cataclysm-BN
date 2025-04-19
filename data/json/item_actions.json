@@ -1011,6 +1011,11 @@
   },
   {
     "type": "item_action",
+    "id": "gps_device",
+    "name": { "str": "Search GPS" }
+  },
+  {
+    "type": "item_action",
     "id": "CRAFT",
     "name": { "str": "Work on craft" }
   },

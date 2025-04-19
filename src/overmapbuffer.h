@@ -141,6 +141,7 @@ struct omt_find_params {
 };
 
 constexpr const std::pair<int, int> omt_find_all_layers = { -OVERMAP_DEPTH, OVERMAP_HEIGHT };
+constexpr const std::pair<int, int> omt_find_above_ground_layer = { 0, OVERMAP_HEIGHT };
 
 /**
  * Standard arguments for finding overmap route
