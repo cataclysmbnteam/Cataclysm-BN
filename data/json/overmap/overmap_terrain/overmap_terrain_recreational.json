@@ -104,7 +104,7 @@
     "color": "light_gray"
   },
   {
-    "id": [ "vending_park_roof_1",  "vending_park_roof_2"],
+    "id": [ "vending_park_roof_1", "vending_park_roof_2" ],
     "type": "overmap_terrain",
     "looks_like": "small_storage_units",
     "copy-from": "generic_city_building",
