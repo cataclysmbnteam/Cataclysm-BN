@@ -127,6 +127,7 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_BRAWLER( "BRAWLER" );
 
 static const std::string flag_LOCKED( "LOCKED" );
 
@@ -1446,6 +1447,12 @@ static void cast_spell()
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
         }
+    }
+
+    if( u.has_trait( trait_BRAWLER ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "Pfft, magic is for COWARDS." ) );
+        return;
     }
 
     if( !can_cast_spells ) {
