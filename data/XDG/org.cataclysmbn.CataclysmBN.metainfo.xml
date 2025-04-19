@@ -4,8 +4,28 @@
     <developer id="org.cataclysmbn">
         <name>Cataclysm BN Team and Contributors</name>
     </developer>
-    <name>Cataclysm-BN</name>
-    <summary>A graphical post-apocalyptic roguelike that focuses on gameplay over realism</summary>
+    <name>Cataclysm BN</name>
+    <summary>Try to survive the apocalypse</summary>
+    <branding>
+        <color type="primary" scheme_preference="light">#8df7a9</color>
+        <color type="primary" scheme_preference="dark">#7f2c22</color>
+    </branding>
+    <categories>
+        <category>Game</category>
+        <category>RolePlaying</category>
+    </categories>
+    <keywords>
+        <keyword>roguelike</keyword>
+        <keyword>science-fiction</keyword>
+        <keyword>apocalypse</keyword>
+        <keyword>turn-based</keyword>
+        <keyword>tiles</keyword>
+        <keyword>game</keyword>
+        <keyword>survival</keyword>
+        <keyword>cbn</keyword>
+        <keyword>bn</keyword>
+        <keyword>c++</keyword>
+    </keywords>
 
     <metadata_license>CC-BY-SA-4.0</metadata_license>
     <project_license>CC-BY-SA-3.0</project_license>
@@ -24,7 +44,7 @@
             Find a way to stop the Cataclysm ... or become one of its strongest monsters.
         </p>
         <p>
-            Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead.
+            Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead. The two forks diverged a few years ago over disagreements regarding the right direction for development to take, with BN choosing less emphasis on realism. Overall, BN has taken a more Sci-Fi approach, with robots and bionics still prominent in society.
         </p>
     </description>
     <content_rating type="oars-1.1">
@@ -93,7 +113,8 @@
     </url>
     <launchable type="desktop-id">org.cataclysmbn.CataclysmBN.desktop</launchable>
     <screenshots>
-        <screenshot type="default">
+        <screenshot type="default" xml:lang="en">
+            <caption>Screenshots from the playthroughs of (clock-wise order) Chaosvolt x2, ExecutorBill, and Scarf005.</caption>
             <image>https://raw.githubusercontent.com/cataclysmbnteam/Cataclysm-BN/cb3a3769dc76a3cfd730c190a068f329fc8de2e9/doc/src/content/docs/en/contribute/img/readme-title.png</image>
         </screenshot>
     </screenshots>
