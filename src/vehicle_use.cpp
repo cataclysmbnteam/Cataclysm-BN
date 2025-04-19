@@ -70,7 +70,6 @@ static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_wind( "wind" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_hotplate( "hotplate" );
 static const itype_id itype_marloss_seed( "marloss_seed" );

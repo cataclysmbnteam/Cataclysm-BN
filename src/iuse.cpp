@@ -237,7 +237,6 @@ static const itype_id itype_cig( "cig" );
 static const itype_id itype_cigar( "cigar" );
 static const itype_id itype_cow_bell( "cow_bell" );
 static const itype_id itype_data_card( "data_card" );
-static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_ecig( "ecig" );
 static const itype_id itype_fire( "fire" );

@@ -104,7 +104,6 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_nausea( "nausea" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
