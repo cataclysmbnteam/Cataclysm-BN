@@ -3089,7 +3089,7 @@
           { "item": "backpack_hiking", "prob": 25 },
           { "item": "duffelbag", "prob": 80 },
           { "item": "travelpack", "prob": 25 },
-          { "item": "gobag", "prob": 1 }
+          { "item": "personal_gobag", "prob": 1 }
         ],
         "prob": 80
       }

@@ -74,9 +74,9 @@
   {
     "id": "gobag",
     "type": "ARMOR",
-    "name": { "str": "go bag" },
-    "description": "A huge duffel bag with backpack attached, both packed to the gills.  Judging by the feel, a National Guard soldier could have packed this to be ready for deployment.  Activate to unpack and enjoy.",
-    "weight": "18043 g",
+    "name": { "str": "national guard go bag" },
+    "description": "A huge duffel bag, packed to the gills.  It's filled with a summer and winter uniform set and some basic necessities to help during deployment.  Activate to unpack and enjoy.",
+    "weight": "20000 g",
     "volume": "35750 ml",
     "price": "1 kUSD",
     "price_postapoc": "10 USD",
@@ -98,9 +98,10 @@
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
     "name": { "str": "personal go bag" },
-    "description": "A huge duffel bag with backpack attached, both packed to the gills.  You have packed this to be ready for deployment.  Activate to unpack and enjoy.",
+    "description": "A huge duffel bag, packed to the gills.  Looks like it has a few change of clothes with some basic necessities to survive 72 hours in hell.  Activate to unpack and enjoy.",
     "looks_like": "gobag",
-    "use_action": { "type": "unpack", "group": "gobag_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "weight": "20000 g",
+    "use_action": { "type": "unpack", "group": "personal_gobag_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
     "copy-from": "gobag"
   },
   {

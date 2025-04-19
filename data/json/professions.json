@@ -3651,14 +3651,14 @@
     "type": "profession",
     "id": "national_guard",
     "name": "National Guard",
-    "description": "Your National Guard unit was activated when the epidemic struck.  Despite your best efforts you did not manage to meet up with them before all communications ceased and you found yourself alone amongst the dead.",
+    "description": "Your National Guard unit was activated when the epidemic struck.  Despite your best efforts you did not manage to meet up with them before all communications ceased and you found yourself alone amongst the dead.  Now you're left wishing you got to keep the gun alongside the uniform.",
     "points": 3,
     "traits": [ "PROF_MILITARY" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
         "items": [ "shorts", "tshirt", "socks", "smart_phone", "lowtops", "wristwatch" ],
-        "entries": [ { "item": "personal_gobag", "custom-flags": [ "FIT" ] } ]
+        "entries": [ { "item": "gobag", "custom-flags": [ "FIT" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -5060,6 +5060,21 @@
       "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "survival_kit" ],
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bugout_survivor",
+    "name": "Bugout Survivor",
+    "description": "You knew exactly where to reach for when it all went down.  Now you're on your own with your precious bag.",
+    "points": 2,
+    "items": {
+      "both": {
+        "items": [ "jeans", "tshirt", "socks", "smart_phone", "sneakers", "wristwatch" ],
+        "entries": [ { "item": "personal_gobag", "custom-flags": [ "FIT" ] } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
