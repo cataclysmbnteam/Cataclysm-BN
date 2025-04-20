@@ -195,14 +195,12 @@ void activity_speed::calc_bench_factor( const Character &/*who*/ )
 
 void activity_speed::calc_stats_factors( const Character &who )
 {
-    auto f = stats_factor_custom_formula( who, type->stats );
+    stats = stats_factor_custom_formula( who, type->stats );
 
-    if( !f.empty() ) {
-        return;
-    }
-    stats.clear();
-    for( auto &stat : type->stats ) {
-        stats.emplace_back( calc_single_stat( who, stat ) );
+    if( stats.empty() ) {
+        for( auto &stat : type->stats ) {
+            stats.emplace_back( calc_single_stat( who, stat ) );
+        }
     }
 }
 
