@@ -14,10 +14,9 @@
     "effects": [ "COOKOFF" ],
     "volume": "100 ml",
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
-    "ammo_type": "battery",
-    "count": 100,
     "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
-    "fuel": { "energy": 1 }
+    "fuel": { "energy": 1 },
+    "initial_power": "100 kJ"
   },
   {
     "type": "TOOL",

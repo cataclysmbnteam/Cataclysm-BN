@@ -196,8 +196,8 @@
     "flags": [ "WATCH", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "electrohack",
     "type": "TOOL",
+    "id": "electrohack",
     "category": "electronics",
     "name": { "str": "electrohack" },
     "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
@@ -210,22 +210,16 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "green",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "geiger_off",
@@ -505,8 +499,8 @@
     "flags": [ "WATCH", "LIGHT_20", "TRADER_AVOID", "ALARMCLOCK", "RECHARGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "id": "UPS_off",
     "type": "TOOL",
+    "id": "UPS_off",
     "category": "electronics",
     "name": { "str": "UPS", "str_pl": "UPS's" },
     "description": "This is a unified power supply, or UPS.  It is a civilian evolution of a military project.  Designed to power advanced weapons and armor, the civilian version serves as a portable power bank and inverter for many household electronics.",
@@ -519,12 +513,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
-    "magazines": [
-      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "2000 ml",
-    "flags": [ "IS_UPS" ]
+    "flags": [ "IS_UPS" ],
+    "battery_well": "2000 ml",
+    "batteries": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
   },
   {
     "id": "vibrator",
