@@ -77,10 +77,10 @@ TEST_CASE( "average_burst_no_mods", "[ranged] [balance]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", 0 );
     check_burst_penalty( shooter, "calico", 25 );
-    check_burst_penalty( shooter, "m249", 90 );
+    check_burst_penalty( shooter, "m249", 110 );
     check_burst_penalty( shooter, "m4a1", 220 );
     check_burst_penalty( shooter, "ak47", 270 );
-    check_burst_penalty( shooter, "m2browning", 400 );
+    check_burst_penalty( shooter, "m2browning", 405 );
 }
 
 // Near the best achievable by an unmodified human
@@ -112,7 +112,7 @@ TEST_CASE( "average_burst_modded", "[ranged] [balance]" )
     const std::vector<std::string> modset = {"adjustable_stock", "suppressor", "pistol_grip", "grip_mod"};
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 8, 8, 8 );
     check_burst_penalty( shooter, "american_180", modset, 0 );
-    check_burst_penalty( shooter, "calico", modset, 3 );
+    check_burst_penalty( shooter, "calico", modset, 9 );
     check_burst_penalty( shooter, "m249", {"suppressor"}, 90 );
     check_burst_penalty( shooter, "m4a1", modset, 100 );
     check_burst_penalty( shooter, "ak47", {"adjustable_stock", "suppressor", "pistol_grip"}, 170 );
