@@ -233,14 +233,12 @@ class player_morale
         struct body_part_data {
             unsigned int covered;
             unsigned int fancy;
-            unsigned int filthy;
             int hot;
             int cold;
 
             body_part_data() :
                 covered( 0 ),
                 fancy( 0 ),
-                filthy( 0 ),
                 hot( 0 ),
                 cold( 0 ) {}
         };

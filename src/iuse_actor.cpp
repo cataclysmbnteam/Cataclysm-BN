@@ -410,7 +410,6 @@ void unpack_actor::load( const JsonObject &obj )
 {
     obj.read( "group", unpack_group );
     obj.read( "items_fit", items_fit );
-    assign( obj, "filthy_volume_threshold", filthy_vol_threshold );
 }
 
 int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
@@ -435,9 +434,6 @@ int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
             last_armor = &*content;
         }
 
-        if( content->get_storage() >= filthy_vol_threshold && it.has_flag( flag_FILTHY ) ) {
-            content->set_flag( flag_FILTHY );
-        }
 
         here.add_item_or_charges( p.pos(), std::move( content ) );
     }
@@ -1827,7 +1823,6 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 // cut gets cut
 int salvage_actor::cut_up( player &p, item &it, item &cut ) const
 {
-    const bool filthy = cut.is_filthy();
     // This is the value that tracks progress, as we cut pieces off, we reduce this number.
     units::mass remaining_weight = cut.weight();
     // Chance of us losing a material component to entropy.
@@ -1918,9 +1913,6 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
             p.moves -= moves_per_part;
             add_msg( m_good, vgettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
-            if( filthy ) {
-                result.set_flag( flag_FILTHY );
-            }
             if( cut_type == item_location_type::character ) {
                 while( amount-- ) {
                     p.i_add_or_drop( item::spawn( result ) );
@@ -3826,10 +3818,6 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
     }
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return 0;
-    }
-    if( get_option<bool>( "FILTHY_WOUNDS" ) && it.is_filthy() ) {
-        p.add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;
     }
 

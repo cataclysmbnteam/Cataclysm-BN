@@ -2478,8 +2478,7 @@ bool item_ptr_compare_by_charges( const item *left, const item *right );
  */
 inline bool is_crafting_component( const item &component )
 {
-    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
-           !component.is_filthy();
+    return ( component.allow_crafting_component() || component.count_by_charges() )
 }
 
 /**

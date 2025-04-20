@@ -640,7 +640,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `aggie_plant` Harvest plants.
 - `autodoc` Brings the autodoc consoles menu. Needs the `AUTODOC` flag to function properly and an
   adjacent furniture with the `AUTODOC_COUCH` flag.
-- `autoclave_empty` Start the autoclave cycle if it contains filthy CBM, and the player has enough
+- `autoclave_empty` Start the autoclave cycle if it contains faulty CBM, and the player has enough
   water.
 - `autoclave_full` Check on the progress of the cycle, and collect sterile CBM once cycle is
   completed.
@@ -709,7 +709,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - `CORPSE` ... Flag used to spawn various human corpses during the mapgen.
 - `DANGEROUS` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies
   "NPC_THROW_NOW".
-- `DETERGENT` ... This item can be used as a detergent in a washing machine.
 - `DESTROY_ON_DECHARGE` ... This item should be destroyed if loses charges.
 - `DURABLE_MELEE` ... Item is made to hit stuff and it does it well, so it's considered to be a lot
   tougher than other weapons made of the same materials.
@@ -1597,7 +1596,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `CURTAIN` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds
   found on windows in buildings.
 - `DIFFICULTY_REMOVE`
-- `DISHWASHER` Can be used to wash filthy non-soft items en masse.
 - `DOME_LIGHT`
 - `DOOR_MOTOR` Can only be installed on a part with `OPENABLE` flag.
 - `E_ALTERNATOR` Is an engine that can power an alternator.
@@ -1709,7 +1707,6 @@ Those flags are added by the game code to specific items (that specific welder, 
   give it special handling.
 - `VARIABLE_SIZE` Has 'bigness' for power, wheel radius, etc.
 - `VISION`
-- `WASHING_MACHINE` Can be used to wash filthy clothes en masse.
 - `WATER_WHEEL` Recharges vehicle batteries when in flowing water.
 - `WELDRIG` Acts as a welder for crafting.
 - `WHEEL` Counts as a wheel in wheel calculations.

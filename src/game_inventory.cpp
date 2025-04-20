@@ -2088,13 +2088,6 @@ class bionic_sterilize_preset : public inventory_selector_preset
             return loc->has_fault( fault_bionic_nonsterile ) && loc->is_bionic();
         }
 
-        std::string get_denial( const item *loc ) const override {
-            if( loc->has_flag( flag_FILTHY ) ) {
-                return  _( "CBM is filthy.  Wash it first." );
-            }
-
-            return std::string();
-        }
 
     protected:
         player &p;

@@ -2255,9 +2255,6 @@ void crafting::complete_disassemble( Character &who, const iuse_location &target
             newit->set_flag( flag_FIT );
         }
 
-        if( filthy ) {
-            newit->set_flag( flag_FILTHY );
-        }
         if( newit->made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( std::move( newit ), PICKUP_RANGE );
         } else {

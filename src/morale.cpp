@@ -976,15 +976,11 @@ void player_morale::set_worn( const item &it, bool worn )
 {
     const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
     const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
-    const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
     const int sign = ( worn ) ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
         if( fancy || super_fancy ) {
             bp_data.fancy += sign;
-        }
-        if( filthy_gear ) {
-            bp_data.filthy += sign;
         }
         bp_data.covered += sign;
     };

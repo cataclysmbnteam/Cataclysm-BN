@@ -9038,33 +9038,6 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
-        int sum_cover = 0;
-        for( const item * const &i : worn ) {
-            if( i->covers( bp ) && i->is_filthy() ) {
-                sum_cover += i->get_coverage( bp );
-            }
-        }
-
-        // Chance of infection is damage (with cut and stab x4) * sum of coverage on affected body part, in percent.
-        // i.e. if the body part has a sum of 100 coverage from filthy clothing,
-        // each point of damage has a 1% change of causing infection.
-        if( sum_cover > 0 ) {
-            const int cut_type_dam = dealt_dams.type_damage( DT_CUT ) + dealt_dams.type_damage( DT_STAB );
-            const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
-            const int infection_chance = ( combined_dam * sum_cover ) / 100;
-            if( x_in_y( infection_chance, 100 ) ) {
-                if( has_effect( effect_bite, bp.id() ) ) {
-                    add_effect( effect_bite, 40_minutes, bp.id() );
-                } else if( has_effect( effect_infected, bp.id() ) ) {
-                    add_effect( effect_infected, 25_minutes, bp.id() );
-                } else {
-                    add_effect( effect_bite, 1_turns, bp.id() );
-                }
-                add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
-            }
-        }
-    }
 
     on_hurt( source );
     return dealt_dams;
