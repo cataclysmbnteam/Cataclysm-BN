@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
-#define CATA_SRC_MAGIC_ENCHANTMENT_H
 
 #include <map>
 #include <optional>
@@ -83,8 +81,14 @@ class enchantment
         enum condition {
             ALWAYS,
             UNDERGROUND,
+            ABOVEGROUND,
             UNDERWATER,
+            NIGHT,
+            DAY,
+            DUSK,
+            DAWN,
             ACTIVE, // the item, mutation, etc. is active
+            INACTIVE,
             NUM_CONDITION
         };
 
@@ -172,4 +176,4 @@ class enchantment
                                      const fake_spell &sp ) const;
 };
 
-#endif // CATA_SRC_MAGIC_ENCHANTMENT_H
+

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_SDLTILES_H
-#define CATA_SRC_SDLTILES_H
 
 #include <array>
 #if defined(TILES)
@@ -46,4 +44,4 @@ const SDL_Renderer_Ptr &get_sdl_renderer();
 
 #endif // TILES
 
-#endif // CATA_SRC_SDLTILES_H
+

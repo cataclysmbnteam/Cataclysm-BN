@@ -65,6 +65,7 @@
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sdl_geometry.h"
+#include "sdl_utils.h"
 #include "sdl_font.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
@@ -919,10 +920,38 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                 }
             }
 
-            const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
-            // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
-                                 subtile, rotation, ll, false, height_3d, 0 );
+            if( overmap_transparency ) {
+                int z_offset = 0;
+                while( id == "open_air" ) {
+                    z_offset++;
+                    const tripoint_abs_omt lower_omp = omp + tripoint( 0, 0, -z_offset );
+                    const bool lower_see = has_debug_vision || overmap_buffer.seen( lower_omp );
+                    if( !lower_see ) {
+                        //actually really strange situation when above overmap is explored, but below one isn't
+                        //so let's account for this just in case, drawing highest seen tile
+                        z_offset--;
+                        break;
+                    }
+                    id = get_omt_id_rotation_and_subtile( lower_omp, rotation, subtile );
+                }
+                draw_om_tile_recursively( omp + tripoint( 0, 0, -z_offset ), id, rotation, subtile, z_offset );
+            } else {
+                const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
+                // light level is now used for choosing between grayscale filter and normal lit tiles.
+                draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
+                                     subtile, rotation, ll, false, height_3d, 0 );
+            }
+
+            if( blink && uistate.overmap_highlighted_omts.contains( omp ) ) {
+                if( tile_iso ) {
+                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false, 0 );
+                } else {
+                    SDL_Color c = curses_color_to_SDL( c_pink );
+                    c.a = c.a >> 1;
+                    auto p = player_to_screen( omp.raw().xy() );
+                    draw_color_at( c, p, SDL_BLENDMODE_BLEND );
+                }
+            }
 
             if( see ) {
                 if( blink && uistate.overmap_debug_mongroup ) {

@@ -1885,6 +1885,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
+    assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -2035,16 +2036,20 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
             slot.data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
-            if( jo.has_int( "encumbrance" ) ) {
-                slot.data[0].encumber = jo.get_int( "encumbrance" );
+            if( slot.data.size() > 1 && ( jo.has_int( "encumbrance" ) ||
+                                          jo.has_int( "max_encumbrance" ) ||
+                                          jo.has_int( "coverage" ) ) ) {
+                jo.throw_error( "Legacy armor format only supported for items with exactly 1 armor data entry.  Use \"armor_portion_data\" instead." );
+            }
+            // DISGUSTING hack
+            int old_encumbrance = slot.data[0].encumber;
+            assign( jo, "encumbrance", slot.data[0].encumber, strict );
+            if( old_encumbrance != slot.data[0].encumber ) {
                 slot.data[0].max_encumber = slot.data[0].encumber;
             }
-            if( jo.has_int( "max_encumbrance" ) ) {
-                slot.data[0].max_encumber = jo.get_int( "max_encumbrance" );
-            }
-            if( jo.has_int( "coverage" ) ) {
-                slot.data[0].coverage = jo.get_int( "coverage" );
-            }
+            assign( jo, "max_encumbrance", slot.data[0].max_encumber, strict );
+
+            assign( jo, "coverage", slot.data[0].coverage, strict );
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
             if( temp_cover_data.any() ) {
@@ -2387,6 +2392,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
     assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
+    assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
+    assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
@@ -3467,15 +3474,27 @@ void item_group::debug_spawn()
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
     }
+    uilist iter_config;
+    iter_config.text = _( "How many iterations to test?" );
+    constexpr std::array<size_t, 4> iter_choices = { 10, 100, 1000, 10000 };
+    for( size_t i = 0; i < iter_choices.size(); i++ ) {
+        iter_config.entries.emplace_back( static_cast<int>( i ), true, -2,
+                                          std::to_string( iter_choices[i] ) );
+    }
     while( true ) {
         menu.query();
         const int index = menu.ret;
         if( index >= static_cast<int>( groups.size() ) || index < 0 ) {
             break;
         }
-        // Spawn items from the group 1000 times
+        iter_config.query();
+        const int iter_index = iter_config.ret;
+        if( iter_index >= static_cast<int>( iter_choices.size() ) || iter_index < 0 ) {
+            break;
+        }
+        // Spawn items from the group 100 times
         std::map<std::string, int> itemnames;
-        for( size_t a = 0; a < 1000; a++ ) {
+        for( size_t a = 0; a < iter_choices[iter_index]; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
             for( auto &it : items ) {
                 itemnames[it->display_name()]++;
@@ -3487,7 +3506,7 @@ void item_group::debug_spawn()
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
         uilist menu2;
-        menu2.text = _( "Result of 1000 spawns:" );
+        menu2.text = string_format( _( "Results of %zu spawns:" ), iter_choices[iter_index] );
         for( const auto &e : itemnames2 ) {
             menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
                                         string_format( _( "%d x %s" ), e.first, e.second ) );

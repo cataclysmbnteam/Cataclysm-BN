@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_SOUNDS_H
-#define CATA_SRC_SOUNDS_H
 
 #include <string>
 #include <utility>
@@ -171,4 +169,4 @@ struct enum_traits<sfx::channel> {
     static constexpr auto last = sfx::channel::MAX_CHANNEL;
 };
 
-#endif // CATA_SRC_SOUNDS_H
+

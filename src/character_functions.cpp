@@ -243,12 +243,11 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
-                for( const item *items_it : items ) {
+                for( item *items_it : items ) {
                     if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        comfort_response.aid = items_it;
-                        break; // prevents using more than 1 sleep aid
+                        comfort_response.aid.push_back( items_it );
                     }
                 }
             }
@@ -278,14 +277,13 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             comfort -= here.move_cost( p );
         }
 
-        if( comfort_response.aid == nullptr ) {
+        if( comfort_response.aid.empty() ) {
             const map_stack items = here.i_at( p );
-            for( const item *items_it : items ) {
+            for( item *items_it : items ) {
                 if( items_it->has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                    comfort_response.aid = items_it;
-                    break; // prevents using more than 1 sleep aid
+                    comfort_response.aid.push_back( items_it );
                 }
             }
         }
@@ -341,8 +339,8 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
 {
     const int current_stim = who.get_stim();
     const comfort_response_t comfort_info = base_comfort_value( who, p );
-    if( comfort_info.aid != nullptr ) {
-        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
+    for( item *comfort_item : comfort_info.aid ) {
+        who.add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_item->tname() );
     }
 
     int sleepy = static_cast<int>( comfort_info.level );
@@ -468,10 +466,10 @@ std::string fmt_wielded_weapon( const Character &who )
         }
         return str;
 
-    } else if( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname(),
-                              weapon.contents.front().charges );
-
+    } else if( ( weapon.is_container() && weapon.contents.num_item_stacks() == 1 ) ||
+               weapon.ammo_capacity() > 0 ) {
+        return string_format( "(%d) %s",
+                              weapon.is_container() ? weapon.contents.front().charges : weapon.ammo_remaining(), weapon.tname() );
     } else {
         return weapon.tname();
     }
@@ -582,7 +580,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
 
     who.set_primary_weapon( internal_item->detach() );
     who.inv_update_invlet( *internal_item );
-    who.inv_update_cache_with_item( *internal_item );
+    who.inv_update_invlet_cache_with_item( *internal_item );
     who.last_item = internal_item->typeId();
 
     /**
@@ -774,6 +772,19 @@ bool list_ammo( const Character &who, item &base, std::vector<item_reload_option
                       : ammo->typeId();
             const bool can_reload_with = e->can_reload_with( id );
             if( can_reload_with ) {
+                // Skip if is magazine inside gun/mod, but gun/mod can't fire it (e.g 300 Blackout on STANAG on AR-15)
+                if( e->is_magazine() && e->parent_item() ) {
+                    auto ammo_type = ( ammo->is_ammo_container() || ammo->is_container() )
+                                     ? ammo->contents.front().ammo_type()
+                                     : ammo->ammo_type();
+                    const std::set<ammotype> &supported_ammo = e->parent_item()->ammo_types();
+                    const bool gun_supports = std::ranges::any_of( supported_ammo, [&]( const ammotype & at ) {
+                        return at == ammo_type;
+                    } );
+                    if( !gun_supports ) {
+                        continue;
+                    }
+                }
                 // Speedloaders require an empty target.
                 if( include_potential || !ammo->has_flag( flag_SPEEDLOADER ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
@@ -1179,10 +1190,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( node->is_magazine() ) {
 
                 if( !node->contents.empty() ) {
-                    for( const ammotype &at : ammo ) {
-                        if( node->contents.front().ammo_type() != at ) {
-                            return VisitResponse::SKIP;
-                        }
+                    const bool match = std::ranges::any_of( ammo, [&]( const ammotype & at ) {
+                        return node->contents.front().ammo_type() == at;
+                    } );
+                    if( !match ) {
+                        return VisitResponse::SKIP;
                     }
                 }
 

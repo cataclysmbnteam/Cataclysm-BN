@@ -25,6 +25,7 @@
 #include "enums.h"
 #include "event.h"
 #include "field.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "input.h"
@@ -154,31 +155,37 @@ static energy_type energy_source_from_string( const std::string &str )
     }
 }
 
-static damage_type damage_type_from_string( const std::string &str )
+static damage_type damage_type_from_string( std::string &str )
 {
-    if( str == "fire" ) {
+    // Uppercase the string so that case on the input doesn't matter
+    std::transform( str.begin(), str.end(), str.begin(), ::toupper );
+    if( str == "FIRE" ) {
         return DT_HEAT;
-    } else if( str == "acid" ) {
+    } else if( str == "ACID" ) {
         return DT_ACID;
-    } else if( str == "bash" ) {
+    } else if( str == "BASH" ) {
         return DT_BASH;
-    } else if( str == "bio" ) {
+    } else if( str == "BIO" ) {
         return DT_BIOLOGICAL;
-    } else if( str == "cold" ) {
+    } else if( str == "COLD" ) {
         return DT_COLD;
-    } else if( str == "cut" ) {
+    } else if( str == "CUT" ) {
         return DT_CUT;
-    } else if( str == "bullet" ) {
+    } else if( str == "BULLET" ) {
         return DT_BULLET;
-    } else if( str == "electric" ) {
+    } else if( str == "ELECTRIC" ) {
         return DT_ELECTRIC;
-    } else if( str == "stab" ) {
+    } else if( str == "STAB" ) {
         return DT_STAB;
-    } else if( str == "none" || str == "NONE" ) {
+    } else if( str == "TRUE" ) {
+        return DT_TRUE;
+    } else if( str == "NONE" ) {
+        debugmsg( _( "ERROR: 'None' damage is not not valid and obsoleted for spells!  Please switch to 'True' instead" ) );
         return DT_TRUE;
     } else {
-        debugmsg( _( "ERROR: Invalid damage type string.  Defaulting to none" ) );
-        return DT_TRUE;
+        // Bash is much less problematic than defaulting to True damage, bypassing any and all armor, like it did previously
+        debugmsg( _( "ERROR: Invalid damage type string.  Defaulting to bash" ) );
+        return DT_BASH;
     }
 }
 
@@ -287,6 +294,11 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "damage_increment", damage_increment, 0.0f );
     optional( jo, was_loaded, "max_damage", max_damage, 0 );
 
+    // minimum is defaulted to -1 for default detection reasons
+    optional( jo, was_loaded, "min_accuracy", min_accuracy, -1 );
+    optional( jo, was_loaded, "accuracy_increment", accuracy_increment, 0.0f );
+    optional( jo, was_loaded, "max_accuracy", max_accuracy, 100 );
+
     optional( jo, was_loaded, "min_range", min_range, 0 );
     optional( jo, was_loaded, "range_increment", range_increment, 0.0f );
     optional( jo, was_loaded, "max_range", max_range, 0 );
@@ -310,13 +322,15 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "base_energy_cost", base_energy_cost, 0 );
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
     optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
+    optional( jo, was_loaded, "arm_encumbrance_threshold", arm_encumbrance_threshold, 20 );
+    optional( jo, was_loaded, "leg_encumbrance_threshold", leg_encumbrance_threshold, 20 );
 
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
     spell_class = trait_id( temp_string );
     optional( jo, was_loaded, "energy_source", temp_string, "NONE" );
     energy_source = energy_source_from_string( temp_string );
-    optional( jo, was_loaded, "damage_type", temp_string, "NONE" );
+    optional( jo, was_loaded, "damage_type", temp_string, "TRUE" );
     dmg_type = damage_type_from_string( temp_string );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
@@ -536,6 +550,22 @@ std::string spell::aoe_string() const
     }
 }
 
+int spell::accuracy() const
+{
+    // default detection for special case
+    if( type->min_accuracy == -1 ) {
+        return -1;
+    }
+
+    const int leveled_accuracy = type->min_accuracy + std::round( get_level() *
+                                 type->accuracy_increment );
+    if( type-> max_accuracy >= type->min_accuracy ) {
+        return std::min( leveled_accuracy, type->max_accuracy );
+    } else {
+        return std::max( leveled_accuracy, type->max_accuracy );
+    }
+}
+
 int spell::range() const
 {
     const int leveled_range = type->min_range + std::round( get_level() * type->range_increment );
@@ -726,16 +756,20 @@ int spell::casting_time( const Character &guy ) const
         casting_time = type->base_casting_time;
     }
     if( !has_flag( spell_flag::NO_LEGS ) ) {
-        // the first 20 points of encumbrance combined is ignored
+        // The first base leg encumbrance combined points of encumbrance are ignored
         const int legs_encumb = std::max( 0,
-                                          guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - 20 );
+                                          guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - type->leg_encumbrance_threshold );
         casting_time += legs_encumb * 3;
     }
     if( has_flag( spell_flag::SOMATIC ) ) {
-        // the first 20 points of encumbrance combined is ignored
+        // the first base arm encumbrance combined points of encumbrance are ignored.
         const int arms_encumb = std::max( 0,
-                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - 20 );
+                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - type->arm_encumbrance_threshold );
         casting_time += arms_encumb * 2;
+    }
+    if( guy.is_armed() && !has_flag( spell_flag::NO_HANDS ) &&
+        !guy.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
+        casting_time = std::round( casting_time * 1.5 );
     }
     return casting_time;
 }
@@ -784,9 +818,9 @@ float spell::spell_fail( const Character &guy ) const
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
     if( has_flag( spell_flag::SOMATIC ) &&
         !guy.has_trait_flag( trait_flag_SUBTLE_SPELL ) ) {
-        // the first 20 points of encumbrance combined is ignored
+        // the first arm_encumbrance_threshold points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0,
-                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - 20 );
+                                          guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - type->arm_encumbrance_threshold );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
@@ -1616,12 +1650,14 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
 {
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
-        // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) - 20 );
+        // the first leg_encumbrance_threshold points of encumbrance combined is ignored
+        encumb += std::max( 0, guy.encumb( body_part_leg_l ) + guy.encumb( body_part_leg_r ) -
+                            sp.id()->leg_encumbrance_threshold );
     }
     if( sp.has_flag( spell_flag::SOMATIC ) ) {
-        // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) - 20 );
+        // the first arm_encumbrance_threshold points of encumbrance combined is ignored
+        encumb += std::max( 0, guy.encumb( body_part_arm_l ) + guy.encumb( body_part_arm_r ) -
+                            sp.id()->arm_encumbrance_threshold );
     }
     return encumb > 0;
 }

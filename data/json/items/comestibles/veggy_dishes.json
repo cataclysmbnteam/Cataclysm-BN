@@ -15,6 +15,7 @@
   {
     "type": "COMESTIBLE",
     "id": "starch",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "starch" },
     "weight": "180 g",
     "color": "light_gray",
@@ -194,6 +195,7 @@
   {
     "type": "COMESTIBLE",
     "id": "buckwheat_cooked",
+    "category": "food",
     "name": { "str_sp": "cooked buckwheat" },
     "copy-from": "buckwheat",
     "spoils_in": "20 days",
@@ -246,6 +248,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cornmeal",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "cornmeal" },
     "weight": "19 g",
     "color": "yellow",
@@ -287,6 +290,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_rice",
+    "category": "cooking_ingredients",
     "name": { "str_sp": "dried rice" },
     "weight": "40 g",
     "color": "white",
@@ -311,6 +315,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rice_cooked",
+    "category": "food",
     "name": { "str_sp": "cooked rice" },
     "copy-from": "dry_rice",
     "weight": "62 g",
@@ -699,6 +704,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dried_salad",
+    "category": "cooking_ingredients",
     "name": "dried salad",
     "copy-from": "veggy_salad",
     "weight": "150 g",
@@ -908,12 +914,19 @@
     "type": "COMESTIBLE",
     "id": "veggy_sausage",
     "name": "smoked veggy sausage",
-    "copy-from": "sausage",
+    "weight": "148 g",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -1,
     "calories": 56,
     "healthy": 1,
     "material": [ "veggy" ],
     "description": "A plant based sausage that has been cured and smoked for long term storage.",
+    "price": "16 USD",
+    "volume": "250 ml",
+    "price_postapoc": "3 USD",
     "fun": 4,
+    "flags": [ "EATEN_HOT", "SMOKED" ],
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
@@ -1038,6 +1051,23 @@
     "fun": 6,
     "comestible_type": "FOOD",
     "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "id": "kebab_veggy",
+    "name": { "str_sp": "vegetable kebab" },
+    "type": "COMESTIBLE",
+    "description": "Cooked veggies on a stick.  Popular street food originating from the Middle East and later spread to Asia and the rest of the world.",
+    "weight": "150 g",
+    "volume": "150 ml",
+    "color": "white",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 100,
+    "material": [ "veggy" ],
+    "fun": 5,
+    "looks_like": "veggy_cooked",
     "vitamins": [ [ "veggy_allergen", 1 ] ]
   }
 ]

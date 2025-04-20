@@ -62,7 +62,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "range": 2,
+      "dispersion": 345,
+      "durability": 10,
+      "blackpowder_tolerance": 72,
+      "clip_size": 2
+    },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -80,7 +88,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "blackpowder_tolerance": 72, "clip_size": 2 },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -173,9 +181,10 @@
       "dispersion": 425,
       "durability": 7,
       "clip_size": 7,
+      "blackpowder_tolerance": 48,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "USE_PARENT_GUN" ]
   },
   {
     "id": "ksg25_aux_shotgun",
@@ -198,9 +207,10 @@
       "dispersion": 425,
       "durability": 7,
       "clip_size": 12,
+      "blackpowder_tolerance": 48,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "USE_PARENT_GUN" ]
   },
   {
     "id": "ts12_aux_shotgun",
@@ -226,7 +236,7 @@
       "clip_size": 5,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "USE_PARENT_GUN" ]
   },
   {
     "id": "ts12_aux_shotgun2",
@@ -252,7 +262,7 @@
       "clip_size": 5,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "USE_PARENT_GUN" ]
   },
   {
     "id": "laser_sight",
@@ -307,6 +317,7 @@
       "dispersion": 600,
       "durability": 10,
       "reload": 150,
+      "blackpowder_tolerance": 96,
       "clip_size": 1
     },
     "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ]
@@ -396,7 +407,15 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "range": 1,
+      "dispersion": 320,
+      "durability": 10,
+      "blackpowder_tolerance": 72,
+      "clip_size": 1
+    },
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -436,7 +455,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "M_XBOWS" ] ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "blackpowder_tolerance": 72, "clip_size": 4 },
     "flags": [ "RELOAD_ONE" ]
   },
   {

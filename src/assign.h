@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_ASSIGN_H
-#define CATA_SRC_ASSIGN_H
 
 #include <algorithm>
 #include <map>
@@ -574,4 +572,4 @@ bool assign( const JsonObject &jo,
                      float_max,
                      float_max,
                      float_max ) );
-#endif // CATA_SRC_ASSIGN_H
+

@@ -15,7 +15,6 @@
     "color": "light_gray",
     "ammo": [ "454", "45colt" ],
     "dispersion": 280,
-    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "magazines": [ [ "454", [ "454_speedloader5" ] ] ],
     "valid_mod_locations": [

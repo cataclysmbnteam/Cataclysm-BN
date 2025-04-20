@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_CHARACTER_FUNCTIONS_H
-#define CATA_SRC_CHARACTER_FUNCTIONS_H
 
 #include "type_id.h"
 
@@ -96,7 +94,7 @@ enum class comfort_level {
 
 struct comfort_response_t {
     comfort_level level = comfort_level::neutral;
-    const item *aid = nullptr;
+    std::vector<item *> aid;
 };
 
 /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
@@ -235,4 +233,4 @@ void show_skill_capped_notice( const Character &who, const skill_id &id );
 
 } // namespace character_funcs
 
-#endif // CATA_SRC_CHARACTER_FUNCTIONS_H
+

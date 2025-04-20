@@ -61,7 +61,7 @@
 #include "name.h"
 #include "npc.h"
 #include "output.h"
-#include "pathfinding.h"
+#include "legacy_pathfinding.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -3375,12 +3375,20 @@ void mattack::taze( monster *z, Creature *target )
 {
     // It takes a while
     z->moves -= 200;
+    // Uncanny dodge prints its own message when it triggers, to return here instead of below.
     if( target == nullptr || target->uncanny_dodge() ) {
         return;
     }
+    if( dodge_check( z, target ) ) {
+        target->add_msg_player_or_npc( _( "The %s tries to shock you, but you dodge." ),
+                                       _( "The %s tries to shock <npcname>, but they dodge." ),
+                                       z->name() );
+        return;
+    }
 
-    int dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_ELECTRIC, rng( 1,
-                                   5 ) ) ).total_damage();
+    int dam = target->deal_damage( z, target->get_random_body_part(), damage_instance( DT_ELECTRIC,
+                                   rng( 1,
+                                        5 ) ) ).total_damage();
     if( dam == 0 ) {
         target->add_msg_player_or_npc( _( "The %s unsuccessfully attempts to shock you." ),
                                        _( "The %s unsuccessfully attempts to shock <npcname>." ),
@@ -5394,10 +5402,9 @@ bool mattack::bio_op_takedown( monster *z )
     }
     // Weak kick to start with, knocks you off your footing
 
-    // TODO: Literally "The zombie kicks" vvvvv | Fix message or comment why Literally.
-    //~ 1$s is bodypart name in accusative, 2$d is damage value.
-    target->add_msg_if_player( m_bad, _( "The zombie kicks your %1$s for %2$d damage…" ),
-                               body_part_name_accusative( hit->token ), dam );
+    //~ 1$s is the attacker, 2$s is bodypart name in accusative, 3$d is damage value.
+    target->add_msg_if_player( m_bad, _( "The %1$s kicks your %2$s for %3$d damage…" ),
+                               z->name(), body_part_name_accusative( hit->token ), dam );
     foe->deal_damage( z,  hit, damage_instance( DT_BASH, dam ) );
     // At this point, Judo or Tentacle Bracing can make this much less painful
     if( !foe->is_throw_immune() ) {

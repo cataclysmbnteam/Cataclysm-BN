@@ -14,7 +14,9 @@ on:
       - "tools/**"
       - "!tools/format/**"
       - "utilities/**"
-      - 'scripts/**'
+      - "scripts/**"
+      - "**.md"
+      - "**.mdx"
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
@@ -42,7 +44,7 @@ jobs:
       - name: Setup build and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install gettext
+          sudo apt-get install gettext libsqlite3-dev zlib1g-dev
 
       - name: Build
         working-directory: ./android

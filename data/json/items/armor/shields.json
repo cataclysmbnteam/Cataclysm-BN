@@ -180,7 +180,7 @@
     "covers": [ "arm_either", "hand_either" ],
     "coverage": 90,
     "encumbrance": 40,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "POWERARMOR_COMPATIBLE" ]
   },

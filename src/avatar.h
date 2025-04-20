@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_AVATAR_H
-#define CATA_SRC_AVATAR_H
 
 #include <cstddef>
 #include <memory>
@@ -278,4 +276,4 @@ class avatar : public player
 
 avatar &get_avatar();
 
-#endif // CATA_SRC_AVATAR_H
+

@@ -222,6 +222,7 @@ monster::monster() : corpse_components( new monster_component_item_location( thi
     last_updated = calendar::start_of_cataclysm;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
+    aggro_character = true;
     set_anatomy( anatomy_id( "default_anatomy" ) );
     set_body();
 }
@@ -242,6 +243,7 @@ monster::monster( const mtype_id &id ) : monster()
     ammo = type->starting_ammo;
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
+    aggro_character = type->aggro_character;
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
     }
@@ -325,7 +327,7 @@ void monster::setpos( const tripoint &p )
         return;
     }
 
-    bool wandering = wander();
+    bool wandering = is_wandering();
     g->update_zombie_pos( *this, p );
     position = p;
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
@@ -359,6 +361,11 @@ void monster::poly( const mtype_id &id )
     faction = type->default_faction;
     upgrades = type->upgrades;
     reproduces = type->reproduces;
+
+    // HACK: We should know if the monster is in the bubble instead of checking it like this
+    if( g->critter_tracker->temporary_id( *this ) >= 0 ) {
+        g->critter_tracker->update_faction( *this );
+    }
 }
 
 bool monster::can_upgrade() const
@@ -1115,16 +1122,48 @@ bool monster::made_of( phase_id p ) const
 
 void monster::set_goal( const tripoint &p )
 {
+    const map &here = get_map();
+    if( !here.inbounds( p ) ) {
+        return;
+    }
+
+    if( p != this->goal && p != this->pos() ) {
+        this->repath_requested = true;
+    }
     goal = p;
 }
 
 void monster::shift( point sm_shift )
 {
+    const map &here = get_map();
+
     const point ms_shift = sm_to_ms_copy( sm_shift );
     position -= ms_shift;
-    goal -= ms_shift;
     if( wandf > 0 ) {
         wander_pos -= ms_shift;
+    }
+
+    // Pathfinding shifts, we bypass `set_dest` to prevent repathing
+    this->goal -= ms_shift;
+    if( !here.inbounds( this->goal ) ) {
+        // May accidentally occur during long-teleports
+        this->goal = pos();
+        this->path.clear();
+        return;
+    }
+
+    // Shift our found paths too, but also validate them
+    if( !this->path.empty() ) {
+        for( tripoint &p : this->path ) {
+            p -= ms_shift;
+
+            if( !here.inbounds( p ) ) {
+                // Path started going through OoB regions, so...
+                this->path.clear();
+                this->repath_requested = true;
+                break;
+            }
+        }
     }
 }
 
@@ -1225,7 +1264,7 @@ tripoint monster::move_target()
 
 Creature *monster::attack_target()
 {
-    if( wander() ) {
+    if( is_wandering() ) {
         return nullptr;
     }
 
@@ -1452,13 +1491,13 @@ monster_attitude monster::attitude( const Character *u ) const
         }
     }
 
+
     if( effective_morale < 0 ) {
         if( effective_morale + effective_anger > 0 && get_hp() > get_hp_max() / 3 ) {
             return MATT_FOLLOW;
         }
         return MATT_FLEE;
     }
-
     if( effective_anger <= 0 ) {
         if( get_hp() <= 0.6 * get_hp_max() ) {
             return MATT_FLEE;
@@ -1469,6 +1508,10 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( effective_anger < 10 ) {
         return MATT_FOLLOW;
+    }
+
+    if( u != nullptr && !aggro_character && !u->is_monster() ) {
+        return MATT_IGNORE;
     }
 
     return MATT_ATTACK;
@@ -1513,6 +1556,12 @@ void monster::process_triggers()
         }
     }
 
+    // If we got angry at characters have a chance at calming down
+    if( anger == type->agro && aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+        add_msg( m_debug, "%s's character aggro reset", get_name() );
+        aggro_character = false;
+    }
+
     // Cap values at [-100, 100] to prevent perma-angry moose etc.
     morale = std::min( 100, std::max( -100, morale ) );
     anger  = std::min( 100, std::max( -100, anger ) );
@@ -1542,6 +1591,22 @@ void monster::process_trigger( mon_trigger trig, const std::function<int()> &amo
     }
     if( type->has_placate_trigger( trig ) ) {
         anger -= amount_func();
+    }
+}
+
+
+// hopefully a good spot for these functions
+// eg. reason = "mating season"
+void monster::trigger_character_aggro( const char *reason )
+{
+    add_msg( m_debug, "%s's character aggro is triggered by %s", get_name(), reason );
+    aggro_character = true;
+}
+
+void monster::trigger_character_aggro_chance( int chance, const char *reason )
+{
+    if( x_in_y( chance, 100 ) ) {
+        trigger_character_aggro( reason );
     }
 }
 
@@ -1947,6 +2012,10 @@ void monster::apply_damage( Creature *source, item *source_weapon, item *source_
         }
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + ( dam / 3 ) );
+        // Get angry at characters if hurt by one
+        if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
+            trigger_character_aggro( "hurt" );
+        }
     }
 }
 void monster::apply_damage( Creature *source, item *source_weapon, bodypart_id bp, int dam,
@@ -2679,6 +2748,10 @@ void monster::die( Creature *nkiller )
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
         anger_adjust += 15;
+        if( nkiller != nullptr && !nkiller->is_monster() && !nkiller->is_fake() ) {
+            // A character killed our friend
+            trigger_character_aggro( "killing a friendly creature" );
+        }
     }
     if( type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
         morale_adjust -= 15;
@@ -3060,7 +3133,7 @@ void monster::add_msg_player_or_npc( const game_message_params &params,
     }
 }
 
-units::mass monster::get_carried_weight()
+units::mass monster::get_carried_weight() const
 {
     units::mass total_weight = 0_gram;
     if( tack_item ) {
@@ -3078,7 +3151,7 @@ units::mass monster::get_carried_weight()
     return total_weight;
 }
 
-units::volume monster::get_carried_volume()
+units::volume monster::get_carried_volume() const
 {
     units::volume total_volume = 0_ml;
     for( const item * const &it : inv ) {
@@ -3178,6 +3251,10 @@ void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack con
     int morale_adjust = 0;
     if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         anger_adjust += 15;
+        if( source != nullptr && !aggro_character && !source->is_monster() && !source->is_fake() ) {
+            // A character attacked our friend
+            trigger_character_aggro( "killing a friendly creature" );
+        }
     }
     if( type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
         morale_adjust -= 15;
@@ -3344,6 +3421,36 @@ void monster::on_load()
     if( dt <= 0_turns ) {
         return;
     }
+
+    if( anger != type->agro ) {
+        int dt_left_a = to_turns<int>( dt );
+
+        if( std::abs( anger - type->agro ) > 15 ) {
+            const int adjust_by_a = std::min( ( dt_left_a / 4 ),
+                                              ( std::abs( anger - type->agro ) - 15 ) );
+            dt_left_a -= adjust_by_a * 4;
+            if( anger < type->agro ) {
+                anger += adjust_by_a;
+            } else {
+                anger -= adjust_by_a;
+            }
+        }
+
+        if( anger > type->agro ) {
+            anger -= std::min( static_cast<int>( std::ceil( dt_left_a / 8.0 ) ),
+                               std::abs( anger - type->agro ) );
+        } else {
+            anger += std::min( ( dt_left_a / 8 ),
+                               std::abs( anger - type->agro ) );
+        }
+        // If we got angry at characters have a chance at calming down
+        if( aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+            add_msg( m_debug, "%s's character aggro reset", name() );
+            aggro_character = false;
+        }
+    }
+
+
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
@@ -3366,15 +3473,24 @@ void monster::on_load()
              name(), to_turns<int>( dt ), healed, healed_speed );
 }
 
-const pathfinding_settings &monster::get_pathfinding_settings() const
+const pathfinding_settings &monster::get_legacy_pathfinding_settings() const
 {
     return !effect_cache[PATHFINDING_OVERRIDE] ?
-           type->path_settings
-           : type->path_settings_buffed;
+           type->legacy_path_settings
+           : type->legacy_path_settings_buffed;
 
 }
 
-std::set<tripoint> monster::get_path_avoid() const
+std::pair<PathfindingSettings, RouteSettings> monster::get_pathfinding_pair()
+const
+{
+    return !effect_cache[PATHFINDING_OVERRIDE] ?
+           std::make_pair( type->path_settings, type->route_settings ) :
+           std::make_pair( type->path_settings_buffed, type->route_settings_buffed );
+
+}
+
+std::set<tripoint> monster::get_legacy_path_avoid() const
 {
     return std::set<tripoint>();
 }

@@ -77,7 +77,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
@@ -805,6 +804,7 @@ void wash_activity_actor::finish( player_activity &act, Character &who )
         } else {
             detached_ptr<item> it2 = it.split( i.count );
             it2->item_tags.erase( flag_FILTHY );
+            who.i_add_or_drop( std::move( it2 ) );
         }
         who.on_worn_item_washed( it );
     }
@@ -1029,9 +1029,9 @@ std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
 
     const auto &sorted = get_sorted_tiles_by_distance( p.pos(), passable_tiles );
 
-    const auto &avoid = p.get_path_avoid();
+    const auto &avoid = p.get_legacy_path_avoid();
     for( const tripoint &tp : sorted ) {
-        auto route = here.route( p.pos(), tp, p.get_pathfinding_settings(), avoid );
+        auto route = here.route( p.pos(), tp, p.get_legacy_pathfinding_settings(), avoid );
 
         if( !route.empty() ) {
             return route;
@@ -1296,7 +1296,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
         if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv += *elem;
+        temp_inv.add_item( *elem, true );
     }
     map &here = get_map();
     for( const tripoint &elem : loot_spots ) {
@@ -1323,7 +1323,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     continue;
                 }
             }
-            temp_inv += *elem2;
+            temp_inv.add_item( *elem2, true );
         }
         if( !in_loot_zones ) {
             if( const std::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
@@ -1331,7 +1331,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
                 for( auto &it : src_veh.get_items( src_part ) ) {
-                    temp_inv += *it;
+                    temp_inv.add_item( *it, true );
                 }
             }
         }
@@ -1347,12 +1347,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     item *welder = item::spawn_temporary( itype_welder, calendar::start_of_cataclysm );
                     welder->charges = veh.fuel_left( itype_battery, true );
                     welder->set_flag( flag_PSEUDO );
-                    temp_inv.add_item( *welder );
+                    temp_inv.add_item( *welder, false );
                     item *soldering_iron = item::spawn_temporary( itype_soldering_iron,
                                            calendar::start_of_cataclysm );
                     soldering_iron->charges = veh.fuel_left( itype_battery, true );
                     soldering_iron->set_flag( flag_PSEUDO );
-                    temp_inv.add_item( *soldering_iron );
+                    temp_inv.add_item( *soldering_iron, false );
                 }
             }
         }
@@ -2010,8 +2010,8 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
         p.consume_tools( it );
     }
     p.backlog.emplace_front( std::make_unique<player_activity>( activity_to_restore ) );
-    p.assign_activity( ACT_BUILD );
-    p.activity->placement = here.getabs( src_loc );
+    p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                       ( here.getglobal( src_loc ) ) ) );
     return true;
 }
 
@@ -2238,8 +2238,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     return;
                 }
                 std::vector<tripoint> route;
-                route = here.route( p.pos(), src_loc, p.get_pathfinding_settings(),
-                                    p.get_path_avoid() );
+                route = here.route( p.pos(), src_loc, p.get_legacy_pathfinding_settings(),
+                                    p.get_legacy_path_avoid() );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
                     continue;
@@ -2276,8 +2276,8 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
                 if( here.passable( src_loc ) ) {
-                    route = here.route( p.pos(), src_loc, p.get_pathfinding_settings(),
-                                        p.get_path_avoid() );
+                    route = here.route( p.pos(), src_loc, p.get_legacy_pathfinding_settings(),
+                                        p.get_legacy_path_avoid() );
                 } else {
                     // impassable source tile (locker etc.),
                     // get route to nearest adjacent tile instead
@@ -2478,7 +2478,7 @@ static bool mine_activity( player &p, const tripoint &src_loc )
         moves /= 2;
     }
     p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
-    p.activity->targets.emplace_back( chosen_item );
+    p.activity->tools.emplace_back( chosen_item );
     p.activity->placement = here.getabs( src_loc );
     return true;
 
@@ -2498,12 +2498,12 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( flag_TREE, src_loc ) ) {
         p.assign_activity( ACT_CHOP_TREE, moves, -1, p.get_item_position( best_qual ) );
-        p.activity->targets.emplace_back( best_qual );
+        p.activity->tools.emplace_back( best_qual );
         p.activity->placement = here.getabs( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
         p.assign_activity( ACT_CHOP_LOGS, moves, -1, p.get_item_position( best_qual ) );
-        p.activity->targets.emplace_back( best_qual );
+        p.activity->tools.emplace_back( best_qual );
         p.activity->placement = here.getabs( src_loc );
         return true;
     }
@@ -2946,8 +2946,8 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                reason == do_activity_reason::CAN_DO_PREREQ ) {
         if( here.partial_con_at( src_loc ) ) {
             p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
-            p.assign_activity( std::make_unique<player_activity>( ACT_BUILD ) );
-            p.activity->placement = src;
+            p.assign_activity( std::make_unique<player_activity>( std::make_unique<construction_activity_actor>
+                               ( tripoint_abs_ms( src ) ) ) );
             return false;
         }
         if( construction_activity( p, zone, src_loc, act_info, act_id ) ) {
@@ -2978,7 +2978,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         item *best_rod = p.best_quality_item( qual_FISHING );
         p.assign_activity( std::make_unique<player_activity>( ACT_FISH, to_moves<int>( 5_hours ), 0,
                            0, best_rod->tname() ) );
-        p.activity->targets.emplace_back( best_rod );
+        p.activity->tools.emplace_back( best_rod );
         p.activity->coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
@@ -3386,7 +3386,7 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         // If we specifically need tinder to start this fire, grab it the instant it's found and ignore any other fuel
         if( starting_fire ) {
             // Only track firestarter if we have an activity assigned to light a new fire, or it will implode.
-            item &firestarter = *act.targets.front();
+            item &firestarter = *act.tools.front();
             if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
                 if( it->has_flag( flag_TINDER ) ) {
                     move_item( p, *it, 1, *refuel_spot, *best_fire );

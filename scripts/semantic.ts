@@ -79,7 +79,7 @@ export const allModIds = await asynciter(walk("data/mods", {
  */
 export const scopes = {
   /** Default allowed scopes */
-  base: ["content", "UI", "i18n", "balance", "port"],
+  base: ["UI", "i18n", "balance", "port"],
   /** List of `mods/<MOD_ID>` */
   mods: allModIds.toSorted().map((x) => `mods/${x}`),
 }

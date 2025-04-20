@@ -4,7 +4,7 @@ title: Spells, enchantments and other custom effects
 
 # Spells
 
-In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
+In `data/json/debug_spells.json` there is a template spell, copied here for your perusal:
 
 ```json
 {
@@ -46,6 +46,9 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
   "min_range": 1, // range of the spell
   "max_range": 10,
   "range_increment": 2,
+  "min_accuracy": 50, // percentage "accuracy" of the spell. used for determining which body part was hit
+  "max_accuracy": 70,
+  "accuracy_increment": 2,
   "min_dot": 0, // damage over time (currently not implemented)
   "max_dot": 2,
   "dot_increment": 0.1,
@@ -225,17 +228,19 @@ experience you need to get to a level is below:
   valid target within range instead of the caster choosing the target. This also affects
   extra_effects.
 
-##### For Spells that have an attack type, these are the available damage types:
+##### For Spells that have an attack type, these are the available damage types (case-insensitive):
 
 - `fire`
 - `acid`
 - `bash`
+- `bullet`
 - `bio` - internal damage such as poison
 - `cold`
 - `cut`
 - `electric`
 - `stab`
-- `none` - this damage type goes through armor altogether. it is the default.
+- `true` - this damage type goes through armor altogether, and thus is very powerful. It is the
+  default damage type when unspecified.
 
 #### Spells that level up
 
@@ -370,9 +375,15 @@ Values:
 
 - `ALWAYS` (default) - Always active
 - `UNDERGROUND` - When the owner of the item is below Z-level 0
+- `ABOVEGROUND` - When the owner of the item is at or above Z-level 0
 - `UNDERWATER` - When the owner is in swimmable terrain
+- `NIGHT` - When it is night time
+- `DUSK` - When it is dusk
+- `DAY` - When it is day time
+- `DAWN` - When it is dawn
 - `ACTIVE` - whenever the item, mutation, bionic, or whatever the enchantment is attached to is
   active.
+- `INACTIVE` - the opposite of `ACTIVE`
 
 ### emitter
 

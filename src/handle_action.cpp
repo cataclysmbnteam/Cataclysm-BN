@@ -127,6 +127,7 @@ static const bionic_id bio_remote( "bio_remote" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_BRAWLER( "BRAWLER" );
 
 static const std::string flag_LOCKED( "LOCKED" );
 
@@ -880,7 +881,7 @@ static void wait()
     map &here = get_map();
 
     if( u.controlling_vehicle && ( here.veh_at( u.pos() )->vehicle().velocity ||
-                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
+                                   here.veh_at( u.pos() )->vehicle().cruise_velocity ) && u.pos().z < 4 ) {
         popup( _( "You can't pass time while controlling a moving vehicle." ) );
         return;
     }
@@ -921,6 +922,11 @@ static void wait()
         if( g->u.get_stamina() < g->u.get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
+        }
+        if( u.controlling_vehicle && u.pos().z > 3 ) {
+            add_menu_item( 14, 'x', "", 10_seconds );
+            add_menu_item( 15, 'y', "", 30_seconds );
+            add_menu_item( 16, 'z', "", 1_minutes );
         }
         add_menu_item( 1, '1', "", 5_minutes );
         add_menu_item( 2, '2', "", 30_minutes );
@@ -1097,7 +1103,8 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( g->u.is_deaf() ) {
+    // Infolink alarm is silent and works even if deaf
+    if( g->u.is_deaf() && !g->u.has_bionic( bionic_id( "bio_infolink" ) ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( u.has_alarm_clock() ) {
@@ -1442,6 +1449,12 @@ static void cast_spell()
         }
     }
 
+    if( u.has_trait( trait_BRAWLER ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "Pfft, magic is for COWARDS." ) );
+        return;
+    }
+
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
@@ -1456,7 +1469,7 @@ static void cast_spell()
     spell &sp = *u.magic->get_spells()[spell_index];
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
+        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) && u.primary_weapon().is_two_handed( u ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return;
@@ -1804,8 +1817,8 @@ bool game::handle_action()
                                                               u.posz() );
                             destination_preview = m.route( u.pos(),
                                                            auto_travel_destination,
-                                                           u.get_pathfinding_settings(),
-                                                           u.get_path_avoid() );
+                                                           u.get_legacy_pathfinding_settings(),
+                                                           u.get_legacy_path_avoid() );
                             if( !destination_preview.empty() ) {
                                 destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
                                 u.set_destination( destination_preview );

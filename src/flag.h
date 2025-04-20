@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_FLAG_H
-#define CATA_SRC_FLAG_H
 
 #include <set>
 #include <string>
@@ -77,6 +75,7 @@ extern const flag_id flag_CUSTOM_EXPLOSION;
 extern const flag_id flag_CUT_IMMUNE;
 extern const flag_id flag_DANGEROUS;
 extern const flag_id flag_DEAF;
+extern const flag_id flag_DESTROY_ON_DECHARGE;
 extern const flag_id flag_DIAMOND;
 extern const flag_id flag_DIG_TOOL;
 extern const flag_id flag_DIMENSIONAL_ANCHOR;
@@ -224,6 +223,7 @@ extern const flag_id flag_NPC_THROWN;
 extern const flag_id flag_NPC_THROW_NOW;
 extern const flag_id flag_NUTRIENT_OVERRIDE;
 extern const flag_id flag_ONLY_ONE;
+extern const flag_id flag_EXOSUIT;
 extern const flag_id flag_ORGANIC;
 extern const flag_id flag_OUTER;
 extern const flag_id flag_OVERSIZE;
@@ -328,6 +328,7 @@ extern const flag_id flag_TRADER_KEEP;
 extern const flag_id flag_TRADER_KEEP_EQUIPPED;
 extern const flag_id flag_TWO_WAY_RADIO;
 extern const flag_id flag_UNARMED_WEAPON;
+extern const flag_id flag_UNBREAKABLE;
 extern const flag_id flag_UNBREAKABLE_MELEE;
 extern const flag_id flag_UNDERSIZE;
 extern const flag_id flag_UNDERWATER_GUN;
@@ -337,6 +338,7 @@ extern const flag_id flag_URSINE_HONEY;
 extern const flag_id flag_USES_BIONIC_POWER;
 extern const flag_id flag_USES_GRID_POWER;
 extern const flag_id flag_USE_EAT_VERB;
+extern const flag_id flag_USE_PARENT_GUN;
 extern const flag_id flag_USE_PLAYER_ENERGY;
 extern const flag_id flag_USE_UPS;
 extern const flag_id flag_VARSIZE;
@@ -454,4 +456,4 @@ class json_flag
         static void reset();
 };
 
-#endif // CATA_SRC_FLAG_H
+

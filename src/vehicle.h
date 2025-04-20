@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_VEHICLE_H
-#define CATA_SRC_VEHICLE_H
 
 #include <array>
 #include <climits>
@@ -70,7 +68,7 @@ struct rider_data {
     int prt = -1;
     bool moved = false;
 };
-//collision factor for vehicle-vehicle collision; delta_v in mph
+//collision factor for vehicle-vehicle collision; delta_v in m/s
 float get_collision_factor( float delta_v );
 
 //How far to scatter parts from a vehicle when the part is destroyed (+/-)
@@ -112,7 +110,7 @@ struct veh_collision {
     //int veh?
     int part  = 0;
     veh_coll_type type = veh_coll_nothing;
-    // impulse
+    // Impulse, in Ns. Call impulse_to_damage or damage_to_impulse from vehicle_move.cpp for conversion to damage.
     int  imp = 0;
     //vehicle
     void *target  = nullptr;
@@ -183,6 +181,8 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
+float impulse_to_damage( float impulse );
+float damage_to_impulse( float damage );
 
 class turret_data
 {
@@ -1359,6 +1359,11 @@ class vehicle
          */
         int automatic_fire_turret( vehicle_part &pt );
 
+        // How many hits of damage `dmg` and damage type `type` to part with ID `p` to destroy it is needed?
+        // 0 if it will never destroy.
+        // Be aware this will not consider damage to more outside parts such as inner parts protected by an outer wall, only armor effects are considered
+        unsigned int hits_to_destroy( int p, int dmg, damage_type type ) const;
+
     private:
         /*
          * Find all turrets that are ready to fire.
@@ -1778,4 +1783,4 @@ namespace rot
 temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part );
 } // namespace rot
 
-#endif // CATA_SRC_VEHICLE_H
+

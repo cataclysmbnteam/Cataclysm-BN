@@ -28,6 +28,72 @@ add_custom_command(
             -P ${CMAKE_SOURCE_DIR}/src/version.cmake
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
+# Function to setup common properties for both tiles and curses targets
+function(setup_common_target_properties target_name)
+    # Add version dependency
+    add_dependencies(${target_name} get_version)
+
+    # Add common libraries
+    target_link_libraries(${target_name} PUBLIC ZLIB::ZLIB)
+    target_link_libraries(${target_name} PUBLIC SQLite::SQLite3)
+
+    # Setup threading
+    if (CMAKE_USE_PTHREADS_INIT)
+        target_compile_options(${target_name} PUBLIC "-pthread")
+    endif ()
+
+    if (CMAKE_THREAD_LIBS_INIT)
+        target_link_libraries(${target_name} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
+    endif ()
+
+    if (LUA)
+        target_compile_definitions(${target_name} PUBLIC LUA)
+        if (UNIX)
+            target_compile_definitions(${target_name} PUBLIC LUA_USE_LINUX)
+        elseif (APPLE)
+            target_compile_definitions(${target_name} PUBLIC LUA_USE_MACOSX)
+        endif()
+        target_link_libraries(${target_name} PUBLIC libsol)
+    endif ()
+
+    # Windows-specific libraries
+    if (WIN32)
+        target_link_libraries(${target_name} PUBLIC gdi32.lib)
+        target_link_libraries(${target_name} PUBLIC winmm.lib)
+        target_link_libraries(${target_name} PUBLIC imm32.lib)
+        target_link_libraries(${target_name} PUBLIC ole32.lib)
+        target_link_libraries(${target_name} PUBLIC oleaut32.lib)
+        target_link_libraries(${target_name} PUBLIC version.lib)
+
+        if (BACKTRACE)
+            target_link_libraries(${target_name} PUBLIC dbghelp.lib)
+            if (LIBBACKTRACE)
+                target_link_libraries(${target_name} PUBLIC backtrace)
+            endif ()
+        endif ()
+    elseif (APPLE)
+        target_link_libraries(${target_name} PUBLIC "-framework CoreFoundation")
+    endif ()
+
+    # Backtrace support
+    if (LIBBACKTRACE)
+        target_link_libraries(${target_name} PUBLIC backtrace)
+    endif ()
+
+    # Tracy profiling support
+    if (USE_TRACY)
+        target_link_libraries(${target_name} PUBLIC TracyClient)
+        target_include_directories(${target_name} SYSTEM PUBLIC ${tracy_SOURCE_DIR}/public)
+        target_compile_definitions(${target_name} PUBLIC USE_TRACY)
+    endif ()
+
+    # Set up precompiled headers if not exporting compile commands
+    if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
+        target_precompile_headers(${target_name} PRIVATE
+            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
+    endif ()
+endfunction()
+
 # Build tiles version if requested
 if (TILES)
     add_library(
@@ -49,33 +115,19 @@ if (TILES)
                 ${MESSAGES_CPP})
     endif ()
 
-    if (LUA)
-        target_compile_definitions(cataclysm-bn-tiles-common PUBLIC LUA)
-            if (UNIX)
-                target_compile_definitions(cataclysm-bn-tiles-common PUBLIC LUA_USE_LINUX)
-            elseif (APPLE)
-                target_compile_definitions(cataclysm-bn-tiles-common PUBLIC LUA_USE_MACOSX)
-            endif()
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC libsol)
-    endif ()
+    setup_common_target_properties(cataclysm-bn-tiles-common)
 
-    add_dependencies(cataclysm-bn-tiles-common get_version)
-
+    # Tiles-specific setup
+    target_compile_definitions(cataclysm-bn-tiles-common PUBLIC TILES)
     target_link_libraries(cataclysm-bn-tiles PRIVATE cataclysm-bn-tiles-common)
-    target_compile_definitions(cataclysm-bn-tiles-common PUBLIC TILES )
 
-    if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
-        target_precompile_headers(cataclysm-bn-tiles-common PRIVATE
-            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
-    endif ()
-
-    if (CMAKE_USE_PTHREADS_INIT)
-        target_compile_options(cataclysm-bn-tiles-common PUBLIC "-pthread")
-    endif ()
-
-    if (CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
-    endif ()
+    # Windows specific tiles libraries
+    if (WIN32)
+        target_link_libraries(cataclysm-bn-tiles-common PUBLIC setupapi.lib)
+        if (SOUND)
+            target_link_libraries(cataclysm-bn-tiles-common PUBLIC shlwapi.lib)
+        endif()
+    endif()
 
     if (NOT DYNAMIC_LINKING)
         target_link_libraries(cataclysm-bn-tiles-common PUBLIC
@@ -90,6 +142,7 @@ if (TILES)
             SDL2_ttf::SDL2_ttf
         )
     endif ()
+
     if (SOUND)
         if (NOT DYNAMIC_LINKING)
             target_link_libraries(cataclysm-bn-tiles-common PUBLIC
@@ -103,43 +156,11 @@ if (TILES)
         add_definitions(-DSDL_SOUND)
     endif ()
 
-    if (WIN32)
-        # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC gdi32.lib)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC winmm.lib)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC imm32.lib)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC ole32.lib)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC oleaut32.lib)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC version.lib)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC setupapi.lib)
-        if (SOUND)
-            target_link_libraries(cataclysm-bn-tiles-common PUBLIC shlwapi.lib)
-        endif()
-        if (BACKTRACE)
-            target_link_libraries(cataclysm-bn-tiles-common PUBLIC dbghelp.lib)
-            if (LIBBACKTRACE)
-                target_link_libraries(cataclysm-bn-tiles-common PUBLIC backtrace)
-            endif ()
-        endif ()
-    elseif (APPLE)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC "-framework CoreFoundation")
-    endif ()
-
-    if (LIBBACKTRACE)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC backtrace)
-    endif ()
-
-    if (USE_TRACY)
-        target_link_libraries(cataclysm-bn-tiles-common PUBLIC TracyClient)
-        target_include_directories(cataclysm-bn-tiles-common SYSTEM PUBLIC ${tracy_SOURCE_DIR}/public)
-        target_compile_definitions(cataclysm-bn-tiles-common PUBLIC USE_TRACY)
-    endif ()
-
     if (RELEASE)
         install(TARGETS cataclysm-bn-tiles RUNTIME)
     endif ()
 
-    set_target_properties( cataclysm-bn-tiles PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}" )
+    set_target_properties(cataclysm-bn-tiles PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 endif ()
 
 # Build curses version if requested
@@ -148,11 +169,6 @@ if (CURSES)
             ${CATACLYSM_BN_SOURCES}
             ${CATACLYSM_BN_HEADERS})
     target_include_directories(cataclysm-bn-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
-
-    if (NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
-        target_precompile_headers(cataclysm-bn-common PRIVATE
-            ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
-    endif ()
 
     if (WIN32)
         add_executable(cataclysm-bn
@@ -165,54 +181,12 @@ if (CURSES)
                 ${MESSAGES_CPP})
     endif ()
 
-    if (LUA)
-        target_compile_definitions(cataclysm-bn-common PUBLIC LUA)
-        if (UNIX)
-            target_compile_definitions(cataclysm-bn-common PUBLIC LUA_USE_LINUX)
-        elseif (APPLE)
-            target_compile_definitions(cataclysm-bn-common PUBLIC LUA_USE_MACOSX)
-        endif()
-        target_link_libraries(cataclysm-bn-common PUBLIC libsol)
-    endif ()
+    setup_common_target_properties(cataclysm-bn-common)
 
-    add_dependencies(cataclysm-bn-common get_version)
-    target_link_libraries(cataclysm-bn PRIVATE cataclysm-bn-common)
-
+    # Curses-specific setup
     target_include_directories(cataclysm-bn-common PUBLIC ${CURSES_INCLUDE_DIR})
     target_link_libraries(cataclysm-bn-common PUBLIC ${CURSES_LIBRARIES})
-
-    if (CMAKE_USE_PTHREADS_INIT)
-        target_compile_options(cataclysm-bn-common PUBLIC "-pthread")
-    endif ()
-
-    if (CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-bn-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
-    endif ()
-
-    if (WIN32)
-        # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-bn-common PUBLIC gdi32.lib)
-        target_link_libraries(cataclysm-bn-common PUBLIC winmm.lib)
-        target_link_libraries(cataclysm-bn-common PUBLIC imm32.lib)
-        target_link_libraries(cataclysm-bn-common PUBLIC ole32.lib)
-        target_link_libraries(cataclysm-bn-common PUBLIC oleaut32.lib)
-        target_link_libraries(cataclysm-bn-common PUBLIC version.lib)
-        if (BACKTRACE)
-            target_link_libraries(cataclysm-bn-common PUBLIC dbghelp.lib)
-        endif ()
-    elseif (APPLE)
-        target_link_libraries(cataclysm-bn-common PUBLIC "-framework CoreFoundation")
-    endif ()
-
-    if (LIBBACKTRACE)
-        target_link_libraries(cataclysm-bn-common PUBLIC backtrace)
-    endif ()
-
-    if (USE_TRACY)
-        target_link_libraries(cataclysm-bn-common PUBLIC TracyClient)
-        target_include_directories(cataclysm-bn-common SYSTEM PUBLIC ${tracy_SOURCE_DIR}/public)
-        target_compile_definitions(cataclysm-bn-common PUBLIC USE_TRACY)
-    endif ()
+    target_link_libraries(cataclysm-bn PRIVATE cataclysm-bn-common)
 
     if (RELEASE)
         install(TARGETS cataclysm-bn RUNTIME)

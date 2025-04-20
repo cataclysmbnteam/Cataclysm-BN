@@ -170,7 +170,9 @@ std::unique_ptr<player_activity> veh_interact::serialize_activity()
     res->values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res->values.push_back( q.z );   // values[7]
     res->str_values.push_back( vp->get_id().str() );
-    res->targets.emplace_back( target );
+    if( target ) {
+        res->targets.emplace_back( target );
+    }
 
     return res;
 }
@@ -999,6 +1001,7 @@ void veh_interact::do_install()
                part.has_flag( VPFLAG_FRIDGE ) ||
                part.has_flag( VPFLAG_FREEZER ) ||
                part.has_flag( "KITCHEN" ) ||
+               part.has_flag( "BUTCHER_EQ" ) ||
                part.has_flag( "WELDRIG" ) ||
                part.has_flag( "CRAFTRIG" ) ||
                part.has_flag( "CHEMLAB" ) ||

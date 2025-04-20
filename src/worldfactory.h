@@ -1,6 +1,4 @@
 #pragma once
-#ifndef CATA_SRC_WORLDFACTORY_H
-#define CATA_SRC_WORLDFACTORY_H
 
 #include <cstddef>
 #include <functional>
@@ -79,6 +77,8 @@ class worldfactory
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
         void edit_active_world_mods( WORLDINFO *world );
 
+        void convert_to_v2( const std::string &worldname );
+
     private:
         std::map<std::string, std::unique_ptr<WORLDINFO>> all_worlds;
 
@@ -121,4 +121,4 @@ void load_external_option( const JsonObject &jo );
 
 extern std::unique_ptr<worldfactory> world_generator;
 
-#endif // CATA_SRC_WORLDFACTORY_H
+

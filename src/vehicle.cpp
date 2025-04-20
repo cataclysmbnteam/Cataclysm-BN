@@ -6644,24 +6644,46 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, point impact )
     if( dmg2 < dmg1 ) {
         std::swap( dmg1, dmg2 );
     }
-
     if( dmg1 < 1 ) {
         return;
     }
-
+    const float damage_min = std::abs( dmg1 );
+    const float damage_max = std::abs( dmg2 );
+    add_msg( m_debug, "Shock damage to vehicle of %.2f to %.2f", damage_min, damage_max );
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
+        const vpart_info &shockpart = part_info( p );
         int distance = 1 + square_dist( vp.mount(), impact );
         if( distance > 1 ) {
             int net_dmg = rng( dmg1, dmg2 ) / ( distance * distance );
-            if( part_info( p ).location != part_location_structure ||
-                !part_info( p ).has_flag( "PROTRUSION" ) ) {
+            if( shockpart.location != part_location_structure ||
+                !shockpart.has_flag( "PROTRUSION" ) ) {
+                if( shockpart.has_flag( "SHOCK_IMMUNE" ) ) {
+                    net_dmg = 0;
+                    continue;
+                }
                 int shock_absorber = part_with_feature( p, "SHOCK_ABSORBER", true );
                 if( shock_absorber >= 0 ) {
-                    net_dmg = std::max( 0, net_dmg - parts[ shock_absorber ].info().bonus );
+                    net_dmg = std::max( 0.0f, net_dmg - ( parts[ shock_absorber ].info().bonus ) -
+                                        shockpart.damage_reduction.type_resist( type ) );
+                }
+                if( shockpart.has_flag( "SHOCK_RESISTANT" ) ) {
+                    float damage_resist = 0;
+                    for( const int elem : all_parts_at_location( shockpart.location ) ) {
+                        //Original intent was to find the frame that the part was mounted on and grab that objects resistance, but instead we will go with half the largest damage resist in the stack.
+                        damage_resist = std::max( damage_resist, part_info( elem ).damage_reduction.type_resist( type ) );
+                    }
+                    damage_resist = damage_resist / 2;
+
+                    add_msg( m_debug, "%1s inherited %.1f damage resistance!", shockpart.name(), damage_resist );
+                    net_dmg = std::max( 0.0f, net_dmg - damage_resist );
                 }
             }
-            damage_direct( p, net_dmg, type );
+            if( net_dmg > part_info( p ).damage_reduction.type_resist( type ) ) {
+                damage_direct( p, net_dmg, type );
+                add_msg( m_debug, _( "%1s took %.1f damage from shock." ), part_info( p ).name(), 1.0f * net_dmg );
+            }
+
         }
     }
 }
@@ -6826,6 +6848,66 @@ bool vehicle::explode_fuel( int p, damage_type type )
     }
 
     return true;
+}
+
+unsigned int vehicle::hits_to_destroy( int p, int dmg, damage_type type ) const
+{
+    const int armor_part = part_with_feature( p, VPFLAG_ARMOR, true );
+    const bool is_armor_considered = !(
+                                         armor_part < 0 ||
+                                         part_flag( p, VPFLAG_ROOF ) ||
+                                         part_info( p ).location == "on_roof"
+                                     );
+
+
+    const int part_hp = parts[p].hp();
+    const int part_damage_reduction = part_info( p ).damage_reduction.type_resist( type );
+    const int part_threshold_damage = std::clamp( part_info( p ).durability / 10, 1, 20 );
+
+    const int part_dmg_without_armor = dmg - part_damage_reduction;
+
+    // Easiest case: part will not get destroyed, period
+    if( part_dmg_without_armor <= 0 ||
+        ( type != DT_TRUE &&
+          part_dmg_without_armor < part_threshold_damage ) ) {
+        return 0;
+    }
+
+    // Easy case: part unprotected and will be destroyed
+    if( !is_armor_considered ) {
+        const int part_htd = part_hp / part_dmg_without_armor +
+                             ( part_hp % part_dmg_without_armor > 0 );
+        return part_htd;
+    }
+
+    const int armor_hp = parts[armor_part].hp();
+    const int armor_damage_reduction = part_info( armor_part ).damage_reduction.type_resist( type );
+    const int armor_threshold_damage = std::clamp( part_info( armor_part ).durability / 10, 1, 20 );
+    const int armor_dmg = dmg - armor_damage_reduction;
+
+    // First, determine how long armor will remain for
+    const int armor_htd = armor_dmg <= 0 || ( type != DT_TRUE && armor_dmg < armor_threshold_damage ) ?
+                          INT_MAX :
+                          armor_hp / armor_dmg + ( armor_hp % armor_dmg > 0 );
+
+    const int part_dmg_with_armor = part_dmg_without_armor - armor_damage_reduction;
+    // How long will the part remain with armor unbroken?
+    const int part_htd_with_armor = ( part_dmg_with_armor <= 0 ||
+                                      ( type != DT_TRUE && part_dmg_with_armor < part_threshold_damage ) ) ?
+                                    INT_MAX :
+                                    part_hp / part_dmg_with_armor + ( part_hp % part_dmg_with_armor  > 0 );
+
+    // Part gets destroyed before armor does
+    if( part_htd_with_armor <= armor_htd ) {
+        return part_htd_with_armor;
+    }
+
+    // Armor gets destroyed before part does
+    const int part_hp_after_armor = part_hp - armor_htd * std::max( part_dmg_with_armor, 0 );
+    const int part_htd_after_armor = part_hp_after_armor / part_dmg_without_armor +
+                                     ( part_hp_after_armor % part_dmg_without_armor  > 0 );
+
+    return armor_htd + part_htd_after_armor;
 }
 
 int vehicle::damage_direct( int p, int dmg, damage_type type )

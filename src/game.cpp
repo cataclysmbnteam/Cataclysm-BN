@@ -135,6 +135,7 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "path_info.h"
+#include "pathfinding.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -778,13 +779,13 @@ vehicle *game::place_vehicle_nearby(
         }
     }
     for( const std::string &search_type : search_types ) {
-        omt_find_params find_params;
-        find_params.must_see = false;
-        find_params.cant_see = false;
-        find_params.types.emplace_back( search_type, ot_match_type::type );
+        // TODO: Pull-up find_params and use that scan result instead
         // find nearest road
-        find_params.min_distance = min_distance;
-        find_params.search_range = max_distance;
+        omt_find_params find_params;
+        find_params.types.emplace_back( search_type, ot_match_type::type );
+        find_params.search_range = { min_distance, max_distance };
+        find_params.search_layers = std::nullopt;
+
         // if player spawns underground, park their car on the surface.
         const tripoint_abs_omt omt_origin( origin, 0 );
         for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
@@ -878,6 +879,11 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
+
+    //needs to have all npcs loaded
+    for( Character &guy : all_npcs() ) {
+        guy.activity->init_all_moves( guy );
+    }
 }
 
 void game::create_starting_npcs()
@@ -1599,6 +1605,9 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
+    // Finally, clear pathfinding cache
+    Pathfinding::clear_d_maps();
+
     return false;
 }
 
@@ -1621,7 +1630,7 @@ void game::process_voluntary_act_interrupt()
         return;
     }
 
-    bool has_activity = u.activity && u.activity->moves_left > 0;
+    bool has_activity = u.activity && !u.activity->complete();
     bool is_travelling = u.has_destination() && !u.omt_path.empty();
 
     if( !has_activity && !is_travelling ) {
@@ -2310,8 +2319,8 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     }
 
     if( new_destination ) {
-        destination_preview = m.route( u.pos(), mouse_target, u.get_pathfinding_settings(),
-                                       u.get_path_avoid() );
+        destination_preview = m.route( u.pos(), mouse_target, u.get_legacy_pathfinding_settings(),
+                                       u.get_legacy_path_avoid() );
         return false;
     }
 
@@ -2619,6 +2628,8 @@ bool game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
+    //needs all npcs and stats loaded
+    u.activity->init_all_moves( u );
 
     cata::load_world_lua_state( get_active_world(), "lua_state.json" );
 
@@ -6858,7 +6869,7 @@ look_around_result game::look_around( bool show_window, tripoint &center,
                 continue;
             }
 
-            auto route = m.route( u.pos(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto route = m.route( u.pos(), lp, u.get_legacy_pathfinding_settings(), u.get_legacy_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -6981,7 +6992,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
 
     for( int i = 1; i <= range; i++ ) {
         int z = i % 2 ? center_z - i / 2 : center_z + i / 2;
-        for( auto &points_p_it : closest_points_first( {u.pos().xy(), z}, iRadius ) ) {
+        for( auto &points_p_it : closest_points_first<tripoint>( {u.pos().xy(), z}, iRadius ) ) {
             if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
                 u.sees( points_p_it ) &&
                 m.sees_some_items( points_p_it, u ) ) {
@@ -7635,8 +7646,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
             }
-            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(),
-                                  u.get_path_avoid() );
+            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_legacy_pathfinding_settings(),
+                                  u.get_legacy_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -8219,10 +8230,10 @@ static void butcher_submenu( const std::vector<item *> &corpses, int corpse = -1
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( you, inv, *corpses[corpse], bt );
+            time_to_cut = butcher_time_to_cut( *corpses[corpse], bt );
         } else {
             for( const item * const &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( you, inv, *it, bt );
+                time_to_cut += butcher_time_to_cut( *it, bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
@@ -8524,18 +8535,33 @@ void game::butcher()
             kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
         }
         if( disassembles.size() > 1 ) {
-            int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
+            int time_to_disassemble_rec = 0;
+            std::vector<std::pair<itype_id, int>> disassembly_stacks_res;
+
             for( const auto &stack : disassembly_stacks ) {
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time;
-                time_to_disassemble += time;
                 time_to_disassemble_all += time * stack.second;
+                disassembly_stacks_res.emplace_back( stack.first->typeId(), stack.second );
             }
 
-            kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) );
-            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
+            for( int i = 0; i < static_cast<int>( disassembly_stacks_res.size() ); i++ ) {
+                const auto dis = recipe_dictionary::get_uncraft( disassembly_stacks_res[i].first );
+                time_to_disassemble_rec += dis.time * disassembly_stacks_res[i].second;
+                //uses default craft materials to estimate recursive disassembly time
+                const auto components = dis.disassembly_requirements().get_components();
+                for( const auto &subcomps : components ) {
+                    if( subcomps.size() > 0 ) {
+                        disassembly_stacks_res.emplace_back( subcomps.front().type,
+                                                             subcomps.front().count * disassembly_stacks_res[i].second );
+                    }
+                }
+            }
+
+            kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything" ),
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
+            kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_rec / 100 ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {
             int time_to_salvage = 0;
@@ -8943,8 +8969,14 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
-        const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
-        const double encumb_moves = u.get_weight() / 4800.0_gram;
+
+        // u.run_cost(mcost, diag) while mounted just returns mcost itself
+        const double base_moves = mcost * 100.0 / crit->get_speed();
+        units::mass carried_weight = crit->get_carried_weight() + u.get_weight();
+        units::mass max_carry_weight = crit->weight_capacity();
+        units::mass weight_overload = std::max( 0_gram, carried_weight - max_carry_weight );
+        const double encumb_moves = weight_overload / 5_kilogram;
+
         u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
         if( u.movement_mode_is( CMM_WALK ) ) {
             crit->use_mech_power( -2 );

@@ -6,7 +6,19 @@ on:
   #   paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**","tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
   pull_request:
     branches: [main]
-    paths: [ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/**", "tools/clang-tidy-plugin/**", ".github/workflows/clang-tidy.yml", "**/.clang-tidy" ]
+    paths: [
+      "**.cpp",
+      "**.h",
+      "**.c",
+      "**/CMakeLists.txt",
+      "**/Makefile",
+      "**.hpp",
+      "**.cmake",
+      "build-scripts/**",
+      "tools/clang-tidy-plugin/**",
+      ".github/workflows/clang-tidy.yml",
+      "**/.clang-tidy",
+    ]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
@@ -50,7 +62,8 @@ jobs:
           sudo apt-get install \
             cmake gettext ninja-build mold ccache jq \
             clang-18 libclang-18-dev llvm-18 llvm-18-dev clang-tidy-18 \
-            libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev libflac-dev
+            libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev libflac-dev \
+            sqlite3 libsqlite3-dev zlib1g-dev
 
       - name: ensure clang 18 is installed
         run: |

@@ -283,5 +283,10 @@
     "type": "tool_quality",
     "id": "FILTER",
     "name": { "str": "filtration" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SANDING",
+    "name": { "str": "sanding" }
   }
 ]

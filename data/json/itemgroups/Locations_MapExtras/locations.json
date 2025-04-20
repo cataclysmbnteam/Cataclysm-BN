@@ -596,6 +596,7 @@
       [ "manual_zui_quan", 20 ],
       [ "howto_computer", 20 ],
       [ "touristmap", 25 ],
+      [ "regionaltransportmap", 25 ],
       [ "restaurantmap", 25 ],
       [ "roadmap", 25 ],
       [ "trailmap", 25 ],
@@ -1051,6 +1052,7 @@
       [ "morningstar", 2 ],
       [ "morningstar_fake", 3 ],
       [ "morningstar_inferior", 4 ],
+      [ "club_spiked", 3 ],
       [ "warhammer", 2 ],
       [ "scythe_war", 2 ],
       [ "pike", 2 ],
@@ -1454,6 +1456,7 @@
       { "item": "coke", "prob": 8 },
       { "item": "meth", "prob": 2 },
       { "item": "heroin", "prob": 1 },
+      { "item": "sizzurp", "prob": 4 },
       { "item": "syringe", "prob": 8 },
       { "item": "electrohack", "prob": 3 },
       { "item": "textbook_gaswarfare", "prob": 1 },
@@ -1562,6 +1565,7 @@
       { "item": "razor_blade", "prob": 20 },
       { "item": "soap", "prob": 5 },
       { "item": "detergent", "prob": 5 },
+      { "item": "shimmer", "prob": 3 },
       { "item": "knitting_needles", "prob": 1 },
       { "group": "auto_sears", "prob": 5 },
       { "item": "survnote", "prob": 2 }
@@ -1616,7 +1620,7 @@
       { "item": "kufi", "prob": 10 },
       { "item": "kittel", "prob": 10 },
       { "item": "kippah", "prob": 10 },
-      { "item": "icon", "prob": 20 }
+      { "item": "money_bundle", "prob": 20 }
     ]
   },
   {
@@ -1686,6 +1690,7 @@
       [ "coke", 8 ],
       [ "meth", 2 ],
       [ "heroin", 1 ],
+      [ "sizzurp", 3 ],
       [ "sneakers", 40 ],
       [ "mask_hockey", 5 ],
       [ "mask_guy_fawkes", 5 ],
@@ -1866,6 +1871,7 @@
       [ "helmet_football", 5 ],
       [ "mouthpiece", 5 ],
       [ "roller_blades", 20 ],
+      [ "folding_skateboard", 10 ],
       [ "rollerskates", 10 ],
       [ "rollerskates", 10 ],
       [ "roller_shoes_off", 10 ],
