@@ -226,6 +226,7 @@
     "type": "TOOL",
     "name": { "str": "bulette 45 acp bag" },
     "description": "An ammo bag enchanted to slowly produce ammo over time.  In this case, it's tuned to .45 ACP.",
+    "looks_like": "ammo_pouch",
     "weight": "600 g",
     "volume": "500 ml",
     "price": "1 kUSD",
@@ -233,16 +234,18 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "red",
-    "ammo": "bulette_45_acp",
     "initial_charges": 6,
     "max_charges": 60,
-    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "1 h", "rate": 1 } ] }
+    "charges_per_use": 1,
+    "use_action": { "type": "cast_spell", "spell_id": "give_bulette_45", "no_fail": true, "level": 1 },
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "2 h", "rate": 1 } ] }
   },
   {
     "id": "bulette_357_bag",
     "type": "TOOL",
     "name": { "str": "bulette 357 magnum bag" },
     "description": "An ammo bag enchanted to slowly produce ammo over time.  In this case, it's tuned to .357 magnum.",
+    "looks_like": "ammo_pouch",
     "weight": "600 g",
     "volume": "500 ml",
     "price": "1 kUSD",
@@ -250,16 +253,18 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "red",
-    "ammo": "bulette_357mag",
     "initial_charges": 6,
     "max_charges": 60,
-    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "1 h", "rate": 1 } ] }
+    "charges_per_use": 1,
+    "use_action": { "type": "cast_spell", "spell_id": "give_bulette_357", "no_fail": true, "level": 1 },
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "2 h", "rate": 1 } ] }
   },
   {
     "id": "bulette_40_bag",
     "type": "TOOL",
     "name": { "str": "bulette 40 S&W bag" },
     "description": "An ammo bag enchanted to slowly produce ammo over time.  In this case, it's tuned to .40 S&W.",
+    "looks_like": "ammo_pouch",
     "weight": "600 g",
     "volume": "500 ml",
     "price": "1 kUSD",
@@ -267,9 +272,10 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "red",
-    "ammo": "bulette_40fmj",
     "initial_charges": 6,
     "max_charges": 60,
-    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "1 h", "rate": 1 } ] }
+    "charges_per_use": 1,
+    "use_action": { "type": "cast_spell", "spell_id": "give_bulette_40", "no_fail": true, "level": 1 },
+    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "2 h", "rate": 1 } ] }
   }
 ]
