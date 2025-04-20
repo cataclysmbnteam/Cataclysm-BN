@@ -525,7 +525,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": "%",
     "color": "white",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "DURABLE_MELEE"  ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "ALLOWS_REMOTE_USE", "DURABLE_MELEE" ]
   },
   {
     "id": "gasoline_cooker",
