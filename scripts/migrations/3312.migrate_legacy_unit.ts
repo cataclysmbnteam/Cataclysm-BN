@@ -56,8 +56,6 @@ export const base = z
     integral_volume: migrateVolume,
     magazine_well: migrateVolume,
 
-    filthy_volume_threshold: migrateVolume,
-
     max_volume: migrateVolume,
     min_volume: migrateVolume,
 
@@ -65,7 +63,6 @@ export const base = z
       z.object({
         max_volume: migrateVolume,
         min_volume: migrateVolume,
-        filthy_volume_threshold: migrateVolume,
 
         max_weight: migrateWeight,
       }).passthrough(),
