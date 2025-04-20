@@ -184,7 +184,7 @@
     "time": "5 m",
     "autolearn": true,
     "components": [
-      [ [ "volatile_explosive", 24, "LIST" ], [ "stable_explosive", 24, "LIST" ], [ "military_explosive", 24, "LIST" ] ],
+      [ [ "volatile_explosive", 120, "LIST" ], [ "stable_explosive", 120, "LIST" ], [ "military_explosive", 120, "LIST" ] ],
       [ [ "delay_fuze", 1 ], [ "fuse", 1 ] ],
       [ [ "jug_plastic", 1 ] ]
     ]

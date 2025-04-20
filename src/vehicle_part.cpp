@@ -470,6 +470,14 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         if( e_heater ) {
             flag = temperature_flag::TEMP_HEATER;
         }
+
+        const vpart_info vpinfo = info();
+        if( enabled && vpinfo.has_flag( VPFLAG_FRIDGE ) ) {
+            flag = temperature_flag::TEMP_FRIDGE;
+        } else if( enabled && vpinfo.has_flag( VPFLAG_FREEZER ) ) {
+            flag = temperature_flag::TEMP_FREEZER;
+        }
+
         base = item::process( base.release(), nullptr, pos, false, flag );
     }
 }
