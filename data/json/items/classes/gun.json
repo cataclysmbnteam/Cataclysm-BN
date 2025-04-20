@@ -77,7 +77,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "handling": 10
   },
   {
     "abstract": "pistol_backup",
@@ -477,7 +476,6 @@
     "skill": "rifle",
     "dispersion": 300,
     "reload": 400,
-    "handling": 10,
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "flags": [ "MOUNTED_GUN" ],
     "blackpowder_tolerance": 48,
@@ -491,7 +489,6 @@
     "name": { "str": "energy gatling gun" },
     "bashing": 8,
     "reload": 200,
-    "handling": 10,
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NON_FOULING" ],
     "valid_mod_locations": [ [ "sling", 1 ], [ "rail", 1 ], [ "sights", 1 ] ],
     "faults": [  ]
@@ -507,7 +504,6 @@
     "skill": "launcher",
     "ammo": "chemical_spray",
     "ammo_to_fire": 50,
-    "handling": 10,
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
