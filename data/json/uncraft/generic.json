@@ -2325,7 +2325,7 @@
     "result": "laptop",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "1 h",
+    "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],

@@ -463,6 +463,7 @@
     "result_mult": 2,
     "difficulty": 2,
     "time": "2 m",
+    "autolearn": true,
     "batch_time_factors": [ 80, 5 ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [
