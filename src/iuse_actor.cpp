@@ -171,6 +171,10 @@ void iuse_transform::load( const JsonObject &obj )
         obj.throw_error( "Transform actor specified both fixed and random target charges",
                          "target_charges" );
     }
+    if( obj.has_member( "target_power" ) && obj.has_member( "rand_target_power" ) ) {
+        obj.throw_error( "Transform actor specified both fixed and random target power",
+                         "target_power" );
+    }
     obj.read( "target_charges", ammo_qty );
     if( obj.has_array( "rand_target_charges" ) ) {
         for( const int charge : obj.get_array( "rand_target_charges" ) ) {
@@ -183,6 +187,9 @@ void iuse_transform::load( const JsonObject &obj )
 
     obj.read( "target_power", enrg_qty );
     assign( obj, "rand_target_power", random_enrg_qty );
+    if( random_enrg_qty.size() < 2 ) {
+        obj.throw_error( "You must specify two or more values to choose between", "rand_target_power" );
+    }
 
     obj.read( "target_ammo", ammo_type );
 
@@ -322,8 +329,9 @@ std::pair<int, units::energy> iuse_transform::use( player &p, item &it, bool t,
         if( enrg_qty >= 0_J || !random_enrg_qty.empty() ) {
             units::energy e_qty = 0_J;
             if( !random_enrg_qty.empty() ) {
-                e_qty = units::from_joule( rng( units::to_joule( random_enrg_qty[0] ),
-                                                units::to_joule( random_enrg_qty[1] ) ) );
+                const auto index = rng( 1, random_ammo_qty.size() - 1 );
+                e_qty = units::from_joule( rng( units::to_joule( random_enrg_qty[index - 1] ),
+                                                units::to_joule( random_enrg_qty[index] ) ) );
             } else {
                 e_qty = enrg_qty;
             }
