@@ -3652,7 +3652,7 @@
     "id": "national_guard",
     "name": "National Guard",
     "description": "Your National Guard unit was activated when the epidemic struck.  Despite your best efforts you did not manage to meet up with them before all communications ceased and you found yourself alone amongst the dead.  Now you're left wishing you got to keep the gun alongside the uniform.",
-    "points": 3,
+    "points": 2,
     "traits": [ "PROF_MILITARY" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
     "items": {
