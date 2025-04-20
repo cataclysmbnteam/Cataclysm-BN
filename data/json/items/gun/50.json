@@ -59,6 +59,7 @@
     "name": { "str_sp": "M2HB Browning MG" },
     "description": "If you see it - it is bug!",
     "clip_size": 300,
+    "dispersion": 900,
     "magazines": [  ]
   },
   {
