@@ -1937,7 +1937,8 @@
       [ [ "hacksaw", 1 ] ],
       [ [ "wrench", 1 ] ],
       [ [ "saw", 1 ] ],
-      [ [ "hammer", 1 ] ]
+      [ [ "hammer", 1 ] ],
+      [ [ "sandpaper", 1 ] ]
     ]
   },
   {
@@ -3116,5 +3117,20 @@
     "using": [ [ "wood_structural", 8 ], [ "nail_glue", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 }, { "id": "SANDING", "level": 1 } ],
     "components": [ [ [ "varnish", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sandpaper",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "material_sand", 1 ], [ "glass_shard", 1 ] ],
+      [ [ "paper", 1 ], [ "rag", 1 ] ],
+      [ [ "adhesive_proper", 1, "LIST" ] ]
+    ]
   }
 ]
