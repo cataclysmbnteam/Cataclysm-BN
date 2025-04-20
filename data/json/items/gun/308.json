@@ -53,12 +53,12 @@
     "material": "hardsteel",
     "color": "dark_gray",
     "ammo": "308",
-    "ups_charges": 1,
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "durability": 9,
     "modes": [ [ "DEFAULT", "low auto", 6 ], [ "AUTO", "high auto", 18 ] ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
-    "extend": { "flags": [ "NEVER_JAMS" ] }
+    "extend": { "flags": [ "NEVER_JAMS" ] },
+    "power_draw": "1 kJ"
   },
   {
     "id": "m14ebr",

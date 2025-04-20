@@ -3362,15 +3362,13 @@
     "color": "light_gray"
   },
   {
-    "id": "vac_oven_small",
     "type": "TOOL",
+    "id": "vac_oven_small",
     "category": "tools",
     "name": { "str": "small vacuum oven" },
     "description": "A small 0.9 cubic foot vacuum oven used to purge residual solvents out of liquids and solid.  Looks kind of like a microwave.",
     "looks_like": "microwave",
     "weight": "40860 g",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "batteries": [ "large_storage_battery", "storage_battery" ],
     "volume": "27 L",
     "price": "1 kUSD",
@@ -3379,7 +3377,8 @@
     "material": "steel",
     "symbol": "E",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "power_draw": "1 kJ"
   },
   {
     "id": "vac_oven_small_full",
@@ -3441,8 +3440,8 @@
     "flags": [ "TRADER_AVOID", "NO_UNLOAD", "ALLOWS_REMOTE_USE" ]
   },
   {
-    "id": "vac_oven_small_done",
     "type": "TOOL",
+    "id": "vac_oven_small_done",
     "category": "tools",
     "name": { "str": "finished small vacuum oven" },
     "description": "A small vacuum oven filled with extract ready to package up for consumption.  WooHoo!",
@@ -3452,13 +3451,12 @@
     "price": "1 kUSD",
     "to_hit": -10,
     "bashing": 10,
-    "ammo": "battery",
-    "charges_per_use": 1,
     "batteries": [ "large_storage_battery", "storage_battery" ],
     "material": "steel",
     "symbol": "E",
     "color": "dark_gray",
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
+    "power_draw": "1 kJ"
   },
   {
     "id": "vac_pump",
