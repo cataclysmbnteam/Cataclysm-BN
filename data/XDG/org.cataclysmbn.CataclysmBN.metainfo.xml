@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+    <id>org.cataclysmbn.CataclysmBN</id>
+    <developer id="org.cataclysmbn">
+        <name>Cataclysm BN Team and Contributors</name>
+    </developer>
+    <name>Cataclysm-BN</name>
+    <summary>A graphical post-apocalyptic roguelike that focuses on gameplay over realism</summary>
+
+    <metadata_license>CC-BY-SA-4.0</metadata_license>
+    <project_license>CC-BY-SA-3.0</project_license>
+
+    <description>
+        <p>
+            Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world.
+        </p>
+        <p>
+            While some have described it as a &quot;zombie game&quot;, there is far more to Cataclysm than that. Struggle to survive in a harsh, persistent, procedurally generated world. Scavenge the remnants of a dead civilization for food, equipment, or, if you are lucky, a vehicle with a full tank of gas to get you the hell out of there.
+        </p>
+        <p>
+            Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, who want what you have.
+        </p>
+        <p>
+            Find a way to stop the Cataclysm ... or become one of its strongest monsters.
+        </p>
+        <p>
+            Cataclysm: Bright Nights is a fork of Cataclysm: Dark Days Ahead.
+        </p>
+    </description>
+    <content_rating type="oars-1.1">
+        <content_attribute id="violence-fantasy">intense</content_attribute>
+        <content_attribute id="violence-bloodshed">intense</content_attribute>
+        <content_attribute id="violence-sexual">intense</content_attribute>
+        <content_attribute id="violence-desecration">intense</content_attribute>
+        <content_attribute id="violence-slavery">intense</content_attribute>
+        <content_attribute id="violence-worship">intense</content_attribute>
+        <content_attribute id="drugs-alcohol">moderate</content_attribute>
+        <content_attribute id="drugs-narcotics">moderate</content_attribute>
+        <content_attribute id="drugs-tobacco">moderate</content_attribute>
+        <content_attribute id="sex-nudity">intense</content_attribute>
+        <content_attribute id="sex-themes">intense</content_attribute>
+        <content_attribute id="sex-homosexuality">intense</content_attribute>
+        <content_attribute id="sex-prostitution">intense</content_attribute>
+        <content_attribute id="sex-adultery">intense</content_attribute>
+        <content_attribute id="sex-appearance">intense</content_attribute>
+        <content_attribute id="language-profanity">moderate</content_attribute>
+        <content_attribute id="language-humor">mild</content_attribute>
+        <content_attribute id="language-discrimination">intense</content_attribute>
+    </content_rating>
+    <releases>
+        <release version="0.7.1" date="2025-03-18">
+            <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.7.1</url>
+            <description>
+                <p>Notable Changes</p>
+                <ul>
+                    <li>Obsoleted No Hope and Generic Guns</li>
+                    <li>Stamina affects dodge rating and melee damage instead of movecost</li>
+                    <li>Audited basic-tier blacksmithing</li>
+                    <li>JSONized activity movecost and modifiers</li>
+                    <li>More bionics cancel out bad traits</li>
+                    <li>Fixed some accidental cannibalism nutrients in food</li>
+                    <li>Prevent item shortcuts in the inventory resetting</li>
+                    <li>Rest of the changes can be found in the github repo</li>
+                </ul>
+            </description>
+        </release>
+        <release version="0.7" date="2025-01-18">
+            <url type="details">https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/v0.7.0</url>
+            <description>
+                <p>Notable Changes</p>
+                <ul>
+                    <li>Added new LUA bindings.</li>
+                    <li>Improved autodrive.</li>
+                    <li>Reworked vehicles collision system.</li>
+                    <li>More built in mods.</li>
+                    <li>Added more survivor gear.</li>
+                    <li>Added 3D printers.</li>
+                    <li>Zombie masters are reworked to give buffs to zombies.</li>
+                    <li>Added weapon kill tracking.</li>
+                    <li>Rest of the changes can be found in the github repo</li>
+                </ul>
+            </description>
+        </release>
+    </releases>
+    <url type="homepage">
+        https://www.cataclysmbn.org
+    </url>
+    <url type="bugtracker">
+        https://github.com/cataclysmbnteam/Cataclysm-BN/issues
+    </url>
+    <url type="vcs-browser">
+        https://github.com/cataclysmbnteam/Cataclysm-BN
+    </url>
+    <launchable type="desktop-id">org.cataclysmbn.CataclysmBN.desktop</launchable>
+    <screenshots>
+        <screenshot type="default">
+            <image>https://raw.githubusercontent.com/cataclysmbnteam/Cataclysm-BN/cb3a3769dc76a3cfd730c190a068f329fc8de2e9/doc/src/content/docs/en/contribute/img/readme-title.png</image>
+        </screenshot>
+    </screenshots>
+</component>

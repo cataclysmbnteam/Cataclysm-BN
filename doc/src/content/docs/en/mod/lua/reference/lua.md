@@ -9,8 +9,8 @@ sidebar:
 
 :::note
 
-This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs] and should not be
-edited directly.
+This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
+and should not be edited directly.
 
 [generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/main/data/raw/generate_docs.lua
 
@@ -498,13 +498,33 @@ Function `( Character ) -> bool`
 
 Function `( Character ) -> bool`
 
+#### get_part_temp_btu
+
+Gets the current temperature of a specific body part (in Body Temperature Units).
+Function `( Character, BodyPartTypeIntId ) -> int`
+
+#### set_part_temp_btu
+
+Sets a specific body part to a given temperature (in Body Temperature Units).
+Function `( Character, BodyPartTypeIntId, int )`
+
+#### get_temp_btu
+
+Gets all bodyparts and their associated temperatures (in Body Temperature Units).
+Function `( Character ) -> Map( BodyPartTypeIntId, int )`
+
+#### set_temp_btu
+
+Sets ALL body parts on a creature to the given temperature (in Body Temperature Units).
+Function `( Character, int )`
+
 #### blood_loss
 
 Function `( Character, BodyPartTypeIntId ) -> int`
 
 #### get_part_encumbrance
 
-Function `( Character, BodyPart ) -> int`
+Function `( Character, BodyPartTypeId ) -> int`
 
 #### is_wearing_power_armor
 
@@ -579,6 +599,14 @@ Function `( Character, MutationBranchId ) -> bool`
 Function `( Character, MutationBranchId )`
 
 #### unset_mutation
+
+Function `( Character, MutationBranchId )`
+
+#### activate_mutation
+
+Function `( Character, MutationBranchId )`
+
+#### deactivate_mutation
 
 Function `( Character, MutationBranchId )`
 
@@ -732,6 +760,11 @@ Function `( Character, Vector( MutationBranchId ), int ) -> bool`
 
 #### mutate_towards
 
+Function `( Character, MutationBranchId ) -> bool`
+
+#### mutate_towards
+
+Function `( Character, Vector( MutationBranchId ), int ) -> bool`
 Function `( Character, MutationBranchId ) -> bool`
 
 #### remove_mutation
@@ -898,9 +931,17 @@ Function `( Character, ItypeId, BodyPartTypeIntId ) -> bool`
 
 Function `( Character, JsonFlagId, BodyPartTypeIntId ) -> bool`
 
+#### worn_with_id
+
+Function `( Character, ItypeId, BodyPartTypeIntId ) -> bool`
+
 #### item_worn_with_flag
 
 Function `( Character, JsonFlagId, BodyPartTypeIntId ) -> Item`
+
+#### item_worn_with_id
+
+Function `( Character, ItypeId, BodyPartTypeIntId ) -> Item`
 
 #### get_skill_level
 
@@ -1002,13 +1043,35 @@ Function `( Character, AddictionType ) -> int`
 
 Function `( Character ) -> bool`
 
+#### add_item_with_id
+
+Adds an item with the given id and amount
+Function `( Character, ItypeId, int )`
+
+#### has_item_with_id
+
+Checks for an item with the given id
+Function `( Character, ItypeId, bool ) -> bool`
+
+#### get_item_with_id
+
+Gets the first occurrence of an item with the given id
+Function `( Character, ItypeId, bool ) -> Item`
+
 #### has_item_with_flag
 
+Checks for an item with the given flag
 Function `( Character, JsonFlagId, bool ) -> bool`
 
 #### all_items_with_flag
 
-Function `( Character, JsonFlagId ) -> Vector( Item )`
+Gets all items with the given flag
+Function `( Character, JsonFlagId, bool ) -> Vector( Item )`
+
+#### all_items
+
+Gets all items
+Function `( Character, bool ) -> Vector( Item )`
 
 #### assign_activity
 
@@ -1157,9 +1220,6 @@ Function `( Character )`
 #### fall_asleep
 
 Function `( Character )`
-
-#### fall_asleep
-
 Function `( Character, TimeDuration )`
 
 #### get_hostile_creatures
@@ -1320,10 +1380,6 @@ Function `( Creature ) -> Character`
 
 Function `( Creature ) -> Avatar`
 
-#### hit_roll
-
-Function `( Creature ) -> double`
-
 #### dodge_roll
 
 Function `( Creature ) -> double`
@@ -1446,8 +1502,8 @@ Function `( Creature, EffectTypeId, Opt( BodyPartTypeId ) ) -> int`
 
 #### add_effect
 
-Effect type, duration, bodypart and intensity Function
-`( Creature, EffectTypeId, TimeDuration, Opt( BodyPartTypeId ), Opt( int ) )`
+Effect type, duration, bodypart and intensity
+Function `( Creature, EffectTypeId, TimeDuration, Opt( BodyPartTypeId ), Opt( int ) )`
 
 #### remove_effect
 
@@ -1783,7 +1839,7 @@ Variable of type `Array( int, 11 )`
 
 #### bp_hit
 
-Variable of type `BodyPart`
+Variable of type `BodyPartTypeId`
 
 #### type_damage
 
@@ -1859,11 +1915,13 @@ No constructors.
 
 #### get_resource
 
-Boolean argument controls recursive behavior Function `( DistributionGrid, bool ) -> int`
+Boolean argument controls recursive behavior
+Function `( DistributionGrid, bool ) -> int`
 
 #### mod_resource
 
-Boolean argument controls recursive behavior Function `( DistributionGrid, int, bool ) -> int`
+Boolean argument controls recursive behavior
+Function `( DistributionGrid, int, bool ) -> int`
 
 ## DistributionGridTracker
 
@@ -2269,29 +2327,423 @@ No constructors.
 
 Function `( Item ) -> ItypeId`
 
+#### tname
+
+Translated item name with prefixes
+Function `( Item, int, bool, int ) -> string`
+
+#### display_name
+
+Display name with all bells and whistles like ammo and prefixes
+Function `( Item, int ) -> string`
+
 #### has_var
 
-Check for variable of any type Function `( Item, string ) -> bool`
+Check for variable of any type
+Function `( Item, string ) -> bool`
 
 #### erase_var
 
-Erase variable Function `( Item, string )`
+Erase variable
+Function `( Item, string )`
 
 #### clear_vars
 
-Erase all variables Function `( Item )`
+Erase all variables
+Function `( Item )`
+
+#### is_null
+
+Function `( Item ) -> bool`
+
+#### is_unarmed_weapon
+
+Function `( Item ) -> bool`
+
+#### is_sided
+
+Function `( Item ) -> bool`
+
+#### is_power_armor
+
+Function `( Item ) -> bool`
+
+#### is_money
+
+Function `( Item ) -> bool`
+
+#### is_gun
+
+Function `( Item ) -> bool`
+
+#### is_firearm
+
+Function `( Item ) -> bool`
+
+#### is_silent
+
+Function `( Item ) -> bool`
+
+#### is_gunmod
+
+Function `( Item ) -> bool`
+
+#### is_bionic
+
+Function `( Item ) -> bool`
+
+#### is_ammo_belt
+
+Function `( Item ) -> bool`
+
+#### is_bandolier
+
+Function `( Item ) -> bool`
+
+#### is_holster
+
+Function `( Item ) -> bool`
+
+#### is_ammo
+
+Function `( Item ) -> bool`
+
+#### is_comestible
+
+Function `( Item ) -> bool`
+
+#### is_food
+
+Function `( Item ) -> bool`
+
+#### is_medication
+
+Function `( Item ) -> bool`
+
+#### is_brewable
+
+Function `( Item ) -> bool`
+
+#### is_food_container
+
+Function `( Item ) -> bool`
+
+#### is_med_container
+
+Function `( Item ) -> bool`
+
+#### is_corpse
+
+Function `( Item ) -> bool`
+
+#### is_ammo_container
+
+Function `( Item ) -> bool`
+
+#### is_armor
+
+Function `( Item ) -> bool`
+
+#### is_book
+
+Function `( Item ) -> bool`
+
+#### is_map
+
+Function `( Item ) -> bool`
+
+#### is_container
+
+Function `( Item ) -> bool`
+
+#### is_watertight_container
+
+Function `( Item ) -> bool`
+
+#### is_non_resealable_container
+
+Function `( Item ) -> bool`
+
+#### is_bucket
+
+Function `( Item ) -> bool`
+
+#### is_bucket_nonempty
+
+Function `( Item ) -> bool`
+
+#### is_engine
+
+Function `( Item ) -> bool`
+
+#### is_wheel
+
+Function `( Item ) -> bool`
+
+#### is_fuel
+
+Function `( Item ) -> bool`
+
+#### is_toolmod
+
+Function `( Item ) -> bool`
+
+#### is_faulty
+
+Function `( Item ) -> bool`
+
+#### is_irremovable
+
+Function `( Item ) -> bool`
+
+#### is_container_empty
+
+Function `( Item ) -> bool`
+
+#### is_salvageable
+
+Function `( Item ) -> bool`
+
+#### is_craft
+
+Function `( Item ) -> bool`
+
+#### is_emissive
+
+Function `( Item ) -> bool`
+
+#### is_deployable
+
+Function `( Item ) -> bool`
+
+#### is_tool
+
+Function `( Item ) -> bool`
+
+#### is_transformable
+
+Function `( Item ) -> bool`
+
+#### is_artifact
+
+Function `( Item ) -> bool`
+
+#### is_relic
+
+Function `( Item ) -> bool`
+
+#### is_seed
+
+Function `( Item ) -> bool`
+
+#### is_dangerous
+
+Function `( Item ) -> bool`
+
+#### is_tainted
+
+Function `( Item ) -> bool`
+
+#### is_soft
+
+Function `( Item ) -> bool`
+
+#### is_reloadable
+
+Function `( Item ) -> bool`
+
+#### is_filthy
+
+Function `( Item ) -> bool`
+
+#### is_active
+
+Function `( Item ) -> bool`
+
+#### is_upgrade
+
+Function `( Item ) -> bool`
+
+#### is_melee
+
+Is this item an effective melee weapon for the given damage type?
+Function `( Item, DamageType ) -> bool`
+
+#### is_magazine
+
+Is this a magazine? (batteries are magazines)
+Function `( Item ) -> bool`
+
+#### is_battery
+
+DEPRECATED: Is this a battery? (spoiler: it isn't)
+Function `( Item ) -> bool`
+
+#### conductive
+
+Function `( Item ) -> bool`
+
+#### charges
+
+Variable of type `int`
+
+#### energy_remaining
+
+Function `( Item ) -> Energy`
+
+#### has_infinite_charges
+
+Function `( Item ) -> bool`
+
+#### mod_charges
+
+Function `( Item, int )`
+
+#### get_rot
+
+Gets the TimeDuration until this item rots
+Function `( Item ) -> TimeDuration`
+
+#### get_category_id
+
+Gets the category id this item is in
+Function `( Item ) -> string`
+
+#### get_owner
+
+Gets the faction id that owns this item
+Function `( Item ) -> FactionId`
+
+#### set_owner
+
+Sets the ownership of this item to a faction
+Function `( Item, FactionId )`
+
+#### set_owner
+
+Sets the ownership of this item to a character
+Function `( Item, Character )`
+
+#### get_owner_name
+
+Function `( Item ) -> string`
+
+#### is_owned_by
+
+Checks if this item owned by a character
+Function `( Item, Character, bool ) -> bool`
+
+#### can_contain
+
+Checks if this item can contain another
+Function `( Item, Item ) -> bool`
+
+#### remaining_capacity_for_id
+
+Gets the remaining space available for a type of liquid
+Function `( Item, ItypeId, bool ) -> int`
+
+#### total_capacity
+
+Gets maximum volume this item can hold (liquids, ammo, etc)
+Function `( Item ) -> Volume`
+
+#### current_magazine
+
+Gets the current magazine
+Function `( Item ) -> Item`
+
+#### ammo_capacity
+
+Gets the maximum capacity of a magazine
+Function `( Item, bool ) -> int`
+
+#### ammo_remaining
+
+Get remaining ammo, works with batteries & stuff too
+Function `( Item ) -> int`
+
+#### ammo_data
+
+Function `( Item ) -> ItypeRaw`
+
+#### ammo_required
+
+Function `( Item ) -> int`
+
+#### ammo_current
+
+Function `( Item ) -> ItypeId`
+
+#### ammo_consume
+
+Function `( Item, int, Tripoint ) -> int`
+
+#### ammo_set
+
+Function `( Item, ItypeId, int )`
+
+#### ammo_unset
+
+Function `( Item )`
+
+#### get_reload_time
+
+Function `( Item ) -> int`
+
+#### add_item_with_id
+
+Adds an item(s) to contents
+Function `( Item, ItypeId, int )`
+
+#### has_item_with_id
+
+Checks item contents for a given item id
+Function `( Item, ItypeId ) -> bool`
+
+#### covers
+
+Checks if the item covers a bodypart
+Function `( Item, BodyPartTypeIntId ) -> bool`
+
+#### set_flag
+
+Function `( Item, JsonFlagId )`
+
+#### unset_flag
+
+Function `( Item, JsonFlagId )`
+
+#### has_flag
+
+Function `( Item, JsonFlagId ) -> bool`
+
+#### has_own_flag
+
+Function `( Item, JsonFlagId ) -> bool`
+
+#### set_flag_recursive
+
+Function `( Item, JsonFlagId )`
+
+#### unset_flags
+
+Function `( Item )`
 
 #### get_var_str
 
-Get variable as string Function `( Item, string, string ) -> string`
+Get variable as string
+Function `( Item, string, string ) -> string`
 
 #### get_var_num
 
-Get variable as float number Function `( Item, string, double ) -> double`
+Get variable as float number
+Function `( Item, string, double ) -> double`
 
 #### get_var_tri
 
-Get variable as tripoint Function `( Item, string, Tripoint ) -> Tripoint`
+Get variable as tripoint
+Function `( Item, string, Tripoint ) -> Tripoint`
 
 #### set_var_str
 
@@ -2321,8 +2773,7 @@ No constructors.
 
 #### __pairs
 
-Function
-`( ItemStack ) -> ( <cppval: FSt5tupleIJN3sol12basic_objectINS0_15basic_referenceILb0EEEEES4_EENS0_4userIR23item_stack_lua_it_stateEENS0_10this_stateEE >, <cppval: N3sol4userI23item_stack_lua_it_stateEE >, nil )`
+Function `( ItemStack ) -> ( <cppval: FSt5tupleIJN3sol12basic_objectINS0_15basic_referenceILb0EEEEES4_EENS0_4userIR23item_stack_lua_it_stateEENS0_10this_stateEE >, <cppval: N3sol4userI23item_stack_lua_it_stateEE >, nil )`
 
 ## ItypeId
 
@@ -2494,11 +2945,13 @@ No constructors.
 
 #### get_abs_ms
 
-Convert local ms -> absolute ms Function `( Map, Tripoint ) -> Tripoint`
+Convert local ms -> absolute ms
+Function `( Map, Tripoint ) -> Tripoint`
 
 #### get_local_ms
 
-Convert absolute ms -> local ms Function `( Map, Tripoint ) -> Tripoint`
+Convert absolute ms -> local ms
+Function `( Map, Tripoint ) -> Tripoint`
 
 #### get_map_size_in_submaps
 
@@ -2506,7 +2959,13 @@ Function `( Map ) -> int`
 
 #### get_map_size
 
-In map squares Function `( Map ) -> int`
+In map squares
+Function `( Map ) -> int`
+
+#### create_item_at
+
+Creates a new item(s) at a position on the map.
+Function `( Map, Tripoint, ItypeId, int )`
 
 #### has_items_at
 
@@ -3038,6 +3497,333 @@ Function `( MutationBranchId, <cppval: 7JsonOut > )`
 
 Function `( MutationBranchId, <cppval: 6JsonIn > )`
 
+## MutationBranchRaw
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### id
+
+Variable of type `MutationBranchId`
+
+#### valid
+
+Whether this mutation is available through generic mutagen.
+Variable of type `bool`
+
+#### purifiable
+
+Whether this mutation is possible to remove through Purifier. False for 'special' mutations.
+Variable of type `bool`
+
+#### threshold
+
+Whether this is a Threshold mutation, and thus especially difficult to mutate. One per character.
+Variable of type `bool`
+
+#### profession
+
+Whether this trait is ONLY gained through professional training/experience (and/or quests).
+Variable of type `bool`
+
+#### debug
+
+Whether or not this mutation is limited to debug use.
+Variable of type `bool`
+
+#### player_display
+
+Whether or not this mutation shows up in the status (`@`) menu.
+Variable of type `bool`
+
+#### mixed_effect
+
+Whether this mutation has positive /and/ negative effects.
+Variable of type `bool`
+
+#### starting_trait
+
+Whether this trait can normally be taken during character generation.
+Variable of type `bool`
+
+#### activated
+
+Whether this mutation can be activated at will.
+Variable of type `bool`
+
+#### starts_active
+
+Whether a mutation activates when granted.
+Variable of type `bool`
+
+#### allow_soft_gear
+
+Mutation allows soft gear to be worn over otherwise-restricted parts.
+Variable of type `bool`
+
+#### fatigue
+
+Mutation causes fatigue when used.
+Variable of type `bool`
+
+#### hunger
+
+Mutation deducts calories when used.
+Variable of type `bool`
+
+#### thirst
+
+Mutation dehydrates when used.
+Variable of type `bool`
+
+#### points
+
+Point cost in character creation(?).
+Variable of type `int`
+
+#### visibility
+
+How visible the mutation is to others.
+Variable of type `int`
+
+#### ugliness
+
+How physically unappealing the mutation is. Can be negative.
+Variable of type `int`
+
+#### cost
+
+Variable of type `int`
+
+#### cooldown
+
+Costs are incurred every 'cooldown' turns.
+Variable of type `int`
+
+#### bodytemp_min_btu
+
+Variable of type `int`
+
+#### bodytemp_max_btu
+
+Variable of type `int`
+
+#### bodytemp_sleep_btu
+
+Variable of type `int`
+
+#### pain_recovery
+
+Pain recovery per turn from mutation.
+Variable of type `double`
+
+#### healing_awake
+
+Healing per turn from mutation.
+Variable of type `double`
+
+#### healing_resting
+
+Healing per turn from mutation, while asleep.
+Variable of type `double`
+
+#### mending_modifier
+
+Multiplier applied to broken limb regeneration. Normally 0.25; clamped to 0.25..1.0.
+Variable of type `double`
+
+#### hp_modifier
+
+Bonus HP multiplier. 1.0 doubles HP; -0.5 halves it.
+Variable of type `double`
+
+#### hp_modifier_secondary
+
+Secondary HP multiplier; stacks with the other one. 1.0 doubles HP; -0.5 halves it.
+Variable of type `double`
+
+#### hp_adjustment
+
+Flat adjustment to HP.
+Variable of type `double`
+
+#### str_modifier
+
+Adjustment to Strength that doesn't affect HP.
+Variable of type `double`
+
+#### dodge_modifier
+
+Variable of type `double`
+
+#### speed_modifier
+
+Variable of type `double`
+
+#### movecost_modifier
+
+Variable of type `double`
+
+#### movecost_flatground_modifier
+
+Variable of type `double`
+
+#### movecost_obstacle_modifier
+
+Variable of type `double`
+
+#### attackcost_modifier
+
+Variable of type `double`
+
+#### falling_damage_multiplier
+
+Variable of type `double`
+
+#### max_stamina_modifier
+
+Variable of type `double`
+
+#### weight_capacity_modifier
+
+Variable of type `double`
+
+#### hearing_modifier
+
+Variable of type `double`
+
+#### movecost_swim_modifier
+
+Variable of type `double`
+
+#### noise_modifier
+
+Variable of type `double`
+
+#### scent_modifier
+
+Variable of type `double`
+
+#### bleed_resist
+
+Variable of type `double`
+
+#### healthy_rate
+
+How quickly health (not HP) trends toward healthy_mod.
+Variable of type `double`
+
+#### stealth_modifier
+
+Variable of type `double`
+
+#### night_vision_range
+
+Variable of type `double`
+
+#### temperature_speed_modifier
+
+Variable of type `double`
+
+#### metabolism_modifier
+
+Variable of type `double`
+
+#### thirst_modifier
+
+Variable of type `double`
+
+#### fatigue_modifier
+
+Variable of type `double`
+
+#### fatigue_regen_modifier
+
+Variable of type `double`
+
+#### stamina_regen_modifier
+
+Variable of type `double`
+
+#### overmap_sight
+
+Variable of type `double`
+
+#### overmap_multiplier
+
+Variable of type `double`
+
+#### reading_speed_multiplier
+
+Variable of type `double`
+
+#### skill_rust_multiplier
+
+Variable of type `double`
+
+#### name
+
+Function `( MutationBranchRaw ) -> string`
+
+#### desc
+
+Function `( MutationBranchRaw ) -> string`
+
+#### get_all
+
+Returns a (long) list of every mutation in the game.
+Function `() -> <cppval: St6vectorI15mutation_branchSaIS0_EE >`
+
+#### __tostring
+
+Function `( MutationBranchRaw ) -> string`
+
+#### prerequisites
+
+Lists the primary mutation(s) needed to gain this mutation.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
+
+#### other_prerequisites
+
+Lists the secondary mutation(s) needed to gain this mutation.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
+
+#### thresh_requirements
+
+Lists the threshold mutation(s) required to gain this mutation.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
+
+#### mutation_types
+
+Lists the type(s) of this mutation. Mutations of a given type are mutually exclusive.
+Function `( MutationBranchRaw ) -> Set( string )`
+
+#### conflicts_with
+
+Lists conflicting mutations.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
+
+#### replaced_by
+
+Lists mutations that replace (e.g. evolve from) this one.
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
+
+#### addition_mutations
+
+Function `( MutationBranchRaw ) -> Vector( MutationBranchId )`
+
+#### categories
+
+Lists the categories this mutation belongs to.
+Function `( MutationBranchRaw ) -> Vector( MutationCategoryTraitId )`
+
 ## MutationCategoryTraitId
 
 ### Bases
@@ -3192,10 +3978,6 @@ Function `( Npc ) -> bool`
 
 Function `( Npc ) -> bool`
 
-#### within_boundaries_of_camp
-
-Function `( Npc ) -> bool`
-
 #### has_player_activity
 
 Function `( Npc ) -> bool`
@@ -3285,10 +4067,6 @@ Function `( Npc ) -> NpcAttitude`
 Function `( Npc, NpcAttitude )`
 
 #### has_activity
-
-Function `( Npc ) -> bool`
-
-#### has_job
 
 Function `( Npc ) -> bool`
 
@@ -3467,11 +4245,13 @@ Function `( QueryPopup, Color )`
 
 #### allow_any_key
 
-Set whether to allow any key Function `( QueryPopup, bool )`
+Set whether to allow any key
+Function `( QueryPopup, bool )`
 
 #### query
 
-Returns selected action Function `( QueryPopup ) -> string`
+Returns selected action
+Function `( QueryPopup ) -> string`
 
 ## RecipeId
 
@@ -3684,6 +4464,324 @@ Function `( SpeciesTypeId, <cppval: 7JsonOut > )`
 #### deserialize
 
 Function `( SpeciesTypeId, <cppval: 6JsonIn > )`
+
+## Spell
+
+The class used for spells that _a player_ knows, casts, and gains experience for using. If a given spell is not supposed to be directly cast by a player, consider using SpellSimple instead.
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `Spell.new( SpellTypeId, int )`
+
+### Members
+
+#### id
+
+Variable of type `SpellTypeId`
+
+#### xp
+
+Function `( Spell ) -> int`
+
+#### gain_exp
+
+Function `( Spell, int )`
+
+#### set_exp
+
+Function `( Spell, int )`
+
+#### gain_levels
+
+Function `( Spell, int )`
+
+#### set_level
+
+Function `( Spell, int )`
+
+#### get_level
+
+Function `( Spell ) -> int`
+
+#### name
+
+Function `( Spell ) -> string`
+
+#### desc
+
+Function `( Spell ) -> string`
+
+#### cast
+
+Cast this spell, as well as any sub-spells.
+Function `( Spell, Creature, Tripoint )`
+
+#### cast_single_effect
+
+Cast _only_ this spell's main effects. Generally, cast() should be used instead.
+Function `( Spell, Creature, Tripoint )`
+
+## SpellSimple
+
+The type for basic spells. If you don't need to track XP from casting (e.g., if a spell is intended to be cast by anything _other than_ a player), this is likely the appropriate type. Otherwise, see the Spell type.
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `SpellSimple.new( SpellTypeId, bool )`
+
+#### `SpellSimple.new( SpellTypeId, bool, int )`
+
+### Members
+
+#### __tostring
+
+Function `( SpellSimple ) -> string`
+
+#### id
+
+Variable of type `SpellTypeId`
+
+#### max_level
+
+Returns the defined maximum level of this SpellSimple instance, if defined. Otherwise, returns 0.
+Function `( SpellSimple ) -> int`
+
+#### level
+
+Variable of type `int`
+
+#### force_target_source
+
+Whether or not the target point is _locked_ to the source's location.
+Variable of type `bool`
+
+#### trigger_once_in
+
+Used for enchantments; the spell's _chance_ to trigger every turn.
+Variable of type `int`
+
+#### cast
+
+Function `( SpellSimple, Creature, Tripoint, Opt( int ) )`
+
+#### prompt_cast
+
+Static function: Creates and immediately casts a SimpleSpell, then returns the new spell for potential reuse. If the given tripoint is the player's location, the spell will be locked to the player. (This does not necessarily cause friendly fire!) If an integer is specified, the spell will be cast at that level.
+Function `( SpellTypeId, Tripoint, Opt( int ) ) -> SpellSimple`
+
+## SpellTypeId
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+#### `SpellTypeId.new()`
+
+#### `SpellTypeId.new( SpellTypeId )`
+
+#### `SpellTypeId.new( string )`
+
+### Members
+
+#### obj
+
+Function `( SpellTypeId ) -> SpellTypeRaw`
+
+#### implements_int_id
+
+Function `() -> bool`
+
+#### is_null
+
+Function `( SpellTypeId ) -> bool`
+
+#### is_valid
+
+Function `( SpellTypeId ) -> bool`
+
+#### str
+
+Function `( SpellTypeId ) -> string`
+
+#### NULL_ID
+
+Function `() -> SpellTypeId`
+
+#### __tostring
+
+Function `( SpellTypeId ) -> string`
+
+#### serialize
+
+Function `( SpellTypeId, <cppval: 7JsonOut > )`
+
+#### deserialize
+
+Function `( SpellTypeId, <cppval: 6JsonIn > )`
+
+## SpellTypeRaw
+
+The 'raw' type for storing the information defining every spell in the game. It's not possible to cast directly from this type; check SpellSimple and Spell.
+
+### Bases
+
+No base classes.
+
+### Constructors
+
+No constructors.
+
+### Members
+
+#### __tostring
+
+Function `( SpellTypeRaw ) -> string`
+
+#### id
+
+Variable of type `SpellTypeId`
+
+#### effect_name
+
+The name of the primary effect this spell will enact.
+Variable of type `string`
+
+#### effect_str
+
+Specifics about the effect this spell will enact.
+Variable of type `string`
+
+#### field_chance
+
+Variable of type `int`
+
+#### min_field_intensity
+
+Variable of type `int`
+
+#### field_intensity_increment
+
+Variable of type `double`
+
+#### max_field_intensity
+
+Variable of type `int`
+
+#### field_intensity_variance
+
+Variable of type `double`
+
+#### min_damage
+
+Variable of type `int`
+
+#### damage_increment
+
+Variable of type `double`
+
+#### max_damage
+
+Variable of type `int`
+
+#### min_range
+
+Variable of type `int`
+
+#### range_increment
+
+Variable of type `double`
+
+#### max_range
+
+Variable of type `int`
+
+#### min_aoe
+
+Variable of type `int`
+
+#### aoe_increment
+
+Variable of type `double`
+
+#### max_aoe
+
+Variable of type `int`
+
+#### min_dot
+
+Variable of type `int`
+
+#### dot_increment
+
+Variable of type `double`
+
+#### max_dot
+
+Variable of type `int`
+
+#### min_duration
+
+Variable of type `int`
+
+#### duration_increment
+
+Variable of type `int`
+
+#### max_duration
+
+Variable of type `int`
+
+#### base_energy_cost
+
+Variable of type `int`
+
+#### energy_increment
+
+Variable of type `double`
+
+#### final_energy_cost
+
+Variable of type `int`
+
+#### difficulty
+
+Variable of type `int`
+
+#### max_level
+
+Variable of type `int`
+
+#### base_casting_time
+
+Variable of type `int`
+
+#### casting_time_increment
+
+Variable of type `double`
+
+#### final_casting_time
+
+Variable of type `int`
+
+#### additional_spells
+
+Other spells cast by this spell.
+Function `( SpellTypeRaw ) -> Vector( SpellSimple )`
+
+#### get_all
+
+Returns a (long) list of every spell in the game.
+Function `() -> <cppval: St6vectorI10spell_typeSaIS0_EE >`
 
 ## TerId
 
@@ -3997,8 +5095,8 @@ Function `( TimePoint, TimeDuration ) -> TimePoint`
 
 #### __sub
 
-Function `( TimePoint, TimePoint ) -> TimeDuration` Function
-`( TimePoint, TimeDuration ) -> TimePoint`
+Function `( TimePoint, TimePoint ) -> TimeDuration`
+Function `( TimePoint, TimeDuration ) -> TimePoint`
 
 ## Tinymap
 
@@ -4078,11 +5176,13 @@ Function `( Tripoint, Tripoint ) -> bool`
 
 #### __add
 
-Function `( Tripoint, Tripoint ) -> Tripoint` Function `( Tripoint, Point ) -> Tripoint`
+Function `( Tripoint, Tripoint ) -> Tripoint`
+Function `( Tripoint, Point ) -> Tripoint`
 
 #### __sub
 
-Function `( Tripoint, Tripoint ) -> Tripoint` Function `( Tripoint, Point ) -> Tripoint`
+Function `( Tripoint, Tripoint ) -> Tripoint`
+Function `( Tripoint, Point ) -> Tripoint`
 
 #### __mul
 
@@ -4118,11 +5218,13 @@ Function `( UiList, string )`
 
 #### add
 
-Return value, text Function `( UiList, int, string )`
+Return value, text
+Function `( UiList, int, string )`
 
 #### query
 
-Returns retval for selected entry, or a negative number on fail/cancel Function `( UiList ) -> int`
+Returns retval for selected entry, or a negative number on fail/cancel
+Function `( UiList ) -> int`
 
 ## Volume
 
@@ -4461,69 +5563,68 @@ Function `( Volume, Volume ) -> bool`
 - `IMMOBILE` = `47`
 - `ID_CARD_DESPAWN` = `48`
 - `RIDEABLE_MECH` = `49`
-- `MILITARY_MECH` = `50`
-- `MECH_RECON_VISION` = `51`
-- `MECH_DEFENSIVE` = `52`
-- `HIT_AND_RUN` = `53`
-- `GUILT` = `54`
-- `PAY_BOT` = `55`
-- `HUMAN` = `56`
-- `NO_BREATHE` = `57`
-- `FLAMMABLE` = `58`
-- `REVIVES` = `59`
-- `CHITIN` = `60`
-- `VERMIN` = `61`
-- `NOGIB` = `62`
-- `LARVA` = `63`
-- `ARTHROPOD_BLOOD` = `64`
-- `ACID_BLOOD` = `65`
-- `BILE_BLOOD` = `66`
-- `ABSORBS` = `67`
-- `ABSORBS_SPLITS` = `68`
-- `CBM_CIV` = `69`
-- `CBM_POWER` = `70`
-- `CBM_SCI` = `71`
-- `CBM_OP` = `72`
-- `CBM_TECH` = `73`
-- `CBM_SUBS` = `74`
-- `FILTHY` = `75`
-- `FISHABLE` = `76`
-- `GROUP_BASH` = `77`
-- `SWARMS` = `78`
-- `GROUP_MORALE` = `79`
-- `INTERIOR_AMMO` = `80`
-- `CLIMBS` = `81`
-- `PACIFIST` = `82`
-- `PUSH_MON` = `83`
-- `PUSH_VEH` = `84`
-- `NIGHT_INVISIBILITY` = `85`
-- `REVIVES_HEALTHY` = `86`
-- `NO_NECRO` = `87`
-- `PATH_AVOID_DANGER_1` = `88`
-- `PATH_AVOID_DANGER_2` = `89`
-- `PATH_AVOID_FIRE` = `90`
-- `PATH_AVOID_FALL` = `91`
-- `PRIORITIZE_TARGETS` = `92`
-- `NOT_HALLUCINATION` = `93`
-- `CATFOOD` = `94`
-- `CATTLEFODDER` = `95`
-- `BIRDFOOD` = `96`
-- `CANPLAY` = `97`
-- `PET_MOUNTABLE` = `98`
-- `PET_HARNESSABLE` = `99`
-- `DOGFOOD` = `100`
-- `MILKABLE` = `101`
-- `SHEARABLE` = `102`
-- `NO_BREED` = `103`
-- `NO_FUNG_DMG` = `104`
-- `PET_WONT_FOLLOW` = `105`
-- `DRIPS_NAPALM` = `106`
-- `DRIPS_GASOLINE` = `107`
-- `ELECTRIC_FIELD` = `108`
-- `LOUDMOVES` = `109`
-- `CAN_OPEN_DOORS` = `110`
-- `STUN_IMMUNE` = `111`
-- `DROPS_AMMO` = `112`
+- `CARD_OVERRIDE` = `50`
+- `MILITARY_MECH` = `51`
+- `MECH_RECON_VISION` = `52`
+- `MECH_DEFENSIVE` = `53`
+- `HIT_AND_RUN` = `54`
+- `GUILT` = `55`
+- `PAY_BOT` = `56`
+- `HUMAN` = `57`
+- `NO_BREATHE` = `58`
+- `FLAMMABLE` = `59`
+- `REVIVES` = `60`
+- `CHITIN` = `61`
+- `VERMIN` = `62`
+- `NOGIB` = `63`
+- `LARVA` = `64`
+- `ARTHROPOD_BLOOD` = `65`
+- `ACID_BLOOD` = `66`
+- `BILE_BLOOD` = `67`
+- `ABSORBS` = `68`
+- `ABSORBS_SPLITS` = `69`
+- `CBM_CIV` = `70`
+- `CBM_POWER` = `71`
+- `CBM_SCI` = `72`
+- `CBM_OP` = `73`
+- `CBM_TECH` = `74`
+- `CBM_SUBS` = `75`
+- `FILTHY` = `76`
+- `FISHABLE` = `77`
+- `GROUP_BASH` = `78`
+- `SWARMS` = `79`
+- `GROUP_MORALE` = `80`
+- `INTERIOR_AMMO` = `81`
+- `CLIMBS` = `82`
+- `PACIFIST` = `83`
+- `PUSH_MON` = `84`
+- `PUSH_VEH` = `85`
+- `NIGHT_INVISIBILITY` = `86`
+- `REVIVES_HEALTHY` = `87`
+- `NO_NECRO` = `88`
+- `PATH_AVOID_DANGER_1` = `89`
+- `PATH_AVOID_DANGER_2` = `90`
+- `PATH_AVOID_FIRE` = `91`
+- `PATH_AVOID_FALL` = `92`
+- `PRIORITIZE_TARGETS` = `93`
+- `NOT_HALLUCINATION` = `94`
+- `CANPLAY` = `95`
+- `PET_MOUNTABLE` = `96`
+- `PET_HARNESSABLE` = `97`
+- `DOGFOOD` = `98`
+- `MILKABLE` = `99`
+- `SHEARABLE` = `100`
+- `NO_BREED` = `101`
+- `NO_FUNG_DMG` = `102`
+- `PET_WONT_FOLLOW` = `103`
+- `DRIPS_NAPALM` = `104`
+- `DRIPS_GASOLINE` = `105`
+- `ELECTRIC_FIELD` = `106`
+- `LOUDMOVES` = `107`
+- `CAN_OPEN_DOORS` = `108`
+- `STUN_IMMUNE` = `109`
+- `DROPS_AMMO` = `110`
+- `CAN_BE_ORDERED` = `111`
 
 ## MonsterSize
 
@@ -4680,15 +5781,18 @@ Function `( Point, Opt( Tripoint ) ) -> Tripoint`
 
 #### rl_dist
 
-Function `( Tripoint, Tripoint ) -> int` Function `( Point, Point ) -> int`
+Function `( Tripoint, Tripoint ) -> int`
+Function `( Point, Point ) -> int`
 
 #### trig_dist
 
-Function `( Tripoint, Tripoint ) -> double` Function `( Point, Point ) -> double`
+Function `( Tripoint, Tripoint ) -> double`
+Function `( Point, Point ) -> double`
 
 #### square_dist
 
-Function `( Tripoint, Tripoint ) -> int` Function `( Point, Point ) -> int`
+Function `( Tripoint, Tripoint ) -> int`
+Function `( Point, Point ) -> int`
 
 ## gapi
 
@@ -4710,7 +5814,8 @@ Function `() -> DistributionGridTracker`
 
 #### add_msg
 
-Function `( MsgType, ... )` Function `( ... )`
+Function `( MsgType, ... )`
+Function `( ... )`
 
 #### place_player_overmap_at
 
@@ -4735,6 +5840,10 @@ Function `( int, int ) -> int`
 #### add_on_every_x_hook
 
 Function `( TimeDuration, function )`
+
+#### create_item
+
+Function `( ItypeId, int ) -> <cppval: St10unique_ptrI4itemSt14default_deleteIS0_EE >`
 
 #### get_creature_at
 
@@ -4766,7 +5875,8 @@ Function `() -> Opt( Tripoint )`
 
 #### play_variant_sound
 
-Function `( string, string, int )` Function `( string, string, int, Angle, double, double )`
+Function `( string, string, int )`
+Function `( string, string, int, Angle, double, double )`
 
 #### play_ambient_variant_sound
 
@@ -4826,21 +5936,23 @@ Documentation for hooks
 
 #### on_game_save
 
-Called when game is about to save Function `()`
+Called when game is about to save
+Function `()`
 
 #### on_game_load
 
-Called right after game has loaded Function `()`
+Called right after game has loaded
+Function `()`
 
 #### on_every_x
 
-Called every in-game period Function `()`
+Called every in-game period
+Function `()`
 
 #### on_mapgen_postprocess
 
-Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2
-submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for
-time-based effects). Function `( Map, Tripoint, TimePoint )`
+Called right after mapgen has completed. Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), tripoint is the absolute omt pos, and time_point is the current time (for time-based effects).
+Function `( Map, Tripoint, TimePoint )`
 
 ## locale
 
@@ -4850,21 +5962,23 @@ Localization API.
 
 #### gettext
 
-Expects english source string, returns translated string. Function `( string ) -> string`
+Expects english source string, returns translated string.
+Function `( string ) -> string`
 
 #### vgettext
 
-First is english singular string, second is english plural string. Number is amount to translate
-for. Function `( string, string, int ) -> string`
+First is english singular string, second is english plural string. Number is amount to translate for.
+Function `( string, string, <cppval: m > ) -> string`
 
 #### pgettext
 
-First is context string. Second is english source string. Function `( string, string ) -> string`
+First is context string. Second is english source string.
+Function `( string, string ) -> string`
 
 #### vpgettext
 
-First is context string. Second is english singular string. third is english plural. Number is
-amount to translate for. Function `( string, string, string, int ) -> string`
+First is context string. Second is english singular string. third is english plural. Number is amount to translate for.
+Function `( string, string, string, <cppval: m > ) -> string`
 
 ## tests_lib
 

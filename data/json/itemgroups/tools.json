@@ -17,6 +17,7 @@
       [ "hand_drill", 20 ],
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
+      [ "sandpaper", 20 ],
       [ "toolbox", 12 ],
       [ "toolbox_workshop", 3 ]
     ]
@@ -253,6 +254,7 @@
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
       { "group": "tools_recharging", "prob": 20 },
+      [ "sandpaper", 10 ],
       [ "toolbox", 4 ],
       [ "toolbox_workshop", 1 ]
     ]

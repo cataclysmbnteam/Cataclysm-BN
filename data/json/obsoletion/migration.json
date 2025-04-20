@@ -883,5 +883,10 @@
     "id": "endochitin",
     "type": "MIGRATION",
     "replace": "chitin_piece"
+  },
+  {
+    "id": "22_cb",
+    "type": "MIGRATION",
+    "replace": "22_cphp"
   }
 ]
