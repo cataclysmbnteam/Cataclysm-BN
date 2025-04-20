@@ -1,7 +1,5 @@
 [
   {
-
-  {
     "type": "BATTERY",
     "id": "light_minus_battery_cell",
     "category": "battery",
