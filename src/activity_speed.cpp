@@ -200,7 +200,7 @@ void activity_speed::calc_stats_factors( const Character &who )
     if( !f.empty() ) {
         return;
     }
-
+    stats.clear();
     for( auto &stat : type->stats ) {
         stats.emplace_back( calc_single_stat( who, stat ) );
     }
