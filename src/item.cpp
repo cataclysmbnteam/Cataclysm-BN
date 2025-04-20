@@ -8446,7 +8446,7 @@ const item *item::magazine_current() const
 
 itype_id item::battery_default( bool conversion ) const
 {
-    if( !battery_integral() ) {
+    if( !battery_integral() && !battery_compatible().empty() ) {
         return *( battery_compatible().begin() );
     }
     return itype_id::NULL_ID();

@@ -7652,7 +7652,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( used->is_tool() || used->count_by_charges() || used->is_comestible() ||
         used->get_contained().is_comestible() ) {
-        used->energy_consume( enrg, pt ) == enrg;
+        consume_energy( *actually_used, enrg );
         return( consume_charges( *actually_used, chrg ) );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         used->detach();
@@ -7866,10 +7866,36 @@ bool Character::consume_charges( item &used, int qty )
     if( used.is_power_armor() ) {
         if( used.charges >= qty ) {
             used.ammo_consume( qty, pos() );
-        } else if( character_funcs::can_interface_armor( *this ) && has_charges( itype_bio_armor, qty ) ) {
-            use_charges( itype_bio_armor, qty );
+        }
+    }
+
+    used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
+    return false;
+}
+
+bool Character::consume_energy( item &used, units::energy qty )
+{
+    if( qty < 0_J ) {
+        debugmsg( "Tried to consume negative power" );
+        return false;
+    }
+
+    if( qty == 0_J ) {
+        return false;
+    }
+
+    if( !used.is_tool() ) {
+        debugmsg( "Tried to consume power for non-tool item" );
+        return false;
+    }
+
+    if( used.is_power_armor() ) {
+        if( used.energy_remaining() >= qty ) {
+            used.energy_consume( qty, pos() );
+        } else if( character_funcs::can_interface_armor( *this ) && has_energy( itype_bio_armor, qty ) ) {
+            use_energy( itype_bio_armor, qty );
         } else {
-            use_charges( itype_UPS, qty );
+            use_energy( itype_UPS, qty );
         }
     }
 
@@ -7878,13 +7904,13 @@ bool Character::consume_charges( item &used, int qty )
     if( used.has_flag( flag_USE_UPS ) ) {
         // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
         // The usage of the item was already approved, so drain item if possible, otherwise use UPS
-        if( used.charges >= qty ) {
-            used.ammo_consume( qty, pos() );
+        if( used.energy_remaining() >= qty ) {
+            used.energy_consume( qty, pos() );
         } else {
-            use_charges( itype_UPS, qty );
+            use_energy( itype_UPS, qty );
         }
     } else {
-        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
+        used.energy_consume( std::min( qty, used.energy_remaining() ), pos() );
     }
     return false;
 }

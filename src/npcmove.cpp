@@ -3703,7 +3703,7 @@ void npc::heal_player( player &patient )
     if( !is_hallucination() ) {
         auto [chrg, enrg] = used.type->invoke( *this, used, patient.pos(), "heal" );
         consume_charges( used, chrg );
-        used.energy_consume( enrg, patient.pos() );
+        consume_energy( used, enrg );
     } else {
         pretend_heal( patient, used );
     }
@@ -3755,7 +3755,7 @@ void npc::heal_self()
     if( used.is_medication() ) {
         consume_charges( used, chrg );
     } else {
-        used.energy_consume( enrg, pos() );
+        consume_energy( used, enrg );
     }
 }
 

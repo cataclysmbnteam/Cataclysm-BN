@@ -59,8 +59,14 @@ class iuse_transform : public iuse_actor
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         int ammo_qty = -1;
 
+        /** if zero or positive set energy of @ref target to this (after transformation) */
+        units::energy enrg_qty = -1_J;
+
         /** if this has values, set remaining ammo of @ref target to one of them chosen at random (after transformation) */
         std::vector<int> random_ammo_qty;
+
+        /** if this has values, set remaining energy of @ref target to one of them chosen at random (after transformation) */
+        std::vector <units::energy> random_enrg_qty;
 
         /** if positive set transformed item active and start countdown */
         int countdown = 0;
@@ -92,11 +98,17 @@ class iuse_transform : public iuse_actor
         /** minimum charges (if any) required for transformation */
         int need_charges = 0;
 
+        /** minimum energy (it any) required for transformation */
+        units::energy need_energy = 0_J;
+
         /** displayed if item is in player possession with %s replaced by item name */
         translation need_charges_msg;
 
         /** charges needed for process of transforming item */
         int transform_charges = 0;
+
+        /** energy needed for process of transforming item */
+        units::energy transform_energy = 0_J;
 
         /** Tool qualities needed, e.g. "fine bolt turning 1". **/
         std::map<quality_id, int> qualities_needed;
@@ -995,7 +1007,8 @@ class heal_actor : public iuse_actor
         /** How many intensity levels will be applied using this actor by `healer`. */
         int get_disinfected_level( const Character &healer ) const;
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
-        int finish_using( player &healer, player &patient, item &it, const bodypart_str_id &healed ) const;
+        std::pair<int, units::energy> finish_using( player &healer, player &patient, item &it,
+                const bodypart_str_id &healed ) const;
 
         bodypart_str_id use_healing_item( player &healer, player &patient, item &it, bool force ) const;
 

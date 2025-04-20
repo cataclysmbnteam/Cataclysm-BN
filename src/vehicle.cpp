@@ -99,7 +99,6 @@ static const bionic_id bio_jointservo( "bio_jointservo" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -660,13 +659,13 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 
         if( pt.is_battery() ) {
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
-                pt.ammo_set( itype_battery, pt.ammo_capacity() );
+                pt.energy_set( pt.energy_capacity() );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomize battery ammo a bit
-                pt.ammo_set( itype_battery, pt.ammo_capacity() * ( veh_fuel_mult + rng( 0, 10 ) ) / 100 );
+                pt.energy_set( pt.energy_capacity() * ( veh_fuel_mult + rng( 0, 10 ) / 100 ) );
             } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
-                pt.ammo_set( itype_battery, pt.ammo_capacity() * ( veh_fuel_mult - rng( 0, 10 ) ) / 100 );
+                pt.energy_set( pt.energy_capacity() * ( veh_fuel_mult - rng( 0, 10 ) / 100 ) );
             } else {
-                pt.ammo_set( itype_battery, pt.ammo_capacity() * veh_fuel_mult / 100 );
+                pt.energy_set( pt.energy_capacity() * ( veh_fuel_mult / 100 ) );
             }
         }
 
@@ -3597,7 +3596,7 @@ int vehicle::drain( const int index, int amount )
         return 0;
     }
     vehicle_part &pt = parts[index];
-    if( pt.ammo_current() == fuel_type_battery ) {
+    if( pt.has_flag( VPFLAG_E_ENGINE ) ) {
         return drain_energy( fuel_type_battery, amount * 1000 );
     }
     if( !pt.is_tank() || !pt.ammo_remaining() ) {
@@ -3616,7 +3615,7 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     int fcon = 0;
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_type_on( e, ftype ) ) {
-            if( parts[ engines[e] ].ammo_current() == fuel_type_battery &&
+            if( parts[ engines[e] ].has_flag( VPFLAG_E_ENGINE ) &&
                 part_epower_w( engines[e] ) >= 0 ) {
                 // Electric engine - use epower instead
                 fcon -= part_epower_w( engines[e] );
@@ -5511,7 +5510,8 @@ void vehicle::slow_leak()
         }
 
         auto fuel = p.ammo_current();
-        int qty = std::max( ( 0.5 - health ) * ( 0.5 - health ) * p.ammo_remaining() / 10, 1.0 );
+        float mult = ( 0.5 - health ) * ( 0.5 - health ) / 10;
+        int qty = std::max<double>( mult * p.ammo_remaining(), 1.0 );
         point q = coord_translate( p.mount );
         const tripoint dest = global_pos3() + tripoint( q, 0 );
 
@@ -5532,6 +5532,7 @@ void vehicle::slow_leak()
                 p.ammo_consume( p.ammo_remaining(), global_part_pos3( p ) );
             }
         } else {
+            p.consume_energy( fuel_type_battery, units::to_joule( mult * p.energy_remaining() ) );
             p.ammo_consume( qty, global_part_pos3( p ) );
         }
     }
@@ -6855,6 +6856,9 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
     if( parts[ p ].is_broken() ) {
         leak_fuel( parts[ p ] );
+        if( parts[p].is_battery() ) {
+            parts[p].energy_set( 0_J );
+        }
     }
 
     int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
@@ -6966,6 +6970,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
         // destroyed parts lose any contained fuels, battery charges or ammo
         leak_fuel( parts [ p ] );
+        if( parts[ p ].is_battery() ) {
+            parts[ p ].energy_set( 0_J );
+        }
 
         for( auto &e : parts[p].items.clear() ) {
             g->m.add_item_or_charges( global_part_pos3( p ), std::move( e ) );

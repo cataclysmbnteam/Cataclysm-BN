@@ -91,6 +91,12 @@
     "info": "Provides motive power to move the vehicle if the vehicle has sufficient wheels.  Requires controls to turn on.  If it drains power, also requires a charged battery to start."
   },
   {
+    "id": "E_ENGINE",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "Same as ENGINE but for those that consume electricity. Using both on the same part produces unintended behaviour."
+  },
+  {
     "id": "E_ALTERNATOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],

@@ -180,6 +180,10 @@ void iuse_transform::load( const JsonObject &obj )
             obj.throw_error( "You must specify two or more values to choose between", "rand_target_charges" );
         }
     }
+
+    obj.read( "target_power", enrg_qty );
+    assign( obj, "rand_target_power", random_enrg_qty );
+
     obj.read( "target_ammo", ammo_type );
 
     obj.read( "countdown", countdown );
@@ -203,10 +207,15 @@ void iuse_transform::load( const JsonObject &obj )
 
     obj.read( "need_charges", need_charges );
     need_charges = std::max( need_charges, 0 );
+
+    obj.read( "need_power", need_energy );
+    need_energy = std::max( need_energy, 0_J );
+
     if( !obj.read( "need_fire_msg", need_fire_msg ) ) {
         need_fire_msg = to_translation( "You need a source of fire!" );
     }
     obj.read( "transform_charges", transform_charges );
+    obj.read( "transform_power", transform_energy );
 
     obj.read( "need_worn", need_worn );
     obj.read( "need_wielding", need_wielding );
@@ -220,8 +229,7 @@ void iuse_transform::load( const JsonObject &obj )
 std::pair<int, units::energy> iuse_transform::use( player &p, item &it, bool t,
         const tripoint &pos ) const
 {
-    std::pair<int, units::energy> res( cost >= 0 ? cost : it.type->charges_to_use(),
-                                       e_cost >= 0_J ? e_cost : it.energy_required() );
+    std::pair<int, units::energy> res( 0, 0_J );
     if( t ) {
         return std::make_pair( 0, 0_J ); // invoked from active item processing, do nothing.
     }
@@ -238,11 +246,12 @@ std::pair<int, units::energy> iuse_transform::use( player &p, item &it, bool t,
         return std::make_pair( 0, 0_J );
     }
     // No charge consumption at this point, there are still points of failure later.
-    if( need_charges || transform_charges ) {
+    if( need_charges || transform_charges || transform_energy > 0_J ) {
         if( it.has_flag( flag_POWERARMOR_MOD ) && character_funcs::can_interface_armor( p ) ) {
             if( possess ) {
-                const int bio_power = units::to_kilojoule( p.get_power_level() );
-                if( bio_power < need_charges || bio_power < transform_charges ) {
+                const units::energy bio_power = p.get_power_level();
+                if( bio_power < transform_energy || bio_power < need_energy ||
+                    it.units_remaining() < transform_charges || it.units_remaining() < need_charges ) {
                     p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
                     return std::make_pair( 0, 0_J );
                 }
@@ -251,13 +260,14 @@ std::pair<int, units::energy> iuse_transform::use( player &p, item &it, bool t,
             }
         } else {
             const int item_charges = it.units_remaining();
-            if( item_charges < need_charges || item_charges < transform_charges ) {
+            const units::energy item_energy = it.energy_available( p );
+            if( item_charges < need_charges || item_charges < transform_charges ||
+                item_energy < need_energy || item_energy < transform_energy ) {
                 p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
                 return std::make_pair( 0, 0_J );
             }
         }
     }
-
 
     if( need_fire && possess ) {
         if( !p.use_charges_if_avail( itype_fire, need_fire ) ) {
@@ -268,6 +278,13 @@ std::pair<int, units::energy> iuse_transform::use( player &p, item &it, bool t,
             p.add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
             return std::make_pair( 0, 0_J );
         }
+    }
+
+    // All checks complete the damn thing can finally transform
+    // Consume charges if necessary at this point.
+    if( transform_charges || transform_energy > 0_J ) {
+        p.consume_energy( it, transform_energy );
+        p.consume_charges( it, transform_charges );
     }
 
     if( possess && !msg_transform.empty() ) {
@@ -300,6 +317,23 @@ std::pair<int, units::energy> iuse_transform::use( player &p, item &it, bool t,
                 it.ammo_set( it.ammo_current(), qty );
             } else {
                 it.set_countdown( qty );
+            }
+        }
+        if( enrg_qty >= 0_J || !random_enrg_qty.empty() ) {
+            units::energy e_qty = 0_J;
+            if( !random_enrg_qty.empty() ) {
+                e_qty = units::from_joule( rng( units::to_joule( random_enrg_qty[0] ),
+                                                units::to_joule( random_enrg_qty[1] ) ) );
+            } else {
+                e_qty = enrg_qty;
+            }
+            if( it.battery_integral() ) {
+                it.set_energy( e_qty );
+            } else if( it.battery_current() ) {
+                it.battery_current()->set_energy( e_qty );
+            } else {
+                debugmsg( "Tried to give random power to item %s that lacks a suitable container.",
+                          it.typeId().c_str() );
             }
         }
     } else {
@@ -3850,8 +3884,8 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
     return disinfectant_power;
 }
 
-int heal_actor::finish_using( player &healer, player &patient, item &it,
-                              const bodypart_str_id &healed ) const
+std::pair<int, units::energy> heal_actor::finish_using( player &healer, player &patient, item &it,
+        const bodypart_str_id &healed ) const
 {
     float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
@@ -3967,7 +4001,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it,
     practice_amount = std::max( 9.0f, practice_amount );
 
     healer.practice( skill_firstaid, static_cast<int>( practice_amount ) );
-    return it.type->charges_to_use();
+    return std::make_pair( it.type->charges_to_use(), it.type->energy_to_use() );
 }
 
 static bodypart_str_id pick_part_to_heal(

@@ -31,7 +31,6 @@
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_none( "null" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_muscle( "muscle" );
 
 /*-----------------------------------------------------------------------------
@@ -303,10 +302,6 @@ bool vehicle_part::fuel_set( const itype_id &fuel )
 
 itype_id vehicle_part::ammo_current() const
 {
-    if( is_battery() ) {
-        return itype_battery;
-    }
-
     if( is_tank() && !base->contents.empty() ) {
         return base->contents.front().typeId();
     }

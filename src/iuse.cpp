@@ -229,7 +229,6 @@ static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone"
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arrow_flamming( "arrow_flamming" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_barometer( "barometer" );
 static const itype_id itype_c4armed( "c4armed" );
 static const itype_id itype_canister_empty( "canister_empty" );
@@ -8003,7 +8002,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
-            v->fuel_left( itype_battery, true ) > 0 &&
+            v->energy_left( true ) > 0_J &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
@@ -8046,7 +8045,7 @@ std::pair<int, units::energy> iuse::remoteveh( player *p, item *it, bool t, cons
         } else if( remote == nullptr ) {
             p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
             stop = true;
-        } else if( remote->fuel_left( itype_battery, true ) == 0 ) {
+        } else if( remote->energy_left( true ) == 0_J ) {
             p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
             stop = true;
         }

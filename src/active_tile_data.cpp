@@ -20,8 +20,6 @@
 // TODO: Shouldn't use
 #include "submap.h"
 
-static const itype_id itype_battery( "battery" );
-
 namespace active_tiles
 {
 

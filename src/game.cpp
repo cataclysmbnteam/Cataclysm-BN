@@ -243,7 +243,6 @@ static const efftype_id effect_tied( "tied" );
 static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
@@ -2269,7 +2268,7 @@ vehicle *game::remoteveh()
         tripoint vp;
         remote_veh_string >> vp.x >> vp.y >> vp.z;
         vehicle *veh = veh_pointer_or_null( m.veh_at( vp ) );
-        if( veh && veh->fuel_left( itype_battery, true ) > 0 ) {
+        if( veh && veh->energy_left( true ) > 0_J ) {
             remoteveh_cache = veh;
         } else {
             remoteveh_cache = nullptr;

@@ -446,8 +446,10 @@ class vehicle
         void refresh_mass() const;
         void calc_mass_center( bool precalc ) const;
 
-        /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
+        /** empty the contents of a tank or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
+        /** empty the contents of a battery */
+        void leak_energy( vehicle_part &pt );
 
         int next_hack_id = 0;
 

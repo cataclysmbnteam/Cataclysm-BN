@@ -65,7 +65,6 @@ static const efftype_id effect_meth( "meth" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_throw( "throw" );
@@ -826,17 +825,10 @@ item_reload_option select_ammo( const Character &who, item &base,
                    colorize( name, c_dark_gray ) : name;
         };
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
-            if( e.ammo->ammo_current() == itype_battery ) {
-                // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
-                //~ battery storage (charges)
-                return string_format( pgettext( "magazine", "%1$s (%2$d)" ), e.ammo->type_name(),
-                                      e.ammo->ammo_remaining() );
-            } else {
-                //~ magazine with ammo (count)
-                return ammo_color( string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ),
-                                                  e.ammo->type_name(), e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ),
-                                                  e.ammo->ammo_remaining() ) );
-            }
+            //~ magazine with ammo (count)
+            return ammo_color( string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ),
+                                              e.ammo->type_name(), e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ),
+                                              e.ammo->ammo_remaining() ) );
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && who.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below

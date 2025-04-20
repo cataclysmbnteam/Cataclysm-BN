@@ -1173,6 +1173,12 @@ class Character : public Creature, public location_visitable<Character>
          *  @return true if item was destroyed */
         bool consume_charges( item &used, int qty );
 
+        /** Consume energy sof a tool or comestible item, potentially destroying it in the process
+         *  @param used item consuming the energy
+         *  @param qty power to consume which must be greater than zero.
+         *  @return true if item was destroyed (Not currently used) */
+        bool consume_energy( item &used, units::energy qty );
+
         /**
          * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
          * @param it Item to calculate handling cost for

@@ -69,7 +69,6 @@ void distribution_grid::update( time_point to )
 // TODO: Shouldn't be here
 #include "vehicle.h"
 #include "vehicle_part.h"
-static itype_id itype_battery( "battery" );
 units::energy distribution_grid::mod_resource( units::energy amt, bool recurse )
 {
     std::vector<vehicle *> connected_vehicles;

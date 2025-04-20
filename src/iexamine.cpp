@@ -126,7 +126,6 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
 static const itype_id itype_cash_card( "cash_card" );
@@ -896,10 +895,10 @@ static bool try_start_hacking( player &p, const tripoint &examp )
         add_msg( _( "You cannot read!" ) );
         return false;
     }
-    const bool has_item = p.has_charges( itype_electrohack, 25 );
+    const bool has_item = p.has_energy( itype_electrohack, 25_kJ );
     const bool has_bionic = p.has_bionic( bio_fingerhack ) && p.get_power_level() >= 25_kJ;
     if( !has_item && !has_bionic ) {
-        add_msg( _( "You don't have a hacking tool with enough charges!" ) );
+        add_msg( _( "You don't have a hacking tool with enough power!" ) );
         return false;
     }
     bool use_bionic = has_bionic;
@@ -925,7 +924,7 @@ static bool try_start_hacking( player &p, const tripoint &examp )
         p.assign_activity( std::make_unique<player_activity>( std::make_unique<hacking_activity_actor>(
                                hacking_activity_actor::use_bionic {} ) ) );
     } else {
-        p.use_charges( itype_electrohack, 25 );
+        p.use_energy( itype_electrohack, 25_kJ );
         p.assign_activity( std::make_unique<player_activity>
                            ( std::make_unique<hacking_activity_actor>() ) );
     }
@@ -2779,7 +2778,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         }
     }
 
-    p.use_charges( itype_UPS, 1250 );
+    p.use_energy( itype_UPS, 1250_kJ );
     here.i_clear( examp );
     here.furn_set( examp, next_arcfurnace_type );
     detached_ptr<item> result = item::spawn( itype_unfinished_cac2, calendar::turn );
@@ -3959,10 +3958,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     int ammo_index = 0;
 
     for( const itype &at : ammo_types ) {
-        if( at.get_id() != itype_battery ) {
             ammo_names.emplace_back( at.nname( 1 ) );
             ammo_filtered.emplace_back( at );
-        }
     }
 
     if( ammo_filtered.empty() ) {
@@ -4509,7 +4506,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     int pricePerUnit = getGasPricePerLiter( discount );
 
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) &&
-                      ( ( p.has_charges( itype_electrohack, 25 ) ) ||
+                      ( ( p.has_energy( itype_electrohack, 25_kJ ) ) ||
                         ( p.has_bionic( bio_fingerhack ) && p.get_power_level() > 24_kJ ) ) );
 
     uilist amenu;

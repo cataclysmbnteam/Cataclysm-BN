@@ -41,7 +41,6 @@
 #include "inventory_ui.h" // auto inventory blocking
 
 static const itype_id itype_aspirin( "aspirin" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_heroin( "heroin" );
 static const itype_id itype_salt_water( "salt_water" );
@@ -597,7 +596,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         if( kpart && !found_parts.contains( &*kpart ) ) {
             item &hotplate = *item::spawn_temporary( "hotplate", bday );
-            hotplate.charges = veh->fuel_left( itype_battery, true );
+            hotplate.energy = veh->energy_left( true );
             hotplate.item_tags.insert( flag_PSEUDO );
             // TODO: Allow disabling
             hotplate.item_tags.insert( flag_HEATS_FOOD );
@@ -614,7 +613,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( butcherpart &&
             !found_parts.contains( &*butcherpart ) ) { //copy n paste code moment(this will go wrong)
             item &butchery = *item::spawn_temporary( "fake_adv_butchery", bday );
-            butchery.charges = veh->fuel_left( itype_battery, true );
+            butchery.energy = veh->energy_left( true );
             butchery.item_tags.insert( flag_PSEUDO );
             //A very hacky way to make game take vehicle part into the account for flat surface
             butchery.item_tags.insert( flag_FLATSURF );
@@ -623,67 +622,67 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         if( weldpart && !found_parts.contains( &*weldpart ) ) {
             item &welder = *item::spawn_temporary( "welder", bday );
-            welder.charges = veh->fuel_left( itype_battery, true );
+            welder.energy = veh->energy_left( true );
             welder.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( welder, false );
 
             item &soldering_iron = *item::spawn_temporary( "soldering_iron", bday );
-            soldering_iron.charges = veh->fuel_left( itype_battery, true );
+            soldering_iron.energy = veh->energy_left( true );
             soldering_iron.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( soldering_iron, false );
             found_parts.insert( &*weldpart );
         }
         if( craftpart && !found_parts.contains( &*craftpart ) ) {
             item &vac_sealer = *item::spawn_temporary( "vac_sealer", bday );
-            vac_sealer.charges = veh->fuel_left( itype_battery, true );
+            vac_sealer.energy = veh->energy_left( true );
             vac_sealer.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( vac_sealer, false );
 
             item &dehydrator = *item::spawn_temporary( "dehydrator", bday );
-            dehydrator.charges = veh->fuel_left( itype_battery, true );
+            dehydrator.energy = veh->energy_left( true );
             dehydrator.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( dehydrator, false );
 
             item &food_processor = *item::spawn_temporary( "food_processor", bday );
-            food_processor.charges = veh->fuel_left( itype_battery, true );
+            food_processor.energy = veh->energy_left( true );
             food_processor.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( food_processor, false );
 
             item &press = *item::spawn_temporary( "press", bday );
-            press.charges = veh->fuel_left( itype_battery, true );
+            press.energy = veh->energy_left( true );
             press.set_flag( flag_PSEUDO );
             add_item_by_items_type_cache( press, false );
             found_parts.insert( &*craftpart );
         }
         if( forgepart && !found_parts.contains( &*forgepart ) ) {
             item &forge = *item::spawn_temporary( "forge", bday );
-            forge.charges = veh->fuel_left( itype_battery, true );
+            forge.energy = veh->energy_left( true );
             forge.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( forge, false );
             found_parts.insert( &*forgepart );
         }
         if( kilnpart && !found_parts.contains( &*kilnpart ) ) {
             item &kiln = *item::spawn_temporary( "kiln", bday );
-            kiln.charges = veh->fuel_left( itype_battery, true );
+            kiln.energy = veh->energy_left( true );
             kiln.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( kiln, false );
             found_parts.insert( &*kilnpart );
         }
         if( chempart && !found_parts.contains( &*chempart ) ) {
             item &chemistry_set = *item::spawn_temporary( "chemistry_set", bday );
-            chemistry_set.charges = veh->fuel_left( itype_battery, true );
+            chemistry_set.energy = veh->energy_left( true );
             chemistry_set.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( chemistry_set, false );
 
             item &electrolysis_kit = *item::spawn_temporary( "electrolysis_kit", bday );
-            electrolysis_kit.charges = veh->fuel_left( itype_battery, true );
+            electrolysis_kit.energy = veh->energy_left( true );
             electrolysis_kit.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( electrolysis_kit, false );
             found_parts.insert( &*chempart );
         }
         if( autoclavepart && !found_parts.contains( &*autoclavepart ) ) {
             item &autoclave = *item::spawn_temporary( "autoclave", bday );
-            autoclave.charges = veh->fuel_left( itype_battery, true );
+            autoclave.energy = veh->energy_left( true );
             autoclave.item_tags.insert( flag_PSEUDO );
             add_item_by_items_type_cache( autoclave, false );
             found_parts.insert( &*autoclavepart );

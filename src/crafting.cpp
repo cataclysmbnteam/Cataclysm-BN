@@ -1618,7 +1618,7 @@ std::vector<detached_ptr<item>> player::consume_items( const std::vector<item_co
 }
 
 struct avail_tool_comp {
-    avail_tool_comp( comp_selection<tool_comp> comp, int charges, int ideal,
+    avail_tool_comp( comp_selection<tool_comp> comp, int charges, int ideal_charges,
                      units::energy energy, units::energy ideal_energy )
         : comp( comp ), charges( charges ), ideal_charges( ideal_charges ),
           energy( energy ), ideal_energy( ideal_energy )
@@ -1627,10 +1627,10 @@ struct avail_tool_comp {
     avail_tool_comp &operator =( const avail_tool_comp & ) = default;
 
     comp_selection<tool_comp> comp;
-    int charges;
-    int ideal_charges;
-    units::energy energy;
-    units::energy ideal_energy;
+    int charges = 0;
+    int ideal_charges = 0;
+    units::energy energy = 0_J;
+    units::energy ideal_energy = 0_J;
 };
 
 namespace crafting
@@ -1702,7 +1702,7 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
                 }
                 if( !energy_satisfied && player_with_inv->has_energy( type, count_energy ) ) {
                     energy_satisfied = true;
-                    units::energy total_energy = player_with_inv->energy_of( type );
+                    total_energy = player_with_inv->energy_of( type );
                 }
                 if( charge_satisfied && energy_satisfied ) {
                     comp_selection<tool_comp> sel( usage_from::player, *it );
@@ -1717,11 +1717,11 @@ find_tool_component( const Character *player_with_inv, const std::vector<tool_co
                 bool charge_satisfied = !ideal_charge || false;
                 bool energy_satisfied = !( ideal_energy > 0_J ) || false;
 
-                if( ideal_charge && map_inv.has_charges( type, count_charge ) ) {
+                if( !charge_satisfied && map_inv.has_charges( type, count_charge ) ) {
                     charge_satisfied = true;
                     total_charges = map_inv.charges_of( type );
                 }
-                if( ideal_energy > 0_J && map_inv.has_energy( type, count_energy ) ) {
+                if( !energy_satisfied && map_inv.has_energy( type, count_energy ) ) {
                     energy_satisfied = true;
                     total_energy = map_inv.energy_of( type );
                 }
@@ -1959,31 +1959,24 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool,
         return;
     }
 
-    const auto calc_usage = [ &cost_ad ]( itype_id type, int uses ) {
-        std::pair<int, units::energy> ret = std::make_pair( type->charges_to_use() * uses,
-                                            type->energy_to_use() * uses );
-        auto [chrg, enrg] = ret;
-        if( !( chrg || enrg > 0_J ) ) {
-            return ret;
-        }
-
-        switch( cost_ad ) {
-            case cost_adjustment::start_only:
-                chrg = crafting::charges_for_starting( chrg );
-                enrg = crafting::energy_for_starting( enrg );
-                break;
-            case cost_adjustment::continue_only:
-                chrg = crafting::charges_for_continuing( chrg );
-                enrg = crafting::energy_for_continuing( enrg );
-                break;
-            default:
-                break;
-        }
-    };
-
     int quantity = tool.comp.count * batch;
     itype_id tooltype = tool.comp.type;
-    auto [chrg, enrg] = calc_usage( tooltype, quantity );
+    std::pair<int, units::energy> act_usage = std::make_pair( tooltype->charges_to_use() * quantity,
+            tooltype->energy_to_use() * quantity );
+    auto [chrg, enrg] = act_usage;
+
+    switch( cost_ad ) {
+        case cost_adjustment::start_only:
+            chrg = crafting::charges_for_starting( chrg );
+            enrg = crafting::energy_for_starting( enrg );
+            break;
+        case cost_adjustment::continue_only:
+            chrg = crafting::charges_for_continuing( chrg );
+            enrg = crafting::energy_for_continuing( enrg );
+            break;
+        default:
+            break;
+    }
 
     if( tool.use_from & usage_from::player ) {
         use_charges( tooltype, chrg );

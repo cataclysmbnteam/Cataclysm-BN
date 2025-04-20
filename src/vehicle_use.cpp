@@ -69,7 +69,6 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_wind( "wind" );
 
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_hotplate( "hotplate" );
@@ -2059,7 +2058,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( itype_battery, true ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && energy_left( true ) > 0_J ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
     if( has_faucet && fuel_left( itype_water_clean ) > 0 ) {
@@ -2069,12 +2068,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_weldrig && fuel_left( itype_battery, true ) > 0 ) {
+    if( has_weldrig && energy_left( true ) > 0_J ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( itype_battery, true ) >=
-                          itype_water_purifier->charges_to_use();
+        bool can_purify = energy_left( true ) >= itype_water_purifier->energy_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
         selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( itype_water ),
