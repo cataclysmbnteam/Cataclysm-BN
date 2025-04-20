@@ -25,7 +25,7 @@
     "$zod/": "https://deno.land/x/zod@v3.22.4/",
     "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7",
     "@cliffy/flags": "jsr:@cliffy/flags@^1.0.0-rc.7",
-    "@scarf/json-map": "jsr:@scarf/json-map@0.0.0-rc.4",
+    "@scarf/json-map": "jsr:@scarf/json-map@^0.0.4",
     "@std/assert": "jsr:@std/assert@^1.0.6",
     "@std/async": "jsr:@std/async@^1.0.12",
     "@std/collections": "jsr:@std/collections@^1.0.7",

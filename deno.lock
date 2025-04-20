@@ -10,7 +10,7 @@
     "jsr:@david/dax@*": "0.42.0",
     "jsr:@david/path@0.2": "0.2.0",
     "jsr:@david/which@~0.4.1": "0.4.1",
-    "jsr:@scarf/json-map@0.0.0-rc.4": "0.0.0-rc.4",
+    "jsr:@scarf/json-map@^0.0.4": "0.0.4",
     "jsr:@std/assert@*": "1.0.8",
     "jsr:@std/assert@0.221": "0.221.0",
     "jsr:@std/assert@^1.0.6": "1.0.8",
@@ -91,8 +91,8 @@
     "@david/which@0.4.1": {
       "integrity": "896a682b111f92ab866cc70c5b4afab2f5899d2f9bde31ed00203b9c250f225e"
     },
-    "@scarf/json-map@0.0.0-rc.4": {
-      "integrity": "5fc9830b0b5efaa94c0bf30029f4000f160cef1ce472076a775eb38734969c26"
+    "@scarf/json-map@0.0.4": {
+      "integrity": "3699dc674dab36387437dd839f0930de92f1426b990c97fa74257af51b2d8694"
     },
     "@std/assert@0.221.0": {
       "integrity": "a5f1aa6e7909dbea271754fd4ab3f4e687aeff4873b4cef9a320af813adb489a"
@@ -525,7 +525,7 @@
     "dependencies": [
       "jsr:@cliffy/command@^1.0.0-rc.7",
       "jsr:@cliffy/flags@^1.0.0-rc.7",
-      "jsr:@scarf/json-map@0.0.0-rc.4",
+      "jsr:@scarf/json-map@^0.0.4",
       "jsr:@std/assert@^1.0.6",
       "jsr:@std/async@^1.0.12",
       "jsr:@std/collections@^1.0.7",
