@@ -1,5 +1,5 @@
 import { assertEquals } from "https://deno.land/std@0.208.0/assert/assert_equals.ts"
-import { base, bionic, schemasTransformer, vehiclePart } from "./migrate_legacy_unit.ts"
+import { base, bionic, schemasTransformer, vehiclePart } from "./3312.migrate_legacy_unit.ts"
 
 const input = [{
   type: "vehicle_part",

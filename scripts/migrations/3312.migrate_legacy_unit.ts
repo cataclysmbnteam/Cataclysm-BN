@@ -15,6 +15,10 @@ import { match, P } from "$catjazz/deps/ts_pattern.ts"
 import { id } from "$catjazz/utils/id.ts"
 import { deepMerge } from "@std/collections"
 
+/**
+ * [PR#3312](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3312)
+ */
+
 const desc = "Migrates Legacy units into new literal format."
 
 const int = z.number().int()
