@@ -3393,8 +3393,6 @@
     "to_hit": -10,
     "bashing": 10,
     "material": "steel",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "batteries": [ "large_storage_battery", "storage_battery" ],
     "symbol": "E",
     "color": "dark_gray",
@@ -3402,11 +3400,12 @@
       "target": "vac_oven_small_on",
       "msg": "You turn on the vacuum oven and pump.",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The vacuum oven's batteries need more charge.",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "1 kJ"
     },
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
+    "power_draw": "1 kJ"
   },
   {
     "id": "vac_oven_small_on",
@@ -3474,16 +3473,14 @@
     "bashing": 10,
     "material": "iron",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "ammo": "battery",
-    "charges_per_use": 1,
     "use_action": {
       "target": "vac_pump_on",
       "msg": "You turn on the vacuum pump.",
       "menu_text": "turn on",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The vacuum pump's batteries need more charge.",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "1 kJ"
     },
     "batteries": [
       "medium_battery_cell",
@@ -3498,7 +3495,8 @@
       "medium_storage_battery",
       "large_storage_battery",
       "storage_battery"
-    ]
+    ],
+    "power_draw": "1 kJ"
   },
   {
     "id": "vac_pump_on",
@@ -3515,9 +3513,7 @@
     "to_hit": -5,
     "bashing": 10,
     "material": "iron",
-    "ammo": "battery",
-    "power_draw": 600000,
-    "charges_per_use": 1,
+    "power_draw": "600 kJ",
     "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ],
     "revert_to": "vac_pump",
     "use_action": {
@@ -3525,9 +3521,9 @@
       "msg": "You turn off the vacuum pump.",
       "menu_text": "turn off",
       "active": false,
-      "need_charges": 1,
       "need_charges_msg": "The vacuum pump's batteries need more charge.",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "1 kJ"
     },
     "batteries": [
       "medium_battery_cell",
@@ -3560,17 +3556,15 @@
     "bashing": 40,
     "material": "steel",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "ammo": "battery",
-    "power_draw": 1500000,
-    "charges_per_use": 1,
+    "power_draw": "1500 kJ",
     "use_action": {
       "target": "closed_loop_extractor_small_on",
       "msg": "You turn on the small closed loop extractor.",
       "menu_text": "turn on",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "1 kJ"
     },
     "batteries": [
       "medium_battery_cell",
@@ -3604,17 +3598,15 @@
     "bashing": 40,
     "material": "steel",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
-    "ammo": "battery",
-    "power_draw": 1500000,
+    "power_draw": "1500 kJ",
     "revert_to": "closed_loop_extractor_small",
-    "charges_per_use": 1,
     "use_action": {
       "target": "closed_loop_extractor_small",
       "msg": "You turn off the small closed loop extractor.",
       "menu_text": "turn off",
-      "need_charges": 0,
       "need_charges_msg": "The small closed loop extractor's batteries need more charge.",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "0 kJ"
     },
     "batteries": [
       "medium_battery_cell",
@@ -3648,8 +3640,6 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
-    "ammo": "battery",
-    "charges_per_use": 1,
     "batteries": [
       "medium_battery_cell",
       "medium_plus_battery_cell",
@@ -3669,11 +3659,12 @@
       "msg": "You turn on the large closed loop extractor.",
       "menu_text": "turn on",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The large closed loop extractor's batteries need more charge.",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "1 kJ"
     },
-    "qualities": [ [ "EXTRACT", 1 ] ]
+    "qualities": [ [ "EXTRACT", 1 ] ],
+    "power_draw": "1 kJ"
   },
   {
     "id": "closed_loop_extractor_large_on",
@@ -3691,10 +3682,8 @@
     "symbol": "E",
     "color": "dark_gray",
     "flags": [ "ALLOWS_REMOTE_USE", "TRADER_AVOID" ],
-    "ammo": "battery",
-    "power_draw": 1500000,
+    "power_draw": "1500 kJ",
     "revert_to": "closed_loop_extractor_large",
-    "charges_per_use": 1,
     "batteries": [
       "medium_battery_cell",
       "medium_plus_battery_cell",
@@ -3713,9 +3702,9 @@
       "target": "closed_loop_extractor_large",
       "msg": "You turn off the large closed loop extractor.",
       "menu_text": "turn off",
-      "need_charges": 0,
       "need_charges_msg": "The large closed loop extractor's batteries need more charge.",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "0 kJ"
     },
     "qualities": [ [ "EXTRACT", 1 ] ]
   },

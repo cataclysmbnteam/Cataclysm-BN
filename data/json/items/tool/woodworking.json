@@ -97,17 +97,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo": "battery",
-    "charges_per_use": 5,
     "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "5 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "circsaw_on",
@@ -183,8 +177,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "red",
-    "ammo": "battery",
-    "charges_per_use": 125,
     "techniques": [ "SWEEP" ],
     "qualities": [ [ "AXE", 4 ] ],
     "use_action": {
@@ -193,17 +185,13 @@
       "target": "elec_chainsaw_on",
       "msg": "You turn on the electric chainsaw.",
       "moves": 80,
-      "transform_charges": 5,
-      "need_dry": true
+      "need_dry": true,
+      "transform_power": "5 kJ"
     },
     "flags": [ "NONCONDUCTIVE", "POWERED" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "125 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "elec_chainsaw_on",

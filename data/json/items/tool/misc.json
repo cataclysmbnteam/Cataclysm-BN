@@ -103,23 +103,17 @@
     "price": "25 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
-    "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen_on",
       "msg": "You turn on the dab pen.",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The dab pen's batteries need more charge.",
-      "type": "transform"
-    }
+      "type": "transform",
+      "need_power": "1 kJ"
+    },
+    "power_draw": "1 kJ",
+    "max_power": "100 kJ",
+    "batteries": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
   },
   {
     "type": "TOOL",
@@ -135,25 +129,18 @@
     "price": "25 USD",
     "price_postapoc": "1 USD",
     "material": "plastic",
-    "ammo": "battery",
-    "power_draw": 9000,
+    "power_draw": "9 kJ",
     "revert_to": "dab_pen",
-    "magazines": [
-      [
-        "battery",
-        [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      ]
-    ],
-    "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen",
       "msg": "You turn off the dab pen.",
       "active": false,
-      "need_charges": 0,
       "need_charges_msg": "The dab pen's batteries need more charge.",
-      "type": "transform"
-    }
+      "type": "transform",
+      "need_power": "0 kJ"
+    },
+    "max_power": "100 kJ",
+    "batteries": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
   },
   {
     "id": "debug_active_relic_test",
@@ -166,31 +153,15 @@
     "color": "blue",
     "weight": "400 g",
     "volume": "500 ml",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You inject yourself into the Cube of Shame.",
       "target": "debug_active_relic_test_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "Batteries not included."
+      "need_charges_msg": "Batteries not included.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml",
     "relic_data": {
       "recharge_scheme": [ { "type": "time", "req": "none", "interval": "10 m", "rate": 1 } ],
       "passive_effects": [
@@ -207,7 +178,17 @@
           "ench_effects": [ { "effect": "debug_clairvoyance", "intensity": 1 } ]
         }
       ]
-    }
+    },
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_disposable_cell",
+      "light_minus_disposable_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell"
+    ]
   },
   {
     "id": "debug_active_relic_test_on",
@@ -448,21 +429,18 @@
     "material": "steel",
     "symbol": ";",
     "color": "brown",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "large_space_heater_on",
       "msg": "You turn on the heater.",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The heater needs more charge.",
       "menu_text": "Turn on",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "1 kJ"
     },
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": "1000 ml"
+    "battery_well": "1000 ml",
+    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
   },
   {
     "id": "large_space_heater_on",
@@ -659,24 +637,18 @@
     "material": "steel",
     "symbol": ";",
     "color": "brown",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "small_space_heater_on",
       "msg": "You turn on the heater.",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The heater needs more charge.",
       "menu_text": "Turn on",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "1 kJ"
     },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "small_space_heater_on",

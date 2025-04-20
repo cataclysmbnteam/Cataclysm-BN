@@ -427,25 +427,19 @@
     "material": [ "superalloy", "steel" ],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "use_action": {
       "target": "l-stick_on",
       "msg": "The L-stick(tm) lights up.",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The L-stick(tm)'s batteries are empty.",
-      "type": "transform"
+      "type": "transform",
+      "need_power": "1 kJ"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "500 ml",
+    "batteries": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "l-stick_on",
@@ -752,22 +746,16 @@
     "volume": "1750 ml",
     "price": "80 USD",
     "price_postapoc": "45 USD",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You press a button and the staff crackles with electricity.",
       "active": true,
-      "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead.",
-      "target": "shock_staff_on"
+      "target": "shock_staff_on",
+      "need_power": "1 kJ"
     },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "shock_staff_on",
@@ -887,23 +875,17 @@
     "price": "170 USD",
     "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You press a button and the tonfa crackles with electricity.",
-      "need_charges": 1,
       "active": true,
       "need_charges_msg": "The %s's batteries are dead.",
-      "target": "shocktonfa_on"
+      "target": "shocktonfa_on",
+      "need_power": "1 kJ"
     },
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "shocktonfa_on",

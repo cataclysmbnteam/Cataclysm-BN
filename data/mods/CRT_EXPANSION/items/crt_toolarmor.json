@@ -274,12 +274,11 @@
     "material_thickness": 2,
     "warmth": 20,
     "revert_to": "crt_helmet",
-    "max_charges": 100,
-    "initial_charges": 0,
-    "charges_per_use": 1,
     "turns_per_charge": 20,
-    "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the %s off.", "target": "crt_helmet" }
+    "use_action": { "type": "transform", "msg": "You turn the %s off.", "target": "crt_helmet" },
+    "power_draw": "1 kJ",
+    "initial_power": "0 kJ",
+    "max_power": "100 kJ"
   },
   {
     "id": "crt_canteen",

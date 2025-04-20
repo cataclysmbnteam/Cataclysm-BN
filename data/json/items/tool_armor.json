@@ -151,15 +151,14 @@
     "weight": "1196 g",
     "volume": "3 L",
     "bashing": 6,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the helmet on.",
       "target": "miner_hat_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The helmet's batteries are dead."
+      "need_charges_msg": "The helmet's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "head" ],
     "techniques": [ "WBLOCK_1" ],
@@ -167,21 +166,16 @@
     "encumbrance": 15,
     "coverage": 80,
     "material_thickness": 4,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "miner_hat_on",
@@ -401,35 +395,29 @@
     "material": [ "cotton" ],
     "weight": "182 g",
     "volume": "750 ml",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_socks_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The %s's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "feet" ],
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "thermal_socks_on",
@@ -459,35 +447,29 @@
     "material": [ "cotton" ],
     "weight": "864 g",
     "volume": "2 L",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_suit_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The %s's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "torso", "arms", "legs" ],
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "thermal_suit_on",
@@ -517,35 +499,29 @@
     "material": [ "cotton" ],
     "weight": "210 g",
     "volume": "750 ml",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_gloves_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The %s's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "hands" ],
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "thermal_gloves_on",
@@ -575,35 +551,29 @@
     "material": [ "cotton" ],
     "weight": "196 g",
     "volume": "1 L",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_mask_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The %s's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "head", "mouth" ],
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "thermal_mask_on",
@@ -685,34 +655,28 @@
     "weight": "520 g",
     "volume": "500 ml",
     "bashing": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the headlamp on.",
       "target": "wearable_light_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The headlamp batteries are dead."
+      "need_charges_msg": "The headlamp batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "head" ],
     "coverage": 15,
     "material_thickness": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "wearable_light_on",
@@ -743,35 +707,29 @@
     "weight": "820 g",
     "volume": "750 ml",
     "bashing": 1,
-    "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the survivor headlamp on.",
       "target": "survivor_light_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The survivor headlamp batteries are dead."
+      "need_charges_msg": "The survivor headlamp batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "head" ],
     "coverage": 20,
     "material_thickness": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "survivor_light_on",
@@ -1403,15 +1361,14 @@
     "weight": "1020 g",
     "volume": "1 L",
     "to_hit": -3,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "goggles_nv_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The %s's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "eyes" ],
     "warmth": 10,
@@ -1419,21 +1376,16 @@
     "encumbrance": 40,
     "coverage": 100,
     "material_thickness": 2,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "goggles_nv_on",
@@ -1466,15 +1418,14 @@
     "weight": "1240 g",
     "volume": "1 L",
     "to_hit": -3,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "goggles_ir_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The %s's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "eyes" ],
     "warmth": 10,
@@ -1482,21 +1433,16 @@
     "encumbrance": 40,
     "coverage": 100,
     "material_thickness": 2,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "goggles_ir_on",
@@ -1693,14 +1639,13 @@
     "weight": "68 g",
     "volume": "250 ml",
     "to_hit": -1,
-    "charges_per_use": 1,
-    "ammo": "battery",
     "use_action": "RADGLOVE",
     "covers": [ "hand_either" ],
     "coverage": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "COMPACT", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
+    "power_draw": "1 kJ",
+    "batteries": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
   },
   {
     "id": "hairpin",
@@ -2218,27 +2163,21 @@
     "material": [ "cotton" ],
     "weight": "1452 g",
     "volume": "4500 ml",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
       "target": "thermal_outfit_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The %s's batteries are dead."
+      "need_charges_msg": "The %s's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "head", "mouth", "torso", "arms", "legs", "hands", "feet" ],
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "thermal_outfit_on",
@@ -2579,36 +2518,30 @@
     "material": [ "plastic" ],
     "weight": "179 g",
     "volume": "1 L",
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the earmuffs on.",
       "target": "powered_earmuffs_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The earmuff's batteries are dead."
+      "need_charges_msg": "The earmuff's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "covers": [ "head" ],
     "warmth": 5,
     "encumbrance": 5,
     "coverage": 10,
     "material_thickness": 2,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_plus_battery_cell",
+      "light_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "powered_earmuffs_on",
@@ -2896,24 +2829,18 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the blanket's heating elements on.",
       "target": "electric_blanket_on",
       "active": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The blanket's batteries are dead."
+      "need_charges_msg": "The blanket's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "electric_blanket_on",
@@ -2949,26 +2876,20 @@
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "Your HUD lights-up: \"Greetings Foodperson, your shift begins now.  Good luck!\"",
       "target": "foodperson_mask_on",
       "active": true,
       "need_worn": true,
-      "transform_charges": 1,
-      "need_charges": 1,
-      "need_charges_msg": "The mask's batteries are dead."
+      "need_charges_msg": "The mask's batteries are dead.",
+      "need_power": "1 kJ",
+      "transform_power": "1 kJ"
     },
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml",
     "valid_mods": [ "resized_large" ],
-    "flags": [ "OUTER", "SUN_GLASSES" ]
+    "flags": [ "OUTER", "SUN_GLASSES" ],
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "foodperson_mask_on",
