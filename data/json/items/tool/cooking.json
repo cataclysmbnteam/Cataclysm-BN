@@ -515,7 +515,7 @@
     "category": "tools",
     "name": { "str": "atomic soda machine" },
     "looks_like": "atomic_coffeepot",
-    "description": "This is a Curie-G soda machine, a bold follow-up to the infamous coffeepot by CuppaTech. It uses the same miniature RTG core to chill and carbonate beverages with uncanny efficiency. Normally, it dispenses standard fizzy drinks using stored CO₂ and coolant, but with a twist of the dial, it can cycle irradiated condensation from the RTG chamber into the mix. The result? A glowing, effervescent beverage with a radioactive zing that’ll light you up from the inside out. ",
+    "description": "This is a Curie-G soda machine, a follow-up to the infamous coffeepot by CuppaTech. It uses the same miniature RTG core to chill and carbonate beverages. Normally, it dispenses standard fizzy drinks using stored CO₂ and coolant, but with a twist of the dial, it can cycle irradiated condensation from the RTG chamber into the mix. Like its predecessor, the atomic soda machine is banned in most regions.",
     "weight": "3000 g",
     "volume": "2 L",
     "price": "1 kUSD",
