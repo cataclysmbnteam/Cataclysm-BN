@@ -116,5 +116,38 @@
     "effect_str": "gungnir_debuff",
     "min_duration": 600000,
     "spell_class": "NONE"
+  },
+  {
+    "id": "give_bulette_45",
+    "type": "SPELL",
+    "name": { "str": "Give Bulette .45 ACP" },
+    "description": "Because \"ammo\" doesn't let me do it right",
+    "valid_targets": [ "none" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_VFX", "PERMANENT" ],
+    "effect": "spawn_item",
+    "effect_str": "bulette_45_acp",
+    "min_damage": 6
+  },
+  {
+    "id": "give_bulette_40",
+    "type": "SPELL",
+    "name": { "str": "Give Bulette .40 S&W" },
+    "description": "Because \"ammo\" doesn't let me do it right",
+    "valid_targets": [ "none" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_VFX", "PERMANENT" ],
+    "effect": "spawn_item",
+    "effect_str": "bulette_40fmj",
+    "min_damage": 6
+  },
+  {
+    "id": "give_bulette_357",
+    "type": "SPELL",
+    "name": { "str": "Give Bulette .357 magnum" },
+    "description": "Because \"ammo\" doesn't let me do it right",
+    "valid_targets": [ "none" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_EXPLOSION_VFX", "PERMANENT" ],
+    "effect": "spawn_item",
+    "effect_str": "bulette_357mag",
+    "min_damage": 6
   }
 ]
