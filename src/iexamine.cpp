@@ -3958,8 +3958,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     int ammo_index = 0;
 
     for( const itype &at : ammo_types ) {
-            ammo_names.emplace_back( at.nname( 1 ) );
-            ammo_filtered.emplace_back( at );
+        ammo_names.emplace_back( at.nname( 1 ) );
+        ammo_filtered.emplace_back( at );
     }
 
     if( ammo_filtered.empty() ) {
