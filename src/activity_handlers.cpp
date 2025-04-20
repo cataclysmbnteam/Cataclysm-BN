@@ -568,6 +568,16 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
             b_rack_present = true;
             break;
         }
+        //vehicle part
+        const optional_vpart_position vp = here.veh_at( pt );
+        if( !vp ) {
+            continue;
+        }
+        vp->vehicle();
+        if( vp.part_with_feature( "BUTCHER_EQ", true ) ) {
+            b_rack_present = true;
+            break;
+        }
     }
     if( !b_rack_present ) {
         b_rack_present = inv.has_item_with( []( const item & it ) {
@@ -717,7 +727,7 @@ static void set_up_butchery_activity( player_activity &act, player &u, const but
 
     print_reasons();
     act.tools.clear();
-    act.recalc_all_moves( u );
+    act.speed.calc_all_moves( u );
     act.moves_left = setup.move_cost;
     act.moves_total = setup.move_cost;
     // We have a valid target, so preform the full finish function
