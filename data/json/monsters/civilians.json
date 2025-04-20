@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "panicked person" },
     "description": "This hysterical individual has a faint, yet fading, glint of intelligence in their bloodshot eyes.  They sometimes scream in fear and behave clearly irrationally.  This will quite likely cause their demise at the hands of the undead horde rather quickly.",
-    "looks_like": "mon_dementia",
+    "looks_like": "mon_prototype_cyborg",
     "default_faction": "human",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -29,7 +29,6 @@
     "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
-    "zombify_into": "mon_zombie",
     "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "GUILT" ]
   },
   {
@@ -80,7 +79,6 @@
       "subtype": "collection",
       "items": [ { "group": "mon_zombie_cop_death_drops", "prob": 100 }, { "item": "glock_22", "prob": 100, "charges": [ 0, 6 ] } ]
     },
-    "zombify_into": "mon_zombie_cop",
     "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
@@ -109,7 +107,6 @@
     "//": "So they are not perpetually fleeing despite lying in a hospital bed",
     "morale": 0,
     "upgrades": { "into_group": "GROUP_NULL", "into": "mon_zombie_crawler" },
-    "zombify_into": "mon_zombie_crawler",
     "delete": { "flags": [ "SEES", "HEARS" ] },
     "copy-from": "mon_civilian_stationary"
   },
@@ -124,7 +121,7 @@
   {
     "id": "mon_civilian_child",
     "type": "MONSTER",
-    "name": { "str": "confused child" },
+    "name": { "str": "confused child", "str_pl": "confused children" },
     "special_attacks": [ [ "PARROT", 0 ] ],
     "description": "Obsessed with finding their parent, they scour the environment for certain death.",
     "copy-from": "mon_civilian_panic"
