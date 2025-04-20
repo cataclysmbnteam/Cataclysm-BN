@@ -1064,7 +1064,6 @@
     "material": [ "milk", "junk" ],
     "primary_material": "cheese",
     "volume": "30 ml",
-    "charges": 1,
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
     "vitamins": [ [ "vitA", 1 ], [ "calcium", 15 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ]
