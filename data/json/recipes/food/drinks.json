@@ -508,7 +508,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "sugar", 54 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -522,7 +522,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "orange", 1 ], [ "irradiated_orange", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "orange", 1 ], [ "irradiated_orange", 1 ] ], [ [ "sugar", 54 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -536,7 +536,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "coca_leaf", 1 ] ], [ [ "caffeine", 1 ], [ "coca_leaf", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "coca_leaf", 1 ] ], [ [ "caffeine", 1 ], [ "coca_leaf", 1 ] ], [ [ "sugar", 54 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -550,7 +550,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "caffeine", 2 ] ], [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "sugar", 25 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "caffeine", 2 ] ], [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "sugar", 60 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -564,7 +564,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "caffeine", 3 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "caffeine", 3 ] ], [ [ "sugar", 54 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -578,7 +578,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "caffeine", 3 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "caffeine", 3 ] ], [ [ "sugar", 54 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -592,7 +592,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "grapes", 1 ], [ "irradiated_grapes", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "grapes", 1 ], [ "irradiated_grapes", 1 ] ], [ [ "sugar", 54 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -606,7 +606,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "hickory_root", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "hickory_root", 1 ] ], [ [ "sugar", 54 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -620,7 +620,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "milk_cream", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "milk_cream", 1 ] ], [ [ "sugar", 54 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -774,7 +774,7 @@
         [ "honeycomb", 1 ],
         [ "honey_bottled", 6 ],
         [ "honey_glassed", 6 ],
-        [ "sugar", 20 ],
+        [ "sugar", 45 ],
         [ "syrup", 8 ],
         [ "beet_syrup", 8 ]
       ],
