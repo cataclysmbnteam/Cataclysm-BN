@@ -1,7 +1,7 @@
 [
   {
-    "id": "electrohack",
     "type": "TOOL",
+    "id": "electrohack",
     "category": "tools_entry",
     "name": "electrohack",
     "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
@@ -14,22 +14,16 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "green",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "abstract": "robopart_base",

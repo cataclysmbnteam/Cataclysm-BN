@@ -143,8 +143,8 @@
     "magazine_well": "250 ml"
   },
   {
-    "id": "two_way_radio",
     "type": "TOOL",
+    "id": "two_way_radio",
     "category": "electronics",
     "name": { "str": "two-way radio" },
     "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays…",
@@ -156,24 +156,18 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_disposable_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ],
-    "magazine_well": "250 ml"
+    "power_draw": "1 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_disposable_cell",
+      "light_minus_disposable_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_minus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell"
+    ]
   },
   {
     "id": "remotevehcontrol",

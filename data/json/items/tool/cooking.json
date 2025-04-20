@@ -260,8 +260,8 @@
     "magazine_well": "500 ml"
   },
   {
-    "id": "dehydrator",
     "type": "TOOL",
+    "id": "dehydrator",
     "category": "tools_cooking",
     "name": { "str": "food dehydrator" },
     "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
@@ -274,15 +274,9 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "eggs_ferment",
@@ -459,8 +453,8 @@
     "flags": [ "SHATTERS" ]
   },
   {
-    "id": "food_processor",
     "type": "TOOL",
+    "id": "food_processor",
     "category": "tools_cooking",
     "name": { "str": "food processor" },
     "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
@@ -473,15 +467,9 @@
     "material": [ "iron" ],
     "symbol": "%",
     "color": "white",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "gasoline_cooker",
@@ -622,8 +610,8 @@
     "flags": [ "SHATTERS" ]
   },
   {
-    "id": "makeshift_sealer",
     "type": "TOOL",
+    "id": "makeshift_sealer",
     "category": "tools_cooking",
     "name": { "str": "makeshift vacuum sealer" },
     "description": "This is a homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
@@ -636,14 +624,8 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ]
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "mess_kit",
@@ -1004,8 +986,8 @@
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
-    "id": "vac_sealer",
     "type": "TOOL",
+    "id": "vac_sealer",
     "category": "tools_cooking",
     "name": { "str": "vacuum sealer" },
     "description": "This is a portable heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
@@ -1018,15 +1000,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": "500 ml"
+    "battery_well": "500 ml",
+    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
   },
   {
     "id": "waffleiron",
