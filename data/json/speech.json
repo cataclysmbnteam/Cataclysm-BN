@@ -394,6 +394,7 @@
     "speaker": [
       "mon_civilian_panic",
       "mon_civilian_stationary",
+      "mon_civilian_child",
       "mon_civilian_parent"
     ],
     "sound": "howling in terror.",
@@ -404,6 +405,7 @@
     "speaker": [
       "mon_civilian_panic",
       "mon_civilian_stationary",
+      "mon_civilian_child",
       "mon_civilian_parent"
     ],
     "sound": "wailing in fear.",
@@ -414,6 +416,7 @@
     "speaker": [
       "mon_civilian_panic",
       "mon_civilian_stationary",
+      "mon_civilian_child",
       "mon_civilian_parent"
     ],
     "sound": "an anguished shriek.",
@@ -424,6 +427,7 @@
     "speaker": [
       "mon_civilian_panic",
       "mon_civilian_stationary",
+      "mon_civilian_child",
       "mon_civilian_parent"
     ],
     "sound": "agonized crying.",
@@ -434,6 +438,7 @@
     "speaker": [
       "mon_civilian_panic",
       "mon_civilian_stationary",
+      "mon_civilian_child",
       "mon_civilian_parent"
     ],
     "sound": "faint, almost inhuman, whimpering.",

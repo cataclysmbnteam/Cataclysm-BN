@@ -122,6 +122,14 @@
     "copy-from": "mon_civilian_panic"
   },
   {
+    "id": "mon_civilian_child",
+    "type": "MONSTER",
+    "name": { "str": "confused child" },
+    "special_attacks": [ [ "PARROT", 0 ] ],
+    "description": "Obsessed with finding their parent, they scour the environment for certain death.",
+    "copy-from": "mon_civilian_panic"
+  },
+  {
     "name": "GROUP_CIVILIANS_UPGRADE",
     "type": "monstergroup",
     "default": "mon_null",
