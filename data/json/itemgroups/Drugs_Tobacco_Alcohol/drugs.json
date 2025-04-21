@@ -54,6 +54,17 @@
     ]
   },
   {
+    "id": "drugs_vending",
+    "type": "item_group",
+    "//": "Drugs that weren't bought during the panic",
+    "items": [
+      { "group": "drugs_heal_simple", "prob": 100 },
+      { "group": "drugs_misc", "prob": 100 },
+      { "item": "tramadol", "prob": 10 },
+      { "item": "codeine", "prob": 5 }
+    ]
+  },
+  {
     "id": "drugs_rare",
     "type": "item_group",
     "//": "Rare and/or valuable drugs excluding painkillers",
