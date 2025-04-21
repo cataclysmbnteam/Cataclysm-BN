@@ -1,9 +1,9 @@
-import * as v from "@valibot/valibot"
 import { assertEquals } from "@std/assert"
 import { GunsMigrateEnergy, ItemMigrateEnergy } from "./5259.migrate_energy.ts"
+import { prettyParse } from "../utils.ts"
 
 Deno.test("GunsMigrateEnergy migrates ups_charges -> power_draw", () => {
-  assertEquals(v.parse(GunsMigrateEnergy, { ups_charges: 10 }), { power_draw: "10 kJ" })
+  assertEquals(prettyParse(GunsMigrateEnergy, { ups_charges: 10 }), { power_draw: "10 kJ" })
 })
 
 Deno.test("ItemMigrateEnergy migrates fields", () => {
@@ -45,7 +45,7 @@ Deno.test("ItemMigrateEnergy migrates fields", () => {
       "light_minus_atomic_battery_cell",
     ],
   }
-  assertEquals(v.parse(ItemMigrateEnergy, given), expected)
+  assertEquals(prettyParse(ItemMigrateEnergy, given), expected)
 })
 
 Deno.test("ItemMigrateEnergy migrates TOOL_ARMOR", () => {
@@ -78,7 +78,7 @@ Deno.test("ItemMigrateEnergy migrates TOOL_ARMOR", () => {
       "need_power": "1 kJ",
     },
   }
-  assertEquals(v.parse(ItemMigrateEnergy, given), expected)
+  assertEquals(prettyParse(ItemMigrateEnergy, given), expected)
 })
 
 Deno.test("ItemMigrateEnergy migrates plastic jack o lantern", () => {
@@ -103,7 +103,7 @@ Deno.test("ItemMigrateEnergy migrates plastic jack o lantern", () => {
     "initial_power": "100 kJ",
     "max_power": "100 kJ",
   }
-  assertEquals(v.parse(ItemMigrateEnergy, given), expected)
+  assertEquals(prettyParse(ItemMigrateEnergy, given), expected)
 })
 
 Deno.test("ItemMigrateEnergy migrates test soldering iron", () => {
@@ -143,5 +143,5 @@ Deno.test("ItemMigrateEnergy migrates test soldering iron", () => {
     ],
     battery_well: "250 ml",
   }
-  assertEquals(v.parse(ItemMigrateEnergy, given), expected)
+  assertEquals(prettyParse(ItemMigrateEnergy, given), expected)
 })

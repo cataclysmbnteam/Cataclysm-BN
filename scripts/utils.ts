@@ -52,6 +52,21 @@ export const omitEmpty = <T>(obj: Record<string, T>): Record<string, T> =>
 
 type AnySchema = BaseSchema<unknown, unknown, BaseIssue<unknown>>
 
+export const prettyParse = <const TSchema extends AnySchema>(
+  schema: TSchema,
+  input: unknown,
+  config?: v.Config<v.InferIssue<TSchema>>,
+): v.InferOutput<TSchema> => {
+  try {
+    return v.parse(schema, input, config)
+  } catch (e) {
+    if (e instanceof v.ValiError) {
+      throw new Error(JSON.stringify(v.flatten<TSchema>(e.issues), null, 2), { cause: e })
+    }
+    throw e
+  }
+}
+
 export const oneOrMany = <const TSchema extends AnySchema>(schema: TSchema) =>
   v.union([schema, v.array(schema)])
 
