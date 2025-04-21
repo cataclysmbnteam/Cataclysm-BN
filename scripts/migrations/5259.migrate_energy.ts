@@ -12,6 +12,7 @@ import * as v from "@valibot/valibot"
 import { omit, partition } from "@std/collections"
 
 const fmtKJ = (x: number) => `${x} kJ`
+const fmtJ = (x: number) => `${Math.floor(x)} J`
 const Nat = v.pipe(v.number(), v.integer())
 const NatToKJ = v.pipe(Nat, v.transform(fmtKJ))
 
@@ -41,14 +42,22 @@ export const GunsMigrateEnergy = v.pipe(
 export const ItemMigrateEnergy = v.pipe(
   v.looseObject({
     type: v.pipe(v.string(), v.transform((type) => type === "MAGAZINE" ? "BATTERY" : type)),
-    ammo: v.optional(v.literal("battery")),
+    ammo: v.optional(v.union([
+      v.literal("battery"),
+      v.tuple([v.literal("battery")]),
+    ])),
     ammo_type: v.optional(v.literal("battery")),
     charges_per_use: v.optional(NatToKJ),
+    charges_to_use: v.optional(NatToKJ),
     initial_charges: v.optional(NatToKJ),
     count: v.optional(NatToKJ),
     capacity: v.optional(NatToKJ),
     max_charges: v.optional(NatToKJ),
-    power_draw: v.optional(v.pipe(Nat, v.transform((x) => fmtKJ(x / 1000)))),
+    power_draw: v.optional(v.union([
+      v.string(),
+      v.pipe(Nat, v.transform((x) => x % 1000000 === 0 ? fmtKJ(x / 1000000) : fmtJ(x/1000))),
+    ])),
+    magazine_well: v.optional(v.string()),
     magazines: v.optional(
       v.pipe(
         v.array(v.tuple([v.string(), v.array(v.string())])),
@@ -56,14 +65,14 @@ export const ItemMigrateEnergy = v.pipe(
       ),
     ),
     use_action: v.optional(v.union([v.string(), ItemTransformMigrateEnergy])),
-    magazine_well: v.optional(v.string()),
   }),
-  v.check((x) => (x.ammo === "battery" || x.ammo_type === "battery"), "missing ammo or ammo_type"),
+  v.check((x) => (x.ammo === "battery" || x.ammo_type === "battery" || x.power_draw != null), "missing ammo or ammo_type or power_draw"),
   v.transform((x) => {
     const omitted = omit(x, ["ammo", "ammo_type"])
     const aliased = alias(omitted, {
       magazine_well: "battery_well",
       charges_per_use: "power_draw",
+      charges_to_use: "power_draw",
       initial_charges: "initial_power",
       count: "initial_power",
       capacity: "max_power",

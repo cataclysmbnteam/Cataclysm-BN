@@ -3248,6 +3248,12 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( energy_required() > 0_J && parts->test( iteminfo_parts::TOOL_ENERGYDRAW ) ) {
         info.emplace_back( "TOOL", string_format( "<bold>Power Draw</bold>: %s per turn",
                            units::display( energy_required() ) ) );
+        if( is_active() && !has_flag( flag_USE_UPS ) ) {
+            int no_power_in = ( energy_remaining() / energy_required() );
+            std::string no_power_string = to_string_approx( time_duration::from_turns( no_power_in ), false );
+            info.emplace_back( "TOOL", string_format( "<bold>Runs out of power in</bold>: %s",
+                               no_power_string ) );
+        }
     }
 
     if( energy_capacity() != 0_J && parts->test( iteminfo_parts::TOOL_ENERGY ) ) {
@@ -3272,6 +3278,12 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                _( "<bold>Charge usage</bold>: %d charge every %s" ),
                                _( "<bold>Charge usage</bold>: %d charges every %s" ), charges_per_tick )
                            , charges_per_tick, time_string ) );
+        if( is_active() ) {
+            std::string no_charges_in = to_string_approx( time_duration::from_turns(
+                                            ammo_remaining() * tick_length / charges_per_tick ), false );
+            info.emplace_back( "TOOL", string_format( "<bold>Runs out of charges in</bold: %s",
+                               no_charges_in ) );
+        }
     }
 
     if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CHARGES ) ) {

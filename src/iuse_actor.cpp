@@ -187,7 +187,7 @@ void iuse_transform::load( const JsonObject &obj )
 
     obj.read( "target_power", enrg_qty );
     assign( obj, "rand_target_power", random_enrg_qty );
-    if( random_enrg_qty.size() < 2 ) {
+    if( obj.has_array( "rand_target_power" ) && random_enrg_qty.size() < 2 ) {
         obj.throw_error( "You must specify two or more values to choose between", "rand_target_power" );
     }
 
