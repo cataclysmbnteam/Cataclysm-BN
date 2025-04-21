@@ -2912,7 +2912,7 @@ void veh_interact::display_details( const vpart_info *part )
     // 6 [horizontal]: (column 1) flags    (column 2) battery capacity (if applicable)
     fold_and_print( w_details, point( col_1, line + 5 ), details_w, c_yellow, label );
 
-    if( part->is_battery() ) {
+    if( part->item->battery ) {
         const cata::value_ptr<islot_battery> &battery = part->item->battery;
         fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
                         "%s: <color_light_gray>%s</color>",
