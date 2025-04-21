@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
     "default": "mon_zombie",
@@ -60,4 +60,4 @@
       { "monster": "mon_feral_soldier", "starts": 500, "freq": 5, "cost_multiplier": 5 }
     ]
   }
- ]
+]

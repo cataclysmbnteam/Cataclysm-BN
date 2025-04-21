@@ -7,6 +7,6 @@
     "maintainers": [ "Kota" ],
     "description": "Adds a few civilian monsters & a faction that simulates the collapse of civilization and the resulting riots.",
     "category": "creatures",
-	"dependencies": [ "bn" ]
+    "dependencies": [ "bn" ]
   }
 ]

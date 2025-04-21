@@ -147,13 +147,7 @@
       { "monster": "mon_civilian_stationary", "freq": 30, "cost_multiplier": 0, "ends": 72 },
       { "monster": "mon_civilian_zombiefighter", "freq": 16, "cost_multiplier": 0, "ends": 72 },
       { "monster": "mon_civilian_police", "freq": 4, "cost_multiplier": 3, "ends": 72 },
-      {
-        "monster": "mon_civilian_parent",
-        "freq": 20,
-        "cost_multiplier": 0,
-        "ends": 48,
-        "pack_size": [ 1, 2 ]
-      },
+      { "monster": "mon_civilian_parent", "freq": 20, "cost_multiplier": 0, "ends": 48, "pack_size": [ 1, 2 ] },
       { "monster": "mon_civilian_parent", "freq": 20, "cost_multiplier": 0, "starts": 48, "ends": 96 },
       { "monster": "mon_civilian_child", "freq": 20, "cost_multiplier": 0, "starts": 48, "ends": 96 },
       { "monster": "mon_civilian_panic", "freq": 40, "cost_multiplier": 0, "ends": 48, "pack_size": [ 1, 5 ] },
