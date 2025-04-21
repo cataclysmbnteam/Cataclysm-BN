@@ -504,7 +504,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 1,
     "time": "1h15m",
     "batch_time_factors": [ 80, 1 ],
@@ -534,7 +539,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 1,
     "time": "1h15m",
     "batch_time_factors": [ 80, 1 ],
@@ -564,7 +574,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 1,
     "time": "1h15m",
     "batch_time_factors": [ 80, 1 ],
@@ -594,7 +609,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 1,
     "time": "1h15m",
     "batch_time_factors": [ 80, 1 ],
@@ -669,7 +689,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 8,
     "time": "1h15m",
     "batch_time_factors": [ 80, 1 ],
@@ -715,7 +740,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 1,
     "time": "1h15m",
     "batch_time_factors": [ 80, 1 ],
@@ -745,8 +775,17 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "soda_machine", 20 ], [ "atomic_soda_machine", -1 ] ], [ [ "carbondioxide_tank", 1 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [
+      [ [ "water_boiling_heat", 3, "LIST" ] ],
+      [ [ "soda_machine", 20 ], [ "atomic_soda_machine", -1 ] ],
+      [ [ "carbondioxide_tank", 1 ] ]
+    ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 1,
     "time": "1m",
     "batch_time_factors": [ 80, 1 ],
@@ -762,7 +801,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 1,
     "time": "1h15m",
     "autolearn": true,
