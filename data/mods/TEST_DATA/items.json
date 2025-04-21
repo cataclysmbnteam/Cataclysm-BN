@@ -218,8 +218,6 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "use_action": [
       {
         "type": "repair_item",
@@ -232,21 +230,17 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "STAB", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
-    ],
-    "magazine_well": 1
+    "power_draw": "1 kJ",
+    "battery_well": "250 ml",
+    "batteries": [
+      "light_minus_battery_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
+    ]
   },
   {
     "id": "test_battery_tool",
@@ -259,20 +253,14 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
+    "batteries": [
+      "light_minus_battery_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ]
   },
   {
@@ -619,21 +607,15 @@
     "copy-from": "test_boltcutter",
     "name": { "str": "test electric pair of bolt cutters" },
     "description": "Test bolt cutters which uses batteries.",
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
+    "power_draw": "1 kJ",
+    "batteries": [
+      "light_minus_battery_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ]
   },
   {
@@ -652,21 +634,15 @@
     "copy-from": "test_hacksaw",
     "name": { "str": "test electric hacksaw" },
     "description": "Test hacksaw which uses batteries.",
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      ]
+    "power_draw": "1 kJ",
+    "batteries": [
+      "light_minus_battery_cell",
+      "light_battery_cell",
+      "light_plus_battery_cell",
+      "light_atomic_battery_cell",
+      "light_minus_atomic_battery_cell",
+      "light_minus_disposable_cell",
+      "light_disposable_cell"
     ]
   },
   {

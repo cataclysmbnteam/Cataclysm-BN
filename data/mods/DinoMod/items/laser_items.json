@@ -21,7 +21,6 @@
     "dispersion": 1200,
     "durability": 6,
     "ammo_effects": [ "LASER" ],
-    "volume": "2500 ml",
-    "ammo": [ "battery" ]
+    "volume": "2500 ml"
   }
 ]

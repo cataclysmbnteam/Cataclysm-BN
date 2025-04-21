@@ -16,7 +16,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "5 kJ",
     "react_cost": "10 kJ",
-    "energy_capacity": "150 kJ"
+    "energy_capacity": "150 kJ",
     "time": 1
   },
   {
@@ -100,7 +100,7 @@
     "name": { "str": "Battery System" },
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "torso", 25 ] ],
-    "energy_efficiency": 1.0,
+    "energy_efficiency": 1,
     "energy_capacity": "2000 kJ",
     "max_energy_draw": "1 kJ",
     "time": 1,

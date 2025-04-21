@@ -140,7 +140,7 @@
     "dispersion": 90,
     "durability": 6,
     "loudness": 15,
-    "power_draw": 40000000,
+    "power_draw": "40 kJ",
     "reload": 600,
     "valid_mod_locations": [
       [ "emitter", 1 ],

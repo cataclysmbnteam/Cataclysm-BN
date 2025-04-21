@@ -20,7 +20,6 @@
     "dispersion": 90,
     "durability": 6,
     "loudness": 15,
-    "ups_charges": 40,
     "reload": 600,
     "valid_mod_locations": [
       [ "emitter", 1 ],
@@ -32,7 +31,8 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
-    "flags": [ "USE_UPS", "NO_UNLOAD", "PYROMANIAC_WEAPON", "NEVER_JAMS" ]
+    "flags": [ "USE_UPS", "NO_UNLOAD", "PYROMANIAC_WEAPON", "NEVER_JAMS" ],
+    "power_draw": "40 kJ"
   },
   {
     "id": "l_sp_45",
