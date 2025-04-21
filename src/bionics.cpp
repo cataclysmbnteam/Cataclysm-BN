@@ -297,10 +297,13 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign_map_from_array( jsobj, "stat_bonus", stat_bonus, strict );
     assign( jsobj, "remote_fuel_draw", remote_fuel_draw, strict, 0_J );
     is_remote_fueled = remote_fuel_draw > 0_J;
+    assign( jsobj, "energy_mult", energy_mult, strict, 1 );
+    assign( jsobj, "energy_capacity", energy_capacity, strict, 0_J );
+    assign( jsobj, "max_energy_draw", max_energy_draw, strict, 0_J );
     assign( jsobj, "fuel_options", fuel_opts, strict );
     assign( jsobj, "fuel_capacity", fuel_capacity, strict, 0 );
     assign( jsobj, "fuel_efficiency", fuel_efficiency, strict, 0.0f );
-    assign( jsobj, "fuel_multiplier", fuel_multiplier, strict, 0 );
+    assign( jsobj, "fuel_multiplier", fuel_multiplier, strict, 0 );;
     assign( jsobj, "passive_fuel_efficiency", passive_fuel_efficiency, strict, 0.0f );
     assign( jsobj, "coverage_power_gen_penalty", coverage_power_gen_penalty, strict );
     assign( jsobj, "exothermic_power_gen", exothermic_power_gen, strict );
@@ -1405,6 +1408,45 @@ bool Character::burn_fuel( bionic &bio, bool start )
     return true;
 }
 
+bool Character::discharge( bionic &bio, bool start )
+{
+    if( start && bio.energy_stored == 0_J ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s does not have enough fuel to start." ),
+                               _( "<npcname>'s %s does not have enough fuel to start." ),
+                               bio.info().name );
+        deactivate_bionic( bio );
+        return false;
+    }
+    // don't produce power on start to avoid instant recharge exploit by turning bionic ON/OFF
+    //in the menu
+    if( !start ) {
+        if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && get_power_level() == get_max_power_level() ) {
+            if( !bio.is_auto_start_keep_full() ) {
+                add_msg_player_or_npc( m_info, _( "Your %s turns off after filling your power banks." ),
+                                       _( "<npcname>'s %s turns off after filling their power banks." ),
+                                       bio.info().name );
+            }
+            deactivate_bionic( bio, true );
+            return false;
+        } else {
+            if( bio.energy_stored > 0_J ) {
+                units::energy to_recharge = std::min( std::min( bio.energy_stored, bio.info().max_energy_draw ),
+                                                      get_max_power_level() - get_power_level() );
+                bio.energy_stored -= to_recharge;
+                mod_power_level( to_recharge );
+            } else {
+                add_msg_player_or_npc( m_info,
+                                       _( "Your %s runs out of energy and turns off." ),
+                                       _( "<npcname>'s %s runs out of energy and turns off." ),
+                                       bio.info().name );
+                deactivate_bionic( bio, true );
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 void Character::passive_power_gen( bionic &bio )
 {
     const float passive_fuel_efficiency = bio.info().passive_fuel_efficiency;
@@ -1714,6 +1756,9 @@ void Character::process_bionic( bionic &bio )
                 burn_fuel( bio );
                 // This is our first turn of charging, so subtract a turn from the recharge delay.
                 bio.charge_timer = std::max( 0, bio.info().charge_time - 1 );
+            } else if( bio.info().has_flag( STATIC( flag_id( "BIONIC_CAPACITOR" ) ) ) ) {
+                discharge( bio );
+                bio.charge_timer = std::max( 0, bio.info().charge_time - 1 );
             } else {
                 // Try to recharge our bionic if it is made for it
                 units::energy cost = 0_J;
@@ -1862,14 +1907,14 @@ void Character::process_bionic( bionic &bio )
         if( bio.charge_timer < 2 ) {
             bio.charge_timer = 2;
         }
-        if( bio.energy_stored < 150_kJ ) {
+        if( bio.energy_stored < bio.info().energy_capacity ) {
             // Max recharge rate is influenced by whether you've been hit or not.
             // See character.cpp for how charge_timer keeps track of that for this bionic.
             units::energy max_rate = 10_kJ;
             if( bio.charge_timer > 2 ) {
                 max_rate /= 2;
             }
-            units::energy ads_recharge = std::min( max_rate, 150_kJ - bio.energy_stored );
+            units::energy ads_recharge = std::min( max_rate, bio.info().energy_capacity - bio.energy_stored );
             if( ads_recharge < get_power_level() ) {
                 mod_power_level( - ads_recharge );
                 bio.energy_stored += ads_recharge;
@@ -1877,11 +1922,11 @@ void Character::process_bionic( bionic &bio )
                 mod_power_level( - get_power_level() );
                 bio.energy_stored += get_power_level();
             }
-            if( bio.energy_stored == 150_kJ ) {
+            if( bio.energy_stored == bio.info().energy_capacity ) {
                 add_msg_if_player( m_good, _( "Your %s quietens to a satisfied thrum." ), bio.info().name );
             }
-        } else if( bio.energy_stored > 150_kJ ) {
-            bio.energy_stored = 150_kJ;
+        } else if( bio.energy_stored > bio.info().energy_capacity ) {
+            bio.energy_stored = bio.info().energy_capacity;
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
@@ -1946,7 +1991,7 @@ void Character::process_bionic( bionic &bio )
         if( calendar::once_every( 10_minutes ) ) {
             const units::energy trigger_cost = bio.info().power_trigger;
 
-            if( get_rad() > 0 && bio.energy_stored >= trigger_cost ) {
+            if( get_rad() > 0 && get_power_level() >= trigger_cost ) {
                 add_msg_if_player( m_good, _( "Your %s completed a scrubbing cycle." ), bio.info().name );
 
                 mod_rad( std::max( -10, -get_rad() ) );
@@ -2962,7 +3007,8 @@ bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 
 void bionic::toggle_safe_fuel_mod()
 {
-    if( info().fuel_opts.empty() && !info().is_remote_fueled ) {
+    if( info().fuel_opts.empty() && !info().is_remote_fueled
+        && !( info().max_energy_draw > 0_J ) ) {
         return;
     }
     if( !has_flag( flag_SAFE_FUEL_OFF ) ) {

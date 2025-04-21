@@ -94,7 +94,7 @@
     "id": "E_ENGINE",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "Same as ENGINE but for those that consume electricity. Using both on the same part produces unintended behaviour."
+    "info": "Defines that an ENGINE uses electrical power instead of fuel."
   },
   {
     "id": "E_ALTERNATOR",

@@ -1012,6 +1012,10 @@ class Character : public Creature, public location_visitable<Character>
         int get_total_fuel_capacity( const itype_id &fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
+        /**Return available energy storage*/
+        units::energy get_energy_capacity() const;
+        /**Return total energy storage*/
+        units::energy get_total_energy_capacity() const;
         /**Get stat bonus from bionic*/
         int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         /** Handles bionic effects over time of the entered bionic */
@@ -1082,6 +1086,8 @@ class Character : public Creature, public location_visitable<Character>
 
         /**Convert fuel to bionic power*/
         bool burn_fuel( bionic &bio, bool start = false );
+        /**Discharge a bionic capacitor*/
+        bool discharge( bionic &bio, bool start = false );
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( bionic &bio );
         /**Find fuel used by remote powered bionic*/

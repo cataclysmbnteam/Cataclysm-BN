@@ -221,6 +221,11 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
                 found_fuel = true;
             }
         }
+        if( bio.info().max_energy_draw > 0_J ) {
+            found_fuel = true;
+            fuel_string += colorize( units::display( bio.energy_stored ) + "/" + units::display(
+                                         bio.info().energy_capacity ), c_green );
+        }
     }
     if( !found_fuel ) {
         fuel_string.clear();
@@ -487,7 +492,8 @@ static void draw_connectors( const catacurses::window &win, point start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) );
+    bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) ) ||
+                           bio.id->has_flag( STATIC( flag_id( "BIONIC_CAPACITOR" ) ) );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {

@@ -610,8 +610,14 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
-                return string_format( _( "No space to store more %s" ), it.tname() );
+            } else if( cbm == rechargeable_cbm::other ) {
+                if( it.is_battery() ) {
+                    if( p.get_energy_capacity() == 0_J ) {
+                        return string_format( _( "No space to store more battery charge" ) );
+                    }
+                } else if( p.get_fuel_capacity( it.typeId() ) <= 0 ) {
+                    return string_format( _( "No space to store more %s" ), it.tname() );
+                }
             }
 
             return inventory_selector_preset::get_denial( loc );

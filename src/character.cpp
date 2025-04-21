@@ -2070,14 +2070,19 @@ bionic_id Character::get_remote_fueled_bionic() const
 
 bool Character::can_fuel_bionic_with( const item &it ) const
 {
-    if( !it.is_fuel() ) {
+    bool is_bat = it.is_battery();
+    if( !it.is_fuel() && !is_bat ) {
         return false;
     }
 
     for( const bionic_id &bid : get_bionics() ) {
-        for( const itype_id &fuel : bid->fuel_opts ) {
-            if( fuel == it.typeId() ) {
-                return true;
+        if( is_bat && bid->max_energy_draw > 0_J ) {
+            return true;
+        } else {
+            for( const itype_id &fuel : bid->fuel_opts ) {
+                if( fuel == it.typeId() ) {
+                    return true;
+                }
             }
         }
     }
@@ -2271,6 +2276,17 @@ int Character::get_fuel_capacity( const itype_id &fuel ) const
     return capacity - amount_stored;
 }
 
+units::energy Character::get_energy_capacity() const
+{
+    units::energy capacity = 0_J;
+    for( const bionic &bio : *my_bionics ) {
+        if( bio.info().max_energy_draw > 0_J ) {
+            capacity += bio.info().energy_capacity - bio.energy_stored;
+        }
+    }
+    return capacity;
+}
+
 int Character::get_total_fuel_capacity( const itype_id &fuel ) const
 {
     int capacity = 0;
@@ -2281,6 +2297,17 @@ int Character::get_total_fuel_capacity( const itype_id &fuel ) const
                     capacity += bid->fuel_capacity;
                 }
             }
+        }
+    }
+    return capacity;
+}
+
+units::energy Character::get_total_energy_capacity() const
+{
+    units::energy capacity = 0_J;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->energy_capacity > 0_J ) {
+            capacity += bid->energy_capacity;
         }
     }
     return capacity;
