@@ -58,7 +58,6 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
-#include "salvage.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
