@@ -64,10 +64,10 @@ export const ItemMigrateEnergy = v.pipe(
         v.transform((entries) => partition(entries, ([key]) => key === "battery")),
       ),
     ),
-    use_action: v.optional(v.union([v.string(), ItemTransformMigrateEnergy])),
+    use_action: v.optional(v.union([ItemTransformMigrateEnergy, v.unknown()])),
   }),
   v.check(
-    (x) => (x.ammo === "battery" || x.ammo_type === "battery" || x.power_draw != null),
+    (x) => (x.ammo != null || x.ammo_type === "battery" || x.power_draw != null),
     "missing ammo or ammo_type or power_draw",
   ),
   v.transform((x) => {
