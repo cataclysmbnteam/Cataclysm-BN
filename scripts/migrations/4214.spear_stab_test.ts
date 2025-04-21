@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert"
-import { schema, spearToStab } from "./4211.ts"
+import { schema, spearToStab } from "./4214.spear_stab.ts"
 
 Deno.test("If an item has both SPEAR AND REACH_ATTACK, just add STAB.", () => {
   const pitchfork = {

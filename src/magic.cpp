@@ -48,6 +48,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "units.h"
 
@@ -264,6 +265,8 @@ void spell_type::load( const JsonObject &jo, const std::string & )
 
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
+
+    optional( jo, was_loaded, "blocker_mutations", blocker_mutations, auto_flags_reader<trait_id> {} );
 
     if( jo.has_array( "extra_effects" ) ) {
         for( JsonObject fake_spell_obj : jo.get_array( "extra_effects" ) ) {
@@ -1103,6 +1106,11 @@ int spell::get_max_level() const
     return type->max_level;
 }
 
+std::set<trait_id> spell::get_blocker_muts() const
+{
+    return type->blocker_mutations;
+}
+
 // helper function to calculate xp needed to be at a certain level
 // pulled out as a helper function to make it easier to either be used in the future
 // or easier to tweak the formula
@@ -1698,6 +1706,20 @@ static std::string enumerate_spell_data( const spell &sp )
     return enumerate_as_string( spell_data );
 }
 
+static std::string enumerate_traits( const std::set<trait_id> st )
+{
+    std::vector<std::string> str_vector;
+    if( st.size() ) {
+        for( trait_id trait : st ) {
+            str_vector.push_back( trait->name() );
+        }
+    } else {
+        str_vector.push_back( "None" );
+    }
+    return enumerate_as_string( str_vector );
+}
+
+
 void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu )
 {
     const int h_offset = menu->w_width - menu->pad_right + 1;
@@ -1726,6 +1748,9 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( line <= win_height / 3 ) {
         line++;
     }
+
+    line += fold_and_print( w_menu, point( h_col1, line++ ), info_width, gray, string_format( "%s: %s",
+                            _( "Blocker mutations" ), enumerate_traits( sp.get_blocker_muts() ) ) );
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
                         string_format( "%s: %d %s", _( "Spell Level" ), sp.get_level(),
