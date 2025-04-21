@@ -515,7 +515,7 @@
   {
     "type": "recipe",
     "result": "lemonlime",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -545,7 +545,7 @@
   {
     "type": "recipe",
     "result": "orangesoda",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -554,7 +554,7 @@
     "time": "1m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "orangesoda_syrup", 1 ], [ "water_clean", 5 ] ] ]
+    "components": [ [ [ "orangesoda_syrup", 1 ] ], [ [ "water_clean", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -575,7 +575,7 @@
   {
     "type": "recipe",
     "result": "cola",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -589,15 +589,13 @@
   {
     "type": "recipe",
     "result": "colamdew",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "soda_machine", 20 ], [ "atomic_soda_machine", -1 ] ], [ [ "carbondioxide_tank", 1 ] ] ],
     "difficulty": 1,
-    "time": "1h15m",
-    "batch_time_factors": [ 80, 1 ],
+    "time": "1m",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "colamdew_syrup", 1 ] ], [ [ "water_clean", 5 ] ] ]
@@ -609,9 +607,11 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "tools": [ [ [ "soda_machine", 20 ], [ "atomic_soda_machine", -1 ] ], [ [ "carbondioxide_tank", 1 ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "difficulty": 1,
-    "time": "1m",
+    "time": "1h15m",
+    "batch_time_factors": [ 80, 1 ],
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "caffeine", 2 ] ], [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "sugar", 36 ] ], [ [ "water_clean", 10 ] ] ]
@@ -619,7 +619,7 @@
   {
     "type": "recipe",
     "result": "energy_drink",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -649,7 +649,7 @@
   {
     "type": "recipe",
     "result": "energy_drink_atomic",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -691,12 +691,12 @@
     "batch_time_factors": [ 80, 1 ],
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "grapes", 1 ], [ "irradiated_grapes", 1 ] ], [ [ "sugar", 20 ] ], [ [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "grapes", 1 ], [ "irradiated_grapes", 1 ] ], [ [ "sugar", 15 ] ], [ [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
     "result": "purple_drink",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -726,7 +726,7 @@
   {
     "type": "recipe",
     "result": "rootbeer",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -741,7 +741,7 @@
   {
     "type": "recipe",
     "result": "creamsoda",
-    "result_mult": 5,
+    "result_mult": 6,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -768,6 +768,36 @@
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
     "components": [ [ [ "milk_cream", 1 ] ], [ [ "hickory_root", 1 ] ], [ [ "sugar", 40 ] ], [ [ "water_clean", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pine_soda",
+    "result_mult": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "tools": [ [ [ "soda_machine", 20 ], [ "atomic_soda_machine", -1 ] ], [ [ "carbondioxide_tank", 1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "difficulty": 1,
+    "time": "1m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "pine_tea", 1 ] ], [ [ "sugar", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "drink_sewersoda",
+    "result_mult": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "tools": [ [ [ "soda_machine", 20 ], [ "atomic_soda_machine", -1 ] ], [ [ "carbondioxide_tank", 1 ] ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "difficulty": 5,
+    "time": "1m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "drink_sewerbrew", 1 ] ], [ [ "sugar", 8 ] ] ]
   },
   {
     "type": "recipe",
