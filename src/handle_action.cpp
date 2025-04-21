@@ -1468,6 +1468,17 @@ static void cast_spell()
 
     spell &sp = *u.magic->get_spells()[spell_index];
 
+    std::set<trait_id> blockers = sp.get_blocker_muts();
+    if( blockers.size() ) {
+        for( trait_id blocker : blockers ) {
+            if( u.has_trait( blocker ) ) {
+                add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                         _( "Your %s mutation prevents you from casting this spell!" ), blocker->name() );
+                return;
+            }
+        }
+    }
+
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) && u.primary_weapon().is_two_handed( u ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
