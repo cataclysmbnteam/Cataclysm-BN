@@ -55,7 +55,7 @@ export const ItemMigrateEnergy = v.pipe(
     max_charges: v.optional(NatToKJ),
     power_draw: v.optional(v.union([
       v.string(),
-      v.pipe(Nat, v.transform((x) => x % 1000000 === 0 ? fmtKJ(x / 1000000) : fmtJ(x/1000))),
+      v.pipe(Nat, v.transform((x) => x % 1000000 === 0 ? fmtKJ(x / 1000000) : fmtJ(x / 1000))),
     ])),
     magazine_well: v.optional(v.string()),
     magazines: v.optional(
@@ -66,7 +66,10 @@ export const ItemMigrateEnergy = v.pipe(
     ),
     use_action: v.optional(v.union([v.string(), ItemTransformMigrateEnergy])),
   }),
-  v.check((x) => (x.ammo === "battery" || x.ammo_type === "battery" || x.power_draw != null), "missing ammo or ammo_type or power_draw"),
+  v.check(
+    (x) => (x.ammo === "battery" || x.ammo_type === "battery" || x.power_draw != null),
+    "missing ammo or ammo_type or power_draw",
+  ),
   v.transform((x) => {
     const omitted = omit(x, ["ammo", "ammo_type"])
     const aliased = alias(omitted, {
