@@ -109,7 +109,6 @@
 #if defined(TILES)
 #  include "mod_tileset.h"
 #endif
-#include "salvage.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
