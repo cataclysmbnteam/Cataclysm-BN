@@ -15,6 +15,10 @@ import { match, P } from "$catjazz/deps/ts_pattern.ts"
 import { id } from "$catjazz/utils/id.ts"
 import { deepMerge } from "@std/collections"
 
+/**
+ * [PR#3312](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3312)
+ */
+
 const desc = "Migrates Legacy units into new literal format."
 
 const int = z.number().int()
@@ -52,8 +56,6 @@ export const base = z
     integral_volume: migrateVolume,
     magazine_well: migrateVolume,
 
-    filthy_volume_threshold: migrateVolume,
-
     max_volume: migrateVolume,
     min_volume: migrateVolume,
 
@@ -61,7 +63,6 @@ export const base = z
       z.object({
         max_volume: migrateVolume,
         min_volume: migrateVolume,
-        filthy_volume_threshold: migrateVolume,
 
         max_weight: migrateWeight,
       }).passthrough(),

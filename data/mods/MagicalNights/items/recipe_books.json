@@ -172,5 +172,25 @@
     "intelligence": 10,
     "time": "60 m",
     "fun": -1
+  },
+  {
+    "id": "bulette_bullet_theory",
+    "type": "BOOK",
+    "looks_like": "news_regional",
+    "name": { "str": "Bulette Bullet Research", "str_pl": "copies of Bulette Bullet Research" },
+    "description": "A small set of research papers written on what looks to be parchment from the 1800s regarding the creation of bulette-pearl bullets.  The papers go over the theoretical creation of a satchel that would slowly produce bulette ammo over time, and the author is listed as… Nikola Tesla?!?",
+    "weight": "500 g",
+    "volume": "750 ml",
+    "price": "94 USD",
+    "price_postapoc": "4250 cent",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "red",
+    "skill": "spellcraft",
+    "required_level": 3,
+    "max_level": 6,
+    "intelligence": 11,
+    "time": "60 m",
+    "fun": 1
   }
 ]
