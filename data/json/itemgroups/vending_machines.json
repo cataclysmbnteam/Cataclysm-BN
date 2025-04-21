@@ -177,13 +177,13 @@
     "subtype": "collection",
     "id": "vending_cars",
     "entries": [
-      { "group": "mechanics", "prob": 100 },
-      { "group": "mechanics", "prob": 100 },
-      { "group": "mechanics", "prob": 100 },
-      { "group": "mechanics", "prob": 100 },
-      { "group": "supplies_mechanics", "prob": 100 },
-      { "group": "supplies_mechanics", "prob": 100 },
-      { "group": "supplies_mechanics", "prob": 100 }
+      { "group": "gloves_work", "prob": 100, "count": [ 1, 5 ] },
+      { "item": "wrench", "prob": 50 },
+      { "item": "jumper_cable", "prob": 50 },
+      { "item": "screwdriver_set", "prob": 50 },
+      { "group": "supplies_spares_vehicle", "prob": 100 },
+      { "group": "supplies_spares_vehicle", "prob": 100 },
+      { "group": "supplies_spares_vehicle", "prob": 100 }
     ]
   },
   {
