@@ -419,7 +419,7 @@
       { "group": "bionic_power_storage_civ", "prob": 80 },
       { "group": "bionic_power_storage_civ", "prob": 80 },
       { "group": "bionic_power_storage_civ", "prob": 60 },
-      { "group": "bionic_power_storage_civ", "prob": 60 },
+      { "group": "bionic_power_storage_civ", "prob": 60 }
     ]
   },
   {
