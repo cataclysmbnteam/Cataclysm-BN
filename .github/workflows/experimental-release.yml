@@ -279,3 +279,4 @@ jobs:
           gh release edit experimental --title "Experimental $SHA_SHORT" --notes "Experimental build for commit $SHA_SHORT"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
