@@ -45,14 +45,14 @@
     "price_postapoc": "1750 cent",
     "material": [ "steel" ],
     "ammo": "shot",
+    "ups_charges": 1,
     "dispersion": 855,
     "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
     "reload": 200,
     "handling": 30,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail", 1 ] ],
     "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
-    "flags": [ "MOUNTED_GUN" ],
-    "power_draw": "1 kJ"
+    "flags": [ "MOUNTED_GUN" ]
   },
   {
     "id": "browning_a5",

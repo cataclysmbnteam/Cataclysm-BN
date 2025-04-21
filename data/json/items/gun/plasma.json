@@ -10,6 +10,7 @@
     "material": [ "steel", "plastic" ],
     "ammo_effects": [ "PLASMA", "FLAME", "EMP", "EXPLOSIVE_SMALL" ],
     "extend": { "flags": [ "PYROMANIAC_WEAPON" ] },
+    "ups_charges": 100,
     "ammo": "plasma",
     "weight": "10500 g",
     "volume": "4 L",
@@ -19,8 +20,7 @@
     "dispersion": 90,
     "durability": 6,
     "clip_size": 25,
-    "reload": 200,
-    "power_draw": "100 kJ"
+    "reload": 200
   },
   {
     "id": "plasma_rifle",
@@ -33,6 +33,7 @@
     "material": "steel",
     "extend": { "flags": [ "PYROMANIAC_WEAPON" ] },
     "delete": { "flags": [ "NO_UNLOAD" ] },
+    "ups_charges": 5,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_SMALL", "FLAME" ],
     "ammo": "plasma",
     "weight": "4535 g",
@@ -53,7 +54,6 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ],
-    "power_draw": "5 kJ"
+    ]
   }
 ]

@@ -81,19 +81,25 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": {
       "type": "transform",
       "active": true,
       "target": "carver_on",
       "msg": "You turn on the electric carver.",
       "moves": 80,
-      "need_dry": true,
-      "transform_power": "1 kJ"
+      "transform_charges": 1,
+      "need_dry": true
     },
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "power_draw": "5 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "carver_on",
@@ -241,15 +247,21 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "power_draw": "10 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
-    "type": "TOOL",
     "id": "dehydrator",
+    "type": "TOOL",
     "category": "tools_cooking",
     "name": { "str": "food dehydrator" },
     "description": "This is a portable electric food dehydrator.  It's powered by batteries, and could be invaluable in preserving food.",
@@ -262,9 +274,15 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "eggs_ferment",
@@ -441,8 +459,8 @@
     "flags": [ "SHATTERS" ]
   },
   {
-    "type": "TOOL",
     "id": "food_processor",
+    "type": "TOOL",
     "category": "tools_cooking",
     "name": { "str": "food processor" },
     "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
@@ -455,9 +473,15 @@
     "material": [ "iron" ],
     "symbol": "%",
     "color": "white",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "gasoline_cooker",
@@ -514,10 +538,16 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
+    "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": "HOTPLATE",
-    "power_draw": "5 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "jar_eggs_pickled",
@@ -592,8 +622,8 @@
     "flags": [ "SHATTERS" ]
   },
   {
-    "type": "TOOL",
     "id": "makeshift_sealer",
+    "type": "TOOL",
     "category": "tools_cooking",
     "name": { "str": "makeshift vacuum sealer" },
     "description": "This is a homemade heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
@@ -606,8 +636,14 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ]
   },
   {
     "id": "mess_kit",
@@ -714,11 +750,17 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "power_draw": "1500 kJ",
+    "ammo": "battery",
+    "power_draw": 1500000,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "multi_cooker_filled",
@@ -962,8 +1004,8 @@
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
-    "type": "TOOL",
     "id": "vac_sealer",
+    "type": "TOOL",
     "category": "tools_cooking",
     "name": { "str": "vacuum sealer" },
     "description": "This is a portable heat sealer unit with an air pump.  It's used for vacuum packing food to preserve it.",
@@ -976,9 +1018,15 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "waffleiron",
@@ -1012,19 +1060,25 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_blue",
+    "ammo": "battery",
+    "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "power_draw": "1 kJ",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "type": "GENERIC",

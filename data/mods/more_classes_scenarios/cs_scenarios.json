@@ -20,7 +20,7 @@
       "specops"
     ],
     "start_name": "Fema Camp",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70 ] ],
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
     "flags": [ "HELI_CRASH", "FIRE_START", "INFECTED", "CHALLENGE" ]
   },
   {
@@ -32,7 +32,7 @@
     "allowed_locs": [ "sloc_mansion", "sloc_mansion_entrance" ],
     "professions": [ "maid" ],
     "start_name": "Mansion",
-    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70 ] ]
+    "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ]
   },
   {
     "type": "scenario",

@@ -33,20 +33,26 @@
     "description": "A remote control for RC cars, with joystick to steer the car and colorful buttons that don't seem to do anything.  Perhaps they were for the deluxe model?",
     "symbol": "#",
     "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 1,
     "turns_per_charge": 5,
     "proportional": { "weight": 0.21, "volume": 0.25, "price": 0.2 },
     "use_action": "RADIOCONTROL",
-    "power_draw": "1 kJ",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_disposable_cell",
-      "light_minus_disposable_cell",
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "id": "radio_car",
@@ -56,10 +62,11 @@
     "name": { "str": "RC car" },
     "description": "A remote-controlled car.  Fun for young and old alike.",
     "symbol": "#",
+    "ammo": "battery",
+    "charges_per_use": 1,
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
     "use_action": "RADIOCAR",
-    "power_draw": "1 kJ",
-    "batteries": [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
     "id": "radio_car_on",
@@ -136,8 +143,8 @@
     "magazine_well": "250 ml"
   },
   {
-    "type": "TOOL",
     "id": "two_way_radio",
+    "type": "TOOL",
     "category": "electronics",
     "name": { "str": "two-way radio" },
     "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays…",
@@ -149,18 +156,24 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
+    "ammo": "battery",
+    "charges_per_use": 1,
     "flags": [ "TWO_WAY_RADIO" ],
-    "power_draw": "1 kJ",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_disposable_cell",
-      "light_minus_disposable_cell",
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "id": "remotevehcontrol",
@@ -176,18 +189,24 @@
     "material": "plastic",
     "symbol": "#",
     "color": "yellow",
+    "ammo": "battery",
+    "charges_per_use": 1,
     "turns_per_charge": 10,
     "use_action": "REMOTEVEH",
-    "power_draw": "1 kJ",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   }
 ]

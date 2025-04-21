@@ -102,9 +102,8 @@
     "material": "steel"
   },
   {
-    "type": "TOOL",
-    "power_draw": "800 kJ",
     "id": "angle_grinder",
+    "type": "TOOL",
     "category": "tools_workshop",
     "name": { "str": "angle grinder" },
     "description": "This widespread powertool is often used for removing excess material or polishing surfaces.",
@@ -119,9 +118,17 @@
     "symbol": "/",
     "color": "yellow",
     "qualities": [ [ "GRIND", 2 ] ],
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "power_draw": 800000,
     "flags": [ "NONCONDUCTIVE" ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "brick_kiln",
@@ -229,15 +236,21 @@
     "material": "steel",
     "symbol": "$",
     "color": "dark_gray",
+    "ammo": "battery",
+    "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE",
-    "power_draw": "20 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
-    "type": "TOOL",
     "id": "cordless_drill",
+    "type": "TOOL",
     "category": "tools_workshop",
     "name": { "str": "cordless drill" },
     "description": "This is a cordless battery-powered drill with a selection of drill bits.",
@@ -251,9 +264,15 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
+    "ammo": "battery",
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "distaff_spindle",
@@ -506,8 +525,8 @@
     "flags": [ "POWERED" ]
   },
   {
-    "type": "TOOL",
     "id": "kiln",
+    "type": "TOOL",
     "category": "tools_workshop",
     "name": { "str": "electric kiln" },
     "description": "This is a portable electric kiln, powered by batteries.  It is designed for firing bricks, but you could use it to fire anything made of clay.  With a little mechanical know-how, you could probably even convert it to run directly off a vehicle's power system.",
@@ -520,9 +539,12 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
+    "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "battery_well": "1000 ml",
-    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": "1000 ml"
   },
   {
     "id": "large_repairkit",
@@ -812,8 +834,8 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
-    "type": "TOOL",
     "id": "polisher",
+    "type": "TOOL",
     "category": "tools_workshop",
     "name": { "str": "electric polisher" },
     "description": "An electric polisher which can be used to buff metal surfaces until they are reflective like a mirror.",
@@ -827,17 +849,23 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "ammo": "battery",
     "flags": [ "TRADER_AVOID" ],
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "id": "primitive_hammer",

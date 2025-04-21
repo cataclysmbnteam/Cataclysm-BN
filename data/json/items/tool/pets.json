@@ -52,8 +52,8 @@
     "flags": [ "STAB" ]
   },
   {
-    "type": "TOOL",
     "id": "elec_shears",
+    "type": "TOOL",
     "category": "tools_farming",
     "name": { "str_sp": "electric shears" },
     "description": "These electric shears can be used to shear animals quicker.",
@@ -67,9 +67,10 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "SHEAR", 3 ] ],
+    "ammo": "battery",
+    "initial_charges": 100,
     "max_charges": 100,
-    "power_draw": "25 kJ",
-    "initial_power": "100 kJ"
+    "charges_per_use": 25
   },
   {
     "id": "horse_tack",

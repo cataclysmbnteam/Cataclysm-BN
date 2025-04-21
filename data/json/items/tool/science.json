@@ -51,12 +51,18 @@
     "material": [ "glass", "cotton" ],
     "symbol": ";",
     "color": "light_gray",
+    "ammo": "battery",
     "sub": "hotplate",
+    "charges_per_use": 1,
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "power_draw": "1 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "chemistry_set_basic",
@@ -76,8 +82,8 @@
     "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ]
   },
   {
-    "type": "TOOL",
     "id": "electrolysis_kit",
+    "type": "TOOL",
     "category": "tools_chemistry",
     "name": { "str": "electrolysis kit" },
     "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle battery to use.",
@@ -87,7 +93,13 @@
     "price_postapoc": "750 cent",
     "material": [ "steel", "copper", "plastic" ],
     "symbol": ";",
-    "batteries": [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
+    "ammo": "battery",
+    "magazines": [
+      [
+        "battery",
+        [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
+      ]
+    ]
   },
   {
     "id": "butane_tank",
@@ -284,23 +296,29 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
     "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER", "WINDMETER" ],
-    "power_draw": "5 kJ",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_disposable_cell",
-      "light_atomic_battery_cell",
-      "light_minus_battery_cell",
-      "light_minus_disposable_cell",
-      "light_minus_atomic_battery_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_disposable_cell",
+          "light_atomic_battery_cell",
+          "light_minus_battery_cell",
+          "light_minus_disposable_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
-    "type": "TOOL",
     "id": "analytical_set_basic",
+    "type": "TOOL",
     "category": "tools_chemistry",
     "name": { "str": "basic laboratory analysis kit" },
     "description": "This hefty kit contains some basic things you should probably not try to do precise chemistry without: namely, a small balance scale, a spectrophotometer, a melting point apparatus, a pH meter, and a set of paper for thin layer chromatography.  This makes it a lot easier to feel confident that the chemical you've made is what you think you've made.",
@@ -308,14 +326,20 @@
     "volume": "5 L",
     "price": "250 USD",
     "price_postapoc": "10 USD",
+    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "ANALYSIS", 1 ] ],
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "balance_small",
@@ -334,8 +358,8 @@
     "color": "light_gray"
   },
   {
-    "type": "TOOL",
     "id": "spectrophotometer",
+    "type": "TOOL",
     "category": "tools_chemistry",
     "name": { "str": "spectrophotometer" },
     "description": "This ubiquitous analytical chemistry tool measures the light absorption of a liquid sample in a special tube called a cuvette.",
@@ -343,17 +367,23 @@
     "volume": "2 L",
     "price": "80 USD",
     "price_postapoc": "5 USD",
+    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
-    "type": "TOOL",
     "id": "ph_meter",
+    "type": "TOOL",
     "category": "tools_chemistry",
     "name": { "str": "pH meter" },
     "description": "This is basically a pair of glass probes on a voltmeter.  By putting one probe into a calibration solution (conveniently included) and the other in a substance, you can calculate the acidity.",
@@ -361,21 +391,27 @@
     "volume": "750 ml",
     "price": "60 USD",
     "price_postapoc": "250 cent",
+    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "id": "voltmeter",
@@ -412,8 +448,8 @@
     "magazine_well": "250 ml"
   },
   {
-    "type": "TOOL",
     "id": "melting_point",
+    "type": "TOOL",
     "category": "tools_chemistry",
     "name": { "str": "melting point apparatus", "str_pl": "units of melting point apparatus" },
     "description": "This is basically a hot plate, with a metal housing attached.  The metal housing has a magnification viewport and a slot into which a capillary tube containing a crystallized sample is inserted.  The device lets you precisely measure the melting point of a crystal, a property very useful in identifying what it is and how pure it is.",
@@ -421,21 +457,27 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "250 cent",
+    "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
     "material": [ "plastic", "glass" ],
     "symbol": ";",
     "color": "light_gray",
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "id": "vortex",
@@ -607,8 +649,8 @@
     "color": "light_blue"
   },
   {
-    "type": "TOOL",
     "id": "microcentrifuge",
+    "type": "TOOL",
     "category": "tools_chemistry",
     "name": { "str": "microcentrifuge" },
     "description": "This is a smaller, benchtop version of the larger furniture-sized centrifuge.  Don't be fooled by its portable scale; it's still a very powerful piece of equipment that can spin stuff really quickly.  It's not a toy!",
@@ -622,17 +664,23 @@
     "looks_like": "f_centrifuge",
     "symbol": "n",
     "color": "white",
+    "ammo": "battery",
     "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ] ],
-    "battery_well": "250 ml",
-    "batteries": [
-      "light_battery_cell",
-      "light_plus_battery_cell",
-      "light_minus_battery_cell",
-      "light_atomic_battery_cell",
-      "light_minus_atomic_battery_cell",
-      "light_minus_disposable_cell",
-      "light_disposable_cell"
-    ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
   },
   {
     "id": "3d_printer_basic",

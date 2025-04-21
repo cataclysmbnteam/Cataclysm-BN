@@ -1118,19 +1118,25 @@
     "copy-from": "fencing_foil_sharpened",
     "name": { "str": "electrified foil (off)" },
     "description": "The modifications made to this fencing foil may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Activate the switch to elecrocute your foes!",
+    "ammo": "battery",
     "price_postapoc": "1250 cent",
     "use_action": {
       "type": "transform",
       "msg": "You press a button and the foil crackles with electricity.",
       "active": true,
+      "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead.",
-      "target": "shock_foil_on",
-      "need_power": "1 kJ"
+      "target": "shock_foil_on"
     },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "shock_foil_on",
@@ -1171,19 +1177,25 @@
     "looks_like": "fencing_epee",
     "name": { "str": "electrified épée" },
     "description": "The modifications made to this fencing épée may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired through the electronic scoring circuit to the tip.  Activate the switch to electrocute your foes!",
+    "ammo": "battery",
     "price_postapoc": "1250 cent",
     "use_action": {
       "type": "transform",
       "msg": "You press a button and the epee crackles with electricity.",
       "active": true,
+      "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead.",
-      "target": "shock_epee_on",
-      "need_power": "1 kJ"
+      "target": "shock_epee_on"
     },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "shock_epee_on",
@@ -1223,19 +1235,25 @@
     "looks_like": "fencing_sabre",
     "name": { "str": "electrified saber (off)", "str_pl": "electrified sabers (off)" },
     "description": "The modifications made to this fencing saber may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Activate the switch to electrocute your foes!",
+    "ammo": "battery",
     "price_postapoc": "1250 cent",
     "use_action": {
       "type": "transform",
       "msg": "You press a button and the sabre crackles with electricity.",
       "active": true,
+      "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead.",
-      "target": "shock_sabre_on",
-      "need_power": "1 kJ"
+      "target": "shock_sabre_on"
     },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "shock_sabre_on",
@@ -1346,19 +1364,25 @@
     "copy-from": "rapier",
     "name": { "str": "electrified rapier (off)", "str_pl": "electrified rapiers (off)" },
     "description": "The modifications made to this rapier may not be sporting, but they might give you an edge in this final competition.  Extra effort has been made to insulate the grip and a high voltage stun gun has been attached to the guard, wired to the tip along the saber's groove.  Activate the switch to electrocute your foes!",
+    "ammo": "battery",
     "price_postapoc": "1250 cent",
     "use_action": {
       "type": "transform",
       "msg": "You press a button and the rapier crackles with electricity.",
       "active": true,
+      "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead.",
-      "target": "shock_rapier_on",
-      "need_power": "1 kJ"
+      "target": "shock_rapier_on"
     },
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "shock_rapier_on",
@@ -1526,6 +1550,8 @@
     "material": [ "plastic", "steel" ],
     "symbol": "/",
     "color": "red",
+    "ammo": "battery",
+    "charges_per_use": 375,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": {
@@ -1534,13 +1560,14 @@
       "target": "ecs_lajatang_on",
       "msg": "You turn on the chainsaw lajatang.",
       "moves": 80,
-      "need_dry": true,
-      "transform_power": "5 kJ"
+      "transform_charges": 5,
+      "need_dry": true
     },
     "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ],
-    "power_draw": "375 kJ",
-    "battery_well": "1000 ml",
-    "batteries": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": "1000 ml"
   },
   {
     "id": "ecs_lajatang_on",
@@ -1728,6 +1755,8 @@
     "material": [ "steel", "aluminum" ],
     "symbol": "/",
     "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 375,
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": {
       "type": "transform",
@@ -1735,14 +1764,18 @@
       "target": "e_combatsaw_on",
       "msg": "You turn on the combat chainsaw.",
       "moves": 60,
-      "need_dry": true,
-      "transform_power": "5 kJ"
+      "transform_charges": 5,
+      "need_dry": true
     },
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "POWERED" ],
-    "power_draw": "375 kJ",
-    "battery_well": "500 ml",
-    "batteries": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": "500 ml"
   },
   {
     "id": "e_combatsaw_on",
