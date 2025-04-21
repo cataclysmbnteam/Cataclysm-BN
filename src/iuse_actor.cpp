@@ -3323,7 +3323,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
             }
-        } else if( crafting_inv.has_amount( component_id, items_needed, false, filter ) ) {
+        } else if( crafting_inv.has_amount( component_id, items_needed, false, is_crafting_component ) ) {
             comps.emplace_back( component_id, items_needed );
         }
     }
@@ -3352,7 +3352,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             debugmsg( "Attempted repair with no components" );
         }
 
-        pl.consume_items( comps, 1, filter );
+        pl.consume_items( comps, 1, is_crafting_component );
     }
 
     return true;
