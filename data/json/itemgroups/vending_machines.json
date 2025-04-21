@@ -193,8 +193,8 @@
     "entries": [
       { "group": "clothing_watch", "prob": 100 },
       { "group": "dental_grills", "prob": 100 },
-      { "group": "accesories_personal_unisex", "prob": 100 },
-      { "group": "suits", "prob": 100 },
+      { "group": "jewelry_accessories", "prob": 100 },
+      { "group": "rings_and_things", "prob": 100 },
       { "group": "jewelry_front", "prob": 100 }
     ]
   },
