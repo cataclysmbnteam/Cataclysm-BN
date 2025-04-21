@@ -675,6 +675,7 @@ class salvage_activity_actor : public activity_actor
     private:
         iuse_locations targets;
         tripoint_abs_ms pos;
+        bool mute_promts = false;
     public:
         salvage_activity_actor() = default;
         salvage_activity_actor(

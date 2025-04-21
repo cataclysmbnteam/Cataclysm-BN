@@ -482,6 +482,13 @@ void player_activity::do_turn( player &p )
         }
     }
 
+    if( actor ) {
+        actor->do_turn( *this, p );
+    } else {
+        // Use the legacy turn function
+        type->call_do_turn( this, &p );
+    }
+
     /*
      * Moves block
      * This might finish the activity (set it to null)
@@ -537,13 +544,6 @@ void player_activity::do_turn( player &p )
                 }
             }
         }
-    }
-
-    if( actor ) {
-        actor->do_turn( *this, p );
-    } else {
-        // Use the legacy turn function
-        type->call_do_turn( this, &p );
     }
 
 

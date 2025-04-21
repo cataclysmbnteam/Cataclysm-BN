@@ -2229,7 +2229,7 @@ deserialize_functions = {
     { activity_id( "ACT_THROW" ), &throw_activity_actor::deserialize },
     { activity_id( "ACT_WASH" ), &wash_activity_actor::deserialize },
     { activity_id( "ACT_ASSIST" ), &assist_activity_actor::deserialize },
-    { activity_id( "ACT_SALVAGE" ), &salvage_activity_actor::deserialize }
+    { activity_id( "ACT_LONGSALVAGE" ), &salvage_activity_actor::deserialize }
 };
 } // namespace activity_actors
 
