@@ -629,7 +629,12 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "COOK", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CONTAIN", "level": 1 },
+      { "id": "COOK", "level": 1 },
+      { "id": "BOIL", "level": 1 }
+    ],
     "difficulty": 1,
     "time": "1h15m",
     "batch_time_factors": [ 80, 1 ],
