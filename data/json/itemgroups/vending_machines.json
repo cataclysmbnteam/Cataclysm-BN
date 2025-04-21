@@ -174,7 +174,7 @@
     "subtype": "collection",
     "id": "vending_cars",
     "entries": [
-      { "group": "gloves_work", "prob": 100, "count": [ 1, 5 ] },
+      { "item": "gloves_work", "prob": 100, "count": [ 1, 5 ] },
       { "item": "wrench", "prob": 50 },
       { "item": "jumper_cable", "prob": 50 },
       { "item": "screwdriver_set", "prob": 50 },
