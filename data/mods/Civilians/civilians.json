@@ -38,7 +38,7 @@
     "description": "They just stand there, staring into the void, with a vacant expression on their face.  Barely moving, they will probably fall to the undead horde soon.",
     "//": "Will not be able to do this in their current mental state:",
     "path_settings": { "max_dist": 30, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": false },
-    "speed": 20,
+    "speed": 0,
     "diff": 0,
     "copy-from": "mon_civilian_panic"
   },
