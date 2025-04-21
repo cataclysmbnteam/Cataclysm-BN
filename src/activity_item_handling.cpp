@@ -106,8 +106,6 @@ static const efftype_id effect_nausea( "nausea" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_welder( "welder" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
