@@ -415,8 +415,11 @@
       { "group": "bionics_common", "prob": 100 },
       { "group": "bionics_common", "prob": 100 },
       { "group": "bionics_common", "prob": 100 },
-      { "group": "tools_robotics", "prob": 50 },
-      { "group": "bionics", "prob": 20 }
+      { "group": "bionic_power_storage_civ", "prob": 100 },
+      { "group": "bionic_power_storage_civ", "prob": 80 },
+      { "group": "bionic_power_storage_civ", "prob": 80 },
+      { "group": "bionic_power_storage_civ", "prob": 60 },
+      { "group": "bionic_power_storage_civ", "prob": 60 },
     ]
   },
   {
